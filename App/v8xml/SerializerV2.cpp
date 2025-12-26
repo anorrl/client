@@ -250,7 +250,7 @@ XmlElement* SerializerV2::newRootElement(const std::string& type)
 	XmlElement* root = new XmlElement(tag_roblox);
 	root->addAttribute(tag_xmlnsxmime, "http://www.w3.org/2005/05/xmlmime");
 	root->addAttribute(tag_xmlnsxsi, "http://www.w3.org/2001/XMLSchema-instance");
-	root->addAttribute(tag_xsinoNamespaceSchemaLocation, "http://www.roblox.com/roblox.xsd");
+	root->addAttribute(tag_xsinoNamespaceSchemaLocation, "http://arl.lambda.cam/roblox.xsd");
 	root->addAttribute(tag_version, SerializerV2::CURRENT_SCHEMA_VERSION);
 	if(!type.empty()){
 		root->addAttribute(tag_assettype, type);

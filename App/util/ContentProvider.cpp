@@ -162,7 +162,7 @@ namespace RBX {
 	{
 		if(!baseUrl.empty())
 		{
-			return ReplaceTopSubdomain(baseUrl, "api");
+			return ReplaceTopSubdomain(baseUrl, "arl");
 		}
 
 		return baseUrl;

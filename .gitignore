@@ -35,9 +35,7 @@
 *.vs/
 *.pdb
 *.tlog
-
 */bin/*
 *\obj\*
 */obj/*
 *obj*
-*.tlog
