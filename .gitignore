@@ -39,3 +39,9 @@
 *\obj\*
 */obj/*
 *obj*
+*.log
+*.exp
+*\Release\*
+*Release*
+*\Debug\*
+*\NoOpt\*

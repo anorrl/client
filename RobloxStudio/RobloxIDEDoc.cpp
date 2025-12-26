@@ -507,7 +507,7 @@ shared_ptr<EntityProperties> RobloxIDEDoc::cloudEditDetectionAndPlaceLaunch()
 		if (placeId && !universeId)
 		{
 			EntityProperties p;
-			std::string url = ReplaceTopSubdomain(RobloxSettings::getBaseURL().toStdString(), "api") +
+			std::string url = ReplaceTopSubdomain(RobloxSettings::getBaseURL().toStdString(), "arl") +
 				format("/universes/get-universe-containing-place?placeId=%d", placeId.get());
 			p.setFromJsonFuture(RBX::HttpAsync::get(url));
 			if (boost::optional<int> placeUniverseId = p.get<int>("UniverseId"))
@@ -519,7 +519,7 @@ shared_ptr<EntityProperties> RobloxIDEDoc::cloudEditDetectionAndPlaceLaunch()
 
 		if (placeId && universeId)
 		{
-			std::string url = ReplaceTopSubdomain(RobloxSettings::getBaseURL().toStdString(), "api") +
+			std::string url = ReplaceTopSubdomain(RobloxSettings::getBaseURL().toStdString(), "arl") +
 				format("/universes/%d/cloudeditenabled", universeId.get());
 			
 			EntityProperties p;

@@ -274,6 +274,9 @@
     <Image Include="Roblox.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="ANORRL.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowsClient.rc">

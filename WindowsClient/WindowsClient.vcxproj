@@ -61,21 +61,21 @@
     <OutDir>$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>RobloxPlayerBetaRaw.exe</TargetName>
+    <TargetName>ANORRLPlayerBetaRaw.exe</TargetName>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>RobloxPlayerBetaRaw</TargetName>
+    <TargetName>ANORRLPlayerBetaRaw</TargetName>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
     <OutDir>$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>RobloxPlayerBetaRaw</TargetName>
+    <TargetName>ANORRLPlayerBetaRaw</TargetName>
     <PublishDLLDependencyBeforeTargets />
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
@@ -128,8 +128,8 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release\SDL2.lib;strmbase.lib;sensapi.lib;wmvcore.lib;DxErr9.lib;Urlmon.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)RobloxPlayerBetaRaw.exe</OutputFile>
+      <AdditionalDependencies>..\SDL2\Win\2.0.4\SDL2.lib;strmbase.lib;sensapi.lib;wmvcore.lib;DxErr9.lib;Urlmon.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)ANORRLPlayerBetaRaw.exe</OutputFile>
       <AdditionalLibraryDirectories>$(CONTRIB_PATH)\boost_1_56_0\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\DSBaseClasses\Lib;$(CONTRIB_PATH)\VMProtectWin_2.13;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;$(CONTRIB_PATH)\SDL\SDL2-2.0.3\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -146,13 +146,13 @@
     </Link>
     <PostBuildEvent>
       <Command>
-copy /Y ..\WindowsClient\$(Platform)\$(Configuration)\RobloxPlayerBetaRaw.pdb ..\WindowsClient\$(Platform)\$(Configuration)\RobloxPlayerBeta.pdb
+copy /Y ..\WindowsClient\$(Platform)\$(Configuration)\ANORRLPlayerBetaRaw.pdb ..\WindowsClient\$(Platform)\$(Configuration)\ANORRLPlayerBeta.pdb
 copy /Y $(CONTRIB_PATH)\VMProtectWin_2.13\VMProtect_Con.exe ..\WindowsClient\$(Platform)\$(Configuration)\VMProtect_Con.exe
-copy /Y $(CONTRIB_PATH)\VMProtectWin_2.13\RobloxPlayer.exe.vmp ..\WindowsClient\$(Platform)\$(Configuration)\RobloxPlayer.exe.vmp
+copy /Y $(CONTRIB_PATH)\VMProtectWin_2.13\ANORRLPlayer.exe.vmp ..\WindowsClient\$(Platform)\$(Configuration)\ANORRLPlayer.exe.vmp
 copy /Y $(CONTRIB_PATH)\VMProtectWin_2.13\VMProtect.key ..\WindowsClient\$(Platform)\$(Configuration)\VMProtect.key
-..\WindowsClient\$(Platform)\$(Configuration)\VMProtect_Con.exe  ..\WindowsClient\$(Platform)\$(Configuration)\RobloxPlayerBetaRaw.exe -pf ..\WindowsClient\$(Platform)\$(Configuration)\RobloxPlayer.exe.vmp
-..\WindowsClient\$(Platform)\$(Configuration)\RobloxPlayerBeta.exe -w 195936478
-copy /Y  ..\WindowsClient\$(Platform)\$(Configuration)\RobloxPlayerBeta.tmp  ..\WindowsClient\$(Platform)\$(Configuration)\RobloxPlayerBeta.exe
+..\WindowsClient\$(Platform)\$(Configuration)\VMProtect_Con.exe  ..\WindowsClient\$(Platform)\$(Configuration)\ANORRLPlayerBetaRaw.exe -pf ..\WindowsClient\$(Platform)\$(Configuration)\ANORRLPlayer.exe.vmp
+..\WindowsClient\$(Platform)\$(Configuration)\ANORRLPlayerBeta.exe -w 195936478
+copy /Y  ..\WindowsClient\$(Platform)\$(Configuration)\ANORRLPlayerBeta.tmp  ..\WindowsClient\$(Platform)\$(Configuration)\ANORRLPlayerBeta.exe
 
 if not exist ..\WindowsClient\$(Platform)\$(Configuration)\Log.dll (
 echo placeholder &gt; ..\WindowsClient\$(Platform)\$(Configuration)\Log.dll
@@ -190,7 +190,7 @@ echo placeholder &gt; ..\WindowsClient\$(Platform)\$(Configuration)\boost.pdb
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release\SDL2.lib;strmbase.lib;sensapi.lib;wmvcore.lib;DxErr9.lib;Urlmon.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)RobloxPlayerBetaRaw.exe</OutputFile>
+      <OutputFile>$(OutDir)ANORRLPlayerBetaRaw.exe</OutputFile>
       <AdditionalLibraryDirectories>..\fmod\win32\lib;..\TBB_4_1\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\DSBaseClasses\Lib;$(CONTRIB_PATH)\VMProtectWin_2.13;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
@@ -417,6 +417,7 @@ echo placeholder &gt; ..\WindowsClient\$(Platform)\$(Configuration)\boost.pdb
     <None Include="InvisibleCursor.cur" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="ANORRL.ico" />
     <Image Include="Roblox.ico" />
   </ItemGroup>
   <ItemGroup>
