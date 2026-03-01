@@ -650,10 +650,10 @@ void PlayerGui::setTopbarTransparency(float transparency)
     {
         if (G3D::isFinite(transparency))
         {
-            float newTransparency = transparency < 0.25f ? 0.f : 0.5f;
+            float newTransparency = transparency;
             if (newTransparency != transparency)
             {
-                RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "PlayerGui:SetTopbarTransparency - Attempted to set to %f, but only 0 or 0.5 are valid; setting to %f.", transparency, newTransparency);
+                RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "PlayerGui:SetTopbarTransparency - Attempted to set to %f, but only 0 or 1.0 are valid; setting to %f.", transparency, newTransparency);
             }
             if (topbarTransparency != newTransparency)
             {

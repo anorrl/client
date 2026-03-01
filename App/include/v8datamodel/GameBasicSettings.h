@@ -132,6 +132,17 @@ namespace RBX
 		float getMouseSensitivity() const;
 		void setMouseSensitivity(float value);
 
+		bool getIsAeroEnabledConst() const { return aeroEnabled; }
+		bool isAeroEnabled() { return aeroEnabled; }
+		void setAeroEnabled(bool value)
+		{
+			if (value != aeroEnabled)
+			{
+				areoChangedSignal(value);
+				aeroEnabled = value;
+			}
+		}
+
 		bool inStudioMode() { return studio; }
 		void setStudioMode(bool value) 
 		{
@@ -155,6 +166,7 @@ namespace RBX
 
 		rbx::signal<void(bool)> fullscreenChangedSignal;
 		rbx::signal<void(bool)> studioModeChangedSignal;
+		rbx::signal<void(bool)> areoChangedSignal;
 
 	private:	
 		ControlMode controlMode;
@@ -185,6 +197,7 @@ namespace RBX
 
 		bool startMaximized;
 
+		bool aeroEnabled;
 		float masterVolume;
 		float mouseSensitivity;
 

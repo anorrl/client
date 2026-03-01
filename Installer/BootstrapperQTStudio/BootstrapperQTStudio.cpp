@@ -43,7 +43,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 BootstrapperQTStudio::BootstrapperQTStudio(HINSTANCE hInstance)
 	:Bootstrapper(hInstance)
 {
-    LOG_ENTRY("BootstrapperQTStudio::BootstrapperQTStudio");
+    LOG_ENTRY("BootstrapperQTStudio::BootstrapperQTStudio1");
 
 	_versionFileName = _T("BootstrapperQTStudioVersion.txt");
 	_versionGuidName = _T(VERSIONGUIDNAMESTUDIO);
@@ -53,12 +53,12 @@ BootstrapperQTStudio::BootstrapperQTStudio(HINSTANCE hInstance)
 
 std::wstring BootstrapperQTStudio::GetRegistryPath() const
 {
-	return getQTStudioRegistryPath();
+	return getQT2013StudioRegistryPath();
 }
 
 std::wstring BootstrapperQTStudio::GetRegistrySubPath() const
 {
-	return getQTStudioRegistrySubPath();
+	return getQT2013StudioRegistrySubPath();
 }
 
 const wchar_t *BootstrapperQTStudio::GetVersionFileName() const

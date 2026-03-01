@@ -114,7 +114,7 @@ AssetGameUrl = string.gsub(BaseUrl, 'www', 'assetgame')
 --[[ Constants ]]--
 local ENTRY_PAD = 2
 local BG_TRANSPARENCY = 0.5
-local BG_COLOR = Color3.new(31/255, 31/255, 31/255)
+local BG_COLOR = Color3.new(61/255,31/255,70/255)
 local BG_COLOR_TOP = Color3.new(106/255, 106/255, 106/255)
 local TEXT_STROKE_TRANSPARENCY = 0.75
 local TEXT_COLOR = Color3.new(1, 1, 243/255)
@@ -141,6 +141,9 @@ local ADMINS = {	-- Admins with special icons
     ['20396599'] = 'http://www.roblox.com/asset/?id=161078086', -- Robloxsai
 	['1'] = 'http://arl.lambda.cam/asset/?id=899',
 	['36'] = 'http://arl.lambda.cam/asset/?id=2309',
+	['41'] = 'http://arl.lambda.cam/asset/?id=2827',
+	['30'] = 'http://arl.lambda.cam/asset/?id=3165',
+	['48'] = 'http://arl.lambda.cam/asset/?id=3720',
 }
 
 local ABUSES = {
@@ -791,7 +794,7 @@ local function onEntryFrameSelected(selectedFrame, selectedPlayer)
 			LastSelectedPlayer = selectedPlayer
 			for _,childFrame in pairs(selectedFrame:GetChildren()) do
 				if childFrame:IsA('TextButton') or childFrame:IsA('Frame') then
-					childFrame.BackgroundColor3 = Color3.new(0, 1, 1)
+					childFrame.BackgroundColor3 = Color3.new(0.8, 0, 1)
 				end
 			end
 			-- NOTE: Core script only
@@ -1525,9 +1528,19 @@ end)
 
 -- NOTE: Core script only
 
+local Settings = UserSettings()
+local GameSettings = Settings.GameSettings
+
 --[[ Player Add/Remove Connections ]]--
 Players.ChildAdded:connect(function(child)
 	if child:IsA('Player') then
+		if GameSettings:IsAeroEnabled() then
+			local sound = Instance.new("Sound", game.CoreGui)
+			sound.PlayOnRemove = true
+			sound.SoundId = "rbxasset://sounds/aero/feed_discovered.mp3"
+			sound.Volume = 5
+			sound:Remove()
+		end
 		insertPlayerEntry(child)
 	end
 end)
@@ -1658,10 +1671,23 @@ local setVisible = function(state, fromTemp)
 	end
 end
 
+local Settings = UserSettings()
+local GameSettings = Settings.GameSettings
+
 Playerlist.ToggleVisibility = function(name, inputState, inputObject)
 	if inputState and inputState ~= Enum.UserInputState.Begin then return end
 	if IsSmallScreenDevice then return end
 	if not playerlistCoreGuiEnabled then return end
+	
+	if GameSettings:IsAeroEnabled() then
+		local sound = Instance.new("Sound", game.CoreGui)
+		sound.SoundId = "rbxasset://sounds/aero/menu_command.mp3"
+		sound.Volume = 5
+		sound.Ended:connect(function()
+			sound:Remove()
+		end)
+		sound:Play()
+	end
 
 	isOpen = not isOpen
 

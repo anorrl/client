@@ -27,14 +27,14 @@ template<>
 int Bridge<EventInstance>::on_index(const EventInstance& object, const char* name, lua_State *L)
 {
 	// The pre-defined "connect()" method
-	if (strcmp(name, "connect")==0)
+	if (strcmp(name, "connect")==0 || strcmp(name, "Connect") == 0)
 	{
 		lua_pushcfunction(L, EventBridge::connect);
 		return 1;
 	}
 
 	// TODO: Remove this when we remove it from any Roblox scripts.
-	if (strcmp(name, "connectFirst")==0)
+	if (strcmp(name, "connectFirst")==0 || strcmp(name, "ConnectFirst") == 0)
 	{
 		RBX::Security::Context::current().requirePermission(RBX::Security::LocalUser, "connectFirst");
 		StandardOut::singleton()->print(MESSAGE_WARNING, "connectFirst is deprecated");
@@ -43,7 +43,7 @@ int Bridge<EventInstance>::on_index(const EventInstance& object, const char* nam
 	}
 
 	// TODO: Remove this when we remove it from any Roblox scripts.
-	if (strcmp(name, "connectLast")==0)
+	if (strcmp(name, "connectLast")==0 || strcmp(name, "ConnectLast") == 0)
 	{
 		RBX::Security::Context::current().requirePermission(RBX::Security::LocalUser, "connectLast");
 		StandardOut::singleton()->print(MESSAGE_WARNING, "connectLast is deprecated");
@@ -52,7 +52,7 @@ int Bridge<EventInstance>::on_index(const EventInstance& object, const char* nam
 	}
 
 	// The pre-defined "wait()" method
-	if (strcmp(name, "wait")==0)
+	if (strcmp(name, "wait")==0 || strcmp(name, "Wait") == 0)
 	{
 		lua_pushcfunction(L, EventBridge::wait);
 		return 1;
@@ -395,14 +395,14 @@ template<>
 int Bridge< rbx::signals::connection >::on_index(const rbx::signals::connection& object, const char* name, lua_State *L)
 {
 	// The pre-defined "disconnect()" method
-	if (strcmp(name, "disconnect")==0)
+	if (strcmp(name, "disconnect")==0 || strcmp(name, "Disconnect") == 0)
 	{
 		lua_pushcfunction(L, SignalConnectionBridge::disconnect);
 		return 1;
 	}
 
 	// The pre-defined "connected" property
-	if (strcmp(name, "connected")==0)
+	if (strcmp(name, "connected")==0 || strcmp(name, "Connected") == 0)
 	{
 		lua_pushboolean(L, object.connected());
 		return 1;

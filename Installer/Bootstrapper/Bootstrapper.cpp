@@ -2709,6 +2709,8 @@ void Bootstrapper::uninstall(bool isPerUser)
 	components.push_back(getStudioInstallKey());
 	components.push_back(getPlayerInstallKey());
 	components.push_back(getQTStudioInstallKey());
+	components.push_back(getQT2013StudioInstallKey());
+	components.push_back(get2010PlayerInstallKey());
 
 	bool finalCleanup = true;
 	for (size_t i = 0;i < components.size();i ++) 

@@ -258,6 +258,22 @@ std::wstring getQTStudioInstallKey()
 	return std::wstring(_T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{2922D6F1-2865-4EFA-97A9-94EEAB3AFA14}"));
 }
 
+std::wstring get2013PlayerInstallKey()
+{
+	return std::wstring(_T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{34AB2718-8CC5-4671-9178-90330AAA680}"));
+}
+
+std::wstring getQT2013StudioInstallKey()
+{
+	return std::wstring(_T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{2933D6F1-2867-4FAA-9A79-94EEBA3AFA14}"));
+}
+
+std::wstring get2010PlayerInstallKey()
+{
+	return std::wstring(_T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{3AB38218-8CC5-7363-1CC8-9197BB54AA00}"));
+}
+
+
 std::wstring getPlayerCode()
 {
 	return std::wstring(_T("Player"));
@@ -271,6 +287,21 @@ std::wstring getStudioCode()
 std::wstring getQTStudioCode()
 {
 	return std::wstring(_T("QTStudio"));
+}
+
+std::wstring get2013PlayerCode()
+{
+	return std::wstring(_T("2013Player"));
+}
+
+std::wstring getQT2013StudioCode()
+{
+	return std::wstring(_T("QT2013Studio"));
+}
+
+std::wstring get2010PlayerCode()
+{
+	return std::wstring(_T("2010Player"));
 }
 
 void appendEnvironmentToProtocolScheme(std::wstring& scheme, const std::string baseUrl)
@@ -300,6 +331,33 @@ std::wstring getQTStudioProtocolScheme(const std::string& baseUrl)
 	return scheme;
 }
 
+std::wstring get2013PlayerProtocolScheme(const std::string& baseUrl)
+{
+	std::wstring scheme = _T("anorrl-2013-player");
+
+	appendEnvironmentToProtocolScheme(scheme, baseUrl);
+
+	return scheme;
+}
+
+std::wstring getQT2013StudioProtocolScheme(const std::string& baseUrl)
+{
+	std::wstring scheme = _T("anorrl-2013-studio");
+
+	appendEnvironmentToProtocolScheme(scheme, baseUrl);
+
+	return scheme;
+}
+
+std::wstring get2010PlayerProtocolScheme(const std::string& baseUrl)
+{
+	std::wstring scheme = _T("anorrl-2010-player");
+
+	appendEnvironmentToProtocolScheme(scheme, baseUrl);
+
+	return scheme;
+}
+
 std::wstring getStudioRegistrySubPath()
 {
 	return _T("StudioANORRLReg");
@@ -318,6 +376,16 @@ std::wstring getQTStudioRegistrySubPath()
 std::wstring getQTStudioRegistryPath()
 {
 	return _T("SOFTWARE\\") + getQTStudioRegistrySubPath();
+}
+
+std::wstring getQT2013StudioRegistrySubPath()
+{
+	return _T("StudioQT2013ANORRLReg");
+}
+
+std::wstring getQT2013StudioRegistryPath()
+{
+	return _T("SOFTWARE\\") + getQT2013StudioRegistrySubPath();
 }
 
 static void createShortcut(const TCHAR *linkFileName, const TCHAR *exePath, const TCHAR *args)

@@ -447,7 +447,7 @@ function presentDialogChoices(talkingPart, dialogChoices, parentDialog)
 	lastChoice.Position = UDim2.new(0, XPOS_OFFSET, 0, YPOS_OFFSET + yPosition)
 	lastChoice.Visible = true
 	
-	if goodbyeChoiceActiveFlag and not parentDialog.GoodbyeChoiceActive then
+	if goodbyeChoiceActiveFlag then --and not parentDialog["GoodbyeChoiceActive"] then
 		lastChoice.Visible = false
 		mainFrame.Size = UDim2.new(0, FRAME_WIDTH, 0, yPosition + (STYLE_PADDING * 2) + (YPOS_OFFSET * 2))
 	else

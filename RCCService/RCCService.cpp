@@ -494,7 +494,7 @@ void SvcInstall()
     CServiceHandle schService = CreateService( 
         schSCManager,              // SCM database 
         SVCNAME,                   // name of service 
-        "Roblox Compute Cloud Service",   // service name to display 
+        "ANORRL Compute Cloud Service",   // service name to display 
         SERVICE_ALL_ACCESS,        // desired access 
         SERVICE_WIN32_OWN_PROCESS, // service type 
         SERVICE_AUTO_START,        // start type 

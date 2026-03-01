@@ -80,9 +80,10 @@ local function Initialize()
 		recordEnumNames[2] = "Upload to YouTube"
 
 		local startSetting = 2
-		if GameSettings.VideoUploadPromptBehavior == Enum.UploadSetting["Never"] then
+		
+		--[[if GameSettings.VideoUploadPromptBehavior == Enum.UploadSetting["Never"] then
 			startSetting = 1
-		end
+		end]]
 
 		---------------------------------- SCREENSHOT -------------------------------------
 		local screenshotTitle = makeTextLabel("ScreenshotTitle", 

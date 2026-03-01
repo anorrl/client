@@ -13,18 +13,18 @@ local COLUMN_WIDTH = 75
 local NAME_LEADERBOARD_SEP_WIDTH = 2
 
 local FONT_COLOR = Color3.new(1,1,1)
-local TOPBAR_BACKGROUND_COLOR = Color3.new(31/255,31/255,31/255)
+local TOPBAR_BACKGROUND_COLOR = Color3.new(50/255,31/255,60/255)
 local TOPBAR_OPAQUE_TRANSPARENCY = 0
 local TOPBAR_TRANSLUCENT_TRANSPARENCY = 0.5
 
 local HEALTH_BACKGROUND_COLOR = Color3.new(228/255, 236/255, 246/255)
 local HEALTH_RED_COLOR = Color3.new(255/255, 28/255, 0/255)
 local HEALTH_YELLOW_COLOR = Color3.new(250/255, 235/255, 0)
-local HEALTH_GREEN_COLOR = Color3.new(27/255, 252/255, 107/255)
+local HEALTH_GREEN_COLOR = Color3.new(164/255, 69/255, 222/255)
 
 local HEALTH_PERCANTAGE_FOR_OVERLAY = 5 / 100
 
-local HURT_OVERLAY_IMAGE = "http://www.roblox.com/asset/?id=34854607"
+local HURT_OVERLAY_IMAGE = "http://arl.lambda.cam/asset/?id=3654"
 
 local DEBOUNCE_TIME = 0.25
 
@@ -134,8 +134,8 @@ local function CreateTopBar()
 	local this = {}
 
 	local playerGuiChangedConn = nil
-
-	local topbarContainer = Util.Create'Frame'{
+	
+	local topbarContainer = Util.Create'ImageLabel'{
 		Name = "TopBarContainer";
 		Size = UDim2.new(1, 0, 0, TOPBAR_THICKNESS);
 		Position = UDim2.new(0, 0, 0, -TOPBAR_THICKNESS);
@@ -145,6 +145,11 @@ local function CreateTopBar()
 		Active = true;
 		Parent = GuiRoot;
 	};
+
+	if GameSettings:IsAeroEnabled() then
+		topbarContainer.Image = "rbxasset://textures/ui/TopBar/aero.png";
+		topbarContainer.ImageTransparency = 0.5;
+	end
 
 	local topbarShadow = Util.Create'ImageLabel'{
 		Name = "TopBarShadow";
@@ -335,6 +340,11 @@ local function createNormalHealthBar()
 		Image = "";
 		BackgroundTransparency = 1;
 	}
+	
+	local userId = Player.userId
+	if userId < 1 then
+		userId = 1
+	end
 
 	local username = Util.Create'TextLabel'{
 		Name = "Username";
@@ -344,6 +354,7 @@ local function createNormalHealthBar()
 		Font = Enum.Font.SourceSansBold;
 		FontSize = Enum.FontSize.Size14;
 		BackgroundTransparency = 1;
+		TextStrokeTransparency = 0.75;
 		TextColor3 = FONT_COLOR;
 		TextYAlignment = Enum.TextYAlignment.Bottom;
 		TextXAlignment = Enum.TextXAlignment.Left;
@@ -674,6 +685,19 @@ local function CreateSettingsIcon(topBarInstance)
 		AutoButtonColor = false;
 		BackgroundTransparency = 1;
 	}
+	
+	local function getPath(down)
+		local add = ""
+		if down then
+			add = "Down"
+		end
+		if GameSettings:IsAeroEnabled() then
+			return "rbxasset://textures/ui/aero/Menu/Hamburger"..add..".png"
+		else
+			return "rbxasset://textures/ui/boring/Menu/Hamburger"..add..".png"
+		end
+	end
+
 
 	local settingsIconImage = Util.Create'ImageLabel'
 	{
@@ -681,15 +705,16 @@ local function CreateSettingsIcon(topBarInstance)
 		Size = UDim2.new(0, 32, 0, 25);
 		Position = UDim2.new(0.5, -16, 0.5, -12);
 		BackgroundTransparency = 1;
-		Image = "rbxasset://textures/ui/Menu/Hamburger.png";
+		Image = getPath();
 		Parent = settingsIconButton;
 	};
 
 	local function UpdateHamburgerIcon()
-		if settingsActive then
-			settingsIconImage.Image = "rbxasset://textures/ui/Menu/HamburgerDown.png";
+		settingsIconImage.Image = getPath(settingsActive)
+		if settingsActive and GameSettings:IsAeroEnabled() then
+			settingsIconImage:TweenSizeAndPosition(UDim2.new(0, 33.5, 0, 26.5), UDim2.new(0.5, -17.5, 0.5, -13), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
 		else
-			settingsIconImage.Image = "rbxasset://textures/ui/Menu/Hamburger.png";
+			settingsIconImage:TweenSizeAndPosition(UDim2.new(0, 32, 0, 25), UDim2.new(0.5, -16, 0.5, -12), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
 		end
 	end
 
@@ -711,6 +736,23 @@ local function CreateSettingsIcon(topBarInstance)
 	MenuModule.SettingsShowSignal:connect(function(active)
 		settingsActive = active
 		topBarInstance:UpdateBackgroundTransparency()
+		UpdateHamburgerIcon()
+	end)
+	
+	settingsIconButton.MouseEnter:connect(function()
+		if GameSettings:IsAeroEnabled() then
+			settingsIconImage:TweenSizeAndPosition(UDim2.new(0, 33.5, 0, 26.5), UDim2.new(0.5, -17.5, 0.5, -13), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+		end
+	end)
+	
+	settingsIconButton.MouseLeave:connect(function()
+		if MenuModule:GetVisibility() and GameSettings:IsAeroEnabled() then
+			return
+		end
+		settingsIconImage:TweenSizeAndPosition(UDim2.new(0, 32, 0, 25), UDim2.new(0.5, -16, 0.5, -12), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+	end)
+
+	GameSettings.AeroChanged:connect(function(active)
 		UpdateHamburgerIcon()
 	end)
 
@@ -796,9 +838,24 @@ local function CreateChatIcon()
 	if not chatEnabled then return end
 	
 	local ChatModule = require(GuiRoot.Modules.Chat)
+	
+	local MenuModule = nil
+	game.CoreGui.RobloxGui.Modules:WaitForChild("Settings")
+	game.CoreGui.RobloxGui.Modules.Settings:WaitForChild("SettingsHub")
+	MenuModule = require(game.CoreGui.RobloxGui.Modules.Settings.SettingsHub)
 
 	local bubbleChatIsOn = not PlayersService.ClassicChat and PlayersService.BubbleChat
 	local debounce = 0
+	
+	local openedChat = false
+	
+	local function getPath(image)
+		if GameSettings:IsAeroEnabled() then
+			return "rbxasset://textures/ui/aero/Chat/"..image..".png"
+		else
+			return "rbxasset://textures/ui/boring/Chat/"..image..".png"
+		end
+	end
 
 	local chatIconButton = Util.Create'ImageButton'
 	{
@@ -815,9 +872,10 @@ local function CreateChatIcon()
 		Size = UDim2.new(0, 28, 0, 27);
 		Position = UDim2.new(0.5, -14, 0.5, -13);
 		BackgroundTransparency = 1;
-		Image = "rbxasset://textures/ui/Chat/Chat.png";
 		Parent = chatIconButton;
+		Image = getPath("Chat");
 	};
+	
 	if not Util.IsTouchDevice() or not GetChatVisibleIconFlag() then
 		local chatCounter = CreateUnreadMessagesNotifier(ChatModule)
 		chatCounter.Parent = chatIconImage;
@@ -825,13 +883,14 @@ local function CreateChatIcon()
 
 	local function updateIcon(down)
 		if down then
-			chatIconImage.Image = "rbxasset://textures/ui/Chat/ChatDown.png";
+			chatIconImage.Image = getPath("ChatDown")
 		else
-			chatIconImage.Image = "rbxasset://textures/ui/Chat/Chat.png";
+			chatIconImage.Image = getPath("Chat")
 		end
 	end
 
 	local function onChatStateChanged(visible)
+		openedChat = visible
 		if not Util.IsTouchDevice() then
 			updateIcon(visible)
 		end
@@ -855,6 +914,9 @@ local function CreateChatIcon()
 	end)
 
 	chatIconButton.MouseButton1Click:connect(function()
+		if MenuModule:GetVisibility() then
+			return
+		end
 		toggleChat()
 	end)
 
@@ -867,6 +929,12 @@ local function CreateChatIcon()
 		end
 		updateIcon(false)
 	end
+	
+	MenuModule.SettingsShowSignal:connect(function(active)
+		if active == openedChat then
+			ChatModule:ToggleVisibility(active)
+		end
+	end)
 
 	if ChatModule.VisibilityStateChanged then
 		ChatModule.VisibilityStateChanged:connect(onChatStateChanged)
@@ -876,6 +944,35 @@ local function CreateChatIcon()
 	if not Util.IsTouchDevice() then
 		ChatModule:ToggleVisibility(true)
 	end
+	
+	chatIconButton.MouseEnter:connect(function()
+		if GameSettings:IsAeroEnabled() then
+			chatIconImage:TweenSizeAndPosition(UDim2.new(0, 29.5, 0, 28.5), UDim2.new(0.5, -15.5, 0.5, -14), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+		end
+	end)
+	
+	chatIconButton.MouseLeave:connect(function()
+		if ChatModule:GetVisibility() then
+			return
+		end
+		if GameSettings:IsAeroEnabled() then
+			chatIconImage:TweenSizeAndPosition(UDim2.new(0, 28, 0, 27), UDim2.new(0.5, -14, 0.5, -13), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+		end
+	end)
+	
+	GameSettings.AeroChanged:connect(function(active)
+		if not chatIconButton.Parent then
+			return
+		end
+		if not GameSettings:IsAeroEnabled() then
+			chatIconImage:TweenSizeAndPosition(UDim2.new(0, 28, 0, 27), UDim2.new(0.5, -14, 0.5, -13), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+		end
+		if MenuModule:GetVisibility() then
+			chatIconImage.Image = getPath("ChatDown")
+		else
+			chatIconImage.Image = getPath("Chat")
+		end
+	end)
 
 	return CreateMenuItem(chatIconButton)
 end
@@ -947,6 +1044,18 @@ local function CreateBackpackIcon()
 		AutoButtonColor = false;
 		BackgroundTransparency = 1;
 	};
+	
+	local function getPath(down)
+		local add = ""
+		if down then
+			add = "Down"
+		end
+		if GameSettings:IsAeroEnabled() then
+			return "rbxasset://textures/ui/aero/Backpack/Backpack"..add..".png"
+		else
+			return "rbxasset://textures/ui/boring/Backpack/Backpack"..add..".png"
+		end
+	end
 
 	local backpackIconImage = Util.Create'ImageLabel'
 	{
@@ -954,15 +1063,20 @@ local function CreateBackpackIcon()
 		Size = UDim2.new(0, 22, 0, 28);
 		Position = UDim2.new(0.5, -11, 0.5, -14);
 		BackgroundTransparency = 1;
-		Image = "rbxasset://textures/ui/Backpack/Backpack.png";
+		Image = getPath(false);
 		Parent = backpackIconButton;
 	};
 
 	local function onBackpackStateChanged(open)
+		backpackIconImage.Image = getPath(open)
+		if not GameSettings:IsAeroEnabled() then
+			backpackIconImage:TweenSizeAndPosition(UDim2.new(0, 22, 0, 28), UDim2.new(0.5, -11, 0.5, -14), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+			return
+		end
 		if open then
-			backpackIconImage.Image = "rbxasset://textures/ui/Backpack/Backpack_Down.png";
+			backpackIconImage:TweenSizeAndPosition(UDim2.new(0, 23.5, 0, 29.5), UDim2.new(0.5, -12.5, 0.5, -15), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
 		else
-			backpackIconImage.Image = "rbxasset://textures/ui/Backpack/Backpack.png";
+			backpackIconImage:TweenSizeAndPosition(UDim2.new(0, 22, 0, 28), UDim2.new(0.5, -11, 0.5, -14), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
 		end
 	end
 
@@ -978,6 +1092,29 @@ local function CreateBackpackIcon()
 
 	backpackIconButton.MouseButton1Click:connect(function()
 		BackpackModule:OpenClose()
+	end)
+	
+	backpackIconButton.MouseEnter:connect(function()
+		if GameSettings:IsAeroEnabled() then
+			backpackIconImage:TweenSizeAndPosition(UDim2.new(0, 23.5, 0, 29.5), UDim2.new(0.5, -12.5, 0.5, -15), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+		else
+			backpackIconImage:TweenSizeAndPosition(UDim2.new(0, 22, 0, 28), UDim2.new(0.5, -11, 0.5, -14), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+		end
+	end)
+		
+	
+	backpackIconButton.MouseLeave:connect(function()
+		if BackpackModule.IsOpen and GameSettings:IsAeroEnabled() then
+			return
+		end
+		backpackIconImage:TweenSizeAndPosition(UDim2.new(0, 22, 0, 28), UDim2.new(0.5, -11, 0.5, -14), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+	end)
+	
+	GameSettings.AeroChanged:connect(function(active)
+		if not active then
+			backpackIconImage:TweenSizeAndPosition(UDim2.new(0, 22, 0, 28), UDim2.new(0.5, -11, 0.5, -14), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+		end
+		backpackIconImage.Image = getPath(BackpackModule.IsOpen)
 	end)
 
 	return CreateMenuItem(backpackIconButton)
@@ -1075,6 +1212,17 @@ stopRecordingIcon = CreateStopRecordIcon()
 
 LeftMenubar = CreateMenuBar('Left')
 RightMenubar = CreateMenuBar('Right')
+
+local function UpdateAeroLook(active)
+	local topbar = TopBar:GetInstance()
+	if active then
+		topbar.ImageTransparency = 0.5
+		topbar.Image = "rbxasset://textures/ui/TopBar/aero.png"
+	else
+		topbar.ImageTransparency = 1
+		topbar.Image = ""
+	end
+end
 
 -- Set Item Orders
 LEFT_ITEM_ORDER = {}
@@ -1215,8 +1363,6 @@ if nameAndHealthMenuItem and topbarEnabled and not isTenFootInterface then
 	AddItemInOrder(RightMenubar, nameAndHealthMenuItem, RIGHT_ITEM_ORDER)
 end
 
-
-
 local gameOptions = settings():FindFirstChild("Game Options")
 if gameOptions and not isTenFootInterface then
 	local success, result = pcall(function()
@@ -1259,5 +1405,11 @@ topBarEnabledChanged()
 GameSettings.Changed:connect(OnGameSettingsChanged)
 Player.Changed:connect(OnPlayerChanged)
 
+local lastAeroEnabled = GameSettings:IsAeroEnabled()
 
-
+while wait(0.1) do
+	if lastAeroEnabled ~= GameSettings:IsAeroEnabled() then
+		lastAeroEnabled = GameSettings:IsAeroEnabled()
+		UpdateAeroLook(lastAeroEnabled)
+	end
+end

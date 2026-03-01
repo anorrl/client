@@ -1,5 +1,6 @@
 QAbstractItemView
 {
+	background: white;
     border: 1px solid #C4C4C4;
     selection-color: white;
     selection-background-color: transparent;
@@ -13,28 +14,28 @@ QAbstractItemView::item
 
 QAbstractItemView::item:hover 
 {
-    border: 1px solid #BFCDE4;
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E7EFFD, stop: 1 #CBDAF1);
+    border: 1px solid #CDBFE4;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #EFE7FD, stop: 1 #DACBF1);
 }
 
 QAbstractItemView::item:selected 
 {
-    border: 1px solid #567DBC;
+    border: 1px solid #7D56BC;
 }
 
 QAbstractItemView::item:selected:active
 {
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6EA1F1, stop: 1 #567DBC);
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #A16EF1, stop: 1 #7D56BC);
 }
 
 QAbstractItemView::item:selected:!active 
 {
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6B9BE8, stop: 1 #577FBF);
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #9B6BE8, stop: 1 #7F57BF);
 }
 
 QComboBox QAbstractItemView
 {
-    selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6EA1F1, stop: 1 #567DBC);
+    selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #A16EF1, stop: 1 #7D56BC);
 }
 
 /* Setting the TabBar's left and right arrow's background color explicitly because the Qt default is transparent

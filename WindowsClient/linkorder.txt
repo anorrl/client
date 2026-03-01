@@ -7,9 +7,7 @@
 ??$useless@$06@@YAXXZ
 ??$useless@$07@@YAXXZ
 ??$useless@$08@@YAXXZ
-??$useless@$09@@YAXXZ
 unusedPadding
-_unusedPadding
 ??$useless@$0A@@@YAXXZ
 ??$junk@$0P@@@YAXXZ
 ??$junk@$0M@@@YAXXZ

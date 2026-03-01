@@ -58,7 +58,7 @@
     <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>ANORRLPlayerBetaRaw.exe</TargetName>
@@ -67,12 +67,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <TargetName>ANORRLPlayerBetaRaw</TargetName>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
-    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>ANORRLPlayerBetaRaw</TargetName>
@@ -152,7 +152,7 @@ copy /Y $(CONTRIB_PATH)\VMProtectWin_2.13\ANORRLPlayer.exe.vmp $(BUILD_PATH)\Pla
 copy /Y $(CONTRIB_PATH)\VMProtectWin_2.13\VMProtect.key $(BUILD_PATH)\Player\$(Platform)\$(Configuration)\VMProtect.key
 $(BUILD_PATH)\Player\$(Platform)\$(Configuration)\VMProtect_Con.exe  $(BUILD_PATH)\Player\$(Platform)\$(Configuration)\ANORRLPlayerBetaRaw.exe -pf $(BUILD_PATH)\Player\$(Platform)\$(Configuration)\ANORRLPlayer.exe.vmp
 $(BUILD_PATH)\Player\$(Platform)\$(Configuration)\ANORRLPlayerBeta.exe -w 195936478
-copy /Y  $(BUILD_PATH)\Player\$(Platform)\$(Configuration)\ANORRLPlayerBeta.tmp  ..\WindowsClient\$(Platform)\$(Configuration)\ANORRLPlayerBeta.exe
+copy /Y  $(BUILD_PATH)\Player\$(Platform)\$(Configuration)\ANORRLPlayerBeta.tmp  $(BUILD_PATH)\Player\$(Platform)\$(Configuration)\ANORRLPlayerBeta.exe
 
 if not exist $(BUILD_PATH)\Player\$(Platform)\$(Configuration)\Log.dll (
 echo placeholder &gt; $(BUILD_PATH)\Player\$(Platform)\$(Configuration)\Log.dll

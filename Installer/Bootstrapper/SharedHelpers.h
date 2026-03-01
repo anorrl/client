@@ -70,6 +70,8 @@ private:
 #define FIREFOXREGKEY               "@nslambda.lambda.cam/launcher"
 #define FIREFOXREGKEY64             "@nslambda.lambda.cam/launcher64"
 
+#define PLAYER2010LINKNAME_CUR      "ANORRL App 2010"
+#define PLAYER2013LINKNAME_CUR      "ANORRL Player 2013"
 #define PLAYERLINKNAME_CUR          "ANORRL Player"
 #define PLAYERLINKNAMELEGACY        "Open ANORRL Games"
 
@@ -81,7 +83,8 @@ private:
 // QT Studio names
 #define STUDIOQTEXENAME             "ANORRLStudioBeta.exe"
 #define STUDIOBOOTSTAPPERNAMEBETA   "ANORRLStudioLauncherBeta.exe"
-#define STUDIOQTLINKNAME_CUR        "ROBLOX Studio"
+#define STUDIO2013QTLINKNAME_CUR    "ANORRL Studio 2013"
+#define STUDIOQTLINKNAME_CUR        "ANORRL Studio"
 #define STUDIOQTLINKNAME            "ROBLOX Studio Beta"
 #define STUDIOQTLINKNAME20          "ROBLOX Studio 2.0"
 #define STUDIOQTLINKNAME20BETA      "ROBLOX Studio 2.0 Beta"
@@ -89,12 +92,16 @@ private:
 
 // Player names
 #define  PLAYEREXENAME				"ANORRLPlayerBeta.exe"
+#define  PLAYER2010EXENAME			"ANORRLApp.exe"
 
 // Version URL string names (setup.roblox.com/XXX) - replace XXX with these values to get the most recent version
 // Unfortunately these have to be defined globally so Player knows how to find the latest version of Studio to download
 #define VERSIONGUIDNAMESTUDIO       "versionQTStudio"
+#define VERSIONGUIDNAME2013STUDIO   "versionQT2013Studio"
 #define VERSIONGUIDNAMERCC			"NOVERSION"
 #define VERSIONGUIDNAMEPLAYER		"version"
+#define VERSIONGUIDNAME2013PLAYER	"version2013"
+#define VERSIONGUIDNAME2010PLAYER	"version2010"
 
 CRegKey CreateKey(HKEY parent, const TCHAR* name, const TCHAR* defaultValue = NULL, bool is64bits = false);
 void DeleteKey(simple_logger<wchar_t> &logger, HKEY parent, const TCHAR* name);
@@ -121,14 +128,27 @@ std::wstring getPlayerInstallKey();
 std::wstring getStudioInstallKey();
 std::wstring getQTStudioInstallKey();
 
+std::wstring get2013PlayerCode();
+std::wstring getQT2013StudioCode();
+std::wstring get2013PlayerInstallKey();
+std::wstring getQT2013StudioInstallKey();
+
+std::wstring get2010PlayerCode();
+std::wstring get2010PlayerInstallKey();
+
 std::wstring getPlayerProtocolScheme(const std::string& baseUrl);
 std::wstring getQTStudioProtocolScheme(const std::string& baseUrl);
+std::wstring get2010PlayerProtocolScheme(const std::string& baseUrl);
+std::wstring get2013PlayerProtocolScheme(const std::string& baseUrl);
+std::wstring getQT2013StudioProtocolScheme(const std::string& baseUrl);
 	
 std::wstring getStudioRegistrySubPath();
 std::wstring getStudioRegistryPath();
 std::wstring getQTStudioRegistrySubPath();
 std::wstring getQTStudioRegistryPath();
 
+std::wstring getQT2013StudioRegistrySubPath();
+std::wstring getQT2013StudioRegistryPath();
 
 void createRobloxShortcut(simple_logger<wchar_t> &logger, bool isPerUser, const TCHAR *linkFileName, const TCHAR *exePath, const TCHAR *args, bool desktop, bool forceCreate);
 void updateExistingRobloxShortcuts(simple_logger<wchar_t> &logger, bool isPerUser, const TCHAR *folder, const TCHAR *exeName, const TCHAR *exeFolderPath, const TCHAR *baseFolderPath);

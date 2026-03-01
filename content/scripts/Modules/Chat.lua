@@ -39,6 +39,8 @@ local CHAT_COLORS =
 	BrickColor.new("Bright yellow").Color,
 	BrickColor.new("Light reddish violet").Color,
 	BrickColor.new("Brick yellow").Color,
+	BrickColor.new("Pastel blue").Color,
+	BrickColor.new("Nougat").Color,
 }
 --[[ END OF CONSTANTS ]]
 
@@ -61,6 +63,9 @@ local allowMoveChat = getMoveChatSuccess and moveChatActiveValue
 
 local getDisableChatBarSuccess, disableChatBarValue = pcall(function() return settings():GetFFlag("SetCoreDisableChatBar") end)
 local allowDisableChatBar = getDisableChatBarSuccess and disableChatBarValue
+
+local Settings = UserSettings()
+local GameSettings = Settings.GameSettings
 
 --[[ SCRIPT VARIABLES ]]
 
@@ -251,11 +256,11 @@ do
 	end
 
 	local baseUrl = game:GetService("ContentProvider").BaseUrl:lower()
-	baseUrl = string.gsub(baseUrl,"/m.","/www.") --mobile site does not work for this stuff!
+	baseUrl = string.gsub(baseUrl,"/m.","/arl.") --mobile site does not work for this stuff!
 	function Util.GetSecureApiBaseUrl()
 		local secureApiUrl = baseUrl
 		secureApiUrl = string.gsub(secureApiUrl,"http://","https://")
-		secureApiUrl = string.gsub(secureApiUrl,"www","api")
+		secureApiUrl = string.gsub(secureApiUrl,"arl","arl")
 		return secureApiUrl
 	end
 
@@ -300,7 +305,7 @@ do
 			end
 			value = value + cValue
 		end
-		return value
+		return value*1200769
 	end
 
 	function Util.ComputeChatColor(pName)
@@ -1057,6 +1062,17 @@ local function CreateChatBarWidget(settings)
 			self.WidgetVisible = visible
 			self:CalculateVisibility()
 		end
+		
+		if GameSettings:IsAeroEnabled() then
+			local sound = Instance.new("Sound", game.CoreGui)
+			sound.SoundId = "rbxasset://sounds/aero/menu_command.mp3"
+			sound.Volume = 5
+			sound.Ended:connect(function()
+				sound:Remove()
+			end)
+			sound:Play()
+		end
+		
 		if NON_CORESCRIPT_MODE or chatBarDisabled then
 			this.ChatBarContainer.Visible = false
 		end
@@ -2106,7 +2122,7 @@ local function CreateChat()
 		WhisperTextColor = GetTopBarFlag() and Color3.new(77/255, 139/255, 255/255) or Color3.new(77/255, 139/255, 255/255);
 		TeamTextColor = Color3.new(230/255, 207/255, 0);
 		DefaultMessageTextColor = Color3.new(255/255, 255/255, 243/255);
-		AdminTextColor = Color3.new(1, 215/255, 0);
+		AdminTextColor = Color3.new(236/255, 204/255, 255/255);
 		TextStrokeTransparency = 0.75;
 		TextStrokeColor = Color3.new(34/255,34/255,34/255);
 		Font = Enum.Font.SourceSansBold;

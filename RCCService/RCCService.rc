@@ -52,8 +52,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,235,0,2025
- PRODUCTVERSION 0,235,0,0
+ FILEVERSION 22, 02, 2026, 1
+ PRODUCTVERSION 22, 02, 2026, 0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -70,12 +70,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "GraceRBLX"
             VALUE "FileDescription", "ANORRL Compute Cloud Service"
-            VALUE "FileVersion", "0, 235, 0, 2025"
+            VALUE "FileVersion", "22, 02, 2026, 1"
             VALUE "InternalName", "ACCService.exe"
             VALUE "LegalCopyright", "© 2025 GraceRBLX.  All rights reserved to Roblox Corporation"
             VALUE "OriginalFilename", "ACCService.exe"
-            VALUE "ProductName", "ACC Service"
-            VALUE "ProductVersion", "0, 235, 0, 0"
+            VALUE "ProductName", "ACCService"
+            VALUE "ProductVersion", "22, 02, 2026, 0"
         END
     END
     BLOCK "VarFileInfo"

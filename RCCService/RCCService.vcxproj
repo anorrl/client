@@ -81,7 +81,7 @@
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(BUILD_PATH)\RCCService\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(BUILD_PATH)\ACCService\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
@@ -153,6 +153,7 @@
       <BaseAddress>
       </BaseAddress>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <OutputFile>$(OutDir)ACCService$(TargetExt)</OutputFile>
     </Link>
     <PostBuildEvent>
       <Command>if not exist "$(ProjectDir)$(OutDir)Log.dll" (

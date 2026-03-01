@@ -72,6 +72,8 @@ local function Initialize()
 		if not GameSettings:InFullScreen() then
 			fullScreenInit = 2
 		end
+		
+		
 
 		this.FullscreenFrame, 
 		this.FullscreenLabel,
@@ -471,13 +473,26 @@ local function Initialize()
 
 		local volumeSound = Instance.new("Sound", game.CoreGui.RobloxGui.Sounds)
 		volumeSound.Name = "VolumeChangeSound"
-		volumeSound.SoundId = "rbxasset://sounds/metalstone2.mp3"
+		volumeSound.SoundId = "rbxasset://sounds/uuhhh.mp3"
 
 		this.VolumeSlider.ValueChanged:connect(function(newValue)
 			local soundPercent = newValue/10
 			volumeSound.Volume = soundPercent
 			volumeSound:Play()
 			GameSettings.MasterVolume = soundPercent
+		end)
+		
+		local aeroInit = 1
+		if not GameSettings:IsAeroEnabled() then
+			aeroInit = 2
+		end
+		
+		this.AeroEnablerFrame, 
+		this.AeroEnablerLabel,
+		this.AeroQualityEnabler = utility:AddNewRow(this, "Aero", "Selector", {"On", "Off"}, aeroInit)
+		
+		this.AeroQualityEnabler.IndexChanged:connect(function(newValue)
+			GameSettings.AeroEnabled = newValue == 1
 		end)
 	end
 

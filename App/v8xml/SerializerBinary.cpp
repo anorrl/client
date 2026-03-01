@@ -578,7 +578,7 @@ namespace RBX
 
     static void readNumberSequence(MemoryInputStream& stream, NumberSequence& ns)
     {
-        uint32_t size;
+		uint32_t size;
         readRaw(stream, size);
 
         std::vector<NumberSequence::Key> keys;
@@ -599,7 +599,7 @@ namespace RBX
     {
         const std::vector<NumberSequence::Key>& keys = ns.getPoints();
 
-        uint32_t size = keys.size();
+		uint32_t size = keys.size();
         writeRaw(stream, size);
 
         for (size_t i = 0; i < size; ++i)
@@ -610,7 +610,7 @@ namespace RBX
 
     static void readColorSequence(MemoryInputStream& stream, ColorSequence& ns)
     {
-        uint32_t size;
+		uint32_t size;
         readRaw(stream, size);
 
         std::vector<ColorSequence::Key> keys;
@@ -631,7 +631,7 @@ namespace RBX
     {
         const std::vector<ColorSequence::Key>& keys = ns.getPoints();
         
-        uint32_t size = keys.size();
+		uint32_t size = keys.size();
         writeRaw(stream, size);
 
         for (size_t i = 0; i < size; ++i)

@@ -48,6 +48,8 @@ local function IsPlayMyPlaceEnabled()
 	return false
 end
 
+local Settings = UserSettings()
+local GameSettings = Settings.GameSettings
 
 --[[ CORE MODULES ]]
 local playerList = require(RobloxGui.Modules.PlayerlistModule)
@@ -791,6 +793,23 @@ local function CreateSettingsHub()
 
 
 		this.Modal.Visible = this.Visible
+		
+		if GameSettings:IsAeroEnabled() then
+			local sound = Instance.new("Sound", game.CoreGui)
+			sound.PlayOnRemove = true
+			sound.Volume = 5
+			if not this.Visible then
+				sound.SoundId = "rbxasset://sounds/aero/minimize.mp3"
+			else
+				sound.SoundId = "rbxasset://sounds/aero/restore.mp3"
+			end
+			
+			sound.Ended:Connect(function()
+				sound:Remove()
+			end)
+			
+			sound:Play()
+		end
 
 		if this.TabConnection then
 			this.TabConnection:disconnect()
@@ -947,7 +966,8 @@ local function CreateSettingsHub()
 	end
 
 	local closeMenuFunc = function(name, inputState, input)
-		if inputState ~= Enum.UserInputState.Begin then return end
+		if inputState and inputState ~= Enum.UserInputState.Begin then return end
+		
 		this:PopMenu(false, true)
 	end
 	ContextActionService:BindCoreAction("RBXEscapeMainMenu", closeMenuFunc, false, Enum.KeyCode.Escape)

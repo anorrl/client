@@ -118,6 +118,9 @@ local GamepadEnabled = false -- determines if our gui needs to be gamepad friend
 
 local lastEquippedSlot = nil
 
+local Settings = UserSettings()
+local GameSettings = Settings.GameSettings
+
 -----------------
 --| Functions |--
 -----------------
@@ -1395,10 +1398,10 @@ do -- Make the Inventory expand/collapse arrow (unless TopBar)
 			end
 		end
 	end
-
-	local function openClose()
+	
+	local function setVis(open)
 		if not next(Dragging) then -- Only continue if nothing is being dragged
-			InventoryFrame.Visible = not InventoryFrame.Visible
+			InventoryFrame.Visible = open
 			local nowOpen = InventoryFrame.Visible
 			if arrowIcon then
 				arrowIcon.Image = (nowOpen) and ARROW_IMAGE_CLOSE or ARROW_IMAGE_OPEN
@@ -1414,9 +1417,9 @@ do -- Make the Inventory expand/collapse arrow (unless TopBar)
 		if GamepadEnabled then
 			if InventoryFrame.Visible then 
 				local lastInputType = UserInputService:GetLastInputType()
-            			local currentlyUsingGamepad = (lastInputType == Enum.UserInputType.Gamepad1 or lastInputType == Enum.UserInputType.Gamepad2 or
-                                                lastInputType == Enum.UserInputType.Gamepad3 or lastInputType == Enum.UserInputType.Gamepad4)
-    				if currentlyUsingGamepad then
+						local currentlyUsingGamepad = (lastInputType == Enum.UserInputType.Gamepad1 or lastInputType == Enum.UserInputType.Gamepad2 or
+												lastInputType == Enum.UserInputType.Gamepad3 or lastInputType == Enum.UserInputType.Gamepad4)
+					if currentlyUsingGamepad then
 					resizeGamepadHintsFrame()
 					gamepadHintsFrame.Visible = true
 				end    
@@ -1435,12 +1438,29 @@ do -- Make the Inventory expand/collapse arrow (unless TopBar)
 
 		BackpackScript.IsOpen = InventoryFrame.Visible
 		BackpackScript.StateChanged:Fire(InventoryFrame.Visible)
+	end
+	
+	local function openClose()
 
 		local SettingsHub = require(RobloxGui.Modules.Settings:WaitForChild("SettingsHub"))
 		if SettingsHub.Instance.Visible then
-			SettingsHub:SetVisibility(false)
+			--SettingsHub:SetVisibility(false)
+			setVis(false)
+		else
+			if GameSettings:IsAeroEnabled() then
+				local sound = Instance.new("Sound", game.CoreGui)
+				sound.SoundId = "rbxasset://sounds/aero/menu_command.mp3"
+				sound.Volume = 5
+				sound.Ended:connect(function()
+					sound:Remove()
+				end)
+				sound:Play()
+			end
+			
+			setVis(not InventoryFrame.Visible)
 		end
 	end
+	
 	HotkeyFns[ARROW_HOTKEY] = openClose
 	BackpackScript.OpenClose = openClose -- Exposed
 

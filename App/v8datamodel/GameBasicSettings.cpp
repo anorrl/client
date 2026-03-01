@@ -33,12 +33,15 @@ Reflection::PropDescriptor<GameBasicSettings, float> GameBasicSettings::prop_mas
 
 static Reflection::PropDescriptor<GameBasicSettings, float> prop_mouseSensitivity("MouseSensitivity",category_Data, &GameBasicSettings::getMouseSensitivity, &GameBasicSettings::setMouseSensitivity);
 
-static const Reflection::PropDescriptor<GameBasicSettings, bool> prop_isFullscreen("Fullscreen",category_Data, &GameBasicSettings::getFullScreenConst, &GameBasicSettings::setFullScreen, Reflection::PropertyDescriptor::STANDARD, Security::RobloxScript);
+static const Reflection::PropDescriptor<GameBasicSettings, bool> prop_isFullscreen("Fullscreen", category_Data, &GameBasicSettings::getFullScreenConst, &GameBasicSettings::setFullScreen, Reflection::PropertyDescriptor::STANDARD, Security::RobloxScript);
+static const Reflection::PropDescriptor<GameBasicSettings, bool> prop_isAeroEnabled("AeroEnabled",category_Data, &GameBasicSettings::getIsAeroEnabledConst, &GameBasicSettings::setAeroEnabled, Reflection::PropertyDescriptor::STANDARD, Security::RobloxScript);
+static const Reflection::BoundFuncDesc<GameBasicSettings, bool()> func_isAeroEnabled(&GameBasicSettings::isAeroEnabled, "IsAeroEnabled", Security::None);
 static const Reflection::BoundFuncDesc<GameBasicSettings, bool()> func_inFullscreenMode(&GameBasicSettings::getFullScreen, "InFullScreen", Security::None);
 static Reflection::BoundFuncDesc<GameBasicSettings, bool()> func_inStudioMode(&GameBasicSettings::inStudioMode, "InStudioMode", Security::None);
 
 static Reflection::EventDesc<GameBasicSettings, void(bool)> event_StudioModeChanged(&GameBasicSettings::studioModeChangedSignal, "StudioModeChanged", "isStudioMode", Security::None);
 static Reflection::EventDesc<GameBasicSettings, void(bool)> event_FullscreenChanged(&GameBasicSettings::fullscreenChangedSignal, "FullscreenChanged", "isFullscreen", Security::None);
+static Reflection::EventDesc<GameBasicSettings, void(bool)> event_AeroChanged(&GameBasicSettings::areoChangedSignal, "AeroChanged", "isAero", Security::None);
 
 static const Reflection::EnumPropDescriptor<GameBasicSettings, GameSettings::UploadSetting> prop_uploadScreenshots("ImageUploadPromptBehavior", "Screenshots", &GameBasicSettings::getPostImageSetting, &GameBasicSettings::setPostImageSetting, Reflection::PropertyDescriptor::STANDARD, Security::RobloxScript);
 static Reflection::PropDescriptor<GameBasicSettings, std::string> prop_googleAnalyticsClientId("gaID", "Configuration", &GameBasicSettings::getGoogleAnalyticsClientId, &GameBasicSettings::setGoogleAnalyticsClientId, Reflection::PropertyDescriptor::CLUSTER, Security::RobloxScript); // TODO: change CLUSTER to more generic name
@@ -55,9 +58,9 @@ namespace RBX {
 		:EnumDescriptor("ControlMode")
 		{	
 			// Uncomment this code to get all the mouse setttings back, for now we just want classic + mouse lock switch
-			/*addPair(GameBasicSettings::CONTROL_CAMLOCK, "CharacterLock");
+			addPair(GameBasicSettings::CONTROL_CAMLOCK, "CharacterLock");
 			addPair(GameBasicSettings::CONTROL_MOUSEPAN, "DragToLook");
-			addPair(GameBasicSettings::CONTROL_HYBRID, "ClickToLook");*/
+			addPair(GameBasicSettings::CONTROL_HYBRID, "ClickToLook");
 			addPair(GameBasicSettings::CONTROL_MOUSELOCK, "MouseLockSwitch");
 			addLegacyName("Mouse Lock Switch", GameBasicSettings::CONTROL_MOUSELOCK);
 			addPair(GameBasicSettings::CONTROL_CLASSIC, "Classic");
@@ -149,6 +152,7 @@ GameBasicSettings::GameBasicSettings()
 	,uploadScreenshots(GameSettings::ASK)
 	,fullscreen(false)
 	,studio(false)
+	,aeroEnabled(false)
 	,cameraMode(CAMERA_MODE_DEFAULT)
 	,touchCameraMovementMode(TOUCH_CAMERA_MOVEMENT_MODE_DEFAULT)
 	,touchCameraMovementModeModified(false)

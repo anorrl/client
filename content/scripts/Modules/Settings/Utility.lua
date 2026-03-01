@@ -313,6 +313,16 @@ local function isGuiVisible(gui, debug) -- true if any part of the gui is visibl
 	end
 end
 
+local couldBeFunc = nil
+
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.Return then
+		if couldBeFunc then
+			couldBeFunc()
+		end
+	end
+end)
+
 local function MakeButton(name, text, size, clickFunc, pageRef, hubRef)
 	local SelectionOverrideObject = Util.Create'ImageLabel'
 	{
@@ -369,7 +379,11 @@ local function MakeButton(name, text, size, clickFunc, pageRef, hubRef)
 
 		if (hub and hub.Active or hub == nil) then
 			button.Image = "rbxasset://textures/ui/Settings/MenuBarAssets/MenuButtonSelected.png"
-
+			
+			if clickFunc then
+				couldBeFunc = clickFunc
+			end
+				
 			local scrollTo = button
 			if rowRef then
 				scrollTo = rowRef
@@ -382,6 +396,9 @@ local function MakeButton(name, text, size, clickFunc, pageRef, hubRef)
 
 	local function deselectButton()
 		button.Image = "rbxasset://textures/ui/Settings/MenuBarAssets/MenuButton.png"
+		if clickFunc and couldBeFunc == clickFunc then
+			couldBeFunc = nil
+		end
 	end
 
 	button.InputBegan:connect(function(inputObject)
@@ -793,7 +810,6 @@ end
 
 
 local function CreateSelector(selectionStringTable, startPosition)
-
 	-------------------- VARIABLES ------------------------
 	local lastInputDirection = 0
 	local TweenTime = 0.15
@@ -1000,7 +1016,7 @@ local function CreateSelector(selectionStringTable, startPosition)
 		elseif newIndex < 1 then
 			newIndex = #this.Selections
 		end
-
+		
 		setSelection(newIndex, direction)
 	end
 
@@ -1078,7 +1094,7 @@ local function CreateSelector(selectionStringTable, startPosition)
 
 		if inputObject.UserInputType ~= Enum.UserInputType.Gamepad1 and inputObject.UserInputType ~= Enum.UserInputType.Keyboard then return end
 		if GuiService.SelectedCoreObject ~= this.SelectorFrame then return end
-
+		
 		if inputObject.KeyCode == Enum.KeyCode.DPadLeft or inputObject.KeyCode == Enum.KeyCode.Left or inputObject.KeyCode == Enum.KeyCode.A then
 			stepFunc(inputObject, -1)
 		elseif inputObject.KeyCode == Enum.KeyCode.DPadRight or inputObject.KeyCode == Enum.KeyCode.Right or inputObject.KeyCode == Enum.KeyCode.D then
@@ -1577,7 +1593,7 @@ local function CreateNewSlider(numOfSteps, startStep, minStep)
 
 		if inputObject.UserInputType ~= Enum.UserInputType.Gamepad1 and inputObject.UserInputType ~= Enum.UserInputType.Keyboard then return end
 		if GuiService.SelectedCoreObject ~= this.SliderFrame then return end
-
+		
 		if inputObject.KeyCode == Enum.KeyCode.DPadLeft or inputObject.KeyCode == Enum.KeyCode.Left or inputObject.KeyCode == Enum.KeyCode.A then
 			lastInputDirection = -1
 			setCurrentStep(currentStep - 1)

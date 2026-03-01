@@ -3,60 +3,47 @@
 --
 
 -- Constants
-local PLACEID = game.PlaceId
+local PLACEID = Game.PlaceId
 
-local MPS = game:GetService('MarketplaceService')
-local UIS = game:GetService('UserInputService')
-local CP = game:GetService('ContentProvider')
-local guiService = game:GetService("GuiService")
-local ContextActionService = game:GetService('ContextActionService')
-
-local startTime = tick()
+local MPS = Game:GetService 'MarketplaceService'
+local CP = Game:GetService 'ContentProvider'
 
 local COLORS = {
 	BLACK = Color3.new(0, 0, 0),
-	COOLERBLACK = Color3.new(40/255, 40/255, 40/255),
-	BACKGROUND_COLOR = Color3.new(45/255, 45/255, 45/255),
-	WHITE = Color3.new(1, 1, 1),
+	DARK = Color3.new(35/255, 35/255, 38/255),
+	DARKMED = Color3.new(61/255, 61/255, 67/255),
+	DARKMED2 = Color3.new(75/255, 76/255, 85/255),
+	MED = Color3.new(118/255, 118/255, 129/255),
+	LIGHTMED = Color3.new(190/255, 192/255, 212/255),
+	LIGHT = Color3.new(217/255, 218/255, 231/255),
 	ERROR = Color3.new(253/255,68/255,72/255)
 }
 
-local function getViewportSize()
-	while not game.Workspace.CurrentCamera do
-		game.Workspace.Changed:wait()
-	end
+local IMAGES = {
+	BACKGROUND_THUMBNAIL_VIGNETTE = 'rbxasset://textures/loading/loadingvignette.png',
+	ROBLOX_LOGO_256 = 'rbxasset://textures/loading/robloxlogo.png',
+	GAME_THUMBNAIL =  'http://arl.lambda.cam/Thumbs/Asset.ashx?format=png&width=420&height=230&assetId=',
+	GAME_BACKGROUND = 'rbxasset://textures/loading/loadingTexture.png'
+}
 
-	while game.Workspace.CurrentCamera.ViewportSize == Vector2.new(0,0) do
-		game.Workspace.CurrentCamera.Changed:wait()
-	end
-
-	return game.Workspace.CurrentCamera.ViewportSize
-end
+local VALID_TEXT_SIZES = {
+	12,
+	14,
+	18,
+	24,
+	36,
+	48
+}
 
 --
 -- Variables
 local GameAssetInfo -- loaded by InfoProvider:LoadAssets()
 local currScreenGui = nil
 local renderSteppedConnection = nil
-local fadingBackground = false
-local destroyingBackground = false
-local destroyedLoadingGui = false
-local hasReplicatedFirstElements = false
-local backgroundImageTransparency = 0
-local isMobile = (UIS.TouchEnabled == true and UIS.MouseEnabled == false and getViewportSize().Y <= 500)
-local isTenFootInterface = false
-pcall(function() isTenFootInterface = guiService:IsTenFootInterface() end)
-local platform = UIS:GetPlatform()
 
-local useGameLoadedSuccess, useGameLoadedFlagValue = pcall(function() return settings():GetFFlag("UseGameLoadedInLoadingScript") end)
-local useGameLoadedToWait = (useGameLoadedSuccess and useGameLoadedFlagValue == true)
-
-local function IsConvertMyPlaceNameInXboxAppEnabled()
-	if UIS:GetPlatform() == Enum.Platform.XBoxOne then
-		local success, flagValue = pcall(function() return settings():GetFFlag("ConvertMyPlaceNameInXboxApp") end)
-		return (success and flagValue == true)
-	end
-	return false
+local function randomNumber()
+	wait(0.15)
+	return math.floor(math.random(10, 100000))
 end
 
 --
@@ -64,7 +51,7 @@ end
 local create = function(className, defaultParent)
 	return function(propertyList)
 		local object = Instance.new(className)
-
+		
 		for index, value in next, propertyList do
 			if type(index) == 'string' then
 				object[index] = value
@@ -76,51 +63,24 @@ local create = function(className, defaultParent)
 				end
 			end
 		end
-
+		
 		if object.Parent == nil then
 			object.Parent = defaultParent
 		end
-
+		
 		return object
 	end
 end
 
 --
 -- Create objects
-
 local MainGui = {}
 local InfoProvider = {}
 
 
-function ExtractGeneratedUsername(gameName)
-	local tempUsername = string.match(gameName, "^([0-9a-fA-F]+)'s Place$")
-	if tempUsername and #tempUsername == 32 then
-		return tempUsername
-	end
-end
-
--- Fix places that have been made with incorrect temporary usernames
-function GetFilteredGameName(gameName, creatorName)
-	if gameName and type(gameName) == 'string' then
-		local tempUsername = ExtractGeneratedUsername(gameName)
-		if tempUsername then
-			local newGameName = string.gsub(gameName, tempUsername, creatorName, 1)
-			if newGameName then
-				return newGameName
-			end
-		end
-	end
-	return gameName
-end
-
-
 function InfoProvider:GetGameName()
 	if GameAssetInfo ~= nil then
-		if IsConvertMyPlaceNameInXboxAppEnabled() then
-			return GetFilteredGameName(GameAssetInfo.Name, self:GetCreatorName())
-		else
-			return GameAssetInfo.Name
-		end
+		return GameAssetInfo.Name
 	else
 		return ''
 	end
@@ -135,107 +95,30 @@ function InfoProvider:GetCreatorName()
 end
 
 function InfoProvider:LoadAssets()
-	spawn(function()
+	Spawn(function() 
 		if PLACEID <= 0 then
-			while game.PlaceId <= 0 do
+			while Game.PlaceId <= 0 do
 				wait()
 			end
-			PLACEID = game.PlaceId
+			PLACEID = Game.PlaceId
 		end
 
+		IMAGES.GAME_THUMBNAIL = IMAGES.GAME_THUMBNAIL .. tostring(PLACEID)
+		
 		-- load game asset info
-		coroutine.resume(coroutine.create(function()
-			local success, result = pcall(function()
-				GameAssetInfo = MPS:GetProductInfo(PLACEID)
-			end)
-			if not success then
-				print("LoadingScript->InfoProvider:LoadAssets:", result)
-			end
-		end))
+		coroutine.resume(coroutine.create(function() GameAssetInfo = MPS:GetProductInfo(PLACEID) end))
+
+		while not currScreenGui do
+			wait()
+		end
+		currScreenGui.ThumbnailContainer.Thumbnail.Image = IMAGES.GAME_THUMBNAIL
+
+		-- load images
+		for imageName, imageContent in next, IMAGES do
+			CP:Preload(imageContent)
+		end
+		
 	end)
-end
-
-function MainGui:tileBackgroundTexture(frameToFill)
-	if not frameToFill then return end
-	frameToFill:ClearAllChildren()
-	if backgroundImageTransparency < 1 then
-		local backgroundTextureSize = Vector2.new(512, 512)
-		for i = 0, math.ceil(frameToFill.AbsoluteSize.X/backgroundTextureSize.X) do
-			for j = 0, math.ceil(frameToFill.AbsoluteSize.Y/backgroundTextureSize.Y) do
-				create 'ImageLabel' {
-					Name = 'BackgroundTextureImage',
-					BackgroundTransparency = 1,
-					ImageTransparency = backgroundImageTransparency,
-					Image = 'rbxasset://textures/loading/loadingTexture.png',
-					Position = UDim2.new(0, i*backgroundTextureSize.X, 0, j*backgroundTextureSize.Y),
-					Size = UDim2.new(0, backgroundTextureSize.X, 0, backgroundTextureSize.Y),
-					ZIndex = 1,
-					Parent = frameToFill
-				}
-			end
-		end
-	end
-end
-
--- create a cancel binding for console to be able to cancel anytime while loading
-local function createTenfootCancelGui()
-	local cancelLabel = create'ImageLabel'
-	{
-		Name = "CancelLabel";
-		Size = UDim2.new(0, 83, 0, 83);
-		Position = UDim2.new(1, -32 - 83, 0, 32);
-		BackgroundTransparency = 1;
-		Image = 'rbxasset://textures/ui/Shell/ButtonIcons/BButton.png';
-	}
-	local cancelText = create'TextLabel'
-	{
-		Name = "CancelText";
-		Size = UDim2.new(0, 0, 0, 0);
-		Position = UDim2.new(1, -131, 0, 64);
-		BackgroundTransparency = 1;
-		FontSize = Enum.FontSize.Size36;
-		TextXAlignment = Enum.TextXAlignment.Right;
-		TextColor3 = COLORS.COOLERBLACK;
-		Text = "Cancel";
-	}
-
-	-- bind cancel action
-	local platformService = nil
-	pcall(function()
-		platformService = game:GetService('PlatformService')
-	end)
-
-	if platformService then
-		if not game:GetService("ReplicatedFirst"):IsFinishedReplicating() then
-			local seenBButtonBegin = false
-			ContextActionService:BindCoreAction("CancelGameLoad",
-				function(actionName, inputState, inputObject)
-					if inputState == Enum.UserInputState.Begin then
-						seenBButtonBegin = true
-					elseif inputState == Enum.UserInputState.End and seenBButtonBegin then
-						cancelLabel:Destroy()
-						cancelText.Text = "Canceling..."
-						cancelText.Position = UDim2.new(1, -32, 0, 64)
-						ContextActionService:UnbindCoreAction('CancelGameLoad')
-						platformService:RequestGameShutdown()
-					end
-				end,
-				false,
-				Enum.KeyCode.ButtonB)
-		end
-	end
-
-	while cancelLabel.Parent == nil do
-		if currScreenGui then
-			local blackFrame = currScreenGui:FindFirstChild('BlackFrame')
-			if blackFrame then
-				cancelLabel.Parent = blackFrame
-				cancelText.Parent = blackFrame
-				break
-			end
-		end
-		wait()
-	end
 end
 
 --
@@ -244,533 +127,705 @@ function MainGui:GenerateMain()
 	local screenGui = create 'ScreenGui' {
 		Name = 'RobloxLoadingGui'
 	}
-
+	
 	--
 	-- create descendant frames
+	
 	local mainBackgroundContainer = create 'Frame' {
-		Name = 'BlackFrame',
-		BackgroundColor3 = COLORS.BACKGROUND_COLOR,
-		BackgroundTransparency = 0,
+		Name = 'MainBackgroundContainer',
+		BackgroundColor3 = COLORS.DARK,
 		Size = UDim2.new(1, 0, 1, 0),
-		Position = UDim2.new(0, 0, 0, 0),
 		Active = true,
-		Parent = screenGui,
-	}
-
-		local closeButton =	create 'ImageButton' {
-			Name = 'CloseButton',
-			Image = 'rbxasset://textures/loading/cancelButton.png',
-			ImageTransparency = 1,
-			BackgroundTransparency = 1,
-			Position = UDim2.new(1, -37, 0, 5),
-			Size = UDim2.new(0, 32, 0, 32),
-			Active = false,
-			ZIndex = 10,
-			Parent = mainBackgroundContainer,
-		}
-
-		local graphicsFrame = create 'Frame' {
-			Name = 'GraphicsFrame',
-			BorderSizePixel = 0,
-			BackgroundTransparency = 1,
-			Position = UDim2.new(1, (isMobile == true and -75 or (isTenFootInterface and -245 or -225)), 1, (isMobile == true and -75 or (isTenFootInterface and -185 or -165))),
-			Size = UDim2.new(0, (isMobile == true and 70 or (isTenFootInterface and 140 or 120)), 0, (isMobile == true and 70 or (isTenFootInterface and 140 or 120))),
-			ZIndex = 2,
-			Parent = mainBackgroundContainer,
-		}
-
-			local loadingImage = create 'ImageLabel' {
-				Name = 'LoadingImage',
-				BackgroundTransparency = 1,
-				Image = 'rbxasset://textures/loading/loadingCircle.png',
-				Position = UDim2.new(0, 0, 0, 0),
-				Size = UDim2.new(1, 0, 1, 0),
-				ZIndex = 2,
-				Parent = graphicsFrame,
-			}
-
-			local loadingText = create 'TextLabel' {
-				Name = 'LoadingText',
-				BackgroundTransparency = 1,
-				Size = UDim2.new(1, (isMobile == true and -14 or -56), 1, 0),
-				Position = UDim2.new(0, (isMobile == true and 12 or 28), 0, 0),
-				Font = Enum.Font.SourceSans,
-				FontSize = (isMobile == true and Enum.FontSize.Size12 or Enum.FontSize.Size18),
-				TextWrapped = true,
-				TextColor3 = COLORS.COOLERBLACK,
-				TextXAlignment = Enum.TextXAlignment.Left,
-				Visible = not isTenFootInterface,
-				Text = "Loading...",
-				ZIndex = 2,
-				Parent = graphicsFrame,
-			}
-
-		local uiMessageFrame = create 'Frame' {
-			Name = 'UiMessageFrame',
-			BackgroundTransparency = 1,
-			Position = UDim2.new(0.25, 0, 1, -120),
-			Size = UDim2.new(0.5, 0, 0, 80),
-			ZIndex = 2,
-			Parent = mainBackgroundContainer,
-		}
-
-			local uiMessage = create 'TextLabel' {
-				Name = 'UiMessage',
-				BackgroundTransparency = 1,
-				Size = UDim2.new(1, 0, 1, 0),
-				Font = Enum.Font.SourceSansBold,
-				FontSize = Enum.FontSize.Size18,
-				TextWrapped = true,
-				TextColor3 = COLORS.COOLERBLACK,
-				Text = "",
-				ZIndex = 2,
-				Parent = uiMessageFrame,
-			}
-
-		local infoFrame = create 'Frame' {
-			Name = 'InfoFrame',
-			BackgroundTransparency = 1,
-			Position = UDim2.new(0, (isMobile == true and 20 or 100), 1, (isMobile == true and -120 or -150)),
-			Size = UDim2.new(0.4, 0, 0, 110),
-			ZIndex = 2,
-			Parent = mainBackgroundContainer,
-		}
-
-			local placeLabel = create 'TextLabel' {
-				Name = 'PlaceLabel',
-				BackgroundTransparency = 1,
-				Size = UDim2.new(1, 0, 0, 80),
-				Position = UDim2.new(0, 0, 0, 0),
-				Font = Enum.Font.SourceSans,
-				FontSize = (isTenFootInterface and Enum.FontSize.Size48 or Enum.FontSize.Size24),
-				TextWrapped = true,
-				TextScaled = true,
-				TextColor3 = COLORS.COOLERBLACK,
-				TextStrokeTransparency = 1,
-				Text = "",
-				TextXAlignment = Enum.TextXAlignment.Left,
-				TextYAlignment = Enum.TextYAlignment.Bottom,
-				ZIndex = 2,
-				Parent = infoFrame,
-			}
-
-			if isTenFootInterface then
-				local byLabel = create'TextLabel' {
-					Name = "ByLabel",
-					BackgroundTransparency = 1,
-					Size = UDim2.new(0, 36, 0, 30),
-					Position = UDim2.new(0, 0, 0, 80),
-					Font = Enum.Font.SourceSans,
-					FontSize = Enum.FontSize.Size36,
-					TextScaled = true,
-					TextColor3 = COLORS.WHITE,
-					TextStrokeTransparency = 1,
-					Text = "By",
-					TextXAlignment = Enum.TextXAlignment.Left,
-					TextYAlignment = Enum.TextYAlignment.Top,
-					ZIndex = 2,
-					Visible = false,
-					Parent = infoFrame,
-				}
-				local creatorIcon = create'ImageLabel' {
-					Name = "CreatorIcon",
-					BackgroundTransparency = 1,
-					Size = UDim2.new(0, 30, 0, 30),
-					Position = UDim2.new(0, 38, 0, 80),
-					ImageTransparency = 0,
-					Image = 'rbxasset://textures/ui/Shell/Icons/RobloxIcon32.png',
-					ZIndex = 2,
-					Visible = false,
-					Parent = infoFrame,
-				}
-			end
-
-			local creatorLabel = create 'TextLabel' {
-				Name = 'CreatorLabel',
-				BackgroundTransparency = 1,
-				Size = UDim2.new(1, 0, 0, 30),
-				Position = UDim2.new(0, isTenFootInterface and 72 or 0, 0, 80),
-				Font = Enum.Font.SourceSans,
-				FontSize = (isTenFootInterface and Enum.FontSize.Size36 or Enum.FontSize.Size18),
-				TextWrapped = true,
-				TextScaled = true,
-				TextColor3 = COLORS.COOLERBLACK,
-				TextStrokeTransparency = 1,
-				Text = "",
-				TextXAlignment = Enum.TextXAlignment.Left,
-				TextYAlignment = Enum.TextYAlignment.Top,
-				ZIndex = 2,
-				Parent = infoFrame,
-			}
-
-		local backgroundTextureFrame = create 'Frame' {
-			Name = 'BackgroundTextureFrame',
-			BorderSizePixel = 0,
-			Size = UDim2.new(1, 0, 1, 0),
-			Position = UDim2.new(0, 0, 0, 0),
-			ClipsDescendants = true,
+		
+		--[[create 'Frame' {
+			Name = 'TopBar',
+			BackgroundColor3 = COLORS.DARKMED,
+			BorderColor3 = COLORS.MED,
+			BorderSizePixel = 3,
+			Position = UDim2.new(0, -220, 0, -205),
+			Rotation = -10,
+			Size = UDim2.new(0, 1000, 0, 220),
 			ZIndex = 1,
-			BackgroundTransparency = 1,
-			Parent = mainBackgroundContainer,
-		}
+		
+			create 'ImageLabel' {
+				Name = 'RobloxLogo',
+				BackgroundTransparency = 1,
+				Image = IMAGES.ROBLOX_LOGO_256,
+				Position = UDim2.new(0, 214, 1, -80),
+				Rotation = 2,
+				Size = UDim2.new(0, 128, 0, 128),
+				ZIndex = 2,
+				
+				create 'TextLabel' {
+					Name = 'PoweredBy',
+					BackgroundTransparency = 1,
+					Position = UDim2.new(0.5, -60, 0, 30),
+					Size = UDim2.new(0, 80, 0, 18),
+					Font = Enum.Font.SourceSans,
+					FontSize = Enum.FontSize.Size18,
+					TextColor3 = Color3.new(1,1,1),
+					Text = "Powered By",
+					ZIndex = 2
+				}
+			}
+		},]]
 
-	local errorFrame = create 'Frame' {
-		Name = 'ErrorFrame',
-		BackgroundColor3 = COLORS.ERROR,
-		BorderSizePixel = 0,
-		Position = UDim2.new(0.25,0,0,0),
-		Size = UDim2.new(0.5, 0, 0, 80),
-		ZIndex = 8,
-		Visible = false,
-		Parent = screenGui,
-	}
-
-		local errorText = create 'TextLabel' {
-			Name = "ErrorText",
+		create 'ImageButton' {
+			Name = 'CloseButton',
+			Image = 'rbxasset://textures/ui/CloseButton.png',
 			BackgroundTransparency = 1,
+			Position = UDim2.new(1, -27, 0, 5),
+			Size = UDim2.new(0, 22, 0, 22),
+			Active = true,
+			ZIndex = 10
+		},
+
+		create 'Frame' {
+			Name = 'ErrorFrame',
+			BackgroundColor3 = COLORS.ERROR,
+			BorderSizePixel = 0,
+			Position = UDim2.new(0.25,0,0,0),
+			Size = UDim2.new(0.5, 0, 0, 80),
+			ZIndex = 5,
+			Visible = false,
+
+			create 'TextLabel' {
+				Name = "ErrorText",
+				BackgroundTransparency = 1,
+				ZIndex = 10,
+				Position = UDim2.new(0,5,0,5),
+				Size = UDim2.new(1,-10,1,-10),
+				Font = Enum.Font.SourceSans,
+				FontSize = Enum.FontSize.Size18,
+				Text = "",
+				TextColor3 = Color3.new(1,1,1),
+				TextXAlignment = Enum.TextXAlignment.Center,
+				TextYAlignment = Enum.TextYAlignment.Center,
+				TextWrap = true
+			}
+		},
+		
+		create 'Frame' {
+			Name = 'BottomBar',
+			BorderSizePixel = 0,
+			BackgroundTransparency = 1,
+			Position = UDim2.new(0, 0, 1, -150),
+			Size = UDim2.new(1, 0, 0, 300),
+			ZIndex = 5,
+			
+			create 'Frame' {
+				Name = 'BottomBarActual',
+				BackgroundColor3 = COLORS.DARKMED,
+				BorderColor3 = COLORS.MED,
+				BorderSizePixel = 3,
+				Position = UDim2.new(0, 0, 0, 0),
+				Size = UDim2.new(1, 0, 1, 0),
+				ZIndex = 5,
+			
+				create 'Frame' {
+					Name = 'TextContainer',
+					BackgroundTransparency = 1,
+					Position = UDim2.new(0, -5, 0, 5),
+					Size = UDim2.new(1, 0, 1, 0),
+					ZIndex = 8,
+					
+					create 'TextLabel' {
+						Name = 'CreatorName',
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0, 0, 0, 70),
+						Size = UDim2.new(1, 0, 1, 0),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSansBold,
+						FontSize = Enum.FontSize.Size48,
+						Text = InfoProvider:GetCreatorName(),
+						TextColor3 = COLORS.LIGHT,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Right,
+						TextYAlignment = Enum.TextYAlignment.Top
+					},
+					
+					create 'TextLabel' {
+						Name = 'GameName',
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0, 0, 0, 30),
+						Size = UDim2.new(1, 0, 1, 0),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSansBold,
+						FontSize = Enum.FontSize.Size48,
+						Text = InfoProvider:GetGameName(),
+						TextColor3 = COLORS.LIGHT,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Right,
+						TextYAlignment = Enum.TextYAlignment.Top
+					},
+					
+					create 'TextLabel' {
+						Name = 'CreatorNamePrefix',
+						BackgroundTransparency = 1,
+						Size = UDim2.new(1, 0, 1, 0),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSans,
+						FontSize = Enum.FontSize.Size48,
+						Text = 'By',
+						TextColor3 = COLORS.LIGHTMED,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Right,
+						TextYAlignment = Enum.TextYAlignment.Top
+					},
+					
+					create 'TextLabel' {
+						Name = 'OnYourWay',
+						BackgroundTransparency = 1,
+						Size = UDim2.new(1, 0, 1, 0),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSans,
+						FontSize = Enum.FontSize.Size36,
+						Text = 'You\'re on your way to',
+						TextColor3 = COLORS.LIGHTMED,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Right,
+						TextYAlignment = Enum.TextYAlignment.Top
+					}
+				}
+			}
+		},
+		
+		create 'ImageLabel' {
+			Name = 'BackgroundThumbnailVignette',
+			BackgroundTransparency = 1,
+			Image = IMAGES.BACKGROUND_THUMBNAIL_VIGNETTE,
 			Size = UDim2.new(1, 0, 1, 0),
-			Font = Enum.Font.SourceSansBold,
-			FontSize = Enum.FontSize.Size14,
-			TextWrapped = true,
-			TextColor3 = COLORS.WHITE,
-			Text = "",
-			ZIndex = 8,
-			Parent = errorFrame,
-		}
+			ZIndex = 3
+		},
+		
+		create 'ImageLabel' {
+			Name = 'BackgroundThumbnail',
+			BackgroundTransparency = 1,
+			Image = IMAGES.GAME_BACKGROUND,
+			Size = UDim2.new(1.5, 0, 1.5, 0),
+			Position = UDim2.new(-0.5,0,0,0),
+			ZIndex = 2
+		},
+		
+		Parent = screenGui
+	}
+	
+	local thumbnailContainer = create 'Frame' {
+		Name = 'ThumbnailContainer',
+		BackgroundColor3 = COLORS.BLACK,
+		BorderColor3 = COLORS.MED,
+		BorderSizePixel = 4,
+		Position = UDim2.new(0.5, -210, 0.5, -115),
+		Size = UDim2.new(0, 420, 0, 230),
+		ZIndex = 8,
+		
+		create 'ImageLabel' {
+			Name = 'Thumbnail',
+			BorderColor3 = COLORS.DARKMED2,
+			BorderSizePixel = 3,
+			Image = "",
+			Size = UDim2.new(1, 0, 1, 0),
+			ZIndex = 8
+		},
 
-	while not game:GetService("CoreGui") do
+		create 'Frame' {
+			Name = 'LoadingInfoContainer',
+			BorderColor3 = COLORS.MED,
+			BackgroundColor3 = COLORS.DARKMED,
+			BorderSizePixel = 2,
+			Position = UDim2.new(0,20,1,0),
+			Size = UDim2.new(1,-40,0,40),
+			ZIndex = 7,
+
+			create 'TextLabel' {
+						Name = 'InstancesLabel',
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0,0,0,5),
+						Size = UDim2.new(0.25, 0, 1, -10),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSansBold,
+						FontSize = Enum.FontSize.Size14,
+						Text = 'Instances',
+						TextColor3 = COLORS.LIGHTMED,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Center,
+						TextYAlignment = Enum.TextYAlignment.Top
+					},
+			create 'TextLabel' {
+						Name = 'InstancesValue',
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0,0,0,5),
+						Size = UDim2.new(0.25, 0, 1, -10),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSansBold,
+						FontSize = Enum.FontSize.Size14,
+						Text = '0',
+						TextColor3 = COLORS.LIGHTMED,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Center,
+						TextYAlignment = Enum.TextYAlignment.Bottom
+					},
+
+
+
+
+			create 'TextLabel' {
+						Name = 'VoxelsLabel',
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0.75,0,0,5),
+						Size = UDim2.new(0.25, 0, 1, -10),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSansBold,
+						FontSize = Enum.FontSize.Size14,
+						Text = 'Voxels',
+						TextColor3 = COLORS.LIGHTMED,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Center,
+						TextYAlignment = Enum.TextYAlignment.Top
+					},
+			create 'TextLabel' {
+						Name = 'VoxelsValue',
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0.75,0,0,5),
+						Size = UDim2.new(0.25, 0, 1, -10),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSansBold,
+						FontSize = Enum.FontSize.Size14,
+						Text = '0',
+						TextColor3 = COLORS.LIGHTMED,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Center,
+						TextYAlignment = Enum.TextYAlignment.Bottom
+					},
+
+
+
+			create 'TextLabel' {
+						Name = 'ConnectorsLabel',
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0.5,0,0,5),
+						Size = UDim2.new(0.25, 0, 1, -10),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSansBold,
+						FontSize = Enum.FontSize.Size14,
+						Text = 'Connectors',
+						TextColor3 = COLORS.LIGHTMED,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Center,
+						TextYAlignment = Enum.TextYAlignment.Top
+					},
+			create 'TextLabel' {
+						Name = 'ConnectorsValue',
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0.5,0,0,5),
+						Size = UDim2.new(0.25, 0, 1, -10),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSansBold,
+						FontSize = Enum.FontSize.Size14,
+						Text = '0',
+						TextColor3 = COLORS.LIGHTMED,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Center,
+						TextYAlignment = Enum.TextYAlignment.Bottom
+					},
+
+
+
+			create 'TextLabel' {
+						Name = 'BricksLabel',
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0.25,0,0,5),
+						Size = UDim2.new(0.25, 0, 1, -10),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSansBold,
+						FontSize = Enum.FontSize.Size14,
+						Text = 'Bricks',
+						TextColor3 = COLORS.LIGHTMED,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Center,
+						TextYAlignment = Enum.TextYAlignment.Top
+					},
+			create 'TextLabel' {
+						Name = 'BricksValue',
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0.25,0,0,5),
+						Size = UDim2.new(0.25, 0, 1, -10),
+						ZIndex = 9,
+						Font = Enum.Font.SourceSansBold,
+						FontSize = Enum.FontSize.Size14,
+						Text = '0',
+						TextColor3 = COLORS.LIGHTMED,
+						TextStrokeColor3 = COLORS.DARKMED2,
+						TextStrokeTransparency = 0,
+						TextXAlignment = Enum.TextXAlignment.Center,
+						TextYAlignment = Enum.TextYAlignment.Bottom
+					},
+		},
+		
+		Parent = screenGui
+	}
+	
+	--
+	-- recalculate everything
+	while not Game:GetService("CoreGui") do
 		wait()
 	end
-	screenGui.Parent = game:GetService("CoreGui")
-	currScreenGui = screenGui
+	screenGui.Parent = Game.CoreGui
+
+	MainGui:RecalculateSizes(screenGui)
+	
+	--
+	-- return generated gui
+	return screenGui
 end
 
-function round(num, idp)
-  local mult = 10^(idp or 0)
-  return math.floor(num * mult + 0.5) / mult
+function MainGui:RecalculateTextSize(screenGui)
+	local screenSize = screenGui.AbsoluteSize
+
+	local textSizeScale = math.min(screenSize.y/800, 1)
+	local closestValidSizePrevIndex = math.floor(textSizeScale*#VALID_TEXT_SIZES)-1
+	local closestValidSizePrevIndex2 = closestValidSizePrevIndex-1
+	local closestValidTextSize
+	local closestValidTextSizePrev
+	-- next can't take a 0 because it's a total wuss
+	if closestValidSizePrevIndex > 0 then
+		_, closestValidTextSize = next(VALID_TEXT_SIZES, closestValidSizePrevIndex)
+		if closestValidSizePrevIndex2 > 0 then
+			_, closestValidTextSizePrev = next(VALID_TEXT_SIZES, closestValidSizePrevIndex2)
+		else
+			_, closestValidTextSizePrev = next(VALID_TEXT_SIZES) -- not doing t[1] because this looks cleaner
+		end
+	else
+		_, closestValidTextSize = next(VALID_TEXT_SIZES)
+		_, closestValidTextSizePrev = next(VALID_TEXT_SIZES)
+	end
+	local textSizeEnum = Enum.FontSize['Size'..closestValidTextSize]
+	local textSizePrevEnum = Enum.FontSize['Size'..closestValidTextSizePrev]
+
+	if not screenGui:FindFirstChild("MainBackgroundContainer") then return end
+
+	local TextContainer = screenGui.MainBackgroundContainer.BottomBar.BottomBarActual.TextContainer
+	local currentYBumpDistance = 0
+	TextContainer.OnYourWay.FontSize = textSizePrevEnum
+	currentYBumpDistance = currentYBumpDistance + closestValidTextSizePrev*(40/48)
+	TextContainer.GameName.Position = UDim2.new(0, 0, 0, currentYBumpDistance)
+	TextContainer.GameName.FontSize = textSizeEnum
+	currentYBumpDistance = currentYBumpDistance + closestValidTextSize*(40/48)
+	TextContainer.CreatorName.Position = UDim2.new(0, 0, 0, currentYBumpDistance)
+	TextContainer.CreatorName.FontSize = textSizeEnum
+	local currentXBumpDistance = -(TextContainer.CreatorName.TextBounds.X+5)
+	TextContainer.CreatorNamePrefix.Position = UDim2.new(0, currentXBumpDistance, 0, currentYBumpDistance)
+	TextContainer.CreatorNamePrefix.FontSize = textSizeEnum
+
+	-- recalculate bottom bar size
+	local sizeScale = closestValidTextSize/48
+	screenGui.MainBackgroundContainer.BottomBar.Size = UDim2.new(1, 0, 0, 300 * sizeScale)
+	screenGui.MainBackgroundContainer.BottomBar.Position = UDim2.new(0, 0, 1, -150 * sizeScale)
+	screenGui.MainBackgroundContainer.BottomBar.BottomBarActual.Position = UDim2.new(0, -130 * sizeScale,0,0)
 end
+
+function MainGui:RecalculateSizes(screenGui)
+	local screenSize = screenGui.AbsoluteSize
+
+	-- recalculate thumbnail size
+	local thumbnailSizeScale = math.min(math.max(screenSize.y/630, 50/230), 1)
+	local thumbnailSize = UDim2.new(0, thumbnailSizeScale*420, 0, thumbnailSizeScale*230)
+	local thumbnailPosition = UDim2.new(0.5, -thumbnailSizeScale*420/2, 0.5, -20 - thumbnailSizeScale*230/2 )
+	screenGui.ThumbnailContainer.Size = thumbnailSize
+	screenGui.ThumbnailContainer.Position = thumbnailPosition
+
+	screenGui.ThumbnailContainer.LoadingInfoContainer.Visible = (screenSize.Y > 500)
+
+	-- update names
+	
+	-- if we don't have a name yet, keep trying!
+	if InfoProvider:GetCreatorName() == '' or InfoProvider:GetGameName() == '' then
+		Spawn(function()
+
+			while InfoProvider and InfoProvider:GetCreatorName() == '' or InfoProvider:GetGameName() == '' do
+				wait()
+			end
+
+			if screenGui and screenGui:FindFirstChild("MainBackgroundContainer") then
+				screenGui.MainBackgroundContainer.BottomBar.BottomBarActual.TextContainer.CreatorName.Text = InfoProvider:GetCreatorName()
+				screenGui.MainBackgroundContainer.BottomBar.BottomBarActual.TextContainer.GameName.Text = InfoProvider:GetGameName()
+			end
+
+			MainGui:RecalculateTextSize(screenGui)
+		end)
+	else
+		screenGui.MainBackgroundContainer.BottomBar.BottomBarActual.TextContainer.CreatorName.Text = InfoProvider:GetCreatorName()
+		screenGui.MainBackgroundContainer.BottomBar.BottomBarActual.TextContainer.GameName.Text = InfoProvider:GetGameName()
+	end
+	
+	MainGui:RecalculateTextSize(screenGui)
+end
+
+function MainGui:Show()
+	currScreenGui = MainGui:GenerateMain()
+	currScreenGui.MainBackgroundContainer.Visible = true
+	currScreenGui.ThumbnailContainer.Visible = true
+	
+	currScreenGui.Changed:connect(function(prop)
+		if prop == "AbsoluteSize" then
+			MainGui:RecalculateSizes(currScreenGui)
+		end
+	end)
+end
+
+
 
 ---------------------------------------------------------
 -- Main Script (show something now + setup connections)
 
 -- start loading assets asap
 InfoProvider:LoadAssets()
-MainGui:GenerateMain()
-if isTenFootInterface then
-	createTenfootCancelGui()
-end
 
-local removedLoadingScreen = false
+MainGui:Show()
+
+local guiService = Game:GetService("GuiService")
+local instanceCount = 0
+local voxelCount = 0
+local brickCount = 0
+local connectorCount = 0
 local setVerb = true
-local lastRenderTime = nil
-local fadeCycleTime = 1.7
-local turnCycleTime = 2
-local lastAbsoluteSize = Vector2.new(0, 0)
-local loadingDots = "..."
-local lastDotUpdateTime = nil
-local dotChangeTime = .2
-local brickCountChange = nil
-local lastBrickCount = 0
 
-renderSteppedConnection = game:GetService("RunService").RenderStepped:connect(function()
+renderSteppedConnection = Game:GetService("RunService").RenderStepped:connect(function()
+
+	instanceCount = randomNumber()
+	voxelCount = randomNumber()
+	brickCount = randomNumber()
+	connectorCount = randomNumber()
+
 	if not currScreenGui then return end
-	if not currScreenGui:FindFirstChild("BlackFrame") then return end
 
 	if setVerb then
-		currScreenGui.BlackFrame.CloseButton:SetVerb("Exit")
+		currScreenGui.MainBackgroundContainer.CloseButton:SetVerb("Exit")
 		setVerb = false
 	end
 
-	if currScreenGui.BlackFrame:FindFirstChild("BackgroundTextureFrame") and currScreenGui.BlackFrame.BackgroundTextureFrame.AbsoluteSize ~= lastAbsoluteSize then
-		lastAbsoluteSize = currScreenGui.BlackFrame.BackgroundTextureFrame.AbsoluteSize
-		MainGui:tileBackgroundTexture(currScreenGui.BlackFrame.BackgroundTextureFrame)
-	end
+	currScreenGui.ThumbnailContainer.LoadingInfoContainer.InstancesValue.Text = tostring(instanceCount)
+	currScreenGui.ThumbnailContainer.LoadingInfoContainer.BricksValue.Text = tostring(brickCount)
+	currScreenGui.ThumbnailContainer.LoadingInfoContainer.ConnectorsValue.Text = tostring(connectorCount)
 
-	local infoFrame = currScreenGui.BlackFrame:FindFirstChild('InfoFrame')
-	if infoFrame then
-		-- set place name
-		local placeLabel = infoFrame:FindFirstChild('PlaceLabel')
-		if placeLabel and placeLabel.Text == "" then
-			placeLabel.Text = InfoProvider:GetGameName()
-		end
-
-		-- set creator name
-		local creatorLabel = infoFrame:FindFirstChild('CreatorLabel')
-		if creatorLabel and creatorLabel.Text == "" then
-			local creatorName = InfoProvider:GetCreatorName()
-			if creatorName ~= "" then
-				if isTenFootInterface then
-					local showDevName = true
-					if platform == Enum.Platform.XBoxOne then
-						local success, result = pcall(function()
-							return settings():GetFFlag("ShowDevNameInXboxApp")
-						end)
-						if success then
-							showDevName = result
-						end
-					end
-					creatorLabel.Text = showDevName and creatorName or ""
-					local creatorIcon = infoFrame:FindFirstChild('CreatorIcon')
-					local byLabel = infoFrame:FindFirstChild('ByLabel')
-					if creatorIcon then creatorIcon.Visible = showDevName end
-					if byLabel then byLabel.Visible = showDevName end
-				else
-					creatorLabel.Text = "By "..creatorName
-				end
-			end
-		end
-	end
-
-	if not lastRenderTime then
-		lastRenderTime = tick()
-		lastDotUpdateTime = lastRenderTime
-		return
-	end
-
-	local currentTime = tick()
-	local fadeAmount = (currentTime - lastRenderTime) * fadeCycleTime
-	local turnAmount = (currentTime - lastRenderTime) * (360/turnCycleTime)
-	lastRenderTime = currentTime
-
-	currScreenGui.BlackFrame.GraphicsFrame.LoadingImage.Rotation = currScreenGui.BlackFrame.GraphicsFrame.LoadingImage.Rotation + turnAmount
-
-	local updateLoadingDots =  function()
-		loadingDots = loadingDots.. "."
-		if loadingDots == "...." then
-			loadingDots = ""
-		end
-		currScreenGui.BlackFrame.GraphicsFrame.LoadingText.Text = "Loading" ..loadingDots
-	end
-
-	if currentTime - lastDotUpdateTime >= dotChangeTime and InfoProvider:GetCreatorName() == "" then
-		lastDotUpdateTime = currentTime
-		updateLoadingDots()
+	if voxelCount <= 0 then
+		currScreenGui.ThumbnailContainer.LoadingInfoContainer.VoxelsValue.Text = "0"
 	else
-		if guiService:GetBrickCount() > 0 then
-			if brickCountChange == nil then
-				brickCountChange = guiService:GetBrickCount()
-			end
-			if guiService:GetBrickCount() - lastBrickCount >= brickCountChange then
-				lastBrickCount = guiService:GetBrickCount()
-				updateLoadingDots()
-			end
-		end
-	end
-
-	if not isTenFootInterface then
-		if currentTime - startTime > 5 and currScreenGui.BlackFrame.CloseButton.ImageTransparency > 0 then
-			currScreenGui.BlackFrame.CloseButton.ImageTransparency = currScreenGui.BlackFrame.CloseButton.ImageTransparency - fadeAmount
-
-			if currScreenGui.BlackFrame.CloseButton.ImageTransparency <= 0 then
-				currScreenGui.BlackFrame.CloseButton.Active = true
-			end
-		end
+		currScreenGui.ThumbnailContainer.LoadingInfoContainer.VoxelsValue.Text = tostring(voxelCount) .." millions"
 	end
 end)
-
-spawn(function()
-	local RobloxGui = game:GetService("CoreGui"):WaitForChild("RobloxGui")
-	local guiInsetChangedEvent = Instance.new("BindableEvent")
-	guiInsetChangedEvent.Name = "GuiInsetChanged"
-	guiInsetChangedEvent.Parent = RobloxGui
-	guiInsetChangedEvent.Event:connect(function(x1, y1, x2, y2)
-		if currScreenGui and currScreenGui:FindFirstChild("BlackFrame") then
-			currScreenGui.BlackFrame.Position = UDim2.new(0, -x1, 0, -y1)
-			currScreenGui.BlackFrame.Size = UDim2.new(1, x1 + x2, 1, y1 + y2)
-		end
-	end)
-end)
-
-local leaveGameButton, leaveGameTextLabel, errorImage = nil
 
 guiService.ErrorMessageChanged:connect(function()
 	if guiService:GetErrorMessage() ~= '' then
-		if isTenFootInterface then
-			currScreenGui.ErrorFrame.Size = UDim2.new(1, 0, 0, 144)
-			currScreenGui.ErrorFrame.Position = UDim2.new(0, 0, 0, 0)
-			currScreenGui.ErrorFrame.BackgroundColor3 = COLORS.BLACK
-			currScreenGui.ErrorFrame.BackgroundTransparency = 0.5
-			currScreenGui.ErrorFrame.ErrorText.FontSize = Enum.FontSize.Size36
-			currScreenGui.ErrorFrame.ErrorText.Position = UDim2.new(.3, 0, 0, 0)
-			currScreenGui.ErrorFrame.ErrorText.Size = UDim2.new(.4, 0, 0, 144)
-			if errorImage == nil then
-				errorImage = Instance.new("ImageLabel")
-				errorImage.Image = "rbxasset://textures/ui/ErrorIconSmall.png"
-				errorImage.Size = UDim2.new(0, 96, 0, 79)
-				errorImage.Position = UDim2.new(0.228125, 0, 0, 32)
-				errorImage.ZIndex = 9
-				errorImage.BackgroundTransparency = 1
-				errorImage.Parent = currScreenGui.ErrorFrame
-			end
-			-- we show a B button to kill game data model on console
-			if not isTenFootInterface then
-				if leaveGameButton == nil then
-					local RobloxGui = game:GetService("CoreGui"):WaitForChild("RobloxGui")
-					local utility = require(RobloxGui.Modules.Settings.Utility)
-					local textLabel = nil
-					leaveGameButton, leaveGameTextLabel = utility:MakeStyledButton("LeaveGame", "Leave", UDim2.new(0, 288, 0, 78))
-					leaveGameButton:SetVerb("Exit")
-					leaveGameButton.NextSelectionDown = leaveGameButton
-					leaveGameButton.NextSelectionLeft = leaveGameButton
-					leaveGameButton.NextSelectionRight = leaveGameButton
-					leaveGameButton.NextSelectionUp = leaveGameButton
-					leaveGameButton.ZIndex = 9
-					leaveGameButton.Position = UDim2.new(0.771875, 0, 0, 37)
-					leaveGameButton.Parent = currScreenGui.ErrorFrame
-					leaveGameTextLabel.FontSize = Enum.FontSize.Size36
-					leaveGameTextLabel.ZIndex = 10
-					game:GetService("GuiService").SelectedCoreObject = leaveGameButton
-				else
-					game:GetService("GuiService").SelectedCoreObject = leaveGameButton
-				end
-			end
-		end
-		currScreenGui.ErrorFrame.ErrorText.Text = guiService:GetErrorMessage()
-		currScreenGui.ErrorFrame.Visible = true
-		local blackFrame = currScreenGui:FindFirstChild('BlackFrame')
-		if blackFrame then
-			blackFrame.CloseButton.ImageTransparency = 0
-			blackFrame.CloseButton.Active = true
-		end
+		currScreenGui.MainBackgroundContainer.ErrorFrame.ErrorText.Text = guiService:GetErrorMessage()
+		currScreenGui.MainBackgroundContainer.ErrorFrame.Visible = true
 	else
-		currScreenGui.ErrorFrame.Visible = false
-	end
-end)
-
-guiService.UiMessageChanged:connect(function(type, newMessage)
-	if type == Enum.UiMessageType.UiMessageInfo then
-		local blackFrame = currScreenGui and currScreenGui:FindFirstChild('BlackFrame')
-		if blackFrame then
-			blackFrame.UiMessageFrame.UiMessage.Text = newMessage
-			if newMessage ~= '' then
-				blackFrame.UiMessageFrame.Visible = true
-			else
-				blackFrame.UiMessageFrame.Visible = false
-			end
-		end
+		currScreenGui.MainBackgroundContainer.ErrorFrame.Visible = false
 	end
 end)
 
 if guiService:GetErrorMessage() ~= '' then
-	currScreenGui.ErrorFrame.ErrorText.Text = guiService:GetErrorMessage()
-	currScreenGui.ErrorFrame.Visible = true
+	currScreenGui.MainBackgroundContainer.ErrorFrame.ErrorText.Text = guiService:GetErrorMessage()
+	currScreenGui.MainBackgroundContainer.ErrorFrame.Visible = true
+end
+
+local sound = Instance.new("Sound", game.CoreGui)
+sound.Looped = true
+sound.SoundId = "rbxasset://sounds/loading/gu-l_menu.mp3"
+sound.Volume = 1
+wait(0.5)
+sound:Play()
+
+local forceRemovalTime = 5
+local destroyed = false
+
+function removeLoadingScreen()
+	if renderSteppedConnection then
+		renderSteppedConnection:disconnect()
+	end
+
+	if currScreenGui then
+		currScreenGui:Destroy()
+		currScreenGui = nil
+	end
+	
+	for i=0, 10 do
+		sound.Volume = 1-(i/10)
+		wait(0.05)
+	end
+	sound:Stop()
+	sound:Remove()
+	
+	if script then script:Destroy() end
+	destroyed = true
 end
 
 
-function stopListeningToRenderingStep()
-	if renderSteppedConnection then
-		renderSteppedConnection:disconnect()
-		renderSteppedConnection = nil
+function startForceLoadingDoneTimer()
+	wait(forceRemovalTime)
+	removeLoadingScreen()
+end
+
+function gameIsLoaded()
+	if Game.ReplicatedFirst:IsDefaultLoadingGuiRemoved() then
+		removeLoadingScreen()
+	else
+		startForceLoadingDoneTimer()
 	end
 end
 
-function fadeAndDestroyBlackFrame(blackFrame)
-	if destroyingBackground then return end
-	destroyingBackground = true
-	spawn(function()
-		local infoFrame = blackFrame:FindFirstChild("InfoFrame")
-		local graphicsFrame = blackFrame:FindFirstChild("GraphicsFrame")
+Game.ReplicatedFirst.RemoveDefaultLoadingGuiSignal:connect(function()
+	removeLoadingScreen()
+end)
 
-		local infoFrameChildren = infoFrame:GetChildren()
-		local transparency = 0
-		local rateChange = 1.8
-		local lastUpdateTime = nil
+if Game.ReplicatedFirst:IsDefaultLoadingGuiRemoved() then
+	removeLoadingScreen()
+	return
+end
 
-		while transparency < 1 do
-			if not lastUpdateTime then
-				lastUpdateTime = tick()
+Game.Loaded:connect(function()
+	gameIsLoaded()
+end)
+
+if Game:IsLoaded() then
+	gameIsLoaded()
+end
+
+--------------------------------------------------------------------------
+--
+-- Animation (make the stuff we are showing look cool)
+
+local blockSize = 10
+local blockColor = Color3.new(33/255,66/255,209/255)
+
+local yPosScale = 0
+local yPosOffset = -blockSize * 3.5
+
+local tweenStyle = Enum.EasingStyle.Sine
+local tweenVelocity = 1500
+local tweenTime = (currScreenGui.AbsoluteSize.X/2)/tweenVelocity 
+
+function createBlock()
+	local initBlock = Instance.new("Frame")
+	initBlock.ZIndex = 5
+	initBlock.Size = UDim2.new(0,blockSize,0,blockSize)
+	initBlock.BackgroundColor3 = COLORS.DARK
+	initBlock.BorderSizePixel = 0
+	initBlock.Position = UDim2.new(0,-blockSize,yPosScale,yPosOffset)
+	initBlock.Parent = currScreenGui.MainBackgroundContainer.BottomBar
+	
+	return initBlock
+end
+
+
+local blocks = {}
+for i = 1,6 do
+	blocks[i] = createBlock()
+end
+
+function getYOffset(newSize)
+	return yPosOffset - (newSize/3)
+end
+
+function rightScreenExit()
+	wait(tweenTime * 3)
+	if not currScreenGui then return end
+	
+	local regSize = blocks[6].Size
+	local regPos = blocks[6].Position
+	
+	blocks[6].Size = blocks[1].Size 
+	blocks[6].Position = blocks[1].Position
+	
+	blocks[1].Size =  regSize
+	blocks[1].Position = regPos
+	
+	wait()
+
+	for i = 1,6 do
+		local delayTime = tweenTime * (i - 1) * 0.5
+		Delay(delayTime, function()
+			if not currScreenGui then return end
+
+			local blockIndex = i
+			local blockSizeMultiplier = 4 - (i * 0.5)
+			
+			blocks[blockIndex]:TweenPosition(UDim2.new(1,0,yPosScale,yPosOffset),
+							  						Enum.EasingDirection.Out,tweenStyle,
+		  					  						tweenTime,true)
+			if i == 6 then
+				blocks[6]:TweenSizeAndPosition(UDim2.new(0,blockSize,0,blockSize),
+												UDim2.new(1,0,yPosScale,yPosOffset),
+												Enum.EasingDirection.InOut,tweenStyle,
+												tweenTime,true)
+					
+				wait(tweenTime * 1.1)
+				leftScreenEntrance()
 			else
-				local newTime = tick()
-				transparency = transparency + rateChange * (newTime - lastUpdateTime)
-				for i = 1, #infoFrameChildren do
-					local child = infoFrameChildren[i]
-					if child:IsA('TextLabel') then
-						child.TextTransparency = transparency
-						child.TextStrokeTransparency = transparency
-					elseif child:IsA('ImageLabel') then
-						child.ImageTransparency = transparency
-					end
-				end
-				graphicsFrame.LoadingImage.ImageTransparency = transparency
-				blackFrame.BackgroundTransparency = transparency
-
-				if backgroundImageTransparency < 1 then
-					backgroundImageTransparency = transparency
-					local backgroundImages = blackFrame.BackgroundTextureFrame:GetChildren()
-					for i = 1, #backgroundImages do
-						backgroundImages[i].ImageTransparency = backgroundImageTransparency
-					end
-				end
-
-				lastUpdateTime = newTime
+				local newSize = blockSize * blockSizeMultiplier
+				blocks[6]:TweenSizeAndPosition(UDim2.new(0,newSize,0,newSize),
+												UDim2.new(0.5,-newSize/2,yPosScale,getYOffset(newSize)),
+												Enum.EasingDirection.InOut,tweenStyle,
+												tweenTime * 0.75,true)
 			end
-			wait()
-		end
-		if blackFrame ~= nil then
-			stopListeningToRenderingStep()
-			blackFrame:Destroy()
+		end)
+	end
+end
+
+function leftScreenEntrance()
+	if not currScreenGui then return end
+
+	for i = 1,6 do
+		blocks[i].Size = UDim2.new(0,blockSize,0,blockSize)
+		blocks[i].Position = UDim2.new(0,-blockSize,yPosScale,yPosOffset)
+	end
+	
+	blocks[1]:TweenPosition(UDim2.new(0.5,-blockSize/2,yPosScale,yPosOffset),Enum.EasingDirection.Out,tweenStyle,tweenTime,true,function()
+		for i = 1, 6 do
+			local delayTime = tweenTime * (i - 1) * 0.5
+			
+			Delay(delayTime, function()
+				if not currScreenGui then return end
+
+				local blockIndex = i
+				local blockSizeMultiplier = 1 + (i * 0.5)
+			
+				blocks[blockIndex]:TweenPosition(UDim2.new(0.5,-blockSize/2,yPosScale,yPosOffset),
+									  Enum.EasingDirection.Out,tweenStyle,
+				  					  tweenTime,true)
+				
+				local newSize = blockSize * blockSizeMultiplier
+				blocks[1]:TweenSizeAndPosition(UDim2.new(0,newSize,0,newSize),
+											UDim2.new(0.5,-newSize/2,yPosScale,getYOffset(newSize)),
+											Enum.EasingDirection.InOut,tweenStyle,
+											tweenTime * 0.75,true)
+				
+				
+				if i == 4 then
+					rightScreenExit()
+				end
+			end)
 		end
 	end)
 end
 
-function destroyLoadingElements()
-	if not currScreenGui then return end
-	if destroyedLoadingGui then return end
-	destroyedLoadingGui = true
-
-	local guiChildren = currScreenGui:GetChildren()
-	for i=1, #guiChildren do
-		-- need to keep this around in case we get a connection error later
-		if guiChildren[i].Name ~= "ErrorFrame" then
-			if guiChildren[i].Name == "BlackFrame" then
-				fadeAndDestroyBlackFrame(guiChildren[i])
-			else
-				guiChildren[i]:Destroy()
-			end
-		end
-	end
+function startLoadingAnimation()
+	currScreenGui.MainBackgroundContainer.BackgroundThumbnail:TweenPosition(UDim2.new(0,0,0,0),Enum.EasingDirection.InOut,Enum.EasingStyle.Linear,20,true)
+	leftScreenEntrance()
 end
 
-function handleFinishedReplicating()
-	hasReplicatedFirstElements = (#game:GetService("ReplicatedFirst"):GetChildren() > 0)
 
-	if not hasReplicatedFirstElements then
-		if useGameLoadedToWait then
-			if game:IsLoaded() then
-				handleRemoveDefaultLoadingGui()
-			else
-				local gameLoadedCon = nil
-				gameLoadedCon = game.Loaded:connect(function()
-					gameLoadedCon:disconnect()
-					gameLoadedCon = nil
-					handleRemoveDefaultLoadingGui()
-				end)
-			end
-		else
-			while game:GetService("ContentProvider").RequestQueueSize > 0 do
-				wait()
-			end
-			handleRemoveDefaultLoadingGui()
-		end
-	else
-		wait(5) -- make sure after 5 seconds we remove the default gui, even if the user doesn't
-		handleRemoveDefaultLoadingGui()
-	end
-end
-
-function handleRemoveDefaultLoadingGui()
-	if isTenFootInterface then
-		ContextActionService:UnbindCoreAction('CancelGameLoad')
-	end
-	destroyLoadingElements()
-end
-
-game:GetService("ReplicatedFirst").FinishedReplicating:connect(handleFinishedReplicating)
-if game:GetService("ReplicatedFirst"):IsFinishedReplicating() then
-	handleFinishedReplicating()
-end
-
-game:GetService("ReplicatedFirst").RemoveDefaultLoadingGuiSignal:connect(handleRemoveDefaultLoadingGui)
-if game:GetService("ReplicatedFirst"):IsDefaultLoadingGuiRemoved() then
-	handleRemoveDefaultLoadingGui()
-end
+----------------------------------
+-- Animation Begin
+startLoadingAnimation()

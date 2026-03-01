@@ -3141,8 +3141,8 @@ void RobloxIDEDoc::onIdeRun(bool play)
     {
         QString pathStr = QString("game/visit.ashx?IsPlaySolo=1&UserID=%1&PlaceID=%2&universeId=%3")
             .arg(RobloxUser::singleton().getUserId())
-            .arg(m_EditGame.m_Game->getDataModel()->getPlaceID())
-            .arg(m_EditGame.m_Game->getDataModel()->getUniverseId());
+            .arg(dataModel->getPlaceID())
+            .arg(dataModel->getUniverseId());
     
         scriptStr = QString("loadfile(\"%1\")()\n")
             .arg(QString::fromStdString(BuildGenericGameUrl(RobloxSettings::getBaseURL().toStdString(),pathStr.toStdString())));
@@ -3152,8 +3152,8 @@ void RobloxIDEDoc::onIdeRun(bool play)
         scriptStr = QString("loadfile(\"%1/game/visit.ashx?IsPlaySolo=1&UserID=%2&PlaceID=%3&universeId=%4\")()\n")
             .arg(RobloxSettings::getBaseURL())
             .arg(RobloxUser::singleton().getUserId())
-            .arg(m_EditGame.m_Game->getDataModel()->getPlaceID())
-            .arg(m_EditGame.m_Game->getDataModel()->getUniverseId());
+            .arg(dataModel->getPlaceID())
+            .arg(dataModel->getUniverseId());
     }
 	loadPlayDataModel(scriptStr, play, true);
 	if (DFFlag::ScriptExecutionContextApi)

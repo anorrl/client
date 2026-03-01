@@ -1745,20 +1745,20 @@ int Bridge<G3D::CoordinateFrame>::on_index(const G3D::CoordinateFrame& object, c
 		Vector3Bridge::pushVector3(L, object.translation);
 		return 1;
 	}
-	if (strcmp(name,"lookVector")==0)	// lookVector is a property
+	if (strcmp(name,"lookVector")==0 || strcmp(name, "LookVector") == 0)	// lookVector is a property
 	{
 		Vector3Bridge::pushVector3(L, object.lookVector());
 		return 1;
 	}
 
-	if (strcmp(name,"inverse")==0)		// inverse() is a function
+	if (strcmp(name,"inverse")==0 || strcmp(name, "Inverse") == 0)		// inverse() is a function
 	{
 		lua_pushvalue(L, -1);
 		lua_pushcclosure(L, CoordinateFrameBridge::on_inverse, 1);
 		return 1;
 	}
 
-	if (strcmp(name,"lerp")==0)
+	if (strcmp(name,"lerp")==0 || strcmp(name, "Lerp") == 0)
 	{
 		lua_pushvalue(L, -1);
 		lua_pushcclosure(L, CoordinateFrameBridge::on_lerp, 1);
@@ -1807,7 +1807,7 @@ int Bridge<G3D::CoordinateFrame>::on_index(const G3D::CoordinateFrame& object, c
 		lua_pushcclosure(L, CoordinateFrameBridge::on_toEulerAnglesXYZ, 1);
 		return 1;
 	}
-	if (strcmp(name,"components")==0)
+	if (strcmp(name,"components")==0 || strcmp(name, "Components") == 0)
 	{
 		lua_pushvalue(L, -1);
 		lua_pushcclosure(L, CoordinateFrameBridge::on_components, 1);
