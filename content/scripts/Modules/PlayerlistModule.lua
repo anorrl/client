@@ -144,6 +144,7 @@ local ADMINS = {	-- Admins with special icons
 	['41'] = 'http://arl.lambda.cam/asset/?id=2827',
 	['30'] = 'http://arl.lambda.cam/asset/?id=3165',
 	['48'] = 'http://arl.lambda.cam/asset/?id=3720',
+	['60'] = 'http://arl.lambda.cam/asset/?id=7429',
 }
 
 local ABUSES = {
