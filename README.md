@@ -4,7 +4,7 @@ This is the client source for 2016E (March 16th 2016, at the time of writing thi
 
 If you're daring, try make a mac build, an android build whatever!!
 
-## How do I set this up??
+## How do I set this up?? (for windows)
 
 Alright, first. Grab the Visual Studio 2012 iso (and install VS2012) from [here](https://repo.lambda.cam/en_visual_studio_professional_2012_x86_dvd_2262334.iso), this is my repository site (hoarders dream) so it should be fine!
 It's up to you what Visual Studio version you use, for example I use VS2019!
