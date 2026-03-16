@@ -1412,7 +1412,7 @@ std::auto_ptr<std::istream> DataModel::loadAssetIdIntoStream(int assetID)
 	std::string parameters = "asset/?id=" + boost::lexical_cast<std::string>(assetID);
 	std::string url = ServiceProvider::create<ContentProvider>(this)->getBaseUrl() + parameters;
 
-	StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "DataModel loading from: %s", url.c_str());
+	StandardOut::singleton()->print(RBX::MESSAGE_INFO, "DataModel Loading place");
 
 	return std::auto_ptr<std::istream>(ServiceProvider::create<ContentProvider>(this)->getContent( ContentId(url) ));
 }
@@ -1487,7 +1487,7 @@ void DataModel::loadContent(ContentId contentId)
 		return;
 	}
 
-	StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "DataModel Loading %s", contentId.c_str());
+	StandardOut::singleton()->print(RBX::MESSAGE_INFO, "DataModel Loading place");
 
 	G3D::RealTime t1 = G3D::System::time(); // time in seconds
 	std::auto_ptr<std::istream> stream(ServiceProvider::create<ContentProvider>(this)->getContent(contentId, "Place"));
