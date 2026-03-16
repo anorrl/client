@@ -398,9 +398,9 @@ bool BootstrapperQTStudio::ProcessArg(wchar_t** args, int &pos, int count)
 
 void BootstrapperQTStudio::deleteLegacyShortcuts()
 {
-	Bootstrapper::deleteLegacyShortcuts();
+	/*Bootstrapper::deleteLegacyShortcuts();
 	deleteDesktopShortcut(logger, _T(STUDIOQTLINKNAME2013));
-	deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME2013));
+	deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME2013));*/
 }
 
 bool BootstrapperQTStudio::hasLegacyStudioDesktopShortcut()

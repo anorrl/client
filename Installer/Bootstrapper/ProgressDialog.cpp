@@ -265,6 +265,7 @@ void CProgressDialog::OnCreate(HWND hWnd)
 		24, 242, 452, 20,
 		hWnd, (HMENU)IDC_PROGRESS, GetModuleHandle(NULL), NULL);
 	SendMessage(hWndProgressBar, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
+	//SendMessage(hWndProgressBar, PBM_SETSTATE, PBST_ERROR, 0);
 
 	// set up button, start hidden
 	int bntWidth = 130;

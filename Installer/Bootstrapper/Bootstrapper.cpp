@@ -3290,7 +3290,7 @@ bool Bootstrapper::hasLegacyStudioDesktopShortcut()
 
 void Bootstrapper::deleteLegacyShortcuts()
 {
-    LOG_ENTRY("Bootstrapper::deleteLegacyShortcuts - deleteDesktopShortcut");
+    /*LOG_ENTRY("Bootstrapper::deleteLegacyShortcuts - deleteDesktopShortcut");
 	deleteDesktopShortcut(logger, _T(PLAYERLINKNAMELEGACY));
     deleteDesktopShortcut(logger, _T(STUDIOQTLINKNAME));
     deleteDesktopShortcut(logger, _T(STUDIOQTLINKNAME20));
@@ -3300,7 +3300,7 @@ void Bootstrapper::deleteLegacyShortcuts()
     deleteProgramsShortcut(logger, isPerUser(), _T(PLAYERLINKNAMELEGACY));
     deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME));
     deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME20));
-    deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME20BETA));
+    deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME20BETA));*/
 }
 
 struct HandleInfo

@@ -852,17 +852,6 @@ void BootstrapperClient::deployExtraStudioBootstrapper(std::string exeName, TCHA
         // look in registry for current version
 		getCurrentVersion(logger, isPerUser(), componentId.c_str(), version, sizeof(version)/sizeof(version[0]), url, sizeof(url)/sizeof(url[0]));
 		LOG_ENTRY2("BootstrapperClient::deployExtraStudioBootstrapper - Studio version = %S, url = %S", version, url);
-
-		try 
-		{
-			// delete 2013 shortcut if any
-			deleteDesktopShortcut(logger, _T(STUDIOQTLINKNAME2013));
-			deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME2013));
-		}
-		catch (std::exception& e)
-		{
-			LOG_ENTRY1("BootstrapperClient::deployExtraStudioBootstrapper - failed to delete shortcut: %s", e.what());
-		}
 	
 		bool studioOutOfDate = false;
 
@@ -1028,12 +1017,6 @@ void BootstrapperClient::deployNPRobloxProxy(bool commitData)
 	{
 		return;
 	}
-
-	unregisterFirefoxPlugin(_T(FIREFOXREGKEY), false);
-	unregisterFirefoxPlugin(_T(FIREFOXREGKEY64), true);
-
-	registerFirefoxPlugin(_T(FIREFOXREGKEY), false);
-	registerFirefoxPlugin(_T(FIREFOXREGKEY64), true);
 }
 
 void BootstrapperClient::registerFirefoxPlugin(const TCHAR* id, bool is64Bits)
@@ -1207,9 +1190,6 @@ void BootstrapperClient::DoUninstallApp(CRegKey &hk)
 		{
 			//unregisterFileTypes(ckey);
 			proxyModule.unregisterModule(ckey, isPerUser(), logger);
-
-			unregisterFirefoxPlugin(_T(FIREFOXREGKEY), false);
-			unregisterFirefoxPlugin(_T(FIREFOXREGKEY64), true);
 		}
 
 		// unregister 64 bit proxy module

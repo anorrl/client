@@ -89,6 +89,7 @@
     <IntDir>obj\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>$(CONTRIB_PATH)\boost_1_56_0\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(CONTRIB_PATH)\boost_1_56_0\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(Platform)\$(Configuration)\</OutDir>

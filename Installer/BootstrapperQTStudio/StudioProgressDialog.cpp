@@ -208,7 +208,7 @@ void CStudioProgressDialog::OpenDevelopPage()
 		return;
 
 	std::wstring url = format_string(_T("%S%s"), bs->BaseHost().c_str(), _T("/develop"));
-	if (url.find(_T("www.")) != 0 && url.find(_T("http:")) != 0) 
+	if (url.find(_T("arl.")) != 0 && url.find(_T("http:")) != 0) 
 	{
 		url = format_string(_T("http://%s"), url.c_str());
 	}

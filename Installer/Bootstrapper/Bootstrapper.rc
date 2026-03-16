@@ -125,7 +125,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,6,3,172
+ FILEVERSION 1,6,3,202
  PRODUCTVERSION 1,6,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
@@ -143,7 +143,7 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "GraceRBLX"
             VALUE "FileDescription", "ANORRL"
-            VALUE "FileVersion", "1, 6, 3, 172"
+            VALUE "FileVersion", "1, 6, 3, 202"
             VALUE "LegalCopyright", "(C) 2026 GraceRBLX.  All rights reserved."
             VALUE "OriginalFilename", "Roblox.exe"
             VALUE "ProductName", "ANORRL Bootstrapper"
@@ -186,7 +186,7 @@ BEGIN
     IDS_BASEHOST            "arl.lambda.cam"
     IDS_SUCCESS1            "ANORRL IS SUCCESSFULLY INSTALLED!"
     IDS_SUCCESS2            "Just click the ""Play"" button on any game to join the action!"
-    IDS_STUDIO_SUCCESS1     "ROBLOX STUDIO IS SUCCESSFULLY INSTALLED!"
+    IDS_STUDIO_SUCCESS1     "ANORRL STUDIO IS SUCCESSFULLY INSTALLED!"
     IDS_STUDIO_SUCCESS2     "Click ""Launch Studio"" to make your new game!"
 END
 
