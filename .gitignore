@@ -27,7 +27,7 @@
 *.app
 
 # Visual Studio Junk
-*.vs/
+.vs/
 #*.pdb
 *.tlog
 */bin/*
@@ -35,10 +35,18 @@
 */obj/*
 *.log
 *.exp
-*\Release\*
-*Release*
 Qt/win/Debug/*
 *\Debug\*
 *\NoOpt\*
 /cmake/android-ndk-r10e*
 /cmake/cmake-2.8.12.2-Linux-i386*
+
+# anorrl specific crap FML
+App/*.lib
+App.BulletPhysics/*/*.lib
+App.BulletPhysics/*/obj/*
+Installer/*/obj/*
+Installer/*/*/*/*.lib
+Installer/*/*/*/*.pdb
+*/*/obj/Release/*
+*/*/bin/Release/*
