@@ -719,7 +719,7 @@ end
 			</Properties>
 			<Item class="Animation" referent="RBX0766704DC00944A88D7F0204B7AD2177">
 				<Properties>
-					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=17</url></Content>
+					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=9308</url></Content>
 					<string name="Name">FallAnim</string>
 				</Properties>
 			</Item>
