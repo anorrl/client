@@ -305,7 +305,7 @@ do
 			end
 			value = value + cValue
 		end
-		return value*1200769
+		return value
 	end
 
 	function Util.ComputeChatColor(pName)
@@ -2316,7 +2316,7 @@ local function CreateChat()
 			Size = UDim2.new(0, 128, 0, 32);
 			Position = UDim2.new(0, 88, 0, 0);
 			BackgroundTransparency = 1.0;
-			Image = 'http://www.roblox.com/asset/?id=97078724';
+			Image = 'http://arl.lambda.cam/asset/?id=97078724';
 		};
 	end
 
@@ -2343,7 +2343,7 @@ local function CreateChat()
 			this.ChatWindowWidget:AddSystemChatMessage("/unmute [PlayerName] - Restore in-game communications with Target Player")
 			
 			this.ChatWindowWidget:AddSystemChatMessage("Emotes:")
-			this.ChatWindowWidget:AddSystemChatMessage("wave, point, cheer, laugh, caramelldansen, dwyec, otsukare, unlockit, californiagurls, hakari, torturedancion, mannrobics, minecraft, gangnam, gmod, retro")
+			this.ChatWindowWidget:AddSystemChatMessage("wave, point, cheer, laugh, caramelldansen, dwyec, otsukare, unlockit, californiagurls, hakari, torturedancion, mannrobics, minecraft, gangnam, gmod, retro, jumpstyle, awesomeface, creeper")
 		end
 	end
 

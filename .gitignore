@@ -48,3 +48,6 @@ Installer/*/*/*/*.lib
 Installer/*/*/*/*.pdb
 */*/obj/Release/*
 */*/bin/Release/*
+App/script/LuaGenCS.inl
+*.lastbuildstate
+Rendering/g3d/obj/graphics3D/Release/graphics3D.lastbuildstate
