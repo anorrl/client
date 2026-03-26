@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "winres.h"
+#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -54,14 +54,15 @@ END
 // remains consistent on all systems.
 IDI_WINDOW_ICON         ICON                    "ANORRL.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 22,02,2026,1
- PRODUCTVERSION 22,02,2026,0
+ FILEVERSION 26,3,2026,1
+ PRODUCTVERSION 26,3,2026,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -78,12 +79,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "GraceRBLX"
             VALUE "FileDescription", "ANORRL Game Client"
-            VALUE "FileVersion", "22, 02, 2026, 1"
-            VALUE "InternalName", "RobloxApp.exe"
-            VALUE "LegalCopyright", "© 2013 GraceRBLX.  All rights reserved to Roblox Corporation."
+            VALUE "FileVersion", "26.3.2026.1"
+            VALUE "InternalName", "ANORRLApp.exe"
+            VALUE "LegalCopyright", "© 2026 GraceRBLX.  All rights reserved to Roblox Corporation."
             VALUE "OriginalFilename", "RobloxPlayerBeta.exe"
             VALUE "ProductName", "ANORRL"
-            VALUE "ProductVersion", "22, 02, 2026, 1"
+            VALUE "ProductVersion", "26.3.2026.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -99,6 +100,7 @@ END
 //
 
 IDR_INVISIBLECURSOR     CURSOR                  "InvisibleCursor.cur"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -141,6 +143,7 @@ END
 //
 
 IDR_HTML_CONTACTINGSERVER HTML                    "html_con.htm"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

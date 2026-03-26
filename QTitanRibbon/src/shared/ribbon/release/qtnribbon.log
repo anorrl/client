@@ -92,7 +92,7 @@
   moc_QtnRibbonToolTip.cpp
   qrc_QtnRibbonResources.cpp
   Generating Code...
-C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1137,5): warning MSB8012: TargetPath(C:\Trunk2012\Client\QTitanRibbon\src\shared\ribbon\..\..\..\roblox_build\qtnribbon.dll) does not match the Linker's OutputFile property value (C:\Trunk2012\Client\QTitanRibbon\roblox_build\qtnribbon3.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1137,5): warning MSB8012: TargetPath(D:\Trunk2012\Client\QTitanRibbon\src\shared\ribbon\..\..\..\roblox_build\qtnribbon.dll) does not match the Linker's OutputFile property value (D:\Trunk2012\Client\QTitanRibbon\roblox_build\qtnribbon3.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
 C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1139,5): warning MSB8012: TargetName(qtnribbon) does not match the Linker's OutputFile property value (qtnribbon3). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
      Creating library ..\..\..\roblox_build\\qtnribbon3.lib and object ..\..\..\roblox_build\\qtnribbon3.exp
-  qtnribbon.vcxproj -> C:\Trunk2012\Client\QTitanRibbon\src\shared\ribbon\..\..\..\roblox_build\qtnribbon.dll
+  qtnribbon.vcxproj -> D:\Trunk2012\Client\QTitanRibbon\src\shared\ribbon\..\..\..\roblox_build\qtnribbon.dll
