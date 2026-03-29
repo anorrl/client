@@ -1071,7 +1071,10 @@ void Replicator::updateStatsItem(RBX::Stats::StatsService* stats)
 		if (network)
 		{
 			statsItem = createStatsItem();
-			statsItem->setName(RakNetAddressToString(this->remotePlayerId));
+			if (Player* player = getRemotePlayer())
+				statsItem->setName(player->getName());
+			else
+				statsItem->setName("ServerStatsItem");
 			statsItem->setParent2(network);
 		}
 	}
