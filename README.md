@@ -13,7 +13,7 @@ It's up to you what Visual Studio version you use after, for example I use VS201
 
 Right. At the root of your drive (C:\ for example) create `Trunk2012`. In that folder you clone this repo into it, name it `Client`.
 
-You need the libraries of course! So get them [here](https://setup.lambda.cam/Contribs.7z)! It's about 1GB compressed, 9GB uncompressed. You extract that into `Contribs` in the Trunk2012 folder.
+You need the libraries of course! So get them [here](https://repo.lambda.cam/Contribs.7z)! It's about 1GB compressed, 9GB uncompressed. You extract that into `Contribs` in the Trunk2012 folder.
 
 Create the `Build` folder too, that's where all the building is gonna end up in.
 
