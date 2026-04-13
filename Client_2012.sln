@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36811.4
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rendering", "Rendering", "{6714DD30-5615-4BA1-A24B-41209F8C0349}"
 EndProject
@@ -49,7 +49,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppDraw", "Rendering\AppDra
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Network", "Network\Network.vcxproj", "{9B9EB5C6-15D1-4765-BCC7-8A42F2C9F6CC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RCCService", "RCCService\RCCService.vcxproj", "{6DD8FDCA-DB72-4886-AF4A-4A85611EDF37}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ACCService", "RCCService\RCCService.vcxproj", "{6DD8FDCA-DB72-4886-AF4A-4A85611EDF37}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Base", "Base\Base.vcxproj", "{3025C00A-7746-469B-A279-96127C72ABEE}"
 EndProject
@@ -65,7 +65,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graphics3D", "Rendering\g3d
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RbxTestHooks", "RbxTestHooks\RbxTestHooks.vcxproj", "{CD53D30E-FCA9-4809-B7FF-3DBA2DAD46EB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RobloxStudio", "RobloxStudio\RobloxStudio.vcxproj", "{1A12F1B1-AE89-4549-A46C-2069E95C329D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ANORRLStudio", "RobloxStudio\RobloxStudio.vcxproj", "{1A12F1B1-AE89-4549-A46C-2069E95C329D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9B7CCE5D-2877-4321-8910-3C8E3936F62F} = {9B7CCE5D-2877-4321-8910-3C8E3936F62F}
 		{9C69C586-24E6-3711-AD09-74172A831A91} = {9C69C586-24E6-3711-AD09-74172A831A91}
@@ -74,7 +74,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RobloxStudio", "RobloxStudi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Log", "Log\Log.vcxproj", "{9980F6C3-B64D-4775-8793-BB6DDE31CE82}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowsClient", "WindowsClient\WindowsClient.vcxproj", "{2475DDAB-E4F7-42BE-A5D4-58E2E070A34D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ANORRLClient", "WindowsClient\WindowsClient.vcxproj", "{2475DDAB-E4F7-42BE-A5D4-58E2E070A34D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{857DE167-1ED8-4E4D-955A-5CC5CC3944C1} = {857DE167-1ED8-4E4D-955A-5CC5CC3944C1}
 		{05C08695-1ECA-489C-815D-D74D65F353F0} = {05C08695-1ECA-489C-815D-D74D65F353F0}
@@ -97,9 +97,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreScriptConverter2", "Cor
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "zlib\win\zlib.vcxproj", "{85FF2E31-E863-40CC-B1D6-C6C1875EC5A1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Durango = Debug|Durango
 		Debug|Win32 = Debug|Win32
@@ -1001,15 +1002,11 @@ Global
 		{3A10C3EC-1B27-427E-B955-87EE6B176130} = {6714DD30-5615-4BA1-A24B-41209F8C0349}
 		{9B7CCE5D-2877-4321-8910-3C8E3936F62F} = {6714DD30-5615-4BA1-A24B-41209F8C0349}
 		{85FF2E31-E863-40CC-B1D6-C6C1875EC5A1} = {0E953883-6CEC-4DA1-8DFA-B105167E4256}
-		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {71228DEB-4137-49C3-9F61-340A7EAE2BE7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {732C7791-E72B-4F2C-82E7-B3224FC06D84}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Client5.vsmdi
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

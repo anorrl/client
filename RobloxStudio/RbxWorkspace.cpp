@@ -742,7 +742,7 @@ void RbxWorkspace::UploadVideo(const QString &token, bool doPost, int postSettin
 		int placeId = m_pDataModel->getPlaceID();
 		if (placeId > 0) 
 		{
-			QString str(QString("To play this game, please visit: http://arl.lambda.cam/a-place?id=%1&amp;rbx_source=youtube&amp;rbx_medium=uservideo").arg(placeId));
+			QString str(QString("To play this game, please visit: http://arl.lambda.cam/game/%1?rbx_source=youtube&amp;rbx_medium=uservideo").arg(placeId));
 			videoSEOInfo = str.toStdString();
 		} 
 	}

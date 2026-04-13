@@ -10,6 +10,7 @@
 # Precompiled Headers
 *.gch
 *.pch
+*.ipch
 
 # Fortran module files
 *.mod
@@ -51,3 +52,6 @@ Installer/*/*/*/*.pdb
 App/script/LuaGenCS.inl
 *.lastbuildstate
 Rendering/g3d/obj/graphics3D/Release/graphics3D.lastbuildstate
+QTitanRibbon/roblox_build/*
+*.db
+*.opendb

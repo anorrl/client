@@ -174,7 +174,7 @@ QString RobloxMainWindow::sGeometryKey = "window_geometry";
 	#include "LogManager.h"
 	#include "DumpErrorUploader.h"
 
-	static MainLogManager mainLogManager("RobloxStudio", ".RobloxStudio.dmp", ".RobloxStudio.crashevent");
+	static MainLogManager mainLogManager("ANORRLStudio", ".ANORRLStudio.dmp", ".ANORRLStudio.crashevent");
 	static boost::scoped_ptr<DumpErrorUploader> dumpErrorUploader;
 #endif
 
@@ -233,7 +233,7 @@ RobloxMainWindow::RobloxMainWindow(const QMap<QString, QString> argMap)
 
 			srand(time(NULL)); // call just once or explode or something
 
-			int randSplashNumber = rand()%20;
+			int randSplashNumber = rand()%30;
 			if (randSplashNumber <= 0) {
 				randSplashNumber = 1;
 			}
@@ -1936,7 +1936,7 @@ void RobloxMainWindow::initializeUI()
     // RobloxStudio.css is where we can tweak and tune the look-and-feel
     // of the Studio UI.  All style overrides that are application-wide
     // should be put there.
-    setStyleSheet(QtUtilities::getResourceFileText(":/RobloxStudio.css"));
+    setStyleSheet(QtUtilities::getResourceFileText(":/ANORRLStudio.css"));
     
     // force height so we don't get any resizing when adding and removing controls to the status bar
     statusBar()->setFixedHeight(32);

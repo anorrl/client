@@ -40,7 +40,7 @@
 
 FASTFLAG(GoogleAnalyticsTrackingEnabled)
 FASTFLAGVARIABLE(StudioInSyncWebKitAuthentication, false)
-FASTFLAGVARIABLE(UseAssetGameSubdomainForGetCurrentUser, true)
+FASTFLAGVARIABLE(UseAssetGameSubdomainForGetCurrentUser, false)
 FASTFLAG(UseBuildGenericGameUrl)
 
 

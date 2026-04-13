@@ -13,8 +13,8 @@ namespace RBX {
 static const int SelectionBoxLineThreshold = 1500;  //!< tweakable threshold before boxes switch to lines
 
 bool Draw::m_showHoverOver = true;
-G3D::Color4 Draw::m_hoverOverColor(0.7f,0.9f,1.0f,1.0f);    // 178, 229, 255
-G3D::Color4 Draw::m_selectColor(0.1f,0.6f,1.0f,1.0f);       //  25, 153, 256
+G3D::Color4 Draw::m_hoverOverColor(0.8549019607843137f, 0.5607843137254902f, 1.0f,1.0f);    // 178, 229, 255
+G3D::Color4 Draw::m_selectColor(0.6196078431372549f, 0.0784313725490196f, 0.8313725490196078f,1.0f);       //  25, 153, 256
 
 void Draw::partAdorn(
 	const Part&					part, 

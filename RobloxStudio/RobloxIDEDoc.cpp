@@ -647,7 +647,7 @@ bool RobloxIDEDoc::openStream(const QString& fileName, std::istream* stream, boo
 		createOptionalDMServices();
 
         // Stage 1 - initialize widgets/graphics/view
-        UpdateUIManager::Instance().updateProgress(progressBar,1);
+        UpdateUIManager::Instance().updateProgress(progressBar, 1);
 
 		// TODO - when opening up a place from the website, get the real place name for
 		//  the display name

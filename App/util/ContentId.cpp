@@ -209,7 +209,7 @@ namespace RBX
                         if (baseUrlParsed.isSubdomainOf(testsite_domain)
                             && !parsed.isSubdomainOf(testsite_domain))
                         {
-                            host = "assetgame.lambda.cam";
+                            host = "arl.lambda.cam";
                         }
                         else
                         {
@@ -218,7 +218,7 @@ namespace RBX
                             
                             if (boost::starts_with(host, "arl."))
                             {
-                                host.replace(0, 3, "assetgame");
+                                host.replace(0, 3, "arl");
                             }
                         }
 

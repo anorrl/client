@@ -74,11 +74,11 @@ DYNAMIC_FASTFLAG(RCCSupportCloudEdit)
 
 DYNAMIC_LOGGROUP(WebChatFiltering)
 
-DYNAMIC_FASTFLAGVARIABLE(GetCharacterAppearanceEnabled, false)
+DYNAMIC_FASTFLAGVARIABLE(GetCharacterAppearanceEnabled, true)
 
 DYNAMIC_FASTFLAGVARIABLE(CreatePlayerGuiLocal, false)
 
-DYNAMIC_FASTFLAGVARIABLE(FirePlayerAddedAndPlayerRemovingOnClient, false)
+DYNAMIC_FASTFLAGVARIABLE(FirePlayerAddedAndPlayerRemovingOnClient, true)
 
 FASTSTRINGVARIABLE(GetUserIdUrl, "users/get-by-username?username=%s")
 FASTSTRINGVARIABLE(GetUserNameUrl, "users/%i")
