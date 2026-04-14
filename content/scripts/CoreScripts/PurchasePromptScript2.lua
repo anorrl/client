@@ -16,7 +16,7 @@ local UserInputService = game:GetService('UserInputService')
 local RunService = game:GetService("RunService")
 
 --[[ Script Variables ]]--
-local RobloxGui = script.Parent
+local RobloxGui = script.ParentF
 local ThirdPartyProductName = nil
 
 --[[ Flags ]]--
@@ -665,7 +665,7 @@ local function getRobuxProductToBuyItem(amountNeeded)
 		if isBCMember then
 			appendStr = "bc"
 		end
-		appPrefix = "com.roblox.client."
+		appPrefix = "com.anorrl.client."
 	elseif platform == Enum.Platform.XBoxOne then
 		local platformCatalogData = require(RobloxGui.Modules.PlatformCatalogData)
 
@@ -679,7 +679,7 @@ local function getRobuxProductToBuyItem(amountNeeded)
 		end
 	else -- used by iOS
 		appendStr = isBCMember and "RobuxBC" or "RobuxNonBC"
-		appPrefix = "com.roblox.robloxmobile."
+		appPrefix = "com.anorrl.anorrlmobile."
 	end
 
 	local productStr = appPrefix..prependStr..tostring(productCost)..appendStr
@@ -702,7 +702,7 @@ local function setBuyMoreRobuxDialog(playerBalance)
 		ThirdPartyProductName, productCost = getRobuxProductToBuyItem(neededRobux)
 		--
 		if not ThirdPartyProductName then
-			descriptionText = "This item cost more ROBUX than you can purchase. Please visit www.roblox.com to purchase more ROBUX."
+			descriptionText = "This item cost more ROBUX than you can purchase. Please visit the site to purchase more ROBUX!"
 			purchaseState = PURCHASE_STATE.FAILED
 			setButtonsVisible(OkButton)
 		else
@@ -754,17 +754,17 @@ local function onPurchaseFailed(failType)
 		failedText = "This item is not currently for sale. Your account has not been charged."
 		setPreviewImage(PurchaseData.ProductInfo, PurchaseData.AssetId)
 	elseif failType == PURCHASE_FAILED.NOT_ENOUGH_TIX then
-		failedText = "This item cost more tickets than you currently have. Try trading currency on www.roblox.com to get more tickets."
+		failedText = "This item cost more tickets than you currently have. Try trading currency on the site to get more tickets."
 		setPreviewImage(PurchaseData.ProductInfo, PurchaseData.AssetId)
 	elseif failType == PURCHASE_FAILED.UNDER_13 then
 		failedText = "Your account is under 13. Purchase of this item is not allowed. Your account has not been charged."
 	elseif failType == PURCHASE_FAILED.LIMITED then
-		failedText = "This limited item has no more copies. Try buying from another user on www.roblox.com. Your account has not been charged."
+		failedText = "This limited item has no more copies. Try buying from another user on the site. Your account has not been charged."
 		setPreviewImage(PurchaseData.ProductInfo, PurchaseData.AssetId)
 	elseif failType == PURCHASE_FAILED.DID_NOT_BUY_ROBUX then
 		failedText = string.gsub(failedText, "errorReason", ERROR_MSG.INVALID_FUNDS)
 	elseif failType == PURCHASE_FAILED.PROMPT_PURCHASE_ON_GUEST then
-		failedText = "You need to create a ANORRL account to buy items, visit www.roblox.com for more info."
+		failedText = "You need to create a ANORRL account to buy items, visit the site for more info."
 	elseif failType == PURCHASE_FAILED.THIRD_PARTY_DISABLED then
 		failedText = "Third-party item sales have been disabled for this place. Your account has not been charged."
 		setPreviewImage(PurchaseData.ProductInfo, PurchaseData.AssetId)
@@ -1052,8 +1052,8 @@ local function canPurchase(disableUpsell)
 		-- most places will not need to sell third party assets.
 		if areThirdPartySalesRestricted() and not game:GetService("Workspace").AllowThirdPartySales then
 			local ProductCreator = tonumber(PurchaseData.ProductInfo["Creator"]["Id"])
-			local RobloxCreator = 1
-			if ProductCreator ~= game.CreatorId and ProductCreator ~= RobloxCreator then
+			local ANORRLCreator = 1
+			if ProductCreator ~= game.CreatorId and ProductCreator ~= ANORRLCreator then
 				isRestrictedThirdParty = true
 			end
 		end
