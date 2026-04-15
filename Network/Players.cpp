@@ -208,7 +208,7 @@ Players::Players()
 	,maxPlayers(12)
 	,sysStatsUrl("")
 	,players(Instances()) // Initialize to a non-NULL value
-	,chatOption(CLASSIC_CHAT)
+	,chatOption(CLASSIC_AND_BUBBLE_CHAT)
 	,characterAutoSpawn(true)
 	,testPlayerNameId(0)
 	,testPlayerUserId(0)
