@@ -212,6 +212,8 @@ Players::Players()
 	,characterAutoSpawn(true)
 	,testPlayerNameId(0)
 	,testPlayerUserId(0)
+	,emoteSoundsEnabled(true)
+	,arbysChickenEnabled(true)
 {
 	this->setName("Players");
 }
