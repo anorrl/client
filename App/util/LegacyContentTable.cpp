@@ -394,8 +394,8 @@ namespace RBX
 
 		//AddEntry("rbxasset://fonts/humanoidStatic.rbxm",			  "12221500");
 		//AddEntry("rbxasset://fonts/humanoidSound.rbxm",				  "12221490");*/
-		AddEntry("rbxasset://fonts/humanoidHealth.rbxm",		      "38037265");
-		AddEntry("rbxasset://fonts/humanoidHealthRegenScript.rbxm",		      "11911558");
+		//AddEntry("rbxasset://fonts/humanoidHealth.rbxm",		      "38037265");
+		//AddEntry("rbxasset://fonts/humanoidHealthRegenScript.rbxm",		      "11911558");
 		//AddEntry("rbxasset://fonts/humanoidExtra.rbxm",				  "12221478");
 		//AddEntry("rbxasset://fonts/humanoidAnimateLocalKeyframe2.rbxm",			  "5659");
 		/*//AddEntry("rbxasset://fonts/character.rbxm",					  "12221333");
