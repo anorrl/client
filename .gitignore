@@ -51,7 +51,8 @@ Installer/*/*/*/*.pdb
 */*/bin/Release/*
 App/script/LuaGenCS.inl
 *.lastbuildstate
-Rendering/g3d/obj/graphics3D/Release/graphics3D.lastbuildstate
+graphics3D.lastbuildstate
+Rendering\g3d\obj\graphics3D\Release\graphics3D.lastbuildstate
 QTitanRibbon/roblox_build/*
 *.db
 *.opendb

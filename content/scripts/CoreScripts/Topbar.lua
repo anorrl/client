@@ -1120,6 +1120,95 @@ local function CreateBackpackIcon()
 	return CreateMenuItem(backpackIconButton)
 end
 --------------
+--- EMOTES ---
+local function CreateEmotesIcon()
+	local MenuModule = nil
+	game.CoreGui.RobloxGui.Modules:WaitForChild("Emotes")
+	MenuModule = require(game.CoreGui.RobloxGui.Modules.Emotes)
+	local emotesActive = false
+
+	local emotesIconButton = Util.Create'ImageButton'
+	{
+		Name = "Emotes";
+		Size = UDim2.new(0, 50, 0, TOPBAR_THICKNESS);
+		Image = "";
+		AutoButtonColor = false;
+		BackgroundTransparency = 1;
+	}
+	
+	local function getPath(down)
+		local add = ""
+		if down then
+			add = "Down"
+		end
+		
+		if GameSettings:IsAeroEnabled() then
+			return "rbxasset://textures/ui/aero/Emotes/EmotesIcon"..add..".png"
+		else
+			return "rbxasset://textures/ui/boring/Emotes/EmotesIcon"..add..".png"
+		end
+	end
+
+
+	local emotesIconImage = Util.Create'ImageLabel'
+	{
+		Name = "EmotesIcon";
+		Size = UDim2.new(0, 22, 0, 25);
+		Position = UDim2.new(0.5, -16, 0.5, -12);
+		BackgroundTransparency = 1;
+		Image = getPath();
+		Parent = emotesIconButton;
+	};
+
+	local function UpdateEmotesIcon()
+		emotesIconImage.Image = getPath(emotesActive)
+		if emotesActive and GameSettings:IsAeroEnabled() then
+			emotesIconImage:TweenSizeAndPosition(UDim2.new(0, 23.5, 0, 26.5), UDim2.new(0.5, -17.5, 0.5, -13), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+		else
+			emotesIconImage:TweenSizeAndPosition(UDim2.new(0, 22, 0, 25), UDim2.new(0.5, -16, 0.5, -12), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+		end
+	end
+
+	local function toggleSettings()
+		if emotesActive == false then
+			emotesActive = true
+		else
+			emotesActive = false
+		end
+
+		MenuModule:ToggleVisibility(emotesActive)
+		UpdateEmotesIcon()
+
+		return emotesActive
+	end
+
+	emotesIconButton.MouseButton1Click:connect(function() toggleSettings() end)
+
+	MenuModule.VisibilityStateChanged:connect(function(active)
+		emotesActive = active
+		UpdateEmotesIcon()
+	end)
+	
+	emotesIconButton.MouseEnter:connect(function()
+		if GameSettings:IsAeroEnabled() then
+			emotesIconImage:TweenSizeAndPosition(UDim2.new(0, 23.5, 0, 26.5), UDim2.new(0.5, -17.5, 0.5, -13), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+		end
+	end)
+	
+	emotesIconButton.MouseLeave:connect(function()
+		if MenuModule:GetVisibility() and GameSettings:IsAeroEnabled() then
+			return
+		end
+		emotesIconImage:TweenSizeAndPosition(UDim2.new(0, 22, 0, 25), UDim2.new(0.5, -16, 0.5, -12), Enum.EasingDirection.InOut, Enum.EasingStyle.Quart, 0.15, true)
+	end)
+
+	GameSettings.AeroChanged:connect(function(active)
+		UpdateEmotesIcon()
+	end)
+
+	return CreateMenuItem(emotesIconButton)
+end
+------------
 
 ----- Stop Recording --
 local function CreateStopRecordIcon()
@@ -1191,6 +1280,7 @@ local settingsIcon = nil
 local chatIcon = nil
 local mobileShowChatIcon = nil
 local backpackIcon = nil
+local emotesIcon = nil
 local shiftlockIcon = nil
 local nameAndHealthMenuItem = nil
 local leaderstatsMenuItem = nil
@@ -1205,6 +1295,7 @@ settingsIcon = CreateSettingsIcon(TopBar)
 chatIcon = CreateChatIcon()
 mobileShowChatIcon = Util.IsTouchDevice() and CreateMobileHideChatIcon()
 backpackIcon = CreateBackpackIcon()
+emotesIcon = CreateEmotesIcon()
 shiftlockIcon = nil --CreateShiftLockIcon()
 nameAndHealthMenuItem = CreateUsernameHealthMenuItem()
 leaderstatsMenuItem = CreateLeaderstatsMenuItem()
@@ -1240,10 +1331,13 @@ end
 if backpackIcon then
 	LEFT_ITEM_ORDER[backpackIcon] = 4
 end
-if shiftlockIcon then
-	LEFT_ITEM_ORDER[shiftlockIcon] = 5
+if emotesIcon then
+	LEFT_ITEM_ORDER[emotesIcon] = 5
 end
-LEFT_ITEM_ORDER[stopRecordingIcon] = 6
+if shiftlockIcon then
+	LEFT_ITEM_ORDER[shiftlockIcon] = 6
+end
+LEFT_ITEM_ORDER[stopRecordingIcon] = 7
 
 RIGHT_ITEM_ORDER = {}
 if leaderstatsMenuItem then
@@ -1285,6 +1379,15 @@ local function OnCoreGuiChanged(coreGuiType, enabled)
 				AddItemInOrder(LeftMenubar, backpackIcon, LEFT_ITEM_ORDER)
 			else
 				LeftMenubar:RemoveItem(backpackIcon)
+			end
+		end
+	end
+	if coreGuiType == Enum.CoreGuiType.Emotes or coreGuiType == Enum.CoreGuiType.All then
+		if emotesIcon then
+			if enabled then
+				AddItemInOrder(LeftMenubar, emotesIcon, LEFT_ITEM_ORDER)
+			else
+				LeftMenubar:RemoveItem(emotesIcon)
 			end
 		end
 	end

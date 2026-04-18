@@ -144,7 +144,8 @@ namespace RBX {
 			COREGUI_HEALTHGUI		= 1,
 			COREGUI_BACKPACKGUI		= 2,
 			COREGUI_CHATGUI			= 3,
-			COREGUI_ALL				= 4 // this should ALWAYS be at the end! (make sure this is highest number)
+			COREGUI_EMOTES			= 4,
+			COREGUI_ALL				= 5 // this should ALWAYS be at the end! (make sure this is highest number)
 		};
 
 	private:

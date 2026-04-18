@@ -710,6 +710,7 @@ namespace Reflection
 		addPair(StarterGuiService::COREGUI_HEALTHGUI, "Health");
 		addPair(StarterGuiService::COREGUI_BACKPACKGUI, "Backpack");
 		addPair(StarterGuiService::COREGUI_CHATGUI, "Chat");
+		addPair(StarterGuiService::COREGUI_EMOTES, "Emotes");
 		addPair(StarterGuiService::COREGUI_ALL, "All");
 	}
 

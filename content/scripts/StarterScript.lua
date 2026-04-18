@@ -33,6 +33,7 @@ scriptContext:AddCoreScriptLocal("CoreScripts/NotificationScript2", RobloxGui)
 -- Chat script
 if useTopBar then
 	spawn(function() require(RobloxGui.Modules.Chat) end)
+	spawn(function() require(RobloxGui.Modules.Emotes) end)
 	spawn(function() require(RobloxGui.Modules.PlayerlistModule) end)
 end
 
