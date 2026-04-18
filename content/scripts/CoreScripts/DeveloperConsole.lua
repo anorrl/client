@@ -317,7 +317,7 @@ function initializeDeveloperConsole()
 		Position = UDim2.new(0, 0, 0.5, -8);
 		Rotation = 180;
 		Size = UDim2.new(1, 0, 0, 16);
-		Image = "rbxassetid://151205881";
+		Image = "rbxasset://textures/devconsole/legacy/handle.png";
 	}
 
 	local Dev_DownButton = Create'ImageButton'{
@@ -337,7 +337,7 @@ function initializeDeveloperConsole()
 		Position = UDim2.new(0, 3, 0, 3);
 		Size = UDim2.new(0, 14, 0, 14);
 		Rotation = 180;
-		Image = "rbxassetid://151205813";
+		Image = "rbxasset://textures/devconsole/legacy/down.png";
 	}
 
 	local Dev_UpButton = Create'ImageButton'{
@@ -355,7 +355,7 @@ function initializeDeveloperConsole()
 		BackgroundTransparency = 1;
 		Position = UDim2.new(0, 3, 0, 3);
 		Size = UDim2.new(0, 14, 0, 14);
-		Image = "rbxassetid://151205813";
+		Image = "rbxasset://textures/devconsole/legacy/down.png";
 	}
 	
 	local flagExists, flagValue = pcall(function () return settings():GetFFlag("ConsoleCodeExecutionEnabled") end)
@@ -405,7 +405,7 @@ function initializeDeveloperConsole()
 		Position = UDim2.new(0, 0, 0, 0);
 		Size = UDim2.new(1, 0, 1, 0);
 		Rotation = 0;
-		Image = "rbxassetid://152093917";
+		Image = "rbxasset://textures/devconsole/legacy/options.png";
 	}
 	
 	local Dev_CommandBar = Create'Frame'{
@@ -480,7 +480,7 @@ function initializeDeveloperConsole()
 		Position = UDim2.new(0, 6, 0, 6);
 		Size = UDim2.new(0.8, 0, 0.8, 0);
 		Rotation = 135;
-		Image = "rbxassetid://151205813";
+		Image = "rbxasset://textures/devconsole/legacy/down.png";
 	}
 
 	Create'TextButton'{
@@ -549,7 +549,7 @@ function initializeDeveloperConsole()
 		BackgroundTransparency = 1;
 		Position = UDim2.new(0, 3, 0, 3);
 		Size = UDim2.new(0, 14, 0, 14);
-		Image = "rbxassetid://151205852";
+		Image = "rbxasset://textures/devconsole/legacy/close.png";
 	}
 
 	Create'TextButton'{

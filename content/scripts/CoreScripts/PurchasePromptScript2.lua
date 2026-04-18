@@ -16,7 +16,7 @@ local UserInputService = game:GetService('UserInputService')
 local RunService = game:GetService("RunService")
 
 --[[ Script Variables ]]--
-local RobloxGui = script.ParentF
+local RobloxGui = script.Parent
 local ThirdPartyProductName = nil
 
 --[[ Flags ]]--

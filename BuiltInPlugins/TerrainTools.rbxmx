@@ -65,7 +65,7 @@ local plugins = {
 		button = utilityModule:GetUsingAsPlugin() and buttonCreator:CreateButton(
 			'Generate',									--button title
 			'Generate landscapes of terrain.',			--hover text
-			'http://www.roblox.com/asset/?id=236006872'	--button image
+			'rbxasset://textures/terrain/generate.png'	--button image
 		),
 		studioOnly = true,
 	},
@@ -73,7 +73,7 @@ local plugins = {
 		button = buttonCreator:CreateButton(
 			'Add',
 			'Click and hold to add terrain.',
-			'http://www.roblox.com/asset/?id=225328572'
+			'rbxasset://textures/terrain/add.png'
 		),
 		usesMaterials = true,
 	},
@@ -81,14 +81,14 @@ local plugins = {
 		button = buttonCreator:CreateButton(
 			'Subtract',
 			'Click and hold to remove terrain.',
-			'http://www.roblox.com/asset/?id=225328818'
+			'rbxasset://textures/terrain/generate.png'
 		),
 	},
 	{name = 'Paint',
 		button = buttonCreator:CreateButton(
 			'Paint',
 			'Paint the material of the terrain.',
-			'http://www.roblox.com/asset/?id=225328954'
+			'rbxasset://textures/terrain/paint.png'
 		),
 		usesMaterials = true,
 	},
@@ -96,7 +96,7 @@ local plugins = {
 		button = buttonCreator:CreateButton(
 			'Grow',
 			'Click and hold to grow and expand terrain.',
-			'http://www.roblox.com/asset/?id=225329153'
+			'rbxasset://textures/terrain/grow.png'
 		),
 		usesMaterials = true,
 	},
@@ -104,21 +104,21 @@ local plugins = {
 		button = buttonCreator:CreateButton(
 			'Erode',
 			'Click and hold to erode and remove terrain.',
-			'http://www.roblox.com/asset/?id=225329301'
+			'rbxasset://textures/terrain/erode.png'
 		),
 	},
 	{name = 'Smooth',
 		button = buttonCreator:CreateButton(
 			'Smooth',
 			'Brush to smooth out rough or jagged terrain.',
-			'http://www.roblox.com/asset/?id=225329641'
+			'rbxasset://textures/terrain/smooth.png'
 		),
 	},
 	{name = 'Region Editor',
 		button = buttonCreator:CreateButton(
 			'Regions',
 			'Manipulate regions of smooth terrain.',
-			'http://www.roblox.com/asset/?id=240631063'
+			'rbxasset://textures/terrain/smooth.png'
 		),
 	},
 }
@@ -178,14 +178,14 @@ function FirstTimeSetUp()
 		['Sphere'] = {
 			name = 'Sphere',
 			button = guiFrame:WaitForChild('ShapeButton1'),
-			image = 'http://www.roblox.com/asset/?id=225799533',
-			selectedImage = 'http://www.roblox.com/asset/?id=225801914',
+			image = 'rbxassetid://225799533',
+			selectedImage = 'rbxassetid://225801914',
 		},
 		['Box'] = {
 			name = 'Box',
 			button = guiFrame:WaitForChild('ShapeButton2'),
-			image = 'http://www.roblox.com/asset/?id=225799696',
-			selectedImage = 'http://www.roblox.com/asset/?id=225802254',
+			image = 'rbxassetid://225799696',
+			selectedImage = 'rbxassetid://225802254',
 		},
 	}
 	----------------
@@ -1309,7 +1309,7 @@ local currentTool = 'Create'
 regionEditButton = toolBar:CreateButton(
 	'Region Edit',	--button title
 	'Manipulate regions of smoothterrain.',	--hover text
-	'http://www.roblox.com/asset/?id=180084957'	--icon
+	'rbxassetid://180084957'	--icon
 )
 regionEditButton.Click:connect(function()
 	if not on then
@@ -3458,21 +3458,21 @@ return initialiseUtility]]></ProtectedString>
 
 
 local materialsTable = {	--Interface order is defined by order here
-	{enum = Enum.Material.Grass, image = 'http://www.roblox.com/asset/?id=225314676'},
-	{enum = Enum.Material.Sand, image = 'http://www.roblox.com/asset/?id=225315607'},
-	{enum = Enum.Material.Rock, image = 'http://www.roblox.com/asset/?id=225315178'},
-	{enum = Enum.Material.Water, image = 'http://www.roblox.com/asset/?id=225315529', forceIgnoreWater = true, forceIgnoreWaterTo = false},
-	{enum = Enum.Material.Ground, image = 'http://www.roblox.com/asset/?id=254542189'},
-	{enum = Enum.Material.Sandstone, image = 'http://www.roblox.com/asset/?id=254541350'},
-	{enum = Enum.Material.Slate, image = 'http://www.roblox.com/asset/?id=225315290'},
-	{enum = Enum.Material.Snow, image = 'http://www.roblox.com/asset/?id=254541898'},
-	{enum = Enum.Material.Mud, image = 'http://www.roblox.com/asset/?id=254541862'},
-	{enum = Enum.Material.Brick, image = 'http://www.roblox.com/asset/?id=225315419', forceSnapToGrid = true},
-	{enum = Enum.Material.Concrete, image = 'http://www.roblox.com/asset/?id=225314983'},
-	{enum = Enum.Material.Glacier, image = 'http://www.roblox.com/asset/?id=254541572'},
-	{enum = Enum.Material.WoodPlanks, image = 'http://www.roblox.com/asset/?id=225315705', forceSnapToGrid = true},
-	{enum = Enum.Material.CrackedLava, image = 'http://www.roblox.com/asset/?id=254541726'},
-	{enum = Enum.Material.Basalt, image = 'http://www.roblox.com/asset/?id=254542066'},
+	{enum = Enum.Material.Grass, image = 'rbxassetid://225314676'},
+	{enum = Enum.Material.Sand, image = 'rbxassetid://225315607'},
+	{enum = Enum.Material.Rock, image = 'rbxassetid://225315178'},
+	{enum = Enum.Material.Water, image = 'rbxassetid://225315529', forceIgnoreWater = true, forceIgnoreWaterTo = false},
+	{enum = Enum.Material.Ground, image = 'rbxassetid://254542189'},
+	{enum = Enum.Material.Sandstone, image = 'rbxassetid://254541350'},
+	{enum = Enum.Material.Slate, image = 'rbxassetid://225315290'},
+	{enum = Enum.Material.Snow, image = 'rbxassetid://254541898'},
+	{enum = Enum.Material.Mud, image = 'rbxassetid://254541862'},
+	{enum = Enum.Material.Brick, image = 'rbxassetid://225315419', forceSnapToGrid = true},
+	{enum = Enum.Material.Concrete, image = 'rbxassetid://225314983'},
+	{enum = Enum.Material.Glacier, image = 'rbxassetid://254541572'},
+	{enum = Enum.Material.WoodPlanks, image = 'rbxassetid://225315705', forceSnapToGrid = true},
+	{enum = Enum.Material.CrackedLava, image = 'rbxassetid://254541726'},
+	{enum = Enum.Material.Basalt, image = 'rbxassetid://254542066'},
 }
 
 return materialsTable
@@ -3897,7 +3897,7 @@ return materialsTable
 						<int name="BorderSizePixel">0</int>
 						<bool name="ClipsDescendants">false</bool>
 						<bool name="Draggable">false</bool>
-						<Content name="Image"><url>http://www.roblox.com/asset/?id=225799533</url></Content>
+						<Content name="Image"><url>rbxassetid://225799533</url></Content>
 						<Color3 name="ImageColor3">4294967295</Color3>
 						<Vector2 name="ImageRectOffset">
 							<X>0</X>
@@ -3957,7 +3957,7 @@ return materialsTable
 						<int name="BorderSizePixel">0</int>
 						<bool name="ClipsDescendants">false</bool>
 						<bool name="Draggable">false</bool>
-						<Content name="Image"><url>http://www.roblox.com/asset/?id=225799696</url></Content>
+						<Content name="Image"><url>rbxassetid://225799696</url></Content>
 						<Color3 name="ImageColor3">4294967295</Color3>
 						<Vector2 name="ImageRectOffset">
 							<X>0</X>

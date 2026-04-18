@@ -13,6 +13,9 @@ local StarterGui = game:GetService('StarterGui')
 local HttpService = game:GetService('HttpService')
 local HttpRbxApiService = game:GetService('HttpRbxApiService')
 
+local Settings = UserSettings()
+local GameSettings = Settings.GameSettings
+
 --[[ SCRIPT VARIABLES ]]
 
 while PlayersService.LocalPlayer == nil do PlayersService.ChildAdded:wait() end
