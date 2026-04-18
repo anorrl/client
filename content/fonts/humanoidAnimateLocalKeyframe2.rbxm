@@ -388,7 +388,7 @@ end
 playEmoteEvent = Figure:FindFirstChild("PlayEmote")
 
 function keyFrameReachedEmoteFunc(frameName)
-    if (frameName == "End") then
+	if (frameName == "End") then
 
         local repeatAnim = currentAnim
 

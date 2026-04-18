@@ -4,7 +4,7 @@
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
 
-#define VER_FILEVERSION             18,04,2026,1
+#define VER_FILEVERSION             18,04,2026,2
 #define VER_FILEVERSION_STR         TOSTRING(VER_FILEVERSION)
 
 #define VER_PRODUCTVERSION          18,04,2026,0

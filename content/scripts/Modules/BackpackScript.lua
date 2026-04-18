@@ -22,7 +22,7 @@ local BACKGROUND_FADE = 0.50
 local BACKGROUND_COLOR = Color3.new(31/255, 31/255, 31/255)
 
 local SLOT_DRAGGABLE_COLOR = Color3.new(49/255, 49/255, 49/255)
-local SLOT_EQUIP_COLOR = Color3.new(90/255, 142/255, 233/255)
+local SLOT_EQUIP_COLOR = Color3.new(142/255, 90/255, 233/255)
 local SLOT_EQUIP_THICKNESS = 0.1 -- Relative
 local SLOT_FADE_LOCKED = 0.50 -- Locked means undraggable
 local SLOT_BORDER_COLOR = Color3.new(1, 1, 1) -- Appears when dragging

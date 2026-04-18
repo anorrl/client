@@ -182,7 +182,7 @@ local function CreateEmotes()
 			end)
 			
 			emoteFrame.MouseEnter:connect(function()
-				emoteFrame.Image = "rbxasset://textures/ui/Emotes/EmoteIconDown.png"
+				emoteFrame.Image = "rbxasset://textures/ui/Emotes/EmoteIconHover.png"
 			end)
 			
 			emoteFrame.MouseLeave:connect(function()
