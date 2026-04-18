@@ -181,7 +181,7 @@ local function CreateEmotes()
 				this.EmoteNameLabel.Text = v.name
 			end)
 			
-			emoteFrame.MouseEntered:connect(function()
+			emoteFrame.MouseEnter:connect(function()
 				emoteFrame.Image = "rbxasset://textures/ui/Emotes/EmoteIconDown.png"
 			end)
 			
