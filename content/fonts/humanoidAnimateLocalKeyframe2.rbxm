@@ -31,103 +31,136 @@ local currentAnimTrack = nil
 local currentAnimKeyframeHandler = nil
 local currentAnimSpeed = 1.0
 local animTable = {}
-local animNames = {
-	idle = 	{
-				{ id = "http://arl.lambda.cam/asset/?id=12", weight = 9 },
-				{ id = "http://arl.lambda.cam/asset/?id=13", weight = 1 }
-			},
-	walk = 	{
-				{ id = "http://arl.lambda.cam/asset/?id=15", weight = 10 }
-			},
+local animNames = { 
+	idle = 	{	
+		{ id = "http://arl.lambda.cam/asset/?id=12", weight = 9, speed = 1.0 },
+		{ id = "http://arl.lambda.cam/asset/?id=13", weight = 1, speed = 1.0 }
+	},
+	walk = 	{ 	
+		{ id = "http://arl.lambda.cam/asset/?id=15", weight = 10, speed = 1.0 }
+	}, 
 	run = 	{
-				{ id = "run.xml", weight = 10 }
-			},
+		{ id = "run.xml", weight = 10, speed = 1.0 }
+	}, 
 	jump = 	{
-				{ id = "http://arl.lambda.cam/asset/?id=125750702", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=125750702", weight = 10, speed = 1.0 }
+	}, 
 	fall = 	{
-				{ id = "http://arl.lambda.cam/asset/?id=180436148", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=180436148", weight = 10, speed = 1.0 }
+	}, 
 	climb = {
-				{ id = "http://arl.lambda.cam/asset/?id=180436334", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=180436334", weight = 10, speed = 1.0 }
+	}, 
 	sit = 	{
-				{ id = "http://arl.lambda.cam/asset/?id=178130996", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=178130996", weight = 10, speed = 1.0 }
+	},	
 	toolnone = {
-				{ id = "http://arl.lambda.cam/asset/?id=182393478", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=182393478", weight = 10, speed = 1.0 }
+	},
 	toolslash = {
-				{ id = "http://arl.lambda.cam/asset/?id=129967390", weight = 10 }
---				{ id = "slash.xml", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=129967390", weight = 10, speed = 1.0 }
+--		{ id = "slash.xml", weight = 10, speed = 1.0 }
+	},
 	toollunge = {
-				{ id = "http://arl.lambda.cam/asset/?id=129967478", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=129967478", weight = 10, speed = 1.0 }
+	},
 	wave = {
-				{ id = "http://arl.lambda.cam/asset/?id=227", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=34", weight = 10, speed = 1.0 }
+	},
 	point = {
-				{ id = "http://arl.lambda.cam/asset/?id=228", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=35", weight = 10, speed = 1.0 }
+	},
 	dance1 = {
-				{ id = "http://arl.lambda.cam/asset/?id=232", weight = 10 },
-				{ id = "http://arl.lambda.cam/asset/?id=233", weight = 10 },
-				{ id = "http://arl.lambda.cam/asset/?id=233", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=38", weight = 10 }, 
+		{ id = "http://arl.lambda.cam/asset/?id=39", weight = 10 }, 
+		{ id = "http://arl.lambda.cam/asset/?id=40", weight = 10, speed = 1.0 }
+	},
 	dance2 = {
-				{ id = "http://arl.lambda.cam/asset/?id=236", weight = 10 },
-				{ id = "http://arl.lambda.cam/asset/?id=237", weight = 10 },
-				{ id = "http://arl.lambda.cam/asset/?id=237", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=41", weight = 10 }, 
+		{ id = "http://arl.lambda.cam/asset/?id=42", weight = 10 }, 
+		{ id = "http://arl.lambda.cam/asset/?id=43", weight = 10, speed = 1.0 }
+	},
 	dance3 = {
-				{ id = "http://arl.lambda.cam/asset/?id=238", weight = 10 },
-				{ id = "http://arl.lambda.cam/asset/?id=239", weight = 10 },
-				{ id = "http://arl.lambda.cam/asset/?id=239", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=44", weight = 10 }, 
+		{ id = "http://arl.lambda.cam/asset/?id=45", weight = 10 }, 
+		{ id = "http://arl.lambda.cam/asset/?id=46", weight = 10, speed = 1.0 }
+	},
 	laugh = {
-				{ id = "http://arl.lambda.cam/asset/?id=229", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=36", weight = 10, speed = 1.0 }
+	},
 	cheer = {
-				{ id = "http://arl.lambda.cam/asset/?id=230", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=37", weight = 10, speed = 1.0 }
+	},
 	otsukare = {
-				{ id = "http://arl.lambda.cam/asset/?id=240", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=57", weight = 10, speed = 1.0 }
+	},
 	caramelldansen = {
-				{ id = "http://arl.lambda.cam/asset/?id=241", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=58", weight = 10, speed = 1.0 }
+	},
 	dwyec = {
-				{ id = "http://arl.lambda.cam/asset/?id=242", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=61", weight = 10, speed = 1.0 }
+	},
 	unlockit = {
-				{ id = "http://arl.lambda.cam/asset/?id=243", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=62", weight = 10, speed = 1.0 }
+	},
 	californiagurls = {
-				{ id = "http://arl.lambda.cam/asset/?id=273", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=64", weight = 10, speed = 1.0 }
+	},
 	awakening = {
-				{ id = "http://arl.lambda.cam/asset/?id=274", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=65", weight = 10, speed = 1.0 }
+	},
 	hakari = {
-				{ id = "http://arl.lambda.cam/asset/?id=275", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=67", weight = 10, speed = 1.0 }
+	},
 	torturedancion = {
-				{ id = "http://arl.lambda.cam/asset/?id=276", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=71", weight = 10, speed = 1.0 }
+	},
 	mannrobics = {
-				{ id = "http://arl.lambda.cam/asset/?id=277", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=72", weight = 10, speed = 1.0 }
+	},
 	minecraft = {
-				{ id = "http://arl.lambda.cam/asset/?id=278", weight = 10 }
-			},
-	ratdance = {
-				{ id = "http://arl.lambda.cam/asset/?id=279", weight = 10 }
-			},
+		{ id = "http://arl.lambda.cam/asset/?id=73", weight = 10, speed = 1.0 }
+	},
+	gangnam  = {
+		{ id = "http://arl.lambda.cam/asset/?id=74", weight = 10 }
+	},
+	gmod  = {
+		{ id = "http://arl.lambda.cam/asset/?id=75", weight = 10 }
+	},
+	retro  = {
+		{ id = "http://arl.lambda.cam/asset/?id=78", weight = 10 }
+	},
 	jumpstyle = {
-				{ id = "http://arl.lambda.cam/asset/?id=3697", weight = 10 }
-			}
+		{ id = "http://arl.lambda.cam/asset/?id=79", weight = 10 }
+	},
+	awesomeface  = {
+		{ id = "http://arl.lambda.cam/asset/?id=80", weight = 10 }
+	},
+	creeper  = {
+		{ id = "http://arl.lambda.cam/asset/?id=81", weight = 10 }
+	},
+	rampage  = {
+		{ id = "http://arl.lambda.cam/asset/?id=278", weight = 10 }
+	}
 }
+
+function starts(String,Start)
+	return string.sub(String,1,string.len(Start))==Start
+end
+
+for _, v in pairs(animNames) do
+	for i, j in pairs(v) do
+		for i2, j2 in pairs(j) do
+			if i2 == "id" then
+				if starts(j[i2], "http://arl.lambda.cam/asset/?id=") then
+					local id = (j[i2]:gsub("http://arl.lambda.cam/asset/%?id=", "")) 
+					--preloadSound(id)
+				end
+			end
+		end
+	end
+end
+
 local dances = {
 	"dance1",
 	"dance2",
@@ -141,8 +174,13 @@ local dances = {
 	"torturedancion",
 	"mannrobics",
 	"minecraft",
-	"ratdance",
-	"jumpstyle"
+	"gangnam",
+	"gmod",
+	"retro",
+	"jumpstyle",
+	"awesomeface",
+	"creeper",
+	"rampage"
 }
 
 -- Existance in this list signifies that it is an emote, the value indicates if it is a looping emote
@@ -164,8 +202,13 @@ local emoteNames = {
 	torturedancion = true,
 	mannrobics = true,
 	minecraft = true,
-	ratdance = true,
-    jumpstyle = true
+	gangnam = true,
+	gmod = true,
+	retro = true,
+	jumpstyle = true,
+	awesomeface = true,
+	creeper = true,
+	rampage = true
 }
 
 function configureAnimationSet(name, fileList)
@@ -335,6 +378,61 @@ function playAnimation(animName, transitionTime, humanoid)
 	end
 
 end
+
+local playEmoteEvent = nil
+
+if not Figure:FindFirstChild("PlayEmote") then
+    Instance.new("BindableEvent", Figure).Name = "PlayEmote"
+end
+
+playEmoteEvent = Figure:FindFirstChild("PlayEmote")
+
+function keyFrameReachedEmoteFunc(frameName)
+    if (frameName == "End") then
+
+        local repeatAnim = currentAnim
+
+        local animSpeed = currentAnimSpeed
+        playAnimation(repeatAnim, 0.0, Humanoid)
+        setAnimationSpeed(animSpeed)
+    end
+end
+
+function playEmote(animId, transitionTime, humanoid)
+    local anim = Instance.new("Animation")
+    anim.AnimationId = animId
+    
+    if (anim.AnimationId ~= currentAnimInstance.AnimationId) then
+
+        if (currentAnimTrack ~= nil) then
+            currentAnimTrack:Stop(transitionTime)
+            currentAnimTrack:Destroy()
+        end
+
+        currentAnimSpeed = 1.0
+
+        -- load it to the humanoid; get AnimationTrack
+        currentAnimTrack = humanoid:LoadAnimation(anim)
+
+        -- play the animation
+        currentAnimTrack:Play(transitionTime)
+        currentAnim = animName
+        currentAnimInstance = anim
+
+        -- set up keyframe name triggers
+        if (currentAnimKeyframeHandler ~= nil) then
+            currentAnimKeyframeHandler:disconnect()
+        end
+        currentAnimKeyframeHandler = currentAnimTrack.KeyframeReached:connect(keyFrameReachedEmoteFunc)
+
+    end
+end
+
+playEmoteEvent.Event:connect(function(id)
+    if (pose == "Standing") then
+        playEmote("rbxassetid://"..id, 0.1, Humanoid)
+    end
+end)
 
 -------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------
