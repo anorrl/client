@@ -61,8 +61,8 @@ IDI_WINDOW_ICON         ICON                    "ANORRL.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 13,4,2026,1
- PRODUCTVERSION 13,4,2026,0
+ FILEVERSION 18,4,2026,1
+ PRODUCTVERSION 18,4,2026,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -79,12 +79,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "GraceRBLX"
             VALUE "FileDescription", "ANORRL Game Client"
-            VALUE "FileVersion", "13.4.2026.1"
+            VALUE "FileVersion", "18.4.2026.1"
             VALUE "InternalName", "ANORRLApp.exe"
             VALUE "LegalCopyright", "© 2026 GraceRBLX.  All rights reserved to Roblox Corporation."
             VALUE "OriginalFilename", "RobloxPlayerBeta.exe"
             VALUE "ProductName", "ANORRL"
-            VALUE "ProductVersion", "13.4.2026.0"
+            VALUE "ProductVersion", "18.4.2026.0"
         END
     END
     BLOCK "VarFileInfo"
