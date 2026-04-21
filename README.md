@@ -1,8 +1,15 @@
 # ANORRLClientSource
-### What is this?
+## What is this?
 This is the client source for 2016E (March 16th 2016, at the time of writing this 10 year anniversary! :D ). This is the ANORRL fork, have a look around!
 
 If you're daring, try make a mac build, an android build whatever!!
+
+## Contributors
+
+Thanks to all these people for the contributions made to this project (of the client)
+
+- typical_rodent for studio splash 18
+- gammaguy for studio splash 19
 
 ## How do I set this up?? (for windows)
 
