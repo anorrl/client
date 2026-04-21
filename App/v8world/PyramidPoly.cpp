@@ -8,7 +8,7 @@
 #include "Util/Math.h"
 
 
-namespace RBX {
+namespace ARL {
 
 void PyramidPoly::buildMesh()
 {
@@ -32,7 +32,7 @@ void PyramidPoly::setGeometryParameter(const std::string& parameter, int value)
 		setNumSlices(value);
 	}
 	else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 	}
 }
 
@@ -45,7 +45,7 @@ int PyramidPoly::getGeometryParameter(const std::string& parameter) const
 		return numSlices;
 	}
 	else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return 0;
 	}
 }
@@ -137,7 +137,7 @@ size_t PyramidPoly::getFaceFromLegacyNormalId( const NormalId nId ) const
 {
 	// return -1 if does not exist
 	// *** NOTE: Pyramids with more than 8 sides don't have their sides mapped to legacy normals.
-	RBXASSERT( mesh->numFaces() > 3 );
+	ARLASSERT( mesh->numFaces() > 3 );
 	size_t faceId = -1;
 	switch(nId)
 	{
@@ -226,4 +226,4 @@ size_t PyramidPoly::getFaceFromLegacyNormalId( const NormalId nId ) const
 	return faceId;
 }
 
-} // namespace RBX
+} // namespace ARL

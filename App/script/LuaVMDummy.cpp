@@ -27,7 +27,7 @@ static const char* getS(lua_State *L, void *ud, size_t *size)
     return ls->s;
 }
 
-#ifndef RBX_STUDIO_BUILD
+#ifndef ARL_STUDIO_BUILD
 static uint32_t rbxDaxEncodeOp(uint32_t x, uint32_t mulEven, uint32_t addEven, uint32_t mulOdd, uint32_t addOdd)
 {
     uint32_t result      = 0;
@@ -69,7 +69,7 @@ namespace LuaVM
     // Studio runs/compiles unobfuscated code.
     static void finalize(Proto* p, RbxOpEncoder encode, unsigned int ckey)
     {
-        #ifndef RBX_STUDIO_BUILD
+        #ifndef ARL_STUDIO_BUILD
         lua_assert(ckey);
 
         // encode bytecode
@@ -84,7 +84,7 @@ namespace LuaVM
         #endif
     }
 
-    int load(lua_State* L, const RBX::ProtectedString& source, const char* chunkname, unsigned int modkey)
+    int load(lua_State* L, const ARL::ProtectedString& source, const char* chunkname, unsigned int modkey)
     {
         const std::string& code = source.getSource();
         
@@ -149,7 +149,7 @@ namespace LuaVM
     // code duplication...
     unsigned int rbxDaxEncode(unsigned int i, int pc, unsigned int key) 
     {
-#ifndef RBX_STUDIO_BUILD
+#ifndef ARL_STUDIO_BUILD
         Instruction enc = i;
         Instruction op = GET_OPCODE(i);
         switch (op) {

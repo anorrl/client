@@ -7,7 +7,7 @@
 
 LOGGROUP(Graphics)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -93,11 +93,11 @@ namespace Graphics
                 break;
             }
         default:
-            RBXASSERT(false);
+            ARLASSERT(false);
         }
 
         if (FAILED(hr))
-            throw RBX::runtime_error("Error creating texture: %x", hr);
+            throw ARL::runtime_error("Error creating texture: %x", hr);
 
         return result;
     }
@@ -137,7 +137,7 @@ namespace Graphics
         HRESULT hr = device11->CreateShaderResourceView(resource, &srvDesc, &SRV);
         
         if (FAILED(hr))
-            throw RBX::runtime_error("Error creating shader resource view: %x", hr);
+            throw ARL::runtime_error("Error creating shader resource view: %x", hr);
 
         return SRV;
     }
@@ -159,12 +159,12 @@ namespace Graphics
         unsigned int mipHeight = getMipSide(height, mip);
         unsigned int mipDepth = getMipSide(depth, mip);
 
-        RBXASSERT(mip < mipLevels);
-        RBXASSERT(region.x + region.width <= mipWidth);
-        RBXASSERT(region.y + region.height <= mipHeight);
-        RBXASSERT(region.z + region.depth <= mipDepth);
+        ARLASSERT(mip < mipLevels);
+        ARLASSERT(region.x + region.width <= mipWidth);
+        ARLASSERT(region.y + region.height <= mipHeight);
+        ARLASSERT(region.z + region.depth <= mipDepth);
 
-        RBXASSERT(size == getImageSize(format, region.width, region.height) * region.depth);
+        ARLASSERT(size == getImageSize(format, region.width, region.height) * region.depth);
 
         bool partialUpload = (region.width != mipWidth || region.height != mipHeight || region.depth != mipDepth);
         
@@ -195,7 +195,7 @@ namespace Graphics
         unsigned int heightBlocks = Texture::isFormatCompressed(format) ? (height + 3) / 4 : height;
         unsigned int lineSize = Texture::getImageSize(format, width, 1);
 
-        RBXASSERT(lineSize <= sourceRowPitch && lineSize <= targetRowPitch);
+        ARLASSERT(lineSize <= sourceRowPitch && lineSize <= targetRowPitch);
 
         if (targetRowPitch == sourceRowPitch && targetSlicePitch == sourceSlicePitch)
         {
@@ -224,8 +224,8 @@ namespace Graphics
         unsigned int mipHeight = getMipSide(height, mip);
         unsigned int mipDepth = getMipSide(depth, mip);
 
-        RBXASSERT(mip < mipLevels);
-        RBXASSERT(size == getImageSize(format, mipWidth, mipHeight) * mipDepth);
+        ARLASSERT(mip < mipLevels);
+        ARLASSERT(size == getImageSize(format, mipWidth, mipHeight) * mipDepth);
         if (type == Type::Type_3D)
             return false;
 
@@ -248,7 +248,7 @@ namespace Graphics
         ID3D11Texture2D* tempTex = NULL;
         HRESULT hr = device11->getDevice11()->CreateTexture2D(&desc, NULL, reinterpret_cast<ID3D11Texture2D**>(&tempTex));
         if (FAILED(hr))
-            throw RBX::runtime_error("Download texture cant create temp texture %x", hr);
+            throw ARL::runtime_error("Download texture cant create temp texture %x", hr);
 
         UINT res = D3D11CalcSubresource(mip, index, mipLevels);
         context11->CopySubresourceRegion(tempTex, 0, 0, 0, 0, object, res, NULL);
@@ -256,7 +256,7 @@ namespace Graphics
         // copy texture to provided memory
         D3D11_MAPPED_SUBRESOURCE mappedResource;
         hr = context11->Map(tempTex, 0, D3D11_MAP_READ, 0, &mappedResource);
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
 
         unsigned int dataRowPitch = Texture::getImageSize(format, mipWidth, 1);
         unsigned int dataSlicePitch = (type == Type_3D) ? Texture::getImageSize(format, mipWidth, mipHeight) : 0;
@@ -286,7 +286,7 @@ namespace Graphics
 
     shared_ptr<Renderbuffer> TextureD3D11::getRenderbuffer(unsigned int index, unsigned int mip)
     {     
-        RBXASSERT(mip < mipLevels);
+        ARLASSERT(mip < mipLevels);
 
         weak_ptr<Renderbuffer>& slot = renderbuffers[std::make_pair(index, mip)];
         shared_ptr<Renderbuffer> result = slot.lock();
@@ -295,7 +295,7 @@ namespace Graphics
         {
             if (getType() != Type_2D && getType() != Type_Cube)
             {
-                RBXASSERT(!"Renderbuffer for this kind of texture is not yet implemented."); 
+                ARLASSERT(!"Renderbuffer for this kind of texture is not yet implemented."); 
                 return shared_ptr<Renderbuffer>();
             }
 
@@ -318,7 +318,7 @@ namespace Graphics
 
     void TextureD3D11::generateMipmaps()
     {
-        RBXASSERT(usage == Texture::Usage_Renderbuffer);
+        ARLASSERT(usage == Texture::Usage_Renderbuffer);
 
         ID3D11DeviceContext* context11 = static_cast<DeviceD3D11*>(device)->getImmediateContext11();
         

@@ -6,7 +6,7 @@
 #include "util/MachineIdUploader.h"
 #include "boost/functional/hash.hpp"
 
-namespace RBX {
+namespace ARL {
 
 extern void RenderView_InitModule();
 extern void RenderView_ShutdownModule();
@@ -31,8 +31,8 @@ ViewBase* ViewBase::CreateView(CRenderSettings::GraphicsMode mode,
 {
 	IViewBaseFactory** ppfactory = getFactory(mode);
 
-	// did you call RBX::ViewBase::InitPluginModules?
-	RBXASSERT(ppfactory && *ppfactory);
+	// did you call ARL::ViewBase::InitPluginModules?
+	ARLASSERT(ppfactory && *ppfactory);
 	if (ppfactory && *ppfactory)
 	{
 		return (*ppfactory)->Create(mode, context, renderSettings);
@@ -48,7 +48,7 @@ void ViewBase::RegisterFactory(CRenderSettings::GraphicsMode mode,
 {
 	IViewBaseFactory** ppfactory = getFactory(mode);
 
-	RBXASSERT(ppfactory);
+	ARLASSERT(ppfactory);
 	if (ppfactory)
 	{
 		*ppfactory = factory;
@@ -78,4 +78,4 @@ std::pair<unsigned, unsigned> ViewBase::setFrameDataCallback(const boost::functi
     return std::make_pair(0, 0);
 }
 
-}  // namespace RBX
+}  // namespace ARL

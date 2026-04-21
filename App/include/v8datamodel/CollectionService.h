@@ -3,7 +3,7 @@
 #include "V8Tree/Service.h"
 #include <queue>
 
-namespace RBX {
+namespace ARL {
 
 extern const char* const sCollectionService;
 class CollectionService
@@ -28,7 +28,7 @@ public:
 	void addInstance(shared_ptr<Instance> instance);
 
 private:
-	// TODO: Lookup by const RBX::Name*
+	// TODO: Lookup by const ARL::Name*
 	typedef std::map<std::string, shared_ptr<copy_on_write_ptr<Instances> > > CollectionMap;
 	CollectionMap collections;
 

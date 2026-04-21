@@ -21,16 +21,16 @@
 #include "util/ProgramMemoryChecker.h"
 #include "security/FuzzyTokens.h"
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
 #include "NetPmc.h"
 #include "Replicator.RockyItem.h"
 #endif
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
     DYNAMIC_FASTSTRING(US30605p1)
 #endif
 
-namespace RBX { 
+namespace ARL { 
 	namespace Network {
 
 	class Server;
@@ -48,9 +48,9 @@ namespace RBX {
 	
 	extern const char* const sServerReplicator;
 	class ServerReplicator
-		: public RBX::DescribedNonCreatable<ServerReplicator, Replicator, sServerReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL>
+		: public ARL::DescribedNonCreatable<ServerReplicator, Replicator, sServerReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL>
 	{
-		typedef RBX::DescribedNonCreatable<ServerReplicator, Replicator, sServerReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
+		typedef ARL::DescribedNonCreatable<ServerReplicator, Replicator, sServerReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
 		PropSync::Master propSync;
 		class ServerStatsItem;
 		friend class ServerStatsItem;
@@ -134,7 +134,7 @@ namespace RBX {
 		/*override*/ bool canSendItems()  { return true; } // The server always can send
 		/*override*/ void rebroadcastEvent(Reflection::EventInvocation& eventInvocation);
 		/*override*/ bool sendItemsPacket();
-		/*override*/ void readItem(RakNet::BitStream& inBitstream, RBX::Network::Item::ItemType itemType);
+		/*override*/ void readItem(RakNet::BitStream& inBitstream, ARL::Network::Item::ItemType itemType);
 		/*override*/ void addTopReplicationContainers(ServiceProvider* newProvider);
 		/*override*/ void addTopReplicationContainer(Instance* instance, bool replicateProperties, bool replicateChildren, boost::function<void (shared_ptr<Instance>)> replicationMethodFunc);
 		/*override*/ bool isLegalSendProperty(Instance* instance, const Reflection::PropertyDescriptor& desc);
@@ -150,7 +150,7 @@ namespace RBX {
 
 		/*override*/ void setPropSyncExpiration(double value)
 		{
-			propSync.setExpiration(RBX::Time::Interval(value));
+			propSync.setExpiration(ARL::Time::Interval(value));
 		}
 
 		/*override*/ shared_ptr<Stats> createStatsItem();
@@ -161,7 +161,7 @@ namespace RBX {
 
 
 	private:
-		void processRequestCharacter(Instance* instance, RBX::Guid::Data id, unsigned int sendStats, std::string preferedSpawnName);
+		void processRequestCharacter(Instance* instance, ARL::Guid::Data id, unsigned int sendStats, std::string preferedSpawnName);
 		void readRequestCharacter(RakNet::BitStream& bitStream);
 		void readClientQuotaUpdate(RakNet::BitStream& bitStream);
 		void readRegionRemoval(RakNet::BitStream& bitStream);
@@ -222,7 +222,7 @@ namespace RBX {
 		void onPlaceAuthenticationComplete(PlaceAuthenticationState placeAuthenticationResult);
 	};
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 	class CheatHandlingServerReplicator : public ServerReplicator
 	{
 		bool isAuthenticated;
@@ -274,7 +274,7 @@ namespace RBX {
             }
         };
 
-        RBX::Security::NetPmcServer netPmc;
+        ARL::Security::NetPmcServer netPmc;
         double kickTimeSec;
         std::string kickName;
 		bool processedTicket;

@@ -3,6 +3,6 @@
 
 #include "V8DataModel/CylinderMesh.h"
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sCylinderMesh = "CylinderMesh";
+const char* const ARL::sCylinderMesh = "CylinderMesh";

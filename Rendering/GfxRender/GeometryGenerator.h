@@ -6,7 +6,7 @@
 
 #include "rbx/Debug.h"
 
-namespace RBX
+namespace ARL
 {
     class CSGMesh;
 	class PartOperation;
@@ -23,7 +23,7 @@ namespace RBX
 	}
 }
 	
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -111,13 +111,13 @@ namespace Graphics
 
 		bool areBoundsValid() const
 		{
-			RBXASSERT(mVertices); // geometry is not generated if mVertices is NULL
+			ARLASSERT(mVertices); // geometry is not generated if mVertices is NULL
 			return mBboxMin.x <= mBboxMax.x;
 		}
 		
 		const AABox getBounds() const
 		{
-			RBXASSERT(mVertices); // geometry is not generated if mVertices is NULL
+			ARLASSERT(mVertices); // geometry is not generated if mVertices is NULL
 			return AABox(mBboxMin, mBboxMax);
 		}
 		

@@ -13,7 +13,7 @@
 #include "V8DataModel/Workspace.h"
 #include "V8Tree/Service.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sTextureTrail = "TextureTrail";
 

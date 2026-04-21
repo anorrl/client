@@ -9,7 +9,7 @@
 #include "v8DataModel/workspace.h"
 #include "Humanoid/Humanoid.h"
 
-namespace RBX {
+namespace ARL {
 
 const char *const sTeams = "Teams";
 
@@ -51,7 +51,7 @@ void Teams::rebalanceTeams()
 	
 	/*
 	Network::Players *players = ServiceProvider::find<Network::Players>(this);
-	RBXASSERT(players);	
+	ARLASSERT(players);	
 
 	for(unsigned int n = 0; n < players->numChildren(); n++)
 	{
@@ -98,7 +98,7 @@ int Teams::getNumPlayersInTeam(BrickColor color)
 {
 	int result = 0;
 	Network::Players *players = ServiceProvider::find<Network::Players>(this);
-	RBXASSERT(players);	
+	ARLASSERT(players);	
 
 	for(unsigned int n = 0; n < players->numChildren(); n++)
 	{
@@ -153,7 +153,7 @@ BrickColor Teams::getUnusedTeamColor()
 		}
 	}
 
-	RBXASSERT(vec.size() > 0);
+	ARLASSERT(vec.size() > 0);
 
 	return vec[rand() % vec.size()];
 }
@@ -161,7 +161,7 @@ BrickColor Teams::getUnusedTeamColor()
 G3D::Color3 Teams::getTeamColorForHumanoid(Humanoid *h)
 {
 	Network::Players *players = ServiceProvider::find<Network::Players>(this);
-	RBXASSERT(players);	
+	ARLASSERT(players);	
 
 	if (players) 
 	{

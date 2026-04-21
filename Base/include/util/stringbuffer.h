@@ -2,7 +2,7 @@
 #include "rbx/Debug.h"
 #include <string>
 
-namespace RBX {
+namespace ARL {
 	class StringReadBuffer
 	{
 		std::string::const_iterator cur;
@@ -16,9 +16,9 @@ namespace RBX {
 
 		StringReadBuffer& operator >> (unsigned char& value)
 		{
-			RBXASSERT(cur != buffer.end());
+			ARLASSERT(cur != buffer.end());
 			if(cur == buffer.end()) {
-				throw RBX::runtime_error("Reading past end of string");
+				throw ARL::runtime_error("Reading past end of string");
 			} else {
 				value = *cur++;
 			}

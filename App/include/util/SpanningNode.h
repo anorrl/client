@@ -4,7 +4,7 @@
 
 #include "Util/IndexedMesh.h"
 
-namespace RBX {
+namespace ARL {
 
 	class SpanningEdge;
 

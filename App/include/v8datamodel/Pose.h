@@ -4,7 +4,7 @@
 #include "V8Tree/Instance.h"
 #include "V8DataModel/Pose.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Keyframe;
 	extern const char *const sPose;

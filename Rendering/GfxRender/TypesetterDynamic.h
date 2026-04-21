@@ -6,7 +6,7 @@
 
 #include "TextureRef.h"
 
-namespace RBX
+namespace ARL
 {
 	namespace Graphics
 	{
@@ -17,7 +17,7 @@ namespace RBX
 		class TypesetterDynamic: public Typesetter
 		{
 		public:
-			TypesetterDynamic(TextureAtlas* textureAtlas, RBX::Graphics::TextureManager* textureManager, const std::string& fontPath, float legacyHeightScale, unsigned fontId, bool retina);
+			TypesetterDynamic(TextureAtlas* textureAtlas, ARL::Graphics::TextureManager* textureManager, const std::string& fontPath, float legacyHeightScale, unsigned fontId, bool retina);
             
             ~TypesetterDynamic();
 
@@ -29,21 +29,21 @@ namespace RBX
 				bool                autoScale,
 				const Color4&       color,
 				const Color4&       outline,
-				RBX::Text::XAlign   xalign,
-				RBX::Text::YAlign   yalign,
+				ARL::Text::XAlign   xalign,
+				ARL::Text::YAlign   yalign,
 				const Vector2&		availableSpace,
 				const Rect2D&		clippingRect,
 				const Rotation2D&   rotation) const;
 
 			virtual int getCursorPositionInText(
 				const std::string&      s,
-				const RBX::Vector2&     pos2D,
+				const ARL::Vector2&     pos2D,
 				float                   size,
-				RBX::Text::XAlign       xalign,
-				RBX::Text::YAlign       yalign,
-				const RBX::Vector2&		availableSpace,
+				ARL::Text::XAlign       xalign,
+				ARL::Text::YAlign       yalign,
+				const ARL::Vector2&		availableSpace,
 				const Rotation2D&       rotation,
-				RBX::Vector2			cursorPos) const;
+				ARL::Vector2			cursorPos) const;
 
 			virtual Vector2 measure(
 				const std::string&  s,
@@ -53,7 +53,7 @@ namespace RBX
 				) const;
 
 			virtual const shared_ptr<Texture>& getTexture() const;
-            virtual void loadResources(RBX::Graphics::TextureManager* textureManager, RBX::Graphics::TextureAtlas* glyphAtlas);
+            virtual void loadResources(ARL::Graphics::TextureManager* textureManager, ARL::Graphics::TextureAtlas* glyphAtlas);
             virtual void releaseResources();
 
 			struct Glyph
@@ -96,8 +96,8 @@ namespace RBX
 				const Vector2&      position,
 				const Color4&       color,
 				const Color4&       outline,
-				RBX::Text::XAlign   xalign,
-				RBX::Text::YAlign   yalign,
+				ARL::Text::XAlign   xalign,
+				ARL::Text::YAlign   yalign,
 				const Vector2&		availableSpace,
 				const Rect2D&		clippingRect,
 				const Rotation2D&   rotation) const;
@@ -109,14 +109,14 @@ namespace RBX
 				float               size,
 				const Color4&       color,
 				const Color4&       outline,
-				RBX::Text::XAlign   xalign,
-				RBX::Text::YAlign   yalign,
+				ARL::Text::XAlign   xalign,
+				ARL::Text::YAlign   yalign,
 				const Vector2&		availableSpace,
 				const Rect2D&		clippingRect,
 				const Rotation2D&   rotation) const;
 
             void render(Adorn* adorn, 
-                const Color4& color, const Color4& outline, float alpha, RBX::Text::XAlign xalign, std::vector<GlyphLine>& lines, float scale, 
+                const Color4& color, const Color4& outline, float alpha, ARL::Text::XAlign xalign, std::vector<GlyphLine>& lines, float scale, 
                 unsigned measureSize, unsigned renderSize, unsigned ascender,
                 float startx, float starty, float height, 
                 const Rect2D& clippingRect, const Rotation2D& rotation) const;

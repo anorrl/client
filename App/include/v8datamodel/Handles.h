@@ -9,7 +9,7 @@
 
 #include "AppDraw/HandleType.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sHandles;
 
@@ -51,7 +51,7 @@ namespace RBX
 		////////////////////////////////////////////////////////////////////////////////////
 		// 
 		// HandlesBase
-		/*override*/ RBX::HandleType getHandleType() const;
+		/*override*/ ARL::HandleType getHandleType() const;
 
 		////////////////////////////////////////////////////////////////////////////////////
 		// 

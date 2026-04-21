@@ -7,9 +7,9 @@
 DYNAMIC_LOGVARIABLE(PreloadLinkedScriptsTiming, 0)
 DYNAMIC_FASTFLAGVARIABLE(RejectHashesInLinkedSource, false)
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sLuaSourceContainer = "LuaSourceContainer";
+const char* const ARL::sLuaSourceContainer = "LuaSourceContainer";
 
 const Reflection::PropDescriptor<LuaSourceContainer, ProtectedString> prop_CachedRemoteSource(
 	"CachedRemoteSource", category_Data,

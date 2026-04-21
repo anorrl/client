@@ -3,8 +3,8 @@
 #include "reflection/event.h"
 #include "reflection/Object.h"
 
-using namespace RBX;
-using namespace RBX::Reflection;
+using namespace ARL;
+using namespace ARL::Reflection;
 
 EventDescriptor::EventDescriptor(ClassDescriptor& classDescriptor, const char* name, Security::Permissions security, Attributes attributes)
 	:MemberDescriptor(classDescriptor, name, "Signals", attributes, security)
@@ -20,7 +20,7 @@ std::size_t hash_value(const Event& evt)
 	return result;
 }
 
-RBX::Reflection::RemoteEventCommon::Attributes RBX::Reflection::RemoteEventCommon::Attributes::deprecated( Functionality flags, const MemberDescriptor* preferred )
+ARL::Reflection::RemoteEventCommon::Attributes ARL::Reflection::RemoteEventCommon::Attributes::deprecated( Functionality flags, const MemberDescriptor* preferred )
 {
 	RemoteEventCommon::Attributes result(flags);
 	result.isDeprecated = true;

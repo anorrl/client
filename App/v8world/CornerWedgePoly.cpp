@@ -8,7 +8,7 @@
 #include "Util/Math.h"
 
 
-namespace RBX {
+namespace ARL {
 
 void CornerWedgePoly::buildMesh()
 {
@@ -102,7 +102,7 @@ Vector3 CornerWedgePoly::getCenterToCorner(const Matrix3& rotation) const
 	// we override the default poly behavior of using a sphere to define the AABB for bounds-checking
 	//	  for now, we just pretend the wedge is brick-shaped, since this is the closest approximation we can get using AABBs anyways
 
-	//need to convert RBX::POLY::Vertex to G3D::Vector3
+	//need to convert ARL::POLY::Vertex to G3D::Vector3
 	// use vertices 0,1,2, and 3 [bottom face]
 
 	Vector3 maxValue = G3D::abs(rotation * mesh->getVertex(0)->getOffset());
@@ -130,4 +130,4 @@ void CornerWedgePoly::updateBulletCollisionData()
 	bulletCollisionObject->setCollisionShape(const_cast<btConvexHullShape*>(bulletCornerWedgeShape->getShape()));
 }
 
-} // namespace RBX
+} // namespace ARL

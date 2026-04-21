@@ -5,7 +5,7 @@
 #include "V8DataModel/GuiBase3d.h"
 #include "GfxBase/IAdornable.h"
 
-namespace RBX
+namespace ARL
 {
 	class PartInstance;
 	class Humanoid;

@@ -17,7 +17,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 
 	bool isFinite(double value)
 	{
@@ -89,9 +89,9 @@ namespace RBX {
 
 	void set_thread_name(const char* name)
 	{
-		RBX::boost_detail::threadName().reset(new std::string(name));
+		ARL::boost_detail::threadName().reset(new std::string(name));
 #ifdef _WIN32
-		RBX::SetThreadName(GetCurrentThreadId(), name);
+		ARL::SetThreadName(GetCurrentThreadId(), name);
 #else
 #if MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_5
 		if (nameThreads)
@@ -103,7 +103,7 @@ namespace RBX {
 	const char* get_thread_name()
 	{
 		static const char* none = "unnamed thread";	// an alphanumeric default string
-		std::string* result = RBX::boost_detail::threadName().get();
+		std::string* result = ARL::boost_detail::threadName().get();
 		return result ? result->c_str() : none;
 	}
 

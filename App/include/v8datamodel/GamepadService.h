@@ -11,16 +11,16 @@
 #include "V8Tree/Instance.h"
 #include "V8Tree/Service.h"
 
-#define RBX_MAX_GAMEPADS 8
+#define ARL_MAX_GAMEPADS 8
 
-namespace RBX
+namespace ARL
 {
 
 	class BasePlayerGui;
 
     extern const char* const sGamepadService;
 
-	typedef boost::unordered_map<RBX::KeyCode, shared_ptr<RBX::InputObject> > Gamepad;
+	typedef boost::unordered_map<ARL::KeyCode, shared_ptr<ARL::InputObject> > Gamepad;
 	typedef boost::unordered_map<int, Gamepad> Gamepads;
 
     class GamepadService
@@ -34,8 +34,8 @@ namespace RBX
 
 		boost::unordered_map<InputObject::UserInputType, bool> gamepadNavigationEnabledMap;
 
-		RBX::Timer<RBX::Time::Fast> repeatGuiSelectionTimer;
-		RBX::Timer<RBX::Time::Fast> fastRepeatGuiSelectionTimer;
+		ARL::Timer<ARL::Time::Fast> repeatGuiSelectionTimer;
+		ARL::Timer<ARL::Time::Fast> fastRepeatGuiSelectionTimer;
 
 		bool autoGuiSelectionAllowed; // whether this game allows for automatic gui selection with gamepad keys
 
@@ -46,7 +46,7 @@ namespace RBX
 		rbx::signals::scoped_connection inputChangedConnection;
 		rbx::signals::scoped_connection cameraCframeUpdateConnection;
         
-        shared_ptr<RBX::InputObject> createInputObjectForGamepadKeyCode(RBX::KeyCode keyCode, RBX::InputObject::UserInputType gamepadType);
+        shared_ptr<ARL::InputObject> createInputObjectForGamepadKeyCode(ARL::KeyCode keyCode, ARL::InputObject::UserInputType gamepadType);
 		void createControllerKeyMapForController(int controllerIndex);
 
 		Vector2 getGuiSelectionDirection(const shared_ptr<InputObject>& event);

@@ -16,7 +16,7 @@
 #include "Humanoid/StatusInstance.h"
 #include "Humanoid/HumanoidState.h"
 
-namespace RBX {
+namespace ARL {
 	class World;
 	class RunService;
 	class Controller;
@@ -164,7 +164,7 @@ namespace RBX {
 
 		boost::unordered_map<shared_ptr<PartInstance>, rbx::signals::scoped_connection> siblingMap;
 		void updateSiblingPropertyListener(shared_ptr<PartInstance> sibling);
-		void onEvent_SiblingPropertyChanged(const RBX::Reflection::PropertyDescriptor* desc);
+		void onEvent_SiblingPropertyChanged(const ARL::Reflection::PropertyDescriptor* desc);
 
 		shared_ptr<StatusInstance> status;
 
@@ -218,9 +218,9 @@ namespace RBX {
 		/*override*/ void render3dAdorn(Adorn* adorn);
 		/*override*/ void render3dSortedAdorn(Adorn* adorn);
 
-		void renderMultiplayer(Adorn* adorn, const RBX::Camera& camera);
+		void renderMultiplayer(Adorn* adorn, const ARL::Camera& camera);
 
-		void renderBillboard(Adorn* adorn, const RBX::Camera& camera);
+		void renderBillboard(Adorn* adorn, const ARL::Camera& camera);
 		void renderBillboardImpl(Adorn* adorn, const Vector2& screenLoc, float fontSize, const Color3& nameTagColor, float nameAlpha, float healthAlpha);
 
 		///////////////////////////////////////////////////////////////////////////
@@ -252,11 +252,11 @@ namespace RBX {
 		// Humanoid Platform Networking
 		bool validateNetworkUpdateDistance(PartInstance* floorPart, CoordinateFrame& previousFloorPosition, float& netDt);
 		void truncateDisplacementIfObstacle(PartInstance* floorPart, Vector3& newCharPosition, const Vector3& previousCharPosition);
-		Vector3 getSimulatedFrictionVelocityOffset(PartInstance* floorPart, Vector3& newCharPosition, const Vector3& previousCharPosition, const Vector3& charPosInFloorSpace, const RBX::Velocity& previousFloorVelocity, float& netDt);
+		Vector3 getSimulatedFrictionVelocityOffset(PartInstance* floorPart, Vector3& newCharPosition, const Vector3& previousCharPosition, const Vector3& charPosInFloorSpace, const ARL::Velocity& previousFloorVelocity, float& netDt);
 		const Velocity getHumanoidRelativeVelocityToPart(Primitive* floorPrim);
 	
 	public:
-		void updateNetworkFloorPosition(PartInstance* floorPart, CoordinateFrame& previousFloorPosition, RBX::Velocity& lastFloorVelocity, float& netDt);
+		void updateNetworkFloorPosition(PartInstance* floorPart, CoordinateFrame& previousFloorPosition, ARL::Velocity& lastFloorVelocity, float& netDt);
 		bool shouldNotApplyFloorVelocity(Primitive* floorPrim);
 		bool primitiveIsLastFloor(Primitive* prim);
 		void updateFloorSimPhaseCharVelocity(Primitive* floorPrim);
@@ -348,13 +348,13 @@ namespace RBX {
 		rbx::signal<void(bool)> ragdollSignal;
 		rbx::signal<void(bool, shared_ptr<Instance>)> seatedSignal;
 		rbx::signal<void(bool)> platformStandingSignal;
-        rbx::signal<void(RBX::HUMAN::StateType, RBX::HUMAN::StateType)> stateChangedSignal;
-        rbx::signal<void(RBX::HUMAN::StateType, bool)> stateEnabledChangedSignal;
-		RBX::HUMAN::StateType getCurrentStateType();
-		RBX::HUMAN::StateType getPreviousStateType() { return previousState; };
-		void setPreviousStateType(RBX::HUMAN::StateType newState);
-		void changeState(RBX::HUMAN::StateType state);
-		static bool isStateInString(const std::string& text, const RBX::HUMAN::StateType &compare, RBX::HUMAN::StateType& value);
+        rbx::signal<void(ARL::HUMAN::StateType, ARL::HUMAN::StateType)> stateChangedSignal;
+        rbx::signal<void(ARL::HUMAN::StateType, bool)> stateEnabledChangedSignal;
+		ARL::HUMAN::StateType getCurrentStateType();
+		ARL::HUMAN::StateType getPreviousStateType() { return previousState; };
+		void setPreviousStateType(ARL::HUMAN::StateType newState);
+		void changeState(ARL::HUMAN::StateType state);
+		static bool isStateInString(const std::string& text, const ARL::HUMAN::StateType &compare, ARL::HUMAN::StateType& value);
 
 		rbx::signal<void(float)> healthChangedSignal;
 
@@ -363,7 +363,7 @@ namespace RBX {
 		rbx::signal<void()> donePlatformStandingSignal;
 
 		void equipToolInstance(shared_ptr<Instance> instance);
-		void equipTool(RBX::Tool* tool);
+		void equipTool(ARL::Tool* tool);
 		void unequipTools();
 
 		void setWalkSpeed(float value);
@@ -373,11 +373,11 @@ namespace RBX {
             walkSpeedErrors = (walkSpeed > walkSpeedShadow) ? walkSpeedErrors + 1 : 0;
             if (walkSpeedErrors > 8)
             {
-                RBX::Security::setHackFlagVs<LINE_RAND4>(RBX::Security::hackFlag11, HATE_SPEEDHACK);
+                ARL::Security::setHackFlagVs<LINE_RAND4>(ARL::Security::hackFlag11, HATE_SPEEDHACK);
             }
             if (fabs(percentWalkSpeed) > 1.01)
             {
-                RBX::Security::setHackFlagVs<LINE_RAND4>(RBX::Security::hackFlag11, HATE_SPEEDHACK);
+                ARL::Security::setHackFlagVs<LINE_RAND4>(ARL::Security::hackFlag11, HATE_SPEEDHACK);
             }
         }
         
@@ -528,7 +528,7 @@ namespace RBX {
         void setRigType(Humanoid::HumanoidRigType type);
 
 		// Build Joints
-		void buildJoints(RBX::DataModel* dm = NULL);
+		void buildJoints(ARL::DataModel* dm = NULL);
 		void buildJointsFromAttachments(PartInstance* part, std::vector<PartInstance*>& characterParts);
 
 		JointInstance* getRightShoulder();
@@ -618,4 +618,4 @@ namespace RBX {
 		void setWalkingFromStudioTouchEmulation(bool value) { isWalkingFromStudioTouchEmulation = value; }
 	};
 
-}  // namespace RBX
+}  // namespace ARL

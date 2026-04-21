@@ -10,7 +10,7 @@
 
 #include "util/standardout.h"
 
-namespace RBX
+namespace ARL
 {
 	// TODO: Refactor: It is a little ugly to have to implement these 6 functions for each "ContentID" derived class
 	//  Potentially we can template this a little. Maybe define a templated ContentIDPropDescriptor or something.
@@ -37,7 +37,7 @@ namespace RBX
 
 
 		template<>
-		void TypedPropertyDescriptor<RBX::MeshId>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+		void TypedPropertyDescriptor<ARL::MeshId>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 		{
 			if (!element->isXsiNil())
 			{
@@ -48,7 +48,7 @@ namespace RBX
 		}
 
 		template<>
-		void TypedPropertyDescriptor<RBX::MeshId>::writeValue(const DescribedBase* instance, XmlElement* element) const
+		void TypedPropertyDescriptor<ARL::MeshId>::writeValue(const DescribedBase* instance, XmlElement* element) const
 		{
 			element->setValue(ContentId(getValue(instance)));
 		}
@@ -56,36 +56,36 @@ namespace RBX
 
 
 		template<>
-		RBX::MeshId& Variant::convert<MeshId>(void)
+		ARL::MeshId& Variant::convert<MeshId>(void)
 		{
 			if (_type->isType<std::string>())
 			{
-				value = RBX::MeshId(cast<std::string>());
+				value = ARL::MeshId(cast<std::string>());
 				_type = &Type::singleton<MeshId>();
 			}
-			return genericConvert<RBX::MeshId>();
+			return genericConvert<ARL::MeshId>();
 		}
 
         template<>
-        int TypedPropertyDescriptor<RBX::MeshId>::getDataSize(const DescribedBase* instance) const 
+        int TypedPropertyDescriptor<ARL::MeshId>::getDataSize(const DescribedBase* instance) const 
         {
-            return sizeof(RBX::MeshId) + getValue(instance).toString().size();
+            return sizeof(ARL::MeshId) + getValue(instance).toString().size();
         }
 
 		template<>
-		bool TypedPropertyDescriptor<RBX::MeshId>::hasStringValue() const {
+		bool TypedPropertyDescriptor<ARL::MeshId>::hasStringValue() const {
 			return true;
 		}
 
 		template<>
-		std::string TypedPropertyDescriptor<RBX::MeshId>::getStringValue(const DescribedBase* instance) const{
-			return StringConverter<RBX::MeshId>::convertToString(getValue(instance));
+		std::string TypedPropertyDescriptor<ARL::MeshId>::getStringValue(const DescribedBase* instance) const{
+			return StringConverter<ARL::MeshId>::convertToString(getValue(instance));
 		}
 
 		template<>
-		bool TypedPropertyDescriptor<RBX::MeshId>::setStringValue(DescribedBase* instance, const std::string& text) const {
-			RBX::MeshId value;
-			if (StringConverter<RBX::MeshId>::convertToValue(text, value))
+		bool TypedPropertyDescriptor<ARL::MeshId>::setStringValue(DescribedBase* instance, const std::string& text) const {
+			ARL::MeshId value;
+			if (StringConverter<ARL::MeshId>::convertToValue(text, value))
 			{
 				setValue(instance, value);
 				return true;
@@ -95,4 +95,4 @@ namespace RBX
 		}
 
 	} // namespace Reflection
-}// namespace RBX
+}// namespace ARL

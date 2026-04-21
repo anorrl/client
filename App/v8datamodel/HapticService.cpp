@@ -11,7 +11,7 @@
 
 #include "V8DataModel/HapticService.h"
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection {
 		template<>
@@ -43,8 +43,8 @@ namespace RBX
 	static Reflection::BoundFuncDesc<HapticService, bool(InputObject::UserInputType)> func_isVibrationSupported(&HapticService::isVibrationSupported, "IsVibrationSupported", "inputType", Security::None);
 	static Reflection::BoundFuncDesc<HapticService, bool(InputObject::UserInputType, HapticService::VibrationMotor)> func_isMotorSupported(&HapticService::isMotorSupported, "IsMotorSupported", "inputType", "vibrationMotor", Security::None);
 
-	static Reflection::BoundFuncDesc<HapticService, void(InputObject::UserInputType, HapticService::VibrationMotor, shared_ptr<const RBX::Reflection::Tuple>)> func_setMotor(&HapticService::setMotor, "SetMotor", "inputType", "vibrationMotor", "vibrationValues", Security::None);
-	static Reflection::BoundFuncDesc<HapticService, shared_ptr<const RBX::Reflection::Tuple>(InputObject::UserInputType, HapticService::VibrationMotor)> func_getMotor(&HapticService::getMotor, "GetMotor", "inputType", "vibrationMotor", Security::None);
+	static Reflection::BoundFuncDesc<HapticService, void(InputObject::UserInputType, HapticService::VibrationMotor, shared_ptr<const ARL::Reflection::Tuple>)> func_setMotor(&HapticService::setMotor, "SetMotor", "inputType", "vibrationMotor", "vibrationValues", Security::None);
+	static Reflection::BoundFuncDesc<HapticService, shared_ptr<const ARL::Reflection::Tuple>(InputObject::UserInputType, HapticService::VibrationMotor)> func_getMotor(&HapticService::getMotor, "GetMotor", "inputType", "vibrationMotor", Security::None);
 	REFLECTION_END();
 
 	HapticService::HapticService()
@@ -92,7 +92,7 @@ namespace RBX
 		return false;
 	}
 
-	shared_ptr<const RBX::Reflection::Tuple> HapticService::getMotor(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor)
+	shared_ptr<const ARL::Reflection::Tuple> HapticService::getMotor(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor)
 	{
 		InputVibrationMap::iterator iter = vibrationMotorsStateMap.find(inputType);
 		if (iter != vibrationMotorsStateMap.end())
@@ -104,22 +104,22 @@ namespace RBX
 			}
 		}
 
-		shared_ptr<const RBX::Reflection::Tuple> tuple(rbx::make_shared<Reflection::Tuple>());
+		shared_ptr<const ARL::Reflection::Tuple> tuple(rbx::make_shared<Reflection::Tuple>());
 		return tuple;
 	}
 
-	void HapticService::setMotor(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor, shared_ptr<const RBX::Reflection::Tuple> args)
+	void HapticService::setMotor(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor, shared_ptr<const ARL::Reflection::Tuple> args)
 	{
 		if (args && !args->values.empty())
 		{
 			if (inputType == InputObject::TYPE_NONE)
 			{
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Error in HapticService:SetMotor inputType is not a valid type");
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Error in HapticService:SetMotor inputType is not a valid type");
 				return;
 			}
 			if (vibrationMotor == MOTOR_NONE)
 			{
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Error in HapticService:SetMotor vibrationMotor is not a valid type");
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Error in HapticService:SetMotor vibrationMotor is not a valid type");
 				return;
 			}
 
@@ -129,9 +129,9 @@ namespace RBX
 		}
 		else
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Error in HapticService:SetMotor no values found for vibration.");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Error in HapticService:SetMotor no values found for vibration.");
 		}
 	}
 
-} // namespace RBX
+} // namespace ARL
 

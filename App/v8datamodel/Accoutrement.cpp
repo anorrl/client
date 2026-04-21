@@ -15,9 +15,9 @@
 
 DYNAMIC_FASTFLAGVARIABLE(AccessoriesAndAttachments, true)
 
-namespace RBX {
+namespace ARL {
 
-using namespace RBX::Network;
+using namespace ARL::Network;
 
 const char* const sAccoutrement = "Accoutrement";
 const char* const  sHat = "Hat";
@@ -50,10 +50,10 @@ Accoutrement::Accoutrement()
 
 Accoutrement::~Accoutrement()
 {
-	RBXASSERT(!weld);
-	RBXASSERT(!handleTouched.connected());
-	RBXASSERT(!characterChildAdded.connected());
-	RBXASSERT(!characterChildRemoved.connected());
+	ARLASSERT(!weld);
+	ARLASSERT(!handleTouched.connected());
+	ARLASSERT(!characterChildAdded.connected());
+	ARLASSERT(!characterChildRemoved.connected());
 }
 
 void Accoutrement::onCameraNear(float distance) 
@@ -194,7 +194,7 @@ void Accoutrement::connectTouchEvent()
 	}
 	else
 	{
-	//	RBXASSERT(0);					// only call if >= the HAS_HANDLE state
+	//	ARLASSERT(0);					// only call if >= the HAS_HANDLE state
 		handleTouched.disconnect();		// just to be safe
 	}
 }
@@ -216,7 +216,7 @@ void Accoutrement::rebuildBackendState()
 	AccoutrementState desiredState = computeDesiredState();
 
 	const ServiceProvider* serviceProvider = ServiceProvider::findServiceProvider(this);
-	RBXASSERT(serviceProvider);
+	ARLASSERT(serviceProvider);
 	
 	setDesiredState(desiredState, serviceProvider);
 }
@@ -232,7 +232,7 @@ void Accoutrement::rebuildBackendState()
 
 Accoutrement::AccoutrementState Accoutrement::computeDesiredState()
 {
-	RBXASSERT(Network::Players::backendProcessing(this));
+	ARLASSERT(Network::Players::backendProcessing(this));
 
 	PartInstance* handle = getHandle();
 	if (!handle) {
@@ -271,7 +271,7 @@ Accoutrement::AccoutrementState Accoutrement::computeDesiredState(Instance *test
 
 void Accoutrement::setDesiredState(AccoutrementState desiredState, const ServiceProvider* serviceProvider)
 {
-	RBXASSERT(Network::Players::backendProcessing(serviceProvider));
+	ARLASSERT(Network::Players::backendProcessing(serviceProvider));
 
 	if (desiredState > backendAccoutrementState)
 	{
@@ -281,7 +281,7 @@ void Accoutrement::setDesiredState(AccoutrementState desiredState, const Service
 		case IN_WORKSPACE:			upTo_InCharacter(); break;
 		case HAS_HANDLE:			upTo_InWorkspace();	break;
 		case NOTHING:				upTo_HasHandle();	break;
-		default:				RBXASSERT(0); 
+		default:				ARLASSERT(0); 
 		}
 		setBackendAccoutrementState(static_cast<AccoutrementState>(backendAccoutrementState + 1));
 	}
@@ -293,7 +293,7 @@ void Accoutrement::setDesiredState(AccoutrementState desiredState, const Service
 		case IN_CHARACTER:			downFrom_InCharacter(); break;
 		case IN_WORKSPACE:			downFrom_InWorkspace();	break;
 		case HAS_HANDLE:			downFrom_HasHandle();	break;
-		default:				RBXASSERT(0);
+		default:				ARLASSERT(0);
 		}
 		setBackendAccoutrementState(static_cast<AccoutrementState>(backendAccoutrementState - 1));
 	}
@@ -320,8 +320,8 @@ void Accoutrement::downFrom_HasHandle()
 
 void Accoutrement::upTo_InWorkspace()
 {
-	RBXASSERT(ServiceProvider::findServiceProvider(this));
-	RBXASSERT(Network::Players::backendProcessing(this));
+	ARLASSERT(ServiceProvider::findServiceProvider(this));
+	ARLASSERT(Network::Players::backendProcessing(this));
 }
 
 void Accoutrement::downFrom_InWorkspace()
@@ -330,7 +330,7 @@ void Accoutrement::downFrom_InWorkspace()
 
 void Accoutrement::upTo_InCharacter()
 {
-	RBXASSERT(Humanoid::modelIsCharacter(getParent()));
+	ARLASSERT(Humanoid::modelIsCharacter(getParent()));
 
 	characterChildAdded = getParent()->onDemandWrite()->childAddedSignal.connect(boost::bind(&Accoutrement::onEvent_AddedBackend, this, _1));
 	characterChildRemoved = getParent()->onDemandWrite()->childRemovedSignal.connect(boost::bind(&Accoutrement::onEvent_RemovedBackend, this, _1));
@@ -359,7 +359,7 @@ void Accoutrement::upTo_Equipped()
 	// Unequip other hats
 	/*
 	Instance *i = dynamic_cast<Instance *>(getParent());
-	RBXASSERT(i);
+	ARLASSERT(i);
 	if (i->getChildren())
 		std::for_each(
 			i->getChildren()->begin(),
@@ -514,8 +514,8 @@ void Accoutrement::onEvent_AddedBackend(shared_ptr<Instance> child)
 {
 	if (child.get() != this)	// tool parent changed is handled in ancestor stuff, because this might not be hooked up
 	{
-		RBXASSERT(ServiceProvider::findServiceProvider(this));
-		RBXASSERT(Network::Players::backendProcessing(this));
+		ARLASSERT(ServiceProvider::findServiceProvider(this));
+		ARLASSERT(Network::Players::backendProcessing(this));
 		rebuildBackendState();
 	}
 }
@@ -524,12 +524,12 @@ void Accoutrement::onEvent_RemovedBackend(shared_ptr<Instance> child)
 {
 	if (child.get() != this)	// tool parent changed is handled in ancestor stuff, because this might not be hooked up
 	{
-		RBXASSERT(ServiceProvider::findServiceProvider(this));
-		RBXASSERT(Network::Players::backendProcessing(this));
+		ARLASSERT(ServiceProvider::findServiceProvider(this));
+		ARLASSERT(Network::Players::backendProcessing(this));
 
 		if (child.get() == weld.get())
 		{
-			RBXASSERT(backendAccoutrementState >= EQUIPPED);
+			ARLASSERT(backendAccoutrementState >= EQUIPPED);
 			setDesiredState(NOTHING, ServiceProvider::findServiceProvider(this));	// force down, nuke the weld
 		}
 		rebuildBackendState();
@@ -558,7 +558,7 @@ void Accoutrement::onChildRemoved(Instance* child)
 // This is a backend event
 void Accoutrement::onEvent_HandleTouched(shared_ptr<Instance> other)
 {
-	RBXASSERT(Network::Players::backendProcessing(this));
+	ARLASSERT(Network::Players::backendProcessing(this));
 
 	if ((backendAccoutrementState == IN_WORKSPACE) && other)
 	{
@@ -570,17 +570,17 @@ void Accoutrement::onEvent_HandleTouched(shared_ptr<Instance> other)
 				setParent(touchingCharacter);
 			}
 			
-			//RBXASSERT(backendAccoutrementState == EQUIPPED);
+			//ARLASSERT(backendAccoutrementState == EQUIPPED);
 		}
 	}
 }
 
 
-void Accoutrement::onEvent_AttachmentAdjusted(const RBX::Reflection::PropertyDescriptor* propertyDescriptor)
+void Accoutrement::onEvent_AttachmentAdjusted(const ARL::Reflection::PropertyDescriptor* propertyDescriptor)
 {
-	RBXASSERT(Network::Players::backendProcessing(this));
+	ARLASSERT(Network::Players::backendProcessing(this));
 
-	if (propertyDescriptor == &RBX::Attachment::prop_Frame)
+	if (propertyDescriptor == &ARL::Attachment::prop_Frame)
 	{
 		updateWeld();
 	}
@@ -620,7 +620,7 @@ void Accoutrement::updateWeld()
 	if (weld != NULL)
 	{
 		// all this does not occur client side
-		RBXASSERT(Network::Players::backendProcessing(this));
+		ARLASSERT(Network::Players::backendProcessing(this));
 
 		Attachment* attachment = NULL;
 
@@ -661,7 +661,7 @@ void Accoutrement::setAttachmentPoint(const CoordinateFrame& value)
 			if (weld != NULL)
 			{
 				// all this does not occur client side
-				RBXASSERT(Network::Players::backendProcessing(this));
+				ARLASSERT(Network::Players::backendProcessing(this));
 				weld->setC1(attachmentPoint);
 			}
 		}

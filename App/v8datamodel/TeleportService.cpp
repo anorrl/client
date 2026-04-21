@@ -28,9 +28,9 @@ FASTFLAGVARIABLE(UseBuildGenericGameUrl, true)
 
 FASTFLAGVARIABLE(PlaceLauncherUsePOST, true)
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sTeleportService	= "TeleportService";
+const char* const ARL::sTeleportService	= "TeleportService";
 
 REFLECTION_BEGIN();
 static Reflection::BoundYieldFuncDesc<TeleportService, shared_ptr<const Reflection::Tuple>(int)> func_GetPlayerPlaceInstanceAsync(&TeleportService::GetPlayerPlaceInstanceAsync, "GetPlayerPlaceInstanceAsync", "userId", Security::None);
@@ -106,7 +106,7 @@ static std::string ReadStringValue(shared_ptr<const Reflection::ValueTable> json
     }
     else
     {
-        throw std::runtime_error(RBX::format("Unexpected string result for %s", name.c_str()));
+        throw std::runtime_error(ARL::format("Unexpected string result for %s", name.c_str()));
     }
 }
 
@@ -119,7 +119,7 @@ static int ReadIntValue(shared_ptr<const Reflection::ValueTable> jsonResult, std
     }
     else
     {
-        throw std::runtime_error(RBX::format("Unexpected int result for %s", name.c_str()));
+        throw std::runtime_error(ARL::format("Unexpected int result for %s", name.c_str()));
     }
 }
 
@@ -167,7 +167,7 @@ void TeleportService::TeleportCancel()
 
 void TeleportService::TeleportImpl(shared_ptr<const Reflection::ValueTable> teleportInfo, shared_ptr<Instance> customLoadingGUI)
 {
-    RBXASSERT(!Workspace::serverIsPresent(this));
+    ARLASSERT(!Workspace::serverIsPresent(this));
 
 	dataTable = teleportInfo->at("teleportData");
 	customTeleportLoadingGui = customLoadingGUI;
@@ -191,9 +191,9 @@ void TeleportService::TeleportImpl(shared_ptr<const Reflection::ValueTable> tele
 	try
 	{
         requestingTeleport = true;
-		RBXASSERT(!_baseUrl.empty());
+		ARLASSERT(!_baseUrl.empty());
 
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
         char extraStuff[1024];
         sprintf_s(extraStuff, 1024, "&gamerTag=%s", _callback->xBox_getGamerTag().c_str()); // We'll probably drop this crap in the future. Ask me in 5 years.       -- Max
 #else
@@ -223,7 +223,7 @@ void TeleportService::TeleportImpl(shared_ptr<const Reflection::ValueTable> tele
 				// to-reserved server teleport
 				_spawnName = teleportInfo->at("spawnName").get<std::string>();
 				char urlBuf[2048] = {0};
-				sprintf_s(urlBuf, 2048, "Game/PlaceLauncher.ashx?request=RequestPrivateGame&placeId=%d&accessCode=%s&linkCode=&privateGameMode=ReservedServer%s", teleportInfo->at("placeId").get<int>(), RBX::Http::urlEncode(teleportInfo->at("reservedServerAccessCode").get<std::string>()).c_str(), extraStuff);
+				sprintf_s(urlBuf, 2048, "Game/PlaceLauncher.ashx?request=RequestPrivateGame&placeId=%d&accessCode=%s&linkCode=&privateGameMode=ReservedServer%s", teleportInfo->at("placeId").get<int>(), ARL::Http::urlEncode(teleportInfo->at("reservedServerAccessCode").get<std::string>()).c_str(), extraStuff);
 				url = BuildGenericGameUrl(_baseUrl, urlBuf);
 			}
 		}
@@ -249,7 +249,7 @@ void TeleportService::TeleportImpl(shared_ptr<const Reflection::ValueTable> tele
 			{
 				// to-reserved server teleport
 				char urlBuf[2048] = {0};
-				sprintf_s(urlBuf, 2048, "%s/Game/PlaceLauncher.ashx?request=RequestPrivateGame&placeId=%d&accessCode=%s&linkCode=&privateGameMode=ReservedServer%s", _baseUrl.c_str(), teleportInfo->at("placeId").get<int>(), RBX::Http::urlEncode(teleportInfo->at("reservedServerAccessCode").get<std::string>()).c_str(), extraStuff);
+				sprintf_s(urlBuf, 2048, "%s/Game/PlaceLauncher.ashx?request=RequestPrivateGame&placeId=%d&accessCode=%s&linkCode=&privateGameMode=ReservedServer%s", _baseUrl.c_str(), teleportInfo->at("placeId").get<int>(), ARL::Http::urlEncode(teleportInfo->at("reservedServerAccessCode").get<std::string>()).c_str(), extraStuff);
 				url = urlBuf;
 				_spawnName = teleportInfo->at("spawnName").get<std::string>();
 			}
@@ -269,9 +269,9 @@ void TeleportService::TeleportImpl(shared_ptr<const Reflection::ValueTable> tele
         }
         // spawn the teleport thread
         retryTimer.reset();
-        teleportThread.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&TeleportService::TeleportThreadImpl, shared_from(this), teleportInfo), "Teleport Thread")));
+        teleportThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&TeleportService::TeleportThreadImpl, shared_from(this), teleportInfo), "Teleport Thread")));
     }
-    catch (RBX::base_exception& e)
+    catch (ARL::base_exception& e)
     {
         _waitingForUserInput = false;
         requestingTeleport = false;
@@ -305,11 +305,11 @@ void TeleportService::TeleportThreadImpl(shared_ptr<const Reflection::ValueTable
                 if (FFlag::PlaceLauncherUsePOST)
                 {
                 std::istringstream input("");
-                    RBX::Http(url).post(input, RBX::Http::kContentTypeDefaultUnspecified, false, response);
+                    ARL::Http(url).post(input, ARL::Http::kContentTypeDefaultUnspecified, false, response);
                 }
                 else
                 {
-                    RBX::Http(url).get(response);
+                    ARL::Http(url).get(response);
                 }
                     
                 std::stringstream jsonStream;
@@ -340,7 +340,7 @@ void TeleportService::TeleportThreadImpl(shared_ptr<const Reflection::ValueTable
 									player->onTeleportInternal(TeleportState_WaitingForServer, teleportInfo);
 								}
 							}
-							catch (const RBX::base_exception&)
+							catch (const ARL::base_exception&)
 							{
 							}
                             retryUsed = false;
@@ -360,7 +360,7 @@ void TeleportService::TeleportThreadImpl(shared_ptr<const Reflection::ValueTable
                     std::string ticket = ReadStringValue(jsonResult, "authenticationTicket");;
                     std::string script;
                     
-                    if (RBX::GameBasicSettings::singleton().inStudioMode())
+                    if (ARL::GameBasicSettings::singleton().inStudioMode())
                     {
 						
 						// get universe id
@@ -410,7 +410,7 @@ void TeleportService::TeleportThreadImpl(shared_ptr<const Reflection::ValueTable
 							_callback->doTeleport(au, ticket, script);
 							_waitingForUserInput = false;
 						}
-						catch (const RBX::base_exception&)
+						catch (const ARL::base_exception&)
 						{
 						}
                         return;
@@ -425,11 +425,11 @@ void TeleportService::TeleportThreadImpl(shared_ptr<const Reflection::ValueTable
 						if (Network::Player* player = Network::Players::findLocalPlayer(this))
 						{
                         
-							RBXASSERT(teleportInfo->at("placeId").get<int>() >= -1);
+							ARLASSERT(teleportInfo->at("placeId").get<int>() >= -1);
 							player->onTeleportInternal(TeleportState_Failed, teleportInfo);
 						}
 					}
-					catch (const RBX::base_exception&)
+					catch (const ARL::base_exception&)
 					{
 					}
 					_waitingForUserInput = false;
@@ -437,7 +437,7 @@ void TeleportService::TeleportThreadImpl(shared_ptr<const Reflection::ValueTable
                     return;
                 }
             }
-            catch (RBX::base_exception& e)
+            catch (ARL::base_exception& e)
             {
                 _waitingForUserInput = false;
                 requestingTeleport = false;
@@ -450,7 +450,7 @@ void TeleportService::TeleportThreadImpl(shared_ptr<const Reflection::ValueTable
 						player->onTeleportInternal(TeleportState_Failed, teleportInfo);
 					}
 				}
-				catch (RBX::base_exception&)
+				catch (ARL::base_exception&)
 				{
 				}
                 StandardOut::singleton()->printf(MESSAGE_ERROR, "Teleport exception: %s", e.what());
@@ -468,7 +468,7 @@ void TeleportService::TeleportThreadImpl(shared_ptr<const Reflection::ValueTable
 
 void TeleportService::ServerTeleport(shared_ptr<Instance> characterOrPlayerInstance, shared_ptr<Reflection::ValueTable> teleportInfo, shared_ptr<Instance> customLoadingGUI)
 {
-    RBXASSERT(Workspace::serverIsPresent(this));
+    ARLASSERT(Workspace::serverIsPresent(this));
     if (characterOrPlayerInstance == NULL)
     {
         StandardOut::singleton()->printf(MESSAGE_WARNING, "Invalid player to teleport.");
@@ -640,7 +640,7 @@ void TeleportService::ProcessGetPlayerPlaceInstanceResultsError(std::string erro
 
 void TeleportService::GetPlayerPlaceInstanceAsync(int playerId, boost::function<void(shared_ptr<const Reflection::Tuple>)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+	if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 	{
 		char urlBuf[2048] = {0};
 		DataModel* dm = DataModel::get(this);
@@ -652,7 +652,7 @@ void TeleportService::GetPlayerPlaceInstanceAsync(int playerId, boost::function<
 		StandardOut::singleton()->printf(MESSAGE_INFO, "Request: %s", url.c_str());
 #endif
 
-		apiService->getAsync(url, true, RBX::PRIORITY_SERVER_ELEVATED,
+		apiService->getAsync(url, true, ARL::PRIORITY_SERVER_ELEVATED,
 			boost::bind(&TeleportService::ProcessGetPlayerPlaceInstanceResultsSuccess, this, _1, resumeFunction, errorFunction), 
 			boost::bind(&TeleportService::ProcessGetPlayerPlaceInstanceResultsError, this, _1, errorFunction) );
 	}
@@ -723,12 +723,12 @@ void TeleportService::TeleportToPrivateServer(int placeId, std::string reservedS
 		}
 
 		char urlBuf[2048] = {0};
-		sprintf_s(urlBuf, 2048, "reservedservers/grantaccess?reservedServerAccessCode=%s", RBX::Http::urlEncode(reservedServerAccessCode).c_str());
+		sprintf_s(urlBuf, 2048, "reservedservers/grantaccess?reservedServerAccessCode=%s", ARL::Http::urlEncode(reservedServerAccessCode).c_str());
 		url = urlBuf;
 
 		if (playerFound)
 		{
-			if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+			if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 			{
 
 #if defined(_NOOPT)
@@ -743,7 +743,7 @@ void TeleportService::TeleportToPrivateServer(int placeId, std::string reservedS
 				(*teleportInfo)["teleportType"]				= TeleportType_ToReservedServer;
 				(*teleportInfo)["teleportData"]				= teleportData;
 
-				apiService->postAsync(url, playerIdsStream.str(), true, RBX::PRIORITY_SERVER_ELEVATED, HttpService::APPLICATION_URLENCODED,
+				apiService->postAsync(url, playerIdsStream.str(), true, ARL::PRIORITY_SERVER_ELEVATED, HttpService::APPLICATION_URLENCODED,
 					boost::bind(&TeleportService::ProcessGrantAccessSuccess, this, players, teleportInfo, customLoadingGUI, _1), 
 					boost::bind(&TeleportService::ProcessGrantAccessError, this, players, teleportInfo, _1) );
 			}
@@ -819,7 +819,7 @@ void TeleportService::ReserveServer(int placeId, boost::function<void(std::strin
 {
 	if (Workspace::serverIsPresent(this))
 	{
-		if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+		if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 		{
 			char urlBuf[2048] = {0};
 			sprintf_s(urlBuf, 2048, "reservedservers/create?placeId=%d", placeId);
@@ -829,7 +829,7 @@ void TeleportService::ReserveServer(int placeId, boost::function<void(std::strin
 			StandardOut::singleton()->printf(MESSAGE_INFO, "Request: %s", url.c_str());
 #endif
 
-			apiService->postAsync(url, "", true, RBX::PRIORITY_SERVER_ELEVATED, HttpService::APPLICATION_URLENCODED,
+			apiService->postAsync(url, "", true, ARL::PRIORITY_SERVER_ELEVATED, HttpService::APPLICATION_URLENCODED,
 				boost::bind(&TeleportService::ProcessReserveServerResultsSuccess, this, _1, resumeFunction, errorFunction), 
 				boost::bind(&TeleportService::ProcessReserveServerResultsError, this, _1, errorFunction) );
 		}
@@ -868,7 +868,7 @@ Reflection::Variant TeleportService::getLocalPlayerTeleportData()
 	}
 }
 
-namespace RBX{
+namespace ARL{
     namespace Reflection {
         template<>
         EnumDesc<TeleportService::TeleportState>::EnumDesc()
@@ -914,4 +914,4 @@ namespace RBX{
     {
         return Reflection::EnumDesc<TeleportService::TeleportType>::singleton().convertToValue(text.c_str(),value);
     }
-}//namespace RBX::Reflection
+}//namespace ARL::Reflection

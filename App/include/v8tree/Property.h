@@ -11,15 +11,15 @@
 #include <iostream>
 #include <vector>
 
-namespace RBX {
+namespace ARL {
 
 	class PropertyChanged
 	{
-		RBX::Reflection::Property property;
+		ARL::Reflection::Property property;
 	public:
-		const RBX::Reflection::Property& getProperty() const { return property; }
-		const RBX::Reflection::PropertyDescriptor& getDescriptor() const { return property.getDescriptor(); }
-		const RBX::Name& getName() { return property.getName(); }
+		const ARL::Reflection::Property& getProperty() const { return property; }
+		const ARL::Reflection::PropertyDescriptor& getDescriptor() const { return property.getDescriptor(); }
+		const ARL::Name& getName() { return property.getName(); }
 
 		PropertyChanged(const PropertyChanged& other)
 			: property(other.property)
@@ -27,7 +27,7 @@ namespace RBX {
 
 	private:
 		friend class Instance;
-		PropertyChanged(const RBX::Reflection::Property& p) 
+		PropertyChanged(const ARL::Reflection::Property& p) 
 			: property(p)
 		{}
 	};

@@ -17,7 +17,7 @@
 FASTFLAG(HumanoidFloorPVUpdateSignal)
 DYNAMIC_FASTFLAG(NetworkOwnershipRuleReplicates)
 
-namespace RBX {
+namespace ARL {
 
 #pragma warning(push)
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list
@@ -32,7 +32,7 @@ SpatialFilter::SpatialFilter(IStage* upstream, World* world)
 SpatialFilter::~SpatialFilter()
 {
 	for (int i = 0; i < Assembly::NUM_PHASES; ++i) {
-		RBXASSERT(assemblies[i].empty());
+		ARLASSERT(assemblies[i].empty());
 	}
 }
 
@@ -45,13 +45,13 @@ MechToAssemblyStage* SpatialFilter::getMechToAssemblyStage()
 
 void SpatialFilter::changePhase(MoveInstructions& mi)
 {
-	RBXASSERT(mi.to != mi.from);
-	RBXASSERT(mi.a->getFilterPhase() == mi.from);
+	ARLASSERT(mi.to != mi.from);
+	ARLASSERT(mi.a->getFilterPhase() == mi.from);
 
 	if (mi.from < Assembly::NUM_PHASES)
 	{
 		int num = assemblies[mi.from].erase(mi.a);				
-		RBXASSERT(num == 1);
+		ARLASSERT(num == 1);
 	}
 
 	mi.a->setFilterPhase(mi.to);
@@ -60,7 +60,7 @@ void SpatialFilter::changePhase(MoveInstructions& mi)
 	if (mi.to < Assembly::NUM_PHASES)
 	{
 		bool ok = assemblies[mi.to].insert(mi.a).second;		// 1. Into local dynamic assemblies list
-		RBXASSERT(ok);
+		ARLASSERT(ok);
 	}
 }
 
@@ -90,17 +90,17 @@ void SpatialFilter::moveInto(MoveInstructions& mi)
 		}
 
 		if (wasSimulating) {
-			RBXASSERT(mi.a->downstreamOfStage(this));
+			ARLASSERT(mi.a->downstreamOfStage(this));
 			getMechToAssemblyStage()->onSimulateAssemblyRootRemoving(mi.a);
 		}
 		else
 		{
 			if (wasNoSim) {
-				RBXASSERT(mi.a->downstreamOfStage(this));
+				ARLASSERT(mi.a->downstreamOfStage(this));
 				getMechToAssemblyStage()->onNoSimulateAssemblyRootRemoving(mi.a);
 			}
 			else if (wasFixed) {
-				RBXASSERT(mi.a->downstreamOfStage(this));
+				ARLASSERT(mi.a->downstreamOfStage(this));
 				getMechToAssemblyStage()->onFixedAssemblyRemoving(mi.a);
 			}
 
@@ -117,17 +117,17 @@ void SpatialFilter::moveInto(MoveInstructions& mi)
 
 		if (willSimulate) {
 			getMechToAssemblyStage()->onSimulateAssemblyRootAdded(mi.a);
-			RBXASSERT(mi.a->downstreamOfStage(this));
+			ARLASSERT(mi.a->downstreamOfStage(this));
 		}
 		else
 		{
 			if (willNoSim) {
 				getMechToAssemblyStage()->onNoSimulateAssemblyRootAdded(mi.a);
-				RBXASSERT(mi.a->downstreamOfStage(this));
+				ARLASSERT(mi.a->downstreamOfStage(this));
 			}
 			else if (willFixed) {
 				getMechToAssemblyStage()->onFixedAssemblyAdded(mi.a);
-				RBXASSERT(mi.a->downstreamOfStage(this));
+				ARLASSERT(mi.a->downstreamOfStage(this));
 			}
 
 			if (willAnimate)
@@ -170,8 +170,8 @@ bool SpatialFilter::addressMatch(Assembly* a)
 
 bool SpatialFilter::isNotClientAddress(Assembly* a)
 {
-	RBXASSERT(filter.networkAddress == Network::NetworkOwner::Server());
-	const RBX::SystemAddress owner = a->getAssemblyPrimitive()->getNetworkOwner();
+	ARLASSERT(filter.networkAddress == Network::NetworkOwner::Server());
+	const ARL::SystemAddress owner = a->getAssemblyPrimitive()->getNetworkOwner();
 	return !Network::NetworkOwner::isClient(owner);
 }
 
@@ -182,7 +182,7 @@ bool SpatialFilter::inClientSimRegion(Assembly* a)
 		return false;
 	Vector2 pos2d = a->get2dPosition();
 
-	return filter.region.contains(pos2d, RBX::Network::DistributedPhysics::CLIENT_SLOP());
+	return filter.region.contains(pos2d, ARL::Network::DistributedPhysics::CLIENT_SLOP());
 }
 
 void updateNetworkIsSleeping(Assembly* a, Time wakeupNow)
@@ -215,7 +215,7 @@ Assembly::FilterPhase SpatialFilter::filterAssembly(Assembly* a, bool simulating
 				    // start simulation until all those properties are here. i.e. in script: model:clone() model:makeJoint(), newly cloned parts
 				    // have unassigned owner until it goes through network owner job, we start to receive these parts as soon as they 
 				    // are created, we need to wait for all the joints are here before simulating
-				    && (a->getAssemblyPrimitive()->getNetworkOwner() != RBX::Network::NetworkOwner::ServerUnassigned())
+				    && (a->getAssemblyPrimitive()->getNetworkOwner() != ARL::Network::NetworkOwner::ServerUnassigned())
 					&& !(DFFlag::NetworkOwnershipRuleReplicates && a->getAssemblyPrimitive()->getNetworkOwnershipRuleInternal() == NetworkOwnership_Manual))
 			    {
 				    return Assembly::Sim_BufferZone;
@@ -245,7 +245,7 @@ Assembly::FilterPhase SpatialFilter::filterAssembly(Assembly* a, bool simulating
 		}
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return Assembly::NoSim_SendIfSim;
 		}
 	}
@@ -254,7 +254,7 @@ Assembly::FilterPhase SpatialFilter::filterAssembly(Assembly* a, bool simulating
 
 void SpatialFilter::filterAssemblies()
 {
-	RBXASSERT((filter.mode == SimSendFilter::dPhysClient) || (filter.mode == SimSendFilter::dPhysServer));
+	ARLASSERT((filter.mode == SimSendFilter::dPhysClient) || (filter.mode == SimSendFilter::dPhysServer));
 
 	toMove.fastClear();					// buffer of where to move
 
@@ -265,7 +265,7 @@ void SpatialFilter::filterAssemblies()
 		for (AssemblySet::iterator it = workingSet.begin(); it != workingSet.end(); ++it) 
 		{
 			Assembly* a = *it;
-			RBXASSERT(a->getFilterPhase() == i);
+			ARLASSERT(a->getFilterPhase() == i);
 
 			Assembly::FilterPhase desiredPhase = filterAssembly(a, true, now);		// i.e. we are simulating
 			
@@ -323,8 +323,8 @@ void SpatialFilter::filterStep()
 
 void SpatialFilter::onMovingAssemblyRootAdded(Assembly* a, Time now)
 {
-	RBXASSERT(Mechanism::isMovingAssemblyRoot(a));
-	RBXASSERT(!a->computeIsGrounded());
+	ARLASSERT(Mechanism::isMovingAssemblyRoot(a));
+	ARLASSERT(!a->computeIsGrounded());
 	a->putInPipeline(this);
 
 	Assembly::FilterPhase desiredPhase = filterAssembly(a, false, now);			// shouldn't matter either way - it will get re-done on the filter call
@@ -339,8 +339,8 @@ void SpatialFilter::onMovingAssemblyRootAdded(Assembly* a, Time now)
 
 void SpatialFilter::onFixedAssemblyRootAdded(Assembly* a)
 {
-	RBXASSERT(!Mechanism::isMovingAssemblyRoot(a));
-	RBXASSERT(a->computeIsGrounded());
+	ARLASSERT(!Mechanism::isMovingAssemblyRoot(a));
+	ARLASSERT(a->computeIsGrounded());
 	a->putInPipeline(this);
 
 	// gcc crap on this EL
@@ -369,7 +369,7 @@ void SpatialFilter::onAssemblyRootRemoving(Assembly* a)
 		a->removeFromPipeline(this);
 	}
 	else {
-		RBXASSERT(a->getFilterPhase() == Assembly::NOT_ASSIGNED);
+		ARLASSERT(a->getFilterPhase() == Assembly::NOT_ASSIGNED);
 	}
 }
 

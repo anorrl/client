@@ -6,7 +6,7 @@
 #include "V8DataModel/Platform.h"
 #include "reflection/reflection.h"
 
-namespace RBX {
+namespace ARL {
 
 class Humanoid;
 class SkateboardController;

@@ -13,17 +13,17 @@ DYNAMIC_FASTINTVARIABLE(RemoteDelayedQueueLimit, 256)
 namespace {
 	static void sendRemoteFunctionStatsOnServer(const char* function)
 	{
-		RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "RemoteFunction", function);
+		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "RemoteFunction", function);
 	}
 
 	static void sendRemoteEventStatsOnServer(const char* function)
 	{
-		RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "RemoteEvent", function);
+		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "RemoteEvent", function);
 	}
 
 } // namespace
 
-namespace RBX {
+namespace ARL {
 
     REFLECTION_BEGIN();
 	const char* const sRemoteFunction = "RemoteFunction";
@@ -89,10 +89,10 @@ namespace RBX {
             {
                 temp[i]();
             }
-            catch (const RBX::base_exception& e)
+            catch (const ARL::base_exception& e)
             {
-                RBX::StandardOut::singleton()->printf(RBX::MESSAGE_OUTPUT, "DelayedInvocationQueue::process encountered an error %s", e.what());
-                RBXCRASH();
+                ARL::StandardOut::singleton()->printf(ARL::MESSAGE_OUTPUT, "DelayedInvocationQueue::process encountered an error %s", e.what());
+                ARLCRASH();
             }
         }
     }
@@ -148,7 +148,7 @@ namespace RBX {
             if (!p)
                 throw std::runtime_error("InvokeClient: player argument must be a Player object");
 
-            const RBX::SystemAddress& target = p->getRemoteAddressAsRbxAddress();
+            const ARL::SystemAddress& target = p->getRemoteAddressAsRbxAddress();
 
             int id = createRemoteInvocation(player, resumeFunction, errorFunction);
 
@@ -239,7 +239,7 @@ namespace RBX {
         int id = ++lastRemoteInvocationId;
 
         // Insert an invocation continuation
-        RBXASSERT(remoteInvocations.count(id) == 0);
+        ARLASSERT(remoteInvocations.count(id) == 0);
         RemoteInvocation invocation = {player, resumeFunction, errorFunction};
         remoteInvocations[id] = invocation;
 
@@ -250,7 +250,7 @@ namespace RBX {
     {
         if (&descriptor == &event_RemoteOnInvokeServer)
         {
-            RBXASSERT(args.size() == 3);
+            ARLASSERT(args.size() == 3);
 
             int id = args[0].cast<int>();
             shared_ptr<Instance> player = args[1].cast<shared_ptr<Instance> >();
@@ -263,12 +263,12 @@ namespace RBX {
             }
             else
             {
-                RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, "RemoteFunction::processRemoteEvent: ignore a remote call from %x:%d", source.getAddress(), source.getPort());
+                ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "RemoteFunction::processRemoteEvent: ignore a remote call from %x:%d", source.getAddress(), source.getPort());
             }
         }
         else if (&descriptor == &event_RemoteOnInvokeClient)
         {
-            RBXASSERT(args.size() == 2);
+            ARLASSERT(args.size() == 2);
 
             int id = args[0].cast<int>();
             shared_ptr<const Reflection::Tuple> arguments = args[1].cast<shared_ptr<const Reflection::Tuple> >();
@@ -340,7 +340,7 @@ namespace RBX {
         }
         else
         {
-            RBXASSERT(false);
+            ARLASSERT(false);
         }
     }
 
@@ -354,7 +354,7 @@ namespace RBX {
         }
         else
         {
-            RBXASSERT(false);
+            ARLASSERT(false);
         }
     }
 
@@ -425,7 +425,7 @@ namespace RBX {
             if (!p)
                 throw std::runtime_error("FireClient: player argument must be a Player object");
 
-            const RBX::SystemAddress& target = p->getRemoteAddressAsRbxAddress();
+            const ARL::SystemAddress& target = p->getRemoteAddressAsRbxAddress();
 
             // remote call
             Reflection::EventArguments args(1);
@@ -496,7 +496,7 @@ namespace RBX {
     {
         if (&descriptor == &event_OnServerEvent)
         {
-            RBXASSERT(args.size() == 2);
+            ARLASSERT(args.size() == 2);
 
             shared_ptr<Instance> player = args[0].cast<shared_ptr<Instance> >();
 
@@ -512,7 +512,7 @@ namespace RBX {
             }
             else
             {
-                RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, "RemoteEvent::processRemoteEvent: ignore a remote call from %x:%d", source.getAddress(), source.getPort());
+                ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "RemoteEvent::processRemoteEvent: ignore a remote call from %x:%d", source.getAddress(), source.getPort());
             }
         }
         else

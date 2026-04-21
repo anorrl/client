@@ -6,7 +6,7 @@
 #include "v8datamodel/ContentProvider.h"
 #include "Network/Api.h"
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include "winhttp.h" //Used for StatusCode Defines
 #endif
 
@@ -18,7 +18,7 @@
 
 LOGVARIABLE(SlowHttpRequest, 0);
 
-namespace RBX
+namespace ARL
 {
 
 class HttpQueueStatsItem : public Stats::Item
@@ -230,9 +230,9 @@ static void callback(AsyncHttpQueue::CallbackWrapper f, Instance* owner, AsyncHt
 	{
 		AsyncHttpQueue::dispatchCallback(f.callback, owner, result, response, f.jobType, exception);
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "ContentProvider callback exception: %s", e.what());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "ContentProvider callback exception: %s", e.what());
 	}
 }
 bool AsyncHttpQueue::isRequestQueueEmpty()
@@ -290,11 +290,11 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 				}
 				else
 				{	
-					//RBXASSERT(id.isHttp());
+					//ARLASSERT(id.isHttp());
 					// must be a net file.
 
 					boost::shared_ptr<Http> httpRequest;
-						httpRequest.reset(new RBX::Http(url));
+						httpRequest.reset(new ARL::Http(url));
 
 					httpRequest->setExpectedAssetType(request->expectedType);
 
@@ -311,7 +311,7 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 					result = Succeeded;
 				}
 			}
-			catch (RBX::http_status_error& e)
+			catch (ARL::http_status_error& e)
 			{
 				// This means the server has accepted  the request, but is taking longer to process, call again after some time and hopefully we will get a 200 OK once server is done processing
 				if(e.statusCode == 202)
@@ -328,7 +328,7 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 				throw;
 			}
 		}
-		catch (RBX::base_exception&)
+		catch (ARL::base_exception&)
 		{
 			result = Failed;
 			if(boost::shared_ptr<AsyncHttpQueue> httpQueue = weakHttpQueue.lock()) {
@@ -348,7 +348,7 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 					filenamePtr.reset(new std::string(filename));
 				httpQueue->registerContent(url, response, filenamePtr);
 			}
-			catch(RBX::base_exception&)
+			catch(ARL::base_exception&)
 			{
 				result = Failed;
 				throw;
@@ -358,17 +358,17 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 	catch (std::logic_error& e)
 	{
 		if(url.find("http") != std::string::npos){
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, "Content failed for %s because %s", url.c_str(), e.what());
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Content failed because %s", e.what());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "Content failed for %s because %s", url.c_str(), e.what());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Content failed because %s", e.what());
 		}
 		// the id has probably been put into failedUrls now
         exception = shared_ptr<std::exception>(new std::runtime_error(e.what()));
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		if(url.find("http") != std::string::npos){
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, "Content failed for %s because %s", url.c_str(), e.what());
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Content failed because %s", e.what());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "Content failed for %s because %s", url.c_str(), e.what());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Content failed because %s", e.what());
 		}
 		// the id has probably been put into failedUrls now
 		exception = shared_ptr<std::exception>(new std::runtime_error(e.what()));
@@ -411,16 +411,16 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 	AsyncHttpQueue::FailedUrl::FailedUrl(const char* url)
 		:url(url)
 #ifdef _DEBUG
-		,expiration(RBX::Time::now<Time::Fast>() + Time::Interval(10 * 60))
+		,expiration(ARL::Time::now<Time::Fast>() + Time::Interval(10 * 60))
 #else
-		,expiration(RBX::Time::now<Time::Fast>() + Time::Interval(5 * 60))
+		,expiration(ARL::Time::now<Time::Fast>() + Time::Interval(5 * 60))
 #endif
 	{
 	}
 
 	bool AsyncHttpQueue::FailedUrl::expired() const
 	{
-		return RBX::Time::now<Time::Fast>() >= expiration;
+		return ARL::Time::now<Time::Fast>() >= expiration;
 	}
 
 	
@@ -459,7 +459,7 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 				r--; // get last element;
 				r->url = id;
 				r->priority = priority;
-				r->startTime = RBX::Time::nowFast();
+				r->startTime = ARL::Time::nowFast();
 				r->expectedType = expectedType;
 				if (callback)
 					r->callbacks.push_back(CallbackWrapper(*callback, jobType));
@@ -486,7 +486,7 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 			try
 			{
 				// TODO: Should we check for isBadUrl() here or only in the request queue?
-					RBX::Http http(id);
+					ARL::Http http(id);
                     http.setCachePolicy(cachePolicy);
 
 					if (!expectedType.empty())
@@ -494,7 +494,7 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 
                     http.get(*response);
                 }
-			catch(RBX::base_exception&)
+			catch(ARL::base_exception&)
 			{
 				boost::recursive_mutex::scoped_lock lock(requestSync);
 				FASTLOGS(FLog::HttpQueue, "Failed url on sync fetch: %s", id);
@@ -505,7 +505,7 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 			{
 				registerContent(id, response, shared_ptr<const std::string>());
 			}
-			catch(RBX::base_exception&)
+			catch(ARL::base_exception&)
 			{
 				return false;
 			}

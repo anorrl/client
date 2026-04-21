@@ -5,7 +5,7 @@
 
 #include "RakNetTime.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 class DeserializedPingItem : public DeserializedItem

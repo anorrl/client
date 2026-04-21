@@ -3,7 +3,7 @@
 #include "Item.h"
 #include "Replicator.h"
 
-namespace RBX {
+namespace ARL {
 
 class Instance;
 namespace Reflection {

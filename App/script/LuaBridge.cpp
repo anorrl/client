@@ -23,14 +23,14 @@
 #include "v8datamodel/ColorSequence.h"
 #include "v8datamodel/NumberRange.h"
 
-namespace RBX
+namespace ARL
 {
 	namespace Lua
 	{
 		template<class Class, bool __eq>
 		int Bridge<Class, __eq>::on_tostring(const Class& object, lua_State *L)
 		{
-			std::string s = RBX::StringConverter<Class>::convertToString(object);
+			std::string s = ARL::StringConverter<Class>::convertToString(object);
 			lua_pushstring(L, s);
 			return 1;
 		}
@@ -39,7 +39,7 @@ namespace RBX
 		/// This is to force the above implementation to be generated for following class Types
 
 		/// If you are doing a specialization for the on_tostring() then you do *not* need to add the following line. 
-		/// Basically the specialization is needed if your class does not have the RBX::StringConverter<YourClass>::convertToString() implementation
+		/// Basically the specialization is needed if your class does not have the ARL::StringConverter<YourClass>::convertToString() implementation
 		/// To see an e.g for specialization, just look up LuaEnum.h LuaEnum.cpp, search for on_tostring()
 		
 		/// We need the forward declaration here because we want the above default on_tostring() implementation to be generated for the following class types
@@ -53,20 +53,20 @@ namespace RBX
 		/// https://docs0.google.com/a/roblox.com/document/d/100HFz6lRHJKP88UOshPrrnRoHavNZ5upT6ePIkgcYFc/edit?hl=en#
 
 		template int Bridge <G3D::Color3>::on_tostring(const  G3D::Color3&, lua_State *);
-		template int Bridge <RBX::RbxRay>::on_tostring(const  RBX::RbxRay&, lua_State *);
+		template int Bridge <ARL::RbxRay>::on_tostring(const  ARL::RbxRay&, lua_State *);
 		template int Bridge <G3D::Vector3int16>::on_tostring(const  G3D::Vector3int16&, lua_State *);	
 		template int Bridge <G3D::Vector2int16>::on_tostring(const  G3D::Vector2int16&, lua_State *);	
 		template int Bridge <G3D::Vector3>::on_tostring(const  G3D::Vector3&, lua_State *);		
-		template int Bridge <RBX::Vector2>::on_tostring(const  RBX::Vector2&, lua_State *);
-        template int Bridge <RBX::Rect2D>::on_tostring(const  RBX::Rect2D&, lua_State *);
-		template int Bridge <PhysicalProperties>::on_tostring(const RBX::PhysicalProperties&, lua_State *);
-		template int Bridge <RBX::BrickColor>::on_tostring(const  RBX::BrickColor&, lua_State *);
+		template int Bridge <ARL::Vector2>::on_tostring(const  ARL::Vector2&, lua_State *);
+        template int Bridge <ARL::Rect2D>::on_tostring(const  ARL::Rect2D&, lua_State *);
+		template int Bridge <PhysicalProperties>::on_tostring(const ARL::PhysicalProperties&, lua_State *);
+		template int Bridge <ARL::BrickColor>::on_tostring(const  ARL::BrickColor&, lua_State *);
 		template int Bridge <G3D::CoordinateFrame>::on_tostring(const  G3D::CoordinateFrame&, lua_State *);
-		template int Bridge <RBX::Faces>::on_tostring(const  RBX::Faces&, lua_State *);
-		template int Bridge <RBX::Axes>::on_tostring(const  RBX::Axes&, lua_State *);
-		template int Bridge <RBX::CellID>::on_tostring(const  RBX::CellID&, lua_State *);
-		template int Bridge <RBX::UDim>::on_tostring(const RBX::UDim&, lua_State *);
-		template int Bridge <RBX::UDim2>::on_tostring(const RBX::UDim2&, lua_State *);
+		template int Bridge <ARL::Faces>::on_tostring(const  ARL::Faces&, lua_State *);
+		template int Bridge <ARL::Axes>::on_tostring(const  ARL::Axes&, lua_State *);
+		template int Bridge <ARL::CellID>::on_tostring(const  ARL::CellID&, lua_State *);
+		template int Bridge <ARL::UDim>::on_tostring(const ARL::UDim&, lua_State *);
+		template int Bridge <ARL::UDim2>::on_tostring(const ARL::UDim2&, lua_State *);
 
 		template<class Class, bool __eq>
 		void Bridge<Class, __eq>::registerClass (lua_State *L)
@@ -120,28 +120,28 @@ namespace RBX
 		/// Also this case has been documented in the Porting Error Cases Document found at Roblox Documents
 		/// https://docs0.google.com/a/roblox.com/document/d/100HFz6lRHJKP88UOshPrrnRoHavNZ5upT6ePIkgcYFc/edit?hl=en#
 
-        template void Bridge <RBX::Axes>::registerClass(lua_State *);
-        template void Bridge <RBX::CellID>::registerClass(lua_State *);
-        template void Bridge <RBX::Faces>::registerClass(lua_State *);
-        template void Bridge <RBX::BrickColor>::registerClass(lua_State *);
-        template void Bridge <RBX::RbxRay>::registerClass(lua_State *);
-        template void Bridge <RBX::Region3>::registerClass(lua_State *);
-        template void Bridge <RBX::Region3int16>::registerClass(lua_State *);
+        template void Bridge <ARL::Axes>::registerClass(lua_State *);
+        template void Bridge <ARL::CellID>::registerClass(lua_State *);
+        template void Bridge <ARL::Faces>::registerClass(lua_State *);
+        template void Bridge <ARL::BrickColor>::registerClass(lua_State *);
+        template void Bridge <ARL::RbxRay>::registerClass(lua_State *);
+        template void Bridge <ARL::Region3>::registerClass(lua_State *);
+        template void Bridge <ARL::Region3int16>::registerClass(lua_State *);
         template void Bridge <G3D::Color3>::registerClass(lua_State *);
         template void Bridge <boost::intrusive_ptr<class WeakThreadRef::Node> >::registerClass(lua_State *);
         template void Bridge <shared_ptr<GenericFunction> >::registerClass(lua_State *);
         template void Bridge <shared_ptr<GenericAsyncFunction> >::registerClass(lua_State *);
-        template void Bridge <shared_ptr<class RBX::Instance>, false >::registerClass(lua_State *);
+        template void Bridge <shared_ptr<class ARL::Instance>, false >::registerClass(lua_State *);
         template void Bridge <rbx::signals::connection>::registerClass(lua_State *);
         template void Bridge <Library>::registerClass(lua_State *);
         template void Bridge <EventInstance>::registerClass(lua_State *);
         template void Bridge <AllEnumDescriptorsPtr, false>::registerClass(lua_State *);
         template void Bridge <EnumDescriptorPtr, false>::registerClass(lua_State *);
         template void Bridge <EnumDescriptorItemPtr, false>::registerClass(lua_State *);
-        template void Bridge <RBX::NumberSequenceKeypoint>::registerClass(lua_State *);
-        template void Bridge <RBX::ColorSequenceKeypoint>::registerClass(lua_State *);
-        template void Bridge <RBX::NumberSequence>::registerClass(lua_State *);
-        template void Bridge <RBX::ColorSequence>::registerClass(lua_State *);
-        template void Bridge <RBX::NumberRange>::registerClass(lua_State *);
+        template void Bridge <ARL::NumberSequenceKeypoint>::registerClass(lua_State *);
+        template void Bridge <ARL::ColorSequenceKeypoint>::registerClass(lua_State *);
+        template void Bridge <ARL::NumberSequence>::registerClass(lua_State *);
+        template void Bridge <ARL::ColorSequence>::registerClass(lua_State *);
+        template void Bridge <ARL::NumberRange>::registerClass(lua_State *);
 	}
 }

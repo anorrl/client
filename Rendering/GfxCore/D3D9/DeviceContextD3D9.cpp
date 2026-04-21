@@ -11,7 +11,7 @@
 
 FASTFLAG(GraphicsDebugMarkersEnable)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -122,8 +122,8 @@ DeviceContextD3D9::~DeviceContextD3D9()
 
 void DeviceContextD3D9::defineGlobalConstants(size_t dataSize)
 {
-	RBXASSERT(globalDataSize == 0);
-    RBXASSERT(dataSize > 0);
+	ARLASSERT(globalDataSize == 0);
+    ARLASSERT(dataSize > 0);
 
 	globalDataSize = dataSize;
 }
@@ -194,7 +194,7 @@ void DeviceContextD3D9::setDefaultAnisotropy(unsigned int value)
 
 void DeviceContextD3D9::updateGlobalConstants(const void* data, size_t dataSize)
 {
-    RBXASSERT(dataSize == globalDataSize);
+    ARLASSERT(dataSize == globalDataSize);
 
     device9->SetVertexShaderConstantF(0, static_cast<const float*>(data), globalDataSize / 16);
     device9->SetPixelShaderConstantF(0, static_cast<const float*>(data), globalDataSize / 16);
@@ -246,9 +246,9 @@ void DeviceContextD3D9::clearFramebuffer(unsigned int mask, const float color[4]
 
 void DeviceContextD3D9::copyFramebuffer(Framebuffer* buffer, Texture* texture)
 {
-	RBXASSERT(texture->getType() == Texture::Type_2D);
-	RBXASSERT(texture->getMipLevels() == 1);
-	RBXASSERT(buffer->getWidth() == texture->getWidth() && buffer->getHeight() == texture->getHeight());
+	ARLASSERT(texture->getType() == Texture::Type_2D);
+	ARLASSERT(texture->getMipLevels() == 1);
+	ARLASSERT(buffer->getWidth() == texture->getWidth() && buffer->getHeight() == texture->getHeight());
 
 	IDirect3DSurface9* tempSurface = static_cast<FramebufferD3D9*>(buffer)->grabCopy();
     IDirect3DTexture9* textureObject = static_cast<IDirect3DTexture9*>(static_cast<TextureD3D9*>(texture)->getObject());
@@ -259,7 +259,7 @@ void DeviceContextD3D9::copyFramebuffer(Framebuffer* buffer, Texture* texture)
     D3DSURFACE_DESC textureDesc;
     textureObject->GetLevelDesc(0, &textureDesc);
 
-	RBXASSERT(textureDesc.Format == surfaceDesc.Format && textureDesc.Width == surfaceDesc.Width && textureDesc.Height == surfaceDesc.Height);
+	ARLASSERT(textureDesc.Format == surfaceDesc.Format && textureDesc.Width == surfaceDesc.Width && textureDesc.Height == surfaceDesc.Height);
 
 	D3DLOCKED_RECT surfaceRect = {};
 	tempSurface->LockRect(&surfaceRect, NULL, 0);
@@ -276,21 +276,21 @@ void DeviceContextD3D9::copyFramebuffer(Framebuffer* buffer, Texture* texture)
 	tempSurface->UnlockRect();
 
 	unsigned int rc = tempSurface->Release();
-    RBXASSERT(rc == 0);
+    ARLASSERT(rc == 0);
 }
 
 void DeviceContextD3D9::resolveFramebuffer(Framebuffer* msaaBuffer, Framebuffer* buffer, unsigned int mask)
 {
-	RBXASSERT(msaaBuffer->getSamples() > 1);
-	RBXASSERT(buffer->getSamples() == 1);
-	RBXASSERT(msaaBuffer->getWidth() == buffer->getWidth() && msaaBuffer->getHeight() == buffer->getHeight());
+	ARLASSERT(msaaBuffer->getSamples() > 1);
+	ARLASSERT(buffer->getSamples() == 1);
+	ARLASSERT(msaaBuffer->getWidth() == buffer->getWidth() && msaaBuffer->getHeight() == buffer->getHeight());
 
 	FramebufferD3D9* msaaBuffer9 = static_cast<FramebufferD3D9*>(msaaBuffer);
 	FramebufferD3D9* buffer9 = static_cast<FramebufferD3D9*>(buffer);
 
-    RBXASSERT(msaaBuffer9->getColor().size() == 1);
-    RBXASSERT(buffer9->getColor().size() == 1);
-	RBXASSERT(mask == Buffer_Color);
+    ARLASSERT(msaaBuffer9->getColor().size() == 1);
+    ARLASSERT(buffer9->getColor().size() == 1);
+	ARLASSERT(mask == Buffer_Color);
 
     RenderbufferD3D9* msaaBufferColor9 = static_cast<RenderbufferD3D9*>(msaaBuffer9->getColor()[0].get());
     RenderbufferD3D9* bufferColor9 = static_cast<RenderbufferD3D9*>(buffer9->getColor()[0].get());
@@ -329,8 +329,8 @@ void DeviceContextD3D9::bindTexture(unsigned int stage, Texture* texture, const 
 		? SamplerState(state.getFilter(), state.getAddress(), defaultAnisotropy)
 		: state;
 
-	RBXASSERT(stage < device->getCaps().maxTextureUnits);
-    RBXASSERT(stage < ARRAYSIZE(cachedTextureUnits));
+	ARLASSERT(stage < device->getCaps().maxTextureUnits);
+    ARLASSERT(stage < ARRAYSIZE(cachedTextureUnits));
 
     TextureUnit& u = cachedTextureUnits[stage];
 
@@ -465,7 +465,7 @@ void DeviceContextD3D9::setDepthState(const DepthState& state)
             break;
 
 		default:
-            RBXASSERT(false);
+            ARLASSERT(false);
 		}
 	}
 }

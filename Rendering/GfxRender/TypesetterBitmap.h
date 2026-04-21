@@ -6,7 +6,7 @@
 
 #include "TextureRef.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -25,21 +25,21 @@ namespace Graphics
             bool                autoScale,
 			const Color4&       color,
 			const Color4&       outline,
-			RBX::Text::XAlign   xalign,
-			RBX::Text::YAlign   yalign,
+			ARL::Text::XAlign   xalign,
+			ARL::Text::YAlign   yalign,
 			const Vector2&		availableSpace,
 			const Rect2D&		clippingRect,
 			const Rotation2D&   rotation) const;
 
 		virtual int getCursorPositionInText(
 			const std::string&      s,
-			const RBX::Vector2&     pos2D,
+			const ARL::Vector2&     pos2D,
 			float                   size,
-			RBX::Text::XAlign       xalign,
-			RBX::Text::YAlign       yalign,
-			const RBX::Vector2&		availableSpace,
+			ARL::Text::XAlign       xalign,
+			ARL::Text::YAlign       yalign,
+			const ARL::Vector2&		availableSpace,
 			const Rotation2D&       rotation,
-			RBX::Vector2			cursorPos) const;
+			ARL::Vector2			cursorPos) const;
 
 		virtual Vector2 measure(
 			const std::string&  s,
@@ -58,7 +58,7 @@ namespace Graphics
 			texture = TextureRef();
 		}
 
-		void loadResources(RBX::Graphics::TextureManager* textureManager, RBX::Graphics::TextureAtlas* glyphAtlas);
+		void loadResources(ARL::Graphics::TextureManager* textureManager, ARL::Graphics::TextureAtlas* glyphAtlas);
 
 		
 	private:
@@ -120,8 +120,8 @@ namespace Graphics
             const Vector2&      position,
             const Color4&       color,
             const Color4&       outline,
-            RBX::Text::XAlign   xalign,
-            RBX::Text::YAlign   yalign,
+            ARL::Text::XAlign   xalign,
+            ARL::Text::YAlign   yalign,
             const Vector2&		availableSpace,
             const Rect2D&		clippingRect,
             const Rotation2D&   rotation) const;
@@ -133,8 +133,8 @@ namespace Graphics
 			float               size,
 			const Color4&       color,
 			const Color4&       outline,
-			RBX::Text::XAlign   xalign,
-			RBX::Text::YAlign   yalign,
+			ARL::Text::XAlign   xalign,
+			ARL::Text::YAlign   yalign,
 			const Vector2&		availableSpace,
 			const Rect2D&		clippingRect,
 			const Rotation2D&   rotation) const;

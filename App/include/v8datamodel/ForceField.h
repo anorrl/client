@@ -7,7 +7,7 @@
 #include "GfxBase/IAdornable.h"
 #include "V8DataModel/Effect.h"
 
-namespace RBX {
+namespace ARL {
 	
 	class PartInstance;
 
@@ -40,4 +40,4 @@ namespace RBX {
 		static bool partInForceField(PartInstance* part);
 		static int cycles() {return 60;}
 	};
-}	// namespace RBX
+}	// namespace ARL

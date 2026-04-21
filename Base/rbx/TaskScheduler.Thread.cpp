@@ -7,7 +7,7 @@
 #include "rbx/Log.h"
 #include "rbx/Profiler.h"
 
-using namespace RBX;
+using namespace ARL;
 using boost::shared_ptr;
 
 #include "CPUCount.h"
@@ -36,10 +36,10 @@ public:
 		shared_ptr<Thread> thread(new Thread(taskScheduler));
 
         static rbx::atomic<int> count;
-		std::string name = RBX::format("Roblox TaskScheduler Thread %d", static_cast<int>(++count));
+		std::string name = ARL::format("Roblox TaskScheduler Thread %d", static_cast<int>(++count));
 
 		// loop holds a shared_ptr to the thread, so it won't be collected before the loop exits :)
-		thread->thread.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&Thread::loop, thread), name.c_str())));
+		thread->thread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&Thread::loop, thread), name.c_str())));
 		return thread;
 	}
 
@@ -57,7 +57,7 @@ public:
 
 	void printJobInfo()
 	{
-		if (RBX::Log::current() && job)
+		if (ARL::Log::current() && job)
 		{
 			Time now = Time::now<Time::Fast>();
 			std::stringstream ss;
@@ -66,7 +66,7 @@ public:
 			else
 				ss << "TaskScheduler::Job: " << job->name.c_str() << ", state: " << (int)job->getState();
 
-			RBX::Log::current()->writeEntry(RBX::Log::Information, ss.str().c_str());
+			ARL::Log::current()->writeEntry(ARL::Log::Information, ss.str().c_str());
 		}
 	}
 
@@ -96,7 +96,7 @@ void TaskScheduler::setThreadCount(ThreadPoolConfig threadConfig)
 	int realCoreCount = RbxTotalUsableCoreCount(kDefaultCoreCount);
 
 	int requestedCount;
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 	if (threadConfig==Auto)
 	{
 		// automatic: 1 thread per core
@@ -111,7 +111,7 @@ void TaskScheduler::setThreadCount(ThreadPoolConfig threadConfig)
 		requestedCount = (int) threadConfig;
 	}
 
-	RBXASSERT(requestedCount>0);
+	ARLASSERT(requestedCount>0);
 
 	desiredThreadCount = (size_t)requestedCount;
 
@@ -130,7 +130,7 @@ TaskScheduler::StepResult TaskScheduler::Thread::runJob()
 	
 	TaskScheduler::StepResult result;
 	++taskScheduler->runningJobCount;
-	RBXASSERT(currentJob.get()==NULL);
+	ARLASSERT(currentJob.get()==NULL);
 	currentJob.reset(job.get());
 
 	// No need for exception handling. If an exception is thrown here
@@ -138,7 +138,7 @@ TaskScheduler::StepResult TaskScheduler::Thread::runJob()
 	taskScheduler->taskCount++;
 	result = job->step(stats);
 
-	RBXASSERT(currentJob.get()==job.get());
+	ARLASSERT(currentJob.get()==job.get());
 	currentJob.reset(NULL);
 	--taskScheduler->runningJobCount;
 
@@ -150,7 +150,7 @@ TaskScheduler::StepResult TaskScheduler::Thread::runJob()
 }
 
 
-bool TaskScheduler::conflictsWithScheduledJob(RBX::TaskScheduler::Job* job) const
+bool TaskScheduler::conflictsWithScheduledJob(ARL::TaskScheduler::Job* job) const
 {
 	if (threads.size() == 1)
 		return false;
@@ -161,7 +161,7 @@ bool TaskScheduler::conflictsWithScheduledJob(RBX::TaskScheduler::Job* job) cons
 
 	for (Threads::const_iterator iter = threads.begin(); iter != threads.end(); ++iter)
 	{
-		RBX::TaskScheduler::Job* other = (*iter)->job.get();
+		ARL::TaskScheduler::Job* other = (*iter)->job.get();
 		if (other)
 		{
 			if (Job::haveDifferentArbiters(job, other))
@@ -200,7 +200,7 @@ void TaskScheduler::Thread::releaseJob()
 
 bool TaskScheduler::shouldDropThread() const
 {
-	RBXASSERT(desiredThreadCount <= threads.size());
+	ARLASSERT(desiredThreadCount <= threads.size());
 	return desiredThreadCount < threads.size();
 }
 void TaskScheduler::dropThread(Thread* thread)
@@ -233,7 +233,7 @@ void TaskScheduler::enableThreads(Threads& threads)
 {
 	for (Threads::const_iterator iter = threads.begin(); iter != threads.end(); ++iter)
 	{
-		RBXASSERT(!(*iter)->enabled);
+		ARLASSERT(!(*iter)->enabled);
 		(*iter)->enabled = true;
 	}
 	threads.clear();
@@ -251,11 +251,11 @@ void TaskScheduler::Thread::loop()
 	while (!done)
 	{
 		{
-			RBX::mutex::scoped_lock lock(taskScheduler->mutex);
+			ARL::mutex::scoped_lock lock(taskScheduler->mutex);
 			FASTLOG1(FLog::TaskSchedulerFindJob,
 				"Took mutex %p in thread TaskScheduler::Thread::loop", &(taskScheduler->mutex));
 				
-			const RBX::Time start(taskScheduler->schedulerDutyCycle.startSample());
+			const ARL::Time start(taskScheduler->schedulerDutyCycle.startSample());
 
 			if (job)
 			{
@@ -274,7 +274,7 @@ void TaskScheduler::Thread::loop()
 					job = taskScheduler->findJobToRun(self);
 					if (job)
 					{
-						RBXASSERT(!job->isDisabled());
+						ARLASSERT(!job->isDisabled());
 						// This must be synchronized with findJobToRun
 						// because Coordinators expect atomicity with
 						// isInhibited
@@ -319,7 +319,7 @@ void TaskScheduler::Thread::loop()
 
 	if (job)
 	{
-		RBX::mutex::scoped_lock lock(taskScheduler->mutex);
+		ARL::mutex::scoped_lock lock(taskScheduler->mutex);
 		taskScheduler->enableThreads(participatingThreads);
 		job->allotedConcurrency = -1;
 		job->notifyCoordinatorsPostStep();
@@ -334,7 +334,7 @@ void TaskScheduler::Thread::loop()
 
 void TaskScheduler::getJobsInfo(std::vector<shared_ptr<const Job> >& result)
 {
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 	for (AllJobs::iterator iter = allJobs.begin(); iter!=allJobs.end(); ++iter)
 		result.push_back(*iter);
 }
@@ -348,7 +348,7 @@ static void setJobExtendedStatsWindow(shared_ptr<TaskScheduler::Job> job, double
 	}
 }
 
-RBX::Time::Interval maxDutyCycleWindow(0.0);
+ARL::Time::Interval maxDutyCycleWindow(0.0);
 
 void TaskScheduler::setJobsExtendedStatsWindow(double seconds)
 {
@@ -356,7 +356,7 @@ void TaskScheduler::setJobsExtendedStatsWindow(double seconds)
 
 	std::vector<boost::shared_ptr<TaskScheduler::Job> > jobs;
 	{
-		RBX::mutex::scoped_lock lock(mutex);
+		ARL::mutex::scoped_lock lock(mutex);
 		for (AllJobs::iterator iter = allJobs.begin(); iter!=allJobs.end(); ++iter)
 			jobs.push_back(*iter);
 	}
@@ -366,7 +366,7 @@ void TaskScheduler::setJobsExtendedStatsWindow(double seconds)
 void TaskScheduler::cancelCyclicExecutive()
 {
 	// It turns out that determining this is a server may happen late enough that a lock is needed.
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 
 	cyclicExecutiveEnabled = false;
 	for (CyclicExecutiveJobs::iterator i = cyclicExecutiveJobs.begin(); i != cyclicExecutiveJobs.end(); ++i)
@@ -380,18 +380,18 @@ void TaskScheduler::cancelCyclicExecutive()
 	}
 	cyclicExecutiveJobs.clear();
 
-	RBXASSERT( cyclicExecutiveJobs.empty() );
+	ARLASSERT( cyclicExecutiveJobs.empty() );
 }
 
 void TaskScheduler::releaseCyclicExecutive(TaskScheduler::Job* job)
 {
-	RBXASSERT(std::find( cyclicExecutiveJobs.begin(), cyclicExecutiveJobs.end(), *job ) != cyclicExecutiveJobs.end());
+	ARLASSERT(std::find( cyclicExecutiveJobs.begin(), cyclicExecutiveJobs.end(), *job ) != cyclicExecutiveJobs.end());
 	cyclicExecutiveJobs.erase(std::find( cyclicExecutiveJobs.begin(), cyclicExecutiveJobs.end(), *job ));
 }
 
 void TaskScheduler::getJobsByName(const std::string& name, std::vector<boost::shared_ptr<const Job> >& result)
 {
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 	for (AllJobs::iterator iter = allJobs.begin(); iter!=allJobs.end(); ++iter)
 	{
 		if((*iter)->name == name)

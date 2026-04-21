@@ -2,7 +2,7 @@
 
 #include "Gui/GUI.h"
 
-namespace RBX {
+namespace ARL {
 	
 	class EquationDisplay : public TextDisplay {
 	private:

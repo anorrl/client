@@ -10,7 +10,7 @@
 
 #define PHYSICS_SERIAL_VERSION 3
 
-namespace RBX 
+namespace ARL 
 {
 	class CSGConvex;
 	class ConvexPoly;

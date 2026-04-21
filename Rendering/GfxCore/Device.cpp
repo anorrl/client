@@ -6,7 +6,7 @@ FASTFLAGVARIABLE(DebugGraphicsCrashOnLeaks, true)
 
 FASTFLAGVARIABLE(GraphicsDebugMarkersEnable, false)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -68,9 +68,9 @@ Device::~Device()
 		}
 
 		if (FFlag::DebugGraphicsCrashOnLeaks)
-			RBXCRASH();
+			ARLCRASH();
 		else
-			RBXASSERT(false);
+			ARLASSERT(false);
 	}
 }
 

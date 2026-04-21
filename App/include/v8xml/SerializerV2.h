@@ -11,7 +11,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 	class DataModel;
 }
 
@@ -21,7 +21,7 @@ namespace RBX {
 #pragma warning(disable:4290)
 #endif
 
-// TODO: Refactor: Call this RBX::DOM or something
+// TODO: Refactor: Call this ARL::DOM or something
 class SerializerV2 {
 protected:
 	int schemaVersionLoading;
@@ -33,17 +33,17 @@ public:
 	static XmlElement* newRootElement(const std::string& type);
 
 	// reading:
-	void loadInstancesFromText(const XmlElement* root, RBX::Instances& result);
+	void loadInstancesFromText(const XmlElement* root, ARL::Instances& result);
 	
 	// Until DataModel becomes an Instance and it can handle "globals" like Workspace, we need to treat
 	// it specially during reads:
-	void load(std::istream& stream, RBX::DataModel* dataModel);
-	void loadInstances(std::istream& stream, RBX::Instances& result);
+	void load(std::istream& stream, ARL::DataModel* dataModel);
+	void loadInstances(std::istream& stream, ARL::Instances& result);
 
 private:
-	void loadXML(std::istream& stream, RBX::DataModel* dataModel);
-	void loadInstancesXML(const XmlElement* root, RBX::Instances& result, RBX::IReferenceBinder& binder, RBX::CreatorRole creatorRole);
-	shared_ptr<RBX::Instance> loadInstanceXML(const XmlElement* itemElement, RBX::IReferenceBinder& binder, RBX::CreatorRole creatorRole);
+	void loadXML(std::istream& stream, ARL::DataModel* dataModel);
+	void loadInstancesXML(const XmlElement* root, ARL::Instances& result, ARL::IReferenceBinder& binder, ARL::CreatorRole creatorRole);
+	shared_ptr<ARL::Instance> loadInstanceXML(const XmlElement* itemElement, ARL::IReferenceBinder& binder, ARL::CreatorRole creatorRole);
 };
 
 #if defined(G3D_WIN32)
@@ -51,7 +51,7 @@ private:
 #endif
 
 
-namespace RBX
+namespace ARL
 {
 	// MergeBinder is used to merge an XML stream into an existing world (for undo/redo operations)
 	class MergeBinder : public IReferenceBinder
@@ -59,7 +59,7 @@ namespace RBX
 		struct IDREFItem {
 			const IIDREF* idref;
 			Reflection::DescribedBase* propertyOwner;
-			RBX::InstanceHandle value;
+			ARL::InstanceHandle value;
 		};
 
 		// TODO: vector or list???
@@ -71,7 +71,7 @@ namespace RBX
 		}
 		virtual void announceIDREF(const XmlNameValuePair* valueIDREF, Reflection::DescribedBase* propertyOwner, const IIDREF* idref) {
 			bool processedIDREF = processIDREF(valueIDREF, propertyOwner, idref);
-			RBXASSERT(processedIDREF);
+			ARLASSERT(processedIDREF);
 		}
 
 		virtual bool resolveRefs() {
@@ -88,7 +88,7 @@ namespace RBX
 
 	protected:
 		virtual bool processID(const XmlNameValuePair* valueID, Reflection::DescribedBase* source) {
-			RBX::InstanceHandle h;
+			ARL::InstanceHandle h;
 			if (valueID->getValue(h)) {
 				h.linkTo(shared_from(source));
 				return true;
@@ -98,7 +98,7 @@ namespace RBX
 				return false;
 		}
 		virtual bool processIDREF(const XmlNameValuePair* valueIDREF, Reflection::DescribedBase* propertyOwner, const IIDREF* idref) {
-			RBX::InstanceHandle value;
+			ARL::InstanceHandle value;
 			if (valueIDREF->getValue(value)) {
 				if (!value.empty())
 					assign(idref, propertyOwner, value);

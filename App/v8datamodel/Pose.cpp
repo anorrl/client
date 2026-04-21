@@ -5,7 +5,7 @@
 #include "V8DataModel/Keyframe.h"
 #include "V8DataModel/Workspace.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sPose = "Pose";
 
@@ -27,7 +27,7 @@ REFLECTION_END();
 namespace Reflection
 {
 	template<>
-	EnumDesc<RBX::Pose::PoseEasingStyle>::EnumDesc()
+	EnumDesc<ARL::Pose::PoseEasingStyle>::EnumDesc()
 		:EnumDescriptor("PoseEasingStyle")
 	{
 		addPair(Pose::POSE_EASING_STYLE_LINEAR, "Linear");
@@ -38,7 +38,7 @@ namespace Reflection
 	}
 
 	template<>
-	EnumDesc<RBX::Pose::PoseEasingDirection>::EnumDesc()
+	EnumDesc<ARL::Pose::PoseEasingDirection>::EnumDesc()
 		:EnumDescriptor("PoseEasingDirection")
 	{
 		addPair(Pose::POSE_EASING_DIRECTION_OUT, "Out");

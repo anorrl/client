@@ -4,12 +4,12 @@
 
 #include <boost/unordered_set.hpp>
 
-namespace RBX
+namespace ARL
 {
     class FrameRateManager;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

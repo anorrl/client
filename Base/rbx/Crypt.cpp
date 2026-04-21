@@ -1,4 +1,4 @@
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include "rbx/Crypt.h"
 
 #include "rbxFormat.h"
@@ -8,7 +8,7 @@
 
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 Crypt::Crypt()
 {
@@ -22,10 +22,10 @@ Crypt::Crypt()
 		if (::GetLastError()==NTE_BAD_KEYSET)
 		{
 			if (!CryptAcquireContext(&context, NULL, MS_DEF_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_NEWKEYSET))
-				throw RBX::runtime_error("Error %x during CryptAcquireContext 2\n", GetLastError());
+				throw ARL::runtime_error("Error %x during CryptAcquireContext 2\n", GetLastError());
 		}
 		else
-			throw RBX::runtime_error("Error %x during CryptAcquireContext\n", GetLastError());
+			throw ARL::runtime_error("Error %x during CryptAcquireContext\n", GetLastError());
 	}
 
 	
@@ -34,7 +34,7 @@ Crypt::Crypt()
 	}
 
 	if (!CryptImportKey(context, (BYTE*)pbKeyBlob, dwBlobLen, 0, 0, &key))
-		 throw RBX::runtime_error("Error %x during CryptImportKey", GetLastError());
+		 throw ARL::runtime_error("Error %x during CryptImportKey", GetLastError());
 }
 
 Crypt::~Crypt()
@@ -48,17 +48,17 @@ void Crypt::verifySignatureBase64(std::string message, std::string signatureBase
 	HCRYPTHASH hash;
 	if (!CryptCreateHash(context, CALG_SHA1, NULL, 0, &hash))
 #ifdef _DEBUG
-		 throw RBX::runtime_error("Error %x during CryptCreateHash", GetLastError());
+		 throw ARL::runtime_error("Error %x during CryptCreateHash", GetLastError());
 #else
-		 throw RBX::runtime_error("");
+		 throw ARL::runtime_error("");
 #endif
 	try
 	{
 		if (!CryptHashData(hash, (BYTE*)message.c_str(), message.size(), 0))
 #ifdef _DEBUG
-			throw RBX::runtime_error("Error %x during CryptHashData", GetLastError());
+			throw ARL::runtime_error("Error %x during CryptHashData", GetLastError());
 #else
-			throw RBX::runtime_error("");
+			throw ARL::runtime_error("");
 #endif
 		int signatureLen = Base64DecodeGetRequiredLength(signatureBase64.size());
 		BYTE* signature = (BYTE*)alloca(signatureLen);
@@ -80,9 +80,9 @@ void Crypt::verifySignatureBase64(std::string message, std::string signatureBase
 #pragma warning(disable: 6387)
 		if (!CryptVerifySignature(hash, signatureRev, signatureLen, key, NULL, 0))
 #ifdef _DEBUG
-			throw RBX::runtime_error("CryptVerifySignature Error 0x%x. sigLen=%d sigB64='%s' message='%s'", GetLastError(), signatureLen, signatureBase64.c_str(), message.c_str());
+			throw ARL::runtime_error("CryptVerifySignature Error 0x%x. sigLen=%d sigB64='%s' message='%s'", GetLastError(), signatureLen, signatureBase64.c_str(), message.c_str());
 #else
-			throw RBX::runtime_error("");
+			throw ARL::runtime_error("");
 #endif
 #pragma warning(pop)
 	}
@@ -95,13 +95,13 @@ void Crypt::verifySignatureBase64(std::string message, std::string signatureBase
 	::CryptDestroyHash(hash);
 }
 
-} //namespace RBX
+} //namespace ARL
 
 #else
 
 #include "rbx/Crypt.h"
 
-namespace RBX
+namespace ARL
 {
 
 Crypt::Crypt() {}

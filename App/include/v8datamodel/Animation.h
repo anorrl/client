@@ -4,7 +4,7 @@
 #include "V8Tree/Instance.h"
 #include "Util/AnimationId.h"
 
-namespace RBX {
+namespace ARL {
 	extern const char *const sAnimation;
 
 	class KeyframeSequence;

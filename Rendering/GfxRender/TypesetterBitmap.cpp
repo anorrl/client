@@ -11,7 +11,7 @@ DYNAMIC_FASTFLAGVARIABLE(TextScaleDontWrapInWords, false)
 
 #define FONT_PADDING 1.0f
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -20,7 +20,7 @@ namespace Graphics
 		in.read(static_cast<char*>(data), size);
 
 		if (in.gcount() != size)
-			throw RBX::runtime_error("Unexpected end of file while reading %d bytes", size);
+			throw ARL::runtime_error("Unexpected end of file while reading %d bytes", size);
 	}
 
 	TypesetterBitmap::TypesetterBitmap(TextureManager* textureManager, const std::string& fontPath, const std::string& texturePath, float legacyHeightScale, bool retina)
@@ -35,8 +35,8 @@ namespace Graphics
 		int fileSize = 0;
 		readData(in, &fileSize, sizeof(fileSize));
 		
-		if (memcmp(header, "RBXF", 4) != 0 || fileSize < 16)
-			throw RBX::runtime_error("Corrupt file header");
+		if (memcmp(header, "ARLF", 4) != 0 || fileSize < 16)
+			throw ARL::runtime_error("Corrupt file header");
 			
 		fontData.reset(new char[fileSize]);
 		
@@ -55,7 +55,7 @@ namespace Graphics
 		fontTexturePath = texturePath;
 	}
 	
-	void TypesetterBitmap::loadResources(RBX::Graphics::TextureManager* textureManager, RBX::Graphics::TextureAtlas* glyphAtlas)
+	void TypesetterBitmap::loadResources(ARL::Graphics::TextureManager* textureManager, ARL::Graphics::TextureAtlas* glyphAtlas)
 	{
 		if (!fontTexturePath.empty() && !texture.getTexture().get())
 		{
@@ -77,7 +77,7 @@ namespace Graphics
 			{
 				adorn->rect2d(glyphRect, uvtl, uvbr, color, Rotation2D());
 			}
-			else if (clippedRect != RBX::Rect2D::xywh(0,0,0,0))
+			else if (clippedRect != ARL::Rect2D::xywh(0,0,0,0))
 			{
 				adorn->rect2d(glyphRect, uvtl, uvbr, color, clippingRect);
 			}
@@ -133,21 +133,21 @@ namespace Graphics
 		return ch == '\1';
 	}
 
-	static const RBX::Vector2 kBorderOffsets[] =
+	static const ARL::Vector2 kBorderOffsets[] =
 	{
-		RBX::Vector2(-1, -1),
-		RBX::Vector2(+1, -1),
-		RBX::Vector2(-1, +1),
-		RBX::Vector2(+1, +1),
-		RBX::Vector2(0, 0),
+		ARL::Vector2(-1, -1),
+		ARL::Vector2(+1, -1),
+		ARL::Vector2(-1, +1),
+		ARL::Vector2(+1, +1),
+		ARL::Vector2(0, 0),
 	};
 
 	Vector2 TypesetterBitmap::drawImpl(Adorn* adorn, const std::string& s,
 	const Vector2& position, float size, const Color4& color, const Color4& outline,
-	RBX::Text::XAlign xalign, RBX::Text::YAlign yalign, const Vector2& availableSpace,
+	ARL::Text::XAlign xalign, ARL::Text::YAlign yalign, const Vector2& availableSpace,
 	const Rect2D& clippingRect, const Rotation2D& rotation) const
 	{
-		bool useClipping = (clippingRect != RBX::Rect2D::xyxy(-1,-1,-1,-1));
+		bool useClipping = (clippingRect != ARL::Rect2D::xyxy(-1,-1,-1,-1));
 		bool useAvailableSpace = availableSpace.x != 0;
 		
 		float height = size * legacyHeightScale * retinaScale;
@@ -239,10 +239,10 @@ namespace Graphics
 	}
 
     Vector2 TypesetterBitmap::drawScaledImpl(Adorn* adorn, const std::string& s, const Vector2& position,
-        const Color4& color, const Color4& outline, RBX::Text::XAlign xalign, RBX::Text::YAlign yalign,
+        const Color4& color, const Color4& outline, ARL::Text::XAlign xalign, ARL::Text::YAlign yalign,
         const Vector2& availableSpace, const Rect2D& clippingRect, const Rotation2D& rotation) const
     {
-        bool useClipping = (clippingRect != RBX::Rect2D::xyxy(-1,-1,-1,-1));
+        bool useClipping = (clippingRect != ARL::Rect2D::xyxy(-1,-1,-1,-1));
 
         float height = 48 * legacyHeightScale * retinaScale;        // 48 is our highest font scale right now
         int sizeIndex = getSizeIndex(height);
@@ -388,7 +388,7 @@ namespace Graphics
 
 	Vector2 TypesetterBitmap::draw(Adorn* adorn, const std::string& s,
 		const Vector2& position, float size, bool autoScale, const Color4& color, const Color4& outline,
-		RBX::Text::XAlign xalign, RBX::Text::YAlign yalign, const Vector2& availableSpace,
+		ARL::Text::XAlign xalign, ARL::Text::YAlign yalign, const Vector2& availableSpace,
 		const Rect2D& clippingRect, const Rotation2D& rotation) const
 	{
         bool useAvailableSpace = availableSpace.x != 0;
@@ -399,9 +399,9 @@ namespace Graphics
         return drawImpl(adorn, s, position, size, color, outline, xalign, yalign, availableSpace, clippingRect, rotation);
 	}
 
-	int TypesetterBitmap::getCursorPositionInText(const std::string& s, const RBX::Vector2& position, float size,
-		RBX::Text::XAlign xalign, RBX::Text::YAlign yalign, const RBX::Vector2& availableSpace, const Rotation2D& rotation,
-		RBX::Vector2 cursorPos) const
+	int TypesetterBitmap::getCursorPositionInText(const std::string& s, const ARL::Vector2& position, float size,
+		ARL::Text::XAlign xalign, ARL::Text::YAlign yalign, const ARL::Vector2& availableSpace, const Rotation2D& rotation,
+		ARL::Vector2 cursorPos) const
 	{
 		bool useAvailableSpace = availableSpace.x != 0;
 		

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RBX {
+namespace ARL {
 
 template <typename Enum, typename Storage> class CompactEnum
 {

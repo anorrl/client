@@ -11,9 +11,9 @@
 
 DYNAMIC_LOGGROUP(HttpTrace)
 
-using namespace RBX;
-using namespace RBX::HttpPlatformImpl::Cache;
-using namespace RBX::HttpCache;
+using namespace ARL;
+using namespace ARL::HttpPlatformImpl::Cache;
+using namespace ARL::HttpCache;
 
 using boost::shared_ptr;
 static boost::mutex assetCacheMutex;
@@ -53,7 +53,7 @@ static void listDirectory(const boost::filesystem::path& path, unsigned attribut
 
 static const uint32_t& gMagic()
 {
-    static const uint32_t m = htonl(RBX_CACHE_FILE_MAGIC);
+    static const uint32_t m = htonl(ARL_CACHE_FILE_MAGIC);
     return m;
 }
 
@@ -98,7 +98,7 @@ struct SortDirEntByModTime
 };
 
 
-namespace RBX
+namespace ARL
 {
 namespace HttpPlatformImpl
 {
@@ -152,7 +152,7 @@ void cleanCache(const CacheCleanOptions& options)
 
 } // namespace Cache
 } // namespace HttpPlatformImpl
-} // namespace RBX
+} // namespace ARL
 
 
 static void* readWholeFile(const boost::filesystem::path& path, size_t* size)
@@ -211,7 +211,7 @@ static bool writeWholeFile( const boost::filesystem::path& path, const void* buf
 }
 
 
-static void ceDeleter( RBX::HttpPlatformImpl::Cache::CacheEntry * e ) { delete[] ( (char*)e ); }
+static void ceDeleter( ARL::HttpPlatformImpl::Cache::CacheEntry * e ) { delete[] ( (char*)e ); }
 
 CacheResult CacheResult::open(const char* assetUrl, const char* cdnUrl)
 {
@@ -235,7 +235,7 @@ CacheResult CacheResult::open(const char* assetUrl, const char* cdnUrl)
             return CacheResult("CacheEntry::open: magic failed");
         }
 
-        if (RBX_CACHE_FILE_VERSION != hdr.version)
+        if (ARL_CACHE_FILE_VERSION != hdr.version)
         {
             return CacheResult("CacheEntry::open version failed");
         }
@@ -299,8 +299,8 @@ CacheResult CacheResult::update(const char* assetUrl, const char* cdnUrl, const 
 
 	Header cacheHeader = {
 		gMagic(),                                                               // magic
-		RBX_CACHE_FILE_VERSION,                                                 // version
-		std::min(strlen(cdnUrl), static_cast<size_t>(RBX_CACHE_URL_MAX_LENGTH)),// urlBytes
+		ARL_CACHE_FILE_VERSION,                                                 // version
+		std::min(strlen(cdnUrl), static_cast<size_t>(ARL_CACHE_URL_MAX_LENGTH)),// urlBytes
 		{'\0'},                                                                 // url
 		responseCode,                                                           // responseCode
 		headers.size(),                                                         // responseHeadersSize

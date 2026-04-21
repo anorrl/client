@@ -24,7 +24,7 @@
 #include <string>
 #include <boost/flyweight.hpp>
 
-namespace RBX {
+namespace ARL {
 	enum NetworkOwnership
 	{
 		NetworkOwnership_Auto = 0, 
@@ -58,22 +58,22 @@ namespace RBX {
 		{}
 
 		~EdgeList() {
-			RBXASSERT(list.size() == 0);
+			ARLASSERT(list.size() == 0);
 		}
 
 		int size() const			{return list.size();}
 
 		Edge* getEdge(int i) const
 		{
-			RBXASSERT_VERY_FAST(unsigned(i) < list.size());
-			RBXASSERT_VERY_FAST(list[i].edge->otherPrimitive(owner) == list[i].other);
+			ARLASSERT_VERY_FAST(unsigned(i) < list.size());
+			ARLASSERT_VERY_FAST(list[i].edge->otherPrimitive(owner) == list[i].other);
 			return list[i].edge;
 		}
 
 		Primitive* getOther(int i) const
 		{
-			RBXASSERT_VERY_FAST(unsigned(i) < list.size());
-			RBXASSERT_VERY_FAST(list[i].edge->otherPrimitive(owner) == list[i].other);
+			ARLASSERT_VERY_FAST(unsigned(i) < list.size());
+			ARLASSERT_VERY_FAST(list[i].edge->otherPrimitive(owner) == list[i].other);
 			return list[i].other;
 		}
 
@@ -173,8 +173,8 @@ namespace RBX {
 		bool isAncestorOf(Primitive* prim);
 
 		// Network
-		const RBX::SystemAddress getNetworkOwner() const {return networkOwner;}
-		void setNetworkOwner(const RBX::SystemAddress value) {networkOwner = value;}
+		const ARL::SystemAddress getNetworkOwner() const {return networkOwner;}
+		void setNetworkOwner(const ARL::SystemAddress value) {networkOwner = value;}
 
 		const NetworkOwnership getNetworkOwnershipRuleInternal() const { return networkOwnershipRule; }
 		void setNetworkOwnershipRuleInternal(NetworkOwnership value) { networkOwnershipRule = value; }
@@ -279,7 +279,7 @@ namespace RBX {
 		}
 
 		const Extents& getFastFuzzyExtentsNoCompute()  {
-			RBXASSERT_VERY_FAST(computeFuzzyExtents() == fuzzyExtents);
+			ARLASSERT_VERY_FAST(computeFuzzyExtents() == fuzzyExtents);
 			return fuzzyExtents;
 		}
 

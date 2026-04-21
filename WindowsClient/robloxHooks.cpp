@@ -38,8 +38,8 @@ HWND WINAPI findWindowHook(LPCTSTR className, LPCSTR windowName)
         && ((argDiff+kHalf) < kFull) // Argument is +-8MB from call location, probably .rdata.
         && (_strnicmp(windowName, "ANORRL", 6) == 0)) // with roblox as argument
     {
-        RBX::hotpatchUnhook(resumeFindWindow);
-        RBX::Tokens::simpleToken |= HATE_DLL_INJECTION;
+        ARL::hotpatchUnhook(resumeFindWindow);
+        ARL::Tokens::simpleToken |= HATE_DLL_INJECTION;
     }
     VMProtectEnd();
     return resumeFindWindow(className,windowName);
@@ -51,15 +51,15 @@ HWND WINAPI findWindowHook(LPCTSTR className, LPCSTR windowName)
 void RtlDispatchExceptionCheck(PEXCEPTION_RECORD exRec, PCONTEXT ctx)
 {
     const DWORD code = exRec->ExceptionCode;
-    const DWORD codeStart = RBX::Security::rbxTextBase;
-    const DWORD codeSize = RBX::Security::rbxTextSize;
+    const DWORD codeStart = ARL::Security::rbxTextBase;
+    const DWORD codeSize = ARL::Security::rbxTextSize;
     if( code == EXCEPTION_ACCESS_VIOLATION)
     {
         const DWORD avAddr = exRec->ExceptionInformation[1];
         if ((avAddr - codeStart) <= codeSize)
         {
-            RBX::Security::setHackFlagVs<LINE_RAND1>(RBX::Security::hackFlag6, HATE_VEH_HOOK);
-            RBX::Tokens::sendStatsToken.addFlagFast(HATE_VEH_HOOK);
+            ARL::Security::setHackFlagVs<LINE_RAND1>(ARL::Security::hackFlag6, HATE_VEH_HOOK);
+            ARL::Tokens::sendStatsToken.addFlagFast(HATE_VEH_HOOK);
         }
     }
     else if ((code == EXCEPTION_BREAKPOINT) ||
@@ -70,8 +70,8 @@ void RtlDispatchExceptionCheck(PEXCEPTION_RECORD exRec, PCONTEXT ctx)
         const DWORD addr = reinterpret_cast<DWORD>(exRec->ExceptionAddress);
         if ((addr - codeStart) <= codeSize)
         {
-            RBX::Security::setHackFlagVs<LINE_RAND1>(RBX::Security::hackFlag6, HATE_VEH_HOOK);
-            RBX::Tokens::sendStatsToken.addFlagFast(HATE_VEH_HOOK);
+            ARL::Security::setHackFlagVs<LINE_RAND1>(ARL::Security::hackFlag6, HATE_VEH_HOOK);
+            ARL::Tokens::sendStatsToken.addFlagFast(HATE_VEH_HOOK);
         }
     }
 }
@@ -97,7 +97,7 @@ const unsigned char kiUserExceptionDispatcherProlog[10] =
 
 }
 
-namespace RBX
+namespace ARL
 {
     DWORD* vehHookLocation;
 

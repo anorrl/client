@@ -352,7 +352,7 @@ public:
 };
 
 
-__declspec(code_seg(".zero")) bool updateNetPmcPartial(uintptr_t origBase, size_t origSize, RBX::Security::NetPmcChallenge* resultArray)
+__declspec(code_seg(".zero")) bool updateNetPmcPartial(uintptr_t origBase, size_t origSize, ARL::Security::NetPmcChallenge* resultArray)
 {
     uintptr_t base = origBase;
     size_t term = origBase+origSize;
@@ -370,10 +370,10 @@ __declspec(code_seg(".zero")) bool updateNetPmcPartial(uintptr_t origBase, size_
     return true;
 }
 
-__declspec(code_seg(".zero")) bool updateNetPmcResult(uint32_t key, RBX::Security::NetPmcChallenge* result)
+__declspec(code_seg(".zero")) bool updateNetPmcResult(uint32_t key, ARL::Security::NetPmcChallenge* result)
 {
     uint64_t msb = static_cast<uint64_t>(key) << 32;
-    result->result = RBX::Security::teaEncrypt(msb | result->result);
+    result->result = ARL::Security::teaEncrypt(msb | result->result);
     return true;
 }
 
@@ -401,11 +401,11 @@ __declspec(code_seg(".zero")) bool addRefsToWcPage(uintptr_t textBase, size_t te
 
             // update the file in memory
             *reinterpret_cast<unsigned char*>(textFileBase + pos) = kMov;
-            *reinterpret_cast<uint32_t*>(textFileBase + pos + 1) = reinterpret_cast<uint32_t>(&RBX::writecopyTrap);
+            *reinterpret_cast<uint32_t*>(textFileBase + pos + 1) = reinterpret_cast<uint32_t>(&ARL::writecopyTrap);
 
             // update the currently running program
             *reinterpret_cast<unsigned char*>(textBase + pos) = kMov;
-            *reinterpret_cast<uint32_t*>(textBase + pos + 1) = reinterpret_cast<uint32_t>(&RBX::writecopyTrap);
+            *reinterpret_cast<uint32_t*>(textBase + pos + 1) = reinterpret_cast<uint32_t>(&ARL::writecopyTrap);
 
             pos += 5;
         }
@@ -555,38 +555,38 @@ __declspec(code_seg(".zero")) bool createUpdatedExe(HANDLE hChild)
     DWORD unused = 0; // not an optional argument.
     VirtualProtect(reinterpret_cast<void*>(rdataBase), rdataSize, PAGE_READWRITE, &unused);
     SectionMapping rdataMapping(rdataFileRva, rdataFileBase);
-    rdataMapping.set(&RBX::Security::rbxTextBase, textBase);
-    rdataMapping.set(&RBX::Security::rbxTextSize, textSize);
-    rdataMapping.set(&RBX::Security::rbxLowerBase, textLowerBase);
-    rdataMapping.set(&RBX::Security::rbxLowerSize, textLowerSize);
-    rdataMapping.set(&RBX::Security::rbxUpperBase, textUpperBase);
-    rdataMapping.set(&RBX::Security::rbxUpperSize, textUpperSize);
-    rdataMapping.set(&RBX::Security::rbxRdataBase, rdataBase);
-    rdataMapping.set(&RBX::Security::rbxRdataSize, rdataSize);
-    rdataMapping.set(&RBX::Security::rbxIatBase, iatBase);
-    rdataMapping.set(&RBX::Security::rbxIatSize, iatSize);
-    rdataMapping.set(&RBX::Security::rbxRdataNoIatBase, rdataNoIatBase);
-    rdataMapping.set(&RBX::Security::rbxRdataNoIatSize, rdataNoIatSize);
-    rdataMapping.set(&RBX::Security::rbxVmpBase, vmpBase);
-    rdataMapping.set(&RBX::Security::rbxVmpSize, vmpSize);
-    rdataMapping.set(&RBX::Security::rbxVmpPlainBase, vmpRanges[kVmpPlain].base);
-    rdataMapping.set(&RBX::Security::rbxVmpPlainSize, vmpRanges[kVmpPlain].size);
-    rdataMapping.set(&RBX::Security::rbxVmpMutantBase, vmpRanges[kVmpMutant].base);
-    rdataMapping.set(&RBX::Security::rbxVmpMutantSize, vmpRanges[kVmpMutant].size);
-    rdataMapping.set(&RBX::Security::rbxVmp0MiscBase, vmpRanges[kVmp0Misc].base);
-    rdataMapping.set(&RBX::Security::rbxVmp0MiscSize, vmpRanges[kVmp0Misc].size);
-    rdataMapping.set(&RBX::Security::rbxVmp1MiscBase, vmpRanges[kVmp1Misc].base);
-    rdataMapping.set(&RBX::Security::rbxVmp1MiscSize, vmpRanges[kVmp1Misc].size);
-    rdataMapping.set(&RBX::Security::rbxTextEndNeg, textEndNeg);
-    rdataMapping.set(&RBX::Security::rbxTextSizeNeg, textSizeNeg);
+    rdataMapping.set(&ARL::Security::rbxTextBase, textBase);
+    rdataMapping.set(&ARL::Security::rbxTextSize, textSize);
+    rdataMapping.set(&ARL::Security::rbxLowerBase, textLowerBase);
+    rdataMapping.set(&ARL::Security::rbxLowerSize, textLowerSize);
+    rdataMapping.set(&ARL::Security::rbxUpperBase, textUpperBase);
+    rdataMapping.set(&ARL::Security::rbxUpperSize, textUpperSize);
+    rdataMapping.set(&ARL::Security::rbxRdataBase, rdataBase);
+    rdataMapping.set(&ARL::Security::rbxRdataSize, rdataSize);
+    rdataMapping.set(&ARL::Security::rbxIatBase, iatBase);
+    rdataMapping.set(&ARL::Security::rbxIatSize, iatSize);
+    rdataMapping.set(&ARL::Security::rbxRdataNoIatBase, rdataNoIatBase);
+    rdataMapping.set(&ARL::Security::rbxRdataNoIatSize, rdataNoIatSize);
+    rdataMapping.set(&ARL::Security::rbxVmpBase, vmpBase);
+    rdataMapping.set(&ARL::Security::rbxVmpSize, vmpSize);
+    rdataMapping.set(&ARL::Security::rbxVmpPlainBase, vmpRanges[kVmpPlain].base);
+    rdataMapping.set(&ARL::Security::rbxVmpPlainSize, vmpRanges[kVmpPlain].size);
+    rdataMapping.set(&ARL::Security::rbxVmpMutantBase, vmpRanges[kVmpMutant].base);
+    rdataMapping.set(&ARL::Security::rbxVmpMutantSize, vmpRanges[kVmpMutant].size);
+    rdataMapping.set(&ARL::Security::rbxVmp0MiscBase, vmpRanges[kVmp0Misc].base);
+    rdataMapping.set(&ARL::Security::rbxVmp0MiscSize, vmpRanges[kVmp0Misc].size);
+    rdataMapping.set(&ARL::Security::rbxVmp1MiscBase, vmpRanges[kVmp1Misc].base);
+    rdataMapping.set(&ARL::Security::rbxVmp1MiscSize, vmpRanges[kVmp1Misc].size);
+    rdataMapping.set(&ARL::Security::rbxTextEndNeg, textEndNeg);
+    rdataMapping.set(&ARL::Security::rbxTextSizeNeg, textSizeNeg);
 
     // update the .text section padding here.
     VirtualProtect(reinterpret_cast<void*>(textBase), textSize, PAGE_EXECUTE_READWRITE, &unused);
     addRefsToWcPage(textBase, textSize, textFileBase);
 
     // Update the NetPmc values here.
-    std::vector<RBX::Security::NetPmcChallenge> netPmcChallenges;
-    netPmcChallenges.resize(RBX::Security::kNumChallenges);
+    std::vector<ARL::Security::NetPmcChallenge> netPmcChallenges;
+    netPmcChallenges.resize(ARL::Security::kNumChallenges);
     updateNetPmcPartial(textLowerBase, textLowerSize, &netPmcChallenges[ 0]);
     updateNetPmcPartial(textUpperBase, textUpperSize, &netPmcChallenges[32]);
     updateNetPmcPartial(vmpRanges[kVmpPlain].base, vmpRanges[kVmpPlain].size, &netPmcChallenges[64]);
@@ -594,41 +594,41 @@ __declspec(code_seg(".zero")) bool createUpdatedExe(HANDLE hChild)
 
     // shuffle them
     std::vector<unsigned char> randIdx;
-    randIdx.resize(RBX::Security::kNumChallenges);
-    for (unsigned char i = 0;i < RBX::Security::kNumChallenges; ++i)
+    randIdx.resize(ARL::Security::kNumChallenges);
+    for (unsigned char i = 0;i < ARL::Security::kNumChallenges; ++i)
     {
         randIdx[i] = i;
     }
     std::random_shuffle(randIdx.begin(), randIdx.end());
 
     // Stream Encryption
-    std::vector<RBX::Security::NetPmcChallenge> salsaKey = RBX::Security::generateNetPmcKeys();
-    for (unsigned char i = 0; i < RBX::Security::kNumChallenges; ++i)
+    std::vector<ARL::Security::NetPmcChallenge> salsaKey = ARL::Security::generateNetPmcKeys();
+    for (unsigned char i = 0; i < ARL::Security::kNumChallenges; ++i)
     {
         updateNetPmcResult(randIdx[i], &netPmcChallenges[i]);
         netPmcChallenges[i] ^= salsaKey[randIdx[i]];
-        rdataMapping.set(&RBX::Security::kChallenges[randIdx[i]], netPmcChallenges[i]);
+        rdataMapping.set(&ARL::Security::kChallenges[randIdx[i]], netPmcChallenges[i]);
     }
 
     // hash is auto computed in constructor
-    RBX::ProgramMemoryChecker pmc;
+    ARL::ProgramMemoryChecker pmc;
     size_t newHash = pmc.getLastGoldenHash();
-    rdataMapping.set(&RBX::Security::rbxGoldHash, newHash);
+    rdataMapping.set(&ARL::Security::rbxGoldHash, newHash);
 
     // This has affected .rdata, so regenerate the hash.  This has updated the pmcHash global.
-    RBX::ProgramMemoryChecker pmcForFile;
+    ARL::ProgramMemoryChecker pmcForFile;
 
     // Write items of checkIdx,value,failMask for each check for this version of the client.
     // checkIdx is the index of the hash within the pmcHash.hashes vector.
     // value is the value that it should be.
     // failMask is the bitmask that will be or'd into the result.
     std::ofstream goldMemHashWriter("goldMemHash.txt", std::ofstream::binary);
-    goldMemHashWriter << RBX::Hasher::kGoldHashStart << "," << RBX::pmcHash.hash[RBX::Hasher::kGoldHashStart] << "," << RBX::Hasher::kGoldHashStartFail << ";";
-    goldMemHashWriter << RBX::Hasher::kGoldHashEnd << "," << RBX::pmcHash.hash[RBX::Hasher::kGoldHashEnd] << "," << RBX::Hasher::kGoldHashEndFail<< ";";
-    goldMemHashWriter << RBX::Hasher::kRdataHash << "," << RBX::pmcHash.hash[RBX::Hasher::kRdataHash] << "," << RBX::Hasher::kRdataHashFail << ";";
-    goldMemHashWriter << RBX::Hasher::kVmpPlainHash << "," << RBX::pmcHash.hash[RBX::Hasher::kVmpPlainHash] << "," << RBX::Hasher::kVmpPlainHashFail << ";";
-    goldMemHashWriter << RBX::Hasher::kVmpMutantHash << "," << RBX::pmcHash.hash[RBX::Hasher::kVmpMutantHash] << "," << RBX::Hasher::kVmpMutantHashFail << ";";
-    goldMemHashWriter << RBX::Hasher::kGoldHashStruct << "," << RBX::pmcHash.hash[RBX::Hasher::kGoldHashStruct] << "," << RBX::Hasher::kGoldHashStructFail;
+    goldMemHashWriter << ARL::Hasher::kGoldHashStart << "," << ARL::pmcHash.hash[ARL::Hasher::kGoldHashStart] << "," << ARL::Hasher::kGoldHashStartFail << ";";
+    goldMemHashWriter << ARL::Hasher::kGoldHashEnd << "," << ARL::pmcHash.hash[ARL::Hasher::kGoldHashEnd] << "," << ARL::Hasher::kGoldHashEndFail<< ";";
+    goldMemHashWriter << ARL::Hasher::kRdataHash << "," << ARL::pmcHash.hash[ARL::Hasher::kRdataHash] << "," << ARL::Hasher::kRdataHashFail << ";";
+    goldMemHashWriter << ARL::Hasher::kVmpPlainHash << "," << ARL::pmcHash.hash[ARL::Hasher::kVmpPlainHash] << "," << ARL::Hasher::kVmpPlainHashFail << ";";
+    goldMemHashWriter << ARL::Hasher::kVmpMutantHash << "," << ARL::pmcHash.hash[ARL::Hasher::kVmpMutantHash] << "," << ARL::Hasher::kVmpMutantHashFail << ";";
+    goldMemHashWriter << ARL::Hasher::kGoldHashStruct << "," << ARL::pmcHash.hash[ARL::Hasher::kGoldHashStruct] << "," << ARL::Hasher::kGoldHashStructFail;
     goldMemHashWriter.close();
 
     // Remove the .zero section from the final exe
@@ -665,7 +665,7 @@ __declspec(code_seg(".zero")) bool createUpdatedExe(HANDLE hChild)
 
 } // namespace
 
-namespace RBX { namespace Security {
+namespace ARL { namespace Security {
 
 // look into if the VMP section can be got from the create_suspended child.
 __declspec(code_seg(".zero")) bool patchMain()
@@ -716,6 +716,6 @@ __declspec(code_seg(".zero")) bool patchMain()
 }
 
 } // ::Security
-} // ::RBX
+} // ::ARL
 
 #pragma optimize("", on)

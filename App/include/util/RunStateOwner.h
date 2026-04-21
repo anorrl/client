@@ -10,7 +10,7 @@
 #include <queue>
 
 // TODO: Refactor: Move this out of Util
-namespace RBX
+namespace ARL
 {
 	class DataModel;
 	class Region2;
@@ -74,7 +74,7 @@ namespace Lua
 		shared_ptr<PhysicsJob> physicsJob;
 		friend class HeartbeatTask;
 		shared_ptr<HeartbeatTask> heartbeatTask;
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
         friend class DummyTask;
         std::vector<shared_ptr<DummyTask> > dummyTasks;
 #else

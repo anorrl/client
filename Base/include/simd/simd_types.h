@@ -8,7 +8,7 @@
 
 #include "simd/simd_platform.h"
 
-namespace RBX
+namespace ARL
 {
 
 namespace simd
@@ -24,12 +24,12 @@ public:
     typedef const v4_t& arg_t;
     typedef fun_t pod_t;
 
-    RBX_SIMD_INLINE v4( ) { }
-    RBX_SIMD_INLINE v4( const v4& u );
-    RBX_SIMD_INLINE v4( const pod_t& u );
-    RBX_SIMD_INLINE void operator=( const v4& u );
-    RBX_SIMD_INLINE void operator=( const pod_t& u );
-    RBX_SIMD_INLINE operator pod_t() const;
+    ARL_SIMD_INLINE v4( ) { }
+    ARL_SIMD_INLINE v4( const v4& u );
+    ARL_SIMD_INLINE v4( const pod_t& u );
+    ARL_SIMD_INLINE void operator=( const v4& u );
+    ARL_SIMD_INLINE void operator=( const pod_t& u );
+    ARL_SIMD_INLINE operator pod_t() const;
 
     fun_t v;
 };

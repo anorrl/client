@@ -13,7 +13,7 @@
 #include "V8World/ContactManager.h"
 #include "V8World/Tolerance.h"
 
-namespace RBX {
+namespace ARL {
 
 
 MegaDragger::MegaDragger(PartInstance* mousePartPtr,
@@ -46,7 +46,7 @@ MegaDragger::MegaDragger(PartInstance* mousePartPtr,
 MegaDragger::~MegaDragger()
 {
 	if (!joined) {
-		RBXASSERT(0);
+		ARLASSERT(0);
 	}
 }
 
@@ -70,7 +70,7 @@ void MegaDragger::startDragging()
 
 void MegaDragger::continueDragging()
 {
-	RBXASSERT(!joined);
+	ARLASSERT(!joined);
 	DragUtilities::unJoinFromOutsiders(dragParts);
 	DragUtilities::setDragging(dragParts);		// do this every time - multiplayer
 }
@@ -78,7 +78,7 @@ void MegaDragger::continueDragging()
 
 void MegaDragger::finishDragging()
 {
-	RBXASSERT(!joined);
+	ARLASSERT(!joined);
 
 //	rootInstance->clearCameraIgnoreParts();
 
@@ -105,7 +105,7 @@ Vector3 MegaDragger::hitObjectOrPlane(const shared_ptr<InputObject>& inputObject
 
 void MegaDragger::alignAndCleanParts()
 {
-	RBXASSERT(!joined);
+	ARLASSERT(!joined);
 
 	if (mousePartAlive()) {
 		shared_ptr<PartInstance> mp = mousePart.lock();
@@ -120,22 +120,22 @@ void MegaDragger::alignAndCleanParts()
 
 void MegaDragger::cleanParts()
 {
-	RBXASSERT(!joined);
+	ARLASSERT(!joined);
 	DragUtilities::clean(dragParts);
 }
 
 Vector3 MegaDragger::safeMoveYDrop(const Vector3& tryDrag)
 {
-	RBXASSERT(!joined);	
+	ARLASSERT(!joined);	
 	return DragUtilities::safeMoveYDrop(dragParts, tryDrag, contactManager);
 }
 
 
 void MegaDragger::getPartsForDrag(G3D::Array<Primitive*>& primitives)
 {
-	RBXASSERT(!joined);
+	ARLASSERT(!joined);
 	DragUtilities::partsToPrimitives(dragParts, primitives);
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 }
 
 
@@ -144,7 +144,7 @@ Vector3 MegaDragger::safeMoveNoDrop(const Vector3& tryDrag)				// Moves down unt
 	G3D::Array<Primitive*> primitives;
 	getPartsForDrag(primitives);
 	Vector3 answer = Dragger::safeMoveNoDrop(primitives, tryDrag, contactManager);
-	RBXASSERT(!contactManager.intersectingOthers(primitives, Tolerance::maxOverlapOrGap()));
+	ARLASSERT(!contactManager.intersectingOthers(primitives, Tolerance::maxOverlapOrGap()));
 	return answer;
 }
 
@@ -155,7 +155,7 @@ Vector3 MegaDragger::safeMoveAlongLine(const Vector3& tryDrag,
 	getPartsForDrag(primitives);
 	if (primitives.size() > 0) {
 		Vector3 answer = Dragger::safeMoveAlongLine(primitives, tryDrag, contactManager, Dragger::groundPlaneDepth(), snapToWorld);
-		RBXASSERT(		(answer == Vector3::zero()) 
+		ARLASSERT(		(answer == Vector3::zero()) 
 					|| !contactManager.intersectingOthers(primitives, Tolerance::maxOverlapOrGap()));
 		return answer;
 	}
@@ -193,7 +193,7 @@ Vector3 MegaDragger::safeRotateAlongLine(const Vector3& tryDrag)
 		Matrix3 rotation = Matrix3::fromAxisAngleFast(axis, amount);
 		Dragger::safeRotate(primitives, rotation, contactManager);
 
-//		RBXASSERT(!contactManager.intersectingOthers(primitives, Tolerance::maxOverlapOrGap()));
+//		ARLASSERT(!contactManager.intersectingOthers(primitives, Tolerance::maxOverlapOrGap()));
 		return tryDrag;
 	}
 	else {
@@ -262,10 +262,10 @@ void MegaDragger::removeParts()
 
 bool MegaDragger::safeRotate(const Matrix3& rotMatrix)
 {
-	RBXASSERT(!joined);
+	ARLASSERT(!joined);
 	G3D::Array<Primitive*> primitives;
 	DragUtilities::partsToPrimitives(dragParts, primitives);
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
     if (primitives.size() == 1 && AdvMoveTool::advLocalRotationMode)
     {
@@ -332,16 +332,16 @@ bool MegaDragger::moveSafePlaceAlongLine(const Vector3& tryDrag)
 
 void MegaDragger::setToSelection(const Workspace* workspace)
 {
-	RBX::Selection* selection = ServiceProvider::find<Selection>(workspace);
+	ARL::Selection* selection = ServiceProvider::find<Selection>(workspace);
 	if (!selection)
 		return;
 
-	std::vector<RBX::PVInstance*> pvInstances;
+	std::vector<ARL::PVInstance*> pvInstances;
 
-	for (RBX::Instances::const_iterator iter = selection->begin(); iter != selection->end(); ++iter)
+	for (ARL::Instances::const_iterator iter = selection->begin(); iter != selection->end(); ++iter)
 	{
 		if ((*iter)->isDescendantOf(workspace))
-			if (shared_ptr<RBX::PVInstance> pvInstance = RBX::Instance::fastSharedDynamicCast<RBX::PVInstance>(*iter))
+			if (shared_ptr<ARL::PVInstance> pvInstance = ARL::Instance::fastSharedDynamicCast<ARL::PVInstance>(*iter))
 				pvInstances.push_back(pvInstance.get());
 	}
 

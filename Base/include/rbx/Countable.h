@@ -2,14 +2,14 @@
 #include "rbx/atomic.h"
 #include "rbx/Declarations.h"
 
-namespace RBX
+namespace ARL
 {
 
 namespace Diagnostics
 {
 
 template<typename T>
-class RBXBaseClass Countable
+class ARLBaseClass Countable
 {
     static rbx::atomic<int> count;
 public:
@@ -30,4 +30,4 @@ rbx::atomic<int> Countable<T>::count;
 
 } // namespace Diagnostics
 
-} // namespace RBX
+} // namespace ARL

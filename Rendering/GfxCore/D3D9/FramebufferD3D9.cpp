@@ -5,7 +5,7 @@
 
 #include <d3d9.h>
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -25,7 +25,7 @@ static IDirect3DSurface9* createRenderbuffer(IDirect3DDevice9* device9, Texture:
 		hr = device9->CreateRenderTarget(width, height, format9, msaa9, 0, false, &result, NULL);
 
     if (FAILED(hr))
-		throw RBX::runtime_error("Error creating renderbuffer: %x", hr);
+		throw ARL::runtime_error("Error creating renderbuffer: %x", hr);
 
     return result;
 }
@@ -49,7 +49,7 @@ static IDirect3DSurface9* getSurface(shared_ptr<TextureD3D9> container, Renderbu
             static_cast<IDirect3DCubeTexture9*>(container->getObject())->GetCubeMapSurface((D3DCUBEMAP_FACES)ot, level, &ret);
             break;
     default:
-        RBXASSERT(!"bad owner type for renderbuffer");
+        ARLASSERT(!"bad owner type for renderbuffer");
         break;
     }
     return ret;
@@ -113,14 +113,14 @@ void RenderbufferD3D9::onDeviceRestored()
 
 void RenderbufferD3D9::updateObject(IDirect3DSurface9* value)
 {
-    RBXASSERT(!object);
+    ARLASSERT(!object);
     object = value;
 }
 
 FramebufferD3D9::FramebufferD3D9(Device* device, IDirect3DSurface9* colorSurface, IDirect3DSurface9* depthSurface)
 	: Framebuffer(device, 0, 0, 1)
 {
-	RBXASSERT(colorSurface && depthSurface);
+	ARLASSERT(colorSurface && depthSurface);
 
 	D3DSURFACE_DESC cdesc = {};
 	colorSurface->GetDesc(&cdesc);
@@ -128,7 +128,7 @@ FramebufferD3D9::FramebufferD3D9(Device* device, IDirect3DSurface9* colorSurface
 	D3DSURFACE_DESC ddesc = {};
 	depthSurface->GetDesc(&ddesc);
 
-	RBXASSERT(cdesc.Width == ddesc.Width && cdesc.Height == ddesc.Height);
+	ARLASSERT(cdesc.Width == ddesc.Width && cdesc.Height == ddesc.Height);
 
 	width = cdesc.Width;
 	height = cdesc.Height;
@@ -142,16 +142,16 @@ FramebufferD3D9::FramebufferD3D9(Device* device, const std::vector<shared_ptr<Re
     , color(color)
     , depth(depth)
 {
-	RBXASSERT(!color.empty());
+	ARLASSERT(!color.empty());
 
 	if (color.size() > device->getCaps().maxDrawBuffers)
-		throw RBX::runtime_error("Unsupported framebuffer configuration: too many buffers (%d)", color.size());
+		throw ARL::runtime_error("Unsupported framebuffer configuration: too many buffers (%d)", color.size());
 
     for (size_t i = 0; i < color.size(); ++i)
 	{
 		RenderbufferD3D9* buffer = static_cast<RenderbufferD3D9*>(color[i].get());
-        RBXASSERT(buffer);
-		RBXASSERT(!Texture::isFormatDepth(buffer->getFormat()));
+        ARLASSERT(buffer);
+		ARLASSERT(!Texture::isFormatDepth(buffer->getFormat()));
 
         if (i == 0)
 		{
@@ -161,20 +161,20 @@ FramebufferD3D9::FramebufferD3D9(Device* device, const std::vector<shared_ptr<Re
 		}
 		else
 		{
-			RBXASSERT(width == buffer->getWidth());
-			RBXASSERT(height == buffer->getHeight());
-			RBXASSERT(samples == buffer->getSamples());
+			ARLASSERT(width == buffer->getWidth());
+			ARLASSERT(height == buffer->getHeight());
+			ARLASSERT(samples == buffer->getSamples());
 		}
 	}
 
     if (depth)
 	{
 		RenderbufferD3D9* buffer = static_cast<RenderbufferD3D9*>(depth.get());
-		RBXASSERT(Texture::isFormatDepth(buffer->getFormat()));
+		ARLASSERT(Texture::isFormatDepth(buffer->getFormat()));
 
-        RBXASSERT(width == buffer->getWidth());
-        RBXASSERT(height == buffer->getHeight());
-        RBXASSERT(samples == buffer->getSamples());
+        ARLASSERT(width == buffer->getWidth());
+        ARLASSERT(height == buffer->getHeight());
+        ARLASSERT(samples == buffer->getSamples());
 	}
 }
 
@@ -184,19 +184,19 @@ FramebufferD3D9::~FramebufferD3D9()
 
 void FramebufferD3D9::download(void* data, unsigned int size)
 {
-	RBXASSERT(size == width * height * 4);
+	ARLASSERT(size == width * height * 4);
 
 	IDirect3DSurface9* tempSurface = grabCopy();
 
     D3DSURFACE_DESC surfaceDesc;
     tempSurface->GetDesc(&surfaceDesc);
 
-	RBXASSERT(surfaceDesc.Format == D3DFMT_A8R8G8B8 || surfaceDesc.Format == D3DFMT_X8R8G8B8);
+	ARLASSERT(surfaceDesc.Format == D3DFMT_A8R8G8B8 || surfaceDesc.Format == D3DFMT_X8R8G8B8);
 
 	D3DLOCKED_RECT surfaceRect = {};
 	tempSurface->LockRect(&surfaceRect, NULL, 0);
 
-	RBXASSERT(static_cast<unsigned int>(surfaceRect.Pitch) >= width * 4);
+	ARLASSERT(static_cast<unsigned int>(surfaceRect.Pitch) >= width * 4);
 
     for (unsigned int y = 0; y < height; ++y)
 	{
@@ -215,7 +215,7 @@ IDirect3DSurface9* FramebufferD3D9::grabCopy()
 {
 	IDirect3DDevice9* device9 = static_cast<DeviceD3D9*>(device)->getDevice9();
 
-	RBXASSERT(!color.empty());
+	ARLASSERT(!color.empty());
 	IDirect3DSurface9* colorSurface = static_cast<RenderbufferD3D9*>(color[0].get())->getObject();
 
     D3DSURFACE_DESC desc;
@@ -226,7 +226,7 @@ IDirect3DSurface9* FramebufferD3D9::grabCopy()
     HRESULT hr = device9->CreateOffscreenPlainSurface(desc.Width, desc.Height, desc.Format, D3DPOOL_SYSTEMMEM, &systemSurface, NULL);
 
     if (FAILED(hr))
-        throw RBX::runtime_error("grabCopy failed: can't create off-screen surface: %x", hr);
+        throw ARL::runtime_error("grabCopy failed: can't create off-screen surface: %x", hr);
 
     // Copy data to the surface
 	hr = device9->GetRenderTargetData(colorSurface, systemSurface);
@@ -235,7 +235,7 @@ IDirect3DSurface9* FramebufferD3D9::grabCopy()
 	{
 		systemSurface->Release();
 
-        throw RBX::runtime_error("grabCopy failed: can't read render-target data: %x", hr);
+        throw ARL::runtime_error("grabCopy failed: can't read render-target data: %x", hr);
 	}
 
     return systemSurface;

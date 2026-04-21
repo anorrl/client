@@ -13,7 +13,7 @@
 #include <deque>
 
 
-namespace RBX {
+namespace ARL {
 
 	class Assembly;
 	class Edge;

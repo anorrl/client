@@ -13,7 +13,7 @@
 
 #include "v8datamodel/PartCookie.h"
 
-namespace RBX
+namespace ARL
 {
 
     static const Vector3 humanoidPartScales[HumanoidIdentifier::PartType_Count] =
@@ -26,7 +26,7 @@ namespace RBX
     };
 
 	// if the part is a humanoid, get further details with this.
-	HumanoidIdentifier::HumanoidIdentifier(RBX::Humanoid* humanoid)
+	HumanoidIdentifier::HumanoidIdentifier(ARL::Humanoid* humanoid)
 		: humanoid(humanoid)
 		, head(0)
 		, leftLeg(0)
@@ -97,7 +97,7 @@ namespace RBX
 				case CharacterMesh::TORSO:
 					torsoMesh = m; break;
 				default:
-					RBXASSERT(!"Unsupported body part type");
+					ARLASSERT(!"Unsupported body part type");
 					break;
 				}
 			}
@@ -108,7 +108,7 @@ namespace RBX
 		}
 	}
 
-	CharacterMesh* HumanoidIdentifier::getRelevantMesh(RBX::PartInstance* bodyPart) const
+	CharacterMesh* HumanoidIdentifier::getRelevantMesh(ARL::PartInstance* bodyPart) const
 	{
 		if(bodyPart==leftLeg) return leftLegMesh;
 		if(bodyPart==rightLeg) return rightLegMesh;
@@ -118,7 +118,7 @@ namespace RBX
 		return NULL;
 	}
 
-    HumanoidIdentifier::BodyPartType HumanoidIdentifier::getBodyPartType(RBX::PartInstance* bodyPart) const
+    HumanoidIdentifier::BodyPartType HumanoidIdentifier::getBodyPartType(ARL::PartInstance* bodyPart) const
     {
         if(bodyPart==leftLeg || bodyPart==rightLeg) return PartType_Leg;
         if(bodyPart==leftArm || bodyPart==rightArm) return PartType_Arm;
@@ -128,34 +128,34 @@ namespace RBX
         return PartType_Unknown;
     }
 
-    Vector3 HumanoidIdentifier::getBodyPartScale(RBX::PartInstance* bodyPart) const
+    Vector3 HumanoidIdentifier::getBodyPartScale(ARL::PartInstance* bodyPart) const
     {
         return humanoidPartScales[getBodyPartType(bodyPart)];
     }
 
-	bool HumanoidIdentifier::isPartHead(RBX::PartInstance* part) const
+	bool HumanoidIdentifier::isPartHead(ARL::PartInstance* part) const
 	{
 		if (part != head)
 			return false;
 
-		if (RBX::DataModelMesh* specialShape = RBX::getSpecialShape(part))
+		if (ARL::DataModelMesh* specialShape = ARL::getSpecialShape(part))
 		{
 			bool hasFace = (part->getCookie() & PartCookie::HAS_DECALS) != 0;
 
-			if (RBX::SpecialShape* shape = specialShape->fastDynamicCast<RBX::SpecialShape>())
+			if (ARL::SpecialShape* shape = specialShape->fastDynamicCast<ARL::SpecialShape>())
 			{
 				// A real head or a file mesh - treat it as a head even if there is no face (might use a mesh texture)
-				if (shape->getMeshType() == RBX::SpecialShape::HEAD_MESH || shape->getMeshType() == RBX::SpecialShape::FILE_MESH)
+				if (shape->getMeshType() == ARL::SpecialShape::HEAD_MESH || shape->getMeshType() == ARL::SpecialShape::FILE_MESH)
 					return true;
 
 				// Probably one of the heads from the store - all character heads have faces
-				if (shape->getMeshType() == RBX::SpecialShape::SPHERE_MESH)
+				if (shape->getMeshType() == ARL::SpecialShape::SPHERE_MESH)
 					return hasFace;
 
 				// Unrecognized shape type - this is not a head from the store, so don't treat it as a head.
 				return false;
 			}
-			else if (specialShape->fastDynamicCast<RBX::FileMesh>())
+			else if (specialShape->fastDynamicCast<ARL::FileMesh>())
 			{
 				// A file mesh - treat it as a head even if there is no face (might use a mesh texture)
 				return true;
@@ -171,7 +171,7 @@ namespace RBX
 		return false;
 	}
 
-	bool HumanoidIdentifier::isBodyPart(RBX::PartInstance* part) const
+	bool HumanoidIdentifier::isBodyPart(ARL::PartInstance* part) const
 	{
 		if (part->getCookie() & PartCookie::IS_HUMANOID_PART)
 			return (leftArm == part || leftLeg == part || rightArm == part || rightLeg == part || torso == part || head == part);
@@ -179,7 +179,7 @@ namespace RBX
 			return false;
 	}
 
-	bool HumanoidIdentifier::isBodyPartComposited(RBX::PartInstance* part) const
+	bool HumanoidIdentifier::isBodyPartComposited(ARL::PartInstance* part) const
 	{
 		bool noReflectance = part->getReflectance() <= 0.015f;
 
@@ -217,7 +217,7 @@ namespace RBX
         return (part->getRenderMaterial() == PLASTIC_MATERIAL || part->getRenderMaterial() == SMOOTH_PLASTIC_MATERIAL) && noReflectance;
 	}
 
-	bool HumanoidIdentifier::isPartComposited(RBX::PartInstance* part) const
+	bool HumanoidIdentifier::isPartComposited(ARL::PartInstance* part) const
 	{
 		if (isBodyPart(part))
 			return isBodyPartComposited(part);

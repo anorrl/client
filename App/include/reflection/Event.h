@@ -16,7 +16,7 @@
 #include "rbx/signal.h"
 #include "reflection/type.h"
 
-namespace RBX
+namespace ARL
 {
     class SystemAddress;
 
@@ -41,9 +41,9 @@ namespace RBX
 		// A GenericSlot is a slot that takes "EventArguments" instead of typed function arguments
 		// Thus, it can slot to any signal.
 		// This wrapper defines an interface to such a slot
-		class RBXInterface GenericSlotWrapper 
+		class ARLInterface GenericSlotWrapper 
 			: boost::noncopyable
-			, public RBX::Diagnostics::Countable< GenericSlotWrapper >
+			, public ARL::Diagnostics::Countable< GenericSlotWrapper >
 		{
 			// TODO: make members private/protected as much as possible 
 		public:
@@ -133,7 +133,7 @@ namespace RBX
 		template<class GenericSlot>
 		class TGenericSlotWrapper 
 				: public GenericSlotWrapper
-				, public RBX::Diagnostics::Countable< TGenericSlotWrapper<GenericSlot> >
+				, public ARL::Diagnostics::Countable< TGenericSlotWrapper<GenericSlot> >
 		{
 			friend class GenericSlotWrapper;
 		public:
@@ -148,9 +148,9 @@ namespace RBX
 				{
 					slot(arguments);
 				}
-				catch(RBX::base_exception& e)
+				catch(ARL::base_exception& e)
 				{
-					RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Exception caught in TGenericSlotWrapper. %s", e.what());
+					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Exception caught in TGenericSlotWrapper. %s", e.what());
 				}
 			} 
 		};
@@ -178,7 +178,7 @@ namespace RBX
 			Describes a signal of a SignalSource/DescribedBase
 		*/
 		class Event;
-		class RBXBaseClass EventDescriptor : public MemberDescriptor
+		class ARLBaseClass EventDescriptor : public MemberDescriptor
 		{
 		public:
 			typedef Event ConstMember;
@@ -199,7 +199,7 @@ namespace RBX
 			virtual void fireEvent(EventSource* source, const EventArguments& args) const = 0;
 			virtual void sendEvent(EventSource* source, const EventArguments& args) const
 			{
-				RBXASSERT(false);	// Should only be called on RemoteEventDesc
+				ARLASSERT(false);	// Should only be called on RemoteEventDesc
 			}
 
 			bool operator==(const EventDescriptor& other) const {
@@ -212,10 +212,10 @@ namespace RBX
 		};
 
 		template<class EventClass, typename Signature, typename SignalType, typename EventGetter = SignalType EventClass::*>
-		class RBXBaseClass EventDescBase;
+		class ARLBaseClass EventDescBase;
 
 		template<class EventClass, typename Signature, typename SignalType>
-		class RBXBaseClass EventDescBase<EventClass, Signature, SignalType, SignalType EventClass::*> : public EventDescriptor
+		class ARLBaseClass EventDescBase<EventClass, Signature, SignalType, SignalType EventClass::*> : public EventDescriptor
 		{
 		private:
 			SignalType EventClass::*sig;
@@ -249,7 +249,7 @@ namespace RBX
 		};
 
 		template<class EventClass, typename Signature, typename SignalType>
-		class RBXBaseClass EventDescBase<EventClass, Signature, SignalType, SignalType* (EventClass::*)(bool)> : public EventDescriptor
+		class ARLBaseClass EventDescBase<EventClass, Signature, SignalType, SignalType* (EventClass::*)(bool)> : public EventDescriptor
 		{
 		private:
 			SignalType* (EventClass::*getOrCreate)(bool);
@@ -262,7 +262,7 @@ namespace RBX
 			SignalType& getSignal(EventClass* obj) const
 			{
 				SignalType* s = (obj->*getOrCreate)(true);
-                RBXASSERT(s);
+                ARLASSERT(s);
                 return *s;
 			}
 		public:
@@ -305,7 +305,7 @@ namespace RBX
 			}
 			inline void fireEvent(EventSource* source, const EventArguments& args) const
 			{
-				RBX_SIGNALS_ASSERT(args.size() == 0);
+				ARL_SIGNALS_ASSERT(args.size() == 0);
 				EventClass* e = boost::polymorphic_downcast<EventClass*>(source);
 				return this->getSignal(e)();
 			}
@@ -330,7 +330,7 @@ namespace RBX
 			}
 			inline void fireEvent(EventSource* source, const EventArguments& args) const
 			{
-				RBX_SIGNALS_ASSERT(args.size() == 1);
+				ARL_SIGNALS_ASSERT(args.size() == 1);
 				EventClass* e = boost::polymorphic_downcast<EventClass*>(source);
 				this->getSignal(e)(
 					args[0].cast<typename boost::function_traits<Signature>::arg1_type>()
@@ -359,7 +359,7 @@ namespace RBX
 			}
 			inline void fireEvent(EventSource* source, const EventArguments& args) const
 			{
-				RBX_SIGNALS_ASSERT(args.size() == 2);
+				ARL_SIGNALS_ASSERT(args.size() == 2);
 				EventClass* e = boost::polymorphic_downcast<EventClass*>(source);
 				this->getSignal(e)(
 					args[0].cast<typename boost::function_traits<Signature>::arg1_type>(),
@@ -390,7 +390,7 @@ namespace RBX
 			}
 			inline void fireEvent(EventSource* source, const EventArguments& args) const
 			{
-				RBX_SIGNALS_ASSERT(args.size() == 3);
+				ARL_SIGNALS_ASSERT(args.size() == 3);
 				EventClass* e = boost::polymorphic_downcast<EventClass*>(source);
 				this->getSignal(e)(
 					args[0].cast<typename boost::function_traits<Signature>::arg1_type>(),
@@ -423,7 +423,7 @@ namespace RBX
 			}
 			inline void fireEvent(EventSource* source, const EventArguments& args) const
 			{
-				RBX_SIGNALS_ASSERT(args.size() == 4);
+				ARL_SIGNALS_ASSERT(args.size() == 4);
 				EventClass* e = boost::polymorphic_downcast<EventClass*>(source);
 				this->getSignal(e)(
 					args[0].cast<typename boost::function_traits<Signature>::arg1_type>(),
@@ -458,7 +458,7 @@ namespace RBX
 			}
 			inline void fireEvent(EventSource* source, const EventArguments& args) const
 			{
-				RBX_SIGNALS_ASSERT(args.size() == 5);
+				ARL_SIGNALS_ASSERT(args.size() == 5);
 				EventClass* e = boost::polymorphic_downcast<EventClass*>(source);
 				this->getSignal(e)(
                                    args[0].cast<typename boost::function_traits<Signature>::arg1_type>(),
@@ -495,7 +495,7 @@ namespace RBX
 			}
 			inline void fireEvent(EventSource* source, const EventArguments& args) const
 			{
-				RBX_SIGNALS_ASSERT(args.size() == 6);
+				ARL_SIGNALS_ASSERT(args.size() == 6);
 				EventClass* e = boost::polymorphic_downcast<EventClass*>(source);
 				this->getSignal(e)(
 					args[0].cast<typename boost::function_traits<Signature>::arg1_type>(),
@@ -534,7 +534,7 @@ namespace RBX
 			}
 			inline void fireEvent(EventSource* source, const EventArguments& args) const
 			{
-				RBX_SIGNALS_ASSERT(args.size() == 7);
+				ARL_SIGNALS_ASSERT(args.size() == 7);
 				EventClass* e = boost::polymorphic_downcast<EventClass*>(source);
 				this->getSignal(e)(
 					args[0].cast<typename boost::function_traits<Signature>::arg1_type>(),
@@ -578,98 +578,98 @@ namespace RBX
 				:EventDescImpl<1, EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{
 				BOOST_STATIC_ASSERT(boost::function_traits<Signature>::arity == 1);
-				SignatureDescriptor::Item arg1(&RBX::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				SignatureDescriptor::Item arg1(&ARL::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
 				this->signature.arguments.push_back(arg1);
 			}
 			EventDesc(SignalGetter sig, const char* name, const char* arg1name, Descriptor::Attributes attributes)
 				:EventDescImpl<1, EventClass, Signature, SignalType, SignalGetter>(sig, name, Security::None, attributes)
 			{
 				BOOST_STATIC_ASSERT(boost::function_traits<Signature>::arity == 1);
-				SignatureDescriptor::Item arg1(&RBX::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				SignatureDescriptor::Item arg1(&ARL::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
 				this->signature.arguments.push_back(arg1);
 			}
 			EventDesc(SignalGetter sig, const char* name, const char* arg1name, const char* arg2name, Security::Permissions security = Security::None, Descriptor::Attributes attributes = Descriptor::Attributes())
 				:EventDescImpl<2, EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{
 				BOOST_STATIC_ASSERT(boost::function_traits<Signature>::arity == 2);
-				SignatureDescriptor::Item arg1(&RBX::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				SignatureDescriptor::Item arg1(&ARL::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
 				this->signature.arguments.push_back(arg1);
-				SignatureDescriptor::Item arg2(&RBX::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
+				SignatureDescriptor::Item arg2(&ARL::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
 				this->signature.arguments.push_back(arg2);
 			}
 			EventDesc(SignalGetter sig, const char* name, const char* arg1name, const char* arg2name, const char* arg3name, Security::Permissions security = Security::None, Descriptor::Attributes attributes = Descriptor::Attributes())
 				:EventDescImpl<3, EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{
 				BOOST_STATIC_ASSERT(boost::function_traits<Signature>::arity == 3);
-				SignatureDescriptor::Item arg1(&RBX::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				SignatureDescriptor::Item arg1(&ARL::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
 				this->signature.arguments.push_back(arg1);
-				SignatureDescriptor::Item arg2(&RBX::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
+				SignatureDescriptor::Item arg2(&ARL::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
 				this->signature.arguments.push_back(arg2);
-				SignatureDescriptor::Item arg3(&RBX::Name::declare(arg3name), &Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
+				SignatureDescriptor::Item arg3(&ARL::Name::declare(arg3name), &Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
 				this->signature.arguments.push_back(arg3);
 			}
 			EventDesc(SignalGetter sig, const char* name, const char* arg1name, const char* arg2name, const char* arg3name, const char* arg4name, Security::Permissions security = Security::None, Descriptor::Attributes attributes = Descriptor::Attributes())
 				:EventDescImpl<4, EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{
 				BOOST_STATIC_ASSERT(boost::function_traits<Signature>::arity == 4);
-				SignatureDescriptor::Item arg1(&RBX::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				SignatureDescriptor::Item arg1(&ARL::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
 				this->signature.arguments.push_back(arg1);
-				SignatureDescriptor::Item arg2(&RBX::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
+				SignatureDescriptor::Item arg2(&ARL::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
 				this->signature.arguments.push_back(arg2);
-				SignatureDescriptor::Item arg3(&RBX::Name::declare(arg3name), &Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
+				SignatureDescriptor::Item arg3(&ARL::Name::declare(arg3name), &Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
 				this->signature.arguments.push_back(arg3);
-				SignatureDescriptor::Item arg4(&RBX::Name::declare(arg4name), &Type::singleton<typename boost::function_traits<Signature>::arg4_type>());
+				SignatureDescriptor::Item arg4(&ARL::Name::declare(arg4name), &Type::singleton<typename boost::function_traits<Signature>::arg4_type>());
 				this->signature.arguments.push_back(arg4);
 			}
             EventDesc(SignalGetter sig, const char* name, const char* arg1name, const char* arg2name, const char* arg3name, const char* arg4name, const char* arg5name, Security::Permissions security = Security::None, Descriptor::Attributes attributes = Descriptor::Attributes())
             :EventDescImpl<5, EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{
 				BOOST_STATIC_ASSERT(boost::function_traits<Signature>::arity == 5);
-				SignatureDescriptor::Item arg1(&RBX::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				SignatureDescriptor::Item arg1(&ARL::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
 				this->signature.arguments.push_back(arg1);
-				SignatureDescriptor::Item arg2(&RBX::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
+				SignatureDescriptor::Item arg2(&ARL::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
 				this->signature.arguments.push_back(arg2);
-				SignatureDescriptor::Item arg3(&RBX::Name::declare(arg3name), &Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
+				SignatureDescriptor::Item arg3(&ARL::Name::declare(arg3name), &Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
 				this->signature.arguments.push_back(arg3);
-				SignatureDescriptor::Item arg4(&RBX::Name::declare(arg4name), &Type::singleton<typename boost::function_traits<Signature>::arg4_type>());
+				SignatureDescriptor::Item arg4(&ARL::Name::declare(arg4name), &Type::singleton<typename boost::function_traits<Signature>::arg4_type>());
 				this->signature.arguments.push_back(arg4);
-                SignatureDescriptor::Item arg5(&RBX::Name::declare(arg5name), &Type::singleton<typename boost::function_traits<Signature>::arg5_type>());
+                SignatureDescriptor::Item arg5(&ARL::Name::declare(arg5name), &Type::singleton<typename boost::function_traits<Signature>::arg5_type>());
 				this->signature.arguments.push_back(arg5);
 			}
 			EventDesc(SignalGetter sig, const char* name, const char* arg1name, const char* arg2name, const char* arg3name, const char* arg4name, const char* arg5name, const char* arg6name, Security::Permissions security = Security::None, Descriptor::Attributes attributes = Descriptor::Attributes())
 				:EventDescImpl<6, EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{
 				BOOST_STATIC_ASSERT(boost::function_traits<Signature>::arity == 6);
-				SignatureDescriptor::Item arg1(&RBX::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				SignatureDescriptor::Item arg1(&ARL::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
 				this->signature.arguments.push_back(arg1);
-				SignatureDescriptor::Item arg2(&RBX::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
+				SignatureDescriptor::Item arg2(&ARL::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
 				this->signature.arguments.push_back(arg2);
-				SignatureDescriptor::Item arg3(&RBX::Name::declare(arg3name), &Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
+				SignatureDescriptor::Item arg3(&ARL::Name::declare(arg3name), &Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
 				this->signature.arguments.push_back(arg3);
-				SignatureDescriptor::Item arg4(&RBX::Name::declare(arg4name), &Type::singleton<typename boost::function_traits<Signature>::arg4_type>());
+				SignatureDescriptor::Item arg4(&ARL::Name::declare(arg4name), &Type::singleton<typename boost::function_traits<Signature>::arg4_type>());
 				this->signature.arguments.push_back(arg4);
-				SignatureDescriptor::Item arg5(&RBX::Name::declare(arg5name), &Type::singleton<typename boost::function_traits<Signature>::arg5_type>());
+				SignatureDescriptor::Item arg5(&ARL::Name::declare(arg5name), &Type::singleton<typename boost::function_traits<Signature>::arg5_type>());
 				this->signature.arguments.push_back(arg5);
-				SignatureDescriptor::Item arg6(&RBX::Name::declare(arg6name), &Type::singleton<typename boost::function_traits<Signature>::arg6_type>());
+				SignatureDescriptor::Item arg6(&ARL::Name::declare(arg6name), &Type::singleton<typename boost::function_traits<Signature>::arg6_type>());
 				this->signature.arguments.push_back(arg6);
 			}
 			EventDesc(SignalGetter sig, const char* name, const char* arg1name, const char* arg2name, const char* arg3name, const char* arg4name, const char* arg5name, const char* arg6name, const char* arg7name, Security::Permissions security = Security::None, Descriptor::Attributes attributes = Descriptor::Attributes())
 				:EventDescImpl<7, EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{
 				BOOST_STATIC_ASSERT(boost::function_traits<Signature>::arity == 7);
-				SignatureDescriptor::Item arg1(&RBX::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				SignatureDescriptor::Item arg1(&ARL::Name::declare(arg1name), &Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
 				this->signature.arguments.push_back(arg1);
-				SignatureDescriptor::Item arg2(&RBX::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
+				SignatureDescriptor::Item arg2(&ARL::Name::declare(arg2name), &Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
 				this->signature.arguments.push_back(arg2);
-				SignatureDescriptor::Item arg3(&RBX::Name::declare(arg3name), &Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
+				SignatureDescriptor::Item arg3(&ARL::Name::declare(arg3name), &Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
 				this->signature.arguments.push_back(arg3);
-				SignatureDescriptor::Item arg4(&RBX::Name::declare(arg4name), &Type::singleton<typename boost::function_traits<Signature>::arg4_type>());
+				SignatureDescriptor::Item arg4(&ARL::Name::declare(arg4name), &Type::singleton<typename boost::function_traits<Signature>::arg4_type>());
 				this->signature.arguments.push_back(arg4);
-				SignatureDescriptor::Item arg5(&RBX::Name::declare(arg5name), &Type::singleton<typename boost::function_traits<Signature>::arg5_type>());
+				SignatureDescriptor::Item arg5(&ARL::Name::declare(arg5name), &Type::singleton<typename boost::function_traits<Signature>::arg5_type>());
 				this->signature.arguments.push_back(arg5);
-				SignatureDescriptor::Item arg6(&RBX::Name::declare(arg6name), &Type::singleton<typename boost::function_traits<Signature>::arg6_type>());
+				SignatureDescriptor::Item arg6(&ARL::Name::declare(arg6name), &Type::singleton<typename boost::function_traits<Signature>::arg6_type>());
 				this->signature.arguments.push_back(arg6);
-				SignatureDescriptor::Item arg7(&RBX::Name::declare(arg7name), &Type::singleton<typename boost::function_traits<Signature>::arg7_type>());
+				SignatureDescriptor::Item arg7(&ARL::Name::declare(arg7name), &Type::singleton<typename boost::function_traits<Signature>::arg7_type>());
 				this->signature.arguments.push_back(arg7);
 			}
 		};
@@ -697,7 +697,7 @@ namespace RBX
 				return *this;
 			}
 
-			inline const RBX::Name& getName() const { 
+			inline const ARL::Name& getName() const { 
 				return descriptor->name; 
 			}
 
@@ -1118,7 +1118,7 @@ namespace RBX
 
 					return &this->getSignal(e);
 				}
-				RBXASSERT(0);
+				ARLASSERT(0);
 				return NULL;
 			}
 

@@ -2,7 +2,7 @@
 
 #include "DiscordHandler.h"
 
-namespace RBX {
+namespace ARL {
 
 	void DiscordHandler::SetDetails(std::string state, std::string details) {
         DiscordRichPresence discordPresence;

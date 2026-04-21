@@ -54,7 +54,7 @@ FASTFLAG(CSGPhysicsLevelOfDetailEnabled)
 #define NO_OUTLINES 10.0f
 
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -1000,8 +1000,8 @@ namespace Graphics
 			}
 		}
 
-		RBXASSERT(faceCounter == 2*quads+tris);
-		RBXASSERT(vertexCounter == totalVerts);
+		ARLASSERT(faceCounter == 2*quads+tris);
+		ARLASSERT(vertexCounter == totalVerts);
 
 		Vector3 boundsCenter = options.cframe.pointToWorldSpace(center);
 		extendBoundsBlock(mBboxMin, mBboxMax, boundsCenter, size, worldAxisX, worldAxisY, worldAxisZ);
@@ -1197,8 +1197,8 @@ namespace Graphics
 			}
 		}
 
-		RBXASSERT(faceCounter == quads);
-		RBXASSERT(vertexCounter == totalVerts);
+		ARLASSERT(faceCounter == quads);
+		ARLASSERT(vertexCounter == totalVerts);
 
 		extendBoundsBlock(mBboxMin, mBboxMax, options.cframe.translation + center, size, worldAxisX, worldAxisY, worldAxisZ);
 	}
@@ -1263,7 +1263,7 @@ namespace Graphics
 		{
 			// We do not allow a part to generate more than 32768 vertices
 			// This is both to ensure that we never exceed 16-bit index limit even if we had some vertices before, and to avoid potential issues with negative size components
-			RBXASSERT(false);
+			ARLASSERT(false);
 			return;
 		}
 		
@@ -1651,7 +1651,7 @@ namespace Graphics
 				}
 			}
 			
-			RBXASSERT(faceCounter == quads);
+			ARLASSERT(faceCounter == quads);
 			
 			Vector3 boundsCenter = cframe.pointToWorldSpace(center);
 			extendBoundsBlock(mBboxMin, mBboxMax, boundsCenter, size, axisX, axisY, axisZ);
@@ -1706,7 +1706,7 @@ namespace Graphics
 		{
 			// We do not allow a part to generate more than 32768 vertices
 			// This is both to ensure that we never exceed 16-bit index limit even if we had some vertices before, and to avoid potential issues with negative size components
-			RBXASSERT(false);
+			ARLASSERT(false);
 			return;
 		}
 		
@@ -1904,7 +1904,7 @@ namespace Graphics
 				}
 			}
 			
-			RBXASSERT(faceCounter == quads);
+			ARLASSERT(faceCounter == quads);
 			
 			Vector3 boundsCenter = cframe.pointToWorldSpace(center);
 			extendBoundsBlock(mBboxMin, mBboxMax, boundsCenter, size, axisX, axisY, axisZ);
@@ -2034,7 +2034,7 @@ namespace Graphics
 			for (int i = 0; i < 8; ++i)
 				extendBounds(mBboxMin, mBboxMax, cframe.pointToWorldSpace(corners[i]));
 			
-			RBXASSERT(faceCounter == quads);
+			ARLASSERT(faceCounter == quads);
 		}
 	}
 	
@@ -2306,7 +2306,7 @@ namespace Graphics
 		// handle body parts
 		if (Humanoid* humanoid = getHumanoid(part))
 		{
-			RBXASSERT(hi && hi->humanoid == humanoid);
+			ARLASSERT(hi && hi->humanoid == humanoid);
 			
 			MeshId meshId = getMeshIdForBodyPart(*hi, part, specialShape, flags);
 			
@@ -2361,7 +2361,7 @@ namespace Graphics
 		, mBboxMin(Vector3::maxFinite())
 		, mBboxMax(Vector3::minFinite())
 	{
-		RBXASSERT(vertices && indices);
+		ARLASSERT(vertices && indices);
 	}
 
 	void GeometryGenerator::reset()
@@ -2389,7 +2389,7 @@ namespace Graphics
 		addPartImpl(part, decal, options, resources, humanoidIdentifier, /* ignoreMaterialsStuds= */ false);
 		
 		// check that our indices did not overflow (caller should ensure this before calling addDecal)
-		RBXASSERT(!mVertices || mVertexCount < (1 << 16));
+		ARLASSERT(!mVertices || mVertexCount < (1 << 16));
 	}
 
     static bool shouldRandomizeColor(VisualEngine* visualEngine, const PartInstance& part, Decal* decal)
@@ -2447,7 +2447,7 @@ namespace Graphics
 			visualEngine->getDevice()->getCaps().colorOrderBGR ? GeometryGenerator::Flag_DiffuseColorBGRA : 0;
 
 		unsigned int studFlag =
-			(visualEngine->getSettings()->getDrawConnectors() || part.getRenderMaterial() == RBX::PLASTIC_MATERIAL)
+			(visualEngine->getSettings()->getDrawConnectors() || part.getRenderMaterial() == ARL::PLASTIC_MATERIAL)
 			? 0
 			: GeometryGenerator::Flag_IgnoreStuds;
 
@@ -2555,15 +2555,15 @@ namespace Graphics
 		unsigned short* indices = mIndices;
 
 		Vector3 size = part->getPartSizeXml();
-		RBX::Color4uint8 partColor = getColor(part, decal, NULL, options, randomSeed, true);
-        const RBX::Color4uint8& extra = getExtra(part, options);
+		ARL::Color4uint8 partColor = getColor(part, decal, NULL, options, randomSeed, true);
+        const ARL::Color4uint8& extra = getExtra(part, options);
 
         bool isNegate = part->fastDynamicCast<NegateOperation>() != 0;
         bool usePartColor = operation->getUsePartColor();
 
         if (isNegate)
         {
-            partColor = RBX::Color4uint8(255, 154, 161, 150);
+            partColor = ARL::Color4uint8(255, 154, 161, 150);
 		    if ((options.flags & GeometryGenerator::Flag_DiffuseColorBGRA) != 0)
                 std::swap(partColor.r, partColor.b);
         }
@@ -2734,7 +2734,7 @@ namespace Graphics
             }
         }
 
-		Vector3 boundsCenter = cframe.pointToWorldSpace(RBX::Vector3::zero());
+		Vector3 boundsCenter = cframe.pointToWorldSpace(ARL::Vector3::zero());
 		Vector3 axisX = Vector3(cframe.rotation[0][0], cframe.rotation[1][0], cframe.rotation[2][0]);
 		Vector3 axisY = Vector3(cframe.rotation[0][1], cframe.rotation[1][1], cframe.rotation[2][1]);
 		Vector3 axisZ = Vector3(cframe.rotation[0][2], cframe.rotation[1][2], cframe.rotation[2][2]);
@@ -2764,7 +2764,7 @@ namespace Graphics
 		mVertexCount += numfaces*4;
 		mIndexCount += numfaces*6;
 
-		Color4uint8 color = RBX::Color4uint8(randGen.value() % 255, randGen.value() % 255, randGen.value() % 255, 100);
+		Color4uint8 color = ARL::Color4uint8(randGen.value() % 255, randGen.value() % 255, randGen.value() % 255, 100);
 		Color4uint8 extra = getExtra(part, options);
 
 		const Vector3 size = part->getPartSizeUi();
@@ -2833,7 +2833,7 @@ namespace Graphics
 			unsigned int internalIndexOffset = face*6;
 			fillQuadIndices(&indices[internalIndexOffset + indexOffset], internalOffset + vertexOffset, 0, 1, 2, 3);
 		}
-		Vector3 boundsCenter = cframe.pointToWorldSpace(RBX::Vector3::zero());
+		Vector3 boundsCenter = cframe.pointToWorldSpace(ARL::Vector3::zero());
 		extendBoundsBlock(mBboxMin, mBboxMax, boundsCenter, part->getPartSizeXml(), axisX, axisY, axisZ);
 	}
 
@@ -2842,7 +2842,7 @@ namespace Graphics
 		Vector3 scale;
 		int currentVersion = 0;
 
-		if (operation->getPrimitive(operation)->getGeometry()->getGeometryType() != RBX::Geometry::GEOMETRY_TRI_MESH)
+		if (operation->getPrimitive(operation)->getGeometry()->getGeometryType() != ARL::Geometry::GEOMETRY_TRI_MESH)
 			return;
 
 		size_t vertexOffset = mVertexCount;
@@ -2871,7 +2871,7 @@ namespace Graphics
 		Vertex* vertices = mVertices;
 		unsigned short* indices = mIndices;
 
-		const RBX::Color4uint8& extra = getExtra(part, options);
+		const ARL::Color4uint8& extra = getExtra(part, options);
 		const CoordinateFrame& cframe = options.cframe;
 
 		Vector3 axisX = Vector3(cframe.rotation[0][0], cframe.rotation[1][0], cframe.rotation[2][0]);
@@ -2885,7 +2885,7 @@ namespace Graphics
 
 		for (unsigned int i = 0; i < meshConvexes.size(); i++)
 		{
-			const RBX::Color4uint8 color = RBX::Color4uint8(randGen.value() % 255, randGen.value() % 255, randGen.value() % 255, 100);
+			const ARL::Color4uint8 color = ARL::Color4uint8(randGen.value() % 255, randGen.value() % 255, randGen.value() % 255, 100);
 
 			for (unsigned int j = 0; j < meshConvexes[i].vertices.size(); j++)
 			{
@@ -2923,7 +2923,7 @@ namespace Graphics
 			childIndexOffset += meshConvexes[i].indices.size();
 			childVertexOffset += meshConvexes[i].vertices.size();
 		}
-		Vector3 boundsCenter = cframe.pointToWorldSpace(RBX::Vector3::zero());
+		Vector3 boundsCenter = cframe.pointToWorldSpace(ARL::Vector3::zero());
 		extendBoundsBlock(mBboxMin, mBboxMax, boundsCenter, part->getPartSizeXml(), axisX, axisY, axisZ);
 	}
 }

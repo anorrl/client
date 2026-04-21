@@ -6,7 +6,7 @@
 #include "Util/MeshId.h"
 #include "Util/TextureId.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sFileMesh;
 	class FileMesh

@@ -9,11 +9,11 @@
 
 LOGGROUP(TaskSchedulerTiming)
 
-namespace RBX 
+namespace ARL 
 {
 
 BaseRenderJob::BaseRenderJob(double minFps, double maxFps, boost::shared_ptr<DataModel> dataModel)
-	: RBX::DataModelJob("Render", RBX::DataModelJob::Render, false, dataModel, RBX::Time::Interval(.02))
+	: ARL::DataModelJob("Render", ARL::DataModelJob::Render, false, dataModel, ARL::Time::Interval(.02))
 	, isAwake(true)
 	, minFrameRate(minFps)
 	, maxFrameRate(maxFps)
@@ -46,7 +46,7 @@ bool BaseRenderJob::tryJobAgain()
 
 bool BaseRenderJob::isCyclicExecutiveJob()
 {
-	return RBX::TaskScheduler::singleton().isCyclicExecutive() && cyclicExecutive;
+	return ARL::TaskScheduler::singleton().isCyclicExecutive() && cyclicExecutive;
 }
 
 TaskScheduler::Job::Error BaseRenderJob::error(const Stats& stats)
@@ -71,7 +71,7 @@ TaskScheduler::Job::Error BaseRenderJob::error(const Stats& stats)
 
 Time::Interval BaseRenderJob::timeSinceLastRender() const
 {
-	return Time::now<RBX::Time::Fast>() - lastRenderTime;
+	return Time::now<ARL::Time::Fast>() - lastRenderTime;
 }
 
 TaskScheduler::StepResult BaseRenderJob::step(const Stats& stats)

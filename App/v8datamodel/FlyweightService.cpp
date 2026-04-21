@@ -16,7 +16,7 @@ namespace {
 	const size_t minKeySize = 4;
 }
 
-namespace RBX
+namespace ARL
 {
 	const char *const sFlyweightService = "FlyweightService";
 
@@ -33,12 +33,12 @@ namespace RBX
 			stringChildAddedSignal = this->onDemandWrite()->childAddedSignal.connect(boost::bind(&FlyweightService::onChildAdded, shared_from(this), _1));
 	}
 
-	void FlyweightService::onChildAdded(shared_ptr<RBX::Instance> childInstance)
+	void FlyweightService::onChildAdded(shared_ptr<ARL::Instance> childInstance)
 	{
 		static boost::once_flag flag = BOOST_ONCE_INIT;
 		boost::call_once(boost::bind(&RobloxGoogleAnalytics::trackEvent, GA_CATEGORY_GAME, "UsingCSG", "none", 0, false), flag);
 
-		if (shared_ptr<RBX::BinaryStringValue> strValue = RBX::Instance::fastSharedDynamicCast<RBX::BinaryStringValue>(childInstance))
+		if (shared_ptr<ARL::BinaryStringValue> strValue = ARL::Instance::fastSharedDynamicCast<ARL::BinaryStringValue>(childInstance))
 		{
 			std::string key = createHashKey(strValue->getValue().value());
 
@@ -55,14 +55,14 @@ namespace RBX
 
 	std::string FlyweightService::createHashKey(const std::string& data)
 	{
-  	    boost::scoped_ptr<RBX::MD5Hasher> hasher(RBX::MD5Hasher::create());
+  	    boost::scoped_ptr<ARL::MD5Hasher> hasher(ARL::MD5Hasher::create());
         hasher->addData(data);
         return hasher->c_str();
 	}
 
 	std::string FlyweightService::getLocalKeyHash(const std::string& str)
 	{
-		RBXASSERT(str.size() > localKeyTag.size());
+		ARLASSERT(str.size() > localKeyTag.size());
 
 		if (str.size() > localKeyTag.size())
 		{
@@ -87,7 +87,7 @@ namespace RBX
             std::string key = getLocalKeyHash(str);
 
             if (instanceMap.count(key))
-                if (shared_ptr<RBX::BinaryStringValue> strChild = instanceMap.at(key).ref.lock())
+                if (shared_ptr<ARL::BinaryStringValue> strChild = instanceMap.at(key).ref.lock())
                     return strChild->getValue();
         }
         else
@@ -109,7 +109,7 @@ namespace RBX
 
             if (instanceMap.count(key))
             {
-                shared_ptr<RBX::BinaryStringValue> strChild = instanceMap.at(key).ref.lock();
+                shared_ptr<ARL::BinaryStringValue> strChild = instanceMap.at(key).ref.lock();
 
                 if (strChild && strChild->getParent() == this)
                 {
@@ -164,7 +164,7 @@ namespace RBX
 
             if (instanceMap.count(key))
             {
-                if (shared_ptr<RBX::BinaryStringValue> strChild = instanceMap.at(key).ref.lock())
+                if (shared_ptr<ARL::BinaryStringValue> strChild = instanceMap.at(key).ref.lock())
                 {
                     const BinaryString& dataValue = strChild->getValue();
                     str.set(dataValue.value().c_str(), dataValue.value().size());
@@ -189,7 +189,7 @@ namespace RBX
             FlyweightInstanceMap::iterator iter = instanceMap.find(key);
             if (iter != instanceMap.end())
             {
-                if (shared_ptr<RBX::BinaryStringValue> strChild = iter->second.ref.lock())
+                if (shared_ptr<ARL::BinaryStringValue> strChild = iter->second.ref.lock())
                 {
                     strChild->setParent(NULL);
                 }
@@ -208,9 +208,9 @@ namespace RBX
 		if (numChildren())
 		{
 			std::vector<shared_ptr<BinaryStringValue> > toDelete;
-			for (RBX::Instances::const_iterator iter = getChildren()->begin(); iter != getChildren()->end(); ++iter)
+			for (ARL::Instances::const_iterator iter = getChildren()->begin(); iter != getChildren()->end(); ++iter)
 			{
-				if (shared_ptr<BinaryStringValue> stringValue = RBX::Instance::fastSharedDynamicCast<BinaryStringValue>(*iter))
+				if (shared_ptr<BinaryStringValue> stringValue = ARL::Instance::fastSharedDynamicCast<BinaryStringValue>(*iter))
 				{
 					std::string key = createHashKey(stringValue->getValue().value());
 
@@ -272,7 +272,7 @@ namespace RBX
 	{
 		if (instanceMap.count(key))
 		{
-			if (shared_ptr<RBX::BinaryStringValue> strChild = instanceMap.at(key).ref.lock())
+			if (shared_ptr<ARL::BinaryStringValue> strChild = instanceMap.at(key).ref.lock())
 			{
 				if (isChildData(strChild))
 				{
@@ -294,17 +294,17 @@ namespace RBX
 
 	void FlyweightService::printMapSizes()
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_OUTPUT, "Instance map size:%d ,Child count:%d", (int)instanceMap.size(), (int)numChildren());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_OUTPUT, "Instance map size:%d ,Child count:%d", (int)instanceMap.size(), (int)numChildren());
 		for(FlyweightInstanceMap::const_iterator iter = instanceMap.begin(); iter != instanceMap.end(); ++iter)
 		{
 			if (iter->first.c_str())
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_OUTPUT, "Count: %d, %s Value: %s", iter->second.count, dataType(iter->first).c_str(), iter->first.c_str());
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_OUTPUT, "Count: %d, %s Value: %s", iter->second.count, dataType(iter->first).c_str(), iter->first.c_str());
 		}
 	}
 
-	bool FlyweightService::isChildData(shared_ptr<RBX::Instance> childData)
+	bool FlyweightService::isChildData(shared_ptr<ARL::Instance> childData)
 	{
-		if (shared_ptr<RBX::BinaryStringValue> bStrValue = RBX::Instance::fastSharedDynamicCast<RBX::BinaryStringValue>(childData))
+		if (shared_ptr<ARL::BinaryStringValue> bStrValue = ARL::Instance::fastSharedDynamicCast<ARL::BinaryStringValue>(childData))
 			if (strncmp(bStrValue->getValue().value().c_str(), "<roblox", 6) == 0)
 				return true;
 		return false;

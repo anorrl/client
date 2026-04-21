@@ -20,7 +20,7 @@ DYNAMIC_FASTINTVARIABLE(CreatePlacePerPlayerPerMinute, 1)
 
 DYNAMIC_FASTINTVARIABLE(SavePlacePerMinute, 10)
 
-namespace RBX {
+namespace ARL {
 	const char* const sAssetService = "AssetService";
 
     REFLECTION_BEGIN();
@@ -138,7 +138,7 @@ namespace RBX {
 		}		
 		else 
 		{
-			errorFunction(RBX::format("Http exception occurred %s", httpException->what())); 
+			errorFunction(ARL::format("Http exception occurred %s", httpException->what())); 
 		}
 	}
 
@@ -166,7 +166,7 @@ namespace RBX {
 				} 
 				catch (boost::bad_lexical_cast const& e) 
 				{
-					errorFunction( RBX::format("Game:CreatePlace response was not a valid placeId because %s",e.what()) );
+					errorFunction( ARL::format("Game:CreatePlace response was not a valid placeId because %s",e.what()) );
 					return;
 				}
 
@@ -192,7 +192,7 @@ namespace RBX {
 		{
 			if (!error.empty())
 			{
-				errorFunction( RBX::format("Game:CreatePlace received and error: %s.",error.c_str()) );
+				errorFunction( ARL::format("Game:CreatePlace received and error: %s.",error.c_str()) );
 			}
 			else
 			{
@@ -204,7 +204,7 @@ namespace RBX {
 	bool AssetService::checkCreatePlaceAccess(const std::string& placeName, int templatePlaceId, std::string& message)
 	{
 		DataModel* dm = DataModel::get(this);
-		RBXASSERT(dm);
+		ARLASSERT(dm);
 
 		if(!Network::Players::backendProcessing(this))
 		{
@@ -304,13 +304,13 @@ namespace RBX {
 
 		DataModel* dm = DataModel::get(this);
 		
-		std::string parameters = RBX::format("?currentPlaceId=%d&placeName=%s&templatePlaceId=%d",
-			dm->getPlaceID(),RBX::Http::urlEncode(placeName).c_str(),templatePlaceId);
+		std::string parameters = ARL::format("?currentPlaceId=%d&placeName=%s&templatePlaceId=%d",
+			dm->getPlaceID(),ARL::Http::urlEncode(placeName).c_str(),templatePlaceId);
 		std::string baseUrl = ServiceProvider::create<ContentProvider>(this)->getApiBaseUrl();
 
 		std::string playerParameter = "";
 		if(player)
-			playerParameter = RBX::format("&playerId=%i", player->getUserID());
+			playerParameter = ARL::format("&playerId=%i", player->getUserID());
 
 		if (player)
 		{
@@ -326,7 +326,7 @@ namespace RBX {
 
 		try
 		{
-			if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+			if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 			{
 				// now post to the website
 				Http createHttp((baseUrl + "universes/new-place" + parameters + playerParameter).c_str());
@@ -334,14 +334,14 @@ namespace RBX {
 				createHttp.setAuthDomain(baseUrl);
 #endif
                 std::string postString("CreatePlacePost");
-				apiService->postAsync(createHttp, postString, RBX::PRIORITY_SERVER_ELEVATED, HttpService::TEXT_PLAIN,
+				apiService->postAsync(createHttp, postString, ARL::PRIORITY_SERVER_ELEVATED, HttpService::TEXT_PLAIN,
 					boost::bind(&CreatePlaceSuccessHelper, shared_from(dm), _1, resumeFunction, errorFunction),
 					boost::bind(&CreatePlaceErrorHelper, shared_from(dm), _1, errorFunction));
 			}
 		}
 		catch (base_exception &e)
 		{
-			errorFunction( RBX::format("Game:CreatePlace failed because %s",e.what()) );
+			errorFunction( ARL::format("Game:CreatePlace failed because %s",e.what()) );
 		}
 	}
 
@@ -407,13 +407,13 @@ namespace RBX {
 
 	void AssetService::getAssetVersions(int assetId, int pageNum, boost::function<void(shared_ptr<const Reflection::ValueTable>)> resumeFunction, boost::function<void(std::string)> errorFunction)		
 	{
-		Http http(RBX::format(assetVersionsUrl.c_str(), assetId, pageNum)); 
+		Http http(ARL::format(assetVersionsUrl.c_str(), assetId, pageNum)); 
 		http.get(boost::bind(&AssetService::processServiceResults, this, _1, _2, resumeFunction, errorFunction));
 	}
 	
 	void AssetService::getPlacePermissions(int placeId, boost::function<void(shared_ptr<const Reflection::ValueTable>)> resumeFunction, boost::function<void(std::string)> errorFunction)
 	{
-		Http http(RBX::format(placeAccessUrl.c_str(), placeId));		
+		Http http(ARL::format(placeAccessUrl.c_str(), placeId));		
 		http.get(boost::bind(&AssetService::processServiceResults, this, _1, _2, resumeFunction, errorFunction)); 	
 	}
 
@@ -436,7 +436,7 @@ namespace RBX {
 
 	void AssetService::revertAsset(int assetId, int versionNumber, boost::function<void(bool)> resumeFunction, boost::function<void(std::string)> errorFunction)
 	{		
-		Http http(RBX::format(assetRevertUrl.c_str(), assetId, versionNumber));
+		Http http(ARL::format(assetRevertUrl.c_str(), assetId, versionNumber));
 		std::string in; 
 		http.post(in, Http::kContentTypeDefaultUnspecified, true,
 			boost::bind(&AssetService::httpPostHelper, this, _1, _2, resumeFunction, errorFunction));		
@@ -446,8 +446,8 @@ namespace RBX {
 		boost::function<void(bool)> resumeFunction, boost::function<void(std::string)> errorFunction)
 	{			
 		std::string url = placeAccessUrl; 		
-		url = RBX::format(url.append("/update?").c_str(), placeId); 
-		url = RBX::format(url.append("access=%s").c_str(), enumToString(type).c_str()); 		
+		url = ARL::format(url.append("/update?").c_str(), placeId); 
+		url = ARL::format(url.append("access=%s").c_str(), enumToString(type).c_str()); 		
 
 		if(type == INVITEONLY && inviteList) 
 		{		
@@ -480,7 +480,7 @@ namespace RBX {
 		} 
 		catch( boost::bad_lexical_cast const& e)
 		{
-			errorFunction( RBX::format("AssetService:GetCreatorAssetID response could not convert to number because %s",e.what()) );
+			errorFunction( ARL::format("AssetService:GetCreatorAssetID response could not convert to number because %s",e.what()) );
 			return;
 		}
 
@@ -500,7 +500,7 @@ namespace RBX {
 			errorFunction("AssetService::GetCreatorAssetID did not get a response or an error.");
 		}
 
-		errorFunction(RBX::format("AssetService:GetCreatorAssetID error: %s", error.c_str()));
+		errorFunction(ARL::format("AssetService:GetCreatorAssetID error: %s", error.c_str()));
 	}
 
 	void AssetService::getCreatorAssetID(int creationID, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
@@ -511,12 +511,12 @@ namespace RBX {
 			return;
 		}
 
-		std::string baseUrl = RBX::ServiceProvider::create<ContentProvider>(this)->getApiBaseUrl();
-		std::string parameters =  RBX::format("?creationID=%d",creationID);
+		std::string baseUrl = ARL::ServiceProvider::create<ContentProvider>(this)->getApiBaseUrl();
+		std::string parameters =  ARL::format("?creationID=%d",creationID);
 
-		if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+		if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 		{
-			apiService->getAsync("GetCreatorAssetID" + parameters, true, RBX::PRIORITY_DEFAULT,
+			apiService->getAsync("GetCreatorAssetID" + parameters, true, ARL::PRIORITY_DEFAULT,
 				boost::bind(&AssetService::getCreatorAssetIDSuccessHelper, this, _1, resumeFunction, errorFunction),
 				boost::bind(&AssetService::getCreatorAssetIDErrorHelper, this, _1, errorFunction) );
 		}

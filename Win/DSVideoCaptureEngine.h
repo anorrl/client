@@ -8,14 +8,14 @@
 #include "VideoControl.h"
 
 // System Headers
-#ifndef RBX_PLATFORM_DURANGO
+#ifndef ARL_PLATFORM_DURANGO
 #include <atlcomcli.h>
-#endif // RBX_PLATFORM_DURANGO
+#endif // ARL_PLATFORM_DURANGO
 
 struct IMediaControl;
 struct IGraphBuilder;
 
-namespace RBX {
+namespace ARL {
 
 	namespace DS {
 		class CVideoStreamFilter;

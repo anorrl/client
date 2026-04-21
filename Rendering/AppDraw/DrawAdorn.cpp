@@ -17,7 +17,7 @@
 
 FASTFLAGVARIABLE(Studio3DGridUseAALines, true)
 
-namespace RBX {
+namespace ARL {
 
 static const float ZEROPLANE_GRID_SIZE_BASE     = 400.0f;
 static const float ZEROPLANE_GRID_FACTOR        = 8.0f;
@@ -166,7 +166,7 @@ void DrawAdorn::surfaceGridOnFace(
 
 void DrawAdorn::zeroPlaneGrid(
 	Adorn*						adorn,
-	const RBX::Camera&			camera,
+	const ARL::Camera&			camera,
 	const int					studsPerBox,
 	const int					yLevel,
 	const G3D::Color4&			smallGridColor,
@@ -208,12 +208,12 @@ void DrawAdorn::zeroPlaneGrid(
 					if (FFlag::Studio3DGridUseAALines)
 						adorn->line3dAA(Vector3(i,zeroPlaneCenterOnGrid.y,lastStep), 
 										Vector3(i,zeroPlaneCenterOnGrid.y,j), 
-										RBX::Color4(smallGridColor.rgb(),alpha),
+										ARL::Color4(smallGridColor.rgb(),alpha),
 										lineThickness, 0, false);
 					else
 						adorn->line3d(Vector3(i,zeroPlaneCenterOnGrid.y,lastStep), 
 										Vector3(i,zeroPlaneCenterOnGrid.y,j), 
-										RBX::Color4(smallGridColor.rgb(),alpha));
+										ARL::Color4(smallGridColor.rgb(),alpha));
 				}
 				lastStep = j;
 			}
@@ -230,12 +230,12 @@ void DrawAdorn::zeroPlaneGrid(
 					if (FFlag::Studio3DGridUseAALines)
 						adorn->line3dAA(Vector3(lastStep,zeroPlaneCenterOnGrid.y,i), 
 										Vector3(j,zeroPlaneCenterOnGrid.y,i),
-										RBX::Color4(smallGridColor.rgb(),alpha),
+										ARL::Color4(smallGridColor.rgb(),alpha),
 										lineThickness, 0, false);
 					else
 						adorn->line3d(Vector3(lastStep,zeroPlaneCenterOnGrid.y,i), 
 										Vector3(j,zeroPlaneCenterOnGrid.y,i),
-										RBX::Color4(smallGridColor.rgb(),alpha));
+										ARL::Color4(smallGridColor.rgb(),alpha));
 				}
 				lastStep = j;
 			}
@@ -257,12 +257,12 @@ void DrawAdorn::zeroPlaneGrid(
 		if (FFlag::Studio3DGridUseAALines)
 			adorn->line3dAA(lineStart, 
 							lineEnd, 
-							RBX::Color4(largeGridColor.rgb(),largeGridAlpha),
+							ARL::Color4(largeGridColor.rgb(),largeGridAlpha),
 							lineThickness, 0, false);
 		else
 			adorn->line3d(lineStart, 
 							lineEnd, 
-							RBX::Color4(largeGridColor.rgb(),largeGridAlpha));
+							ARL::Color4(largeGridColor.rgb(),largeGridAlpha));
 	}
 	for(int i = -ZEROPLANE_GRID_SIZE_BASE + zeroPlaneLargeCenterZ; i <= (ZEROPLANE_GRID_SIZE_BASE + zeroPlaneLargeCenterZ); i += largeGridStep )
 	{
@@ -275,12 +275,12 @@ void DrawAdorn::zeroPlaneGrid(
 		if (FFlag::Studio3DGridUseAALines)
 			adorn->line3dAA(Vector3(-ZEROPLANE_GRID_SIZE_BASE + zeroPlaneLargeCenterX,zeroPlaneCenterOnGrid.y,i),
 							Vector3(ZEROPLANE_GRID_SIZE_BASE + zeroPlaneLargeCenterX,zeroPlaneCenterOnGrid.y,i), 
-							RBX::Color4(largeGridColor.rgb(),largeGridAlpha),
+							ARL::Color4(largeGridColor.rgb(),largeGridAlpha),
 							lineThickness, 0, false);
 		else
 			adorn->line3d(Vector3(-ZEROPLANE_GRID_SIZE_BASE + zeroPlaneLargeCenterX,zeroPlaneCenterOnGrid.y,i),
 							Vector3(ZEROPLANE_GRID_SIZE_BASE + zeroPlaneLargeCenterX,zeroPlaneCenterOnGrid.y,i), 
-							RBX::Color4(largeGridColor.rgb(),largeGridAlpha));
+							ARL::Color4(largeGridColor.rgb(),largeGridAlpha));
 	}
 
     // last, we render the axes rays at the origin
@@ -289,9 +289,9 @@ void DrawAdorn::zeroPlaneGrid(
     {
         adorn->setMaterial(Adorn::Material_SelfLitHighlight);
         adorn->setObjectToWorldMatrix(CoordinateFrame(Vector3(0,0,0)));
-        adorn->ray(RBX::RbxRay(Vector3(0,0,0),Vector3(ArrowSize,0,0)),axisColors[0]);
-        adorn->ray(RBX::RbxRay(Vector3(0,0,0),Vector3(0,ArrowSize,0)),axisColors[1]);
-        adorn->ray(RBX::RbxRay(Vector3(0,0,0),Vector3(0,0,ArrowSize)),axisColors[2]);
+        adorn->ray(ARL::RbxRay(Vector3(0,0,0),Vector3(ArrowSize,0,0)),axisColors[0]);
+        adorn->ray(ARL::RbxRay(Vector3(0,0,0),Vector3(0,ArrowSize,0)),axisColors[1]);
+        adorn->ray(ARL::RbxRay(Vector3(0,0,0),Vector3(0,0,ArrowSize)),axisColors[2]);
 		adorn->setMaterial(Adorn::Material_Default);
     }
  }
@@ -364,7 +364,7 @@ void DrawAdorn::surfaceGridAtCoord(
 }
 
 
-void DrawAdorn::axisWidget(Adorn* adorn, const RBX::Camera& camera)
+void DrawAdorn::axisWidget(Adorn* adorn, const ARL::Camera& camera)
 {
 	Rect2D viewport = adorn->getViewport();
 
@@ -381,8 +381,8 @@ void DrawAdorn::axisWidget(Adorn* adorn, const RBX::Camera& camera)
         12.0f,
         false,
         axisColors[0],
-        RBX::Color4::clear(),
-		RBX::Text::FONT_ARIAL );
+        ARL::Color4::clear(),
+		ARL::Text::FONT_ARIAL );
     
     Vector3 widgetYPos = camera.project(widgetOrigin3dPos + Vector3::unitY() * sizeOfWidget) - offset;
 	adorn->line2d(Vector2(widgetOrigin2dPos.x,widgetOrigin2dPos.y),Vector2(widgetYPos.x,widgetYPos.y),axisColors[1]);
@@ -392,8 +392,8 @@ void DrawAdorn::axisWidget(Adorn* adorn, const RBX::Camera& camera)
         12.0f,
         false,
         axisColors[1],
-		RBX::Color4::clear(),
-		RBX::Text::FONT_ARIAL );
+		ARL::Color4::clear(),
+		ARL::Text::FONT_ARIAL );
 
     Vector3 widgetZPos = camera.project(widgetOrigin3dPos + Vector3::unitZ() * sizeOfWidget) - offset;
 	adorn->line2d(Vector2(widgetOrigin2dPos.x,widgetOrigin2dPos.y),Vector2(widgetZPos.x,widgetZPos.y),axisColors[2]);
@@ -403,8 +403,8 @@ void DrawAdorn::axisWidget(Adorn* adorn, const RBX::Camera& camera)
         12.0f,
         false,
         axisColors[2],
-        RBX::Color4::clear(),
-		RBX::Text::FONT_ARIAL );
+        ARL::Color4::clear(),
+		ARL::Text::FONT_ARIAL );
 }
 
 void DrawAdorn::circularGridAtCoord(
@@ -594,7 +594,7 @@ Vector3 DrawAdorn::handlePosInObject(
             return localExtents.center() + axis * (halfSize + start_offset);
         } 
         default:
-            RBXASSERT(false);
+            ARLASSERT(false);
             return Vector3::zero();
     }
 }
@@ -654,7 +654,7 @@ float DrawAdorn::scaleRelativeToCamera(
 void DrawAdorn::handles2d(
 	const G3D::Vector3&			size,
 	const G3D::CoordinateFrame&	position,
-	const RBX::Camera&			camera,		
+	const ARL::Camera&			camera,		
 	Adorn*						adorn,
 	HandleType					handleType,
 	const G3D::Color4&			color,
@@ -662,7 +662,7 @@ void DrawAdorn::handles2d(
 	int							normalIdMask)
 {
     Vector3 halfSize = size / 2;
-    RBX::Extents localExtents(-halfSize,halfSize); 
+    ARL::Extents localExtents(-halfSize,halfSize); 
 
     for (int posNeg = 0; posNeg < 2; ++posNeg) 
     {
@@ -710,7 +710,7 @@ void DrawAdorn::handles2d(
 void DrawAdorn::partInfoText2D(
 	const G3D::Vector3&			size,
 	const G3D::CoordinateFrame&	position,
-	const RBX::Camera&			camera,		
+	const ARL::Camera&			camera,		
 	Adorn*						adorn,
     const std::string&          text,
 	const G3D::Color4&			color,
@@ -718,7 +718,7 @@ void DrawAdorn::partInfoText2D(
 	int							normalIdMask)
 {
     Vector3 halfSize = size / 2;
-    RBX::Extents localExtents(-halfSize,halfSize); 
+    ARL::Extents localExtents(-halfSize,halfSize); 
    
     const Vector3 max        = localExtents.max();
     const Vector3 min        = localExtents.min();
@@ -782,8 +782,8 @@ void DrawAdorn::partInfoText2D(
         fontSize,
         false,
         color,
-        RBX::Color4::clear(),
-        RBX::Text::FONT_ARIAL);
+        ARL::Color4::clear(),
+        ARL::Text::FONT_ARIAL);
 }
 
 void DrawAdorn::handles3d(	
@@ -899,7 +899,7 @@ void DrawAdorn::handles3d(
                         break;
                     }
                     default:
-                        RBXASSERT(false);
+                        ARLASSERT(false);
                         break;
                 }
             }
@@ -989,8 +989,8 @@ void DrawAdorn::chatBubble2d(
 	vertsBorder.push_back(p0 + Vector2(linewidth, linewidth));
 
 
-	RBXASSERT(rect.wh().x >= cornerradius *2);
-	RBXASSERT(rect.wh().y >= cornerradius * 2);
+	ARLASSERT(rect.wh().x >= cornerradius *2);
+	ARLASSERT(rect.wh().y >= cornerradius * 2);
 
 	Rect2D innerrect = rect.border(cornerradius);
 

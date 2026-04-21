@@ -6,7 +6,7 @@
 #include "G3D/Color3.h"
 #include "Util/BrickColor.h"
 
-namespace RBX { 
+namespace ARL { 
 
 	class Humanoid;
 

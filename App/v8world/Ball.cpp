@@ -7,7 +7,7 @@
 #include "Util/Math.h"
 
 
-namespace RBX {
+namespace ARL {
 
 Matrix3 Ball::getMomentSolid(float mass) const
 {
@@ -42,7 +42,7 @@ bool Ball::hitTest(const RbxRay& rayInMe, Vector3& localHitPoint, Vector3& surfa
 void Ball::setSize(const G3D::Vector3& _size)
 {
 	Super::setSize(_size);
-	RBXASSERT(getSize() == _size);
+	ARLASSERT(getSize() == _size);
 
 	realRadius = _size.x * 0.5f;	
 
@@ -476,4 +476,4 @@ void Ball::updateBulletCollisionData()
     bulletCollisionObject->setCollisionShape(const_cast<btSphereShape*>(bulletSphereShape->getShape()));
 }
 
-} // namespace RBX
+} // namespace ARL

@@ -11,7 +11,7 @@
 
 LOGGROUP(TerrainCellListener)
 
-namespace RBX {
+namespace ARL {
 
 TerrainPartitionMega::TerrainPartitionMega(Voxel::Grid* voxelGrid)
     : voxelGrid(voxelGrid)
@@ -123,14 +123,14 @@ void TerrainPartitionMega::terrainCellChanged(const Voxel::CellChangeInfo& info)
 
 		if (beforeNotSolid)
         {
-            RBXASSERT((chunk.filled[localPos.y >> 1][localPos.z >> 2][localPos.x >> 2] & bitMask) == 0);
+            ARLASSERT((chunk.filled[localPos.y >> 1][localPos.z >> 2][localPos.x >> 2] & bitMask) == 0);
 
             chunk.filled[localPos.y >> 1][localPos.z >> 2][localPos.x >> 2] |= bitMask;
             chunk.count++;
         }
 		else
         {
-            RBXASSERT((chunk.filled[localPos.y >> 1][localPos.z >> 2][localPos.x >> 2] & bitMask) != 0);
+            ARLASSERT((chunk.filled[localPos.y >> 1][localPos.z >> 2][localPos.x >> 2] & bitMask) != 0);
 
             chunk.filled[localPos.y >> 1][localPos.z >> 2][localPos.x >> 2] &= ~bitMask;
             chunk.count--;
@@ -235,7 +235,7 @@ void TerrainPartitionSmooth::updateChunk(const Vector3int32& id)
 	// we pack two bitmasks in 1 32-bit register
 	BOOST_STATIC_ASSERT(size < 16);
 
-	RBXASSERT(box.getSizeX() == size && box.getSizeY() == size && box.getSizeZ() == size);
+	ARLASSERT(box.getSizeX() == size && box.getSizeY() == size && box.getSizeZ() == size);
 
 	// Low 16 bits are solid, high 16 bits are water; we only use 10/16 bits
 	uint32_t bits[size][size];
@@ -292,7 +292,7 @@ void TerrainPartitionSmooth::fillChunkIfTouchingExtents(const Vector3int32& chun
 	Vector3int32 regionMin = (minPos - chunkOffset).max(Vector3int32(0, 0, 0)).min(Vector3int32(kChunkSize - 1, kChunkSize - 1, kChunkSize - 1));
 	Vector3int32 regionMax = (maxPos - chunkOffset).max(Vector3int32(0, 0, 0)).min(Vector3int32(kChunkSize - 1, kChunkSize - 1, kChunkSize - 1));
 
-    RBXASSERT(regionMin.x <= regionMax.x && regionMin.y <= regionMax.y && regionMin.z <= regionMax.z);
+    ARLASSERT(regionMin.x <= regionMax.x && regionMin.y <= regionMax.y && regionMin.z <= regionMax.z);
 
 	uint64_t mask = masksVer[regionMin.x][regionMax.x] & masksHor[regionMin.z][regionMax.z];
 

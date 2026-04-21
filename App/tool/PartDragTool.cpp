@@ -13,7 +13,7 @@
 #include "SelectState.h"
 
 
-namespace RBX {
+namespace ARL {
 
 const char* const sPartDragTool = "PartDragTool";
 
@@ -29,8 +29,8 @@ PartDragTool::PartDragTool(	PartInstance* mousePart,
 	, selectIfNoDrag(selectIfNoDrag)
 {
 	FASTLOG1(FLog::MouseCommandLifetime, "PartDragTool created: %p", this);
-	RBXASSERT(mousePart);
-//	RBXASSERT(mousePart->isTopLevelPVInstance());
+	ARLASSERT(mousePart);
+//	ARLASSERT(mousePart->isTopLevelPVInstance());
 
 	runDragger.reset(new RunDragger());
 
@@ -51,7 +51,7 @@ shared_ptr<MouseCommand> PartDragTool::onMouseDown(const shared_ptr<InputObject>
 
 void PartDragTool::onMouseMove(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 
 	if ((inputObject->get2DPosition() - downPoint).length() > 4) {
 		onMouseDelta(inputObject);
@@ -63,7 +63,7 @@ void PartDragTool::onMouseMove(const shared_ptr<InputObject>& inputObject)
 
 void PartDragTool::onMouseDelta(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 
 	if (	(!dragging)
 		&&	megaDragger->mousePartAlive()
@@ -81,7 +81,7 @@ void PartDragTool::onMouseDelta(const shared_ptr<InputObject>& inputObject)
 
 void PartDragTool::onMouseIdle(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(captured());
+	ARLASSERT(captured());
 
 	if (	captured() 
 		&&	dragging 
@@ -96,7 +96,7 @@ void PartDragTool::onMouseIdle(const shared_ptr<InputObject>& inputObject)
 
 shared_ptr<MouseCommand> PartDragTool::onMouseUp(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 
 	if (dragging) {
 		if (megaDragger->mousePartAlive()) {

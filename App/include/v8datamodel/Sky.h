@@ -4,7 +4,7 @@
 #include "V8Tree/instance.h"
 #include "Util/TextureId.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sSky;
 	class Sky : public DescribedCreatable<Sky, Instance, sSky>

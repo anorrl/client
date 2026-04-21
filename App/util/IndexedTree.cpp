@@ -4,7 +4,7 @@
 #include "Util/IndexedTree.h"
 
 
-namespace RBX {
+namespace ARL {
 
 
 IndexedTree::IndexedTree()
@@ -15,9 +15,9 @@ IndexedTree::IndexedTree()
 
 IndexedTree::~IndexedTree() 
 {
-	RBXASSERT(children.size() == 0);
-	RBXASSERT(!parent);
-	RBXASSERT(index == -1);
+	ARLASSERT(children.size() == 0);
+	ARLASSERT(!parent);
+	ARLASSERT(index == -1);
 }
 
 
@@ -25,7 +25,7 @@ IndexedTree::~IndexedTree()
 // Make sure newAncestor and all parents do not have child as their parent
 bool IndexedTree::circularReference(IndexedTree* newAncestor, IndexedTree* child)
 {
-	RBXASSERT(child);
+	ARLASSERT(child);
 	if (!newAncestor) {
 		return false;
 	}
@@ -40,9 +40,9 @@ bool IndexedTree::circularReference(IndexedTree* newAncestor, IndexedTree* child
 
 void IndexedTree::setIndexedTreeParent(IndexedTree* newParent)
 {
-	RBXASSERT(!newParent || (newParent->parent != this));
-	RBXASSERT(newParent != this);
-	RBXASSERT_VERY_FAST(!circularReference(newParent, this));
+	ARLASSERT(!newParent || (newParent->parent != this));
+	ARLASSERT(newParent != this);
+	ARLASSERT_VERY_FAST(!circularReference(newParent, this));
 
 	if (parent != newParent) 
 	{

@@ -4,7 +4,7 @@
 #include "V8Tree/instance.h"
 #include "Util/TextureId.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sDecal;
 	class Decal : public DescribedCreatable<Decal, FaceInstance, sDecal>

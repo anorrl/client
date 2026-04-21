@@ -4,7 +4,7 @@
 #include "rbx/Debug.h"
 #include "V8World/GeometryPool.h"
 
-namespace RBX {
+namespace ARL {
 
 
 	namespace POLY {
@@ -36,7 +36,7 @@ namespace RBX {
 			int getId() const {return id;}
 
 			void addEdge(Edge* value) {
-				RBXASSERT(std::find(edges.begin(), edges.end(), value) == edges.end());
+				ARLASSERT(std::find(edges.begin(), edges.end(), value) == edges.end());
 				edges.push_back(value);
 			}
 
@@ -79,7 +79,7 @@ namespace RBX {
 					return backward;
 				}
 				else {
-					RBXASSERT(test == backward);
+					ARLASSERT(test == backward);
 					return forward;
 				}
 			}
@@ -93,20 +93,20 @@ namespace RBX {
 					forward = face;
 				}
 				else {
-					RBXASSERT(face != forward);
-					RBXASSERT(!backward);
+					ARLASSERT(face != forward);
+					ARLASSERT(!backward);
 					backward = face;
 				}
 			}
 
 			const Vertex* getVertex(const Face* face, size_t id) const {
 				if (!face || (face == forward)) {
-					RBXASSERT(vertex[id]);
+					ARLASSERT(vertex[id]);
 					return vertex[id];
 				}
 				else {
-					RBXASSERT(face == backward);
-					RBXASSERT(vertex[(id+1)%2]);
+					ARLASSERT(face == backward);
+					ARLASSERT(vertex[(id+1)%2]);
 					return vertex[(id+1)%2];
 				}
 			}
@@ -120,7 +120,7 @@ namespace RBX {
 					return forward;
 				}
 				else {
-					RBXASSERT(v == vertex[1]);
+					ARLASSERT(v == vertex[1]);
 					return backward;
 				}
 			}
@@ -186,8 +186,8 @@ namespace RBX {
 			bool pointInFaceBorders(const Vector3& point) const;			// point must be on face plane
 
 			const Plane& plane() const {
-				RBXASSERT(edges.size() >= 3);
-				//RBXASSERT(!(outwardPlane == Plane()));
+				ARLASSERT(edges.size() >= 3);
+				//ARLASSERT(!(outwardPlane == Plane()));
 				return outwardPlane;
 			}
 

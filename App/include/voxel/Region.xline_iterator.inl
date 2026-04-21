@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 template<class InternalStorageType>
 Region<InternalStorageType>::xline_iterator::xline_iterator(
@@ -26,7 +26,7 @@ Region<InternalStorageType>::xline_iterator::xline_iterator(
 		reachedEnd = currentLocation.y > owningRegion.maxCoords.y;
 
 		// index needs to be even for half byte material alignment reasons
-		RBXASSERT((currentIndex & 0x1) == 0);
+		ARLASSERT((currentIndex & 0x1) == 0);
 	} else {
 		reachedEnd = true;
 	}
@@ -86,7 +86,7 @@ Region<InternalStorageType>::xline_iterator::operator++() {
 	}
 
 	// index needs to be even for half byte material alignment reasons
-	RBXASSERT((currentIndex & 0x1) == 0);
+	ARLASSERT((currentIndex & 0x1) == 0);
 
 	reachedEnd = currentLocation.y > maxY;
 	return *this;

@@ -15,7 +15,7 @@
 class btCollisionDispatcher;
 class btCollisionWorld;
 class btDefaultCollisionConfiguration;
-namespace RBX {
+namespace ARL {
 
 	class JointInstance;
 	class Joint;
@@ -32,7 +32,7 @@ namespace RBX {
 
 	struct RootPrimitiveOwnershipData
 	{
-		RBX::SystemAddress ownerAddress;
+		ARL::SystemAddress ownerAddress;
 		bool ownershipManual;
 		Primitive* prim;
 	};
@@ -211,8 +211,8 @@ namespace RBX {
 		World();
 		~World();
 
-		void assertNotInStep() { RBXASSERT(!inStepCode); }
-		void assertInStep() { RBXASSERT(inStepCode); }
+		void assertNotInStep() { ARLASSERT(!inStepCode); }
+		void assertInStep() { ARLASSERT(inStepCode); }
 
 		class SendPhysics*				getSendPhysics();
 		class SimSendFilter&			getSimSendFilter();
@@ -235,7 +235,7 @@ namespace RBX {
 		float step(bool longStep, double distributedGameTime, float desiredInterval, int numThreads);	// 10-100 frames per second
 		void assemble();																	// on heartbeat, before collision detection
 		bool isAssembled();
-		void reset()								{RBXASSERT(!inStepCode); worldStepId = 0;}
+		void reset()								{ARLASSERT(!inStepCode); worldStepId = 0;}
 		int getWorldStepId()						{return worldStepId;}
 		float getWorldStepsAccumulated() { return worldStepAccumulated; }
 		int getUiStepId();
@@ -298,10 +298,10 @@ namespace RBX {
 		void setFallenPartDestroyHeight(float value) 		{fallenPartDestroyHeight = value;}
 		float getFallenPartDestroyHeight() const			{return fallenPartDestroyHeight;}
 
-		RBX::Profiling::CodeProfiler& getProfileWorldStep() { return *profilingWorldStep; }
-		const RBX::Profiling::CodeProfiler& getProfileWorldStep() const { return *profilingWorldStep; }
+		ARL::Profiling::CodeProfiler& getProfileWorldStep() { return *profilingWorldStep; }
+		const ARL::Profiling::CodeProfiler& getProfileWorldStep() const { return *profilingWorldStep; }
 
-		void loadProfilers(std::vector<RBX::Profiling::CodeProfiler*>& worldProfilers) const;
+		void loadProfilers(std::vector<ARL::Profiling::CodeProfiler*>& worldProfilers) const;
 
 		// PRIMITIVE - notification on edits - only called by Primitive or Clump
 		Assembly* onPrimitiveEngineChanging(Primitive* p);

@@ -7,21 +7,21 @@
 #include "v8datamodel/CacheableContentProvider.h"
 #include "GfxBase/Image.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sTextureContentProvider;
 	class TextureContentProvider 
-		: public DescribedNonCreatable<TextureContentProvider, CacheableContentProvider, sTextureContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL>
+		: public DescribedNonCreatable<TextureContentProvider, CacheableContentProvider, sTextureContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL>
 	{
-		typedef DescribedNonCreatable<TextureContentProvider, CacheableContentProvider, sTextureContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL> Super;
+		typedef DescribedNonCreatable<TextureContentProvider, CacheableContentProvider, sTextureContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL> Super;
 	
-		boost::function<RBX::Image*(std::istream&, const std::string&)> mTextureAllocator;
+		boost::function<ARL::Image*(std::istream&, const std::string&)> mTextureAllocator;
 
 	public:
 		TextureContentProvider();
 		~TextureContentProvider() {}
 
-		void setTextureAllocator(boost::function<RBX::Image*(std::istream&, const std::string&)> textureAllocator);
+		void setTextureAllocator(boost::function<ARL::Image*(std::istream&, const std::string&)> textureAllocator);
 
 	private:
 
@@ -30,4 +30,4 @@ namespace RBX {
 	};
 
 
-} // namespace RBX
+} // namespace ARL

@@ -15,7 +15,7 @@
 
 #include "VMProtectSDK.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 DeserializedPingItem::DeserializedPingItem() : extraStats(0)
@@ -33,7 +33,7 @@ Replicator::PingItem::PingItem(Replicator* replicator, RakNet::Time time, unsign
 	{}
 
 bool Replicator::PingItem::write(RakNet::BitStream& bitStream) {
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
 	VMProtectBeginVirtualization(NULL);
 #endif
 
@@ -44,23 +44,23 @@ bool Replicator::PingItem::write(RakNet::BitStream& bitStream) {
     writeItemType(bitStream, ItemTypePing);
 
     unsigned int moreStats = 0;
-#if !defined(LOVE_ALL_ACCESS) && !defined(RBX_STUDIO_BUILD) && !defined(RBX_PLATFORM_DURANGO)
+#if !defined(LOVE_ALL_ACCESS) && !defined(ARL_STUDIO_BUILD) && !defined(ARL_PLATFORM_DURANGO)
 	unsigned int sendStats = Tokens::simpleToken | DataModel::perfStats | DataModel::sendStats |
 			DataModel::get(&replicator)->allHackFlagsOredTogether();
     // I'm sorry for this.  The values need to be spread out in memory and thus can't be an array.
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag0);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag1);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag2);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag3);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag4);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag5);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag6);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag7);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag8);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag9);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag10);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag11);
-    moreStats |= RBX::Security::getHackFlag<LINE_RAND4>(RBX::Security::hackFlag12);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag0);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag1);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag2);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag3);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag4);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag5);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag6);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag7);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag8);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag9);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag10);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag11);
+    moreStats |= ARL::Security::getHackFlag<LINE_RAND4>(ARL::Security::hackFlag12);
     moreStats |= sendStats;
     *moreStatsCopy = moreStats;
 #endif
@@ -69,7 +69,7 @@ bool Replicator::PingItem::write(RakNet::BitStream& bitStream) {
     bitStream.Write(static_cast<uint32_t>(moreStats));
     if (replicator.canUseProtocolVersion(34))
     {
-#if !defined(RBX_RCC_SECURITY) && !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD)
         if (time & 0x20)
         {
             extraStats = ~extraStats;
@@ -83,10 +83,10 @@ bool Replicator::PingItem::write(RakNet::BitStream& bitStream) {
         replicator.replicatorStats.samplePacketsSent(ReplicatorStats::PACKET_TYPE_Ping, bitStream.GetNumberOfBytesUsed()-byteStart);
     }
 
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
     if (*moreStatsCopy != moreStats)
     {
-        RBX::Tokens::apiToken.addFlagSafe(RBX::kPingItem); // can be changed to addFlagFast later.
+        ARL::Tokens::apiToken.addFlagSafe(ARL::kPingItem); // can be changed to addFlagFast later.
     }
 	VMProtectEnd();
 #endif
@@ -105,7 +105,7 @@ shared_ptr<DeserializedItem> Replicator::PingItem::read(Replicator& replicator, 
     if (replicator.canUseProtocolVersion(34))
     {
         inBitstream >> deserializedData->extraStats;
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
         if (deserializedData->time & 0x20 && !replicator.isCloudEdit()) // change things up
         {
             deserializedData->extraStats = ~deserializedData->extraStats;

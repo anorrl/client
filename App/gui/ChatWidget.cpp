@@ -5,7 +5,7 @@
 #include "Network/Players.h"
 #include "Util/SoundService.h"
 
-namespace RBX {
+namespace ARL {
 
 Gui::WidgetState UnifiedImageWidget::getWidgetState() const
 {
@@ -34,9 +34,9 @@ void UnifiedImageWidget::render2dMe(Adorn* adorn)
 
 bool ChatButton::isVisible() const
 {
-	RBX::Network::Players* players = ServiceProvider::find<RBX::Network::Players>(this);
+	ARL::Network::Players* players = ServiceProvider::find<ARL::Network::Players>(this);
 
-	return (players && players->getLocalPlayer() && RBX::Network::Players::clientIsPresent(this));
+	return (players && players->getLocalPlayer() && ARL::Network::Players::clientIsPresent(this));
 }
 
 //////////////////////////////////////////////////
@@ -51,7 +51,7 @@ std::string ChatWidget::findMenuString(GuiItem* item)
 {
 	if (Instance::fastDynamicCast<ChatWidget>(item))
 	{
-		RBXASSERT(item->getParent());
+		ARLASSERT(item->getParent());
 
 		int childIndex = item->getParent()->findChildIndex(item);
 

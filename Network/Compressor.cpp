@@ -10,8 +10,8 @@
 #include <boost/iostreams/device/array.hpp>
 #include <boost/iostreams/copy.hpp>
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 enum
 {
@@ -52,7 +52,7 @@ void Compressor::writeRotation(RakNet::BitStream& bitStream, const Matrix3& rota
 		}
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 		}
 	}
 }
@@ -99,7 +99,7 @@ void Compressor::writeTranslation(RakNet::BitStream& bitStream, const Vector3& t
 		}
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 		}
 	}
 }
@@ -144,7 +144,7 @@ void Compressor::readRotation(RakNet::BitStream& bitStream, Matrix3& rotation)
 		}
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 		}
 	}
 
@@ -186,7 +186,7 @@ void Compressor::readTranslation(RakNet::BitStream& bitStream, Vector3& translat
 		}
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 		}
 	}
 }

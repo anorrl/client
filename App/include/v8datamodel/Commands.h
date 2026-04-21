@@ -10,15 +10,15 @@
 
 DYNAMIC_FASTFLAG(UseRemoveTypeIDTricks)
 
-namespace RBX {
+namespace ARL {
 	class PVInstance;
 	class Workspace;
 	class DataModel;
 	class Camera;
 
 	// Utility function
-	void AddChildToRoot(XmlElement* root, shared_ptr<Instance> wsi, const boost::function<bool(Instance*)>& isInScope, RBX::CreatorRole creatorRole);
-	void AddSelectionToRoot(XmlElement* root, Selection* sel, RBX::CreatorRole creatorRole);
+	void AddChildToRoot(XmlElement* root, shared_ptr<Instance> wsi, const boost::function<bool(Instance*)>& isInScope, ARL::CreatorRole creatorRole);
+	void AddSelectionToRoot(XmlElement* root, Selection* sel, ARL::CreatorRole creatorRole);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -252,12 +252,12 @@ class ToggleViewMode : public Verb
 private:
 	DataModel* dataModel;
 public:
-	ToggleViewMode(RBX::DataModel* dm);
+	ToggleViewMode(ARL::DataModel* dm);
 
 	/*override*/ bool isChecked() const;
 	/*override*/ bool isEnabled() const;
 	/*override*/ bool isSelected() const;
-	/*override*/ void doIt(RBX::IDataState* dataState);
+	/*override*/ void doIt(ARL::IDataState* dataState);
 };
 
 
@@ -385,7 +385,7 @@ private:
 public:
 	TToolVerb(DataModel* dataModel, bool toggle = true, bool blacklisted = true) :
 	  ParentClass(
-		  MouseCommandClass::name().toString() + "Tool",	// MouseCommand should be a RBX::Named<> descendant, or must implement a static name() function
+		  MouseCommandClass::name().toString() + "Tool",	// MouseCommand should be a ARL::Named<> descendant, or must implement a static name() function
 		  dataModel,
           blacklisted
 		 ),
@@ -471,11 +471,11 @@ public:
 		: EditSelectionVerb(name, dataModel) {}
 	virtual void doIt(IDataState* dataState);
 
-	static RBX::BrickColor getCurrentColor() { return m_currentColor; }
-	static void setCurrentColor(RBX::BrickColor val) { m_currentColor = val; }
+	static ARL::BrickColor getCurrentColor() { return m_currentColor; }
+	static void setCurrentColor(ARL::BrickColor val) { m_currentColor = val; }
 
 private:
-	static RBX::BrickColor m_currentColor;
+	static ARL::BrickColor m_currentColor;
 };
 
 

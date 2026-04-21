@@ -5,7 +5,7 @@
 #include "rbx/RunningAverage.h"
 
 
-namespace RBX {
+namespace ARL {
 	class Http;
 
 	extern const char* const sHttpService;

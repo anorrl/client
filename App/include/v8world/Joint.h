@@ -9,16 +9,16 @@
 #include "boost/intrusive/list.hpp"
 
 
-namespace RBX {
+namespace ARL {
 	
 	class Channel;
 	class Link;
 	class Joint;
 
-	class RBXInterface IJointOwner
+	class ARLInterface IJointOwner
 	{
 	public:
-		virtual Joint* getJoint(void) { RBXASSERT(0); return NULL; }
+		virtual Joint* getJoint(void) { ARLASSERT(0); return NULL; }
 	};
 
 	class StepJointsStage;
@@ -108,12 +108,12 @@ protected:
 		///////////////////////////////////////////////////
 		// Joint Virtuals
 		//
-		virtual JointType getJointType() const	{RBXASSERT(0); return Joint::NO_JOINT;}
+		virtual JointType getJointType() const	{ARLASSERT(0); return Joint::NO_JOINT;}
 		virtual bool isBreakable() const {return false;}
 		virtual bool isBroken() const {return false;}
 		virtual bool joinsFace(Primitive* g, NormalId faceId) const {return false;}
 		virtual bool isAligned() {return true;}
-		virtual CoordinateFrame align(Primitive* pMove, Primitive* pStay) {RBXASSERT(0); return CoordinateFrame();}
+		virtual CoordinateFrame align(Primitive* pMove, Primitive* pStay) {ARLASSERT(0); return CoordinateFrame();}
 
 		virtual void setPhysics() {}		// occurs after networking read;
 
@@ -179,13 +179,13 @@ protected:
 		static const Joint* findConstJoint(const Primitive* p, Joint::JointType jointType);
 
 		NormalId getNormalId(int i) const {		 
-			RBXASSERT((i==0)||(i==1));
+			ARLASSERT((i==0)||(i==1));
 			return (i == 0) 
 				? Matrix3ToNormalId(jointCoord0.rotation)
 				: normalIdOpposite(Matrix3ToNormalId(jointCoord1.rotation));
 		}
 
-		virtual Link* resetLink() { RBXASSERT(!"Not Implemented"); return 0; }
+		virtual Link* resetLink() { ARLASSERT(!"Not Implemented"); return 0; }
 
 		static bool FacesOverlapped( const Primitive* p0, size_t face0Id, const Primitive* p1, size_t face1Id, float adjustPartTolerance = 1.0 );
 		static bool FaceVerticesOverlapped( const Primitive* p0, size_t face0Id, const Primitive* p1, size_t face1Id, float adjustPartTolerance );

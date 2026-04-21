@@ -10,7 +10,7 @@
 #pragma comment(lib, "dxerr9.lib")
 #pragma comment(lib, "dinput8.lib")
 
-namespace RBX {
+namespace ARL {
 
 class Game;
 class DataModel;
@@ -65,7 +65,7 @@ class UserInput : public UserInputBase
 	CComPtr<IDirectInputDevice8> diKeyboardPtr;
 
 	// InputObject stuff
-	boost::unordered_map<RBX::InputObject::UserInputType,shared_ptr<RBX::InputObject> > inputObjectMap;
+	boost::unordered_map<ARL::InputObject::UserInputType,shared_ptr<ARL::InputObject> > inputObjectMap;
 
 	// Gamepad stuff
 	shared_ptr<SDLGameController> sdlGameController;
@@ -143,10 +143,10 @@ class UserInput : public UserInputBase
 
 	void doDiagnostics();
 
-	void postProcessUserInput(bool cursorMoved, bool leftMouseUp, RBX::Vector2 wrapMouseDelta, RBX::Vector2 mouseDelta);
+	void postProcessUserInput(bool cursorMoved, bool leftMouseUp, ARL::Vector2 wrapMouseDelta, ARL::Vector2 mouseDelta);
 
 public:
-	shared_ptr<RBX::Game> game;
+	shared_ptr<ARL::Game> game;
 	const static int WM_CALL_SETFOCUS = WM_USER + 187;
 	HCURSOR hInvisibleCursor;
 
@@ -157,7 +157,7 @@ public:
 	/*implement*/ Vector2 getCursorPosition();
 
 	/*implement*/ bool keyDown(KeyCode code) const;
-	/*implement*/ void setKeyState(RBX::KeyCode code, RBX::ModCode modCode, char modifiedKey, bool isDown);
+	/*implement*/ void setKeyState(ARL::KeyCode code, ARL::ModCode modCode, char modifiedKey, bool isDown);
 
 	/*implement*/ void centerCursor() { wrapMousePosition = Vector2::zero(); }
 	/*override*/ TextureProxyBaseRef getGameCursor(Adorn* adorn);
@@ -166,10 +166,10 @@ public:
 	// Call this only within a DataModel lock:
 	void processUserInputMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	UserInput(HWND wnd, shared_ptr<RBX::Game> game, View* view);
+	UserInput(HWND wnd, shared_ptr<ARL::Game> game, View* view);
 	~UserInput();
 
-	void setGame(shared_ptr<RBX::Game> game);
+	void setGame(shared_ptr<ARL::Game> game);
 	void setKeyboardDesired(bool set);			// keyboard set by having focus;
 
 	void onMouseInside();
@@ -182,4 +182,4 @@ public:
 	void processInput();
 };
 
-}  // namespace RBX
+}  // namespace ARL

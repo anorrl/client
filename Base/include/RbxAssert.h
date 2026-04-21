@@ -30,7 +30,7 @@
 #include "RbxBase.h"
 
 
-namespace RBX {
+namespace ARL {
 typedef bool (*AssertionHook)(
     const char* _expression,
     const char* filename,
@@ -39,7 +39,7 @@ typedef bool (*AssertionHook)(
 
 /** 
   Allows customization of the global function invoked when a debugAssert fails.
-  The initial value is RBX::_internal::_handleDebugAssert_.  RBX will invoke
+  The initial value is ARL::_internal::_handleDebugAssert_.  ARL will invoke
   rawBreak if the hook returns true.  If NULL, assertions are not handled.
 */
 void setAssertionHook(AssertionHook hook);
@@ -58,6 +58,6 @@ namespace _internal {
     extern AssertionHook _debugHook;
     extern AssertionHook _failureHook;
 } // internal
-} // RBX
+} // ARL
 
 #endif

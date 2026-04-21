@@ -15,7 +15,7 @@
 #include "GfxBase/Adorn.h"
 
 
-namespace RBX {
+namespace ARL {
 
 using namespace Reflection;
 
@@ -316,11 +316,11 @@ void VelocityMotor::onAncestorChanged(const AncestorChanged& event)
 			oldWorld->removeJoint(motorJoint());		// is this dangerous?...
 			setPart(0, NULL);
 			setPart(1, NULL);
-			RBXASSERT(!motorJoint()->findWorld());
+			ARLASSERT(!motorJoint()->findWorld());
 		}
 		if (newWorld) {
 			newWorld->insertJoint(motorJoint());
-			RBXASSERT(motorJoint()->findWorld());
+			ARLASSERT(motorJoint()->findWorld());
 		}
 	}
 }
@@ -328,7 +328,7 @@ void VelocityMotor::onAncestorChanged(const AncestorChanged& event)
 
 void VelocityMotor::onEvent_HoleAncestorChanged()
 {
-	RBXASSERT(hole.get());
+	ARLASSERT(hole.get());
 
 	setPart(1, hole.get());		// part is set/unset to hole's parent if its a part
 }

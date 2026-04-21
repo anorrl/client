@@ -32,7 +32,7 @@ LUALIB_API void (luaL_setn) (lua_State *L, int t, int n);
 #define LUA_ERRFILE     (LUA_ERRERR+1)
 
 // BEGIN ROBLOX CHANGES
-namespace RBX {
+namespace ARL {
 	class ProtectedString;
 }
 // END ROBLOX CHANGES

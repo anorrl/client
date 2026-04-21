@@ -4,17 +4,17 @@
 #include "Util/SteppedInstance.h"
 #include "FastLog.h"
 
-namespace RBX {
+namespace ARL {
 
 void IStepped::onServiceProviderIStepped(ServiceProvider* oldProvider, ServiceProvider* newProvider)
 {
-	RBXASSERT((oldProvider == NULL) != (newProvider == NULL));
+	ARLASSERT((oldProvider == NULL) != (newProvider == NULL));
 
 	steppedConnection.disconnect();
 
 	if (newProvider) {
 		RunService* runService = ServiceProvider::create<RunService>(newProvider);
-		RBXASSERT(runService);
+		ARLASSERT(runService);
 		FASTLOG1(FLog::ISteppedLifetime, "Subscribed to IStepped", this);
 
         switch (stepType)
@@ -32,7 +32,7 @@ void IStepped::onServiceProviderIStepped(ServiceProvider* oldProvider, ServicePr
             break;
 
         default:
-            RBXASSERT(false);
+            ARLASSERT(false);
             break;
         }
 	}

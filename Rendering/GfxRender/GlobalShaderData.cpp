@@ -5,7 +5,7 @@
 
 #include "RenderCamera.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

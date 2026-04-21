@@ -13,7 +13,7 @@
 #include "rbx/threadsafe.h"
 #include "rbx/atomic.h"
 
-namespace RBX {
+namespace ARL {
 
 // A very handy class for marshaling a function across Windows
 // threads (sync and async)
@@ -77,4 +77,4 @@ public:
 	virtual void OnFinalMessage(HWND hWnd);
 };
 
-}  // namespace RBX
+}  // namespace ARL

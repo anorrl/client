@@ -2,7 +2,7 @@
 
 #include <utility>
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

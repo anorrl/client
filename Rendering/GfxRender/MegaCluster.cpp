@@ -28,9 +28,9 @@ LOGGROUP(RbxMegaClustersUpdate)
 LOGGROUP(MegaClusterDirty)
 LOGGROUP(TerrainCellListener)
 
-using namespace RBX::Voxel;
+using namespace ARL::Voxel;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -297,8 +297,8 @@ struct MaterialTextureCoordinates
         , oneCellPixels((endPixel - startPixel) / logicalCellSize)
     {
         // assert that x and y dimensions are powers of 2
-        RBXASSERT((logicalCellSize.x & (logicalCellSize.x - 1)) == 0);
-        RBXASSERT((logicalCellSize.y & (logicalCellSize.y - 1)) == 0);
+        ARLASSERT((logicalCellSize.x & (logicalCellSize.x - 1)) == 0);
+        ARLASSERT((logicalCellSize.y & (logicalCellSize.y - 1)) == 0);
     }
 
     void calculateTextureCoordinates(const Vector2int16& cell, const Vector2int16& atlasOffset, Vector2int16* uvs) const
@@ -1389,10 +1389,10 @@ MegaCluster::MegaCluster(VisualEngine* visualEngine, const boost::shared_ptr<Par
     , ignoreWaterUpdatesForTesting(false)
     , storage(NULL)
 {
-    RBXASSERT(part->getPartType() == MEGACLUSTER_PART);
+    ARLASSERT(part->getPartType() == MEGACLUSTER_PART);
     partInstance = part;
 
-    RBXASSERT(partInstance->getGfxPart() == NULL);
+    ARLASSERT(partInstance->getGfxPart() == NULL);
     partInstance->setGfxPart(this);
 
     MegaClusterInstance* mci = boost::polymorphic_downcast<MegaClusterInstance*>(part.get());
@@ -1519,7 +1519,7 @@ void MegaCluster::terrainCellChanged(const CellChangeInfo& info)
             neighborTerrainChunks[usedNeighborTerrainChunks++] = kBigZOffset;
         }
         
-        RBXASSERT(usedNeighborTerrainChunks <= 3);
+        ARLASSERT(usedNeighborTerrainChunks <= 3);
 
         // mark neighbor chunks dirty
         for (unsigned int firstDim = 0; firstDim < usedNeighborTerrainChunks; ++firstDim) {
@@ -1799,7 +1799,7 @@ const shared_ptr<VertexLayout>& MegaCluster::getVertexLayout(bool isWater)
         }
 
         vertexLayout = visualEngine->getDevice()->createVertexLayout(elements);
-        RBXASSERT(vertexLayout);
+        ARLASSERT(vertexLayout);
     }
     
     return vertexLayout;
@@ -1848,7 +1848,7 @@ const shared_ptr<IndexBuffer>& MegaCluster::getSharedIB()
     return sharedIB;
 }
 
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
 static const std::string kTextureExtension = ".pvr";
 #elif defined(__ANDROID__)
 static const std::string kTextureExtension = ".pvr";

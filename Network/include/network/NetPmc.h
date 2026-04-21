@@ -3,12 +3,12 @@
 #include <vector>
 #include "boost/thread/mutex.hpp"
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 class Replicator;
 }
 }
 
-namespace RBX {
+namespace ARL {
 namespace Security{
 
 struct NetPmcChallenge
@@ -34,7 +34,7 @@ struct NetPmcChallenge
 const size_t kNumChallenges = 128;
 extern const volatile NetPmcChallenge kChallenges[kNumChallenges];
 
-#ifndef RBX_STUDIO_BUILD
+#ifndef ARL_STUDIO_BUILD
 
 uint32_t netPmcHashCheck(const NetPmcChallenge& challenge);
 
@@ -51,11 +51,11 @@ __forceinline std::vector<NetPmcChallenge> generateNetPmcKeys()
     {
         key[i] = (i+1)*(i^0x55);
     }
-    RBX::Security::salsa20(reinterpret_cast<uint8_t*>(keys.data()), sizeof(NetPmcChallenge)*kNumChallenges, key, 2015);
+    ARL::Security::salsa20(reinterpret_cast<uint8_t*>(keys.data()), sizeof(NetPmcChallenge)*kNumChallenges, key, 2015);
     return keys;
 }
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
 extern std::vector<NetPmcChallenge> netPmcKeys;
 
 class NetPmcServer
@@ -79,7 +79,7 @@ public:
 
     // the intent it to make it much harder to detect this mechanism by making it
     // only work in places that are actually games.
-    bool canSendChallenge(const RBX::Network::Replicator* rep); /*non-const*/
+    bool canSendChallenge(const ARL::Network::Replicator* rep); /*non-const*/
 
     bool tooManyPending() const;
 
@@ -91,7 +91,7 @@ public:
 
     bool checkResult(uint8_t idx, uint32_t response, uint64_t correct) const;
 
-    unsigned int generateDebugInfo(const RBX::Network::Replicator* rep, uint32_t& sent, uint32_t& recv, uint32_t& pending) const;
+    unsigned int generateDebugInfo(const ARL::Network::Replicator* rep, uint32_t& sent, uint32_t& recv, uint32_t& pending) const;
 
 };
 #endif

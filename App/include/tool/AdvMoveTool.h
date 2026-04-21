@@ -7,7 +7,7 @@
 #include "AppDraw/HandleType.h"
 #include "Util/NormalId.h"
 
-namespace RBX {
+namespace ARL {
 
 	class MegaDragger;
 	class Extents;
@@ -34,7 +34,7 @@ namespace RBX {
         // only works with one-stud grid...
 		Vector3			lastPoint3d;	
 
-		typedef std::map<boost::weak_ptr<RBX::PartInstance>, float> PartsTransparencyCollection;
+		typedef std::map<boost::weak_ptr<ARL::PartInstance>, float> PartsTransparencyCollection;
 		PartsTransparencyCollection origPartsTransparency;
 
         mutable Matrix3 mMultiRotation;
@@ -93,7 +93,7 @@ namespace RBX {
 		/*override*/ void render2d(Adorn* adorn);
 		/*override*/ shared_ptr<MouseCommand> onMouseDown(const shared_ptr<InputObject>& inputObject);
 
-		void getGridXYUsingCamera(RBX::PartInstance *part, G3D::Vector3 &gridXDir, G3D::Vector3 &gridYDir);
+		void getGridXYUsingCamera(ARL::PartInstance *part, G3D::Vector3 &gridXDir, G3D::Vector3 &gridYDir);
 
 		G3D::Vector3 originalLocation;
 
@@ -106,4 +106,4 @@ namespace RBX {
 	};
 
 
-} // namespace RBX
+} // namespace ARL

@@ -7,7 +7,7 @@
 DYNAMIC_FASTFLAGVARIABLE(SpheresAllowedCustom, false)
 DYNAMIC_FASTFLAG(FormFactorDeprecated)
 
-namespace RBX
+namespace ARL
 {
 
 const char* const sFormFactorPart = "FormFactorPart";
@@ -64,7 +64,7 @@ void FormFactorPart::setFormFactorUi(FormFactor value)
 {
 	validateFormFactor(value);
 	// Deprication of FormFactor
-	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING,"FormFactor is deprecated. You should no longer use this property.");
+	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING,"FormFactor is deprecated. You should no longer use this property.");
 
 	if (value != formFactor) {
 		destroyJoints();
@@ -125,7 +125,7 @@ PartType BasicPartInstance::getPartType() const
 		case CYLINDER_LEGACY_PART: return CYLINDER_PART;
 		case BALL_LEGACY_PART: return BALL_PART;
 		default:
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return BLOCK_PART;
 	}
 }
@@ -166,7 +166,7 @@ void BasicPartInstance::setLegacyPartTypeXml(LegacyPartType _type)
 void BasicPartInstance::setLegacyPartTypeUi(LegacyPartType _type)
 {
     if (!hasThreeDimensionalSize()) {
-		RBXASSERT(formFactor == PartInstance::SYMETRIC);
+		ARLASSERT(formFactor == PartInstance::SYMETRIC);
 	}
 
 	if (legacyPartType != _type) {

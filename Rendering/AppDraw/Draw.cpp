@@ -8,7 +8,7 @@
 #include "Util/Math.h"
 #include "V8DataModel/PartInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 static const int SelectionBoxLineThreshold = 1500;  //!< tweakable threshold before boxes switch to lines
 

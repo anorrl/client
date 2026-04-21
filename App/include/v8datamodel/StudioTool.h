@@ -4,7 +4,7 @@
 #include "V8Tree/Instance.h"
 #include "V8Tree/Verb.h"
 
-namespace RBX {
+namespace ARL {
 	class Workspace;
 	class Mouse;
 

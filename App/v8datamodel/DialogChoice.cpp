@@ -5,7 +5,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(FilteringEnabledDialogFix, false);
 
-namespace RBX
+namespace ARL
 {
 
 const char* const sDialogChoice= "DialogChoice";

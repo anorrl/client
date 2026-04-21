@@ -10,7 +10,7 @@
 #include "v8datamodel/LoginService.h"
 #include "network/Players.h"
 
-namespace RBX
+namespace ARL
 {
     const char* const sLoginService = "LoginService";
     
@@ -29,7 +29,7 @@ namespace RBX
     
     void LoginService::promptLogin()
     {
-        if(RBX::Network::Players::frontendProcessing(this))
+        if(ARL::Network::Players::frontendProcessing(this))
         {
             promptLoginSignal();
         }
@@ -39,7 +39,7 @@ namespace RBX
     
     void LoginService::logout()
     {
-        if(RBX::Network::Players::frontendProcessing(this))
+        if(ARL::Network::Players::frontendProcessing(this))
         {
             promptLogoutSignal();
         }

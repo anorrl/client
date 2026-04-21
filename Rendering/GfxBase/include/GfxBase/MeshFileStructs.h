@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace RBX {
+namespace ARL {
 
 /* to-do: add v3 and v4 */
 /* what the fuck is LOD? (jk) */

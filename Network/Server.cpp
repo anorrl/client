@@ -50,7 +50,7 @@ DYNAMIC_FASTFLAGVARIABLE(RCCSupportCloudEdit, true)
 DYNAMIC_FASTFLAGVARIABLE(CloudEditGARespectsThrottling, false)
 DYNAMIC_FASTFLAGVARIABLE(CloudEditCheckClientPresent, false)
 
-using namespace RBX;
+using namespace ARL;
 using namespace Network;
 using namespace RakNet;
 
@@ -185,7 +185,7 @@ Server::~Server(void)
 bool Server::serverIsPresent(const Instance* context, bool testInDatamodel)
 {
 	const ServiceProvider* serviceProvider = ServiceProvider::findServiceProvider(context);
-	RBXASSERT(!testInDatamodel || serviceProvider!=NULL);
+	ARLASSERT(!testInDatamodel || serviceProvider!=NULL);
 	return ServiceProvider::find<Server>(serviceProvider)!=NULL;
 }
 
@@ -256,14 +256,14 @@ std::vector<std::string> Server::getAllIPv4Addresses()
 void Server::start(int port, int threadSleepTime)
 {
 	if (DFFlag::CloudEditCheckClientPresent && Players::clientIsPresent(this))
-		throw RBX::runtime_error("Can not call server, client is present.");
+		throw ARL::runtime_error("Can not call server, client is present.");
 
 	FASTLOG(FLog::Network, "NetworkServer:Start");
     
     StartupResult res = STARTUP_OTHER_FAILURE;
     std::vector<std::string> addresses;
     
-#ifdef RBX_STUDIO_BUILD
+#ifdef ARL_STUDIO_BUILD
     addresses = Server::getAllIPv4Addresses();
     shared_ptr<RakNet::SocketDescriptor> sdArray(new RakNet::SocketDescriptor[addresses.size()]);
         
@@ -280,9 +280,9 @@ void Server::start(int port, int threadSleepTime)
 #endif
 
 	if (res != RakNet::RAKNET_STARTED)
-		throw std::runtime_error(RBX::format("Failed to start network server, id %d", res));
+		throw std::runtime_error(ARL::format("Failed to start network server, id %d", res));
 
-#ifdef RBX_STUDIO_BUILD
+#ifdef ARL_STUDIO_BUILD
 	for (unsigned int i = 0; i < addresses.size(); i++)
 	{
 		StandardOut::singleton()->printf(MESSAGE_SENSITIVE,"Started network server on %s|%i",addresses[i].c_str(),port);
@@ -314,7 +314,7 @@ static bool isReplicator(shared_ptr<Instance> instance)
 int Server::getClientCount()
 {
 	if (DFFlag::CloudEditCheckClientPresent && Players::clientIsPresent(this))
-		throw RBX::runtime_error("Can not call server, client is present.");
+		throw ARL::runtime_error("Can not call server, client is present.");
 
 	if (getChildren())
 		return std::count_if(getChildren()->begin(), getChildren()->end(), &isReplicator);
@@ -325,7 +325,7 @@ int Server::getClientCount()
 void Server::stop(int blockDuration)
 {
 	if (DFFlag::CloudEditCheckClientPresent && Players::clientIsPresent(this))
-		throw RBX::runtime_error("Can not call server, client is present.");
+		throw ARL::runtime_error("Can not call server, client is present.");
 
 	FASTLOG1(FLog::Network, "NetworkServer:Stop blockDuration(%d)", blockDuration);
 
@@ -362,7 +362,7 @@ static void reportCloudEditStats(weak_ptr<Server> server)
 	if (!dm)
 		return;
 
-	RBXASSERT(dm->currentThreadHasWriteLock());
+	ARLASSERT(dm->currentThreadHasWriteLock());
 
 	int players = -1;
 	if (Players* p = dm->find<Players>())
@@ -378,7 +378,7 @@ static void reportCloudEditStats(weak_ptr<Server> server)
 void Server::configureAsCloudEditServer()
 {
 	if (DFFlag::CloudEditCheckClientPresent && Players::clientIsPresent(this))
-		throw RBX::runtime_error("Can not call server, client is present.");
+		throw ARL::runtime_error("Can not call server, client is present.");
 
 	if (!DFFlag::RCCSupportCloudEdit)
 	{
@@ -424,7 +424,7 @@ void Server::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* ne
 
 
 	if (newProvider && Players::clientIsPresent(newProvider))
-		throw RBX::runtime_error("Can not create server, client is present.");
+		throw ARL::runtime_error("Can not create server, client is present.");
 
 	Super::onServiceProvider(oldProvider, newProvider);
 
@@ -500,7 +500,7 @@ void Server::onWorkspaceLoaded()
 	}
 	else
 	{
-		RBXASSERT(false);
+		ARLASSERT(false);
 	}
 }
 
@@ -568,7 +568,7 @@ RakNet::PluginReceiveResult Server::OnReceive(RakNet::Packet *packet)
                 proxy->setAndLockParent(this);
                 incommingConnectionSignal(RakNetAddressToString(packet->systemAddress), proxy);
 			}
-			catch (RBX::base_exception& e)
+			catch (ARL::base_exception& e)
 			{
 				FASTLOG1(FLog::Error, "On receive packet %d", (unsigned char) packet->data[0]);
 				FASTLOGS(FLog::Error, "Error %s", e.what());

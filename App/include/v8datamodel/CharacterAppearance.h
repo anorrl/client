@@ -6,12 +6,12 @@
 #include "V8DataModel/IModelModifier.h"
 #include "Util/TextureId.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Humanoid;
 
 	extern const char* const sCharacterAppearance;
-	class RBXBaseClass CharacterAppearance
+	class ARLBaseClass CharacterAppearance
 		:public DescribedNonCreatable<CharacterAppearance, Instance, sCharacterAppearance>
 		,public IModelModifier
 	{
@@ -74,7 +74,7 @@ namespace RBX {
 
 		Clothing();
 
-		virtual TextureId getTemplate() const { RBXASSERT(false); return NULL; }
+		virtual TextureId getTemplate() const { ARLASSERT(false); return NULL; }
 
 	protected:
 		/*override*/ void applyByMyself(Humanoid* humanoid);

@@ -3,19 +3,19 @@
 #include "Script/LuaSettings.h"
 #include "LuaConf.h"
 
-const char *const RBX::sLuaSettings = "LuaSettings";
+const char *const ARL::sLuaSettings = "LuaSettings";
 
 REFLECTION_BEGIN();
-static RBX::Reflection::BoundProp<int> prop_1("GcPause", "Garbage Collection", &RBX::LuaSettings::gcPause);
-static RBX::Reflection::BoundProp<int> prop_2("GcStepMul", "Garbage Collection", &RBX::LuaSettings::gcStepMul);
-static RBX::Reflection::BoundProp<double> prop_3("DefaultWaitTime", "Settings", &RBX::LuaSettings::defaultWaitTime);
-static RBX::Reflection::BoundProp<int> prop_4("GcLimit", "Garbage Collection", &RBX::LuaSettings::gcLimit);
-static RBX::Reflection::BoundProp<int> prop_5("GcFrequency", "Garbage Collection", &RBX::LuaSettings::gcFrequency);
-static RBX::Reflection::BoundProp<bool> prop_areScriptStartsReported("AreScriptStartsReported", "Diagnostics", &RBX::LuaSettings::areScriptStartsReported);
-static RBX::Reflection::BoundProp<float> prop_AreWaitingThreadsBudgeted("WaitingThreadsBudget", "Settings", &RBX::LuaSettings::waitingThreadsBudget);
+static ARL::Reflection::BoundProp<int> prop_1("GcPause", "Garbage Collection", &ARL::LuaSettings::gcPause);
+static ARL::Reflection::BoundProp<int> prop_2("GcStepMul", "Garbage Collection", &ARL::LuaSettings::gcStepMul);
+static ARL::Reflection::BoundProp<double> prop_3("DefaultWaitTime", "Settings", &ARL::LuaSettings::defaultWaitTime);
+static ARL::Reflection::BoundProp<int> prop_4("GcLimit", "Garbage Collection", &ARL::LuaSettings::gcLimit);
+static ARL::Reflection::BoundProp<int> prop_5("GcFrequency", "Garbage Collection", &ARL::LuaSettings::gcFrequency);
+static ARL::Reflection::BoundProp<bool> prop_areScriptStartsReported("AreScriptStartsReported", "Diagnostics", &ARL::LuaSettings::areScriptStartsReported);
+static ARL::Reflection::BoundProp<float> prop_AreWaitingThreadsBudgeted("WaitingThreadsBudget", "Settings", &ARL::LuaSettings::waitingThreadsBudget);
 REFLECTION_END();
 
-RBX::LuaSettings::LuaSettings(void)
+ARL::LuaSettings::LuaSettings(void)
 	:gcPause(LUAI_GCPAUSE)
 	,gcStepMul(LUAI_GCMUL)
 	,defaultWaitTime(0.03)

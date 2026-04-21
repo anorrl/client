@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

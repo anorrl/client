@@ -6,7 +6,7 @@
 #include "Util/BrickColor.h"
 #include "V8DataModel/PartInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 
 	extern const char *const sFlag;

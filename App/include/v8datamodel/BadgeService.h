@@ -3,7 +3,7 @@
 #include "V8Tree/Service.h"
 #include "V8DataModel/PartInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char *const sBadgeService;
 
@@ -36,7 +36,7 @@ namespace RBX {
 		{
 			int userId;
 			int badgeId;
-			RBX::Time expiration;
+			ARL::Time expiration;
 			HotUserHasBadge(int userId, int badgeId, int cooldownTime);
 			bool expired() const;
 		};

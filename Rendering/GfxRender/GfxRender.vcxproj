@@ -692,7 +692,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\include;.\freetype\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\Base\include;..\..\TBB_4_1\include;..\..\App\Include;..\..\ClientShared;..\GfxBase\include;..\GfxCore\include;..\g3d\include;..\g3d\zlib;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -737,7 +737,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;.\freetype\include;.\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\Base\include;..\..\App\Include;..\..\ClientShared;..\GfxBase\include;..\GfxCore\include;..\g3d\include;..\g3d\zlib;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;NDEBUG;_LIB;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;NDEBUG;_LIB;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -760,7 +760,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;.\include;.\freetype\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\Base\include;..\..\TBB_4_1\include;..\..\App\Include;..\..\ClientShared;..\GfxBase\include;..\GfxCore\include;..\g3d\include;..\g3d\zlib;..\AppDraw\include;..\RbxG3D\include;$(CONTRIB_PATH)\SDK\Include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_RELEASE;RBX_TEST_BUILD;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_RELEASE;ARL_TEST_BUILD;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -782,7 +782,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>.\include;.\freetype\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\Base\include;..\..\TBB_4_1\include;..\..\App\Include;..\..\ClientShared;..\GfxBase\include;..\GfxCore\include;..\g3d\include;..\g3d\zlib;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;NDEBUG;_LIB;_RELEASE;RBX_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;NDEBUG;_LIB;_RELEASE;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -821,7 +821,7 @@
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;.\freetype\include;.\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\Base\include;..\..\TBB_4_1\include;..\..\App\Include;..\..\ClientShared;..\GfxBase\include;..\GfxCore\include;..\g3d\include;..\g3d\zlib;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_WINDOWS;NDEBUG;_NOOPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_WINDOWS;NDEBUG;_NOOPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>

@@ -5,9 +5,9 @@
 
 #include <sstream>
 
-using namespace RBX;
+using namespace ARL;
 
-namespace RBX
+namespace ARL
 {
 	template<>
 	std::string StringConverter<UDim>::convertToString(const UDim& value)
@@ -71,7 +71,7 @@ namespace RBX
 
 		return true;
 	}
-}//namespace RBX
+}//namespace ARL
 
 G3D::int16 UDim::transform(G3D::int16 rhs) const
 {

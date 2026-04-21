@@ -6,7 +6,7 @@
 #include "Util/Average.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Assembly;
 	

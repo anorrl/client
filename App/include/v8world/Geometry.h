@@ -7,7 +7,7 @@
 #include "BulletCollision/CollisionDispatch/btCollisionObject.h"
 #include "BulletCollision/CollisionShapes/btCollisionShape.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Geometry 
 	{
@@ -61,10 +61,10 @@ namespace RBX {
 
 		// Parameters
 		virtual void setGeometryParameter(const std::string& parameter, int value) {
-			RBXASSERT(0);			// stock geometry does not handle parameters.
+			ARLASSERT(0);			// stock geometry does not handle parameters.
 		}
 		virtual int getGeometryParameter(const std::string& parameter) const {
-			RBXASSERT(0);			// stock geometry does not handle parameters.
+			ARLASSERT(0);			// stock geometry does not handle parameters.
 			return 0;
 		}
 

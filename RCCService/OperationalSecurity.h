@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RBX
+namespace ARL
 {
 void initAntiMemDump();
 void initLuaReadOnly();

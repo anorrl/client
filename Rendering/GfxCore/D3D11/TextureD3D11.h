@@ -9,7 +9,7 @@ struct ID3D11Resource;
 struct ID3D11ShaderResourceView;
 enum DXGI_FORMAT;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

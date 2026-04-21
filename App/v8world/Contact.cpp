@@ -17,7 +17,7 @@
 DYNAMIC_FASTFLAGVARIABLE(FixTouchEndedReporting, false)
 DYNAMIC_FASTFLAG(MaterialPropertiesEnabled)
 
-namespace RBX {
+namespace ARL {
 
 int BlockBlockContact::pairMatches = 0;
 int BlockBlockContact::pairMisses = 0;
@@ -95,7 +95,7 @@ Last == -1				notify		ignore
 
 bool Contact::step(int longStepId)
 {
-	RBXASSERT(longStepId >= 0);
+	ARLASSERT(longStepId >= 0);
 
 	bool inContact = stepContact();
 
@@ -166,7 +166,7 @@ void Contact::onPrimitiveContactParametersChanged()
     Primitive* p0 = getPrimitive(0);
     Primitive* p1 = getPrimitive(1);
 	World* world = p0->getWorld() ? p0->getWorld() : p1->getWorld();
-	RBXASSERT(world);
+	ARLASSERT(world);
 
 	if (world->getUsingNewPhysicalProperties())
 	{
@@ -183,7 +183,7 @@ void Contact::onPrimitiveContactParametersChanged()
 
 void Contact::deleteConnector(ContactConnector* c)
 {
-	RBXASSERT_VERY_FAST(c);
+	ARLASSERT_VERY_FAST(c);
 	getKernel()->removeConnector(c);
 	delete c;
 }
@@ -396,7 +396,7 @@ ContactConnector* BlockBlockContact::getConnector(int i)
 
 void BlockBlockContact::deleteAllConnectors()
 {
-    RBXASSERT( myData );
+    ARLASSERT( myData );
     if( myData ) 
 	{
         for (size_t i = 0; i < (size_t)myData->numConnectors(); ++i) 
@@ -414,7 +414,7 @@ GeoPairConnector* BlockBlockContact::findGeoPairConnector(	Body* b0,
 															int param0, 
 															int param1) 
 {
-    RBXASSERT( myData && contactParams );
+    ARLASSERT( myData && contactParams );
     if( myData && contactParams )
 	    return myData->findGeoPairConnector(b0, b1, _pairType, param0, param1);
     else
@@ -441,7 +441,7 @@ bool BlockBlockContact::computeIsColliding(float overlapIgnored, bool& planeCont
 
 bool BlockBlockContact::stepContact() 
 {
-    RBXASSERT( myData );
+    ARLASSERT( myData );
     if( myData )
 		return myData->stepContact();
     else
@@ -493,8 +493,8 @@ void BlockBlockContact::loadGeoPairEdgeEdge(
 			return;
 		}
 	}
-	RBXASSERT(geoPair->getContactPoint().length < 0);
-	RBXASSERT(geoPair->getContactPoint().normal.magnitude() > 0.99f);
+	ARLASSERT(geoPair->getContactPoint().length < 0);
+	ARLASSERT(geoPair->getContactPoint().normal.magnitude() > 0.99f);
 
 	myData->connectors[!myData->connectorsIndex].push_back(geoPair);
 }
@@ -518,8 +518,8 @@ void BlockBlockContact::loadGeoPairPointPlane(	int pointBody,
 									pointID,
 									planeFaceID	);
 			geoPair->updateContactPoint();
-			RBXASSERT(geoPair->getContactPoint().length < 0);
-			RBXASSERT(geoPair->getContactPoint().normal.magnitude() > 0.99f);
+			ARLASSERT(geoPair->getContactPoint().length < 0);
+			ARLASSERT(geoPair->getContactPoint().normal.magnitude() > 0.99f);
 
 			myData->connectors[!myData->connectorsIndex].push_back(geoPair);
 		}
@@ -538,8 +538,8 @@ void BlockBlockContact::loadGeoPairPointPlane(	int pointBody,
 									planeFaceID	);
 			geoPair->updateContactPoint();
 			getKernel()->insertConnector(geoPair);
-			RBXASSERT(geoPair->getContactPoint().length < -ContactConnector::overlapGoal() + 0.001);
-			RBXASSERT(geoPair->getContactPoint().normal.magnitude() > 0.99f);
+			ARLASSERT(geoPair->getContactPoint().length < -ContactConnector::overlapGoal() + 0.001);
+			ARLASSERT(geoPair->getContactPoint().normal.magnitude() > 0.99f);
 
 			myData->connectors[!myData->connectorsIndex].push_back(geoPair);
 		}
@@ -630,7 +630,7 @@ GeoPairConnector* BlockBlockContactData::findGeoPairConnector(	Body* b0,
 																int param1) 
 {
     ContactParams* cp = myOwner->getContactParams();
-    RBXASSERT(cp);
+    ARLASSERT(cp);
     if(cp)
     {
 	    for (size_t i = 0; i < connectors[connectorsIndex].size(); ++i) {
@@ -726,15 +726,15 @@ void BlockBlockContactData::loadGeoPairEdgeEdgePlane(
 			return;
 		}
 	}
-	RBXASSERT(geoPair->getContactPoint().length < 0);
-	RBXASSERT(geoPair->getContactPoint().normal.magnitude() > 0.99f);
+	ARLASSERT(geoPair->getContactPoint().length < 0);
+	ARLASSERT(geoPair->getContactPoint().normal.magnitude() > 0.99f);
 	connectors[!connectorsIndex].push_back(geoPair);
 }
 
 // returns true if in contact
 bool BlockBlockContactData::getBestPlaneEdge(float overlapIgnored, bool& planeContact)
 {
-	RBXASSERT(planeContact == false);
+	ARLASSERT(planeContact == false);
 
     const float epsilon = 1e-03f;
 	const float hysteresis = 1.01f;	// to switch planes, must be Nx as good...
@@ -1008,7 +1008,7 @@ int BlockBlockContactData::intersectRectQuad(Vector2& planeRect, Vector2 (&other
 			}
 		}
 	}
-	RBXASSERT(found <= 8);
+	ARLASSERT(found <= 8);
 	return found;
 }
 

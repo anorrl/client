@@ -6,7 +6,7 @@
 #include "Tool/DragTypes.h"
 #include "Util/InsertMode.h"
 
-namespace RBX {
+namespace ARL {
 
 	class World;
 	class MegaDragger;
@@ -45,7 +45,7 @@ namespace RBX {
 		void insertHopperBin(HopperBin* bin);
 		void insertSpawnLocation(SpawnLocation *s);
 		
-		void insertDecal(Decal *d, RBX::InsertMode insertMode);
+		void insertDecal(Decal *d, ARL::InsertMode insertMode);
 
 		void doInsertInstances(
 			const Instances& instances,
@@ -106,4 +106,4 @@ namespace RBX {
 
 		const Rect2D& getViewPort() { return viewPort; }
 	};
-}  // namespace RBX
+}  // namespace ARL

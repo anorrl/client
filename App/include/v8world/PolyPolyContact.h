@@ -5,7 +5,7 @@
 #include "V8World/PolyContact.h"
 #include "V8Kernel/ContactParams.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Poly;
 	class PolyPolyContact;

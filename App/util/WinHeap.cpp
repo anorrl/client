@@ -7,7 +7,7 @@
 #include "Util/StandardOut.h"
 #include <windows.h>
 
-namespace RBX 
+namespace ARL 
 {
 	namespace UTIL 
 	{

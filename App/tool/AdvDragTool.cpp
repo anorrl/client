@@ -7,7 +7,7 @@
 #include "Tool/GroupDragTool.h"
 #include "Tool/AdvLuaDragTool.h"
 
-namespace RBX {
+namespace ARL {
 
 
 shared_ptr<MouseCommand> AdvDragTool::onMouseDown(PartInstance* hitPart,
@@ -17,7 +17,7 @@ shared_ptr<MouseCommand> AdvDragTool::onMouseDown(PartInstance* hitPart,
 									Workspace* workspace,
 									shared_ptr<Instance> selectIfNoDrag)
 {
-	RBXASSERT(hitPart);
+	ARLASSERT(hitPart);
 
 	PartArray partArray;
 	DragUtilities::instancesToParts(dragInstances, partArray);

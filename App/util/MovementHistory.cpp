@@ -6,7 +6,7 @@
 #include "v8world/Primitive.h"
 #include "../NetworkSettings.h"
 
-namespace RBX {
+namespace ARL {
 
 DYNAMIC_FASTINTVARIABLE(MaxNodesPerPathPacket, 3)
 DYNAMIC_FASTINTVARIABLE(NodeIntervalCapMS, 100)
@@ -55,9 +55,9 @@ DYNAMIC_FASTINTVARIABLE(NodeIntervalCapMS, 100)
 
     void MovementHistory::getMovementNodeList(const Time& lastCutOffTime, const Time& currentCutOffTime, std::deque<MovementHistory::MovementNode>& result, bool crossPacketCompression, const CoordinateFrame& lastSendCFrame, CoordinateFrame& outCalculatedBaselineCFrame, Vector3& outCalculatedLinearVelocity) const
     {
-        RBXASSERT(startIndex < MH_NUM_MAX_NODES);
-        RBXASSERT(size <= MH_NUM_MAX_NODES);
-        RBXASSERT(result.size() == 0);
+        ARLASSERT(startIndex < MH_NUM_MAX_NODES);
+        ARLASSERT(size <= MH_NUM_MAX_NODES);
+        ARLASSERT(result.size() == 0);
         int numNodeToSkip = 0;
         float requestedTimeInterval = (currentCutOffTime - lastCutOffTime).seconds();
 
@@ -81,7 +81,7 @@ DYNAMIC_FASTINTVARIABLE(NodeIntervalCapMS, 100)
                     // don't be too aggressive with node concatenation
                     numNodeToSkip = Math::iFloor(nodeIntervalCap /estimatedNodeInterval);
                 }
-                RBXASSERT(numNodeToSkip * estimatedNodeInterval <= nodeIntervalCap);
+                ARLASSERT(numNodeToSkip * estimatedNodeInterval <= nodeIntervalCap);
             }
         }
 
@@ -89,7 +89,7 @@ DYNAMIC_FASTINTVARIABLE(NodeIntervalCapMS, 100)
 
         if (crossPacketCompression)
         {
-            RBXASSERT(size > 0);
+            ARLASSERT(size > 0);
 
             // create a node for the baseline cframe based on the baseline cframe of previous packet
             MovementNode baselineCFrameDeltaNode(lastSendCFrame, baselineCFrame, 0.f);
@@ -99,7 +99,7 @@ DYNAMIC_FASTINTVARIABLE(NodeIntervalCapMS, 100)
             decompress(baselineCFrameDeltaNode, baselineCFrameTranslationDelta);
             outCalculatedBaselineCFrame = lastSendCFrame;
             outCalculatedBaselineCFrame.translation -= baselineCFrameTranslationDelta;
-            RBXASSERT(baselineCFrameDeltaNode.translation.precisionLevel == 255 || (outCalculatedBaselineCFrame.translation-baselineCFrame.translation).magnitude() < (baselineCFrameDeltaNode.translation.precisionLevel+1)*MH_MIN_PRECISION*2);
+            ARLASSERT(baselineCFrameDeltaNode.translation.precisionLevel == 255 || (outCalculatedBaselineCFrame.translation-baselineCFrame.translation).magnitude() < (baselineCFrameDeltaNode.translation.precisionLevel+1)*MH_MIN_PRECISION*2);
         }
 
         if (size > 0)
@@ -133,7 +133,7 @@ DYNAMIC_FASTINTVARIABLE(NodeIntervalCapMS, 100)
             Vector3 lastNodeTranslationDelta;
             decompress(movementNodes[lastNodeIndex], lastNodeTranslationDelta);
             outCalculatedLinearVelocity = lastNodeTranslationDelta / totalTime;
-            RBXASSERT(!Math::isNanInfVector3(outCalculatedLinearVelocity));
+            ARLASSERT(!Math::isNanInfVector3(outCalculatedLinearVelocity));
 
             for (size_t i=numNodeProceeded; i<size; i++)
             {
@@ -183,8 +183,8 @@ DYNAMIC_FASTINTVARIABLE(NodeIntervalCapMS, 100)
 
     void MovementHistory::popFront()
     {
-        RBXASSERT(startIndex < MH_NUM_MAX_NODES);
-        RBXASSERT(size <= MH_NUM_MAX_NODES);
+        ARLASSERT(startIndex < MH_NUM_MAX_NODES);
+        ARLASSERT(size <= MH_NUM_MAX_NODES);
         if (size > 0)
         {
             float deltaTime = getSecFrom2Ms(movementNodes[startIndex].delta2Ms);
@@ -192,7 +192,7 @@ DYNAMIC_FASTINTVARIABLE(NodeIntervalCapMS, 100)
             timeSpanSec -= deltaTime;
             if (timeSpanSec < 0.f)
             {
-                RBXASSERT(size == 1);
+                ARLASSERT(size == 1);
                 timeSpanSec = 0.f;
             }
             movementNodes[startIndex].setZero();
@@ -211,13 +211,13 @@ DYNAMIC_FASTINTVARIABLE(NodeIntervalCapMS, 100)
 
     void MovementHistory::pushBack(MovementNode node)
     {
-        RBXASSERT(startIndex < MH_NUM_MAX_NODES);
-        RBXASSERT(size <= MH_NUM_MAX_NODES);
+        ARLASSERT(startIndex < MH_NUM_MAX_NODES);
+        ARLASSERT(size <= MH_NUM_MAX_NODES);
         if (size == MH_NUM_MAX_NODES)
         {
             // overflowing, pop the first node
             popFront();
-            RBXASSERT(size == MH_NUM_MAX_NODES-1);
+            ARLASSERT(size == MH_NUM_MAX_NODES-1);
         }
         size_t newNodeIndex = startIndex + size;
         if (newNodeIndex >= MH_NUM_MAX_NODES)
@@ -228,13 +228,13 @@ DYNAMIC_FASTINTVARIABLE(NodeIntervalCapMS, 100)
         size++;
         timeSpanSec += getSecFrom2Ms(node.delta2Ms);
         checksum += (!node.isZero());
-        RBXASSERT(size <= MH_NUM_MAX_NODES);
+        ARLASSERT(size <= MH_NUM_MAX_NODES);
     }
 
     MovementHistory::MovementNode MovementHistory::concatNode(size_t lastIndex, size_t numNodesToConcat) const
     {
-        RBXASSERT(numNodesToConcat <= size);
-        RBXASSERT(lastIndex < MH_NUM_MAX_NODES);
+        ARLASSERT(numNodesToConcat <= size);
+        ARLASSERT(lastIndex < MH_NUM_MAX_NODES);
         Vector3 resultVector;
         Vector3 tempVector;
         size_t totalTime = 0;

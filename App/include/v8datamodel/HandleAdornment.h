@@ -10,7 +10,7 @@
 #include "GfxBase/IAdornable.h"
 #include "AppDraw/Draw.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sHandleAdornment;
 

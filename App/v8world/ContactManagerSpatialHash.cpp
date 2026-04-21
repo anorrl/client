@@ -7,11 +7,11 @@
 
 
 // instantiate for contactmanager.
-template class RBX::SpatialHash<RBX::Primitive, RBX::Contact, RBX::ContactManager, CONTACTMANAGER_MAXLEVELS>;
+template class ARL::SpatialHash<ARL::Primitive, ARL::Contact, ARL::ContactManager, CONTACTMANAGER_MAXLEVELS>;
 
 #define CONTACT_MANAGER_MAX_CELLS_PER_PRIMITIVE 100
 
-namespace RBX
+namespace ARL
 {
 
 	ContactManagerSpatialHash::ContactManagerSpatialHash(World* world, ContactManager* contactManager)

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Gui/GUI.h"
 
-namespace RBX {
+namespace ARL {
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -116,7 +116,7 @@ GuiResponse GuiItem::process(const shared_ptr<InputObject>& event)
 		}
 	}
 
-	RBXASSERT(focus == NULL);
+	ARLASSERT(focus == NULL);
 	return processNonFocus(event);
 }
 
@@ -305,7 +305,7 @@ Vector2 TopMenuBar::getSize(Canvas canvas) const
 				answer.y += childSize.y;
 				break;
 			default:
-				RBXASSERT(0);
+				ARLASSERT(0);
 				break;
 			}
 		}
@@ -339,13 +339,13 @@ Vector2 TopMenuBar::getChildPosition(const GuiItem* child, Canvas canvas) const
 				break;
 
 			default:
-				RBXASSERT(0);
+				ARLASSERT(0);
 				break;
 			}
 		}
 	}
 
-	RBXASSERT(0);
+	ARLASSERT(0);
 	return childPosition;
 }
 
@@ -462,7 +462,7 @@ Vector2 UnifiedWidget::getChildPosition(const GuiItem* child, Canvas canvas) con
 		}
 	}
 
-	RBXASSERT(0);
+	ARLASSERT(0);
 	return position;
 }
 
@@ -502,7 +502,7 @@ GuiResponse UnifiedWidget::processShown_InTitle(const shared_ptr<InputObject>& e
 		return GuiResponse::sunk();
 	}
 
-	RBXASSERT(menuState == SHOWN_APPEARING);
+	ARLASSERT(menuState == SHOWN_APPEARING);
 
 	if (event->isLeftMouseUpEvent())
 	{
@@ -531,7 +531,7 @@ GuiResponse UnifiedWidget::processShown(const shared_ptr<InputObject>& event)
 
 GuiResponse UnifiedWidget::processHover(const shared_ptr<InputObject>& event)
 {
-	RBXASSERT(menuState == HOVER);
+	ARLASSERT(menuState == HOVER);
 	loseFocus();
 
 	if (getMyRect(Canvas(event->getWindowSize())).pointInRect(event->get2DPosition()))
@@ -558,7 +558,7 @@ GuiResponse UnifiedWidget::processHover(const shared_ptr<InputObject>& event)
 
 GuiResponse UnifiedWidget::processNothing(const shared_ptr<InputObject>& event)
 {
-	RBXASSERT(menuState == NOTHING);
+	ARLASSERT(menuState == NOTHING);
 	loseFocus();
 
 	if (getMyRect(Canvas(event->getWindowSize())).pointInRect(event->get2DPosition()))
@@ -569,7 +569,7 @@ GuiResponse UnifiedWidget::processNothing(const shared_ptr<InputObject>& event)
 				setMenuState(HOVER);
 				return GuiResponse::sunk();
 			case InputObject::TYPE_MOUSEBUTTON1:
-				RBXASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
+				ARLASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
 				setMenuState(SHOWN_APPEARING);	
 				return GuiResponse::sunk();
 			default:
@@ -610,11 +610,11 @@ GuiResponse UnifiedWidget::processShown_OutOfTitle(const shared_ptr<InputObject>
 		// UP or Down - if not used, lose focus and hide our menu
 		case InputObject::TYPE_MOUSEBUTTON1:
 			{			
-				RBXASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
+				ARLASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
 				GuiResponse answer = GuiItem::process(event);
 
 				if (!answer.wasSunk()) {
-					RBXASSERT(getFocus() == NULL);
+					ARLASSERT(getFocus() == NULL);
 					setMenuState(NOTHING);
 				}
 
@@ -630,7 +630,7 @@ GuiResponse UnifiedWidget::processShown_OutOfTitle(const shared_ptr<InputObject>
             break;
 	}
 
-	RBXASSERT(0);
+	ARLASSERT(0);
 	return GuiResponse::notSunk();
 }
 

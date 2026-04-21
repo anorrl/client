@@ -7,7 +7,7 @@
 #include "v8datamodel/Animation.h"
 #include "V8DataModel/Workspace.h"
 
-namespace RBX {
+namespace ARL {
 
 namespace Reflection
 {
@@ -226,11 +226,11 @@ double AnimationTrack::getTimeOfKeyframe(std::string keyframeName)
 		if (kfs->getChild(index)->getName() == keyframeName)
 		{
 			const Keyframe* keyframe = Instance::fastDynamicCast<const Keyframe>(kfs->getChild(index));
-			RBXASSERT(keyframe);
+			ARLASSERT(keyframe);
 			return keyframe->getTime();
 		}
 	}
-	throw RBX::runtime_error("Could not find a keyframe by that name!");
+	throw ARL::runtime_error("Could not find a keyframe by that name!");
 }
 
 }

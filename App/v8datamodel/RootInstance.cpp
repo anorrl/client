@@ -29,7 +29,7 @@
 #include "Tool/ToolsArrow.h"
 #include "v8datamodel/PluginManager.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sRootInstance = "RootInstance";
 
@@ -97,7 +97,7 @@ Vector3 RootInstance::computeCharacterInsertPoint(const Vector3& sizeOfInsertedM
 	}		
 	else
 	{
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return computeIdeInsertPoint();
 	}
 }
@@ -185,7 +185,7 @@ Extents RootInstance::gatherPartExtents(PartArray& partArray)
 void RootInstance::movePartsToCameraFocus(PartArray& partArray)
 {
 	Vector3 moveToLocation = getCamera()->getCameraFocus().translation;
-	RBX::Plugin *activePlugin = PluginManager::singleton()->getActivePlugin(DataModel::get(this));
+	ARL::Plugin *activePlugin = PluginManager::singleton()->getActivePlugin(DataModel::get(this));
 
 	bool toolPluginActive = activePlugin && activePlugin->isTool();
 
@@ -263,7 +263,7 @@ void RootInstance::moveToIdeInsertPoint(PartArray& partArray, const Vector3& ins
 //////////////////////////////////////////////////
 void RootInstance::insertRaw(const Instances& instances, Instance* requestedParent, PartArray& partArray, bool suppressMove)
 {
-	RBXASSERT(requestedParent && this->contains(requestedParent));
+	ARLASSERT(requestedParent && this->contains(requestedParent));
 	publicInsertRaw(instances,requestedParent,partArray,false,suppressMove);
 }
 
@@ -310,7 +310,7 @@ void RootInstance::publicInsertRaw(const Instances& instances, Instance* request
 	std::for_each(instances.begin(), instances.end(), boost::bind(&Instance::setParent, _1, requestedParent));
 
 
-	if( RBX::GameBasicSettings::singleton().inStudioMode() ) // only works in studio (InsertService::Insert calls this function)
+	if( ARL::GameBasicSettings::singleton().inStudioMode() ) // only works in studio (InsertService::Insert calls this function)
 		if( !partArray.empty() )	// if we have parts, we need to move them to camera focus
 			if( !suppressPartMove)  // move parts to camera focus
 				movePartsToCameraFocus(partArray);
@@ -337,7 +337,7 @@ void RootInstance::insertToTree(const Instances& instances, Instance* requestedP
 
 void RootInstance::insertRemoteCharacterView(const Instances& instances, PartArray& partArray, const Vector3* positionHint, PromptMode promptMode, bool suppressMove)
 {
-	RBXASSERT(instances.size() > 0);
+	ARLASSERT(instances.size() > 0);
 
 	if ((instances.size() == 1) && (promptMode == PUT_TOOL_IN_STARTERPACK))
 	{
@@ -357,13 +357,13 @@ void RootInstance::insertRemoteCharacterView(const Instances& instances, PartArr
 
 void RootInstance::insertCharacterView(const Instances& instances, PartArray& partArray)
 {
-	RBXASSERT(instances.size() > 0);
+	ARLASSERT(instances.size() > 0);
 	if ((instances.size() == 1))
 	{
 		Instance* single = instances[0].get();
 		if (Instance::fastDynamicCast<HopperBin>(single))
 		{
-			if (RBX::Network::Player* player = RBX::Network::Players::findLocalPlayer(this))
+			if (ARL::Network::Player* player = ARL::Network::Players::findLocalPlayer(this))
 			{
 				single->setParent(player->getPlayerBackpack());
 				return;
@@ -380,7 +380,7 @@ void RootInstance::insertCharacterView(const Instances& instances, PartArray& pa
 
 void RootInstance::insertIdeView(const Instances& instances, PartArray& partArray, PromptMode promptMode, bool suppressMove)
 {
-	RBXASSERT(instances.size() > 0);
+	ARLASSERT(instances.size() > 0);
 	if ((instances.size() == 1))
 	{
 		Instance* single = instances[0].get();
@@ -420,7 +420,7 @@ void RootInstance::insertIdeView(const Instances& instances, PartArray& partArra
 
 void RootInstance::insert3dView(const Instances& instances, PromptMode promptMode, bool suppressMove, const Vector3* positionHint, bool lerpCameraInStudio)
 {
-	RBXASSERT(instances.size() > 0);
+	ARLASSERT(instances.size() > 0);
 
 	PartArray partArray;
 	if (positionHint != NULL) {
@@ -433,7 +433,7 @@ void RootInstance::insert3dView(const Instances& instances, PromptMode promptMod
 		insertIdeView(instances, partArray, promptMode, suppressMove);
 	}
 
-	RBX::Plugin *activePlugin = PluginManager::singleton()->getActivePlugin(DataModel::get(this));
+	ARL::Plugin *activePlugin = PluginManager::singleton()->getActivePlugin(DataModel::get(this));
 
 	bool toolPluginActive = activePlugin && activePlugin->isTool();
 			
@@ -467,7 +467,7 @@ void RootInstance::insert3dView(const Instances& instances, PromptMode promptMod
 	}
 }
 
-void RootInstance::insertDecal(Decal *d, RBX::InsertMode insertMode)
+void RootInstance::insertDecal(Decal *d, ARL::InsertMode insertMode)
 {
 	Workspace *ws = ServiceProvider::find<Workspace>(this);
 	if (ws) ws->startDecalDrag(d, insertMode);
@@ -490,7 +490,7 @@ void RootInstance::insertSpawnLocation(SpawnLocation *s)
 
 void RootInstance::insertHopperBin(HopperBin* bin)
 {
-	if (RBX::Network::Player* player = RBX::Network::Players::findLocalPlayer(this))
+	if (ARL::Network::Player* player = ARL::Network::Players::findLocalPlayer(this))
 	{
 		bin->setParent(player->getPlayerBackpack());
 	}
@@ -502,7 +502,7 @@ void RootInstance::insertHopperBin(HopperBin* bin)
 
 void RootInstance::removeInstances(const Instances& instances)
 {
-	RBXASSERT(instances.size() > 0);
+	ARLASSERT(instances.size() > 0);
 
 }
 void RootInstance::insertPasteInstances(
@@ -533,7 +533,7 @@ void RootInstance::doInsertInstances(const Instances& instances,
 										bool forceSuppressMove,
 										bool lerpCameraInStudio)
 {
-	RBXASSERT(instances.size() > 0);
+	ARLASSERT(instances.size() > 0);
 
 	// The 'remaining' argument is optional. If the caller doesn't want
 	// a list of remaining elements, then store that Instances local to this
@@ -552,8 +552,8 @@ void RootInstance::doInsertInstances(const Instances& instances,
             Instance* pInstance = instances[i].get();
             if (!pInstance)
                 continue;
-            if(dynamic_cast<RBX::Service*>(pInstance))
-                RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Do Menu Insert->Service, to insert a Service");
+            if(dynamic_cast<ARL::Service*>(pInstance))
+                ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Do Menu Insert->Service, to insert a Service");
             else
                 pInstance->setParent(requestedParent);
         }
@@ -587,9 +587,9 @@ void RootInstance::doInsertInstances(const Instances& instances,
 				remaining->push_back(instances[i]); // don't peel of SpawnLocation, it belongs in the workspace
 				createWaypoint = true;
 			}
-			else if(dynamic_cast<RBX::Service*>(instance))// Do not allow insertion of services from Toolbox or any other place. Insert Service Dialog does not call this fn so it is fine.
+			else if(dynamic_cast<ARL::Service*>(instance))// Do not allow insertion of services from Toolbox or any other place. Insert Service Dialog does not call this fn so it is fine.
 			{
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Do Menu Insert->Service, to insert a Service");
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Do Menu Insert->Service, to insert a Service");
 			}
 			else
 			{
@@ -601,7 +601,7 @@ void RootInstance::doInsertInstances(const Instances& instances,
 					if (insertMode != INSERT_TO_3D_VIEW)
 					{
 						// invoke Decal tool is we are inserting decal into a part
-						if (Instance::fastDynamicCast<RBX::PartInstance>(requestedParent))
+						if (Instance::fastDynamicCast<ARL::PartInstance>(requestedParent))
 							insertDecal(decal, insertMode);
 						return;	// Skip the default processing
 					}
@@ -679,4 +679,4 @@ void RootInstance::insertInstances(
 		lerpCameraInStudio);
 }
 
-}  // namespace RBX
+}  // namespace ARL

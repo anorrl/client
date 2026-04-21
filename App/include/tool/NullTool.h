@@ -4,7 +4,7 @@
 
 #include "V8DataModel/MouseCommand.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace Network {
 		class Player;
@@ -52,4 +52,4 @@ namespace RBX {
 
 	};
 
-} // namespace RBX
+} // namespace ARL

@@ -39,7 +39,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 
 CommonVerbs::CommonVerbs(DataModel* dataModel) 
 	: 

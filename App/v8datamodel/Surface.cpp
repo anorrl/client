@@ -8,7 +8,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(UseRemoveTypeIDTricks,true)
 
-namespace RBX {
+namespace ARL {
 
 ////////////////////////////////////////////////////////////////
 //
@@ -49,7 +49,7 @@ LegacyController::InputType Surface::getInput() const
 }
 
 
-void Surface::setSurfaceInput(RBX::LegacyController::InputType value) 
+void Surface::setSurfaceInput(ARL::LegacyController::InputType value) 
 {
 	partInstance->setSurfaceInput(surfId, value);
 }
@@ -104,7 +104,7 @@ namespace Reflection {
 	}
 }//namespace Reflection
 
-template<RBX::NormalId face, typename V, typename Get, typename Set>
+template<ARL::NormalId face, typename V, typename Get, typename Set>
 class SurfaceGetSet : public Reflection::TypedPropertyDescriptor<V>::GetSet
 {
 	Get get;
@@ -153,12 +153,12 @@ public:
 
 // Specialized PropertyDescriptor use for referencing Surface Poperties of a PartInstance
 // TODO: When we refactor Surface to be an Instance then this class can melt away (or be used for legacy reading only)
-template<RBX::NormalId face, typename V >
+template<ARL::NormalId face, typename V >
 class SurfacePropDescriptor : public Reflection::TypedPropertyDescriptor<V>
 {
 public:
 	template<typename Get, typename Set>
-	SurfacePropDescriptor(const char* name, const char* category, Get get, Set set, RBX::Reflection::PropertyDescriptor::Functionality flags = RBX::Reflection::PropertyDescriptor::STANDARD, Security::Permissions security = Security::None)
+	SurfacePropDescriptor(const char* name, const char* category, Get get, Set set, ARL::Reflection::PropertyDescriptor::Functionality flags = ARL::Reflection::PropertyDescriptor::STANDARD, Security::Permissions security = Security::None)
 		:Reflection::TypedPropertyDescriptor<V>(
 		PartInstance::classDescriptor(), 
 		name, 
@@ -175,7 +175,7 @@ public:
 // TODO: This is almost identical to EnumPropDescriptor.  Perhaps we could use a Functor of some kind
 // to make the GetFunc/SetFunc more generic. Then we could insert the "getSurfaces()[face]." bit into
 // a common class.
-template<RBX::NormalId face, typename V >
+template<ARL::NormalId face, typename V >
 class SurfaceEnumPropDescriptor : public Reflection::EnumPropertyDescriptor
 {
 	std::auto_ptr<typename Reflection::TypedPropertyDescriptor<V>::GetSet> getset;
@@ -288,7 +288,7 @@ public:
 			return false;
 	}
 	// An alternate, more efficient version of setStringValue
-	virtual bool setStringValue(Reflection::DescribedBase* instance, const RBX::Name& name) const
+	virtual bool setStringValue(Reflection::DescribedBase* instance, const ARL::Name& name) const
 	{
 		V value;
 		if (Reflection::EnumDesc<V>::singleton().convertToValue(name, value))
@@ -300,7 +300,7 @@ public:
 			return false;
 	}
 
-	virtual void readValue(Reflection::DescribedBase* instance, const XmlElement* element, RBX::IReferenceBinder& binder) const
+	virtual void readValue(Reflection::DescribedBase* instance, const XmlElement* element, ARL::IReferenceBinder& binder) const
 	{
 		if (!element->isXsiNil()) {
 
@@ -327,7 +327,7 @@ public:
 				return;
 			}
 
-			RBXASSERT(false);
+			ARLASSERT(false);
 		}
 	}
 	virtual void writeValue(const Reflection::DescribedBase* instance, XmlElement* element) const
@@ -393,11 +393,11 @@ static SurfaceEnumPropDescriptor<NORM_Z, LegacyController::InputType> desc_BackS
 static SurfacePropDescriptor<NORM_Z, float> desc_BackParamA("BackParamA", "Surface Inputs", &PartInstance::getParamA, &PartInstance::setParamA);
 static SurfacePropDescriptor<NORM_Z, float> desc_BackParamB("BackParamB", "Surface Inputs", &PartInstance::getParamB, &PartInstance::setParamB);
 
-RBX_REGISTER_TYPE(RBX::Surface);
+ARL_REGISTER_TYPE(ARL::Surface);
 
 // This is already getting registered as an Enum in Factory Registration.cpp
 // Enum also registers is as Type, so following is not required, complains as duplicate symbols on gcc
-//RBX_REGISTER_TYPE(RBX::SurfaceType);
+//ARL_REGISTER_TYPE(ARL::SurfaceType);
 
 void Surface::registerSurfaceDescriptors()
 {
@@ -425,7 +425,7 @@ const Reflection::PropertyDescriptor& Surface::getSurfaceTypeStatic(NormalId fac
 	switch (face)
 	{
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 	case NORM_Y:
 		return desc_TopType;
 	case NORM_Y_NEG:
@@ -446,7 +446,7 @@ const Reflection::PropertyDescriptor& Surface::getSurfaceInputStatic(NormalId fa
 	switch (face)
 	{
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 	case NORM_Y:
 		return desc_TopSurfaceInput;
 	case NORM_Y_NEG:
@@ -467,7 +467,7 @@ const Reflection::PropertyDescriptor& Surface::getParamAStatic(NormalId face)
 	switch (face)
 	{
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 	case NORM_Y:
 		return desc_TopParamA;
 	case NORM_Y_NEG:
@@ -488,7 +488,7 @@ const Reflection::PropertyDescriptor& Surface::getParamBStatic(NormalId face)
 	switch (face)
 	{
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 	case NORM_Y:
 		return desc_TopParamB;
 	case NORM_Y_NEG:

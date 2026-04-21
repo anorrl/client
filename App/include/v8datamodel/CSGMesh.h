@@ -14,7 +14,7 @@
 #include "rbx/Debug.h"
 
 
-namespace RBX
+namespace ARL
 {
 
 class CSGVertex
@@ -60,8 +60,8 @@ public:
     const std::vector<CSGVertex>& getVertices() const { return vertices; }
     const std::vector<unsigned int>& getIndices() const { return indices; }
 
-    const std::vector<unsigned>& getIndexRemap(unsigned idx) const { RBXASSERT(idx < 6); return decalIndexRemap[idx]; }
-    const std::vector<unsigned>& getVertexRemap(unsigned idx) const { RBXASSERT(idx < 6); return decalVertexRemap[idx];}
+    const std::vector<unsigned>& getIndexRemap(unsigned idx) const { ARLASSERT(idx < 6); return decalIndexRemap[idx]; }
+    const std::vector<unsigned>& getVertexRemap(unsigned idx) const { ARLASSERT(idx < 6); return decalVertexRemap[idx];}
 
     std::string createHash(const std::string salt = "") const;
 

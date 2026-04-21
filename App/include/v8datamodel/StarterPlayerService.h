@@ -2,7 +2,7 @@
 #include "V8DataModel/Camera.h"
 #include "V8Tree/Service.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace Network {
 		class Player;
@@ -42,7 +42,7 @@ namespace RBX {
 
 	private:
 
-		RBX::Camera::CameraMode cameraMode;
+		ARL::Camera::CameraMode cameraMode;
 
 		float nameDisplayDistance;
 		float healthDisplayDistance;
@@ -78,8 +78,8 @@ namespace RBX {
 
 		void recordSettingsInGA() const;
 
-		void setCameraMode(RBX::Camera::CameraMode value);
-		RBX::Camera::CameraMode getCameraMode() const {return cameraMode;}
+		void setCameraMode(ARL::Camera::CameraMode value);
+		ARL::Camera::CameraMode getCameraMode() const {return cameraMode;}
 
 		bool getEnableMouseLockOption() const { return enableMouseLockOption; }
 		void setEnableMouseLockOption(bool setting);

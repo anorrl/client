@@ -26,7 +26,7 @@
 #include "util/FileSystem.h"
 #include "FastLog.h"
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include "../Win/LogManager.h"
 #endif
 
@@ -36,7 +36,7 @@ static std::string lastFileError = "";
 
 using namespace G3D;
 
-namespace RBX {
+namespace ARL {
 
 CSGMesh* CSGMeshFactorySgCore::createMesh()
 {
@@ -187,7 +187,7 @@ CSGMeshSgCore& CSGMeshSgCore::operator=(const CSGMeshSgCore& mesh)
 
 void removeAllDXFFiles()
 {
-	boost::filesystem::path path = RBX::FileSystem::getUserDirectory(true, RBX::DirAppData, "logs");
+	boost::filesystem::path path = ARL::FileSystem::getUserDirectory(true, ARL::DirAppData, "logs");
     boost::system::error_code ec;
 
 	if (path.empty())
@@ -217,7 +217,7 @@ void removePreviousErrorFiles()
 
 void logError(sgCObject* obj1, sgCObject* obj2, bool unionOperation = true)
 {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 	removePreviousErrorFiles();
 
 	std::string path = MainLogManager::getMainLogManager()->MakeLogFileName(unionOperation ? "_csgU" : "_csgN");
@@ -1515,4 +1515,4 @@ G3D::Vector3 CSGMeshSgCore::extentsSize()
     return extents.size();
 }
 
-} // namespace RBX
+} // namespace ARL

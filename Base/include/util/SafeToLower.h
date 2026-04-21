@@ -1,5 +1,5 @@
 #pragma once
-namespace RBX {
+namespace ARL {
 
 inline void safeToLower(std::string& s)
 {

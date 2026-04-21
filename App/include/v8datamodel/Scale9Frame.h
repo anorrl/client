@@ -6,7 +6,7 @@
 #include "Util/TextureId.h"
 #include "Gui/GuiDraw.h"
 
-namespace RBX { 
+namespace ARL { 
 	extern const char* const sScale9Frame;
 
 	class Scale9Frame

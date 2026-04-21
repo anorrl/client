@@ -85,7 +85,7 @@ void CProcessPerfCounter::init(int pid)
 {
 	::GetSystemInfo(&systemInfo);
 	numCores = systemInfo.dwNumberOfProcessors;
-	RBX::RbxDbgInfo::s_instance.NumCores = numCores;
+	ARL::RbxDbgInfo::s_instance.NumCores = numCores;
 
 	totalProcessorTimeCounter = 0;
 	processorTimeCounter = 0;
@@ -101,7 +101,7 @@ void CProcessPerfCounter::init(int pid)
 		DWORD length = 100000;
 		DWORD dummy = 0;
 		PDH_STATUS status = PdhEnumObjectItems(NULL, NULL, "Process", NULL, &dummy, buffer, &length, PERF_DETAIL_EXPERT, 0);
-		RBXASSERT(SUCCEEDED(status) || status == PDH_MORE_DATA);
+		ARLASSERT(SUCCEEDED(status) || status == PDH_MORE_DATA);
 
 		std::map<std::string, int> instanceCount;
 		instanceName = buffer;
@@ -143,44 +143,44 @@ void CProcessPerfCounter::init(int pid)
 	pe.szCounterName = "% Processor Time";
 	pe.szInstanceName = instanceName;
 	PDH_STATUS pdhResult = PdhMakeCounterPath(&pe, szCounterPath, &dwPathSize, 0);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 	pdhResult = PdhAddCounter(hQuery, szCounterPath, 0, &processorTimeCounter);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 
 	pe.szCounterName = "Elapsed Time";
 	dwPathSize = 1024;
 	pdhResult = PdhMakeCounterPath(&pe, szCounterPath, &dwPathSize, 0);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 	pdhResult = PdhAddCounter(hQuery, szCounterPath, 0, &elapsedTimeCounter);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 
 	pe.szCounterName = "Private Bytes";
 	dwPathSize = 1024;
 	pdhResult = PdhMakeCounterPath(&pe, szCounterPath, &dwPathSize, 0);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 	pdhResult = PdhAddCounter(hQuery, szCounterPath, 0, &privateBytesCounter);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 
 	pe.szCounterName = "Page Faults/sec";
 	dwPathSize = 1024;
 	pdhResult = PdhMakeCounterPath(&pe, szCounterPath, &dwPathSize, 0);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 	pdhResult = PdhAddCounter(hQuery, szCounterPath, 0, &pageFaultsPerSecondCounter);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 
 	pe.szCounterName = "Page File Bytes";
 	dwPathSize = 1024;
 	pdhResult = PdhMakeCounterPath(&pe, szCounterPath, &dwPathSize, 0);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 	pdhResult = PdhAddCounter(hQuery, szCounterPath, 0, &pageFileBytesCounter);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 
 	pe.szCounterName = "Virtual Bytes";
 	dwPathSize = 1024;
 	pdhResult = PdhMakeCounterPath(&pe, szCounterPath, &dwPathSize, 0);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 	pdhResult = PdhAddCounter(hQuery, szCounterPath, 0, &virtualBytesCounter);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 
 	pe.szCounterName = "Working Set - Private";
 	dwPathSize = 1024;
@@ -192,13 +192,13 @@ void CProcessPerfCounter::init(int pid)
 		pe.szCounterName = "Working Set";
 		dwPathSize = 1024;
 		pdhResult = PdhMakeCounterPath(&pe, szCounterPath, &dwPathSize, 0);
-//		RBXASSERT(SUCCEEDED(pdhResult));
+//		ARLASSERT(SUCCEEDED(pdhResult));
 		pdhResult = PdhAddCounter(hQuery, szCounterPath, 0, &workingSetPrivateCounter);
-//		RBXASSERT(SUCCEEDED(pdhResult));
+//		ARLASSERT(SUCCEEDED(pdhResult));
 	}
 
 	pdhResult = PdhAddCounter(hQuery, "\\Processor(_Total)\\% Processor Time", 0, &totalProcessorTimeCounter);
-	RBXASSERT(SUCCEEDED(pdhResult));
+	ARLASSERT(SUCCEEDED(pdhResult));
 
 	delete [] buffer;
 }

@@ -5,7 +5,7 @@
 
 #include "HeadersGL.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -23,9 +23,9 @@ RenderbufferGL::RenderbufferGL(Device* device, Texture::Format format, unsigned 
     , target(-1)
     , bufferId(0)
 {
-	RBXASSERT(samples);
+	ARLASSERT(samples);
 	if (samples > device->getCaps().maxSamples)
-		throw RBX::runtime_error("Unsupported renderbuffer: too many samples (%d)", samples);
+		throw ARL::runtime_error("Unsupported renderbuffer: too many samples (%d)", samples);
 
 	glGenRenderbuffers(1, &bufferId);
 	glBindRenderbuffer(GL_RENDERBUFFER, bufferId);
@@ -56,10 +56,10 @@ FramebufferGL::FramebufferGL(Device* device, const std::vector<shared_ptr<Render
     , color(color)
     , depth(depth)
 {
-	RBXASSERT(!color.empty());
+	ARLASSERT(!color.empty());
 
 	if (color.size() > device->getCaps().maxDrawBuffers)
-		throw RBX::runtime_error("Unsupported framebuffer configuration: too many buffers (%d)", (int)color.size());
+		throw ARL::runtime_error("Unsupported framebuffer configuration: too many buffers (%d)", (int)color.size());
 
 	glGenFramebuffers(1, &id);
 	glBindFramebuffer(GL_FRAMEBUFFER, id);
@@ -67,8 +67,8 @@ FramebufferGL::FramebufferGL(Device* device, const std::vector<shared_ptr<Render
     for (size_t i = 0; i < color.size(); ++i)
 	{
 		RenderbufferGL* buffer = static_cast<RenderbufferGL*>(color[i].get());
-        RBXASSERT(buffer);
-		RBXASSERT(!Texture::isFormatDepth(buffer->getFormat()));
+        ARLASSERT(buffer);
+		ARLASSERT(!Texture::isFormatDepth(buffer->getFormat()));
 
 		if (buffer->getTextureId())
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, buffer->getTarget(), buffer->getTextureId(), 0);
@@ -83,21 +83,21 @@ FramebufferGL::FramebufferGL(Device* device, const std::vector<shared_ptr<Render
 		}
 		else
 		{
-			RBXASSERT(width == buffer->getWidth());
-			RBXASSERT(height == buffer->getHeight());
-			RBXASSERT(samples == buffer->getSamples());
+			ARLASSERT(width == buffer->getWidth());
+			ARLASSERT(height == buffer->getHeight());
+			ARLASSERT(samples == buffer->getSamples());
 		}
 	}
 
     if (depth)
 	{
 		RenderbufferGL* buffer = static_cast<RenderbufferGL*>(depth.get());
-		RBXASSERT(buffer->getTextureId() == 0);
-		RBXASSERT(Texture::isFormatDepth(buffer->getFormat()));
+		ARLASSERT(buffer->getTextureId() == 0);
+		ARLASSERT(Texture::isFormatDepth(buffer->getFormat()));
 
-        RBXASSERT(width == buffer->getWidth());
-        RBXASSERT(height == buffer->getHeight());
-        RBXASSERT(samples == buffer->getSamples());
+        ARLASSERT(width == buffer->getWidth());
+        ARLASSERT(height == buffer->getHeight());
+        ARLASSERT(samples == buffer->getSamples());
 
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, buffer->getBufferId());
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, buffer->getBufferId());
@@ -109,7 +109,7 @@ FramebufferGL::FramebufferGL(Device* device, const std::vector<shared_ptr<Render
 	{
 		glDeleteFramebuffers(1, &id);
 
-		throw RBX::runtime_error("Unsupported framebuffer configuration: error %x", status);
+		throw ARL::runtime_error("Unsupported framebuffer configuration: error %x", status);
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -123,7 +123,7 @@ FramebufferGL::~FramebufferGL()
 
 void FramebufferGL::download(void* data, unsigned int size)
 {
-    RBXASSERT(size == width * height * 4);
+    ARLASSERT(size == width * height * 4);
 
     GLint oldfb = 0;
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldfb);
@@ -153,7 +153,7 @@ void FramebufferGL::download(void* data, unsigned int size)
 
 void FramebufferGL::updateDimensions(unsigned int width, unsigned int height)
 {
-	RBXASSERT(color.empty() && !depth);
+	ARLASSERT(color.empty() && !depth);
 
     this->width = width;
 	this->height = height;

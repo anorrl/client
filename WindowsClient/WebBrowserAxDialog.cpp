@@ -13,7 +13,7 @@
 static const std::string titlePrefix("<media:title type=\"plain\">");
 static const std::string titlePostfix("</media:title>");
 
-WebBrowserAxDialog::WebBrowserAxDialog(const std::string& url, boost::shared_ptr<RBX::DataModel> dataModel, boost::function<void(bool)> enableUpload) 
+WebBrowserAxDialog::WebBrowserAxDialog(const std::string& url, boost::shared_ptr<ARL::DataModel> dataModel, boost::function<void(bool)> enableUpload) 
 	: CAxDialogImpl()
 	, url(url)
 	, dataModel(dataModel)
@@ -23,7 +23,7 @@ WebBrowserAxDialog::WebBrowserAxDialog(const std::string& url, boost::shared_ptr
 {
 }
 
-WebBrowserAxDialog::WebBrowserAxDialog(const std::string& url, boost::shared_ptr<RBX::DataModel> dataModel)
+WebBrowserAxDialog::WebBrowserAxDialog(const std::string& url, boost::shared_ptr<ARL::DataModel> dataModel)
 	: CAxDialogImpl()
 	, url(url)
 	, dataModel(dataModel)
@@ -198,7 +198,7 @@ HRESULT WebBrowserAxDialog::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, 
 	{
 		if (dispIdMember == 1)
 		{
-			ShellExecuteW(NULL, L"open", RBX::FileSystem::getUserDirectory(true, RBX::DirVideo).native().c_str(), NULL, NULL, SW_SHOWNORMAL);
+			ShellExecuteW(NULL, L"open", ARL::FileSystem::getUserDirectory(true, ARL::DirVideo).native().c_str(), NULL, NULL, SW_SHOWNORMAL);
 		}
 		else if (dispIdMember == 2)
 		{
@@ -214,32 +214,32 @@ HRESULT WebBrowserAxDialog::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, 
 		}
 		else if (dispIdMember == 3)
 		{
-			ShellExecuteW(NULL, L"open", RBX::FileSystem::getUserDirectory(true, RBX::DirPicture).native().c_str(), NULL, NULL, SW_SHOWNORMAL);
+			ShellExecuteW(NULL, L"open", ARL::FileSystem::getUserDirectory(true, ARL::DirPicture).native().c_str(), NULL, NULL, SW_SHOWNORMAL);
 		}
 		else if (dispIdMember == 4)
 		{
 			// This should only happen when the user clicks the "Do not show this window again" button
-			RBX::GameSettings::singleton().setPostImageSetting(RBX::GameSettings::NEVER);
+			ARL::GameSettings::singleton().setPostImageSetting(ARL::GameSettings::NEVER);
 		}
 	}	
 	return S_OK;
 }
 
-static void PostImageFinished(std::string *response, std::exception *ex, weak_ptr<RBX::DataModel> weakDataModel)
+static void PostImageFinished(std::string *response, std::exception *ex, weak_ptr<ARL::DataModel> weakDataModel)
 {
-	if(shared_ptr<RBX::DataModel> dataModel = weakDataModel.lock())
+	if(shared_ptr<ARL::DataModel> dataModel = weakDataModel.lock())
 	{
 		if ((ex == NULL) && (response->compare("ok") == 0))
 		{
-			dataModel->submitTask(boost::bind(&RBX::DataModel::ShowMessage, weak_ptr<RBX::DataModel>(dataModel), 1, "Image uploaded to Facebook", 2), RBX::DataModelJob::Write);
+			dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Image uploaded to Facebook", 2), ARL::DataModelJob::Write);
 		}
 		else
 		{
-			dataModel->submitTask(boost::bind(&RBX::DataModel::ShowMessage, weak_ptr<RBX::DataModel>(dataModel), 1, "Failed to upload image", 2), RBX::DataModelJob::Write);
-			RBX::GameSettings::singleton().setPostImageSetting(RBX::GameSettings::ASK);
+			dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Failed to upload image", 2), ARL::DataModelJob::Write);
+			ARL::GameSettings::singleton().setPostImageSetting(ARL::GameSettings::ASK);
 		}
 
-		dataModel->submitTask(boost::bind(&RBX::DataModel::ScreenshotUploadTask, weak_ptr<RBX::DataModel>(dataModel), true), RBX::DataModelJob::Write);
+		dataModel->submitTask(boost::bind(&ARL::DataModel::ScreenshotUploadTask, weak_ptr<ARL::DataModel>(dataModel), true), ARL::DataModelJob::Write);
 	}
 }
 
@@ -247,45 +247,45 @@ void WebBrowserAxDialog::DoPostImage(std::string filename, std::string seostr)
 {
 	try
 	{
-		std::string url = RBX::format("%s/UploadMedia/DoPostImage.ashx?from=client", ::GetBaseURL().c_str());
-		RBX::Http http(url);
+		std::string url = ARL::format("%s/UploadMedia/DoPostImage.ashx?from=client", ::GetBaseURL().c_str());
+		ARL::Http http(url);
 		// in case the seo info contains nothing but whitespaces, add a line break to prevent facebook from returning errors
 		http.additionalHeaders[seostr] = seostr + "%0D%0A";
 		shared_ptr<std::ifstream> in(new std::ifstream);
 		in->open(filename.c_str(), std::ios::binary);
 		if (in->fail())
 		{
-			dataModel->submitTask(boost::bind(&RBX::DataModel::ShowMessage, weak_ptr<RBX::DataModel>(dataModel), 1, "Failed to upload image", 2), RBX::DataModelJob::Write);
+			dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Failed to upload image", 2), ARL::DataModelJob::Write);
 		}
 		else
 		{
-			dataModel->submitTask(boost::bind(&RBX::DataModel::ShowMessage, weak_ptr<RBX::DataModel>(dataModel), 1, "Uploading image ...", 0), RBX::DataModelJob::Write);
+			dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Uploading image ...", 0), ARL::DataModelJob::Write);
 
-			dataModel->submitTask(boost::bind(&RBX::DataModel::ScreenshotUploadTask, weak_ptr<RBX::DataModel>(dataModel), false), RBX::DataModelJob::Write);
-			http.post(in, RBX::Http::kContentTypeDefaultUnspecified, false,
-				boost::bind(&PostImageFinished, _1, _2, weak_ptr<RBX::DataModel>(dataModel)));
+			dataModel->submitTask(boost::bind(&ARL::DataModel::ScreenshotUploadTask, weak_ptr<ARL::DataModel>(dataModel), false), ARL::DataModelJob::Write);
+			http.post(in, ARL::Http::kContentTypeDefaultUnspecified, false,
+				boost::bind(&PostImageFinished, _1, _2, weak_ptr<ARL::DataModel>(dataModel)));
 		}
 	}
 	catch (...)
 	{
-		dataModel->submitTask(boost::bind(&RBX::DataModel::ShowMessage, weak_ptr<RBX::DataModel>(dataModel), 1, "Failed to upload image", 2), RBX::DataModelJob::Write);
+		dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Failed to upload image", 2), ARL::DataModelJob::Write);
 
-		dataModel->submitTask(boost::bind(&RBX::DataModel::ScreenshotUploadTask, weak_ptr<RBX::DataModel>(dataModel), true), RBX::DataModelJob::Write);
+		dataModel->submitTask(boost::bind(&ARL::DataModel::ScreenshotUploadTask, weak_ptr<ARL::DataModel>(dataModel), true), ARL::DataModelJob::Write);
 	}
 }
 
-DWORD ThreadDoUploadVideo(shared_ptr<RBX::DataModel> dataModel, bool siteSEO, std::string videoTitle, std::string videoSEOInfo, std::string fileName, std::string youtubeToken, boost::function<void(bool)> enableUpload) 
+DWORD ThreadDoUploadVideo(shared_ptr<ARL::DataModel> dataModel, bool siteSEO, std::string videoTitle, std::string videoSEOInfo, std::string fileName, std::string youtubeToken, boost::function<void(bool)> enableUpload) 
 {
-	shared_ptr<RBX::CoreGuiService> coreGuiService;
+	shared_ptr<ARL::CoreGuiService> coreGuiService;
 	if(dataModel)
-		coreGuiService = shared_from(dataModel->find<RBX::CoreGuiService>());
+		coreGuiService = shared_from(dataModel->find<ARL::CoreGuiService>());
 
 	if(coreGuiService)
 	{
-		dataModel->submitTask(boost::bind(&RBX::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Uploading video ...", 0), RBX::DataModelJob::Write);
+		dataModel->submitTask(boost::bind(&ARL::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Uploading video ...", 0), ARL::DataModelJob::Write);
 	}
 
-	RBX::Http http(RBX::format("http://uploads.gdata.youtube.com/feeds/api/users/default/uploads"));
+	ARL::Http http(ARL::format("http://uploads.gdata.youtube.com/feeds/api/users/default/uploads"));
 	try{
 		std::string request1;
 		if (!siteSEO)
@@ -323,7 +323,7 @@ DWORD ThreadDoUploadVideo(shared_ptr<RBX::DataModel> dataModel, bool siteSEO, st
 			int e = videoSEOInfo.find(titlePostfix);
 			videoSEOInfo = videoSEOInfo.replace(s, e - s, videoTitle);
 
-			request1 = RBX::format("--f93dcbA3\r\n"
+			request1 = ARL::format("--f93dcbA3\r\n"
 				"Content-Type: application/atom+xml; charset=UTF-8\r\n"
 				"\r\n"
 				"%s\r\n"
@@ -336,7 +336,7 @@ DWORD ThreadDoUploadVideo(shared_ptr<RBX::DataModel> dataModel, bool siteSEO, st
 		std::stringstream buffer;		
 		buffer << request1;
 
-		RBXASSERT(!fileName.empty());
+		ARLASSERT(!fileName.empty());
 		std::ifstream file(fileName.c_str(), std::ios::in | std::ios::binary);
 		if ( file.is_open() )
 		{
@@ -346,7 +346,7 @@ DWORD ThreadDoUploadVideo(shared_ptr<RBX::DataModel> dataModel, bool siteSEO, st
 		else
 		{
 			if(coreGuiService)
-				dataModel->submitTask(boost::bind(&RBX::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Failed to upload video", 2), RBX::DataModelJob::Write);
+				dataModel->submitTask(boost::bind(&ARL::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Failed to upload video", 2), ARL::DataModelJob::Write);
 
 			enableUpload(true);
 			return 1;
@@ -363,7 +363,7 @@ DWORD ThreadDoUploadVideo(shared_ptr<RBX::DataModel> dataModel, bool siteSEO, st
 		http.additionalHeaders["X-GData-Key"] = "key=AI39si5sZKe6qAobFgnT9UFGXq9bBO7mUCsK3_cWy_LJmgKDtl-GOMHNNV_Bh7Jk7KqDX7vI8D30jFHwnu8RJcDmcJN47yPW7A";
 		http.additionalHeaders["Slug"] = "roblox.avi";
 		http.additionalHeaders["Connection"] = "close";
-		http.additionalHeaders["Content-Length"] = RBX::format("%d", buffer.str().length());
+		http.additionalHeaders["Content-Length"] = ARL::format("%d", buffer.str().length());
 
 		std::string response;
 		http.post(buffer, "multipart/related; boundary=\"f93dcbA3\"", false, response);
@@ -373,16 +373,16 @@ DWORD ThreadDoUploadVideo(shared_ptr<RBX::DataModel> dataModel, bool siteSEO, st
 		int pos = response.find("videoid");
 		if(coreGuiService){
 			if (pos == std::string::npos){
-				dataModel->submitTask(boost::bind(&RBX::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Failed to upload video", 2), RBX::DataModelJob::Write);
+				dataModel->submitTask(boost::bind(&ARL::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Failed to upload video", 2), ARL::DataModelJob::Write);
 			}
 			else{
-				dataModel->submitTask(boost::bind(&RBX::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Video uploaded to YouTube", 2), RBX::DataModelJob::Write);;
+				dataModel->submitTask(boost::bind(&ARL::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Video uploaded to YouTube", 2), ARL::DataModelJob::Write);;
 			}
 		}
 	}
 	catch (...) {
 		if(coreGuiService)
-			dataModel->submitTask(boost::bind(&RBX::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Failed to upload video", 2), RBX::DataModelJob::Write);
+			dataModel->submitTask(boost::bind(&ARL::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Failed to upload video", 2), ARL::DataModelJob::Write);
 	}
 
 	enableUpload(true);
@@ -421,7 +421,7 @@ void WebBrowserAxDialog::DoUploadVideo(std::string token, std::string title, std
 
 void WebBrowserAxDialog::UploadVideo(std::string  token, SHORT doPost, SHORT postSetting, std::string  title)
 {
-	RBX::GameBasicSettings::singleton().setUploadVideoSetting((RBX::GameSettings::UploadSetting)postSetting);
+	ARL::GameBasicSettings::singleton().setUploadVideoSetting((ARL::GameSettings::UploadSetting)postSetting);
 
 	if (doPost == 1) {
 		int placeId = dataModel->getPlaceID();
@@ -556,7 +556,7 @@ HRESULT DWebBrowserEventsImpl::BeforeNavigate(_bstr_t URL, long Flags, _bstr_t T
 HRESULT DWebBrowserEventsImpl::BeforeNavigate2(_bstr_t URL, long Flags, _bstr_t TargetFrameName, VARIANT * PostData, _bstr_t Headers, VARIANT_BOOL * Cancel)
 {
 	std::string ulrStr = convert_w2s(std::wstring((wchar_t*)URL));
-	return RBX::Http::trustCheckBrowser(ulrStr.c_str()) ? S_OK : E_FAIL;
+	return ARL::Http::trustCheckBrowser(ulrStr.c_str()) ? S_OK : E_FAIL;
 }
 
 HRESULT DWebBrowserEventsImpl::NavigateComplete(_bstr_t URL) 

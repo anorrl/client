@@ -9,7 +9,7 @@
 #include "Util/G3DCore.h"
 #include "FileMesh.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sSpecialShape;
 	class SpecialShape 

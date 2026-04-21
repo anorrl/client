@@ -10,7 +10,7 @@
 #include <vector>
 #include "boost/crc.hpp"
 
-namespace RBX
+namespace ARL
 {
     namespace Reflection
 	{
@@ -163,7 +163,7 @@ namespace RBX
 		typedef MemberDescriptorContainer<CallbackDescriptor>::Iterator             CallbackIterator;
 
 		// The base class of any class that supports Reflection
-		class RBXBaseClass DescribedBase
+		class ARLBaseClass DescribedBase
 			: public EventSource
 			, public boost::enable_shared_from_this<DescribedBase>
 		{
@@ -331,7 +331,7 @@ namespace RBX
 				}
 			}
             
-            virtual const RBX::Name& getClassName() const = 0;
+            virtual const ARL::Name& getClassName() const = 0;
 		};
 	}
 }

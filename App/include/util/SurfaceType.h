@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-namespace RBX {
+namespace ARL {
 
 	// TODO - Joint.cpp uses this ordering - fix up as a class
 

@@ -4,7 +4,7 @@
 #include "boost/cstdint.hpp"
 #include "rbx/ArrayDynamic.h"
 
-namespace RBX
+namespace ARL
 {
 
 class ConstraintJacobianPair;

@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-using namespace RBX;
+using namespace ARL;
 
 RbxDbgInfo RbxDbgInfo::s_instance;
 

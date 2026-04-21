@@ -18,7 +18,7 @@
 #include "boost/filesystem.hpp"
 namespace fs = boost::filesystem;
 
-namespace RBX
+namespace ARL
 {
     const char* const sBaseScript	= "BaseScript";
 	const char* const sScript		= "Script";
@@ -27,7 +27,7 @@ namespace RBX
 	std::string BaseScript::adminScriptsPath;
 }
 
-using namespace RBX;
+using namespace ARL;
 
 const Reflection::PropDescriptor<Script, ProtectedString> Script::prop_EmbeddedSourceCode("Source", category_Data, &Script::getEmbeddedCodeSafe, &Script::setEmbeddedCode, Reflection::PropertyDescriptor::STANDARD, Security::Plugin );
 const Reflection::PropDescriptor<BaseScript, ScriptId> BaseScript::prop_SourceCodeId("LinkedSource", category_Data, &BaseScript::getScriptId, &BaseScript::setScriptId);
@@ -203,7 +203,7 @@ void BaseScript::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider
 
 BaseScript::Code BaseScript::requestCode(ScriptInformationProvider* scriptInfoProvider)
 {
-	RBXASSERT(getCachedRemoteSourceLoadState() != NotAttemptedToLoad);
+	ARLASSERT(getCachedRemoteSourceLoadState() != NotAttemptedToLoad);
 	if (getCachedRemoteSourceLoadState() == Loaded)
 	{
 		return Code(boost::flyweight<ProtectedString>(getCachedRemoteSource()));

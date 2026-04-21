@@ -3,7 +3,7 @@
 #include "Security/FuzzyTokens.h"
 #include "Security/RandomConstant.h"
 
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 #define NOINLINE __declspec(noinline)
 #elif defined(_WIN32)
 #include <windows.h>
@@ -14,7 +14,7 @@
 #define NOINLINE __declspec(noinline)
 
 // All of the .text
-namespace RBX{ namespace Security {
+namespace ARL{ namespace Security {
     extern volatile const uintptr_t rbxTextBase;
     extern volatile const size_t rbxTextSize;
     extern volatile const uintptr_t rbxTextEndNeg;
@@ -53,12 +53,12 @@ namespace RBX{ namespace Security {
 // It will be trivial to find where these checks are done as well, as they all
 // modify the same global values.
 
-namespace RBX 
+namespace ARL 
 {
 FORCEINLINE static bool isRbxTextAddr(const void* const ptr)
 {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO) && !defined(RBX_STUDIO_BUILD)
-    return (reinterpret_cast<uintptr_t>(ptr) - RBX::Security::rbxTextBase < RBX::Security::rbxTextSize);
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO) && !defined(ARL_STUDIO_BUILD)
+    return (reinterpret_cast<uintptr_t>(ptr) - ARL::Security::rbxTextBase < ARL::Security::rbxTextSize);
 #else
     return true;
 #endif
@@ -114,7 +114,7 @@ static const int kCallCheckRegCall = 4;
 template<int level, void(*action)(unsigned int)> 
 FORCEINLINE static unsigned int checkRbxCaller(const void* const funcAddress)
 {
-#if defined(_WIN32) && !defined(_NOOPT) && !defined(LOVE_ALL_ACCESS) && !defined(RBX_STUDIO_BUILD) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(_NOOPT) && !defined(LOVE_ALL_ACCESS) && !defined(ARL_STUDIO_BUILD) && !defined(ARL_PLATFORM_DURANGO)
     unsigned int flags = 0;
 
     void* returnAddress = _ReturnAddress();
@@ -169,7 +169,7 @@ namespace Security{
 }
 
 // Only supporting ntdll for now.
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 
 inline const WCHAR* getUnicodeDllName(const UNICODE_STRING& str)
 {
@@ -203,9 +203,9 @@ inline HMODULE rbxGetNtdll()
         const int dllNameLen = (thisPe->FullDllName.Length - (dllName - thisPe->FullDllName.Buffer))/sizeof(WCHAR);
 
         //filter here
-        unsigned int dest = ((unsigned int)(kNtDll) + RBX_BUILDSEED);
+        unsigned int dest = ((unsigned int)(kNtDll) + ARL_BUILDSEED);
         volatile unsigned int tmp = dest;
-        const WCHAR* const ntdllName = (const WCHAR* const)(tmp - RBX_BUILDSEED);
+        const WCHAR* const ntdllName = (const WCHAR* const)(tmp - ARL_BUILDSEED);
         if (_wcsnicmp(dllName, ntdllName, std::min(dllNameLen, 9)) == 0)
         {
             return reinterpret_cast<HMODULE>(thisPe->DllBase);
@@ -249,7 +249,7 @@ struct CallChainInfo
     CallChainInfo(uint32_t handler, uint32_t ret) : handler(handler), ret(ret) {}
 };
 
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD) && !defined(RBX_RCC_SECURITY) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD) && !defined(ARL_RCC_SECURITY) && !defined(ARL_PLATFORM_DURANGO)
 // Call Stack, function with:
 // 
 // == C++ Exceptions == | == SEH3 Exceptions ==
@@ -284,10 +284,10 @@ template<size_t kMaxDepth> FORCEINLINE uint32_t detectDllByExceptionChain(void* 
     static const size_t kStackReturnIdx = 4;
     static const size_t kStackEndingArgIdx = 6;
     DWORD* stkPtr = reinterpret_cast<DWORD*>(addrOfChain);
-    uintptr_t textEndNeg = RBX::Security::rbxTextEndNeg;
-    size_t textSizeNeg = RBX::Security::rbxTextSizeNeg;
-    uintptr_t vmpBase = RBX::Security::rbxVmpBase;
-    size_t vmpSize = RBX::Security::rbxVmpSize;
+    uintptr_t textEndNeg = ARL::Security::rbxTextEndNeg;
+    size_t textSizeNeg = ARL::Security::rbxTextSizeNeg;
+    uintptr_t vmpBase = ARL::Security::rbxVmpBase;
+    size_t vmpSize = ARL::Security::rbxVmpSize;
     uint32_t result = 0;
     for (size_t i = 0; i < kMaxDepth; ++i)
     {

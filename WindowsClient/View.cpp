@@ -36,7 +36,7 @@ namespace {
     }
 }
 
-namespace RBX {
+namespace ARL {
 
 static const char* kSavedScreenSizeRegistryKey =
 	"HKEY_CURRENT_USER\\Software\\GraceRBLX\\ANORRL\\Settings\\RobloxPlayerV4WindowSizeAndPosition";
@@ -54,7 +54,7 @@ View::View(HWND h)
 {
 	ZeroMemory(&nonFullscreenPlacement, sizeof(nonFullscreenPlacement));
 
-    desireFullscreen = RBX::GameBasicSettings::singleton().getFullScreen();
+    desireFullscreen = ARL::GameBasicSettings::singleton().getFullScreen();
     context.hWnd = h;
     marshaller = FunctionMarshaller::GetWindow();
 
@@ -63,7 +63,7 @@ View::View(HWND h)
 
 View::~View()
 {
-    RBXASSERT(!this->game && "Call Stop() before shutting down!");
+    ARLASSERT(!this->game && "Call Stop() before shutting down!");
     view.reset();
 
     if (marshaller)
@@ -144,10 +144,10 @@ void View::saveWindowSettings()
 	{
 		DataModel::LegacyLock lock(game->getDataModel(), DataModelJob::Write);
 
-		RBX::GameBasicSettings::singleton().setStartScreenSize(windowSettingsRectangle.zw());
-		RBX::GameBasicSettings::singleton().setStartScreenPos(windowSettingsRectangle.xy());
+		ARL::GameBasicSettings::singleton().setStartScreenSize(windowSettingsRectangle.zw());
+		ARL::GameBasicSettings::singleton().setStartScreenPos(windowSettingsRectangle.xy());
 
-		RBX::GameBasicSettings::singleton().setStartMaximized(windowSettingsMaximized);
+		ARL::GameBasicSettings::singleton().setStartMaximized(windowSettingsMaximized);
 	}
 }
 
@@ -163,7 +163,7 @@ void View::initializeView()
 
     std::vector<CRenderSettings::GraphicsMode> modes;
 
-    RBX::CRenderSettings::GraphicsMode graphicsMode = CRenderSettingsItem::singleton().getLatchedGraphicsMode();
+    ARL::CRenderSettings::GraphicsMode graphicsMode = CRenderSettingsItem::singleton().getLatchedGraphicsMode();
     switch(graphicsMode)
     {
     case CRenderSettings::NoGraphics:
@@ -195,14 +195,14 @@ void View::initializeView()
 		}
 		catch (std::exception& e) 
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Mode %d failed: \"%s\"", graphicsMode, e.what());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Mode %d failed: \"%s\"", graphicsMode, e.what());
 			lastMessage += e.what(); 
             lastMessage += " | ";
 
 			modei++;
 			if(modei < modes.size())
 			{
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Trying mode %d...", modes[modei]);
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Trying mode %d...", modes[modei]);
 			}
 		}
 	}
@@ -223,7 +223,7 @@ void View::initializeView()
 			"Visit http://arl.lambda.cam/drivers for info on how to perform a driver upgrade.");
 	}
 
-    RBXASSERT( view );
+    ARLASSERT( view );
 
 	::WriteProfileString("Settings", "lastGFXMode", format_string("%d", (int)graphicsMode).c_str());
 
@@ -330,7 +330,7 @@ bool View::findBestMonitorMatch(LPCTSTR szDevice, int desiredX, int desiredY, bo
 	if (result==0)
 	{
 		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, 
-			RBX::format("In view::findBestMonitorMatch EnumDisplaySettings failed. "
+			ARL::format("In view::findBestMonitorMatch EnumDisplaySettings failed. "
 			"GetLastError() == %d", GetLastError()).c_str());
 		return false;
 	}
@@ -378,7 +378,7 @@ void View::restoreResolution()
 	fullscreen = false;
 	FASTLOG(FLog::RobloxWndInit, "Start View::restoreResolution");
 
-	RBX::ScopedAssign<bool> assign(changingResolution, true);
+	ARL::ScopedAssign<bool> assign(changingResolution, true);
 
 	if (hMonitor == NULL) {
 		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, "Unable to restore resolution, no handle to monitor");
@@ -397,7 +397,7 @@ void View::restoreResolution()
 
 			if (result != DISP_CHANGE_SUCCESSFUL) {
 				LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, 
-					RBX::format("Unable to restore resolution, ChangeDisplaySettingsEx returned %d", result).c_str());
+					ARL::format("Unable to restore resolution, ChangeDisplaySettingsEx returned %d", result).c_str());
 			}
 
 			::ShowWindow(GetHWnd(), SW_SHOWNORMAL);
@@ -431,7 +431,7 @@ void View::SetFullscreen(bool value)
 			restoreResolution();
 	}
 	desireFullscreen = value;
-	RBX::GameBasicSettings::singleton().setFullScreen(value);
+	ARL::GameBasicSettings::singleton().setFullScreen(value);
 }
 
 void View::initializeSizes()
@@ -444,11 +444,11 @@ void View::initializeSizes()
 
 	G3D::Vector2int16 fullscreenSize, windowSize;
    
-	RBX::CRenderSettings::ResolutionPreset preference = CRenderSettingsItem::singleton().getResolutionPreference();
-	if (preference == RBX::CRenderSettings::ResolutionAuto) {
+	ARL::CRenderSettings::ResolutionPreset preference = CRenderSettingsItem::singleton().getResolutionPreference();
+	if (preference == ARL::CRenderSettings::ResolutionAuto) {
 		fullscreenSize = currentDisplaySize;
 	} else {
-		const RBX::CRenderSettings::RESOLUTIONENTRY& res = 
+		const ARL::CRenderSettings::RESOLUTIONENTRY& res = 
 			CRenderSettingsItem::singleton().getResolutionPreset(preference);
 		fullscreenSize.x = res.width;
 		fullscreenSize.y = res.height;
@@ -492,7 +492,7 @@ void View::changeResolution()
 	// has modified desktop settings during program run
 	initializeSizes();
 
-	RBX::ScopedAssign<bool> assign(changingResolution, true);
+	ARL::ScopedAssign<bool> assign(changingResolution, true);
 
 	MONITORINFOEX mi;
 	mi.cbSize = sizeof(mi);
@@ -504,7 +504,7 @@ void View::changeResolution()
 	G3D::Vector2int16 size = CRenderSettingsItem::singleton().getFullscreenSize();
 	DEVMODE dm;
 	bool matches = findBestMonitorMatch(mi.szDevice, size.x, size.y, 
-		CRenderSettingsItem::singleton().getResolutionPreference() == RBX::CRenderSettings::ResolutionAuto, dm);
+		CRenderSettingsItem::singleton().getResolutionPreference() == ARL::CRenderSettings::ResolutionAuto, dm);
 
 	LONG result = matches ? DISP_CHANGE_SUCCESSFUL : ChangeDisplaySettingsEx(mi.szDevice, &dm, 
 		NULL, CDS_FULLSCREEN, NULL);
@@ -538,7 +538,7 @@ void View::changeResolution()
 
 		modifyWindow(WS_VISIBLE | WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, area);
 	} else {
-		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, RBX::format("ChangeDisplaySettings returned %d", result).c_str());
+		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, ARL::format("ChangeDisplaySettings returned %d", result).c_str());
 	}
 	FASTLOG(FLog::RobloxWndInit, "Done View::changeResolution");
 }
@@ -548,9 +548,9 @@ G3D::Vector2int16 View::calcDefaultResolution(float aspect_XdivY)
 	// It's ok to return approximate fullscreen size since fullscreen transition 
 	// code will filter it through the mode list
 	int numlines = 600;
-	int videomem = RBX::DebugSettings::singleton().videoMemory();
+	int videomem = ARL::DebugSettings::singleton().videoMemory();
 
-	std::string videocard = RBX::DebugSettings::singleton().gfxcard();
+	std::string videocard = ARL::DebugSettings::singleton().gfxcard();
 	if (videocard.find("Intel") != std::string::npos) {
 		// Intel videocards report random amount of video memory, so use patterns to find good resolution
 
@@ -591,7 +591,7 @@ G3D::Vector2int16 View::getCurrentDesktopResolution()
 	mi.cbSize = sizeof(mi);
 	if (!GetMonitorInfo(hMonitor, &mi)) {
 		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, 
-			RBX::format("view::geCurrentDesctopResolution GetMonitorInfo failed, GetLastError returned %d", 
+			ARL::format("view::geCurrentDesctopResolution GetMonitorInfo failed, GetLastError returned %d", 
 			GetLastError()).c_str());
 		return defaultr;
 	}
@@ -619,14 +619,14 @@ void View::ShowWindow()
 	// is safe to trigger a window resize event, for example.
 
 	HWND hWnd = GetHWnd();
-	if (RBX::GameBasicSettings::singleton().getStartMaximized())
+	if (ARL::GameBasicSettings::singleton().getStartMaximized())
 	{
 		::ShowWindow(hWnd, SW_SHOWMAXIMIZED);
 	}
 	else
 	{
 		// Read window info from xml, if present.
-		Vector4 startScreenRect(RBX::GameBasicSettings::singleton().getStartScreenPos(), RBX::GameBasicSettings::singleton().getStartScreenSize());
+		Vector4 startScreenRect(ARL::GameBasicSettings::singleton().getStartScreenPos(), ARL::GameBasicSettings::singleton().getStartScreenSize());
 
 		::ShowWindow(hWnd, SW_SHOWNORMAL);
 
@@ -656,7 +656,7 @@ void View::ShowWindow()
 	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
 	SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
 
-	if (RBX::GameBasicSettings::singleton().getFullScreen()) 
+	if (ARL::GameBasicSettings::singleton().getFullScreen()) 
 	{
 		SetFullscreen(true);
 	}
@@ -679,7 +679,7 @@ void View::bindWorkspace()
 
 void View::Start(const shared_ptr<Game>& game)
 {
-    RBXASSERT(!this->game);
+    ARLASSERT(!this->game);
     this->game = game;
 
     bindWorkspace();
@@ -694,11 +694,11 @@ void View::Start(const shared_ptr<Game>& game)
 
 void View::Stop()
 {
-    RBXASSERT(this->game);
+    ARLASSERT(this->game);
     this->RemoveJobs();
 
     if (game && game->getDataModel())
-        if (RBX::ControllerService* service = RBX::ServiceProvider::create<RBX::ControllerService>(game->getDataModel().get()))
+        if (ARL::ControllerService* service = ARL::ServiceProvider::create<ARL::ControllerService>(game->getDataModel().get()))
             service->setHardwareDevice(NULL);
 
 	if (userInput)
@@ -720,4 +720,4 @@ void View::CloseWindow()
 }
 
 
-}  // namespace RBX
+}  // namespace ARL

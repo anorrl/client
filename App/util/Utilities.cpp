@@ -15,29 +15,29 @@ DYNAMIC_FASTINTVARIABLE(ExternalHttpRequestSizeLimitKB, 1024)
 DYNAMIC_FASTINTVARIABLE(ExternalHttpResponseSizeLimitKB, 4096)
 
 
-const std::string RBX::Http::kGameSessionHeaderKey = "ANORRL-Session-Id";
-const std::string RBX::Http::kGameIdHeaderKey = "ANORRL-Game-Id";
-const std::string RBX::Http::kPlaceIdHeaderKey = "ANORRL-Place-Id";
-const std::string RBX::Http::kRequesterHeaderKey = "Requester";
-const std::string RBX::Http::kPlayerCountHeaderKey = "PlayerCount";
-const std::string RBX::Http::kAccessHeaderKey = "accesskey";
-const std::string RBX::Http::kAssetTypeKey = "AssetType";
-const std::string RBX::Http::kRBXAuthenticationNegotiation = "RBXAuthenticationNegotiation";
-const std::string RBX::Http::kContentTypeDefaultUnspecified = "*/*";
-const std::string RBX::Http::kContentTypeUrlEncoded = "application/x-www-form-urlencoded";
-const std::string RBX::Http::kContentTypeApplicationJson = "application/json";
-const std::string RBX::Http::kContentTypeApplicationXml = "application/xml";
-const std::string RBX::Http::kContentTypeTextPlain = "text/plain";
-const std::string RBX::Http::kContentTypeTextXml = "text/xml";
-std::string RBX::Http::lastCsrfToken = "";
-boost::mutex RBX::Http::lastCsrfTokenMutex;
+const std::string ARL::Http::kGameSessionHeaderKey = "ANORRL-Session-Id";
+const std::string ARL::Http::kGameIdHeaderKey = "ANORRL-Game-Id";
+const std::string ARL::Http::kPlaceIdHeaderKey = "ANORRL-Place-Id";
+const std::string ARL::Http::kRequesterHeaderKey = "Requester";
+const std::string ARL::Http::kPlayerCountHeaderKey = "PlayerCount";
+const std::string ARL::Http::kAccessHeaderKey = "accesskey";
+const std::string ARL::Http::kAssetTypeKey = "AssetType";
+const std::string ARL::Http::kARLAuthenticationNegotiation = "ARLAuthenticationNegotiation";
+const std::string ARL::Http::kContentTypeDefaultUnspecified = "*/*";
+const std::string ARL::Http::kContentTypeUrlEncoded = "application/x-www-form-urlencoded";
+const std::string ARL::Http::kContentTypeApplicationJson = "application/json";
+const std::string ARL::Http::kContentTypeApplicationXml = "application/xml";
+const std::string ARL::Http::kContentTypeTextPlain = "text/plain";
+const std::string ARL::Http::kContentTypeTextXml = "text/xml";
+std::string ARL::Http::lastCsrfToken = "";
+boost::mutex ARL::Http::lastCsrfTokenMutex;
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include "objbase.h"
 #include <windows.h>
 #include <wincrypt.h>
 
-std::string RBX::sha1(const std::string& source)
+std::string ARL::sha1(const std::string& source)
 {
 	if (source.empty())
 		return source;
@@ -75,7 +75,7 @@ std::string RBX::sha1(const std::string& source)
 		}
 	}
 	else
-		RBXASSERT(0);
+		ARLASSERT(0);
 
 	CryptReleaseContext(context, 0);
 
@@ -87,7 +87,7 @@ std::string RBX::sha1(const std::string& source)
 #endif
 
 
-namespace RBX {
+namespace ARL {
 
     std::string Http::getLastCsrfToken()
     {
@@ -304,8 +304,8 @@ namespace RBX {
 		_snprintf(szText, 64, "%.20g", value);
 #ifdef _DEBUG
 		double temp;
-		RBXASSERT(StringConverter<double>::convertToValue(szText, temp));
-		RBXASSERT(temp==value);
+		ARLASSERT(StringConverter<double>::convertToValue(szText, temp));
+		ARLASSERT(temp==value);
 #endif
 		return szText;
 	}
@@ -350,8 +350,8 @@ namespace RBX {
 		_snprintf(szText, 32, "%.9g", value);
 #ifdef _DEBUG
 		float temp;
-		RBXASSERT(StringConverter<float>::convertToValue(szText, temp));
-		RBXASSERT(temp==value);
+		ARLASSERT(StringConverter<float>::convertToValue(szText, temp));
+		ARLASSERT(temp==value);
 #endif
 		return szText;
 	}
@@ -364,11 +364,11 @@ namespace RBX {
 	}
 
 
-}	// end namespace RBX
+}	// end namespace ARL
 
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

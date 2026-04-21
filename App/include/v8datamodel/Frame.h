@@ -2,7 +2,7 @@
 
 #include "V8DataModel/GuiObject.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sFrame;
 

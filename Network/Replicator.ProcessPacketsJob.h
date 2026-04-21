@@ -13,7 +13,7 @@ DYNAMIC_FASTINTVARIABLE(MaxProcessPacketsStepsPerCyclic, 5)
 DYNAMIC_FASTINTVARIABLE(MaxProcessPacketsStepsAccumulated, 15);
 DYNAMIC_FASTINTVARIABLE(MaxProcessPacketsJobScaling, 10);
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 class Replicator::ProcessPacketsJob : public ReplicatorJob
 {
@@ -24,7 +24,7 @@ public:
 	ProcessPacketsJob(Replicator& replicator)
 		:ReplicatorJob("Replicator ProcessPackets", replicator, DataModelJob::DataIn)
 	{
-		RBXASSERT(getArbiter());
+		ARLASSERT(getArbiter());
 		isAwake = 1;
         dm = DataModel::get(&replicator);
 		cyclicExecutive = true;
@@ -34,7 +34,7 @@ public:
 	// wake and sleep are used for testing and debugging.
 	void wake() { 
 		if (!isAwake.compare_and_swap(1, 0)) 
-			RBX::TaskScheduler::singleton().reschedule(shared_from_this());
+			ARL::TaskScheduler::singleton().reschedule(shared_from_this());
 	}
 	void sleep() { isAwake = false; }
 
@@ -42,7 +42,7 @@ private:
 	virtual Time::Interval sleepTime(const Stats& stats)
 	{
 		if (!isAwake)
-			return RBX::Time::Interval::max();
+			return ARL::Time::Interval::max();
 
 		if(replicator){
 			return replicator->incomingPacketsCount()>0

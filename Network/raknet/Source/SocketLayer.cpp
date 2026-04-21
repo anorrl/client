@@ -43,7 +43,7 @@ SocketLayerOverride *SocketLayer::slo=0;
 #endif
 
 
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 #endif
@@ -638,7 +638,7 @@ SOCKET SocketLayer::CreateBoundSocket_Old( unsigned short port, bool blockingSoc
 		}
 		dwIOError = GetLastError();
 		LPVOID messageBuffer;
-#if defined(RBX_PLATFORM_DURANGO) // Roblox Change
+#if defined(ARL_PLATFORM_DURANGO) // Roblox Change
 		// something has gone wrong here...
 		RAKNET_DEBUG_PRINTF( "gethostname failed:Error code - %d\n", dwIOError );
         (void)messageBuffer;
@@ -652,7 +652,7 @@ SOCKET SocketLayer::CreateBoundSocket_Old( unsigned short port, bool blockingSoc
 		RAKNET_DEBUG_PRINTF( "bind__(...) failed:Error code - %d\n%s", (unsigned int) dwIOError, (char*) messageBuffer );
 		//Free the buffer.
 		LocalFree( messageBuffer );
-#endif //defined(RBX_PLATFORM_DURANGO) 
+#endif //defined(ARL_PLATFORM_DURANGO) 
 
 #elif (defined(__GNUC__) || defined(__GCCXML__)  ) && !defined(_WIN32)
 		switch (ret)
@@ -1583,7 +1583,7 @@ void GetMyIP_Win32( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 		DWORD dwIOError = GetLastError();
 		LPVOID messageBuffer;
 
-#if defined(RBX_PLATFORM_DURANGO) // Roblox Change
+#if defined(ARL_PLATFORM_DURANGO) // Roblox Change
 		// WinRT
 		(void)messageBuffer;
 		// something has gone wrong here...
@@ -1598,7 +1598,7 @@ void GetMyIP_Win32( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 		RAKNET_DEBUG_PRINTF( "gethostname failed:Error code - %d\n%s", dwIOError, messageBuffer );
 		//Free the buffer.
 		LocalFree( messageBuffer );
-#endif // defined(RBX_PLATFORM_WIN_MOBILE)
+#endif // defined(ARL_PLATFORM_WIN_MOBILE)
 
 		#endif //defined(_WIN32)
 		return ;
@@ -1636,7 +1636,7 @@ void GetMyIP_Win32( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 	#ifdef _WIN32
 		DWORD dwIOError = GetLastError();
 		LPVOID messageBuffer;
-#if defined(RBX_PLATFORM_DURANGO) // Roblox Change
+#if defined(ARL_PLATFORM_DURANGO) // Roblox Change
 		// WinRT
 		(void)messageBuffer;
 		// something has gone wrong here...
@@ -1652,7 +1652,7 @@ void GetMyIP_Win32( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 
 		//Free the buffer.
 		LocalFree( messageBuffer );
-#endif //defined(RBX_PLATFORM_DURANGO) 
+#endif //defined(ARL_PLATFORM_DURANGO) 
 	#endif
 		return ;
 	}
@@ -1675,7 +1675,7 @@ void GetMyIP_Win32( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 	}
 }
 
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
 
 void GetMyIP_Linux( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 {
@@ -1740,7 +1740,7 @@ void SocketLayer::GetMyIP( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_ID
 
 #if   defined(_WIN32)
 	GetMyIP_Win32(addresses);
-#elif RBX_PLATFORM_IOS
+#elif ARL_PLATFORM_IOS
     GetMyIP_Linux(addresses);
 #else
 //	GetMyIP_Linux(addresses);

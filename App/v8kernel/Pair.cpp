@@ -6,7 +6,7 @@
 #include "Util/Math.h"
 
 
-namespace RBX {
+namespace ARL {
 
 
 GeoPair::GeoPair() 
@@ -155,7 +155,7 @@ void GeoPair::computeEdgeEdge(PairParams& _params)
 
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

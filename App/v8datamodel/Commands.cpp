@@ -26,7 +26,7 @@ FASTFLAG(DebugDisplayFPS)
 
 FASTFLAG(UserAllCamerasInLua)
 
-namespace RBX {
+namespace ARL {
 
 BoolPropertyVerb::BoolPropertyVerb(
 	const std::string& name, 
@@ -111,7 +111,7 @@ bool CameraCenterCommand::isEnabled() const
 {
 	if (ServiceClient< FilteredSelection<PVInstance> >(workspace)->size() >= 1) {
 		const Camera* worldCamera = workspace->getConstCamera();
-		RBXASSERT(worldCamera);
+		ARLASSERT(worldCamera);
 		if (worldCamera) {
 			if (worldCamera->getCameraType() == Camera::FIXED_CAMERA) {
 				return true;
@@ -126,7 +126,7 @@ void CameraCenterCommand::doIt(IDataState* dataState)
 {
 	FASTLOG(FLog::Verbs, "Gui:CameraCenter");
 
-	RBXASSERT(isEnabled());
+	ARLASSERT(isEnabled());
 
 	Vector3 center;
 	
@@ -222,7 +222,7 @@ bool FirstPersonCommand::isEnabled() const
 	}
 }
 
-ToggleViewMode::ToggleViewMode(RBX::DataModel* dm)
+ToggleViewMode::ToggleViewMode(ARL::DataModel* dm)
 : Verb(dm, "ToggleViewMode")
 , dataModel(dm)
 {
@@ -243,7 +243,7 @@ bool ToggleViewMode::isSelected() const
 	return false;
 }
 
-void ToggleViewMode::doIt(RBX::IDataState* dataState)
+void ToggleViewMode::doIt(ARL::IDataState* dataState)
 {
 	FASTLOG(FLog::Verbs, "Gui:ToggleViewMode");
 }
@@ -480,7 +480,7 @@ void RunStateVerb::playActionSound()
 bool RunCommand::isEnabled() const
 {
 	RunState runState = runService->getRunState();
-	bool clientIsPresent = RBX::Network::Players::clientIsPresent(dataModel);
+	bool clientIsPresent = ARL::Network::Players::clientIsPresent(dataModel);
 
 	return (!clientIsPresent && (runState != RS_RUNNING));
 }
@@ -489,7 +489,7 @@ void RunCommand::doIt(IDataState* dataState)
 {
 	FASTLOG(FLog::Verbs, "Gui:Run");
 
-	RBXASSERT(isEnabled());
+	ARLASSERT(isEnabled());
 	runService->run();
 }
 
@@ -503,7 +503,7 @@ void StopCommand::doIt(IDataState* dataState)
 {
 	FASTLOG(FLog::Verbs, "Gui:Stop");
 
-	RBXASSERT(isEnabled());
+	ARLASSERT(isEnabled());
 	runService->pause();
 }
 
@@ -512,14 +512,14 @@ bool ResetCommand::isEnabled() const
 	RunState runState = runService->getRunState();
 
 	return		(		(runState == RS_RUNNING ||	runState == RS_PAUSED)
-					&&	!RBX::Network::Players::findLocalPlayer(dataModel)	);
+					&&	!ARL::Network::Players::findLocalPlayer(dataModel)	);
 }
 
 void ResetCommand::doIt(IDataState* dataState)
 {
 	FASTLOG(FLog::Verbs, "Gui:Reset");
 
-	RBXASSERT(isEnabled());
+	ARLASSERT(isEnabled());
 	runService->stop();
 }
 
@@ -541,7 +541,7 @@ EditSelectionVerb::EditSelectionVerb(VerbContainer* container, std::string name,
 ,workspace(shared_from(ServiceProvider::find<Workspace>(dataModel)))
 ,selection(dataModel)
 {
-	RBXASSERT(workspace!=NULL);
+	ARLASSERT(workspace!=NULL);
 }
 
 EditSelectionVerb::~EditSelectionVerb()
@@ -645,7 +645,7 @@ void SelectChildrenVerb::doIt(IDataState *dataState)
 
 	Selection* selection = ServiceProvider::find<Selection>(dataModel);
 
-	shared_ptr<RBX::Instances> childItems(new Instances);
+	shared_ptr<ARL::Instances> childItems(new Instances);
 
 	if (shared_ptr<const Instances> parentItems = selection->getSelection2())
 		for (std::vector<shared_ptr<Instance> >::const_iterator parentIterator = parentItems->begin(); parentIterator != parentItems->end(); ++parentIterator)
@@ -662,7 +662,7 @@ void SelectChildrenVerb::doIt(IDataState *dataState)
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 
-void AddChildToRoot(XmlElement* root, shared_ptr<Instance> wsi, const boost::function<bool(Instance*)>& isInScope, RBX::CreatorRole creatorRole)
+void AddChildToRoot(XmlElement* root, shared_ptr<Instance> wsi, const boost::function<bool(Instance*)>& isInScope, ARL::CreatorRole creatorRole)
 {
 	if (XmlElement* child = wsi->writeXml(isInScope, creatorRole))
 		root->addChild(child);
@@ -683,7 +683,7 @@ static bool isContainedInSelection(Selection* sel, Instance* instance)
 		!= sel->end();
 }
 
-void AddSelectionToRoot(XmlElement* root, Selection* selection, RBX::CreatorRole creatorRole)
+void AddSelectionToRoot(XmlElement* root, Selection* selection, ARL::CreatorRole creatorRole)
 {
 	boost::function<bool(Instance*)> scopeFunction = boost::bind(isContainedInSelection, selection, _1);
 	std::for_each(selection->begin(), selection->end(), boost::bind(&AddChildToRoot, root, _1, scopeFunction, creatorRole));
@@ -747,7 +747,7 @@ void DeleteBase::doIt(IDataState* dataState)
 						&& (!isCloudEdit || !iPtr->fastDynamicCast<Network::Player>())) {
 						instance->setParent(NULL);
 						//if camera is getting deleted then create new camera here itself (instead of Workspace::onHeartbeat) to correctly record change history
-						if (iPtr->fastDynamicCast<RBX::Camera>())
+						if (iPtr->fastDynamicCast<ARL::Camera>())
 							dataModel->getWorkspace()->replenishCamera();
 					}
 				}
@@ -894,7 +894,7 @@ const Camera* CameraVerb::getCamera() const
 
 void CameraVerb::doIt(IDataState* dataState)
 {
-	RBXASSERT(dataState!=NULL);
+	ARLASSERT(dataState!=NULL);
 
 	dataState->setDirty(true);
 }
@@ -940,7 +940,7 @@ bool CameraZoomExtentsCommand::isEnabled() const
 	if (ServiceClient< FilteredSelection<PVInstance> >(workspace)->size() >= 1)
 	{
 		const Camera* worldCamera = workspace->getConstCamera();
-		RBXASSERT(worldCamera);
+		ARLASSERT(worldCamera);
 
 		if (!worldCamera)
 			return false;
@@ -950,7 +950,7 @@ bool CameraZoomExtentsCommand::isEnabled() const
             return false;
         }
         
-		RBX::Network::Players* players = ServiceProvider::create<Network::Players>(worldCamera);
+		ARL::Network::Players* players = ServiceProvider::create<Network::Players>(worldCamera);
 		
 		// If there is a local player not in fixed camera mode, dont allow zoom extents
 		// Otherwise, do
@@ -962,7 +962,7 @@ bool CameraZoomExtentsCommand::isEnabled() const
 void CameraZoomExtentsCommand::doIt(IDataState* dataState )
 {
 	FASTLOG(FLog::Verbs, "Gui:CameraZoomExtents"); 
-	RBXASSERT(isEnabled());
+	ARLASSERT(isEnabled());
 
 	ServiceClient< FilteredSelection<PVInstance> > sel(workspace);
 
@@ -1090,7 +1090,7 @@ SetManualJointToInfinite::SetManualJointToInfinite(DataModel* dataModel)
 {
 }
 
-bool applyColor(Instance* instance, RBX::BrickColor color)
+bool applyColor(Instance* instance, ARL::BrickColor color)
 {
 	bool applied = false;
 	if (PartInstance* pInstance = dynamic_cast<PartInstance*>(instance))
@@ -1109,7 +1109,7 @@ bool applyColor(Instance* instance, RBX::BrickColor color)
 	return applied;
 }
 
-RBX::BrickColor ColorVerb::m_currentColor = RBX::BrickColor::brick_194;
+ARL::BrickColor ColorVerb::m_currentColor = ARL::BrickColor::brick_194;
 void ColorVerb::doIt( IDataState* dataState )
 {
 	bool applied = false;
@@ -1163,67 +1163,67 @@ PartMaterial MaterialVerb::parseMaterial(const std::string materialString)
 {
 	if(materialString == "Plastic")
 	{
-		return RBX::PLASTIC_MATERIAL;
+		return ARL::PLASTIC_MATERIAL;
 	}
 	else if(materialString == "Slate")
 	{
-		return RBX::SLATE_MATERIAL;
+		return ARL::SLATE_MATERIAL;
 	}
 	else if(materialString == "Wood")
 	{
-		return RBX::WOOD_MATERIAL;
+		return ARL::WOOD_MATERIAL;
 	}
 	else if(materialString == "Concrete")
 	{
-		return RBX::CONCRETE_MATERIAL;
+		return ARL::CONCRETE_MATERIAL;
 	}
 	else if(materialString =="CorrodedMetal")
 	{
-		return RBX::RUST_MATERIAL;
+		return ARL::RUST_MATERIAL;
 	}
 	else if(materialString == "DiamondPlate")
 	{
-		return RBX::DIAMONDPLATE_MATERIAL;
+		return ARL::DIAMONDPLATE_MATERIAL;
 	}
 	else if(materialString == "Foil")
 	{
-		return RBX::ALUMINUM_MATERIAL;
+		return ARL::ALUMINUM_MATERIAL;
 	}
 	else if(materialString == "Grass")
 	{
-		return RBX::GRASS_MATERIAL;
+		return ARL::GRASS_MATERIAL;
 	}
 	else if(materialString =="Ice")
 	{
-		return RBX::ICE_MATERIAL;
+		return ARL::ICE_MATERIAL;
 	}
 	else if(materialString == "Brick")
 	{
-		return RBX::BRICK_MATERIAL;
+		return ARL::BRICK_MATERIAL;
 	}
 	else if(materialString == "Sand")
 	{
-		return RBX::SAND_MATERIAL;
+		return ARL::SAND_MATERIAL;
 	}
 	else if(materialString == "Fabric")
 	{
-		return RBX::FABRIC_MATERIAL;
+		return ARL::FABRIC_MATERIAL;
 	}
 	else if(materialString == "Granite")
 	{
-		return RBX::GRANITE_MATERIAL;
+		return ARL::GRANITE_MATERIAL;
 	}
 	else if(materialString == "Marble")
 	{
-		return RBX::MARBLE_MATERIAL;
+		return ARL::MARBLE_MATERIAL;
 	}
 	else if(materialString == "Pebble")
 	{
-		return RBX::PEBBLE_MATERIAL;
+		return ARL::PEBBLE_MATERIAL;
 	}
     else if(materialString == "SmoothPlastic")
     {
-        return RBX::SMOOTH_PLASTIC_MATERIAL;
+        return ARL::SMOOTH_PLASTIC_MATERIAL;
     }
 	else if(materialString == "Neon")
 	{
@@ -1231,18 +1231,18 @@ PartMaterial MaterialVerb::parseMaterial(const std::string materialString)
 	}
     else if(materialString == "WoodPlanks")
     {
-        return RBX::WOODPLANKS_MATERIAL;
+        return ARL::WOODPLANKS_MATERIAL;
     }
     else if(materialString == "Cobblestone")
     {
-        return RBX::COBBLESTONE_MATERIAL;
+        return ARL::COBBLESTONE_MATERIAL;
     }
     else if(materialString == "Metal")
     {
-        return RBX::METAL_MATERIAL;
+        return ARL::METAL_MATERIAL;
     }
 	else 
-		return RBX::PLASTIC_MATERIAL;
+		return ARL::PLASTIC_MATERIAL;
 }
 
 bool applyAnchor(Instance* instance, bool anchor)
@@ -1289,7 +1289,7 @@ bool AnchorVerb::isChecked() const
 
 	for (std::vector<Instance*>::const_iterator iter = m_selection->begin(); iter != m_selection->end(); ++iter)
 	{
-		if (!RBX::AnchorTool::allChildrenAnchored(*iter))
+		if (!ARL::AnchorTool::allChildrenAnchored(*iter))
 		{
 			hasUnanchoredInstance = true;
 			break;
@@ -1303,6 +1303,6 @@ AnchorVerb::AnchorVerb( DataModel* dataModel )
 	: EditSelectionVerb("AnchorVerb", dataModel)
 {
 	// Put this here to avoid requiring edit lock on isChecked
-	m_selection = ServiceProvider::create< FilteredSelection<RBX::Instance> >(dataModel);
+	m_selection = ServiceProvider::create< FilteredSelection<ARL::Instance> >(dataModel);
 }
 } // namespace

@@ -5,7 +5,7 @@
 #include "util/TextureId.h"
 #include "V8DataModel/GuiBase3d.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Camera;
 	class PartInstance;

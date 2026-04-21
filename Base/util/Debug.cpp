@@ -9,12 +9,12 @@ const int CRASHONASSERT = 255;
 
 void ReleaseAssert(int channel, const char* msg) {
 	if(channel == CRASHONASSERT)
-		RBXCRASH(msg);
+		ARLCRASH(msg);
 	else
 		FLog::FastLog(channel, msg, 0);
 }
 
-namespace RBX
+namespace ARL
 {
 	// overload this in the debugger to pass by the crash
 	volatile bool Debugable::doCrashEnabled = true;
@@ -31,7 +31,7 @@ namespace RBX
 
 	void Debugable::doCrash(const char* message)
 	{
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
         OutputDebugStringA("ASSERTION FAILED: ");
         OutputDebugStringA(message);
         OutputDebugStringA("\n");

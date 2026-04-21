@@ -19,7 +19,7 @@
 LOGGROUP(DragProfile)
 DYNAMIC_FASTFLAGVARIABLE(UnifyDragGridSizes, true)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sAdvLuaDragger = "AdvancedDragger";
 
@@ -81,13 +81,13 @@ void AdvLuaDragger::mouseDown(shared_ptr<PartInstance> _mousePart,
 						   const Vector3& _pointOnMousePart,
 						   const std::vector<weak_ptr<PartInstance> > _dragParts)
 {
-	RBXASSERT(Workspace::getWorkspaceIfInWorkspace(_mousePart.get()));
+	ARLASSERT(Workspace::getWorkspaceIfInWorkspace(_mousePart.get()));
 
 	if ((dragPhase == MOUSE_DOWN) || (dragPhase == DRAGGING)) {
 		throw std::runtime_error("Call to AdvLuaDragger::mouseDown when already dragging");
 	}
 
-	RBXASSERT(jointsIMade.size() == 0);
+	ARLASSERT(jointsIMade.size() == 0);
 
 	dragParts = _dragParts;
 	mousePart = _mousePart;
@@ -139,7 +139,7 @@ void AdvLuaDragger::mouseUp()
 			{
 				G3D::Array<Primitive*> primitives;
 				DragUtilities::partsToPrimitives(dragParts, primitives);
-				RBXASSERT(primitives.size() > 0);
+				ARLASSERT(primitives.size() > 0);
 			}
 		}
 		
@@ -160,7 +160,7 @@ void AdvLuaDragger::mouseUp()
 		throw std::runtime_error("Call to AdvLuaDragger::mouseUp without mouseDown");
 	}
 
-	RBXASSERT(jointsIMade.size() == 0);
+	ARLASSERT(jointsIMade.size() == 0);
 }
 
 void AdvLuaDragger::tryStartDragging(const RbxRay& unitMouseRay)
@@ -190,7 +190,7 @@ void AdvLuaDragger::tryStartDragging(const RbxRay& unitMouseRay)
 void AdvLuaDragger::startDragging()
 {
 	if(shared_ptr<PartInstance> safeMousePart = mousePart.lock()){
-		RBXASSERT(Workspace::getWorkspaceIfInWorkspace(safeMousePart.get()));
+		ARLASSERT(Workspace::getWorkspaceIfInWorkspace(safeMousePart.get()));
 
 		DragUtilities::unJoinFromOutsiders(dragParts);				// destroy joints outside the parts....
 
@@ -212,7 +212,7 @@ void AdvLuaDragger::doDrag(const RbxRay& unitMouseRay)
 {
 	FASTLOG(FLog::DragProfile, "AdvLuaDragger - doDrag");
 
-	RBXASSERT(dragPhase == DRAGGING);
+	ARLASSERT(dragPhase == DRAGGING);
 	if (shared_ptr<PartInstance> safeMousePart = mousePart.lock()){
 		if (Workspace::getWorkspaceIfInWorkspace(safeMousePart.get())) 
 		{
@@ -229,7 +229,7 @@ void AdvLuaDragger::doDrag(const RbxRay& unitMouseRay)
 					if (advRunDragger.get()) {	
 						//std::clock_t start = std::clock();
 						advRunDragger->snap(unitMouseRay);
-						//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Time to snap (multiple part new): %lf", ( std::clock() - start ) / (double) CLOCKS_PER_SEC);
+						//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Time to snap (multiple part new): %lf", ( std::clock() - start ) / (double) CLOCKS_PER_SEC);
 					}	
 				}
 				else
@@ -323,7 +323,7 @@ void AdvLuaDragger::axisRotate(Vector3::Axis axis)
 		rotateOnSnapFace(Vector3::Z_AXIS,Math::matrixTiltZ());
 		break;
 	default:
-        RBXASSERT(false);
+        ARLASSERT(false);
 		break;
 	}
 }
@@ -335,7 +335,7 @@ void AdvLuaDragger::rotateOnSnapFace(Vector3::Axis axis, const Matrix3& rotMatri
 			if(Workspace::getWorkspaceIfInWorkspace(safeMousePart.get())){
 				G3D::Array<Primitive*> primitives;
 				DragUtilities::partsToPrimitives(dragParts, primitives);
-				RBXASSERT(primitives.size() > 0);
+				ARLASSERT(primitives.size() > 0);
 				
 				if( primitives.size() == 1 )
 				{
@@ -348,7 +348,7 @@ void AdvLuaDragger::rotateOnSnapFace(Vector3::Axis axis, const Matrix3& rotMatri
 		}
 	}
 	else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 	}
 }
 
@@ -384,7 +384,7 @@ void AdvLuaDragger::toggleRunDraggerJointCreateMode( void )
 			{
 				G3D::Array<Primitive*> primitives;
 				DragUtilities::partsToPrimitives(dragParts, primitives);
-				RBXASSERT(primitives.size() > 0);
+				ARLASSERT(primitives.size() > 0);
 
 				if( primitives.size() == 1 )
 				{
@@ -410,7 +410,7 @@ void AdvLuaDragger::alignPartToGrid( void )
 			{
 				G3D::Array<Primitive*> primitives;
 				DragUtilities::partsToPrimitives(dragParts, primitives);
-				RBXASSERT(primitives.size() > 0);
+				ARLASSERT(primitives.size() > 0);
 			}
 		}
 	}

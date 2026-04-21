@@ -4,7 +4,7 @@
 #include "Util/http.h"
 #include <sstream>
 
-namespace RBX
+namespace ARL
 {
 const char* const sScriptInformationProvider = "ScriptInformationProvider";
 

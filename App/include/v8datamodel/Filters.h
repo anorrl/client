@@ -6,7 +6,7 @@
 #include "Util/HitTestFilter.h"
 #include "rbx/boost.hpp"
 
-namespace RBX {
+namespace ARL {
 
 	class Instance;
 	class Primitive;
@@ -127,4 +127,4 @@ namespace RBX {
 		/*override*/ Result filterResult(const Primitive* testMe) const;
 	};
 
-} // namespace RBX
+} // namespace ARL

@@ -34,7 +34,7 @@ static const std::string kStartWords[kNumWords] = {
     };
 }
 
-namespace RBX {
+namespace ARL {
 
     const char *const sLogService = "LogService";
 
@@ -258,7 +258,7 @@ namespace RBX {
             if (filterResults & DFInt::BadLogMask)
             {
                 // send message to influx
-                RBX::Analytics::InfluxDb::Points analyticsPoints;
+                ARL::Analytics::InfluxDb::Points analyticsPoints;
                 analyticsPoints.addPoint("msg", message.message.c_str());
                 analyticsPoints.addPoint("mask", filterResults);
                 analyticsPoints.report("BadLog", DFInt::BadLogInfluxHundredthsPercentage);
@@ -374,7 +374,7 @@ namespace RBX {
 
 	void LogService::maybeExecuteServerScript(shared_ptr<Instance> requestingPlayer, std::string source)
 	{
-		RBXASSERT(Network::Players::serverIsPresent(this));
+		ARLASSERT(Network::Players::serverIsPresent(this));
 		if (Network::Players::serverIsPresent(this))
 		{
 			if (shared_ptr<Network::Player> p = Instance::fastSharedDynamicCast<Network::Player>(requestingPlayer))
@@ -403,7 +403,7 @@ namespace RBX {
 						"console"
 					);
 				}
-				catch (const RBX::base_exception& ex)
+				catch (const ARL::base_exception& ex)
 				{
 					StandardOut::singleton()->printf(MESSAGE_ERROR, "%s", ex.what());
 				}

@@ -2,7 +2,7 @@
 
 #include "rbx/Profiler.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -41,23 +41,23 @@ GeometryBuffer::~GeometryBuffer()
 VertexBuffer::VertexBuffer(Device* device, size_t elementSize, size_t elementCount, Usage usage)
     : GeometryBuffer(device, elementSize, elementCount, usage)
 {
-    RBXPROFILER_COUNTER_ADD("memory/gpu/vertexbuffer", elementSize * elementCount);
+    ARLPROFILER_COUNTER_ADD("memory/gpu/vertexbuffer", elementSize * elementCount);
 }
 
 VertexBuffer::~VertexBuffer()
 {
-    RBXPROFILER_COUNTER_SUB("memory/gpu/vertexbuffer", elementSize * elementCount);
+    ARLPROFILER_COUNTER_SUB("memory/gpu/vertexbuffer", elementSize * elementCount);
 }
 
 IndexBuffer::IndexBuffer(Device* device, size_t elementSize, size_t elementCount, Usage usage)
     : GeometryBuffer(device, elementSize, elementCount, usage)
 {
-    RBXPROFILER_COUNTER_ADD("memory/gpu/indexbuffer", elementSize * elementCount);
+    ARLPROFILER_COUNTER_ADD("memory/gpu/indexbuffer", elementSize * elementCount);
 }
 
 IndexBuffer::~IndexBuffer()
 {
-    RBXPROFILER_COUNTER_SUB("memory/gpu/indexbuffer", elementSize * elementCount);
+    ARLPROFILER_COUNTER_SUB("memory/gpu/indexbuffer", elementSize * elementCount);
 }
 
 Geometry::Geometry(Device* device, const shared_ptr<VertexLayout>& layout, const std::vector<shared_ptr<VertexBuffer> >& vertexBuffers, const shared_ptr<IndexBuffer>& indexBuffer, unsigned int baseVertexIndex)
@@ -93,7 +93,7 @@ GeometryBatch::GeometryBatch(const shared_ptr<Geometry>& geometry, Geometry::Pri
 	, indexRangeBegin(0)
 	, indexRangeEnd(indexRangeSize)
 {
-	RBXASSERT(geometry && isCountValid(primitive, count));
+	ARLASSERT(geometry && isCountValid(primitive, count));
 }
 
 GeometryBatch::GeometryBatch(const shared_ptr<Geometry>& geometry, Geometry::Primitive primitive, unsigned int offset, unsigned int count, unsigned int indexRangeBegin, unsigned int indexRangeEnd)
@@ -104,7 +104,7 @@ GeometryBatch::GeometryBatch(const shared_ptr<Geometry>& geometry, Geometry::Pri
 	, indexRangeBegin(indexRangeBegin)
 	, indexRangeEnd(indexRangeEnd)
 {
-	RBXASSERT(geometry && isCountValid(primitive, count) && indexRangeBegin <= indexRangeEnd);
+	ARLASSERT(geometry && isCountValid(primitive, count) && indexRangeBegin <= indexRangeEnd);
 }
 
 }

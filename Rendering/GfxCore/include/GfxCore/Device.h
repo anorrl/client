@@ -9,7 +9,7 @@
 #include <boost/function.hpp>
 
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -194,8 +194,8 @@ public:
 
     virtual DeviceStats getStatistics() const = 0;
 
-	virtual void suspend() { RBXASSERT(false); /* only DX11-Durango*/ }
-	virtual void resume()  { RBXASSERT(false); /* only DX11-Durango*/ }
+	virtual void suspend() { ARLASSERT(false); /* only DX11-Durango*/ }
+	virtual void resume()  { ARLASSERT(false); /* only DX11-Durango*/ }
 
 protected:
     Resource* resourceListHead;

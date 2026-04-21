@@ -4,13 +4,13 @@
 
 #include "CullableSceneNode.h"
 
-namespace RBX
+namespace ARL
 {
 	class PartInstance;
 	class Light;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -50,7 +50,7 @@ public:
     LightObject(VisualEngine* visualEngine);
     ~LightObject();
 
-    void bind(const shared_ptr<RBX::PartInstance>& part, const shared_ptr<RBX::Light>& light);
+    void bind(const shared_ptr<ARL::PartInstance>& part, const shared_ptr<ARL::Light>& light);
     
     LightShadowMap* getShadowMap() const { return shadowMap.get(); }
 
@@ -78,15 +78,15 @@ public:
 
 private:
     void onCombinedSignalEx(Instance::CombinedSignalType type, const Instance::ICombinedSignalData* data);
-    void onPropertyChangedEx(const RBX::Reflection::PropertyDescriptor* descriptor);
+    void onPropertyChangedEx(const ARL::Reflection::PropertyDescriptor* descriptor);
     void onAncestorChangedEx();
     void onSleepingChangedEx(bool sleeping);
-    void onParentSizeChangedEx(const RBX::Reflection::PropertyDescriptor* pd);
+    void onParentSizeChangedEx(const ARL::Reflection::PropertyDescriptor* pd);
 
     void invalidateLighting(const Extents& bbox);
     
-    shared_ptr<RBX::PartInstance> part;
-    shared_ptr<RBX::Light> light;
+    shared_ptr<ARL::PartInstance> part;
+    shared_ptr<ARL::Light> light;
 
     scoped_ptr<LightShadowMap> shadowMap;
     CoordinateFrame transform;

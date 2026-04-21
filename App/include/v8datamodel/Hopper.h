@@ -4,7 +4,7 @@
 #include "Gui/Widget.h"
 #include "Gui/GuiDraw.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PVInstance;
 	class Verb;

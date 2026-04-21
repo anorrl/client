@@ -16,7 +16,7 @@ namespace RakNet {
 	class BitStream;
 }
 
-namespace RBX 
+namespace ARL 
 {
 	class PartInstance;
 	class CompactCFrame;
@@ -46,7 +46,7 @@ namespace RBX
 
 	class Replicator;
 
-	class RBXBaseClass PhysicsReceiver : boost::noncopyable
+	class ARLBaseClass PhysicsReceiver : boost::noncopyable
 	{
 		shared_ptr<PhysicsService> physicsService;
 
@@ -67,10 +67,10 @@ namespace RBX
         struct MovementWaypointAdorn
         {
             Vector3 position;
-            RBX::Color4 color;
+            ARL::Color4 color;
             float size;
 			std::string text;
-            MovementWaypointAdorn(const Vector3& p, const RBX::Color4& c, float s, const std::string& debugText)
+            MovementWaypointAdorn(const Vector3& p, const ARL::Color4& c, float s, const std::string& debugText)
             {
                 position = p;
                 color = c;
@@ -83,8 +83,8 @@ namespace RBX
         {
             Vector3 startPos;
             Vector3 endPos;
-            RBX::Color4 color;
-            MovementVectorAdorn(const Vector3& start, const Vector3& end, const RBX::Color4& c)
+            ARL::Color4 color;
+            MovementVectorAdorn(const Vector3& start, const Vector3& end, const ARL::Color4& c)
             {
                 startPos = start;
                 endPos = end;
@@ -108,7 +108,7 @@ namespace RBX
         boost::circular_buffer<MovementWaypointAdorn> movementWaypointList;
         boost::circular_buffer<MovementVectorAdorn> movementVectorList;
         void addWayPointAdorn(const Vector3& p, const PathBasedMovementDebug::NodeDebugInfo& info, const std::string& debugText = "");
-        void addVectorAdorn(const Vector3& start, const Vector3& end, const RBX::Color4& c);
+        void addVectorAdorn(const Vector3& start, const Vector3& end, const ARL::Color4& c);
 
 		bool okDistributedReceivePart(const shared_ptr<PartInstance>& part);
 		bool receiveRootPart(shared_ptr<PartInstance>& part, RakNet::BitStream& inBitstream);
@@ -122,7 +122,7 @@ namespace RBX
 
         void setTime(Time now_);
 		void receiveMechanism(RakNet::BitStream& bitStream, PartInstance* rootPart, MechanismItem& item, RemoteTime remoteSendTime, int& numNodesInHistory);
-		void receiveMechanismCFrames(RakNet::BitStream& bitStream, RakNet::Time timeStamp, const RBX::RemoteTime& remoteSendTime);
+		void receiveMechanismCFrames(RakNet::BitStream& bitStream, RakNet::Time timeStamp, const ARL::RemoteTime& remoteSendTime);
 		void setPhysics(const MechanismItem& item, const RemoteTime& remoteSendTime = RemoteTime(), const RakNet::TimeMS = 0, int numNodesInHistory = 0);
 
 		virtual void receivePacket(RakNet::BitStream& bitsream, RakNet::Time timeStamp, ReplicatorStats::PhysicsReceiverStats* stats) = 0;

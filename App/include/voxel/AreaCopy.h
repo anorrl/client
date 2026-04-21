@@ -8,7 +8,7 @@
 #include <boost/scoped_ptr.hpp>
 #include <vector>
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 // Helper object for tasks that need fast access to voxel cells across
 // SpatialRegion boundaries. Keeps an internal buffer of cells, size determined
@@ -54,7 +54,7 @@ class AreaCopy {
 	Chunk storage;
 
 public:
-	typedef RBX::Voxel::Region<Chunk> Region;
+	typedef ARL::Voxel::Region<Chunk> Region;
 	static const Region kStaticEndRegion;
 
 	Region getRegion(const Vector3int16& minCoords, const Vector3int16& maxCoords) const;

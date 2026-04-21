@@ -1,6 +1,6 @@
 #include "GfxBase/AdornSurface.h"
 
-namespace RBX {
+namespace ARL {
 
 	AdornSurface::AdornSurface(Adorn* parent, const Rect2D& viewport, const CoordinateFrame& transform, bool alwaysOnTop)
         : parent(parent)
@@ -17,12 +17,12 @@ namespace RBX {
 
 	//////////////////////////////////////////////////////////////////////////
 
-	void AdornSurface::setTexture(int id, const RBX::TextureProxyBaseRef& t)
+	void AdornSurface::setTexture(int id, const ARL::TextureProxyBaseRef& t)
 	{
 		return parent->setTexture(id, t);
 	}
 
-	Rect2D AdornSurface::getTextureSize(const RBX::TextureProxyBaseRef& texture) const
+	Rect2D AdornSurface::getTextureSize(const ARL::TextureProxyBaseRef& texture) const
 	{
 		return parent->getTextureSize(texture);
 	}

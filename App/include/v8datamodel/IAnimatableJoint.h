@@ -2,7 +2,7 @@
 
 #include "Pose.h"
 
-namespace RBX 
+namespace ARL 
 {
 	class Pose;
 

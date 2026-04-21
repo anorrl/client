@@ -5,7 +5,7 @@
 #include "rbx/Debug.h"
 
 
-namespace RBX {
+namespace ARL {
 	NormalIdMask normalIdToMask(NormalId normal)	
 	{
 		switch(normal){
@@ -53,7 +53,7 @@ NormalId normalIdToU(NormalId normalId)
         case NORM_Z_NEG:
             return NORM_Y_NEG;
         default:
-            RBXASSERT(0);
+            ARLASSERT(0);
             return NORM_Y;
     }
 }
@@ -76,7 +76,7 @@ NormalId normalIdToV(NormalId normalId)
         case NORM_Z_NEG:
             return NORM_X_NEG;
         default:
-            RBXASSERT(0);
+            ARLASSERT(0);
             return NORM_Y;
     }
 }
@@ -190,7 +190,7 @@ Vector3 uvwToObject(const Vector3& uvwPt, NormalId faceId)
 	case NORM_Z_NEG:
 		return uvwToObject<NORM_Z_NEG>(uvwPt);
 	default:
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return Vector3::unitX();
 	}
 }
@@ -212,7 +212,7 @@ Vector3 objectToUvw(const Vector3& objectPt, NormalId faceId)
 	case NORM_Z_NEG:
 		return objectToUvw<NORM_Z_NEG>(objectPt);
 	default:
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return Vector3::unitX();
 	}
 }
@@ -223,7 +223,7 @@ Vector3 objectToUvw(const Vector3& objectPt, NormalId faceId)
 template<NormalId normalId>
 Vector3 normalIdToVector3Internal()
 {
-	RBXASSERT(validNormalId(normalId));
+	ARLASSERT(validNormalId(normalId));
 	Vector3 answer;
 	int xyz = normalId % 3;
 	answer[xyz] = (normalId < NORM_X_NEG) ? 1.0f : -1.0f;
@@ -266,7 +266,7 @@ const Vector3& normalIdToVector3(NormalId normalId)
 		}
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return Vector3::zero();
 		}
 	}
@@ -278,9 +278,9 @@ Matrix3 normalIdToMatrix3Internal(NormalId normalId)
 	Vector3 vInObject = uvwToObject(Vector3::unitY(), normalId);
 	Vector3 wInObject = uvwToObject(Vector3::unitZ(), normalId);
 
-	RBXASSERT(uInObject == uvwToObject(objectToUvw(uInObject, normalId), normalId));
-	RBXASSERT(vInObject == uvwToObject(objectToUvw(vInObject, normalId), normalId));
-	RBXASSERT(wInObject == uvwToObject(objectToUvw(wInObject, normalId), normalId));
+	ARLASSERT(uInObject == uvwToObject(objectToUvw(uInObject, normalId), normalId));
+	ARLASSERT(vInObject == uvwToObject(objectToUvw(vInObject, normalId), normalId));
+	ARLASSERT(wInObject == uvwToObject(objectToUvw(wInObject, normalId), normalId));
 
 	return Matrix3(	uInObject.x,	vInObject.x,	wInObject.x,
 					uInObject.y,	vInObject.y,	wInObject.y,
@@ -317,7 +317,7 @@ const Matrix3& normalIdToMatrix3(NormalId normalId)
 		}
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return Matrix3::identity();
 		}
 	}
@@ -325,7 +325,7 @@ const Matrix3& normalIdToMatrix3(NormalId normalId)
 
 NormalId Vector3ToNormalId(const Vector3& v)
 {
-	RBXASSERT(		(v == Vector3::unitX())
+	ARLASSERT(		(v == Vector3::unitX())
 				||	(v == Vector3::unitY())
 				||	(v == Vector3::unitZ())
 				||	(v == -Vector3::unitX())
@@ -351,7 +351,7 @@ NormalId Vector3ToNormalId(const Vector3& v)
 		return NORM_Z_NEG;
 	}
 	else {
-		RBXASSERT(0);		// This function assumes a unit, orthogally aligned Vector3
+		ARLASSERT(0);		// This function assumes a unit, orthogally aligned Vector3
 		return NORM_UNDEFINED;
 	}
 }

@@ -4,7 +4,7 @@
 #include "boost/utility.hpp"
 #include <boost/thread/mutex.hpp>
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
@@ -17,7 +17,7 @@ namespace RBX
 				// into FactoryRegistrator::FactoryRegistrator() or somewhere else.
 				// Failure of this test is so severe that we want to catch it in production, too.
 				if (lockedDown)
-					RBXCRASH();
+					ARLCRASH();
 			}
 		public:
 			struct Attributes
@@ -46,28 +46,28 @@ namespace RBX
 
 			static bool lockedDown;	// After the first instance of a described class is created we cannot modify the reflection database
 
-			const RBX::Name& name; 
+			const ARL::Name& name; 
             scoped_ptr<bool> isReplicable;
             scoped_ptr<bool> isOutdated;
 			const Attributes attributes;
 
 			Descriptor(const char* name, Attributes attributes)
-				:name(RBX::Name::declare(name))
+				:name(ARL::Name::declare(name))
 				,attributes(attributes)
                 ,isReplicable(new bool(false))
                 ,isOutdated(new bool(false))
 			{
 				checkLockedDown();
-				RBXASSERT(!this->name.empty());
+				ARLASSERT(!this->name.empty());
 			}
-			Descriptor(const RBX::Name& name, Attributes attributes)
+			Descriptor(const ARL::Name& name, Attributes attributes)
 				:name(name)
 				,attributes(attributes)
                 ,isReplicable(new bool(false))
                 ,isOutdated(new bool(false))
 			{
 				checkLockedDown();
-				RBXASSERT(!this->name.empty());
+				ARLASSERT(!this->name.empty());
 			}
 			virtual ~Descriptor() {}
 		};

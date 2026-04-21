@@ -6,7 +6,7 @@
 #include "V8DataModel/UserController.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class UserInputBase;
 	class SkateboardPlatform;

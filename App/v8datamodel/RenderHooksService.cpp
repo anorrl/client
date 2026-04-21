@@ -7,7 +7,7 @@
 #include "Util/Profiling.h"
 #include "rbx/Log.h"
 
-namespace RBX
+namespace ARL
 {
 	const char* const sRenderHooksService = "RenderHooksService";
 

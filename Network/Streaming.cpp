@@ -36,7 +36,7 @@ SYNCHRONIZED_FASTFLAGVARIABLE(NetworkDisableStringCompression, false)
 
 #define MAX_STRING_SIZE 200000
 
-namespace RBX {
+namespace ARL {
 	
 using namespace Reflection;
 
@@ -44,7 +44,7 @@ namespace Network {
 
 void serializeEnumIndex(const Reflection::EnumDescriptor* enumDesc, const size_t& index, RakNet::BitStream &bitStream, size_t enumSizeMSB/*default to 0*/)
 {
-    RBXASSERT(index < enumDesc->getEnumCount());
+    ARLASSERT(index < enumDesc->getEnumCount());
     if (enumSizeMSB == 0)
     {
         enumSizeMSB = enumDesc->getEnumCountMSB();
@@ -65,7 +65,7 @@ void deserializeEnumIndex(const Reflection::EnumDescriptor* enumDesc, size_t& in
     {
         // overflowed value, set to default
         // This could happen on an outdated client connecting to the latest server where some new values are added to an enum
-        StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Enum value overflow on %s, size %d, index %d. Set to 0. (Are you using an outdated client?)", enumDesc->name.c_str(), (int)enumDesc->getEnumCount(), (int)index);
+        StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Enum value overflow on %s, size %d, index %d. Set to 0. (Are you using an outdated client?)", enumDesc->name.c_str(), (int)enumDesc->getEnumCount(), (int)index);
         index = 0;
     }
 }
@@ -73,7 +73,7 @@ void deserializeEnumIndex(const Reflection::EnumDescriptor* enumDesc, size_t& in
 void serializeEnum(const Reflection::EnumDescriptor* enumDesc , const Reflection::Variant& value, RakNet::BitStream &bitStream, size_t enumSizeMSB/*default to 0*/)
 {
 	const EnumDescriptor::Item* item = enumDesc->lookup(value);
-	RBXASSERT(item);
+	ARLASSERT(item);
 	const size_t valueIndex = item->index;
     serializeEnumIndex(enumDesc, valueIndex, bitStream, enumSizeMSB);
 }
@@ -83,7 +83,7 @@ void deserializeEnum(const Reflection::EnumDescriptor* enumDesc, Reflection::Var
 	size_t index = 0;
     deserializeEnumIndex(enumDesc, index, bitStream, enumSizeMSB);
     if(!enumDesc->convertToValue(index,result))
-        throw RBX::network_stream_exception("deserializeEnum conversion failed");
+        throw ARL::network_stream_exception("deserializeEnum conversion failed");
 }
 
 void serializeEnumProperty(const ConstProperty& property, RakNet::BitStream &bitStream, size_t enumSizeMSB/*default to 0*/)
@@ -106,7 +106,7 @@ void serializeStringCompressed(const std::string& value, RakNet::BitStream& stre
 {
 	uint32_t size = static_cast<uint32_t>(value.size());
 	if (size > MAX_STRING_SIZE)
-		throw RBX::network_stream_exception(RBX::format("BitStream string write: String too long: %u", size));
+		throw ARL::network_stream_exception(ARL::format("BitStream string write: String too long: %u", size));
         
 	stream.Write(size);
     RakNet::StringCompressor::Instance()->EncodeString(value.c_str(), static_cast<int>(size+1), &stream);
@@ -118,7 +118,7 @@ void deserializeStringCompressed(std::string& value, RakNet::BitStream& stream)
 	Network::readFastT( stream, size );
 
 	if (size>MAX_STRING_SIZE)
-		throw RBX::network_stream_exception(RBX::format("BitStream >> std::string: Bad string length: %d, bit pos: %d", (int)size, stream.GetReadOffset()));
+		throw ARL::network_stream_exception(ARL::format("BitStream >> std::string: Bad string length: %d, bit pos: %d", (int)size, stream.GetReadOffset()));
 
 	char* buffer = (char*)alloca(size+1);
 	RakNet::StringCompressor::Instance()->DecodeString(buffer, static_cast<int>(size+1), &stream);
@@ -127,14 +127,14 @@ void deserializeStringCompressed(std::string& value, RakNet::BitStream& stream)
 
 } // namespace Network
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const RBX::Guid::Scope& value)
+RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::Guid::Scope& value)
 {
 	Network::serializeGuidScope( stream, value, false );
 	return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, RBX::Guid::Scope& value)
+RakNet::BitStream& operator >> (RakNet::BitStream& stream, ARL::Guid::Scope& value)
 {
 	Network::deserializeGuidScope( stream, value, false );
 	return stream;
@@ -295,7 +295,7 @@ RakNet::BitStream& operator << (RakNet::BitStream& stream, const std::string& va
 {
 	uint32_t size = static_cast<uint32_t>(value.size());
 	if (size > MAX_STRING_SIZE)
-		throw RBX::network_stream_exception(RBX::format("BitStream string write: String too long: %u", size));
+		throw ARL::network_stream_exception(ARL::format("BitStream string write: String too long: %u", size));
         
 	stream.Write(size);
 
@@ -318,7 +318,7 @@ RakNet::BitStream& operator >> (RakNet::BitStream& stream, std::string& value)
 	Network::readFastT( stream, size );
 
 	if (size>MAX_STRING_SIZE)
-		throw RBX::network_stream_exception(RBX::format("BitStream >> std::string: Bad string length: %d, bit pos: %d", (int)size, stream.GetReadOffset()));
+		throw ARL::network_stream_exception(ARL::format("BitStream >> std::string: Bad string length: %d, bit pos: %d", (int)size, stream.GetReadOffset()));
 
     if (SFFlag::getNetworkDisableStringCompression())
     {
@@ -343,7 +343,7 @@ RakNet::BitStream& operator << (RakNet::BitStream& stream, const BinaryString& v
 {
 	uint32_t size = static_cast<uint32_t>(value.value().size());
 	if (size > MAX_BINARY_STRING_SIZE)
-		throw RBX::network_stream_exception(RBX::format("BitStream string write: BinaryString too long: %u", size));
+		throw ARL::network_stream_exception(ARL::format("BitStream string write: BinaryString too long: %u", size));
 
 	stream.AlignWriteToByteBoundary();
 
@@ -360,10 +360,10 @@ RakNet::BitStream& operator >> (RakNet::BitStream& stream, BinaryString& value)
 
 	uint32_t size;
 	if (!stream.Read(size))
-		throw RBX::network_stream_exception("BitStream >> BinaryString: failed to read length");
+		throw ARL::network_stream_exception("BitStream >> BinaryString: failed to read length");
 
 	if (size > MAX_BINARY_STRING_SIZE)
-		throw RBX::network_stream_exception("BitStream >> BinaryString: Bad string length");
+		throw ARL::network_stream_exception("BitStream >> BinaryString: Bad string length");
 
 	char* buffer = (char*)alloca(size+1);
 
@@ -372,14 +372,14 @@ RakNet::BitStream& operator >> (RakNet::BitStream& stream, BinaryString& value)
 	return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const RBX::ContentId& value)
+RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::ContentId& value)
 {
 	stream << value.toString();
 	return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, RBX::ContentId& value)
+RakNet::BitStream& operator >> (RakNet::BitStream& stream, ARL::ContentId& value)
 {
 	std::string text;
 	stream >> text;
@@ -409,7 +409,7 @@ RakNet::BitStream& operator << (RakNet::BitStream& stream, const UDim2& value)
 	return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const RBX::RbxRay& value)
+RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::RbxRay& value)
 {
 	stream << value.origin();
 	stream << value.direction();
@@ -429,9 +429,9 @@ RakNet::BitStream& operator << (RakNet::BitStream& stream, const Axes& value)
 
 RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Color3& value)
 {
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.r));
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.g));
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.b));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.r));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.g));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.b));
 
 	stream.Write(value.r);
 	stream.Write(value.g);
@@ -486,9 +486,9 @@ static bool isBrickLocation(const G3D::Vector3& v, short& x, unsigned short& y, 
 
 void writeBrickVector(RakNet::BitStream& stream, const G3D::Vector3& value)
 {
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.x));
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.y));
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.z));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.x));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.y));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.z));
 
 	short x;
 	unsigned short y;
@@ -538,16 +538,16 @@ void readBrickVector(RakNet::BitStream& stream, G3D::Vector3& value)
 		stream >> value.z;
 	}
 
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.x));
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.y));
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.z));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.x));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.y));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.z));
 }
 }
 
 RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Vector2& value)
 {
-	RBXASSERT_FISHING(G3D::isFinite(value.x));
-	RBXASSERT_FISHING(G3D::isFinite(value.y));
+	ARLASSERT_FISHING(G3D::isFinite(value.x));
+	ARLASSERT_FISHING(G3D::isFinite(value.y));
 
 	stream << value.x;
 	stream << value.y;
@@ -619,9 +619,9 @@ RakNet::BitStream& operator >> (RakNet::BitStream& stream, StreamRegion::Id& val
 
 RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Vector3& value)
 {
-	RBXASSERT_FISHING(G3D::isFinite(value.x));
-	RBXASSERT_FISHING(G3D::isFinite(value.y));
-	RBXASSERT_FISHING(G3D::isFinite(value.z));
+	ARLASSERT_FISHING(G3D::isFinite(value.x));
+	ARLASSERT_FISHING(G3D::isFinite(value.y));
+	ARLASSERT_FISHING(G3D::isFinite(value.z));
 
 	stream << value.x;
 	stream << value.y;
@@ -680,7 +680,7 @@ RakNet::BitStream& operator >> (RakNet::BitStream& stream, G3D::Vector2int16& va
 
 
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const RBX::Velocity& value)
+RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::Velocity& value)
 {
 	stream << value.linear;
 	stream << value.rotational;
@@ -688,7 +688,7 @@ RakNet::BitStream& operator << (RakNet::BitStream& stream, const RBX::Velocity& 
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, RBX::Velocity& value)
+RakNet::BitStream& operator >> (RakNet::BitStream& stream, ARL::Velocity& value)
 {
 	stream >> value.linear;
 	stream >> value.rotational;
@@ -729,10 +729,10 @@ RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Coordinate
 	{
 		Quaternion q(value.rotation);
 
-		RBXASSERT_VERY_FAST(G3D::isFinite(q.w));
-		RBXASSERT_VERY_FAST(G3D::isFinite(q.x));
-		RBXASSERT_VERY_FAST(G3D::isFinite(q.y));
-		RBXASSERT_VERY_FAST(G3D::isFinite(q.z));
+		ARLASSERT_VERY_FAST(G3D::isFinite(q.w));
+		ARLASSERT_VERY_FAST(G3D::isFinite(q.x));
+		ARLASSERT_VERY_FAST(G3D::isFinite(q.y));
+		ARLASSERT_VERY_FAST(G3D::isFinite(q.z));
 
 #ifdef LOSSY_QUAT
 		stream.WriteNormQuat(q.w, q.x, q.y, q.z);
@@ -770,7 +770,7 @@ RakNet::BitStream& operator >> (RakNet::BitStream& stream, G3D::CoordinateFrame&
 		Quaternion q;
 #ifdef LOSSY_QUAT
 		if (!stream.ReadNormQuat(q.w, q.x, q.y, q.z))
-			throw RBX::network_stream_exception("BitStream >> CoordinateFrame ReadNormQuat failed");
+			throw ARL::network_stream_exception("BitStream >> CoordinateFrame ReadNormQuat failed");
 #else
 		// Orientation quaternions are unit quaternions, so max and min are 1 and -1.
 		// WriteNormQuat (if using LOSSY_QUAT) uses 6 bytes + 4 bits
@@ -781,10 +781,10 @@ RakNet::BitStream& operator >> (RakNet::BitStream& stream, G3D::CoordinateFrame&
 		stream.ReadFloat16(q.y, -1.0f, 1.0f);
 		stream.ReadFloat16(q.z, -1.0f, 1.0f);
 #endif
-		RBXASSERT_VERY_FAST(G3D::isFinite(q.w));
-		RBXASSERT_VERY_FAST(G3D::isFinite(q.x));
-		RBXASSERT_VERY_FAST(G3D::isFinite(q.y));
-		RBXASSERT_VERY_FAST(G3D::isFinite(q.z));
+		ARLASSERT_VERY_FAST(G3D::isFinite(q.w));
+		ARLASSERT_VERY_FAST(G3D::isFinite(q.x));
+		ARLASSERT_VERY_FAST(G3D::isFinite(q.y));
+		ARLASSERT_VERY_FAST(G3D::isFinite(q.z));
 
 		q.toRotationMatrix(value.rotation);
 		Math::orthonormalizeIfNecessary(value.rotation);
@@ -849,15 +849,15 @@ RakNet::BitStream& operator >> (RakNet::BitStream& stream, G3D::Color3& value)
 	stream >> value.g;
 	stream >> value.b;
 
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.r));
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.g));
-	RBXASSERT_VERY_FAST(G3D::isFinite(value.b));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.r));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.g));
+	ARLASSERT_VERY_FAST(G3D::isFinite(value.b));
 
 	return stream;
 }
 
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, RBX::SystemAddress value)
+RakNet::BitStream& operator << (RakNet::BitStream& stream, ARL::SystemAddress value)
 {
 	stream << value.binaryAddress;
 	stream.Write(value.port);
@@ -866,7 +866,7 @@ RakNet::BitStream& operator << (RakNet::BitStream& stream, RBX::SystemAddress va
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, RBX::SystemAddress& value)
+RakNet::BitStream& operator >> (RakNet::BitStream& stream, ARL::SystemAddress& value)
 {
 	stream >> value.binaryAddress;
 	stream >> value.port;
@@ -1029,7 +1029,7 @@ RakNet::BitStream& operator>>( RakNet::BitStream& stream, PhysicalProperties& p)
 namespace Network {
 
 template<>
-void serialize<RBX::ContentId>(const ConstProperty& property, RakNet::BitStream &bitStream)
+void serialize<ARL::ContentId>(const ConstProperty& property, RakNet::BitStream &bitStream)
 {
 	bitStream << property.getStringValue();
 }
@@ -1067,13 +1067,13 @@ void deserialize<UDim2>(Property& property, RakNet::BitStream &bitStream)
 }
 
 template<>
-void serialize<RBX::RbxRay>(const ConstProperty& property, RakNet::BitStream &bitStream)
+void serialize<ARL::RbxRay>(const ConstProperty& property, RakNet::BitStream &bitStream)
 {
-	bitStream << property.getValue<RBX::RbxRay>();
+	bitStream << property.getValue<ARL::RbxRay>();
 }
 
 template<>
-void deserialize<RBX::RbxRay>(Property& property, RakNet::BitStream &bitStream)
+void deserialize<ARL::RbxRay>(Property& property, RakNet::BitStream &bitStream)
 {
 	RbxRay c;
 	bitStream >> c;
@@ -1129,7 +1129,7 @@ void deserialize<BrickColor>(Property& property, RakNet::BitStream &bitStream)
 }
 
 template<>
-void deserialize<RBX::ContentId>(Property& property, RakNet::BitStream &bitStream)
+void deserialize<ARL::ContentId>(Property& property, RakNet::BitStream &bitStream)
 {
 	std::string value;
 	bitStream >> value;
@@ -1154,7 +1154,7 @@ void deserializeStringProperty(Reflection::Property& property, RakNet::BitStream
 	}
 }
 
-void serializeGuidScope(RakNet::BitStream& stream, const RBX::Guid::Scope& value, bool canDisableCompression)
+void serializeGuidScope(RakNet::BitStream& stream, const ARL::Guid::Scope& value, bool canDisableCompression)
 {
 	if (canDisableCompression) {
 		RakNet::RakString scope = value.getName()->c_str();
@@ -1164,7 +1164,7 @@ void serializeGuidScope(RakNet::BitStream& stream, const RBX::Guid::Scope& value
 	}
 }
 
-void deserializeGuidScope(RakNet::BitStream& stream, RBX::Guid::Scope& value, bool canDisableCompression)
+void deserializeGuidScope(RakNet::BitStream& stream, ARL::Guid::Scope& value, bool canDisableCompression)
 {
 	std::string str;
 	if (canDisableCompression) {
@@ -1186,7 +1186,7 @@ bool IdSerializer::trySerializeId(RakNet::BitStream& stream, const Instance* ins
 	if (instance)
 	{
 		guidRegistry->registerGuid(instance);
-		RBX::Guid::Data id;
+		ARL::Guid::Data id;
 		instance->getGuid().extract(id);
 		if (!scopeNames.trySend(stream, id.scope))
 			return false;
@@ -1206,7 +1206,7 @@ bool IdSerializer::canSerializeId(const Instance* instance)
 	{
 		// check if value is in dictionary
 		guidRegistry->registerGuid(instance);
-		RBX::Guid::Data id;
+		ARL::Guid::Data id;
 		instance->getGuid().extract(id);
 		return scopeNames.canSend(id.scope);
 	}
@@ -1254,7 +1254,7 @@ void IdSerializer::serializeId(RakNet::BitStream& stream, const Instance* instan
 	if (instance)
 	{
 		guidRegistry->registerGuid(instance);
-		RBX::Guid::Data id;
+		ARL::Guid::Data id;
 		instance->getGuid().extract(id);
 		serializeId(stream, id);
 	}
@@ -1264,14 +1264,14 @@ void IdSerializer::serializeId(RakNet::BitStream& stream, const Instance* instan
 	}
 }
 
-void IdSerializer::serializeId(RakNet::BitStream& stream, const RBX::Guid::Data& id) {
+void IdSerializer::serializeId(RakNet::BitStream& stream, const ARL::Guid::Data& id) {
 	scopeNames.send(stream, id.scope);
 	stream.WriteBits((const unsigned char*) &id.index, 32);
 }
 
 void IdSerializer::serializeIdWithoutDictionary(RakNet::BitStream& stream, const Instance* instance)
 {
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 
 	if (instance)
 	{
@@ -1282,7 +1282,7 @@ void IdSerializer::serializeIdWithoutDictionary(RakNet::BitStream& stream, const
 	serializeIdWithoutDictionary(stream, id);
 }
 
-void IdSerializer::serializeIdWithoutDictionary(RakNet::BitStream& stream, const RBX::Guid::Data& id)
+void IdSerializer::serializeIdWithoutDictionary(RakNet::BitStream& stream, const ARL::Guid::Data& id)
 {
 	if (id.scope.isNull())
 	{
@@ -1299,7 +1299,7 @@ void IdSerializer::serializeIdWithoutDictionary(RakNet::BitStream& stream, const
 		else
 		{
 			const std::string& scope = id.scope.getName()->toString();
-			RBXASSERT(scope.size() < 255);
+			ARLASSERT(scope.size() < 255);
 
 			unsigned char code = scope.size();
 			stream << code;
@@ -1311,7 +1311,7 @@ void IdSerializer::serializeIdWithoutDictionary(RakNet::BitStream& stream, const
 	}
 }
 
-void IdSerializer::deserializeId(RakNet::BitStream& stream, RBX::Guid::Data& id)
+void IdSerializer::deserializeId(RakNet::BitStream& stream, ARL::Guid::Data& id)
 {
 	scopeNames.receive(stream, id.scope);
 	if (!id.scope.isNull())
@@ -1324,7 +1324,7 @@ void IdSerializer::deserializeId(RakNet::BitStream& stream, RBX::Guid::Data& id)
 		id.index = 0;
 }
 
-void IdSerializer::deserializeIdWithoutDictionary(RakNet::BitStream& stream, RBX::Guid::Data& id)
+void IdSerializer::deserializeIdWithoutDictionary(RakNet::BitStream& stream, ARL::Guid::Data& id)
 {
 	unsigned char code = 0;
 	Network::readFastT(stream, code);
@@ -1338,7 +1338,7 @@ void IdSerializer::deserializeIdWithoutDictionary(RakNet::BitStream& stream, RBX
 	{
 		if (code == 255)
 		{
-			RBXASSERT(!serverScope.isNull());
+			ARLASSERT(!serverScope.isNull());
 			id.scope = serverScope;
 		}
 		else
@@ -1359,7 +1359,7 @@ void IdSerializer::setRefValue(WaitItem& wi, Instance* instance)
 }
 
 
-void IdSerializer::resolvePendingReferences(Instance* instance, RBX::Guid::Data id)
+void IdSerializer::resolvePendingReferences(Instance* instance, ARL::Guid::Data id)
 {
 	boost::mutex::scoped_lock lock(waitItemsMutex);
 	WaitItemMap::iterator iter = waitItems.find(id);
@@ -1383,11 +1383,11 @@ void IdSerializer::serializeInstanceRef(const Instance* instance, RakNet::BitStr
 //Debuggable - 
 // Parent == NULL, or Parent::Debugable
 
-bool IdSerializer::deserializeInstanceRef(RakNet::BitStream& stream, shared_ptr<Instance>& instance, RBX::Guid::Data& id)
+bool IdSerializer::deserializeInstanceRef(RakNet::BitStream& stream, shared_ptr<Instance>& instance, ARL::Guid::Data& id)
 {
 	deserializeId(stream, id);
 	bool answer = guidRegistry->lookupByGuid(id, instance);
-	RBXASSERT(		!instance 
+	ARLASSERT(		!instance 
 				||	!ServiceProvider::findServiceProvider(instance.get())
 				|| (ServiceProvider::findServiceProvider(instance.get()) == ServiceProvider::findServiceProvider(this))
 				);
@@ -1396,7 +1396,7 @@ bool IdSerializer::deserializeInstanceRef(RakNet::BitStream& stream, shared_ptr<
 }
 
 void IdSerializer::addPendingRef(const Reflection::RefPropertyDescriptor* desc,
-		boost::shared_ptr<Instance> instance, RBX::Guid::Data id) {
+		boost::shared_ptr<Instance> instance, ARL::Guid::Data id) {
 
 	boost::mutex::scoped_lock lock(waitItemsMutex);
 	WaitItem item = { desc, instance };
@@ -1424,7 +1424,7 @@ std::string DescriptorSender<ClassDescriptor>::teachName(const ClassDescriptor* 
 template<>
 void DescriptorReceiver<ClassDescriptor>::learnName(std::string s, int i, uint32_t checksum)
 {
-	const RBX::Name& n = RBX::Name::lookup(s);
+	const ARL::Name& n = ARL::Name::lookup(s);
 
 	ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
 	while (iter!=ClassDescriptor::all_end())
@@ -1458,7 +1458,7 @@ void DescriptorReceiver<EventDescriptor>::learnName(std::string s, int i, uint32
 	boost::split(words, s, boost::is_any_of(":"));
 
 	// First get the class name
-	const RBX::Name& n = RBX::Name::lookup(words[0]);
+	const ARL::Name& n = ARL::Name::lookup(words[0]);
 
 	ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
 	while (iter!=ClassDescriptor::all_end())
@@ -1505,7 +1505,7 @@ void DescriptorReceiver<PropertyDescriptor>::learnName(std::string s, int i, uin
 	boost::split(words, s, boost::is_any_of(":"));
 
 	// First get the class name
-	const RBX::Name& n = RBX::Name::lookup(words[0]);
+	const ARL::Name& n = ARL::Name::lookup(words[0]);
 
 	ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
 	while (iter!=ClassDescriptor::all_end())
@@ -1540,7 +1540,7 @@ std::string DescriptorSender<Type>::teachName(const Type* t) const
 template<>
 void DescriptorReceiver<Type>::learnName(std::string s, int i, uint32_t checksum)
 {
-	const RBX::Name& n = RBX::Name::lookup(s);
+	const ARL::Name& n = ARL::Name::lookup(s);
 
     const std::vector<const Type*>& types = Type::getAllTypes();
 

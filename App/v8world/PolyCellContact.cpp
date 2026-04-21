@@ -8,7 +8,7 @@
 #include "V8World/Primitive.h"
 #include "V8DataModel/MegaCluster.h"
 
-namespace RBX {
+namespace ARL {
 
 using namespace POLY;
 using namespace Voxel;
@@ -82,7 +82,7 @@ void PolyCellContact::findClosestFeatures(ConnectorArray& newConnectors)
 
 void PolyCellContact::findBestPair()
 {
-    //RBXASSERT(contactParams);
+    //ARLASSERT(contactParams);
     if(!contactParams) {
         generateDataForMovingAssemblyStage();
     }
@@ -220,7 +220,7 @@ float CellFaceFacePair::test()
 //void CellFaceFacePair::computeVertices(FixedArray<Vector3, 8>& verticesInObject, const CoordinateFrame& otherInMe)
 void CellFaceFacePair::computeVertices(FixedArray<Vector3, CONTACT_ARRAY_SIZE>& verticesInObject, const CoordinateFrame& otherInMe)
 {
-	RBXASSERT(verticesInObject.size() == 0);
+	ARLASSERT(verticesInObject.size() == 0);
 	const Mesh* mesh = swapPrims ? myPCContact->getCellMesh() : poly1()->getMesh();
 
 	for (size_t i = 0; i < mesh->numVertices(); ++i) {
@@ -303,7 +303,7 @@ bool CellFaceFacePair::pairIsValid()
 		terrain0 = rbx_static_cast<MegaClusterInstance*>(primitive[0]->getOwner()) :
 		terrain1 = rbx_static_cast<MegaClusterInstance*>(primitive[1]->getOwner());
 
-	RBXASSERT(primitive[0]->getGeometryType() == Geometry::GEOMETRY_MEGACLUSTER || primitive[1]->getGeometryType() == Geometry::GEOMETRY_MEGACLUSTER);
+	ARLASSERT(primitive[0]->getGeometryType() == Geometry::GEOMETRY_MEGACLUSTER || primitive[1]->getGeometryType() == Geometry::GEOMETRY_MEGACLUSTER);
 
 	const POLY::Face* theFace = terrain0 ? mainFace : otherFace;
     Vector3int16 cellLoc = myPCContact->getGridFeature().toVector3int16();
@@ -520,7 +520,7 @@ void CellFaceFacePair::vertexInside(Primitive* pFace,
 															planeFace->getId(),
 															inside->getId()			);			
 
-	RBXASSERT(!Math::isNanInf(answer->computeOverlap()));
+	ARLASSERT(!Math::isNanInf(answer->computeOverlap()));
 	newConnectors.push_back(answer);
 }
 
@@ -537,7 +537,7 @@ FaceEdgeConnector* CellFaceFacePair::newFaceEdgeConnector(size_t mainFaceEdgeId,
 														penetratingEdge->computeLine(),
 														mainFaceEdgeId,
 														penetratingEdge->getId()			);		
-	RBXASSERT(!Math::isNanInf(answer->computeOverlap()));
+	ARLASSERT(!Math::isNanInf(answer->computeOverlap()));
 	return answer;
 }	
 
@@ -644,7 +644,7 @@ void CellEdgeEdgePair::loadConnectors(ConnectorArray& newConnectors)
 		newConnectors.push_back(newEdgeEdgeConnector());
 	}
 	else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 	}
 }
 
@@ -658,7 +658,7 @@ EdgeEdgeConnector* CellEdgeEdgePair::newEdgeEdgeConnector()
 														bestEdge1->computeLine(),
 														bestEdge0->getId(),
 														bestEdge1->getId()			);		
-	RBXASSERT(answer->computeOverlap());
+	ARLASSERT(answer->computeOverlap());
 	return answer;
 }	
 

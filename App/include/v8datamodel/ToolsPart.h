@@ -9,7 +9,7 @@
 //#include "V8Tree/Verb.h"
 //#include "util/NormalId.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PartTool : public MouseCommand
 	{
@@ -31,11 +31,11 @@ namespace RBX {
 	{
 		BrickColor color;
 	public:
-		rbx::signal<void(RBX::BrickColor)> brickColorSignal;
+		rbx::signal<void(ARL::BrickColor)> brickColorSignal;
 
 		FillToolColor();
-		RBX::BrickColor get() const {return color;}
-		void set(const RBX::BrickColor& newColor)			{
+		ARL::BrickColor get() const {return color;}
+		void set(const ARL::BrickColor& newColor)			{
 			if (color!=newColor) {
 				color = newColor;
 				brickColorSignal(color);
@@ -88,4 +88,4 @@ namespace RBX {
 	};
 
 
-} // namespace RBX
+} // namespace ARL

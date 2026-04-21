@@ -1,4 +1,4 @@
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 #include "DeviceD3D11.h"
 
 #include "HeadersD3D11.h"
@@ -10,7 +10,7 @@ FASTFLAG(DebugD3D11DebugMode)
 // There's no simple way to refactor this :(
 std::pair<unsigned int, unsigned int> xboxPlatformGetRenderSize_Hack(void* h);
 
-namespace RBX {
+namespace ARL {
 namespace Graphics {
 
     IDXGISwapChain* createSwapchain(ID3D11Device* dev, unsigned w, unsigned h)
@@ -47,7 +47,7 @@ namespace Graphics {
         spdxgiDevice->Release();
 
         if (FAILED(hr))
-            throw RBX::runtime_error("failed to create swapchain: %x", hr);
+            throw ARL::runtime_error("failed to create swapchain: %x", hr);
 
         return swapch;
     }
@@ -83,7 +83,7 @@ namespace Graphics {
         HRESULT hr = D3D11XCreateDeviceX(&params, &dev, &ctx);
 
         if (FAILED(hr))
-            throw RBX::runtime_error("Unable to create D3D device: %x", hr);
+            throw ARL::runtime_error("Unable to create D3D device: %x", hr);
 
         std::pair<unsigned int, unsigned int> fbsize = getFramebufferSize();
 
@@ -115,7 +115,7 @@ namespace Graphics {
         std::pair<unsigned int, unsigned int> dimensions = getFramebufferSize();
         ReleaseCheck(swapChain11);
         swapChain11 = createSwapchain(device11, dimensions.first, dimensions.second );
-        RBXASSERT(swapChain11);
+        ARLASSERT(swapChain11);
     }
 
     std::pair<unsigned int, unsigned int> DeviceD3D11::getFramebufferSize()

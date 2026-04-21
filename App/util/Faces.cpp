@@ -3,7 +3,7 @@
 #include "Util/Faces.h"
 #include "util/Utilities.h"
 
-namespace RBX
+namespace ARL
 {
 
 Faces::Faces(int normalIdMask)

@@ -10,7 +10,7 @@
 
 #include <vector>
 
-namespace RBX {
+namespace ARL {
 
 	namespace Network {
 		class Player;

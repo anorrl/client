@@ -6,7 +6,7 @@
 #include "Util/BrickColor.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	extern const char *const sTeam;
 	class Team 

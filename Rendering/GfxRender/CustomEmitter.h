@@ -4,14 +4,14 @@
 
 #include "RenderNode.h"
 
-namespace RBX
+namespace ARL
 {
     class PartInstance;
     class Instance;
     class CustomParticleEmitter;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -26,7 +26,7 @@ public:
     CustomEmitter(VisualEngine* visualEngine);
     ~CustomEmitter();
 
-    void bind(const shared_ptr<RBX::PartInstance>& part, const shared_ptr<RBX::Instance>& instance);
+    void bind(const shared_ptr<ARL::PartInstance>& part, const shared_ptr<ARL::Instance>& instance);
     
     // GfxBinding overrides
     virtual void invalidateEntity();
@@ -49,10 +49,10 @@ private:
         kDirty_All = ~(unsigned)kDirty_Invalidate,
     }; // dirty flags
 
-    typedef const RBX::Reflection::PropertyDescriptor* pd;
+    typedef const ARL::Reflection::PropertyDescriptor* pd;
 
     void onCombinedSignalEx(Instance::CombinedSignalType type, const Instance::ICombinedSignalData* data);
-    void onPropertyChangedEx(const RBX::Reflection::PropertyDescriptor* descriptor);
+    void onPropertyChangedEx(const ARL::Reflection::PropertyDescriptor* descriptor);
     void onAncestorChangedEx();
     void onSleepingChangedEx(bool sleeping);
 	void requestEmit(int particleCount);
@@ -61,8 +61,8 @@ private:
 
     void applyAllSettings();
     
-    shared_ptr<RBX::PartInstance> part;
-    shared_ptr<RBX::CustomParticleEmitter> effect;
+    shared_ptr<ARL::PartInstance> part;
+    shared_ptr<ARL::CustomParticleEmitter> effect;
     CoordinateFrame transform;
     Extents localBox;
     bool enabled;

@@ -4,7 +4,7 @@
 
 #include "V8World/SpatialHashMultiRes.h"
 
-namespace RBX
+namespace ARL
 {
 	class Primitive;
 	class Contact;

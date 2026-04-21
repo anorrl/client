@@ -19,23 +19,23 @@
 #include "GfxBase/FrameRateManager.h"
 #include "GfxBase/ViewBase.h"
 
-using namespace RBX;
+using namespace ARL;
 
-namespace RBX{
+namespace ARL{
 
 	
 	static void logError(std::string errorString)
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "%s\r\n", errorString.c_str());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "%s\r\n", errorString.c_str());
 	}
 
-	VideoControl::VideoControl(IVideoCapture *capture, RBX::ViewBase *rbxView, FrameRateManager *frameRateManager, Verb *verb)
+	VideoControl::VideoControl(IVideoCapture *capture, ARL::ViewBase *rbxView, FrameRateManager *frameRateManager, Verb *verb)
 	{
 		this->capture.reset(capture);
-		RBXASSERT(verb);
+		ARLASSERT(verb);
 		this->verb = verb;
 
-		RBXASSERT(rbxView);
+		ARLASSERT(rbxView);
 		this->rbxView = rbxView;
 		this->frameRateManager = frameRateManager;
 
@@ -64,28 +64,28 @@ namespace RBX{
 		return recorded && !capture->isRunning();
 	}
 
-	void VideoControl::startRecording(RBX::Soundscape::SoundService *soundservice)
+	void VideoControl::startRecording(ARL::Soundscape::SoundService *soundservice)
 	{
 		setVideoQuality(GameSettings::singleton().getVideoQualitySetting());
-		RBXASSERT(soundservice);
+		ARLASSERT(soundservice);
 
 		if(soundservice)
 		{
 			soundState.reset(new SoundState());
 
-			soundState->createDSPFunction = boost::bind(&RBX::Soundscape::SoundService::createDSP, soundservice, _1);
-			soundState->getSampleRateFunction = boost::bind(&RBX::Soundscape::SoundService::getSampleRate, soundservice);
-			soundState->enabledFunction = boost::bind(&RBX::Soundscape::SoundService::enabled, soundservice);
+			soundState->createDSPFunction = boost::bind(&ARL::Soundscape::SoundService::createDSP, soundservice, _1);
+			soundState->getSampleRateFunction = boost::bind(&ARL::Soundscape::SoundService::getSampleRate, soundservice);
+			soundState->enabledFunction = boost::bind(&ARL::Soundscape::SoundService::enabled, soundservice);
 		}	
 
         std::pair<unsigned, unsigned> dimensions = rbxView->setFrameDataCallback(boost::bind(&VideoControl::onFrameData, this, _1));
 
         bool captureStarted = dimensions.first && dimensions.second && capture->start(dimensions.first, dimensions.second, soundState.get());
-        RBXASSERT(captureStarted);
+        ARLASSERT(captureStarted);
 
 		if (captureStarted)
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO,  "Video recording started");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO,  "Video recording started");
 			frameRateManager->PauseAutoAdjustment();
 			recorded = false;
 		}

@@ -8,7 +8,7 @@
 #include "util/MemoryStats.h"
 #include "Replicator.StreamJob.h"
 
-namespace RBX { 
+namespace ARL { 
     namespace Security
     {
         struct NetPmcChallenge;
@@ -27,10 +27,10 @@ namespace RBX {
 
 		extern const char* const sClientReplicator;
 		class ClientReplicator 
-			: public RBX::DescribedNonCreatable<ClientReplicator, Replicator, sClientReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL>
+			: public ARL::DescribedNonCreatable<ClientReplicator, Replicator, sClientReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL>
 		{
 		private:
-			typedef RBX::DescribedNonCreatable<ClientReplicator, Replicator, sClientReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
+			typedef ARL::DescribedNonCreatable<ClientReplicator, Replicator, sClientReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
 
 			class RequestCharacterItem;
 			class ClientCapacityUpdateItem;
@@ -52,7 +52,7 @@ namespace RBX {
 			PropSync::Slave propSync;
 			RakNet::SystemAddress clientAddress;
 			bool receivedGlobals;
-			boost::scoped_ptr<RBX::AutoMemPool> cframePool;
+			boost::scoped_ptr<ARL::AutoMemPool> cframePool;
 			boost::shared_ptr<MemoryCheckerJob> memoryCheckerJob;
 #ifdef _WIN32
 			boost::shared_ptr<MemoryCheckerCheckerJob> memoryCheckerCheckerJob;
@@ -63,7 +63,7 @@ namespace RBX {
 			RunningAverage<double> avgInstancesPerStreamData;
             RunningAverage<double> avgStreamDataReadTime;
 			RunningAverage<int> avgRequestCount;
-            RBX::MemoryStats::MemoryLevel memoryLevel;
+            ARL::MemoryStats::MemoryLevel memoryLevel;
 
 			rbx::signals::scoped_connection playerCharacterAddedConnection;
 			void onPlayerCharacterAdded();
@@ -107,12 +107,12 @@ namespace RBX {
 			void readTagItem(DeserializedTagItem* item);
 			void processTag(int tag);
 
-            void readRockyItem(RakNet::BitStream& inBitstream, uint8_t& idx, RBX::Security::NetPmcChallenge& key);
-            static void doNetPmcCheck(shared_ptr<ClientReplicator> rep, uint8_t idx, RBX::Security::NetPmcChallenge challenge);
+            void readRockyItem(RakNet::BitStream& inBitstream, uint8_t& idx, ARL::Security::NetPmcChallenge& key);
+            static void doNetPmcCheck(shared_ptr<ClientReplicator> rep, uint8_t idx, ARL::Security::NetPmcChallenge challenge);
             void processRockyItem(RakNet::BitStream& inBitstream);
 
-			/*override*/ void readItem(RakNet::BitStream& inBitstream, RBX::Network::Item::ItemType itemType);
-			/*override*/ shared_ptr<DeserializedItem> deserializeItem(RakNet::BitStream& inBitstream, RBX::Network::Item::ItemType itemType);
+			/*override*/ void readItem(RakNet::BitStream& inBitstream, ARL::Network::Item::ItemType itemType);
+			/*override*/ shared_ptr<DeserializedItem> deserializeItem(RakNet::BitStream& inBitstream, ARL::Network::Item::ItemType itemType);
 			/*override*/ bool isLegalSendInstance(const Instance* instance);
 			/*override*/ bool isLegalSendProperty(Instance* instance, const Reflection::PropertyDescriptor& desc);
 			/*override*/ bool isLegalSendEvent(Instance* instance, const Reflection::EventDescriptor& desc);
@@ -133,7 +133,7 @@ namespace RBX {
 
 			/*override*/ void setPropSyncExpiration(double value)
 			{
-				propSync.setExpiration(RBX::Time::Interval(value));
+				propSync.setExpiration(ARL::Time::Interval(value));
 			}
 
 			/*override*/ shared_ptr<Stats> createStatsItem();
@@ -148,10 +148,10 @@ namespace RBX {
 			/*override*/ void onTerrainRegionChanged(const Voxel2::Region& region);
 
             // protocol schema
-            /*override*/ bool ProcessOutdatedChangedProperty(RakNet::BitStream& inBitstream, const RBX::Guid::Data& id, const Instance* instance, const Reflection::PropertyDescriptor* propertyDescriptor, unsigned int propId);
+            /*override*/ bool ProcessOutdatedChangedProperty(RakNet::BitStream& inBitstream, const ARL::Guid::Data& id, const Instance* instance, const Reflection::PropertyDescriptor* propertyDescriptor, unsigned int propId);
 			/*override*/ bool ProcessOutdatedProperties(RakNet::BitStream& inBitstream, Instance* instance, PropertyCacheType cacheType, bool useDictionary, bool preventBounceBack, std::vector<PropValuePair>* valueArray);
-            /*override*/ bool ProcessOutdatedInstance(RakNet::BitStream& inBitstream, bool isJoinData, const RBX::Guid::Data& id, const Reflection::ClassDescriptor* classDescriptor, unsigned int classId);
-            /*override*/ bool ProcessOutdatedEventInvocation(RakNet::BitStream& inBitstream, const RBX::Guid::Data& id, const Instance* instance, const Reflection::EventDescriptor* eventDescriptor, unsigned int eventId);
+            /*override*/ bool ProcessOutdatedInstance(RakNet::BitStream& inBitstream, bool isJoinData, const ARL::Guid::Data& id, const Reflection::ClassDescriptor* classDescriptor, unsigned int classId);
+            /*override*/ bool ProcessOutdatedEventInvocation(RakNet::BitStream& inBitstream, const ARL::Guid::Data& id, const Instance* instance, const Reflection::EventDescriptor* eventDescriptor, unsigned int eventId);
             /*override*/ bool ProcessOutdatedEnumSerialization(const Reflection::Type& type, const Reflection::Variant& value, RakNet::BitStream& outBitStream);
             /*override*/ bool ProcessOutdatedEnumDeserialization(RakNet::BitStream& inBitStream, const Reflection::Type& type,	Reflection::Variant& value);
             /*override*/ bool ProcessOutdatedPropertyEnumSerialization(const Reflection::ConstProperty& property, RakNet::BitStream& outBitStream);
@@ -194,7 +194,7 @@ namespace RBX {
 
             void renderPartMovementPath(Adorn* adorn);
 
-			RBX::MemoryStats::MemoryLevel getMemoryLevel() {return memoryLevel;}
+			ARL::MemoryStats::MemoryLevel getMemoryLevel() {return memoryLevel;}
             void updateMemoryStats();
 
 			// streaming debug
@@ -265,7 +265,7 @@ namespace RBX {
                 }
             };
 
-            typedef boost::unordered_map<const RBX::Name*, const shared_ptr<ReflectionClassContainer> > ReflectionClassMap;
+            typedef boost::unordered_map<const ARL::Name*, const shared_ptr<ReflectionClassContainer> > ReflectionClassMap;
             ReflectionClassMap serverClasses;
 
             class ReflectionEnumContainer
@@ -278,10 +278,10 @@ namespace RBX {
                 }
             };
 
-            typedef boost::unordered_map<const RBX::Name*, ReflectionEnumContainer> ReflectionEnumMap;
+            typedef boost::unordered_map<const ARL::Name*, ReflectionEnumContainer> ReflectionEnumMap;
             ReflectionEnumMap serverEnums;
 
-            typedef std::map<RBX::Guid::Data, const shared_ptr<ReflectionClassContainer> > InstanceClassMap;
+            typedef std::map<ARL::Guid::Data, const shared_ptr<ReflectionClassContainer> > InstanceClassMap;
             InstanceClassMap serverInstanceClassMap;
 
             // Maintain a string dictionary for each Property/event type I don't recognize

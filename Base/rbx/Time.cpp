@@ -19,7 +19,7 @@
 #include <unistd.h>
 #endif
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include "Mmsystem.h"
 #pragma comment (lib, "Winmm.lib")
 #endif
@@ -28,10 +28,10 @@ FASTINTVARIABLE(SpeedTestPeriodMillis, 1000)
 FASTINTVARIABLE(MaxSpeedDeltaMillis, 300)
 FASTINTVARIABLE(SpeedCountCap, 5)
 
-namespace RBX
+namespace ARL
 {
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 static volatile double currentSeconds = 0;
 static volatile bool cheater = false;
 static volatile bool isDebuggedValue = false;
@@ -106,7 +106,7 @@ static void checkSpeedHack()
 
 static void checkDbg()
 {
-#ifdef __RBX_NOT_RELEASE
+#ifdef __ARL_NOT_RELEASE
 	return;
 #else
 	DWORD dw = 0;
@@ -141,7 +141,7 @@ static double tick_frequency_helper()
 #if defined(_WIN32)
 	LARGE_INTEGER tickFreq;
 	int rval = QueryPerformanceFrequency(&tickFreq);
-	RBXASSERT(rval!=0);
+	ARLASSERT(rval!=0);
 	return 1.0 / static_cast<long long>(tickFreq.QuadPart);
 #elif defined(__APPLE__)
     kern_return_t kerror;
@@ -186,7 +186,7 @@ long long Time::getStart()
 	return start;
 }
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 
 void CALLBACK directCallback(UINT, UINT, DWORD, DWORD, DWORD) 
 { 
@@ -299,7 +299,7 @@ Time Time::now<Time::Precise>()
 template<>
 Time Time::now<Time::Multimedia>()
 {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 	return Time(timeGetTime() / 1000.0);
 #else
 	// TODO: Is this fast enough on Mac?
@@ -309,7 +309,7 @@ Time Time::now<Time::Multimedia>()
 
 bool Time::isSpeedCheater()
 {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 	return cheater;
 #else
 	// No cheat engine for mac yet???
@@ -319,7 +319,7 @@ bool Time::isSpeedCheater()
 
 bool Time::isDebugged()
 {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 	return isDebuggedValue;
 #else
 	return false;
@@ -329,7 +329,7 @@ bool Time::isDebugged()
 template<>
 Time Time::now<Time::Fast>()
 {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 	if (preciseOverride <= Fast)
 		return now<Precise>();
 	

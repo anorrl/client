@@ -37,7 +37,7 @@ class CrashReporter
 private:
 	LONG threadResult;
 	struct _EXCEPTION_POINTERS *exceptionInfo;
-	RBX::CEvent reportCrashEvent;
+	ARL::CEvent reportCrashEvent;
 	boost::scoped_ptr<boost::thread> watcherThread;
 	bool hangReportingEnabled;
 	bool isAlive;

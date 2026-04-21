@@ -2,7 +2,7 @@
 
 #include "Util/ContentId.h"
 
-namespace RBX {
+namespace ARL {
 
 	class AnimationId : public ContentId
 	{

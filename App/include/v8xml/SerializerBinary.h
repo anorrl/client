@@ -5,7 +5,7 @@
 
 #include <v8tree/Instance.h>
 
-namespace RBX
+namespace ARL
 {
 	namespace SerializerBinary
 	{

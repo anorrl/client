@@ -8,7 +8,7 @@
 //#include "Dictionary.h"
 #include "Util.h"
 
-namespace RBX
+namespace ARL
 {
 	namespace Network
 	{
@@ -94,7 +94,7 @@ namespace RBX
 				unsigned int readOffset = bitStream.GetReadOffset();
 
 				if (readOffset + bits > bitStream.GetNumberOfBitsUsed())
-					throw RBX::network_stream_exception("readFast past end");
+					throw ARL::network_stream_exception("readFast past end");
 
 				const unsigned char* data = bitStream.GetData();
 				const unsigned char* pos = data + (readOffset >> 3);
@@ -270,7 +270,7 @@ namespace RBX
 			unsigned int readOffset = bitStream.GetReadOffset();
 
 			if (readOffset + 1 > bitStream.GetNumberOfBitsUsed())
-				throw RBX::network_stream_exception("readFastBool past end");
+				throw ARL::network_stream_exception("readFastBool past end");
 
 			const unsigned char* data = bitStream.GetData();
 

@@ -4,7 +4,7 @@
 #include "Util/SpanningEdge.h"
 #include "Util/SpanningNode.h"
 
-namespace RBX {
+namespace ARL {
 
 	
 const SpanningNode* SpanningEdge::getConstParentSpanningNode() const
@@ -21,7 +21,7 @@ const SpanningNode* SpanningEdge::getConstChildSpanningNode() const
 			return n;
 		}
 	}
-	RBXASSERT(0);
+	ARLASSERT(0);
 	return NULL;
 }
 
@@ -39,7 +39,7 @@ SpanningNode* SpanningEdge::getParentSpanningNode()
 void SpanningEdge::removeFromSpanningTree()
 {
 	SpanningNode* child = getChildSpanningNode();
-	RBXASSERT(child);
+	ARLASSERT(child);
 
 	child->setIndexedTreeParent(NULL);
 	child->setEdgeToParent(NULL);
@@ -48,10 +48,10 @@ void SpanningEdge::removeFromSpanningTree()
 void SpanningEdge::addToSpanningTree(SpanningNode* newParent)
 {
 	SpanningNode* child = this->otherNode(newParent);
-	RBXASSERT(this->otherNode(child) == newParent);
-	RBXASSERT(child);
-	RBXASSERT(!child->getParent());
-	RBXASSERT(!child->getEdgeToParent());
+	ARLASSERT(this->otherNode(child) == newParent);
+	ARLASSERT(child);
+	ARLASSERT(!child->getParent());
+	ARLASSERT(!child->getEdgeToParent());
 
 	child->setEdgeToParent(this);			// do first so sort will work
 	child->setIndexedTreeParent(newParent);

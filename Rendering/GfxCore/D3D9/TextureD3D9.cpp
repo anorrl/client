@@ -9,7 +9,7 @@ LOGGROUP(Graphics)
 
 FASTFLAG(GraphicsTextureCommitChanges)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -70,11 +70,11 @@ static IDirect3DBaseTexture9* createTexture(IDirect3DDevice9* device9, Texture::
         break;
 	
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 	}
 
     if (FAILED(hr))
-		throw RBX::runtime_error("Error creating texture: %x", hr);
+		throw ARL::runtime_error("Error creating texture: %x", hr);
 
     return result;
 }
@@ -152,7 +152,7 @@ static D3DLOCKED_BOX lockHelper(IDirect3DBaseTexture9* object, unsigned int inde
 	{
 	case Texture::Type_2D:
         {
-            RBXASSERT(index == 0);
+            ARLASSERT(index == 0);
 
             RECT rectData;
 			RECT* rect = fillRectOptional(rectData, region);
@@ -166,7 +166,7 @@ static D3DLOCKED_BOX lockHelper(IDirect3DBaseTexture9* object, unsigned int inde
 
 	case Texture::Type_Cube:
         {
-            RBXASSERT(index < 6);
+            ARLASSERT(index < 6);
 
             RECT rectData;
 			RECT* rect = fillRectOptional(rectData, region);
@@ -180,7 +180,7 @@ static D3DLOCKED_BOX lockHelper(IDirect3DBaseTexture9* object, unsigned int inde
 
 	case Texture::Type_3D:
 		{
-            RBXASSERT(index == 0);
+            ARLASSERT(index == 0);
 
             D3DBOX boxData;
             D3DBOX* box = fillBoxOptional(boxData, region);
@@ -190,7 +190,7 @@ static D3DLOCKED_BOX lockHelper(IDirect3DBaseTexture9* object, unsigned int inde
         break;
 
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 	}
 
     if (FAILED(hr))
@@ -207,22 +207,22 @@ static void unlockHelper(IDirect3DBaseTexture9* object, unsigned int index, unsi
 	switch (type)
 	{
 	case Texture::Type_2D:
-        RBXASSERT(index == 0);
+        ARLASSERT(index == 0);
 		static_cast<IDirect3DTexture9*>(object)->UnlockRect(mip);
         break;
 
 	case Texture::Type_Cube:
-        RBXASSERT(index < 6);
+        ARLASSERT(index < 6);
 		static_cast<IDirect3DCubeTexture9*>(object)->UnlockRect(static_cast<D3DCUBEMAP_FACES>(index), mip);
         break;
 
 	case Texture::Type_3D:
-        RBXASSERT(index == 0);
+        ARLASSERT(index == 0);
 		static_cast<IDirect3DVolumeTexture9*>(object)->UnlockBox(mip);
         break;
 
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 	}
 }
 
@@ -233,7 +233,7 @@ static void copyHelper(void* targetData, unsigned int targetRowPitch, unsigned i
     unsigned int heightBlocks = Texture::isFormatCompressed(format) ? (height + 3) / 4 : height;
     unsigned int lineSize = Texture::getImageSize(format, width, 1);
 
-	RBXASSERT(lineSize <= sourceRowPitch && lineSize <= targetRowPitch);
+	ARLASSERT(lineSize <= sourceRowPitch && lineSize <= targetRowPitch);
 
 	if (targetRowPitch == sourceRowPitch && targetSlicePitch == sourceSlicePitch)
 	{
@@ -263,17 +263,17 @@ static IDirect3DSurface9* getSurfaceHelper(IDirect3DBaseTexture9* object, unsign
     switch (type)
     {
 	case Texture::Type_2D:
-        RBXASSERT(index == 0);
+        ARLASSERT(index == 0);
         static_cast<IDirect3DTexture9*>(object)->GetSurfaceLevel(mip, &result);
         break;
 
     case Texture::Type_Cube:
-        RBXASSERT(index < 6);
+        ARLASSERT(index < 6);
         static_cast<IDirect3DCubeTexture9*>(object)->GetCubeMapSurface(static_cast<D3DCUBEMAP_FACES>(index), mip, &result);
         break;
 
     default:
-        RBXASSERT(false);
+        ARLASSERT(false);
     }
 
     return result;
@@ -285,12 +285,12 @@ void TextureD3D9::upload(unsigned int index, unsigned int mip, const TextureRegi
     unsigned int mipHeight = getMipSide(height, mip);
     unsigned int mipDepth = getMipSide(depth, mip);
 
-    RBXASSERT(mip < mipLevels);
-	RBXASSERT(region.x + region.width <= mipWidth);
-	RBXASSERT(region.y + region.height <= mipHeight);
-	RBXASSERT(region.z + region.depth <= mipDepth);
+    ARLASSERT(mip < mipLevels);
+	ARLASSERT(region.x + region.width <= mipWidth);
+	ARLASSERT(region.y + region.height <= mipHeight);
+	ARLASSERT(region.z + region.depth <= mipDepth);
     
-    RBXASSERT(size == getImageSize(format, region.width, region.height) * region.depth);
+    ARLASSERT(size == getImageSize(format, region.width, region.height) * region.depth);
 
 	bool partialUpload = (region.width != mipWidth || region.height != mipHeight || region.depth != mipDepth);
 
@@ -317,8 +317,8 @@ bool TextureD3D9::download(unsigned int index, unsigned int mip, void* data, uns
     unsigned int mipHeight = getMipSide(height, mip);
     unsigned int mipDepth = getMipSide(depth, mip);
 
-    RBXASSERT(mip < mipLevels);
-    RBXASSERT(size == getImageSize(format, mipWidth, mipHeight) * mipDepth);
+    ARLASSERT(mip < mipLevels);
+    ARLASSERT(size == getImageSize(format, mipWidth, mipHeight) * mipDepth);
 
 	IDirect3DBaseTexture9* lockTarget = mirror ? mirror : object;
 
@@ -345,10 +345,10 @@ Texture::LockResult TextureD3D9::lock(unsigned int index, unsigned int mip, cons
     unsigned int mipHeight = getMipSide(height, mip);
     unsigned int mipDepth = getMipSide(depth, mip);
 
-    RBXASSERT(mip < mipLevels);
-	RBXASSERT(region.x + region.width <= mipWidth);
-	RBXASSERT(region.y + region.height <= mipHeight);
-	RBXASSERT(region.z + region.depth <= mipDepth);
+    ARLASSERT(mip < mipLevels);
+	ARLASSERT(region.x + region.width <= mipWidth);
+	ARLASSERT(region.y + region.height <= mipHeight);
+	ARLASSERT(region.z + region.depth <= mipDepth);
     
 	bool partialLock = (region.width != mipWidth || region.height != mipHeight || region.depth != mipDepth);
 
@@ -372,7 +372,7 @@ void TextureD3D9::unlock(unsigned int index, unsigned int mip)
 
 shared_ptr<Renderbuffer> TextureD3D9::getRenderbuffer(unsigned int index, unsigned int mip)
 {
-    RBXASSERT(mip < mipLevels);
+    ARLASSERT(mip < mipLevels);
 
 	weak_ptr<Renderbuffer>& slot = renderbuffers[std::make_pair(index, mip)];
     shared_ptr<Renderbuffer> result = slot.lock();
@@ -384,7 +384,7 @@ shared_ptr<Renderbuffer> TextureD3D9::getRenderbuffer(unsigned int index, unsign
         {
         case Type_2D: tgt = RenderbufferD3D9::Owner_Tex2; break;
         case Type_Cube: tgt = (RenderbufferD3D9::OwnerType)index; break;
-        default: RBXASSERT(!"Renderbuffer for this kind of texture is not yet implemented."); return shared_ptr<Renderbuffer>();
+        default: ARLASSERT(!"Renderbuffer for this kind of texture is not yet implemented."); return shared_ptr<Renderbuffer>();
         }
 
 		result.reset(new RenderbufferD3D9(device, shared_from_this(), tgt));

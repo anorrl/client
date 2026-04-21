@@ -8,7 +8,7 @@
 
 #ifdef _PRISM_PYRAMID_
 
-namespace RBX {
+namespace ARL {
 
 extern const char* const sCornerWedge;
 

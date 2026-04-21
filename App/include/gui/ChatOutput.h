@@ -8,7 +8,7 @@
 #include "Util/UDim.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class SafeChat;
 	class GuiObject;
@@ -121,7 +121,7 @@ namespace RBX {
 		static const int MaxChatBubblesPerPlayer;
 		static const int MaxChatLinesPerBubble;
 
-		RBX::Network::Players* players;	
+		ARL::Network::Players* players;	
 		std::map<ChatLine::BubbleColor, shared_ptr<GuiObject> > chatBubble;
 		std::map<ChatLine::BubbleColor, shared_ptr<GuiObject> > chatBubbleWithTail;
 		std::map<ChatLine::BubbleColor, shared_ptr<GuiObject> > scalingChatBubbleWithTail;

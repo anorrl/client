@@ -59,7 +59,7 @@ namespace GEMS {
 		Real len;
 
 		if ((len = sqrt(x * x + y * y)) == 0.0) {
-			RBXASSERT(0);
+			ARLASSERT(0);
 		}
 		else {
 			x /= len;

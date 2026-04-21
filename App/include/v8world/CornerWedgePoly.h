@@ -6,7 +6,7 @@
 #include "V8World/BlockMesh.h"
 #include "V8World/BulletGeometryPoolObjects.h"
 
-namespace RBX {
+namespace ARL {
 
 	class CornerWedgePoly : public Poly {
 	public:

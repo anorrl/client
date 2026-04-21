@@ -34,7 +34,7 @@ bandwidth. The end result is a modest memory footprint and nearly
 no networking overhead.
 */
 
-namespace RBX { namespace Network { namespace PropSync {
+namespace ARL { namespace Network { namespace PropSync {
 
 namespace detail
 {
@@ -81,12 +81,12 @@ namespace detail
 	class Base
 	{
 	protected:
-		RBX::Time::Interval expirationTime;
+		ARL::Time::Interval expirationTime;
 		typedef boost::unordered_map<PropertyKey, Item> Map;
 		Map map;
 		rbx::timestamped_safe_queue<PropertyKey> expirationQueue;
 
-		Base(RBX::Time::Interval expirationTime):expirationTime(expirationTime) {}
+		Base(ARL::Time::Interval expirationTime):expirationTime(expirationTime) {}
 
 	public:
 		size_t itemCount() const { return map.size(); }
@@ -96,8 +96,8 @@ namespace detail
 			while (expirationQueue.pop_if_waited(expirationTime, prop))
 			{
 				typename Map::iterator iter = map.find(prop);
-				RBXASSERT(iter != map.end());
-				if (RBX::Time::now<RBX::Time::Fast>() > iter->second.expiration)
+				ARLASSERT(iter != map.end());
+				if (ARL::Time::now<ARL::Time::Fast>() > iter->second.expiration)
 					// expire the item
 					map.erase(iter);
 				else
@@ -111,7 +111,7 @@ namespace detail
 	{
 	public:
 		int version;
-		RBX::Time expiration;
+		ARL::Time expiration;
 		Item():version(0) {}
 	};
 	class MasterItem : public Item
@@ -133,7 +133,7 @@ class Master : protected detail::Base<detail::MasterItem>
 	typedef detail::Base<detail::MasterItem> Super;
 public:
 	unsigned int propertyRejectionCount;
-	Master():Super(RBX::Time::Interval(2)),propertyRejectionCount(0) {}
+	Master():Super(ARL::Time::Interval(2)),propertyRejectionCount(0) {}
 
 	// Call this periodically to cull the database
 	void expireItems()
@@ -152,10 +152,10 @@ public:
 
 		if (createdItem)
 		{
-			RBXASSERT(item.version==0);
-			RBXASSERT(!item.isVersionSent);
+			ARLASSERT(item.version==0);
+			ARLASSERT(!item.isVersionSent);
 			// Set the expiration, queue for expiration
-			item.expiration = RBX::Time::now<RBX::Time::Fast>() + expirationTime;
+			item.expiration = ARL::Time::now<ARL::Time::Fast>() + expirationTime;
 			expirationQueue.push(detail::PropertyKey(prop));
 		}
 		else if (item.isVersionSent)
@@ -163,7 +163,7 @@ public:
 			item.version++;
 			item.isVersionSent = false;
 			// touch the expiration time
-			item.expiration = RBX::Time::now<RBX::Time::Fast>() + expirationTime;
+			item.expiration = ARL::Time::now<ARL::Time::Fast>() + expirationTime;
 		}
 	}
 
@@ -186,9 +186,9 @@ public:
 		if (createdItem)
 		{
 			// Set the expiration, queue for expiration and request a version reset
-			item.expiration = RBX::Time::now<RBX::Time::Fast>() + expirationTime;
+			item.expiration = ARL::Time::now<ARL::Time::Fast>() + expirationTime;
 			expirationQueue.push(detail::PropertyKey(prop));
-			RBXASSERT(item.version == 0);
+			ARLASSERT(item.version == 0);
 			return SendVersionReset;
 		}
 
@@ -226,7 +226,7 @@ public:
 		return Super::itemCount();
 	}
 
-	void setExpiration(RBX::Time::Interval expirationTime)
+	void setExpiration(ARL::Time::Interval expirationTime)
 	{
 		this->expirationTime = expirationTime;
 	}
@@ -237,7 +237,7 @@ class Slave : protected detail::Base<detail::SlaveItem>
 	typedef detail::Base<detail::SlaveItem> Super;
 public:
 	unsigned int ackCount;
-	Slave():Super(RBX::Time::Interval(4)),ackCount(0) {}
+	Slave():Super(ARL::Time::Interval(4)),ackCount(0) {}
 
 	// Call this periodically to cull the database
 	void expireItems()
@@ -257,16 +257,16 @@ public:
 		if (createdItem)
 		{
             // Disabling this for now.
-			// RBXASSERT(versionReset);
+			// ARLASSERT(versionReset);
 
 			// Set the expiration, queue for expiration and request a version reset
-			item.expiration = RBX::Time::now<RBX::Time::Fast>() + expirationTime;
+			item.expiration = ARL::Time::now<ARL::Time::Fast>() + expirationTime;
 			expirationQueue.push(detail::PropertyKey(prop));
 		}
 		else
 		{
 			// touch the expiration time
-			item.expiration = RBX::Time::now<RBX::Time::Fast>() + expirationTime;
+			item.expiration = ARL::Time::now<ARL::Time::Fast>() + expirationTime;
 		}
 
 		if (versionReset)
@@ -301,7 +301,7 @@ public:
 		return Super::itemCount();
 	}
 
-	void setExpiration(RBX::Time::Interval expirationTime)
+	void setExpiration(ARL::Time::Interval expirationTime)
 	{
 		this->expirationTime = expirationTime;
 	}

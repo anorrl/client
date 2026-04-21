@@ -5,7 +5,7 @@
 
 #include "HeadersD3D11.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -15,7 +15,7 @@ namespace Graphics
 
         if (Texture::isFormatDepth(format))
         {
-			RBXASSERT(type == Texture::Type_2D);
+			ARLASSERT(type == Texture::Type_2D);
 
             ID3D11DepthStencilView* depthStencilView = NULL;
 
@@ -23,7 +23,7 @@ namespace Graphics
 
 			if (samples > 1)
 			{
-				RBXASSERT(mipIndex == 0);
+				ARLASSERT(mipIndex == 0);
 				descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
 			}
 			else
@@ -36,7 +36,7 @@ namespace Graphics
             descDSV.Format = DXGI_FORMAT_UNKNOWN;
 
             hr = device11->CreateDepthStencilView(texture, &descDSV, &depthStencilView);
-            RBXASSERT(SUCCEEDED(hr));
+            ARLASSERT(SUCCEEDED(hr));
 
             return depthStencilView;
         }
@@ -50,7 +50,7 @@ namespace Graphics
                 {
 					if (samples > 1)
 					{
-						RBXASSERT(mipIndex == 0);
+						ARLASSERT(mipIndex == 0);
 						descRTV.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
 					}
 					else
@@ -64,7 +64,7 @@ namespace Graphics
                 }
             case Texture::Type_Cube:
                 {
-					RBXASSERT(samples == 1);
+					ARLASSERT(samples == 1);
 
                     descRTV.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
                     descRTV.Texture2DArray.ArraySize = 1;
@@ -74,7 +74,7 @@ namespace Graphics
                     break;
                 }
             default:
-                RBXASSERT(false);
+                ARLASSERT(false);
                 break;
             }
 
@@ -82,7 +82,7 @@ namespace Graphics
 
             hr = device11->CreateRenderTargetView(texture, &descRTV, &renderTargetView);
             if (FAILED(hr))
-                throw RBX::runtime_error("Error creating render target view: %x", hr);
+                throw ARL::runtime_error("Error creating render target view: %x", hr);
 
             return renderTargetView;
         }
@@ -108,7 +108,7 @@ namespace Graphics
         ID3D11Texture2D* rtTexture = NULL;
         HRESULT hr = device11->CreateTexture2D( &descDepth, NULL, &rtTexture );
         if (FAILED(hr))
-            throw RBX::runtime_error("Error creating render target texture: %x", hr);
+            throw ARL::runtime_error("Error creating render target texture: %x", hr);
 
         return rtTexture;
     }
@@ -141,7 +141,7 @@ namespace Graphics
 
 			ID3D11DepthStencilView* depthStencilView = NULL;
 			HRESULT hr = device11->CreateDepthStencilView(texture, &descDSV, &depthStencilView);
-			RBXASSERT(SUCCEEDED(hr));
+			ARLASSERT(SUCCEEDED(hr));
 
 			object = depthStencilView;
 		}
@@ -153,7 +153,7 @@ namespace Graphics
 
 			ID3D11RenderTargetView* renderTargetView = NULL;
 			HRESULT hr = device11->CreateRenderTargetView(texture, &descRTV, &renderTargetView);
-			RBXASSERT(SUCCEEDED(hr));
+			ARLASSERT(SUCCEEDED(hr));
 
 			object = renderTargetView;
 		}
@@ -181,16 +181,16 @@ namespace Graphics
         , color(color)
         , depth(depth)
     {
-        RBXASSERT(!color.empty());
+        ARLASSERT(!color.empty());
 
         if (color.size() > device->getCaps().maxDrawBuffers)
-            throw RBX::runtime_error("Unsupported framebuffer configuration: too many buffers (%d)", color.size());
+            throw ARL::runtime_error("Unsupported framebuffer configuration: too many buffers (%d)", color.size());
 
         for (size_t i = 0; i < color.size(); ++i)
         {
             RenderbufferD3D11* buffer = static_cast<RenderbufferD3D11*>(color[i].get());
-            RBXASSERT(buffer);
-            RBXASSERT(!Texture::isFormatDepth(buffer->getFormat()));
+            ARLASSERT(buffer);
+            ARLASSERT(!Texture::isFormatDepth(buffer->getFormat()));
 
             if (i == 0)
             {
@@ -200,26 +200,26 @@ namespace Graphics
             }
             else
             {
-                RBXASSERT(width == buffer->getWidth());
-                RBXASSERT(height == buffer->getHeight());
-                RBXASSERT(samples == buffer->getSamples());
+                ARLASSERT(width == buffer->getWidth());
+                ARLASSERT(height == buffer->getHeight());
+                ARLASSERT(samples == buffer->getSamples());
             }
         }
 
         if (depth)
         {
             RenderbufferD3D11* buffer = static_cast<RenderbufferD3D11*>(depth.get());
-            RBXASSERT(Texture::isFormatDepth(buffer->getFormat()));
+            ARLASSERT(Texture::isFormatDepth(buffer->getFormat()));
 
-            RBXASSERT(width == buffer->getWidth());
-            RBXASSERT(height == buffer->getHeight());
-            RBXASSERT(samples == buffer->getSamples());
+            ARLASSERT(width == buffer->getWidth());
+            ARLASSERT(height == buffer->getHeight());
+            ARLASSERT(samples == buffer->getSamples());
         }
     }
 
     void FramebufferD3D11::download(void* data, unsigned int size)
     {
-        RBXASSERT(size == width * height * 4);
+        ARLASSERT(size == width * height * 4);
 
         DeviceD3D11* device11 = static_cast<DeviceD3D11*>(device);
         ID3D11DeviceContext* context11 = device11->getImmediateContext11();
@@ -240,13 +240,13 @@ namespace Graphics
         ID3D11Texture2D* tempTex = NULL;
         HRESULT hr = device11->getDevice11()->CreateTexture2D(&desc, NULL, reinterpret_cast<ID3D11Texture2D**>(&tempTex));
         if (FAILED(hr))
-            throw RBX::runtime_error("Download frame buffer cant create temp texture %x", hr);
+            throw ARL::runtime_error("Download frame buffer cant create temp texture %x", hr);
 
         // get resource bound to view
         ID3D11Resource* resource;
         RenderbufferD3D11* color0 = static_cast<RenderbufferD3D11*>(color[0].get());
         color0->getObject()->GetResource(&resource);
-        RBXASSERT(color0->getFormat() == Texture::Format_RGBA8);
+        ARLASSERT(color0->getFormat() == Texture::Format_RGBA8);
 
         // copy resource to tex
         context11->CopyResource(tempTex, resource);
@@ -254,7 +254,7 @@ namespace Graphics
         // copy texture to provided memory
         D3D11_MAPPED_SUBRESOURCE mappedResource;
         hr = context11->Map(tempTex, 0, D3D11_MAP_READ, 0, &mappedResource);
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
 
         for (unsigned int y = 0; y < height; ++y)
         {

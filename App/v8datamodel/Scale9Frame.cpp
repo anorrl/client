@@ -2,7 +2,7 @@
 
 #include "V8DataModel/Scale9Frame.h"
 
-namespace RBX
+namespace ARL
 {
 
 REFLECTION_BEGIN();

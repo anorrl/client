@@ -9,7 +9,7 @@
 
 #pragma comment(lib, "Iphlpapi.lib")
 
-using namespace RBX;
+using namespace ARL;
 
 bool MachineIdUploader::fillMachineId(MachineId* out) {
 
@@ -34,7 +34,7 @@ bool MachineIdUploader::fillMachineId(MachineId* out) {
 				currentAdapter = currentAdapter->Next) {
 			
 			if (currentAdapter->IfType == IF_TYPE_ETHERNET_CSMACD) {
-				RBXASSERT(MacAddress::kBytesInMacAddress ==
+				ARLASSERT(MacAddress::kBytesInMacAddress ==
 					currentAdapter->PhysicalAddressLength);
 				
 				out->macAddresses.resize(out->macAddresses.size() + 1);

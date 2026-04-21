@@ -6,9 +6,9 @@
 
 // Simple class for returning metric values - used for graphics reporting
 
-namespace RBX {
+namespace ARL {
 
-	class RBXInterface IMetric
+	class ARLInterface IMetric
 	{
 	public:
 		IMetric() {}

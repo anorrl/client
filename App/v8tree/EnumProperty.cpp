@@ -18,10 +18,10 @@
 #include "rbx/make_shared.h"
 #include "rbx/signal.h"
 
-using namespace RBX;
-using namespace RBX::Reflection;
+using namespace ARL;
+using namespace ARL::Reflection;
 
-namespace RBX {
+namespace ARL {
 	float getElementValueOrDefault(const XmlElement* ele, int dflt)
 	{
 		float output;
@@ -82,10 +82,10 @@ bool StringConverter<BinaryString>::convertToValue(const std::string& text, Bina
     return true;
 }
 
-} //namespace RBX
+} //namespace ARL
 
 
-namespace RBX {
+namespace ARL {
     namespace Reflection
 	{
 //////////////////////////////////////////////////////////
@@ -115,9 +115,9 @@ Should be:  (Also in PartInstance)
 }
 
 template<>
-RBX::NormalId& RBX::Reflection::Variant::convert<RBX::NormalId>(void)
+ARL::NormalId& ARL::Reflection::Variant::convert<ARL::NormalId>(void)
 {
-	return genericConvert<RBX::NormalId>();
+	return genericConvert<ARL::NormalId>();
 }
 
 
@@ -127,15 +127,15 @@ int TypedPropertyDescriptor<std::string>::getDataSize(const DescribedBase* insta
     return sizeof(std::string) + getValue(instance).size();
 }
 template<>
-bool RBX::Reflection::TypedPropertyDescriptor<std::string>::hasStringValue() const {
+bool ARL::Reflection::TypedPropertyDescriptor<std::string>::hasStringValue() const {
 	return true;
 }
 template<>
-std::string RBX::Reflection::TypedPropertyDescriptor<std::string>::getStringValue(const DescribedBase* instance) const{
+std::string ARL::Reflection::TypedPropertyDescriptor<std::string>::getStringValue(const DescribedBase* instance) const{
 	return getValue(instance);
 }
 template<>
-bool RBX::Reflection::TypedPropertyDescriptor<std::string>::setStringValue(DescribedBase* instance, const std::string& text) const {
+bool ARL::Reflection::TypedPropertyDescriptor<std::string>::setStringValue(DescribedBase* instance, const std::string& text) const {
 	setValue(instance, text);
 	return true;
 }
@@ -242,22 +242,22 @@ bool TypedPropertyDescriptor<int>::setStringValue(DescribedBase* instance, const
 }
 
 template<>
-int TypedPropertyDescriptor<RBX::Region3>::getDataSize(const DescribedBase* instance) const 
+int TypedPropertyDescriptor<ARL::Region3>::getDataSize(const DescribedBase* instance) const 
 {
-    return sizeof(RBX::Region3);
+    return sizeof(ARL::Region3);
 }
 template<>
-bool TypedPropertyDescriptor<RBX::Region3>::hasStringValue() const {
+bool TypedPropertyDescriptor<ARL::Region3>::hasStringValue() const {
 	return false;
 }
 template<>
-std::string TypedPropertyDescriptor<RBX::Region3>::getStringValue(const DescribedBase* instance) const{
-	return StringConverter<RBX::Region3>::convertToString(getValue(instance));
+std::string TypedPropertyDescriptor<ARL::Region3>::getStringValue(const DescribedBase* instance) const{
+	return StringConverter<ARL::Region3>::convertToString(getValue(instance));
 }
 template<>
-bool TypedPropertyDescriptor<RBX::Region3>::setStringValue(DescribedBase* instance, const std::string& text) const {
-	RBX::Region3 value;
-	if (StringConverter<RBX::Region3>::convertToValue(text, value))
+bool TypedPropertyDescriptor<ARL::Region3>::setStringValue(DescribedBase* instance, const std::string& text) const {
+	ARL::Region3 value;
+	if (StringConverter<ARL::Region3>::convertToValue(text, value))
 	{
 		setValue(instance, value);
 		return true;
@@ -297,22 +297,22 @@ static void WriteValue(XmlElement* element, const Vector3int16& v)
 }
 
 template<>
-int TypedPropertyDescriptor<RBX::Region3int16>::getDataSize(const DescribedBase* instance) const 
+int TypedPropertyDescriptor<ARL::Region3int16>::getDataSize(const DescribedBase* instance) const 
 {
     return sizeof(Region3int16);
 }
 template<>
-bool TypedPropertyDescriptor<RBX::Region3int16>::hasStringValue() const {
+bool TypedPropertyDescriptor<ARL::Region3int16>::hasStringValue() const {
 	return false;
 }
 template<>
-std::string TypedPropertyDescriptor<RBX::Region3int16>::getStringValue(const DescribedBase* instance) const{
-	return StringConverter<RBX::Region3int16>::convertToString(getValue(instance));
+std::string TypedPropertyDescriptor<ARL::Region3int16>::getStringValue(const DescribedBase* instance) const{
+	return StringConverter<ARL::Region3int16>::convertToString(getValue(instance));
 }
 template<>
-bool TypedPropertyDescriptor<RBX::Region3int16>::setStringValue(DescribedBase* instance, const std::string& text) const {
-	RBX::Region3int16 value;
-	if (StringConverter<RBX::Region3int16>::convertToValue(text, value))
+bool TypedPropertyDescriptor<ARL::Region3int16>::setStringValue(DescribedBase* instance, const std::string& text) const {
+	ARL::Region3int16 value;
+	if (StringConverter<ARL::Region3int16>::convertToValue(text, value))
 	{
 		setValue(instance, value);
 		return true;
@@ -321,7 +321,7 @@ bool TypedPropertyDescriptor<RBX::Region3int16>::setStringValue(DescribedBase* i
 		return false;
 }
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::Region3int16>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::Region3int16>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -337,7 +337,7 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::Region3int16>::readValue(Desc
 	}
 }
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::Region3int16>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::Region3int16>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	XmlElement* minElement	 = element->addChild(tag_Min);
 	XmlElement* maxElement = element->addChild(tag_Max);
@@ -400,7 +400,7 @@ bool TypedPropertyDescriptor<G3D::Vector2>::setStringValue(DescribedBase* instan
 
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<std::string>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<std::string>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -410,13 +410,13 @@ void RBX::Reflection::TypedPropertyDescriptor<std::string>::readValue(DescribedB
 	}
 }
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<std::string>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<std::string>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	element->setValue(getValue(instance));
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<float>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<float>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -426,13 +426,13 @@ void RBX::Reflection::TypedPropertyDescriptor<float>::readValue(DescribedBase* i
 	}
 }
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<float>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<float>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	element->setValue(getValue(instance));
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<bool>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<bool>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -443,13 +443,13 @@ void RBX::Reflection::TypedPropertyDescriptor<bool>::readValue(DescribedBase* in
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<double>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<double>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	element->setValue(getValue(instance));
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<double>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<double>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -460,13 +460,13 @@ void RBX::Reflection::TypedPropertyDescriptor<double>::readValue(DescribedBase* 
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<bool>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<bool>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	element->setValue(getValue(instance));
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<int>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<int>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -476,13 +476,13 @@ void RBX::Reflection::TypedPropertyDescriptor<int>::readValue(DescribedBase* ins
 	}
 }
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<int>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<int>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	element->setValue(getValue(instance));
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<class G3D::Vector2>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<class G3D::Vector2>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -499,7 +499,7 @@ void RBX::Reflection::TypedPropertyDescriptor<class G3D::Vector2>::readValue(Des
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<class G3D::Vector2>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<class G3D::Vector2>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	// Write the data out in accordance with ROBLOX Schema
 
@@ -542,7 +542,7 @@ static void WriteValue(XmlElement* element, const Vector3& v)
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<class G3D::Vector3>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<class G3D::Vector3>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	G3D::Vector3 v;
 	if(ReadValue(v, element)){
@@ -551,7 +551,7 @@ void RBX::Reflection::TypedPropertyDescriptor<class G3D::Vector3>::readValue(Des
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<class G3D::Vector3>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<class G3D::Vector3>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	G3D::Vector3 v = getValue(instance);
 	WriteValue(element, v);
@@ -594,7 +594,7 @@ const Type& Type::getSingleton<long>()
 
 
 template<>
-int& RBX::Reflection::Variant::convert<int>(void)
+int& ARL::Reflection::Variant::convert<int>(void)
 {
 	// Convert double to int
 	if (_type->isType<double>())
@@ -628,7 +628,7 @@ const Type& Type::getSingleton<bool>()
 }
 
 template<>
-bool& RBX::Reflection::Variant::convert<bool>(void)
+bool& ARL::Reflection::Variant::convert<bool>(void)
 {
 	// Convert int to bool
 	if (_type->isType<int>())
@@ -662,7 +662,7 @@ const Type& Type::getSingleton<float>()
 }
 
 template<>
-float& RBX::Reflection::Variant::convert<float>(void)
+float& ARL::Reflection::Variant::convert<float>(void)
 {
 	// Convert double to float
 	if (_type->isType<double>())
@@ -699,7 +699,7 @@ const Type& Type::getSingleton<double>()
 
 
 template<>
-double& RBX::Reflection::Variant::convert<double>(void)
+double& ARL::Reflection::Variant::convert<double>(void)
 {
 	// Convert int to double
 	if (_type->isType<int>())
@@ -727,44 +727,44 @@ double& RBX::Reflection::Variant::convert<double>(void)
 
 
 template<>
-RBX::Region3& RBX::Reflection::Variant::convert<RBX::Region3>(void)
+ARL::Region3& ARL::Reflection::Variant::convert<ARL::Region3>(void)
 {
-	return genericConvert<RBX::Region3>();
+	return genericConvert<ARL::Region3>();
 }
 
 template<>
-RBX::Region3int16& RBX::Reflection::Variant::convert<RBX::Region3int16>(void)
+ARL::Region3int16& ARL::Reflection::Variant::convert<ARL::Region3int16>(void)
 {
-	return genericConvert<RBX::Region3int16>();
+	return genericConvert<ARL::Region3int16>();
 }
 
 template<>
-G3D::Vector3& RBX::Reflection::Variant::convert<G3D::Vector3>(void)
+G3D::Vector3& ARL::Reflection::Variant::convert<G3D::Vector3>(void)
 {
 	return genericConvert<G3D::Vector3>();
 }
 
 template<>
-RBX::Vector2& RBX::Reflection::Variant::convert<RBX::Vector2>(void)
+ARL::Vector2& ARL::Reflection::Variant::convert<ARL::Vector2>(void)
 {
-	return genericConvert<RBX::Vector2>();
+	return genericConvert<ARL::Vector2>();
 }
 
 template<>
-G3D::CoordinateFrame& RBX::Reflection::Variant::convert<G3D::CoordinateFrame>(void)
+G3D::CoordinateFrame& ARL::Reflection::Variant::convert<G3D::CoordinateFrame>(void)
 {
 	return genericConvert<G3D::CoordinateFrame>();
 }
 
 template<>
-const Type& Type::getSingleton<RBX::ContentId>()
+const Type& Type::getSingleton<ARL::ContentId>()
 {
-	static TType<RBX::ContentId> type("Content");
+	static TType<ARL::ContentId> type("Content");
 	return type;
 }
 
 template<>
-ContentId& RBX::Reflection::Variant::convert<ContentId>(void)
+ContentId& ARL::Reflection::Variant::convert<ContentId>(void)
 {
 	if (_type->isType<std::string>())
 	{
@@ -790,9 +790,9 @@ const Type& Type::getSingleton<G3D::Vector3>()
 }
 
 template<>
-const Type& Type::getSingleton<RBX::Vector2>()
+const Type& Type::getSingleton<ARL::Vector2>()
 {
-	static TType<RBX::Vector2> type("Vector2");
+	static TType<ARL::Vector2> type("Vector2");
 	return type;
 }
 
@@ -812,7 +812,7 @@ const Type& Type::getSingleton<shared_ptr<const Tuple> >()
 }
 
 template<>
-std::string& RBX::Reflection::Variant::convert<std::string>(void)
+std::string& ARL::Reflection::Variant::convert<std::string>(void)
 {
 	// TODO: This should be made compact somehow!!!
 	if (isType<bool>())
@@ -845,9 +845,9 @@ std::string& RBX::Reflection::Variant::convert<std::string>(void)
 		value = StringConverter<G3D::Vector3>::convertToString(cast<G3D::Vector3>());
 		_type = &Type::singleton<std::string>();
 	}
-	else if (isType<RBX::CoordinateFrame>())
+	else if (isType<ARL::CoordinateFrame>())
 	{
-		if (cast<RBX::CoordinateFrame>() == RBX::CoordinateFrame())
+		if (cast<ARL::CoordinateFrame>() == ARL::CoordinateFrame())
 			value = std::string("Identity");
 		else
 			value = std::string("?");
@@ -924,7 +924,7 @@ static void CastInstance(Variant value, shared_ptr<Instances> instancesCollectio
 	instancesCollection->push_back(value.convert<shared_ptr<Instance> >());
 }
 
-namespace RBX {
+namespace ARL {
 namespace Reflection {
 
 template<>
@@ -1005,7 +1005,7 @@ shared_ptr<const Tuple>& Variant::convert<shared_ptr<const Tuple> >(void)
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 
 template<>
-G3D::Vector2int16& RBX::Reflection::Variant::convert<G3D::Vector2int16>(void)
+G3D::Vector2int16& ARL::Reflection::Variant::convert<G3D::Vector2int16>(void)
 {
 	return genericConvert<G3D::Vector2int16>();
 }
@@ -1045,7 +1045,7 @@ bool TypedPropertyDescriptor<G3D::Vector2int16>::setStringValue(DescribedBase* i
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<G3D::Vector2int16>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<G3D::Vector2int16>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -1060,7 +1060,7 @@ void RBX::Reflection::TypedPropertyDescriptor<G3D::Vector2int16>::readValue(Desc
 	}
 }
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<G3D::Vector2int16>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<G3D::Vector2int16>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	// Write the data out in accordance with ROBLOX Schema
 
@@ -1080,7 +1080,7 @@ void RBX::Reflection::TypedPropertyDescriptor<G3D::Vector2int16>::writeValue(con
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 
 template<>
-G3D::Vector3int16& RBX::Reflection::Variant::convert<G3D::Vector3int16>(void)
+G3D::Vector3int16& ARL::Reflection::Variant::convert<G3D::Vector3int16>(void)
 {
 	return genericConvert<G3D::Vector3int16>();
 }
@@ -1124,7 +1124,7 @@ bool TypedPropertyDescriptor<G3D::Vector3int16>::setStringValue(DescribedBase* i
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<G3D::Vector3int16>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<G3D::Vector3int16>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -1141,7 +1141,7 @@ void RBX::Reflection::TypedPropertyDescriptor<G3D::Vector3int16>::readValue(Desc
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<G3D::Vector3int16>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<G3D::Vector3int16>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	XmlElement* xElement = element->addChild(tag_X);
 	XmlElement* yElement = element->addChild(tag_Y);
@@ -1159,7 +1159,7 @@ void RBX::Reflection::TypedPropertyDescriptor<G3D::Vector3int16>::writeValue(con
 // PhysicalProperties
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 template<>
-PhysicalProperties& RBX::Reflection::Variant::convert<PhysicalProperties>(void)
+PhysicalProperties& ARL::Reflection::Variant::convert<PhysicalProperties>(void)
 {
 	return genericConvert<PhysicalProperties>();
 }
@@ -1193,7 +1193,7 @@ bool TypedPropertyDescriptor<PhysicalProperties>::setStringValue(DescribedBase* 
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<PhysicalProperties>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<PhysicalProperties>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -1227,7 +1227,7 @@ void RBX::Reflection::TypedPropertyDescriptor<PhysicalProperties>::readValue(Des
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<PhysicalProperties>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<PhysicalProperties>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	
 	//Only worth saving if CustomPhysicalProperties is enabled
@@ -1259,7 +1259,7 @@ void RBX::Reflection::TypedPropertyDescriptor<PhysicalProperties>::writeValue(co
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 
 template<>
-G3D::Rect2D& RBX::Reflection::Variant::convert<G3D::Rect2D>(void)
+G3D::Rect2D& ARL::Reflection::Variant::convert<G3D::Rect2D>(void)
 {
     return genericConvert<G3D::Rect2D>();
 }
@@ -1289,7 +1289,7 @@ bool TypedPropertyDescriptor<G3D::Rect2D>::setStringValue(DescribedBase* instanc
     return false;
 }
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<G3D::Rect2D>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<G3D::Rect2D>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
     if (!element->isXsiNil())
     {
@@ -1320,7 +1320,7 @@ void RBX::Reflection::TypedPropertyDescriptor<G3D::Rect2D>::readValue(DescribedB
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<G3D::Rect2D>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<G3D::Rect2D>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
     // Write the data out in accordance with ROBLOX Schema
     
@@ -1353,37 +1353,37 @@ void RBX::Reflection::TypedPropertyDescriptor<G3D::Rect2D>::writeValue(const Des
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 
 template<>
-RBX::UDim& RBX::Reflection::Variant::convert<RBX::UDim>(void)
+ARL::UDim& ARL::Reflection::Variant::convert<ARL::UDim>(void)
 {
-	return genericConvert<RBX::UDim>();
+	return genericConvert<ARL::UDim>();
 }
 
 template<>
-const Type& Type::getSingleton<RBX::UDim>()
+const Type& Type::getSingleton<ARL::UDim>()
 {
-	static TType<RBX::UDim> type("UDim");
+	static TType<ARL::UDim> type("UDim");
 	return type;
 }
 
 template<>
-int TypedPropertyDescriptor<RBX::UDim>::getDataSize(const DescribedBase* instance) const 
+int TypedPropertyDescriptor<ARL::UDim>::getDataSize(const DescribedBase* instance) const 
 {
-    return sizeof(RBX::UDim);
+    return sizeof(ARL::UDim);
 }
 template<>
-bool TypedPropertyDescriptor<RBX::UDim>::hasStringValue() const {
+bool TypedPropertyDescriptor<ARL::UDim>::hasStringValue() const {
 	return true;
 }
 template<>
-std::string TypedPropertyDescriptor<RBX::UDim>::getStringValue(const DescribedBase* instance) const{
-	return StringConverter<RBX::UDim>::convertToString(getValue(instance));
+std::string TypedPropertyDescriptor<ARL::UDim>::getStringValue(const DescribedBase* instance) const{
+	return StringConverter<ARL::UDim>::convertToString(getValue(instance));
 }
 template<>
-bool TypedPropertyDescriptor<RBX::UDim>::setStringValue(DescribedBase* instance, const std::string& text) const {
+bool TypedPropertyDescriptor<ARL::UDim>::setStringValue(DescribedBase* instance, const std::string& text) const {
 	return false;
 }
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::UDim>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::UDim>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -1394,19 +1394,19 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::UDim>::readValue(DescribedBas
 		int o;
 		sElement->getValue(s);
 		oElement->getValue(o);
-		setValue(instance, RBX::UDim(s,o));
+		setValue(instance, ARL::UDim(s,o));
 	}
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::UDim>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::UDim>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	// Write the data out in accordance with ROBLOX Schema
 
 	XmlElement* sElement = element->addChild(tag_S);
 	XmlElement* oElement = element->addChild(tag_O);
 
-	RBX::UDim v = getValue(instance);
+	ARL::UDim v = getValue(instance);
 	sElement->setValue(v.scale);
 	oElement->setValue((int)v.offset);
 }
@@ -1419,38 +1419,38 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::UDim>::writeValue(const Descr
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 
 template<>
-RBX::UDim2& RBX::Reflection::Variant::convert<RBX::UDim2>(void)
+ARL::UDim2& ARL::Reflection::Variant::convert<ARL::UDim2>(void)
 {
-	return genericConvert<RBX::UDim2>();
+	return genericConvert<ARL::UDim2>();
 }
 
 template<>
-const Type& Type::getSingleton<RBX::UDim2>()
+const Type& Type::getSingleton<ARL::UDim2>()
 {
-	static TType<RBX::UDim2> type("UDim2");
+	static TType<ARL::UDim2> type("UDim2");
 	return type;
 }
 
 template<>
-int TypedPropertyDescriptor<RBX::UDim2>::getDataSize(const DescribedBase* instance) const 
+int TypedPropertyDescriptor<ARL::UDim2>::getDataSize(const DescribedBase* instance) const 
 {
-    return sizeof(RBX::UDim2);
+    return sizeof(ARL::UDim2);
 }
 template<>
-bool TypedPropertyDescriptor<RBX::UDim2>::hasStringValue() const {
+bool TypedPropertyDescriptor<ARL::UDim2>::hasStringValue() const {
 	return true;
 }
 template<>
-std::string TypedPropertyDescriptor<RBX::UDim2>::getStringValue(const DescribedBase* instance) const{
-	return StringConverter<RBX::UDim2>::convertToString(getValue(instance));
+std::string TypedPropertyDescriptor<ARL::UDim2>::getStringValue(const DescribedBase* instance) const{
+	return StringConverter<ARL::UDim2>::convertToString(getValue(instance));
 }
 template<>
-bool TypedPropertyDescriptor<RBX::UDim2>::setStringValue(DescribedBase* instance, const std::string& text) const {
+bool TypedPropertyDescriptor<ARL::UDim2>::setStringValue(DescribedBase* instance, const std::string& text) const {
 	return false;
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::UDim2>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::UDim2>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -1465,12 +1465,12 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::UDim2>::readValue(DescribedBa
 		xoElement->getValue(xo);
 		ysElement->getValue(ys);
 		yoElement->getValue(yo);
-		setValue(instance, RBX::UDim2(xs,xo, ys,yo));
+		setValue(instance, ARL::UDim2(xs,xo, ys,yo));
 	}
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::UDim2>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::UDim2>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	// Write the data out in accordance with ROBLOX Schema
 
@@ -1479,7 +1479,7 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::UDim2>::writeValue(const Desc
 	XmlElement* ysElement = element->addChild(tag_YS);
 	XmlElement* yoElement = element->addChild(tag_YO);
 
-	RBX::UDim2 v = getValue(instance);
+	ARL::UDim2 v = getValue(instance);
 	xsElement->setValue(v.x.scale);
 	xoElement->setValue((int)v.x.offset);
 	ysElement->setValue(v.y.scale);
@@ -1495,38 +1495,38 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::UDim2>::writeValue(const Desc
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 
 template<>
-RBX::Faces& RBX::Reflection::Variant::convert<RBX::Faces>(void)
+ARL::Faces& ARL::Reflection::Variant::convert<ARL::Faces>(void)
 {
-	return genericConvert<RBX::Faces>();
+	return genericConvert<ARL::Faces>();
 }
 
 template<>
-const Type& Type::getSingleton<RBX::Faces>()
+const Type& Type::getSingleton<ARL::Faces>()
 {
-	static TType<RBX::Faces> type("Faces");
+	static TType<ARL::Faces> type("Faces");
 	return type;
 }
 
 template<>
-int TypedPropertyDescriptor<RBX::Faces>::getDataSize(const DescribedBase* instance) const 
+int TypedPropertyDescriptor<ARL::Faces>::getDataSize(const DescribedBase* instance) const 
 {
-    return sizeof(RBX::Faces);
+    return sizeof(ARL::Faces);
 }
 template<>
-bool TypedPropertyDescriptor<RBX::Faces>::hasStringValue() const {
+bool TypedPropertyDescriptor<ARL::Faces>::hasStringValue() const {
 	return true;
 }
 template<>
-std::string TypedPropertyDescriptor<RBX::Faces>::getStringValue(const DescribedBase* instance) const{
-	return StringConverter<RBX::Faces>::convertToString(getValue(instance));
+std::string TypedPropertyDescriptor<ARL::Faces>::getStringValue(const DescribedBase* instance) const{
+	return StringConverter<ARL::Faces>::convertToString(getValue(instance));
 }
 template<>
-bool TypedPropertyDescriptor<RBX::Faces>::setStringValue(DescribedBase* instance, const std::string& text) const {
+bool TypedPropertyDescriptor<ARL::Faces>::setStringValue(DescribedBase* instance, const std::string& text) const {
 	return false;
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::Faces>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::Faces>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -1534,18 +1534,18 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::Faces>::readValue(DescribedBa
 
 		int faces;
 		facesElement->getValue(faces);
-		setValue(instance, RBX::Faces(faces));
+		setValue(instance, ARL::Faces(faces));
 	}
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::Faces>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::Faces>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	// Write the data out in accordance with ROBLOX Schema
 
 	XmlElement* facesElement = element->addChild(tag_faces);
 
-	RBX::Faces v = getValue(instance);
+	ARL::Faces v = getValue(instance);
 	facesElement->setValue(v.normalIdMask);
 }
 
@@ -1558,38 +1558,38 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::Faces>::writeValue(const Desc
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 
 template<>
-RBX::Axes& RBX::Reflection::Variant::convert<RBX::Axes>(void)
+ARL::Axes& ARL::Reflection::Variant::convert<ARL::Axes>(void)
 {
-	return genericConvert<RBX::Axes>();
+	return genericConvert<ARL::Axes>();
 }
 
 template<>
-const Type& Type::getSingleton<RBX::Axes>()
+const Type& Type::getSingleton<ARL::Axes>()
 {
-	static TType<RBX::Axes> type("Axes");
+	static TType<ARL::Axes> type("Axes");
 	return type;
 }
 
 template<>
-int TypedPropertyDescriptor<RBX::Axes>::getDataSize(const DescribedBase* instance) const 
+int TypedPropertyDescriptor<ARL::Axes>::getDataSize(const DescribedBase* instance) const 
 {
-    return sizeof(RBX::Axes);
+    return sizeof(ARL::Axes);
 }
 template<>
-bool TypedPropertyDescriptor<RBX::Axes>::hasStringValue() const {
+bool TypedPropertyDescriptor<ARL::Axes>::hasStringValue() const {
 	return true;
 }
 template<>
-std::string TypedPropertyDescriptor<RBX::Axes>::getStringValue(const DescribedBase* instance) const{
-	return StringConverter<RBX::Axes>::convertToString(getValue(instance));
+std::string TypedPropertyDescriptor<ARL::Axes>::getStringValue(const DescribedBase* instance) const{
+	return StringConverter<ARL::Axes>::convertToString(getValue(instance));
 }
 template<>
-bool TypedPropertyDescriptor<RBX::Axes>::setStringValue(DescribedBase* instance, const std::string& text) const {
+bool TypedPropertyDescriptor<ARL::Axes>::setStringValue(DescribedBase* instance, const std::string& text) const {
 	return false;
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::Axes>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::Axes>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -1597,18 +1597,18 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::Axes>::readValue(DescribedBas
 
 		int axes;
 		axesElement->getValue(axes);
-		setValue(instance, RBX::Axes(axes));
+		setValue(instance, ARL::Axes(axes));
 	}
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::Axes>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::Axes>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	// Write the data out in accordance with ROBLOX Schema
 
 	XmlElement* axesElement = element->addChild(tag_axes);
 
-	RBX::Axes v = getValue(instance);
+	ARL::Axes v = getValue(instance);
 	axesElement->setValue(v.axisMask);
 }
 
@@ -1620,7 +1620,7 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::Axes>::writeValue(const Descr
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 
 template<>
-G3D::Color3& RBX::Reflection::Variant::convert<G3D::Color3>(void)
+G3D::Color3& ARL::Reflection::Variant::convert<G3D::Color3>(void)
 {
 	return genericConvert<G3D::Color3>();
 }
@@ -1658,7 +1658,7 @@ bool TypedPropertyDescriptor<G3D::Color3>::setStringValue(DescribedBase* instanc
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<G3D::Color3>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<G3D::Color3>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -1687,7 +1687,7 @@ void RBX::Reflection::TypedPropertyDescriptor<G3D::Color3>::readValue(DescribedB
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<G3D::Color3>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<G3D::Color3>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	// Write the data out in accordance with ROBLOX Schema
 
@@ -1704,37 +1704,37 @@ void RBX::Reflection::TypedPropertyDescriptor<G3D::Color3>::writeValue(const Des
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 
 template<>
-RBX::RbxRay& RBX::Reflection::Variant::convert<RBX::RbxRay>(void)
+ARL::RbxRay& ARL::Reflection::Variant::convert<ARL::RbxRay>(void)
 {
-	return genericConvert<RBX::RbxRay>();
+	return genericConvert<ARL::RbxRay>();
 }
 
 template<>
-const Type& Type::getSingleton<RBX::RbxRay>()
+const Type& Type::getSingleton<ARL::RbxRay>()
 {
-	static TType<RBX::RbxRay> type("Ray");
+	static TType<ARL::RbxRay> type("Ray");
 	return type;
 }
 
 template<>
-int TypedPropertyDescriptor<RBX::RbxRay>::getDataSize(const DescribedBase* instance) const 
+int TypedPropertyDescriptor<ARL::RbxRay>::getDataSize(const DescribedBase* instance) const 
 {
-    return sizeof(RBX::RbxRay);
+    return sizeof(ARL::RbxRay);
 }
 
 template<>
-bool TypedPropertyDescriptor<RBX::RbxRay>::hasStringValue() const {
+bool TypedPropertyDescriptor<ARL::RbxRay>::hasStringValue() const {
 	return true;
 }
 
 template<>
-std::string TypedPropertyDescriptor<RBX::RbxRay>::getStringValue(const DescribedBase* instance) const{
-	return StringConverter<RBX::RbxRay>::convertToString(getValue(instance));
+std::string TypedPropertyDescriptor<ARL::RbxRay>::getStringValue(const DescribedBase* instance) const{
+	return StringConverter<ARL::RbxRay>::convertToString(getValue(instance));
 }
 template<>
-bool TypedPropertyDescriptor<RBX::RbxRay>::setStringValue(DescribedBase* instance, const std::string& text) const {
-	RBX::RbxRay value;
-	if (StringConverter<RBX::RbxRay>::convertToValue(text, value))
+bool TypedPropertyDescriptor<ARL::RbxRay>::setStringValue(DescribedBase* instance, const std::string& text) const {
+	ARL::RbxRay value;
+	if (StringConverter<ARL::RbxRay>::convertToValue(text, value))
 	{
 		setValue(instance, value);
 		return true;
@@ -1745,7 +1745,7 @@ bool TypedPropertyDescriptor<RBX::RbxRay>::setStringValue(DescribedBase* instanc
 
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<class RBX::RbxRay>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<class ARL::RbxRay>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -1760,12 +1760,12 @@ void RBX::Reflection::TypedPropertyDescriptor<class RBX::RbxRay>::readValue(Desc
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<class RBX::RbxRay>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<class ARL::RbxRay>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	XmlElement* originElement	 = element->addChild(tag_Origin);
 	XmlElement* directionElement = element->addChild(tag_Direction);
 
-	RBX::RbxRay v = getValue(instance);
+	ARL::RbxRay v = getValue(instance);
 	WriteValue(originElement, v.origin());
 	WriteValue(directionElement, v.direction());
 }
@@ -1780,9 +1780,9 @@ void RBX::Reflection::TypedPropertyDescriptor<class RBX::RbxRay>::writeValue(con
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
 
 template<>
-RBX::BrickColor& RBX::Reflection::Variant::convert<RBX::BrickColor>(void)
+ARL::BrickColor& ARL::Reflection::Variant::convert<ARL::BrickColor>(void)
 {
-	return genericConvert<RBX::BrickColor>();
+	return genericConvert<ARL::BrickColor>();
 }
 
 template<>
@@ -1846,9 +1846,9 @@ void TypedPropertyDescriptor<BrickColor>::writeValue(const DescribedBase* instan
 // convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue, convertToValue
 
 template<>
-RBX::SystemAddress& RBX::Reflection::Variant::convert<RBX::SystemAddress>(void)
+ARL::SystemAddress& ARL::Reflection::Variant::convert<ARL::SystemAddress>(void)
 {
-	return genericConvert<RBX::SystemAddress>();
+	return genericConvert<ARL::SystemAddress>();
 }
 
 template<>
@@ -1880,15 +1880,15 @@ bool TypedPropertyDescriptor<SystemAddress>::setStringValue(DescribedBase* insta
 
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::SystemAddress>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::SystemAddress>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
-	RBXASSERT(0);	// should never be streamed...  REPLICATE_ONLY
+	ARLASSERT(0);	// should never be streamed...  REPLICATE_ONLY
 }
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::SystemAddress>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::SystemAddress>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
-	RBXASSERT(0);	// should never be streamed...  REPLICATE_ONLY
+	ARLASSERT(0);	// should never be streamed...  REPLICATE_ONLY
 }
 
 
@@ -1899,7 +1899,7 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::SystemAddress>::writeValue(co
 
 
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::ContentId>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::ContentId>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -1909,27 +1909,27 @@ void RBX::Reflection::TypedPropertyDescriptor<RBX::ContentId>::readValue(Describ
 	}
 }
 template<>
-void RBX::Reflection::TypedPropertyDescriptor<RBX::ContentId>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::Reflection::TypedPropertyDescriptor<ARL::ContentId>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	element->setValue(ContentId(getValue(instance)));
 }
 
 template<>
-int TypedPropertyDescriptor<RBX::ContentId>::getDataSize(const DescribedBase* instance) const 
+int TypedPropertyDescriptor<ARL::ContentId>::getDataSize(const DescribedBase* instance) const 
 {
-    return sizeof(RBX::ContentId) + getValue(instance).toString().size();
+    return sizeof(ARL::ContentId) + getValue(instance).toString().size();
 }
 
 template<>
-bool RBX::Reflection::TypedPropertyDescriptor<ContentId>::hasStringValue() const {
+bool ARL::Reflection::TypedPropertyDescriptor<ContentId>::hasStringValue() const {
 	return true;
 }
 template<>
-std::string RBX::Reflection::TypedPropertyDescriptor<ContentId>::getStringValue(const DescribedBase* instance) const{
+std::string ARL::Reflection::TypedPropertyDescriptor<ContentId>::getStringValue(const DescribedBase* instance) const{
 	return StringConverter<ContentId>::convertToString(getValue(instance));
 }
 template<>
-bool RBX::Reflection::TypedPropertyDescriptor<ContentId>::setStringValue(DescribedBase* instance, const std::string& text) const {
+bool ARL::Reflection::TypedPropertyDescriptor<ContentId>::setStringValue(DescribedBase* instance, const std::string& text) const {
 	ContentId value;
 	if (StringConverter<ContentId>::convertToValue(text, value))
 	{
@@ -1948,7 +1948,7 @@ bool RBX::Reflection::TypedPropertyDescriptor<ContentId>::setStringValue(Describ
 template<>
 const Type& Type::getSingleton<BinaryString>()
 {
-    static TType<RBX::BinaryString> type("BinaryString");
+    static TType<ARL::BinaryString> type("BinaryString");
     return type;
 }
 

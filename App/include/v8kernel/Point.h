@@ -5,7 +5,7 @@
 #include "V8Kernel/KernelIndex.h"
 #include "Util/G3DCore.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Body;
 
@@ -79,5 +79,5 @@ namespace RBX {
 		}
 	};
 
-} // namespace RBX
+} // namespace ARL
 

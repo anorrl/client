@@ -4,7 +4,7 @@
 #include "V8Tree/Instance.h"
 #include "Player.h"
 
-namespace RBX {
+namespace ARL {
 	namespace Network {
 
 	class CustomChatFilter;

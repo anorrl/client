@@ -4,7 +4,7 @@
 #include "Humanoid/StrafingNoPhysics.h"
 #include "Humanoid/Humanoid.h"
 
-namespace RBX {
+namespace ARL {
 namespace HUMAN {
 
 const char* const sStrafingNoPhysics = "StrafingNoPhysics";
@@ -17,4 +17,4 @@ StrafingNoPhysics::StrafingNoPhysics(Humanoid* humanoid, StateType priorState)
 
 
 } // namespace HUMAN
-} // namespace RBX
+} // namespace ARL

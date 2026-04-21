@@ -19,7 +19,7 @@
 #include "util/standardout.h"
 
 
-namespace RBX
+namespace ARL
 {
 namespace FileSystem
 {
@@ -65,7 +65,7 @@ boost::filesystem::path getUserDirectory(bool create, FileSystemDir dir, const c
 			hr = SHGetFolderPathAndSubDirW(NULL, CSIDL_MYVIDEO | flags, NULL, SHGFP_TYPE_CURRENT, robloxDir.native().c_str(), pathBuffer);
 			break;
 		default:
-			RBXASSERT(false);
+			ARLASSERT(false);
 			hr = S_FALSE;
 			break;
 	}
@@ -83,5 +83,5 @@ boost::filesystem::path getUserDirectory(bool create, FileSystemDir dir, const c
 }
 
 } // namespace Filesystem
-} // namespace RBX
+} // namespace ARL
 #endif // #ifdef _WIN32

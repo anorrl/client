@@ -9,7 +9,7 @@
 
 FASTFLAG(GraphicsDebugMarkersEnable)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -126,7 +126,7 @@ namespace Graphics
 
     void DeviceContextD3D11::defineGlobalConstants(size_t dataSize)
     {
-        RBXASSERT(globalsConstantBuffer == NULL);
+        ARLASSERT(globalsConstantBuffer == NULL);
         if (globalsConstantBuffer)
             return;
 
@@ -141,12 +141,12 @@ namespace Graphics
         globalDataSize = dataSize;
 
         HRESULT hr = device11->CreateBuffer( &bd, NULL, &globalsConstantBuffer );
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
     }
 
     void DeviceContextD3D11::updateGlobalConstants(const void* data, size_t dataSize)
     {
-        RBXASSERT(dataSize == globalDataSize);
+        ARLASSERT(dataSize == globalDataSize);
 
         immediateContext11->UpdateSubresource(globalsConstantBuffer, 0, NULL, data, 0, 0);
 
@@ -204,14 +204,14 @@ namespace Graphics
 
     void DeviceContextD3D11::setWorldTransforms4x3(const float* data, size_t matrixCount)
     {
-        RBXASSERT(cachedProgram);
+        ARLASSERT(cachedProgram);
 
         cachedProgram->setWorldTransforms4x3(data, matrixCount);
     }
 
     void DeviceContextD3D11::setConstant(int handle, const float* data, size_t vectorCount)
     {
-        RBXASSERT(cachedProgram);
+        ARLASSERT(cachedProgram);
 
         cachedProgram->setConstant(handle, data, vectorCount);
     }
@@ -246,7 +246,7 @@ namespace Graphics
                 rastStateDesc.AntialiasedLineEnable = false;
 
                 HRESULT hr = device11->CreateRasterizerState( &rastStateDesc, &state11);
-                RBXASSERT(SUCCEEDED(hr));
+                ARLASSERT(SUCCEEDED(hr));
             
                 checkDuplicates(rasterizerStateHash, state11);
                 rasterizerStateHash[realState] = state11;
@@ -302,7 +302,7 @@ namespace Graphics
                 blendStateDesc.RenderTarget[0].RenderTargetWriteMask = colorMask;
                     
                 HRESULT hr = device11->CreateBlendState(&blendStateDesc, &state11);
-                RBXASSERT(SUCCEEDED(hr));
+                ARLASSERT(SUCCEEDED(hr));
 
                 checkDuplicates(blendStateHash, state11);
                 blendStateHash[state] = state11;
@@ -376,7 +376,7 @@ namespace Graphics
                 }
 
                 HRESULT hr = device11->CreateDepthStencilState(&dsDesc, &state11);
-                RBXASSERT(SUCCEEDED(hr));
+                ARLASSERT(SUCCEEDED(hr));
 
                 checkDuplicates(depthStateHash, state11);
                 depthStateHash[state] = state11;   
@@ -435,8 +435,8 @@ namespace Graphics
             ? SamplerState(state.getFilter(), state.getAddress(), defaultAnisotropy)
             : state;
 
-		RBXASSERT(stage < device->getCaps().maxTextureUnits);
-        RBXASSERT(stage < ARRAYSIZE(cachedTextureUnits));
+		ARLASSERT(stage < device->getCaps().maxTextureUnits);
+        ARLASSERT(stage < ARRAYSIZE(cachedTextureUnits));
 
         TextureUnit& u = cachedTextureUnits[stage];
 
@@ -467,7 +467,7 @@ namespace Graphics
                 samplerDesc.MaxLOD = FLT_MAX;
 
                 HRESULT hr = device11->CreateSamplerState(&samplerDesc, &samplerState);
-                RBXASSERT(SUCCEEDED(hr));
+                ARLASSERT(SUCCEEDED(hr));
 
                 checkDuplicates(samplerStateHash, samplerState);
                 samplerStateHash[realState] = samplerState;
@@ -500,7 +500,7 @@ namespace Graphics
 
     void DeviceContextD3D11::clearFramebuffer(unsigned int mask, const float color[4], float depth, unsigned int stencil)
     {
-        RBXASSERT(cachedFramebuffer);
+        ARLASSERT(cachedFramebuffer);
 
         FramebufferD3D11* buffer11 = static_cast<FramebufferD3D11*>(cachedFramebuffer);
 
@@ -534,12 +534,12 @@ namespace Graphics
     void DeviceContextD3D11::copyFramebuffer(Framebuffer* buffer, Texture* texture)
     {
         FramebufferD3D11* fb = static_cast<FramebufferD3D11*>(buffer);        
-        RBXASSERT(fb->getColor().size() > 0);
+        ARLASSERT(fb->getColor().size() > 0);
         RenderbufferD3D11* color0 = static_cast<RenderbufferD3D11*>(fb->getColor()[0].get());
 
-        RBXASSERT(texture->getType() == Texture::Type_2D);
-        RBXASSERT(texture->getMipLevels() == 1);
-        RBXASSERT(color0->getWidth() == texture->getWidth() && color0->getHeight() == texture->getHeight());
+        ARLASSERT(texture->getType() == Texture::Type_2D);
+        ARLASSERT(texture->getMipLevels() == 1);
+        ARLASSERT(color0->getWidth() == texture->getWidth() && color0->getHeight() == texture->getHeight());
 
         ID3D11DeviceContext* context11 = static_cast<DeviceD3D11*>(device)->getImmediateContext11();
 
@@ -548,9 +548,9 @@ namespace Graphics
 
     void DeviceContextD3D11::resolveFramebuffer(Framebuffer* msaaBuffer, Framebuffer* buffer, unsigned int mask)
 	{
-		RBXASSERT(msaaBuffer->getSamples() > 1);
-		RBXASSERT(buffer->getSamples() == 1);
-		RBXASSERT(msaaBuffer->getWidth() == buffer->getWidth() && msaaBuffer->getHeight() == buffer->getHeight());
+		ARLASSERT(msaaBuffer->getSamples() > 1);
+		ARLASSERT(buffer->getSamples() == 1);
+		ARLASSERT(msaaBuffer->getWidth() == buffer->getWidth() && msaaBuffer->getHeight() == buffer->getHeight());
 
 		FramebufferD3D11* msaaBuffer11 = static_cast<FramebufferD3D11*>(msaaBuffer);
 		FramebufferD3D11* buffer11 = static_cast<FramebufferD3D11*>(buffer);
@@ -559,15 +559,15 @@ namespace Graphics
 
 		if (mask & Buffer_Color)
 		{
-			RBXASSERT(msaaBuffer11->getColor().size() > 0);
-			RBXASSERT(msaaBuffer11->getColor().size() == buffer11->getColor().size());
+			ARLASSERT(msaaBuffer11->getColor().size() > 0);
+			ARLASSERT(msaaBuffer11->getColor().size() == buffer11->getColor().size());
 
 			for (size_t i = 0; i < msaaBuffer11->getColor().size(); ++i)
 			{
 				RenderbufferD3D11* msaaColor = static_cast<RenderbufferD3D11*>(msaaBuffer11->getColor()[i].get());
 				RenderbufferD3D11* color = static_cast<RenderbufferD3D11*>(buffer11->getColor()[i].get());
 
-				RBXASSERT(msaaColor->getFormat() == color->getFormat());
+				ARLASSERT(msaaColor->getFormat() == color->getFormat());
 
 				context11->ResolveSubresource(color->getResource(), 0, msaaColor->getResource(), 0, static_cast<DXGI_FORMAT>(TextureD3D11::getInternalFormat(msaaColor->getFormat())));
 			}
@@ -575,12 +575,12 @@ namespace Graphics
 
 		if (mask & (Buffer_Depth | Buffer_Stencil))
 		{
-			RBXASSERT(msaaBuffer11->getDepth() && buffer11->getDepth());
+			ARLASSERT(msaaBuffer11->getDepth() && buffer11->getDepth());
 
 			RenderbufferD3D11* msaaDepth = static_cast<RenderbufferD3D11*>(msaaBuffer11->getDepth().get());
 			RenderbufferD3D11* depth = static_cast<RenderbufferD3D11*>(buffer11->getDepth().get());
 
-			RBXASSERT(msaaDepth->getFormat() == depth->getFormat());
+			ARLASSERT(msaaDepth->getFormat() == depth->getFormat());
 
 			context11->ResolveSubresource(depth->getResource(), 0, msaaDepth->getResource(), 0, static_cast<DXGI_FORMAT>(TextureD3D11::getInternalFormat(msaaDepth->getFormat())));
 		}

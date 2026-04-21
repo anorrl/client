@@ -15,7 +15,7 @@
 #include <map>
 #include <string>
 
-namespace RBX
+namespace ARL
 {
 
 class DebugSerializer;

@@ -14,7 +14,7 @@ LOGGROUP(Graphics)
 FASTFLAGVARIABLE(DebugGraphicsD3D9ForceSWVP, false)
 FASTFLAGVARIABLE(DebugGraphicsD3D9ForceFFP, false)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -258,7 +258,7 @@ DeviceD3D9::DeviceD3D9(void* windowHandle)
 	{
 		FASTLOGS(FLog::Graphics, "D3D9 GPU: %s", ai9.Description);
 		FASTLOG2(FLog::Graphics, "D3D9 GPU: Vendor %04x Device %04x", ai9.VendorId, ai9.DeviceId);
-		FASTLOGS(FLog::Graphics, "D3D9 Driver: %s", RBX::format("%s %d.%d.%d.%d", ai9.Driver, ai9.DriverVersion.HighPart >> 16, ai9.DriverVersion.HighPart & 0xffff, ai9.DriverVersion.LowPart >> 16, ai9.DriverVersion.LowPart & 0xffff));
+		FASTLOGS(FLog::Graphics, "D3D9 Driver: %s", ARL::format("%s %d.%d.%d.%d", ai9.Driver, ai9.DriverVersion.HighPart >> 16, ai9.DriverVersion.HighPart & 0xffff, ai9.DriverVersion.LowPart >> 16, ai9.DriverVersion.LowPart & 0xffff));
 	}
 
 	device9 = createDevice(d3d9, adapter, static_cast<HWND>(windowHandle));
@@ -378,7 +378,7 @@ bool DeviceD3D9::validate()
 
         if (result)
         {
-            RBXASSERT(dimensions.first == mainFramebuffer->getWidth() && dimensions.second == mainFramebuffer->getHeight());
+            ARLASSERT(dimensions.first == mainFramebuffer->getWidth() && dimensions.second == mainFramebuffer->getHeight());
         }
         else
         {
@@ -425,7 +425,7 @@ DeviceContext* DeviceD3D9::beginFrame()
 
 void DeviceD3D9::endFrame()
 {
-    RBXASSERT(!deviceLost);
+    ARLASSERT(!deviceLost);
 
 	device9->EndScene();
 
@@ -512,20 +512,20 @@ void DeviceD3D9::setVR(bool enabled)
 
 void DeviceD3D9::defineGlobalConstants(size_t dataSize, const std::vector<ShaderGlobalConstant>& constants)
 {
-	RBXASSERT(globalConstants.empty());
-	RBXASSERT(!constants.empty());
+	ARLASSERT(globalConstants.empty());
+	ARLASSERT(!constants.empty());
 
     // Since constants are directly set to register values, we impose additional restrictions on constant data
     // The struct should be an integer number of float4 registers, and every constant has to be aligned to float4 boundary
-    RBXASSERT(dataSize % 16 == 0);
+    ARLASSERT(dataSize % 16 == 0);
     globalDataSize = dataSize;
 
     for (size_t i = 0; i < constants.size(); ++i)
 	{
 		const ShaderGlobalConstant& c = constants[i];
 
-		RBXASSERT(c.offset % 16 == 0);
-		RBXASSERT(globalConstants.count(c.name) == 0);
+		ARLASSERT(c.offset % 16 == 0);
+		ARLASSERT(globalConstants.count(c.name) == 0);
 
 		globalConstants.insert(std::make_pair(c.name, c));
 	}
@@ -551,7 +551,7 @@ std::vector<char> DeviceD3D9::createShaderBytecode(const std::string& source, co
 shared_ptr<VertexShader> DeviceD3D9::createVertexShader(const std::vector<char>& bytecode)
 {
 	if (!caps.supportsShaders)
-        throw RBX::runtime_error("No shader support");
+        throw ARL::runtime_error("No shader support");
 
     return shared_ptr<VertexShader>(new VertexShaderD3D9(this, bytecode));
 }
@@ -559,7 +559,7 @@ shared_ptr<VertexShader> DeviceD3D9::createVertexShader(const std::vector<char>&
 shared_ptr<FragmentShader> DeviceD3D9::createFragmentShader(const std::vector<char>& bytecode)
 {
 	if (!caps.supportsShaders)
-        throw RBX::runtime_error("No shader support");
+        throw ARL::runtime_error("No shader support");
 
     return shared_ptr<FragmentShader>(new FragmentShaderD3D9(this, bytecode));
 }
@@ -567,7 +567,7 @@ shared_ptr<FragmentShader> DeviceD3D9::createFragmentShader(const std::vector<ch
 shared_ptr<ShaderProgram> DeviceD3D9::createShaderProgram(const shared_ptr<VertexShader>& vertexShader, const shared_ptr<FragmentShader>& fragmentShader)
 {
 	if (!caps.supportsShaders)
-        throw RBX::runtime_error("No shader support");
+        throw ARL::runtime_error("No shader support");
 
     return shared_ptr<ShaderProgram>(new ShaderProgramD3D9(this, vertexShader, fragmentShader));
 }
@@ -575,7 +575,7 @@ shared_ptr<ShaderProgram> DeviceD3D9::createShaderProgram(const shared_ptr<Verte
 shared_ptr<ShaderProgram> DeviceD3D9::createShaderProgramFFP()
 {
 	if (!caps.supportsFFP)
-        throw RBX::runtime_error("No FFP support");
+        throw ARL::runtime_error("No FFP support");
 
 	return shared_ptr<ShaderProgram>(new ShaderProgramFFPD3D9(this));
 }
@@ -626,7 +626,7 @@ DeviceStats DeviceD3D9::getStatistics() const
 
 void DeviceD3D9::createMainFramebuffer()
 {
-	RBXASSERT(!mainFramebuffer);
+	ARLASSERT(!mainFramebuffer);
 
 	IDirect3DSurface9* backBuffer = NULL;
 	device9->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);

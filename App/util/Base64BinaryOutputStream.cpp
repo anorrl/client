@@ -3,7 +3,7 @@
 
 #include "Rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* Base64BinaryOutputStream::kTranslateToBase64 = 
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -15,16 +15,16 @@ Base64BinaryOutputStream::Base64BinaryOutputStream() : buffer(0), bitsUsed(0) {}
 
 size_t Base64BinaryOutputStream::GetNumberOfBytesUsed() const {
 	// for the time being, only needed to satisfy templatization
-	RBXASSERT(false);
+	ARLASSERT(false);
     throw std::runtime_error("Base64BinaryOutputStream::GetNumberOfBytesUsed Not Implemented");
 }
 
 void Base64BinaryOutputStream::WriteBits(
 		const unsigned char* doNotReadFromThisVariableAfterFirstRead,
 		size_t numBitsToAdd) {
-	RBXASSERT(numBitsToAdd <= 8);
-    RBXASSERT(numBitsToAdd >= 1);
-    RBXASSERT(doNotReadFromThisVariableAfterFirstRead);
+	ARLASSERT(numBitsToAdd <= 8);
+    ARLASSERT(numBitsToAdd >= 1);
+    ARLASSERT(doNotReadFromThisVariableAfterFirstRead);
 
 	unsigned char dataCopy = *doNotReadFromThisVariableAfterFirstRead;
 
@@ -39,7 +39,7 @@ void Base64BinaryOutputStream::WriteBits(
 		buffer |= dataCopy >> (numBitsToAdd - bitsThatFit);
 
 		bitsUsed += bitsThatFit;
-        RBXASSERT(bitsUsed <= 6);
+        ARLASSERT(bitsUsed <= 6);
 		if (bitsUsed == 6) {
 			result << ((const char)kTranslateToBase64[buffer]);
 		
@@ -56,8 +56,8 @@ void Base64BinaryOutputStream::done(std::string* out) {
 		unsigned char zero = 0;
 		WriteBits(&zero, 6 - bitsUsed);
 	}
-	RBXASSERT(bitsUsed == 0);
-	RBXASSERT(buffer == 0);
+	ARLASSERT(bitsUsed == 0);
+	ARLASSERT(buffer == 0);
 
 	(*out) = result.str();
 }

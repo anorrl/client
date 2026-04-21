@@ -23,8 +23,8 @@
 
 FASTINTVARIABLE(FMODSoundChannels, 100);
 
-using namespace RBX;
-using namespace RBX::Soundscape;
+using namespace ARL;
+using namespace ARL::Soundscape;
 
 LOGVARIABLE(FMOD, 0)
 LOGVARIABLE(Sound, 0)
@@ -52,7 +52,7 @@ struct FMODSystemRelease
 };
 } // namespace
 
-namespace RBX
+namespace ARL
 {
 namespace Soundscape
 {
@@ -104,17 +104,17 @@ EnumDesc<ListenerType>::EnumDesc()
 	addPair(ObjectCFrame, "ObjectCFrame");
 }
 template<>
-RBX::Soundscape::ListenerType& Variant::convert<RBX::Soundscape::ListenerType>(void)
+ARL::Soundscape::ListenerType& Variant::convert<ARL::Soundscape::ListenerType>(void)
 {
-	return genericConvert<RBX::Soundscape::ListenerType>();
+	return genericConvert<ARL::Soundscape::ListenerType>();
 }
 } //namespace Reflection
 template<>
-bool StringConverter<RBX::Soundscape::ListenerType>::convertToValue(const std::string& text, RBX::Soundscape::ListenerType& value)
+bool StringConverter<ARL::Soundscape::ListenerType>::convertToValue(const std::string& text, ARL::Soundscape::ListenerType& value)
 {
-	return Reflection::EnumDesc<RBX::Soundscape::ListenerType>::singleton().convertToValue(text.c_str(),value);
+	return Reflection::EnumDesc<ARL::Soundscape::ListenerType>::singleton().convertToValue(text.c_str(),value);
 }
-} //namespace RBX
+} //namespace ARL
 
 static const Time::Interval gcTime(5);		// GC the sounds every 5 seconds
 static const float decay = 0.7;
@@ -124,8 +124,8 @@ Reflection::BoundProp<float> SoundService::prop_distancefactor("DistanceFactor",
 Reflection::BoundProp<float> SoundService::prop_rolloffscale("RolloffScale", category_Data, &SoundService::rolloffscale, &SoundService::on3DSettingChanged);
 Reflection::EnumPropDescriptor<SoundService, ReverbType> SoundService::prop_AmbientReverb("AmbientReverb", category_Data, &SoundService::getAmbientReverb, &SoundService::setAmbientReverb);
 Reflection::BoundFuncDesc<SoundService, void(SoundType)> func_playSound(&SoundService::playSound, "PlayStockSound", "sound", Security::RobloxScript);
-Reflection::BoundFuncDesc<SoundService, void(ListenerType, shared_ptr<const RBX::Reflection::Tuple>)> func_setListener(&SoundService::setListener, "SetListener", "listenerType", "listener", Security::None);
-Reflection::BoundFuncDesc<SoundService, shared_ptr<const RBX::Reflection::Tuple>()> func_getListener(&SoundService::getListener, "GetListener", Security::None);
+Reflection::BoundFuncDesc<SoundService, void(ListenerType, shared_ptr<const ARL::Reflection::Tuple>)> func_setListener(&SoundService::setListener, "SetListener", "listenerType", "listener", Security::None);
+Reflection::BoundFuncDesc<SoundService, shared_ptr<const ARL::Reflection::Tuple>()> func_getListener(&SoundService::getListener, "GetListener", Security::None);
 
 SoundService::SoundService()
 	:dopplerscale(1.0f) 
@@ -152,7 +152,7 @@ unsigned int SoundService::getfmod_version() const
 void SoundService::openFmod()
 {
 	FASTLOG1(DFLog::SoundTrace, "SoundService::openFmod(%p)", this);
-	if (!soundDisabled && RBX::GameSettings::singleton().soundEnabled)
+	if (!soundDisabled && ARL::GameSettings::singleton().soundEnabled)
 	{
 		try
         {
@@ -180,7 +180,7 @@ void SoundService::openFmod()
                 checkResultNoThrow(system->getDriver(&driver), "getDriver", this, system.get());
                 if (driver>=0)
                 {
-                    checkResultNoThrow(system->getDriverInfo(driver, RBX::RbxDbgInfo::s_instance.AudioDeviceName, DBG_STRING_MAX, NULL, NULL, NULL, NULL), "getDriverInfo", this, system.get());					
+                    checkResultNoThrow(system->getDriverInfo(driver, ARL::RbxDbgInfo::s_instance.AudioDeviceName, DBG_STRING_MAX, NULL, NULL, NULL, NULL), "getDriverInfo", this, system.get());					
                 }
             }
             else
@@ -206,10 +206,10 @@ void SoundService::openFmod()
             checkResult(system->init(FInt::FMODSoundChannels, flags, 0), "init", this, system.get());
 
 			checkResult(system->createChannelGroup(NULL, &channelMaster), "createChannelGroup", this, system.get());
-			channelMaster->setVolume(RBX::GameBasicSettings::singleton().getMasterVolume());
+			channelMaster->setVolume(ARL::GameBasicSettings::singleton().getMasterVolume());
 
 			// listen for master volume changes
-			gameSettingsChangedConnection = RBX::GameBasicSettings::singleton().propertyChangedSignal.connect(boost::bind(&SoundService::gameSettingsChanged,this,_1));
+			gameSettingsChangedConnection = ARL::GameBasicSettings::singleton().propertyChangedSignal.connect(boost::bind(&SoundService::gameSettingsChanged,this,_1));
 
 			update3DSettings();
 			if (ambientReverb!=NoReverb)
@@ -219,7 +219,7 @@ void SoundService::openFmod()
 
 			FASTLOG(FLog::Sound, "FMOD initialization complete!");
 		}
-		catch (const RBX::base_exception&)
+		catch (const ARL::base_exception&)
 		{
 			initialized = false;
 
@@ -246,7 +246,7 @@ FMOD::DSP* SoundService::createDSP(FMOD_DSP_DESCRIPTION &dspdesc)
 		checkResult(dsp->setBypass(false), "setBypass", this, dsp);
 		checkResult(masterChannel->addDSP(0, dsp), "addDSP", this, system.get());
 	}
-	catch (const RBX::base_exception& ex)
+	catch (const ARL::base_exception& ex)
 	{
 		StandardOut::singleton()->printf(MESSAGE_ERROR, "SoundService::createDSP: %s", ex.what());
 		if (dsp)
@@ -274,7 +274,7 @@ int SoundService::getSampleRate()
 		StandardOut::singleton()->printf(MESSAGE_INFO, "SoundService::getSampleRate: result = %d", samplerate);
 		return samplerate;
 	}
-	catch (const RBX::base_exception& ex)
+	catch (const ARL::base_exception& ex)
 	{
 		StandardOut::singleton()->printf(MESSAGE_ERROR, "SoundService::getSampleRate: %s", ex.what());
 		return -1;
@@ -283,11 +283,11 @@ int SoundService::getSampleRate()
 
 SoundService::~SoundService()
 {
-	RBXASSERT(stockSounds.size()==0);
-	RBXASSERT(loadedSounds.size()==0);
-	RBXASSERT(loaded3DSounds.size()==0);
-	RBXASSERT(!system);
-	RBXASSERT(!soundJob);
+	ARLASSERT(stockSounds.size()==0);
+	ARLASSERT(loadedSounds.size()==0);
+	ARLASSERT(loaded3DSounds.size()==0);
+	ARLASSERT(!system);
+	ARLASSERT(!soundJob);
 }
 
 static void releaseSound(const std::pair<SoundId, boost::shared_ptr<Sound> >& p)
@@ -383,11 +383,11 @@ void SoundService::setAmbientReverb(const ReverbType& value)
 	}
 }
 
-void SoundService::setListener(ListenerType listenerType, shared_ptr<const RBX::Reflection::Tuple> value)
+void SoundService::setListener(ListenerType listenerType, shared_ptr<const ARL::Reflection::Tuple> value)
 {
 	if (!((value && value->values.size() > 0) || listenerType == CameraListener))
 	{
-		throw RBX::runtime_error("SoundService:SetListener called with an incorrect argument.");
+		throw ARL::runtime_error("SoundService:SetListener called with an incorrect argument.");
 		return;
 	}
 
@@ -401,7 +401,7 @@ void SoundService::setListener(ListenerType listenerType, shared_ptr<const RBX::
 		}
 		else
 		{
-			throw RBX::runtime_error("SoundService:SetListener value given is not a valid CFrame when given Enum.ListenerType.CFrame");
+			throw ARL::runtime_error("SoundService:SetListener value given is not a valid CFrame when given Enum.ListenerType.CFrame");
 			return;
 		}
 	}
@@ -418,22 +418,22 @@ void SoundService::setListener(ListenerType listenerType, shared_ptr<const RBX::
 			}
 			else
 			{
-				throw RBX::runtime_error("SoundService:SetListener value given does not have a location");
+				throw ARL::runtime_error("SoundService:SetListener value given does not have a location");
 				return;
 			}
 		}
 		else
 		{
-			throw RBX::runtime_error("SoundService:SetListener value given is not a valid instance");
+			throw ARL::runtime_error("SoundService:SetListener value given is not a valid instance");
 			return;
 		}
 	}
 	currentListenerType = listenerType;
 }
 
-shared_ptr<const RBX::Reflection::Tuple> SoundService::getListener()
+shared_ptr<const ARL::Reflection::Tuple> SoundService::getListener()
 {
-	shared_ptr<RBX::Reflection::Tuple> result(new RBX::Reflection::Tuple(2));
+	shared_ptr<ARL::Reflection::Tuple> result(new ARL::Reflection::Tuple(2));
 	result->values[0] = currentListenerType;
 	if (currentListenerType == CFrame)
 	{
@@ -560,8 +560,8 @@ void SoundService::step(const Time::Interval& timeSinceLastStep)
 						{
 							FMOD_VECTOR listener_vel;
 							listener_vel.x = listener_vel.y = listener_vel.z = 0;
-							RBX::PVInstance* pv = dynamic_cast<PVInstance*>(camera->getCameraSubject());
-							RBX::PartInstance* part = pv ? pv->getPrimaryPart() : NULL;
+							ARL::PVInstance* pv = dynamic_cast<PVInstance*>(camera->getCameraSubject());
+							ARL::PartInstance* part = pv ? pv->getPrimaryPart() : NULL;
 							if (part)
 								convert(part->getVelocity().linear, listener_vel);
 
@@ -601,7 +601,7 @@ void SoundService::updateMasterChannelGroup(const Time::Interval& timeSinceLastS
 	}
 
 	const bool muting = (masterChannelFadeStatus == FADE_STATUS_OUT);
-	const float storedMasterVolume = muting ? getMasterVolume() : RBX::GameBasicSettings::singleton().getMasterVolume();
+	const float storedMasterVolume = muting ? getMasterVolume() : ARL::GameBasicSettings::singleton().getMasterVolume();
 
 	float volumeStep = 0.0f;
 	if (masterChannelFadeTimeMsec <= 0.0f)
@@ -738,9 +738,9 @@ void SoundService::muteAllChannels(bool mute)
 
 void SoundService::gameSettingsChanged(const Reflection::PropertyDescriptor* propertyDescriptor)
 {
-	if (propertyDescriptor == &RBX::GameBasicSettings::singleton().prop_masterVolume)
+	if (propertyDescriptor == &ARL::GameBasicSettings::singleton().prop_masterVolume)
 	{
-		setMasterVolume(RBX::GameBasicSettings::singleton().getMasterVolume());
+		setMasterVolume(ARL::GameBasicSettings::singleton().getMasterVolume());
 	}
 }
 
@@ -864,7 +864,7 @@ void SoundService::checkResultNoThrow(FMOD_RESULT result, const char* fmodOperat
                 StandardOut::singleton()->printf(MESSAGE_WARNING, "FMOD %d: %s during %s", result, err, fmodOperation);
             }
             writeFMODLog(err, fmodOperation, rbxFmodParent, fmodObject);
-            RBXASSERT(!FFlag::DebugBreakOnFMODErrors || FMOD_OK == result);
+            ARLASSERT(!FFlag::DebugBreakOnFMODErrors || FMOD_OK == result);
         }
     }
 }
@@ -873,7 +873,7 @@ void SoundService::checkResult(FMOD_RESULT result, const char* fmodOperation, co
 {
     if (FMOD_OK != result)
     {
-        std::string message = RBX::format("FMOD %d: %s during %s", result, FMOD_ErrorString(result), fmodOperation);
+        std::string message = ARL::format("FMOD %d: %s during %s", result, FMOD_ErrorString(result), fmodOperation);
         StandardOut::singleton()->print(MESSAGE_WARNING, message.c_str());
         writeFMODLog(FMOD_ErrorString(result), fmodOperation, rbxFmodParent, fmodObject);
         if (FMOD_OK != result)

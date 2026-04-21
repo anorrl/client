@@ -11,7 +11,7 @@
 #include <windows.h>
 #endif
 
-using namespace RBX;
+using namespace ARL;
 
 DYNAMIC_LOGVARIABLE(NamedMutex, 0)
 
@@ -27,12 +27,12 @@ ScopedNamedMutex::ScopedNamedMutex(const char* name)
     if (NULL == (hMutex = CreateMutex(NULL, false, name)))
     {
         boost::system::error_code ec(GetLastError(), boost::system::system_category());
-        throw RBX::runtime_error("ScopedNamedMutex: CreateMutex failed: %s", ec.message().c_str());
+        throw ARL::runtime_error("ScopedNamedMutex: CreateMutex failed: %s", ec.message().c_str());
     }
     if (WAIT_FAILED == WaitForSingleObject(hMutex, INFINITE))
     {
         boost::system::error_code ec(GetLastError(), boost::system::system_category());
-        throw RBX::runtime_error("ScopedNamedMutex: WaitForSingleObject failed: %s", ec.message().c_str());
+        throw ARL::runtime_error("ScopedNamedMutex: WaitForSingleObject failed: %s", ec.message().c_str());
     }
 }
 

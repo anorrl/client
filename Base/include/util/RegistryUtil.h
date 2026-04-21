@@ -1,11 +1,11 @@
 #pragma once
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include "pdh.h"
 
 #include <string>
 
-namespace RBX {
+namespace ARL {
 
 /** 
     Provides generalized Windows registry querying.
@@ -64,6 +64,6 @@ public:
 
 };
 
-} // namespace RBX
+} // namespace ARL
 
 #endif // _WIN32

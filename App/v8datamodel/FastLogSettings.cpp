@@ -155,7 +155,7 @@ LOGVARIABLE(ScriptPrint, 3)
 LOGVARIABLE(ClientSettings, 1)
 LOGVARIABLE(PlayerShutdownLuaTimeoutSeconds, 0)
 
-namespace RBX
+namespace ARL
 {
 	DATA_MAP_IMPL_START(ClientAppSettings)
 		IMPL_DATA(AllowVideoPreRoll, false);

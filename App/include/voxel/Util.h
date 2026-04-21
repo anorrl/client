@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // This file has methods for reading and writing individual voxel cells
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 inline CellMaterial getCellMaterial_Deprecated( unsigned char cell ) { return (CellMaterial)(cell & 0x07); }
 inline void setCellMaterial_Deprecated( unsigned char& cell, CellMaterial material ) { cell = (cell & 0xf8) | ((int)material & 0x07); }
@@ -21,7 +21,7 @@ inline CellMaterial readMaterial(const unsigned char* materials, const unsigned 
 		((materials[cellIndex >> 1] >> (4 * (cellIndex & 0x1))) & 0x0f) + 1);
 }
 inline void writeMaterial(unsigned char* materials, unsigned int cellIndex, const CellMaterial newMaterial) {
-	RBXASSERT(newMaterial > 0);
+	ARLASSERT(newMaterial > 0);
     unsigned char& wholeByte = materials[cellIndex >> 1];
     unsigned int shift = (4 * (cellIndex & 0x1));
     unsigned char mask = 0x0f << shift;

@@ -7,7 +7,7 @@
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/JointInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sAnimation = "Animation";
 
@@ -56,4 +56,4 @@ void Animation::setAssetId(AnimationId value)
 	}
 }
 
-} // RBX
+} // ARL

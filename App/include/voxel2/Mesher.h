@@ -5,7 +5,7 @@
 
 #include "voxel2/Grid.h"
 
-namespace RBX { namespace Voxel2 {
+namespace ARL { namespace Voxel2 {
 
     class MaterialTable;
 

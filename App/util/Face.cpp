@@ -5,7 +5,7 @@
 #include "rbx/Debug.h"
 #include "Util/Math.h"
 
-namespace RBX {
+namespace ARL {
 	
 	const Vector3& Face::operator[] (int i) const {
 	    return ((Vector3*)this)[i];
@@ -48,7 +48,7 @@ namespace RBX {
 
 	bool Face::fuzzyContainsInExtrusion(const Vector3& point, float tolerance) const
 	{
-		RBXASSERT(tolerance >= 0.0);
+		ARLASSERT(tolerance >= 0.0);
 
 		for (int i = 0; i < 4; ++i) {
 			const Vector3& from = (*this)[i];
@@ -93,7 +93,7 @@ namespace RBX {
 
 	bool Face::cornersAligned(const Face& f0, const Face& f1, float tolerance)
 	{
-		RBXASSERT(tolerance > 0.0);
+		ARLASSERT(tolerance > 0.0);
 		float tolSqr = tolerance * tolerance;
 
 		for (int i = 0; i < 4; ++i) {
@@ -118,7 +118,7 @@ namespace RBX {
 		const Face& f0 = (*this);
 		const Face& f1 = other;
 
-		//RBXASSERT(Face::hasOverlap(f0, f1, 1e-6f));
+		//ARLASSERT(Face::hasOverlap(f0, f1, 1e-6f));
 		Vector3 normal[2];
 		float minL[2];
 		float maxL[2];

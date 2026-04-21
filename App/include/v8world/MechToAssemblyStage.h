@@ -4,7 +4,7 @@
 
 #include "V8World/IWorldStage.h"
 
-namespace RBX {
+namespace ARL {
 	class Assembly;
 	class Mechanism;
 	class AssemblyStage;

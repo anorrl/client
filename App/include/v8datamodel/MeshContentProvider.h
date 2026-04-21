@@ -2,13 +2,13 @@
 
 #include "v8datamodel/CacheableContentProvider.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sMeshContentProvider;
 	class MeshContentProvider 
-		: public DescribedNonCreatable<MeshContentProvider, CacheableContentProvider, sMeshContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL>
+		: public DescribedNonCreatable<MeshContentProvider, CacheableContentProvider, sMeshContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL>
 	{
-		typedef DescribedNonCreatable<MeshContentProvider, CacheableContentProvider, sMeshContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL> Super;
+		typedef DescribedNonCreatable<MeshContentProvider, CacheableContentProvider, sMeshContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL> Super;
 
 	public:
 		MeshContentProvider();
@@ -21,4 +21,4 @@ namespace RBX {
 	};
 
 
-} // namespace RBX
+} // namespace ARL

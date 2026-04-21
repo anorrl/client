@@ -298,7 +298,7 @@ INLINE_OP uint32_t rbxDaxDecode(uint32_t x, uint32_t mulEven, uint32_t addEven, 
 #define LUAVM_DAX_AO 0x46582A8B
 #define LUAVM_DAX_AE 0x62A0B4E3
 
-#if defined(LUAVM_SECURE) && !defined(RBX_RCC_SECURITY)
+#if defined(LUAVM_SECURE) && !defined(ARL_RCC_SECURITY)
 INLINE_OP Instruction rbxDecodeArgs(Instruction i, int pc) {
   Instruction op = GET_OPCODE(i);
   switch (op) {

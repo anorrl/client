@@ -11,7 +11,7 @@
 
 #define category_Text       "Text"
 
-namespace RBX {
+namespace ARL {
 
 class GuiTextMixin
 {
@@ -97,7 +97,7 @@ void setTextWrap(bool value);								\
 void setTextScale(bool value);								\
 void setXAlignment(TextService::XAlignment value);			\
 void setYAlignment(TextService::YAlignment value);			\
-int getPosInString(RBX::Vector2 cursorPos) const;			\
+int getPosInString(ARL::Vector2 cursorPos) const;			\
 Vector2 getTextBounds() const;								\
 bool getTextFits() const;									\
 /*override */ void setTransparencyLegacy(float value);		\
@@ -273,7 +273,7 @@ Vector2 Class::getTextBounds()	const																																		\
 	return Vector2::zero();																																					\
 }																																											\
                             																																				\
-int Class::getPosInString(RBX::Vector2 cursorPos) const																														\
+int Class::getPosInString(ARL::Vector2 cursorPos) const																														\
 {																																											\
 	if(Network::Players::frontendProcessing(this, false))																													\
 		if(TextService* textService = ServiceProvider::create<TextService>(this))																							\
@@ -344,4 +344,4 @@ int Class::getPersistentDataCost() const																																	\
 	return Super::getPersistentDataCost() + Instance::computeStringCost(getText());																							\
 }																																											\
 
-}  // namespace RBX
+}  // namespace ARL

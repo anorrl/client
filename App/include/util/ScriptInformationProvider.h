@@ -12,7 +12,7 @@
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "Util/HeartbeatInstance.h"
 
-namespace RBX
+namespace ARL
 {
 	class Instance;
 

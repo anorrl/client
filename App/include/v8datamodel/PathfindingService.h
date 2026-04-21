@@ -11,7 +11,7 @@
 
 #include <boost/pool/pool_alloc.hpp>
 
-namespace RBX {
+namespace ARL {
 	class PathfindingJob;
 	class Path;
 

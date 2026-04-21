@@ -8,7 +8,7 @@
 #include "V8World/Primitive.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -33,7 +33,7 @@ SpatialFilter* MovingStage::getSpatialFilter()
 
 void assertNotInPipeline2(Assembly* a)
 {
-	RBXASSERT(!a->inPipeline());
+	ARLASSERT(!a->inPipeline());
 }
 
 bool noAssembliesInPipeline2(Mechanism* m)
@@ -46,7 +46,7 @@ bool noAssembliesInPipeline2(Mechanism* m)
 
 void MovingStage::onMechanismAdded(Mechanism* m)
 {
-	RBXASSERT(noAssembliesInPipeline2(m));
+	ARLASSERT(noAssembliesInPipeline2(m));
 
 	m->putInStage(this);									
 	Assembly* root = m->getRootAssembly();
@@ -80,7 +80,7 @@ void MovingStage::onMechanismRemoving(Mechanism* m)
 
 	m->removeFromStage(this);							
 
-	RBXASSERT(noAssembliesInPipeline2(m));
+	ARLASSERT(noAssembliesInPipeline2(m));
 }
 
 

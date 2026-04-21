@@ -2,7 +2,7 @@
 
 #include "V8Tree/Verb.h"
 
-namespace RBX
+namespace ARL
 {
 	class StudioTool;
 	class Workspace;
@@ -20,6 +20,6 @@ namespace RBX
 		/*override*/ bool isEnabled() const;
 		/*override*/ bool isChecked() const;
 
-		/*override*/ void doIt(RBX::IDataState* dataState);
+		/*override*/ void doIt(ARL::IDataState* dataState);
 	};
 };

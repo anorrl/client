@@ -4,7 +4,7 @@
 #include "Util/SurfaceType.h"
 #include "Reflection/EnumConverter.h"
 
-namespace RBX {
+namespace ARL {
 namespace Reflection {
 	template<>
 	EnumDesc<Legacy::SurfaceConstraint>::EnumDesc()
@@ -16,4 +16,4 @@ namespace Reflection {
 		addPair(Legacy::ROTATE_V_LEGACY, "Motor");
 	}
 }//namespace Reflection
-}//namespace RBX
+}//namespace ARL

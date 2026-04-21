@@ -7,7 +7,7 @@
 //#include "V8World/Controller.h"
 #include "V8Kernel/Body.h"
 
-namespace RBX {
+namespace ARL {
 	
 	namespace HUMAN {
 

@@ -1,7 +1,7 @@
 #include "GfxBase/RenderCaps.h"
 #include "FastLog.h"
 
-namespace RBX {
+namespace ARL {
 
 	RenderCaps::RenderCaps(std::string gfxCardName, size_t vidMemSize )
 		: gfxCardName(gfxCardName)

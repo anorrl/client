@@ -2,7 +2,7 @@
 #include "solver/ConstraintJacobian.h"
 #include "solver/DebugSerializer.h"
 
-namespace RBX
+namespace ARL
 {
 
 void VirtualDisplacementArray::serialize( DebugSerializer& s ) const

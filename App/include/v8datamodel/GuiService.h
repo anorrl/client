@@ -4,7 +4,7 @@
 #include "v8datamodel/GuiObject.h"
 #include "V8Tree/Service.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace Lua
 	{
@@ -116,7 +116,7 @@ namespace RBX {
 		void removeSpecialKey(SpecialKey key);
 		bool dispatchKey(GuiService::SpecialKey);
 		
-		bool processKeyDown(const shared_ptr<RBX::InputObject>& event);
+		bool processKeyDown(const shared_ptr<ARL::InputObject>& event);
 
 		
 		const Vector4& getGlobalGuiInset() const { return guiInset; }

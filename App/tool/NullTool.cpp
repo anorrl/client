@@ -15,7 +15,7 @@
 
 FASTFLAGVARIABLE(UseFixedRightMouseClickBehaviour, true)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sNewNullTool = "NewNullTool";
 
@@ -24,7 +24,7 @@ NewNullTool::NewNullTool(Workspace* workspace)
 	, cursor("ArrowCursor")
 	, hasWaypoint(false)
 {
-	if (RBX::ServiceProvider::find<UserInputService>(workspace))
+	if (ARL::ServiceProvider::find<UserInputService>(workspace))
 	{
 		shared_ptr<InputObject> mousePos = Creatable<Instance>::create<InputObject>(InputObject::TYPE_MOUSEIDLE, InputObject::INPUT_STATE_CHANGE, Vector3::zero(), Vector3::zero(), DataModel::get(workspace));
 		onMouseIdle(mousePos);
@@ -39,7 +39,7 @@ NewNullTool::~NewNullTool()
 bool NewNullTool::isInFirstPerson()
 {
 	// check to see if we're in first person or not
-	if (ModelInstance* character = RBX::Network::Players::findLocalCharacter(workspace))
+	if (ModelInstance* character = ARL::Network::Players::findLocalCharacter(workspace))
 	{
 		if (Humanoid* humanoid = Humanoid::modelIsCharacter(character))
 		{
@@ -62,21 +62,21 @@ void NewNullTool::getIndicatedPart(const shared_ptr<InputObject>& inputObject,
 		bool* clickable, Vector3* waypoint)
 {
     FilterInvisibleNonColliding invisibleNonColliding;
-    RBX::Network::Player* localPlayer = RBX::Network::Players::findLocalPlayer(DataModel::get(workspace));
+    ARL::Network::Player* localPlayer = ARL::Network::Players::findLocalPlayer(DataModel::get(workspace));
     *instance = getPartByLocalCharacter(workspace, inputObject, &invisibleNonColliding, *waypoint);
     *clickable = ClickDetector::isClickable(shared_from(*instance), distanceToCharacter(*waypoint), raiseClickEvent,localPlayer);
 }
 
 void NewNullTool::onMouseIdle(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(inputObject->getUserInputType() == InputObject::TYPE_MOUSEIDLE);
+	ARLASSERT(inputObject->getUserInputType() == InputObject::TYPE_MOUSEIDLE);
 
 	PartInstance* foundPart;
 	bool clickable;
 	getIndicatedPart(inputObject, false /*click event*/,
 			&foundPart, &clickable, &waypoint);
 
-	UserInputService* userInputService = RBX::ServiceProvider::find<UserInputService>(workspace);
+	UserInputService* userInputService = ARL::ServiceProvider::find<UserInputService>(workspace);
 
 	if(foundPart && clickable)
 	{
@@ -92,9 +92,9 @@ void NewNullTool::onMouseIdle(const shared_ptr<InputObject>& inputObject)
 	else 
 	{
 		shared_ptr<Network::Player> player = Network::Players::findAncestorPlayer(foundPart);
-		RBX::Network::Player* localPlayer = RBX::Network::Players::findLocalPlayer(DataModel::get(workspace));
+		ARL::Network::Player* localPlayer = ARL::Network::Players::findLocalPlayer(DataModel::get(workspace));
 
-		if (localPlayer || player || RBX::Network::Players::serverIsPresent(DataModel::get(workspace)))
+		if (localPlayer || player || ARL::Network::Players::serverIsPresent(DataModel::get(workspace)))
 		{
 			if (userInputService)
 			{
@@ -113,7 +113,7 @@ void NewNullTool::onMouseIdle(const shared_ptr<InputObject>& inputObject)
 
 void NewNullTool::updateClickDetectorHover(const shared_ptr<InputObject>& inputObject)
 {
-	if( RBX::Network::Player* player = RBX::Network::Players::findLocalPlayer(DataModel::get(workspace)) )
+	if( ARL::Network::Player* player = ARL::Network::Players::findLocalPlayer(DataModel::get(workspace)) )
 	{
 		if(PartInstance* newHoverPart = getPartByLocalCharacter(workspace, inputObject))
 		{
@@ -136,7 +136,7 @@ void NewNullTool::updateClickDetectorHover(const shared_ptr<InputObject>& inputO
 // i.e. - mouse move
 void NewNullTool::onMouseHover(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(inputObject->getUserInputType() == InputObject::TYPE_MOUSEMOVEMENT);
+	ARLASSERT(inputObject->getUserInputType() == InputObject::TYPE_MOUSEMOVEMENT);
 
     if (!FFlag::UseFixedRightMouseClickBehaviour)
     {
@@ -155,7 +155,7 @@ void NewNullTool::onMouseHover(const shared_ptr<InputObject>& inputObject)
 	getIndicatedPart(inputObject, false /*click event*/,
 			&foundPart, &clickable, &waypoint);
 
-	UserInputService* userInputService = RBX::ServiceProvider::find<UserInputService>(workspace);
+	UserInputService* userInputService = ARL::ServiceProvider::find<UserInputService>(workspace);
 
 	if(foundPart && clickable)
 	{
@@ -170,10 +170,10 @@ void NewNullTool::onMouseHover(const shared_ptr<InputObject>& inputObject)
 	}
 	else
 	{
-		RBX::Network::Player* localPlayer = RBX::Network::Players::findLocalPlayer(DataModel::get(workspace));
+		ARL::Network::Player* localPlayer = ARL::Network::Players::findLocalPlayer(DataModel::get(workspace));
 		shared_ptr<Network::Player> player = Network::Players::findAncestorPlayer(foundPart);
 
-		if (localPlayer || player || RBX::Network::Players::serverIsPresent(DataModel::get(workspace)))
+		if (localPlayer || player || ARL::Network::Players::serverIsPresent(DataModel::get(workspace)))
 		{
 			if (userInputService)
 			{
@@ -218,7 +218,7 @@ shared_ptr<MouseCommand> NewNullTool::onRightMouseUp(const shared_ptr<InputObjec
     {
 	if(rightMouseClickPart)
 	{
-		RBX::Network::Player* localPlayer = RBX::Network::Players::findLocalPlayer(workspace);
+		ARL::Network::Player* localPlayer = ARL::Network::Players::findLocalPlayer(workspace);
 		bool clickable = ClickDetector::isClickable(rightMouseClickPart, distanceToCharacter(rightMouseClickPart->getTranslationUi()), true, localPlayer);
 		rightMouseClickPart = shared_ptr<PartInstance>();
 		if(clickable)

@@ -16,7 +16,7 @@
 // If your platform does not have vsnprintf, you can find a
 // implementation at http://www.ijs.si/software/snprintf/
 
-namespace RBX {
+namespace ARL {
 
 	std::runtime_error runtime_error(const char* fmt,...) {
 		va_list argList;

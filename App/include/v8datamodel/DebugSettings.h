@@ -4,7 +4,7 @@
 #include "V8DataModel/DataModelJob.h"
 #include "V8World/World.h"
 
-namespace RBX {
+namespace ARL {
 
 
 
@@ -77,8 +77,8 @@ namespace RBX {
 		int cpuSpeed() const; // MHz
 		int cpuCount() const;
 		std::string systemProductName() const;
-		std::string getRobloxVersion() const { RBXASSERT(!robloxVersion.empty()); return robloxVersion; }
-		std::string getRobloxProductName() const { RBXASSERT(!robloxProductName.empty()); return robloxProductName; }
+		std::string getRobloxVersion() const { ARLASSERT(!robloxVersion.empty()); return robloxVersion; }
+		std::string getRobloxProductName() const { ARLASSERT(!robloxProductName.empty()); return robloxProductName; }
 		std::string osVer() const;
 		int osPlatformId() const;
 		std::string osPlatform() const;
@@ -92,8 +92,8 @@ namespace RBX {
 		std::string resolution() const;
 
 		// perf counters
-		int nameDatabaseSize() const { return (int) RBX::Name::size(); }
-		int nameDatabaseBytes() const { return (int) RBX::Name::approximateMemoryUsage(); }
+		int nameDatabaseSize() const { return (int) ARL::Name::size(); }
+		int nameDatabaseBytes() const { return (int) ARL::Name::approximateMemoryUsage(); }
 		double processCores() const;
 		double getElapsedTime() const;
 		int totalProcessorTime() const;

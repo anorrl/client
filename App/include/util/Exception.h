@@ -3,6 +3,6 @@
 
 #include <stdexcept>
 
-namespace RBX
+namespace ARL
 {
 }

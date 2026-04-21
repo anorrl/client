@@ -4,7 +4,7 @@
 
 #include "V8DataModel/MouseCommand.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PartInstance;
 
@@ -29,4 +29,4 @@ namespace RBX {
 
 
 
-} // namespace RBX
+} // namespace ARL

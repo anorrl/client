@@ -4,9 +4,9 @@
 #include "V8DataModel/GameBasicSettings.h"
 #include "network/Players.h"
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sServerStorage = "ServerStorage";
+const char* const ARL::sServerStorage = "ServerStorage";
 
 ServerStorage::ServerStorage(void)
 {
@@ -15,5 +15,5 @@ ServerStorage::ServerStorage(void)
 
 bool ServerStorage::askAddChild(const Instance* instance) const
 {
-	return RBX::Network::Players::backendProcessing(this) || RBX::GameBasicSettings::singleton().inStudioMode();
+	return ARL::Network::Players::backendProcessing(this) || ARL::GameBasicSettings::singleton().inStudioMode();
 }

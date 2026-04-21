@@ -6,9 +6,9 @@
 #include <lstate.h>
 #include <lauxlib.h>
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sModuleScript = "ModuleScript";
+const char* const ARL::sModuleScript = "ModuleScript";
 
 const Reflection::PropDescriptor<ModuleScript, ProtectedString> ModuleScript::prop_Source(
 	"Source", category_Data, &ModuleScript::getSource, &ModuleScript::setSource,
@@ -71,24 +71,24 @@ int ModuleScript::PerVMState::getResultRegistryIndex() const
 
 void ModuleScript::PerVMState::setRunning(boost::intrusive_ptr<Lua::WeakThreadRef::Node> node)
 {
-	RBXASSERT(scriptLoadingState == NotRunYet);
+	ARLASSERT(scriptLoadingState == NotRunYet);
 	scriptLoadingState = Running;
 	this->node = node;
 }
 
 void ModuleScript::PerVMState::setCompletedError()
 {
-	RBXASSERT(scriptLoadingState == Running);
+	ARLASSERT(scriptLoadingState == Running);
 	scriptLoadingState = CompletedError;
 	// Clean up weak thread refs immediately on error (don't wait for ModuleScript
 	// instance to be GCed).
-	RBXASSERT(node);
+	ARLASSERT(node);
 	releaseScriptNodeIfPresent();
 }
 
 void ModuleScript::PerVMState::setCompletedSuccess(lua_State* globalStateContainingResult, int resultRegistryIndex)
 {
-	RBXASSERT(scriptLoadingState == Running);
+	ARLASSERT(scriptLoadingState == Running);
 	scriptLoadingState = CompletedSuccess;
     if (this->globalStateContainingResult == NULL)
         this->globalStateContainingResult = globalStateContainingResult;
@@ -102,7 +102,7 @@ ModuleScript::ScriptSetupState ModuleScript::PerVMState::getCurrentState() const
 
 void ModuleScript::PerVMState::addYieldedImporter(Lua::WeakThreadRef thread)
 {
-	RBXASSERT(scriptLoadingState == Running);
+	ARLASSERT(scriptLoadingState == Running);
 	yieldedImporters.push_back(thread);
 }
 
@@ -135,8 +135,8 @@ void ModuleScript::PerVMState::releaseReferenceIfCompletedSuccessfully()
 {
 	if (scriptLoadingState == CompletedSuccess)
 	{
-		RBXASSERT(resultRegistryIndex != LUA_NOREF);
-		RBXASSERT(globalStateContainingResult);
+		ARLASSERT(resultRegistryIndex != LUA_NOREF);
+		ARLASSERT(globalStateContainingResult);
 		if (globalStateContainingResult != NULL && resultRegistryIndex != LUA_NOREF)
 		{
 			lua_unref(globalStateContainingResult, resultRegistryIndex);
@@ -177,7 +177,7 @@ void ModuleScript::fireSourceChanged()
 
 void ModuleScript::PerVMState::resetState()
 {
-	RBXASSERT(scriptLoadingState != Running);
+	ARLASSERT(scriptLoadingState != Running);
     resultRegistryIndex = LUA_NOREF;
     releaseScriptNodeIfPresent();
     scriptLoadingState = NotRunYet;

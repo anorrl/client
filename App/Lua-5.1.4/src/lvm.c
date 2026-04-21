@@ -34,7 +34,7 @@ static FORCEINLINE void lua_rbx_encoding_check(lua_State* L, Instruction i)
   /* roblox: this is a basic added security check.  The c argument is normally unused.
   ** we can use it to create an artificial difference to the lua vm and detect injected
   ** bytecode. */
-#if !defined(RBX_STUDIO_BUILD) && !defined(RBX_RCC_SECURITY) && !defined(RBX_TEST_BUILD)
+#if !defined(ARL_STUDIO_BUILD) && !defined(ARL_RCC_SECURITY) && !defined(ARL_TEST_BUILD)
   L->top = GETARG_C(i) ? L->top : L->base;
 #endif
 }
@@ -407,7 +407,7 @@ void luaV_execute (lua_State *L, int nexeccalls) {
     int pcRel = ((pc) - (pcBase));
     const InstructionP iOp = rbxDecodeOpPartial(*pc++, ckey);
 
-#if defined(_WIN32) && !defined(_DEBUG) && !defined(_NOOPT) && !defined(RBX_TEST_BUILD) && !defined(RBX_RCC_SECURITY) && !defined(RBX_STUDIO_BUILD) && !defined(LOVE_ALL_ACCESS) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(_DEBUG) && !defined(_NOOPT) && !defined(ARL_TEST_BUILD) && !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(LOVE_ALL_ACCESS) && !defined(ARL_PLATFORM_DURANGO)
     if (ckey+2 < 4) break; // if invalid or identity, stop the interpreter
 #endif
     if ((L->hookmask & (LUA_MASKLINE | LUA_MASKCOUNT)) &&
@@ -871,10 +871,10 @@ void luaV_execute (lua_State *L, int nexeccalls) {
   }
 
   // added to counter an exploit.  
-#if !defined(RBX_RCC_SECURITY) && !defined(RBX_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
-  if (RBX::detectDllByExceptionChainTeb<2>(RBX::Security::kCheckDefault))
+#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
+  if (ARL::detectDllByExceptionChainTeb<2>(ARL::Security::kCheckDefault))
   {
-    RBX::Security::setHackFlagVs<0>(RBX::Security::hackFlag8, HATE_SEH_CHECK);
+    ARL::Security::setHackFlagVs<0>(ARL::Security::hackFlag8, HATE_SEH_CHECK);
   }
 #endif
 }

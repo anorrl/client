@@ -3,8 +3,8 @@
 #include "reflection/object.h"
 #include "g3d/format.h"
 
-using namespace RBX;
-using namespace RBX::Reflection;
+using namespace ARL;
+using namespace ARL::Reflection;
 
 bool Descriptor::lockedDown  = false;
 
@@ -108,7 +108,7 @@ unsigned int ClassDescriptor::checksum()
     static unsigned int checksumValue = 0;
     if (checksumValue == 0)
     {
-        StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Calculating checksum...");
+        StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Calculating checksum...");
         boost::crc_32_type result;
 
         ClassDescriptors::const_iterator iter = all_begin();
@@ -120,7 +120,7 @@ unsigned int ClassDescriptor::checksum()
         }
         checksumValue = result.checksum();
     }
-    StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "API checksum %d", checksumValue);
+    StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "API checksum %d", checksumValue);
     return checksumValue;
 }
 
@@ -149,7 +149,7 @@ ClassDescriptor::ClassDescriptor(ClassDescriptor& base, const char* name, Attrib
 
 	{
 		ClassDescriptors::iterator iter = std::lower_bound(base.derivedClasses.begin(), base.derivedClasses.end(), this, compare2);
-		RBXASSERT(iter == base.derivedClasses.end() || *iter != this);
+		ARLASSERT(iter == base.derivedClasses.end() || *iter != this);
 		base.derivedClasses.insert(iter, this);
 	}
 
@@ -218,6 +218,6 @@ bool MemberDescriptor::isMemberOf(const ClassDescriptor& classDescriptor) const
 
 bool MemberDescriptor::isMemberOf(const DescribedBase* instance) const
 {
-	RBXASSERT(instance != NULL);
+	ARLASSERT(instance != NULL);
 	return isMemberOf(instance->getDescriptor());
 }

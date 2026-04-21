@@ -2,7 +2,7 @@
 #include "Gui/EquationDisplay.h"
 #include "Util/IMetric.h"
 
-namespace RBX {
+namespace ARL {
 
 ///////////////////////////////////////////////////////////////////////////
 //
@@ -32,7 +32,7 @@ std::string EquationDisplay::getLabel() const
 	const Instance* root = Instance::getRootAncestor(this);
 	const IMetric* metric = dynamic_cast<const IMetric*>(root);
 	if (metric) {
-		RBXASSERT(metric);
+		ARLASSERT(metric);
 		std::string answer = metric->getMetric(equation);
 		return label + " " + answer;
 	}

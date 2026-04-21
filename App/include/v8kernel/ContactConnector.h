@@ -13,7 +13,7 @@
 #include "Util/Memory.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	//////////////////////////////////////////////////////////////////////////
 	class ContactConnector : public Connector
@@ -82,7 +82,7 @@ namespace RBX {
 		inline void clearImpulseComputed() { impulseComputed = false; }
 
 		bool isIntersecting() {
-			RBXASSERT(geoPair.geoPairType == POINT_PLANE_PAIR);
+			ARLASSERT(geoPair.geoPairType == POINT_PLANE_PAIR);
 			return (contactPoint.length < -overlapGoal());
 		}
 
@@ -209,7 +209,7 @@ namespace RBX {
 		{}
 
 		/*override*/ void updateContactPoint();
-		void setBallBlock(float _radius0, const Vector3* _offset1, RBX::NormalId _normalID, GeoPairType _geoPairType) {
+		void setBallBlock(float _radius0, const Vector3* _offset1, ARL::NormalId _normalID, GeoPairType _geoPairType) {
 			offset1 = *_offset1;
 			radius0 = _radius0;
 			normalId1 = _normalID;

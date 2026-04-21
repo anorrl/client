@@ -10,7 +10,7 @@
 #include "V8datamodel/FastLogSettings.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class KernelData {
 	public:
@@ -33,18 +33,18 @@ namespace RBX {
 		}
 
 		~KernelData() {
-			RBXASSERT(freeFallBodies.size() == 0);
-			RBXASSERT(realTimeBodies.size() == 0);
-			RBXASSERT(jointBodies.size() == 0);
-			RBXASSERT(contactBodies.size() == 0);
-			RBXASSERT(leafBodies.size() == 0);
-			RBXASSERT(points.size() == 0);
-			RBXASSERT(humanoidConnectors.size() == 0);
-			RBXASSERT(secondPassConnectors.size() == 0);
-			RBXASSERT(realTimeConnectors.size() == 0);
-			RBXASSERT(jointConnectors.size() == 0);
-			RBXASSERT(buoyancyConnectors.size() == 0);
-			RBXASSERT(contactConnectors.size() == 0);
+			ARLASSERT(freeFallBodies.size() == 0);
+			ARLASSERT(realTimeBodies.size() == 0);
+			ARLASSERT(jointBodies.size() == 0);
+			ARLASSERT(contactBodies.size() == 0);
+			ARLASSERT(leafBodies.size() == 0);
+			ARLASSERT(points.size() == 0);
+			ARLASSERT(humanoidConnectors.size() == 0);
+			ARLASSERT(secondPassConnectors.size() == 0);
+			ARLASSERT(realTimeConnectors.size() == 0);
+			ARLASSERT(jointConnectors.size() == 0);
+			ARLASSERT(buoyancyConnectors.size() == 0);
+			ARLASSERT(contactConnectors.size() == 0);
 		}
 
 		inline void addLeafBodies(Body* b)
@@ -52,8 +52,8 @@ namespace RBX {
 			for (int i = 0; i < b->numChildren(); ++i)
 			{
 				Body* child = b->getChild(i);
-				RBXASSERT(!child->isLeafBody());
-				RBXASSERT(child != child->getRoot());
+				ARLASSERT(!child->isLeafBody());
+				ARLASSERT(child != child->getRoot());
 				if (child->connectorUseCount > 0)
 				{
 					addLeafBody(child);
@@ -64,27 +64,27 @@ namespace RBX {
 
 		inline void insertBody(Body* b)
 		{
-			RBXASSERT(b->getRoot() == b);
+			ARLASSERT(b->getRoot() == b);
 			SimBody* simBody = b->getSimBody();
-			RBXASSERT(!b->isLeafBody() && !simBody->isInKernel());
+			ARLASSERT(!b->isLeafBody() && !simBody->isInKernel());
 			addBodyToNewList(simBody);
-			RBXASSERT(simBody->validateBodyLists());
+			ARLASSERT(simBody->validateBodyLists());
 		}
 
 		inline void removeBody(Body* b)
 		{
-			RBXASSERT(b->getRoot() == b);
-			RBXASSERT(!b->isLeafBody());
+			ARLASSERT(b->getRoot() == b);
+			ARLASSERT(!b->isLeafBody());
 			
 			SimBody* simBody = b->getSimBody();
 			removeBodyFromCurrentList(simBody);
 			simBody->clearSymStateAndAccummulator();
-			RBXASSERT(simBody->validateBodyLists());
+			ARLASSERT(simBody->validateBodyLists());
 		}
 
 		inline void addConnector(Connector* c, bool pgsOn)
 		{
-			RBXASSERT(!c->isInKernel());
+			ARLASSERT(!c->isInKernel());
 			Body* body0 = c->getBody(Connector::body0);
 			Body* body1 = c->getBody(Connector::body1);
 			SimBody* simBody0 = body0 ? body0->getRootSimBody() : NULL;
@@ -153,7 +153,7 @@ namespace RBX {
 			}
 			else
 			{
-				RBXASSERT(connectorType == Connector::CONTACT);
+				ARLASSERT(connectorType == Connector::CONTACT);
 				contactConnectors.fastAppend(c);
 				if (simBody0)
 					simBody0->incrementContactConnectorCount();
@@ -166,8 +166,8 @@ namespace RBX {
 			if (body1)
 				addConnectorToBody(c, body1);
 
-			RBXASSERT(simBody0 == NULL || simBody0->validateBodyLists());
-			RBXASSERT(simBody1 == NULL || simBody1->validateBodyLists());
+			ARLASSERT(simBody0 == NULL || simBody0->validateBodyLists());
+			ARLASSERT(simBody1 == NULL || simBody1->validateBodyLists());
 		}
 
 		inline void removeConnector(Connector* c)
@@ -222,7 +222,7 @@ namespace RBX {
 			}
 			else
 			{
-				RBXASSERT(c->isContact());
+				ARLASSERT(c->isContact());
 				contactConnectors.fastRemove(c);
 				if (simBody0)
 					simBody0->decrementContactConnectorCount();
@@ -240,25 +240,25 @@ namespace RBX {
 			if (body1)
 				removeConnectorFromBody(c, body1);
 
-			RBXASSERT(simBody0 == NULL || simBody0->validateBodyLists());
-			RBXASSERT(simBody1 == NULL || simBody1->validateBodyLists());
+			ARLASSERT(simBody0 == NULL || simBody0->validateBodyLists());
+			ARLASSERT(simBody1 == NULL || simBody1->validateBodyLists());
 		}
 
 	private:
 
 		inline void addLeafBody(Body* b)
 		{
-			RBXASSERT(!b->isLeafBody());
-			RBXASSERT(b->connectorUseCount > 0);
+			ARLASSERT(!b->isLeafBody());
+			ARLASSERT(b->connectorUseCount > 0);
 			leafBodies.fastAppend(b);
-			RBXASSERT(b->isLeafBody());
+			ARLASSERT(b->isLeafBody());
 		}
 
 		inline void removeLeafBody(Body* b)
 		{
-			RBXASSERT(b->isLeafBody());
+			ARLASSERT(b->isLeafBody());
 			leafBodies.fastRemove(b);
-			RBXASSERT(!b->isLeafBody());
+			ARLASSERT(!b->isLeafBody());
 		}
 
 		inline void removeLeafBodies(Body* b)

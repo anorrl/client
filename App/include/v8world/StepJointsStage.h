@@ -7,7 +7,7 @@
 #include "boost/scoped_ptr.hpp"
 #include "boost/intrusive/list.hpp"
 
-namespace RBX {
+namespace ARL {
 	class Assembly;
 
 	namespace Profiling

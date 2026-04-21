@@ -17,7 +17,7 @@ DYNAMIC_FASTINTVARIABLE(MaxClusterSendStepsPerCyclic, 5)
 DYNAMIC_FASTINTVARIABLE(MaxClusterSendStepsAccumulated, 15)
 DYNAMIC_FASTINTVARIABLE(MaxDataOutJobScaling, 10)
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 class Replicator::SendDataJob : public ReplicatorJob
 {
@@ -47,7 +47,7 @@ private:
 	virtual TaskScheduler::StepResult stepDataModelJob(const Stats& stats) 
 	{
 		VMProtectBeginMutation("21");
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD)
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
 		// check xxhash integrity
 		if (++countdownToXxhashCheck > dataSendRate) {
 			countdownToXxhashCheck = 0;
@@ -65,7 +65,7 @@ private:
 				HATE_XXHASH_BROKEN);
 			XXH32_feed(hashState, kXHIntData + 15, strlen(kXHIntData + 15)); // prevStreamed != 0
 			// need to assert that total length % 16 != 0 (that is the last branch in XXH32_feed)
-			//RBXASSERT_SLOW(strlen(kXHIntData) % 16 != 0);
+			//ARLASSERT_SLOW(strlen(kXHIntData) % 16 != 0);
 			DataModel::get(replicator.get())->addHackFlag((XXH32_result(hashState) != kGolden) *
 				HATE_XXHASH_BROKEN);
 		}
@@ -94,10 +94,10 @@ private:
 					replicator->dataOutStep();
 				}
 			}
-			catch (RBX::base_exception& e)
+			catch (ARL::base_exception& e)
 			{
 				const char* what = e.what();
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "SendData: %s", what ? what : "empty error string");
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "SendData: %s", what ? what : "empty error string");
 				return TaskScheduler::Done;
 			}
 			return TaskScheduler::Stepped;
@@ -170,10 +170,10 @@ private:
 					replicator->clusterOutStep();
 				}
 			}
-			catch (RBX::base_exception& e)
+			catch (ARL::base_exception& e)
 			{
 				const char* what = e.what();
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "SendCluster: %s", what ? what : "empty error string");
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "SendCluster: %s", what ? what : "empty error string");
 				return TaskScheduler::Done;
 			}
 			return TaskScheduler::Stepped;

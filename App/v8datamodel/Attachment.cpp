@@ -15,7 +15,7 @@
 
 // #define ENABLE_AXES_API
 
-namespace RBX {
+namespace ARL {
 
 using namespace Reflection;
 
@@ -41,7 +41,7 @@ static BoundFuncDesc<Attachment, void(Vector3,Vector3)> func_setAxes(&Attachment
 static BoundFuncDesc<Attachment, void(Vector3)> func_setAxis(&Attachment::setAxisInPart, "SetAxis", "axis", Security::None);
 #endif
 
-#ifdef RBX_ATTACHMENT_LOCKING
+#ifdef ARL_ATTACHMENT_LOCKING
 const PropDescriptor<Attachment, bool>  Attachment::prop_Locked("Locked", category_Behavior, &Attachment::getLocked, &Attachment::setLocked, PropertyDescriptor::UI);
 #endif
 
@@ -233,7 +233,7 @@ void Attachment::setSecondaryAxisInPartInternal( const Vector3& _axis2 )
         }
     }
     axis2.unitize();
-    RBXASSERT( fabsf( axis2.dot(axis) ) < 0.00001f );
+    ARLASSERT( fabsf( axis2.dot(axis) ) < 0.00001f );
 
     secondaryAxisDirectionInPart = axis2;
 #ifdef ENABLE_AXES_API
@@ -299,7 +299,7 @@ void Attachment::setLocked( bool value )
         pivotPositionInPart = pivotInWorld;
         axisDirectionInPart = axisInWorld;
         secondaryAxisDirectionInPart = secondaryAxisInWorld;
-#ifdef RBX_ATTACHMENT_LOCKING
+#ifdef ARL_ATTACHMENT_LOCKING
         raiseChanged( prop_Locked );
 #endif
         raiseChanged(prop_Position);
@@ -321,7 +321,7 @@ void Attachment::setLocked( bool value )
         pivotPositionInPart = partFrame.pointToObjectSpace( pivotInPart );
         axisDirectionInPart = partFrame.vectorToObjectSpace( axisInPart );
         secondaryAxisDirectionInPart = partFrame.vectorToObjectSpace( secondaryAxisInPart );
-#ifdef RBX_ATTACHMENT_LOCKING
+#ifdef ARL_ATTACHMENT_LOCKING
         raiseChanged( prop_Locked );
 #endif
         raiseChanged(prop_Position);
@@ -408,7 +408,7 @@ void Attachment::verifySetParent(const Instance* instance) const
 
     if( instance != NULL && instance->fastDynamicCast< PartInstance >() == NULL && instance->fastDynamicCast< Workspace >() == NULL )
     {
-        throw RBX::runtime_error("Attachments can only be parented to parts or the workspace");
+        throw ARL::runtime_error("Attachments can only be parented to parts or the workspace");
     }
 }
 
@@ -418,7 +418,7 @@ void Attachment::verifyAddChild(const Instance* newChild) const
 
     if( newChild != NULL /*&& newChild->fastDynamicCast< Constraints::Constraint >() == NULL*/ )
     {
-        throw RBX::runtime_error("Attachments can't have children.");
+        throw ARL::runtime_error("Attachments can't have children.");
     }
 }
 

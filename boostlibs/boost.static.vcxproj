@@ -116,7 +116,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\boost_1_56_0\include;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\include\zlib;$(CONTRIB_PATH)\cpp-netlib-0.11.0-final;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_CXX11_NO_DELETED_FUNCTIONS;WIN32;ZLIB_WINAPI;RBX_PLATFORM_WIN_DURANGO;_DEBUG;_LIB;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010100;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_CXX11_NO_DELETED_FUNCTIONS;WIN32;ZLIB_WINAPI;ARL_PLATFORM_WIN_DURANGO;_DEBUG;_LIB;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010100;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -148,7 +148,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\boost_1_56_0\include;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\include\zlib;$(CONTRIB_PATH)\cpp-netlib-0.11.0-final;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;BOOST_CXX11_NO_DELETED_FUNCTIONS;WIN32;ZLIB_WINAPI;RBX_PLATFORM_WIN_DURANGO;NDEBUG;_LIB;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010100;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;BOOST_CXX11_NO_DELETED_FUNCTIONS;WIN32;ZLIB_WINAPI;ARL_PLATFORM_WIN_DURANGO;NDEBUG;_LIB;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010100;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>

@@ -10,20 +10,20 @@
 static const std::string kWebChatWhiteListPolicy = "white";
 static const std::string kWebChatBlackListPolicy = "black";
 
-namespace RBX
+namespace ARL
 {
 namespace Network
 {
 
-class WebChatFilter : public RBX::Network::ChatFilter
+class WebChatFilter : public ARL::Network::ChatFilter
 {
 public:
 	/*override*/
 	virtual void filterMessage(
-		shared_ptr<RBX::Network::Player> sourcePlayer,
-		shared_ptr<RBX::Instance> receiver,
+		shared_ptr<ARL::Network::Player> sourcePlayer,
+		shared_ptr<ARL::Instance> receiver,
 		const std::string& message,
-		const RBX::Network::ChatFilter::FilteredChatMessageCallback callback);
+		const ARL::Network::ChatFilter::FilteredChatMessageCallback callback);
 }; // class WebChatFilter
 
 void ConstructModerationFilterTextParamsAndHeaders(
@@ -33,9 +33,9 @@ void ConstructModerationFilterTextParamsAndHeaders(
 	std::string gameInstanceID,
 
 	std::stringstream &outParams,
-	RBX::HttpAux::AdditionalHeaders &outHeaders
+	ARL::HttpAux::AdditionalHeaders &outHeaders
 );
 
 } // namespace Network
-} // namespace RBX
+} // namespace ARL
 

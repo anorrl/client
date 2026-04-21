@@ -9,7 +9,7 @@
 
 FASTFLAG(RenderNewParticles2Enable);
 
-namespace RBX {
+namespace ARL {
 
 const char* const sForceField = "ForceField";
 
@@ -17,7 +17,7 @@ ForceField::ForceField() : cycle(0)
 {
 	setName("ForceField");
 
-	if( !RBX::TaskScheduler::singleton().isCyclicExecutive() )
+	if( !ARL::TaskScheduler::singleton().isCyclicExecutive() )
 	{
 		invertCycle = cycles()/2;
 	}
@@ -46,7 +46,7 @@ bool containsForceField(Instance* instance)
 
 bool ancestorContainsForceField(Instance* instance)
 {
-	RBXASSERT(instance);
+	ARLASSERT(instance);
 	if (containsForceField(instance)) {
 		return true;
 	}
@@ -65,7 +65,7 @@ bool ForceField::partInForceField(PartInstance* part)
 	return ancestorContainsForceField(part);
 }
 
-void renderForceField(shared_ptr<RBX::Instance> descendant, Adorn* adorn, int cycle, int invertCycle)
+void renderForceField(shared_ptr<ARL::Instance> descendant, Adorn* adorn, int cycle, int invertCycle)
 {
 	PartInstance *part = Instance::fastDynamicCast<PartInstance>(descendant.get());
 	if (part && part->getLocalTransparencyModifier() < 0.99f )  // don't render it for bricks too close to camera
@@ -82,9 +82,9 @@ void renderForceField(shared_ptr<RBX::Instance> descendant, Adorn* adorn, int cy
 		Vector3 pos = part->calcRenderingCoordinateFrame().translation;
 		adorn->setObjectToWorldMatrix(pos);
 		adorn->sphere(Sphere(Vector3::zero(),part->getPartSizeXml().magnitude()),
-			RBX::Color4(0,51.0f/255.0f,204.0f/255.0f,(percent * 0.6f)) * .8f);
+			ARL::Color4(0,51.0f/255.0f,204.0f/255.0f,(percent * 0.6f)) * .8f);
 		adorn->sphere(Sphere(Vector3::zero(),part->getPartSizeXml().magnitude()* largeSize),
-			RBX::Color4(0,invertPercent,1.0f - invertPercent,((invertPercent) * 0.45f)) * .8f);
+			ARL::Color4(0,invertPercent,1.0f - invertPercent,((invertPercent) * 0.45f)) * .8f);
 	}
 }
 
@@ -98,11 +98,11 @@ void ForceField::render3dAdorn(Adorn* adorn)
 	if(!torso.get())
 		torso = shared_from(Instance::fastDynamicCast<PartInstance>(this->getParent()->findFirstChildByName2("Torso",true).get()));
 
-	RBXASSERT(!Instance::fastDynamicCast<Workspace>(parent));
+	ARLASSERT(!Instance::fastDynamicCast<Workspace>(parent));
 
 	if (!parent->fastDynamicCast<Workspace>() && torso.get())		// Second Hack
 	{
-		if( !RBX::TaskScheduler::singleton().isCyclicExecutive() )
+		if( !ARL::TaskScheduler::singleton().isCyclicExecutive() )
 		{
 			cycle = (cycle + 1) % cycles();
 			invertCycle = (invertCycle + 1) % cycles();

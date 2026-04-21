@@ -15,9 +15,9 @@
 
 #include "DataBlockEncryptor.h"
 
-const char* const RBX::Network::sPeer = "NetworkPeer";
+const char* const ARL::Network::sPeer = "NetworkPeer";
 
-namespace RBX {
+namespace ARL {
 	namespace Network {
 
 REFLECTION_BEGIN();
@@ -194,7 +194,7 @@ void Peer::setOutgoingKBPSLimit(int limit)
 
 void Peer::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider)
 {
-	RBX::Stats::StatsService* stats = ServiceProvider::find<RBX::Stats::StatsService>(oldProvider);
+	ARL::Stats::StatsService* stats = ServiceProvider::find<ARL::Stats::StatsService>(oldProvider);
 	if (stats)
 	{ 
 		shared_ptr<Stats::Item> network = shared_from_polymorphic_downcast<Stats::Item>(stats->findFirstChildByName("Network"));
@@ -235,10 +235,10 @@ void Peer::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newP
 		TaskScheduler::singleton().add(receiveJob);
 	}
 
-	stats = ServiceProvider::find<RBX::Stats::StatsService>(newProvider);
+	stats = ServiceProvider::find<ARL::Stats::StatsService>(newProvider);
 	if (stats)
 	{
-		RBXASSERT(!shared_from_polymorphic_downcast<Stats::Item>(stats->findFirstChildByName("Network")));
+		ARLASSERT(!shared_from_polymorphic_downcast<Stats::Item>(stats->findFirstChildByName("Network")));
 		shared_ptr<Stats::Item> network = Creatable<Instance>::create<PeerStatsItem>(this);
 		network->setName("Network");
 		network->setParent(stats);

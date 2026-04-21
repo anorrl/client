@@ -5,7 +5,7 @@
 #include "boost/scoped_ptr.hpp"
 #include "util/Profiling.h"
 
-namespace RBX { 
+namespace ARL { 
 
 namespace Profiling
 {
@@ -62,24 +62,24 @@ struct ClusterStats
 
 class RenderStats {
 public:
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> cpuRenderTotal;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> cpuRenderTotal;
 
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler>	culling;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> flip;
-    boost::scoped_ptr<RBX::Profiling::CodeProfiler> renderObjects;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> updateLighting;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> adorn2D;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> adorn3D;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> visualEngineSceneUpdater;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> finishRendering;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> renderTargetUpdate;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler>	culling;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> flip;
+    boost::scoped_ptr<ARL::Profiling::CodeProfiler> renderObjects;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> updateLighting;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> adorn2D;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> adorn3D;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> visualEngineSceneUpdater;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> finishRendering;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> renderTargetUpdate;
 
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler>	frameRateManager;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> textureCompositor;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> updateSceneGraph;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> updateAllInvalidParts;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> updateDynamicsAndAggregateStatics;
-	boost::scoped_ptr<RBX::Profiling::CodeProfiler> updateDynamicParts;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler>	frameRateManager;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> textureCompositor;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> updateSceneGraph;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> updateAllInvalidParts;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> updateDynamicsAndAggregateStatics;
+	boost::scoped_ptr<ARL::Profiling::CodeProfiler> updateDynamicParts;
 	
 	RenderPassStats		passTotal;
 	RenderPassStats		passScene;

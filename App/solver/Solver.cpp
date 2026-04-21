@@ -27,7 +27,7 @@ DYNAMIC_FASTFLAGVARIABLE(PGSSolverUsesIslandizableCode, false)
 DYNAMIC_FASTFLAGVARIABLE(PGSSolverIntegrateOnlyPositionsEnabled, false)
 FASTFLAG(PhysicsAnalyzerEnabled)
 
-namespace RBX
+namespace ARL
 {
 
 class ContactManifold 
@@ -47,7 +47,7 @@ private:
 // Given a pointer to Body, return an index to it's position in the body list
 // If it doesn't exists in the body list, add it to the end.
 // Those SimBodies that aren't in the indexation are necessarily anchored.
-static RBX_SIMD_INLINE int getBodyIndex( 
+static ARL_SIMD_INLINE int getBodyIndex( 
     ArrayDynamic< SimBody* >& _anchoredBodyList,
     BodyIndexation& _allBodyIndexation,
     Body* _body )
@@ -92,7 +92,7 @@ static boost::uint32_t gatherConstraintPairData( ArrayBase< BodyPairIndices >& _
                                                boost::uint32_t& _collisionCount,
                                                const ArrayBase< Constraint* >& _constraints )
 {
-    RBXPROFILER_SCOPE("Physics", "gatherConstraintPairData");
+    ARLPROFILER_SCOPE("Physics", "gatherConstraintPairData");
 
     boost::uint32_t totalDimension = 0;
     _totalBlockSize = 0;
@@ -117,18 +117,18 @@ static boost::uint32_t gatherConstraintPairData( ArrayBase< BodyPairIndices >& _
     return totalDimension;
 }
 
-static RBX_SIMD_INLINE void integrateVelocities( SolverBodyDynamicProperties& _variableData, const SolverBodyMassAndInertia& _massAndInertia, const Vector3& _externalImpulse, const Vector3& _externalAngularImpulse, float _dt, const SolverConfig& _config )
+static ARL_SIMD_INLINE void integrateVelocities( SolverBodyDynamicProperties& _variableData, const SolverBodyMassAndInertia& _massAndInertia, const Vector3& _externalImpulse, const Vector3& _externalAngularImpulse, float _dt, const SolverConfig& _config )
 {
     // Integrate linear velocity
     _variableData.integratedLinearVelocity = _variableData.linearVelocity + _massAndInertia.massInvVelStage * _externalImpulse;
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInfVector3( _variableData.integratedLinearVelocity ) );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInfVector3( _variableData.integratedLinearVelocity ) );
 
     // Integrate angular velocity
     SymmetricMatrix invInertia;
     invInertia.diagonals = _massAndInertia.inertiaDiagonal;
     invInertia.offDiagonals = _massAndInertia.inertiaOffDiagonal;
     _variableData.integratedAngularVelocity = expf( -_config.angularDamping * _dt ) * _variableData.angularVelocity + invInertia * _externalAngularImpulse;
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInfVector3( _variableData.integratedAngularVelocity ) );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInfVector3( _variableData.integratedAngularVelocity ) );
 }
 
 static inline float fudgeMassForPosStage( float massInv, const SolverConfig& _config )
@@ -145,7 +145,7 @@ static void integrateVelocitiesAndInitSimulatedObjects( ArrayDynamic< SolverBody
                                                        ArrayDynamic< float >& _effectiveMassMultipliers,
                                                        const ArrayBase< SimBody* >& _simBodies, float _dt, const SolverConfig& _config )
 {
-    RBXPROFILER_SCOPE("Physics", "integrateVelocitiesAndInitSimulatedObjects");
+    ARLPROFILER_SCOPE("Physics", "integrateVelocitiesAndInitSimulatedObjects");
 
     for( size_t i = 0; i < _simBodies.size(); i++ )
     {
@@ -214,7 +214,7 @@ void PGSSolver::initAnchoredObjects(
     const ArrayBase< SimBody* >& _anchoredBodyList,
     const SolverConfig& _config ) const
 {
-    RBXPROFILER_SCOPE("Physics", "initAnchoredObjects");
+    ARLPROFILER_SCOPE("Physics", "initAnchoredObjects");
 
     for( int i = 0; i < (int)_anchoredBodyList.size(); i++ )
     {
@@ -311,13 +311,13 @@ void PGSSolver::initAnchoredObjects(
     }
 }
 
-static RBX_SIMD_INLINE void integratePositions( SolverBodyDynamicProperties& _dynamicProps, const SolverBodyStaticProperties& _staticProps, 
+static ARL_SIMD_INLINE void integratePositions( SolverBodyDynamicProperties& _dynamicProps, const SolverBodyStaticProperties& _staticProps, 
                                                    const VirtualDisplacementPOD& _velStageVirD, const VirtualDisplacementPOD& _posStageVirD, float _dt )
 {
-    RBXASSERT_VERY_FAST(!RBX::Math::isNanInfVector3(_velStageVirD.lin));
-    RBXASSERT_VERY_FAST(!RBX::Math::isNanInfVector3(_velStageVirD.ang));
-    RBXASSERT_VERY_FAST(!RBX::Math::isNanInfVector3(_posStageVirD.lin));
-    RBXASSERT_VERY_FAST(!RBX::Math::isNanInfVector3(_posStageVirD.ang));
+    ARLASSERT_VERY_FAST(!ARL::Math::isNanInfVector3(_velStageVirD.lin));
+    ARLASSERT_VERY_FAST(!ARL::Math::isNanInfVector3(_velStageVirD.ang));
+    ARLASSERT_VERY_FAST(!ARL::Math::isNanInfVector3(_posStageVirD.lin));
+    ARLASSERT_VERY_FAST(!ARL::Math::isNanInfVector3(_posStageVirD.ang));
 
     // Applying constraint impulses
     _dynamicProps.linearVelocity = _dynamicProps.integratedLinearVelocity + _velStageVirD.lin;
@@ -337,10 +337,10 @@ static RBX_SIMD_INLINE void integratePositions( SolverBodyDynamicProperties& _dy
     _dynamicProps.orientation = changeInOrientation * _dynamicProps.orientation;
 
     _dynamicProps.orientation.orthonormalize();
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInfVector3( _dynamicProps.position ) );
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInfVector3( _dynamicProps.orientation.row(0) ) );
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInfVector3( _dynamicProps.orientation.row(1) ) );
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInfVector3( _dynamicProps.orientation.row(2) ) );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInfVector3( _dynamicProps.position ) );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInfVector3( _dynamicProps.orientation.row(0) ) );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInfVector3( _dynamicProps.orientation.row(1) ) );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInfVector3( _dynamicProps.orientation.row(2) ) );
 }
 
 void PGSSolver::integratePositionsAndUpdateSimBodies( 
@@ -352,7 +352,7 @@ void PGSSolver::integratePositionsAndUpdateSimBodies(
     const VirtualDisplacementArray& _positionDeltas,
     float _dt )
 {
-    RBXPROFILER_SCOPE("Physics", "integratePositionsAndUpdateSimBodies");
+    ARLPROFILER_SCOPE("Physics", "integratePositionsAndUpdateSimBodies");
 
     for( int index = 0; index < (int)_simBodyCount; index++ )
     {
@@ -375,11 +375,11 @@ void PGSSolver::integratePositionsAndUpdateSimBodies(
     }
 }
 
-static RBX_SIMD_INLINE void integratePositionsIgnoreVelocities( SolverBodyDynamicProperties& _dynamicProps, const SolverBodyStaticProperties& _staticProps, 
+static ARL_SIMD_INLINE void integratePositionsIgnoreVelocities( SolverBodyDynamicProperties& _dynamicProps, const SolverBodyStaticProperties& _staticProps, 
                                                const VirtualDisplacementPOD& _posStageVirD, float _dt )
 {
-    RBXASSERT_VERY_FAST(!RBX::Math::isNanInfVector3(_posStageVirD.lin));
-    RBXASSERT_VERY_FAST(!RBX::Math::isNanInfVector3(_posStageVirD.ang));
+    ARLASSERT_VERY_FAST(!ARL::Math::isNanInfVector3(_posStageVirD.lin));
+    ARLASSERT_VERY_FAST(!ARL::Math::isNanInfVector3(_posStageVirD.ang));
 
     // Applying error correction impulse
     _dynamicProps.position += _posStageVirD.lin;
@@ -387,10 +387,10 @@ static RBX_SIMD_INLINE void integratePositionsIgnoreVelocities( SolverBodyDynami
     _dynamicProps.orientation = changeInOrientation * _dynamicProps.orientation;
 
     _dynamicProps.orientation.orthonormalize();
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInfVector3( _dynamicProps.position ) );
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInfVector3( _dynamicProps.orientation.row(0) ) );
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInfVector3( _dynamicProps.orientation.row(1) ) );
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInfVector3( _dynamicProps.orientation.row(2) ) );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInfVector3( _dynamicProps.position ) );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInfVector3( _dynamicProps.orientation.row(0) ) );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInfVector3( _dynamicProps.orientation.row(1) ) );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInfVector3( _dynamicProps.orientation.row(2) ) );
 }
 
 void PGSSolver::integratePositionsIgnoreVelocitiesAndUpdateSimBodies( 
@@ -401,7 +401,7 @@ void PGSSolver::integratePositionsIgnoreVelocitiesAndUpdateSimBodies(
     const VirtualDisplacementArray& _positionDeltas,
     float _dt )
 {
-    RBXPROFILER_SCOPE("Physics", "integratePositionsIgnoreVelocitiesAndUpdateSimBodies");
+    ARLPROFILER_SCOPE("Physics", "integratePositionsIgnoreVelocitiesAndUpdateSimBodies");
 
     for( int index = 0; index < (int)_simBodyCount; index++ )
     {
@@ -575,7 +575,7 @@ void PGSSolver::detectInconsistentConstraints(
     unsigned iterations = ( iteration + 1 ) * _solverConfig.pgsIterations;
     out << "Iterations: " << iterations << ". ";
     out << "E = " << energy << ", dE = " << dEnergy << ", gamma = " << 100.0 * dEnergy / dEnergyAverage - 100.0 << "%%, " << 100.0 * d2Energy / dEnergyAverage << "%% ";
-    RBX::StandardOut::singleton()->printf(RBX::MESSAGE_OUTPUT, out.str().c_str() );
+    ARL::StandardOut::singleton()->printf(ARL::MESSAGE_OUTPUT, out.str().c_str() );
 #endif
 
     serializer & residuals & deltaResiduals;
@@ -660,7 +660,7 @@ public:
 
     T getValue( boost::int32_t index ) const
     {
-        RBXASSERT_VERY_FAST( index != -1 );
+        ARLASSERT_VERY_FAST( index != -1 );
         return storage[ index ];
     }
 
@@ -730,7 +730,7 @@ static void breakIntoIslands( ArrayDynamic< SimBody* >& _islandSimBodies,
                             const boost::unordered_set< SimBody* >& _simBodies, 
                             const ArrayBase< Constraint* >& _constraints )
 {
-    RBXPROFILER_SCOPE("Physics", "breakIntoIslands");
+    ARLPROFILER_SCOPE("Physics", "breakIntoIslands");
     // Index the bodies
     DenseHashMap< SimBody*, boost::int32_t > bodyIndexation( NULL, G3D::ceilPow2( 2 * _simBodies.size() ) );
     ArrayDynamic< SimBody* > simBodyList( _simBodies.size(), ArrayNoInit() );
@@ -854,7 +854,7 @@ void PGSSolver::solvePositions( const std::vector< ContactConnector* >& _contact
 
 void PGSSolver::solveInternal( const std::vector< ContactConnector* >& _contactConnectors, float _dt, boost::uint64_t debugTime, bool _throttled, const SolverConfig& _solverConfig )
 {
-    RBXPROFILER_SCOPE("Physics", "PGSSolver::solve");
+    ARLPROFILER_SCOPE("Physics", "PGSSolver::solve");
 
     // To enable add '"FFlagPGSSolverFileDump": "True"' in ClientSettings/ClientAppSettings.json
     // Press Ctrl-F8 to start recording, Ctrl-Shift-F8 to stop
@@ -881,7 +881,7 @@ void PGSSolver::solveInternal( const std::vector< ContactConnector* >& _contactC
 
     // Iterate over the (ordered map) of constraints - linear in number of elements.
     {
-        RBXPROFILER_SCOPE("Physics", "fillConstraintSet");
+        ARLPROFILER_SCOPE("Physics", "fillConstraintSet");
 
         if( _throttled )
         {
@@ -988,7 +988,7 @@ void PGSSolver::solveIsland( const ArrayDynamic< Constraint* >& _constraints,
     BodyIndexation bodyIndexation( (SimBody*)NULL, G3D::ceilPow2( 2 * _simBodies.size() ) );
     ArrayDynamic< SimBody* > simBodyList;
     {
-        RBXPROFILER_SCOPE("Physics", "generateBodyIndices");
+        ARLPROFILER_SCOPE("Physics", "generateBodyIndices");
 
         simBodyList.reserve( _simBodies.size() );
         for( auto body : _simBodies )
@@ -1050,7 +1050,7 @@ void PGSSolver::solveIsland( const ArrayDynamic< Constraint* >& _constraints,
     ArrayDynamic< float > sorPos( totalDimension, ArrayNoInit(), defaultAlignment );
     ArrayDynamic< boost::uint8_t > useBlock( totalDimension, ArrayNoInit() );
     {
-        RBXPROFILER_SCOPE("Physics", "buildConstraintEquations");
+        ARLPROFILER_SCOPE("Physics", "buildConstraintEquations");
 
         for( size_t i = 0; i < _constraints.size(); i++ )
         {
@@ -1149,7 +1149,7 @@ void PGSSolver::solveIsland( const ArrayDynamic< Constraint* >& _constraints,
     writeCacheProfiler.start();
     if( solverConfig.constraintCachingEnabled )
     {
-        RBXPROFILER_SCOPE("Physics", "updateConstraintCache");
+        ARLPROFILER_SCOPE("Physics", "updateConstraintCache");
 
         for( size_t i = 0; i < _constraints.size(); i++ )
         {
@@ -1186,7 +1186,7 @@ void PGSSolver::solveIsland( const ArrayDynamic< Constraint* >& _constraints,
 
 void PGSSolver::solveLegacy( const std::vector< ContactConnector* >& _contactConnectors, float _dt, boost::uint64_t debugTime, bool _throttled )
 {
-    RBXPROFILER_SCOPE("Physics", "PGSSolver::solve");
+    ARLPROFILER_SCOPE("Physics", "PGSSolver::solve");
 
     // Align to cache lines
     int defaultAlignment = 64;
@@ -1207,7 +1207,7 @@ void PGSSolver::solveLegacy( const std::vector< ContactConnector* >& _contactCon
     BodyIndexation bodyIndexation( (SimBody*)NULL, G3D::ceilPow2( 2 * simBodies.size() ) );
     ArrayDynamic< SimBody* > simBodyList;
     {
-        RBXPROFILER_SCOPE("Physics", "generateBodyIndices");
+        ARLPROFILER_SCOPE("Physics", "generateBodyIndices");
 
         simBodyList.reserve( simBodies.size() );
         for( auto body : selectedSimBodies )
@@ -1230,7 +1230,7 @@ void PGSSolver::solveLegacy( const std::vector< ContactConnector* >& _contactCon
 
     // Iterate over the (ordered map) of constraints - linear in number of elements.
     {
-        RBXPROFILER_SCOPE("Physics", "fillConstraintSet");
+        ARLPROFILER_SCOPE("Physics", "fillConstraintSet");
 
         if( _throttled )
         {
@@ -1319,7 +1319,7 @@ void PGSSolver::solveLegacy( const std::vector< ContactConnector* >& _contactCon
     ArrayDynamic< float > sorPos( totalDimension, ArrayNoInit(), defaultAlignment );
     ArrayDynamic< boost::uint8_t > useBlock( totalDimension, ArrayNoInit() );
     {
-        RBXPROFILER_SCOPE("Physics", "buildConstraintEquations");
+        ARLPROFILER_SCOPE("Physics", "buildConstraintEquations");
 
         for( size_t i = 0; i < constraints.size(); i++ )
         {
@@ -1402,7 +1402,7 @@ void PGSSolver::solveLegacy( const std::vector< ContactConnector* >& _contactCon
     //
     writeCacheProfiler.start();
     {
-        RBXPROFILER_SCOPE("Physics", "updateConstraintCache");
+        ARLPROFILER_SCOPE("Physics", "updateConstraintCache");
 
         for( size_t i = 0; i < constraints.size(); i++ )
         {
@@ -1474,7 +1474,7 @@ void PGSSolver::removeSimBody( SimBody* _body )
 void PGSSolver::addConstraint( Constraint* _constraint )
 {
     // The engine shouldn't explicitly add collisions.
-    RBXASSERT( _constraint->getType() != Constraint::Types_Collision );
+    ARLASSERT( _constraint->getType() != Constraint::Types_Collision );
     if( _constraint->hasValidUID() && pureConstraintSet.find( _constraint->getUID() ) == pureConstraintSet.end() )
     {
         // If the constraint was previously registered with the solver, use the same index.
@@ -1538,7 +1538,7 @@ void PGSSolver::removeContactManifold( boost::uint64_t _uidA, boost::uint64_t _u
     }
 
     auto it = contactManifolds.find( pair );
-    RBXASSERT( it != contactManifolds.end() );
+    ARLASSERT( it != contactManifolds.end() );
     if( it != contactManifolds.end() )
     {
         it->second->referenceCount--;
@@ -1559,7 +1559,7 @@ void PGSSolver::clearBodyCache( boost::uint64_t _uid )
     }
 }
 
-static RBX_SIMD_INLINE void updateCollision( ConstraintCollision& _collision, const OrderedConnector& _inputConnector )
+static ARL_SIMD_INLINE void updateCollision( ConstraintCollision& _collision, const OrderedConnector& _inputConnector )
 {
     ContactConnector* connector = _inputConnector.connector;
     const PairParams& params = _inputConnector.connector->getContactPoint();
@@ -1568,7 +1568,7 @@ static RBX_SIMD_INLINE void updateCollision( ConstraintCollision& _collision, co
     _collision.setResititution( connector->getContactParams().kElasticity );
     _collision.setDepth( params.length );
 
-    RBXASSERT_VERY_FAST( !RBX::Math::isNanInf( params.normal.length() ) && std::abs( 1.0f - params.normal.length() ) < 0.1f );
+    ARLASSERT_VERY_FAST( !ARL::Math::isNanInf( params.normal.length() ) && std::abs( 1.0f - params.normal.length() ) < 0.1f );
     if( !_inputConnector.swap )
     {
         _collision.setBodyA( connector->getBody( Connector::body0 ) );
@@ -1607,7 +1607,7 @@ ContactManifold* PGSSolver::updateContactManifold( const BodyUIDPair& _pairId, c
     auto cachedManifoldIt = contactManifolds.find( _pairId );
 
     // It should find it, but fail safe in case of bugs
-    RBXASSERT( cachedManifoldIt != contactManifolds.end() );
+    ARLASSERT( cachedManifoldIt != contactManifolds.end() );
     if( cachedManifoldIt != contactManifolds.end() )
     {
         // Match the collisions between the two manifolds
@@ -1663,7 +1663,7 @@ size_t PGSSolver::addContactConnectors( ArrayDynamic< ContactManifold* >& _activ
                                        const std::vector< ContactConnector* >& _connectors,
                                        const boost::unordered_set< SimBody* >& _simBodies )
 {
-    RBXPROFILER_SCOPE("Physics", "addContactConnectors");
+    ARLPROFILER_SCOPE("Physics", "addContactConnectors");
 
     // Ensure the collisions are always in the same order.
     // That also makes the solver more stable for static situations as it reaches more or less the same solution every frame

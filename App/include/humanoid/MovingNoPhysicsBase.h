@@ -5,7 +5,7 @@
 #include "Humanoid/HumanoidState.h"
 #include "V8World/Mechanism.h"
 
-namespace RBX {
+namespace ARL {
 	class Assembly;
 	class PhysicsService;
 

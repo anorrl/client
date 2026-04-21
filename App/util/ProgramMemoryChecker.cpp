@@ -34,9 +34,9 @@ __forceinline bool getSectionInfo(const HMODULE& module, const char* name, uintp
 {
     // This gets the string address after some calculations.  This is to make static analysis difficult
     // the string ".text" is not directly referenced.
-    unsigned int dest = ((unsigned int)(name) + RBX_BUILDSEED);
+    unsigned int dest = ((unsigned int)(name) + ARL_BUILDSEED);
     volatile unsigned int tmp = dest;
-    const char* const sectionName = (const char* const)(tmp - RBX_BUILDSEED);
+    const char* const sectionName = (const char* const)(tmp - ARL_BUILDSEED);
     baseAddr = 0;
     size = 0;
     PIMAGE_DOS_HEADER pDosHeader = (PIMAGE_DOS_HEADER)module;
@@ -98,7 +98,7 @@ const char* const kDotText = ".text";
 
 }
 
-namespace RBX
+namespace ARL
 {
     namespace Security{
         // The storage for hash checker related security constants.
@@ -249,7 +249,7 @@ namespace RBX
 }
 
 
-namespace RBX
+namespace ARL
 {
 using namespace Hasher;
 
@@ -280,7 +280,7 @@ ProgramMemoryChecker::ProgramMemoryChecker()
     , lastGoldenHash(0)
     , lastCompletedTime(Time::nowFast())
 {
-    #if !defined(RBX_STUDIO_BUILD)
+    #if !defined(ARL_STUDIO_BUILD)
     VMProtectBeginMutation(NULL);
     ScanRegionTest nonceLocation( ScanRegion(((char*) (&pmcHash.nonce)), 4));
     nonceLocation.closeHash = true;
@@ -364,7 +364,7 @@ ProgramMemoryChecker::ProgramMemoryChecker()
     // http://www.szemelyesintegracio.hu/cheats/41-game-hacking-articles/419-stealthedit	
 bool ProgramMemoryChecker::areMemoryPagePermissionsSetupForHacking() 
 {
-    #if !defined(RBX_STUDIO_BUILD)
+    #if !defined(ARL_STUDIO_BUILD)
     VMProtectBeginMutation("12");
     ScanRegion region = ScanRegion::getScanRegion(NULL, ".text");
 
@@ -376,7 +376,7 @@ bool ProgramMemoryChecker::areMemoryPagePermissionsSetupForHacking()
     
     if (::checkG3dConsts())
     {
-        RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag8, HATE_CONST_CHANGED);
+        ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag8, HATE_CONST_CHANGED);
     }
     
     VMProtectEnd();
@@ -390,7 +390,7 @@ unsigned int ProgramMemoryChecker::step()
     const unsigned int kPrime32_2 = 2246822519U;
 
     bool allHashCompleted = false;
-    #if !defined(RBX_STUDIO_BUILD)
+    #if !defined(ARL_STUDIO_BUILD)
     unsigned int bytesLeftForThisStep = bytesPerStep;
     unsigned int blocksLeftForThisStep = 1 + bytesPerStep/kBlock;
     while (blocksLeftForThisStep > 0)
@@ -446,10 +446,10 @@ unsigned int ProgramMemoryChecker::step()
         // by VMProtect.
         while (p <= limit)
         {
-            v1 += modifyArg<(RBX_BUILDSEED>>0)%4>(p) * kPrime32_2; v1 = _rotl(v1, 13); v1 *= kPrime32_1; p+=4;
-            v2 += modifyArg<(RBX_BUILDSEED>>2)%4>(p) * kPrime32_2; v2 = _rotl(v2, 13); v2 *= kPrime32_1; p+=4;
-            v3 += modifyArg<(RBX_BUILDSEED>>4)%4>(p) * kPrime32_2; v3 = _rotl(v3, 13); v3 *= kPrime32_1; p+=4;
-            v4 += modifyArg<(RBX_BUILDSEED>>6)%4>(p) * kPrime32_2; v4 = _rotl(v4, 13); v4 *= kPrime32_1; p+=4;
+            v1 += modifyArg<(ARL_BUILDSEED>>0)%4>(p) * kPrime32_2; v1 = _rotl(v1, 13); v1 *= kPrime32_1; p+=4;
+            v2 += modifyArg<(ARL_BUILDSEED>>2)%4>(p) * kPrime32_2; v2 = _rotl(v2, 13); v2 *= kPrime32_1; p+=4;
+            v3 += modifyArg<(ARL_BUILDSEED>>4)%4>(p) * kPrime32_2; v3 = _rotl(v3, 13); v3 *= kPrime32_1; p+=4;
+            v4 += modifyArg<(ARL_BUILDSEED>>6)%4>(p) * kPrime32_2; v4 = _rotl(v4, 13); v4 *= kPrime32_1; p+=4;
         }  
 
         // allocate a little extra space on the stack
@@ -563,11 +563,11 @@ unsigned int ProgramMemoryChecker::step()
 #pragma optimize("" , off)
 int ProgramMemoryChecker::isLuaLockOk() const
 {
-#if !defined(RBX_STUDIO_BUILD) && defined(_WIN32)
+#if !defined(ARL_STUDIO_BUILD) && defined(_WIN32)
     VMProtectBeginMutation(NULL);
     // This is an added check
-    size_t checkStart = RBX::Security::rbxTextBase;
-    size_t checkSize = RBX::Security::rbxTextSize;
+    size_t checkStart = ARL::Security::rbxTextBase;
+    size_t checkSize = ARL::Security::rbxTextSize;
     size_t pmcStart = reinterpret_cast<size_t>(scanningRegions[kGoldHashStart].startingAddress);
     size_t pmcSize = reinterpret_cast<size_t>(scanningRegions[kGoldHashEnd].startingAddress) 
         + scanningRegions[kGoldHashEnd].size - pmcStart;
@@ -608,7 +608,7 @@ Time ProgramMemoryChecker::getLastCompletedTime() const
 
 void ProgramMemoryChecker::getLastHashes(PmcHashContainer::HashVector& outHashes) const 
 {
-    #if !defined(RBX_STUDIO_BUILD)
+    #if !defined(ARL_STUDIO_BUILD)
     outHashes.resize(kNumberOfHashes);
     for (int i = 0; i < kNumberOfHashes-2; ++i)
     {
@@ -621,7 +621,7 @@ void ProgramMemoryChecker::getLastHashes(PmcHashContainer::HashVector& outHashes
 
 unsigned int ProgramMemoryChecker::hashScanningRegions(size_t regions) const
 {
-    #if !defined(RBX_STUDIO_BUILD)
+    #if !defined(ARL_STUDIO_BUILD)
     VMProtectBeginMutation("15");
     void* hashState = XXH32_init(kHASH_SEED_INIT);
     const size_t termRegion = scanningRegions.size();
@@ -649,14 +649,14 @@ unsigned int ProgramMemoryChecker::hashScanningRegions(size_t regions) const
 
 unsigned int ProgramMemoryChecker::updateHsceHash()
 {
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD)
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
     VMProtectBeginMutation(NULL);
     XXH_state32_t hsceHashState;
     hsceHashState.v1 = hsceHashState.v2 = hsceHashState.v3 = hsceHashState.v4 = 0xCCCCCCCC;
     hsceHashState.seed = 0xCCCCCCCC;
     hsceHashState.memsize = 0;
     hsceHashState.total_len = 0;
-    const void* hsceBaseAddress = RBX::HUMAN::HumanoidState::getComputeEventBaseAddress();
+    const void* hsceBaseAddress = ARL::HUMAN::HumanoidState::getComputeEventBaseAddress();
     if (hsceBaseAddress)
     {
         XXH32_feed(&hsceHashState, hsceBaseAddress, 1024);
@@ -702,12 +702,12 @@ unsigned int protectVmpSections()
 
     // For some reason, a follow-on security check fails.
     // The vmp sections are contiguous, and between non-exe sections
-    VirtualQuery(reinterpret_cast<void*>(RBX::Security::rbxVmpBase), &thisMemInfo, sizeof(thisMemInfo));
+    VirtualQuery(reinterpret_cast<void*>(ARL::Security::rbxVmpBase), &thisMemInfo, sizeof(thisMemInfo));
     if (thisMemInfo.State != MEM_COMMIT || !(thisMemInfo.Protect & PAGE_EXECUTE_READ))
     {
-        return RBX::Security::rbxVmpSize;
+        return ARL::Security::rbxVmpSize;
     }
-    return thisMemInfo.RegionSize - RBX::Security::rbxVmpSize;
+    return thisMemInfo.RegionSize - ARL::Security::rbxVmpSize;
 }
 
 }

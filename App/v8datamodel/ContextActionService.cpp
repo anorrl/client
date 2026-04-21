@@ -21,7 +21,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(TurnOffFakeEventsForCAS, false)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sContextActionService = "ContextActionService";
 
@@ -73,15 +73,15 @@ ContextActionService::ContextActionService() : Super()
 {
     setName(sContextActionService);
 
-	RBX::Guid::generateRBXGUID(activateGuid);
+	ARL::Guid::generateARLGUID(activateGuid);
 }
     
 Tool* ContextActionService::getCurrentLocalTool()
 {
-    RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this);
-    if (RBX::Network::Player* player = players->getLocalPlayer())
+    ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this);
+    if (ARL::Network::Player* player = players->getLocalPlayer())
         if(ModelInstance* character = player->getCharacter())
-            if( RBX::Tool* activeTool = character->findFirstChildOfType<RBX::Tool>() )
+            if( ARL::Tool* activeTool = character->findFirstChildOfType<ARL::Tool>() )
                 return activeTool;
     
     return NULL;
@@ -138,9 +138,9 @@ void ContextActionService::localCharacterAdded(shared_ptr<Instance> character)
     
 void ContextActionService::checkForLocalPlayer(shared_ptr<Instance> newPlayer)
 {
-    if ( RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this) )
+    if ( ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this) )
     {
-        if ( RBX::Network::Player* player = Instance::fastDynamicCast<RBX::Network::Player>(newPlayer.get()) )
+        if ( ARL::Network::Player* player = Instance::fastDynamicCast<ARL::Network::Player>(newPlayer.get()) )
         {
             if ( player == players->getLocalPlayer() )
             {
@@ -151,7 +151,7 @@ void ContextActionService::checkForLocalPlayer(shared_ptr<Instance> newPlayer)
     }
 }
 
-void ContextActionService::setupLocalPlayerConnections(RBX::Network::Player* localPlayer)
+void ContextActionService::setupLocalPlayerConnections(ARL::Network::Player* localPlayer)
 {
     if(ModelInstance* character = localPlayer->getCharacter())
         localCharacterAdded(shared_from(character));
@@ -170,8 +170,8 @@ void ContextActionService::onServiceProvider(ServiceProvider* oldProvider, Servi
 
     if(newProvider)
     {
-        RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(newProvider);
-        if (RBX::Network::Player* player = players->getLocalPlayer())
+        ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(newProvider);
+        if (ARL::Network::Player* player = players->getLocalPlayer())
             setupLocalPlayerConnections(player);
         else
             localPlayerAddConnection = players->onDemandWrite()->childAddedSignal.connect( boost::bind(&ContextActionService::checkForLocalPlayer,this,_1) );
@@ -392,12 +392,12 @@ GuiResponse ContextActionService::tryProcess(shared_ptr<InputObject> inputObject
 
 					if (canActivate && !menuIsOpen)
 					{
-						if (UserInputService* inputService = RBX::ServiceProvider::find<UserInputService>(this))
+						if (UserInputService* inputService = ARL::ServiceProvider::find<UserInputService>(this))
 						{
 							Vector2 currentPos = inputService->getCurrentMousePosition()->get2DPosition();
 							bool isDown = inputObject->getUserInputState() == InputObject::INPUT_STATE_BEGIN;
-							shared_ptr<InputObject> simulateInputObject = RBX::Creatable<RBX::Instance>::create<RBX::InputObject>(InputObject::TYPE_MOUSEBUTTON1, isDown ? InputObject::INPUT_STATE_BEGIN : InputObject::INPUT_STATE_END,
-								Vector3(currentPos.x,currentPos.y,0), Vector3::zero(), RBX::DataModel::get(this));
+							shared_ptr<InputObject> simulateInputObject = ARL::Creatable<ARL::Instance>::create<ARL::InputObject>(InputObject::TYPE_MOUSEBUTTON1, isDown ? InputObject::INPUT_STATE_BEGIN : InputObject::INPUT_STATE_END,
+								Vector3(currentPos.x,currentPos.y,0), Vector3::zero(), ARL::DataModel::get(this));
 
 							// r2 and l2 are special kinds of input, they don't have simple up and down states
 							if (inputObject->getKeyCode() == SDLK_GAMEPAD_BUTTONR2 || inputObject->getKeyCode() == SDLK_GAMEPAD_BUTTONL2)
@@ -414,19 +414,19 @@ GuiResponse ContextActionService::tryProcess(shared_ptr<InputObject> inputObject
 								if (zPos >= 0.5 && lastZPos < 0.5)
 								{
 									simulateInputObject->setInputState(InputObject::INPUT_STATE_BEGIN);
-									RBX::DataModel::get(this)->processInputObject(simulateInputObject);
+									ARL::DataModel::get(this)->processInputObject(simulateInputObject);
 								}
 								else if(zPos <= 0.2 && lastZPos > 0.2)
 								{
 									simulateInputObject->setInputState(InputObject::INPUT_STATE_END);
-									RBX::DataModel::get(this)->processInputObject(simulateInputObject);
+									ARL::DataModel::get(this)->processInputObject(simulateInputObject);
 								}
 
 								lastZPositionsForActivate[input] = zPos;
 							}
 							else
 							{
-								RBX::DataModel::get(this)->processInputObject(simulateInputObject);
+								ARL::DataModel::get(this)->processInputObject(simulateInputObject);
 							}
 
 						}
@@ -541,7 +541,7 @@ static void InvokeCallback(weak_ptr<ContextActionService> weakActionService, Lua
 				{
 					sc->callInNewThread(callback, *(args.get()));
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					StandardOut::singleton()->printf(MESSAGE_ERROR, "ContextActionService: Unexpected error while invoking callback: %s", e.what());
 				}
@@ -591,11 +591,11 @@ void ContextActionService::checkForInputOverride(const Reflection::Variant& newI
 					}
 					else
 					{
-						cancelInputObject = RBX::Creatable<RBX::Instance>::create<RBX::InputObject>(RBX::InputObject::TYPE_NONE,
-							RBX::InputObject::INPUT_STATE_CANCEL,
-							RBX::Vector3::zero(),
-							RBX::Vector3::zero(),
-							RBX::DataModel::get(this));
+						cancelInputObject = ARL::Creatable<ARL::Instance>::create<ARL::InputObject>(ARL::InputObject::TYPE_NONE,
+							ARL::InputObject::INPUT_STATE_CANCEL,
+							ARL::Vector3::zero(),
+							ARL::Vector3::zero(),
+							ARL::DataModel::get(this));
 					}
 
 
@@ -616,13 +616,13 @@ void ContextActionService::bindActionInternal(const std::string actionName, Lua:
 {
 	if (!Network::Players::frontendProcessing(this))
 	{
-		throw RBX::runtime_error("ContextActionService:BindAction can only be called from a local script");
+		throw ARL::runtime_error("ContextActionService:BindAction can only be called from a local script");
 		return;
 	}
 
 	if (actionName.empty())
 	{
-		throw RBX::runtime_error("ContextActionService:BindAction called with an empty actionName");
+		throw ARL::runtime_error("ContextActionService:BindAction called with an empty actionName");
 		return;
 	}
 
@@ -632,7 +632,7 @@ void ContextActionService::bindActionInternal(const std::string actionName, Lua:
 		{
 			if (!iter->isType<KeyCode>() && !iter->isString() && !iter->isType<InputObject::UserInputType>() && !iter->isType<PlayerActionType>())
 			{
-				throw RBX::runtime_error("ContextActionService:BindAction called with an invalid hotkey (should be either Enum.KeyCode, Enum.UserInputType or string)");
+				throw ARL::runtime_error("ContextActionService:BindAction called with an invalid hotkey (should be either Enum.KeyCode, Enum.UserInputType or string)");
 				return;
 			}
 
@@ -678,14 +678,14 @@ void ContextActionService::bindActionInternal(const std::string actionName, Lua:
 	// now fire a signal so we know a new function was bound (used by core scripts)
 	shared_ptr<Reflection::ValueTable> functionTable(rbx::make_shared<Reflection::ValueTable>());
 
-	(*functionTable)["title"] = RBX::Reflection::Variant();
-	(*functionTable)["image"] = RBX::Reflection::Variant();
-	(*functionTable)["description"] = RBX::Reflection::Variant();
-	(*functionTable)["createTouchButton"] = RBX::Reflection::Variant(createTouchButton);
+	(*functionTable)["title"] = ARL::Reflection::Variant();
+	(*functionTable)["image"] = ARL::Reflection::Variant();
+	(*functionTable)["description"] = ARL::Reflection::Variant();
+	(*functionTable)["createTouchButton"] = ARL::Reflection::Variant(createTouchButton);
 	if (hotkeys && !hotkeys->values.empty())
 	{
 		shared_ptr<Reflection::ValueArray> hotkeyArray = rbx::make_shared<Reflection::ValueArray>(hotkeys->values);
-		(*functionTable)["inputTypes"] = shared_ptr<const RBX::Reflection::ValueArray>(hotkeyArray);
+		(*functionTable)["inputTypes"] = shared_ptr<const ARL::Reflection::ValueArray>(hotkeyArray);
 	}
 
 	boundActionAddedSignal(actionName,createTouchButton,functionTable);
@@ -706,12 +706,12 @@ void ContextActionService::bindActivate(InputObject::UserInputType inputType, Ke
 {
 	if (!Network::Players::frontendProcessing(this))
 	{
-		throw RBX::runtime_error("ContextActionService:BindActivate can only be called from a local script");
+		throw ARL::runtime_error("ContextActionService:BindActivate can only be called from a local script");
 	}
 
 	if (inputType == InputObject::TYPE_NONE)
 	{
-		throw RBX::runtime_error("ContextActionService:BindActivate called with Enum.UserInputType.None, must be some other input type.");
+		throw ARL::runtime_error("ContextActionService:BindActivate called with Enum.UserInputType.None, must be some other input type.");
 	}
 
 	unbindActivate(inputType, keyCode);
@@ -730,12 +730,12 @@ void ContextActionService::unbindActivate(InputObject::UserInputType inputType, 
 {
 	if (!Network::Players::frontendProcessing(this))
 	{
-		throw RBX::runtime_error("ContextActionService:UnbindActivate can only be called from a local script");
+		throw ARL::runtime_error("ContextActionService:UnbindActivate can only be called from a local script");
 	}
 
 	if (inputType == InputObject::TYPE_NONE)
 	{
-		throw RBX::runtime_error("ContextActionService:UnbindActivate called with Enum.UserInputType.None, must be some other input type.");
+		throw ARL::runtime_error("ContextActionService:UnbindActivate called with Enum.UserInputType.None, must be some other input type.");
 	}
 
 	for (FunctionVector::reverse_iterator iter = functionVector.rbegin(); iter != functionVector.rend(); ++iter)
@@ -865,7 +865,7 @@ shared_ptr<const Reflection::ValueTable> ContextActionService::getAllBoundAction
         {
             shared_ptr<const Reflection::ValueTable> functionInfo = getBoundActionData(iter->first);
 
-            Reflection::Variant variantValue = shared_ptr<const RBX::Reflection::ValueTable>(functionInfo);
+            Reflection::Variant variantValue = shared_ptr<const ARL::Reflection::ValueTable>(functionInfo);
             (*reflectedFuncMap)[iter->first] = variantValue;
         }
     }
@@ -908,4 +908,4 @@ namespace Reflection {
 	}
 } // Namespace Reflection
     
-} // Namespace RBX
+} // Namespace ARL

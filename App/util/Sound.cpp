@@ -25,7 +25,7 @@ DYNAMIC_FASTINTVARIABLE(MinSoundStreamSizeBytes, 512000)
 LOGGROUP(Sound)
 DYNAMIC_LOGGROUP(SoundTrace)
 
-namespace RBX 
+namespace ARL 
 {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// SoundId Reflection Implementation
@@ -46,25 +46,25 @@ namespace RBX
 
 	namespace Reflection {
 		template<>
-		const Type& Type::getSingleton<RBX::Soundscape::SoundId>()
+		const Type& Type::getSingleton<ARL::Soundscape::SoundId>()
 		{
-			return Type::singleton<RBX::ContentId>();
+			return Type::singleton<ARL::ContentId>();
 		}
 
 		template<>
-		RBX::Soundscape::SoundId& Variant::convert<RBX::Soundscape::SoundId>(void)
+		ARL::Soundscape::SoundId& Variant::convert<ARL::Soundscape::SoundId>(void)
 		{
 			if (_type->isType<std::string>())
 			{
-				value = RBX::Soundscape::SoundId(cast<std::string>());
-				_type = &Type::singleton<RBX::Soundscape::SoundId>();
+				value = ARL::Soundscape::SoundId(cast<std::string>());
+				_type = &Type::singleton<ARL::Soundscape::SoundId>();
 			}
-			return genericConvert<RBX::Soundscape::SoundId>();
+			return genericConvert<ARL::Soundscape::SoundId>();
 		}
 
 
 		template<>
-		void TypedPropertyDescriptor<RBX::Soundscape::SoundId>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+		void TypedPropertyDescriptor<ARL::Soundscape::SoundId>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 		{
 			if (!element->isXsiNil())
 			{
@@ -75,32 +75,32 @@ namespace RBX
 		}
 
 		template<>
-		void TypedPropertyDescriptor<RBX::Soundscape::SoundId>::writeValue(const DescribedBase* instance, XmlElement* element) const
+		void TypedPropertyDescriptor<ARL::Soundscape::SoundId>::writeValue(const DescribedBase* instance, XmlElement* element) const
 		{
 			ContentId id(getValue(instance));
 			element->setValue(id);
 		}
 
 		template<>
-		int TypedPropertyDescriptor<RBX::Soundscape::SoundId>::getDataSize(const DescribedBase* instance) const 
+		int TypedPropertyDescriptor<ARL::Soundscape::SoundId>::getDataSize(const DescribedBase* instance) const 
 		{
-			return sizeof(RBX::Soundscape::SoundId) + getValue(instance).toString().size();
+			return sizeof(ARL::Soundscape::SoundId) + getValue(instance).toString().size();
 		}
 
 		template<>
-		bool TypedPropertyDescriptor<RBX::Soundscape::SoundId>::hasStringValue() const {
+		bool TypedPropertyDescriptor<ARL::Soundscape::SoundId>::hasStringValue() const {
 			return true;
 		}
 
 		template<>
-		std::string TypedPropertyDescriptor<RBX::Soundscape::SoundId>::getStringValue(const DescribedBase* instance) const{
-			return StringConverter<RBX::Soundscape::SoundId>::convertToString(getValue(instance));
+		std::string TypedPropertyDescriptor<ARL::Soundscape::SoundId>::getStringValue(const DescribedBase* instance) const{
+			return StringConverter<ARL::Soundscape::SoundId>::convertToString(getValue(instance));
 		}
 
 		template<>
-		bool TypedPropertyDescriptor<RBX::Soundscape::SoundId>::setStringValue(DescribedBase* instance, const std::string& text) const {
-			RBX::Soundscape::SoundId value;
-			if (StringConverter<RBX::Soundscape::SoundId>::convertToValue(text, value))
+		bool TypedPropertyDescriptor<ARL::Soundscape::SoundId>::setStringValue(DescribedBase* instance, const std::string& text) const {
+			ARL::Soundscape::SoundId value;
+			if (StringConverter<ARL::Soundscape::SoundId>::convertToValue(text, value))
 			{
 				setValue(instance, value);
 				return true;
@@ -143,7 +143,7 @@ namespace RBX
 			return false;
 		}
 
-		FMOD::Sound* Sound::tryLoad(const RBX::Instance* context) // throw on failure, returns null if not available yet
+		FMOD::Sound* Sound::tryLoad(const ARL::Instance* context) // throw on failure, returns null if not available yet
 		{
 			FASTLOG1(DFLog::SoundTrace, "Sound::get(%p)", this);
 
@@ -152,21 +152,21 @@ namespace RBX
             
             try
 			{
-                RBXPROFILER_SCOPE("Sound", "Sound::get");
+                ARLPROFILER_SCOPE("Sound", "Sound::get");
 
 				FMOD_MODE mode = is3D ? FMOD_3D : FMOD_DEFAULT;
 
                 std::string fileName;
                 
                 {
-                    RBXPROFILER_SCOPE("Sound", "getFile");
+                    ARLPROFILER_SCOPE("Sound", "getFile");
 
                     fileName = ServiceProvider::create<ContentProvider>(context)->getFile(id);
                 }
                 
 				int fileSize = getFilesize(fileName.c_str());
 
-                RBXPROFILER_LABELF("Sound", "%s (%d bytes)", id.c_str(), fileSize);
+                ARLPROFILER_LABELF("Sound", "%s (%d bytes)", id.c_str(), fileSize);
 
 				if ( !fileName.empty() && (fileSize >= DFInt::MinSoundStreamSizeBytes) )
 				{
@@ -177,7 +177,7 @@ namespace RBX
 					mode |= FMOD_CREATESTREAM;
 					isStreaming = true;
                     
-                    RBXPROFILER_SCOPE("Sound", "createStream");
+                    ARLPROFILER_SCOPE("Sound", "createStream");
 
 					SoundService::checkResult(system->createStream(fileName.c_str(), mode, NULL, &fmod_sound), "createStream", this, system.get());
 				}
@@ -202,12 +202,12 @@ namespace RBX
 					info.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
 					info.length = data->size();
 
-                    RBXPROFILER_SCOPE("Sound", "createSound");
+                    ARLPROFILER_SCOPE("Sound", "createSound");
 
 					SoundService::checkResult(system->createSound(data->c_str(), mode, &info, &fmod_sound), "createSound", this, system.get());
 				}
 			}
-            catch (RBX::base_exception& e)
+            catch (ARL::base_exception& e)
             {
                 StandardOut::singleton()->printf(MESSAGE_ERROR, "Sound failed to load %s : %s because %s", context ? context->getFullName().c_str() : "", id.c_str(), e.what());
             }
@@ -225,4 +225,4 @@ namespace RBX
 			}
 		}
 	}// namespace Soundscape
-}// namespace RBX
+}// namespace ARL

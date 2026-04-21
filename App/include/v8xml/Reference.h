@@ -14,7 +14,7 @@
 
 class XmlNameValuePair;
 
-namespace RBX {
+namespace ARL {
 
 	namespace Reflection
 	{
@@ -22,7 +22,7 @@ namespace RBX {
 	}
 	
 	// Used for streaming
-	class RBXInterface IIDREF
+	class ARLInterface IIDREF
 	{
 	private:
 		friend class IReferenceBinder;
@@ -30,7 +30,7 @@ namespace RBX {
 	};
 
 	// Used for streaming
-	class RBXBaseClass IReferenceBinder
+	class ARLBaseClass IReferenceBinder
 	{
 	public:
 		virtual void announceID(const XmlNameValuePair* valueID, Reflection::DescribedBase* source) = 0;

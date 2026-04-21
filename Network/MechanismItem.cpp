@@ -5,7 +5,7 @@
 #include "Util/Math.h"
 #include "rbx/Debug.h"
 
-using namespace RBX;
+using namespace ARL;
 
 MechanismItem::~MechanismItem()
 {
@@ -25,13 +25,13 @@ void MechanismItem::reset(int numElements)
 
 AssemblyItem& MechanismItem::appendAssembly()
 {
-	RBXASSERT(buffer.size() >= currentElements);
+	ARLASSERT(buffer.size() >= currentElements);
 
 	if (buffer.size() == currentElements)
 		buffer.append(new AssemblyItem());
 	else
 	{
-		RBXASSERT(buffer[currentElements]!=NULL);
+		ARLASSERT(buffer[currentElements]!=NULL);
 		buffer[currentElements]->reset();
 	}
 
@@ -48,8 +48,8 @@ AssemblyItem& MechanismItem::appendAssembly()
 
 bool MechanismItem::consistent(const MechanismItem* before, const MechanismItem* after)
 {
-	RBXASSERT(before && after);
-	RBXASSERT(before->networkTime < after->networkTime);
+	ARLASSERT(before && after);
+	ARLASSERT(before->networkTime < after->networkTime);
 	
 	return (	(before->hasVelocity == after->hasVelocity)
 			&&	(before->numAssemblies() == 1)
@@ -60,8 +60,8 @@ bool MechanismItem::consistent(const MechanismItem* before, const MechanismItem*
 
 void MechanismItem::lerp(const MechanismItem* before, const MechanismItem* after, MechanismItem* out, float lerpAlpha)
 {
-	RBXASSERT(consistent(before, after));
-	RBXASSERT(before->numAssemblies() == 1);
+	ARLASSERT(consistent(before, after));
+	ARLASSERT(before->numAssemblies() == 1);
 
 	out->reset(before->numAssemblies());	
 

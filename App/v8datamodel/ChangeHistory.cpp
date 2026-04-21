@@ -36,9 +36,9 @@ LOGVARIABLE(ChangeHistoryService, 0)
 
 FASTFLAGVARIABLE(TeamCreate9938FixEnabled, true)
 
-const char* const RBX::sChangeHistoryService = "ChangeHistoryService";
+const char* const ARL::sChangeHistoryService = "ChangeHistoryService";
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
@@ -46,14 +46,14 @@ namespace RBX
 		EnumDesc<ChangeHistoryService::RuntimeUndoBehavior>::EnumDesc()
 			:EnumDescriptor("RuntimeUndoBehavior")
 		{
-			addPair(RBX::ChangeHistoryService::Aggregate, "Aggregate");
-			addPair(RBX::ChangeHistoryService::Snapshot, "Snapshot");
-			addPair(RBX::ChangeHistoryService::Hybrid, "Hybrid");
+			addPair(ARL::ChangeHistoryService::Aggregate, "Aggregate");
+			addPair(ARL::ChangeHistoryService::Snapshot, "Snapshot");
+			addPair(ARL::ChangeHistoryService::Hybrid, "Hybrid");
 		}
 	}
 }
 
-using namespace RBX;
+using namespace ARL;
 using namespace Reflection;
 
 REFLECTION_BEGIN();
@@ -69,20 +69,20 @@ static EventDesc<ChangeHistoryService, void(std::string)> event_OnUndo(&ChangeHi
 static EventDesc<ChangeHistoryService, void(std::string)> event_OnRedo(&ChangeHistoryService::redoSignal, "OnRedo", "waypoint", Security::Plugin);
 REFLECTION_END();
 
-RBX::ChangeHistoryService::RuntimeUndoBehavior RBX::ChangeHistoryService::runtimeUndoBehavior = RBX::ChangeHistoryService::Aggregate;
+ARL::ChangeHistoryService::RuntimeUndoBehavior ARL::ChangeHistoryService::runtimeUndoBehavior = ARL::ChangeHistoryService::Aggregate;
 
-#define RBX_GET_CELL_DETAIL(cellData)                  (cellData & 0xff)
-#define RBX_GET_CELL_MATERIAL(cellData)                (Voxel::CellMaterial)((cellData>>8) & 0xff)
-#define RBX_GET_CELL_INDEX(cellData)                   (cellData>>16)
-#define RBX_SET_CELL_DATA(cellIndex, detail, material) ((cellIndex<<16) | (material<<8)| (detail))
+#define ARL_GET_CELL_DETAIL(cellData)                  (cellData & 0xff)
+#define ARL_GET_CELL_MATERIAL(cellData)                (Voxel::CellMaterial)((cellData>>8) & 0xff)
+#define ARL_GET_CELL_INDEX(cellData)                   (cellData>>16)
+#define ARL_SET_CELL_DATA(cellIndex, detail, material) ((cellIndex<<16) | (material<<8)| (detail))
 
-#define RBX_MAX_CLUSTER_CELLS (Voxel::kXZ_CHUNK_SIZE * Voxel::kXZ_CHUNK_SIZE * Voxel::kY_CHUNK_SIZE)
+#define ARL_MAX_CLUSTER_CELLS (Voxel::kXZ_CHUNK_SIZE * Voxel::kXZ_CHUNK_SIZE * Voxel::kY_CHUNK_SIZE)
 
 static Vector3int16 cellIndexToVector3(const boost::uint32_t &cellIndex) 
 {	return Vector3int16(cellIndex & 0x1f, cellIndex>>10, (cellIndex>>5) & 0x1f); }
 
 static bool compareClusterData_(const unsigned int &lhs, const unsigned int &rhs)
-{	return (RBX_GET_CELL_INDEX(lhs) < RBX_GET_CELL_INDEX(rhs)); }
+{	return (ARL_GET_CELL_INDEX(lhs) < ARL_GET_CELL_INDEX(rhs)); }
 
 static const PropertyDescriptor* getScriptSourceDescriptorIfScript(shared_ptr<Instance> instance)
 {
@@ -102,7 +102,7 @@ static const PropertyDescriptor* getScriptSourceDescriptorIfScript(shared_ptr<In
 
 static bool isReplicatedChange()
 {
-	return RBX::Security::Context::current().identity == RBX::Security::Replicator_;
+	return ARL::Security::Context::current().identity == ARL::Security::Replicator_;
 }
 
 class ChangeHistoryStatsItem : public Stats::Item
@@ -175,9 +175,9 @@ private:
 		{
 			//before setting values apply appropriate conversions
 			changeHistory->setCell(chunkCellData.first, 
-					cellIndexToVector3(RBX_GET_CELL_INDEX(*chunkCellsIter)),
-					Voxel::Cell::readUnsignedCharFromDeprecatedUse(RBX_GET_CELL_DETAIL(*chunkCellsIter)),
-					RBX_GET_CELL_MATERIAL(*chunkCellsIter));
+					cellIndexToVector3(ARL_GET_CELL_INDEX(*chunkCellsIter)),
+					Voxel::Cell::readUnsignedCharFromDeprecatedUse(ARL_GET_CELL_DETAIL(*chunkCellsIter)),
+					ARL_GET_CELL_MATERIAL(*chunkCellsIter));
 		}
 	}
 
@@ -201,7 +201,7 @@ private:
 		Variant value;
 		propertyDescriptor.getVariant(instance.get(), value);
 		//if (properties.find(&propertyDescriptor)==properties.end())
-		//	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ChangeHistoryService::recording %s.%s\n", instance->getName().c_str(), propertyDescriptor.name.c_str());
+		//	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ChangeHistoryService::recording %s.%s\n", instance->getName().c_str(), propertyDescriptor.name.c_str());
 		properties[&propertyDescriptor] = value;
 	}
 	
@@ -227,19 +227,19 @@ private:
 			return;
 		}
 		
-		ChunkCells chunkCellsToCopy = chunkCellData.second, &chunkCellsLocal = clusterCellsIter->second, tempVector(RBX_MAX_CLUSTER_CELLS, 0);
+		ChunkCells chunkCellsToCopy = chunkCellData.second, &chunkCellsLocal = clusterCellsIter->second, tempVector(ARL_MAX_CLUSTER_CELLS, 0);
 		
 		//copy local data in temp vector
 		for (ChunkCells::const_iterator chunkCellsLocalIter = chunkCellsLocal.begin(); chunkCellsLocalIter != chunkCellsLocal.end(); ++chunkCellsLocalIter)
-			tempVector[RBX_GET_CELL_INDEX(*chunkCellsLocalIter)] = *chunkCellsLocalIter;
+			tempVector[ARL_GET_CELL_INDEX(*chunkCellsLocalIter)] = *chunkCellsLocalIter;
 		
 		//copy data to be assigned in temp vector
 		for (ChunkCells::const_iterator chunkCellsToCopyIter = chunkCellsToCopy.begin(); chunkCellsToCopyIter != chunkCellsToCopy.end(); ++chunkCellsToCopyIter)
-			tempVector[RBX_GET_CELL_INDEX(*chunkCellsToCopyIter)] = *chunkCellsToCopyIter;
+			tempVector[ARL_GET_CELL_INDEX(*chunkCellsToCopyIter)] = *chunkCellsToCopyIter;
 		
 		//clear local data
 		ChunkCells().swap(chunkCellsLocal);
-		chunkCellsLocal.reserve(RBX_MAX_CLUSTER_CELLS);
+		chunkCellsLocal.reserve(ARL_MAX_CLUSTER_CELLS);
 		
 		//again copy modified data
 		for (ChunkCells::const_iterator tempVectorIter = tempVector.begin(); tempVectorIter != tempVector.end(); ++tempVectorIter)
@@ -294,8 +294,8 @@ public:
 
 	void absorb(const Item& next)
 	{
-		RBXASSERT(action==Create || action == Change);
-		RBXASSERT(next.action!=Delete);
+		ARLASSERT(action==Create || action == Change);
+		ARLASSERT(next.action!=Delete);
 		if (next.parent)
 			this->parent = next.parent;
 		
@@ -315,7 +315,7 @@ public:
 		for (ClusterCells::iterator iter = clusterCells.begin(); iter != clusterCells.end(); ++iter)
 		{
 			ChunkCells &cells = iter->second;
-			tempVector.reserve(RBX_MAX_CLUSTER_CELLS);
+			tempVector.reserve(ARL_MAX_CLUSTER_CELLS);
 				
 			for (ChunkCells::const_iterator cells_iter = cells.begin(); cells_iter != cells.end(); ++cells_iter)
 			{
@@ -349,7 +349,7 @@ public:
 	
 	void recordCreate()
 	{
-		RBXASSERT(action==Delete || action==None);
+		ARLASSERT(action==Delete || action==None);
 		// Record all properties except for propParent
 		// TODO: Use Replicator::getDefault to avoid writing properties that are the same as the default?
 		std::for_each(instance->properties_begin(), instance->properties_end(), boost::bind(&Item::addValueIfNotParentProperty, this, _1));
@@ -435,7 +435,7 @@ public:
 		ClusterCells::iterator clusterCellsIter = clusterCells.find(chunkIndex);
 		if (clusterCellsIter == clusterCells.end())
 		{
-			ChunkCells cells(RBX_MAX_CLUSTER_CELLS, 0);
+			ChunkCells cells(ARL_MAX_CLUSTER_CELLS, 0);
 			clusterCells[chunkIndex] = cells;
 			return clusterCells[chunkIndex];
 		}
@@ -448,7 +448,7 @@ public:
 	void recordClusterDataSetCell(ChunkCells& cells, const Vector3int16 &cellPos, const Voxel::Cell &cellDetail, const Voxel::CellMaterial &material)
 	{
 		boost::uint32_t cellIndex = ((cellPos.x) | (cellPos.z << 5) | (cellPos.y << 10));
-		unsigned int cellData = RBX_SET_CELL_DATA(cellIndex, Voxel::Cell::asUnsignedCharForDeprecatedUses(cellDetail), material);
+		unsigned int cellData = ARL_SET_CELL_DATA(cellIndex, Voxel::Cell::asUnsignedCharForDeprecatedUses(cellDetail), material);
 		
 		cells[cellIndex] = cellData;
 		
@@ -466,10 +466,10 @@ public:
 	{
 		ChunkCells& cells = recordClusterDataGetChunk(chunkIndex);
 		boost::uint32_t cellIndex = ((cellPos.x) | (cellPos.z << 5) | (cellPos.y << 10));
-		unsigned int cellData = RBX_SET_CELL_DATA(cellIndex, Voxel::Cell::asUnsignedCharForDeprecatedUses(cellDetail), material);
+		unsigned int cellData = ARL_SET_CELL_DATA(cellIndex, Voxel::Cell::asUnsignedCharForDeprecatedUses(cellDetail), material);
 		for (auto& cell: cells)
 		{
-			if (RBX_GET_CELL_INDEX(cell) == cellIndex)
+			if (ARL_GET_CELL_INDEX(cell) == cellIndex)
 			{
 				cell = cellData;
 				break;
@@ -489,12 +489,12 @@ public:
 		switch (action)
 		{
 			case Delete:
-				//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ChangeHistoryService Delete %s 0x%X\n", instance->getName().c_str(), instance.get());
+				//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ChangeHistoryService Delete %s 0x%X\n", instance->getName().c_str(), instance.get());
 				instance->setParent(NULL);
 				break;
 			case Change:
 			{
-				//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ChangeHistoryService Change %s 0x%X\n", instance->getName().c_str(), instance.get());
+				//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ChangeHistoryService Change %s 0x%X\n", instance->getName().c_str(), instance.get());
 				std::for_each(properties.begin(), properties.end(), boost::bind(&Item::apply, this, _1));
 				if (changeHistory->withLongRunningOperation)
 					changeHistory->withLongRunningOperation(boost::bind(&Item::playClusterChange, this), "Redo in progress...");
@@ -504,7 +504,7 @@ public:
 				break;
 			case Create:
 			case Replicate:
-				//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ChangeHistoryService Create %s 0x%X\n", instance->getName().c_str(), instance.get());
+				//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ChangeHistoryService Create %s 0x%X\n", instance->getName().c_str(), instance.get());
 				std::for_each(properties.begin(), properties.end(), boost::bind(&Item::apply, this, _1));
 				if (properties.find(&Instance::propParent) == properties.end())
 					instance->setParent(parent.get());
@@ -521,11 +521,11 @@ public:
 				unplayDelete();
 				break;
 			case Change:
-				//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ChangeHistoryService Un-Change %s 0x%X\n", instance->getName().c_str(), instance.get());
+				//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ChangeHistoryService Un-Change %s 0x%X\n", instance->getName().c_str(), instance.get());
 				unplayChange();
 				break;
 			case Create:
-				//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ChangeHistoryService Un-Create %s 0x%X\n", instance->getName().c_str(), instance.get());
+				//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ChangeHistoryService Un-Create %s 0x%X\n", instance->getName().c_str(), instance.get());
 				instance->setParent(NULL);
 				break;
             default:
@@ -547,7 +547,7 @@ public:
 			return false;
 		
 		const ChunkCells &chunkCells = clusterCellsIter->second;
-		unsigned int compareData = RBX_SET_CELL_DATA(cellIndex, 0, 0);
+		unsigned int compareData = ARL_SET_CELL_DATA(cellIndex, 0, 0);
 		
 		ChunkCells::const_iterator it_start = std::lower_bound(chunkCells.begin(), chunkCells.end(), compareData, compareClusterData_);
 		ChunkCells::const_iterator it_end   = std::upper_bound(chunkCells.begin(), chunkCells.end(), compareData, compareClusterData_);
@@ -617,7 +617,7 @@ class ChangeHistoryService::Waypoint
 
 		for (Items::const_iterator it = items.begin(); it != items.end(); ++it)
         {
-            RBXASSERT(it->second.order > 0);
+            ARLASSERT(it->second.order > 0);
             result.push_back(&it->second);
         }
 
@@ -669,7 +669,7 @@ public:
 	
 	void addItem(const Item& item)
 	{
-		RBXASSERT_SLOW(!findItem(item.instance.get()));
+		ARLASSERT_SLOW(!findItem(item.instance.get()));
 
         Item& copy = items[item.instance.get()];
         copy = item;
@@ -694,7 +694,7 @@ public:
 			}
 			else
 			{
-				//				RBXASSERT(src.action==Item::Create);	// TODO  - this assert is going off
+				//				ARLASSERT(src.action==Item::Create);	// TODO  - this assert is going off
 				addItem(src);
 			}
 		}
@@ -736,7 +736,7 @@ void ChangeHistoryService::Item::unplayDelete() const
 		Item* item = (*iter)->findItem(instance.get());
 		if (item)
 		{
-			RBXASSERT(item->action!=Delete);
+			ARLASSERT(item->action!=Delete);
 			if (item->action==Create || item->action==Replicate)
 			{
 				item->play();
@@ -778,7 +778,7 @@ void ChangeHistoryService::Item::unplayProperty(const std::pair<const PropertyDe
 		Item* item = (*iter)->findItem(instance.get());
 		if (item)
 		{
-			RBXASSERT(item->action!=Delete);
+			ARLASSERT(item->action!=Delete);
 			Properties::iterator find = item->properties.find(pair.first);
 			if (find != item->properties.end())
 			{
@@ -807,7 +807,7 @@ void ChangeHistoryService::Item::unplayClusterData(const std::pair<SpatialRegion
 	
 	for (ChunkCells::const_iterator chunkCellsIter = chunkCells.begin(); chunkCellsIter != chunkCells.end(); ++chunkCellsIter)
 	{
-		cellIndexInChunk = RBX_GET_CELL_INDEX(*chunkCellsIter);
+		cellIndexInChunk = ARL_GET_CELL_INDEX(*chunkCellsIter);
 		cellPosInChunk   = cellIndexToVector3(cellIndexInChunk);
 		
 		cellFound = false;
@@ -823,8 +823,8 @@ void ChangeHistoryService::Item::unplayClusterData(const std::pair<SpatialRegion
 				if (item->getCellData(chunkIndex, cellIndexInChunk, cellData))
 				{
 					changeHistory->setCell(chunkIndex, cellPosInChunk,
-						Voxel::Cell::readUnsignedCharFromDeprecatedUse(RBX_GET_CELL_DETAIL(cellData)),
-						RBX_GET_CELL_MATERIAL(cellData));
+						Voxel::Cell::readUnsignedCharFromDeprecatedUse(ARL_GET_CELL_DETAIL(cellData)),
+						ARL_GET_CELL_MATERIAL(cellData));
 					cellFound = true;
 					break;
 				}
@@ -1037,7 +1037,7 @@ void ChangeHistoryService::mergeFirstTwoWaypoints()
 {
 	Waypoints::iterator next = ++waypoints.begin();
 
-	//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ChangeHistoryService::mergeFirstTwoWaypoints %s\n", (*next)->name.c_str());
+	//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ChangeHistoryService::mergeFirstTwoWaypoints %s\n", (*next)->name.c_str());
 
 	waypoints.front()->absorb(*next);
 	
@@ -1083,7 +1083,7 @@ void ChangeHistoryService::trimWaypoints()
 	{
 		if (isInRange(runStartWaypoint, playWaypoint, waypoints.end()))
 		{
-			RBXASSERT(runStartWaypoint != waypoints.end());
+			ARLASSERT(runStartWaypoint != waypoints.end());
 			runStartWaypoint = waypoints.end();
 		}
 
@@ -1151,8 +1151,8 @@ void ChangeHistoryService::dettach()
 
 void ChangeHistoryService::attach()
 {
-	RBXASSERT(recording==NULL);
-	RBXASSERT(waypoints.size()==0);
+	ARLASSERT(recording==NULL);
+	ARLASSERT(waypoints.size()==0);
 	recording = new Waypoint(this);
 	playWaypoint = waypoints.end();
 	unplayWaypoint = waypoints.begin();
@@ -1208,7 +1208,7 @@ ChangeHistoryService::CheckResult ChangeHistoryService::checkSettingWaypoint()
 	switch (runtimeUndoBehavior)
 	{
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 		return Accept;
 	case Hybrid:
 		return Accept; // recording is legal at runtime
@@ -1221,7 +1221,7 @@ ChangeHistoryService::CheckResult ChangeHistoryService::checkSettingWaypoint()
 
 void ChangeHistoryService::onItemAdded(shared_ptr<Instance> instance)
 {
-	RBXASSERT(enabled);
+	ARLASSERT(enabled);
 	
 	if (playing)
 		return;
@@ -1232,15 +1232,15 @@ void ChangeHistoryService::onItemAdded(shared_ptr<Instance> instance)
 	if (!isRecordable(instance.get()))
 		return;
 	
-	//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ChangeHistoryService::onItemAdded %s\n", instance->getDescriptor().name.c_str());
+	//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ChangeHistoryService::onItemAdded %s\n", instance->getDescriptor().name.c_str());
 	
 	Item& item = isReplicatedChange() ? (*waypoints.begin())->getItem(instance) : recording->getItem(instance);
 	item.recordCreate();
 
-	shared_ptr<RBX::MegaClusterInstance> cluster = Instance::fastSharedDynamicCast<RBX::MegaClusterInstance>(instance);
+	shared_ptr<ARL::MegaClusterInstance> cluster = Instance::fastSharedDynamicCast<ARL::MegaClusterInstance>(instance);
 	if(cluster)
 	{
-		RBXASSERT(megaClusterInstance == NULL);
+		ARLASSERT(megaClusterInstance == NULL);
 		if (megaClusterInstance == NULL) {
 			megaClusterInstance = cluster;
 
@@ -1375,7 +1375,7 @@ bool ChangeHistoryService::isRecordable(Instance* instance)
 
 void ChangeHistoryService::onItemRemoved(shared_ptr<Instance> instance)
 {
-	RBXASSERT(enabled);
+	ARLASSERT(enabled);
 	
 	if (playing)
 		return;
@@ -1424,11 +1424,11 @@ void ChangeHistoryService::onItemRemoved(shared_ptr<Instance> instance)
 	    recording->getItem(instance).recordDelete();
     }
 
-	shared_ptr<RBX::MegaClusterInstance> cluster = Instance::fastSharedDynamicCast<RBX::MegaClusterInstance>(instance);
+	shared_ptr<ARL::MegaClusterInstance> cluster = Instance::fastSharedDynamicCast<ARL::MegaClusterInstance>(instance);
 	if(cluster)
 	{
-		RBXASSERT(megaClusterInstance != NULL);
-		RBXASSERT(megaClusterInstance == cluster);
+		ARLASSERT(megaClusterInstance != NULL);
+		ARLASSERT(megaClusterInstance == cluster);
 
 		if (megaClusterInstance->isSmooth())
             megaClusterInstance->getSmoothGrid()->disconnectListener(this);
@@ -1441,7 +1441,7 @@ void ChangeHistoryService::onItemRemoved(shared_ptr<Instance> instance)
 
 void ChangeHistoryService::onItemChanged(shared_ptr<Instance> instance, const PropertyDescriptor* descriptor)
 {
-	RBXASSERT(enabled);
+	ARLASSERT(enabled);
 	
 	if (playing)
 		return;
@@ -1457,7 +1457,7 @@ void ChangeHistoryService::onItemChanged(shared_ptr<Instance> instance, const Pr
 		return;
 
 	// support recording of only name change and parent change for camera
-	if ( instance->fastDynamicCast<Camera>() && (*descriptor != RBX::Instance::desc_Name) && (*descriptor != Instance::propParent) )
+	if ( instance->fastDynamicCast<Camera>() && (*descriptor != ARL::Instance::desc_Name) && (*descriptor != Instance::propParent) )
 		return;
 
 	if (isReplicatedChange())
@@ -1490,9 +1490,9 @@ void ChangeHistoryService::Waypoint::play()
         {
             itemsOrdered[i]->play();
         }
-        catch (RBX::base_exception& ex)
+        catch (ARL::base_exception& ex)
         {
-            RBX::StandardOut::singleton()->print(RBX::MESSAGE_WARNING, ex.what());
+            ARL::StandardOut::singleton()->print(ARL::MESSAGE_WARNING, ex.what());
         }
     }
 
@@ -1509,9 +1509,9 @@ void ChangeHistoryService::Waypoint::unplay()
 		{
 			itemsOrdered[i-1]->unplay();
 		}
-		catch (RBX::base_exception& ex)
+		catch (ARL::base_exception& ex)
 		{
-			RBX::StandardOut::singleton()->print(RBX::MESSAGE_WARNING, ex.what());
+			ARL::StandardOut::singleton()->print(ARL::MESSAGE_WARNING, ex.what());
 		}
     }
 
@@ -1525,9 +1525,9 @@ void ChangeHistoryService::Waypoint::unplay()
         {
             itemsOrdered[i]->unplay_CFrame();
         }
-        catch (RBX::base_exception& ex)
+        catch (ARL::base_exception& ex)
         {
-            RBX::StandardOut::singleton()->print(RBX::MESSAGE_WARNING, ex.what());
+            ARL::StandardOut::singleton()->print(ARL::MESSAGE_WARNING, ex.what());
         }
     }
 	
@@ -1539,14 +1539,14 @@ void ChangeHistoryService::Waypoint::selectModifiedParts(bool isPlay)
 	Workspace* pWorkspace = Workspace::findWorkspace(changeHistory);
 	if (pWorkspace)
 	{
-		RBX::Selection* pSelection = RBX::ServiceProvider::create<RBX::Selection>(pWorkspace);
+		ARL::Selection* pSelection = ARL::ServiceProvider::create<ARL::Selection>(pWorkspace);
 		if (pSelection)
 		{
 			 //TODO: Remove this extra for loop and have a single loop, once we remove the FastFlag
 			const DataModel *pDataModel = Instance::fastDynamicCast<DataModel>(ServiceProvider::findServiceProvider(pWorkspace));
 
-			boost::unordered_set<shared_ptr<RBX::Instance> > instancesToSelect;
-			boost::unordered_set<RBX::Instance*> instancesParent;
+			boost::unordered_set<shared_ptr<ARL::Instance> > instancesToSelect;
+			boost::unordered_set<ARL::Instance*> instancesParent;
 			for (Items::iterator iter=items.begin(); iter!=items.end(); ++iter)
 			{
                 const Item& item = iter->second;
@@ -1562,7 +1562,7 @@ void ChangeHistoryService::Waypoint::selectModifiedParts(bool isPlay)
 
 			//filter out child instances
 			shared_ptr<Instances> instances(new Instances);
-			for (boost::unordered_set<shared_ptr<RBX::Instance> >::iterator iter = instancesToSelect.begin(); iter != instancesToSelect.end(); ++iter)
+			for (boost::unordered_set<shared_ptr<ARL::Instance> >::iterator iter = instancesToSelect.begin(); iter != instancesToSelect.end(); ++iter)
 				if (instancesParent.find((*iter)->getParent()) == instancesParent.end())
 					instances->push_back(*iter);
 
@@ -1574,7 +1574,7 @@ void ChangeHistoryService::Waypoint::selectModifiedParts(bool isPlay)
 
 void ChangeHistoryService::play()
 {
-    RBX::DataModel::LegacyLock lock(dataModel, RBX::DataModelJob::Write);
+    ARL::DataModel::LegacyLock lock(dataModel, ARL::DataModelJob::Write);
     playLua();
 }
 
@@ -1591,7 +1591,7 @@ void ChangeHistoryService::playLua()
 	
 	ScopedAssign<bool> assign(playing, true);
 	
-	RBXASSERT(playWaypoint!=waypoints.begin());
+	ARLASSERT(playWaypoint!=waypoints.begin());
 
     if (recording)
     {
@@ -1614,7 +1614,7 @@ void ChangeHistoryService::playLua()
 
 void ChangeHistoryService::unplay()
 {
-	RBX::DataModel::LegacyLock lock(dataModel, RBX::DataModelJob::Write);
+	ARL::DataModel::LegacyLock lock(dataModel, ARL::DataModelJob::Write);
 	unplayLua();
 }
 
@@ -1650,18 +1650,18 @@ void ChangeHistoryService::unplayLua()
     undoSignal(name);
 }
 
-void RBX::ChangeHistoryService::reportMissedPhysicsChanges(shared_ptr<RBX::Instance> instance)
+void ARL::ChangeHistoryService::reportMissedPhysicsChanges(shared_ptr<ARL::Instance> instance)
 {
-	RBXASSERT(enabled);
-	RBXASSERT(!playing);
-	RBXASSERT(recording);
+	ARLASSERT(enabled);
+	ARLASSERT(!playing);
+	ARLASSERT(recording);
 
 	if (PartInstance* part = Instance::fastDynamicCast<PartInstance>(instance.get()))
 	{
-		RBXASSERT(isRecordable(instance.get()));
+		ARLASSERT(isRecordable(instance.get()));
 
 		Waypoints::iterator waypoint = unplayWaypoint;
-		RBXASSERT(waypoint != waypoints.end());
+		ARLASSERT(waypoint != waypoints.end());
 
 		bool foundCFrame = false;
 		bool foundLinearVelocity = false;
@@ -1675,7 +1675,7 @@ void RBX::ChangeHistoryService::reportMissedPhysicsChanges(shared_ptr<RBX::Insta
 					Item::Properties::const_iterator iter2 = item->properties.find(&PartInstance::prop_CFrame);
 					if (iter2 != item->properties.end())
 					{
-						const RBX::CoordinateFrame& v = iter2->second.cast<RBX::CoordinateFrame>();
+						const ARL::CoordinateFrame& v = iter2->second.cast<ARL::CoordinateFrame>();
 						if (v != part->getCoordinateFrame())
 							recording->getItem(instance).recordProperty(&PartInstance::prop_CFrame);
 						foundCFrame = true;
@@ -1686,7 +1686,7 @@ void RBX::ChangeHistoryService::reportMissedPhysicsChanges(shared_ptr<RBX::Insta
 					Item::Properties::const_iterator iter2 = item->properties.find(&PartInstance::prop_Velocity);
 					if (iter2 != item->properties.end())
 					{
-						const RBX::Vector3& v = iter2->second.cast<RBX::Vector3>();
+						const ARL::Vector3& v = iter2->second.cast<ARL::Vector3>();
 						if (v != part->getLinearVelocity())
 							recording->getItem(instance).recordProperty(&PartInstance::prop_Velocity);
 						foundLinearVelocity = true;
@@ -1697,7 +1697,7 @@ void RBX::ChangeHistoryService::reportMissedPhysicsChanges(shared_ptr<RBX::Insta
 					Item::Properties::const_iterator iter2 = item->properties.find(&PartInstance::prop_RotVelocity);
 					if (iter2 != item->properties.end())
 					{
-						const RBX::Vector3& v = iter2->second.cast<RBX::Vector3>();
+						const ARL::Vector3& v = iter2->second.cast<ARL::Vector3>();
 						if (v != part->getRotationalVelocity())
 							recording->getItem(instance).recordProperty(&PartInstance::prop_RotVelocity);
 						foundRotationalVelocity = true;
@@ -1738,8 +1738,8 @@ void ChangeHistoryService::reset()
 {
 	// For now RS_STOPPED means somebody called "reset", which is slightly different than a true "stop".
 	// Eventually we'll need to differentiate between Stop and Reset
-	RBXASSERT(canUnplay());
-	RBXASSERT(runStartWaypoint != waypoints.end());
+	ARLASSERT(canUnplay());
+	ARLASSERT(runStartWaypoint != waypoints.end());
 	while (unplayWaypoint != runStartWaypoint)
 		unplay();
 	runStartWaypoint = waypoints.end();
@@ -1761,7 +1761,7 @@ void ChangeHistoryService::onRunTransition( RunTransition event )
 		if (event.oldState == RS_STOPPED)
 		{
 			runStartWaypoint = unplayWaypoint;
-			RBXASSERT(runStartWaypoint != waypoints.end());
+			ARLASSERT(runStartWaypoint != waypoints.end());
 		}
 		break;
 	}

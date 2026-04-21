@@ -7,7 +7,7 @@
 #include "Util/Math.h"
 
 
-namespace RBX {
+namespace ARL {
 
 void WedgePoly::buildMesh()
 {
@@ -59,7 +59,7 @@ Vector3 WedgePoly::getCofmOffset( void ) const
 
 CoordinateFrame WedgePoly::getSurfaceCoordInBody( const size_t surfaceId ) const
 {
-    RBXASSERT( surfaceId != (size_t)-1 );
+    ARLASSERT( surfaceId != (size_t)-1 );
     CoordinateFrame aCS;
     if( surfaceId == (size_t)-1 )
 	    return aCS;
@@ -108,7 +108,7 @@ Vector3 WedgePoly::getCenterToCorner(const Matrix3& rotation) const
 	// we override the default poly behavior of using a sphere to define the AABB for bounds-checking
 	//	  for now, we just pretend the wedge is brick-shaped, since this is the closest approximation we can get using AABBs anyways
 
-	//need to convert RBX::POLY::Vertex to G3D::Vector3
+	//need to convert ARL::POLY::Vertex to G3D::Vector3
 	// use vertices 0,1,3, and 4 [back face]
 	//[0, 1, 2, 3 for corner wedges]
 
@@ -139,4 +139,4 @@ void WedgePoly::updateBulletCollisionData()
 }
 
 
-} // namespace RBX
+} // namespace ARL

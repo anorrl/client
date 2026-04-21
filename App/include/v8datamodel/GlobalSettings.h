@@ -4,7 +4,7 @@
 #include "V8Tree/Service.h"
 #include "Script/ThreadRef.h"
 
-namespace RBX {
+namespace ARL {
 
 	// A generic mechanism for displaying stats (like 3D FPS, network traffic, etc.)
 	extern const char *const sSettings;
@@ -97,7 +97,7 @@ namespace RBX {
 			}
 		};
 
-		shared_ptr<const RBX::Reflection::ValueTable> getFVariables();
+		shared_ptr<const ARL::Reflection::ValueTable> getFVariables();
 		std::string getFVariable(std::string flag);
 		bool getFFlag(std::string name);
 
@@ -109,17 +109,17 @@ namespace RBX {
 
 	template<class Class, const char* const & sClassName>
 	class GlobalAdvancedSettingsItem
-		 : public RBX::DescribedCreatable<Class, RBX::GlobalAdvancedSettings::Item, sClassName>
+		 : public ARL::DescribedCreatable<Class, ARL::GlobalAdvancedSettings::Item, sClassName>
 		 , public Service
 	{
-		typedef RBX::DescribedCreatable<Class, RBX::GlobalAdvancedSettings::Item, sClassName> Super;
+		typedef ARL::DescribedCreatable<Class, ARL::GlobalAdvancedSettings::Item, sClassName> Super;
 		static GlobalAdvancedSettingsItem* sing;
 	protected:
 		GlobalAdvancedSettingsItem()
 		{
 			Super::setName(sClassName);
 			if (sing)
-				throw RBX::runtime_error("singleton %s already exists", sClassName);
+				throw ARL::runtime_error("singleton %s already exists", sClassName);
 			sing = this;
 		}
 		~GlobalAdvancedSettingsItem()
@@ -134,14 +134,14 @@ namespace RBX {
 			if (sing)
 				return *boost::polymorphic_downcast<Class*>(sing);
 
-			RBX::GlobalAdvancedSettings* gs = RBX::GlobalAdvancedSettings::singleton().get();
+			ARL::GlobalAdvancedSettings* gs = ARL::GlobalAdvancedSettings::singleton().get();
 			boost::mutex::scoped_lock lock(gs->mutex);
 			if (!sing)
 			{
 				// "s" won't get collected when we leave scope because the parent will hold a ref to it 
 				shared_ptr<Class> s = Class::createInstance();
 				s->setParent(gs);
-				RBXASSERT(s.get()==sing);
+				ARLASSERT(s.get()==sing);
 			}
 			return *boost::polymorphic_downcast<Class*>(sing);
 		}
@@ -152,17 +152,17 @@ namespace RBX {
 
 	template<class Class, const char* const & sClassName>
 	class GlobalBasicSettingsItem
-		 : public RBX::DescribedCreatable<Class, RBX::GlobalBasicSettings::Item, sClassName>
+		 : public ARL::DescribedCreatable<Class, ARL::GlobalBasicSettings::Item, sClassName>
 		 , public Service
 	{
-		typedef RBX::DescribedCreatable<Class, RBX::GlobalBasicSettings::Item, sClassName> Super;
+		typedef ARL::DescribedCreatable<Class, ARL::GlobalBasicSettings::Item, sClassName> Super;
 		static GlobalBasicSettingsItem* sing;
 	protected:
 		GlobalBasicSettingsItem()
 		{
 			Super::setName(sClassName);
 			if (sing)
-				throw RBX::runtime_error("singleton %s already exists", sClassName);
+				throw ARL::runtime_error("singleton %s already exists", sClassName);
 			sing = this;
 		}
 		~GlobalBasicSettingsItem()
@@ -178,14 +178,14 @@ namespace RBX {
 			if (sing)
 				return *boost::polymorphic_downcast<Class*>(sing);
 
-			RBX::GlobalBasicSettings* gs = RBX::GlobalBasicSettings::singleton().get();
+			ARL::GlobalBasicSettings* gs = ARL::GlobalBasicSettings::singleton().get();
 			boost::mutex::scoped_lock lock(gs->mutex);
 			if (!sing)
 			{
 				// "s" won't get collected when we leave scope because the parent will hold a ref to it 
 				shared_ptr<Class> s = Class::createInstance();
 				s->setParent(gs);
-				RBXASSERT(s.get()==sing);
+				ARLASSERT(s.get()==sing);
 			}
 			return *boost::polymorphic_downcast<Class*>(sing);
 		}

@@ -9,7 +9,7 @@
 #include "V8Kernel/Body.h"
 #include "V8World/World.h"
 
-namespace RBX {
+namespace ARL {
 namespace HUMAN {
 
 Balancing::Balancing(Humanoid* humanoid, StateType priorState)
@@ -49,7 +49,7 @@ int Balancing::balanceRateForPGS()
 
 void Balancing::onComputeForceImpl()
 {
-	RBXASSERT(getHumanoid()->Connector::isInKernel());
+	ARLASSERT(getHumanoid()->Connector::isInKernel());
 
 	Body* root = getHumanoid()->getRootBodyFast();
 	if (!root) {
@@ -79,7 +79,7 @@ void Balancing::onComputeForceImpl()
 	Vector3 angVelRoot = rootCoord.vectorToObjectSpace(angVelWorld);
 	Vector3 externalTorqueRoot = rootCoord.vectorToObjectSpace(externalTorqueWorld);
 
-	RBXASSERT(!Math::isNanInfVector3(angVelRoot));
+	ARLASSERT(!Math::isNanInfVector3(angVelRoot));
 
 	// P control system
 	Vector3 controlTorqueRoot = -kP * (root->getBranchIBody() * tiltRoot);  // apply scalar to Vector3, not Matrix3

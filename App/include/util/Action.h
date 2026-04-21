@@ -6,7 +6,7 @@
 #include <string>
 
 
-namespace RBX {
+namespace ARL {
 
 	class Action
 	{
@@ -22,4 +22,4 @@ namespace RBX {
 
 };
 
-}	// namespace RBX
+}	// namespace ARL

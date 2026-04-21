@@ -7,7 +7,7 @@
 
 #include "rbx/Debug.h"
 
-namespace RBX
+namespace ARL
 {
 
 /**
@@ -61,7 +61,7 @@ public:
      */
     inline T& operator*() const
     {
-		RBXASSERT_VERY_FAST(mPointer);
+		ARLASSERT_VERY_FAST(mPointer);
         validate();
 		return *mPointer;
 	}
@@ -86,7 +86,7 @@ public:
 	 */
 	inline T* operator->() const
     {
-		RBXASSERT_VERY_FAST(mPointer);
+		ARLASSERT_VERY_FAST(mPointer);
 		validate();
 		return mPointer;
 	}
@@ -109,12 +109,12 @@ public:
 	 */
 	inline void validate() const
     {
-#ifdef __RBX_VERY_FAST_ASSERT
+#ifdef __ARL_VERY_FAST_ASSERT
         if ( !mPointer )
             return;
 #endif
 
-		RBXASSERT_VERY_FAST(
+		ARLASSERT_VERY_FAST(
             // CRT debug allocator
             (unsigned)mPointer != 0xCCCCCCCC &&     // uninitialized stack memory
 		    (unsigned)mPointer != 0xCDCDCDCD &&     // uninitialized heap memory

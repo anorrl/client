@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RBX {
+namespace ARL {
 
 template<class ElementType, int size=8>
 struct FixedSizeCircularBuffer {

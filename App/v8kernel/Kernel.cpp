@@ -15,7 +15,7 @@
 
 FASTFLAGVARIABLE(UsePGSSolver, false)
 
-namespace RBX {
+namespace ARL {
 
 int Kernel::numKernels = 0;
 
@@ -41,7 +41,7 @@ Kernel::~Kernel()
 {
 	numKernels--;
 	
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 	delete kernelData;
 }
 
@@ -69,18 +69,18 @@ bool Kernel::validateConnectorBody(Body* b) const
 
 bool Kernel::validateBody(Body* b)
 {
-	RBXASSERT_VERY_FAST(!inStepCode); 
-	RBXASSERT_FISHING(Math::longestVector3Component(b->getBranchForce()) < 1e9f);
+	ARLASSERT_VERY_FAST(!inStepCode); 
+	ARLASSERT_FISHING(Math::longestVector3Component(b->getBranchForce()) < 1e9f);
 	return true;
 }
 
 
 void Kernel::insertBody(Body* b)
 {
-	RBXASSERT(b->getRootSimBody()->getDt() == 0.0f);
+	ARLASSERT(b->getRootSimBody()->getDt() == 0.0f);
 	
 	kernelData->insertBody(b);				//bodies.fastAppend(b);
-	RBXASSERT(validateBody(b));
+	ARLASSERT(validateBody(b));
 	maxBodies = std::max(maxBodies, numBodies());
 
 	if (usingPGSSolver)	
@@ -93,10 +93,10 @@ void Kernel::removeBody(Body* b)
 	if (usingPGSSolver)
 		pgsSolver.removeSimBody( b->getRootSimBody() );
 
-	RBXASSERT(!inStepCode); 
-	RBXASSERT((!b->getRootSimBody()->isContactBody() && !b->getRootSimBody()->isFreeFallBody()) ||
+	ARLASSERT(!inStepCode); 
+	ARLASSERT((!b->getRootSimBody()->isContactBody() && !b->getRootSimBody()->isFreeFallBody()) ||
 				Math::fuzzyEq(b->getRootSimBody()->getDt(), Constants::freeFallDt(), 1e-6f));
-	RBXASSERT((b->getRootSimBody()->isContactBody() || b->getRootSimBody()->isFreeFallBody()) ||
+	ARLASSERT((b->getRootSimBody()->isContactBody() || b->getRootSimBody()->isFreeFallBody()) ||
 				Math::fuzzyEq(b->getRootSimBody()->getDt(), Constants::kernelDt(), 1e-6f));
 	kernelData->removeBody(b);		//	kernelData->bodies.fastRemove(b);
 
@@ -104,25 +104,25 @@ void Kernel::removeBody(Body* b)
 
 void Kernel::insertPoint(Point* p)
 {
-	RBXASSERT(!inStepCode); 
+	ARLASSERT(!inStepCode); 
 	kernelData->points.fastAppend(p);
 }
 
 void Kernel::insertConnector(Connector* c)
 {
-	RBXASSERT(!inStepCode); 
+	ARLASSERT(!inStepCode); 
 	kernelData->addConnector(c, usingPGSSolver);
 }
 
 void Kernel::removePoint(Point* p)						
 {
-	RBXASSERT(!inStepCode); 
+	ARLASSERT(!inStepCode); 
 	kernelData->points.fastRemove(p);
 }
 
 void Kernel::removeConnector(Connector* c)				
 {
-	RBXASSERT(!inStepCode); 
+	ARLASSERT(!inStepCode); 
 	kernelData->removeConnector(c);
 }
 
@@ -143,7 +143,7 @@ int Kernel::numConnectors()			const	{return numRealTimeConnectors() + numSecondP
 // double up on points if same body, position....
 Point* Kernel::newPoint(Body* _body, const Vector3& worldPos) 
 {
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 
 	Point* tempPoint = new Point(_body);
 	tempPoint->setWorldPos(worldPos);
@@ -153,7 +153,7 @@ Point* Kernel::newPoint(Body* _body, const Vector3& worldPos)
 
 Point* Kernel::newPointLocal(class Body* _body, const Vector3& localPos)
 {
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 
 	Point* tempPoint = new Point(_body);
 	tempPoint->setLocalPos(localPos);
@@ -179,7 +179,7 @@ Point* Kernel::searchForDuplicatePoint(Point* tempPoint)
 
 void Kernel::deletePoint(class Point* _point) 
 {
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 
 	if (_point) {
 		_point->numOwners--;
@@ -192,7 +192,7 @@ void Kernel::deletePoint(class Point* _point)
 
 void Kernel::step(bool throttling, int numThreads, boost::uint64_t debugTime) 
 {
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 	inStepCode = true;
 
 	if (throttling)
@@ -216,7 +216,7 @@ void Kernel::preStep()
 	IndexArray<Connector, &Connector::getContactIndex>&		contactConnectors(kernelData->contactConnectors);
 
 	{
-		RBX::Profiling::Mark mark(*profilingKernelBodies, false);
+		ARL::Profiling::Mark mark(*profilingKernelBodies, false);
 		for (int i = 0; i < realTimeBodies.size(); ++i)
 			realTimeBodies[i]->updateIfDirty();
 		for (int i = 0; i < jointBodies.size(); ++i)
@@ -244,7 +244,7 @@ void Kernel::preStep()
 		}
 	}
 	{
-		RBX::Profiling::Mark mark(*profilingKernelConnectors, false);
+		ARL::Profiling::Mark mark(*profilingKernelConnectors, false);
 
 		if (!usingPGSSolver)
 		{
@@ -262,7 +262,7 @@ void Kernel::preStepThrottled()
 {
 	const IndexArray<SimBody, &SimBody::getRealTimeBodyIndex>&	realTimeBodies(kernelData->realTimeBodies);	// humanoid bodies that are not throttle-able
 	{
-		RBX::Profiling::Mark mark(*profilingKernelBodies, false);
+		ARL::Profiling::Mark mark(*profilingKernelBodies, false);
 		// forces update of Cofm as well
 		for (int i = 0; i < realTimeBodies.size(); ++i)
 			realTimeBodies[i]->updateIfDirty();
@@ -271,7 +271,7 @@ void Kernel::preStepThrottled()
 
 void Kernel::stepWorld( boost::uint64_t debugTime )
 {
-    RBXPROFILER_SCOPE("Physics", "Kernel::stepWorld");
+    ARLPROFILER_SCOPE("Physics", "Kernel::stepWorld");
 
 	IndexArray<SimBody, &SimBody::getFreeFallBodyIndex>&		 freeFallBodies(kernelData->freeFallBodies);// bodies with no connectors
 	IndexArray<SimBody, &SimBody::getRealTimeBodyIndex>&		 realTimeBodies(kernelData->realTimeBodies);// humanoid bodies that are not throttle-able
@@ -299,7 +299,7 @@ void Kernel::stepWorld( boost::uint64_t debugTime )
 			buoyancyConnectors[j]->computeForce(false);
 
         for (int j = 0; j < secondPassConnectors.size(); ++j) {
-            RBXASSERT(validateConnector(secondPassConnectors[j]));
+            ARLASSERT(validateConnector(secondPassConnectors[j]));
             secondPassConnectors[j]->computeForce(false);
         }
 
@@ -333,7 +333,7 @@ void Kernel::stepWorld( boost::uint64_t debugTime )
 	{
 		///////////////////////////  Free Fall Solver ///////////////////////////
 		{
-			RBX::Profiling::Mark mark(*profilingKernelBodies, false);
+			ARL::Profiling::Mark mark(*profilingKernelBodies, false);
 			for (int i = 0; i < freeFallBodies.size(); ++i)
 			{
 				SimBody* simBody = freeFallBodies[i];
@@ -354,7 +354,7 @@ void Kernel::stepWorld( boost::uint64_t debugTime )
 
 		if (contactConnectors.size() > 0)
 		{
-			RBX::Profiling::Mark mark(*profilingKernelConnectors, false);
+			ARL::Profiling::Mark mark(*profilingKernelConnectors, false);
 			float residualVelocity = 0.0f;
 			int i;
 			float tolerance = Constants::impulseSolverAccuracy() * 
@@ -365,7 +365,7 @@ void Kernel::stepWorld( boost::uint64_t debugTime )
 				residualVelocity = 0.0f;
 				for (int j = 0; j < contactConnectors.size(); ++j)
 				{
-					RBXASSERT(validateConnector(contactConnectors[j]));
+					ARLASSERT(validateConnector(contactConnectors[j]));
 					contactConnectors[j]->computeImpulse(residualVelocity);
 				}
 				residualVelocity /= contactConnectors.size();
@@ -384,7 +384,7 @@ void Kernel::stepWorld( boost::uint64_t debugTime )
 		}
 
 		{
-			RBX::Profiling::Mark mark(*profilingKernelBodies, false);
+			ARL::Profiling::Mark mark(*profilingKernelBodies, false);
 			for (int i = 0; i < contactBodies.size(); ++i)
 				contactBodies[i]->stepPosition();
 		}
@@ -393,18 +393,18 @@ void Kernel::stepWorld( boost::uint64_t debugTime )
 		for (int i = 0; i < Constants::kernelStepsPerWorldStep(); i++) 
 		{
 			{
-				RBX::Profiling::Mark mark(*profilingKernelConnectors, false);
+				ARL::Profiling::Mark mark(*profilingKernelConnectors, false);
 
 				for (int j = 0; j < points.size(); ++j)
 					points[j]->step();
 			
 				for (int j = 0; j < realtimeConnectors.size(); ++j) {	
-					RBXASSERT(validateConnector(realtimeConnectors[j]));
+					ARLASSERT(validateConnector(realtimeConnectors[j]));
 					realtimeConnectors[j]->computeForce(false);
 				}
 
 				for (int j = 0; j < jointConnectors.size(); ++j) {	
-					RBXASSERT(validateConnector(jointConnectors[j]));
+					ARLASSERT(validateConnector(jointConnectors[j]));
 					jointConnectors[j]->computeForce(false);
 				}
 
@@ -415,12 +415,12 @@ void Kernel::stepWorld( boost::uint64_t debugTime )
 					humanoidConnectors[j]->computeForce(false);
 
 				for (int j = 0; j < secondPassConnectors.size(); ++j) {
-					RBXASSERT(validateConnector(secondPassConnectors[j]));
+					ARLASSERT(validateConnector(secondPassConnectors[j]));
 					secondPassConnectors[j]->computeForce(false);
 				}
 			}
 			{
-				RBX::Profiling::Mark mark(*profilingKernelBodies, false);
+				ARL::Profiling::Mark mark(*profilingKernelBodies, false);
 			
 				for (int j = 0; j < realTimeBodies.size(); ++j)
 					realTimeBodies[j]->step();
@@ -440,7 +440,7 @@ void Kernel::stepWorld( boost::uint64_t debugTime )
 
 void Kernel::stepWorldThrottled( boost::uint64_t debugTime ) 
 {
-    RBXPROFILER_SCOPE("Physics", "Kernel::stepWorldThrottled");
+    ARLPROFILER_SCOPE("Physics", "Kernel::stepWorldThrottled");
 
 	const IndexArray<SimBody, &SimBody::getRealTimeBodyIndex>&	realtimeBodies(kernelData->realTimeBodies);	// humanoid bodies that are not throttle-able
 	const IndexArray<Body, &Body::getLeafBodyIndex>&			leafBodies(kernelData->leafBodies);			// need update PV every step, NOT in kernel!
@@ -470,13 +470,13 @@ void Kernel::stepWorldThrottled( boost::uint64_t debugTime )
 		for (int i = 0; i < Constants::kernelStepsPerWorldStep(); i++) 
 		{
 			{
-				RBX::Profiling::Mark mark(*profilingKernelConnectors, false);
+				ARL::Profiling::Mark mark(*profilingKernelConnectors, false);
 
 				for (int j = 0; j < points.size(); ++j)
 					points[j]->step();
 
 				for (int j = 0; j < realtimeConnectors.size(); ++j) {	
-					RBXASSERT(validateConnector(realtimeConnectors[j]));
+					ARLASSERT(validateConnector(realtimeConnectors[j]));
 					realtimeConnectors[j]->computeForce(false);
 				}
 
@@ -487,7 +487,7 @@ void Kernel::stepWorldThrottled( boost::uint64_t debugTime )
 					humanoidConnectors[j]->computeForce(false);
 			}
 			{
-				RBX::Profiling::Mark mark(*profilingKernelBodies, false);
+				ARL::Profiling::Mark mark(*profilingKernelBodies, false);
 
 				for (int j = 0; j < realtimeBodies.size(); ++j)
 					realtimeBodies[j]->step();

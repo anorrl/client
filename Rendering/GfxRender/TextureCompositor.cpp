@@ -27,12 +27,12 @@
 LOGVARIABLE(RenderTextureCompositor, 0)
 LOGVARIABLE(RenderTextureCompositorBudget, 0)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
 
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
 static const size_t kTextureCompositorActiveJobs = 2;
 #else
 static const size_t kTextureCompositorActiveJobs = 8;
@@ -45,7 +45,7 @@ static const unsigned int kTextureCompositorDefaultBudget = 8 * 1024 * 1024;
 static const unsigned int kTextureCompositorOrphanedBudgetLimit = 32 * 1024 * 1024;
 static const unsigned int kTextureCompositorOrphanedKeepAlive = 2;
 
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
 // OpenGL blits are really slow on iPad since they go through system memory (~240 ms for 1024x512)
 static const bool kTextureCompositorUseRenderTextures = true;
 
@@ -303,7 +303,7 @@ public:
 
 	void render(DeviceContext* context, const shared_ptr<Framebuffer>& framebuffer)
     {
-        RBXASSERT(isReady());
+        ARLASSERT(isReady());
 
 		const DeviceCaps& caps = visualEngine->getDevice()->getCaps();
 
@@ -474,21 +474,21 @@ TextureCompositor::JobHandle TextureCompositor::getJob(const std::string& textur
 
 TextureRef TextureCompositor::getTexture(const JobHandle& job)
 {
-    RBXASSERT(job);
+    ARLASSERT(job);
     
     return job->textureRef;
 }
 
 const std::string& TextureCompositor::getTextureId(const JobHandle& job)
 {
-    RBXASSERT(job);
+    ARLASSERT(job);
     
     return job->desc.textureid;
 }
 
 void TextureCompositor::attachInstance(const JobHandle& job, const boost::shared_ptr<PartInstance>& instance)
 {
-    RBXASSERT(job);
+    ARLASSERT(job);
     
     if (!instance) return;
     
@@ -766,8 +766,8 @@ void TextureCompositor::update(const Vector3& pointOfInterest)
 
 void TextureCompositor::render(DeviceContext* context)
 {
-    RBXPROFILER_SCOPE("Render", "TextureCompositor::render");
-    RBXPROFILER_SCOPE("GPU", "TextureCompositor::render");
+    ARLPROFILER_SCOPE("Render", "TextureCompositor::render");
+    ARLPROFILER_SCOPE("GPU", "TextureCompositor::render");
 	if (renderedJob.job)
     {
         // finalize the job that we rendered before
@@ -820,7 +820,7 @@ void TextureCompositor::updateJob(Job& job)
 void TextureCompositor::renderJobFinalize(Job& job, const shared_ptr<Framebuffer>& framebuffer, DeviceContext* context)
 {
     const shared_ptr<Texture>& texture = job.texture;
-    RBXASSERT(texture);
+    ARLASSERT(texture);
     
 	if (texture->getUsage() != Texture::Usage_Renderbuffer)
     {
@@ -832,12 +832,12 @@ void TextureCompositor::renderJobFinalize(Job& job, const shared_ptr<Framebuffer
             
             FASTLOG3(FLog::RenderTextureCompositor, "TC Job[%p]: texture blit (width %d) took %d us", &job, texture->getWidth(), (int)(timer.delta().msec() * 1000));
 		}
-        catch (const RBX::base_exception& e)
+        catch (const ARL::base_exception& e)
 		{
             FASTLOG2(FLog::RenderTextureCompositor, "TC Job[%p]: texture blit (width %d) failed", &job, texture->getWidth());
             FASTLOGS(FLog::RenderTextureCompositor, "TC: Failure reason %s", e.what());
 
-            RBX::StandardOut::singleton()->printf(MESSAGE_OUTPUT,"TextureCompositor copyFramebuffer failed: %s", e.what());
+            ARL::StandardOut::singleton()->printf(MESSAGE_OUTPUT,"TextureCompositor copyFramebuffer failed: %s", e.what());
 		}
     }
 
@@ -884,7 +884,7 @@ void TextureCompositor::renderJobIfNecessary(Job& job, size_t activePosition, De
         job.texture = texture;
     
         // queue job for some final processing
-        RBXASSERT(activeJobs[activePosition].get() == &job);
+        ARLASSERT(activeJobs[activePosition].get() == &job);
 		renderedJob = RenderedJob(activeJobs[activePosition], framebuffer, kTextureCompositorCooldown);
     }
 }

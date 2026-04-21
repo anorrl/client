@@ -5,7 +5,7 @@
 #include "Util/ProtectedString.h"
 #include "V8Tree/Instance.h"
 
-namespace RBX
+namespace ARL
 {
 
 class ContentProvider;

@@ -8,7 +8,7 @@
 #include "VisualEngine.h"
 #include "GfxBase/FrameRateManager.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -40,7 +40,7 @@ bool CullableSceneNode::updateIsCulledByFRM()
     if (sqDistanceToFocus > 1e-3f)
         visualEngine->getSceneManager()->processSqPartDistance(sqDistanceToFocus);
 
-    RBX::FrameRateManager* frm = visualEngine->getFrameRateManager();
+    ARL::FrameRateManager* frm = visualEngine->getFrameRateManager();
 
 	frm->AddBlockQuota(blockCount, sqDistanceToFocus, IsInSpatialHash());
 

@@ -154,7 +154,7 @@ LONG CrashReporter::ProcessExceptionHelper(struct _EXCEPTION_POINTERS *Exception
 	return result;
 }
 
-namespace RBX{
+namespace ARL{
 std::string specialCrashType = "first"; // generic name in case there are multiple choices
 bool gCrashIsSpecial = false;
 }
@@ -166,13 +166,13 @@ LONG CrashReporter::ProcessException(struct _EXCEPTION_POINTERS *ExceptionInfo, 
 
     char dumpFilepath[_MAX_PATH] = {};
 
-#ifdef RBX_RCC_SECURITY
-    if (RBX::gCrashIsSpecial)
+#ifdef ARL_RCC_SECURITY
+    if (ARL::gCrashIsSpecial)
     {
         // generate the normal crash report.  
 		result = ProcessExceptionHelper(ExceptionInfo, false, noMsg, dumpFilepath);
         // log the file name (without the path) to influx
-        RBX::Analytics::InfluxDb::Points analyticsPoints;
+        ARL::Analytics::InfluxDb::Points analyticsPoints;
         size_t startPoint = 0;
         for (size_t i = 0; i < _MAX_PATH; ++i)
         {
@@ -185,10 +185,10 @@ LONG CrashReporter::ProcessException(struct _EXCEPTION_POINTERS *ExceptionInfo, 
                 break;
             }
         }
-        analyticsPoints.addPoint("type", RBX::specialCrashType.c_str());
+        analyticsPoints.addPoint("type", ARL::specialCrashType.c_str());
         analyticsPoints.addPoint("path", &dumpFilepath[startPoint]);
         analyticsPoints.report("report", 10000, true);
-        RBX::Analytics::GoogleAnalytics::trackEventWithoutThrottling("Error", "LoggableCrash", &dumpFilepath[startPoint], 0, true);
+        ARL::Analytics::GoogleAnalytics::trackEventWithoutThrottling("Error", "LoggableCrash", &dumpFilepath[startPoint], 0, true);
         allowSpecial = false;
     }
     else
@@ -258,7 +258,7 @@ static LONG ProcessExceptionStatic(PEXCEPTION_POINTERS excpInfo)
 LONG WINAPI CrashExceptionFilter( struct _EXCEPTION_POINTERS *excpInfo )
 {
 #ifdef _DEBUG
-	RBXASSERT(false);
+	ARLASSERT(false);
 #endif
 	LONG result = ProcessExceptionStatic(excpInfo);
 
@@ -358,9 +358,9 @@ void CrashReporter::Start()
 
 void CrashReporter::WatcherThreadFunc()
 {
-	RBX::set_thread_name("CrashReporter_WatcherThreadFunc");
+	ARL::set_thread_name("CrashReporter_WatcherThreadFunc");
 
-	RBX::Log::current()->writeEntry(RBX::Log::Information, "WatcherThread Started");
+	ARL::Log::current()->writeEntry(ARL::Log::Information, "WatcherThread Started");
 	
 	bool quit = false;
 	while(!quit && !destructing)
@@ -379,7 +379,7 @@ void CrashReporter::WatcherThreadFunc()
 					logEvent("WatcherThread Detected hang.");
 					FASTLOG(FLog::HangDetection, "WatcherThread Detected hang.");
 
-					RBX::TaskScheduler::singleton().printJobs();
+					ARL::TaskScheduler::singleton().printJobs();
 
 					LONG result;
 					// Generate exception to get proper context in dump

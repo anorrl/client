@@ -3,7 +3,7 @@
 #include "Util/AsyncHttpQueue.h"
 #include "rbx/make_shared.h"
 
-namespace RBX
+namespace ARL
 {
 template<typename CachedContent, bool Log=false>
 class AsyncHttpCache

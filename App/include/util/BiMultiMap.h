@@ -7,7 +7,7 @@
 // Assumes we can have many A's, many B's
 // Need to re-write with dual indexed multi-set or some other data structure
 
-namespace RBX {
+namespace ARL {
 
 	template <typename Left, typename Right>
 	class BiMultiMap {
@@ -27,21 +27,21 @@ namespace RBX {
 		}
 
 		void insertPair(const Left& left, const Right& right) {
-			RBXASSERT_SLOW(!pairInMap(left, right));
+			ARLASSERT_SLOW(!pairInMap(left, right));
 			internalMap.insert(std::make_pair(left, right));
 		}
 
 		void removePair(const Left& left, const Right& right) {
-			RBXASSERT_SLOW(pairInMap(left, right));
+			ARLASSERT_SLOW(pairInMap(left, right));
 			typename InternalMap::iterator it;
 			for (it = internalMap.lower_bound(left); it != internalMap.upper_bound(left); ++it) {
 				if (it->second == right) {
 					internalMap.erase(it);
-					RBXASSERT(!pairInMap(left, right));
+					ARLASSERT(!pairInMap(left, right));
 					return;
 				}
 			}
-			RBXASSERT(0);
+			ARLASSERT(0);
 		}
 
 		bool empty() const {
@@ -62,4 +62,4 @@ namespace RBX {
 		}
 
 	};
-} // namespace RBX
+} // namespace ARL

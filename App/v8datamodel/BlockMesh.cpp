@@ -3,6 +3,6 @@
 
 #include "V8DataModel/BlockMesh.h"
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sBlockMesh = "BlockMesh";
+const char* const ARL::sBlockMesh = "BlockMesh";

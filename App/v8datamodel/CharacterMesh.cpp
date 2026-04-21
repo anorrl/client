@@ -3,7 +3,7 @@
 #include "V8DataModel/CharacterMesh.h"
 #include "Humanoid/Humanoid.h"
 
-namespace RBX
+namespace ARL
 {
 
 const char* const sCharacterMesh = "CharacterMesh";
@@ -90,7 +90,7 @@ TextureId CharacterMesh::getBaseTextureId() const
 {
 	if(baseTextureAssetId != 0)
 	{
-		return TextureId(RBX::format("rbxassetid://%d", baseTextureAssetId));
+		return TextureId(ARL::format("rbxassetid://%d", baseTextureAssetId));
 	}
 	else
 	{
@@ -101,7 +101,7 @@ TextureId CharacterMesh::getOverlayTextureId() const
 {
 	if(overlayTextureAssetId != 0)
 	{
-		return TextureId(RBX::format("rbxassetid://%d", overlayTextureAssetId));
+		return TextureId(ARL::format("rbxassetid://%d", overlayTextureAssetId));
 	}
 	else
 	{
@@ -112,7 +112,7 @@ MeshId CharacterMesh::getMeshId() const
 {
 	if(meshAssetId != 0)
 	{
-		return MeshId(RBX::format("rbxassetid://%d", meshAssetId));
+		return MeshId(ARL::format("rbxassetid://%d", meshAssetId));
 	}
 	else
 	{

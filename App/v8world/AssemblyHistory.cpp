@@ -6,7 +6,7 @@
 #include "V8World/Primitive.h"
 #include "V8Kernel/Body.h"
 
-namespace RBX {
+namespace ARL {
 
 size_t AssemblyHistory::bufferSize()			{return 15;}	
 size_t AssemblyHistory::sampleSkip()			{return 8;}			// third of a second

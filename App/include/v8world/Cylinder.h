@@ -4,7 +4,7 @@
 #include "V8World/GeometryPool.h"
 #include "V8World/BulletGeometryPoolObjects.h"
 
-namespace RBX {
+namespace ARL {
 
     class Cylinder: public Geometry
     {

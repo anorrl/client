@@ -7,7 +7,7 @@
 #include "Primitive.h"
 #include <set>
 
-namespace RBX {
+namespace ARL {
 
 	class Edge;
 	class Joint;
@@ -51,7 +51,7 @@ namespace RBX {
 		template<class Func>
 		inline void visitPrimitives(Func func) {
 			Primitive* p = getClumpPrimitive();
-			RBXASSERT(p);
+			ARLASSERT(p);
 			visitPrimitivesImpl(func, p);
 		}
 	};

@@ -2,7 +2,7 @@
 
 #include "v8tree/instance.h"
 #include <boost/noncopyable.hpp>
-namespace RBX
+namespace ARL
 {
 namespace Network
 {
@@ -52,8 +52,8 @@ namespace Network
 
 		shared_ptr<const Reflection::ValueArray> getList(const std::string& key);
 		bool setList(const std::string& , shared_ptr<const Reflection::ValueArray> value);
-		shared_ptr<const RBX::Reflection::ValueMap> getTable(const std::string& key);
-		bool setTable(const std::string& , shared_ptr<const RBX::Reflection::ValueMap> value);
+		shared_ptr<const ARL::Reflection::ValueMap> getTable(const std::string& key);
+		bool setTable(const std::string& , shared_ptr<const ARL::Reflection::ValueMap> value);
 	};
 }
 }

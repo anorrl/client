@@ -5,7 +5,7 @@
 #include "boost/scoped_ptr.hpp"
 #include "solver/Solver.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace Profiling
 	{

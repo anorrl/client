@@ -6,7 +6,7 @@
 #include <string>
 
 
-namespace RBX {
+namespace ARL {
 
 	// A property that computes and caches its value
 	template <class Type, class O>
@@ -35,7 +35,7 @@ namespace RBX {
 		}
 		inline Type getLastComputedValue() const
 		{
-			RBXASSERT(!dirty);
+			ARLASSERT(!dirty);
 			return val;
 		}
 
@@ -65,4 +65,4 @@ namespace RBX {
 		}
 	};
 
-}	// namespace RBX
+}	// namespace ARL

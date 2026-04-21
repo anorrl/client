@@ -11,11 +11,11 @@
 #define IDI_WINDOW_ICON                 115
 #define IDS_DEFAULT_IMAGE_INFO          147
 #define IDD_UPLOADVIDEODIALOG           252
-#define IDD_RBXWEBVIEW                  253
+#define IDD_ARLWEBVIEW                  253
 #define IDR_GAME_ACCELERATOR            255
 #define IDC_EXPLORER1                   1005
 #define IDC_BUTTON1                     1007
-#define IDC_RBXEXPLORER                 1008
+#define IDC_ARLEXPLORER                 1008
 #define ID_UPLOADSESSIONLOGS            33042
 #define ID_LOADWIKI                     40002
 

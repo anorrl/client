@@ -10,7 +10,7 @@
 
 struct lua_State;
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
@@ -18,7 +18,7 @@ namespace RBX
 		class EnumDescriptor;
 
 		// Base that describes a Function
-		class RBXBaseClass FunctionDescriptor : public MemberDescriptor
+		class ARLBaseClass FunctionDescriptor : public MemberDescriptor
 		{
 		public:
 			enum Kind
@@ -27,7 +27,7 @@ namespace RBX
 				Kind_Custom
 			};
 
-			class RBXInterface Arguments
+			class ARLInterface Arguments
 			{
 			public:
 				Variant returnValue;
@@ -92,7 +92,7 @@ namespace RBX
 				return *this;
 			}
 
-			inline const RBX::Name& getName() const { 
+			inline const ARL::Name& getName() const { 
 				return descriptor->name; 
 			}
 

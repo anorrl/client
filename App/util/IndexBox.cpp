@@ -7,7 +7,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 /**
 	Looking from positive X back through to negative X, z is left, y is up
 
@@ -106,7 +106,7 @@ IndexBox::IndexBox(
     const Vector3& min,
     const Vector3& max) 
 {
-	RBXASSERT(Math::lessThan(min, max));
+	ARLASSERT(Math::lessThan(min, max));
 
     setMany(0, 1, 2, 3, x, max);
     setMany(4, 5, 6, 7, x, min);
@@ -139,7 +139,7 @@ void IndexBox::getFaceCorners(int f, Vector3& v0, Vector3& v1, Vector3& v2, Vect
     v2 = corner[ INDEXBOX_FACE_TO_VERTEX[f][2] ];
     v3 = corner[ INDEXBOX_FACE_TO_VERTEX[f][3] ];
 
-    RBXASSERT((f >= 0) && (f < 6));
+    ARLASSERT((f >= 0) && (f < 6));
 }
 
 
@@ -150,7 +150,7 @@ void IndexBox::getEdge(
     Vector3&           nL,
     Vector3&           nR) const {
 
-    RBXASSERT(e < 12);
+    ARLASSERT(e < 12);
     v0 = corner[ INDEXBOX_EDGE_TO_VERTEX_AND_NORMALS[e][0] ];
     v1 = corner[ INDEXBOX_EDGE_TO_VERTEX_AND_NORMALS[e][1] ];
     nL = ((Vector3*)INDEXBOX_FACE_TO_NORMAL)[ INDEXBOX_EDGE_TO_VERTEX_AND_NORMALS[e][2] ];
@@ -175,7 +175,7 @@ void IndexBox::getEdge(
     Vector3&           nL,
     Vector3&           nR) const {
 
-    RBXASSERT(e < 12);
+    ARLASSERT(e < 12);
 //    v0.set(corner[ INDEXBOX_EDGE_TO_VERTEX_AND_NORMALS[e][0] ], 1);
 //    v1.set(corner[ INDEXBOX_EDGE_TO_VERTEX_AND_NORMALS[e][1] ], 1);
     tempSetV4(corner[ INDEXBOX_EDGE_TO_VERTEX_AND_NORMALS[e][0] ], 1, v0);
@@ -198,7 +198,7 @@ void IndexBox::getTextureCornersCentered(int f, const Vector3& halfSize, Vector2
 		case 4:		face1 = halfSize[0];	face2 = halfSize[2];	break;
 		case 5:		face1 = halfSize[1];	face2 = halfSize[0];	break;
 		default:	
-			RBXASSERT(false);
+			ARLASSERT(false);
 			face1 = 0;	
 			face2 = 0;	
 			break;
@@ -226,7 +226,7 @@ void IndexBox::getTextureCornersGrid(int f, const Vector3& halfSize, Vector2& t0
 		case 3:		face1 = halfSize[2];	face2 = halfSize[1];	break;
 		case 4:		face1 = halfSize[0];	face2 = halfSize[2];	break;
 		case 5:		face1 = halfSize[1];	face2 = halfSize[0];	break;
-		default: RBXASSERT(false); face1 = 0; face2 = 0; break;
+		default: ARLASSERT(false); face1 = 0; face2 = 0; break;
 	}
 
 	float minX = 0;

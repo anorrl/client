@@ -28,7 +28,7 @@
 
 LOGVARIABLE(Serializer, 0)
 
-namespace RBX
+namespace ARL
 {
 	static const char kHeaderSignature[] = "\x89\xff\x0d\x0a\x1a\x0a";
 	
@@ -110,7 +110,7 @@ namespace RBX
         void read(void* value, size_t size)
         {
 			if (offset + size > datasize)
-				throw RBX::runtime_error("Read offset is out of bounds while reading %d bytes", (int)size);
+				throw ARL::runtime_error("Read offset is out of bounds while reading %d bytes", (int)size);
 			
 			memcpy(value, &data[offset], size);
 			offset += size;
@@ -131,7 +131,7 @@ namespace RBX
 		
 		void grow(size_t size)
 		{
-			RBXASSERT(size > capacity);
+			ARLASSERT(size > capacity);
 			
 			size_t newcapacity = 16;
 			
@@ -168,7 +168,7 @@ namespace RBX
 		in.read(static_cast<char*>(data), size);
 
 		if (in.gcount() != size)
-			throw RBX::runtime_error("Unexpected end of file while reading %d bytes", size);
+			throw ARL::runtime_error("Unexpected end of file while reading %d bytes", size);
 	}
     
 	static ChunkHeader readChunk(std::istream& in, MemoryInputStream& result)
@@ -194,7 +194,7 @@ namespace RBX
 				int count = LZ4_decompress_safe(&compressed[0], result.data.get(), compressed.size(), result.datasize);
 				
 				if (count != result.datasize)
-					throw RBX::runtime_error("Malformed data (%d != %d)", count, (int)result.datasize);
+					throw ARL::runtime_error("Malformed data (%d != %d)", count, (int)result.datasize);
 			}
 		}
 		
@@ -284,7 +284,7 @@ namespace RBX
 		values.reserve(count);
 
 		if (stream.offset + count * 4 > stream.datasize)
-			throw RBX::runtime_error("Read offset is out of bounds while reading %d bytes", (int)count * 4);
+			throw ARL::runtime_error("Read offset is out of bounds while reading %d bytes", (int)count * 4);
 		
 		for (size_t i = 0; i < count; ++i)
 		{
@@ -328,7 +328,7 @@ namespace RBX
 		values.reserve(count);
 
 		if (stream.offset + count * 4 > stream.datasize)
-			throw RBX::runtime_error("Read offset is out of bounds while reading %d bytes", (int)count * 4);
+			throw ARL::runtime_error("Read offset is out of bounds while reading %d bytes", (int)count * 4);
 		
 		for (size_t i = 0; i < count; ++i)
 		{
@@ -424,7 +424,7 @@ namespace RBX
 		values.reserve(count);
 		
 		if (stream.offset + count * 4 > stream.datasize)
-			throw RBX::runtime_error("Read offset is out of bounds while reading %d bytes", (int)count * 4);
+			throw ARL::runtime_error("Read offset is out of bounds while reading %d bytes", (int)count * 4);
 		
 		for (size_t i = 0; i < count; ++i)
 		{
@@ -656,7 +656,7 @@ namespace RBX
         readRaw(stream, format);
 
         if (format != expected)
-            throw RBX::runtime_error("Unexpected format %d (expected %d)", format, expected);
+            throw ARL::runtime_error("Unexpected format %d (expected %d)", format, expected);
     }
 
 	void readPropertyValues(MemoryInputStream& stream, const Reflection::PropertyDescriptor& desc, const std::vector<Instance*>& instances, const std::vector<shared_ptr<Instance> >& idMap)
@@ -883,7 +883,7 @@ namespace RBX
             readRaw(stream, format);
 
             if (format != bpfCFrameMatrix && format != bpfCFrameQuat)
-                throw RBX::runtime_error("Unexpected cframe format %d", format);
+                throw ARL::runtime_error("Unexpected cframe format %d", format);
 			
 			if (format == bpfCFrameMatrix)
 			{
@@ -933,7 +933,7 @@ namespace RBX
 			for (size_t i = 0; i < instances.size(); ++i)
 			{
 				if (values[i] != -1 && static_cast<unsigned int>(values[i]) >= idMap.size())
-					throw RBX::runtime_error("Invalid id %d", values[i]);
+					throw ARL::runtime_error("Invalid id %d", values[i]);
 					
 				Instance* ref = values[i] != -1 ? idMap[values[i]].get() : NULL;
 				
@@ -987,7 +987,7 @@ namespace RBX
         }
         else
         {
-			throw RBX::runtime_error("Unknown property type for property %s", desc.name.c_str());
+			throw ARL::runtime_error("Unknown property type for property %s", desc.name.c_str());
         }
     }
 
@@ -1349,7 +1349,7 @@ namespace RBX
         }
         else
         {
-			throw RBX::runtime_error("Unknown property type for property %s", desc.name.c_str());
+			throw ARL::runtime_error("Unknown property type for property %s", desc.name.c_str());
         }
     }
 
@@ -1563,7 +1563,7 @@ namespace RBX
 		readRaw(stream, format);
 
 		if (format != bofPlain && format != bofServiceType)
-			throw RBX::runtime_error("Unrecognized object format %d", format);
+			throw ARL::runtime_error("Unrecognized object format %d", format);
 
 		unsigned int idCount;
 		readRaw(stream, idCount);
@@ -1596,7 +1596,7 @@ namespace RBX
 		for (size_t i = 0; i < ids.size(); ++i)
 		{
 			if (static_cast<unsigned int>(ids[i]) >= idMap.size())
-				throw RBX::runtime_error("Invalid id %d", ids[i]);
+				throw ARL::runtime_error("Invalid id %d", ids[i]);
 				
 			shared_ptr<Instance> object =
 				(isServiceType && isRootServiceProvider && isServiceRooted[i])
@@ -1611,7 +1611,7 @@ namespace RBX
 				type = &object->getDescriptor();
 
 				if (idMap[ids[i]])
-					throw RBX::runtime_error("Duplicate id %d", ids[i]);
+					throw ARL::runtime_error("Duplicate id %d", ids[i]);
 					
 				idMap[ids[i]] = object;
 				objects.push_back(object.get());
@@ -1643,7 +1643,7 @@ namespace RBX
 		readRaw(stream, format);
 
 		if (format != bplfPlain)
-			throw RBX::runtime_error("Unrecognized parent link format %d", format);
+			throw ARL::runtime_error("Unrecognized parent link format %d", format);
 		
 		unsigned int linkCount;
 		readRaw(stream, linkCount);
@@ -1654,14 +1654,14 @@ namespace RBX
 		for (size_t i = 0; i < oids.size(); ++i)
 		{
 			if (static_cast<unsigned int>(oids[i]) >= idMap.size())
-				throw RBX::runtime_error("Invalid id %d", oids[i]);
+				throw ARL::runtime_error("Invalid id %d", oids[i]);
 				
 			if (const shared_ptr<Instance>& object = idMap[oids[i]])
 			{
 				if (pids[i] != -1)
 				{
 					if (static_cast<unsigned int>(pids[i]) >= idMap.size())
-						throw RBX::runtime_error("Invalid id %d", pids[i]);
+						throw ARL::runtime_error("Invalid id %d", pids[i]);
 					
 					object->setParent(idMap[pids[i]].get());
 				}
@@ -1683,13 +1683,13 @@ namespace RBX
 		readData(in, &header, sizeof(header));
 		
 		if (memcmp(header.magic, SerializerBinary::kMagicHeader, sizeof(header.magic)) != 0)
-			throw RBX::runtime_error("Unrecognized format");
+			throw ARL::runtime_error("Unrecognized format");
 		
 		if (memcmp(header.signature, kHeaderSignature, sizeof(header.signature)) != 0)
-			throw RBX::runtime_error("The file header is corrupted");
+			throw ARL::runtime_error("The file header is corrupted");
 			
 		if (header.version != 0)
-			throw RBX::runtime_error("Unrecognized version %d", header.version);
+			throw ARL::runtime_error("Unrecognized version %d", header.version);
 		
 		// Read types and object ids
 		std::vector<const Reflection::ClassDescriptor*> types;
@@ -1714,10 +1714,10 @@ namespace RBX
 				readRaw(stream, typeIndex);
 				
 				if (typeIndex >= types.size())
-					throw RBX::runtime_error("Type index out of bounds: %d", typeIndex);
+					throw ARL::runtime_error("Type index out of bounds: %d", typeIndex);
 				
 				if (types[typeIndex])
-					throw RBX::runtime_error("Duplicate type index: %d", typeIndex);
+					throw ARL::runtime_error("Duplicate type index: %d", typeIndex);
 
 				types[typeIndex] = deserializeDecodeInstances(stream, root, objects, typedobjects[typeIndex]);
 			}
@@ -1727,7 +1727,7 @@ namespace RBX
 				readRaw(stream, typeIndex);
 				
 				if (typeIndex >= types.size())
-					throw RBX::runtime_error("Type index out of bounds: %d", typeIndex);
+					throw ARL::runtime_error("Type index out of bounds: %d", typeIndex);
 
 				if (types[typeIndex])
 				{
@@ -1750,7 +1750,7 @@ namespace RBX
 		}
 	
 		// We should only finish reading the file when we see an END chunk
-		throw RBX::runtime_error("Unexpected end of file");
+		throw ARL::runtime_error("Unexpected end of file");
 	}
 
 	namespace SerializerBinary

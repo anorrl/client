@@ -16,7 +16,7 @@ using namespace G3D;
 template<>
 bool XmlElement::getValue(Color3& value) const
 {
-	RBXASSERT(false);
+	ARLASSERT(false);
 	return false;
 }
 
@@ -24,11 +24,11 @@ bool XmlElement::getValue(Color3& value) const
 template<>
 void XmlElement::setValue(Color3 value)
 {
-	RBXASSERT(false);
+	ARLASSERT(false);
 }
 */
 
-namespace RBX {
+namespace ARL {
 
 
 
@@ -103,7 +103,7 @@ std::string StringConverter<G3D::Vector3>::convertToString(const G3D::Vector3& v
 
 
 template<>
-std::string StringConverter<RBX::Vector2>::convertToString(const RBX::Vector2& value)
+std::string StringConverter<ARL::Vector2>::convertToString(const ARL::Vector2& value)
 {
 	std::string result = StringConverter<float>::convertToString(value[0]);
 	result += ", ";
@@ -112,7 +112,7 @@ std::string StringConverter<RBX::Vector2>::convertToString(const RBX::Vector2& v
 }
     
 template<>
-std::string StringConverter<RBX::Rect2D>::convertToString(const RBX::Rect2D& value)
+std::string StringConverter<ARL::Rect2D>::convertToString(const ARL::Rect2D& value)
 {
     std::string result = StringConverter<float>::convertToString(value.x0());
 	result += ", ";
@@ -165,7 +165,7 @@ std::string StringConverter<G3D::CoordinateFrame>::convertToString(const G3D::Co
 }
 
 template<>
-bool StringConverter<RBX::CoordinateFrame>::convertToValue(const std::string& text, RBX::CoordinateFrame& value)
+bool StringConverter<ARL::CoordinateFrame>::convertToValue(const std::string& text, ARL::CoordinateFrame& value)
 {
 	return false;
 }
@@ -173,21 +173,21 @@ bool StringConverter<RBX::CoordinateFrame>::convertToValue(const std::string& te
 
 
 template<>
-std::string StringConverter<RBX::Region3>::convertToString(const RBX::Region3& value)
+std::string StringConverter<ARL::Region3>::convertToString(const ARL::Region3& value)
 {
-	std::string result = StringConverter<RBX::CoordinateFrame>::convertToString(value.getCFrame());
+	std::string result = StringConverter<ARL::CoordinateFrame>::convertToString(value.getCFrame());
 	result += "; ";
-	result += StringConverter<RBX::Vector3>::convertToString(value.getSize());
+	result += StringConverter<ARL::Vector3>::convertToString(value.getSize());
 	return result;
 }
 template<>
-bool StringConverter<RBX::Region3>::convertToValue(const std::string& text, RBX::Region3& value)
+bool StringConverter<ARL::Region3>::convertToValue(const std::string& text, ARL::Region3& value)
 {
 	return false;
 }
 
 template<>
-std::string StringConverter<RBX::Region3int16>::convertToString(const RBX::Region3int16& value)
+std::string StringConverter<ARL::Region3int16>::convertToString(const ARL::Region3int16& value)
 {
 	std::string result = StringConverter<G3D::Vector3int16>::convertToString(value.getMinPos());
 	result += "; ";
@@ -195,7 +195,7 @@ std::string StringConverter<RBX::Region3int16>::convertToString(const RBX::Regio
 	return result;
 }
 template<>
-bool StringConverter<RBX::Region3int16>::convertToValue(const std::string& text, RBX::Region3int16& value)
+bool StringConverter<ARL::Region3int16>::convertToValue(const std::string& text, ARL::Region3int16& value)
 {
 	return false;
 }
@@ -225,7 +225,7 @@ bool StringConverter<G3D::Vector3>::convertToValue(const std::string& text, G3D:
 }
 
 template<>
-bool StringConverter<RBX::Vector2>::convertToValue(const std::string& text, RBX::Vector2& value)
+bool StringConverter<ARL::Vector2>::convertToValue(const std::string& text, ARL::Vector2& value)
 {
 	int pos = text.find_first_of(",;", 0);
 	if (pos<0)
@@ -275,16 +275,16 @@ bool StringConverter<G3D::Rect2D>::convertToValue(const std::string& text, G3D::
 
 
 template<>
-std::string RBX::StringConverter<RBX::RbxRay>::convertToString(const RBX::RbxRay& value)
+std::string ARL::StringConverter<ARL::RbxRay>::convertToString(const ARL::RbxRay& value)
 {
-	std::string result = "{" + RBX::StringConverter<RBX::Vector3>::convertToString(value.origin()) + "}";
+	std::string result = "{" + ARL::StringConverter<ARL::Vector3>::convertToString(value.origin()) + "}";
 	result += ", ";
-	result += "{" + RBX::StringConverter<RBX::Vector3>::convertToString(value.direction()) + "}";
+	result += "{" + ARL::StringConverter<ARL::Vector3>::convertToString(value.direction()) + "}";
 	return result;
 }
 
 template<>
-bool RBX::StringConverter<RBX::RbxRay>::convertToValue(const std::string& text, RBX::RbxRay& value)
+bool ARL::StringConverter<ARL::RbxRay>::convertToValue(const std::string& text, ARL::RbxRay& value)
 {
 	int openBracket = text.find_first_of("{", 0);
 	if (openBracket < 0)
@@ -292,7 +292,7 @@ bool RBX::StringConverter<RBX::RbxRay>::convertToValue(const std::string& text, 
 	int closeBracket = text.find_first_of("}", openBracket);
 	if(closeBracket < 0)
 		return false;
-	if(!RBX::StringConverter<RBX::Vector3>::convertToValue(text.substr(openBracket+1, closeBracket-openBracket-1), value.origin()))
+	if(!ARL::StringConverter<ARL::Vector3>::convertToValue(text.substr(openBracket+1, closeBracket-openBracket-1), value.origin()))
 		return false;
 
 	int last = closeBracket+1;
@@ -302,14 +302,14 @@ bool RBX::StringConverter<RBX::RbxRay>::convertToValue(const std::string& text, 
 	closeBracket = text.find_first_of("}", openBracket);
 	if(closeBracket < 0)
 		return false;
-	if(!RBX::StringConverter<RBX::Vector3>::convertToValue(text.substr(openBracket+1, closeBracket-openBracket-1), value.direction()))
+	if(!ARL::StringConverter<ARL::Vector3>::convertToValue(text.substr(openBracket+1, closeBracket-openBracket-1), value.direction()))
 		return false;
 
 	return true;
 }
 
 template<>
-std::string StringConverter<RBX::BrickColor>::convertToString(const RBX::BrickColor& value)
+std::string StringConverter<ARL::BrickColor>::convertToString(const ARL::BrickColor& value)
 {
 	return value.name();
 }
@@ -320,16 +320,16 @@ std::string StringConverter<RBX::BrickColor>::convertToString(const RBX::BrickCo
 //
 
 template<>
-std::string RBX::StringConverter<RBX::CellID>::convertToString(const RBX::CellID& value)
+std::string ARL::StringConverter<ARL::CellID>::convertToString(const ARL::CellID& value)
 {
-	std::string result = "{" + RBX::StringConverter<bool>::convertToString(value.getIsNil()) + "}";
+	std::string result = "{" + ARL::StringConverter<bool>::convertToString(value.getIsNil()) + "}";
 	result += ", ";
-	result += "{" + RBX::StringConverter<RBX::Vector3>::convertToString(value.getLocation()) + "}";
+	result += "{" + ARL::StringConverter<ARL::Vector3>::convertToString(value.getLocation()) + "}";
 	return result;
 }
 
 template<>
-bool RBX::StringConverter<RBX::CellID>::convertToValue(const std::string& text, RBX::CellID& value)
+bool ARL::StringConverter<ARL::CellID>::convertToValue(const std::string& text, ARL::CellID& value)
 {
 	return false;
 }
@@ -398,22 +398,22 @@ bool StringConverter<G3D::Color3>::convertToValue(const std::string& text, G3D::
 
 
 template<>
-bool StringConverter<RBX::ContentId>::convertToValue(const std::string& text, RBX::ContentId& value)
+bool StringConverter<ARL::ContentId>::convertToValue(const std::string& text, ARL::ContentId& value)
 {
 	value = ContentId(text);
 	return true;
 }
 
 template<>
-bool StringConverter<RBX::BrickColor>::convertToValue(const std::string& text, RBX::BrickColor& value)
+bool StringConverter<ARL::BrickColor>::convertToValue(const std::string& text, ARL::BrickColor& value)
 {
 	// TODO: Is this the right thing to do?  Maybe we should just return false
-	value = RBX::BrickColor::parse(text.c_str());
+	value = ARL::BrickColor::parse(text.c_str());
 	return true;
 }
 
 template<>
-std::string StringConverter< RBX::ContentId >::convertToString(const RBX::ContentId& value)
+std::string StringConverter< ARL::ContentId >::convertToString(const ARL::ContentId& value)
 {
 	return value.toString();
 }
@@ -421,4 +421,4 @@ std::string StringConverter< RBX::ContentId >::convertToString(const RBX::Conten
 
 
 
-}	// namespace RBX
+}	// namespace ARL

@@ -5,7 +5,7 @@
 #include "rbx/Debug.h"
 #include "Util/Math.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Extents {
 	private:
@@ -22,8 +22,8 @@ namespace RBX {
 			: low(_min)
 			, high(_max)
 		{
-			RBXASSERT_SLOW(low == low.min(high));
-			RBXASSERT_SLOW(high == high.max(low));
+			ARLASSERT_SLOW(low == low.min(high));
+			ARLASSERT_SLOW(high == high.max(low));
 		}
 
 		bool isNanInf() const

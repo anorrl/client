@@ -31,7 +31,7 @@ DYNAMIC_FASTFLAGVARIABLE(TeamCreateIgnoreRunStateTransition, true)
 
 DYNAMIC_FASTFLAG(UseR15Character)
 
-namespace RBX {
+namespace ARL {
 
 namespace Reflection {
 	template<>
@@ -102,14 +102,14 @@ public:
 
 	virtual double averageStepsPerSecond() const 
 	{ 
-		if( !RBX::TaskScheduler::singleton().isCyclicExecutive() )
+		if( !ARL::TaskScheduler::singleton().isCyclicExecutive() )
 		{
 			return TaskScheduler::Job::averageStepsPerSecond(); // is dutyCycle.stepInterval().rate();
 		}
 		else
 		{
 			float timeInterval = 0.0f;
-			RBX::Time lastCountedTimestamp = stepRecords.begin() != stepRecords.end() ? (stepRecords.end() - 1)->endTime : RBX::Time();
+			ARL::Time lastCountedTimestamp = stepRecords.begin() != stepRecords.end() ? (stepRecords.end() - 1)->endTime : ARL::Time();
 			for( boost::circular_buffer<StepRecord>::const_iterator i = stepRecords.begin(); i != stepRecords.end(); ++i )
 			{
 				timeInterval += i->timeInterval;
@@ -179,7 +179,7 @@ public:
 
 		float timeInterval = d->physicsStep(Constants::uiDt(), dt, dutyDt, allotedConcurrency);
 
-		if( RBX::TaskScheduler::singleton().isCyclicExecutive() )
+		if( ARL::TaskScheduler::singleton().isCyclicExecutive() )
 		{
 			// Use the end time as the current time so that adding a large timeInterval is
 			// correctly accounted for.
@@ -206,7 +206,7 @@ public:
 
 		FASTLOG1(FLog::DataModelJobs, "Physics Job finish, data model: %p", d.get());
 
-#ifndef RBX_STUDIO_BUILD
+#ifndef ARL_STUDIO_BUILD
         // Security Check.  Modifying lerp can result in speedhack.
         volatile double lerpCheck  = getStepStats().getIntervalLerp();
         // NoClip Check
@@ -244,7 +244,7 @@ public:
 		Time time;
 		float timeInterval;
 	};
-	RBX::Time lastHeartbeatStamp;
+	ARL::Time lastHeartbeatStamp;
 	double maxStepsPerCycle;
 	boost::circular_buffer<StepRecord> stepRecords;
 	weak_ptr<RunService> const runService;
@@ -255,7 +255,7 @@ public:
         ,fps(30)
 		,runService(runService)
 		,dataModel(shared_from_dynamic_cast<DataModel>(runService->getParent())) 
-		,lastHeartbeatStamp(RBX::Time::now<RBX::Time::Fast>())
+		,lastHeartbeatStamp(ARL::Time::now<ARL::Time::Fast>())
 	{
 		cyclicExecutive = true;
 		cyclicPriority = CyclicExecutiveJobPriority_Heartbeat;
@@ -275,7 +275,7 @@ public:
 
 	virtual double averageStepsPerSecond() const 
 	{ 
-		if( !RBX::TaskScheduler::singleton().isCyclicExecutive() )
+		if( !ARL::TaskScheduler::singleton().isCyclicExecutive() )
 		{
 			return TaskScheduler::Job::averageStepsPerSecond(); // is dutyCycle.stepInterval().rate();
 		}
@@ -305,7 +305,7 @@ public:
 		FASTLOG1(FLog::DataModelJobs, "Heartbeat start, data model: %p", d.get());
 		DataModel::scoped_write_request request(d.get());
 
-		if (!DFFlag::VariableHeartbeat && (RBX::TaskScheduler::singleton().isCyclicExecutive() && cyclicExecutive))
+		if (!DFFlag::VariableHeartbeat && (ARL::TaskScheduler::singleton().isCyclicExecutive() && cyclicExecutive))
 		{
             // Clean Up step-record
             const Time now = Time::now<Time::Fast>();
@@ -328,7 +328,7 @@ public:
 			int totalSteps = floorf(testSteps);
 			for (int i = 0; i < totalSteps; i++)
 			{
-				RBX::Time currentTime = RBX::Time::now<RBX::Time::Fast>();
+				ARL::Time currentTime = ARL::Time::now<ARL::Time::Fast>();
 				double dtSinceLast = (currentTime - lastHeartbeatStamp).seconds();
 				r->raiseHeartbeat(dtSinceLast, stepBudget);
 				lastHeartbeatStamp = currentTime;
@@ -352,7 +352,7 @@ public:
 	}
 };
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 class DummyTask : public DataModelJob
 {
 public:
@@ -399,7 +399,7 @@ RunService::RunService()
 	, totalWallTime(0.0)
 	, skippedTimeAccumulated(0.0)
 {
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
     dummyTasks.resize(1000);
 #endif
 	setName("Run Service");
@@ -425,7 +425,7 @@ void RunService::stopTasks()
 	TaskScheduler::singleton().removeTask(heartbeatTask, true);
 #endif
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
     for (size_t i=0; i<dummyTasks.size(); i++)
     {
         if (dummyTasks[i])
@@ -453,7 +453,7 @@ void RunService::start()
     TaskScheduler::singleton().add(physicsJob);
     TaskScheduler::singleton().add(heartbeatTask);
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
     for (int i=0; i<FInt::NumDummyJobs; i++)
     {
 	    dummyTasks[i] = shared_ptr<DummyTask>(new DummyTask(shared_from(this)));
@@ -485,7 +485,7 @@ void RunService::raiseHeartbeat(double wallStep, const Time::Interval& stepBudge
 
 void RunService::gameStepped(double gameStep, bool longStep)
 {
-	RBXPROFILER_SCOPE("Physics", "gameStepped");
+	ARLPROFILER_SCOPE("Physics", "gameStepped");
 
 	totalGameTime += gameStep + skippedTimeAccumulated;
 	skippedTimeAccumulated = 0.0;
@@ -548,7 +548,7 @@ void RunService::unbindFunctionFromRenderStepEarly(std::string name)
 
 	if (erasedFuncCount > 1)
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING,"RunService:UnbindFromRenderStep removed different functions with same reference name %s %i times.", name.c_str(), erasedFuncCount);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING,"RunService:UnbindFromRenderStep removed different functions with same reference name %s %i times.", name.c_str(), erasedFuncCount);
 	}
 }
 
@@ -564,7 +564,7 @@ static void InvokeCallback(weak_ptr<RunService> weakRunService, Lua::WeakFunctio
 				{
 					sc->callInNewThread(callback, *(args.get()));
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					StandardOut::singleton()->printf(MESSAGE_ERROR, "RunService:fireRenderStepEarlyFunctions unexpected error while invoking callback: %s", e.what());
 				}
@@ -589,7 +589,7 @@ void RunService::fireRenderStepEarlyFunctions()
 			}
 			catch(const std::runtime_error& e)
 			{
-				throw RBX::runtime_error("RunService::InvokeCallback failed because %s", e.what());
+				throw ARL::runtime_error("RunService::InvokeCallback failed because %s", e.what());
 			}
 		}
 	}
@@ -654,7 +654,7 @@ bool RunService::isStudio()
 {
 	if (DFFlag::ScriptExecutionContextApi)
 	{
-#if defined(RBX_STUDIO_BUILD)
+#if defined(ARL_STUDIO_BUILD)
 		return true;
 #else
 		return false;

@@ -4,7 +4,7 @@
 #include "reflection/enumconverter.h"
 
 
-namespace RBX 
+namespace ARL 
 {
 	namespace Reflection
 	{
@@ -19,4 +19,4 @@ namespace RBX
 			addPair(Action::WIN_ACTION,"Win");
 		}
 	} // namespace Reflection
-}	// namespace RBX
+}	// namespace ARL

@@ -15,19 +15,19 @@
 static boost::uuids::basic_random_generator<boost::mt19937> gen;
 #endif
 
-namespace RBX {
+namespace ARL {
 	template<>
-	bool StringConverter<RBX::Guid::Data>::convertToValue(const std::string& text, RBX::Guid::Data& value)
+	bool StringConverter<ARL::Guid::Data>::convertToValue(const std::string& text, ARL::Guid::Data& value)
 	{
-		RBXASSERT(false); // not fully implemented
+		ARLASSERT(false); // not fully implemented
 		return false;
 	}
 	namespace Reflection
 	{
 		template<>
-		RBX::Guid::Data& Variant::convert<RBX::Guid::Data>(void)
+		ARL::Guid::Data& Variant::convert<ARL::Guid::Data>(void)
 		{
-			return genericConvert<RBX::Guid::Data>();
+			return genericConvert<ARL::Guid::Data>();
 		}
 
 		template<>
@@ -40,39 +40,39 @@ namespace RBX {
 }
 
 static rbx::atomic<int> nextIndex = 0;
-static RBX::Guid::Scope* localScope;
-RBX::Guid::Scope RBX::Guid::Scope::nullScope;
+static ARL::Guid::Scope* localScope;
+ARL::Guid::Scope ARL::Guid::Scope::nullScope;
 
-const RBX::Guid::Scope& RBX::Guid::Scope::null()
+const ARL::Guid::Scope& ARL::Guid::Scope::null()
 {
 	return nullScope;
 }
 
 static void initLocalScope()
 {
-    RBX::Guid::Scope scope;
-	RBX::Guid::generateRBXGUID(scope);
+    ARL::Guid::Scope scope;
+	ARL::Guid::generateARLGUID(scope);
 
     // Note: localScope has to be a pointer to avoid initialization order fiasco between localScope and getLocalScope() callers
     // We never free this memory because we don't really need to and that avoids a symmetrical problem during deinitialization
     // (see SAFE_HEAP_STATIC in rbx/threadsafe.h)
-    localScope = new RBX::Guid::Scope(scope);
+    localScope = new ARL::Guid::Scope(scope);
 }
 
-const RBX::Guid::Scope& RBX::Guid::getLocalScope()
+const ARL::Guid::Scope& ARL::Guid::getLocalScope()
 {
 	static boost::once_flag flag = BOOST_ONCE_INIT;
 	boost::call_once(&initLocalScope, flag);
 	return *localScope;
 }
 
-RBX::Guid::Guid()
+ARL::Guid::Guid()
 {
 	data.scope = getLocalScope();
 	data.index = ++nextIndex;
 }
 
-void RBX::Guid::generateStandardGUID(std::string& result)
+void ARL::Guid::generateStandardGUID(std::string& result)
 {
 	// Creates a string like this: {c200e360-38c5-11ce-ae62-08002b2b79ef}
 #ifdef _WIN32
@@ -126,21 +126,21 @@ void RBX::Guid::generateStandardGUID(std::string& result)
 #endif
 }
 
-void RBX::Guid::generateRBXGUID(RBX::Guid::Scope& result)
+void ARL::Guid::generateARLGUID(ARL::Guid::Scope& result)
 {
 	std::string tmp;
-	generateRBXGUID(tmp);
+	generateARLGUID(tmp);
 
 	result.set( tmp );
 }
 
-void RBX::Guid::generateRBXGUID(std::string& result)
+void ARL::Guid::generateARLGUID(std::string& result)
 {
 	// Start with a text character (so it conforms to xs:ID requirement)
 	generateStandardGUID(result);
-	result = "RBX" + result;
+	result = "ARL" + result;
 
-	// result looks like this: RBX{c200e360-38c5-11ce-ae62-08002b2b79ef} 
+	// result looks like this: ARL{c200e360-38c5-11ce-ae62-08002b2b79ef} 
 
 	// strip the {}- characters
 	result.erase(40, 1);
@@ -150,23 +150,23 @@ void RBX::Guid::generateRBXGUID(std::string& result)
 	result.erase(12, 1);
 	result.erase(3, 1);
 
-	// result looks like this: RBXc200e36038c511ceae6208002b2b79ef 
+	// result looks like this: ARLc200e36038c511ceae6208002b2b79ef 
 
 	// TODO: This string could be more compact if we included g-z
 }
 
-void RBX::Guid::assign(Data data)
+void ARL::Guid::assign(Data data)
 {
 	this->data = data;
 }
 
 
-bool RBX::Guid::Data::operator ==(const RBX::Guid::Data& other) const
+bool ARL::Guid::Data::operator ==(const ARL::Guid::Data& other) const
 {
 	return index == other.index && scope == other.scope;
 }
 
-bool RBX::Guid::Data::operator <(const RBX::Guid::Data& other) const
+bool ARL::Guid::Data::operator <(const ARL::Guid::Data& other) const
 {
 	const int compare = scope.compare(other.scope);
 	
@@ -178,7 +178,7 @@ bool RBX::Guid::Data::operator <(const RBX::Guid::Data& other) const
 	return index < other.index;
 }
 
-int RBX::Guid::compare(const Guid* a, const Guid* b)
+int ARL::Guid::compare(const Guid* a, const Guid* b)
 {
 	const Scope& sa = a ? a->data.scope : Scope::null();
 	const Scope& sb = b ? b->data.scope : Scope::null();
@@ -191,7 +191,7 @@ int RBX::Guid::compare(const Guid* a, const Guid* b)
 	return ia - ib;
 }
 
-int RBX::Guid::compare(const Guid* a0, const Guid* a1, const Guid* b0, const Guid* b1)
+int ARL::Guid::compare(const Guid* a0, const Guid* a1, const Guid* b0, const Guid* b1)
 {
 	int aComp = compare(a0, a1);
 	int bComp = compare(b0, b1);
@@ -212,7 +212,7 @@ int RBX::Guid::compare(const Guid* a0, const Guid* a1, const Guid* b0, const Gui
 #pragma warning(push)
 #pragma warning(disable: 4996) //  warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. 
 
-std::string RBX::Guid::Data::readableString(int scopeLength) const
+std::string ARL::Guid::Data::readableString(int scopeLength) const
 {
 
 	char result[64];

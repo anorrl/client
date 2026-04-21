@@ -1,7 +1,7 @@
 #pragma once
 
 // RakNet doesn't namespace this - ouch
-namespace RBX { 
+namespace ARL { 
 
 class SystemAddress
 {

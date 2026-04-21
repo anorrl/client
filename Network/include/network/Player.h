@@ -27,7 +27,7 @@ namespace RakNet {
 struct SystemAddress;
 }
 
-namespace RBX { 
+namespace ARL { 
 	class Visit;
 	class ModelInstance;
 	class Backpack;
@@ -159,7 +159,7 @@ namespace Network {
 		};
 
 		// debug timer
-		RBX::Timer<RBX::Time::Fast> appearanceFetchTimer;
+		ARL::Timer<ARL::Time::Fast> appearanceFetchTimer;
 
 		static Reflection::PropDescriptor<Player, int> prop_userId;
 		static Reflection::PropDescriptor<Player, int> prop_userIdDeprecated;
@@ -233,8 +233,8 @@ namespace Network {
 		void saveInstance(std::string key, shared_ptr<Instance> value);
 		shared_ptr<const Reflection::ValueArray> loadList(std::string key);
 		void saveList(std::string key, shared_ptr<const Reflection::ValueArray> value);
-		shared_ptr<const RBX::Reflection::ValueMap> loadTable(std::string key);
-		void saveTable(std::string key, shared_ptr<const RBX::Reflection::ValueMap> value);
+		shared_ptr<const ARL::Reflection::ValueMap> loadTable(std::string key);
+		void saveTable(std::string key, shared_ptr<const ARL::Reflection::ValueMap> value);
 
 		/*override*/ void setName(const std::string& value);
 		/*override*/ bool canClientCreate() { return true; }
@@ -319,8 +319,8 @@ namespace Network {
 		void setMembershipType(MembershipType value);
 		MembershipType getMembershipType() const {return membershipType;}
 
-		void setCameraMode(RBX::Camera::CameraMode value);
-		RBX::Camera::CameraMode getCameraMode() const {return cameraMode;}
+		void setCameraMode(ARL::Camera::CameraMode value);
+		ARL::Camera::CameraMode getCameraMode() const {return cameraMode;}
 		
 		
 		void setNameDisplayDistance(float value);
@@ -390,14 +390,14 @@ namespace Network {
 		void loadCharacterAppearance(bool blockingCall);
 		void loadCharacterAppearanceScript(shared_ptr<Instance> asset);
 
-		static void onLocalPlayerNotIdle(RBX::ServiceProvider* serviceProvider);
+		static void onLocalPlayerNotIdle(ARL::ServiceProvider* serviceProvider);
 
 		void renderDPhysicsRegion(Adorn* adorn);
 		void renderStreamedRegion(Adorn* adorn);
         void renderPartMovementPath(Adorn* adorn);
 
-		static bool physicsOutBandwidthExceeded(const RBX::Instance* context);
-		static double getNetworkBufferHealth(const RBX::Instance* context);
+		static bool physicsOutBandwidthExceeded(const ARL::Instance* context);
+		static double getNetworkBufferHealth(const ARL::Instance* context);
 		void reportStat(std::string stat);
 
 		void addToLoadingInstances(int newInstances) { loadingInstances += newInstances; }
@@ -475,19 +475,19 @@ namespace Network {
 		bool chatInfoHasBeenLoaded;
 		ChatFilterType chatFilterType;
 
-		shared_ptr<RBX::Mouse> mouse;
-		RBX::Camera::CameraMode cameraMode;
+		shared_ptr<ARL::Mouse> mouse;
+		ARL::Camera::CameraMode cameraMode;
 
 		float nameDisplayDistance;
 		float healthDisplayDistance;
 		float cameraMaxZoomDistance;
 		float cameraMinZoomDistance;
 		bool enableMouseLockOption;
-		RBX::StarterPlayerService::DeveloperTouchCameraMovementMode touchCameraMovementMode;
-		RBX::StarterPlayerService::DeveloperComputerCameraMovementMode computerCameraMovementMode;
-		RBX::StarterPlayerService::DeveloperCameraOcclusionMode cameraOcclusionMode;
-		RBX::StarterPlayerService::DeveloperTouchMovementMode touchMovementMode;
-		RBX::StarterPlayerService::DeveloperComputerMovementMode computerMovementMode;
+		ARL::StarterPlayerService::DeveloperTouchCameraMovementMode touchCameraMovementMode;
+		ARL::StarterPlayerService::DeveloperComputerCameraMovementMode computerCameraMovementMode;
+		ARL::StarterPlayerService::DeveloperCameraOcclusionMode cameraOcclusionMode;
+		ARL::StarterPlayerService::DeveloperTouchMovementMode touchMovementMode;
+		ARL::StarterPlayerService::DeveloperComputerMovementMode computerMovementMode;
 
 		bool copiedGuiOnce;
 	};

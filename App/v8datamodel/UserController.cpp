@@ -23,7 +23,7 @@ LOGGROUP(UserInputProfile)
 
 #define TOUCH_LEFT_RIGHT_STEER_MIN 0.2
 
-namespace RBX {
+namespace ARL {
 
 const char* const  sControllerService = "ControllerService";
 const char* const  sController = "Controller";
@@ -57,7 +57,7 @@ Controller::Button& Variant::convert<Controller::Button>(void)
 }//namespace Reflection
 
 template<>
-bool RBX::StringConverter<Controller::Button>::convertToValue(const std::string& text, Controller::Button& value)
+bool ARL::StringConverter<Controller::Button>::convertToValue(const std::string& text, Controller::Button& value)
 {
 	if(text.find("Jump")){
 		value = Controller::JUMP;
@@ -74,7 +74,7 @@ bool RBX::StringConverter<Controller::Button>::convertToValue(const std::string&
 const UserInputBase* Controller::getHardwareDevice() const
 {
 	const ControllerService* controllerService = Instance::fastDynamicCast<ControllerService>(getParent());
-	RBXASSERT(controllerService == ServiceProvider::find<ControllerService>(this));
+	ARLASSERT(controllerService == ServiceProvider::find<ControllerService>(this));
 
 	return controllerService ? controllerService->getHardwareDevice() : NULL;
 }
@@ -114,7 +114,7 @@ public:
 
 };
 
-RBX_REGISTER_CLASS(ButtonBindingWidget);
+ARL_REGISTER_CLASS(ButtonBindingWidget);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 ButtonBindingWidget::ButtonBindingWidget(Controller::Button button, Controller* controller)
@@ -335,7 +335,7 @@ VehicleController::VehicleController()
 
 void VehicleController::setVehicleSeat(VehicleSeat* value)
 {
-	RBXASSERT(vehicleSeat.expired());
+	ARLASSERT(vehicleSeat.expired());
 
 	vehicleSeat = shared_from<VehicleSeat>(value);
 }
@@ -410,7 +410,7 @@ void VehicleController::onStepped(const Stepped& event)
 	shared_ptr<VehicleSeat> sharedSeat = vehicleSeat.lock();
 	if (!sharedSeat)
     {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return;
 	}
 
@@ -457,7 +457,7 @@ void HumanoidController::updateCamera( const Stepped& event, const NavKeys& nav 
 	
 	// if we're in cam lock mode, rotate by ASDW
 	//  otherwise, rotate by arrows
-	int rotation = RBX::GameBasicSettings::singleton().camLockedInCamLockMode() ?
+	int rotation = ARL::GameBasicSettings::singleton().camLockedInCamLockMode() ?
 		rotation = nav.leftRightASDW() :
 		rotation = nav.leftRightArrow();
 

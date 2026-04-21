@@ -21,42 +21,42 @@
 class Serializer : public SerializerV2 
 {
 public:
-	static bool canWriteChild(const shared_ptr<RBX::Instance> instance, RBX::Instance::SaveFilter saveFilter)
+	static bool canWriteChild(const shared_ptr<ARL::Instance> instance, ARL::Instance::SaveFilter saveFilter)
 	{
 		if(!instance->getIsArchivable())
 			return false;
 
 		switch(saveFilter)
 		{
-		case RBX::Instance::SAVE_ALL:
+		case ARL::Instance::SAVE_ALL:
 			return true;
 
-		case RBX::Instance::SAVE_WORLD:
-			if ( RBX::Instance::fastDynamicCast<RBX::Workspace>(instance.get()) )
+		case ARL::Instance::SAVE_WORLD:
+			if ( ARL::Instance::fastDynamicCast<ARL::Workspace>(instance.get()) )
 				return true;
-			if ( RBX::Instance::fastDynamicCast<RBX::Lighting>(instance.get()) )
+			if ( ARL::Instance::fastDynamicCast<ARL::Lighting>(instance.get()) )
 				return true;
-			if ( RBX::Instance::fastDynamicCast<RBX::Soundscape::SoundService>(instance.get()) )
+			if ( ARL::Instance::fastDynamicCast<ARL::Soundscape::SoundService>(instance.get()) )
 				return true;
-			if ( RBX::Instance::fastDynamicCast<RBX::ServerStorage>(instance.get()) )
+			if ( ARL::Instance::fastDynamicCast<ARL::ServerStorage>(instance.get()) )
 				return true;
-			if ( RBX::Instance::fastDynamicCast<RBX::ReplicatedStorage>(instance.get()) )
+			if ( ARL::Instance::fastDynamicCast<ARL::ReplicatedStorage>(instance.get()) )
 				return true;
-			if ( RBX::Instance::fastDynamicCast<RBX::CSGDictionaryService>(instance.get()) )
+			if ( ARL::Instance::fastDynamicCast<ARL::CSGDictionaryService>(instance.get()) )
 				return true;
 
 			return false;
 
-		case RBX::Instance::SAVE_GAME:
-			if ( RBX::Instance::fastDynamicCast<RBX::StarterGuiService>(instance.get()) )
+		case ARL::Instance::SAVE_GAME:
+			if ( ARL::Instance::fastDynamicCast<ARL::StarterGuiService>(instance.get()) )
 				return true;
-			if ( RBX::Instance::fastDynamicCast<RBX::StarterPackService>(instance.get()) )
+			if ( ARL::Instance::fastDynamicCast<ARL::StarterPackService>(instance.get()) )
 				return true;
-			if ( RBX::Instance::fastDynamicCast<RBX::StarterPlayerService>(instance.get()) )
+			if ( ARL::Instance::fastDynamicCast<ARL::StarterPlayerService>(instance.get()) )
 				return true;
-			if ( RBX::Instance::fastDynamicCast<RBX::ServerScriptService>(instance.get()) )
+			if ( ARL::Instance::fastDynamicCast<ARL::ServerScriptService>(instance.get()) )
 				return true;
-			if ( RBX::Instance::fastDynamicCast<RBX::ReplicatedFirst>(instance.get()) )
+			if ( ARL::Instance::fastDynamicCast<ARL::ReplicatedFirst>(instance.get()) )
 				return true;
 
 			return false;

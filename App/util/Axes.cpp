@@ -4,7 +4,7 @@
 #include "Reflection/Type.h"
 #include "Reflection/EnumConverter.h"
 
-namespace RBX
+namespace ARL
 {
 
 Axes::Axes(int axisMask)
@@ -88,12 +88,12 @@ std::string StringConverter<Axes>::convertToString(const Axes& value)
 	std::string seperator = "";
 	std::string result = "";
 	for(int axis = 0; axis < 3; axis++){
-		if(value.getAxis((RBX::Vector3::Axis)axis)){
+		if(value.getAxis((ARL::Vector3::Axis)axis)){
 			result += seperator;
-			switch((RBX::Vector3::Axis)axis){
-				case RBX::Vector3::X_AXIS:		result += "X";	break;
-				case RBX::Vector3::Y_AXIS:		result += "Y";	break;
-				case RBX::Vector3::Z_AXIS:		result += "Z";	break;
+			switch((ARL::Vector3::Axis)axis){
+				case ARL::Vector3::X_AXIS:		result += "X";	break;
+				case ARL::Vector3::Y_AXIS:		result += "Y";	break;
+				case ARL::Vector3::Z_AXIS:		result += "Z";	break;
                 default: break;
 			}
 			seperator = ", ";
@@ -105,47 +105,47 @@ std::string StringConverter<Axes>::convertToString(const Axes& value)
 namespace Reflection
 {
 	template<>
-	EnumDesc<RBX::Vector3::Axis>::EnumDesc()
+	EnumDesc<ARL::Vector3::Axis>::EnumDesc()
 	:EnumDescriptor("Axis")
 	{
-		addPair(RBX::Vector3::X_AXIS, "X");
-		addPair(RBX::Vector3::Y_AXIS, "Y");
-		addPair(RBX::Vector3::Z_AXIS, "Z");
+		addPair(ARL::Vector3::X_AXIS, "X");
+		addPair(ARL::Vector3::Y_AXIS, "Y");
+		addPair(ARL::Vector3::Z_AXIS, "Z");
 	}
 
 	template<>
-	RBX::Vector3::Axis& Variant::convert<RBX::Vector3::Axis>(void)
+	ARL::Vector3::Axis& Variant::convert<ARL::Vector3::Axis>(void)
 	{
-		return genericConvert<RBX::Vector3::Axis>();
+		return genericConvert<ARL::Vector3::Axis>();
 	}
 }
 
 template<>
-bool RBX::StringConverter<G3D::Vector3::Axis>::convertToValue(const std::string& text, RBX::Vector3::Axis& value)
+bool ARL::StringConverter<G3D::Vector3::Axis>::convertToValue(const std::string& text, ARL::Vector3::Axis& value)
 {
 	if(text.find("Y") != std::string::npos || text.find("Top") != std::string::npos || text.find("Bottom") != std::string::npos){
-		value = RBX::Vector3::Y_AXIS;
+		value = ARL::Vector3::Y_AXIS;
 		return true;
 	}
 	if(text.find("Z") != std::string::npos || text.find("Back") != std::string::npos || text.find("Front") != std::string::npos ){
-		value = RBX::Vector3::Z_AXIS;
+		value = ARL::Vector3::Z_AXIS;
 		return true;
 	}
 	if(text.find("X") != std::string::npos || text.find("Right") != std::string::npos || text.find("Left") != std::string::npos ){
-		value = RBX::Vector3::X_AXIS;
+		value = ARL::Vector3::X_AXIS;
 		return true;
 	}
 	return false;
 }
 template<>
-bool StringConverter<RBX::Axes>::convertToValue(const std::string& text, Axes& value)
+bool StringConverter<ARL::Axes>::convertToValue(const std::string& text, Axes& value)
 {
 	value.clear();
 
 	size_t oldpos = 0;
 	size_t pos = 0;
 	while((pos = text.find(",", oldpos)) != std::string::npos){
-		RBX::Vector3::Axis axis;
+		ARL::Vector3::Axis axis;
 		if(!StringConverter<G3D::Vector3::Axis>::convertToValue(text.substr(oldpos, (pos - oldpos)), axis))
 			return false;
 		value.setAxis(axis, true);
@@ -153,7 +153,7 @@ bool StringConverter<RBX::Axes>::convertToValue(const std::string& text, Axes& v
 	}
 	
 	//Handle the last one
-	RBX::Vector3::Axis axis;
+	ARL::Vector3::Axis axis;
 	if(!StringConverter<G3D::Vector3::Axis>::convertToValue(text.substr(oldpos, (text.size() - oldpos)), axis))
 		return false;
 	value.setAxis(axis, true);

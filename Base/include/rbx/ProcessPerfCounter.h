@@ -3,7 +3,7 @@
 #include "rbx/boost.hpp"
 #include "util/ScopedSingleton.h"
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include <pdh.h>
 
 class CQuery
@@ -35,7 +35,7 @@ public:
 	void CollectData();
 };
 
-class CProcessPerfCounter : public PerfCounter, public RBX::ScopedSingleton<CProcessPerfCounter>
+class CProcessPerfCounter : public PerfCounter, public ARL::ScopedSingleton<CProcessPerfCounter>
 {
 public:
 	CProcessPerfCounter();

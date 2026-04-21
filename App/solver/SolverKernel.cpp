@@ -14,7 +14,7 @@
 
 #include "rbx/Profiler.h"
 
-namespace RBX
+namespace ARL
 {
 using namespace simd;
 
@@ -55,7 +55,7 @@ typedef VirtualDisplacement VD;
 
 // Helper method
 template< class StageSelector >
-static RBX_SIMD_INLINE EffectiveMassPair computeEffectiveMassPair( 
+static ARL_SIMD_INLINE EffectiveMassPair computeEffectiveMassPair( 
     const SolverBodyMassAndInertia& _bodyA, 
     const SolverBodyMassAndInertia& _bodyB,
     const ConstraintJacobianPair& _j, 
@@ -81,7 +81,7 @@ void PGSComputeEffectiveMasses(
     const SolverBodyMassAndInertia* _massAndIntertia,
     const SolverConfig& _config )
 {
-    RBXPROFILER_SCOPE("Physics", "PGSComputeEffectiveMasses");
+    ARLPROFILER_SCOPE("Physics", "PGSComputeEffectiveMasses");
 
     boost::uint32_t offset = 0;
     for( unsigned c = 0; c < _constraintCount; c++ )
@@ -113,7 +113,7 @@ void PGSComputeEffectiveMasses(
 
 // Helper methods
 template< int DIM >
-static RBX_SIMD_INLINE void applyPreconditionerToStage( 
+static ARL_SIMD_INLINE void applyPreconditionerToStage( 
     ConstraintVariables* __restrict _vars,
     ConstraintJacobianPair* __restrict _preJacobians,
     const boost::uint8_t* _useBlock,
@@ -126,7 +126,7 @@ static RBX_SIMD_INLINE void applyPreconditionerToStage(
 //
 
 // Helper methods
-static RBX_SIMD_INLINE void applyPreconditionerToJacobian( ConstraintJacobianPair* __restrict _r, const v4f& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
+static ARL_SIMD_INLINE void applyPreconditionerToJacobian( ConstraintJacobianPair* __restrict _r, const v4f& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
 {
     _r[0].setLinA( ( _sor * _preconditioner ) * _j[0].getLinA() );
     _r[0].setAngA( ( _sor * _preconditioner ) * _j[0].getAngA() );
@@ -137,7 +137,7 @@ static RBX_SIMD_INLINE void applyPreconditionerToJacobian( ConstraintJacobianPai
 // Dim 1 pre-conditioner
 // For a constraint of dimension 1, the pre-conditioner is just the inverse of the corresponding diagonal element.
 template< >
-RBX_SIMD_INLINE void applyPreconditionerToStage< 1 >(
+ARL_SIMD_INLINE void applyPreconditionerToStage< 1 >(
     ConstraintVariables* __restrict _vars,
     ConstraintJacobianPair* __restrict _preJacobians,
     const boost::uint8_t* _useBlock,
@@ -164,7 +164,7 @@ RBX_SIMD_INLINE void applyPreconditionerToStage< 1 >(
 
 // Helper methods
 template< int row, class SubMatrixSelect >
-static RBX_SIMD_INLINE void multiplyRowByColumn( ConstraintJacobianPair* __restrict _r, const SymmetricMatrix2SIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
+static ARL_SIMD_INLINE void multiplyRowByColumn( ConstraintJacobianPair* __restrict _r, const SymmetricMatrix2SIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
 {
     v4f r = _preconditioner.get<row,0>() * _j[0].get< SubMatrixSelect >() 
           + _preconditioner.get<row,1>() * _j[1].get< SubMatrixSelect >();
@@ -173,13 +173,13 @@ static RBX_SIMD_INLINE void multiplyRowByColumn( ConstraintJacobianPair* __restr
 }
 
 template< class SubMatrixSelect >
-static RBX_SIMD_INLINE void applyPreconditionerToSubMatrix( ConstraintJacobianPair* __restrict _r, const SymmetricMatrix2SIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
+static ARL_SIMD_INLINE void applyPreconditionerToSubMatrix( ConstraintJacobianPair* __restrict _r, const SymmetricMatrix2SIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
 {
     multiplyRowByColumn< 0, SubMatrixSelect >(_r, _preconditioner, _j, _sor);
     multiplyRowByColumn< 1, SubMatrixSelect >(_r, _preconditioner, _j, _sor);
 }
 
-static RBX_SIMD_INLINE void applyPreconditionerToJacobian( ConstraintJacobianPair* __restrict _r, const SymmetricMatrix2SIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
+static ARL_SIMD_INLINE void applyPreconditionerToJacobian( ConstraintJacobianPair* __restrict _r, const SymmetricMatrix2SIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
 {
     applyPreconditionerToSubMatrix< Jac::LinA >( _r, _preconditioner, _j, _sor );
     applyPreconditionerToSubMatrix< Jac::AngA >( _r, _preconditioner, _j, _sor );
@@ -187,7 +187,7 @@ static RBX_SIMD_INLINE void applyPreconditionerToJacobian( ConstraintJacobianPai
     applyPreconditionerToSubMatrix< Jac::AngB >( _r, _preconditioner, _j, _sor );
 }
 
-static RBX_SIMD_INLINE SymmetricMatrix2SIMD constraintMatrixDiagBlockInverse2( const boost::uint8_t* _useBlock, const ConstraintJacobianPair* _jacobian, const EffectiveMassPair* _massVectors )
+static ARL_SIMD_INLINE SymmetricMatrix2SIMD constraintMatrixDiagBlockInverse2( const boost::uint8_t* _useBlock, const ConstraintJacobianPair* _jacobian, const EffectiveMassPair* _massVectors )
 {
     v4f d01 = _jacobian[0].dot( _massVectors[1] );
     if( !_useBlock[0] )
@@ -212,7 +212,7 @@ static RBX_SIMD_INLINE SymmetricMatrix2SIMD constraintMatrixDiagBlockInverse2( c
 // Dim 2 pre-conditioner
 // For a constraint of dimension 2, the pre-conditioner is the inverse of the corresponding 2x2 diagonal block in the constraint matrix.
 template< >
-RBX_SIMD_INLINE void applyPreconditionerToStage< 2 >(
+ARL_SIMD_INLINE void applyPreconditionerToStage< 2 >(
     ConstraintVariables* __restrict _vars,
     ConstraintJacobianPair* __restrict _preJacobians,
     const boost::uint8_t* _useBlock,
@@ -240,7 +240,7 @@ RBX_SIMD_INLINE void applyPreconditionerToStage< 2 >(
 
 // Helper methods
 template< int row, class SubMatrixSelect >
-static RBX_SIMD_INLINE void multiplyRowByColumn( ConstraintJacobianPair* __restrict _r, const SymmetricMatrixSIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
+static ARL_SIMD_INLINE void multiplyRowByColumn( ConstraintJacobianPair* __restrict _r, const SymmetricMatrixSIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
 {
     v4f r = _preconditioner.get<row,0>() * _j[0].get< SubMatrixSelect >() 
           + _preconditioner.get<row,1>() * _j[1].get< SubMatrixSelect >() 
@@ -250,7 +250,7 @@ static RBX_SIMD_INLINE void multiplyRowByColumn( ConstraintJacobianPair* __restr
 }
 
 template< class SubMatrixSelect >
-static RBX_SIMD_INLINE void applyPreconditionerToSubMatrix( ConstraintJacobianPair* __restrict _r, const SymmetricMatrixSIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
+static ARL_SIMD_INLINE void applyPreconditionerToSubMatrix( ConstraintJacobianPair* __restrict _r, const SymmetricMatrixSIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
 {
     multiplyRowByColumn< 0, SubMatrixSelect >(_r, _preconditioner, _j, _sor);
     multiplyRowByColumn< 1, SubMatrixSelect >(_r, _preconditioner, _j, _sor);
@@ -259,7 +259,7 @@ static RBX_SIMD_INLINE void applyPreconditionerToSubMatrix( ConstraintJacobianPa
 
 // Multiplying a symmetric 3x3 matrix (pre-conditioner) by a 3x12 matrix (Jacobian)
 // We breakdown this matrix multiply into 4 multiplies of the 3x3 symmetric matrix with a 3x3 sub-matrix of the Jacobian
-static RBX_SIMD_INLINE void applyPreconditionerToJacobian( ConstraintJacobianPair* __restrict _r, const SymmetricMatrixSIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
+static ARL_SIMD_INLINE void applyPreconditionerToJacobian( ConstraintJacobianPair* __restrict _r, const SymmetricMatrixSIMD& _preconditioner, const ConstraintJacobianPair* __restrict _j, const v4f& _sor )
 {
     applyPreconditionerToSubMatrix< Jac::LinA >( _r, _preconditioner, _j, _sor );
     applyPreconditionerToSubMatrix< Jac::AngA >( _r, _preconditioner, _j, _sor );
@@ -267,7 +267,7 @@ static RBX_SIMD_INLINE void applyPreconditionerToJacobian( ConstraintJacobianPai
     applyPreconditionerToSubMatrix< Jac::AngB >( _r, _preconditioner, _j, _sor );
 }
 
-static RBX_SIMD_INLINE SymmetricMatrixSIMD constraintMatrixDiagBlockInverse3( const boost::uint8_t* _useBlock, const ConstraintJacobianPair* _jacobian, const EffectiveMassPair* _massVectors )
+static ARL_SIMD_INLINE SymmetricMatrixSIMD constraintMatrixDiagBlockInverse3( const boost::uint8_t* _useBlock, const ConstraintJacobianPair* _jacobian, const EffectiveMassPair* _massVectors )
 {
     v4f d01 = _jacobian[0].dot( _massVectors[1] );
     v4f d02 = _jacobian[0].dot( _massVectors[2] );
@@ -305,7 +305,7 @@ static RBX_SIMD_INLINE SymmetricMatrixSIMD constraintMatrixDiagBlockInverse3( co
 
 // Dim 3 pre-conditioner
 template< >
-RBX_SIMD_INLINE void applyPreconditionerToStage< 3 >(
+ARL_SIMD_INLINE void applyPreconditionerToStage< 3 >(
     ConstraintVariables* __restrict _vars,
     ConstraintJacobianPair* __restrict _preJacobians,
     const boost::uint8_t* _useBlock,
@@ -377,7 +377,7 @@ void PGSPreconditionConstraintEquations(
     const EffectiveMassPair* __restrict _effectiveMassesVelStage,
     const EffectiveMassPair* __restrict _effectiveMassesPosStage )
 {
-    RBXPROFILER_SCOPE("Physics", "PGSPreconditionConstraintEquations");
+    ARLPROFILER_SCOPE("Physics", "PGSPreconditionConstraintEquations");
 
     boost::uint32_t offset = 0;
 
@@ -386,7 +386,7 @@ void PGSPreconditionConstraintEquations(
     for( size_t c = 0; c < _constraintCount; c++ )
     {
         auto d = _dimensions[ c ];
-        RBXASSERT_VERY_FAST( d <= maxConstraintDimension );
+        ARLASSERT_VERY_FAST( d <= maxConstraintDimension );
 
         switch ( d )
         {
@@ -429,7 +429,7 @@ void PGSApplyEffectiveMassMultipliers(
     const BodyPairIndices* _pairs,
     const SolverConfig& _config )
 {
-    RBXPROFILER_SCOPE("Physics", "PGSApplyEffectiveMassMultipliers");
+    ARLPROFILER_SCOPE("Physics", "PGSApplyEffectiveMassMultipliers");
 
     boost::uint32_t offset = 0;
     for( unsigned c = 0; c < _constraintCount; c++ )
@@ -465,7 +465,7 @@ void PGSApplyEffectiveMassMultipliers(
 // Apply an impulse to a virtual displacement:
 // for velocity stage it is adding the change in velocities due to the constraint impulse
 // for position stage it is adding the change in positions due to the constraint correction impulse
-static RBX_SIMD_INLINE VirtualDisplacement applyImpulse( const VirtualDisplacement& virD, const simd::v4f& impulse, const EffectiveMass& eff )
+static ARL_SIMD_INLINE VirtualDisplacement applyImpulse( const VirtualDisplacement& virD, const simd::v4f& impulse, const EffectiveMass& eff )
 {
     return VirtualDisplacement( simd::mulAdd( virD.getLin(), impulse, eff.getLin() ), simd::mulAdd( virD.getAng(), impulse, eff.getAng() ) );
 }
@@ -483,7 +483,7 @@ void PGSInitVirtualDisplacements(
     const BodyPairIndices* _pairs,
     const SolverConfig& _config )
 {
-    RBXPROFILER_SCOPE("Physics", "PGSInitVirtualDisplacements");
+    ARLPROFILER_SCOPE("Physics", "PGSInitVirtualDisplacements");
 
     boost::uint32_t offset = 0;
     for( unsigned c = 0; c < _constraintCount; c++ )
@@ -557,7 +557,7 @@ void PGSInitVirtualDisplacements(
 
 // Helper method
 // This is a partial dot product: the full dot product is the sum of components of the result of 'partiallyProjectOntoJacobian'
-static RBX_SIMD_INLINE v4f partiallyProjectOntoJacobian( const ConstraintJacobianPair& _j, const VirtualDisplacement& _va, const VirtualDisplacement& _vb )
+static ARL_SIMD_INLINE v4f partiallyProjectOntoJacobian( const ConstraintJacobianPair& _j, const VirtualDisplacement& _va, const VirtualDisplacement& _vb )
 {
     simd::v4f partA = _j.getLinA() * _va.getLin() + _j.getAngA() * _va.getAng();
     simd::v4f partB = _j.getLinB() * _vb.getLin() + _j.getAngB() * _vb.getAng();
@@ -710,12 +710,12 @@ class ConstraintType;
 // For performance reasons - to avoid branches - using compile time polymorphism
 // Default implementation does nothing (constraint type)
 template<class Type >
-static RBX_SIMD_INLINE void modifyImpulseBounds( v4f& minBound, v4f& maxBound, const v4f& oldImpulses )
+static ARL_SIMD_INLINE void modifyImpulseBounds( v4f& minBound, v4f& maxBound, const v4f& oldImpulses )
 { }
 
 // For collisions we need to do something different to simulate the friction cone
 template<>
-RBX_SIMD_INLINE void modifyImpulseBounds< CollisionType >( v4f& minBound, v4f& maxBound, const v4f& oldImpulses )
+ARL_SIMD_INLINE void modifyImpulseBounds< CollisionType >( v4f& minBound, v4f& maxBound, const v4f& oldImpulses )
 {
     v4f normalImpulse = splat< 0 >( oldImpulses );
     // For collisions, component 1 and 2 contains friction constant. To get bounds on friction impulses we multiply by the current normal impulse.
@@ -726,7 +726,7 @@ RBX_SIMD_INLINE void modifyImpulseBounds< CollisionType >( v4f& minBound, v4f& m
 // Common implementation for a 3-dimensional constraint or collision
 // Type is either CollisionType or ConstraintType
 template< class Type >
-static RBX_SIMD_INLINE void updateConstraintDim3OrCollisionSingleStage( 
+static ARL_SIMD_INLINE void updateConstraintDim3OrCollisionSingleStage( 
     ConstraintVariables* __restrict _vars,
     VirtualDisplacementPOD* __restrict _virD,
     const ConstraintJacobianPair* __restrict _preconditionedJacobians,
@@ -826,7 +826,7 @@ void PGSSolveKernel(
     const EffectiveMassPair* _effectiveMassesPosStage,
     const SolverConfig& _config )
 {
-    RBXPROFILER_SCOPE("Physics", "PGSSolveKernel");
+    ARLPROFILER_SCOPE("Physics", "PGSSolveKernel");
 
     size_t pureConstraintCount = _constraintCount - _collisionCount;
 
@@ -1055,7 +1055,7 @@ void PGSSolveKernelComputeErrors(
     const EffectiveMassPair* _effectiveMasses,
     const SolverConfig& _config )
 {
-    RBXPROFILER_SCOPE("Physics", "PGSSolveKernelComputeErrors");
+    ARLPROFILER_SCOPE("Physics", "PGSSolveKernelComputeErrors");
 
     SolverConfig localConfig = _config;
     static float smoothingD = 0.95f;

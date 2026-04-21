@@ -5,7 +5,7 @@
 #include "G3D/Rect2D.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	// TODO: Replace with G3D::Rect2D
 	class Rect {

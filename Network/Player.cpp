@@ -74,7 +74,7 @@
 #include "NetworkOwnerJob.h"
 #include "V8DataModel/TeleportService.h"
 
-const char* const RBX::Network::sPlayer = "Player";
+const char* const ARL::Network::sPlayer = "Player";
 static const char* const kPlaceIdUrlParamFormat = "&serverplaceid=%d";
 
 static const char* const kValidCharacterAppearancePaths[] =
@@ -83,8 +83,8 @@ static const char* const kValidCharacterAppearancePaths[] =
 	"asset/avataraccoutrements.ashx"
 };
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 DYNAMIC_LOGVARIABLE(PlayerChatInfoExponentialBackoffLimitMultiplier, 9)
 
@@ -154,8 +154,8 @@ static Reflection::BoundFuncDesc<Player, void(std::string, shared_ptr<Instance>)
 #ifdef _ADVANCED_PERSISTENCE_TYPES_
 static Reflection::BoundFuncDesc<Player, shared_ptr<const Reflection::ValueArray>(std::string)>    func_loadList(&Player::loadList, "LoadList", "key", Security::None);
 static Reflection::BoundFuncDesc<Player, void(std::string, shared_ptr<const Reflection::ValueArray>)>    func_saveList(&Player::saveList, "SaveList", "key", "value", Security::None);
-static Reflection::BoundFuncDesc<Player, shared_ptr<const RBX::Reflection::ValueMap>(std::string)>    func_loadTable(&Player::loadTable, "LoadTable", "key", Security::None);
-static Reflection::BoundFuncDesc<Player, void(std::string, shared_ptr<const RBX::Reflection::ValueMap>)>    func_saveTable(&Player::saveTable, "SaveTable", "key", "value", Security::None);
+static Reflection::BoundFuncDesc<Player, shared_ptr<const ARL::Reflection::ValueMap>(std::string)>    func_loadTable(&Player::loadTable, "LoadTable", "key", Security::None);
+static Reflection::BoundFuncDesc<Player, void(std::string, shared_ptr<const ARL::Reflection::ValueMap>)>    func_saveTable(&Player::saveTable, "SaveTable", "key", "value", Security::None);
 #endif
 
 static Reflection::BoundFuncDesc<Player, void(Vector3, bool)>  moveCharacterFunction(&Player::move, "Move", "walkDirection", "relativeToCamera", false, Security::None);
@@ -202,7 +202,7 @@ static Reflection::BoundYieldFuncDesc<Player, shared_ptr<const Reflection::Value
 static Reflection::BoundYieldFuncDesc<Player, int(int)> func_getRankInGroup(&Player::getRankInGroup, "GetRankInGroup", "groupId", Security::None);
 static Reflection::BoundYieldFuncDesc<Player, std::string(int)> func_getRoleInGroup(&Player::getRoleInGroup, "GetRoleInGroup", "groupId", Security::None);
 
-// TODO: Security - put RBX::Security::WritePlayer checks on these properties (like userId has)
+// TODO: Security - put ARL::Security::WritePlayer checks on these properties (like userId has)
 Reflection::PropDescriptor<Player, bool> Player::prop_SuperSafeChat("SuperSafeChatReplicate", category_Data, &Player::getSuperSafeChat, &Player::setSuperSafeChat, Reflection::PropertyDescriptor::REPLICATE_ONLY, Security::LocalUser);
 
 Reflection::BoundProp<std::string> Player::prop_OsPlatform("OsPlatform", category_Data, &Player::osPlatform, Reflection::PropertyDescriptor::REPLICATE_ONLY, Security::RobloxScript);
@@ -297,14 +297,14 @@ Player::Player(void)
 	,appearanceDidLoad(false)
 	,characterAppearanceLoaded(false)
 	,canLoadCharacterAppearance(true)
-	,cameraMode(RBX::Camera::CAMERAMODE_CLASSIC)
+	,cameraMode(ARL::Camera::CAMERAMODE_CLASSIC)
 	,forceEarlySpawnLocationCalculation(false)
 	,hasSpawnedAtLeastOnce(false)
 	,teleportSpawnName()
 	,nameDisplayDistance(defaultDisplayDistance)
 	,healthDisplayDistance(defaultDisplayDistance)
-	,cameraMaxZoomDistance(RBX::Camera::distanceMaxCharacter())
-	,cameraMinZoomDistance(RBX::Camera::distanceMin())
+	,cameraMaxZoomDistance(ARL::Camera::distanceMaxCharacter())
+	,cameraMinZoomDistance(ARL::Camera::distanceMin())
 	,copiedGuiOnce(false)
 	,followUserId(0)
 	,enableMouseLockOption(true)
@@ -320,7 +320,7 @@ Player::Player(void)
 	,autoJumpEnabled(true)
 {
 #ifndef REMOVE_PLAYER_PROTECTIONS 
-	RBX::Security::Context::current().requirePermission(RBX::Security::WritePlayer, "create a Player");
+	ARL::Security::Context::current().requirePermission(ARL::Security::WritePlayer, "create a Player");
 #endif
 	setName(sPlayer);
 }
@@ -372,12 +372,12 @@ Player::ChatMode Player::getChatMode() const
 	Shrink quickly is less than 1x real time.
 */
 
-bool Player::physicsOutBandwidthExceeded(const RBX::Instance* context)
+bool Player::physicsOutBandwidthExceeded(const ARL::Instance* context)
 {
 	return Client::physicsOutBandwidthExceeded(context);
 }
 
-double Player::getNetworkBufferHealth(const RBX::Instance* context)
+double Player::getNetworkBufferHealth(const ARL::Instance* context)
 {
 	return Client::getNetworkBufferHealth(context);
 }
@@ -557,7 +557,7 @@ double Player::loadNumber(std::string key)
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 	
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 
 	return persistentData->getNumber(key);
 
@@ -569,10 +569,10 @@ void Player::saveNumber(std::string key, double value)
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 	
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	if(!persistentData->setNumber(key, value)){
 		raisePropertyChanged(prop_dataComplexity);
-		throw RBX::runtime_error("Exceeded DataComplexity limit for Number key %s", key.c_str());
+		throw ARL::runtime_error("Exceeded DataComplexity limit for Number key %s", key.c_str());
 	}
 	raisePropertyChanged(prop_dataComplexity);
 }
@@ -585,7 +585,7 @@ bool Player::loadBoolean(std::string key)
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	return persistentData->getBoolean(key);
 }
 void Player::saveBoolean(std::string key, bool value)
@@ -595,10 +595,10 @@ void Player::saveBoolean(std::string key, bool value)
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	if(!persistentData->setBoolean(key, value)){
 		raisePropertyChanged(prop_dataComplexity);
-		throw RBX::runtime_error("Exceeded DataComplexity limit for Boolean key %s", key.c_str());
+		throw ARL::runtime_error("Exceeded DataComplexity limit for Boolean key %s", key.c_str());
 	}
 	raisePropertyChanged(prop_dataComplexity);
 }
@@ -611,7 +611,7 @@ std::string Player::loadString(std::string key)
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	return persistentData->getString(key);
 }
 void Player::saveString(std::string key, std::string value)
@@ -621,10 +621,10 @@ void Player::saveString(std::string key, std::string value)
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	if(!persistentData->setString(key, value)){
 		raisePropertyChanged(prop_dataComplexity);
-		throw RBX::runtime_error("Exceeded DataComplexity limit for String key %s", key.c_str());
+		throw ARL::runtime_error("Exceeded DataComplexity limit for String key %s", key.c_str());
 	}
 	raisePropertyChanged(prop_dataComplexity);
 }
@@ -637,7 +637,7 @@ shared_ptr<const Reflection::ValueArray> Player::loadList(std::string key)
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	return persistentData->getList(key);
 
 }
@@ -648,35 +648,35 @@ void Player::saveList(std::string key, shared_ptr<const Reflection::ValueArray> 
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	if(!persistentData->setList(key, value)){
 		raisePropertyChanged(prop_dataComplexity);
-		throw RBX::runtime_error("Exceeded DataComplexity limit for List key %s", key.c_str());
+		throw ARL::runtime_error("Exceeded DataComplexity limit for List key %s", key.c_str());
 	}
 	raisePropertyChanged(prop_dataComplexity);
 }
 
-shared_ptr<const RBX::Reflection::ValueMap> Player::loadTable(std::string key)
+shared_ptr<const ARL::Reflection::ValueMap> Player::loadTable(std::string key)
 {
 	if(!Players::backendProcessing(this, false))
 		throw std::runtime_error("LocalScripts cannot use LoadTable");
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	return persistentData->getTable(key);
 }
-void Player::saveTable(std::string key, shared_ptr<const RBX::Reflection::ValueMap> value)
+void Player::saveTable(std::string key, shared_ptr<const ARL::Reflection::ValueMap> value)
 {
 	if(!Players::backendProcessing(this, false))
 		throw std::runtime_error("LocalScripts cannot use SaveTable");
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	if(!persistentData->setTable(key, value)){
 		raisePropertyChanged(prop_dataComplexity);
-		throw RBX::runtime_error("Exceeded DataComplexity limit for Table key %s", key.c_str());
+		throw ARL::runtime_error("Exceeded DataComplexity limit for Table key %s", key.c_str());
 	}
 	raisePropertyChanged(prop_dataComplexity);
 }
@@ -690,7 +690,7 @@ shared_ptr<Instance> Player::loadInstance(std::string key)
 	if(!dataReady)
 		throw std::runtime_error("Data for player not yet loaded, wait for DataReady");
 
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	return persistentData->getInstance(key);
 }
 void Player::saveInstance(std::string key, shared_ptr<Instance> value)
@@ -702,20 +702,20 @@ void Player::saveInstance(std::string key, shared_ptr<Instance> value)
 	if(!value)
 		throw std::runtime_error("Cannot save a null instance");
 
-	RBXASSERT(persistentData);
+	ARLASSERT(persistentData);
 	if(!persistentData->setInstance(key, value)){
 		raisePropertyChanged(prop_dataComplexity);
-		throw RBX::runtime_error("Exceeded DataComplexity limit for Instance key %s", key.c_str());
+		throw ARL::runtime_error("Exceeded DataComplexity limit for Instance key %s", key.c_str());
 	}
 	raisePropertyChanged(prop_dataComplexity);
 }
 
 void Player::renderStreamedRegion(Adorn* adorn)
 {
-	RBX::Network::Client* client = ServiceProvider::find<RBX::Network::Client>(this);
+	ARL::Network::Client* client = ServiceProvider::find<ARL::Network::Client>(this);
 	if (client)
 	{
-		if (RBX::Network::ClientReplicator *cRep = client->findFirstChildOfType<RBX::Network::ClientReplicator>())
+		if (ARL::Network::ClientReplicator *cRep = client->findFirstChildOfType<ARL::Network::ClientReplicator>())
 		{
 			cRep->renderStreamedRegions(adorn);
 		}
@@ -728,7 +728,7 @@ void Player::renderDPhysicsRegion(Adorn* adorn)
 	if (this->hasCharacterHead(coord)) {
 		if (const Primitive* prim = getConstCharacterRoot()) {
 			coord.translation.y -= 3.0f;
-			Color3 color = RBX::Color::colorFromInt(prim->getNetworkOwner().getAddress());
+			Color3 color = ARL::Color::colorFromInt(prim->getNetworkOwner().getAddress());
 			const float cylHeight = 1.0f;
 			
 			DrawAdorn::cylinder(adorn, coord.translation, 1, cylHeight, simulationRadius, Color4(color, 0.6f), false);
@@ -743,10 +743,10 @@ void Player::renderDPhysicsRegion(Adorn* adorn)
 
 void Player::renderPartMovementPath(Adorn* adorn)
 {
-    RBX::Network::Client* client = ServiceProvider::find<RBX::Network::Client>(this);
+    ARL::Network::Client* client = ServiceProvider::find<ARL::Network::Client>(this);
     if (client)
     {
-        if (RBX::Network::ClientReplicator *cRep = client->findFirstChildOfType<RBX::Network::ClientReplicator>())
+        if (ARL::Network::ClientReplicator *cRep = client->findFirstChildOfType<ARL::Network::ClientReplicator>())
         {
             cRep->renderPartMovementPath(adorn);
         }
@@ -768,7 +768,7 @@ void Player::setSimulationRadius(float value)
     if (simulationRadius > value)
     {
         // client is overloaded, let's invalidate the "permanent ownership" of projectiles
-        RBX::Network::Server* server = ServiceProvider::find<RBX::Network::Server>(this);
+        ARL::Network::Server* server = ServiceProvider::find<ARL::Network::Server>(this);
         if (server && server->getNetworkOwnerJob())
         {
             server->getNetworkOwnerJob()->invalidateProjectileOwnership(getRemoteAddressAsRbxAddress());
@@ -777,7 +777,7 @@ void Player::setSimulationRadius(float value)
 
 	simulationRadius = value;
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 	// some unit tests sets the max sim radius in server script
 	if (simulationRadius > maxSimulationRadius)
 		simulationRadius = maxSimulationRadius;
@@ -853,9 +853,9 @@ void Player::setCharacter(ModelInstance* value)
 			}
 			character.reset();
 
-			if(!RBX::GameBasicSettings::singleton().inMouseLockMode())
-			if(shared_ptr<RBX::CoreGuiService> coreGuiService = shared_from(ServiceProvider::find<RBX::CoreGuiService>(this->fastDynamicCast<Instance>())))
-				if(RBX::GuiTextButton* button = Instance::fastDynamicCast<RBX::GuiTextButton>(coreGuiService->findFirstChildByName2("MouseLockLabel", true).get()))
+			if(!ARL::GameBasicSettings::singleton().inMouseLockMode())
+			if(shared_ptr<ARL::CoreGuiService> coreGuiService = shared_from(ServiceProvider::find<ARL::CoreGuiService>(this->fastDynamicCast<Instance>())))
+				if(ARL::GuiTextButton* button = Instance::fastDynamicCast<ARL::GuiTextButton>(coreGuiService->findFirstChildByName2("MouseLockLabel", true).get()))
 					button->setVisible(false);
 		}
 
@@ -876,7 +876,7 @@ void Player::setCharacter(ModelInstance* value)
             Workspace* workspace = ServiceProvider::find<Workspace>(this);
 
 			if (Players::backendProcessing(this, false)) {		// Server does it in client/server - bail on client mode.  will still execute in solo mode
-                RBXASSERT(workspace);
+                ARLASSERT(workspace);
 				
 				rebuildBackpack();								// every time a character is added - rebuild the backpack
 
@@ -911,7 +911,7 @@ void Player::setCharacter(ModelInstance* value)
 
 void Player::onCharacterDied()
 {
-	RBXASSERT(Players::backendProcessing(this));
+	ARLASSERT(Players::backendProcessing(this));
 
 	// we don't auto respawn if we are stopping auto character load
 	Players* players = ServiceProvider::find<Players>(this);
@@ -1009,7 +1009,7 @@ void Player::setCharacterAppearance(const std::string& value)
 	}
 }
 
-void Player::onLocalPlayerNotIdle(RBX::ServiceProvider* serviceProvider)
+void Player::onLocalPlayerNotIdle(ARL::ServiceProvider* serviceProvider)
 {
 	if ( Network::Players* players = serviceProvider->find<Network::Players>() )
 		if (Network::Player* player = players->getLocalPlayer())
@@ -1020,7 +1020,7 @@ void Player::onLocalPlayerNotIdle(RBX::ServiceProvider* serviceProvider)
 
 void Player::registerLocalPlayerNotIdle()
 {
-	RBXASSERT(Players::frontendProcessing(this));
+	ARLASSERT(Players::frontendProcessing(this));
 	lastActivityTime = Time::now<Time::Fast>();
 }
 
@@ -1033,7 +1033,7 @@ void Player::doPeriodicIdleCheck()
 
 	if (ServiceProvider::findServiceProvider(this))
 	{
-		RBXASSERT(Players::frontendProcessing(this));
+		ARLASSERT(Players::frontendProcessing(this));
 
 		if (!lastActivityTime.isZero())
 		{
@@ -1080,7 +1080,7 @@ void Player::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* ne
 		if (Players::frontendProcessing(newProvider))
 		{
 			onCharacterChangedFrontend();
-			RBX::Network::Player* localPlayer = Network::Players::findLocalPlayer(newProvider);
+			ARL::Network::Player* localPlayer = Network::Players::findLocalPlayer(newProvider);
 			if (localPlayer && this == localPlayer)
 				rebuildPlayerScripts();
 		}
@@ -1218,9 +1218,9 @@ static void doLoadGear(weak_ptr<Player> player, shared_ptr<Instances> instances,
 	{
 		std::for_each(instances->begin(), instances->end(), boost::bind(&Player::setGearParent, player, _1, equipped));
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Error loading character gear %s: %s", contentDescription.c_str(), e.what());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Error loading character gear %s: %s", contentDescription.c_str(), e.what());
 	}
 }
 
@@ -1263,7 +1263,7 @@ void static makeStarterGearRequests(std::string *response, std::exception *err, 
 {
 	if (!response) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Make Starter Gear Request exception: %s", err->what());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Make Starter Gear Request exception: %s", err->what());
 		return;
 	}
 
@@ -1281,7 +1281,7 @@ void Player::loadStarterGear()
 		loadedStarterGear = true;
 
 		weak_ptr<DataModel> dm(shared_from(Instance::fastDynamicCast<DataModel>(this->getRootAncestor())));
-		RBX::Http(characterAppearance).get(boost::bind(&makeStarterGearRequests, _1, _2, weak_from(this), boost::weak_ptr<DataModel>(dm)));	
+		ARL::Http(characterAppearance).get(boost::bind(&makeStarterGearRequests, _1, _2, weak_from(this), boost::weak_ptr<DataModel>(dm)));	
 	}
 }
 
@@ -1309,12 +1309,12 @@ void Player::setAppearanceParent(weak_ptr<Player> player, weak_ptr<Instance> ins
 
 	if (character)
 	{
-		if (RBX::DataModelMesh* headMesh = i->fastDynamicCast<RBX::DataModelMesh>())
+		if (ARL::DataModelMesh* headMesh = i->fastDynamicCast<ARL::DataModelMesh>())
 		{
 			if (Humanoid* humanoid = character->findFirstChildOfType<Humanoid>())
 				humanoid->setHeadMesh(headMesh);
 		}
-		else if (RBX::Decal* decal = i->fastDynamicCast<RBX::Decal>())
+		else if (ARL::Decal* decal = i->fastDynamicCast<ARL::Decal>())
 		{
 			if (Humanoid* humanoid = character->findFirstChildOfType<Humanoid>())
 				humanoid->setHeadDecal(decal);
@@ -1415,9 +1415,9 @@ static void doLoadAppearance(weak_ptr<Player> player, AsyncHttpQueue::RequestRes
 
 		std::for_each(instances->begin(), instances->end(), boost::bind(&Player::setAppearanceParent, player, _1, equipped));
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Error loading character appearance %s: %s", contentDescription.c_str(), e.what());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Error loading character appearance %s: %s", contentDescription.c_str(), e.what());
 	}
 }
 
@@ -1498,7 +1498,7 @@ void static makeAccoutrementRequests(std::string *response, std::exception *err,
 {
 	if (!response) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Make Accoutrement Request exception: %s", err->what());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Make Accoutrement Request exception: %s", err->what());
 		return;
 	}
 
@@ -1509,7 +1509,7 @@ void static makeAccoutrementRequests(std::string *response, std::exception *err,
 		{
 			d->submitTask(boost::bind(&doMakeAccoutrementRequests, *response, player, dataModel), DataModelJob::Write);
 		}
-		catch (const RBX::base_exception&)
+		catch (const ARL::base_exception&)
 		{
 		}
 	}
@@ -1617,7 +1617,7 @@ void Player::loadCharacterAppearance(bool blockingCall)
 		{
 			ContentId characterAppearanceContent(characterAppearance);
 			if (!characterAppearanceContent.reconstructUrl(GetBaseURL(), kValidCharacterAppearancePaths, ARRAYSIZE(kValidCharacterAppearancePaths))) {
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Invalid CharacterAppearance for %s (%s)", getName().c_str(), characterAppearance.c_str());
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Invalid CharacterAppearance for %s (%s)", getName().c_str(), characterAppearance.c_str());
 				return;
 			}
 			sanitizedCharacterAppearance = characterAppearanceContent.toString();
@@ -1625,7 +1625,7 @@ void Player::loadCharacterAppearance(bool blockingCall)
 
 		if (blockingCall)
 		{
-			RBX::Http(sanitizedCharacterAppearance).get(response);
+			ARL::Http(sanitizedCharacterAppearance).get(response);
 			std::vector<std::string> strings;
 			boost::split(strings, response, boost::is_any_of(";"));
 
@@ -1655,7 +1655,7 @@ void Player::loadCharacterAppearance(bool blockingCall)
 						ServiceProvider::create<ContentProvider>(this)->blockingLoadInstances(ContentId(contentIdString), characterAppearanceInstances);
 					}
 				}
-				catch(RBX::base_exception&)
+				catch(ARL::base_exception&)
 				{
 					//Quash errors related to Character Appearance loading
 				}
@@ -1676,7 +1676,7 @@ void Player::loadCharacterAppearance(bool blockingCall)
 
 			//void get(boost::function<void(std::string*, std::exception*)> handler);
 			weak_ptr<DataModel> dm(shared_from(Instance::fastDynamicCast<DataModel>(this->getRootAncestor())));
-			RBX::Http(sanitizedCharacterAppearance).get(boost::bind(&makeAccoutrementRequests, _1, _2, weak_from(this), boost::weak_ptr<DataModel>(dm)));	
+			ARL::Http(sanitizedCharacterAppearance).get(boost::bind(&makeAccoutrementRequests, _1, _2, weak_from(this), boost::weak_ptr<DataModel>(dm)));	
 		}
 	}
 	else
@@ -1707,8 +1707,8 @@ void Player::removeCharacter()
 void Player::doFirstSpawnLocationCalculation(
 		const ServiceProvider* serviceProvider, const std::string& preferedSpawnName) {
 
-	RBXASSERT(nextSpawnLocation == NULL);
-	RBXASSERT(!hasSpawnedAtLeastOnce);
+	ARLASSERT(nextSpawnLocation == NULL);
+	ARLASSERT(!hasSpawnedAtLeastOnce);
 
 	teleportSpawnName = preferedSpawnName;
 
@@ -1742,12 +1742,12 @@ void Player::move(Vector3 walkVector, bool relativeToCamera)
 		}
 		else
 		{
-			RBX::StandardOut::singleton()->print(MESSAGE_WARNING,"Player:Move called, but player currently has no humanoid.");
+			ARL::StandardOut::singleton()->print(MESSAGE_WARNING,"Player:Move called, but player currently has no humanoid.");
 		}
 	}
 	else
 	{
-		RBX::StandardOut::singleton()->print(MESSAGE_WARNING,"Player:Move called, but player currently has no character.");
+		ARL::StandardOut::singleton()->print(MESSAGE_WARNING,"Player:Move called, but player currently has no character.");
 	}
 }
 
@@ -1772,7 +1772,7 @@ void Player::luaLoadCharacter(bool inGame)
 	loadCharacter(inGame, preferredSpawn);
 
 	// loadCharacter will throw an exception if we aren't backend processing
-	RBXASSERT(Players::backendProcessing(this));
+	ARLASSERT(Players::backendProcessing(this));
 
 	// used in play solo to make game loaded signal fire
 	if (Players::frontendProcessing(this)) {
@@ -1939,11 +1939,11 @@ void Player::loadCharacter(bool inGame, std::string preferedSpawnName)
 	if (DFFlag::UseStarterPlayerCharacter && starterPlayerService != NULL) 
 	{
 		Instance *pStarterCharacter = starterPlayerService->findFirstChildByName("StarterCharacter");
-		if (pStarterCharacter && RBX::Instance::fastDynamicCast<ModelInstance>(pStarterCharacter) != NULL)
+		if (pStarterCharacter && ARL::Instance::fastDynamicCast<ModelInstance>(pStarterCharacter) != NULL)
 		{
 			if (shared_ptr<Instance> copy = pStarterCharacter->clone(EngineCreator)) 
 			{
-				model = RBX::Instance::fastSharedDynamicCast<ModelInstance>(copy);
+				model = ARL::Instance::fastSharedDynamicCast<ModelInstance>(copy);
 				pModel = model.get();
 			}
 		}
@@ -2007,7 +2007,7 @@ void Player::loadCharacter(bool inGame, std::string preferedSpawnName)
 
 		if (starterPlayerService != NULL) 
 		{
-			RBX::StarterPlayerScripts* pStarterCharacterScripts = starterPlayerService->findFirstChildOfType<RBX::StarterCharacterScripts>();
+			ARL::StarterPlayerScripts* pStarterCharacterScripts = starterPlayerService->findFirstChildOfType<ARL::StarterCharacterScripts>();
 			if (pStarterCharacterScripts)
 			{
 
@@ -2123,7 +2123,7 @@ void Player::loadCharacter(bool inGame, std::string preferedSpawnName)
 	}
 
 	if (calculatesSpawnLocationEarly()) {
-		RBXASSERT(nextSpawnLocation);
+		ARLASSERT(nextSpawnLocation);
 		SpawnerService::SpawnPlayer(workspace, model, nextSpawnLocation->cf, nextSpawnLocation->forceFieldDuration);
 		hasSpawnedAtLeastOnce = true;
 	} else {
@@ -2142,7 +2142,7 @@ void Player::setupHumanoid(shared_ptr<Humanoid> humanoid)
 	humanoid->setAutoJumpEnabled(getAutoJumpEnabled());
 
 	Workspace* workspace = ServiceProvider::find<Workspace>(this);
-	RBXASSERT(workspace);
+	ARLASSERT(workspace);
 
 	if (workspace && workspace->getCamera() && workspace->getCamera()->getCameraSubject() == NULL)
 	{
@@ -2156,7 +2156,7 @@ void Player::setupHumanoid(shared_ptr<Humanoid> humanoid)
 
 void Player::characterChildAdded(shared_ptr<Instance> child)
 {
-	if(Humanoid* humanoid = RBX::Instance::fastDynamicCast<Humanoid>(child.get()))
+	if(Humanoid* humanoid = ARL::Instance::fastDynamicCast<Humanoid>(child.get()))
 	{
 		setupHumanoid(shared_from(humanoid));
 		charChildAddedConnection.disconnect(); // only listen to the first humanoid added to character
@@ -2166,12 +2166,12 @@ void Player::characterChildAdded(shared_ptr<Instance> child)
 // only do this if it's my local Player
 void Player::onCharacterChangedFrontend()
 {
-	RBXASSERT(Players::frontendProcessing(this));
+	ARLASSERT(Players::frontendProcessing(this));
 
 	if (this == Players::findLocalPlayer(this))
 	{
 		Workspace* workspace = ServiceProvider::find<Workspace>(this);
-		RBXASSERT(workspace);
+		ARLASSERT(workspace);
 
 		if (character == NULL)
 		{
@@ -2210,10 +2210,10 @@ void copyChildrenToGui(Instance* starterItems, Instance* playerGui)
 
 void Player::createPlayerGui()
 {
-	RBX::PlayerGui* currPlayerGui = findFirstChildOfType<RBX::PlayerGui>();
+	ARL::PlayerGui* currPlayerGui = findFirstChildOfType<ARL::PlayerGui>();
 	if (!currPlayerGui)
 	{
-		shared_ptr<RBX::PlayerGui> playerGui = Creatable<Instance>::create<RBX::PlayerGui>();
+		shared_ptr<ARL::PlayerGui> playerGui = Creatable<Instance>::create<ARL::PlayerGui>();
 		playerGui.get()->setParent(this);
 		currPlayerGui = playerGui.get();
 	}
@@ -2230,7 +2230,7 @@ void Player::rebuildGui()
 	// Make sure we have a clean slate player gui, then populate it with starter gui elements
 	StarterGuiService* starterGui = ServiceProvider::find<StarterGuiService>(this);
 
-	RBX::PlayerGui* currPlayerGui = findFirstChildOfType<RBX::PlayerGui>();	
+	ARL::PlayerGui* currPlayerGui = findFirstChildOfType<ARL::PlayerGui>();	
 	if(currPlayerGui) 
 	{	
 		if (!copiedGuiOnce)
@@ -2274,10 +2274,10 @@ void Player::rebuildPlayerScripts()
 	if (!Players::frontendProcessing(this))
 		throw std::runtime_error("rebuildPlayerScripts can only be called by the client");
 
-	RBX::PlayerScripts* currPlayerScripts= findFirstChildOfType<RBX::PlayerScripts>();
+	ARL::PlayerScripts* currPlayerScripts= findFirstChildOfType<ARL::PlayerScripts>();
 	if (!currPlayerScripts)
 	{
-		shared_ptr<RBX::PlayerScripts> playerScripts = Creatable<Instance>::create<RBX::PlayerScripts>();
+		shared_ptr<ARL::PlayerScripts> playerScripts = Creatable<Instance>::create<ARL::PlayerScripts>();
 		if (playerScripts.get()) 
 		{
 			playerScripts->setParent(this);
@@ -2289,7 +2289,7 @@ void Player::rebuildPlayerScripts()
 void Player::setName(const std::string& value)
 {
 #ifndef REMOVE_PLAYER_PROTECTIONS 
-	RBX::Security::Context::current().requirePermission(RBX::Security::WritePlayer, "set a Player's name");
+	ARL::Security::Context::current().requirePermission(ARL::Security::WritePlayer, "set a Player's name");
 #endif
 	Super::setName(value);
 }
@@ -2306,7 +2306,7 @@ void Player::setUserId(int value)
 		}	
 #endif
 #ifndef REMOVE_PLAYER_PROTECTIONS 
-		RBX::Security::Context::current().requirePermission(RBX::Security::WritePlayer, "set a Player's ID");
+		ARL::Security::Context::current().requirePermission(ARL::Security::WritePlayer, "set a Player's ID");
 #endif
 		userId = value;
 		raisePropertyChanged(prop_userId);
@@ -2350,7 +2350,7 @@ void Player::setAccountAge(int value)
     }
 }
 
-void Player::setCameraMode(RBX::Camera::CameraMode value)
+void Player::setCameraMode(ARL::Camera::CameraMode value)
 {
 	if(cameraMode != value)
 	{
@@ -2432,11 +2432,11 @@ void Player::setDevEnableMouseLockOption(bool setting)
 	if (!Players::backendProcessing(this, false) && Players::frontendProcessing(this, false))
 	{
 		try {
-			RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "setDevEnableMouseLockOption");
+			ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "setDevEnableMouseLockOption");
 		} 
-		catch (RBX::base_exception& e) 
+		catch (ARL::base_exception& e) 
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficent permissions to set DevEnableMouseLockOption");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficent permissions to set DevEnableMouseLockOption");
 			throw e;
 		}
 	}
@@ -2453,11 +2453,11 @@ void Player::setDevTouchCameraMode(StarterPlayerService::DeveloperTouchCameraMov
 	if (!Players::backendProcessing(this, false) && Players::frontendProcessing(this, false))
 	{
 		try {
-			RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "setDevTouchCameraMode");
+			ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "setDevTouchCameraMode");
 		} 
-		catch (RBX::base_exception& e) 
+		catch (ARL::base_exception& e) 
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficent permissions to set DevTouchCameraMode");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficent permissions to set DevTouchCameraMode");
 			throw e;
 		}
 	}
@@ -2474,11 +2474,11 @@ void Player::setDevComputerCameraMode(StarterPlayerService::DeveloperComputerCam
 	if (!Players::backendProcessing(this, false) && Players::frontendProcessing(this, false))
 	{
 		try {
-			RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "setDevComputerCameraMode");
+			ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "setDevComputerCameraMode");
 		} 
-		catch (RBX::base_exception& e) 
+		catch (ARL::base_exception& e) 
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficent permissions to set DevComputerCameraMode");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficent permissions to set DevComputerCameraMode");
 			throw e;
 		}
 	}
@@ -2495,11 +2495,11 @@ void Player::setDevCameraOcclusionMode(StarterPlayerService::DeveloperCameraOccl
 	if (!Players::backendProcessing(this, false) && Players::frontendProcessing(this, false))
 	{
 		try {
-			RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "setDevCameraOcclusionMode");
+			ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "setDevCameraOcclusionMode");
 		} 
-		catch (RBX::base_exception& e) 
+		catch (ARL::base_exception& e) 
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficent permissions to set DevCameraOcclusionMode");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficent permissions to set DevCameraOcclusionMode");
 			throw e;
 		}
 	}
@@ -2516,11 +2516,11 @@ void Player::setDevTouchMovementMode(StarterPlayerService::DeveloperTouchMovemen
 	if (!Players::backendProcessing(this, false) && Players::frontendProcessing(this, false))
 	{
 		try {
-			RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "setDevTouchMovementMode");
+			ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "setDevTouchMovementMode");
 		} 
-		catch (RBX::base_exception& e) 
+		catch (ARL::base_exception& e) 
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficent permissions to set DevTouchMovementMode");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficent permissions to set DevTouchMovementMode");
 			throw e;
 		}
 	}
@@ -2537,11 +2537,11 @@ void Player::setDevComputerMovementMode(StarterPlayerService::DeveloperComputerM
 	if (!Players::backendProcessing(this, false) && Players::frontendProcessing(this, false))
 	{
 		try {
-			RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "setDevComputerMovementMode");
+			ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "setDevComputerMovementMode");
 		} 
-		catch (RBX::base_exception& e) 
+		catch (ARL::base_exception& e) 
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficent permissions to set DevComputerMovementMode");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficent permissions to set DevComputerMovementMode");
 			throw e;
 		}
 	}
@@ -2564,7 +2564,7 @@ void Player::setTeleportedIn(bool value)
 
 const Backpack* Player::getConstPlayerBackpack() const
 {
-	const RBX::Backpack* backpack = findConstFirstChildOfType<RBX::Backpack>();
+	const ARL::Backpack* backpack = findConstFirstChildOfType<ARL::Backpack>();
 	return backpack;
 }
 
@@ -2576,7 +2576,7 @@ Backpack* Player::getPlayerBackpack()
 void Player::verifySetParent(const Instance* instance) const
 {
 	if((instance !=NULL) && (instance->fastDynamicCast<Players>() == NULL)){
-		throw RBX::runtime_error("Parent of Player can not be changed");
+		throw ARL::runtime_error("Parent of Player can not be changed");
 	}
 	Super::verifySetParent(instance);
 }
@@ -2591,13 +2591,13 @@ void Player::requestFriendship(shared_ptr<Instance> instance)
 	shared_ptr<Player> player;
 	if(!(player = Instance::fastSharedDynamicCast<Player>(instance)))
 	{	
-		throw RBX::runtime_error("RequestFriendship should be passed a Player");
+		throw ARL::runtime_error("RequestFriendship should be passed a Player");
 	}
 
-	if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+	if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 	{
 		const std::string postData = "recipientUserId=" + boost::lexical_cast<std::string>(player->getUserID());
-		apiService->postAsync("user/request-friendship?" + postData, postData, true, RBX::PRIORITY_DEFAULT, HttpService::TEXT_PLAIN, boost::bind(&dontCareResponse), boost::bind(&dontCareResponse));
+		apiService->postAsync("user/request-friendship?" + postData, postData, true, ARL::PRIORITY_DEFAULT, HttpService::TEXT_PLAIN, boost::bind(&dontCareResponse), boost::bind(&dontCareResponse));
 	}
 
 	desc_remoteFriendServiceSignal.fireAndReplicateEvent(this, true, player->getUserID());
@@ -2608,13 +2608,13 @@ void Player::revokeFriendship(shared_ptr<Instance> instance)
 	shared_ptr<Player> player;
 	if(!(player = Instance::fastSharedDynamicCast<Player>(instance)))
 	{	
-		throw RBX::runtime_error("RevokeFriendship should be passed a Player");
+		throw ARL::runtime_error("RevokeFriendship should be passed a Player");
 	}
 
-	if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+	if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 	{
 		const std::string postData =  "requesterUserId=" + boost::lexical_cast<std::string>(player->getUserID());
-		apiService->postAsync("user/decline-friend-request?" + postData, postData, true, RBX::PRIORITY_DEFAULT, HttpService::TEXT_PLAIN, boost::bind(&dontCareResponse), boost::bind(&dontCareResponse));
+		apiService->postAsync("user/decline-friend-request?" + postData, postData, true, ARL::PRIORITY_DEFAULT, HttpService::TEXT_PLAIN, boost::bind(&dontCareResponse), boost::bind(&dontCareResponse));
 	}
 
 	desc_remoteFriendServiceSignal.fireAndReplicateEvent(this, false, player->getUserID());
@@ -2693,7 +2693,7 @@ void Player::isFriendsWith(int otherUserId, boost::function<void(bool)> resumeFu
 							}
 						}
 					}
-					catch(RBX::base_exception&)
+					catch(ARL::base_exception&)
 					{
 						//Quash exception and fallback
 					}
@@ -2702,7 +2702,7 @@ void Player::isFriendsWith(int otherUserId, boost::function<void(bool)> resumeFu
 		}
 	}
 
-    if(RBX::SocialService* socialService = ServiceProvider::create<RBX::SocialService>(this))
+    if(ARL::SocialService* socialService = ServiceProvider::create<ARL::SocialService>(this))
         socialService->isFriendsWith(getUserID(), otherUserId, resumeFunction, errorFunction);
     else
         errorFunction("Player not in Workspace");
@@ -2713,7 +2713,7 @@ void Player::isBestFriendsWith(int otherUserId, boost::function<void(bool)> resu
 }
 void Player::isInGroup(int groupId, boost::function<void(bool)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-    if(RBX::SocialService* socialService = ServiceProvider::create<RBX::SocialService>(this))
+    if(ARL::SocialService* socialService = ServiceProvider::create<ARL::SocialService>(this))
         socialService->isInGroup(getUserID(), groupId, resumeFunction, errorFunction);
     else
         errorFunction("Player not in Workspace");
@@ -2721,7 +2721,7 @@ void Player::isInGroup(int groupId, boost::function<void(bool)> resumeFunction, 
 
 void Player::getRankInGroup(int groupId, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	if(RBX::SocialService* socialService = ServiceProvider::create<RBX::SocialService>(this))
+	if(ARL::SocialService* socialService = ServiceProvider::create<ARL::SocialService>(this))
 	{
 		socialService->getRankInGroup(getUserID(), groupId, resumeFunction, errorFunction);
 	}
@@ -2731,7 +2731,7 @@ void Player::getRankInGroup(int groupId, boost::function<void(int)> resumeFuncti
 
 void Player::getRoleInGroup(int groupId, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	if(RBX::SocialService* socialService = ServiceProvider::create<RBX::SocialService>(this))
+	if(ARL::SocialService* socialService = ServiceProvider::create<ARL::SocialService>(this))
 	{
 		socialService->getRoleInGroup(getUserID(), groupId, resumeFunction, errorFunction);
 	}
@@ -2743,7 +2743,7 @@ void Player::getFriendsOnline(int maxFriends, boost::function<void(shared_ptr<co
 {
 	if(maxFriends > 200)
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "GetFriendsOnline only returns a maximum of 200 friends");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "GetFriendsOnline only returns a maximum of 200 friends");
 	}
 	if(Players* players = ServiceProvider::find<Players>(this))
 	{
@@ -2752,7 +2752,7 @@ void Player::getFriendsOnline(int maxFriends, boost::function<void(shared_ptr<co
 			errorFunction("GetFriendsOnline must be invoked on the Local Player");
 		}
 	}
-	if(RBX::FriendService* friendService = ServiceProvider::create<RBX::FriendService>(this)) 
+	if(ARL::FriendService* friendService = ServiceProvider::create<ARL::FriendService>(this)) 
 	{
 		friendService->getFriendsOnline(maxFriends, resumeFunction, errorFunction);
 	}
@@ -2804,7 +2804,7 @@ void Player::kick(std::string msg)
 		// set up message
 		if (Network::Players::serverIsPresent(this)) // check for play solo
 		{
-			const RBX::SystemAddress& target = getRemoteAddressAsRbxAddress();
+			const ARL::SystemAddress& target = getRemoteAddressAsRbxAddress();
 
 			// respond to client
 			Reflection::EventArguments args(1);
@@ -2826,7 +2826,7 @@ void Player::kick(std::string msg)
 		if(character)
 			character->destroy();
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		StandardOut::singleton()->printf(MESSAGE_WARNING, "Player:Kick() failed to destroy character: %s", e.what());
 	}
@@ -2842,7 +2842,7 @@ void Player::kick(std::string msg)
 		}
 		else
 		{
-			TimerService* ts = RBX::ServiceProvider::find<TimerService>(this);
+			TimerService* ts = ARL::ServiceProvider::find<TimerService>(this);
 			if (ts && delay) 
 			{
 				ts->delay(boost::bind(&Players::disconnectPlayer, players, userId, Replicator::DisconnectReason_LuaKick), 1.0f);
@@ -2880,7 +2880,7 @@ void Player::handleTeleportInternalSignal(TeleportService::TeleportState telepor
 
 void Player::handleTeleportSignalBackend(TeleportService::TeleportState teleportState)
 {
-	RBXASSERT(Players::backendProcessing(this));
+	ARLASSERT(Players::backendProcessing(this));
 
 	if (teleportState == TeleportService::TeleportState_InProgress || 
 		teleportState == TeleportService::TeleportState_Started ||
@@ -2903,7 +2903,7 @@ void Player::onTeleportInternal(TeleportService::TeleportState teleportState, sh
 
 void Player::loadChatInfo() {
 	boost::function0<void> f = boost::bind(&Player::loadChatInfoInternal, weak_from(this));
-	boost::function0<void> g = boost::bind(&StandardOut::print_exception, f, RBX::MESSAGE_ERROR, false);
+	boost::function0<void> g = boost::bind(&StandardOut::print_exception, f, ARL::MESSAGE_ERROR, false);
 	boost::thread(thread_wrapper(g, "rbx_getPlayerMetaData"));
 }
 
@@ -2914,7 +2914,7 @@ void Player::loadChatInfoInternal(weak_ptr<Player> weakPlayer) {
 	while (trying) {
 		try {
 			std::string response;
-			RBX::Http(GetPlayerGameDataUrl(GetBaseURL(), player->getUserID())).get(response);
+			ARL::Http(GetPlayerGameDataUrl(GetBaseURL(), player->getUserID())).get(response);
             
             static const char* kChat = "ChatFilter";
 			std::string chatFilterTypeString;
@@ -2922,7 +2922,7 @@ void Player::loadChatInfoInternal(weak_ptr<Player> weakPlayer) {
         	rapidjson::Document doc;
         	doc.Parse<rapidjson::kParseDefaultFlags>(response.c_str());
         	FASTLOG(FLog::Network, "Completed Player's JSON parsing...");
-        	RBXASSERT(doc.HasMember(kChat));
+        	ARLASSERT(doc.HasMember(kChat));
         
         	chatFilterTypeString = doc[kChat].GetString();
         	FASTLOGS(FLog::Network, "loadChatInfoInternal.chatFilterType: %s", chatFilterTypeString);
@@ -2981,7 +2981,7 @@ bool Player::calculatesSpawnLocationEarly() const {
 	return forceEarlySpawnLocationCalculation;
 }
 
-namespace RBX {
+namespace ARL {
 namespace Reflection {
 template<>
 EnumDesc<Player::MembershipType>::EnumDesc()
@@ -3028,5 +3028,5 @@ bool StringConverter<Player::ChatMode>::convertToValue(const std::string& text, 
 	return Reflection::EnumDesc<Player::ChatMode>::singleton().convertToValue(text.c_str(),value);
 }
 
-}//namespace RBX
+}//namespace ARL
 

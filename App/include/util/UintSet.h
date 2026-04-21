@@ -3,7 +3,7 @@
 #include "Util/DoubleEndedVector.h"
 #include "boost/cstdint.hpp"
 
-namespace RBX {
+namespace ARL {
 
 /**
  * Attempts to outperform std::set<unsigned int> by using a bitset. This will

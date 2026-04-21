@@ -4,7 +4,7 @@
 #include "Humanoid/Seated.h"
 #include "Humanoid/Humanoid.h"
 
-namespace RBX {
+namespace ARL {
 namespace HUMAN {
 
 const char* const sSeated = "Seated";

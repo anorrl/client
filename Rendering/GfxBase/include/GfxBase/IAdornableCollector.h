@@ -7,10 +7,10 @@
 
 LOGGROUP(AdornRenderStats);
 
-namespace RBX {
+namespace ARL {
 	class Adorn;
 
-	class RBXInterface IAdornableCollector
+	class ARLInterface IAdornableCollector
 	{
 	friend class IAdornable;
 	private:
@@ -34,4 +34,4 @@ namespace RBX {
 		void append3dSortedAdornItems(std::vector<AdornableDepth>& destination, const Camera* camera) const;
 	};
 
-}  // namespace RBX
+}  // namespace ARL

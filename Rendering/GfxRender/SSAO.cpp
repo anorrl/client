@@ -17,7 +17,7 @@
 
 LOGGROUP(Graphics)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -57,7 +57,7 @@ SSAO::SSAO(VisualEngine* visualEngine)
         }
 
     noise = visualEngine->getDevice()->createTexture(Texture::Type_2D, Texture::Format_RGBA8, 4, 4, 1, 1, Texture::Usage_Static);
-    RBXASSERT(noise);
+    ARLASSERT(noise);
 
 	noise->upload(0, 0, TextureRegion(0, 0, 4, 4), noiseData, sizeof(noiseData));
 }
@@ -81,7 +81,7 @@ void SSAO::update(SSAOLevel level, unsigned int width, unsigned int height)
             {
                 data.reset(createData(width, height));
 			}
-            catch (const RBX::base_exception& e)
+            catch (const ARL::base_exception& e)
             {
                 FASTLOGS(FLog::Graphics, "SSAO: Error creating targets: %s", e.what());
 
@@ -95,14 +95,14 @@ void SSAO::update(SSAOLevel level, unsigned int width, unsigned int height)
 
 void SSAO::renderCompute(DeviceContext* context)
 {
-	RBXASSERT(currentLevel != ssaoNone);
+	ARLASSERT(currentLevel != ssaoNone);
 
     SceneManager::GBuffer* gb = visualEngine->getSceneManager()->getGBuffer();
-    RBXASSERT(gb);
+    ARLASSERT(gb);
 
     PIX_SCOPE(context, "SSAO/renderCompute");
-    RBXPROFILER_SCOPE("Render", "SSAO::renderCompute");
-	RBXPROFILER_SCOPE("GPU", "SSAO::renderCompute");
+    ARLPROFILER_SCOPE("Render", "SSAO::renderCompute");
+	ARLPROFILER_SCOPE("GPU", "SSAO::renderCompute");
 
     // Downsample depth
     context->bindFramebuffer(data->depthHalfFB.get());
@@ -150,13 +150,13 @@ void SSAO::renderCompute(DeviceContext* context)
 
 void SSAO::renderApply(DeviceContext* context)
 {
-    RBXASSERT(currentLevel != ssaoNone);
+    ARLASSERT(currentLevel != ssaoNone);
     SceneManager::GBuffer* gb = visualEngine->getSceneManager()->getGBuffer();
-    RBXASSERT(gb);
+    ARLASSERT(gb);
 	
     PIX_SCOPE(context, "SSAO/renderApply");
-    RBXPROFILER_SCOPE("Render", "SSAO::renderApply");
-	RBXPROFILER_SCOPE("GPU", "SSAO::renderApply");
+    ARLPROFILER_SCOPE("Render", "SSAO::renderApply");
+	ARLPROFILER_SCOPE("GPU", "SSAO::renderApply");
 
     // Composite SSAO
     if (currentLevel == ssaoFullBlank)
@@ -183,13 +183,13 @@ void SSAO::renderApply(DeviceContext* context)
 
 void SSAO::renderComposit(DeviceContext* context)
 {
-    RBXASSERT(currentLevel != ssaoNone);
+    ARLASSERT(currentLevel != ssaoNone);
     SceneManager::GBuffer* gb = visualEngine->getSceneManager()->getGBuffer();
-    RBXASSERT(gb);
+    ARLASSERT(gb);
 
     PIX_SCOPE(context, "SSAO/renderComposit");
-    RBXPROFILER_SCOPE("Render", "SSAO::renderComposit");
-	RBXPROFILER_SCOPE("GPU", "SSAO::renderComposit");
+    ARLPROFILER_SCOPE("Render", "SSAO::renderComposit");
+	ARLPROFILER_SCOPE("GPU", "SSAO::renderComposit");
 
     if (ScreenSpaceEffect::renderFullscreenBegin(context, visualEngine, "PassThroughVS", "PassThroughFS", BlendState::Mode_None, data->width, data->height))
     {

@@ -6,7 +6,7 @@
 #include "V8DataModel/PartInstance.h"
 #include "GfxBase/Adorn.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sSparkles = "Sparkles";
 

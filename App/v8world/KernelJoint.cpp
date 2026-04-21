@@ -8,7 +8,7 @@
 #include "V8Kernel/Connector.h"
 #include "V8Kernel/Body.h"
 
-namespace RBX {
+namespace ARL {
 
 
 void KernelJoint::putInKernel(Kernel* _kernel)
@@ -33,7 +33,7 @@ void KernelJoint::removeFromKernel()
 
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

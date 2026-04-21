@@ -22,7 +22,7 @@ LOGGROUP(ScriptContextRemove)
 LOGGROUP(ScriptContextAdd)
 LOGGROUP(ScriptContextClose)
 
-namespace RBX
+namespace ARL
 {
 	class LuaSourceContainer;
 	class LuaAllocator;
@@ -74,11 +74,11 @@ namespace RBX
 				int lineNumber;
 			};
 
-			RBX::Security::Identities identity;
+			ARL::Security::Identities identity;
 			Scripts::Continuations continuations;
 			boost::function<std::string(const std::string&)> filter;	// may throw a LuaSyntaxError
 
-			ScriptStartOptions():identity(RBX::Security::GameScript_)
+			ScriptStartOptions():identity(ARL::Security::GameScript_)
 			{
 			}
 		};
@@ -86,7 +86,7 @@ namespace RBX
 	private:
 		typedef DescribedCreatable<ScriptContext, Instance, sScriptContext, Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
 
-		class ScriptImpersonator : public RBX::Security::Impersonator
+		class ScriptImpersonator : public ARL::Security::Impersonator
 		{
 		public:
 			ScriptImpersonator(lua_State *thread);
@@ -106,11 +106,11 @@ namespace RBX
             int gcCount;
         };
 
-		typedef boost::array<GlobalState, RBX::Security::COUNT_VM_Classes> GlobalStates; // separate Lua top-level states
+		typedef boost::array<GlobalState, ARL::Security::COUNT_VM_Classes> GlobalStates; // separate Lua top-level states
 		GlobalStates globalStates;
 		Lua::WeakThreadRef commandLineSandbox;
 		std::set<BaseScript*> scripts;
-		RBX::Time nextPendingScripts;
+		ARL::Time nextPendingScripts;
 		struct ScriptStart
 		{
 			shared_ptr<BaseScript> script;
@@ -130,8 +130,8 @@ namespace RBX
             {
 #ifdef _WIN32
                 size_t localValue[2] = {reinterpret_cast<size_t>(ptr), ~reinterpret_cast<size_t>(ptr)};
-                localValue[0] ^= localValue[1]*RBX_BUILDSEED | 20151112;
-                localValue[1] ^= localValue[0]*20151112 | RBX_BUILDSEED;
+                localValue[0] ^= localValue[1]*ARL_BUILDSEED | 20151112;
+                localValue[1] ^= localValue[0]*20151112 | ARL_BUILDSEED;
                 value[0] = localValue[0];
                 value[1] = localValue[1];
 #endif
@@ -141,8 +141,8 @@ namespace RBX
             {
 #ifdef _WIN32
                 size_t localValue[2] = {value[0], value[1]};
-                localValue[1] ^= localValue[0]*20151112 | RBX_BUILDSEED;
-                localValue[0] ^= localValue[1]*RBX_BUILDSEED | 20151112;
+                localValue[1] ^= localValue[0]*20151112 | ARL_BUILDSEED;
+                localValue[0] ^= localValue[1]*ARL_BUILDSEED | 20151112;
                 return !((reinterpret_cast<size_t>(ptr)+localValue[1])
                     ^ (~reinterpret_cast<size_t>(ptr)+localValue[0]));
 #else
@@ -248,7 +248,7 @@ namespace RBX
 
 		////////////////////////////////////////////////
 		// Helpers and utilities
-		Reflection::Variant evaluateStudioCommandItem(const char* itemToEvaluate, shared_ptr<RBX::LuaSourceContainer> script);
+		Reflection::Variant evaluateStudioCommandItem(const char* itemToEvaluate, shared_ptr<ARL::LuaSourceContainer> script);
 		static bool checkSyntax(const std::string& code, int& line, std::string& errorMessage);
 		static lua_State* getGlobalState(lua_State* thread);
 		static ScriptContext& getContext(lua_State* thread);
@@ -271,9 +271,9 @@ namespace RBX
 
 		/////////////////////////////////////////////////
 		// Calls that make lua run/resume
-		void executeInNewThread(RBX::Security::Identities identity, const ProtectedString& script, const char* name);
-		std::auto_ptr<Reflection::Tuple> executeInNewThread(RBX::Security::Identities identity, const ProtectedString& script, const char* name, const Reflection::Tuple& arguments);
-		void executeInNewThreadWithExtraGlobals(RBX::Security::Identities identity,
+		void executeInNewThread(ARL::Security::Identities identity, const ProtectedString& script, const char* name);
+		std::auto_ptr<Reflection::Tuple> executeInNewThread(ARL::Security::Identities identity, const ProtectedString& script, const char* name, const Reflection::Tuple& arguments);
+		void executeInNewThreadWithExtraGlobals(ARL::Security::Identities identity,
 			const ProtectedString& script, const char* name,
 			const std::map<std::string, shared_ptr<Instance> >& extraGlobals);
 		
@@ -285,7 +285,7 @@ namespace RBX
 		typedef enum { Success, Yield, Error } Result;
 		// Resumes the thread. Reports errors and queues yielding threads for later execution
 		// NOTE: The caller is reponsible for balancing the stack
-		Result resume(RBX::Lua::ThreadRef thread, int narg);
+		Result resume(ARL::Lua::ThreadRef thread, int narg);
 		
 		/////////////////////////////////////////////
 		// Stats
@@ -330,14 +330,14 @@ namespace RBX
 		void resumeWaitingScripts(Time expirationTime);
 
 		static void sandboxThread(lua_State* thread);
-		static void setThreadIdentityAndSandbox(lua_State* thread, RBX::Security::Identities identity, shared_ptr<BaseScript> script);
-		static RBX::Security::Identities getThreadIdentity(lua_State* thread);
+		static void setThreadIdentityAndSandbox(lua_State* thread, ARL::Security::Identities identity, shared_ptr<BaseScript> script);
+		static ARL::Security::Identities getThreadIdentity(lua_State* thread);
 
 		// Executes a script, throws an std::exception on error
 		// The script is spawned from the global root thread, but it is "sandboxed" to the extent that global declarations
 		// don't affect other threads
 		// If globalStateToExecuteIn is NULL we get the global state to execute in by our current identity, which is the first arg to this function
-		void executeInNewThread(RBX::Security::Identities identity, const ProtectedString& script, const char* name,
+		void executeInNewThread(ARL::Security::Identities identity, const ProtectedString& script, const char* name,
 			boost::function1<size_t, lua_State*> pushArguments, 
 			boost::function2<void, lua_State*, size_t> readImmediateResults, 
 			Scripts::Continuations continuations,
@@ -368,7 +368,7 @@ namespace RBX
 		static void hook(lua_State *L, lua_Debug *ar);
 		void reportError(lua_State* thread);
 
-		lua_State* getGlobalState(RBX::Security::Identities identity);
+		lua_State* getGlobalState(ARL::Security::Identities identity);
 
 	private:
 		static int print(lua_State *L);
@@ -453,13 +453,13 @@ namespace RBX
 		~StackBalanceCheck();
 		void cancel() { cancelled = true; }
 	};
-#define RBXASSERT_BALLANCED_LUA_STACK(L) StackBalanceCheck stackBalanceCheck(L)
-#define RBXASSERT_BALLANCED_LUA_STACK2(L) StackBalanceCheck stackBalanceCheck2(L)
+#define ARLASSERT_BALLANCED_LUA_STACK(L) StackBalanceCheck stackBalanceCheck(L)
+#define ARLASSERT_BALLANCED_LUA_STACK2(L) StackBalanceCheck stackBalanceCheck2(L)
 #define CANCEL_BALLANCED_LUA_STACK_CHECK() stackBalanceCheck.cancel()
 #define CANCEL_BALLANCED_LUA_STACK_CHECK2() stackBalanceCheck2.cancel()
 #else
-#define RBXASSERT_BALLANCED_LUA_STACK(L) ((void)0)
-#define RBXASSERT_BALLANCED_LUA_STACK2(L) ((void)0)
+#define ARLASSERT_BALLANCED_LUA_STACK(L) ((void)0)
+#define ARLASSERT_BALLANCED_LUA_STACK2(L) ((void)0)
 #define CANCEL_BALLANCED_LUA_STACK_CHECK() ((void)0)
 #define CANCEL_BALLANCED_LUA_STACK_CHECK2() ((void)0)
 #endif

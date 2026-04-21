@@ -15,7 +15,7 @@
 
 LOGGROUP(MouseCommandLifetime)
 
-namespace RBX {
+namespace ARL {
 	class PartInstance;
 	class PVInstance;
 	class Workspace;
@@ -141,4 +141,4 @@ namespace RBX {
 		virtual const std::string getCursorName() const	{return isAdvArrowToolEnabled() ? "advCursor-default" : "ArrowCursor";}
 	};
 
-} // namespace RBX
+} // namespace ARL

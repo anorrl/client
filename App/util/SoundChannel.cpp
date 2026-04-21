@@ -31,32 +31,32 @@ DYNAMIC_FASTFLAGVARIABLE(SoundFailedToLoadContext, false)
 DYNAMIC_FASTFLAGVARIABLE(MinMaxDistanceEnabled, false)
 DYNAMIC_FASTFLAGVARIABLE(RollOffModeEnabled, false)
 
-namespace RBX
+namespace ARL
 {
 
 namespace Reflection
 {
 template<>
-EnumDesc<RBX::Soundscape::RollOffMode>::EnumDesc()
+EnumDesc<ARL::Soundscape::RollOffMode>::EnumDesc()
 	:EnumDescriptor("RollOffMode")
 {
-	addPair(RBX::Soundscape::Inverse, "Inverse");
-	addPair(RBX::Soundscape::Linear, "Linear");
+	addPair(ARL::Soundscape::Inverse, "Inverse");
+	addPair(ARL::Soundscape::Linear, "Linear");
 }
 template<>
-RBX::Soundscape::RollOffMode& Variant::convert<RBX::Soundscape::RollOffMode>(void)
+ARL::Soundscape::RollOffMode& Variant::convert<ARL::Soundscape::RollOffMode>(void)
 {
-	return genericConvert<RBX::Soundscape::RollOffMode>();
+	return genericConvert<ARL::Soundscape::RollOffMode>();
 }
 } //namespace Reflection
 template<>
-bool StringConverter<RBX::Soundscape::RollOffMode>::convertToValue(const std::string& text, RBX::Soundscape::RollOffMode& value)
+bool StringConverter<ARL::Soundscape::RollOffMode>::convertToValue(const std::string& text, ARL::Soundscape::RollOffMode& value)
 {
-	return Reflection::EnumDesc<RBX::Soundscape::RollOffMode>::singleton().convertToValue(text.c_str(),value);
+	return Reflection::EnumDesc<ARL::Soundscape::RollOffMode>::singleton().convertToValue(text.c_str(),value);
 }
 }
 
-namespace RBX
+namespace ARL
 {
 
 void registerSound()
@@ -140,8 +140,8 @@ SoundChannel::~SoundChannel()
 {
 	FASTLOG3(DFLog::SoundTrace, "SoundChannel::~SoundChannel(%p, %p, %p)", this, fmod_channel, sound.get());
     releaseChannel();
-	RBXASSERT(fmod_channel==NULL);
-	RBXASSERT(!sound);
+	ARLASSERT(fmod_channel==NULL);
+	ARLASSERT(!sound);
 }
 
 
@@ -153,7 +153,7 @@ void SoundChannel::releaseChannel()
 #ifdef _DEBUG
 		SoundChannel* oldSound;
 		SoundService::checkResultNoThrow(fmod_channel->getUserData(reinterpret_cast<void**>(&oldSound)), "getUserData", this, fmod_channel);
-		RBXASSERT(oldSound==0 || oldSound==this);
+		ARLASSERT(oldSound==0 || oldSound==this);
 #endif
             SoundService::checkResultNoThrow(fmod_channel->setUserData(reinterpret_cast<void*>(NULL)), "setUserData release", this, fmod_channel);
 		fmod_channel = NULL;
@@ -192,7 +192,7 @@ void SoundChannel::updateListenState(const Time::Interval& timeSinceLastStep)
 			if (!getLooped() && (position > soundLength) && sound)
 			{
 				position = 0;
-				DataModel::scoped_write_request request(RBX::DataModel::get(this));
+				DataModel::scoped_write_request request(ARL::DataModel::get(this));
 				stop();
 			}
 			else
@@ -201,12 +201,12 @@ void SoundChannel::updateListenState(const Time::Interval& timeSinceLastStep)
 				{
 					numOfTimesLooped++;
 
-					DataModel::scoped_write_request request(RBX::DataModel::get(this));
+					DataModel::scoped_write_request request(ARL::DataModel::get(this));
 					soundLoopedSignal(getSoundId().toString(), numOfTimesLooped);
 				}
 
 				position = fmod(position, (soundLength ? soundLength : 1));
-				DataModel::scoped_write_request request(RBX::DataModel::get(this));
+				DataModel::scoped_write_request request(ARL::DataModel::get(this));
 				setSoundPosition(position);
 			}
 		}
@@ -220,7 +220,7 @@ void SoundChannel::updateListenState(const Time::Interval& timeSinceLastStep)
 		{
 			numOfTimesLooped++;
 
-			DataModel::scoped_write_request request(RBX::DataModel::get(this));
+			DataModel::scoped_write_request request(ARL::DataModel::get(this));
 			soundLoopedSignal(getSoundId().toString(), numOfTimesLooped);
 		}
 
@@ -251,7 +251,7 @@ void SoundChannel::onAncestorChanged(const AncestorChanged& event)
 			if (!isInWorkspace)
 			{
 				FASTLOG1(DFLog::SoundTrace, "Play on remove with SoundChannel %p", this);
-				RBXASSERT(oldWorkspace);
+				ARLASSERT(oldWorkspace);
                 loadSound(oldWorkspace, true);
 			}
 		}
@@ -314,7 +314,7 @@ void SoundChannel::onServiceProvider(ServiceProvider* oldProvider, ServiceProvid
 
 		lastTimePosReplication.reset();
 
-		if (RBX::Network::Players::clientIsPresent(newProvider))
+		if (ARL::Network::Players::clientIsPresent(newProvider))
 		{
 			// only get initial position update from server if sound is replicated to each client
 			if (isHeardGlobally())
@@ -337,7 +337,7 @@ namespace {
 			FASTLOGS(FLog::Sound, "onSoundLoaded Failed to load %s", soundId.c_str());
 			if (DFFlag::SoundFailedToLoadContext && context && !soundId.isNull())
 			{
-				RBX::StandardOut::singleton()->printf(MESSAGE_ERROR, "Sound failed to load %s : %s", context->getFullName().c_str(), soundId.c_str());
+				ARL::StandardOut::singleton()->printf(MESSAGE_ERROR, "Sound failed to load %s : %s", context->getFullName().c_str(), soundId.c_str());
 			}
 			break;
 		case AsyncHttpQueue::Waiting:
@@ -408,7 +408,7 @@ bool SoundChannel::isPlaying() const
 	FASTLOG2(DFLog::SoundTrace, "SoundChannel::isPlaying(%p, %p)", this, fmod_channel);
 	if (!fmod_channel)
 	{
-		if (RBX::Network::Players::clientIsPresent(this, false))
+		if (ARL::Network::Players::clientIsPresent(this, false))
 		{
 			return false;
 		}
@@ -451,7 +451,7 @@ bool SoundChannel::isSoundLoaded() const
 void SoundChannel::loadSound(const Instance *context, bool shouldPlayOnLoad)
 {
 	FASTLOG3(DFLog::SoundTrace, "SoundChannel::loadSound(%p, %p, %d)", this, context, shouldPlayOnLoad);
-	if (!SoundService::soundDisabled && !soundDisabled && RBX::GameSettings::singleton().soundEnabled)
+	if (!SoundService::soundDisabled && !soundDisabled && ARL::GameSettings::singleton().soundEnabled)
 	{
 		ContentProvider* contentProvider = ServiceProvider::create<ContentProvider>(context);
 		FASTLOG2(DFLog::SoundTrace, "SoundChannel::loadSound(%p), contentProvider = %p", this, contentProvider);
@@ -571,9 +571,9 @@ double SoundChannel::getSoundPosition() const
 
 void SoundChannel::setSoundPositionLua(double value)
 {
-	if (isHeardGlobally() && !RBX::Network::Players::serverIsPresent(this))
+	if (isHeardGlobally() && !ARL::Network::Players::serverIsPresent(this))
 	{
-		if (RBX::Network::Players::clientIsPresent(this))
+		if (ARL::Network::Players::clientIsPresent(this))
 		{	
 			throw std::runtime_error("Sound.TimePosition was set from local script while either in Workspace or SoundService. Only use a server script to set TimePosition when a sound is in these locations.");
 			return;
@@ -781,14 +781,14 @@ void SoundChannel::setPlayCount(int value)
 	switch (value)
 	{
 	case -1:
-		if (isHeardGlobally() && RBX::Network::Players::clientIsPresent(this))
+		if (isHeardGlobally() && ARL::Network::Players::clientIsPresent(this))
 		{
 			soundPositionSeconds = 0;
 		}
 		stop();
 		break;
 	case 0:
-		if (isHeardGlobally() && RBX::Network::Players::clientIsPresent(this))
+		if (isHeardGlobally() && ARL::Network::Players::clientIsPresent(this))
 		{
 			soundPositionSeconds = getSoundPosition();
 		}
@@ -876,9 +876,9 @@ void SoundChannel::onChannelEnd(const FMOD_CHANNEL *channel)
 		if (sound)
 		{
 			sound->unacquire();
-				if (DataModel* dm = RBX::DataModel::get(this)) 
+				if (DataModel* dm = ARL::DataModel::get(this)) 
 				{
-					dm->submitTask(boost::bind(&SoundChannel::soundEnded, shared_from(this), getSoundId().toString()), RBX::DataModelJob::Write);
+					dm->submitTask(boost::bind(&SoundChannel::soundEnded, shared_from(this), getSoundId().toString()), ARL::DataModelJob::Write);
 				}
 			}
 		}
@@ -895,7 +895,7 @@ FMOD_RESULT F_CALLBACK callbackChannelEnd(FMOD_CHANNELCONTROL *channelControl, F
 		if (callbacktype==FMOD_CHANNELCONTROL_CALLBACK_END)
 	{
 		// TODO: For some reason not all channels call this function... I have no idea why.  The result is that we have some sound "leaks" reported by getSoundStats()
-		RBX::Soundscape::SoundChannel* sound;
+		ARL::Soundscape::SoundChannel* sound;
 		FMOD_RESULT fmodResult = FMOD_Channel_GetUserData(channel, reinterpret_cast<void**>(&sound));
 		SoundService::checkResultNoThrow(fmodResult, "FMOD_Channel_GetUserData", NULL, channel);
 		if (FMOD_OK == fmodResult && sound)
@@ -926,7 +926,7 @@ bool SoundChannel::isHeardGlobally() const
 {
 	FASTLOG1(DFLog::SoundTrace, "SoundChannel::isHeardGlobally(%p)", this);
 
-	if (Workspace* workspace = RBX::ServiceProvider::find<Workspace>(this))
+	if (Workspace* workspace = ARL::ServiceProvider::find<Workspace>(this))
 	{
 		return isDescendantOf(workspace);
 	}
@@ -1010,7 +1010,7 @@ void SoundChannel::playSound(const Instance* context, bool isResuming)
 					}
 					else
 					{
-						RBXASSERT(sound);
+						ARLASSERT(sound);
 						if (!sound) // just in case we missed some case during testing
 						{
 							return;
@@ -1044,7 +1044,7 @@ void SoundChannel::playSound(const Instance* context, bool isResuming)
 						sound = soundService->loadSound(getSoundId(), is3D);
 						sound->acquire();
 						FMOD::Sound* fmod_sound = sound->tryLoad(context);
-						RBXASSERT(fmod_sound);
+						ARLASSERT(fmod_sound);
 						if (!fmod_sound)
 						{
                             FASTLOGS(FLog::Sound, "SoundId %s return no data.", getSoundId().c_str());
@@ -1099,7 +1099,7 @@ void SoundChannel::playSound(const Instance* context, bool isResuming)
 				}
 			}
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
 			// What should we do in case of an error?  Throwing this exception further might be a problem
 			StandardOut::singleton()->print(MESSAGE_ERROR, e);
@@ -1174,7 +1174,7 @@ void SoundChannel::pause()
 
 bool SoundChannel::controlledByAndIsServer() const
 {
-	return SoundService::soundDisabled && RBX::Network::Players::serverIsPresent(this) && isHeardGlobally();
+	return SoundService::soundDisabled && ARL::Network::Players::serverIsPresent(this) && isHeardGlobally();
 }
 
 void SoundChannel::stop()
@@ -1208,11 +1208,11 @@ void SoundChannel::stop()
 }
 
 } // namespace Soundscape
-} // namespace RBX
+} // namespace ARL
 
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

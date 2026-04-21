@@ -8,7 +8,7 @@
 
 #include "StringConv.h"
 
-namespace RBX { namespace Voxel2 {
+namespace ARL { namespace Voxel2 {
 
     static double getNumberOr(const rapidjson::Value& node, double def)
 	{
@@ -66,7 +66,7 @@ namespace RBX { namespace Voxel2 {
 		{
 			load(file);
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
 			StandardOut::singleton()->printf(MESSAGE_ERROR, "MaterialTable: failed to load %s: %s", file.c_str(), e.what());
 
@@ -105,7 +105,7 @@ namespace RBX { namespace Voxel2 {
        std::ifstream in(utf8_decode(file).c_str(), std::ios::in | std::ios::binary);
 
         if (!in)
-            throw RBX::runtime_error("Error opening file %s", file.c_str());
+            throw ARL::runtime_error("Error opening file %s", file.c_str());
 
         std::ostringstream data;
         data << in.rdbuf();
@@ -116,7 +116,7 @@ namespace RBX { namespace Voxel2 {
         root.Parse<kParseDefaultFlags>(datastring.c_str());
 
         if (root.HasParseError())
-			throw RBX::runtime_error("Failed to parse JSON: %s at %d", root.GetParseError(), int(root.GetErrorOffset()));
+			throw ARL::runtime_error("Failed to parse JSON: %s at %d", root.GetParseError(), int(root.GetErrorOffset()));
 
 		std::string platform = getStringOr(root["platform"], "");
 		const Value& atlasJson = root["atlas"][platform.c_str()];
@@ -131,7 +131,7 @@ namespace RBX { namespace Voxel2 {
 		}
 		else
 		{
-			throw RBX::runtime_error("Failed to find atlas definition for platform %s", platform.c_str());
+			throw ARL::runtime_error("Failed to find atlas definition for platform %s", platform.c_str());
 		}
 
         const Value& materialsJson = root["materials"];

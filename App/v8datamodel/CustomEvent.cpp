@@ -3,7 +3,7 @@
 #include "V8DataModel/CustomEvent.h"
 #include "reflection/reflection.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sCustomEvent = "CustomEvent";
 

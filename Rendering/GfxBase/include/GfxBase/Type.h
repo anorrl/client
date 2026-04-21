@@ -1,5 +1,5 @@
 #pragma once
-namespace RBX {
+namespace ARL {
 
 	namespace Text
 	{

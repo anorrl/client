@@ -9,7 +9,7 @@
 DYNAMIC_FASTFLAG(FixAnchoredSeatingPosition)
 DYNAMIC_FASTFLAG(FixSeatingWhileSitting)
 
-namespace RBX {
+namespace ARL {
 
 class Humanoid;
 class Weld;
@@ -36,7 +36,7 @@ class SeatImpl : public ActionStation<Base>
 						&&	!torso->computeNetworkOwnerIsSomeoneElse()
 						&&	Workspace::contextInWorkspace(torso)
 						&&	Workspace::contextInWorkspace(this)) {
-						RBXASSERT(h->getTorsoSlow()->getPartPrimitive()->getAssembly() != this->getPartPrimitive()->getAssembly());
+						ARLASSERT(h->getTorsoSlow()->getPartPrimitive()->getAssembly() != this->getPartPrimitive()->getAssembly());
 						createSeatWeld(h);
 					}
 				}
@@ -48,9 +48,9 @@ class SeatImpl : public ActionStation<Base>
 			if (!h || !h->getTorsoSlow() || (DFFlag::FixSeatingWhileSitting && h->getSit()))
 				return;
 
-			RBXASSERT(h->getTorsoSlow()); // we just checked for this
+			ARLASSERT(h->getTorsoSlow()); // we just checked for this
 			CoordinateFrame originalSeatCoord = this->getCoordinateFrame();
-			RBXASSERT(this->getCoordinateFrame() == this->getPartPrimitive()->getCoordinateFrame());
+			ARLASSERT(this->getCoordinateFrame() == this->getPartPrimitive()->getCoordinateFrame());
 
 			PartInstance* torsoSlow = h->getTorsoSlow();
 			Primitive* torso = torsoSlow->getPartPrimitive();
@@ -59,7 +59,7 @@ class SeatImpl : public ActionStation<Base>
 			if (!torsoAssembly)
 				return;
 
-			RBXASSERT(torsoAssembly != this->getPartPrimitive()->getAssembly());
+			ARLASSERT(torsoAssembly != this->getPartPrimitive()->getAssembly());
 
 			Primitive* root = torsoAssembly->getAssemblyPrimitive();
 
@@ -80,7 +80,7 @@ class SeatImpl : public ActionStation<Base>
 				torsoCoord.translation = Vector3(0, -1.5, 0);
 			}
 
-			RBXASSERT(root == torso);
+			ARLASSERT(root == torso);
 			root->setVelocity(Velocity::zero());
 
 			if (DFFlag::FixAnchoredSeatingPosition){

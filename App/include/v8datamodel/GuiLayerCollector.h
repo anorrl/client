@@ -6,7 +6,7 @@
 #include "V8DataModel/GuiBase2d.h"
 #include <boost/unordered_map.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	class Instance;
 	class Adorn;
@@ -27,7 +27,7 @@ namespace RBX {
 		// 
 		// GuiTarget
 		/*override*/ GuiResponse process(const shared_ptr<InputObject>& event, bool sinkIfMouseOver = true);
-        /*override*/ GuiResponse processGesture(const UserInputService::Gesture& gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args);
+        /*override*/ GuiResponse processGesture(const UserInputService::Gesture& gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args);
 
 		void render2d(Adorn* adorn);
 		void render2dContext(Adorn* adorn, const Instance* context);
@@ -45,20 +45,20 @@ namespace RBX {
 
 		bool rebuildGuiVector;
         
-		static void LoadZ(const shared_ptr<RBX::Instance>& instance, GuiLayers guiVectors[]);
+		static void LoadZ(const shared_ptr<ARL::Instance>& instance, GuiLayers guiVectors[]);
 		void loadZVectors();
 
 		void tryReleaseLastButtonDown(const shared_ptr<InputObject>& event);
 		GuiResponse processDescendants(const shared_ptr<InputObject>& event);
         
-        GuiResponse doProcessGesture(const boost::shared_ptr<GuiBase>& guiBase, const UserInputService::Gesture& gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args);
+        GuiResponse doProcessGesture(const boost::shared_ptr<GuiBase>& guiBase, const UserInputService::Gesture& gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args);
 
 		void render2dStandardGuiElements(Adorn* adorn, const Instance* context, GuiVector& batch, const Rect2D& viewport);
 		void render2dTextGuiElements(Adorn* adorn, const Instance* context, GuiVector& batch, const Rect2D& viewport);
         
         void descendantPropertyChanged(const shared_ptr<GuiBase>& gb, const Reflection::PropertyDescriptor* descriptor);
         
-		GuiLayers mGuiVectors[RBX::GUIQUEUE_COUNT];		// temp arrays for rendering - never realloc, always fast clear
+		GuiLayers mGuiVectors[ARL::GUIQUEUE_COUNT];		// temp arrays for rendering - never realloc, always fast clear
         
         boost::unordered_map<Instance*,rbx::signals::scoped_connection> propertyConnections;
 	};

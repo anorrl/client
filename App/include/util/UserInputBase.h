@@ -10,14 +10,14 @@
 
 LOGGROUP(UserInputProfile)
 
-namespace RBX {
+namespace ARL {
 
 
 	class Adorn;
 	class NavKeys;
 
 	// TODO: Rename HardwareDevice or something
-	class RBXBaseClass UserInputBase
+	class ARLBaseClass UserInputBase
 	{
 	private:
 		ContentId currentCursorId;
@@ -64,13 +64,13 @@ namespace RBX {
 		bool ctrlKeyDown() const	{return keyDown(SDLK_RCTRL) || keyDown(SDLK_LCTRL);}
 		
 		// allows Gui Key buttons to "press" keys
-        virtual void setKeyState(RBX::KeyCode code, RBX::ModCode modCode, char modifiedKey, bool isDown) = 0;
+        virtual void setKeyState(ARL::KeyCode code, ARL::ModCode modCode, char modifiedKey, bool isDown) = 0;
 
 		/////////////////////////////////////////////////////////////////////
 		// Cursor Handling
 		//
 		ContentId getCurrentCursorId() { return currentCursorId; }
-		virtual bool setCursorId(RBX::Adorn *adorn, const RBX::TextureId& id);
+		virtual bool setCursorId(ARL::Adorn *adorn, const ARL::TextureId& id);
 		virtual void renderGameCursor(Adorn* adorn);
 	};
 } // namespace

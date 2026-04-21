@@ -7,7 +7,7 @@
 
 #include "rbx/DenseHash.h"
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
@@ -28,13 +28,13 @@ namespace RBX
         };
 
 		// Base class of describing a described object's member: (Member, Event, etc.)
-		class RBXBaseClass MemberDescriptor : public Descriptor
+		class ARLBaseClass MemberDescriptor : public Descriptor
 		{
 		public:
 			static void (*memberHidingHook)(MemberDescriptor*, MemberDescriptor*);
 
 			// Category is a name used to group properties in the UI
-			const RBX::Name& category;
+			const ARL::Name& category;
 
 			const ClassDescriptor& owner;
 			const Security::Permissions security;
@@ -43,7 +43,7 @@ namespace RBX
 			MemberDescriptor(const ClassDescriptor& owner, const char* name, const char* category, Attributes attributes, Security::Permissions security)
 				:Descriptor(name, attributes)
 				,owner(owner)
-				,category(RBX::Name::declare(category))
+				,category(ARL::Name::declare(category))
 				,security(security)
 			{
 			}
@@ -186,7 +186,7 @@ namespace RBX
 
 			void declareSub(MemberDescriptorType* descriptor, MemberDescriptorType* replaceable)
 			{
-				RBXASSERT(replaceable != descriptor);
+				ARLASSERT(replaceable != descriptor);
 				{
 					typename Collection::iterator iter = std::lower_bound(descriptors.begin(), descriptors.end(), descriptor, compare);
 					if (iter == descriptors.end())
@@ -196,7 +196,7 @@ namespace RBX
 					}
 					else
 					{
-						RBXASSERT(*iter != descriptor);
+						ARLASSERT(*iter != descriptor);
 
 						if (*iter == replaceable)
 						{
@@ -272,13 +272,13 @@ namespace RBX
 						MemberDescriptorType* desc = *iter;
 						if (desc==descriptor)
 							goto SKIP;
-						int compare = RBX::Name::compare(descriptor->name, desc->name);
+						int compare = ARL::Name::compare(descriptor->name, desc->name);
 						if (compare<0)
 							break;
 						if (compare==0)
 						{
 							// This descriptor name already exists in a different class
-							compare = RBX::Name::compare(descriptor->owner.name, desc->owner.name);
+							compare = ARL::Name::compare(descriptor->owner.name, desc->owner.name);
 							// Enforce order using class name
 							if (compare<0)
 								break;

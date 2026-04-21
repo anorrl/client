@@ -50,16 +50,16 @@ LOGVARIABLE(DataStoreBudget, 0);
 namespace {
 	static inline void sendDataStoreStats()
 	{
-		RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "DataStorePersistence");
+		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "DataStorePersistence");
 	}
 
 	static inline void sendDataStoreOldNamingSchemeStats()
 	{
-		RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "DataStoreOldNamingScheme");
+		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "DataStoreOldNamingScheme");
 	}
 }
 	
-namespace RBX {
+namespace ARL {
 	const char* const sDataStoreService = "DataStoreService";
 
     REFLECTION_BEGIN();
@@ -279,7 +279,7 @@ namespace RBX {
 		if (!backendProcessing)
 			throw std::runtime_error("DataStore can't be accessed from client");
 
-		RBXASSERT(!(legacy && ordered));
+		ARLASSERT(!(legacy && ordered));
 
 		if(legacy)
 		{
@@ -357,7 +357,7 @@ namespace RBX {
 	{
 		const ServiceProvider* serviceProvider = ServiceProvider::findServiceProvider(this);
 		if (serviceProvider == NULL) {
-			RBXASSERT(false);
+			ARLASSERT(false);
 			return 0;
 		}
 
@@ -428,7 +428,7 @@ namespace RBX {
 				owner->setKeySetTimestamp(key, Time::nowFast());
 		}
 
-		RBX::Http http(url);
+		ARL::Http http(url);
 		http.additionalHeaders["Cache-Control"] = "no-cache";
 		http.doNotUseCachedResponse = true;
 
@@ -482,7 +482,7 @@ namespace RBX {
 	bool DataStoreService::queueOrExecuteGet(DataStore* source, HttpRequest& request)
 	{
 		DataStoreService* service = fastDynamicCast<DataStoreService>(source->getParent());
-		RBXASSERT(service);
+		ARLASSERT(service);
 		if (!service)
 			return false;
 
@@ -492,7 +492,7 @@ namespace RBX {
 	bool DataStoreService::queueOrExecuteGetSorted(DataStore* source, HttpRequest& request)
 	{
 		DataStoreService* service = fastDynamicCast<DataStoreService>(source->getParent());
-		RBXASSERT(service);
+		ARLASSERT(service);
 		if (!service)
 			return false;
 
@@ -502,7 +502,7 @@ namespace RBX {
 	bool DataStoreService::queueOrExecuteSet(DataStore* source, HttpRequest& request)
 	{
 		DataStoreService* service = fastDynamicCast<DataStoreService>(source->getParent());
-		RBXASSERT(service);
+		ARLASSERT(service);
 		if (!service)
 			return false;
 
@@ -512,7 +512,7 @@ namespace RBX {
 	bool DataStoreService::queueOrExecuteOrderedSet(DataStore* source, HttpRequest& request)
 	{
 		DataStoreService* service = fastDynamicCast<DataStoreService>(source->getParent());
-		RBXASSERT(service);
+		ARLASSERT(service);
 		if (!service)
 			return false;
 

@@ -4,7 +4,7 @@
 #include "V8World/SpatialHashMultiRes.h"
 #include "V8World/Tolerance.h"
 
-namespace RBX {
+namespace ARL {
 
 // statics - SpatialHashStatic
 const int SpatialHashStatic::cellMinSize = 8;
@@ -74,12 +74,12 @@ int SpatialHashStatic::getHash(int level, const Vector3int32& grid)
 
 void SpatialHashStatic::computeMinMax(const int level, const Extents& extents, Vector3int32& min, Vector3int32& max)
 {
-	RBXASSERT(level != -1);
+	ARLASSERT(level != -1);
 
 	Extents temp = extents.clampInsideOf(Tolerance::maxExtents());
 
-	RBXASSERT_IF_VALIDATING(Extents::unit().contains(temp.min() * 1e-6f));		// i.e. +/- 1,000,000
-	RBXASSERT_IF_VALIDATING(Extents::unit().contains(temp.max() * 1e-6f));		// i.e. +/- 1,000,000
+	ARLASSERT_IF_VALIDATING(Extents::unit().contains(temp.min() * 1e-6f));		// i.e. +/- 1,000,000
+	ARLASSERT_IF_VALIDATING(Extents::unit().contains(temp.max() * 1e-6f));		// i.e. +/- 1,000,000
 
 	min = realToHashGrid(level, temp.min());
 	max = realToHashGrid(level, temp.max());

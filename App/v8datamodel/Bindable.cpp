@@ -4,7 +4,7 @@
 #include "V8DataModel/Bindable.h"
 #include "FastLog.h"
 
-namespace RBX {
+namespace ARL {
 
     REFLECTION_BEGIN();
 	const char* const sBindableFunction = "BindableFunction";

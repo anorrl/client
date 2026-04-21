@@ -17,15 +17,15 @@
 
 
 
-namespace RBX {
+namespace ARL {
 
 const char* const sLuaDragger = "Dragger";
 
 REFLECTION_BEGIN();
 static Reflection::BoundFuncDesc<LuaDragger, void(shared_ptr<Instance>, Vector3, shared_ptr<const Instances>)> func_MouseDown(&LuaDragger::mouseDownPublic, "MouseDown", "mousePart", "pointOnMousePart", "parts", Security::None);
-static Reflection::BoundFuncDesc<LuaDragger, void(RBX::RbxRay)> func_MouseMove(&LuaDragger::mouseMove, "MouseMove", "mouseRay", Security::None);
+static Reflection::BoundFuncDesc<LuaDragger, void(ARL::RbxRay)> func_MouseMove(&LuaDragger::mouseMove, "MouseMove", "mouseRay", Security::None);
 static Reflection::BoundFuncDesc<LuaDragger, void()> func_MouseUp(&LuaDragger::mouseUp, "MouseUp", Security::None);
-static Reflection::BoundFuncDesc<LuaDragger, void(RBX::Vector3::Axis)> func_AxisRotate(&LuaDragger::axisRotate, "AxisRotate", "axis", RBX::Vector3::X_AXIS, Security::None);
+static Reflection::BoundFuncDesc<LuaDragger, void(ARL::Vector3::Axis)> func_AxisRotate(&LuaDragger::axisRotate, "AxisRotate", "axis", ARL::Vector3::X_AXIS, Security::None);
 REFLECTION_END();
 
 LuaDragger::LuaDragger()
@@ -38,7 +38,7 @@ LuaDragger::LuaDragger()
 
 LuaDragger::~LuaDragger()
 {
-	RBX::GameBasicSettings::singleton().setCanMousePan(true);
+	ARL::GameBasicSettings::singleton().setCanMousePan(true);
 }
 
 static void addPart(shared_ptr<Instance> part, std::vector<weak_ptr<PartInstance> >* outputParts)
@@ -87,16 +87,16 @@ void LuaDragger::mouseDown(shared_ptr<PartInstance> _mousePart,
 						   const Vector3& _pointOnMousePart,
 						   const std::vector<weak_ptr<PartInstance> > _dragParts)
 {
-	RBXASSERT(Workspace::getWorkspaceIfInWorkspace(_mousePart.get()));
+	ARLASSERT(Workspace::getWorkspaceIfInWorkspace(_mousePart.get()));
 
-	RBX::GameBasicSettings::singleton().setCanMousePan(false);
+	ARL::GameBasicSettings::singleton().setCanMousePan(false);
 
 	if ((dragPhase == MOUSE_DOWN) || (dragPhase == DRAGGING)) {
 		throw std::runtime_error("Call to LuaDragger::mouseDown when already dragging");
 	}
 
-	RBXASSERT(jointsIMade.size() == 0);
-	RBXASSERT(runDragger.get() == NULL);
+	ARLASSERT(jointsIMade.size() == 0);
+	ARLASSERT(runDragger.get() == NULL);
 
 	dragParts = _dragParts;
 	mousePart = _mousePart;
@@ -121,17 +121,17 @@ void LuaDragger::mouseMove(RbxRay mouseRay)
 
 	if (dragPhase == DRAGGING)
 	{
-		if(RBX::GameBasicSettings::singleton().inMousepanMode())
-			RBX::GameBasicSettings::singleton().setCanMousePan(false);
+		if(ARL::GameBasicSettings::singleton().inMousepanMode())
+			ARL::GameBasicSettings::singleton().setCanMousePan(false);
 		doDrag(unitRay);
 	}
-	else if(!RBX::GameBasicSettings::singleton().getCanMousePan())
-		RBX::GameBasicSettings::singleton().setCanMousePan(true);
+	else if(!ARL::GameBasicSettings::singleton().getCanMousePan())
+		ARL::GameBasicSettings::singleton().setCanMousePan(true);
 }
 
 void LuaDragger::mouseUp()
 {
-	RBX::GameBasicSettings::singleton().setCanMousePan(true);
+	ARL::GameBasicSettings::singleton().setCanMousePan(true);
 	if (dragPhase == DRAGGING) {
 
 		DragUtilities::joinToOutsiders(dragParts);
@@ -151,7 +151,7 @@ void LuaDragger::mouseUp()
 		throw std::runtime_error("Call to LuaDragger::mouseUp without mouseDown");
 	}
 
-	RBXASSERT(jointsIMade.size() == 0);
+	ARLASSERT(jointsIMade.size() == 0);
 }
 
 void LuaDragger::tryStartDragging(const RbxRay& unitMouseRay)
@@ -179,7 +179,7 @@ void LuaDragger::tryStartDragging(const RbxRay& unitMouseRay)
 void LuaDragger::startDragging()
 {
 	if(shared_ptr<PartInstance> safeMousePart = mousePart.lock()){
-		RBXASSERT(Workspace::getWorkspaceIfInWorkspace(safeMousePart.get()));
+		ARLASSERT(Workspace::getWorkspaceIfInWorkspace(safeMousePart.get()));
 
 		DragUtilities::unJoinFromOutsiders(dragParts);				// destroy joints outside the parts....
 
@@ -205,7 +205,7 @@ void LuaDragger::startDragging()
 
 void LuaDragger::doDrag(const RbxRay& unitMouseRay)
 {
-	RBXASSERT(dragPhase == DRAGGING);
+	ARLASSERT(dragPhase == DRAGGING);
 	if (shared_ptr<PartInstance> safeMousePart = mousePart.lock()){
 		if (Workspace::getWorkspaceIfInWorkspace(safeMousePart.get())) 
 		{
@@ -269,7 +269,7 @@ void LuaDragger::axisRotate(Vector3::Axis axis)
 		rotateOnSnapFace(Vector3::Z_AXIS,Math::matrixTiltZ());
 		break;
 	default:
-        RBXASSERT(false);
+        ARLASSERT(false);
 		break;
 	}
 }
@@ -281,7 +281,7 @@ void LuaDragger::rotateOnSnapFace(Vector3::Axis axis, const Matrix3& rotMatrix)
 			if(Workspace::getWorkspaceIfInWorkspace(safeMousePart.get())){
 				G3D::Array<Primitive*> primitives;
 				DragUtilities::partsToPrimitives(dragParts, primitives);
-				RBXASSERT(primitives.size() > 0);
+				ARLASSERT(primitives.size() > 0);
 				
 				if( primitives.size() == 1 )
 				{
@@ -294,7 +294,7 @@ void LuaDragger::rotateOnSnapFace(Vector3::Axis axis, const Matrix3& rotMatrix)
 		}
 	}
 	else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 	}
 }
 
@@ -309,7 +309,7 @@ void LuaDragger::alignPartToGrid( void )
 			{
 				G3D::Array<Primitive*> primitives;
 				DragUtilities::partsToPrimitives(dragParts, primitives);
-				RBXASSERT(primitives.size() > 0);
+				ARLASSERT(primitives.size() > 0);
 			}
 		}
 	}

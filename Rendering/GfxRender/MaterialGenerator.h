@@ -6,14 +6,14 @@
 
 #include "v8datamodel/PartInstance.h"
 
-namespace RBX
+namespace ARL
 {
 	class Decal;
 	class Humanoid;
 	class HumanoidIdentifier;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -77,7 +77,7 @@ public:
     static Vector2int16 getSpecular(PartMaterial material);
     static float getTiling(PartMaterial material);
 
-	static unsigned int createFlags(bool skinned, RBX::PartInstance* part, const HumanoidIdentifier* humanoidIdentifier, bool& ignoreDecalsOut);
+	static unsigned int createFlags(bool skinned, ARL::PartInstance* part, const HumanoidIdentifier* humanoidIdentifier, bool& ignoreDecalsOut);
 
     static unsigned int getDiffuseMapStage();
 

@@ -7,14 +7,14 @@
 #include "rbx/signal.h"
 #include "reflection/Property.h"
 
-namespace RBX { 
+namespace ARL { 
 	class PartInstance;
 	class AsyncResult;
 
 	class GfxBinding
 	{
 	protected:
-		GfxBinding(const boost::shared_ptr<RBX::PartInstance>& part)
+		GfxBinding(const boost::shared_ptr<ARL::PartInstance>& part)
 			: partInstance(part)
 		{}
 
@@ -24,7 +24,7 @@ namespace RBX {
 		virtual ~GfxBinding();
 	public:
 
-		RBX::PartInstance* getPartInstance() { return partInstance.get(); };
+		ARL::PartInstance* getPartInstance() { return partInstance.get(); };
 		// unlinks from PartInstance.
 		// will cause delete on next updateEntity();
 		void zombify();
@@ -32,7 +32,7 @@ namespace RBX {
 		bool isBound();
 
 		// helper method. probably should be elsewhere.
-		static bool isInWorkspace(RBX::Instance* part);
+		static bool isInWorkspace(ARL::Instance* part);
 
 		virtual void invalidateEntity() {};
 		virtual void updateEntity(bool assetsUpdated = false) {};
@@ -51,32 +51,32 @@ namespace RBX {
 //		virtual void bind();
 
 		// helper: connects property change event listeners.
-		void bindProperties(const shared_ptr<RBX::PartInstance>& part);
+		void bindProperties(const shared_ptr<ARL::PartInstance>& part);
 
 	protected:
-		boost::shared_ptr<RBX::PartInstance> partInstance;
+		boost::shared_ptr<ARL::PartInstance> partInstance;
 		std::vector<rbx::signals::connection> connections;
 
 	private:
-		void onPropertyChanged(const RBX::Reflection::PropertyDescriptor* descriptor);
-		void onAncestorChanged(const shared_ptr<RBX::Instance>& ancestor);
-		void onChildAdded(const shared_ptr<RBX::Instance>& child);
-		void onChildRemoved(const shared_ptr<RBX::Instance>& child);
+		void onPropertyChanged(const ARL::Reflection::PropertyDescriptor* descriptor);
+		void onAncestorChanged(const shared_ptr<ARL::Instance>& ancestor);
+		void onChildAdded(const shared_ptr<ARL::Instance>& child);
+		void onChildRemoved(const shared_ptr<ARL::Instance>& child);
 		void onSpecialShapeChangedEx();
 		
 		void onCombinedSignal(Instance::CombinedSignalType type, const Instance::ICombinedSignalData* data);
 		void onHumanoidChanged();
 		void onOutfitChanged();
-		void onDecalPropertyChanged(const RBX::Reflection::PropertyDescriptor* descriptor);
-		void onTexturePropertyChanged(const RBX::Reflection::PropertyDescriptor* descriptor);
+		void onDecalPropertyChanged(const ARL::Reflection::PropertyDescriptor* descriptor);
+		void onTexturePropertyChanged(const ARL::Reflection::PropertyDescriptor* descriptor);
 	};
 
 
 	// class used as a simple base class for linking PartInstances with graphics objects.
-	class GfxPart : public GfxBinding, public RBX::BasicSpatialHashPrimitive
+	class GfxPart : public GfxBinding, public ARL::BasicSpatialHashPrimitive
 	{
 	public:
-		GfxPart(const boost::shared_ptr<RBX::PartInstance>& part)
+		GfxPart(const boost::shared_ptr<ARL::PartInstance>& part)
 			: GfxBinding(part)
 			, lastFrustumVisibleFrameNumber(-1)
 		{}
@@ -102,7 +102,7 @@ namespace RBX {
 	class GfxAttachment : public GfxBinding
 	{
 	public:
-		GfxAttachment(const boost::shared_ptr<RBX::PartInstance>& part)
+		GfxAttachment(const boost::shared_ptr<ARL::PartInstance>& part)
 			: GfxBinding(part)
 		{}
 	protected:

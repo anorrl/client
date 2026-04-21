@@ -25,12 +25,12 @@ DYNAMIC_FASTINTVARIABLE(WebChatFilterHttpTimeoutSeconds, 60)
 DYNAMIC_FASTFLAGVARIABLE(UseComSiftUpdatedWebChatFilterParamsAndHeader, true)
 DYNAMIC_FASTFLAGVARIABLE(ConstructModerationFilterTextParamsAndHeadersUseLegacyFilterParams, true)
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 namespace
 {
-static Timer<RBX::Time::Precise> lastFailureTime;
+static Timer<ARL::Time::Precise> lastFailureTime;
 
 void initFailureTimer()
 {
@@ -50,7 +50,7 @@ inline void logContent(const std::string &varName, const std::string &msg)
 inline void logResponseData(
 	const std::string& unfiltered,
 	const ChatFilter::Result& result,
-	const RBX::Time::Interval& webChatFilterResponseDelta)
+	const ARL::Time::Interval& webChatFilterResponseDelta)
 {
     FASTLOG1F(DFLog::WebChatFiltering, "ResponseLatencyMillis: %f", webChatFilterResponseDelta.msec());
     logContent("FilteredContent (blacklist)", result.blacklistFilteredMessage);
@@ -60,8 +60,8 @@ inline void logResponseData(
 
 void filterMessageHelper(
 	const std::string message,
-	const RBX::Network::ChatFilter::FilteredChatMessageCallback filteredCallback,
-	shared_ptr<RBX::Network::Player> playerFilter)
+	const ARL::Network::ChatFilter::FilteredChatMessageCallback filteredCallback,
+	shared_ptr<ARL::Network::Player> playerFilter)
 {
 	logContent("Unfiltered", message);
 
@@ -71,7 +71,7 @@ void filterMessageHelper(
 	}
 
 	std::stringstream params;
-	RBX::HttpAux::AdditionalHeaders headers;
+	ARL::HttpAux::AdditionalHeaders headers;
 	if (DFFlag::UseComSiftUpdatedWebChatFilterParamsAndHeader)
 	{
 		DataModel* dataModel = DataModel::get(playerFilter.get());
@@ -92,7 +92,7 @@ void filterMessageHelper(
 	}
 
 
-	RBX::Timer<RBX::Time::Precise> timer;
+	ARL::Timer<ARL::Time::Precise> timer;
 
 	std::string response;
 	Time::Interval responseDelta = timer.delta();
@@ -113,10 +113,10 @@ void filterMessageHelper(
         Document doc;
         doc.Parse<kParseDefaultFlags>(response.c_str());
 
-        RBXASSERT(doc.HasMember("data"));
+        ARLASSERT(doc.HasMember("data"));
         Value& data = doc["data"];
-        RBXASSERT(data.HasMember(kWebChatWhiteListPolicy.c_str()));
-        RBXASSERT(data.HasMember(kWebChatBlackListPolicy.c_str()));
+        ARLASSERT(data.HasMember(kWebChatWhiteListPolicy.c_str()));
+        ARLASSERT(data.HasMember(kWebChatBlackListPolicy.c_str()));
 
         result.whitelistFilteredMessage = data[kWebChatWhiteListPolicy.c_str()].GetString();
         result.blacklistFilteredMessage = data[kWebChatBlackListPolicy.c_str()].GetString();
@@ -134,30 +134,30 @@ void filterMessageHelper(
 }
 
 void WebChatFilter::filterMessage(
-	shared_ptr<RBX::Network::Player> sender,
-	shared_ptr<RBX::Instance> receiver,
+	shared_ptr<ARL::Network::Player> sender,
+	shared_ptr<ARL::Instance> receiver,
 	const std::string& message,
-	const RBX::Network::ChatFilter::FilteredChatMessageCallback filteredCallback)
+	const ARL::Network::ChatFilter::FilteredChatMessageCallback filteredCallback)
 {
     if (filterMessageBase(sender, receiver, message, filteredCallback))
     {
         return;
     }
 
-	RBXASSERT(sender);
+	ARLASSERT(sender);
 	boost::function0<void> f = boost::bind(&filterMessageHelper, message, filteredCallback, sender);
-	boost::function0<void> g = boost::bind(&StandardOut::print_exception, f, RBX::MESSAGE_ERROR, false);
+	boost::function0<void> g = boost::bind(&StandardOut::print_exception, f, ARL::MESSAGE_ERROR, false);
 	boost::thread(thread_wrapper(g, "rbx_webChatFilterHttpPost"));
 }
 
-void RBX::Network::ConstructModerationFilterTextParamsAndHeaders(
+void ARL::Network::ConstructModerationFilterTextParamsAndHeaders(
 	std::string text,
 	int userID,
 	int placeID,
 	std::string gameInstanceID,
 
 	std::stringstream &outParams,
-	RBX::HttpAux::AdditionalHeaders &outHeaders
+	ARL::HttpAux::AdditionalHeaders &outHeaders
 )
 {
     outParams << "text=" << Http::urlEncode(text);

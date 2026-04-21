@@ -4,7 +4,7 @@
 #include "Util/Region3int16.h"
 #include "Util/Vector3int32.h"
 
-namespace RBX {
+namespace ARL {
 
 // Utilities for working with sub-sections of global coordinate space called
 // SpacialRegions. The sub-sections are of a fixed, globally defined size and
@@ -125,4 +125,4 @@ inline Vector3int32 largestCornerOfRegionInGlobalCoordStuds(const Id& id) {
 
 } // SpacialRegion
 
-} // RBX
+} // ARL

@@ -15,7 +15,7 @@
 #include <boost/unordered_set.hpp>
 #include "V8DataModel/Workspace.h"
 
-namespace RBX {
+namespace ARL {
 
 namespace Network {
 
@@ -81,7 +81,7 @@ private:
 	StreamRegionIterator regionIterator;
     bool readyToWork;
     int numPacketsPerStep;
-    RBX::Timer<RBX::Time::Fast> networkHealthCheckTimer;
+    ARL::Timer<ARL::Time::Fast> networkHealthCheckTimer;
 
 	typedef std::deque<StreamDataItem*> PendingItemsList;
 	PendingItemsList pendingStreamItems;

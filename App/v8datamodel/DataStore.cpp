@@ -24,10 +24,10 @@ DYNAMIC_FASTINTVARIABLE(DataStoreSameKeyPerMinute, 10);
 
 DYNAMIC_FASTFLAGVARIABLE(UseNewPersistenceSubdomain, true);
 
-namespace RBX {
-	RBX_REGISTER_CLASS(DataStore);
-	RBX_REGISTER_CLASS(OrderedDataStore);
-	RBX_REGISTER_CLASS(DataStorePages);
+namespace ARL {
+	ARL_REGISTER_CLASS(DataStore);
+	ARL_REGISTER_CLASS(OrderedDataStore);
+	ARL_REGISTER_CLASS(DataStorePages);
 
 	const char* const sGlobalDataStore = "GlobalDataStore";
 	
@@ -96,7 +96,7 @@ namespace RBX {
 	bool DataStore::checkStudioApiAccess(boost::function<void(std::string)> errorFunction)
 	{
 		DataModel* dm = DataModel::get(this);
-		RBXASSERT(dm);
+		ARLASSERT(dm);
 		if (dm)
 			if (LuaWebService* lws = dm->create<LuaWebService>())
 				if (!lws->isApiAccessEnabled())
@@ -207,7 +207,7 @@ namespace RBX {
 
 		std::stringstream postData;
 		postData << "value=";
-		postData << RBX::Http::urlEncode(v);
+		postData << ARL::Http::urlEncode(v);
 		request.postData = postData.str();
 
 		FASTLOGS(FLog::DataStore, "SetAsync on key: %s", key);
@@ -282,7 +282,7 @@ namespace RBX {
 	void DataStore::runTransformFunction(std::string key, shared_ptr<Lua::WeakFunctionRef> transform, boost::function<void(shared_ptr<const Reflection::Tuple>)> resumeFunction, boost::function<void(std::string)> errorFunction)
 	{
 		CachedKeys::iterator it = cachedKeys.find(key);
-		RBXASSERT(it != cachedKeys.end());
+		ARLASSERT(it != cachedKeys.end());
 
 		if (DataModel::get(this) == NULL) {
 			FASTLOG(FLog::DataStore, "Data model is destroyed, cancel transform");
@@ -334,9 +334,9 @@ namespace RBX {
 
 		std::stringstream postData;
 		postData << "value=";
-		postData << RBX::Http::urlEncode(newValue);
+		postData << ARL::Http::urlEncode(newValue);
 		postData << "&expectedValue=";
-		postData << RBX::Http::urlEncode(expectedValue);
+		postData << ARL::Http::urlEncode(expectedValue);
 
 		std::string postDataFinal = postData.str();
 
@@ -387,14 +387,14 @@ namespace RBX {
 			Reflection::ValueTable::const_iterator itData = result->find("data");
 			if (itData == result->end())
 			{
-				RBXASSERT(0);
+				ARLASSERT(0);
 				errorFunction("Can't parse response");
 				return;
 			}
 
 			FASTLOG(FLog::DataStore, "Our change won, lets update final value");
 			if (!updateCachedKey(key, itData->second)) {
-				RBXASSERT(0);
+				ARLASSERT(0);
 				errorFunction("Can't parse response");
 				return;
 			}
@@ -409,7 +409,7 @@ namespace RBX {
 			Reflection::ValueTable::const_iterator itCurrentValue = result->find("currentValue");
 			if (itCurrentValue == result->end())
 			{
-				RBXASSERT(0);
+				ARLASSERT(0);
 				errorFunction("Can't parse response");
 				return;
 			}
@@ -550,14 +550,14 @@ namespace RBX {
 		bool parseResult = WebParser::parseJSONTable(jsonStream.str(), jsonResult);
 		if (!parseResult)
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return false;
 		}
 
 		Reflection::ValueTable::const_iterator itData = jsonResult->find("data");
 		if (itData == jsonResult->end())
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return false;
 		}
 
@@ -585,7 +585,7 @@ namespace RBX {
 			value = rawValue;
 			bool hasNonJsonType = false;
 			serializedValue = serializeVariant(value, &hasNonJsonType);
-			RBXASSERT(hasNonJsonType == false);
+			ARLASSERT(hasNonJsonType == false);
 		}
 
 		OnUpdateKeys::iterator itSignal = onUpdateKeys.find(key);
@@ -619,10 +619,10 @@ namespace RBX {
 	std::string DataStore::urlEncodeIfNeeded(const std::string& input)
 	{
 		DataStoreService* dsService = getParentDataStoreService();
-		RBXASSERT(dsService);
+		ARLASSERT(dsService);
 		if(dsService && !dsService->isUrlEncodingDisabled())
 		{
-			return RBX::Http::urlEncode(input);
+			return ARL::Http::urlEncode(input);
 		}
 		return input;
 	}
@@ -807,7 +807,7 @@ namespace RBX {
 		if (itData == result->end())
 		{
 			FASTLOG(FLog::DataStore, "Can't find data in the response");
-			RBXASSERT(false);
+			ARLASSERT(false);
 			return;
 		}
 
@@ -818,7 +818,7 @@ namespace RBX {
 		}
 
 		shared_ptr<const Reflection::ValueArray> keyValueArray = 
-			itData->second.cast<shared_ptr<const RBX::Reflection::ValueArray> >();
+			itData->second.cast<shared_ptr<const ARL::Reflection::ValueArray> >();
 
 		for (Reflection::ValueArray::const_iterator it = keyValueArray->begin(); it != keyValueArray->end(); ++it)
 		{
@@ -828,7 +828,7 @@ namespace RBX {
 			}
 
 			shared_ptr<const Reflection::ValueTable> keyValueEntry = 
-				it->cast<shared_ptr<const RBX::Reflection::ValueTable> >();
+				it->cast<shared_ptr<const ARL::Reflection::ValueTable> >();
 
 			Reflection::ValueTable::const_iterator itKey = isLegacy ?
 				keyValueEntry->find("Key") : keyValueEntry->find("Target");
@@ -853,7 +853,7 @@ namespace RBX {
 		Http http(constructGetUrl());
 		http.additionalHeaders["Cache-Control"] = "no-cache";
 		http.doNotUseCachedResponse = true;
-		http.post(finalKeyList, RBX::Http::kContentTypeUrlEncoded, false, boost::bind(&DataStore::processFetchCachedKeys, shared_from(this), _1, _2));
+		http.post(finalKeyList, ARL::Http::kContentTypeUrlEncoded, false, boost::bind(&DataStore::processFetchCachedKeys, shared_from(this), _1, _2));
 	}
 
 	void DataStore::accumulateKeyToFetch(const std::string& key, std::stringstream& keysList, int& counter)
@@ -1143,33 +1143,33 @@ namespace RBX {
 		if (itData == result->end() || !itData->second.isType<shared_ptr<const Reflection::ValueTable> >())
 		{
 			errorFunction("Unexpected data in response");
-			RBXASSERT(false);
+			ARLASSERT(false);
 			return;
 		}
 
 		shared_ptr<const Reflection::ValueTable> data = 
-			itData->second.cast<shared_ptr<const RBX::Reflection::ValueTable> >();
+			itData->second.cast<shared_ptr<const ARL::Reflection::ValueTable> >();
 
 		Reflection::ValueTable::const_iterator itEntries = data->find("Entries");
 		if (itEntries == data->end() || !itEntries->second.isType<shared_ptr<const Reflection::ValueArray> >())
 		{
 			errorFunction("Unexpected entries in response");
-			RBXASSERT(false);
+			ARLASSERT(false);
 			return;
 		}
 
 		shared_ptr<Reflection::ValueArray> page = rbx::make_shared<Reflection::ValueArray>();
-		shared_ptr<const Reflection::ValueArray> entries = itEntries->second.cast<shared_ptr<const RBX::Reflection::ValueArray> >();
+		shared_ptr<const Reflection::ValueArray> entries = itEntries->second.cast<shared_ptr<const ARL::Reflection::ValueArray> >();
 
 		for(Reflection::ValueArray::const_iterator it = entries->begin(); it != entries->end(); ++it)
 		{
 			if(!it->isType<shared_ptr<const Reflection::ValueTable> >()) {
-				RBXASSERT(false);
+				ARLASSERT(false);
 				continue;
 			}
 
 			shared_ptr<const Reflection::ValueTable> keyValueEntry = 
-				it->cast<shared_ptr<const RBX::Reflection::ValueTable> >();
+				it->cast<shared_ptr<const ARL::Reflection::ValueTable> >();
 
 			Reflection::ValueTable::const_iterator itKey = keyValueEntry->find("Target");
 			Reflection::ValueTable::const_iterator itValue = keyValueEntry->find("Value");

@@ -2,7 +2,7 @@
 
 #include "V8World/Joint.h"
 
-namespace RBX {
+namespace ARL {
 
 	class D6Link;
 

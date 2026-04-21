@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RBX {
+namespace ARL {
 	namespace Math{
 
 // = mat.transpose() * vec

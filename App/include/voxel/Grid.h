@@ -10,7 +10,7 @@
 #include <boost/unordered_map.hpp>
 #include <vector>
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 // Storage class for terrain Voxels. Has methods for reading and writing
 // voxels. The voxels for different areas of the terrain may be stored 
@@ -38,7 +38,7 @@ class Grid {
 		Water::LocalAreaInfo* out) const;
 
 public:
-	typedef RBX::Voxel::Region<Chunk> Region;
+	typedef ARL::Voxel::Region<Chunk> Region;
 
 	Grid();
 

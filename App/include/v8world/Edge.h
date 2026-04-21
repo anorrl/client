@@ -6,14 +6,14 @@
 #include "V8World/Enum.h"
 #include <list>
 
-namespace RBX {
+namespace ARL {
 namespace Graphics {
 class CullableSceneNode;
 } }
 
-namespace RBX {
+namespace ARL {
 
-	class RBXBaseClass Edge : public IPipelined
+	class ARLBaseClass Edge : public IPipelined
 	{
 	private:
 		Sim::EdgeState		edgeState;
@@ -35,10 +35,10 @@ namespace RBX {
 		Edge(Primitive* prim0, Primitive* prim1);
 
 		virtual ~Edge() {
-			RBXASSERT(index0 == -1);
-			RBXASSERT(index1 == -1);
-			RBXASSERT(prim0 == NULL);
-			RBXASSERT(prim1 == NULL);
+			ARLASSERT(index0 == -1);
+			ARLASSERT(index1 == -1);
+			ARLASSERT(prim0 == NULL);
+			ARLASSERT(prim1 == NULL);
 			index0 = -1;
 			index1 = -1;
 			prim0 = static_cast<Primitive*>(Debugable::badMemory());
@@ -59,47 +59,47 @@ namespace RBX {
 		template<class Type>
 		Type* fastCast(EdgeType edgeType) {
 			bool match = (this->getEdgeType() == edgeType);
-			RBXASSERT_VERY_FAST(match == (dynamic_cast<Type*>(this) != NULL));
+			ARLASSERT_VERY_FAST(match == (dynamic_cast<Type*>(this) != NULL));
 			return match ? static_cast<Type*>(this) : NULL;
 		}
 
 		Primitive* getPrimitive(int i) {
-			RBXASSERT_VERY_FAST((i == 0) || (i == 1));
+			ARLASSERT_VERY_FAST((i == 0) || (i == 1));
 			return (&prim0)[i];
 		}
 
 		const Primitive* getConstPrimitive(int i) const {
-			RBXASSERT_VERY_FAST((i == 0) || (i == 1));
+			ARLASSERT_VERY_FAST((i == 0) || (i == 1));
 			return (&prim0)[i];
 		}
 
 		Primitive* otherPrimitive(const Primitive* p) {return (p == prim0) ? prim1 : prim0;}
-		RBX::Graphics::CullableSceneNode* otherPrimitive(const RBX::Graphics::CullableSceneNode* p) { RBXASSERT(NULL); return NULL;}
+		ARL::Graphics::CullableSceneNode* otherPrimitive(const ARL::Graphics::CullableSceneNode* p) { ARLASSERT(NULL); return NULL;}
 		
 		const Primitive* otherConstPrimitive(const Primitive* p) const {return (p == prim0) ? prim1 : prim0;}
 
 		Primitive* otherPrimitive(int i) {
-			RBXASSERT_VERY_FAST((i == 0) || (i == 1));
+			ARLASSERT_VERY_FAST((i == 0) || (i == 1));
 			return (&prim0)[(i + 1) % 2];
 		}
 
 		const Primitive* otherConstPrimitive(int i) const {
-			RBXASSERT_VERY_FAST((i == 0) || (i == 1));
+			ARLASSERT_VERY_FAST((i == 0) || (i == 1));
 			return (&prim0)[(i + 1) % 2];
 		}
 
 		int getPrimitiveId(const Primitive* p) const {
-			RBXASSERT_VERY_FAST(links(p));
+			ARLASSERT_VERY_FAST(links(p));
 			return (p == prim0) ? 0 : 1;
 		}
 
 		int getIndex(const Primitive* p) const {
-			RBXASSERT_VERY_FAST(this->links(p));
+			ARLASSERT_VERY_FAST(this->links(p));
 			return (p == prim0) ? index0 : index1;
 		}
 		
 		void setIndex(Primitive* p, int index) {
-			RBXASSERT_VERY_FAST(this->links(p));
+			ARLASSERT_VERY_FAST(this->links(p));
 			if (p == prim0) {
 				index0 = index;
 			}

@@ -23,7 +23,7 @@ const float bulletCollisionMargin = 0.05f;
 
 
 
-namespace RBX {
+namespace ARL {
 
 	class BulletDecompWrapper : public Allocator<BulletDecompWrapper>
 	{
@@ -109,4 +109,4 @@ namespace RBX {
 		~BulletCornerWedgeShapeWrapper();
 
 	};
-} // namespace RBX
+} // namespace ARL

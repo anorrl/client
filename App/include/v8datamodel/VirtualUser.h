@@ -6,7 +6,7 @@
 #include "V8Tree/Service.h"
 #include "V8DataModel/InputObject.h"
 
-namespace RBX {
+namespace ARL {
 
 	class VirtualHardwareDevice;
 	class DataModel;
@@ -23,7 +23,7 @@ namespace RBX {
 		std::stringstream recording;	// the script code when recording
 		rbx::signals::scoped_connection recordingConnection;
 
-		RBX::Time lastEventTime;
+		ARL::Time lastEventTime;
 
 	public:
 		VirtualUser();
@@ -31,13 +31,13 @@ namespace RBX {
 		void pressKey(std::string key);
 		void setKeyDown(std::string key);
 		void setKeyUp(std::string key);
-		void clickButton1(RBX::Vector2 position, RBX::CoordinateFrame camera);
-		void clickButton2(RBX::Vector2 position, RBX::CoordinateFrame camera);
-		void button1Down(RBX::Vector2 position, RBX::CoordinateFrame camera);
-		void button2Down(RBX::Vector2 position, RBX::CoordinateFrame camera);
-		void button1Up(RBX::Vector2 position, RBX::CoordinateFrame camera);
-		void button2Up(RBX::Vector2 position, RBX::CoordinateFrame camera);
-		void moveMouse(RBX::Vector2 position, RBX::CoordinateFrame camera);
+		void clickButton1(ARL::Vector2 position, ARL::CoordinateFrame camera);
+		void clickButton2(ARL::Vector2 position, ARL::CoordinateFrame camera);
+		void button1Down(ARL::Vector2 position, ARL::CoordinateFrame camera);
+		void button2Down(ARL::Vector2 position, ARL::CoordinateFrame camera);
+		void button1Up(ARL::Vector2 position, ARL::CoordinateFrame camera);
+		void button2Up(ARL::Vector2 position, ARL::CoordinateFrame camera);
+		void moveMouse(ARL::Vector2 position, ARL::CoordinateFrame camera);
 		void captureInputDevice();
 
 		void startRecording();
@@ -47,7 +47,7 @@ namespace RBX {
 		/*override*/ void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 	private:
 		void onInputObject(const shared_ptr<InputObject>& event);
-		void sendMouseEvent(InputObject::UserInputType eventType, InputObject::UserInputState eventState, RBX::Vector2 position, RBX::CoordinateFrame camera);
+		void sendMouseEvent(InputObject::UserInputType eventType, InputObject::UserInputState eventState, ARL::Vector2 position, ARL::CoordinateFrame camera);
 		KeyCode convert(const std::string& key);
 		void writeWait();
 		void writeKey(const char* func, const shared_ptr<InputObject>& event);
@@ -55,4 +55,4 @@ namespace RBX {
 		DataModel* getDataModel();
 	};
 
-}	// namespace RBX
+}	// namespace ARL

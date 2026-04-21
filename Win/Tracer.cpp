@@ -6,6 +6,6 @@
 #include "stdafx.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
-}  // namespace RBX
+}  // namespace ARL

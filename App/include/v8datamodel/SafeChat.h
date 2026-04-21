@@ -3,7 +3,7 @@
 #include "V8Tree/Instance.h"
 #include "V8Tree/Service.h"
 
-namespace RBX {
+namespace ARL {
 	class ChatOption;
 
 //	extern const char *const sSafeChat;

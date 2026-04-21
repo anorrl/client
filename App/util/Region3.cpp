@@ -3,7 +3,7 @@
 #include "Util/Region3.h"
 #include "Util/Extents.h"
 #include "Reflection/Type.h"
-namespace RBX {
+namespace ARL {
 	
 namespace Reflection
 {

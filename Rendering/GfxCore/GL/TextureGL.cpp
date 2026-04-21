@@ -9,7 +9,7 @@ LOGGROUP(Graphics)
 
 FASTFLAG(GraphicsTextureCommitChanges)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -158,7 +158,7 @@ static unsigned int createTexture(Texture::Type type, Texture::Format format, un
 	if (caps.supportsTexturePartialMipChain)
 		glTexParameteri(target, GL_TEXTURE_MAX_LEVEL, mipLevels - 1);
 	else
-		RBXASSERT(mipLevels == 1 || mipLevels == Texture::getMaxMipCount(width, height, depth));
+		ARLASSERT(mipLevels == 1 || mipLevels == Texture::getMaxMipCount(width, height, depth));
 
 	glBindTexture(target, 0);
 
@@ -220,28 +220,28 @@ TextureGL::TextureGL(Device* device, Type type, Format format, unsigned int widt
 	const TextureFormatGL& formatGl = getTextureFormatGL(format, caps.ext3);
 
     if (!formatGl.internalFormat)
-		throw RBX::runtime_error("Unsupported format: %d (platform)", format);
+		throw ARL::runtime_error("Unsupported format: %d (platform)", format);
 
 	if ((format == Format_RGBA16F) && !caps.supportsTextureHalfFloat)
-		throw RBX::runtime_error("Unsupported format: %d (caps)", format);
+		throw ARL::runtime_error("Unsupported format: %d (caps)", format);
 
 	if ((format == Format_BC1 || format == Format_BC2 || format == Format_BC3) && !caps.supportsTextureDXT)
-		throw RBX::runtime_error("Unsupported format: %d (caps)", format);
+		throw ARL::runtime_error("Unsupported format: %d (caps)", format);
 
 	if ((format == Format_PVRTC_RGB2 || format == Format_PVRTC_RGBA2 || format == Format_PVRTC_RGB4 || format == Format_PVRTC_RGBA4) && !caps.supportsTexturePVR)
-		throw RBX::runtime_error("Unsupported format: %d (caps)", format);
+		throw ARL::runtime_error("Unsupported format: %d (caps)", format);
 
     if (format == Format_ETC1 && !caps.supportsTextureETC1)
-        throw RBX::runtime_error("Unsupported format: %d (capse)", format);
+        throw ARL::runtime_error("Unsupported format: %d (capse)", format);
 
 	if (!caps.supportsTextureNPOT && ((width & (width - 1)) || (height & (height - 1)) || (depth & (depth - 1))) && (usage != Usage_Renderbuffer || mipLevels > 1))
-		throw RBX::runtime_error("Unsupported dimensions: %dx%dx%d (NPOT)", width, height, depth);
+		throw ARL::runtime_error("Unsupported dimensions: %dx%dx%d (NPOT)", width, height, depth);
     
     if (!caps.supportsTexture3D && type == Type_3D)
-        throw RBX::runtime_error("Unsupported type: 3D");
+        throw ARL::runtime_error("Unsupported type: 3D");
 
     if (FFlag::GraphicsTextureCommitChanges && usage == Usage_Dynamic && isFormatCompressed(format))
-        throw RBX::runtime_error("Unsupported format: compressed formats are not supported for dynamic textures");
+        throw ARL::runtime_error("Unsupported format: compressed formats are not supported for dynamic textures");
 
     // createTexture poisons the binding on the first stage
 	static_cast<DeviceGL*>(device)->getImmediateContextGL()->invalidateCachedTextureStage(0);
@@ -285,18 +285,18 @@ void TextureGL::upload(unsigned int index, unsigned int mip, const TextureRegion
 {
     const DeviceCapsGL& caps = static_cast<DeviceGL*>(device)->getCapsGL();
 
-	RBXASSERT(index < (type == Type_Cube ? 6u : 1u));
+	ARLASSERT(index < (type == Type_Cube ? 6u : 1u));
 
     unsigned int mipWidth = getMipSide(width, mip);
     unsigned int mipHeight = getMipSide(height, mip);
     unsigned int mipDepth = getMipSide(depth, mip);
 
-    RBXASSERT(mip < mipLevels);
-	RBXASSERT(region.x + region.width <= mipWidth);
-	RBXASSERT(region.y + region.height <= mipHeight);
-	RBXASSERT(region.z + region.depth <= mipDepth);
+    ARLASSERT(mip < mipLevels);
+	ARLASSERT(region.x + region.width <= mipWidth);
+	ARLASSERT(region.y + region.height <= mipHeight);
+	ARLASSERT(region.z + region.depth <= mipDepth);
     
-    RBXASSERT(size == getImageSize(format, region.width, region.height) * region.depth);
+    ARLASSERT(size == getImageSize(format, region.width, region.height) * region.depth);
 
     if (supportsLocking())
     {
@@ -339,15 +339,15 @@ bool TextureGL::download(unsigned int index, unsigned int mip, void* data, unsig
     GLenum target = gTextureTargetGL[type];
 	const TextureFormatGL& formatGl = getTextureFormatGL(format, caps.ext3);
 
-	RBXASSERT(index < (type == Type_Cube ? 6u : 1u));
+	ARLASSERT(index < (type == Type_Cube ? 6u : 1u));
 	GLenum faceTarget = (type == Type_Cube) ? GL_TEXTURE_CUBE_MAP_POSITIVE_X + index : target;
 
     unsigned int mipWidth = getMipSide(width, mip);
     unsigned int mipHeight = getMipSide(height, mip);
     unsigned int mipDepth = getMipSide(depth, mip);
 
-    RBXASSERT(mip < mipLevels);
-	RBXASSERT(size == getImageSize(format, mipWidth, mipHeight) * mipDepth);
+    ARLASSERT(mip < mipLevels);
+	ARLASSERT(size == getImageSize(format, mipWidth, mipHeight) * mipDepth);
 
 	static_cast<DeviceGL*>(device)->getImmediateContextGL()->invalidateCachedTextureStage(0);
 
@@ -386,16 +386,16 @@ Texture::LockResult TextureGL::lock(unsigned int index, unsigned int mip, const 
         return result;
     }
 
-    RBXASSERT(index < (type == Type_Cube ? 6u : 1u));
+    ARLASSERT(index < (type == Type_Cube ? 6u : 1u));
     
     unsigned int mipWidth = getMipSide(width, mip);
     unsigned int mipHeight = getMipSide(height, mip);
     unsigned int mipDepth = getMipSide(depth, mip);
     
-    RBXASSERT(mip < mipLevels);
-    RBXASSERT(region.x + region.width <= mipWidth);
-    RBXASSERT(region.y + region.height <= mipHeight);
-    RBXASSERT(region.z + region.depth <= mipDepth);
+    ARLASSERT(mip < mipLevels);
+    ARLASSERT(region.x + region.width <= mipWidth);
+    ARLASSERT(region.y + region.height <= mipHeight);
+    ARLASSERT(region.z + region.depth <= mipDepth);
 
     unsigned int size = getImageSize(format, region.width, region.height) * region.depth;
     unsigned int flags = GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT;
@@ -434,10 +434,10 @@ void TextureGL::unlock(unsigned int index, unsigned int mip)
 
 shared_ptr<Renderbuffer> TextureGL::getRenderbuffer(unsigned int index, unsigned int mip)
 {
-	RBXASSERT(usage == Usage_Renderbuffer);
+	ARLASSERT(usage == Usage_Renderbuffer);
 
-    RBXASSERT(mip == 0);
-	RBXASSERT(index < (type == Type_Cube ? 6u : 1u));
+    ARLASSERT(mip == 0);
+	ARLASSERT(index < (type == Type_Cube ? 6u : 1u));
     
     weak_ptr<Renderbuffer>& slot = renderBuffers[std::make_pair(index,mip)];
     shared_ptr<Renderbuffer> rb = slot.lock();
@@ -470,7 +470,7 @@ void TextureGL::commitChanges()
     
     for (auto& change: pendingChanges)
     {
-        RBXASSERT(change.scratchOffset < scratchOffset);
+        ARLASSERT(change.scratchOffset < scratchOffset);
 
         bool entireRegion = false; // this is only important for compressed formats that we don't support
 
@@ -484,7 +484,7 @@ void TextureGL::commitChanges()
 
 void TextureGL::generateMipmaps()
 {
-	RBXASSERT(usage != Usage_Dynamic);
+	ARLASSERT(usage != Usage_Dynamic);
 
     if (mipLevels <= 1)
         return;

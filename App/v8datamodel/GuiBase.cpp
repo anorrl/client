@@ -4,7 +4,7 @@
 
 #include "V8DataModel/PlayerGui.h"
 
-namespace RBX{
+namespace ARL{
 
 const char* const  sGuiBase = "GuiBase";
 

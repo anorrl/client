@@ -11,7 +11,7 @@
 #include "v8kernel/Constants.h"
 #include "Fastlog.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Body;
 	class SimBody
@@ -145,17 +145,17 @@ namespace RBX {
 		inline void accumulateForceCofm(const Vector3& _force) {
 			updateIfDirty();
 			force += _force;
-			RBXASSERT_SLOW(force.isFinite());
-			RBXASSERT_SLOW(Math::longestVector3Component(force) < maxDebugForce());
+			ARLASSERT_SLOW(force.isFinite());
+			ARLASSERT_SLOW(Math::longestVector3Component(force) < maxDebugForce());
 		}
 
 		inline void accumulateForce(const Vector3& _force, const Vector3& worldPos) {
-			RBXASSERT_SLOW(Math::longestVector3Component(_force) < maxDebugForce());
+			ARLASSERT_SLOW(Math::longestVector3Component(_force) < maxDebugForce());
 			updateIfDirty();
 			force += _force;
 			torque += computeTorqueFromOffsetForce(_force, pv.position.translation, worldPos);
-			RBXASSERT_SLOW(force.isFinite());
-			RBXASSERT_SLOW(torque.isFinite());
+			ARLASSERT_SLOW(force.isFinite());
+			ARLASSERT_SLOW(torque.isFinite());
 		}
 
 		inline void accumulatePenetrationForce(const Vector3& _force, const Vector3& worldPos) {
@@ -164,34 +164,34 @@ namespace RBX {
 		}
 
 		inline void accumulateTorque(const Vector3& _torque) {
-			RBXASSERT_SLOW(Math::longestVector3Component(_torque) < maxDebugTorque());
+			ARLASSERT_SLOW(Math::longestVector3Component(_torque) < maxDebugTorque());
 			updateIfDirty();
 			torque += _torque;
-			RBXASSERT_SLOW(torque.isFinite());
+			ARLASSERT_SLOW(torque.isFinite());
 		}
 
 		inline void accumulateImpulse(const Vector3& _impulse, const Vector3& worldPos) {
-			RBXASSERT_SLOW(Math::longestVector3Component(_impulse) < maxDebugLinearImpulse());
+			ARLASSERT_SLOW(Math::longestVector3Component(_impulse) < maxDebugLinearImpulse());
 			updateIfDirty();
 			impulse += _impulse;
 			Vector3 localPosWorld = worldPos - pv.position.translation;
 			rotationalImpulse += localPosWorld.cross(_impulse);
-			RBXASSERT_SLOW(impulse.isFinite());
-			RBXASSERT_SLOW(rotationalImpulse.isFinite());
+			ARLASSERT_SLOW(impulse.isFinite());
+			ARLASSERT_SLOW(rotationalImpulse.isFinite());
 		}
 
 		inline void accumulateImpulseAtBranchCofm(const Vector3& _impulse) {
-			RBXASSERT_SLOW(Math::longestVector3Component(_impulse) < maxDebugLinearImpulse());
+			ARLASSERT_SLOW(Math::longestVector3Component(_impulse) < maxDebugLinearImpulse());
 			updateIfDirty();
 			impulse += _impulse;
-			RBXASSERT_SLOW(impulse.isFinite());
+			ARLASSERT_SLOW(impulse.isFinite());
 		}
 
 		inline void accumulateRotationalImpulse(const Vector3& _rotationalImpulse) {
-			RBXASSERT_SLOW(Math::longestVector3Component(_rotationalImpulse) < maxDebugRotationalImpulse());
+			ARLASSERT_SLOW(Math::longestVector3Component(_rotationalImpulse) < maxDebugRotationalImpulse());
 			updateIfDirty();
 			rotationalImpulse += _rotationalImpulse;
-			RBXASSERT_SLOW(rotationalImpulse.isFinite());
+			ARLASSERT_SLOW(rotationalImpulse.isFinite());
 		}
 		// End of parallel section
 		//

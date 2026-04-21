@@ -13,7 +13,7 @@
 LOGVARIABLE(StepAnimatedJoints, 0)
 DYNAMIC_FASTFLAGVARIABLE(StepAnimatedJointsInBufferZone, false)
 
-namespace RBX {
+namespace ARL {
 
 #pragma warning(push)
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list
@@ -26,7 +26,7 @@ MovingAssemblyStage::MovingAssemblyStage(IStage* upstream, World* world)
 
 MovingAssemblyStage::~MovingAssemblyStage()
 {
-	RBXASSERT(uiStepJoints.empty());
+	ARLASSERT(uiStepJoints.empty());
 }
 
 void MovingAssemblyStage::addMovingGroundedAssembly(Assembly* a)
@@ -56,7 +56,7 @@ void MovingAssemblyStage::addAnimatedJoint(Joint* j)
 		const Motor* jointInstance = static_cast<const Motor*>(j->getJointOwner());
 		if (jointInstance->getIsAnimatedJoint())
 		{
-			RBXASSERT(!j->MovingAssemblyStageHook::is_linked());
+			ARLASSERT(!j->MovingAssemblyStageHook::is_linked());
 			animatedJoints.insert(j);
 		}
 	}
@@ -73,7 +73,7 @@ void MovingAssemblyStage::removeAnimatedJoint(Joint* j)
 		}
 	}
 	else {
-		RBXASSERT(!j->MovingAssemblyStageHook::is_linked());
+		ARLASSERT(!j->MovingAssemblyStageHook::is_linked());
 	}
 }
 
@@ -82,7 +82,7 @@ void MovingAssemblyStage::addJoint(Joint* j)
 	if (j->canStepUi()) {
 		uiStepJoints.push_back(*j);
 
-		RBXASSERT(animatedJoints.find(j) == animatedJoints.end());
+		ARLASSERT(animatedJoints.find(j) == animatedJoints.end());
 	}
 }
 
@@ -92,10 +92,10 @@ void MovingAssemblyStage::removeJoint(Joint* j)
 		uiStepJoints.erase(uiStepJoints.iterator_to(*j));
 		removeMovingGroundedAssembly(j->getPrimitive(0)->getAssembly());
 
-		RBXASSERT(animatedJoints.find(j) == animatedJoints.end());
+		ARLASSERT(animatedJoints.find(j) == animatedJoints.end());
 	}
 	else {
-		RBXASSERT(!j->MovingAssemblyStageHook::is_linked());
+		ARLASSERT(!j->MovingAssemblyStageHook::is_linked());
 	}
 }
 
@@ -144,7 +144,7 @@ void MovingAssemblyStage::onEdgeRemoving(Edge* e)
 
 void MovingAssemblyStage::jointsStepUiInternal(double distributedGameTime, Joint* j, bool fromAnimation)
 {
-	RBXASSERT(j->canStepUi());
+	ARLASSERT(j->canStepUi());
 	Assembly* a0 = NULL;
 	bool a0IsGrounded = false;
 	if (Joint::isKinematicJoint(j)) {

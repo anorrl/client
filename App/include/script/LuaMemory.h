@@ -5,7 +5,7 @@
 #include "boost/iostreams/filter/gzip.hpp"
 
 
-namespace RBX
+namespace ARL
 {
 	class LuaAllocator
 	{

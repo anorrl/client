@@ -8,7 +8,7 @@
 
 #include "RbxFormat.h"
 
-namespace RBX {
+namespace ARL {
 
 	typedef enum { 
 		MESSAGE_OUTPUT,
@@ -57,7 +57,7 @@ namespace RBX {
 		
 		void print(MessageType type, const std::string& message);
 		void print(MessageType type, const char* message);
-		void printf(MessageType type, const char* format, ...) RBX_PRINTF_ATTR(3, 4);
+		void printf(MessageType type, const char* format, ...) ARL_PRINTF_ATTR(3, 4);
 		void print(MessageType type, const std::exception& exp);
 	};
 

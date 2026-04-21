@@ -2,7 +2,7 @@
 
 #include "V8DataModel/ImageButton.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sGuiImageButton = "ImageButton";
 

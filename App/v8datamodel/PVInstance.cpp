@@ -13,7 +13,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 
 const char *const sPVInstance = "PVInstance";
 
@@ -57,9 +57,9 @@ void PVInstance::readProperty(const XmlElement* propertyElement, IReferenceBinde
 	// If the element is an Feature and the Feature does not exist, create it
 	if (propertyElement->getTag()=="Feature")
 	{
-		const RBX::Name* name = NULL;
+		const ARL::Name* name = NULL;
 		bool foundNameAttribute = propertyElement->findAttributeValue(name_name, name);
-		RBXASSERT(foundNameAttribute);
+		ARLASSERT(foundNameAttribute);
 		if (*name=="Part")
 		{
 			// Read legacy PartInstance data
@@ -117,10 +117,10 @@ void PVInstance::renderCoordinateFrame(Adorn* adorn)
 	// UI versions
 void PVInstance::setPVGridOffsetLegacy(const CoordinateFrame& _offset) 
 {
-	throw RBX::runtime_error("CoordinateFrame is not a valid member of %s", getDescriptor().name.c_str());
+	throw ARL::runtime_error("CoordinateFrame is not a valid member of %s", getDescriptor().name.c_str());
 }
 
 
 
 
-} // namespace RBX
+} // namespace ARL

@@ -7,7 +7,7 @@
 
 #ifdef _PRISM_PYRAMID_
 
-namespace RBX
+namespace ARL
 {
 const char* const  sPrism = "PrismPart";
 

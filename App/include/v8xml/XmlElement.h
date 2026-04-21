@@ -19,7 +19,7 @@
 #include"Util/Handle.h"
 
 //typedef std::string XmlTag;
-typedef RBX::Name XmlTag;
+typedef ARL::Name XmlTag;
 
 
 // w3 XSD schema specification states that IDREF can't have empty values and can't have the xsi:nil attribute.
@@ -29,8 +29,8 @@ typedef RBX::Name XmlTag;
 // "nil" means "don't change your current value
 // 
 // for an IDREF "null" means "set your value to NULL"
-extern const RBX::Name& value_IDREF_null;
-extern const RBX::Name& value_IDREF_nil;
+extern const ARL::Name& value_IDREF_null;
+extern const ARL::Name& value_IDREF_nil;
 
 // TODO: Put these in a file that knows about the Roblox schema
 extern const XmlTag& name_root;
@@ -129,14 +129,14 @@ private:
 	mutable ValueType valueType;
 	union {
 		mutable std::string* stringValue;
-		mutable RBX::ContentId* contentIdValue;
+		mutable ARL::ContentId* contentIdValue;
 		mutable bool boolValue;
 		mutable int intValue;
 		mutable unsigned int uintValue;
 		mutable float floatValue;
 		mutable double doubleValue;
-		mutable const RBX::Name* nameValue;
-		mutable RBX::InstanceHandle* handleValue;		// TODO: with in-place constructor/destructor, could we avoid a "new"
+		mutable const ARL::Name* nameValue;
+		mutable ARL::InstanceHandle* handleValue;		// TODO: with in-place constructor/destructor, could we avoid a "new"
 	};
 
 	void clearValue() const;
@@ -148,13 +148,13 @@ public:
 		:tag(tag),stringValue(new std::string(text)),valueType(STRING)     {}
 	XmlNameValuePair(const XmlTag& tag, const char* text)
 		:tag(tag),stringValue(new std::string(text)),valueType(STRING)     {}
-	XmlNameValuePair(const XmlTag& tag, RBX::ContentId contentId)
-		:tag(tag),contentIdValue(new RBX::ContentId(contentId)),valueType(CONTENTID)     {}
+	XmlNameValuePair(const XmlTag& tag, ARL::ContentId contentId)
+		:tag(tag),contentIdValue(new ARL::ContentId(contentId)),valueType(CONTENTID)     {}
 	XmlNameValuePair(const XmlTag& tag, const int _number)
 		:tag(tag),valueType(INT),intValue(_number) {}
 	XmlNameValuePair(const XmlTag& tag, const unsigned int _number)
 		:tag(tag),valueType(UINT),uintValue(_number) {}
-	XmlNameValuePair(const XmlTag& tag, const RBX::Name* value)
+	XmlNameValuePair(const XmlTag& tag, const ARL::Name* value)
 		:tag(tag),valueType(NAME),nameValue(value) {}
 	XmlNameValuePair(const XmlTag& tag, bool value)
 		:tag(tag),valueType(BOOL),boolValue(value) {}
@@ -162,8 +162,8 @@ public:
 		:tag(tag),valueType(FLOAT),floatValue(value) {}
 	XmlNameValuePair(const XmlTag& tag, double value)
 		:tag(tag),valueType(DOUBLE),doubleValue(value) {}
-	XmlNameValuePair(const XmlTag& tag, RBX::InstanceHandle value)
-		:tag(tag),valueType(HANDLE),handleValue(new RBX::InstanceHandle(value)) {}
+	XmlNameValuePair(const XmlTag& tag, ARL::InstanceHandle value)
+		:tag(tag),valueType(HANDLE),handleValue(new ARL::InstanceHandle(value)) {}
 	~XmlNameValuePair() {
 		clearValue();
 	}
@@ -173,13 +173,13 @@ public:
 
 	// equality tests (does not change valueType
 	bool isValueEqual(const std::string& value) const;
-	bool isValueEqual(RBX::ContentId contentId) const;
+	bool isValueEqual(ARL::ContentId contentId) const;
 	bool isValueEqual(int value) const;
 	bool isValueEqual(float value) const;
 	bool isValueEqual(double value) const;
 	bool isValueEqual(bool value) const;
-	bool isValueEqual(const RBX::Name* value) const;
-	bool isValueEqual(RBX::InstanceHandle value) const;
+	bool isValueEqual(const ARL::Name* value) const;
+	bool isValueEqual(ARL::InstanceHandle value) const;
 	// Templated version that can be implemented by clients
 	template<class T>
 	bool isValueEqual(T value) const;
@@ -194,34 +194,34 @@ public:
 	// get requests. If possible, these functions will convert valueType to the desired type
 	// TODO: refactor to "toValue"?
 	bool getValue(std::string &value) const;
-	bool getValue(RBX::ContentId& contentId) const;
+	bool getValue(ARL::ContentId& contentId) const;
 	bool getValue(int &value) const;
 	bool getValue(unsigned int &value) const;
 	bool getValue(float &value) const;
 	bool getValue(double &value) const;
 	bool getValue(bool &value) const;
-	bool getValue(const RBX::Name* &value) const;
-	bool getValue(RBX::InstanceHandle &value) const;
+	bool getValue(const ARL::Name* &value) const;
+	bool getValue(ARL::InstanceHandle &value) const;
 	// Templated version that can be implemented by clients
 	template<class T>
 	bool getValue(T& value) const;
 
 	void setValue(std::string value) {clearValue(); stringValue = new std::string(value); valueType=STRING; }
-	void setValue(RBX::ContentId contentId) {clearValue(); contentIdValue = new RBX::ContentId(contentId); valueType=CONTENTID; }
+	void setValue(ARL::ContentId contentId) {clearValue(); contentIdValue = new ARL::ContentId(contentId); valueType=CONTENTID; }
 	void setValue(const char* value) {clearValue(); stringValue = new std::string(value); valueType=STRING; }
 	void setValue(int value) {clearValue(); intValue = value; valueType=INT; }
 	void setValue(unsigned int value) {clearValue(); uintValue = value; valueType=UINT; }
 	void setValue(bool value) {clearValue(); boolValue = value; valueType=BOOL; };
 	void setValue(float value) {clearValue(); floatValue = value; valueType=FLOAT; };
 	void setValue(double value) {clearValue(); doubleValue = value; valueType=DOUBLE; };
-	void setValue(const RBX::Name* value) {clearValue(); nameValue = value; valueType=NAME; };
-	void setValue(RBX::InstanceHandle handle) {clearValue(); handleValue = new RBX::InstanceHandle(handle); valueType=HANDLE; };
+	void setValue(const ARL::Name* value) {clearValue(); nameValue = value; valueType=NAME; };
+	void setValue(ARL::InstanceHandle handle) {clearValue(); handleValue = new ARL::InstanceHandle(handle); valueType=HANDLE; };
 	// Templated version that can be implemented by clients
 	template<class T>
 	void setValue(T value);
 };
 
-namespace RBX
+namespace ARL
 {
 	// Parent and Child are a variation on the left-child/right-sibling tree, where each node also contains a reference
 	// the its right-most child. This makes it fast to push a child at the right-most end
@@ -297,9 +297,9 @@ namespace RBX
 }
 
 class XmlAttribute 
-	: public RBX::Sibling<XmlAttribute>
+	: public ARL::Sibling<XmlAttribute>
 	, public XmlNameValuePair
-	, public RBX::Allocator<XmlAttribute> 
+	, public ARL::Allocator<XmlAttribute> 
 {
 public:
 	XmlAttribute(const XmlTag& tag)
@@ -310,10 +310,10 @@ public:
 };
 
 class XmlElement 
-	: public RBX::Sibling<XmlElement>
-	, public RBX::Parent<XmlElement>
+	: public ARL::Sibling<XmlElement>
+	, public ARL::Parent<XmlElement>
 	, public XmlNameValuePair
-	, public RBX::Allocator<XmlElement> 
+	, public ARL::Allocator<XmlElement> 
 {
 #ifdef _DEBUG
 	char leak[15];
@@ -323,7 +323,7 @@ class XmlElement
 	}
 #endif
 private:
-	RBX::Parent<XmlAttribute> attributes;
+	ARL::Parent<XmlAttribute> attributes;
 
 public:
 	XmlElement(const XmlTag& tag)
@@ -381,7 +381,7 @@ public:
 
 	const XmlAttribute* findAttribute(const XmlTag& _tag) const;
 	XmlAttribute* findAttribute(const XmlTag& _tag);
-	inline bool findAttributeValue(const XmlTag& _tag, const RBX::Name*& value) const {
+	inline bool findAttributeValue(const XmlTag& _tag, const ARL::Name*& value) const {
 		const XmlAttribute* attribute = findAttribute(_tag);
 		if (attribute==NULL)
 			return false;

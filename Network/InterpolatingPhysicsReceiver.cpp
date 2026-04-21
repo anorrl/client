@@ -21,8 +21,8 @@
 #include "V8World/Primitive.h"
 #include "V8World/Assembly.h"
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 FASTFLAG(RemoveInterpolationReciever)
 
@@ -67,7 +67,7 @@ InterpolatingPhysicsReceiver::InterpolatingPhysicsReceiver(Replicator* replicato
 {
 	if(FFlag::RemoveInterpolationReciever)
 	{
-		RBXASSERT(false); // nobody should be creating this
+		ARLASSERT(false); // nobody should be creating this
 	}
 }
 
@@ -75,7 +75,7 @@ void InterpolatingPhysicsReceiver::start(shared_ptr<PhysicsReceiver> physicsRece
 {
 	shared_ptr<InterpolatingPhysicsReceiver> interpolatingPhysicsReceiver = boost::dynamic_pointer_cast<InterpolatingPhysicsReceiver>(physicsReceiver);
 	if(interpolatingPhysicsReceiver.get() != this) 
-		RBXCRASH();
+		ARLCRASH();
 
 	tryToCreateJob(interpolatingPhysicsReceiver);
 	if(!job)
@@ -84,8 +84,8 @@ void InterpolatingPhysicsReceiver::start(shared_ptr<PhysicsReceiver> physicsRece
 
 void InterpolatingPhysicsReceiver::tryToCreateJob(shared_ptr<InterpolatingPhysicsReceiver> interpolatingPhysicsReceiver)
 {
-	RBXASSERT(interpolatingPhysicsReceiver.get() == this);
-	RBXASSERT(!job);
+	ARLASSERT(interpolatingPhysicsReceiver.get() == this);
+	ARLASSERT(!job);
 
 	// We can't create the job until we're in the DataModel
 	if (!DataModel::get(replicator))

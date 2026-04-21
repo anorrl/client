@@ -3,7 +3,7 @@
 #include "Util/G3DCore.h"
 #include "Voxel/Util.h"
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 namespace Water {
 	// Generate relative cell coords relevant to the water on wedge state of a

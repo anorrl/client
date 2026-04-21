@@ -18,8 +18,8 @@ struct lua_State;
 // call to one of the VM protected sections.
 void lua_vmhooked_handler(lua_State* L) {
     VMProtectBeginVirtualization(NULL);
-    RBX::Tokens::sendStatsToken.addFlagFast(HATE_LUA_VM_HOOKED);
-    RBX::DataModel* dm = RBX::DataModel::get(RobloxExtraSpace::get(L)->context());
+    ARL::Tokens::sendStatsToken.addFlagFast(HATE_LUA_VM_HOOKED);
+    ARL::DataModel* dm = ARL::DataModel::get(RobloxExtraSpace::get(L)->context());
     if (dm)
     {
         dm->addHackFlag(HATE_LUA_VM_HOOKED);
@@ -27,8 +27,8 @@ void lua_vmhooked_handler(lua_State* L) {
     VMProtectEnd();
 };
 
-#ifdef RBX_SECURE_DOUBLE
-RBX_ALIGN(16) int LuaSecureDouble::luaXorMask[4];
+#ifdef ARL_SECURE_DOUBLE
+ARL_ALIGN(16) int LuaSecureDouble::luaXorMask[4];
 
 // For lua, create a random bitstring to use for doubles.
 // Mainly care about the exponent bits.  This ensures at least one of the top 7 exp
@@ -51,7 +51,7 @@ void LuaSecureDouble::initDouble()
 #ifdef _WIN32
 // used for the patching process.  this is the .text section, 
 // fallback defaults are to start at 0x00400000 and be 20MB
-namespace RBX { namespace Security {
+namespace ARL { namespace Security {
     // All of the .text
     volatile const uintptr_t rbxTextBase = 0x00400000;
     volatile const size_t rbxTextSize = 0xFFFFFFFF;

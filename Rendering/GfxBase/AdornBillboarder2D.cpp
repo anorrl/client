@@ -1,6 +1,6 @@
 #include "GfxBase/AdornBillboarder2D.h"
 
-namespace RBX {
+namespace ARL {
 
 AdornBillboarder2D::AdornBillboarder2D(Adorn* parent, const Rect2D& viewport, const Vector2& screenOffset)
     : parent(parent)

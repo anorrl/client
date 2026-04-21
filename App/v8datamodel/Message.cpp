@@ -13,11 +13,11 @@
 
 
 
-void (*gMessageSetTextCallback)(const RBX::Message*);
+void (*gMessageSetTextCallback)(const ARL::Message*);
 void (*gMessageGetTextCallback)(const std::string& text);
-void (*gMessageDtorCallback)(const RBX::Message*);
+void (*gMessageDtorCallback)(const ARL::Message*);
 
-namespace RBX {
+namespace ARL {
 
 const char* const sMessage	= "Message";
 const char* const sHint		= "Hint";
@@ -64,7 +64,7 @@ const std::string& Message::getText() const {
 
 void Message::renderFullScreen(Adorn* adorn)
 {
-	RBXASSERT(filterState == ContentFilter::Succeeded);
+	ARLASSERT(filterState == ContentFilter::Succeeded);
 
     Rect2D rect = adorn->getUserGuiRect();
 

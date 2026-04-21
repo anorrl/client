@@ -7,7 +7,7 @@
 #include "rbx/Debug.h"
 #include "RakNetTypes.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 const char* const columnNames = "tag, offset, bitSize, layer1, layer2, layer3, layer4, layer5, layer6, layer7, layer8, layer9";
@@ -58,7 +58,7 @@ void NetworkProfiler::Connect()
 		RakNet::SystemAddress serverAddress = packetizedTCP.Connect(networkSettings->profilerServerIp.c_str(), networkSettings->profilerServerPort, true);
 		if (serverAddress == RakNet::UNASSIGNED_SYSTEM_ADDRESS)
 		{
-			StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Failed to connect to profiler log server.");
+			StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Failed to connect to profiler log server.");
 			packetizedTCP.Stop();
 			packetizedTCP.DetachPlugin(loggerPlugin);
 			delete loggerPlugin;
@@ -127,7 +127,7 @@ void NetworkProfiler::outputCpuProfiling()
         if (cpuProfilingStats[tag].getNumSample() > 0)
         {
             // output the stats
-            StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "[%d] profiling results (%d samples):", tag, cpuProfilingStats[tag].getNumSample());
+            StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "[%d] profiling results (%d samples):", tag, cpuProfilingStats[tag].getNumSample());
             float lastStepDelta = 0.0f;
             for (int i=0; cpuProfilingStats[tag].stepDelta[i]>0.f; i++)
             {
@@ -135,7 +135,7 @@ void NetworkProfiler::outputCpuProfiling()
                 float stepDelta = cpuProfilingStats[tag].stepDelta[i];
                 deltaBetweenSteps = stepDelta - lastStepDelta;
                 lastStepDelta = stepDelta;
-                StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Step %d: %f (delta %f, total %f)", i+1, stepDelta, deltaBetweenSteps, deltaBetweenSteps*cpuProfilingStats[tag].getNumSample());
+                StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Step %d: %f (delta %f, total %f)", i+1, stepDelta, deltaBetweenSteps, deltaBetweenSteps*cpuProfilingStats[tag].getNumSample());
             }
         }
     }
@@ -158,8 +158,8 @@ void NetworkProfiler::endProfiling(const std::string& dataBlobName, const RakNet
 	if (CanProfile())
 	{
 		DataBlobInfo dataBlobInfo = dataBlobStack.back();
-		RBXASSERT(dataBlobName == dataBlobInfo.name); // Make sure startProfiling and endProfiling are always in pairs
-		RBXASSERT(dataBlobStack.size() > 0);
+		ARLASSERT(dataBlobName == dataBlobInfo.name); // Make sure startProfiling and endProfiling are always in pairs
+		ARLASSERT(dataBlobStack.size() > 0);
 		const char* profilerTag = networkSettings->profilerTag.c_str();
 		if (dataBlobStack.size() == deepestLayer) // only log the leaf
 		{
@@ -204,7 +204,7 @@ void NetworkProfiler::endProfiling(const std::string& dataBlobName, const RakNet
 					rakSqlLog("details", columnNames, (profilerTag, dataBlobInfo.bitStreamOffset, bitStream->GetReadOffset() - dataBlobInfo.bitStreamOffset, dataBlobStack.at(0).name.c_str(), dataBlobStack.at(1).name.c_str(), dataBlobStack.at(2).name.c_str(), dataBlobStack.at(3).name.c_str(), dataBlobStack.at(4).name.c_str(), dataBlobStack.at(5).name.c_str(), dataBlobStack.at(6).name.c_str(), dataBlobStack.at(7).name.c_str(), dataBlobStack.at(8).name.c_str()));
 					break;
 				default:
-					RBXASSERT(false && "Overflowing the network profiler data layer stack (9). Maybe add more?");
+					ARLASSERT(false && "Overflowing the network profiler data layer stack (9). Maybe add more?");
 				}
 			}
 		}

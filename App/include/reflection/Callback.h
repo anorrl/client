@@ -8,14 +8,14 @@
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits.hpp>
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
 		class Callback;
 
 		// Base class that describes a Callback
-		class RBXBaseClass CallbackDescriptor : public MemberDescriptor
+		class ARLBaseClass CallbackDescriptor : public MemberDescriptor
 		{
 		public:
 			typedef Callback ConstMember;
@@ -101,7 +101,7 @@ namespace RBX
 				return *this;
 			}
 
-			inline const RBX::Name& getName() const { 
+			inline const ARL::Name& getName() const { 
 				return descriptor->name; 
 			}
 
@@ -157,7 +157,7 @@ namespace RBX
 				return convertResult<Result>(result);
 			}
 
-			class RBXInterface ISetter
+			class ARLInterface ISetter
 			{
 			public:
                 virtual ~ISetter() {}
@@ -226,7 +226,7 @@ namespace RBX
 			{
 				BOOST_STATIC_ASSERT((boost::function_traits<Signature>::arity == 1));
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				this->signature.addArgument(ARL::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
 			}
 		public:
 			virtual void setGenericCallback(DescribedBase* object, shared_ptr<SyncCallbackDescriptor::GenericFunction> function) const
@@ -255,8 +255,8 @@ namespace RBX
 			{
 				BOOST_STATIC_ASSERT((boost::function_traits<Signature>::arity == 2));
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
-				this->signature.addArgument(RBX::Name::declare(arg2name), Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
+				this->signature.addArgument(ARL::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				this->signature.addArgument(ARL::Name::declare(arg2name), Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
 			}
 		public:
 			virtual void setGenericCallback(DescribedBase* object, shared_ptr<SyncCallbackDescriptor::GenericFunction> function) const
@@ -287,9 +287,9 @@ namespace RBX
 			{
 				BOOST_STATIC_ASSERT((boost::function_traits<Signature>::arity == 3));
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
-				this->signature.addArgument(RBX::Name::declare(arg2name), Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
-				this->signature.addArgument(RBX::Name::declare(arg3name), Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
+				this->signature.addArgument(ARL::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				this->signature.addArgument(ARL::Name::declare(arg2name), Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
+				this->signature.addArgument(ARL::Name::declare(arg3name), Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
 			}
 		public:
 			virtual void setGenericCallback(DescribedBase* object, shared_ptr<SyncCallbackDescriptor::GenericFunction> function) const
@@ -322,10 +322,10 @@ namespace RBX
 			{
 				BOOST_STATIC_ASSERT((boost::function_traits<Signature>::arity == 4));
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
-				this->signature.addArgument(RBX::Name::declare(arg2name), Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
-				this->signature.addArgument(RBX::Name::declare(arg3name), Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
-				this->signature.addArgument(RBX::Name::declare(arg4name), Type::singleton<typename boost::function_traits<Signature>::arg4_type>());
+				this->signature.addArgument(ARL::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				this->signature.addArgument(ARL::Name::declare(arg2name), Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
+				this->signature.addArgument(ARL::Name::declare(arg3name), Type::singleton<typename boost::function_traits<Signature>::arg3_type>());
+				this->signature.addArgument(ARL::Name::declare(arg4name), Type::singleton<typename boost::function_traits<Signature>::arg4_type>());
 			}
 		public:
 			virtual void setGenericCallback(DescribedBase* object, shared_ptr<SyncCallbackDescriptor::GenericFunction> function) const
@@ -501,7 +501,7 @@ namespace RBX
             {
 				BOOST_STATIC_ASSERT((boost::function_traits<Signature>::arity == 1));
 				this->signature.resultType = &Type::singleton<typename boost::function_traits<Signature>::result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				this->signature.addArgument(ARL::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
             }
 
             Function Class::*member;
@@ -558,8 +558,8 @@ namespace RBX
             {
 				BOOST_STATIC_ASSERT((boost::function_traits<Signature>::arity == 2));
 				this->signature.resultType = &Type::singleton<typename boost::function_traits<Signature>::result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
-				this->signature.addArgument(RBX::Name::declare(arg2name), Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
+				this->signature.addArgument(ARL::Name::declare(arg1name), Type::singleton<typename boost::function_traits<Signature>::arg1_type>());
+				this->signature.addArgument(ARL::Name::declare(arg2name), Type::singleton<typename boost::function_traits<Signature>::arg2_type>());
             }
 
             Function Class::*member;

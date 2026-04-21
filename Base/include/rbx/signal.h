@@ -26,14 +26,14 @@ using boost::weak_ptr;
 LOGGROUP(ScopedConnection);
 
 #ifdef _DEBUG
-#define RBX_SIGNALS_DEBUGGING
+#define ARL_SIGNALS_DEBUGGING
 #endif
 
-#ifdef RBX_SIGNALS_DEBUGGING
-#define RBX_SIGNALS_ASSERT RBX_CRASH_ASSERT
+#ifdef ARL_SIGNALS_DEBUGGING
+#define ARL_SIGNALS_ASSERT ARL_CRASH_ASSERT
 #pragma optimize( "", off )
 #else
-#define RBX_SIGNALS_ASSERT RBXASSERT
+#define ARL_SIGNALS_ASSERT ARLASSERT
 #endif
 
 namespace rbx
@@ -253,7 +253,7 @@ namespace rbx
 			{
 				// Invariant: the value of item->next does not change
 
-				RBXASSERT(!boost::intrusive_ptr_expired(item));
+				ARLASSERT(!boost::intrusive_ptr_expired(item));
 
 				if (item == head)
 					head = item->next;
@@ -268,19 +268,19 @@ namespace rbx
 					// In theory prev should never be NULL, because for it to be NULL
 					// the slot would be destroyed, in which case remove() can't be
 					// called. Let's play it safe and null-check anyway.
-					RBX_SIGNALS_ASSERT(!prev || prev->next.get() == item);
+					ARL_SIGNALS_ASSERT(!prev || prev->next.get() == item);
 
 					if (prev)
 						prev->next = item->next;
 				}
 
-				RBXASSERT(!boost::intrusive_ptr_expired(item));
+				ARLASSERT(!boost::intrusive_ptr_expired(item));
 				// item is now deletable
 			}
 
 			void insert(slot* item)
 			{
-				RBX_SIGNALS_ASSERT(item);
+				ARL_SIGNALS_ASSERT(item);
 
 				boost::mutex::scoped_lock lock(mutex());
 
@@ -429,7 +429,7 @@ namespace rbx
 					while (this->next(item))
 						fireItem(item.get());
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					rbx::signals::signal<Signature>::on_error(e);
 					// Note: We put this handler on the outside of the for loop
@@ -459,7 +459,7 @@ begin:
 					while (this->next(item))
 						fireItem(item.get(), arg1);
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					rbx::signals::signal<Signature>::on_error(e);
 					// Note: We put this handler on the outside of the for loop
@@ -489,7 +489,7 @@ begin:
 					while (this->next(item))
 						fireItem(item.get(), arg1, arg2);
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					rbx::signals::signal<Signature>::on_error(e);
 					// Note: We put this handler on the outside of the for loop
@@ -520,7 +520,7 @@ begin:
 					while (this->next(item))
 						fireItem(item.get(), arg1, arg2, arg3);
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					rbx::signals::signal<Signature>::on_error(e);
 					// Note: We put this handler on the outside of the for loop
@@ -550,7 +550,7 @@ begin:
 					while (this->next(item))
 						fireItem(item.get(), arg1, arg2, arg3, arg4);
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					rbx::signals::signal<Signature>::on_error(e);
 					// Note: We put this handler on the outside of the for loop
@@ -580,7 +580,7 @@ begin:
 					while (this->next(item))
 						fireItem(item.get(), arg1, arg2, arg3, arg4, arg5);
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					rbx::signals::signal<Signature>::on_error(e);
 					// Note: We put this handler on the outside of the for loop
@@ -610,7 +610,7 @@ begin:
 					while (this->next(item))
 						fireItem(item.get(), arg1, arg2, arg3, arg4, arg5, arg6);
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					rbx::signals::signal<Signature>::on_error(e);
 					// Note: We put this handler on the outside of the for loop
@@ -640,7 +640,7 @@ begin:
 					while (this->next(item))
 						fireItem(item.get(), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					rbx::signals::signal<Signature>::on_error(e);
 					// Note: We put this handler on the outside of the for loop
@@ -681,6 +681,6 @@ public:
 	
 }
 
-#ifdef RBX_SIGNALS_DEBUGGING
+#ifdef ARL_SIGNALS_DEBUGGING
 #pragma optimize( "", on )
 #endif

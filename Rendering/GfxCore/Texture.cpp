@@ -4,7 +4,7 @@
 
 FASTFLAGVARIABLE(GraphicsTextureCommitChanges, false)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -76,13 +76,13 @@ Texture::Texture(Device* device, Type type, Format format, unsigned int width, u
     , mipLevels(mipLevels)
     , usage(usage)
 {
-	RBXASSERT(width > 0 && height > 0 && depth > 0);
-	RBXASSERT(mipLevels > 0 && mipLevels <= getMaxMipCount(width, height, depth));
-	RBXASSERT(type == Type_3D || depth == 1);
+	ARLASSERT(width > 0 && height > 0 && depth > 0);
+	ARLASSERT(mipLevels > 0 && mipLevels <= getMaxMipCount(width, height, depth));
+	ARLASSERT(type == Type_3D || depth == 1);
     
     if (usage != Usage_Renderbuffer)
     {
-        RBXPROFILER_COUNTER_ADD("memory/gpu/texture", getTextureSize(type, format, width, height, depth, mipLevels));
+        ARLPROFILER_COUNTER_ADD("memory/gpu/texture", getTextureSize(type, format, width, height, depth, mipLevels));
     }
 }
 
@@ -90,7 +90,7 @@ Texture::~Texture()
 {
     if (usage != Usage_Renderbuffer)
     {
-        RBXPROFILER_COUNTER_SUB("memory/gpu/texture", getTextureSize(type, format, width, height, depth, mipLevels));
+        ARLPROFILER_COUNTER_SUB("memory/gpu/texture", getTextureSize(type, format, width, height, depth, mipLevels));
     }
 }
 
@@ -130,7 +130,7 @@ unsigned int Texture::getImageSize(Format format, unsigned int width, unsigned i
         return (std::max(width, 8u) * std::max(height, 8u) * 4 + 7) / 8;
             
     default:
-        RBXASSERT(!desc.compressed);
+        ARLASSERT(!desc.compressed);
         return width * height * (desc.bpp / 8);
     }
 }

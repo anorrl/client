@@ -6,7 +6,7 @@
 
 DYNAMIC_FASTFLAG(ClampRunSignalMinSpeed)
 
-namespace RBX {
+namespace ARL {
 namespace HUMAN {
 
 const char* const sRunningNoPhysics = "RunningNoPhysics";
@@ -29,4 +29,4 @@ RunningNoPhysics::RunningNoPhysics(Humanoid* humanoid, StateType priorState)
 
 
 } // namespace HUMAN
-} // namespace RBX
+} // namespace ARL

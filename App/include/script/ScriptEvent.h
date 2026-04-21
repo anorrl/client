@@ -16,7 +16,7 @@ class ThreadInfo;
 
 
 
-namespace RBX { 
+namespace ARL { 
 	class Instance;
 	class ScriptContext;
 
@@ -29,11 +29,11 @@ namespace RBX {
 		struct WaitingThread
 		{
 			boost::intrusive_ptr<WeakThreadRef> thread;
-			RBX::Time waitTime;
-			RBX::Time resumeTime;
-			WaitingThread(lua_State *L, RBX::Time::Interval requestedDelay)
+			ARL::Time waitTime;
+			ARL::Time resumeTime;
+			WaitingThread(lua_State *L, ARL::Time::Interval requestedDelay)
 				:thread(new WeakThreadRef(L)),
-				waitTime(RBX::Time::now<RBX::Time::Precise>())
+				waitTime(ARL::Time::now<ARL::Time::Precise>())
 			{
 				resumeTime = waitTime + requestedDelay;
 			}

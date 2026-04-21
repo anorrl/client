@@ -27,7 +27,7 @@ FASTFLAGVARIABLE(US21969, false);
 FASTINTVARIABLE(NumSmoothingPasses, 0)
 FASTINTVARIABLE(RegLambda, -1000000000)
 
-namespace RBX
+namespace ARL
 {
     bool ceDetected = false;
     bool ceHwndChecks = false;
@@ -143,7 +143,7 @@ namespace
 } // namespace
 
 // ScanForCheatEngine. Returns true if we find it.
-bool RBX::vmProtectedDetectCheatEngineIcon()
+bool ARL::vmProtectedDetectCheatEngineIcon()
 {
 	VMProtectBeginMutation("6");
 
@@ -236,7 +236,7 @@ bool RBX::vmProtectedDetectCheatEngineIcon()
 	
 }
 
-namespace RBX {
+namespace ARL {
 
     namespace CryptStrings{
         // Code generation.  This is equivalent to strCmp(x, "Window") == 0
@@ -613,7 +613,7 @@ HANDLE setupCeLogWatcher()
 
 }
 
-namespace RBX
+namespace ARL
 {
     // Because of RTTI, this also needs to be obfuscated.  "VerifyConnectionJob" seems safe enough.
     VerifyConnectionJob::VerifyConnectionJob() :
@@ -655,7 +655,7 @@ namespace RBX
         // need another fake string here.  this also appears in the client.
         RobloxGoogleAnalytics::trackUserTiming(GA_CATEGORY_GAME, GA_CLIENT_START, cePerfTime.msec(), "Process hotfixes");
 
-        return RBX::TaskScheduler::Done;
+        return ARL::TaskScheduler::Done;
     }
 
     SpeedhackDetect::SpeedhackDetect()
@@ -776,7 +776,7 @@ namespace RBX
         if (isBadHash)
         {
             Tokens::simpleToken |= HATE_CHEATENGINE_OLD;
-            RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag7, HATE_CHEATENGINE_OLD);
+            ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag7, HATE_CHEATENGINE_OLD);
         }
         VMProtectEnd();
     }
@@ -788,7 +788,7 @@ namespace RBX
         VMProtectEnd();
     }
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
     static boost::mutex hwbpMutex;
 
     static inline bool setHwbpContex(uintptr_t addr, CONTEXT* ctx)

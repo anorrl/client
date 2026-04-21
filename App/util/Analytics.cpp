@@ -13,7 +13,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-using namespace RBX;
+using namespace ARL;
 
 DYNAMIC_LOGVARIABLE(AnalyticsLog, 0)
 
@@ -46,7 +46,7 @@ namespace { // http utils
 
 		std::string fullUrl = isGet ? format("%s?%s", url.c_str(), params.c_str()) : url;
 
-		RBX::Http http(fullUrl);
+		ARL::Http http(fullUrl);
 		http.recordStatistics = false;
 		http.doNotUseCachedResponse = true;
 		try
@@ -56,7 +56,7 @@ namespace { // http utils
 			else
 				http.post(sparams, optionalContentType.empty() ? Http::kContentTypeUrlEncoded : optionalContentType, params.size() > 256, response, externalRequest);
 		}
-		catch (const RBX::base_exception &ex)
+		catch (const ARL::base_exception &ex)
 		{
 			FASTLOGS(DFLog::AnalyticsLog, "Exception in analytics httpHandler: %s", ex.what());
 		}
@@ -71,7 +71,7 @@ namespace { // http utils
 		else
 		{
 			bool didSchedule = threadPool.schedule(boost::bind(&httpHandler, url, data, optionalContentType, isGet, externalRequest));
-			RBXASSERT(didSchedule);
+			ARLASSERT(didSchedule);
 			if (!didSchedule)
 			{
 				FASTLOGS(DFLog::AnalyticsLog, "Analytics task was not scheduled in the threadpool: %s", data.c_str());
@@ -80,7 +80,7 @@ namespace { // http utils
 	}
 }
 
-namespace RBX {
+namespace ARL {
 namespace Analytics {
 
 	static std::string appVersion;
@@ -98,12 +98,12 @@ namespace Analytics {
 
 	void setUserId(int id)
 	{
-		userId = RBX::format("%d", id);
+		userId = ARL::format("%d", id);
 	}
 
 	void setPlaceId(int id)
 	{
-		placeId = RBX::format("%d", id);
+		placeId = ARL::format("%d", id);
 	}
 
 	void setAppVersion(const std::string& version)
@@ -132,15 +132,15 @@ namespace EphemeralCounter
 		if (baseUrl[baseUrl.size() - 1] != '/')
 			baseUrl += '/';
 
-		std::string valueStr = RBX::format("%f", value);
+		std::string valueStr = ARL::format("%f", value);
         std::string url;
 		if (FFlag::UseBuildGenericGameUrl)
 		{
-			url = BuildGenericGameUrl(baseUrl, RBX::format("game/report-stats?name=%s&value=%s", Http::urlEncode(category).c_str(), Http::urlEncode(valueStr).c_str()));
+			url = BuildGenericGameUrl(baseUrl, ARL::format("game/report-stats?name=%s&value=%s", Http::urlEncode(category).c_str(), Http::urlEncode(valueStr).c_str()));
 		}
 		else
 		{
-			url = RBX::format("%sgame/report-stats?name=%s&value=%s", baseUrl.c_str(), Http::urlEncode(category).c_str(), Http::urlEncode(valueStr).c_str());
+			url = ARL::format("%sgame/report-stats?name=%s&value=%s", baseUrl.c_str(), Http::urlEncode(category).c_str(), Http::urlEncode(valueStr).c_str());
 		}
 
 		// post
@@ -159,7 +159,7 @@ namespace EphemeralCounter
 	void reportCounter(const std::string& counterName, int amount, bool blocking)
 	{
 		std::string counterUrl = GetCountersUrl(::GetBaseURL(), countersApiKey);
-		std::string url = RBX::format("%s&counterName=%s&amount=%d", counterUrl.c_str(), counterName.c_str(), amount);
+		std::string url = ARL::format("%s&counterName=%s&amount=%d", counterUrl.c_str(), counterName.c_str(), amount);
 
 		// post
 		postOrGet(countersThreadPool, url, "", Http::kContentTypeUrlEncoded, blocking, false, false);
@@ -183,7 +183,7 @@ namespace GoogleAnalytics {
 
 	std::string generateClientID()
 	{
-		RBX::Guid guid;
+		ARL::Guid guid;
 		std::string clientGUID;
 		guid.generateStandardGUID(clientGUID);
 
@@ -237,7 +237,7 @@ namespace GoogleAnalytics {
 	void init(const std::string &accountPropertyID, const std::string& productName)
 	{
 		if(atteptedToUseBeforeInit)
-			RBXASSERT(false); // Did you try to send events before analytics is initialized? Set breakpoints to trackEvent* to find out.
+			ARLASSERT(false); // Did you try to send events before analytics is initialized? Set breakpoints to trackEvent* to find out.
 
 		if (initialized)
 		{
@@ -248,7 +248,7 @@ namespace GoogleAnalytics {
 		robloxProductName = productName;
 
 		googleAccountPropertyID = accountPropertyID;
-		RBXASSERT(googleAccountPropertyID.length() > 0);
+		ARLASSERT(googleAccountPropertyID.length() > 0);
 
 		std::string clientId = GameBasicSettings::singleton().getGoogleAnalyticsClientId();
 		if (clientId.length() == 0)
@@ -259,7 +259,7 @@ namespace GoogleAnalytics {
 		}
 
 		googleClientID = clientId;
-		RBXASSERT(googleClientID.length() > 0);
+		ARLASSERT(googleClientID.length() > 0);
 
 		initialized = true;
 	}
@@ -317,7 +317,7 @@ namespace GoogleAnalytics {
 				<< "&value=" << value
 				<< experimentString;		
 
-			postOrGet(defaultThreadPool, RBX::format("%s%s/e.png",DFString::RobloxAnalyticsURL.c_str(), robloxProductName.c_str()), params.str(), Http::kContentTypeDefaultUnspecified, sync, true, true);
+			postOrGet(defaultThreadPool, ARL::format("%s%s/e.png",DFString::RobloxAnalyticsURL.c_str(), robloxProductName.c_str()), params.str(), Http::kContentTypeDefaultUnspecified, sync, true, true);
 		}
 	}
 
@@ -434,14 +434,14 @@ namespace InfluxDb {
         return s;
     }
 
-	using namespace RBX::Analytics::InfluxDb;
+	using namespace ARL::Analytics::InfluxDb;
 
 	void reportPointsV2(const std::string& resource, const boost::unordered_set<Point>& points, int throttleHundredthsPercentage, bool blocking, const std::string& userIdOverride)
 	{
 		if (!canSend(throttleHundredthsPercentage))
 			return;
 
-		RBXASSERT(!points.empty());
+		ARLASSERT(!points.empty());
 
 		// Pushes to InfluxDB
         std::string url = DFString::HttpInfluxURL + "/write?db=" + DFString::HttpInfluxDatabase + "&u=" + DFString::HttpInfluxUser + "&p=" + DFString::HttpInfluxPassword;
@@ -456,7 +456,7 @@ namespace InfluxDb {
 
         // tags
         std::stringstream ss;
-		ss << RBX::format("%s,placeid=%s,userid=%s,reporter=%s,platform=%s,device=%s,appversion=%s,location=%s,osversion=%s ",
+		ss << ARL::format("%s,placeid=%s,userid=%s,reporter=%s,platform=%s,device=%s,appversion=%s,location=%s,osversion=%s ",
 			resource.c_str(), 
 			(!placeId.empty() ? placeId.c_str() : "0"), 
 			uid.c_str(),
@@ -490,7 +490,7 @@ namespace InfluxDb {
 		if (!canSend(throttleHundredthsPercentage))
 			return;
 
-		RBXASSERT(!points.empty());
+		ARLASSERT(!points.empty());
 
 		// Pushes to InfluxDB.
 		std::string url = DFString::HttpInfluxURL + "/db/" + DFString::HttpInfluxDatabase + "/series?u=" + DFString::HttpInfluxUser + "&p=" + Http::urlEncode(DFString::HttpInfluxPassword);
@@ -533,4 +533,4 @@ namespace InfluxDb {
 
 } // namespace InfluxDb
 } // namespace ExternalAnalytics
-} // namespace RBX
+} // namespace ARL

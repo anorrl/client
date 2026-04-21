@@ -93,7 +93,7 @@ public:
 		GUID g;
 		::CoCreateGuid(&g);
 		char szFilePath[MAX_PATH];
-		sprintf_s(szFilePath, MAX_PATH, "%SRBX-%08X.%S", get_tmp_path().c_str(), g.Data1, ext);
+		sprintf_s(szFilePath, MAX_PATH, "%SARL-%08X.%S", get_tmp_path().c_str(), g.Data1, ext);
 
 		return STRING(CVTS2W(szFilePath));
 #else

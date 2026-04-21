@@ -8,7 +8,7 @@
 #include "Network/Player.h"
 
 
-namespace RBX {
+namespace ARL {
 
 const char *const sTeam = "Team";
 

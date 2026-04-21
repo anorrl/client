@@ -2,7 +2,7 @@
 #include "GfxBase/ViewportBillboarder.h"
 #include "V8DataModel/Camera.h"
 
-namespace RBX {
+namespace ARL {
 
 AdornBillboarder::AdornBillboarder(Adorn* parent, const ViewportBillboarder& viewportBillboarder)
 	: parent(parent)

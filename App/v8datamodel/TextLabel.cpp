@@ -5,7 +5,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(TextTransparencyRenderingFix, false)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sTextLabel = "TextLabel";
 
@@ -49,4 +49,4 @@ void TextLabel::render2dContext(Adorn* adorn, const Instance* context)
 	renderStudioSelectionBox(adorn);
 }
 
-}  // namespace RBX
+}  // namespace ARL

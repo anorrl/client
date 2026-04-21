@@ -15,7 +15,7 @@
 
 FASTFLAG(RenderNewParticles2Enable);
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -52,7 +52,7 @@ void ExplosionEmitter::updateCoordinateFrame(bool recalcLocalBounds)
 {
     CoordinateFrame frame = part ? part->calcRenderingCoordinateFrame() : CoordinateFrame();
 
-    if (RBX::Explosion* expl = Instance::fastDynamicCast<RBX::Explosion>(effect.get()))
+    if (ARL::Explosion* expl = Instance::fastDynamicCast<ARL::Explosion>(effect.get()))
     {
         frame.rotation = Matrix3::identity();
         frame.translation = expl->getPosition();
@@ -91,7 +91,7 @@ void ExplosionEmitter::onCombinedSignalEx(Instance::CombinedSignalType type, con
     }
 }
 
-void ExplosionEmitter::onPropertyChangedEx(const RBX::Reflection::PropertyDescriptor* descriptor)
+void ExplosionEmitter::onPropertyChangedEx(const ARL::Reflection::PropertyDescriptor* descriptor)
 {
     invalidateEntity();
 }
@@ -110,17 +110,17 @@ void ExplosionEmitter::onAncestorChangedEx()
     {
         unbind();
         
-        RBX::PartInstance* parent = RBX::Instance::fastDynamicCast<RBX::PartInstance>(effectCopy->getParent());
-        shared_ptr<RBX::PartInstance> part = shared_from(parent);
+        ARL::PartInstance* parent = ARL::Instance::fastDynamicCast<ARL::PartInstance>(effectCopy->getParent());
+        shared_ptr<ARL::PartInstance> part = shared_from(parent);
             
         bind(part, effectCopy);
     }
 }
 
-void ExplosionEmitter::bind(const shared_ptr<RBX::PartInstance>& part, const shared_ptr<RBX::Instance>& instance)
+void ExplosionEmitter::bind(const shared_ptr<ARL::PartInstance>& part, const shared_ptr<ARL::Instance>& instance)
 {
-    RBXASSERT(!this->part && !this->effect);
-    RBXASSERT(instance);
+    ARLASSERT(!this->part && !this->effect);
+    ARLASSERT(instance);
     
     this->part = part;
     this->effect = instance;
@@ -197,7 +197,7 @@ void ExplosionEmitter::applySettings()
     
     static const Vector2 nc(-1,1);
     
-    CoordinateFrame initCframe = static_cast<RBX::Explosion*>(effect.get())->getPosition();
+    CoordinateFrame initCframe = static_cast<ARL::Explosion*>(effect.get())->getPosition();
 
     enabled = true;
     

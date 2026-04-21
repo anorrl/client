@@ -4,8 +4,8 @@
 #include "Reflection/EnumConverter.h"
 
 
-using namespace RBX;
-using namespace RBX::Lua;
+using namespace ARL;
+using namespace ARL::Lua;
 
 template<>
 const char* Bridge< AllEnumDescriptorsPtr, false >::className("Enums");
@@ -14,13 +14,13 @@ const char* Bridge< EnumDescriptorPtr, false >::className("Enum");
 template<>
 const char* Bridge< EnumDescriptorItemPtr, false >::className("EnumItem");
 
-namespace RBX { namespace Lua {
+namespace ARL { namespace Lua {
 
 //Convert Enum.Foo to a EnumDescriptor<
 template<>
 int Bridge<AllEnumDescriptorsPtr, false>::on_index(const AllEnumDescriptorsPtr& object, const char* name, lua_State *L)
 {
-	const Reflection::EnumDescriptor* desc = Reflection::EnumDescriptor::lookupDescriptor(RBX::Name::lookup(name));
+	const Reflection::EnumDescriptor* desc = Reflection::EnumDescriptor::lookupDescriptor(ARL::Name::lookup(name));
 	if (desc)
 	{
 		Enum::push(L, desc);
@@ -28,20 +28,20 @@ int Bridge<AllEnumDescriptorsPtr, false>::on_index(const AllEnumDescriptorsPtr& 
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid EnumItem", name);
+	throw ARL::runtime_error("%s is not a valid EnumItem", name);
 }
 
 template<>
 void Bridge<AllEnumDescriptorsPtr, false>::on_newindex(AllEnumDescriptorsPtr& object, const char* name, lua_State *L)
 {
-	throw RBX::runtime_error("Enums cannot be modified");
+	throw ARL::runtime_error("Enums cannot be modified");
 }
 
 static int pushEnumList(lua_State *L)
 {
 	const EnumDescriptorPtr& object	= Bridge<EnumDescriptorPtr, false>::getObject(L, 1);
 
-#ifdef RBXASSERTENABLED
+#ifdef ARLASSERTENABLED
 	int i = lua_gettop(L);
 #endif
 	lua_createtable(L, object->getEnumCount(), 0);				//Stack: t
@@ -53,7 +53,7 @@ static int pushEnumList(lua_State *L)
 		Lua::EnumItem::push(L, *iter);							//Stack: value, index, t
 		lua_rawset(L, -3);										//Stack: t
 	}
-	RBXASSERT(lua_gettop(L) == i + 1);
+	ARLASSERT(lua_gettop(L) == i + 1);
 	return 1;
 }
 template<>
@@ -71,13 +71,13 @@ int Bridge<EnumDescriptorPtr, false>::on_index(const EnumDescriptorPtr& object, 
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid EnumItem", name);
+	throw ARL::runtime_error("%s is not a valid EnumItem", name);
 }
 
 template<>
 void Bridge<EnumDescriptorPtr, false>::on_newindex(EnumDescriptorPtr& object, const char* name, lua_State *L)
 {
-	throw RBX::runtime_error("Enum cannot be modified");
+	throw ARL::runtime_error("Enum cannot be modified");
 }
 
 template<>
@@ -96,13 +96,13 @@ int Bridge<EnumDescriptorItemPtr, false>::on_index(const EnumDescriptorItemPtr& 
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
 void Bridge<EnumDescriptorItemPtr, false>::on_newindex(EnumDescriptorItemPtr& object, const char* name, lua_State *L)
 {
-	throw RBX::runtime_error("EnumItem cannot be modified");
+	throw ARL::runtime_error("EnumItem cannot be modified");
 }
 
 }} //namespace
@@ -115,7 +115,7 @@ void Enums::declareAllEnums(lua_State *L)
 	lua_setglobal(L, "Enum");
 }
 
-bool Enums::getValue(lua_State *L, unsigned int index, RBX::Reflection::Variant& value)
+bool Enums::getValue(lua_State *L, unsigned int index, ARL::Reflection::Variant& value)
 {
 	EnumDescriptorItemPtr item;
 	if (EnumItem::getItem(L, index, item)){
@@ -124,7 +124,7 @@ bool Enums::getValue(lua_State *L, unsigned int index, RBX::Reflection::Variant&
 	return false;
 }
 
-namespace RBX
+namespace ARL
 {
 	namespace Lua
 	{
@@ -148,7 +148,7 @@ namespace RBX
 		template<>
 		int Bridge< EnumDescriptorItemPtr, false >::on_tostring(const EnumDescriptorItemPtr& object, lua_State *L)
 		{
-			std::string s = RBX::format("Enum.%s.%s", object->owner.name.c_str(), object->name.c_str());
+			std::string s = ARL::format("Enum.%s.%s", object->owner.name.c_str(), object->name.c_str());
 			lua_pushstring(L,  s.c_str());
 			return 1;
 		}

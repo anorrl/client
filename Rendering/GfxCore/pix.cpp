@@ -11,7 +11,7 @@
 
 FASTFLAG(GraphicsDebugMarkersEnable)
 
-namespace RBX { namespace Graphics {
+namespace ARL { namespace Graphics {
 
 
 void PixMarker(DeviceContext* ctx, const char* fmt, ...)

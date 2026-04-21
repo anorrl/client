@@ -23,14 +23,14 @@ public:
 	static const float HybridSensitivity;
 	static const float MouseTug;
 
-	static RBX::ModCode				createModCode(const DiKeys& diKeys); 
-	static RBX::InputObject::UserInputState msgToEventState(UINT uMsg);
-	static RBX::InputObject::UserInputType	msgToEventType(UINT uMsg);
-	static DWORD					keyCodeToDirectInput(RBX::KeyCode keyCode);
-	static RBX::KeyCode				directInputToKeyCode(DWORD diKey);
-	static DWORD					keyCodeToVK(RBX::KeyCode diKey);
+	static ARL::ModCode				createModCode(const DiKeys& diKeys); 
+	static ARL::InputObject::UserInputState msgToEventState(UINT uMsg);
+	static ARL::InputObject::UserInputType	msgToEventType(UINT uMsg);
+	static DWORD					keyCodeToDirectInput(ARL::KeyCode keyCode);
+	static ARL::KeyCode				directInputToKeyCode(DWORD diKey);
+	static DWORD					keyCodeToVK(ARL::KeyCode diKey);
 	static G3D::Vector2				didodToVector2(const DIDEVICEOBJECTDATA& didod);
-	static bool						isCtrlDown(RBX::ModCode modCode);
+	static bool						isCtrlDown(ARL::ModCode modCode);
 
 	static void						wrapMouseNone(const G3D::Vector2& delta, 
 										G3D::Vector2& wrapMouseDelta, 

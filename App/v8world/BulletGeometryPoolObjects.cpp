@@ -3,7 +3,7 @@
 #include "V8World/BulletGeometryPoolObjects.h"
 #include "V8World/TriangleMesh.h"
 
-namespace RBX {
+namespace ARL {
 
 BulletDecompWrapper::BulletDecompWrapper(const std::string& str)
 {
@@ -117,4 +117,4 @@ BulletCornerWedgeShapeWrapper::~BulletCornerWedgeShapeWrapper()
 	delete cornerWedgeShape;
 }
 
-} // namespace RBX
+} // namespace ARL

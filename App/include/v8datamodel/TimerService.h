@@ -6,7 +6,7 @@
 #include "Util/HeartbeatInstance.h"
 #include <queue>
 
-namespace RBX {
+namespace ARL {
 
 	// A Utility class for scheduling operations in game time
 	// TODO: Create signal for running repeated operations

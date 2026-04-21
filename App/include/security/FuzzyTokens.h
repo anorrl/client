@@ -1,7 +1,7 @@
 #pragma once
 #include "boost/thread/mutex.hpp"
 
-namespace RBX
+namespace ARL
 {
     // This is designed to be an anti-tamper security reporting mechanism.
     // Add flag is based on the number of bits in the flag, and succeeds

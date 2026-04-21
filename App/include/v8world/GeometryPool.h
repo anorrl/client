@@ -5,7 +5,7 @@
 #include <boost/weak_ptr.hpp>
 #include <boost/unordered_map.hpp>
 
-namespace RBX {
+namespace ARL {
 
 		struct Vector3Comparer	{
 			bool operator()(const Vector3& a, const Vector3& b) const {
@@ -207,12 +207,12 @@ namespace RBX {
 				StaticData &d = getStaticData();
 				rbx::spin_mutex::scoped_lock lock(d.mutex);
                 
-				RBXASSERT(entry->count > 0);
+				ARLASSERT(entry->count > 0);
                 entry->count--;
                 
                 if (entry->count == 0)
                 {
-                    RBXASSERT(entry == entry->iterator->second);
+                    ARLASSERT(entry == entry->iterator->second);
 
     				d.map.erase(entry->iterator);
                     delete entry;
@@ -228,4 +228,4 @@ namespace RBX {
             }
 		};
 
-} // namespace RBX
+} // namespace ARL

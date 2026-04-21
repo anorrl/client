@@ -13,23 +13,23 @@
 #include "util/standardout.h"
 #include "rbx/SystemUtil.h"
 
-using namespace RBX;
+using namespace ARL;
 
-RBX_REGISTER_CLASS(CRenderSettingsItem);
+ARL_REGISTER_CLASS(CRenderSettingsItem);
 
-RBX_REGISTER_ENUM(CRenderSettings::AASamples);
-RBX_REGISTER_ENUM(CRenderSettings::GraphicsMode);
-RBX_REGISTER_ENUM(CRenderSettings::FrameRateManagerMode);
-RBX_REGISTER_ENUM(CRenderSettings::AntialiasingMode);
-RBX_REGISTER_ENUM(CRenderSettings::QualityLevel);
-RBX_REGISTER_ENUM(CRenderSettings::ResolutionPreset);
+ARL_REGISTER_ENUM(CRenderSettings::AASamples);
+ARL_REGISTER_ENUM(CRenderSettings::GraphicsMode);
+ARL_REGISTER_ENUM(CRenderSettings::FrameRateManagerMode);
+ARL_REGISTER_ENUM(CRenderSettings::AntialiasingMode);
+ARL_REGISTER_ENUM(CRenderSettings::QualityLevel);
+ARL_REGISTER_ENUM(CRenderSettings::ResolutionPreset);
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
 		template<> Reflection::EnumDesc<CRenderSettings::AASamples>::EnumDesc()
-			:RBX::Reflection::EnumDescriptor("AASamples")
+			:ARL::Reflection::EnumDescriptor("AASamples")
 		{
 			addPair(CRenderSettings::NONE, "None");
 			addPair(CRenderSettings::AA4, "4");
@@ -67,12 +67,12 @@ namespace RBX
 		{
 			addPair(CRenderSettings::QualityAuto, "Automatic");
 
-			RBXASSERT(CRenderSettings::QualityLevelMax < 100);
+			ARLASSERT(CRenderSettings::QualityLevelMax < 100);
 
 			// Generating all of the names for quality levels inplace on one array
 			for (int i = 1; i < CRenderSettings::QualityLevelMax; i++)
 			{
-				std::string name = RBX::format("Level%.2d", i);
+				std::string name = ARL::format("Level%.2d", i);
 				addPair((CRenderSettings::QualityLevel)i, name.c_str());
 			}
 			{

@@ -5,7 +5,7 @@
 #include "V8World/RightAngleRampMesh.h"
 #include "V8World/BlockMesh.h"
 
-namespace RBX {
+namespace ARL {
 
 	class RightAngleRampPoly : public Poly {
 	public:

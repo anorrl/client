@@ -11,7 +11,7 @@
 
 struct lua_State;
 
-namespace RBX
+namespace ARL
 {
 	class IScriptOwner;
 	class ScriptContext;
@@ -52,7 +52,7 @@ namespace RBX
 	private:
 		static const std::string emptyString;
 
-		weak_ptr<RBX::Network::Player> localPlayer;
+		weak_ptr<ARL::Network::Player> localPlayer;
 
 		bool disabled;
 		bool badLinkedScript;
@@ -79,8 +79,8 @@ namespace RBX
 
 		static const Reflection::PropDescriptor<BaseScript, ScriptId> prop_SourceCodeId;
 
-		weak_ptr<RBX::Network::Player> getLocalPlayer() { return localPlayer; }
-		void setLocalPlayer(const shared_ptr<RBX::Network::Player>& localPlayer) { this->localPlayer = localPlayer; }
+		weak_ptr<ARL::Network::Player> getLocalPlayer() { return localPlayer; }
+		void setLocalPlayer(const shared_ptr<ARL::Network::Player>& localPlayer) { this->localPlayer = localPlayer; }
 
 		// Thread management
 		boost::intrusive_ptr<Lua::WeakThreadRef::Node> threadNode;
@@ -118,7 +118,7 @@ namespace RBX
 
 		static const Reflection::PropDescriptor<Script, ProtectedString> prop_EmbeddedSourceCode;
 	
-		/*override*/ XmlElement* writeXml(const boost::function<bool(Instance*)>& isInScope, RBX::CreatorRole creatorRole)
+		/*override*/ XmlElement* writeXml(const boost::function<bool(Instance*)>& isInScope, ARL::CreatorRole creatorRole)
 		{
 			return Super::writeXml(isInScope, creatorRole);
 		}

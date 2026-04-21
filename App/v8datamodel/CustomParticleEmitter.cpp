@@ -10,7 +10,7 @@
 DYNAMIC_FASTFLAGVARIABLE(CustomEmitterInstanceEnabled, false)
 DYNAMIC_FASTFLAGVARIABLE(EnableParticleDrag, false)
 
-namespace RBX
+namespace ARL
 {
 
     const char* const sParticleEmitter = "ParticleEmitter";
@@ -34,7 +34,7 @@ namespace RBX
 	, lockedToLocalSpace(false)
 	, dampening(0)
 	, velocityInheritance(0)
-	, emissionDirection(RBX::NORM_Y)
+	, emissionDirection(ARL::NORM_Y)
     {
     }
 
@@ -228,7 +228,7 @@ namespace RBX
 
     static void trackCreation()
     {
-        RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "CustomParticleEmitter");
+        ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "CustomParticleEmitter");
     }
 
     void CustomParticleEmitter::onAncestorChanged(const AncestorChanged& ev)

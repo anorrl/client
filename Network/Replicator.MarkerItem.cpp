@@ -10,7 +10,7 @@
 
 DYNAMIC_LOGGROUP(NetworkJoin)
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 Replicator::MarkerItem::MarkerItem(Replicator* replicator, int id)
@@ -25,7 +25,7 @@ bool Replicator::MarkerItem::write(RakNet::BitStream& bitStream) {
 
 	bitStream << id;
 	if (replicator.settings().printInstances) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 		"Replication: Sending marker %d to %s", 
 		id, 
 		RakNetAddressToString(replicator.remotePlayerId).c_str()
@@ -45,7 +45,7 @@ shared_ptr<DeserializedItem> Replicator::MarkerItem::read(Replicator& replicator
 	bitStream >> deserializedData->id;
 
 	if (replicator.settings().printInstances) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,
 			"Received marker %d from %s", deserializedData->id,
 			RakNetAddressToString(replicator.remotePlayerId).c_str());
 	}

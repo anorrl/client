@@ -10,7 +10,7 @@
 #include "rbx/RunningAverage.h"
 #include <map>
 
-namespace RBX { 
+namespace ARL { 
 	class RenderCaps;
 	class Log;
 
@@ -156,17 +156,17 @@ private:
 
 	float GetTargetFrameTime(int level) const;
 
-	RBX::WindowAverage<double, double> frameTimeAverage;
-	RBX::WindowAverage<double, double> renderTimeAverage;
-	RBX::WindowAverage<double, double> prepareTimeAverage;
-	RBX::WindowAverage<double, double> frameTimeVarianceAverage;
+	ARL::WindowAverage<double, double> frameTimeAverage;
+	ARL::WindowAverage<double, double> renderTimeAverage;
+	ARL::WindowAverage<double, double> prepareTimeAverage;
+	ARL::WindowAverage<double, double> frameTimeVarianceAverage;
 
-	RBX::WindowAverage<double, double> fastBackoffAverage;
+	ARL::WindowAverage<double, double> fastBackoffAverage;
 
 	int mBadBackoffFrameCounter;
 
 	Metrics mMetrics;
-	RBX::Timer<RBX::Time::Fast> mSettleTimer;
+	ARL::Timer<ARL::Time::Fast> mSettleTimer;
 	bool mIsStable;
 	bool mIsGatheringDistance;
 	int mBlockCounter;

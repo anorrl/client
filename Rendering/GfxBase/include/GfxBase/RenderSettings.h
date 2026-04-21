@@ -4,7 +4,7 @@
 
 #include "util/G3DCore.h"
 
-namespace RBX {
+namespace ARL {
 
 class CRenderSettings
 {
@@ -197,4 +197,4 @@ public:
 	unsigned int getMeshCacheSize() const { return meshCacheSize; }
 };
 
-}  // namespace RBX
+}  // namespace ARL

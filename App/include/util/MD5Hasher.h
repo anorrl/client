@@ -4,9 +4,9 @@
 #include <string>
 #include <istream>
 
-namespace RBX {
+namespace ARL {
 
-	class RBXInterface MD5Hasher
+	class ARLInterface MD5Hasher
 	{
 	public:
 		static MD5Hasher* create();

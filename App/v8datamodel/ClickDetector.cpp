@@ -8,7 +8,7 @@
 #include "AppDraw/Draw.h"
 
 
-namespace RBX {
+namespace ARL {
 
 const char* const sClickDetector = "ClickDetector";
 
@@ -46,7 +46,7 @@ bool containsClickDetector(Instance* instance)
 
 bool ancestorContainsClickDetector(Instance* instance)
 {
-	RBXASSERT(instance);
+	ARLASSERT(instance);
 	if (containsClickDetector(instance)) {
 		return true;
 	}
@@ -62,7 +62,7 @@ bool ancestorContainsClickDetector(Instance* instance)
 
 
 
-void renderClickDetector(shared_ptr<RBX::Instance> descendant, Adorn* adorn, int cycle)
+void renderClickDetector(shared_ptr<ARL::Instance> descendant, Adorn* adorn, int cycle)
 {
 	PartInstance *part = Instance::fastDynamicCast<PartInstance>(descendant.get());
 	if (part) 
@@ -93,7 +93,7 @@ void ClickDetector::render3dAdorn(Adorn* adorn)
 	/*
 	Instance* parent = this->getParent();
 
-	RBXASSERT(!dynamic_cast<Workspace*>(parent));
+	ARLASSERT(!dynamic_cast<Workspace*>(parent));
 
 	cycle = (cycle + 1) % cycles();
 
@@ -102,13 +102,13 @@ void ClickDetector::render3dAdorn(Adorn* adorn)
 	*/
 }
 
-void ClickDetector::fireMouseClick(float distance, RBX::Network::Player* player)
+void ClickDetector::fireMouseClick(float distance, ARL::Network::Player* player)
 {
 	if (distance < maxActivationDistance) 
 		desc_MouseClick.fireAndReplicateEvent(this, shared_from(player));
 }
 
-bool ClickDetector::isClickable(shared_ptr<PartInstance> part, float distanceToCharacter, bool raiseClickedEvent, RBX::Network::Player* player)
+bool ClickDetector::isClickable(shared_ptr<PartInstance> part, float distanceToCharacter, bool raiseClickedEvent, ARL::Network::Player* player)
 {
 	shared_ptr<Instance> clickDetectorParent = part;
 	while (clickDetectorParent && fastSharedDynamicCast<Workspace>(clickDetectorParent) == NULL)
@@ -129,7 +129,7 @@ bool ClickDetector::isClickable(shared_ptr<PartInstance> part, float distanceToC
 	return false;
 }
 
-bool ClickDetector::updateLastHoverPart(shared_ptr<Instance> newHover, RBX::Network::Player* player)
+bool ClickDetector::updateLastHoverPart(shared_ptr<Instance> newHover, ARL::Network::Player* player)
 {
 	if(newHover != lastHoverPart)
 	{
@@ -142,18 +142,18 @@ bool ClickDetector::updateLastHoverPart(shared_ptr<Instance> newHover, RBX::Netw
 	return false;
 }
 
-void ClickDetector::fireMouseHover(RBX::Network::Player* player)
+void ClickDetector::fireMouseHover(ARL::Network::Player* player)
 {
 	desc_MouseHoverEnter.fireAndReplicateEvent(this, shared_from(player));
 }
 
-void ClickDetector::fireMouseHoverLeave(RBX::Network::Player* player)
+void ClickDetector::fireMouseHoverLeave(ARL::Network::Player* player)
 {
 	desc_MouseHoverLeave.fireAndReplicateEvent(this, shared_from(player));
 	lastHoverPart = shared_ptr<PartInstance>();
 }
 
-void ClickDetector::stopHover(shared_ptr<PartInstance> part, RBX::Network::Player* player)
+void ClickDetector::stopHover(shared_ptr<PartInstance> part, ARL::Network::Player* player)
 {
 	if(part && part.get())
 	{
@@ -168,7 +168,7 @@ void ClickDetector::stopHover(shared_ptr<PartInstance> part, RBX::Network::Playe
 		}
 	}
 }
-bool ClickDetector::isHovered(PartInstance *part, float distanceToCharacter, bool raiseHoveredEvent, RBX::Network::Player* player)
+bool ClickDetector::isHovered(PartInstance *part, float distanceToCharacter, bool raiseHoveredEvent, ARL::Network::Player* player)
 {
 	if (part)
 	{

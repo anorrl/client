@@ -4,7 +4,7 @@
 #include "V8DataModel/DataModel.h"
 #include "Util/http.h"
 
-namespace RBX {
+namespace ARL {
 
 	//
 	// The purpose of this file is to enable DataModel to compile but to NOT

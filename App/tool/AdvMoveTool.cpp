@@ -22,7 +22,7 @@ DYNAMIC_FASTFLAG(RestoreTransparencyOnToolChange)
 FASTFLAG(StudioUseDraggerGrid)
 DYNAMIC_FASTFLAGVARIABLE(DraggerUsesNewPartOnDuplicate, false)
 
-namespace RBX {
+namespace ARL {
 
 const char* const   sAdvMoveTool        = "AdvMove";
 static const float  MinimumExtentsSize  = 0.4f;
@@ -88,9 +88,9 @@ shared_ptr<MouseCommand> AdvMoveToolBase::onMouseDown(const shared_ptr<InputObje
     {
 		if (DFFlag::DraggerUsesNewPartOnDuplicate)
 		{
-			RBX::Selection* selection = ServiceProvider::find<Selection>(workspace);
+			ARL::Selection* selection = ServiceProvider::find<Selection>(workspace);
 			if (selection)
-				selectionChangedConnection = selection->selectionChanged.connect(boost::bind(&RBX::AdvMoveToolBase::setToSelection, this));
+				selectionChangedConnection = selection->selectionChanged.connect(boost::bind(&ARL::AdvMoveToolBase::setToSelection, this));
 		}
 
         downPoint2d = inputObject->get2DPosition();
@@ -112,7 +112,7 @@ shared_ptr<MouseCommand> AdvMoveToolBase::onMouseDown(const shared_ptr<InputObje
 		megaDragger->startDragging();
 		//IMPORTANT: Transparency modification should be done only after startDragging as it will update world correctly else issues with ChangeHistory
 		//if collision checks are turned off then make parts transparent after saving the original values
-		if (!RBX::AdvArrowTool::advCollisionCheckMode)
+		if (!ARL::AdvArrowTool::advCollisionCheckMode)
 			saveAndModifyPartsTransparency();
 
 		capture();
@@ -128,7 +128,7 @@ void AdvMoveToolBase::setToSelection()
 	if (DFFlag::RestoreTransparencyOnToolChange)
 		AdvArrowToolBase::restoreSavedPartsTransparency();
 	megaDragger->setToSelection(workspace);
-	if (DFFlag::RestoreTransparencyOnToolChange && !RBX::AdvArrowTool::advCollisionCheckMode)
+	if (DFFlag::RestoreTransparencyOnToolChange && !ARL::AdvArrowTool::advCollisionCheckMode)
 		saveAndModifyPartsTransparency();
 }
 
@@ -150,7 +150,7 @@ float AdvMoveToolBase::snapRotationAngle(float Angle) const
 
 void AdvMoveToolBase::onMouseMove(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(captured());
+	ARLASSERT(captured());
 	Super::onMouseMove(inputObject);
 
 	if (	!dragging 
@@ -184,7 +184,7 @@ void AdvMoveToolBase::onMouseMove(const shared_ptr<InputObject>& inputObject)
 
 				Vector3 move(delta);
 
-				if (!RBX::AdvArrowTool::advCollisionCheckMode)
+				if (!ARL::AdvArrowTool::advCollisionCheckMode)
 					megaDragger->moveAlongLine(delta);
 				else
 					move = megaDragger->safeMoveAlongLine(delta, !isLocal);
@@ -275,7 +275,7 @@ void AdvMoveToolBase::onMouseMove(const shared_ptr<InputObject>& inputObject)
                     right   = normalize(up.cross(at));
                     break;
                 default:
-                    RBXASSERT(false);
+                    ARLASSERT(false);
             }
 
             Matrix3 rotation(
@@ -298,7 +298,7 @@ void AdvMoveToolBase::onMouseMove(const shared_ptr<InputObject>& inputObject)
             if ( snaped_angle > 0.001f )
             {
                 Matrix3 snapped_rotate = Matrix3::fromAxisAngle(rotation_axis,snaped_angle);
-				snapped_rotate = megaDragger->rotateDragParts(snapped_rotate, RBX::AdvArrowTool::advCollisionCheckMode);
+				snapped_rotate = megaDragger->rotateDragParts(snapped_rotate, ARL::AdvArrowTool::advCollisionCheckMode);
 
                 if ( !is_local )
                 {
@@ -315,7 +315,7 @@ shared_ptr<MouseCommand> AdvMoveToolBase::onMouseUp(const shared_ptr<InputObject
 	//restore transparency
 	if (DFFlag::RestoreTransparencyOnToolChange)
 		AdvArrowToolBase::restoreSavedPartsTransparency();
-	else if (!RBX::AdvArrowTool::advCollisionCheckMode)
+	else if (!ARL::AdvArrowTool::advCollisionCheckMode)
 			restoreSavedPartsTransparency();
 
 	//make sure if megadragger is present, in case of CTRL+Select, it doesn't get created
@@ -352,7 +352,7 @@ void AdvMoveToolBase::render2d(Adorn* adorn)
 
     if (getExtentsAndLocation(worldExtents, location, isLocal))
     {
-        RBX::DrawAdorn::handles2d(
+        ARL::DrawAdorn::handles2d(
             worldExtents.size(),
             location,
             *(workspace->getConstCamera()),
@@ -362,7 +362,7 @@ void AdvMoveToolBase::render2d(Adorn* adorn)
         
         if (isLocal)
         {
-            RBX::DrawAdorn::partInfoText2D(
+            ARL::DrawAdorn::partInfoText2D(
                 worldExtents.size(),
                 location,
                 *(workspace->getConstCamera()),
@@ -383,7 +383,7 @@ void AdvMoveToolBase::render3dAdorn(Adorn* adorn)
 
     if (getExtentsAndLocation(worldExtents, location, isLocal))
     {
-            RBX::DrawAdorn::handles3d(
+            ARL::DrawAdorn::handles3d(
                 worldExtents.size(),
                 location,
                 adorn, 
@@ -514,7 +514,7 @@ bool AdvMoveToolBase::getOverHandle(const shared_ptr<InputObject>& inputObject) 
 
 bool AdvMoveToolBase::getOverHandle(const shared_ptr<InputObject>& inputObject, Vector3& hitPointWorld, NormalId& normalId) const
 {
-    RBXASSERT(!captured());
+    ARLASSERT(!captured());
 
     Extents extents;
     overHandleNormalId = NORM_UNDEFINED;
@@ -622,7 +622,7 @@ void AdvMoveTool::render2d(Adorn* adorn)
 	}
 }
 
-void AdvMoveTool::getGridXYUsingCamera(RBX::PartInstance *part, G3D::Vector3 &gridXDir, G3D::Vector3 &gridYDir)
+void AdvMoveTool::getGridXYUsingCamera(ARL::PartInstance *part, G3D::Vector3 &gridXDir, G3D::Vector3 &gridYDir)
 {
 	Vector3 cameraDirection = workspace->getConstCamera()->getCameraCoordinateFrame().vectorToWorldSpace(Vector3::unitZ());
 	Vector3 bodyXWorld      = part->getCoordinateFrame().vectorToWorldSpace(Vector3::unitX());

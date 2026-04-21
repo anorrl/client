@@ -4,7 +4,7 @@
 
 #include "util/Name.h"
 
-namespace RBX {
+namespace ARL {
 
 Verb::Verb(VerbContainer* container, const std::string& name, bool blacklisted)
 	: name(Name::declare(name.c_str()))
@@ -96,14 +96,14 @@ Verb* VerbContainer::getWhitelistVerb(const Name& name)
 
 void VerbContainer::addWhitelistVerb(Verb* verb)
 {
-	RBXASSERT((whitelistVerbs.find(&verb->getName())==whitelistVerbs.end())
+	ARLASSERT((whitelistVerbs.find(&verb->getName())==whitelistVerbs.end())
         && (blacklistVerbs.find(&verb->getName())==blacklistVerbs.end()));
 	whitelistVerbs[&verb->getName()] = verb;
 }
 
 void VerbContainer::addBlacklistVerb(Verb* verb)
 {
-    RBXASSERT((whitelistVerbs.find(&verb->getName())==whitelistVerbs.end())
+    ARLASSERT((whitelistVerbs.find(&verb->getName())==whitelistVerbs.end())
         && (blacklistVerbs.find(&verb->getName())==blacklistVerbs.end()));
     blacklistVerbs[&verb->getName()] = verb;
 }
@@ -111,7 +111,7 @@ void VerbContainer::addBlacklistVerb(Verb* verb)
 void VerbContainer::removeVerb(Verb* verb)
 {
 	int verEraseCount = whitelistVerbs.erase(&verb->getName()) + blacklistVerbs.erase(&verb->getName());
-	RBXASSERT(verEraseCount==1);
+	ARLASSERT(verEraseCount==1);
 }
 
-}  // namespace RBX
+}  // namespace ARL

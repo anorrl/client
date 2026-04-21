@@ -13,7 +13,7 @@
 #include "Util/SoundService.h"
 #include "AppDraw/DrawAdorn.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sResizeTool = "Resize";
 
@@ -60,7 +60,7 @@ void ResizeTool::render3dAdorn(Adorn* adorn)
 	for (it = selection->begin(); it != selection->end(); ++it) {
 		if (PartInstance* part = Instance::fastDynamicCast<PartInstance>(it->get())) {
 
-			RBX::DrawAdorn::handles3d(
+			ARL::DrawAdorn::handles3d(
 				part->getPartSizeXml(),
 				part->getCoordinateFrame(),
 				adorn, 
@@ -103,7 +103,7 @@ const std::string ResizeTool::getCursorName() const
 
 void ResizeTool::onMouseHover(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(!captured());
+	ARLASSERT(!captured());
 
 	findTargetPV(inputObject);
 	overHandle = (!targetPV.expired());
@@ -137,7 +137,7 @@ void ResizeTool::onMouseMove(const shared_ptr<InputObject>& inputObject)
 		Vector3 worldNormal = Math::getWorldNormal(localNormalId, targetPV.lock()->getLocation());
 		RbxRay axisRay = RbxRay::fromOriginAndDirection(hitPointGrid, worldNormal);
 		RbxRay gridRay = getUnitMouseRay(inputObject);
-		Vector3 closePoint = RBX::Math::closestPointOnRay(axisRay, gridRay);
+		Vector3 closePoint = ARL::Math::closestPointOnRay(axisRay, gridRay);
 		Vector3 handleToCurrent = closePoint - hitPointGrid;
 		float distanceAlongAxis = axisRay.direction().dot(handleToCurrent);
 
@@ -177,7 +177,7 @@ shared_ptr<MouseCommand> ResizeTool::onMouseUp(const shared_ptr<InputObject>& in
 void ResizeTool::capturedDrag(int axisDelta)
 {
 	if (targetPV.expired()) {
-		RBXASSERT(0);	// should be caught higher up
+		ARLASSERT(0);	// should be caught higher up
 	}
 	else {
 		// Debug version confirms the dynamic_cast of targetInstance

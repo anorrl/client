@@ -5,7 +5,7 @@
 #include "util/RunStateOwner.h"
 #include "network/Players.h"
 
-namespace RBX
+namespace ARL
 {
 const char* const sTweenService = "TweenService";
 
@@ -36,7 +36,7 @@ void TweenService::addTweenCallback(boost::function<void(GuiObject::TweenStatus)
 
 	Super::onServiceProvider(oldProvider, newProvider);
 	
-    if(newProvider && RBX::Network::Players::serverIsPresent(newProvider))
+    if(newProvider && ARL::Network::Players::serverIsPresent(newProvider))
 	{
 		onServiceProviderHeartbeatInstance(oldProvider, newProvider);
 	}
@@ -88,4 +88,4 @@ void TweenService::update(const double step)
 	}
 }
 
-} // namespace RBX
+} // namespace ARL

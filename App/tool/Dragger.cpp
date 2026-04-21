@@ -17,11 +17,11 @@ DYNAMIC_FASTINTVARIABLE(DraggerMaxMovePercent, 100)
 DYNAMIC_FASTINTVARIABLE(DraggerMaxMoveSteps, 10000)
 FASTFLAGVARIABLE(DraggerInfiniteRecursionFix, false)
 
-namespace RBX {
+namespace ARL {
 
 Extents Dragger::computeExtentsRelative(const std::vector<Primitive*>& primitives, CoordinateFrame& relativeFrame)
 {
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	Extents answer = Extents::negativeMaxExtents();
 	for (size_t i = 0; i < primitives.size(); ++i) 
@@ -34,7 +34,7 @@ Extents Dragger::computeExtentsRelative(const std::vector<Primitive*>& primitive
 
 Extents Dragger::computeExtentsRelative(const G3D::Array<Primitive*>& primitives, CoordinateFrame& relativeFrame)
 {
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	Extents answer = Extents::negativeMaxExtents();
 	for (int i = 0; i < primitives.size(); ++i) 
@@ -46,7 +46,7 @@ Extents Dragger::computeExtentsRelative(const G3D::Array<Primitive*>& primitives
 
 PartInstance* Dragger::computePrimaryPart(const std::vector<Primitive*>& primitives)
 {
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	float maxSize = 0.0f;
 	int maxIndex = 0;
@@ -63,7 +63,7 @@ PartInstance* Dragger::computePrimaryPart(const std::vector<Primitive*>& primiti
 
 PartInstance* Dragger::computePrimaryPart(const G3D::Array<Primitive*>& primitives)
 {
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	float maxSize = 0.0f;
 	int maxIndex = 0;
@@ -81,7 +81,7 @@ PartInstance* Dragger::computePrimaryPart(const G3D::Array<Primitive*>& primitiv
 
 Extents Dragger::computeExtents(const std::vector<Primitive*>& primitives)
 {
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	Extents answer = Extents::negativeMaxExtents();
 	for (size_t i = 0; i < primitives.size(); ++i) {
@@ -92,7 +92,7 @@ Extents Dragger::computeExtents(const std::vector<Primitive*>& primitives)
 
 Extents Dragger::computeExtents(const G3D::Array<Primitive*>& primitives)
 {
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	Extents answer = Extents::negativeMaxExtents();
 	for (int i = 0; i < primitives.size(); ++i) {
@@ -140,7 +140,7 @@ bool Dragger::intersectingWorldOrOthers(const G3D::Array<Primitive*>& primitives
 										const float tolerance,
 										const float bottomPlaneHeight )
 {
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	return (	intersectingGroundPlane(primitives, bottomPlaneHeight)
 			||	contactManager.intersectingOthers(primitives, tolerance)
@@ -181,8 +181,8 @@ void Dragger::movePrimitivesDelta(	const G3D::Array<Primitive*>& primitives,
 									const Vector3& delta, 
 									Vector3& movedSoFar)
 {
-	//RBXASSERT(delta == DragUtilities::toGrid(delta));
-	RBXASSERT(delta != Vector3::zero());
+	//ARLASSERT(delta == DragUtilities::toGrid(delta));
+	ARLASSERT(delta != Vector3::zero());
 
 	movePrimitives(primitives, delta);
 	movedSoFar = DragUtilities::toGrid(movedSoFar + delta);
@@ -194,7 +194,7 @@ void Dragger::movePrimitives(const G3D::Array<Primitive*>& primitives,
 							 const Vector3& delta,
                              bool snapToWorld)
 {
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	if (delta != Vector3::zero()) {
 		for (int i = 0; i < primitives.size(); ++i) {
@@ -212,7 +212,7 @@ void Dragger::searchFine(const G3D::Array<Primitive*> primitives,
 							Vector3 insidePosition,
 							Vector3 outsidePosition)
 {
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	Vector3 currentPosition(0, 0, 0);
 		
@@ -227,7 +227,7 @@ void Dragger::searchFine(const G3D::Array<Primitive*> primitives,
 
 		if (Math::isNanInfVector3(movedSoFar))
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 			break;
 		}
 
@@ -281,12 +281,12 @@ void Dragger::searchUpGross(	const G3D::Array<Primitive*>& primitives,
 								ContactManager& contactManager,
 								const float bottomPlaneHeight)
 {
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	for (int i = 0; i < DFInt::DraggerMaxMoveSteps; ++i)
 	{
 		if (fabs(movedSoFar.y) > maxMove()) {
-			RBXASSERT_FISHING(0);
+			ARLASSERT_FISHING(0);
 			return;
 		}
 
@@ -296,7 +296,7 @@ void Dragger::searchUpGross(	const G3D::Array<Primitive*>& primitives,
 
 		// 3/1/08 - hack to try to prevent infinite looping - never got a good stack
 		if (Math::isNanInfVector3(movedSoFar)) {
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return;
 		}
 
@@ -317,8 +317,8 @@ void Dragger::searchDownGross(const G3D::Array<Primitive*>& primitives,
 								ContactManager& contactManager,
 								const float bottomPlaneHeight)
 {
-	RBXASSERT(primitives.size() > 0);
-	RBXASSERT(!intersectingWorldOrOthers(primitives, contactManager, Tolerance::maxOverlapOrGap(), bottomPlaneHeight));
+	ARLASSERT(primitives.size() > 0);
+	ARLASSERT(!intersectingWorldOrOthers(primitives, contactManager, Tolerance::maxOverlapOrGap(), bottomPlaneHeight));
 
 	for (int i = 0; i < DFInt::DraggerMaxMoveSteps; ++i)
 	{
@@ -326,7 +326,7 @@ void Dragger::searchDownGross(const G3D::Array<Primitive*>& primitives,
 
 		// 3/1/08 - hack to try to prevent infinite looping - never got a good stack
 		if (Math::isNanInfVector3(movedSoFar)) {
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return;
 		}
 
@@ -349,7 +349,7 @@ void Dragger::safePlaceAlongLine( const G3D::Array<Primitive*>& primitives,
 								  ContactManager& contactManager,
                                   bool snapToWorld)
 {
-	RBXASSERT(startMove != endMove);
+	ARLASSERT(startMove != endMove);
 
 	movePrimitivesGoal(primitives, endMove, movedSoFar, snapToWorld);
 
@@ -373,7 +373,7 @@ void Dragger::safePlaceAlongLine( const G3D::Array<Primitive*>& primitives,
             middleMove =  DragUtilities::toLocalGrid(middleMove);
         }
         
-		RBXASSERT(middleMove != startMove);
+		ARLASSERT(middleMove != startMove);
 
 		movePrimitivesGoal(primitives, middleMove, movedSoFar, snapToWorld);
 
@@ -412,7 +412,7 @@ Vector3 Dragger::safeMoveAlongLine(	const G3D::Array<Primitive*>& primitives,
                                     bool snapToWorld )
 {
 	if (primitives.size() == 0) {
-		RBXASSERT(0);			// just wanted to see where this happens
+		ARLASSERT(0);			// just wanted to see where this happens
 		return Vector3::zero();
 	}
 
@@ -426,7 +426,7 @@ Vector3 Dragger::safeMoveAlongLine(	const G3D::Array<Primitive*>& primitives,
 							contactManager,
                             snapToWorld);
 
-		RBXASSERT(		(movedSoFar == Vector3::zero())
+		ARLASSERT(		(movedSoFar == Vector3::zero())
 					||	!intersectingWorldOrOthers(primitives, contactManager, maxDragDepth())
 					);
 	}
@@ -446,12 +446,12 @@ Vector3 Dragger::safeMoveYDrop(	const G3D::Array<Primitive*>& primitives,
 								const float customPlaneHeight )
 {
 	if (primitives.size() == 0) {
-		RBXASSERT(0);			// just wanted to see where this happens
+		ARLASSERT(0);			// just wanted to see where this happens
 		return Vector3::zero();
 	}
 
 	// if number of primitives are greater than 200 then only do optimized dragging
-	if (primitives.size() > RBX::ClientAppSettings::singleton().GetValueMinPartsForOptDragging())
+	if (primitives.size() > ARL::ClientAppSettings::singleton().GetValueMinPartsForOptDragging())
 		return safeMoveYDrop_EXT(primitives, tryMove, contactManager, customPlaneHeight);
 
 	Vector3 moved = Math::toGrid(tryMove, Tolerance::mainGrid());
@@ -479,7 +479,7 @@ Vector3 Dragger::safeMoveNoDrop(const G3D::Array<Primitive*>& primitives,
 	Vector3 movedSoFar;
 	
 	if (primitives.size() == 0) {
-		RBXASSERT(0);			// just wanted to see where this happens
+		ARLASSERT(0);			// just wanted to see where this happens
 		return Vector3::zero();
 	}
 
@@ -504,7 +504,7 @@ void Dragger::safeRotate(	const G3D::Array<Primitive*>& primitives,
 							const Matrix3& rotate,
 							ContactManager& contactManager)
 {
-	RBXASSERT(primitives.size());
+	ARLASSERT(primitives.size());
 
 	PartInstance* primaryPart = computePrimaryPart(primitives);
 	CoordinateFrame primaryPartLocation = primaryPart->getCoordinateFrame();
@@ -553,8 +553,8 @@ Vector3 Dragger::safeMoveYDrop_EXT(  const G3D::Array<Primitive*>& primitives,
 	Vector3 moved = Math::toGrid(tryMove, Tolerance::mainGrid());
 
 	// populate data
-	RBX::Extents tmpExtent;
-	std::vector<RBX::Extents> primExtents;
+	ARL::Extents tmpExtent;
+	std::vector<ARL::Extents> primExtents;
 	primExtents.reserve(primitives.size());
 
 	// ContactManager requires unordered_set
@@ -562,7 +562,7 @@ Vector3 Dragger::safeMoveYDrop_EXT(  const G3D::Array<Primitive*>& primitives,
 	
 	for (G3D::Array<Primitive*>::const_iterator iter = primitives.begin(); iter != primitives.end(); ++iter) {
 		// extents data
-		tmpExtent = RBX::Extents(Math::toGrid((*iter)->getFastFuzzyExtents().min(), Tolerance::mainGrid()), 
+		tmpExtent = ARL::Extents(Math::toGrid((*iter)->getFastFuzzyExtents().min(), Tolerance::mainGrid()), 
 								 Math::toGrid((*iter)->getFastFuzzyExtents().max(), Tolerance::mainGrid()));
 
 		tmpExtent.expand(-Tolerance::maxOverlapOrGap());
@@ -603,14 +603,14 @@ Vector3 Dragger::safeMoveYDrop_EXT(  const G3D::Array<Primitive*>& primitives,
 		searchDownGross_EXT(primExtents, tempPrimitives, ignorePrimitives, contactManager, customPlaneHeight, moved);
 	}
 
-	//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "TryMove: %f - Moved: %f - Total Time: %lf", tryMove.y, moved.y, (std::clock() - start ) / (double) CLOCKS_PER_SEC);
+	//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "TryMove: %f - Moved: %f - Total Time: %lf", tryMove.y, moved.y, (std::clock() - start ) / (double) CLOCKS_PER_SEC);
 
 	movePrimitives(primitives, moved);
 	
 	return moved;
 }
 
-void Dragger::searchUpGross_EXT(	std::vector<RBX::Extents> &primExtents,
+void Dragger::searchUpGross_EXT(	std::vector<ARL::Extents> &primExtents,
 									const G3D::Array<Primitive*>& primitives, 
 									const boost::unordered_set<const Primitive*> &ignorePrimitives,
 									ContactManager& contactManager,
@@ -618,7 +618,7 @@ void Dragger::searchUpGross_EXT(	std::vector<RBX::Extents> &primExtents,
 									Vector3& movedSoFar)
 {
 	if (fabs(movedSoFar.y) > maxMove()) {
-		RBXASSERT_FISHING(0);
+		ARLASSERT_FISHING(0);
 		return;
 	}
 	
@@ -626,7 +626,7 @@ void Dragger::searchUpGross_EXT(	std::vector<RBX::Extents> &primExtents,
 	
 	// hack to try to prevent infinite looping
 	if (Math::isNanInfVector3(movedSoFar)) {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return;
 	}
 
@@ -638,7 +638,7 @@ void Dragger::searchUpGross_EXT(	std::vector<RBX::Extents> &primExtents,
 	}
 }
 
-void Dragger::searchDownGross_EXT(	std::vector<RBX::Extents> &primExtents,
+void Dragger::searchDownGross_EXT(	std::vector<ARL::Extents> &primExtents,
 									const G3D::Array<Primitive*>& primitives, 
 									const boost::unordered_set<const Primitive*> &ignorePrimitives,
 									ContactManager& contactManager,
@@ -646,7 +646,7 @@ void Dragger::searchDownGross_EXT(	std::vector<RBX::Extents> &primExtents,
 									Vector3& movedSoFar)
 {
 	if (fabs(movedSoFar.y) > maxMove()) {
-		RBXASSERT_FISHING(0);
+		ARLASSERT_FISHING(0);
 		return;
 	}
 	
@@ -654,7 +654,7 @@ void Dragger::searchDownGross_EXT(	std::vector<RBX::Extents> &primExtents,
 	
 	// hack to try to prevent infinite looping
 	if (Math::isNanInfVector3(movedSoFar)) {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return;
 	}
 
@@ -666,7 +666,7 @@ void Dragger::searchDownGross_EXT(	std::vector<RBX::Extents> &primExtents,
 	}
 }
 
-void Dragger::searchUpFine_EXT(	std::vector<RBX::Extents> &primExtents,
+void Dragger::searchUpFine_EXT(	std::vector<ARL::Extents> &primExtents,
 								const G3D::Array<Primitive*>& primitives, 
 								const boost::unordered_set<const Primitive*> &ignorePrimitives,
 								ContactManager& contactManager,
@@ -674,7 +674,7 @@ void Dragger::searchUpFine_EXT(	std::vector<RBX::Extents> &primExtents,
 								Vector3& movedSoFar)
 {
 	if (fabs(movedSoFar.y) > maxMove()) {
-		RBXASSERT_FISHING(0);
+		ARLASSERT_FISHING(0);
 		return;
 	}
 	
@@ -682,7 +682,7 @@ void Dragger::searchUpFine_EXT(	std::vector<RBX::Extents> &primExtents,
 	
 	// hack to try to prevent infinite looping
 	if (Math::isNanInfVector3(movedSoFar)) {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return;
 	}
 
@@ -694,7 +694,7 @@ void Dragger::searchUpFine_EXT(	std::vector<RBX::Extents> &primExtents,
 	}
 }
 
-void Dragger::searchDownFine_EXT(	std::vector<RBX::Extents> &primExtents,
+void Dragger::searchDownFine_EXT(	std::vector<ARL::Extents> &primExtents,
 									const G3D::Array<Primitive*>& primitives, 
 									const boost::unordered_set<const Primitive*> &ignorePrimitives,
 									ContactManager& contactManager,
@@ -702,7 +702,7 @@ void Dragger::searchDownFine_EXT(	std::vector<RBX::Extents> &primExtents,
 									Vector3& movedSoFar)
 {
 	if (fabs(movedSoFar.y) > maxMove()) {
-		RBXASSERT_FISHING(0);
+		ARLASSERT_FISHING(0);
 		return;
 	}
 	
@@ -711,7 +711,7 @@ void Dragger::searchDownFine_EXT(	std::vector<RBX::Extents> &primExtents,
 	
 	// hack to try to prevent infinite looping
 	if (Math::isNanInfVector3(movedSoFar)) {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return;
 	}
 
@@ -733,7 +733,7 @@ void Dragger::searchDownFine_EXT(	std::vector<RBX::Extents> &primExtents,
 		
 		// hack to try to prevent infinite looping
 		if (Math::isNanInfVector3(movedSoFar)) {
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return;
 		}
 
@@ -748,7 +748,7 @@ void Dragger::searchDownFine_EXT(	std::vector<RBX::Extents> &primExtents,
 	}
 }
 
-bool Dragger::intersectingWorldOrOthers_EXT(std::vector<RBX::Extents> &primExtents,
+bool Dragger::intersectingWorldOrOthers_EXT(std::vector<ARL::Extents> &primExtents,
 											const G3D::Array<Primitive*>& primitives, 
 											const boost::unordered_set<const Primitive*> &ignorePrimitives,
 											ContactManager& contactManager,
@@ -767,7 +767,7 @@ bool Dragger::intersectingWorldOrOthers_EXT(std::vector<RBX::Extents> &primExten
 		if (foundPrims.size()) {
 			//ideally we must get only one prim here!!!
 			for (int zz = 0; zz < foundPrims.size(); ++zz) {
-				RBX::Extents tmpExtent(Math::toGrid(foundPrims[zz]->getFastFuzzyExtents().min(), Tolerance::mainGrid()), 
+				ARL::Extents tmpExtent(Math::toGrid(foundPrims[zz]->getFastFuzzyExtents().min(), Tolerance::mainGrid()), 
 									   Math::toGrid(foundPrims[zz]->getFastFuzzyExtents().max(), Tolerance::mainGrid()));
 				tmpExtent.expand(-Tolerance::maxOverlapOrGap()+0.001);
 				
@@ -796,7 +796,7 @@ bool Dragger::intersectingWorldOrOthers_EXT(std::vector<RBX::Extents> &primExten
 	return false;
 }
 
-bool Dragger::intersectingGroundPlane_EXT(	const std::vector<RBX::Extents>& primExtents, 
+bool Dragger::intersectingGroundPlane_EXT(	const std::vector<ARL::Extents>& primExtents, 
 											const G3D::Array<Primitive*>& primitives, 
 											const float yHeight, 
 											const Vector3& movedSoFar)
@@ -930,14 +930,14 @@ bool Dragger::checkPolyPolyIntersection(const Primitive* polyPrim1, const Coordi
 	return false;
 }
 
-void Dragger::moveExtents(std::vector<RBX::Extents> &primExtents, const Vector3& delta)
+void Dragger::moveExtents(std::vector<ARL::Extents> &primExtents, const Vector3& delta)
 {
-	std::vector<RBX::Extents>::iterator end_iter = primExtents.end();
-	for (std::vector<RBX::Extents>::iterator iter = primExtents.begin(); iter != end_iter; ++iter) 
+	std::vector<ARL::Extents>::iterator end_iter = primExtents.end();
+	for (std::vector<ARL::Extents>::iterator iter = primExtents.begin(); iter != end_iter; ++iter) 
 		(*iter).shift(delta);
 }
 
-void Dragger::moveExtentsDelta(std::vector<RBX::Extents> &primExtents, const Vector3& delta, Vector3& movedSoFar)
+void Dragger::moveExtentsDelta(std::vector<ARL::Extents> &primExtents, const Vector3& delta, Vector3& movedSoFar)
 {
 	moveExtents(primExtents, delta);
 	//movedSoFar = DragUtilities::toGrid(movedSoFar + delta);

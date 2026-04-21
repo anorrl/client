@@ -28,7 +28,7 @@ FASTFLAGVARIABLE(TweenCallbacksDuringRenderStep, false)
 
 FASTFLAGVARIABLE(FixSlice9Scale, true)
 
-namespace RBX {
+namespace ARL {
 
 const char* const  sGuiObject = "GuiObject";
 
@@ -76,12 +76,12 @@ static Reflection::RemoteEventDesc<GuiObject, void(int, int)> event_DragStopped(
 static Reflection::RemoteEventDesc<GuiObject, void(UDim2)> event_DragBegin(&GuiObject::dragBeginSignal, "DragBegin", "initialPosition", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
 
 // High Level touch events
-static Reflection::EventDesc<GuiObject, void(shared_ptr<const RBX::Reflection::ValueArray>)> event_TapGesture(&GuiObject::tapGestureEvent, "TouchTap", "touchPositions", Security::None);
-static Reflection::EventDesc<GuiObject, void(shared_ptr<const RBX::Reflection::ValueArray>,float,float,InputObject::UserInputState)> event_PinchGesture(&GuiObject::pinchGestureEvent, "TouchPinch", "touchPositions", "scale", "velocity", "state", Security::None);
+static Reflection::EventDesc<GuiObject, void(shared_ptr<const ARL::Reflection::ValueArray>)> event_TapGesture(&GuiObject::tapGestureEvent, "TouchTap", "touchPositions", Security::None);
+static Reflection::EventDesc<GuiObject, void(shared_ptr<const ARL::Reflection::ValueArray>,float,float,InputObject::UserInputState)> event_PinchGesture(&GuiObject::pinchGestureEvent, "TouchPinch", "touchPositions", "scale", "velocity", "state", Security::None);
 static Reflection::EventDesc<GuiObject, void(UserInputService::SwipeDirection, int)> event_SwipeGesture(&GuiObject::swipeGestureEvent, "TouchSwipe", "swipeDirection", "numberOfTouches",Security::None);
-static Reflection::EventDesc<GuiObject, void(shared_ptr<const RBX::Reflection::ValueArray>,InputObject::UserInputState)> event_LongPressGesture(&GuiObject::longPressGestureEvent, "TouchLongPress", "touchPositions", "state", Security::None);
-static Reflection::EventDesc<GuiObject, void(shared_ptr<const RBX::Reflection::ValueArray>,float,float,InputObject::UserInputState)> event_RotateGesture(&GuiObject::rotateGestureEvent, "TouchRotate", "touchPositions","rotation", "velocity", "state", Security::None);
-static Reflection::EventDesc<GuiObject, void(shared_ptr<const RBX::Reflection::ValueArray>,Vector2,Vector2,InputObject::UserInputState)> event_PanGesture(&GuiObject::panGestureEvent, "TouchPan", "touchPositions", "totalTranslation", "velocity", "state", Security::None);
+static Reflection::EventDesc<GuiObject, void(shared_ptr<const ARL::Reflection::ValueArray>,InputObject::UserInputState)> event_LongPressGesture(&GuiObject::longPressGestureEvent, "TouchLongPress", "touchPositions", "state", Security::None);
+static Reflection::EventDesc<GuiObject, void(shared_ptr<const ARL::Reflection::ValueArray>,float,float,InputObject::UserInputState)> event_RotateGesture(&GuiObject::rotateGestureEvent, "TouchRotate", "touchPositions","rotation", "velocity", "state", Security::None);
+static Reflection::EventDesc<GuiObject, void(shared_ptr<const ARL::Reflection::ValueArray>,Vector2,Vector2,InputObject::UserInputState)> event_PanGesture(&GuiObject::panGestureEvent, "TouchPan", "touchPositions", "totalTranslation", "velocity", "state", Security::None);
 
 // Low Level Generic input events
 static Reflection::EventDesc<GuiObject, void(shared_ptr<Instance>)> event_InputBegin(&GuiObject::inputBeganEvent, "InputBegan", "input", Security::None);
@@ -112,49 +112,49 @@ REFLECTION_END();
 namespace Reflection
 {
 template<>
-EnumDesc<RBX::GuiObject::TweenEasingDirection>::EnumDesc()
+EnumDesc<ARL::GuiObject::TweenEasingDirection>::EnumDesc()
 :EnumDescriptor("EasingDirection")
 {
-	addPair(RBX::GuiObject::EASING_DIRECTION_IN, "In");
-	addPair(RBX::GuiObject::EASING_DIRECTION_OUT, "Out");
-	addPair(RBX::GuiObject::EASING_DIRECTION_IN_OUT, "InOut");
+	addPair(ARL::GuiObject::EASING_DIRECTION_IN, "In");
+	addPair(ARL::GuiObject::EASING_DIRECTION_OUT, "Out");
+	addPair(ARL::GuiObject::EASING_DIRECTION_IN_OUT, "InOut");
 }
 template<>
-RBX::GuiObject::TweenEasingDirection& Variant::convert<RBX::GuiObject::TweenEasingDirection>(void)
+ARL::GuiObject::TweenEasingDirection& Variant::convert<ARL::GuiObject::TweenEasingDirection>(void)
 {
-	return genericConvert<RBX::GuiObject::TweenEasingDirection>();
+	return genericConvert<ARL::GuiObject::TweenEasingDirection>();
 }
 
 template<>
-EnumDesc<RBX::GuiObject::TweenEasingStyle>::EnumDesc()
+EnumDesc<ARL::GuiObject::TweenEasingStyle>::EnumDesc()
 :EnumDescriptor("EasingStyle")
 {
-	addPair(RBX::GuiObject::EASING_STYLE_LINEAR,	"Linear");
-	addPair(RBX::GuiObject::EASING_STYLE_SINE,		"Sine");
-	addPair(RBX::GuiObject::EASING_STYLE_BACK,		"Back");
-	addPair(RBX::GuiObject::EASING_STYLE_QUAD,		"Quad");
-	addPair(RBX::GuiObject::EASING_STYLE_QUART,	"Quart");
-	addPair(RBX::GuiObject::EASING_STYLE_QUINT,	"Quint");
-	addPair(RBX::GuiObject::EASING_STYLE_BOUNCE,	"Bounce");
-	addPair(RBX::GuiObject::EASING_STYLE_ELASTIC,	"Elastic");
+	addPair(ARL::GuiObject::EASING_STYLE_LINEAR,	"Linear");
+	addPair(ARL::GuiObject::EASING_STYLE_SINE,		"Sine");
+	addPair(ARL::GuiObject::EASING_STYLE_BACK,		"Back");
+	addPair(ARL::GuiObject::EASING_STYLE_QUAD,		"Quad");
+	addPair(ARL::GuiObject::EASING_STYLE_QUART,	"Quart");
+	addPair(ARL::GuiObject::EASING_STYLE_QUINT,	"Quint");
+	addPair(ARL::GuiObject::EASING_STYLE_BOUNCE,	"Bounce");
+	addPair(ARL::GuiObject::EASING_STYLE_ELASTIC,	"Elastic");
 }
 template<>
-RBX::GuiObject::TweenEasingStyle& Variant::convert<RBX::GuiObject::TweenEasingStyle>(void)
+ARL::GuiObject::TweenEasingStyle& Variant::convert<ARL::GuiObject::TweenEasingStyle>(void)
 {
-	return genericConvert<RBX::GuiObject::TweenEasingStyle>();
+	return genericConvert<ARL::GuiObject::TweenEasingStyle>();
 }
 
 template<>
-EnumDesc<RBX::GuiObject::TweenStatus>::EnumDesc()
+EnumDesc<ARL::GuiObject::TweenStatus>::EnumDesc()
 :EnumDescriptor("TweenStatus")
 {
-	addPair(RBX::GuiObject::TWEEN_CANCELED,		"Canceled");
-	addPair(RBX::GuiObject::TWEEN_COMPLETED,	"Completed");
+	addPair(ARL::GuiObject::TWEEN_CANCELED,		"Canceled");
+	addPair(ARL::GuiObject::TWEEN_COMPLETED,	"Completed");
 }
 template<>
-RBX::GuiObject::TweenStatus& Variant::convert<RBX::GuiObject::TweenStatus>(void)
+ARL::GuiObject::TweenStatus& Variant::convert<ARL::GuiObject::TweenStatus>(void)
 {
-	return genericConvert<RBX::GuiObject::TweenStatus>();
+	return genericConvert<ARL::GuiObject::TweenStatus>();
 }
 }
 template<>
@@ -164,14 +164,14 @@ bool StringConverter<GuiObject::TweenEasingStyle>::convertToValue(const std::str
 }
 
 template<>
-bool RBX::StringConverter<GuiObject::TweenEasingDirection>::convertToValue(const std::string& text, GuiObject::TweenEasingDirection& value)
+bool ARL::StringConverter<GuiObject::TweenEasingDirection>::convertToValue(const std::string& text, GuiObject::TweenEasingDirection& value)
 {
 	return Reflection::EnumDesc<GuiObject::TweenEasingDirection>::singleton().convertToValue(text.c_str(),value);
 }
 
 
 template<>
-bool RBX::StringConverter<GuiObject::TweenStatus>::convertToValue(const std::string& text, GuiObject::TweenStatus& value)
+bool ARL::StringConverter<GuiObject::TweenStatus>::convertToValue(const std::string& text, GuiObject::TweenStatus& value)
 {
 	return Reflection::EnumDesc<GuiObject::TweenStatus>::singleton().convertToValue(text.c_str(),value);
 }
@@ -246,7 +246,7 @@ void GuiObject::UpdateTween(Tween& tween, GuiObject* obj, boost::function<void(G
 		{
 			if (FFlag::TweenCallbacksDuringRenderStep)
 			{
-				if (TweenService* tweenService = RBX::ServiceProvider::create<TweenService>(obj))
+				if (TweenService* tweenService = ARL::ServiceProvider::create<TweenService>(obj))
 				{
 					tweenService->addTweenCallback(tween.callback, TWEEN_COMPLETED);
 				}
@@ -280,7 +280,7 @@ static void InvokeTweenStatusCallback(boost::weak_ptr<GuiObject> weakThis, Lua::
                 {
                     sc->callInNewThread(callback, args);
                 }
-                catch (RBX::base_exception& e)
+                catch (ARL::base_exception& e)
                 {
                     StandardOut::singleton()->printf(MESSAGE_ERROR, "Unexpected error while invoking callback: %s", e.what());
                 }
@@ -370,7 +370,7 @@ bool GuiObject::tweenPositionDelay(UDim2 startPosition, UDim2 endPosition, float
 		}
 		tweens->positionTween.reset();
 	}
-	RBXASSERT(!tweens->positionTween);
+	ARLASSERT(!tweens->positionTween);
 
 	tweens->positionTween.reset(new Tween(startPosition, endPosition, time, style, variance, delayTime));
 	tweens->positionTween->callback = callback;
@@ -406,7 +406,7 @@ bool GuiObject::tweenSizeDelay(UDim2 startSize, UDim2 endSize, float time, Tween
 		}
 		tweens->sizeTween.reset();
 	}
-	RBXASSERT(!tweens->sizeTween);
+	ARLASSERT(!tweens->sizeTween);
 
 	tweens->sizeTween.reset(new Tween(startSize, endSize, time, style, variance, delayTime));
 	tweens->sizeTween->callback = callback;
@@ -605,7 +605,7 @@ UDim2 GuiObject::TweenInterpolate(TweenEasingDirection style, TweenEasingStyle v
 				else
 					return TweenInterpolate(EASING_DIRECTION_OUT, EASING_STYLE_BOUNCE, elapsedTime*2-totalTime, totalTime, UDim2(), endValue-startValue)*0.5 + (endValue-startValue)*.5 + startValue;
 			default:
-				RBXASSERT(0);
+				ARLASSERT(0);
 				return UDim2();
 		}
 	}
@@ -654,7 +654,7 @@ UDim2 GuiObject::TweenInterpolate(TweenEasingDirection style, TweenEasingStyle v
 		return (endValue-startValue)*factor + startValue;
 	}
 	default:
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return UDim2();
 	}
 }
@@ -685,7 +685,7 @@ static Vector2 getConstrainedSize(const Vector2& parentSize, GuiObject::SizeCons
 
 Vector2 GuiObject::getAbsolutePosition() const
 {
-    if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+    if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
     {
         Vector4 guiInset = guiService->getGlobalGuiInset();
         return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);
@@ -693,12 +693,12 @@ Vector2 GuiObject::getAbsolutePosition() const
     return absolutePosition;
 }
 
-void GuiObject::handleDrag(RBX::Vector2 mousePosition)
+void GuiObject::handleDrag(ARL::Vector2 mousePosition)
 {	
 	if(mousePosition != lastMousePosition)
 	{
 		Vector2 mouseDelta = mousePosition - lastMousePosition;
-		setPosition(RBX::UDim2(position.x.scale,position.x.offset + mouseDelta.x, position.y.scale,position.y.offset + mouseDelta.y));
+		setPosition(ARL::UDim2(position.x.scale,position.x.offset + mouseDelta.x, position.y.scale,position.y.offset + mouseDelta.y));
 		lastMousePosition = mousePosition;
 	}
 }
@@ -714,7 +714,7 @@ void GuiObject::handleDragging(const shared_ptr<InputObject>& event)
 			dragBeginSignal(getPosition());
 			if (draggingBeganInputObject ==  shared_ptr<InputObject>())
 			{
-				if(UserInputService* inputService = RBX::ServiceProvider::find<UserInputService>(this))
+				if(UserInputService* inputService = ARL::ServiceProvider::find<UserInputService>(this))
 				{
 					draggingBeganInputObject = shared_from(event.get());
 					draggingEndedConnection = inputService->coreInputEndedEvent.connect(boost::bind(&GuiObject::draggingEnded,this,_1));
@@ -826,7 +826,7 @@ void GuiObject::setSizeConstraint(SizeConstraint value)
 
 void GuiObject::setPosition(UDim2 value)
 {
-    RBXASSERT(isFinite(value.x.scale) || isFinite(value.y.scale));
+    ARLASSERT(isFinite(value.x.scale) || isFinite(value.y.scale));
     
 	if(position != value){
 		position = value;
@@ -911,7 +911,7 @@ void GuiObject::setBorderSizePixel(int value)
 
 void GuiObject::setZIndex(int value)
 {
-	if(RBX::Security::Context::current().hasPermission(RBX::Security::RobloxScript)){
+	if(ARL::Security::Context::current().hasPermission(ARL::Security::RobloxScript)){
 		//We can access level 0 
 		if(value < GuiBase::minZIndex()) 
 			value = GuiBase::minZIndex();
@@ -1176,7 +1176,7 @@ void GuiObject::renderSelectionFrame(Adorn* adorn, GuiObject* baseSelectionObjec
 		// need to set selectedGuiObject renderer to match this object's size, pos and rotation temporarily
 		const UDim2 selectedGuiObjPos = baseSelectionObject->getPosition();
 		Vector2 absolutePosition = getAbsolutePosition() + (getAbsoluteSize() * Vector2(selectedGuiObjPos.x.scale, selectedGuiObjPos.y.scale)) + Vector2(selectedGuiObjPos.x.offset, selectedGuiObjPos.y.offset);
-		if (GuiService* guiService = RBX::ServiceProvider::find<RBX::GuiService>(this))
+		if (GuiService* guiService = ARL::ServiceProvider::find<ARL::GuiService>(this))
 		{
 			absolutePosition += guiService->getGlobalGuiInset().xy();
 		}
@@ -1200,7 +1200,7 @@ void GuiObject::renderSelectionFrame(Adorn* adorn, GuiObject* baseSelectionObjec
 
 
 		// we rendered, now set the properties back to normal
-		if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+		if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 		{
 			Vector4 guiInset = guiService->getGlobalGuiInset();
 			originalAbsPosition += guiInset.xy();
@@ -1218,7 +1218,7 @@ void GuiObject::renderStudioSelectionBox(Adorn* adorn)
 	{
 		Rect2D outlineRect = getRect2D();
 		outlineRect = Rect2D::xyxy(outlineRect.x0() - 1.0f, outlineRect.y0() - 1.0f,outlineRect.x1() + 1.0f,outlineRect.y1() + 1.0f);
-		adorn->outlineRect2d(outlineRect,3.0f,RBX::Color4(RBX::Color3(0.1f, 0.6f, 1.0f)), absoluteRotation);
+		adorn->outlineRect2d(outlineRect,3.0f,ARL::Color4(ARL::Color3(0.1f, 0.6f, 1.0f)), absoluteRotation);
 	}
 }
 //Used by children without text
@@ -1562,12 +1562,12 @@ Vector2 GuiObject::render2dTextImpl(	Adorn* adorn,
 									TextService::ToTextXAlign(_xalignment),
 									TextService::ToTextYAlign(_yalignment),
 									wh,
-									getClipping() ? rect : RBX::Rect2D::xyxy(-1,-1,-1,-1),
+									getClipping() ? rect : ARL::Rect2D::xyxy(-1,-1,-1,-1),
 									absoluteRotation);
 	}
 	else
 	{
-		RBX::Rect2D clippedRect = clippingObject->getClippedRect();
+		ARL::Rect2D clippedRect = clippingObject->getClippedRect();
 		if(getClipping())
 			clippedRect = clippedRect.intersect(rect);
 
@@ -1588,7 +1588,7 @@ Vector2 GuiObject::render2dTextImpl(	Adorn* adorn,
 void GuiObject::fireGenericInputEvent(const shared_ptr<InputObject>& event)
 {
 	// state and type should always be set appropriately
-	RBXASSERT(event->getUserInputState() != InputObject::INPUT_STATE_NONE && event->getUserInputType() != InputObject::TYPE_NONE);
+	ARLASSERT(event->getUserInputState() != InputObject::INPUT_STATE_NONE && event->getUserInputType() != InputObject::TYPE_NONE);
 
 	if( event->isKeyEvent() ) //todo: make these work? not sure if key events should register or not
 		return;
@@ -1600,7 +1600,7 @@ void GuiObject::fireGenericInputEvent(const shared_ptr<InputObject>& event)
     
     // if we send a "fake" mouse event on a touch device, don't register as generic event
     // fake mouse events are needed from touch for backwards compatibility
-    if(RBX::UserInputService* inputService = RBX::ServiceProvider::find<RBX::UserInputService>(this))
+    if(ARL::UserInputService* inputService = ARL::ServiceProvider::find<ARL::UserInputService>(this))
         if(event->isMouseEvent() && !inputService->getMouseEnabled() && inputService->getTouchEnabled())
             return;
 
@@ -1674,7 +1674,7 @@ GuiResponse GuiObject::process(const shared_ptr<InputObject>& event)
     }
 }
     
-void GuiObject::fireGestureEvent(const UserInputService::Gesture& gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args)
+void GuiObject::fireGestureEvent(const UserInputService::Gesture& gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args)
 {
     switch (gesture)
     {
@@ -1682,24 +1682,24 @@ void GuiObject::fireGestureEvent(const UserInputService::Gesture& gesture, const
             tapGestureEvent(touchPositions);
             break;
         case UserInputService::GESTURE_SWIPE:
-            RBXASSERT(args->values.size() == 2);
+            ARLASSERT(args->values.size() == 2);
             swipeGestureEvent(args->values[0].cast<UserInputService::SwipeDirection>(),args->values[1].cast<int>());
             break;
         case UserInputService::GESTURE_ROTATE:
-            RBXASSERT(args->values.size() == 3);
+            ARLASSERT(args->values.size() == 3);
             rotateGestureEvent(touchPositions,args->values[0].cast<float>(),args->values[1].cast<float>(), args->values[2].cast<InputObject::UserInputState>());
             break;
         case UserInputService::GESTURE_PINCH:
-            RBXASSERT(args->values.size() == 3);
+            ARLASSERT(args->values.size() == 3);
             pinchGestureEvent(touchPositions,args->values[0].cast<float>(),args->values[1].cast<float>(), args->values[2].cast<InputObject::UserInputState>());
             break;
         case UserInputService::GESTURE_LONGPRESS:
-            RBXASSERT(args->values.size() == 1);
+            ARLASSERT(args->values.size() == 1);
             longPressGestureEvent(touchPositions,args->values[0].cast<InputObject::UserInputState>());
             break;
         case UserInputService::GESTURE_PAN:
-            RBXASSERT(args->values.size() == 3);
-            panGestureEvent(touchPositions,args->values[0].cast<RBX::Vector2>(),args->values[1].cast<RBX::Vector2>(),args->values[2].cast<InputObject::UserInputState>());
+            ARLASSERT(args->values.size() == 3);
+            panGestureEvent(touchPositions,args->values[0].cast<ARL::Vector2>(),args->values[1].cast<ARL::Vector2>(),args->values[2].cast<InputObject::UserInputState>());
             break;
         case UserInputService::GESTURE_NONE:
         default: // intentional fall thru
@@ -1707,7 +1707,7 @@ void GuiObject::fireGestureEvent(const UserInputService::Gesture& gesture, const
     }
 }
     
-GuiResponse GuiObject::processGesture(const UserInputService::Gesture& gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args)
+GuiResponse GuiObject::processGesture(const UserInputService::Gesture& gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args)
 {
     if (!visible)
         return GuiResponse::notSunk();
@@ -1716,7 +1716,7 @@ GuiResponse GuiObject::processGesture(const UserInputService::Gesture& gesture, 
     // make sure all touches were in view
     for(Reflection::ValueArray::const_iterator iter = touchPositions->begin(); iter != touchPositions->end(); ++iter)
     {
-        if( !mouseIsOver(iter->get<RBX::Vector2>()) )
+        if( !mouseIsOver(iter->get<ARL::Vector2>()) )
         {
             gestureIsOver = false;
             break;
@@ -1757,7 +1757,7 @@ bool GuiObject::mouseIsOver(const Vector2& mousePosition)
 
     if (GuiObject* clippingObject = firstAncestorClipping())
     {
-        RBX::Rect2D clippedRect = getRect2D().intersect(clippingObject->getClippedRect());
+        ARL::Rect2D clippedRect = getRect2D().intersect(clippingObject->getClippedRect());
         rect = Rect(clippedRect);
     }
 
@@ -1809,7 +1809,7 @@ GuiResponse GuiObject::processMouseEventInternal(const shared_ptr<InputObject>& 
 		if (!mouseOver && (wasHover || wasDownOver))		{mouseLeaveSignal(mousePosition.x, mousePosition.y);}
 	}
 
-	if(UserInputService* inputService = RBX::ServiceProvider::find<UserInputService>(this))
+	if(UserInputService* inputService = ARL::ServiceProvider::find<UserInputService>(this))
 	{
 		if (eventLeftButtonDown && mouseOver)
 		{
@@ -1821,7 +1821,7 @@ GuiResponse GuiObject::processMouseEventInternal(const shared_ptr<InputObject>& 
 		}
 	}
 
-	if(UserInputService* inputService = RBX::ServiceProvider::find<UserInputService>(this))
+	if(UserInputService* inputService = ARL::ServiceProvider::find<UserInputService>(this))
 	{
 		if (getActive() && getDraggable() && inputService->getMouseEnabled() && !inputService->getTouchEnabled())
 		{
@@ -1884,7 +1884,7 @@ void GuiObject::draggingEnded(const shared_ptr<Instance>& event)
 			draggingEndedConnection.disconnect();
 			Vector2 mousePosition = inputObject->get2DPosition();
 			Vector2 dragPosition = Vector2(mousePosition.x, mousePosition.y);
-			if (GuiService* guiService = RBX::ServiceProvider::find<RBX::GuiService>(this))
+			if (GuiService* guiService = ARL::ServiceProvider::find<ARL::GuiService>(this))
 			{
 				dragPosition -= guiService->getGlobalGuiInset().xy();
 			}
@@ -1917,7 +1917,7 @@ bool GuiObject::isCurrentlyVisible()
 			}
 		}
 
-		if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+		if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 		{
 			Vector2 screenRes = guiService->getScreenResolution();
 			if (!clippedRect.intersects(Rect2D::xywh(Vector2::zero() + guiService->getGlobalGuiInset().xy(),screenRes)))
@@ -1928,7 +1928,7 @@ bool GuiObject::isCurrentlyVisible()
 	if (GuiObject* parentGuiObject = Instance::fastDynamicCast<GuiObject>(getParent()))
 		return parentGuiObject->isCurrentlyVisible();
 	
-	if (Instance::fastDynamicCast<RBX::ScreenGui>(getParent()))
+	if (Instance::fastDynamicCast<ARL::ScreenGui>(getParent()))
 		return true;
 	
 	return false;
@@ -1937,7 +1937,7 @@ bool GuiObject::isCurrentlyVisible()
 
 bool GuiObject::isSelectedObject()
 {
-	if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+	if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 	{
 		if (GuiObject* selectedGuiObject = guiService->getSelectedGuiObject())
 		{
@@ -2054,7 +2054,7 @@ Rect2D GuiButton::getChildRect2D() const
 		case GuiButton::ROBLOX_BUTTON_ROUND_DROPDOWN_STYLE:
 			return Scale9Rect2D(getRect2D(), 12, 26);
 		default:
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return getRect2D();
 	}
 }
@@ -2073,13 +2073,13 @@ void GuiButton::setVerb(std::string verbString)
     VMProtectBeginMutation(NULL);
 	if(Workspace* workspace = ServiceProvider::find<Workspace>(this))
 	{
-#ifdef RBX_STUDIO_BUILD
+#ifdef ARL_STUDIO_BUILD
         verb = workspace->getVerb(verbString);
 #else
         verb = workspace->getWhitelistVerb(verbString);
         if (verb && verb->getVerbSecurity())
         {
-            RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag10, HATE_VERB_SNATCH);
+            ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag10, HATE_VERB_SNATCH);
             verb = NULL;
         }
 #endif
@@ -2218,7 +2218,7 @@ void GuiButton::render2dButtonImpl(Adorn* adorn, Rect2D& rect)
 			}
 			else
 			{
-				RBXASSERT(images.get());
+				ARLASSERT(images.get());
 				setBackgroundTransparency(0.0f);
 				render2dScale9Impl(adorn, sGrey, Vector2int16(8,8), Vector2int16(36,36), images[1], rect, clippingObject);
 			}
@@ -2263,7 +2263,7 @@ void GuiButton::render2dButtonImpl(Adorn* adorn, Rect2D& rect)
 			}
 			else
 			{
-				RBXASSERT(images.get());
+				ARLASSERT(images.get());
 				setBackgroundTransparency(0.0f);
 				render2dScale9Impl(adorn, sRed, Vector2int16(8,8), Vector2int16(36,36), images[1], rect, clippingObject);
 			}
@@ -2330,7 +2330,7 @@ void GuiButton::render2dButtonImpl(Adorn* adorn, Rect2D& rect)
 			}
 			else
 			{
-				RBXASSERT(images.get());
+				ARLASSERT(images.get());
 				setBackgroundTransparency(0.0f);
 				render2dScale9Impl(adorn, *pNormal, cornerSize, minSize, images[1], rect, clippingObject);
 			}
@@ -2348,7 +2348,7 @@ GuiResponse GuiButton::processTouchEvent(const shared_ptr<InputObject>& event)
         
 	if ( event->isTouchEvent() && mouseIsOver(event->get2DPosition()) && getActive() && !getDraggable())
 	{
-		if( RBX::ScrollingFrame* scrollFrame = findFirstAncestorOfType<RBX::ScrollingFrame>())
+		if( ARL::ScrollingFrame* scrollFrame = findFirstAncestorOfType<ARL::ScrollingFrame>())
 		{
 			bool processedInput = scrollFrame->processInputFromDescendant(event);
 			shouldFireClickedEvent = !scrollFrame->isTouchScrolling();
@@ -2365,7 +2365,7 @@ GuiResponse GuiButton::processTouchEvent(const shared_ptr<InputObject>& event)
 
 GuiResponse GuiButton::checkForSelectedObjectClick(const shared_ptr<InputObject>& event)
 {
-	if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+	if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 	{
 		if (GuiObject* selectedGuiObject = guiService->getSelectedGuiObject())
 		{
@@ -2393,7 +2393,7 @@ GuiResponse GuiButton::checkForSelectedObjectClick(const shared_ptr<InputObject>
 							clicked = false;
 							if (verb->isEnabled())
 							{
-								Verb::doItWithChecks(verb, RBX::DataModel::get(this));
+								Verb::doItWithChecks(verb, ARL::DataModel::get(this));
 							}
 						}
 						VMProtectEnd();
@@ -2465,7 +2465,7 @@ GuiResponse GuiButton::processMouseEvent(const shared_ptr<InputObject>& event)
         clicked = false;
         if (verb->isEnabled())
         {
-            Verb::doItWithChecks(verb, RBX::DataModel::get(this));
+            Verb::doItWithChecks(verb, ARL::DataModel::get(this));
         }
     }
     VMProtectEnd();

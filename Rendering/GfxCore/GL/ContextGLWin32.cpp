@@ -13,7 +13,7 @@ GLenum GLEWAPIENTRY wglewContextInit();
 
 FASTFLAG(DebugGraphicsGL)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -39,18 +39,18 @@ public:
         int pf = ChoosePixelFormat(hdc, &pfd);
 
         if (!pf)
-			throw RBX::runtime_error("Error choosing pixel format: %x", GetLastError());
+			throw ARL::runtime_error("Error choosing pixel format: %x", GetLastError());
 
         if (!SetPixelFormat(hdc, pf, &pfd))
-			throw RBX::runtime_error("Error setting pixel format: %x", GetLastError());
+			throw ARL::runtime_error("Error setting pixel format: %x", GetLastError());
 
         hglrc = wglCreateContext(hdc);
 
         if (!hglrc)
-			throw RBX::runtime_error("Error creating context: %x", GetLastError());
+			throw ARL::runtime_error("Error creating context: %x", GetLastError());
 
         if (!wglMakeCurrent(hdc, hglrc))
-			throw RBX::runtime_error("Error changing context: %x", GetLastError());
+			throw ARL::runtime_error("Error changing context: %x", GetLastError());
 
 		if (FFlag::DebugGraphicsGL)
         {
@@ -68,14 +68,14 @@ public:
                 hglrc = wglCreateContextAttribsARB(hdc, NULL, attribs);
 
                 if (!hglrc)
-                    throw RBX::runtime_error("Error creating context: %x", GetLastError());
+                    throw ARL::runtime_error("Error creating context: %x", GetLastError());
 
                 if (!wglMakeCurrent(hdc, hglrc))
-                    throw RBX::runtime_error("Error changing context: %x", GetLastError());
+                    throw ARL::runtime_error("Error changing context: %x", GetLastError());
 			}
         }
 
-        glewInitRBX();
+        glewInitARL();
 
 		if (wglSwapIntervalEXT)
 			wglSwapIntervalEXT(0);
@@ -94,13 +94,13 @@ public:
         if (wglGetCurrentContext() != hglrc)
         {
             BOOL result = wglMakeCurrent(hdc, hglrc);
-            RBXASSERT(result);
+            ARLASSERT(result);
         }
     }
 
     virtual void swapBuffers()
     {
-        RBXASSERT(wglGetCurrentContext() == hglrc);
+        ARLASSERT(wglGetCurrentContext() == hglrc);
 
         SwapBuffers(hdc);
     }

@@ -3,7 +3,7 @@
 
 #include "Util/CellID.h"
 
-namespace RBX 
+namespace ARL 
 {
 	namespace Reflection
 	{

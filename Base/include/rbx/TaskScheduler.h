@@ -27,7 +27,7 @@ LOGGROUP(TaskSchedulerInit)
 LOGGROUP(TaskSchedulerRun)
 LOGGROUP(TaskSchedulerFindJob)
 
-namespace RBX
+namespace ARL
 {	
 	/// A singleton object responsible for scheduling the execution TaskScheduler.Jobs.
 	class TaskScheduler
@@ -46,7 +46,7 @@ namespace RBX
 		bool cyclicExecutiveWaitForNextFrame;
 		int nonCyclicJobsToDo;
 		int cyclicExecutiveLoopId;
-		class RBXBaseClass Arbiter
+		class ARLBaseClass Arbiter
 		{
 		protected:
 			ActivityMeter<2> activityMeter;
@@ -72,7 +72,7 @@ namespace RBX
 		typedef enum { LastError, AccumulatedError, FIFO } PriorityMethod;
 		static PriorityMethod priorityMethod;
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
         static int findJobFPS;
         static bool updateJobPriorityOnWake;
 #endif
@@ -155,7 +155,7 @@ namespace RBX
 		void incrementThreadCount();
 		void decrementThreadCount();
 
-		RBX::mutex mutex;
+		ARL::mutex mutex;
 
 		typedef std::set< shared_ptr<Job> > AllJobs;
 		AllJobs allJobs;
@@ -173,7 +173,7 @@ namespace RBX
 		void enqueueWaitingJob(Job& job);
 		Time::Interval getShortestSleepTime() const;
 		boost::shared_ptr<Job> findJobToRun(boost::shared_ptr<Thread> requestingThread);
-		boost::shared_ptr<Job> findJobToRunNonCyclicJobs(boost::shared_ptr<Thread> requestingThread, RBX::Time now);
+		boost::shared_ptr<Job> findJobToRunNonCyclicJobs(boost::shared_ptr<Thread> requestingThread, ARL::Time now);
 		int numNonCyclicJobsWithWork(); 
 
 		void checkStillWaitingNextFrame(Time now);
@@ -248,7 +248,7 @@ namespace RBX
 				return false;
 			if (updatingThrottle.swap(1) == 0)
 			{
-				double cutoff = ((double)RBX::TaskScheduler::singleton().getThreadCount()) / (double) count;
+				double cutoff = ((double)ARL::TaskScheduler::singleton().getThreadCount()) / (double) count;
 				// hysteresis
 				if (throttled)
 				{

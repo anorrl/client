@@ -4,7 +4,7 @@
 #include "Util/LuaWebService.h"
 #include "Network/Players.h"
 
-namespace RBX
+namespace ARL
 {
 const char* const sPersonalServerService = "PersonalServerService";
 
@@ -76,7 +76,7 @@ void PersonalServerService::dispatchRequest(const std::string& url, boost::funct
 		{
 			luaWebService->asyncRequest(url, LUA_WEB_SERVICE_STANDARD_PRIORITY, resumeFunction, errorFunction);
 		}
-		catch(RBX::base_exception&)
+		catch(ARL::base_exception&)
 		{
 			errorFunction("Error during dispatch");
 		}
@@ -95,7 +95,7 @@ void PersonalServerService::getWebRoleSets(int placeId, boost::function<void(std
 		errorFunction("getWebRoleSets should only be called from gameserver");
 	else
 	{
-		std::string url(RBX::format(personalServerRoleSetsUrl.c_str(), placeId));
+		std::string url(ARL::format(personalServerRoleSetsUrl.c_str(), placeId));
 		dispatchRequest(url, resumeFunction, errorFunction);
 	}
 }
@@ -111,7 +111,7 @@ void PersonalServerService::getRank(Network::Player* player, int placeId, boost:
 		errorFunction("No personalServerGetRankUrl set");
 	else
 	{
-		std::string url(RBX::format(personalServerGetRankUrl.c_str(), placeId, player->getUserID()));
+		std::string url(ARL::format(personalServerGetRankUrl.c_str(), placeId, player->getUserID()));
 	    dispatchRequest(url, resumeFunction, errorFunction);
 	}
 }
@@ -122,7 +122,7 @@ void PersonalServerService::setRank(Network::Player* player, int placeId, int ne
 		errorFunction("No personalServerSetRankUrl set");
 	else
 	{
-		std::string url(RBX::format(personalServerSetRankUrl.c_str(), placeId, player->getUserID(), newRank));
+		std::string url(ARL::format(personalServerSetRankUrl.c_str(), placeId, player->getUserID(), newRank));
 	    dispatchRequest(url, resumeFunction, errorFunction);
 	}
 }

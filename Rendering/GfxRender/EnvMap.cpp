@@ -19,7 +19,7 @@ static const float MATH_PI = 3.14159265359f;
 
 static const int kCubemapSize = 256;
 
-namespace RBX { namespace Graphics {
+namespace ARL { namespace Graphics {
 
 EnvMap::EnvMap(VisualEngine* ve): Resource(ve->getDevice())
 {
@@ -65,7 +65,7 @@ void EnvMap::update(DeviceContext* context, double gameTime)
     // prepare the envmap
     if (texture.getTexture())
     {
-        double realTime = RBX::Time::nowFastSec();
+        double realTime = ARL::Time::nowFastSec();
         if( visualEngine->getSettings()->getEagerBulkExecution() )
         {
             markDirty(true);

@@ -8,12 +8,12 @@
 #include "Util/IHasLocation.h"
 #include <vector>
 
-namespace RBX {
+namespace ARL {
 
 	class Primitive;
 	class Camera;
 
-	class RBXBaseClass CameraSubject : public virtual IHasLocation
+	class ARLBaseClass CameraSubject : public virtual IHasLocation
 	{
 	public:
 		CameraSubject() {}

@@ -8,7 +8,7 @@
 #include "Util.h"
 #include "VertexStreamer.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -44,7 +44,7 @@ unsigned int RenderEntity::getWorldTransforms4x3(float* buffer, unsigned int max
 {
     if (useCache(cacheKey, node)) return 0;
 
-    RBXASSERT(maxTransforms >= 1);
+    ARLASSERT(maxTransforms >= 1);
 
     const CoordinateFrame& cframe = node->getCoordinateFrame();
 
@@ -88,14 +88,14 @@ RenderNode::~RenderNode()
 
 void RenderNode::addEntity(RenderEntity* entity)
 {
-    RBXASSERT(entity);
+    ARLASSERT(entity);
     entities.push_back(entity);
 }
 
 void RenderNode::removeEntity(RenderEntity* entity)
 {
     std::vector<RenderEntity*>::iterator it = std::find(entities.begin(), entities.end(), entity);
-    RBXASSERT(it != entities.end());
+    ARLASSERT(it != entities.end());
     
     entities.erase(it);
 }

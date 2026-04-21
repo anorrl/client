@@ -4,7 +4,7 @@
 #include "rbx/Debug.h"
 #include "boost/cast.hpp"
 
-namespace RBX
+namespace ARL
 {
 	BaseThreadPool::BaseThreadPool(int count, ShutdownPolicy shutdownPolicy,  PoolData* poolDataRaw, size_t maxScheduleSize)
 		:poolData(poolDataRaw)
@@ -53,7 +53,7 @@ namespace RBX
 		}
 		case LockAndKill:
 		{
-			RBXASSERT(pool.size() == poolLocks.size());
+			ARLASSERT(pool.size() == poolLocks.size());
 			boost::posix_time::milliseconds timeout(50);
 			for(unsigned i = 0; i<pool.size(); ++i){
 				rbx::spin_mutex::scoped_lock lock(*poolLocks[i]);
@@ -69,7 +69,7 @@ namespace RBX
 
 	void BaseThreadPool::loop(boost::shared_ptr<PoolData> poolData, boost::shared_ptr<rbx::spin_mutex> lock, ShutdownPolicy shutdownPolicy)
 	{
-		RBX::set_thread_name("rbx_BaseThreadPool");
+		ARL::set_thread_name("rbx_BaseThreadPool");
 		while (true)
 		{
 			{

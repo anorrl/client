@@ -7,7 +7,7 @@
 #include "V8World/Assembly.h"
 #include "V8World/Joint.h"
 
-namespace RBX {
+namespace ARL {
 
 Mechanism::Mechanism()
 {}
@@ -35,7 +35,7 @@ bool Mechanism::assemblyHasMovingParent(const Assembly* a)
 
 bool Mechanism::isComplexMovingMechanism(const Assembly* a)
 {
-	RBXASSERT(isMovingAssemblyRoot(a));		// shouldn't be calling this otherwise
+	ARLASSERT(isMovingAssemblyRoot(a));		// shouldn't be calling this otherwise
 
 #ifdef _DEBUG
 	// quick test to make sure all children are through spring joints.
@@ -45,7 +45,7 @@ bool Mechanism::isComplexMovingMechanism(const Assembly* a)
 		const Primitive* p = child->getConstAssemblyPrimitive();
 		const SpanningEdge* spanningEdge = p->getConstEdgeToParent();
 		const Joint* j = rbx_static_cast<const Joint*>(spanningEdge);
-		RBXASSERT(Joint::isSpringJoint(j));
+		ARLASSERT(Joint::isSpringJoint(j));
 	}
 #endif
 
@@ -86,7 +86,7 @@ const Assembly* Mechanism::getConstMovingAssemblyRoot(const Assembly* a)
 const Primitive* Mechanism::getConstRootMovingPrimitive(const Primitive* p)
 {
 	const Assembly* a = p->getConstAssembly();
-	RBXASSERT(a);
+	ARLASSERT(a);
 	if (!a) {
 		return NULL;
 	}
@@ -125,14 +125,14 @@ const Mechanism* Mechanism::getConstPrimitiveMechanism(const Primitive* p)
 Assembly* Mechanism::getRootAssembly()
 {
 	Assembly* answer = getTypedLower<Assembly>();
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
 const Assembly* Mechanism::getConstRootAssembly() const
 {
 	const Assembly* answer = getConstTypedLower<Assembly>();
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
@@ -143,7 +143,7 @@ bool Mechanism::isMechanismRootPrimitive(const Primitive* p)
 					&&	p->getConstTypedUpper<Clump>()->getConstTypedUpper<Assembly>()
 					&&	p->getConstTypedUpper<Clump>()->getConstTypedUpper<Assembly>()->getConstTypedUpper<Mechanism>()	);
 	
-	RBXASSERT(!answer || (getConstPrimitiveMechanism(p)->getConstTypedLower<Assembly>()->getConstTypedLower<Clump>()->getConstTypedLower<Primitive>() == p));
+	ARLASSERT(!answer || (getConstPrimitiveMechanism(p)->getConstTypedLower<Assembly>()->getConstTypedLower<Clump>()->getConstTypedLower<Primitive>() == p));
 	return answer;
 }
 

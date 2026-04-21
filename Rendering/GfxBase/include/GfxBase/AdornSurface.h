@@ -4,7 +4,7 @@
 #include "V8DataModel/Workspace.h"
 #include "util/UDim.h"
 
-namespace RBX {
+namespace ARL {
 
 
 	class AdornSurface : public Adorn
@@ -18,8 +18,8 @@ namespace RBX {
 
         virtual bool useFontSmoothScalling() { return false; }
 
-		void setTexture(int id, const RBX::TextureProxyBaseRef& texture);
-		Rect2D getTextureSize( const RBX::TextureProxyBaseRef& texture) const;
+		void setTexture(int id, const ARL::TextureProxyBaseRef& texture);
+		Rect2D getTextureSize( const ARL::TextureProxyBaseRef& texture) const;
 
 		void line2d(const Vector2& p0, const Vector2& p1, const Color4& color);
 
@@ -34,8 +34,8 @@ namespace RBX {
 		Rect2D getViewport() const;
 
 		void setObjectToWorldMatrix(const CoordinateFrame& c) { ; }
-		void line3d(const Vector3& startPoint, const Vector3& endPoint, const RBX::Color4& color)			{ ; }
-		void line3dAA(const Vector3& startPoint, const Vector3& endPoint, const RBX::Color4& color, float thickness, int zIndex, bool alwaysOnTop) { ; }
+		void line3d(const Vector3& startPoint, const Vector3& endPoint, const ARL::Color4& color)			{ ; }
+		void line3dAA(const Vector3& startPoint, const Vector3& endPoint, const ARL::Color4& color, float thickness, int zIndex, bool alwaysOnTop) { ; }
 		void box(const AABox& b, const Color4& solidColor)							{ ; }
 		void box(const CoordinateFrame& cFrame, const Vector3& size, const Color4& color, int zIndex, bool alwaysOnTop) { ; }
 		void sphere(const Sphere& s, const Color4& solidColor)						{ ; }
@@ -49,7 +49,7 @@ namespace RBX {
 		void quad(const Vector3&, const Vector3&, const Vector3&, const Vector3&, const Color4&, const Vector2&, const Vector2&, int zIndex, bool alwaysOnTop)    { ; }
 		void convexPolygon(const Vector3*, int, const Color4&)										        { ; }
 		void convexPolygon2d(const Vector2*, int, const Color4&)                                            { ; }
-		void extrusion(RBX::I3DLinearFunc*, int, RBX::I3DLinearFunc*, int, const Color4&, bool,	bool)	    { ; }
+		void extrusion(ARL::I3DLinearFunc*, int, ARL::I3DLinearFunc*, int, const Color4&, bool,	bool)	    { ; }
 	};
 
 }

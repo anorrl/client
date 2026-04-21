@@ -13,7 +13,7 @@
 
 DYNAMIC_FASTFLAG(UseComSiftUpdatedWebChatFilterParamsAndHeader)
 
-namespace RBX
+namespace ARL
 {
 const char* const sChatService = "Chat";
 
@@ -43,7 +43,7 @@ ChatService::ChatColor& Variant::convert<ChatService::ChatColor>(void)
 }//namespace Reflection
 
 template<>
-bool RBX::StringConverter<ChatService::ChatColor>::convertToValue(const std::string& text, ChatService::ChatColor& value)
+bool ARL::StringConverter<ChatService::ChatColor>::convertToValue(const std::string& text, ChatService::ChatColor& value)
 {
 	return Reflection::EnumDesc<ChatService::ChatColor>::singleton().convertToValue(text.c_str(),value);
 }
@@ -108,13 +108,13 @@ void ChatService::gotFilteredStringSuccess(std::string response, Network::Player
 			}
 		}
 
-		RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "ChatService:FilterString", "Filter failed because could not parse response");
+		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "ChatService:FilterString", "Filter failed because could not parse response");
 
 		errorFunction("ChatService:FilterString could not parse response");
 	}
 	else
 	{
-		RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "ChatService:FilterString", "Filter failed because response was empty");
+		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "ChatService:FilterString", "Filter failed because response was empty");
 
 		errorFunction("ChatService:FilterString returned an empty response");
 	}
@@ -127,7 +127,7 @@ void ChatService::gotFilterStringError(std::string error, boost::function<void(s
 
 static void sendFilterChatStats(int placeId)
 {
-	RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "ChatService:FilterStringForPlayerAsync", RBX::format("placeId: %i", placeId).c_str());
+	ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "ChatService:FilterStringForPlayerAsync", ARL::format("placeId: %i", placeId).c_str());
 }
 
 void ChatService::filterStringForPlayer(std::string stringToFilter, shared_ptr<Instance> playerToFilterFor, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
@@ -152,12 +152,12 @@ void ChatService::filterStringForPlayer(std::string stringToFilter, shared_ptr<I
 	}
 
 	std::stringstream params;
-	RBX::HttpAux::AdditionalHeaders headers;
+	ARL::HttpAux::AdditionalHeaders headers;
 	if (DFFlag::UseComSiftUpdatedWebChatFilterParamsAndHeader)
 	{
 		DataModel* dataModel = DataModel::get(playerFilter);
 
-		RBX::Network::ConstructModerationFilterTextParamsAndHeaders(
+		ARL::Network::ConstructModerationFilterTextParamsAndHeaders(
 			stringToFilter, 
 			playerFilter->getUserID(), 
 			dataModel->getPlaceID(), 
@@ -172,17 +172,17 @@ void ChatService::filterStringForPlayer(std::string stringToFilter, shared_ptr<I
 		params << "&text=" << Http::urlEncode(stringToFilter);
 	}
 
-	if(RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+	if(ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 	{
 		if (DFFlag::UseComSiftUpdatedWebChatFilterParamsAndHeader)
 		{
-			apiService->postAsyncWithAdditionalHeaders("moderation/filtertext", params.str(), true, RBX::PRIORITY_DEFAULT, RBX::HttpService::APPLICATION_URLENCODED, headers,
+			apiService->postAsyncWithAdditionalHeaders("moderation/filtertext", params.str(), true, ARL::PRIORITY_DEFAULT, ARL::HttpService::APPLICATION_URLENCODED, headers,
 				boost::bind(&ChatService::gotFilteredStringSuccess, this, _1, playerFilter, resumeFunction, errorFunction),
 				boost::bind(&ChatService::gotFilterStringError, this, _1, errorFunction) );
 		}
 		else
 		{
-			apiService->postAsync("moderation/filtertext", params.str(), true, RBX::PRIORITY_DEFAULT, RBX::HttpService::APPLICATION_URLENCODED,
+			apiService->postAsync("moderation/filtertext", params.str(), true, ARL::PRIORITY_DEFAULT, ARL::HttpService::APPLICATION_URLENCODED,
 				boost::bind(&ChatService::gotFilteredStringSuccess, this, _1, playerFilter, resumeFunction, errorFunction),
 				boost::bind(&ChatService::gotFilterStringError, this, _1, errorFunction) );
 		}

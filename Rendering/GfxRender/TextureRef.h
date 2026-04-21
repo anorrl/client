@@ -4,7 +4,7 @@
 
 #include <rbx/Boost.hpp>
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

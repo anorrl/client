@@ -7,7 +7,7 @@
 #include "Util/G3DCore.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	//
@@ -215,4 +215,4 @@ namespace RBX {
 		/*override*/ void updateContactPoint();
 	};
 
-} // namespace RBX
+} // namespace ARL

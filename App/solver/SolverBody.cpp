@@ -3,7 +3,7 @@
 #include "solver/SolverBody.h"
 #include "solver/DebugSerializer.h"
 
-namespace RBX
+namespace ARL
 {
 
 void SolverBodyDynamicProperties::serialize( DebugSerializer& s ) const

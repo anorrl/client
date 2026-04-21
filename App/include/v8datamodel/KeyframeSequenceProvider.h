@@ -4,7 +4,7 @@
 #include "Util/LRUCache.h"
 #include "Util/ContentId.h"
 
-namespace RBX {
+namespace ARL {
 
 	class KeyframeSequence;
 	extern const char* const sKeyframeSequenceProvider;

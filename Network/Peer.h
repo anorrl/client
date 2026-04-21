@@ -17,7 +17,7 @@ class RakPeerInterface;
 class PacketLogger;
 class RakPeer;
 
-namespace RBX { 
+namespace ARL { 
 
 namespace Network {
 

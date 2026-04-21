@@ -8,7 +8,7 @@
 #include "V8DataModel/Workspace.h"
 #include "V8World/World.h"
 
-namespace RBX {
+namespace ARL {
 
 const char *const sPluginMouse = "PluginMouse";
 
@@ -25,7 +25,7 @@ PluginMouse::~PluginMouse()
 {
 }
 
-void PluginMouse::fireDragEnterEvent(shared_ptr<const RBX::Instances> instances, shared_ptr<InputObject> input)
+void PluginMouse::fireDragEnterEvent(shared_ptr<const ARL::Instances> instances, shared_ptr<InputObject> input)
 {
 	update(input);
 	dragEnterEventSignal(instances);

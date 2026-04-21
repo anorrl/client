@@ -4,7 +4,7 @@
 
 #include "Humanoid/MovingNoPhysicsBase.h"
 
-namespace RBX {
+namespace ARL {
 	class Clump;
 
 namespace HUMAN {

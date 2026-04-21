@@ -1,6 +1,6 @@
 #pragma once
 
-#if defined(RBX_PLATFORM_IOS) || defined(__APPLE__) || __ANDROID__
+#if defined(ARL_PLATFORM_IOS) || defined(__APPLE__) || __ANDROID__
 namespace rbx
 {
     template<typename T>
@@ -64,7 +64,7 @@ namespace rbx
         atomic(T value = 0) : v(value)
         {
             // http://msdn.microsoft.com/en-us/library/ms683614.aspx: The variable pointed to must be aligned on a 32-bit boundary
-            RBXASSERT((((uintptr_t)(&(this->v))) & (sizeof(T) - 1)) == 0);
+            ARLASSERT((((uintptr_t)(&(this->v))) & (sizeof(T) - 1)) == 0);
         }
 
         T operator=(T v)

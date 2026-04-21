@@ -5,7 +5,7 @@
 #include "V8DataModel/ModelInstance.h"
 #include "V8Tree/Instance.h"
 
-namespace RBX {
+namespace ARL {
 
 class CustomEvent;
 
@@ -64,7 +64,7 @@ public:
 	void setSource(Instance* sourceEvent);
 
 	void setCurrentValue(float newValue) {
-		RBXASSERT(newValue != lastReceivedValue);
+		ARLASSERT(newValue != lastReceivedValue);
 		lastReceivedValue = newValue;
 	}
 

@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace RBX {
+namespace ARL {
 #if defined(_WIN32)
 	typedef std::wstring SysPathString;
 #else // assume we're on Linux / Unix, which usually don't require conversions

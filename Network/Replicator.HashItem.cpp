@@ -16,7 +16,7 @@
 
 #include "VMProtectSDK.h"
 
-namespace RBX {
+namespace ARL {
     namespace Network {
         
         Replicator::HashItem::HashItem(Replicator* replicator, const PmcHashContainer* const hashes, unsigned long long fuzzyToken,
@@ -27,9 +27,9 @@ namespace RBX {
             , apiToken(apiToken)
             , prevApiToken(prevApiToken)
         {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
-            this->hashes.hash.push_back(RBX::Security::getIndirectly<LINE_RAND4>((void*)(&RBX::Security::rbxTextSize)));
-            this->hashes.hash.push_back(RBX::Security::getIndirectly<LINE_RAND4>((void*)(&RBX::Security::rbxTextBase)));
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
+            this->hashes.hash.push_back(ARL::Security::getIndirectly<LINE_RAND4>((void*)(&ARL::Security::rbxTextSize)));
+            this->hashes.hash.push_back(ARL::Security::getIndirectly<LINE_RAND4>((void*)(&ARL::Security::rbxTextBase)));
 #endif
         }
 

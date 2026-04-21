@@ -21,7 +21,7 @@
 #endif
 
 
-namespace RBX 
+namespace ARL 
 {
 	typedef enum 
 	{
@@ -154,8 +154,8 @@ namespace RBX
 			void muteAllChannels(bool mute);
 			bool isMuted();
 
-			void setListener(ListenerType listenerType, shared_ptr<const RBX::Reflection::Tuple> value);
-			shared_ptr<const RBX::Reflection::Tuple> getListener();
+			void setListener(ListenerType listenerType, shared_ptr<const ARL::Reflection::Tuple> value);
+			shared_ptr<const ARL::Reflection::Tuple> getListener();
 			CoordinateFrame getListenCFrame(Camera* camera);
 			void setMasterVolume(float value);
 			float getMasterVolume();
@@ -287,4 +287,4 @@ namespace RBX
 
 
 	} // namespace Soundscape
-} // namespace RBX
+} // namespace ARL

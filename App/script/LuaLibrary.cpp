@@ -13,7 +13,7 @@
 #include "boost/filesystem.hpp"
 namespace fs = boost::filesystem;
 
-namespace RBX { 
+namespace ARL { 
 	
 template<>
 std::string StringConverter<Lua::Library>::convertToString(const Lua::Library& value)
@@ -38,18 +38,18 @@ static int getApi(lua_State *L)
 {
 	std::list<std::string> api;
 	{
-		RBXASSERT_BALLANCED_LUA_STACK(L);
+		ARLASSERT_BALLANCED_LUA_STACK(L);
 		const Library& self = Bridge<Library>::getObject(L, 1);
 		//First get the "table" storing the real library's "Table"
 		lua_pushlightuserdata(L, (void*)&registerLibraryTable); /* Registry mapping for table. Key is arbitrary. */
 		lua_rawget(L, LUA_REGISTRYINDEX);                       // Stack:   t
-		RBXASSERT(!lua_isnil( L, -1 ));							// did you forget to call registerClassLibrary
+		ARLASSERT(!lua_isnil( L, -1 ));							// did you forget to call registerClassLibrary
 
 		//Now look up the library associated with our object
 		lua_pushstring(L, self.getLibraryName());				// Stack: libraryName, t,
 		lua_gettable(L, -2);									// Stack: t[libraryName], t
-		RBXASSERT(!lua_isnil( L, -1 ));							// A library was pushed without being created
-		RBXASSERT(lua_istable( L, -1 ));						// A library was pushed without being created
+		ARLASSERT(!lua_isnil( L, -1 ));							// A library was pushed without being created
+		ARLASSERT(lua_istable( L, -1 ));						// A library was pushed without being created
 
 		int tableIndex = lua_gettop(L);
 		/* table is in the stack at index 'tableIndex' */
@@ -95,13 +95,13 @@ int Bridge<Library>::on_index(const Library& object, const char* name, lua_State
 	//First get the "table" storing the real library's "Table"
 	lua_pushlightuserdata(L, (void*)&registerLibraryTable); /* Registry mapping for table. Key is arbitrary. */
 	lua_rawget(L, LUA_REGISTRYINDEX);                       // Stack:   t
-	RBXASSERT(!lua_isnil( L, -1 ));							// did you forget to call registerClassLibrary
+	ARLASSERT(!lua_isnil( L, -1 ));							// did you forget to call registerClassLibrary
 
 	//Now look up the library associated with our object
 	lua_pushstring(L, object.getLibraryName());				// Stack: libraryName, t,
 	lua_gettable(L, -2);									// Stack: t[libraryName], t
-	RBXASSERT(!lua_isnil( L, -1 ));							// A library was pushed without being created
-	RBXASSERT(lua_istable( L, -1 ));						// A library was pushed without being created
+	ARLASSERT(!lua_isnil( L, -1 ));							// A library was pushed without being created
+	ARLASSERT(lua_istable( L, -1 ));						// A library was pushed without being created
 
 	//Now find the value they are trying to index
 	lua_pushstring(L, name);								// Stack: name, t[libraryName], t
@@ -117,14 +117,14 @@ template<>
 void Bridge<Library>::on_newindex(Library& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 void LibraryBridge::saveLibraryResult(lua_State *L, int results, std::string libraryName)
 {
 	std::string exception = "";
 	{
-		RBXASSERT_BALLANCED_LUA_STACK(L);
+		ARLASSERT_BALLANCED_LUA_STACK(L);
 
 		if(results != 1) {
 			exception = "Libraries should return exactly 1 result, and shouldn't wait";
@@ -145,7 +145,7 @@ void LibraryBridge::saveLibraryResult(lua_State *L, int results, std::string lib
 		//Grab the table where we store the library results
 		lua_pushlightuserdata(L, (void*)&registerLibraryTable);				/* Registry mapping for table. Key is arbitrary. */
 		lua_rawget(L, LUA_REGISTRYINDEX);									// Stack:   t
-		RBXASSERT(!lua_isnil( L, -1 ));										// did you forget to call registerClassLibrary
+		ARLASSERT(!lua_isnil( L, -1 ));										// did you forget to call registerClassLibrary
 
 		if(!exception.empty()) {
 			lua_pushstring(L, libraryName);									//Stack: libName, t
@@ -161,7 +161,7 @@ void LibraryBridge::saveLibraryResult(lua_State *L, int results, std::string lib
 		lua_pop(L, 1);															//Stack: results?
 	}
 	{
-		RBXASSERT_BALLANCED_LUA_STACK(L);
+		ARLASSERT_BALLANCED_LUA_STACK(L);
 		
 		if(exception.empty()){
 			push(L, Library(libraryName));
@@ -170,7 +170,7 @@ void LibraryBridge::saveLibraryResult(lua_State *L, int results, std::string lib
 		else{
 			lua_pushlightuserdata(L, (void*)&push ); /* Registry mapping for table. Key is arbitrary. */
 			lua_rawget(L, LUA_REGISTRYINDEX);								// Stack:   t
-			RBXASSERT(!lua_isnil( L, -1 ));									// Did you forget to call registerClassLibrary??
+			ARLASSERT(!lua_isnil( L, -1 ));									// Did you forget to call registerClassLibrary??
 
 			lua_pushstring(L, libraryName);									//Stack: libName, t
 			lua_pushstring(L, exception);									//Stack: msg, libName, t
@@ -193,7 +193,7 @@ int LibraryBridge::find(lua_State *L, const std::string& libraryName)
 	lua_pushlightuserdata(L, (void*)&push ); /* Registry mapping for table. Key is arbitrary. */
 
 	lua_rawget(L, LUA_REGISTRYINDEX);                             // Stack:   t
-	RBXASSERT(!lua_isnil( L, -1 ));  // Did you forget to call registerClassLibrary??
+	ARLASSERT(!lua_isnil( L, -1 ));  // Did you forget to call registerClassLibrary??
 
 	// Now the top of the stack is our lookup table
 	// See if we already have a UserData for this instance
@@ -204,7 +204,7 @@ int LibraryBridge::find(lua_State *L, const std::string& libraryName)
 	if(lua_isnil( L, -1 )) {                                      // Stack:   nil or I, t
 		lua_pop (L, 2);                                         // Stack:   
 #ifdef _DEBUG
-		RBXASSERT(lua_gettop(L) == i);
+		ARLASSERT(lua_gettop(L) == i);
 #endif
 		return 0;
 	}
@@ -213,14 +213,14 @@ int LibraryBridge::find(lua_State *L, const std::string& libraryName)
 		lua_insert(L, lua_gettop(L) - 1);						  // Stack:   errormsg, nil, t
 		lua_remove (L, -3);                                       // Stack:   errormsg, nil
 #ifdef _DEBUG
-		RBXASSERT(lua_gettop(L) == i + 2);
+		ARLASSERT(lua_gettop(L) == i + 2);
 #endif
 		return 2;
 	}
 	else {
 		lua_remove (L, -2);                                       // Stack:   Lib
 #ifdef _DEBUG
-		RBXASSERT(lua_gettop(L) == i + 1);
+		ARLASSERT(lua_gettop(L) == i + 1);
 #endif
 		return 1;
 	}
@@ -238,7 +238,7 @@ void LibraryBridge::push(lua_State *L, const Library& item)
 
 	lua_pushlightuserdata(L, (void*)&push ); /* Registry mapping for table. Key is arbitrary. */
 	lua_rawget(L, LUA_REGISTRYINDEX);                             // Stack:   t
-	RBXASSERT(!lua_isnil( L, -1 ));  // Did you forget to call registerClassLibrary??
+	ARLASSERT(!lua_isnil( L, -1 ));  // Did you forget to call registerClassLibrary??
 
 	// Now the top of the stack is our lookup table
 	// See if we already have a UserData for this instance
@@ -257,7 +257,7 @@ void LibraryBridge::push(lua_State *L, const Library& item)
 	lua_remove (L, -2);                                           // Stack:   I
 
 #ifdef _DEBUG
-	RBXASSERT(lua_gettop(L) == i + 1);
+	ARLASSERT(lua_gettop(L) == i + 1);
 #endif
 }
 

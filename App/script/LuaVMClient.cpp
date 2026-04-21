@@ -41,7 +41,7 @@ namespace LuaVM
         return "";
     }
 
-    int load(lua_State* L, const RBX::ProtectedString& source, const char* chunkname, unsigned int modkey)
+    int load(lua_State* L, const ARL::ProtectedString& source, const char* chunkname, unsigned int modkey)
     {
         try
         {
@@ -87,7 +87,7 @@ namespace LuaVM
 
 	std::string getBytecodeCore(const std::string& name)
     {
-        std::string rotName = RBX::rot13(name);
+        std::string rotName = ARL::rot13(name);
         for (int i = 0; i < sizeof(gCoreScripts)/sizeof(gCoreScripts[0]); i++)
             if (gCoreScripts[i].name == rotName)
                 return std::string(reinterpret_cast<const char*>(gCoreScripts[i].value), gCoreScripts[i].dataSize);

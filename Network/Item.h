@@ -11,7 +11,7 @@ namespace RakNet {
 	class BitStream;
 }
 
-namespace RBX { 
+namespace ARL { 
 namespace Network {
 
 class Replicator;
@@ -19,7 +19,7 @@ class Replicator;
 struct ItemTag;
 typedef boost::intrusive::list_base_hook< boost::intrusive::tag<ItemTag> > ItemHook;
 
-class RBXBaseClass Item : boost::noncopyable, public ItemHook
+class ARLBaseClass Item : boost::noncopyable, public ItemHook
 {	
 public:
 	enum ItemType { 
@@ -50,7 +50,7 @@ protected:
 	Item(Replicator& replicator):replicator(replicator){}
 
 public:
-	RBX::Time timestamp;
+	ARL::Time timestamp;
 
 	virtual ~Item() {}
 	virtual bool write(RakNet::BitStream& bitStream) = 0;
@@ -68,7 +68,7 @@ public:
 
 // Debugs and checks for re-entrant calls.  Right now NOT thread safe.   Just here for safety watch.
 
-class RBXBaseClass ItemQueue : boost::noncopyable
+class ARLBaseClass ItemQueue : boost::noncopyable
 {
 public:
 	typedef boost::intrusive::list<Item, boost::intrusive::base_hook<ItemHook> > ItemList;
@@ -91,8 +91,8 @@ public:
 
 	bool empty() const;
 	size_t size() const;
-	RBX::Time::Interval head_wait() const;
-	RBX::Time head_time() const;
+	ARL::Time::Interval head_wait() const;
+	ARL::Time head_time() const;
 
 	void deleteAll();
 
@@ -110,7 +110,7 @@ public:
 	ItemList::iterator end() { return itemList.end(); }
 };
 
-class RBXBaseClass DeserializedItem
+class ARLBaseClass DeserializedItem
 {
 protected:
 	Item::ItemType type;

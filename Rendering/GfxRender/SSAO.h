@@ -5,7 +5,7 @@
 #include "GfxCore/Resource.h"
 #include "ScreenSpaceEffect.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

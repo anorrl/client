@@ -3,7 +3,7 @@
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/IAnimatableJoint.h"
 
-namespace RBX
+namespace ARL
 {
 	class AnimatableRootJoint : public IAnimatableJoint
 	{

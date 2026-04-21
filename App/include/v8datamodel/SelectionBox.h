@@ -5,7 +5,7 @@
 #include "V8DataModel/Adornment.h"
 #include "GfxBase/IAdornable.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sSelectionBox;
 

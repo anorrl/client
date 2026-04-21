@@ -3,7 +3,7 @@
 #include "RBX/Debug.h"
 #include "boost/noncopyable.hpp"
 
-namespace RBX { namespace Intrusive {
+namespace ARL { namespace Intrusive {
 
 	// A very efficient, constant time, unordered set
 	// Features:
@@ -69,7 +69,7 @@ namespace RBX { namespace Intrusive {
 			{
 				if (is_linked())
 				{
-					RBXASSERT(prev!=0 || Set::NextRef::next!=0);
+					ARLASSERT(prev!=0 || Set::NextRef::next!=0);
 
 					if (prev)
 						prev->Set::NextRef::next = NextRef::next;
@@ -85,7 +85,7 @@ namespace RBX { namespace Intrusive {
 			}
 			inline bool is_linked() const throw()
 			{
-				RBXASSERT((_container != 0) == ((Set::NextRef::next != 0) || (prev != 0)));
+				ARLASSERT((_container != 0) == ((Set::NextRef::next != 0) || (prev != 0)));
 				return _container != 0;
 			}
 			inline Set* container() throw()
@@ -101,7 +101,7 @@ namespace RBX { namespace Intrusive {
 			Iterator(Item* item) throw()
 				:item(item) 
 			{
-				RBXASSERT(!item || item->Set::Hook::is_linked());
+				ARLASSERT(!item || item->Set::Hook::is_linked());
 			}
 		public:
 			inline Iterator() throw()
@@ -119,25 +119,25 @@ namespace RBX { namespace Intrusive {
 
 			inline Item* operator->() throw()
 			{ 
-				RBXASSERT(item);
-				RBXASSERT(!item || item->Set::Hook::is_linked());
+				ARLASSERT(item);
+				ARLASSERT(!item || item->Set::Hook::is_linked());
 				return item; 
 			}
 
 			inline Item& operator*()  throw()
 			{ 
-				RBXASSERT(item);
-				RBXASSERT(!item || item->Set::Hook::is_linked());
+				ARLASSERT(item);
+				ARLASSERT(!item || item->Set::Hook::is_linked());
 				return *item; 
 			}
 
 			inline Iterator& operator++() throw()
 			{
-				RBXASSERT(item);
+				ARLASSERT(item);
 
 				item = item->Set::Hook::next;
 
-				RBXASSERT(!item || item->Set::Hook::is_linked());
+				ARLASSERT(!item || item->Set::Hook::is_linked());
 
 				return *this;
 			}
@@ -195,14 +195,14 @@ namespace RBX { namespace Intrusive {
 			// Items can be in only one list at a time
 			item.Set::Hook::remove();
 
-			RBXASSERT(!item.Set::Hook::next);
-			RBXASSERT(!item.Set::Hook::prev);
+			ARLASSERT(!item.Set::Hook::next);
+			ARLASSERT(!item.Set::Hook::prev);
 
 			Item* head = head_ref.next;
 			if (head)
 			{
-				RBXASSERT(head->Set::Hook::is_linked());
-				RBXASSERT(head->Set::Hook::container() == this);
+				ARLASSERT(head->Set::Hook::is_linked());
+				ARLASSERT(head->Set::Hook::container() == this);
 				item.Set::NextRef::next = head;
 				head->Set::Hook::prev = &item;
 			}
@@ -210,7 +210,7 @@ namespace RBX { namespace Intrusive {
 			item.Set::Hook::prev = &head_ref;
 
 			item.Set::Hook::_container = this;
-			RBXASSERT(item.Set::Hook::next || item.Set::Hook::prev);
+			ARLASSERT(item.Set::Hook::next || item.Set::Hook::prev);
 
 			count++;
 		}

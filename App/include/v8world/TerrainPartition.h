@@ -9,7 +9,7 @@
 #include "Voxel/ChunkMap.h"
 #include "Voxel2/GridListener.h"
 
-namespace RBX {
+namespace ARL {
 namespace Voxel {
 	class Grid;
 }

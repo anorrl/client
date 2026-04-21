@@ -9,7 +9,7 @@
 #ifdef check
 #undef check
 #endif
-namespace RBX 
+namespace ARL 
 {
 	class BaseScript;
 
@@ -94,7 +94,7 @@ namespace RBX
 		static Reflection::BoundProp<int, Reflection::READONLY> WarnCount;
 		static Reflection::BoundProp<int, Reflection::READONLY> ErrorCount;
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 		Verb* getVerb(std::string name);
 		bool isCommandEnabled(std::string name);
 		bool isCommandChecked(std::string name);
@@ -188,7 +188,7 @@ namespace RBX
 				case '(': return ')';
 				case '[': return ']';
 				case '{': return '}';
-				default: RBXASSERT(false); return 0;
+				default: ARLASSERT(false); return 0;
 				}
 			}
 
@@ -338,4 +338,4 @@ namespace RBX
 		}
 	};
 
-}	// namespace RBX
+}	// namespace ARL

@@ -6,7 +6,7 @@
 #include "Tool/PartDropTool.h"
 #include "Tool/GroupDropTool.h"
 
-namespace RBX {
+namespace ARL {
 
 
 shared_ptr<MouseCommand> DropTool::createDropTool(const Vector3& hitLocal,

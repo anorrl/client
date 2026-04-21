@@ -24,7 +24,7 @@
     slouken@libsdl.org
 */
 
-namespace RBX {
+namespace ARL {
 
 	enum KeyCode {
 		SDLK_UNKNOWN		= 0,

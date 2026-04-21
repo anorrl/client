@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace RBX {
+namespace ARL {
 
 	class SurfaceData {
 	public:

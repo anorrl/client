@@ -8,14 +8,14 @@ LOGGROUP(DeviceLost)
 LOGGROUP(ViewRbxBase)
 LOGGROUP(ViewRbxInit)
 
-namespace RBX
+namespace ARL
 {
 	class Lighting;
     class DataModel;
     class PlatformService;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -38,7 +38,7 @@ public:
     RenderView(CRenderSettings::GraphicsMode mode, OSContext* context, CRenderSettings* renderSettings);
     ~RenderView();
 
-    void bindWorkspace(boost::shared_ptr<RBX::DataModel> dataModel);
+    void bindWorkspace(boost::shared_ptr<ARL::DataModel> dataModel);
     void initResources();
 
     void renderPrepare(IMetric* metric);
@@ -61,11 +61,11 @@ public:
 	void suspendView();
 	void resumeView();
 
-    RBX::Instance* getWorkspace();
+    ARL::Instance* getWorkspace();
 
     RenderStats & getRenderStats();
 
-    RBX::DataModel* getDataModel() { return dataModel.get(); }
+    ARL::DataModel* getDataModel() { return dataModel.get(); }
     FrameRateManager* getFrameRateManager();
 
     virtual double getMetricValue(const std::string& s);
@@ -87,7 +87,7 @@ public:
     virtual std::pair<unsigned, unsigned> setFrameDataCallback(const boost::function<void(void*)>& callback);
 
 private:
-    void onWorkspaceDescendantAdded(shared_ptr<RBX::Instance> descendant);
+    void onWorkspaceDescendantAdded(shared_ptr<ARL::Instance> descendant);
     void updateLighting(Lighting* lighting);
     void updateFog();
     void invalidateLighting(bool updateSkybox);
@@ -99,8 +99,8 @@ private:
     void drawProfiler(DeviceContext* context);
     void drawVRWindow(DeviceContext* context);
 
-    void presetLighting(RBX::Lighting* l, const RBX::Color3& extraAmbient = RBX::Color3(0, 0, 0), float skylightFactor = 1);
-    void presetPostProcess(RBX::PlatformService* platformService);
+    void presetLighting(ARL::Lighting* l, const ARL::Color3& extraAmbient = ARL::Color3(0, 0, 0), float skylightFactor = 1);
+    void presetPostProcess(ARL::PlatformService* platformService);
 
     void renderPrepareImpl(IMetric* metric, bool updateViewport);
 	void renderPerformImpl(double timeRenderJob, Framebuffer* mainFramebuffer);
@@ -114,14 +114,14 @@ private:
 	float   totalRenderTime;
     double  artificialDelay;
 
-    RBX::WindowAverage<double, double> prepareAverage;
-    RBX::WindowAverage<double, double> performAverage;
-    RBX::WindowAverage<double, double> presentAverage;
-    RBX::WindowAverage<double, double> gpuAverage;
+    ARL::WindowAverage<double, double> prepareAverage;
+    ARL::WindowAverage<double, double> performAverage;
+    ARL::WindowAverage<double, double> presentAverage;
+    ARL::WindowAverage<double, double> gpuAverage;
 
     rbx::signal<void(std::string)> screenshotFinishedSignal;
 
-    boost::shared_ptr<RBX::DataModel> dataModel;
+    boost::shared_ptr<ARL::DataModel> dataModel;
 
     rbx::signals::scoped_connection lightingChangedConnection;
     bool lightingValid;

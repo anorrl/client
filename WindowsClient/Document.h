@@ -3,7 +3,7 @@
 #include "SharedLauncher.h"
 #include "RbxWebView.h"
 #include "util/HttpAsync.h"
-namespace RBX {
+namespace ARL {
 
 // Forward declarations
 class FunctionMarshaller;
@@ -44,11 +44,11 @@ private:
 	// Executes the 'script' as part of the game initialization.
 	void executeScript(HttpFuture& scriptResult, const SharedLauncher::LaunchMode launchMode, const char* vrDevice) const;
 
-	void configureDataModelServices(bool useChat, RBX::DataModel* dataModel);
+	void configureDataModelServices(bool useChat, ARL::DataModel* dataModel);
 
 	void dataModelDidRestart();
 	void dataModelWillShutdown();
 	void gameIsLoaded();
 };
 
-}  // namespace RBX
+}  // namespace ARL

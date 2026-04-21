@@ -9,7 +9,7 @@ struct lua_State;
 struct lua_Debug;
 struct Table;
 
-namespace RBX
+namespace ARL
 {
 	class Script;
 	class ModuleScript;
@@ -60,7 +60,7 @@ namespace RBX
 			typedef boost::unordered_map<const lua_State*, ScriptDebugger*> DebuggersLookup;
 			DebuggersLookup debuggersLookup;
 
-			RBX::DataModel *dataModel;
+			ARL::DataModel *dataModel;
 			BreakOnErrorMode breakOnErrorMode;
 
 			boost::scoped_ptr<ISpecialBreakpoint> specialBreakpoint;
@@ -75,8 +75,8 @@ namespace RBX
 
 			static DebuggerManager& singleton();
 
-			void setDataModel(RBX::DataModel *pDataModel);
-			RBX::DataModel* getDataModel();
+			void setDataModel(ARL::DataModel *pDataModel);
+			ARL::DataModel* getDataModel();
 
 			void enableDebugging();
 			bool getEnabled() const { return enabled; }
@@ -126,14 +126,14 @@ namespace RBX
 			void onErrorSignal(lua_State* L);
 			void onHook(lua_State* L, lua_Debug *ar);
 
-			void addUnaddedDebuggerForAddedDescendant(shared_ptr<RBX::Instance> instance);
+			void addUnaddedDebuggerForAddedDescendant(shared_ptr<ARL::Instance> instance);
 		};
 
 		class DebuggerBreakpoint;
 		class DebuggerWatch;
 
 		extern const char* const sScriptDebugger;
-		// Debugs an RBX::Script
+		// Debugs an ARL::Script
 		class ScriptDebugger
 			: public DescribedCreatable<ScriptDebugger, Instance, sScriptDebugger, Reflection::ClassDescriptor::PERSISTENT_HIDDEN, Security::LocalUser>
 		{
@@ -242,7 +242,7 @@ namespace RBX
 
 			struct FunctionInfo
 			{
-				boost::shared_ptr<RBX::Instance> script;
+				boost::shared_ptr<ARL::Instance> script;
 				int frame;
 				std::string name;
 				std::string what;
@@ -315,7 +315,7 @@ namespace RBX
 		private:
 			void onScriptStarting(lua_State* L);
 			void onScriptStopped();
-			void onScriptParentChanged(shared_ptr<RBX::Instance> newParent);
+			void onScriptParentChanged(shared_ptr<ARL::Instance> newParent);
 			void onScriptCloned(boost::shared_ptr<Instance> clonedScript);
 			bool shouldBreak(DebuggerBreakpoint* bp, lua_State* L);
 			bool hasDifferentScriptInstances(lua_State* L);
@@ -333,7 +333,7 @@ namespace RBX
 			static shared_ptr<Reflection::ValueMap> readUpvalues(int stackIndex, lua_State* L);
 			static shared_ptr<Reflection::ValueMap> readGlobals(lua_State* L);
 			static Stack readStack(lua_State* L);
-			static RBX::Instance* getScriptForLuaState(lua_State* L);
+			static ARL::Instance* getScriptForLuaState(lua_State* L);
 			static void updateRootThread(ScriptDebugger* scriptDebugger, lua_State *L);
 			static void setLuaHook(ScriptDebugger* scriptDebugger, int hookMask, lua_State *L);			
 		};

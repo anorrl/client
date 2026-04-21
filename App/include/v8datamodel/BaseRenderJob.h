@@ -9,7 +9,7 @@
 #include "util/IMetric.h"
 
 
-namespace RBX {
+namespace ARL {
 	class View;
 
 // This is the base class for all Rendering Jobs. All rendering jobs will inherit from this.
@@ -32,7 +32,7 @@ public:
 
 	virtual Time::Interval timeSinceLastRender() const;
 	virtual Job::Error error(const Stats& stats);
-	//virtual RBX::TaskScheduler::StepResult stepDataModelJob(const Stats&);
+	//virtual ARL::TaskScheduler::StepResult stepDataModelJob(const Stats&);
 
     virtual TaskScheduler::StepResult step(const Stats& stats);
 };

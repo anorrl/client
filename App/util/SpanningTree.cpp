@@ -33,7 +33,7 @@
 		Activate the heaviest joint
 */
 
-namespace RBX {
+namespace ARL {
 
 
 SpanningTree::SpanningTree() : size(0)
@@ -42,7 +42,7 @@ SpanningTree::SpanningTree() : size(0)
 
 SpanningTree::~SpanningTree()
 {
-	RBXASSERT(size == 0);
+	ARLASSERT(size == 0);
 }
 
 
@@ -57,7 +57,7 @@ SpanningTree::~SpanningTree()
 
 void SpanningTree::insertSpanningTreeEdge(SpanningEdge* insertEdge)
 {
-	RBXASSERT(!insertEdge->inSpanningTree());
+	ARLASSERT(!insertEdge->inSpanningTree());
 
 	int lightSide = 0;	
 	SpanningEdge* deActivate = NULL;
@@ -72,7 +72,7 @@ void SpanningTree::insertSpanningTreeEdge(SpanningEdge* insertEdge)
 
 void SpanningTree::removeSpanningTreeEdge(SpanningEdge* removeEdge)
 {
-	RBXASSERT(removeEdge->inSpanningTree());
+	ARLASSERT(removeEdge->inSpanningTree());
 
 	SpanningNode* newParentNode = NULL;
 	SpanningEdge* heaviest = findHeaviestDownstream(removeEdge->getChildSpanningNode(), newParentNode);
@@ -84,17 +84,17 @@ void SpanningTree::removeSpanningTreeEdge(SpanningEdge* removeEdge)
 void SpanningTree::swapTree(SpanningEdge* deactivate, SpanningEdge* activate, SpanningNode* newParent)
 {
 	if (!activate) {
-		RBXASSERT(deactivate);
+		ARLASSERT(deactivate);
 	}
 
 	if (deactivate) {
-		RBXASSERT_IF_VALIDATING(validateTree(deactivate->getChildSpanningNode()->getRoot<SpanningNode>()));
+		ARLASSERT_IF_VALIDATING(validateTree(deactivate->getChildSpanningNode()->getRoot<SpanningNode>()));
 	}
 
 	swap(deactivate, activate, newParent);
 
 	if (activate) {
-		RBXASSERT_IF_VALIDATING(validateTree(activate->getChildSpanningNode()->getRoot<SpanningNode>()));
+		ARLASSERT_IF_VALIDATING(validateTree(activate->getChildSpanningNode()->getRoot<SpanningNode>()));
 	}
 }
 
@@ -104,26 +104,26 @@ void SpanningTree::swapTree(SpanningEdge* deactivate, SpanningEdge* activate, Sp
 
 void SpanningTree::removeEdge(SpanningEdge* edge)
 {
-	RBXASSERT(edge->inSpanningTree());
+	ARLASSERT(edge->inSpanningTree());
 
 	SpanningNode* child = edge->getChildSpanningNode();
 	onSpanningEdgeRemoving(edge);
 	edge->removeFromSpanningTree();
 	onSpanningEdgeRemoved(edge, child);
 
-	RBXASSERT(!edge->inSpanningTree());
+	ARLASSERT(!edge->inSpanningTree());
 }
 
 
 void SpanningTree::addEdge(SpanningEdge* edge, SpanningNode* newParent)
 {
-	RBXASSERT(!edge->inSpanningTree());
+	ARLASSERT(!edge->inSpanningTree());
 
 	onSpanningEdgeAdding(edge, edge->otherNode(newParent));
 	edge->addToSpanningTree(newParent);
 	onSpanningEdgeAdded(edge);
 
-	RBXASSERT(edge->inSpanningTree());
+	ARLASSERT(edge->inSpanningTree());
 }
 
 
@@ -134,16 +134,16 @@ void SpanningTree::findAndDeactivateEdges(SpanningNode* child, SpanningEdge* dea
 	if (SpanningNode* oldParent = child->getParent()) 
 	{
 		SpanningEdge* edge = child->getEdgeToParent();
-		RBXASSERT(edge);
+		ARLASSERT(edge);
 
-		RBXASSERT(edge->inSpanningTree());
+		ARLASSERT(edge->inSpanningTree());
 
 		if (edge != deactivate)
 		{
 			toActivate.append(edge);
 			removeEdge(edge);
 
-			RBXASSERT(!edge->inSpanningTree());
+			ARLASSERT(!edge->inSpanningTree());
 
 			findAndDeactivateEdges(oldParent, deactivate, toActivate);
 		}
@@ -159,11 +159,11 @@ void SpanningTree::activateEdges(SpanningNode* child, const G3D::Array<SpanningE
 	{
 		SpanningEdge* e = toActivate[i];
 
-		RBXASSERT(!e->inSpanningTree());
+		ARLASSERT(!e->inSpanningTree());
 
 		addEdge(e, newParent);
 
-		RBXASSERT(e->inSpanningTree());
+		ARLASSERT(e->inSpanningTree());
 
 		newParent = e->otherNode(newParent);
 	}

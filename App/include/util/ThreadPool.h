@@ -2,7 +2,7 @@
 
 #include "rbx/threadsafe.h"
 
-namespace RBX
+namespace ARL
 {
 	
 	// TODO: Implement shutdown policies: WaitForPendingTasks, InterruptTasks, etc.

@@ -3,7 +3,7 @@
 #include "V8DataModel/CollectionService.h"
 #include "V8DataModel/Configuration.h"
 
-namespace RBX
+namespace ARL
 {
 
 
@@ -42,7 +42,7 @@ void CollectionService::removeInstance(shared_ptr<Instance> instance)
 
 	CollectionMap::iterator collectionIter = collections.find(className);
 
-	RBXASSERT(collectionIter != collections.end());
+	ARLASSERT(collectionIter != collections.end());
 	Instances::iterator iter;
 	shared_ptr<Instances> c(collectionIter->second->write());
 
@@ -55,7 +55,7 @@ void CollectionService::removeInstance(shared_ptr<Instance> instance)
 		itemRemovedSignal(instance);
 	}
 	else{
-		RBXASSERT(0);
+		ARLASSERT(0);
 	}
 }
 void CollectionService::addInstance(shared_ptr<Instance> instance)

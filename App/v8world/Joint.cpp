@@ -16,7 +16,7 @@
 LOGGROUP(JointLifetime)
 DYNAMIC_FASTFLAGVARIABLE(OrthonormalizeJointCoords, false)
 
-namespace RBX {
+namespace ARL {
 namespace Reflection{
 template<>
 EnumDesc<Joint::JointType>::EnumDesc()
@@ -55,19 +55,19 @@ Joint::Joint()
 {
 	FASTLOG1(FLog::JointLifetime, "Joint %p created, empty primitives", this);
 	// confirm CoordinateFrame default constructor
-	RBXASSERT(jointCoord0 == CoordinateFrame());
-	RBXASSERT(jointCoord1 == CoordinateFrame());
+	ARLASSERT(jointCoord0 == CoordinateFrame());
+	ARLASSERT(jointCoord1 == CoordinateFrame());
 }
 
 Joint::~Joint() 
 {
-	RBXASSERT(!jointOwner);
+	ARLASSERT(!jointOwner);
 	FASTLOG1(FLog::JointLifetime, "Joint %p destroyed", this);
 }
 
 CoordinateFrame Joint::getJointWorldCoord(int i) 
 {
-	RBXASSERT(getPrimitive(i));
+	ARLASSERT(getPrimitive(i));
 	Primitive* p = getPrimitive(i);
 	return p ? getPrimitive(i)->getCoordinateFrame() * getJointCoord(i) : CoordinateFrame();
 }
@@ -98,7 +98,7 @@ const Joint* Joint::findConstJoint(const Primitive* p, Joint::JointType jointTyp
 const Joint* Joint::getConstJoint(const Primitive* p, Joint::JointType jointType)
 {
 	const Joint* answer = findConstJoint(p, jointType);
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
@@ -110,7 +110,7 @@ Joint* Joint::getJoint(Primitive* p, Joint::JointType jointType)
 
 void Joint::setJointOwner(IJointOwner* value)
 {
-	RBXASSERT((value == NULL) != (jointOwner == NULL));
+	ARLASSERT((value == NULL) != (jointOwner == NULL));
 	jointOwner = value;
 }
 
@@ -291,10 +291,10 @@ static int biggerJointGuid2(const Joint* j0, const Joint* j1)
 	const Guid* j11 = j1->getConstPrimitive(1) ? &j1->getConstPrimitive(1)->getGuid() : NULL;
 
 	int answer = Guid::compare(j00, j01, j10, j11);
-	RBXASSERT(answer == Guid::compare(j01, j00, j10, j11));
-	RBXASSERT(answer == Guid::compare(j00, j01, j11, j10));
-	RBXASSERT(answer == -Guid::compare(j11, j10, j00, j01));
-	RBXASSERT(answer == -Guid::compare(j10, j11, j01, j00));
+	ARLASSERT(answer == Guid::compare(j01, j00, j10, j11));
+	ARLASSERT(answer == Guid::compare(j00, j01, j11, j10));
+	ARLASSERT(answer == -Guid::compare(j11, j10, j00, j01));
+	ARLASSERT(answer == -Guid::compare(j10, j11, j01, j00));
 	return answer;
 }
 
@@ -531,7 +531,7 @@ bool Joint::findTouchingSurfacesConvex( const Primitive& p0, size_t& face0Id, co
 	return false;
 }
 
-RBX::SurfaceType Joint::getSurfaceTypeFromNormal( const Primitive& primitive, const NormalId& normalId )
+ARL::SurfaceType Joint::getSurfaceTypeFromNormal( const Primitive& primitive, const NormalId& normalId )
 {
 	size_t convertedFaceId = primitive.getConstGeometry()->getFaceFromLegacyNormalId( normalId );
 	return ( primitive.getSurfaceType( (NormalId)convertedFaceId ) );

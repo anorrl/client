@@ -3,7 +3,7 @@
 #include "V8DataModel/GuiObject.h"
 #include "V8DataModel/GuiMixin.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sGuiImageButton;
 

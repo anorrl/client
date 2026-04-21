@@ -11,7 +11,7 @@
 
 FASTSTRING(ClientExternalBrowserUserAgent)
 
-RbxWebView::RbxWebView(const std::string& url, shared_ptr<RBX::Game> newGame)
+RbxWebView::RbxWebView(const std::string& url, shared_ptr<ARL::Game> newGame)
 	: CAxDialogImpl()
 	, url(url)
 	, m_cRef(1)
@@ -169,7 +169,7 @@ HRESULT RbxWebView::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFl
 SHDocVw::IWebBrowserAppPtr RbxWebView::getWebBrowser()
 {
 	SHDocVw::IWebBrowserAppPtr pWebBrowser = NULL;
-	GetDlgControl(IDC_RBXEXPLORER, __uuidof(SHDocVw::IWebBrowserAppPtr), (void**)&pWebBrowser);
+	GetDlgControl(IDC_ARLEXPLORER, __uuidof(SHDocVw::IWebBrowserAppPtr), (void**)&pWebBrowser);
 
 	return pWebBrowser;
 }
@@ -186,7 +186,7 @@ LRESULT RbxWebView::OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	SHDocVw::IWebBrowserAppPtr pWebBrowser = NULL;
-	HRESULT hr = GetDlgControl(IDC_RBXEXPLORER, __uuidof(SHDocVw::IWebBrowserAppPtr), (void**)&pWebBrowser);
+	HRESULT hr = GetDlgControl(IDC_ARLEXPLORER, __uuidof(SHDocVw::IWebBrowserAppPtr), (void**)&pWebBrowser);
 
 	if (SUCCEEDED(hr)) 
 	{
@@ -239,7 +239,7 @@ void RbxWebView::closeDialog()
 LRESULT RbxWebView::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
 	SHDocVw::IWebBrowserAppPtr pWebBrowser = NULL;
-	HRESULT hr = GetDlgControl(IDC_RBXEXPLORER, __uuidof(SHDocVw::IWebBrowserAppPtr), (void**)&pWebBrowser);
+	HRESULT hr = GetDlgControl(IDC_ARLEXPLORER, __uuidof(SHDocVw::IWebBrowserAppPtr), (void**)&pWebBrowser);
 
 	if (SUCCEEDED(hr))
 	{
@@ -308,16 +308,16 @@ HRESULT __stdcall WebBrowserEvents::Invoke(DISPID dispIdMember, REFIID riid, LCI
 	return S_OK;
 }
 
-static void doSignalGuiServiceUrlWindowClose(RBX::DataModel* dataModel)
+static void doSignalGuiServiceUrlWindowClose(ARL::DataModel* dataModel)
 {
-	if (RBX::GuiService* guiService = dataModel->find<RBX::GuiService>())
+	if (ARL::GuiService* guiService = dataModel->find<ARL::GuiService>())
 		guiService->urlWindowClosed();
 }
 
-static void signalGuiServiceUrlWindowClosed(RBX::DataModel* dataModel)
+static void signalGuiServiceUrlWindowClosed(ARL::DataModel* dataModel)
 {
 	if(dataModel)
-		dataModel->submitTask(boost::bind(&doSignalGuiServiceUrlWindowClose,dataModel), RBX::DataModelJob::Write);
+		dataModel->submitTask(boost::bind(&doSignalGuiServiceUrlWindowClose,dataModel), ARL::DataModelJob::Write);
 }
 
 HRESULT WebBrowserEvents::WindowClosing(DISPPARAMS __RPC_FAR *pDispParams)
@@ -328,7 +328,7 @@ HRESULT WebBrowserEvents::WindowClosing(DISPPARAMS __RPC_FAR *pDispParams)
 	rbxWebView->EndDialog(IDCANCEL);
 	rbxWebView->setDialogActive(false);
 
-	if(shared_ptr<RBX::Game> game = rbxWebView->getGame().lock())
+	if(shared_ptr<ARL::Game> game = rbxWebView->getGame().lock())
 	{
 		signalGuiServiceUrlWindowClosed(game->getDataModel().get());
 	}
@@ -341,5 +341,5 @@ HRESULT WebBrowserEvents::WindowClosing(DISPPARAMS __RPC_FAR *pDispParams)
 HRESULT WebBrowserEvents::BeforeNavigate2(_bstr_t URL, long Flags, _bstr_t TargetFrameName, VARIANT * PostData, _bstr_t Headers, VARIANT_BOOL * Cancel)
 {
 	std::string ulrStr = convert_w2s(std::wstring((wchar_t*)URL));
-	return RBX::Http::trustCheckBrowser(ulrStr.c_str()) ? S_OK : E_FAIL;
+	return ARL::Http::trustCheckBrowser(ulrStr.c_str()) ? S_OK : E_FAIL;
 }

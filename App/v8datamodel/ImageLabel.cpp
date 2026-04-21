@@ -3,7 +3,7 @@
 #include "V8DataModel/ImageLabel.h"
 
 
-namespace RBX {
+namespace ARL {
 
 const char* const sImageLabel = "ImageLabel";
 

@@ -9,7 +9,7 @@
 
 DYNAMIC_LOGGROUP(FileSystem)
 
-namespace RBX
+namespace ARL
 {
 
 enum FileSystemDir
@@ -29,4 +29,4 @@ namespace FileSystem
 
     void clearCacheDirectory(const char* subDirectory);
 };
-} // namespace RBX
+} // namespace ARL

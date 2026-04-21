@@ -7,7 +7,7 @@
 #include "V8World/RigidJoint.h"
 #include "V8DataModel/JointInstance.h"
 
-namespace RBX {
+namespace ARL {
 	
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -40,9 +40,9 @@ const Clump* Clump::getConstPrimitiveClump(const Primitive* p)
 // TODO:  redundant code
 void Clump::loadConstMotors(G3D::Array<const Joint*>& load, bool nonAnimatedOnly) const
 {
-	RBXASSERT(getConstTypedLower<Primitive>());
+	ARLASSERT(getConstTypedLower<Primitive>());
 	const SpanningEdge* edge = getConstTypedLower<Primitive>()->getConstEdgeToParent();
-	RBXASSERT(edge);
+	ARLASSERT(edge);
 	
 	const Joint* j = rbx_static_cast<const Joint*>(edge);
 
@@ -63,9 +63,9 @@ void Clump::loadConstMotors(G3D::Array<const Joint*>& load, bool nonAnimatedOnly
 // TODO:  redundant code
 void Clump::loadMotors(G3D::Array<Joint*>& load, bool nonAnimatedOnly)
 {
-	RBXASSERT(getTypedLower<Primitive>());
+	ARLASSERT(getTypedLower<Primitive>());
 	SpanningEdge* edge = getTypedLower<Primitive>()->getEdgeToParent();
-	RBXASSERT(edge);
+	ARLASSERT(edge);
 	
 	Joint* j = rbx_static_cast<Joint*>(edge);
 
@@ -90,33 +90,33 @@ void Clump::loadMotors(G3D::Array<Joint*>& load, bool nonAnimatedOnly)
 /*
 bool PrimIterator::isParent(Primitive* parentCandidate, Primitive* child, SearchType searchType)
 {
-	RBXASSERT(child && parentCandidate);
-	RBXASSERT(child->getTypedParent<Primitive>() == parentCandidate);
+	ARLASSERT(child && parentCandidate);
+	ARLASSERT(child->getTypedParent<Primitive>() == parentCandidate);
 
 	Joint* joint = rbx_static_cast<Joint*>(child->getEdgeToParent());
 
-	RBXASSERT(Joint::isSpanningTreeJoint(joint));
+	ARLASSERT(Joint::isSpanningTreeJoint(joint));
 
 	switch (searchType)
 	{
 		case IN_CLUMP:	
 			{
 				bool inSameClump = Joint::isRigidJoint(joint);
-				RBXASSERT(inSameClump == (!child->getTypedUpper<Clump>()));
-				RBXASSERT(inSameClump == (child->getClump() == parentCandidate->getClump()));
+				ARLASSERT(inSameClump == (!child->getTypedUpper<Clump>()));
+				ARLASSERT(inSameClump == (child->getClump() == parentCandidate->getClump()));
 				return inSameClump;
 			}
 
 		case IN_ASSEMBLY:
 			{
 				bool inSameAssembly = Joint::isKinematicJoint(joint);
-				RBXASSERT(inSameAssembly == (child->getAssembly() == parentCandidate->getAssembly()));
+				ARLASSERT(inSameAssembly == (child->getAssembly() == parentCandidate->getAssembly()));
 				return inSameAssembly;
 			}
 
 		default:			
 			{
-				RBXASSERT(0);
+				ARLASSERT(0);
 				return false;
 			}
 	}
@@ -157,7 +157,7 @@ Primitive* PrimIterator::findNextSibling(Primitive* parent, Primitive* sibling, 
 		Primitive* child = parent->getTypedChild<Primitive>(i);
 		if (isParent(parent, child, searchType)) {
 			if (child == sibling) {
-				RBXASSERT(!latched);
+				ARLASSERT(!latched);
 				latched = child;
 			}
 			else {

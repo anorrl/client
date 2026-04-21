@@ -6,7 +6,7 @@
 #include <vector>
 #include <boost/scoped_array.hpp>
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

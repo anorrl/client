@@ -8,7 +8,7 @@
 #include "rbx/Debug.h"
 #include <limits.h>
 
-namespace RBX {
+namespace ARL {
 
 	class Vector3int32 {
 	public:
@@ -63,7 +63,7 @@ namespace RBX {
 		}
 
 		Vector3int32 operator>> (unsigned int shift) const {
-			RBXASSERT_SLOW(shift < 32);
+			ARLASSERT_SLOW(shift < 32);
 			return Vector3int32(x >> shift, y >> shift, z >> shift);
 		}
 
@@ -76,7 +76,7 @@ namespace RBX {
 		}
 
 		Vector3int32 operator<< (unsigned int shift) const {
-			RBXASSERT_SLOW(shift < 32);
+			ARLASSERT_SLOW(shift < 32);
 			return Vector3int32(x << shift, y << shift, z << shift);
 		}
 
@@ -89,8 +89,8 @@ namespace RBX {
 		}
 
 		void shiftRight(int shift) {
-			RBXASSERT_SLOW(shift >= 0);
-			RBXASSERT_SLOW(shift < 32);
+			ARLASSERT_SLOW(shift >= 0);
+			ARLASSERT_SLOW(shift < 32);
 			x >>= shift;	y >>= shift;	z >>= shift;
 		}
 
@@ -143,11 +143,11 @@ namespace RBX {
 	};
 
 	std::ostream& operator<<(std::ostream& os, const Vector3int32& v);
-	::std::size_t hash_value(const RBX::Vector3int32& v);
+	::std::size_t hash_value(const ARL::Vector3int32& v);
 
-	inline RBX::Vector3int32 fastFloorInt32(const RBX::Vector3& v)
+	inline ARL::Vector3int32 fastFloorInt32(const ARL::Vector3& v)
 	{
-		return RBX::Vector3int32(fastFloorInt(v.x), fastFloorInt(v.y), fastFloorInt(v.z));
+		return ARL::Vector3int32(fastFloorInt(v.x), fastFloorInt(v.y), fastFloorInt(v.z));
 	}
 
 }

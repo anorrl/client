@@ -6,7 +6,7 @@
 
 #include "Voxel2/Conversion.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sTerrainRegion = "TerrainRegion";
 
@@ -331,14 +331,14 @@ bool TerrainRegion::askSetParent(const Instance* parent) const
 
 void TerrainRegion::initializeGridMega()
 {
-    RBXASSERT(!voxelGrid && !smoothGrid);
+    ARLASSERT(!voxelGrid && !smoothGrid);
 
 	voxelGrid.reset(new Voxel::Grid());
 }
 
 void TerrainRegion::initializeGridSmooth()
 {
-    RBXASSERT(!voxelGrid && !smoothGrid);
+    ARLASSERT(!voxelGrid && !smoothGrid);
 
 	smoothGrid.reset(new Voxel2::Grid());
 }

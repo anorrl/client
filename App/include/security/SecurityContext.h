@@ -9,7 +9,7 @@ namespace boost
 	template<typename T> class thread_specific_ptr;
 }
 
-namespace RBX
+namespace ARL
 {
 	namespace Security
 	{
@@ -20,7 +20,7 @@ namespace RBX
 			GameScriptInRobloxPlace_,	// Execution of a BaseScript object inside any DataModel, if the place was authored by Roblox
 			RobloxGameScript_,			// Execution of a BaseScript object written by Roblox inside any DataModel
 			CmdLine_,					// Any script executed from the Studio command line
-#if defined(RBX_STUDIO_BUILD)
+#if defined(ARL_STUDIO_BUILD)
 			StudioPlugin,				// Any Studio plug-in script
 #endif
 			COM,						// Scripts executed via the COM API (usually comes from roblox.com)
@@ -39,7 +39,7 @@ namespace RBX
 			RobloxScript		=5,     // A script, such as a CoreScript, that we run inside a game
 			Roblox				=6,     // Highest level of permission
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 			TestLocalUser       =None,  //For exposing Lua functions to the ReleaseTest build
 #else
 			TestLocalUser       =LocalUser,
@@ -49,7 +49,7 @@ namespace RBX
         // different classes of VM that derive from the permission level
         typedef enum {
             VM_Default = 0,             // most scripts go here
-#if defined(RBX_STUDIO_BUILD)
+#if defined(ARL_STUDIO_BUILD)
 			VM_StudioPlugin,            // Sandbox for studio plugin scripts
 #endif
             VM_RobloxScriptPlus,            // scripts with the permission level of RobloxScript or higher go here
@@ -75,15 +75,15 @@ namespace RBX
 					// TODO: Can we obfuscate the code without obfuscating the error? 
 					// Daniel: NO
 					//if (operation)
-					//	throw RBX::runtime_error("s %s", operation);
+					//	throw ARL::runtime_error("s %s", operation);
 					//else
-					//	throw RBX::runtime_error("s");
+					//	throw ARL::runtime_error("s");
 					throw std::runtime_error("");
 #else
                     if (operation) {
-						throw RBX::runtime_error("The current identity (%d) cannot %s (requires %d)", identity, operation, permission);
+						throw ARL::runtime_error("The current identity (%d) cannot %s (requires %d)", identity, operation, permission);
 					} else {
-						throw RBX::runtime_error("The current identity (%d) cannot perform the requested operation (requires %d)", identity, permission);
+						throw ARL::runtime_error("The current identity (%d) cannot perform the requested operation (requires %d)", identity, permission);
                     }
 #endif
                 }

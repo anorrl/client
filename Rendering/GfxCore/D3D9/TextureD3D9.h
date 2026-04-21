@@ -7,7 +7,7 @@
 
 struct IDirect3DBaseTexture9;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

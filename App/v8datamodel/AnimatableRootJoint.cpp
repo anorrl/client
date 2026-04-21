@@ -2,7 +2,7 @@
 
 #include "V8DataModel/AnimatableRootJoint.h"
 
-using namespace RBX;
+using namespace ARL;
 
 AnimatableRootJoint::AnimatableRootJoint(const shared_ptr<PartInstance>& part)
 : IAnimatableJoint(), part(part)

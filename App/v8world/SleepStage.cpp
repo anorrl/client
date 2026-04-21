@@ -17,7 +17,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(PGSWakeOtherAssemblyForJoints, false)
 
-namespace RBX {
+namespace ARL {
 
 /*
 Wake up events:
@@ -64,20 +64,20 @@ SleepStage::SleepStage(IStage* upstream, World* world)
 
 SleepStage::~SleepStage()
 {
-	RBXASSERT(numContactsInStage == 0);
-	RBXASSERT(numContactsInKernel == 0);
-	RBXASSERT(debugReentrant == 0);
+	ARLASSERT(numContactsInStage == 0);
+	ARLASSERT(numContactsInKernel == 0);
+	ARLASSERT(debugReentrant == 0);
 
-	RBXASSERT(recursiveWakePending.empty());				// only on impact...
-	RBXASSERT(wakePending.empty());
-	RBXASSERT(awake.empty());
-	RBXASSERT(sleepingChecking.empty());					// Edges that are awake
-	RBXASSERT(sleepingDeeply.empty());						// no Edges that are awake
-	RBXASSERT(removing.empty());
-	RBXASSERT(steppingContacts[Sim::CAN_NOT_THROTTLE].size() == 0);
-	RBXASSERT(touchingContacts[Sim::CAN_NOT_THROTTLE].size() == 0);
-	RBXASSERT(steppingContacts[Sim::CAN_THROTTLE].size() == 0);
-	RBXASSERT(touchingContacts[Sim::CAN_THROTTLE].size() == 0);
+	ARLASSERT(recursiveWakePending.empty());				// only on impact...
+	ARLASSERT(wakePending.empty());
+	ARLASSERT(awake.empty());
+	ARLASSERT(sleepingChecking.empty());					// Edges that are awake
+	ARLASSERT(sleepingDeeply.empty());						// no Edges that are awake
+	ARLASSERT(removing.empty());
+	ARLASSERT(steppingContacts[Sim::CAN_NOT_THROTTLE].size() == 0);
+	ARLASSERT(touchingContacts[Sim::CAN_NOT_THROTTLE].size() == 0);
+	ARLASSERT(steppingContacts[Sim::CAN_THROTTLE].size() == 0);
+	ARLASSERT(touchingContacts[Sim::CAN_THROTTLE].size() == 0);
 }
 
 bool validateInKernel(Joint* j)
@@ -95,7 +95,7 @@ bool validateInKernel(Joint* j)
 			{
 				Body* b = p->getBody();
 				if (b == b->getRoot() && b->getRootSimBody()->isInKernel()) {
-					RBXASSERT(!b->isLeafBody());
+					ARLASSERT(!b->isLeafBody());
 					oneInKernel = true;
 				}
 				else if (b->isLeafBody()) {
@@ -117,7 +117,7 @@ bool SleepStage::validateJoints()
 		Joint* j = *it;
 		bool ok = validateInKernel(j);
 		if (!ok) {
-			RBXASSERT(0);
+			ARLASSERT(0);
 			validateInKernel(j);
 		}
 	}
@@ -130,7 +130,7 @@ bool SleepStage::validate()
 	for (AssemblySetIt aIt = awake.begin(); aIt != awake.end(); ++aIt) 
 	{
 		Assembly* assembly = *aIt;
-		RBXASSERT(assembly->getAssemblyState() == Sim::AWAKE);
+		ARLASSERT(assembly->getAssemblyState() == Sim::AWAKE);
 
 		const G3D::Array<Edge*>& edges = assembly->getAssemblyEdges();
 		for (int i = 0; i < edges.size(); ++i)
@@ -140,7 +140,7 @@ bool SleepStage::validate()
 				if (!edgeIsAwake(e)) {
 					return false;
 				}
-				RBXASSERT(edgeIsAwake(e));				
+				ARLASSERT(edgeIsAwake(e));				
 			}
 		}
 	}
@@ -156,70 +156,70 @@ bool SleepStage::validate()
 //
 void SleepStage::stepSleepStage(int worldStepId, int _longStepId, bool _throttling)
 {
-	RBXPROFILER_SCOPE("Physics", "stepSleepStage");
+	ARLPROFILER_SCOPE("Physics", "stepSleepStage");
 
 	throttling = _throttling;
 	longStepId = _longStepId;
 
 	// 1. Clean up from old recursive wakes pending
 
-	RBXASSERT_IF_VALIDATING(validate());
+	ARLASSERT_IF_VALIDATING(validate());
 
 	stepAssembliesRecursiveWakePending();
 	stepAssembliesWakePending();
 
-	RBXASSERT(wakePending.empty());
-	RBXASSERT(recursiveWakePending.empty());
+	ARLASSERT(wakePending.empty());
+	ARLASSERT(recursiveWakePending.empty());
 
 	doContacts(steppingContacts);						// these are not in contact
 														// new touch events - will make new recursive wakes
-	RBXASSERT_IF_VALIDATING(validate());
+	ARLASSERT_IF_VALIDATING(validate());
 
 	stepAssembliesRecursiveWakePending();
 	stepAssembliesWakePending();
 
-	RBXASSERT_IF_VALIDATING(validate());
-	RBXASSERT(wakePending.empty());
-	RBXASSERT(recursiveWakePending.empty());
+	ARLASSERT_IF_VALIDATING(validate());
+	ARLASSERT(wakePending.empty());
+	ARLASSERT(recursiveWakePending.empty());
 
-	RBXASSERT_IF_VALIDATING(validate());
+	ARLASSERT_IF_VALIDATING(validate());
 
 	stepAssembliesAwake();
 
 
-	RBXASSERT_IF_VALIDATING(validate());
+	ARLASSERT_IF_VALIDATING(validate());
 
 	if ((worldStepId % 4) == 0) 					// every 4th frame
 	{		
 		stepAssembliesSleepingChecking();
 	}
-	RBXASSERT_IF_VALIDATING(validate());
-	RBXASSERT(recursiveWakePending.empty());
+	ARLASSERT_IF_VALIDATING(validate());
+	ARLASSERT(recursiveWakePending.empty());
 
 	stepAssembliesWakePending();
 
-	RBXASSERT_IF_VALIDATING(validate());
-	RBXASSERT(wakePending.empty());
-	RBXASSERT(recursiveWakePending.empty());
+	ARLASSERT_IF_VALIDATING(validate());
+	ARLASSERT(wakePending.empty());
+	ARLASSERT(recursiveWakePending.empty());
 
 	doContacts(touchingContacts);
 
-	RBXASSERT_IF_VALIDATING(validate());
+	ARLASSERT_IF_VALIDATING(validate());
 
 	stepAssembliesRecursiveWakePending();		// don't go to simulator with assemblies in pending states
 	stepAssembliesWakePending();
 
 	stepJoints();		// finally at the end
 
-	RBXASSERT(wakePending.empty());
-	RBXASSERT(recursiveWakePending.empty());
-	RBXASSERT_IF_VALIDATING(validate());
-	RBXASSERT_IF_VALIDATING(validateJoints());
+	ARLASSERT(wakePending.empty());
+	ARLASSERT(recursiveWakePending.empty());
+	ARLASSERT_IF_VALIDATING(validate());
+	ARLASSERT_IF_VALIDATING(validateJoints());
 }
 
 void SleepStage::doContacts(ContactLists& contactLists)
 {
-	RBX::Profiling::Mark mark(*profilingCollision, false);
+	ARL::Profiling::Mark mark(*profilingCollision, false);
 	stepContacts(contactLists[Sim::CAN_NOT_THROTTLE]);		
 	if (!throttling) {
 		stepContacts(contactLists[Sim::CAN_THROTTLE]);
@@ -231,7 +231,7 @@ void SleepStage::doContacts(ContactLists& contactLists)
 
 void SleepStage::stepAssembliesRecursiveWakePending()
 {
-    RBXPROFILER_SCOPE("Physics", "stepAssembliesRecursiveWakePending");
+    ARLPROFILER_SCOPE("Physics", "stepAssembliesRecursiveWakePending");
 
 	wakeAssemblies(recursiveWakePending, 8, Sim::RECURSIVE_WAKE_PENDING);
 }
@@ -239,15 +239,15 @@ void SleepStage::stepAssembliesRecursiveWakePending()
 
 void SleepStage::stepAssembliesWakePending()
 {
-    RBXPROFILER_SCOPE("Physics", "stepAssembliesWakePending");
+    ARLPROFILER_SCOPE("Physics", "stepAssembliesWakePending");
 
 	wakeAssemblies(wakePending, 0, Sim::WAKE_PENDING);
 }
 
 void SleepStage::wakeAssemblies(AssemblySet& wakeSet, int maxDepth, Sim::AssemblyState checkState)
 {
-	RBX::Profiling::Mark mark(*profilingWake, false);
-	RBXASSERT_IF_VALIDATING(validate());
+	ARL::Profiling::Mark mark(*profilingWake, false);
+	ARLASSERT_IF_VALIDATING(validate());
 
 	std::deque<Assembly*> aDeque;
 
@@ -256,8 +256,8 @@ void SleepStage::wakeAssemblies(AssemblySet& wakeSet, int maxDepth, Sim::Assembl
 	for (AssemblySetIt it = wakeSet.begin(); it != wakeSet.end(); ++it) 
 	{
 		Assembly* a = *it;
-		RBXASSERT(a->getAssemblyState() == checkState);
-		RBXASSERT(a->getRecursiveDepth() == -1);
+		ARLASSERT(a->getAssemblyState() == checkState);
+		ARLASSERT(a->getRecursiveDepth() == -1);
 		a->setRecursivePassId(recursivePassId);
 		a->setRecursiveDepth(0);
 		aDeque.push_back(a);
@@ -267,21 +267,21 @@ void SleepStage::wakeAssemblies(AssemblySet& wakeSet, int maxDepth, Sim::Assembl
 	{
 		Assembly* a = aDeque.front();
 		aDeque.pop_front();
-		RBXASSERT(a->getRecursivePassId() == recursivePassId);
-		RBXASSERT(a->getRecursiveDepth() >= 0);
-		RBXASSERT(a->getRecursiveDepth() <= maxDepth);
+		ARLASSERT(a->getRecursivePassId() == recursivePassId);
+		ARLASSERT(a->getRecursiveDepth() >= 0);
+		ARLASSERT(a->getRecursiveDepth() <= maxDepth);
 		traverse(a, aDeque, maxDepth);
 		a->setRecursiveDepth(-1);	// done - should never visit again because recursivePassId is == recursivePassId;
 	}
 
 	externalRecursiveWake = false;	// reset this;
 
-	RBXASSERT_IF_VALIDATING(validate());
+	ARLASSERT_IF_VALIDATING(validate());
 }
 
 bool canThrottle(Edge* e)
 {
-	RBXASSERT(e->getThrottleType() != Sim::UNDEFINED_THROTTLE);
+	ARLASSERT(e->getThrottleType() != Sim::UNDEFINED_THROTTLE);
 	return (e->getThrottleType() == Sim::CAN_THROTTLE);
 }
 
@@ -293,12 +293,12 @@ bool SleepStage::atLeastOneAssemblyMoving(Assembly* a0, Assembly* a1)
 
 void SleepStage::stepContacts(ContactList& contacts)
 {
-	RBXPROFILER_SCOPE("Physics", "stepContacts");
+	ARLPROFILER_SCOPE("Physics", "stepContacts");
 
-	RBXASSERT(toSleeping.empty());
-	RBXASSERT(toStepping.empty());
-	RBXASSERT(toContacting.empty());
-	RBXASSERT(toContactingSleeping.empty());
+	ARLASSERT(toSleeping.empty());
+	ARLASSERT(toStepping.empty());
+	ARLASSERT(toContacting.empty());
+	ARLASSERT(toContactingSleeping.empty());
 
 	//int numContactsTouching = 0;
 
@@ -311,17 +311,17 @@ void SleepStage::stepContacts(ContactList& contacts)
 		Primitive* p0 = c->getPrimitive(0);
 		Primitive* p1 = c->getPrimitive(1);
 
-		RBXASSERT(initialSize == contacts.size());
-		RBXASSERT(!throttling || !canThrottle(c));	// if throttling, the contact should be one that "can't"
-		RBXASSERT(c->inOrDownstreamOfStage(this));
-		RBXASSERT(p0);
-		RBXASSERT(p1);
-		RBXASSERT(p0->getAssembly());
-		RBXASSERT(p1->getAssembly());
+		ARLASSERT(initialSize == contacts.size());
+		ARLASSERT(!throttling || !canThrottle(c));	// if throttling, the contact should be one that "can't"
+		ARLASSERT(c->inOrDownstreamOfStage(this));
+		ARLASSERT(p0);
+		ARLASSERT(p1);
+		ARLASSERT(p0->getAssembly());
+		ARLASSERT(p1->getAssembly());
 
-#ifdef __RBX_CRASH_ASSERT_HP
+#ifdef __ARL_CRASH_ASSERT_HP
 		Joint* test = Primitive::getJoint(p0, p1);
-		RBXASSERT_VERY_FAST(!test || !test->inOrDownstreamOfStage(this));
+		ARLASSERT_VERY_FAST(!test || !test->inOrDownstreamOfStage(this));
 #endif
 
 		bool assembliesMoving = atLeastOneAssemblyMoving(Assembly::getPrimitiveAssemblyFast(p0), Assembly::getPrimitiveAssembly(p1));
@@ -333,7 +333,7 @@ void SleepStage::stepContacts(ContactList& contacts)
 
 		Sim::EdgeState newState = computeContactState(assembliesMoving, inContact, canCollide, wasTouching);
 
-		RBXASSERT(c->getEdgeState() != Sim::UNDEFINED);
+		ARLASSERT(c->getEdgeState() != Sim::UNDEFINED);
 
 		if (newState != c->getEdgeState()) {
 			switch (newState)
@@ -357,20 +357,20 @@ void SleepStage::stepContacts(ContactList& contacts)
 	toContacting.resize(0);
 	toContactingSleeping.resize(0);	
 
-	RBXPROFILER_LABELF("Physics", "%d contacts, %d connectors", initialSize, numConnectors);
+	ARLPROFILER_LABELF("Physics", "%d contacts, %d connectors", initialSize, numConnectors);
 }
 
 void SleepStage::stepJoints()
 {
-	RBX::Profiling::Mark mark(*profilingJointSleep, false);
-	RBXASSERT(toSleepingJoint.empty());
+	ARL::Profiling::Mark mark(*profilingJointSleep, false);
+	ARLASSERT(toSleepingJoint.empty());
 
 	JointSet::iterator it;
 
 	for (it = steppingJoints.begin(); it != steppingJoints.end(); ++it)
 	{
 		Joint* j = *it;
-		RBXASSERT(j->inOrDownstreamOfStage(this));
+		ARLASSERT(j->inOrDownstreamOfStage(this));
 		Primitive* p0 = j->getPrimitive(0);
 		Primitive* p1 = j->getPrimitive(1);
 
@@ -393,14 +393,14 @@ void SleepStage::stepJoints()
 
 void SleepStage::stepAssembliesAwake()
 {
-	RBX::Profiling::Mark mark(*profilingWake, false);
-	RBXASSERT(toDeep.empty());
-	RBXASSERT(toSleepingChecking.empty());
+	ARL::Profiling::Mark mark(*profilingWake, false);
+	ARLASSERT(toDeep.empty());
+	ARLASSERT(toSleepingChecking.empty());
 
 	for (AssemblySetIt it = awake.begin(); it != awake.end(); ++it) 
 	{
 		Assembly* assembly = *it;
-		RBXASSERT(assembly->getAssemblyState() == Sim::AWAKE);
+		ARLASSERT(assembly->getAssemblyState() == Sim::AWAKE);
 
 		bool notThrottlingThisAssembly = !(throttling && assembly->getCanThrottle());
 
@@ -427,14 +427,14 @@ void SleepStage::stepAssembliesAwake()
 
 void SleepStage::stepAssembliesSleepingChecking()
 {
-	RBX::Profiling::Mark mark(*profilingSleep, false);
-	RBXASSERT(toWake.empty());
-	RBXASSERT(toDeep.empty());
+	ARL::Profiling::Mark mark(*profilingSleep, false);
+	ARLASSERT(toWake.empty());
+	ARLASSERT(toDeep.empty());
 
 	for (AssemblySetIt it = sleepingChecking.begin(); it != sleepingChecking.end(); ++it) 
 	{
 		Assembly* assembly = *it;
-		RBXASSERT(assembly->getAssemblyState() == Sim::SLEEPING_CHECKING);
+		ARLASSERT(assembly->getAssemblyState() == Sim::SLEEPING_CHECKING);
 
 		switch (computeStateFromNeighbors(assembly))
 		{
@@ -474,7 +474,7 @@ void SleepStage::traverse(Assembly* assembly, std::deque<Assembly*>& aDeque, int
 		for (int i = 0; i < edges.size(); ++i)
 		{
 			Edge* e = edges[i];
-			RBXASSERT(e->inPipeline());
+			ARLASSERT(e->inPipeline());
 			if (e->inOrDownstreamOfStage(this)) 
 			{
 				wakeEdge(e);
@@ -488,7 +488,7 @@ void SleepStage::traverse(Assembly* assembly, std::deque<Assembly*>& aDeque, int
 						
 						if (pushThrough && !visited)
 						{
-							RBXASSERT(other->getRecursiveDepth() == -1);
+							ARLASSERT(other->getRecursiveDepth() == -1);
 							other->setRecursivePassId(recursivePassId);	// if not visited, visit at next depth level
 							other->setRecursiveDepth(currentDepth + 1);
 							aDeque.push_back(other);
@@ -500,7 +500,7 @@ void SleepStage::traverse(Assembly* assembly, std::deque<Assembly*>& aDeque, int
 							 getKernel()->getUsingPGSSolver() &&
 							 e->getEdgeType() == Edge::JOINT && !visited)
 					{
-						RBXASSERT(other->getRecursiveDepth() == -1);
+						ARLASSERT(other->getRecursiveDepth() == -1);
 						other->setRecursivePassId(recursivePassId);
 						other->setRecursiveDepth(other->getRecursiveDepth() + 1);
 						aDeque.push_back(other);
@@ -520,8 +520,8 @@ void SleepStage::traverse(Assembly* assembly, std::deque<Assembly*>& aDeque, int
 
 bool SleepStage::isAffecting(Edge* e)
 {
-	RBXASSERT(e->inOrDownstreamOfStage(this));
-	RBXASSERT(e->getEdgeState() != Sim::UNDEFINED);
+	ARLASSERT(e->inOrDownstreamOfStage(this));
+	ARLASSERT(e->getEdgeState() != Sim::UNDEFINED);
 
 	Sim::EdgeState state = e->getEdgeState();
 	if (Contact::isContact(e)) {
@@ -534,8 +534,8 @@ bool SleepStage::isAffecting(Edge* e)
 
 void SleepStage::wakeEdge(Edge* e)
 {
-	RBXASSERT(e->inOrDownstreamOfStage(this));
-	RBXASSERT(e->getEdgeState() != Sim::UNDEFINED);
+	ARLASSERT(e->inOrDownstreamOfStage(this));
+	ARLASSERT(e->getEdgeState() != Sim::UNDEFINED);
 	Sim::EdgeState state = e->getEdgeState();
 	if (Contact::isContact(e)) {
 		if (state == Sim::CONTACTING_SLEEPING) {
@@ -546,7 +546,7 @@ void SleepStage::wakeEdge(Edge* e)
 		}
 	}
 	else {
-		RBXASSERT(Joint::isJoint(e));
+		ARLASSERT(Joint::isJoint(e));
 		if (state == Sim::SLEEPING) {
 			changeJointState(rbx_static_cast<Joint*>(e), Sim::STEPPING);
 		}
@@ -693,7 +693,7 @@ void SleepStage::changeContactState(Contact* c, Sim::EdgeState newState)
 	Sim::EdgeState currentState = c->getEdgeState();
 	Sim::ThrottleType throttleType = c->getThrottleType();
 	
-	RBXASSERT(currentState != newState);
+	ARLASSERT(currentState != newState);
 
 	// 1.  Stepping lists
 	bool wasInStepping = (currentState == Sim::STEPPING);
@@ -758,7 +758,7 @@ void SleepStage::changeContactState(Contact* c, Sim::EdgeState newState)
 void SleepStage::changeJointState(Joint* j, Sim::EdgeState newState)
 {
 	Sim::EdgeState currentState = j->getEdgeState();
-	RBXASSERT(currentState != newState);
+	ARLASSERT(currentState != newState);
 	
 	// 1.  In the list, in the kernel (the same)
 	bool wasInList = (currentState == Sim::STEPPING);
@@ -766,12 +766,12 @@ void SleepStage::changeJointState(Joint* j, Sim::EdgeState newState)
 	if (wasInList != desiredInList) {
 		if (wasInList) {
 			int num = steppingJoints.erase(j);
-			RBXASSERT(num == 1);
+			ARLASSERT(num == 1);
 			getDownstreamWS()->onEdgeRemoving(j);
 		}
 		else {
 			bool ok = steppingJoints.insert(j).second;
-			RBXASSERT(ok);
+			ARLASSERT(ok);
 			getDownstreamWS()->onEdgeAdded(j);
 		}
 	}
@@ -783,25 +783,25 @@ void SleepStage::changeJointState(Joint* j, Sim::EdgeState newState)
 
 void SleepStage::changeAssemblyState(Assembly* a, Sim::AssemblyState newState)
 {
-	RBXASSERT(!debugReentrant);
+	ARLASSERT(!debugReentrant);
 	debugReentrant = true;
 
 	if (!a->inOrDownstreamOfStage(this)) {
-		RBXASSERT(a->inStage(IStage::HUMANOID_STAGE));
+		ARLASSERT(a->inStage(IStage::HUMANOID_STAGE));
 	}
 	else {
 		Sim::AssemblyState currentState = a->getAssemblyState();
-		RBXASSERT(currentState != newState);
-		RBXASSERT(currentState != Sim::ANCHORED);
+		ARLASSERT(currentState != newState);
+		ARLASSERT(currentState != Sim::ANCHORED);
 
 		AssemblySet& oldSet = stateToSet(currentState);
 		AssemblySet& newSet = stateToSet(newState);
 
 		// 1.  Put in right set
 		int num = oldSet.erase(a);
-		RBXASSERT(num == 1);
+		ARLASSERT(num == 1);
 		bool ok = newSet.insert(a).second;
-		RBXASSERT(ok);
+		ARLASSERT(ok);
 
 		// 2.  All impulses gathered while sleeping are invalid and are discarded
 		if (Sim::isSleepingAssemblyState(currentState) && !Sim::isSleepingAssemblyState(newState)) {
@@ -839,7 +839,7 @@ SleepStage::AssemblySet& SleepStage::stateToSet(Sim::AssemblyState state)
 	case Sim::SLEEPING_CHECKING:		return sleepingChecking;
 	case Sim::SLEEPING_DEEPLY:			return sleepingDeeply;
 	case Sim::REMOVING:					return removing;
-	default:							RBXASSERT(0);	return awake;
+	default:							ARLASSERT(0);	return awake;
 	}
 }
 
@@ -906,8 +906,8 @@ void SleepStage::onExternalTickleAssembly(Assembly* assembly, bool recursive)
 
 void SleepStage::onAssemblyAdded(Assembly* assembly)
 {
-	RBXASSERT(!assembly->computeIsGrounded());
-	RBXASSERT(assembly->getAssemblyState() == Sim::ANCHORED);
+	ARLASSERT(!assembly->computeIsGrounded());
+	ARLASSERT(assembly->getAssemblyState() == Sim::ANCHORED);
 
 	assembly->getAssemblyPrimitive()->getBody()->resetForceAccumulators();			// move this to the kernel ; TODO
 	assembly->getAssemblyPrimitive()->getBody()->resetImpulseAccumulators();		// move this to the kernel ; TODO
@@ -917,29 +917,29 @@ void SleepStage::onAssemblyAdded(Assembly* assembly)
 	{
 		assembly->reset(Sim::SLEEPING_CHECKING);
 		bool ok = sleepingChecking.insert(assembly).second;
-		RBXASSERT(ok);
-		RBXASSERT(assembly->getAssemblyState() == Sim::SLEEPING_CHECKING);
+		ARLASSERT(ok);
+		ARLASSERT(assembly->getAssemblyState() == Sim::SLEEPING_CHECKING);
 	}
 	else 
 	{
 		assembly->reset(Sim::WAKE_PENDING);
 		assembly->wakeUp();		// the reset fills the average with the current value.  This wipes it.  Assembly can't sleep for 20 steps (buffer size)
 		bool ok = wakePending.insert(assembly).second;
-		RBXASSERT(ok);
-		RBXASSERT(assembly->getAssemblyState() == Sim::WAKE_PENDING);
+		ARLASSERT(ok);
+		ARLASSERT(assembly->getAssemblyState() == Sim::WAKE_PENDING);
 	}
 }
 
 void SleepStage::onAssemblyRemoving(Assembly* assembly)
 {
-	RBXASSERT(assembly->inOrDownstreamOfStage(this));
-	RBXASSERT(assembly->getAssemblyState() != Sim::ANCHORED);
-	RBXASSERT(assembly->getAssemblyState() != Sim::REMOVING);
+	ARLASSERT(assembly->inOrDownstreamOfStage(this));
+	ARLASSERT(assembly->getAssemblyState() != Sim::ANCHORED);
+	ARLASSERT(assembly->getAssemblyState() != Sim::REMOVING);
 
 	changeAssemblyState(assembly, Sim::REMOVING);		// pop from Kernel, handles the moving changed as well
 
 	int num = removing.erase(assembly);
-	RBXASSERT(num == 1);
+	ARLASSERT(num == 1);
 	assembly->removeFromStage(this);
 	assembly->reset(Sim::ANCHORED);
 }
@@ -947,9 +947,9 @@ void SleepStage::onAssemblyRemoving(Assembly* assembly)
 
 void SleepStage::onEdgeAdded(Edge* e)
 {
-	RBXASSERT(!e->inOrDownstreamOfStage(this));
-	RBXASSERT(e->getEdgeState() == Sim::UNDEFINED);
-	RBXASSERT(e->getThrottleType() == Sim::UNDEFINED_THROTTLE);
+	ARLASSERT(!e->inOrDownstreamOfStage(this));
+	ARLASSERT(e->getEdgeState() == Sim::UNDEFINED);
+	ARLASSERT(e->getThrottleType() == Sim::UNDEFINED_THROTTLE);
 
 	e->setThrottleType( Assembly::computeCanThrottle(e) ? Sim::CAN_THROTTLE : Sim::CAN_NOT_THROTTLE );
 
@@ -972,7 +972,7 @@ void SleepStage::onEdgeAdded(Edge* e)
 
 void SleepStage::onEdgeRemoving(Edge* e)
 {
-	RBXASSERT(e->inOrDownstreamOfStage(this));
+	ARLASSERT(e->inOrDownstreamOfStage(this));
 
 	if (Contact::isContact(e)) {
 		if (	(e->getEdgeState() == Sim::CONTACTING_SLEEPING) 
@@ -994,9 +994,9 @@ void SleepStage::onEdgeRemoving(Edge* e)
 		}
 	}
 
-	RBXASSERT(e->inStage(this));
-	RBXASSERT(e->getEdgeState() == Sim::SLEEPING);
-	RBXASSERT(e->getThrottleType() != Sim::UNDEFINED_THROTTLE);
+	ARLASSERT(e->inStage(this));
+	ARLASSERT(e->getEdgeState() == Sim::SLEEPING);
+	ARLASSERT(e->getThrottleType() != Sim::UNDEFINED_THROTTLE);
 	e->setThrottleType(Sim::UNDEFINED_THROTTLE);
 	e->setEdgeState(Sim::UNDEFINED);
 	e->removeFromStage(this);

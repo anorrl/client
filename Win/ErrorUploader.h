@@ -34,7 +34,7 @@ protected:
 		data():dmpFileCount(0), hInterprocessMutex(NULL) {}
 	};
 	shared_ptr<data> _data;
-	boost::scoped_ptr<RBX::worker_thread> thread;
+	boost::scoped_ptr<ARL::worker_thread> thread;
 
 	static std::string MoveRelative(LPCTSTR fileName, std::string path);
 public:

@@ -8,9 +8,9 @@
 #include "script/script.h"
 
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sReplicatedFirst = "ReplicatedFirst";
+const char* const ARL::sReplicatedFirst = "ReplicatedFirst";
 
 REFLECTION_BEGIN();
 static Reflection::BoundFuncDesc<ReplicatedFirst, void()> func_setLoadingFinished(&ReplicatedFirst::doRemoveDefaultLoadingGui, "RemoveDefaultLoadingScreen", Security::None);
@@ -51,7 +51,7 @@ void ReplicatedFirst::onServiceProvider(ServiceProvider* oldProvider, ServicePro
 void ReplicatedFirst::gameIsLoaded()
 {
 	// Play Solo should always just start replicated first
-	if (RBX::Network::Players::frontendProcessing(this) && RBX::Network::Players::backendProcessing(this))
+	if (ARL::Network::Players::frontendProcessing(this) && ARL::Network::Players::backendProcessing(this))
 	{
 		setAllInstancesHaveReplicated();
 	}
@@ -70,7 +70,7 @@ void ReplicatedFirst::doRemoveDefaultLoadingGui()
 
 void ReplicatedFirst::setAllInstancesHaveReplicated()
 {
-	RBXASSERT(allInstancesHaveReplicated == false);
+	ARLASSERT(allInstancesHaveReplicated == false);
 
 	allInstancesHaveReplicated = true;
 
@@ -118,25 +118,25 @@ void ReplicatedFirst::startLocalScripts()
 bool ReplicatedFirst::scriptShouldRun(BaseScript* script)
 {	
 	bool isAncestor = isAncestorOf(script);
-	RBXASSERT(isAncestor);
+	ARLASSERT(isAncestor);
 
 	if(!isAncestor)
 	{
 		return false;
 	}
 
-	if (RBX::Network::Players::frontendProcessing(script) && RBX::Network::Players::backendProcessing(script))
+	if (ARL::Network::Players::frontendProcessing(script) && ARL::Network::Players::backendProcessing(script))
 	{
 		// in play solo, this is a valid configuration, do nothing
 	}
 	else
 	{
-		if (!RBX::Network::Players::frontendProcessing(script))
+		if (!ARL::Network::Players::frontendProcessing(script))
 		{
 			return false;
 		}
 
-		if (RBX::Network::Players::backendProcessing(script))
+		if (ARL::Network::Players::backendProcessing(script))
 		{
 			return false;
 		}

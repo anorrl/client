@@ -12,7 +12,7 @@
 #include "V8Tree/Service.h"
 #include "V8DataModel/UserInputService.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sAdService;
 	class AdService

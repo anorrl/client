@@ -9,16 +9,16 @@
 #include "util/UserInputBase.h"
 #include "G3D/Quat.h"
 
-namespace RBX {
+namespace ARL {
 
     REFLECTION_BEGIN();
-	static Reflection::BoundFuncDesc<VirtualUser, void(RBX::Vector2, RBX::CoordinateFrame)> func_ClickButton1(&VirtualUser::clickButton1, "ClickButton1", "position", "camera", RBX::CoordinateFrame(), Security::TestLocalUser);
-	static Reflection::BoundFuncDesc<VirtualUser, void(RBX::Vector2, RBX::CoordinateFrame)> func_Button1Down(&VirtualUser::button1Down, "Button1Down", "position", "camera", RBX::CoordinateFrame(), Security::TestLocalUser);
-	static Reflection::BoundFuncDesc<VirtualUser, void(RBX::Vector2, RBX::CoordinateFrame)> func_Button1Up(&VirtualUser::button1Up, "Button1Up", "position", "camera", RBX::CoordinateFrame(), Security::TestLocalUser);
-	static Reflection::BoundFuncDesc<VirtualUser, void(RBX::Vector2, RBX::CoordinateFrame)> func_ClickButton2(&VirtualUser::clickButton2, "ClickButton2", "position", "camera", RBX::CoordinateFrame(), Security::TestLocalUser);
-	static Reflection::BoundFuncDesc<VirtualUser, void(RBX::Vector2, RBX::CoordinateFrame)> func_Button2Down(&VirtualUser::button2Down, "Button2Down", "position", "camera", RBX::CoordinateFrame(), Security::TestLocalUser);
-	static Reflection::BoundFuncDesc<VirtualUser, void(RBX::Vector2, RBX::CoordinateFrame)> func_Button2Up(&VirtualUser::button2Up, "Button2Up", "position", "camera", RBX::CoordinateFrame(), Security::TestLocalUser);
-	static Reflection::BoundFuncDesc<VirtualUser, void(RBX::Vector2, RBX::CoordinateFrame)> func_MoveMouse(&VirtualUser::moveMouse, "MoveMouse", "position", "camera", RBX::CoordinateFrame(), Security::TestLocalUser);
+	static Reflection::BoundFuncDesc<VirtualUser, void(ARL::Vector2, ARL::CoordinateFrame)> func_ClickButton1(&VirtualUser::clickButton1, "ClickButton1", "position", "camera", ARL::CoordinateFrame(), Security::TestLocalUser);
+	static Reflection::BoundFuncDesc<VirtualUser, void(ARL::Vector2, ARL::CoordinateFrame)> func_Button1Down(&VirtualUser::button1Down, "Button1Down", "position", "camera", ARL::CoordinateFrame(), Security::TestLocalUser);
+	static Reflection::BoundFuncDesc<VirtualUser, void(ARL::Vector2, ARL::CoordinateFrame)> func_Button1Up(&VirtualUser::button1Up, "Button1Up", "position", "camera", ARL::CoordinateFrame(), Security::TestLocalUser);
+	static Reflection::BoundFuncDesc<VirtualUser, void(ARL::Vector2, ARL::CoordinateFrame)> func_ClickButton2(&VirtualUser::clickButton2, "ClickButton2", "position", "camera", ARL::CoordinateFrame(), Security::TestLocalUser);
+	static Reflection::BoundFuncDesc<VirtualUser, void(ARL::Vector2, ARL::CoordinateFrame)> func_Button2Down(&VirtualUser::button2Down, "Button2Down", "position", "camera", ARL::CoordinateFrame(), Security::TestLocalUser);
+	static Reflection::BoundFuncDesc<VirtualUser, void(ARL::Vector2, ARL::CoordinateFrame)> func_Button2Up(&VirtualUser::button2Up, "Button2Up", "position", "camera", ARL::CoordinateFrame(), Security::TestLocalUser);
+	static Reflection::BoundFuncDesc<VirtualUser, void(ARL::Vector2, ARL::CoordinateFrame)> func_MoveMouse(&VirtualUser::moveMouse, "MoveMouse", "position", "camera", ARL::CoordinateFrame(), Security::TestLocalUser);
 
 	static Reflection::BoundFuncDesc<VirtualUser, void()> func_StartRecording(&VirtualUser::startRecording, "StartRecording", Security::TestLocalUser);
 	static Reflection::BoundFuncDesc<VirtualUser, std::string()> func_StopRecording(&VirtualUser::stopRecording, "StopRecording", Security::TestLocalUser);
@@ -61,7 +61,7 @@ namespace RBX {
 		{
 			return keyDownStates[code];
 		}
-        virtual void setKeyState(RBX::KeyCode code, RBX::ModCode modCode, char modifiedKey, bool isDown)
+        virtual void setKeyState(ARL::KeyCode code, ARL::ModCode modCode, char modifiedKey, bool isDown)
         {
 			if (code<0)
 				return;
@@ -110,7 +110,7 @@ namespace RBX {
 		service->setHardwareDevice(virtualHardwareDevice.get());
 	}
 
-	void VirtualUser::sendMouseEvent(InputObject::UserInputType eventType, InputObject::UserInputState eventState, RBX::Vector2 position, RBX::CoordinateFrame camera)
+	void VirtualUser::sendMouseEvent(InputObject::UserInputType eventType, InputObject::UserInputState eventState, ARL::Vector2 position, ARL::CoordinateFrame camera)
 	{
 		captureInputDevice();
 
@@ -123,16 +123,16 @@ namespace RBX {
 
 		Vector2int16 mousePosition((short)position.x, (short)position.y);
 
-		if (RBX::DataModel* dataModel = RBX::DataModel::get(this))
+		if (ARL::DataModel* dataModel = ARL::DataModel::get(this))
 		{
 			dataModel->getWorkspace()->getCamera()->setViewport(Vector2int16(VirtualHardwareDevice::screenWidth, VirtualHardwareDevice::screenHeight));
 		}
-		const shared_ptr<InputObject>& downEvent = Creatable<Instance>::create<InputObject>(eventType, eventState, Vector3(mousePosition,0), Vector3::zero(), RBX::DataModel::get(this));
+		const shared_ptr<InputObject>& downEvent = Creatable<Instance>::create<InputObject>(eventType, eventState, Vector3(mousePosition,0), Vector3::zero(), ARL::DataModel::get(this));
 
 		Camera* c = getDataModel()->getWorkspace()->getCamera();
 		if (c && camera != CoordinateFrame())
 		{
-			//RBX::CoordinateFrame oldCamera = c->getCameraCoordinateFrame();
+			//ARL::CoordinateFrame oldCamera = c->getCameraCoordinateFrame();
 			c->setCameraCoordinateFrame(camera);
 			getDataModel()->processInputObject(downEvent);
 			//c->setCameraCoordinateFrame(oldCamera);
@@ -141,35 +141,35 @@ namespace RBX {
 			getDataModel()->processInputObject(downEvent);
 	}
 
-	void VirtualUser::moveMouse(RBX::Vector2 position, RBX::CoordinateFrame camera)
+	void VirtualUser::moveMouse(ARL::Vector2 position, ARL::CoordinateFrame camera)
 	{
 		sendMouseEvent(InputObject::TYPE_MOUSEMOVEMENT, InputObject::INPUT_STATE_CHANGE, position, camera);
 	}
 
-	void VirtualUser::clickButton1(RBX::Vector2 position, RBX::CoordinateFrame camera)
+	void VirtualUser::clickButton1(ARL::Vector2 position, ARL::CoordinateFrame camera)
 	{
 		button1Down(position, camera);
 		button1Up(position, camera);
 	}
-	void VirtualUser::button1Down(RBX::Vector2 position, RBX::CoordinateFrame camera)
+	void VirtualUser::button1Down(ARL::Vector2 position, ARL::CoordinateFrame camera)
 	{
 		sendMouseEvent(InputObject::TYPE_MOUSEBUTTON1, InputObject::INPUT_STATE_BEGIN, position, camera);
 	}
-	void VirtualUser::button1Up(RBX::Vector2 position, RBX::CoordinateFrame camera)
+	void VirtualUser::button1Up(ARL::Vector2 position, ARL::CoordinateFrame camera)
 	{
 		sendMouseEvent(InputObject::TYPE_MOUSEBUTTON1, InputObject::INPUT_STATE_END, position, camera);
 	}
 
-	void VirtualUser::clickButton2(RBX::Vector2 position, RBX::CoordinateFrame camera)
+	void VirtualUser::clickButton2(ARL::Vector2 position, ARL::CoordinateFrame camera)
 	{
 		button2Down(position, camera);
 		button2Up(position, camera);
 	}
-	void VirtualUser::button2Down(RBX::Vector2 position, RBX::CoordinateFrame camera)
+	void VirtualUser::button2Down(ARL::Vector2 position, ARL::CoordinateFrame camera)
 	{
 		sendMouseEvent(InputObject::TYPE_MOUSEBUTTON2, InputObject::INPUT_STATE_BEGIN, position, camera);
 	}
-	void VirtualUser::button2Up(RBX::Vector2 position, RBX::CoordinateFrame camera)
+	void VirtualUser::button2Up(ARL::Vector2 position, ARL::CoordinateFrame camera)
 	{
 		sendMouseEvent(InputObject::TYPE_MOUSEBUTTON2, InputObject::INPUT_STATE_END, position, camera);
 	}
@@ -185,7 +185,7 @@ namespace RBX {
 			return (KeyCode) strtol(key.c_str(), NULL, 0);
 
 		if (key.length()!=1)
-			throw RBX::runtime_error("Unsupported key %s", key.c_str());
+			throw ARL::runtime_error("Unsupported key %s", key.c_str());
 
 		KeyCode keyCode = (KeyCode) key[0];
 		return keyCode;
@@ -200,9 +200,9 @@ namespace RBX {
 		if (virtualHardwareDevice->keyDown(keyCode))
 			return;
 
-        virtualHardwareDevice->setKeyState(keyCode, RBX::KMOD_NONE, 0, true);
+        virtualHardwareDevice->setKeyState(keyCode, ARL::KMOD_NONE, 0, true);
 
-		const shared_ptr<InputObject>& downEvent = Creatable<Instance>::create<InputObject>(InputObject::TYPE_KEYBOARD, InputObject::INPUT_STATE_BEGIN, keyCode, (ModCode)0, (char)0, RBX::DataModel::get(this));
+		const shared_ptr<InputObject>& downEvent = Creatable<Instance>::create<InputObject>(InputObject::TYPE_KEYBOARD, InputObject::INPUT_STATE_BEGIN, keyCode, (ModCode)0, (char)0, ARL::DataModel::get(this));
 		getDataModel()->processInputObject(downEvent);
 	}
 
@@ -215,9 +215,9 @@ namespace RBX {
 		if (!virtualHardwareDevice->keyDown(keyCode))
 			return;
 
-        virtualHardwareDevice->setKeyState(keyCode, RBX::KMOD_NONE, 0, false);
+        virtualHardwareDevice->setKeyState(keyCode, ARL::KMOD_NONE, 0, false);
 
-		const shared_ptr<InputObject>& upEvent = Creatable<Instance>::create<InputObject>(InputObject::TYPE_KEYBOARD, InputObject::INPUT_STATE_END, keyCode, (ModCode)0,(char)0, RBX::DataModel::get(this));
+		const shared_ptr<InputObject>& upEvent = Creatable<Instance>::create<InputObject>(InputObject::TYPE_KEYBOARD, InputObject::INPUT_STATE_END, keyCode, (ModCode)0,(char)0, ARL::DataModel::get(this));
 		getDataModel()->processInputObject(upEvent);
 	}
 
@@ -241,7 +241,7 @@ namespace RBX {
 	}
 
 
-	static RBX::Vector2 toNormalized(Vector2int16 windowSize, const Vector2int16 mousePosition)
+	static ARL::Vector2 toNormalized(Vector2int16 windowSize, const Vector2int16 mousePosition)
 	{
 		Vector2 position;
 
@@ -261,7 +261,7 @@ namespace RBX {
 	void VirtualUser::writeKey(const char* func, const shared_ptr<InputObject>& event)
 	{
 		writeWait();
-		recording << "virtualUser:" << func << "('" << RBX::format("0x%02x", event->getKeyCode()) << "')";
+		recording << "virtualUser:" << func << "('" << ARL::format("0x%02x", event->getKeyCode()) << "')";
 		if (event->isTextCharacterKey())
 			recording << " -- " << event->modifiedKey;
 		recording << '\n';
@@ -291,7 +291,7 @@ namespace RBX {
 		switch (event->getUserInputType())
 		{
 		case InputObject::TYPE_KEYBOARD:
-			RBXASSERT(event->isKeyDownEvent() || event->isKeyUpEvent());
+			ARLASSERT(event->isKeyDownEvent() || event->isKeyUpEvent());
 
 			if (event->isKeyDownEvent())
 				writeKey("SetKeyDown", event);
@@ -299,7 +299,7 @@ namespace RBX {
 				writeKey("SetKeUp", event);
 			break;
 		case InputObject::TYPE_MOUSEBUTTON1:
-			RBXASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
+			ARLASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
 
 			if (event->isLeftMouseDownEvent())
 				writeMouse("Button1Down", event);
@@ -322,4 +322,4 @@ namespace RBX {
 	}
 
 
-} // namespace RBX
+} // namespace ARL

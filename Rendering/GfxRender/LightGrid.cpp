@@ -28,7 +28,7 @@
 #include "TargetConditionals.h"
 #endif
 
-#if (defined(RBX_PLATFORM_IOS) && !TARGET_IPHONE_SIMULATOR) || defined(__ANDROID__)
+#if (defined(ARL_PLATFORM_IOS) && !TARGET_IPHONE_SIMULATOR) || defined(__ANDROID__)
 #include <arm_neon.h>
 #endif
 
@@ -38,11 +38,11 @@ LOGVARIABLE(RenderLightGridAgeProportion, 5)
 LOGVARIABLE(RenderLightGridBorderGlobalCutoff, 32)
 LOGVARIABLE(RenderLightGridBorderSkylightCutoff, 32)
 
-#if defined(_WIN32) || (defined(__APPLE__) && !defined(RBX_PLATFORM_IOS))
+#if defined(_WIN32) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS))
 #define SIMD_SSE2
 #endif
 
-#if (defined(RBX_PLATFORM_IOS) && !TARGET_IPHONE_SIMULATOR) || defined(__ANDROID__)
+#if (defined(ARL_PLATFORM_IOS) && !TARGET_IPHONE_SIMULATOR) || defined(__ANDROID__)
 #define SIMD_NEON
 #endif
 
@@ -57,7 +57,7 @@ LOGVARIABLE(RenderLightGridBorderSkylightCutoff, 32)
 #define SIMDCALLSSE(func, args) func args
 #endif
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -331,7 +331,7 @@ LightGridChunk* LightGrid::getChunkByLocalIndex(const Vector3int32& index)
 {
     unsigned int offset = getArrayOffset(index, chunkCount);
     
-    RBXASSERT(offset < chunks.size());
+    ARLASSERT(offset < chunks.size());
     return chunks[offset];
 }
 
@@ -345,7 +345,7 @@ bool LightGrid::isChunkInsideGridLocal(const Vector3int32& index)
 
 LightGrid* LightGrid::create(VisualEngine* visualEngine, const Vector3int32& chunkCount, TextureMode textureMode)
 {
-    RBXASSERT(chunkCount.x > 0 && chunkCount.y > 0 && chunkCount.z > 0);
+    ARLASSERT(chunkCount.x > 0 && chunkCount.y > 0 && chunkCount.z > 0);
     
     if (textureMode != Texture_None)
     {
@@ -363,7 +363,7 @@ LightGrid* LightGrid::create(VisualEngine* visualEngine, const Vector3int32& chu
             int gridDepthSqrt = isqrt(gridDepth);
 
             // The wrapping code only works with depth that is a square for now
-            RBXASSERT(gridDepthSqrt * gridDepthSqrt == gridDepth);
+            ARLASSERT(gridDepthSqrt * gridDepthSqrt == gridDepth);
 
             texture = visualEngine->getDevice()->createTexture(Texture::Type_2D, Texture::Format_RGBA8,
                 chunkCount.x * kLightGridChunkSizeXZ * gridDepthSqrt, chunkCount.z * kLightGridChunkSizeXZ * gridDepthSqrt, 1, 1, Texture::Usage_Dynamic);
@@ -500,34 +500,34 @@ bool LightGrid::getNonFixedPartsEnabled() const
     return voxelizer.getNonFixedPartsEnabled();
 }
     
-inline bool isPartFixed(RBX::PartInstance* part)
+inline bool isPartFixed(ARL::PartInstance* part)
 {
     return part->getPartPrimitive()->getAnchoredProperty() || part->getPartPrimitive()->computeIsGrounded();
 }
 
 void LightGrid::occupancyUpdateChunkPrepare(Voxel::OccupancyChunk& chunk, MegaClusterInstance* terrain, ContactManager* contactManager, std::vector< DataModelPartCache >& partCache)
 {
-	RBXPROFILER_SCOPE("Render", "occupancyUpdateChunkPrepare");
+	ARLPROFILER_SCOPE("Render", "occupancyUpdateChunkPrepare");
 
     size_t partCacheOffset = partCache.size();
 
     voxelizer.occupancyUpdateChunkPrepare(chunk, terrain, contactManager, partCache);
 
-    RBXPROFILER_LABELF("Render", "Primitives: %d", int(partCache.size() - partCacheOffset));
+    ARLPROFILER_LABELF("Render", "Primitives: %d", int(partCache.size() - partCacheOffset));
 }
 
 void LightGrid::occupancyUpdateChunkPerform(const std::vector< DataModelPartCache >& partCache)
 {
-	RBXPROFILER_SCOPE("Render", "occupancyUpdateChunkPerform");
+	ARLPROFILER_SCOPE("Render", "occupancyUpdateChunkPerform");
 
     voxelizer.occupancyUpdateChunkPerform(partCache);
 
-    RBXPROFILER_LABELF("Render", "Primitives: %d", int(partCache.size()));
+    ARLPROFILER_LABELF("Render", "Primitives: %d", int(partCache.size()));
 }
 
 void LightGrid::lightingUpdateChunkLocal(LightGridChunk& chunk, SpatialHashedScene* spatialHashedScene)
 {
-	RBXPROFILER_SCOPE("Render", "lightingUpdateChunkLocal");
+	ARLPROFILER_SCOPE("Render", "lightingUpdateChunkLocal");
 
     Extents chunkExtents = chunk.getChunkExtents();
 
@@ -559,7 +559,7 @@ void LightGrid::lightingUpdateChunkLocal(LightGridChunk& chunk, SpatialHashedSce
 
 void LightGrid::lightingUpdateChunkGlobal(LightGridChunk& chunk)
 {
-	RBXPROFILER_SCOPE("Render", "lightingUpdateChunkGlobal");
+	ARLPROFILER_SCOPE("Render", "lightingUpdateChunkGlobal");
     
     if (lightShadows)
     {
@@ -573,7 +573,7 @@ void LightGrid::lightingUpdateChunkGlobal(LightGridChunk& chunk)
 
 void LightGrid::lightingUpdateChunkSkylight(LightGridChunk& chunk)
 {
-	RBXPROFILER_SCOPE("Render", "lightingUpdateChunkSkylight");
+	ARLPROFILER_SCOPE("Render", "lightingUpdateChunkSkylight");
     
     if (lightShadows)
     {
@@ -587,7 +587,7 @@ void LightGrid::lightingUpdateChunkSkylight(LightGridChunk& chunk)
 
 void LightGrid::lightingUpdateChunkAverage(LightGridChunk& chunk)
 {
-	RBXPROFILER_SCOPE("Render", "lightingUpdateChunkAverage");
+	ARLPROFILER_SCOPE("Render", "lightingUpdateChunkAverage");
     
     SIMDCALL(lightingUpdateAverageImpl, (chunk));
 }
@@ -602,7 +602,7 @@ void LightGrid::invalidateAll(unsigned int status)
     }
 }
 
-void LightGrid::invalidateExtents(const RBX::Extents& extents, unsigned int status)
+void LightGrid::invalidateExtents(const ARL::Extents& extents, unsigned int status)
 {
     Vector3int32 chunkMin = getChunkIndexForPoint(extents.min()).max(cornerChunkIndex);
     Vector3int32 chunkMax = getChunkIndexForPoint(extents.max()).min(cornerChunkIndex + chunkCount - Vector3int32(1, 1, 1));
@@ -614,7 +614,7 @@ void LightGrid::invalidateExtents(const RBX::Extents& extents, unsigned int stat
                 FASTLOG4(FLog::RenderLightGrid, "LightGrid: Marking chunk %dx%dx%d as dirty (%d)", x, y, z, status);
                 
                 LightGridChunk* chunk = getChunkByIndex(Vector3int32(x, y, z));
-                RBXASSERT(chunk);
+                ARLASSERT(chunk);
 
                 chunk->dirty |= (status & ~chunk->neverDirty);
             }
@@ -650,7 +650,7 @@ bool LightGrid::updateGridCenter(const Vector3& cameraTarget, bool skipChunkUpda
     
     // Figure out the new location from the chunk that's nearest to the camera
     Vector3int32 newCorner = getChunkIndexFromGridPosition(cameraPos + chunkCenterLocal) - gridCenterLocal;
-    RBXASSERT(newCorner != cornerChunkIndex);
+    ARLASSERT(newCorner != cornerChunkIndex);
     
     relocateGrid(newCorner, skipChunkUpdate);
 
@@ -739,7 +739,7 @@ void LightGrid::updateBorderColor(const Vector3& cameraTarget, const Frustum& ca
 
 Color4uint8 LightGrid::computeAverageColor(const Vector3& focusPoint)
 {
-	RBXPROFILER_SCOPE("Render", "computeAverageColor");
+	ARLPROFILER_SCOPE("Render", "computeAverageColor");
     
     Vector3int32 cellPos = getGridPosition(focusPoint);
 
@@ -846,8 +846,8 @@ void LightGrid::stepCursor(Vector3int32& cursor)
         }
     }
 
-    RBXASSERT(cursor.max(chunkCount) == chunkCount);
-    RBXASSERT(cursor.min(Vector3int32(0,0,0)) == Vector3int32(0,0,0));
+    ARLASSERT(cursor.max(chunkCount) == chunkCount);
+    ARLASSERT(cursor.min(Vector3int32(0,0,0)) == Vector3int32(0,0,0));
 }
 
 LightGridChunk* LightGrid::findDirtyChunk()
@@ -964,7 +964,7 @@ template <bool NegX, bool NegZ> void LightGrid::lightingUpdateDirectionalImpl(Li
 {
 #define IRRADIANCE(x, y, z) irradianceScratch[(y)+1][(z)+1][(x)+1]
 
-    RBXASSERT(lightContrib.x + lightContrib.y + lightContrib.z == 256);
+    ARLASSERT(lightContrib.x + lightContrib.y + lightContrib.z == 256);
     
     int stepX = NegX ? 1 : -1;
     int stepY = 1;
@@ -1546,7 +1546,7 @@ void LightGrid::lightingUpdateSkylightRowSIMD(LightGridChunk& chunk, int y, int 
 
 void LightGrid::lightingGetLights(std::vector<LightObject*>& lights, const Extents& chunkExtents, SpatialHashedScene* spatialHashedScene)
 {
-	RBXPROFILER_SCOPE("Render", "lightingGetLights");
+	ARLPROFILER_SCOPE("Render", "lightingGetLights");
 
     std::vector<CullableSceneNode*> nodes;
     spatialHashedScene->queryExtents(nodes, chunkExtents, CullableSceneNode::Flags_LightObject);
@@ -1565,7 +1565,7 @@ void LightGrid::lightingGetLights(std::vector<LightObject*>& lights, const Exten
 
 void LightGrid::lightingUpdateLightScratch(const LightGridChunk& chunk, const Extents& chunkExtents, LightObject* lobj)
 {
-	RBXPROFILER_SCOPE("Render", "lightingUpdateLightScratch");
+	ARLPROFILER_SCOPE("Render", "lightingUpdateLightScratch");
 
     // Convert light data into chunk-local space
     Vector3 position = (lobj->getPosition() - chunkExtents.min()) / 4.f;
@@ -1614,13 +1614,13 @@ void LightGrid::lightingUpdateLightScratch(const LightGridChunk& chunk, const Ex
     }
     else
     {
-        RBXASSERT(false);
+        ARLASSERT(false);
     }
 }
 
 void LightGrid::lightingComputeShadowMask(const LightGridChunk& chunk, const Vector3int32& extentsMin, const Vector3int32& extentsMax, const Vector3& lightPosition, LightShadowMap& shadowMap)
 {
-	RBXPROFILER_SCOPE("Render", "lightingComputeShadowMask");
+	ARLPROFILER_SCOPE("Render", "lightingComputeShadowMask");
     
     Vector3int32 lightCell = fastFloorInt32(lightPosition);
     Vector3int32 extentsMinChunk = (extentsMin - Vector3int32(1, 1, 1)).max(Vector3int32(0, 0, 0));
@@ -1730,7 +1730,7 @@ template <int Axis> void LightGrid::lightingTransferShadowSliceToShadowMask(cons
         int axisOffset = (lightCell[Axis] < 0 ? -1 : kLightGridChunkSize[Axis]);
 
         // Shadow map is odd and symmetric around light center; makes math easier
-        RBXASSERT(shadowMapSize % 2 == 1);
+        ARLASSERT(shadowMapSize % 2 == 1);
 
         // Get shadow region offsets (relative to array start, not light center)
         int shadowOffsetU = lightCell[PlaneU] - shadowMapSize / 2;
@@ -1772,7 +1772,7 @@ template <int Axis> void LightGrid::lightingTransferShadowMaskToShadowSlice(cons
     bool intersectsMax = extentsMax[Axis] == kLightGridChunkSize[Axis] - 1 && lightCell[Axis] < kLightGridChunkSize[Axis];
 
     // If there is just one shadowmap slice, there should be at most one intersection
-    RBXASSERT(!(&shadowSlice0 == &shadowSlice1 && intersectsMin && intersectsMax));
+    ARLASSERT(!(&shadowSlice0 == &shadowSlice1 && intersectsMin && intersectsMax));
 
     for (int slice = 0; slice < 2; ++slice)
     {
@@ -1784,7 +1784,7 @@ template <int Axis> void LightGrid::lightingTransferShadowMaskToShadowSlice(cons
             int axisOffset = (slice == 0) ? 0 : kLightGridChunkSize[Axis]-1;
 
             // Shadow map is odd and symmetric around light center; makes math easier
-            RBXASSERT(shadowMapSize % 2 == 1);
+            ARLASSERT(shadowMapSize % 2 == 1);
 
             // Get shadow region offsets (relative to array start, not light center)
             int shadowOffsetU = lightCell[PlaneU] - shadowMapSize / 2;
@@ -1894,8 +1894,8 @@ template <bool NegX, bool NegY, bool NegZ> void LightGrid::lightingComputeShadow
     int stepZ = NegZ ? 1 : -1;
 
     // Verify that all accesses in the loops don't go out of chunk bounds
-    RBXASSERT(extentsMin.x >= 0 && extentsMin.y >= 0 && extentsMin.z >= 0);
-    RBXASSERT(extentsMax.x < kLightGridChunkSizeXZ && extentsMax.y < kLightGridChunkSizeY && extentsMax.z < kLightGridChunkSizeXZ);
+    ARLASSERT(extentsMin.x >= 0 && extentsMin.y >= 0 && extentsMin.z >= 0);
+    ARLASSERT(extentsMax.x < kLightGridChunkSizeXZ && extentsMax.y < kLightGridChunkSizeY && extentsMax.z < kLightGridChunkSizeXZ);
 
     // It's critical that we only use edge (xi/yi/zi == 0) values if the light source is outside the chunk
     int lutOffsetX = getLUTOffset(lightCell, 0);
@@ -1944,8 +1944,8 @@ template <bool NegX, bool NegY, bool NegZ> void LightGrid::lightingComputeShadow
     int stepZ = NegZ ? 1 : -1;
 
     // Verify that all accesses in the loops don't go out of chunk bounds
-    RBXASSERT(extentsMin.x >= 0 && extentsMin.y >= 0 && extentsMin.z >= 0);
-    RBXASSERT(extentsMax.x < kLightGridChunkSizeXZ && extentsMax.y < kLightGridChunkSizeY && extentsMax.z < kLightGridChunkSizeXZ);
+    ARLASSERT(extentsMin.x >= 0 && extentsMin.y >= 0 && extentsMin.z >= 0);
+    ARLASSERT(extentsMax.x < kLightGridChunkSizeXZ && extentsMax.y < kLightGridChunkSizeY && extentsMax.z < kLightGridChunkSizeXZ);
 
     // It's critical that we only use edge (xi/yi/zi == 0) values if the light source is outside the chunk
     int lutOffsetX = getLUTOffset(lightCell, 0);
@@ -2010,8 +2010,8 @@ template <bool NegX, bool NegY, bool NegZ> void LightGrid::lightingComputeShadow
     int stepZ = NegZ ? 1 : -1;
 
     // Verify that all accesses in the loops don't go out of chunk bounds
-    RBXASSERT(extentsMin.x >= 0 && extentsMin.y >= 0 && extentsMin.z >= 0);
-    RBXASSERT(extentsMax.x < kLightGridChunkSizeXZ && extentsMax.y < kLightGridChunkSizeY && extentsMax.z < kLightGridChunkSizeXZ);
+    ARLASSERT(extentsMin.x >= 0 && extentsMin.y >= 0 && extentsMin.z >= 0);
+    ARLASSERT(extentsMax.x < kLightGridChunkSizeXZ && extentsMax.y < kLightGridChunkSizeY && extentsMax.z < kLightGridChunkSizeXZ);
 
     // It's critical that we only use edge (xi/yi/zi == 0) values if the light source is outside the chunk
     int lutOffsetX = getLUTOffset(lightCell, 0);
@@ -3326,7 +3326,7 @@ void LightGrid::lightingClearGlobal(LightGridChunk& chunk)
 
 void LightGrid::lightingComposit(const LightGridChunk& chunk, unsigned char* data, unsigned int rowPitch, unsigned int slicePitch)
 {
-	RBXPROFILER_SCOPE("Render", "lightingComposit");
+	ARLPROFILER_SCOPE("Render", "lightingComposit");
 
     if (!lightShadows || (skyAmbient.r == 0 && skyAmbient.g == 0 && skyAmbient.b == 0))
     {
@@ -3544,7 +3544,7 @@ void LightGrid::lightingCompositImplSIMD(const LightGridChunk& chunk, unsigned c
 
 void LightGrid::lightingUploadChunk(LightGridChunk& chunk)
 {
-    RBXPROFILER_SCOPE("Render", "lightingUploadChunk");
+    ARLPROFILER_SCOPE("Render", "lightingUploadChunk");
     
     if (!texture) return;
     
@@ -3603,7 +3603,7 @@ void LightGrid::lightingUploadChunk(LightGridChunk& chunk)
 
 void LightGrid::lightingUploadCommit()
 {
-    RBXPROFILER_SCOPE("Render", "lightingUploadCommit");
+    ARLPROFILER_SCOPE("Render", "lightingUploadCommit");
     
     if (texture)
 		texture->commitChanges();
@@ -3647,7 +3647,7 @@ void LightGrid::lightingUploadAll()
             Vector3int32 wrappedIndex = ((chunk.index % chunkCount) + chunkCount) % chunkCount;
             Vector3int32 gridPos = wrappedIndex * kLightGridChunkSize;
             
-            RBXASSERT(locked.rowPitch >= kLightGridChunkSizeXZ * 4);
+            ARLASSERT(locked.rowPitch >= kLightGridChunkSizeXZ * 4);
             
             unsigned char* dataSlice = static_cast<unsigned char*>(locked.data) + locked.slicePitch * gridPos.y + locked.rowPitch * gridPos.z + gridPos.x * 4;
             
@@ -3665,7 +3665,7 @@ void LightGrid::lightingUploadAll()
 
 void LightGrid::relocateGrid(const Vector3int32& newCorner, bool skipChunkUpdate)
 {
-	RBXPROFILER_SCOPE("Render", "relocateGrid");
+	ARLPROFILER_SCOPE("Render", "relocateGrid");
     
     // Gather all chunks and clear out pointers to them (we'll fill them back)
     std::vector<LightGridChunk*> oldChunks = chunks;
@@ -3682,7 +3682,7 @@ void LightGrid::relocateGrid(const Vector3int32& newCorner, bool skipChunkUpdate
         {
             unsigned int offset = getArrayOffset(localIndex, chunkCount);
             
-            RBXASSERT(chunks[offset] == NULL);
+            ARLASSERT(chunks[offset] == NULL);
             chunks[offset] = oldChunks[i];
             
             // Fast remove from array
@@ -3706,7 +3706,7 @@ void LightGrid::relocateGrid(const Vector3int32& newCorner, bool skipChunkUpdate
                 
                 if (!chunks[offset])
                 {
-                    RBXASSERT(!oldChunks.empty());
+                    ARLASSERT(!oldChunks.empty());
                     
                     LightGridChunk* chunk = oldChunks.back();
                     oldChunks.pop_back();
@@ -3721,7 +3721,7 @@ void LightGrid::relocateGrid(const Vector3int32& newCorner, bool skipChunkUpdate
                 }
             }
     
-    RBXASSERT(oldChunks.empty());
+    ARLASSERT(oldChunks.empty());
 
     // Update grid corner index
     cornerChunkIndex = newCorner;

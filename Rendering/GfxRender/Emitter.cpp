@@ -36,7 +36,7 @@ static int gEmitterCount = 0;
 
 using G3D::clamp;
 
-namespace RBX{ namespace Graphics{
+namespace ARL{ namespace Graphics{
 
 typedef boost::int16_t  int16;
 typedef boost::uint8_t  uint8;
@@ -51,7 +51,7 @@ static const float kCutoffAlpha = 10/255.0f;
 static const float kAlphaBoost  = 0.6f;
 static const float kMaxLife = 20;
 
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
 static const int kMaxParticles = 14000/4;
 static const float kMaxThrottle = 0.7f;
 static const float kMaxEmissionRate = 100;
@@ -187,7 +187,7 @@ Emitter::Emitter(VisualEngine* ve, bool enableCurves_, const std::string& contex
 {
     
     Device* dev = ve->getDevice();
-    RBXASSERT(dev);
+    ARLASSERT(dev);
 
     sharedState = ve->getEmitterSharedState();
     sharedState->init(ve);
@@ -444,7 +444,7 @@ void Emitter::draw(RenderQueue& rq)
         *ptr++ = v;
     }
     
-    RBXASSERT((char*)sharedState->vblock <= (char*)sharedState->vbptr  &&  (char*)sharedState->vbptr <= (char*)sharedState->vbend);
+    ARLASSERT((char*)sharedState->vblock <= (char*)sharedState->vbptr  &&  (char*)sharedState->vbptr <= (char*)sharedState->vbend);
 
     teq->setConstant("throttleFactor", Vector4(kCutoffAlpha * (1-ptf), kAlphaBoost * (1-ptf), 0, blendRatio));
     teq->setConstant("modulateColor", lerp( modulateColor, modulateColor/emissionRateMul, brightenOnThrottle)  );
@@ -619,7 +619,7 @@ static BlendState createBlendState(Emitter::BlendMode blendMode)
             return BlendState(BlendState::Factor_SrcAlpha, BlendState::Factor_One, BlendState::Factor_InvDstAlpha, BlendState::Factor_One);
             break;
         default:
-            RBXASSERT(false); // did you add new mode?
+            ARLASSERT(false); // did you add new mode?
             return BlendState(BlendState::Mode_None);
         }
     }
@@ -646,7 +646,7 @@ static BlendState createBlendState(Emitter::BlendMode blendMode)
             return BlendState(BlendState::Factor_SrcAlpha, BlendState::Factor_One);
             break;
         default:
-            RBXASSERT(false); // did you add new mode?
+            ARLASSERT(false); // did you add new mode?
             return BlendState(BlendState::Mode_None);
         }
     }

@@ -6,10 +6,10 @@
 #include "GfxBase/IAdornable.h"
 #include "Util/NormalId.h"
 
-namespace RBX {
+namespace ARL {
 
     // This is not a streaming/replication safe option, do not enable!
-    // #define RBX_ATTACHMENT_LOCKING
+    // #define ARL_ATTACHMENT_LOCKING
 
 	extern const char *const sAttachment;
 	class Attachment
@@ -87,7 +87,7 @@ namespace RBX {
 
         virtual float intersectAdornWithRay( const RbxRay& r );
 
-#ifdef RBX_ATTACHMENT_LOCKING
+#ifdef ARL_ATTACHMENT_LOCKING
         // disabled because not streaming/replication safe
         static const Reflection::PropDescriptor<Attachment,	bool>  prop_Locked;
 #endif

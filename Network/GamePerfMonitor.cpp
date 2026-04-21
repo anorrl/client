@@ -10,7 +10,7 @@
 
 #include "Network/Players.h"
 
-using namespace RBX;
+using namespace ARL;
 
 
 FASTINTVARIABLE(GamePerfMonitorPercentage,2)

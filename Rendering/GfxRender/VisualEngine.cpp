@@ -43,7 +43,7 @@ FASTFLAG(UseDynamicTypesetterUTF8)
 
 FASTFLAG(CameraVR)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -90,7 +90,7 @@ VisualEngine::VisualEngine(Device* device, CRenderSettings* settings)
         : Vector3int32(4, 4, 4);
 
     LightGrid* lgrid = LightGrid::create(this, gridSize, gridTextureMode);
-    RBXASSERT(lgrid);
+    ARLASSERT(lgrid);
 
     lightGrid.reset(lgrid);
     
@@ -184,7 +184,7 @@ void VisualEngine::bindWorkspace(const shared_ptr<DataModel>& dm)
         meshContentProvider->setCacheSize(settings->getMeshCacheSize());
         ServiceProvider::create<SolidModelContentProvider>(dm.get());
 
-		RBXASSERT(!sceneUpdater);
+		ARLASSERT(!sceneUpdater);
 		sceneUpdater.reset(new SceneUpdater(dm, this));
 
 		adorn.reset(new AdornRender(this, dm.get()));

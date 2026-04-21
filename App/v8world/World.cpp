@@ -72,7 +72,7 @@ extern bool gUseTriangleNormalForConvexTriangle;
 extern bool gFixBulletGJKOptimization;
 extern bool gFixBulletGJKOptimization2;
 
-namespace RBX {
+namespace ARL {
 
 EThrottle::EThrottleType EThrottle::globalDebugEThrottle = EThrottle::ThrottleDefaultAuto;	// globalSwitch
 
@@ -226,7 +226,7 @@ World::World() :
 	groundPrimitive->setWorld(this);
 	cleanStage->onPrimitiveAdded(groundPrimitive);
 
-	std::vector<RBX::Profiling::CodeProfiler*> worldProfilers;
+	std::vector<ARL::Profiling::CodeProfiler*> worldProfilers;
 	loadProfilers(worldProfilers);
 
 	// set up collision world, collision configs, etc
@@ -254,13 +254,13 @@ World::World() :
 World::~World() 
 {
 	cleanStage->onPrimitiveRemoving(groundPrimitive);
-	RBXASSERT(groundPrimitive->getNumEdges() == 0);
+	ARLASSERT(groundPrimitive->getNumEdges() == 0);
 	groundPrimitive->setWorld(NULL);
 
-	RBXASSERT(numJoints == 0);
-	RBXASSERT(numContacts == 0);
-	RBXASSERT(primitives.size() == 0);
-	RBXASSERT(breakableJoints.empty());
+	ARLASSERT(numJoints == 0);
+	ARLASSERT(numContacts == 0);
+	ARLASSERT(primitives.size() == 0);
+	ARLASSERT(breakableJoints.empty());
 
 	delete groundPrimitive;
 	delete sendPhysics;
@@ -275,7 +275,7 @@ World::~World()
 }
 
 
-void World::loadProfilers(std::vector<RBX::Profiling::CodeProfiler*>& worldProfilers) const
+void World::loadProfilers(std::vector<ARL::Profiling::CodeProfiler*>& worldProfilers) const
 {
 	worldProfilers.push_back(profilingBreak.get());
 	worldProfilers.push_back(profilingAssembly.get());
@@ -435,7 +435,7 @@ void World::ticklePrimitive(Primitive* p, bool recursive)
 	if (!p) 
 		return;
 
-	RBXASSERT(p->getWorld());
+	ARLASSERT(p->getWorld());
 	Assembly* a = p->getAssembly();
 	if (a) {
 		getSleepStage()->onExternalTickleAssembly(a, recursive);
@@ -444,40 +444,40 @@ void World::ticklePrimitive(Primitive* p, bool recursive)
 
 Assembly* World::onPrimitiveEngineChanging(Primitive* p)
 {
-	RBXASSERT(p->getWorld());
-	RBXASSERT(p->getAssembly());
-	RBXASSERT(p->inPipeline());
-	RBXASSERT(!inStepCode);
+	ARLASSERT(p->getWorld());
+	ARLASSERT(p->getAssembly());
+	ARLASSERT(p->inPipeline());
+	ARLASSERT(!inStepCode);
 
 	return getAssemblyStage()->onEngineChanging(p);
 }
 
 void World::onPrimitiveEngineChanged(Assembly* changing)
 {
-	RBXASSERT(changing);
+	ARLASSERT(changing);
 	getAssemblyStage()->onEngineChanged(changing);
 }
 
 
 void World::onPrimitiveFixedChanging(Primitive* p)
 {
-	RBXASSERT(p->getWorld());
-	RBXASSERT(!inStepCode);
+	ARLASSERT(p->getWorld());
+	ARLASSERT(!inStepCode);
 	getGroundStage()->onPrimitiveFixedChanging(p);
 }	
 
 
 void World::onPrimitiveFixedChanged(Primitive* p)
 {
-	RBXASSERT(p->getWorld());
-	RBXASSERT(!inStepCode);
+	ARLASSERT(p->getWorld());
+	ARLASSERT(!inStepCode);
 	getGroundStage()->onPrimitiveFixedChanged(p);
 }	
 
 void World::onPrimitivePreventCollideChanged(Primitive* p)
 {
 	ticklePrimitive(p, false);
-	RBXASSERT(p->getWorld());
+	ARLASSERT(p->getWorld());
 	Contact* c = p->getFirstContact();
 	while (c) {
 		Primitive* other = c->otherPrimitive(p);
@@ -488,7 +488,7 @@ void World::onPrimitivePreventCollideChanged(Primitive* p)
 
 void World::onPrimitiveContactParametersChanged(Primitive* p)
 {
-	RBXASSERT(p->getWorld());
+	ARLASSERT(p->getWorld());
 	Contact* c = p->getFirstContact();
 	while (c) {
 		c->onPrimitiveContactParametersChanged();
@@ -498,8 +498,8 @@ void World::onPrimitiveContactParametersChanged(Primitive* p)
 
 void World::onPrimitiveExtentsChanged(Primitive* p)
 {
-	RBXASSERT(p->getWorld());
-	RBXASSERT(!inStepCode);
+	ARLASSERT(p->getWorld());
+	ARLASSERT(!inStepCode);
 	contactManager->onPrimitiveExtentsChanged(p);
 }
 
@@ -510,8 +510,8 @@ void World::onAssemblyInSimluationStage(Assembly* a)
 
 void World::onPrimitiveGeometryChanged(Primitive* p)
 {
-	RBXASSERT(p->getWorld());
-	RBXASSERT(!inStepCode);
+	ARLASSERT(p->getWorld());
+	ARLASSERT(!inStepCode);
 	contactManager->onPrimitiveGeometryChanged(p);
 }
 
@@ -533,7 +533,7 @@ void World::onJointPrimitiveSet(Joint* j, Primitive* p)
 
 void World::assemble()
 {
-    RBXPROFILER_SCOPE("Physics", "assemble");
+    ARLPROFILER_SCOPE("Physics", "assemble");
 
 	getTreeStage()->assemble();
 }
@@ -571,9 +571,9 @@ void notifyMovingPrimitives(const Set& assemblies)
 
 void World::notifyMovingAssemblies()
 {
-    RBXPROFILER_SCOPE("Physics", "notifyMovingAssemblies");
+    ARLPROFILER_SCOPE("Physics", "notifyMovingAssemblies");
 
-	RBX::Profiling::Mark mark(*profilingAssembly, false);
+	ARL::Profiling::Mark mark(*profilingAssembly, false);
 	//StandardOut::singleton()->printf(MESSAGE_INFO, "MovingDynamic %d, Humanoid %d, MovingGrounded %d", getSimulateStage()->getMovingDynamicAssembliesSize(), getHumanoidStage()->getMovingHumanoidAssemblies().size(), getMovingAssemblyStage()->getMovingGroundedAssembliesSize());
 	std::for_each(getSimulateStage()->getRealTimeAssembliesBegin(), getSimulateStage()->getRealtimeAssembliesEnd(), NotifyMovingRef);
 	std::for_each(getSimulateStage()->getMovingDynamicAssembliesBegin(), getSimulateStage()->getMovingDynamicAssembliesEnd(), NotifyMovingRef);
@@ -584,15 +584,15 @@ void World::notifyMovingAssemblies()
 
 void World::uiStep(bool longStep, double distributedGameTime)
 {
-	RBXPROFILER_SCOPE("Physics", "uiStep");
+	ARLPROFILER_SCOPE("Physics", "uiStep");
 
-	RBXASSERT(isAssembled());				// testing - assemble in 
+	ARLASSERT(isAssembled());				// testing - assemble in 
 
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 
 	if (longStep)
 	{
-		RBX::Profiling::Mark mark(*profilingBreak, false);
+		ARL::Profiling::Mark mark(*profilingBreak, false);
 		doBreakJoints();		// out of step code here
 	}
 
@@ -600,33 +600,33 @@ void World::uiStep(bool longStep, double distributedGameTime)
 
 	if (longStep)
 	{
-		RBX::Profiling::Mark mark(*profilingAssembly, false);
+		ARL::Profiling::Mark mark(*profilingAssembly, false);
 		assemble();
 	}
 
 	{
-		RBX::Profiling::Mark mark(*profilingFilter, false);
+		ARL::Profiling::Mark mark(*profilingFilter, false);
 		getSpatialFilter()->filterStep();
 	}
 
 	{
-		RBX::Profiling::Mark mark(*profilingUiStep, false);
+		ARL::Profiling::Mark mark(*profilingUiStep, false);
 		getMovingAssemblyStage()->jointsStepUi(distributedGameTime);												// update joints
 	}
 
     inStepCode = false;
-	RBXASSERT(isAssembled());
+	ARLASSERT(isAssembled());
 }
 
 
 // 240 Hz
 void World::doWorldStep(bool throttling, int uiStepId, int numThreads, boost::uint64_t debugTime)
 {
-	RBXPROFILER_SCOPE("Physics", "doWorldStep");
+	ARLPROFILER_SCOPE("Physics", "doWorldStep");
 
 	inStepCode = true;
 
-	RBXASSERT(isAssembled());																// Assembly - Tree Stage
+	ARLASSERT(isAssembled());																// Assembly - Tree Stage
 
     if( FFlag::PhysicsAnalyzerEnabled && getKernel()->getUsingPGSSolver() )
     {
@@ -651,9 +651,9 @@ void World::doWorldStep(bool throttling, int uiStepId, int numThreads, boost::ui
 	inStepCode = false;
 	
 	{
-        RBXPROFILER_SCOPE("Physics", "updateBroadphase");
+        ARLPROFILER_SCOPE("Physics", "updateBroadphase");
 
-		RBX::Profiling::Mark mark(*contactManager->profilingBroadphase, false);
+		ARL::Profiling::Mark mark(*contactManager->profilingBroadphase, false);
 		std::for_each(
 			getSimulateStage()->getRealTimeAssembliesBegin(), 
 			getSimulateStage()->getRealtimeAssembliesEnd(),
@@ -668,7 +668,7 @@ void World::doWorldStep(bool throttling, int uiStepId, int numThreads, boost::ui
 		}
 	}
 
-	RBXASSERT(isAssembled());																// Assembly - Tree Stage
+	ARLASSERT(isAssembled());																// Assembly - Tree Stage
 }
 
 int World::getUiStepId()
@@ -765,8 +765,8 @@ int World::updateStepsRequiredForCyclicExecutive(float desiredInterval)
 
 float World::step(bool longStep, double distributedGameTime, float desiredInterval, int numThreads) 
 {
-	RBXASSERT(!inStepCode);
-	RBXASSERT(isAssembled());				// testing - assemble in 
+	ARLASSERT(!inStepCode);
+	ARLASSERT(isAssembled());				// testing - assemble in 
 
 
 	// Update bullet Extern Globals with Dynamic FastInts
@@ -780,16 +780,16 @@ float World::step(bool longStep, double distributedGameTime, float desiredInterv
 // On Mac there is nothing equivalent of _CrtCheckMemory to validate the state of the heap
 // Instead use this on XCode http://developer.apple.com/library/ios/#documentation/Performance/Conceptual/ManagingMemory/Articles/MallocDebug.html
 #ifdef _WIN32
-	RBXASSERT_IF_VALIDATING(_CrtCheckMemory() != 0);
+	ARLASSERT_IF_VALIDATING(_CrtCheckMemory() != 0);
 #endif
 
-//	RBXASSERT(desiredInterval > 0.01);	// less than 100 FPS
-//	RBXASSERT(desiredInterval < 0.10); // more than 10 FPS
-//	RBXASSERT((worldStepId % Constants::worldStepsPerUiStep()) == 0);
+//	ARLASSERT(desiredInterval > 0.01);	// less than 100 FPS
+//	ARLASSERT(desiredInterval < 0.10); // more than 10 FPS
+//	ARLASSERT((worldStepId % Constants::worldStepsPerUiStep()) == 0);
 
-	RBX::Profiling::Mark mark(*profilingWorldStep, true, true);
+	ARL::Profiling::Mark mark(*profilingWorldStep, true, true);
 
-	if( !RBX::TaskScheduler::singleton().isCyclicExecutive() )
+	if( !ARL::TaskScheduler::singleton().isCyclicExecutive() )
 	{
 		worldSteps = std::max(1, Math::iFloor(desiredInterval * Constants::worldStepsPerSec()));
 	}
@@ -800,9 +800,9 @@ float World::step(bool longStep, double distributedGameTime, float desiredInterv
 	{
 		for (std::set<Assembly*>::iterator i = getMovingAssemblyStage()->getMovingGroundedAssembliesBegin(); i != getMovingAssemblyStage()->getMovingGroundedAssembliesEnd(); i++)
 		{
-			RBX::Profiling::Mark mark(*contactManager->profilingBroadphase, false);
-			RBXASSERT(!((*i)->SimulateStageHook::is_linked()));
-			RBXASSERT((*i)->getCurrentStage()->getStageType() != IStage::HUMANOID_STAGE);
+			ARL::Profiling::Mark mark(*contactManager->profilingBroadphase, false);
+			ARLASSERT(!((*i)->SimulateStageHook::is_linked()));
+			ARLASSERT((*i)->getCurrentStage()->getStageType() != IStage::HUMANOID_STAGE);
 			contactManager->onAssemblyMovedFromStep(**i);
 		}
 	}
@@ -836,7 +836,7 @@ float World::step(bool longStep, double distributedGameTime, float desiredInterv
 
 
 #ifdef _WIN32
-	RBXASSERT_IF_VALIDATING(_CrtCheckMemory() != 0);
+	ARLASSERT_IF_VALIDATING(_CrtCheckMemory() != 0);
 #endif
 
 	return worldSteps * Constants::worldDt();
@@ -866,10 +866,10 @@ void AppendFallen(Primitive* p, G3D::Array<Primitive*>* fallen)
 
 void World::computeFallen(G3D::Array<Primitive*>& fallen) const
 {
-	RBXASSERT(fallen.size() == 0);
+	ARLASSERT(fallen.size() == 0);
 
 	const SleepStage* sleepStage = getSleepStage();
-	RBXASSERT(sleepStage);
+	ARLASSERT(sleepStage);
 
 	const SleepStage::AssemblySet& awake = sleepStage->getAwakeAssemblies();
 
@@ -889,7 +889,7 @@ void World::insertJoint(Joint* j)
 	assertNotInStep();
 
 // Re-entrancy problem - please capture and show complete stack to David B.
-	RBXASSERT(inJointNotification == NULL);		
+	ARLASSERT(inJointNotification == NULL);		
 
 	Primitive* p0 = j->getPrimitive(0);
 	Primitive* p1 = j->getPrimitive(1);
@@ -929,7 +929,7 @@ void World::insertJoint(Joint* j)
 
 	if (j->isBreakable()) {
 		int ok = breakableJoints.insert(j).second;
-		RBXASSERT(ok);
+		ARLASSERT(ok);
 	}
 
 	if (Joint::isKinematicJoint(j))
@@ -943,10 +943,10 @@ void World::removeFromBreakable(Joint* j)
 {
 	if (j->isBreakable()) {
 		int num = breakableJoints.erase(j);
-		RBXASSERT(num == 1);
+		ARLASSERT(num == 1);
 	}
 	else {
-		RBXASSERT_SLOW(breakableJoints.find(j) == breakableJoints.end());
+		ARLASSERT_SLOW(breakableJoints.find(j) == breakableJoints.end());
 	}
 }
 
@@ -1099,7 +1099,7 @@ void World::jointCoordsChanged(Joint* j)
 		{
 			if (Joint::isMotorJoint(j))
 			{					
-				RBXASSERT(parent);
+				ARLASSERT(parent);
 				child->getBody()->setMeInParent(j->resetLink());
 				notifyMoved(parent);
 			}
@@ -1109,7 +1109,7 @@ void World::jointCoordsChanged(Joint* j)
 
 void World::destroyJoint(Joint* j)
 {
-	RBXASSERT(j);
+	ARLASSERT(j);
 	inJointNotification = j;
 	autoDestroySignal(j);
 	inJointNotification = NULL;
@@ -1118,10 +1118,10 @@ void World::destroyJoint(Joint* j)
 
 void World::insertContact(Contact* c)
 {
-	// RBXASSERT(!inStepCode);
+	// ARLASSERT(!inStepCode);
 	cleanStage->onEdgeAdded(c);
 	numContacts++;
-    RBXASSERT( getKernel() != 0 );
+    ARLASSERT( getKernel() != 0 );
     if (getKernel() && getKernel()->getUsingPGSSolver())
     {
         getKernel()->pgsSolver.addContactManifold( c->getPrimitive(0)->getBody()->getUID(), c->getPrimitive(1)->getBody()->getUID() );
@@ -1136,7 +1136,7 @@ void World::destroyContact(Contact* c)
     {
         getKernel()->pgsSolver.removeContactManifold( c->getPrimitive(0)->getBody()->getUID(), c->getPrimitive(1)->getBody()->getUID() );
     }
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 	cleanStage->onEdgeRemoving(c);
 	delete c;
 	numContacts--;
@@ -1156,13 +1156,13 @@ static bool canSkipJoinAllForPrimitive(Primitive* p)
 
 void World::joinAll() 
 {
-//	RBXASSERT(numJoints == 0);
+//	ARLASSERT(numJoints == 0);
 
 	for (int i = 0; i < primitives.size(); ++i) 
 	{
 		// CSG PHYSICS LOADING HACK
 		PartInstance* part = PartInstance::fromPrimitive(primitives[i]);
-		if(PartOperation* partOp = RBX::Instance::fastDynamicCast<PartOperation>(part))
+		if(PartOperation* partOp = ARL::Instance::fastDynamicCast<PartOperation>(part))
 		{
 				partOp->trySetPhysicsData();
 		}
@@ -1178,12 +1178,12 @@ void World::joinAll()
 
 void World::insertPrimitive(Primitive* p) 
 {
-	RBXASSERT(!inStepCode);
-	RBXASSERT(!p->getAssembly());
-	RBXASSERT(!p->inPipeline());
-	RBXASSERT(!p->getFirstEdge());
-	RBXASSERT(!p->getNumEdges());
-	RBXASSERT(!p->getWorld());
+	ARLASSERT(!inStepCode);
+	ARLASSERT(!p->getAssembly());
+	ARLASSERT(!p->inPipeline());
+	ARLASSERT(!p->getFirstEdge());
+	ARLASSERT(!p->getNumEdges());
+	ARLASSERT(!p->getWorld());
 
     // id's will start at 1, reserving 0 for an invalid value
     UIDGenerator++;
@@ -1198,16 +1198,16 @@ void World::insertPrimitive(Primitive* p)
 
 	contactManager->onPrimitiveAdded(p);		// contacts added here
 
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 }
 
 
 void World::removePrimitive(Primitive* p, bool isStreamRemove) 
 {
 
-	RBXASSERT(!inStepCode);
-	RBXASSERT(p->inPipeline());
-	RBXASSERT(p->getWorld());
+	ARLASSERT(!inStepCode);
+	ARLASSERT(p->inPipeline());
+	ARLASSERT(p->getWorld());
 
     if( getKernel() && getKernel()->getUsingPGSSolver() )
     {
@@ -1226,12 +1226,12 @@ void World::removePrimitive(Primitive* p, bool isStreamRemove)
 	p->setWorld(NULL);
     p->getBody()->setUID( 0 );
 
-	RBXASSERT(p->getFirstEdge() == NULL);
-	RBXASSERT(p->getNumEdges() == 0);
-	RBXASSERT(!inStepCode);
-	RBXASSERT(!p->getAssembly());
-	RBXASSERT(!p->inPipeline());
-	RBXASSERT(!p->getWorld());
+	ARLASSERT(p->getFirstEdge() == NULL);
+	ARLASSERT(p->getNumEdges() == 0);
+	ARLASSERT(!inStepCode);
+	ARLASSERT(!p->getAssembly());
+	ARLASSERT(!p->inPipeline());
+	ARLASSERT(!p->getWorld());
 }
 
 Primitive* World::getPrimitiveFromBodyUID( boost::uint64_t uid ) const
@@ -1259,7 +1259,7 @@ bool doNotIgnore(Primitive* other, std::set<Primitive*>* ignoreGroup, std::set<P
 
 void World::destroyAutoJoints(Primitive* p, std::set<Primitive*>* ignoreGroup, bool includeExplicit, bool includeAuto)
 {
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 	
 	// some scripts might be listening to signals as a result of a joint remove, turning this function recursive
 	// we keep tempJoint not as a local variable to avoid having to realloc memory, this list is used like a global stack,
@@ -1269,11 +1269,11 @@ void World::destroyAutoJoints(Primitive* p, std::set<Primitive*>* ignoreGroup, b
 
 	for (int i = 0; i < p->getNumJoints(); ++i) {
 		Joint* destroyJ = p->getJoint(i);
-		RBXASSERT(destroyJ);
+		ARLASSERT(destroyJ);
 		if (destroyJ && ((includeAuto && Joint::isAutoJoint(destroyJ)) || (includeExplicit && Joint::isManualJoint(destroyJ)))) 
 		{
 			IJointOwner* jointOwner = destroyJ->getJointOwner();
-			RBXASSERT(jointOwner);
+			ARLASSERT(jointOwner);
 
 			if (jointOwner)
 			{
@@ -1285,8 +1285,8 @@ void World::destroyAutoJoints(Primitive* p, std::set<Primitive*>* ignoreGroup, b
 
 	for (int i = startIndex; i < tempJoints.size(); ++i) {
 		Joint* destroyJ = tempJoints[i]->getJoint();
-		RBXASSERT(destroyJ);
-		RBXASSERT(destroyJ->links(p));
+		ARLASSERT(destroyJ);
+		ARLASSERT(destroyJ->links(p));
 		Primitive* other = destroyJ->otherPrimitive(p);
 
 		if (doNotIgnore(other, ignoreGroup, NULL)) {
@@ -1297,7 +1297,7 @@ void World::destroyAutoJoints(Primitive* p, std::set<Primitive*>* ignoreGroup, b
 	if((tempJoints.size() - startIndex) != 0)
 		tempJoints.remove(startIndex, tempJoints.size() - startIndex);
 
-	RBXASSERT(startIndex == tempJoints.size());
+	ARLASSERT(startIndex == tempJoints.size());
 }
 
 void World::destroyTerrainWeldJointsNoTouch(Primitive* megaClusterPrim, Primitive* touchingPrim)
@@ -1353,7 +1353,7 @@ void World::destroyAutoJoints(Primitive* p, bool includeExplicit)
 
 void World::destroyAutoJointsToWorld(const G3D::Array<Primitive*>& primitives)	// ignores joints between them
 {
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 
 	std::set<Primitive*> ignore;
 	for (int i = 0; i < primitives.size(); ++i) {
@@ -1367,7 +1367,7 @@ void World::destroyAutoJointsToWorld(const G3D::Array<Primitive*>& primitives)	/
 
 void World::createAutoJoints(Primitive* p, std::set<Primitive*>* ignoreGroup, std::set<Primitive*>* joinGroup)
 {
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 
 	numLinkCalls++;
 	
@@ -1401,7 +1401,7 @@ void World::createAutoJoints(Primitive* p)
 
 void World::createAutoJointsToWorld(const G3D::Array<Primitive*>& primitives)	// ignores joints between them
 {
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 
 	std::set<Primitive*> ignore;
 	for (int i = 0; i < primitives.size(); ++i) {
@@ -1415,7 +1415,7 @@ void World::createAutoJointsToWorld(const G3D::Array<Primitive*>& primitives)	//
 
 void World::createAutoJointsToPrimitives(const G3D::Array<Primitive*>& primitives)	// only join each other in this group
 {
-	RBXASSERT(!inStepCode);
+	ARLASSERT(!inStepCode);
 
 	std::set<Primitive*> group;
 	for (int i = 0; i < primitives.size(); ++i) {
@@ -1453,7 +1453,7 @@ void World::removeAnimatedJointFromMovingAssemblyStage(Joint* j)
 
 bool World::getUsingPGSSolver() 
 {
-	RBXASSERT(usingPGSSolver == getKernel()->getUsingPGSSolver());
+	ARLASSERT(usingPGSSolver == getKernel()->getUsingPGSSolver());
 	return usingPGSSolver;
 }
 
@@ -1488,18 +1488,18 @@ void World::sendAnalytics(void)
 	{
 
 		double stopsperk = errorCount * (double)DFInt::smoothnessReportThreshold / passCount;
-		RBX::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidStopsperK", (int)stopsperk, false);
+		ARL::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidStopsperK", (int)stopsperk, false);
 		passCount = 0.0;
 		errorCount = 0.0;
 	}
 
 	if(frameinfosCount > 0.0)
 	{
-		RBX::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidFrameinfosSize", (int)( .5 + frameinfosSize/frameinfosCount), false);
-		RBX::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidFrameinfosTarget", (int)( .5 + frameinfosTarget/frameinfosCount), false);
-		RBX::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidTargetDelayTenths", (int)( .5 + targetDelayTenths/frameinfosCount), false);
-		RBX::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidFrameinfosSizeTenths", (int)( .5 + infosSizeTenths/frameinfosCount), false);
-		RBX::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidMaxDelta", (int)( .5 + maxDelta/frameinfosCount), false);
+		ARL::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidFrameinfosSize", (int)( .5 + frameinfosSize/frameinfosCount), false);
+		ARL::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidFrameinfosTarget", (int)( .5 + frameinfosTarget/frameinfosCount), false);
+		ARL::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidTargetDelayTenths", (int)( .5 + targetDelayTenths/frameinfosCount), false);
+		ARL::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidFrameinfosSizeTenths", (int)( .5 + infosSizeTenths/frameinfosCount), false);
+		ARL::Analytics::EphemeralCounter::reportStats("SmoothnessHumanoidMaxDelta", (int)( .5 + maxDelta/frameinfosCount), false);
 
 		frameinfosSize = 0.0;
 		frameinfosTarget = 0.0;

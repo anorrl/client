@@ -4,14 +4,14 @@
 
 #include <boost/optional.hpp>
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sCoreScript;
 	class CoreScript
-		: public DescribedNonCreatable<CoreScript, BaseScript, sCoreScript, RBX::Reflection::ClassDescriptor::INTERNAL_LOCAL>
+		: public DescribedNonCreatable<CoreScript, BaseScript, sCoreScript, ARL::Reflection::ClassDescriptor::INTERNAL_LOCAL>
 	{
 	private:
-		typedef DescribedNonCreatable<CoreScript, BaseScript, sCoreScript, RBX::Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
+		typedef DescribedNonCreatable<CoreScript, BaseScript, sCoreScript, ARL::Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
         Code code;
 
 	public:

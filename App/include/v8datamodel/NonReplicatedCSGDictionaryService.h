@@ -9,7 +9,7 @@
 #include <boost/unordered_map.hpp>
 #include "Value.h"
 
-namespace RBX
+namespace ARL
 {
 	class PartOperation;
 
@@ -21,9 +21,9 @@ namespace RBX
 	protected:
 		typedef DescribedCreatable<NonReplicatedCSGDictionaryService, FlyweightService, sNonReplicatedCSGDictionaryService, Reflection::ClassDescriptor::PERSISTENT, Security::Roblox> Super;
 
-		virtual void refreshRefCountUnderInstance(RBX::Instance* instance);
+		virtual void refreshRefCountUnderInstance(ARL::Instance* instance);
 
-		void reparentChildData(shared_ptr<RBX::Instance> childInstance);
+		void reparentChildData(shared_ptr<ARL::Instance> childInstance);
 
 	public:
 
@@ -32,7 +32,7 @@ namespace RBX
 		void storeData(PartOperation& partOperation, bool forceIncrement = false);
 		void retrieveData(PartOperation& partOperation);
 
-		void storeAllDescendants(shared_ptr<RBX::Instance> instance);
-		void retrieveAllDescendants(shared_ptr<RBX::Instance> instance);
+		void storeAllDescendants(shared_ptr<ARL::Instance> instance);
+		void retrieveAllDescendants(shared_ptr<ARL::Instance> instance);
 	};
 }

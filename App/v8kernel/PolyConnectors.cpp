@@ -4,7 +4,7 @@
 #include "V8Kernel/Body.h"
 #include "Util/Math.h"
 
-namespace RBX {
+namespace ARL {
 
 
 
@@ -108,12 +108,12 @@ void FaceEdgeConnector::updateContactPoint()
 		Vector3 outwards = c0.vectorToWorldSpace(facePlane.normal());
 
 		if (params.normal.dot(outwards) > 0.0) {			// lines are overlapping
-			RBXASSERT(params.length <= 0.0);
+			ARLASSERT(params.length <= 0.0);
 		}
 		else {
 			contactPoint.normal = -contactPoint.normal;		// not overlapping
 			contactPoint.length = -contactPoint.length;
-			RBXASSERT(contactPoint.length >= 0.0);
+			ARLASSERT(contactPoint.length >= 0.0);
 		}
 	}
 	else {
@@ -145,12 +145,12 @@ void FaceEdgeConnector::updateContactPoint()
 		Vector3 outwards = c0.vectorToWorldSpace(facePlane.normal());
 
 		if (contactPoint.normal.dot(outwards) > 0.0) {			// lines are overlapping
-			RBXASSERT(contactPoint.length <= 0.0);
+			ARLASSERT(contactPoint.length <= 0.0);
 		}
 		else {
 			contactPoint.normal = -contactPoint.normal;		// not overlapping
 			contactPoint.length = -contactPoint.length;
-			RBXASSERT(contactPoint.length >= 0.0);
+			ARLASSERT(contactPoint.length >= 0.0);
 		}
 	}
 	else {
@@ -200,12 +200,12 @@ void EdgeEdgeConnector::updateContactPoint()
 
 		Vector3 b0ToB1 = c1.translation - c0.translation;
 		if (contactPoint.normal.dot(b0ToB1) > 0.0) {			// lines are overlapping
-			RBXASSERT(contactPoint.length <= 0.0);
+			ARLASSERT(contactPoint.length <= 0.0);
 		}
 		else {
 			contactPoint.normal = -contactPoint.normal;		// not overlapping
 			contactPoint.length = -contactPoint.length;
-			RBXASSERT(contactPoint.length >= 0.0);
+			ARLASSERT(contactPoint.length >= 0.0);
 		}
 	}
 	else {

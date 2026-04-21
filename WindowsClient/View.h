@@ -2,7 +2,7 @@
 
 #include "GfxBase/ViewBase.h"
 #include "UserInput.h"
-namespace RBX {
+namespace ARL {
 
 // Forward declarations
 class FunctionMarshaller;
@@ -76,7 +76,7 @@ private:
 	HMONITOR hMonitor;
 
 	// The view into the game world.
-	boost::scoped_ptr<RBX::ViewBase> view;
+	boost::scoped_ptr<ARL::ViewBase> view;
 
 	FunctionMarshaller* marshaller;
 	boost::scoped_ptr<UserInput> userInput;
@@ -111,4 +111,4 @@ private:
 	void saveWindowSettings();
 };
 
-}  // namespace RBX
+}  // namespace ARL

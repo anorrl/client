@@ -10,7 +10,7 @@
 #include "rbx/intrusive_ptr_target.h"
 #include <boost/intrusive_ptr.hpp>
 
-namespace RBX
+namespace ARL
 {
 	// A simple class that is a globally unique identifier
 	class Guid : boost::noncopyable
@@ -21,20 +21,20 @@ namespace RBX
 		public:
 			Scope() { setNull(); }
 
-			void setNull() { name = &RBX::Name::getNullName(); }
+			void setNull() { name = &ARL::Name::getNullName(); }
 			bool isNull() const {
-				return *name == RBX::Name::getNullName();
+				return *name == ARL::Name::getNullName();
 			}
 			void set( const std::string& s )
 			{
-				name = &RBX::Name::declare(s.c_str());
+				name = &ARL::Name::declare(s.c_str());
 			}
             void set( const char* s )
             {
-                name = &RBX::Name::declare(s);
+                name = &ARL::Name::declare(s);
             }
 
-			const RBX::Name* getName() const {
+			const ARL::Name* getName() const {
 				return name;
 			}
 
@@ -54,7 +54,7 @@ namespace RBX
 		private:
 			static Scope nullScope;
 
-			const RBX::Name* name;
+			const ARL::Name* name;
 		};
 
 		struct Data
@@ -90,12 +90,12 @@ namespace RBX
 		// For debugging only. A string that is not guaranteed to be unique
 		std::string readableString(int scopeLength = 4) const { return data.readableString(scopeLength); }
 
-		static const RBX::Guid::Scope& getLocalScope();
+		static const ARL::Guid::Scope& getLocalScope();
 
-		static void generateRBXGUID(RBX::Guid::Scope& result);
+		static void generateARLGUID(ARL::Guid::Scope& result);
 		
-		// Creates a string like this: RBXc200e36038c511ceae6208002b2b79ef
-		static void generateRBXGUID(std::string& result);
+		// Creates a string like this: ARLc200e36038c511ceae6208002b2b79ef
+		static void generateARLGUID(std::string& result);
 
 		// Creates a string like this: {c200e360-38c5-11ce-ae62-08002b2b79ef}
 		static void generateStandardGUID(std::string& result);
@@ -111,7 +111,7 @@ namespace RBX
 
 	// A base class for objects that contain a Guid and that want lookup-by-Guid
 	template<class T> 
-	class RBXBaseClass GuidItem
+	class ARLBaseClass GuidItem
 	{
 	public:
 		// A Registry maintains lookup information for Guids.
@@ -123,7 +123,7 @@ namespace RBX
 			friend class GuidItem;
 			typedef boost::unordered_map<Guid::Data, weak_ptr<T> > Map;
 			Map map;
-			RBX::mutex mutex;
+			ARL::mutex mutex;
 
 			Registry() 
 			{}
@@ -135,7 +135,7 @@ namespace RBX
 
 			~Registry()
 			{
-				RBXASSERT(map.size() ==0);
+				ARLASSERT(map.size() ==0);
 			}
 
 			// Returns true for empty Guid data, false for unregistered Guid data
@@ -147,7 +147,7 @@ namespace RBX
 					return true;
 				}
 
-				RBX::mutex::scoped_lock lock(mutex);
+				ARL::mutex::scoped_lock lock(mutex);
 				typename Map::const_iterator iter = GuidItem::Registry::map.find(data);
 				if (iter!=map.end())
 				{
@@ -199,13 +199,13 @@ namespace RBX
 
 			void unregister(GuidItem* item)
 			{
-				RBXASSERT(item->registry.get()==this);
+				ARLASSERT(item->registry.get()==this);
 				Guid::Data data;
 				item->guid.extract(data);
 				{
-					RBX::mutex::scoped_lock lock(mutex);
+					ARL::mutex::scoped_lock lock(mutex);
 					int num = map.erase(data);
-                    RBXASSERT(num == 1);
+                    ARLASSERT(num == 1);
 				}
 				item->registry.reset();
 			}
@@ -217,7 +217,7 @@ namespace RBX
 				{
 					Guid::Data data;
 					item->guid.extract(data);
-					RBX::mutex::scoped_lock lock(mutex);
+					ARL::mutex::scoped_lock lock(mutex);
 					if (!item->registry)	// thread-safe check
 					{
                         map[data] = weak_from(const_cast<T*>(item));
@@ -225,7 +225,7 @@ namespace RBX
 					}
 				}
 				else
-					RBXASSERT(item->registry.get()==this);
+					ARLASSERT(item->registry.get()==this);
 			}
 
 		};

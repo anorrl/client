@@ -34,7 +34,7 @@
 
 FASTFLAGVARIABLE(CSGFixForNoChildData, true)
 
-namespace RBX
+namespace ARL
 {
 using namespace Reflection;
 
@@ -45,7 +45,7 @@ const char* const sPartOperationAsset = "PartOperationAsset";
 
 void setAssetOnMatchingPartOperations(shared_ptr<Instance> descendant, const ContentId& url, const BinaryString& key)
 {
-    if(PartOperation* partOperation = RBX::Instance::fastDynamicCast<PartOperation>(descendant.get()))
+    if(PartOperation* partOperation = ARL::Instance::fastDynamicCast<PartOperation>(descendant.get()))
     {
         if (partOperation->hasAsset())
             return;
@@ -61,9 +61,9 @@ void setAssetOnMatchingPartOperations(shared_ptr<Instance> descendant, const Con
     }
 }
 
-void publishPartOperations(shared_ptr<Instance> descendant, RBX::Time startTime, const int timeoutMills)
+void publishPartOperations(shared_ptr<Instance> descendant, ARL::Time startTime, const int timeoutMills)
 {
-    if (timeoutMills != -1 && (startTime - RBX::Time::nowFast()).msec() > timeoutMills)
+    if (timeoutMills != -1 && (startTime - ARL::Time::nowFast()).msec() > timeoutMills)
         return;
 
     if(shared_ptr<PartOperation> partOperation = Instance::fastSharedDynamicCast<PartOperation>(descendant))
@@ -76,7 +76,7 @@ void publishPartOperations(shared_ptr<Instance> descendant, RBX::Time startTime,
 			if (meshKey.value().empty() && childKey.value().empty())
 				return;
 
-			RBX::ContentId contentId = partOperation->getAssetId();
+			ARL::ContentId contentId = partOperation->getAssetId();
 			RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_STUDIO, "RemoveLeftoverCSGData", contentId.c_str());
 
 			DataModel* dataModel = DataModel::get(partOperation.get());
@@ -142,23 +142,23 @@ void publishPartOperations(shared_ptr<Instance> descendant, RBX::Time startTime,
         partOperationAsset->setChildData(childData);
 
         std::stringstream stream;
-        RBX::Instances instances;
+        ARL::Instances instances;
         instances.push_back(partOperationAsset);
         SerializerBinary::serialize(stream, instances);
 
         std::string baseUrl = contentProvider->getBaseUrl();
-        RBX::Http http(RBX::format("%s/ide/publish/uploadnewasset?assetTypeName=SolidModel&name=SolidModel&description=SolidModel&isPublic=True&genreTypeId=1&allowComments=False", baseUrl.c_str()));
+        ARL::Http http(ARL::format("%s/ide/publish/uploadnewasset?assetTypeName=SolidModel&name=SolidModel&description=SolidModel&isPublic=True&genreTypeId=1&allowComments=False", baseUrl.c_str()));
         try
         {
             std::string response;
-            http.post(stream, RBX::Http::kContentTypeApplicationXml, true, response);
+            http.post(stream, ARL::Http::kContentTypeApplicationXml, true, response);
 
             int newAssetId;
             std::stringstream istream(response);
             istream >> newAssetId;
             std::string assetId;
-            assetId = RBX::format("%s/asset/?id=%d", baseUrl.c_str(), newAssetId);
-            ContentId contentId = RBX::ContentId(assetId.c_str());
+            assetId = ARL::format("%s/asset/?id=%d", baseUrl.c_str(), newAssetId);
+            ContentId contentId = ARL::ContentId(assetId.c_str());
 
             partOperation->setAssetId(contentId);
             
@@ -183,11 +183,11 @@ void publishPartOperations(shared_ptr<Instance> descendant, RBX::Time startTime,
 
 bool PartOperationAsset::publishAll(DataModel* dataModel, int timeoutMills)
 {
-    RBX::Time startPublish = RBX::Time::nowFast();
+    ARL::Time startPublish = ARL::Time::nowFast();
 
     dataModel->visitDescendants(boost::bind(&publishPartOperations, _1, startPublish, timeoutMills));
 
-    RobloxGoogleAnalytics::trackUserTiming(GA_CATEGORY_STUDIO, "SolidModelPublishAll", static_cast<int>((RBX::Time::nowFast() - startPublish).msec()));
+    RobloxGoogleAnalytics::trackUserTiming(GA_CATEGORY_STUDIO, "SolidModelPublishAll", static_cast<int>((ARL::Time::nowFast() - startPublish).msec()));
 
 	CSGDictionaryService* dictionaryService = ServiceProvider::find< CSGDictionaryService >(dataModel);
 	NonReplicatedCSGDictionaryService* nrDictionaryService = ServiceProvider::find<NonReplicatedCSGDictionaryService>(dataModel);
@@ -200,15 +200,15 @@ bool PartOperationAsset::publishAll(DataModel* dataModel, int timeoutMills)
 
 bool PartOperationAsset::publishSelection(DataModel* dataModel, int timeoutMills)
 {
-    RBX::Time startPublish = RBX::Time::nowFast();
+    ARL::Time startPublish = ARL::Time::nowFast();
 
-    RBX::Selection* sel = RBX::ServiceProvider::create<RBX::Selection>(dataModel);
-    for (RBX::Instances::const_iterator iter = sel->begin(); iter != sel->end(); ++iter)
+    ARL::Selection* sel = ARL::ServiceProvider::create<ARL::Selection>(dataModel);
+    for (ARL::Instances::const_iterator iter = sel->begin(); iter != sel->end(); ++iter)
     {
         publishPartOperations(*iter, startPublish, timeoutMills);
     }
 
-    RobloxGoogleAnalytics::trackUserTiming(GA_CATEGORY_STUDIO, "SolidModelPublishSelection", static_cast<int>((RBX::Time::nowFast() - startPublish).msec()));
+    RobloxGoogleAnalytics::trackUserTiming(GA_CATEGORY_STUDIO, "SolidModelPublishSelection", static_cast<int>((ARL::Time::nowFast() - startPublish).msec()));
 
 	CSGDictionaryService* dictionaryService = ServiceProvider::find< CSGDictionaryService >(dataModel);
 	NonReplicatedCSGDictionaryService* nrDictionaryService = ServiceProvider::find<NonReplicatedCSGDictionaryService>(dataModel);

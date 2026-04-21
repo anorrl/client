@@ -7,7 +7,7 @@
 #include "util/StandardOut.h"
 #include "rbx/boost.hpp"
 
-namespace RBX {
+namespace ARL {
 
 FunctionMarshaller::FunctionMarshaller(DWORD threadID)
 	: refCount(0)
@@ -98,7 +98,7 @@ LRESULT FunctionMarshaller::OnAsyncEvent(UINT uMsg, WPARAM wParam,
 		catch (std::exception& e)
 		{
 			delete f;
-			StandardOut::singleton()->print(RBX::MESSAGE_ERROR, e);
+			StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e);
 			throw;
 		}
 		delete f;
@@ -117,7 +117,7 @@ LRESULT FunctionMarshaller::OnEvent(UINT uMsg, WPARAM wParam, LPARAM lParam,
 	}
 	catch (std::exception& e)
 	{
-		StandardOut::singleton()->print(RBX::MESSAGE_ERROR, e);
+		StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e);
 		throw;
 	}
 	return S_OK;
@@ -169,4 +169,4 @@ FunctionMarshaller::StaticData::~StaticData()
 	}
 }
 
-}  // namespace RBX
+}  // namespace ARL

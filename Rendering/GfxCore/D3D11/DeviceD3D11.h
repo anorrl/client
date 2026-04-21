@@ -22,7 +22,7 @@ struct IDXGIAdapter;
 struct IDXGIDevice1;
 struct ID3D11DeviceChild;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -49,8 +49,8 @@ inline void ReleaseCheck(Ty*& object)
     if (object)
     {
         ULONG refCnt = object->Release();
-#if !defined(RBX_PLATFORM_DURANGO) // on xbox, object->Release() always returns 1, just because the COM doc says Release() can return anything
-        RBXASSERT(refCnt == 0);
+#if !defined(ARL_PLATFORM_DURANGO) // on xbox, object->Release() always returns 1, just because the COM doc says Release() can return anything
+        ARLASSERT(refCnt == 0);
 #endif
         object = NULL;
     }
@@ -153,7 +153,7 @@ protected:
     {
         for (tHash::const_iterator it = hash.begin(); it != hash.end(); ++it)
 		{
-            RBXASSERT(state != it->second);
+            ARLASSERT(state != it->second);
 		}
     }
 
@@ -216,7 +216,7 @@ public:
 
     virtual DeviceStats getStatistics() const;
 
-#ifdef RBX_PLATFORM_DURANGO
+#ifdef ARL_PLATFORM_DURANGO
     virtual void suspend();
     virtual void resume();
 #endif

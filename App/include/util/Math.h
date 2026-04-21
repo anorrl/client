@@ -10,7 +10,7 @@
 #include "RbxG3D/RbxRay.h"
 #include <limits>
 
-namespace RBX {
+namespace ARL {
 
 	inline int fastFloorInt(float value)
 	{
@@ -137,7 +137,7 @@ namespace RBX {
 		inline Vector2 expandVector2(const Vector2& v, int expand) {
 			Vector2 answer(v);
 			for (int i = 0; i < 2; ++i) {
-				answer[i] += expand * RBX::Math::sign(v[i]);
+				answer[i] += expand * ARL::Math::sign(v[i]);
 			}
 			return answer;
 		}
@@ -179,7 +179,7 @@ namespace RBX {
 		float sumDeltaAxis(const Matrix3& r0, const Matrix3& r1);
 
 		inline const Plane& yPlane() {static Plane p(Vector3(0.0, 1.0, 0.0), Vector3::zero()); return p;}
-		Vector3 closestPointOnRay(const RBX::RbxRay& pointOnRay, const RBX::RbxRay& otherRay);
+		Vector3 closestPointOnRay(const ARL::RbxRay& pointOnRay, const ARL::RbxRay& otherRay);
 		
 
 		////////////////////////////////////////////////////////
@@ -219,7 +219,7 @@ namespace RBX {
 									 const Vector3& toX, const Vector3& toY, const Vector3& toZ );
 
 		inline Vector3 getColumn(const Matrix3& m, int iCol) {
-			RBXASSERT_VERY_FAST((0 <= iCol) && (iCol < 3));
+			ARLASSERT_VERY_FAST((0 <= iCol) && (iCol < 3));
 			return Vector3(m[0][iCol], m[1][iCol], m[2][iCol]);
 		}
 
@@ -355,7 +355,7 @@ namespace RBX {
 				return static_cast<float>(rad);
 			}
 			double answer = rad - (twoPi() * windingPart(rad));
-			RBXASSERT((answer >= -pi()) && (answer <= pi()));
+			ARLASSERT((answer >= -pi()) && (answer <= pi()));
 			return static_cast<float>(answer);
 		}
 
@@ -370,7 +370,7 @@ namespace RBX {
 		bool clipRay(Vector3& origin, Vector3& ray, Vector3 box[], Vector3& endPoint); 
 		bool intersectLinePlane(const Line& line, const Plane& plane, Vector3& hit);
 		bool intersectRayPlane(const RbxRay& ray, const Plane& plane, Vector3& hit);
-        bool intersectRayConvexPolygon(const RBX::RbxRay& ray,  const std::vector<Vector3>& poly, Vector3& hit, bool oneSided);
+        bool intersectRayConvexPolygon(const ARL::RbxRay& ray,  const std::vector<Vector3>& poly, Vector3& hit, bool oneSided);
 		bool lineSegmentDistanceIfCrossing(const Vector3& line1Pt1, const Vector3& line1Pt2, const Vector3& line2Pt1, const Vector3& line2Pt2, float& distance, float adjustEdgeTol = 0.0f);
         std::vector<Vector3> spatialPolygonIntersection(const std::vector<Vector3>& polyA,  const std::vector<Vector3>& polyB);
 		std::vector<Vector2> planarPolygonIntersection(const std::vector<Vector2>& poly1, const std::vector<Vector2>& poly2);

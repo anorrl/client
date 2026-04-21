@@ -166,7 +166,7 @@ FASTINTVARIABLE(PhysicalPropEWeight_BASALT_MATERIAL,			1000)
 FASTINTVARIABLE(PhysicalPropEWeight_GROUND_MATERIAL,			1000)
 FASTINTVARIABLE(PhysicalPropEWeight_CRACKED_LAVA_MATERIAL,		1000)
 
-using namespace RBX;
+using namespace ARL;
 
 static float getPropertyValueFromFlag(const int& flagVal)
 {
@@ -342,7 +342,7 @@ float MaterialProperties::getDefaultMaterialFriction(PartMaterial material)
 			default:;
 		}
 	}
-	RBXASSERT(false); return 1;
+	ARLASSERT(false); return 1;
 }
 
 float MaterialProperties::getDefaultMaterialFrictionWeight(PartMaterial material)
@@ -491,7 +491,7 @@ float MaterialProperties::getDefaultMaterialElasticity(PartMaterial material)
 			default:;
 		}
 	}
-	RBXASSERT(false); return 0.50;
+	ARLASSERT(false); return 0.50;
 }
 
 float MaterialProperties::getDefaultMaterialElasticityWeight(PartMaterial material)
@@ -634,5 +634,5 @@ float MaterialProperties::getDefaultMaterialDensity(PartMaterial material)
 			default:;
 		}
 	}
-	RBXASSERT(false); return 1;
+	ARLASSERT(false); return 1;
 }

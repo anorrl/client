@@ -10,7 +10,7 @@
 #include "Util/KeyCode.h"
 #include "Reflection/EnumConverter.h"
 
-namespace RBX {
+namespace ARL {
 
 namespace Reflection {
     
@@ -177,7 +177,7 @@ namespace Reflection {
 			ss << worldString;
 			ss << num;
 
-			addPair((RBX::KeyCode)i, ss.str().c_str());
+			addPair((ARL::KeyCode)i, ss.str().c_str());
 		}
 
 		addPair(SDLK_GAMEPAD_BUTTONX, "ButtonX");
@@ -201,17 +201,17 @@ namespace Reflection {
     }
     
     template<>
-    KeyCode& Variant::convert<RBX::KeyCode>(void)
+    KeyCode& Variant::convert<ARL::KeyCode>(void)
     {
-        return genericConvert<RBX::KeyCode>();
+        return genericConvert<ARL::KeyCode>();
     }
     
 } // namespace Reflection
 
 template<>
-bool StringConverter<RBX::KeyCode>::convertToValue(const std::string& text, RBX::KeyCode& value)
+bool StringConverter<ARL::KeyCode>::convertToValue(const std::string& text, ARL::KeyCode& value)
 {
-    return Reflection::EnumDesc<RBX::KeyCode>::singleton().convertToValue(text.c_str(),value);
+    return Reflection::EnumDesc<ARL::KeyCode>::singleton().convertToValue(text.c_str(),value);
 }
 
-} // namespace RBX
+} // namespace ARL

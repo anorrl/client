@@ -8,7 +8,7 @@
 
 #include <string>
 
-namespace RBX {
+namespace ARL {
 
 const ProtectedString ProtectedString::emptyString;
 
@@ -49,7 +49,7 @@ void ProtectedString::setString(const std::string& newSource, const std::string&
 	source = newSource;
     bytecode = newBytecode;
 	calculateHash(hash.get());
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
 	if (source != newSource)
 	{
 		DataModel::sendStats |= HATE_LUA_SCRIPT_HASH_CHANGED;
@@ -103,16 +103,16 @@ size_t hash_value(const ProtectedString& value)
 }
 
 template<>
-bool XmlNameValuePair::getValue(RBX::ProtectedString& value) const {
+bool XmlNameValuePair::getValue(ARL::ProtectedString& value) const {
 	std::string tmp;
 	if (getValue(tmp)) {
-		value = RBX::ProtectedString::fromTrustedSource(tmp);
+		value = ARL::ProtectedString::fromTrustedSource(tmp);
 		return true;
 	}
 	return false;
 }
 
-namespace RBX
+namespace ARL
 {
 	template<>
 	std::string StringConverter<ProtectedString>::convertToString(const ProtectedString& value)
@@ -132,7 +132,7 @@ namespace RBX
 		template<>
 		const Type& Type::getSingleton<ProtectedString>()
 		{
-			static TType<RBX::ProtectedString> type("ProtectedString");
+			static TType<ARL::ProtectedString> type("ProtectedString");
 			return type;
 		}
 

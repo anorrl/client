@@ -4,7 +4,7 @@
 
 DYNAMIC_FASTFLAG(MaterialPropertiesEnabled)
 
-namespace RBX {
+namespace ARL {
 
 class PhysicalProperties;
 class ContactParams;
@@ -40,4 +40,4 @@ public:
 };
 
 
-} // NAMESPACE RBX
+} // NAMESPACE ARL

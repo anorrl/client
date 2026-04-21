@@ -8,7 +8,7 @@
 #include "Network/Players.h"
 #include "Script/Script.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sBackpack = "Backpack";		// rename class ultimately
 
@@ -29,12 +29,12 @@ Backpack::Backpack()
 
 bool Backpack::scriptShouldRun(BaseScript* script)
 {
-	RBXASSERT(isAncestorOf(script));
+	ARLASSERT(isAncestorOf(script));
 
 	Workspace* workspace = ServiceProvider::find<Workspace>(this);
 	if (workspace)
 	{
-		RBX::Network::Player* localPlayer = Network::Players::findLocalPlayer(this);
+		ARL::Network::Player* localPlayer = Network::Players::findLocalPlayer(this);
 		bool isLocalBackpack = (this->getParent() == localPlayer);
 		bool isLocalScript = (script->fastDynamicCast<LocalScript>() != NULL);
 			

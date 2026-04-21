@@ -6,7 +6,7 @@
 using G3D::Plane;
 using G3D::Vector3;
 
-using namespace RBX;
+using namespace ARL;
 
 // creates a frustum in a local coordinate space with the apex at the origin
 // translates the frustum into the space defined by apex, dir and up
@@ -16,8 +16,8 @@ Frustum::Frustum(const Vector3& apex, const Vector3& dir, const Vector3& up, con
 	Matrix3 rotation;
 
 	// up and dir should already be normalized and perpendicular to each other
-	RBXASSERT(dir.isUnit());
-	RBXASSERT(up.isUnit());
+	ARLASSERT(dir.isUnit());
+	ARLASSERT(up.isUnit());
 
 	// due to rounding errors the cross product may not be a unit vector even though it should be.
 	const Vector3 right = up.cross(dir).unit();
@@ -85,9 +85,9 @@ bool Frustum::containsAABB(const Extents& aabb) const
 	return true;
 }
 
-bool Frustum::intersectsAABB(const RBX::Extents& aabb, const G3D::CoordinateFrame& extentsFrame) const
+bool Frustum::intersectsAABB(const ARL::Extents& aabb, const G3D::CoordinateFrame& extentsFrame) const
 {
-    RBX::Extents worldBox = aabb.toWorldSpace(extentsFrame);
+    ARL::Extents worldBox = aabb.toWorldSpace(extentsFrame);
     Vector3 extent = worldBox.size() * 0.5f;
     Vector3 center = worldBox.center();
 

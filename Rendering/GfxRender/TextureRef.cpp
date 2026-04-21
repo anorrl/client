@@ -3,7 +3,7 @@
 
 #include "GfxCore/Texture.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -48,7 +48,7 @@ TextureRef TextureRef::clone() const
 
 void TextureRef::updateAllRefs(const shared_ptr<Texture>& texture)
 {
-    RBXASSERT(data);
+    ARLASSERT(data);
 
     data->texture = texture;
 	data->info = texture ? ImageInfo(texture->getWidth(), texture->getHeight(), true) : ImageInfo();
@@ -56,9 +56,9 @@ void TextureRef::updateAllRefs(const shared_ptr<Texture>& texture)
 
 void TextureRef::updateAllRefsToLoaded(const shared_ptr<Texture>& texture)
 {
-    RBXASSERT(texture);
-    RBXASSERT(data);
-	RBXASSERT(data->status == Status_Waiting);
+    ARLASSERT(texture);
+    ARLASSERT(data);
+	ARLASSERT(data->status == Status_Waiting);
 
     data->status = Status_Loaded;
     data->texture = texture;
@@ -67,9 +67,9 @@ void TextureRef::updateAllRefsToLoaded(const shared_ptr<Texture>& texture)
 
 void TextureRef::updateAllRefsToLoaded(const shared_ptr<Texture>& texture, const ImageInfo& info)
 {
-    RBXASSERT(texture);
-    RBXASSERT(data);
-	RBXASSERT(data->status == Status_Waiting);
+    ARLASSERT(texture);
+    ARLASSERT(data);
+	ARLASSERT(data->status == Status_Waiting);
 
     data->status = Status_Loaded;
     data->texture = texture;
@@ -78,15 +78,15 @@ void TextureRef::updateAllRefsToLoaded(const shared_ptr<Texture>& texture, const
 
 void TextureRef::updateAllRefsToFailed()
 {
-    RBXASSERT(data);
-	RBXASSERT(data->status == Status_Waiting);
+    ARLASSERT(data);
+	ARLASSERT(data->status == Status_Waiting);
 
     data->status = Status_Failed;
 }
 
 void TextureRef::updateAllRefsToWaiting()
 {
-    RBXASSERT(data);
+    ARLASSERT(data);
 
     data->status = Status_Waiting;
 }

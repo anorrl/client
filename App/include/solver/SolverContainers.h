@@ -9,7 +9,7 @@
 
 #include <map>
 
-namespace RBX
+namespace ARL
 {
 
 class SimBody;

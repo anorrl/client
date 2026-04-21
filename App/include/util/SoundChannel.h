@@ -14,7 +14,7 @@ namespace FMOD
 
 struct FMOD_CHANNEL;
 
-namespace RBX {
+namespace ARL {
 
 	class PartInstance;
 
@@ -38,7 +38,7 @@ namespace RBX {
 			shared_ptr<Sound> sound;
 			FMOD::Channel* fmod_channel;		// the latest channel
 
-			RBX::Timer<RBX::Time::Fast> lastTimePosReplication; // to regulate how often we replicate the time
+			ARL::Timer<ARL::Time::Fast> lastTimePosReplication; // to regulate how often we replicate the time
 			
 			SoundId soundId;
 			float volume;
@@ -168,4 +168,4 @@ namespace RBX {
 		};
         
 	} // namespace Soundscape
-} // namespace RBX
+} // namespace ARL

@@ -6,14 +6,14 @@
 #include "SpatialGrid.h"
 #include "TextureRef.h"
 
-namespace RBX
+namespace ARL
 {
 	class PartInstance;
 	class Humanoid;
 	struct ClusterStats;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -50,7 +50,7 @@ private:
     float sortKeyOffset;
 };
 
-class FastClusterBinding: public GfxBinding, public RBX::Allocator<FastClusterBinding>
+class FastClusterBinding: public GfxBinding, public ARL::Allocator<FastClusterBinding>
 {
 public:
     FastClusterBinding(FastCluster* cluster, const boost::shared_ptr<PartInstance>& part);
@@ -93,7 +93,7 @@ public:
     // Transform access
     const CoordinateFrame& getTransform(unsigned int id) const
     {
-        RBXASSERT(id < bones.size());
+        ARLASSERT(id < bones.size());
         return bones[id].transform;
     }
     

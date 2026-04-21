@@ -144,7 +144,7 @@ void patchLegacyFunctions()
 #undef P_APPLE
 }
 
-void glewInitRBX()
+void glewInitARL()
 {
     glewInit();
     

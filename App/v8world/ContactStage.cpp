@@ -8,7 +8,7 @@
 #include "V8World/Joint.h"
 
 
-namespace RBX {
+namespace ARL {
 
 #pragma warning(push)
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list
@@ -40,8 +40,8 @@ void ContactStage::onPrimitiveRemoving(Primitive* p)
 
 void ContactStage::onEdgeAdded(Edge* e)
 {
-	RBXASSERT(!e->inKernel());
-	RBXASSERT(!e->inOrDownstreamOfStage(this));
+	ARLASSERT(!e->inKernel());
+	ARLASSERT(!e->inOrDownstreamOfStage(this));
 
 	e->putInStage(this);
 
@@ -70,7 +70,7 @@ void ContactStage::onEdgeRemoving(Edge* e)
 		getDownstreamWS()->onEdgeRemoving(e);
 	}
 
-	RBXASSERT(e->inStage(this));
+	ARLASSERT(e->inStage(this));
 
 	if (Contact::isContact(e)) {
 		;
@@ -84,7 +84,7 @@ void ContactStage::onEdgeRemoving(Edge* e)
  
 //	ToDo - redo the whole duplicate joints issue - this should be checked in the Edge Stage, not in the world;:insertJoint 
 
-//				RBXASSERT(!c->downstreamOfStage(this));
+//				ARLASSERT(!c->downstreamOfStage(this));
 				if (c->inStage(this)) {
 					getDownstreamWS()->onEdgeAdded(c);
 				}
@@ -93,7 +93,7 @@ void ContactStage::onEdgeRemoving(Edge* e)
 	}
 
 	e->removeFromStage(this);
-	RBXASSERT(!e->inOrDownstreamOfStage(this));
+	ARLASSERT(!e->inOrDownstreamOfStage(this));
 }
 
 } // namespace

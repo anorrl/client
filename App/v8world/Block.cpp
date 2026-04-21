@@ -6,7 +6,7 @@
 #include "Util/Math.h"
 #include "G3D/CollisionDetection.h"
 
-namespace RBX {
+namespace ARL {
 
 	using namespace POLY;
 
@@ -147,7 +147,7 @@ void Block::buildMesh()
 void Block::setSize(const G3D::Vector3& _size)
 {
 	Super::setSize(_size);
-	RBXASSERT(_size == getSize());
+	ARLASSERT(_size == getSize());
 
 	Vector3 key = getSize() * 0.5f;
 
@@ -251,24 +251,24 @@ const Vector3* Block::getCornerPoint(const Vector3int16& clip) const {
 }
 
 
-const Vector3* Block::getEdgePoint(const Vector3int16& clip, RBX::NormalId& normalID) const {
+const Vector3* Block::getEdgePoint(const Vector3int16& clip, ARL::NormalId& normalID) const {
 
 	// normal is from the negative "zero" point positive
 	if (clip.x == 0) {
-		normalID = RBX::NORM_X;
+		normalID = ARL::NORM_X;
 		int y = clip.y > 0 ? 0 : 1;
 		int z = clip.z > 0 ? 0 : 1;
 		return &vertices[4 + y*2 + z];
 	}
 	if (clip.y == 0) {
-		normalID = RBX::NORM_Y;
+		normalID = ARL::NORM_Y;
 		int x = clip.x > 0 ? 0 : 1;
 		int z = clip.z > 0 ? 0 : 1;
 		return &vertices[x*4 + 2 + z];
 	}
-	RBXASSERT(!clip.z);
+	ARLASSERT(!clip.z);
 	{
-		normalID = RBX::NORM_Z;
+		normalID = ARL::NORM_Z;
 		int x = clip.x > 0 ? 0 : 1;
 		int y = clip.y > 0 ? 0 : 1;
 		return &vertices[x*4 + y*2 + 1];
@@ -276,29 +276,29 @@ const Vector3* Block::getEdgePoint(const Vector3int16& clip, RBX::NormalId& norm
 }
 
 
-const Vector3* Block::getPlanePoint(const Vector3int16& clip, RBX::NormalId& normalID) const {
+const Vector3* Block::getPlanePoint(const Vector3int16& clip, ARL::NormalId& normalID) const {
 
 	// normal is from the negative "zero" point positive
 	if (clip.x != 0) {
-		normalID = clip.x > 0 ? RBX::NORM_X : RBX::NORM_X_NEG;
+		normalID = clip.x > 0 ? ARL::NORM_X : ARL::NORM_X_NEG;
 		int x = clip.x > 0 ? 0 : 1;
 		return &vertices[x*4];		// either +x,+y,+z or -x,+y,+z
 	}
 	if (clip.y != 0) {
-		normalID = clip.y > 0 ? RBX::NORM_Y : RBX::NORM_Y_NEG;
+		normalID = clip.y > 0 ? ARL::NORM_Y : ARL::NORM_Y_NEG;
 		int y = clip.y > 0 ? 0 : 1;
 		return &vertices[y*2];		
 	}
-	RBXASSERT(clip.z);
+	ARLASSERT(clip.z);
 	{
-		normalID = clip.z > 0 ? RBX::NORM_Z : RBX::NORM_Z_NEG;
+		normalID = clip.z > 0 ? ARL::NORM_Z : ARL::NORM_Z_NEG;
 		int z = clip.z > 0 ? 0 : 1;
 		return &vertices[z];
 	}
 }
 
 GeoPairType Block::getBallBlockInfo(int onBorder, const Vector3int16 clip, const Vector3* &offset, 
-										RBX::NormalId& normalID) {
+										ARL::NormalId& normalID) {
 
 
 	// ball plane - only clipped to one plane
@@ -320,7 +320,7 @@ GeoPairType Block::getBallBlockInfo(int onBorder, const Vector3int16 clip, const
 	}
 }
 
-GeoPairType Block::getBallInsideInfo(const Vector3& ray, const Vector3* &offset, RBX::NormalId& normalID) 
+GeoPairType Block::getBallInsideInfo(const Vector3& ray, const Vector3* &offset, ARL::NormalId& normalID) 
 {
 	float min = FLT_MAX;	// used to be inf() - slow compares?
 	const Vector3& l = vertices[0];		// all positive;
@@ -329,17 +329,17 @@ GeoPairType Block::getBallInsideInfo(const Vector3& ray, const Vector3* &offset,
 		float temp = l[i] - ray[i];
 		if (temp < min) {
 			min = temp;
-			normalID = static_cast<RBX::NormalId>(i);
+			normalID = static_cast<ARL::NormalId>(i);
 		}
 		temp = ray[i] + l[i];
 		if (temp < min) {
 			min = temp;
-			normalID = static_cast<RBX::NormalId>(i+3);
+			normalID = static_cast<ARL::NormalId>(i+3);
 		}
 	}
-	RBXASSERT(min != FLT_MAX);
+	ARLASSERT(min != FLT_MAX);
 
-	offset = (normalID > RBX::NORM_Z) ? &vertices[7] : &vertices[0];
+	offset = (normalID > ARL::NORM_Z) ? &vertices[7] : &vertices[0];
 	return BALL_PLANE_PAIR;
 }
 
@@ -367,16 +367,16 @@ void Block::projectToFace(Vector3& ray, Vector3int16& clip, int& onBorder)
 // for -z plane:		y,x coordinates
 
 	
-Vector2 Block::getProjectedVertex(const Vector3& vertex, RBX::NormalId normalID) {
+Vector2 Block::getProjectedVertex(const Vector3& vertex, ARL::NormalId normalID) {
 
 	Vector2 ans;
 	switch (normalID) {	
-				case (RBX::NORM_X):		ans.x = vertex.y;	ans.y = vertex.z;	return ans;
-				case (RBX::NORM_Y):		ans.x = vertex.z;	ans.y = vertex.x;	return ans;
-				case (RBX::NORM_Z):		ans.x = vertex.x;	ans.y = vertex.y;	return ans;
-				case (RBX::NORM_X_NEG):	ans.x = vertex.z;	ans.y = vertex.y;	return ans;
-				case (RBX::NORM_Y_NEG):	ans.x = vertex.x;	ans.y = vertex.z;	return ans;
-				case (RBX::NORM_Z_NEG):	ans.x = vertex.y;	ans.y = vertex.x;	return ans;
+				case (ARL::NORM_X):		ans.x = vertex.y;	ans.y = vertex.z;	return ans;
+				case (ARL::NORM_Y):		ans.x = vertex.z;	ans.y = vertex.x;	return ans;
+				case (ARL::NORM_Z):		ans.x = vertex.x;	ans.y = vertex.y;	return ans;
+				case (ARL::NORM_X_NEG):	ans.x = vertex.z;	ans.y = vertex.y;	return ans;
+				case (ARL::NORM_Y_NEG):	ans.x = vertex.x;	ans.y = vertex.z;	return ans;
+				case (ARL::NORM_Z_NEG):	ans.x = vertex.y;	ans.y = vertex.x;	return ans;
 
 				// suppress compiler warning
 				default:			return ans;

@@ -17,7 +17,7 @@ DYNAMIC_FASTFLAGVARIABLE(UseStarterPlayerCharacterScripts, false)
 DYNAMIC_FASTFLAGVARIABLE(UseStarterPlayerHumanoid, false)
 
 
-namespace RBX {
+namespace ARL {
 
 const char *const sStarterPlayerService = "StarterPlayer"; 
 
@@ -97,11 +97,11 @@ REFLECTION_END();
 static float defaultDisplayDistance(100.0f);
 
 StarterPlayerService::StarterPlayerService()
-	: cameraMode(RBX::Camera::CAMERAMODE_CLASSIC)
+	: cameraMode(ARL::Camera::CAMERAMODE_CLASSIC)
 	, nameDisplayDistance(defaultDisplayDistance)
 	, healthDisplayDistance(defaultDisplayDistance)
-	, cameraMaxZoomDistance(RBX::Camera::distanceMaxCharacter())
-	, cameraMinZoomDistance(RBX::Camera::distanceMin())
+	, cameraMaxZoomDistance(ARL::Camera::distanceMaxCharacter())
+	, cameraMinZoomDistance(ARL::Camera::distanceMin())
 	, enableMouseLockOption(true)
 	, touchCameraMovementMode(StarterPlayerService::DEV_TOUCH_CAMERA_MOVEMENT_MODE_USER)
 	, computerCameraMovementMode(StarterPlayerService::DEV_COMPUTER_CAMERA_MOVEMENT_MODE_USER)
@@ -168,7 +168,7 @@ bool StarterPlayerService::askAddChild(const Instance* instance) const {
 }
 
 
-void StarterPlayerService::setCameraMode(RBX::Camera::CameraMode value)
+void StarterPlayerService::setCameraMode(ARL::Camera::CameraMode value)
 {
 	if(cameraMode != value)
 	{
@@ -311,7 +311,7 @@ void StarterPlayerService::onServiceProvider(ServiceProvider* oldProvider, Servi
 {
 	Super::onServiceProvider(oldProvider, newProvider);
 
-	if (newProvider && RBX::Network::Players::backendProcessing(newProvider)) 
+	if (newProvider && ARL::Network::Players::backendProcessing(newProvider)) 
 	{
 		Network::Players* players = ServiceProvider::find<Network::Players>(newProvider);
 		if (players)
@@ -326,10 +326,10 @@ void StarterPlayerService::onServiceProvider(ServiceProvider* oldProvider, Servi
 
 void StarterPlayerService::setupPlayerScripts()
 {
-	RBX::StarterPlayerScripts* currPlayerScripts= findFirstChildOfType<RBX::StarterPlayerScripts>();
+	ARL::StarterPlayerScripts* currPlayerScripts= findFirstChildOfType<ARL::StarterPlayerScripts>();
 	if (!currPlayerScripts)
 	{
-		shared_ptr<RBX::StarterPlayerScripts> playerScripts = Creatable<Instance>::create<RBX::StarterPlayerScripts>();
+		shared_ptr<ARL::StarterPlayerScripts> playerScripts = Creatable<Instance>::create<ARL::StarterPlayerScripts>();
 		currPlayerScripts = playerScripts.get();
 		if (currPlayerScripts) {
 			playerScripts->setParent(this);
@@ -338,10 +338,10 @@ void StarterPlayerService::setupPlayerScripts()
 
 	if (DFFlag::UseStarterPlayerCharacterScripts)
 	{
-		RBX::StarterPlayerScripts* pStarterCharacterScripts = findFirstChildOfType<RBX::StarterCharacterScripts>();
+		ARL::StarterPlayerScripts* pStarterCharacterScripts = findFirstChildOfType<ARL::StarterCharacterScripts>();
 		if (!pStarterCharacterScripts)
 		{
-			shared_ptr<RBX::StarterCharacterScripts> characterScripts = Creatable<Instance>::create<RBX::StarterCharacterScripts>();
+			shared_ptr<ARL::StarterCharacterScripts> characterScripts = Creatable<Instance>::create<ARL::StarterCharacterScripts>();
 			currPlayerScripts = characterScripts.get();
 			if (currPlayerScripts) {
 				currPlayerScripts->setParent(this);

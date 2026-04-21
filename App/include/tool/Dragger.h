@@ -6,7 +6,7 @@
 #include <vector>
 #include <boost/unordered_set.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	class PVInstance;
 	class Primitive;
@@ -67,42 +67,42 @@ namespace RBX {
 											ContactManager& contactManager,
 											const float customPlaneHeight = groundPlaneDepth());
 
-		static void searchUpGross_EXT(	std::vector<RBX::Extents> &primExtents,
+		static void searchUpGross_EXT(	std::vector<ARL::Extents> &primExtents,
 										const G3D::Array<Primitive*>& primitives, 
 										const boost::unordered_set<const Primitive*> &ignorePrimitives,
 										ContactManager& contactManager,
 										const float bottomPlaneHeight,
 										Vector3& movedSoFar);
 
-		static void searchDownGross_EXT(	std::vector<RBX::Extents> &primExtents,
+		static void searchDownGross_EXT(	std::vector<ARL::Extents> &primExtents,
 											const G3D::Array<Primitive*>& primitives, 
 											const boost::unordered_set<const Primitive*> &ignorePrimitives,
 											ContactManager& contactManager,
 											const float bottomPlaneHeight,
 											Vector3& movedSoFar);
 
-		static void searchUpFine_EXT(	std::vector<RBX::Extents> &primExtents,
+		static void searchUpFine_EXT(	std::vector<ARL::Extents> &primExtents,
 										const G3D::Array<Primitive*>& primitives, 
 										const boost::unordered_set<const Primitive*> &ignorePrimitives,
 										ContactManager& contactManager,
 										const float bottomPlaneHeight,
 										Vector3& movedSoFar);
 
-		static void searchDownFine_EXT(	std::vector<RBX::Extents> &primExtents,
+		static void searchDownFine_EXT(	std::vector<ARL::Extents> &primExtents,
 										const G3D::Array<Primitive*>& primitives, 
 										const boost::unordered_set<const Primitive*> &ignorePrimitives,
 										ContactManager& contactManager,
 										const float bottomPlaneHeight,
 										Vector3& movedSoFar);
 
-		static bool intersectingWorldOrOthers_EXT(	std::vector<RBX::Extents> &primExtents,
+		static bool intersectingWorldOrOthers_EXT(	std::vector<ARL::Extents> &primExtents,
 													const G3D::Array<Primitive*>& primitives, 
 													const boost::unordered_set<const Primitive*> &ignorePrimitives,
 													ContactManager& contactManager,
 													const float bottomPlaneHeight,  
 													const Vector3& movedSoFar);
 
-		static bool intersectingGroundPlane_EXT(	const std::vector<RBX::Extents>& primExtents, 
+		static bool intersectingGroundPlane_EXT(	const std::vector<ARL::Extents>& primExtents, 
 													const G3D::Array<Primitive*>& primitives, 
 													const float yHeight, 
 													const Vector3& movedSoFar);
@@ -113,8 +113,8 @@ namespace RBX {
 		static bool checkBallBallIntersection(const Primitive* ballPrim1, const CoordinateFrame &ballCFrame1, const Primitive* ballPrim2, const CoordinateFrame &ballCFrame2);
 		static bool checkPolyPolyIntersection(const Primitive* polyPrim1, const CoordinateFrame &polyCFrame1, const Primitive* polyPrim2, const CoordinateFrame &polyCFrame2);
 
-		static void moveExtents(std::vector<RBX::Extents> &primExtents, const Vector3& delta);
-		static void moveExtentsDelta(std::vector<RBX::Extents> &primExtents, const Vector3& delta, Vector3& movedSoFar);
+		static void moveExtents(std::vector<ARL::Extents> &primExtents, const Vector3& delta);
+		static void moveExtentsDelta(std::vector<ARL::Extents> &primExtents, const Vector3& delta, Vector3& movedSoFar);
 
 	public:
 		static const Vector3& dragSnap() {

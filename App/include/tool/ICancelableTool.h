@@ -4,7 +4,7 @@
 
 #include "V8DataModel/MouseCommand.h"
 
-namespace RBX
+namespace ARL
 {
 	class ICancelableTool
 	{

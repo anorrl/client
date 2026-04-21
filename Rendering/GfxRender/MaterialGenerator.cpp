@@ -35,7 +35,7 @@ FASTFLAGVARIABLE(RenderMaterialsOnMobile, true)
 FASTFLAGVARIABLE(ForceWangTiles, false)
 FASTFLAG(GlowEnabled)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -264,7 +264,7 @@ static std::pair<bool, G3D::Vector4> getPartCompositConfiguration(PartInstance* 
 static MeshId getExtraSlotMeshId(PartInstance* part, const HumanoidIdentifier& hi, const AccoutrementMeshes& accoutrements)
 {
     int slotId = getExtraSlot(part, hi, accoutrements);
-    RBXASSERT(slotId >= 0);
+    ARLASSERT(slotId >= 0);
     
     return MeshId(format("rbxasset://fonts/CompositExtraSlot%d.mesh", slotId));
 }
@@ -438,7 +438,7 @@ static const char* getMaterialName(PartMaterial material)
     case COBBLESTONE_MATERIAL: return "Cobblestone";
 
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 		return "Plastic";
 	}
 };
@@ -516,7 +516,7 @@ static bool forceFlatPlastic(DataModelMesh* specialShape)
     }
 }
 
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
 static const std::string kTextureExtension = ".pvr";
 #elif defined(__ANDROID__)
 static const std::string kTextureExtension = ".pvr";
@@ -738,7 +738,7 @@ shared_ptr<Material> MaterialGenerator::createRenderMaterial(unsigned int flags,
 	int materialId = getMaterialId(renderMaterial, reflectance);
 	if (materialId < 0) return shared_ptr<Material>();
 
-	RBXASSERT(materialId >= 0 && materialId < ARRAYSIZE(renderMaterialCache));
+	ARLASSERT(materialId >= 0 && materialId < ARRAYSIZE(renderMaterialCache));
 
 	unsigned int cacheKey = flags & Flag_CacheMask;
     
@@ -801,13 +801,13 @@ shared_ptr<Material> MaterialGenerator::createRenderMaterial(unsigned int flags,
 
     switch (renderMaterial)
     {
-    case RBX::PLASTIC_MATERIAL:
-    case RBX::SMOOTH_PLASTIC_MATERIAL:
+    case ARL::PLASTIC_MATERIAL:
+    case ARL::SMOOTH_PLASTIC_MATERIAL:
         {
             lodFS = reflectance ? "Default" + materialNameReflectance + "FS" : "DefaultPlasticFS";
             break;
         }
-    case RBX::NEON_MATERIAL:
+    case ARL::NEON_MATERIAL:
         {
             lodFS = "DefaultNeonFS";
             break;
@@ -907,7 +907,7 @@ MaterialGenerator::Result MaterialGenerator::createDefaultMaterial(PartInstance*
 {
     PartMaterial actualRenderMaterial = renderMaterial;
 
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
     if (!FFlag::RenderMaterialsOnMobile)
     {
         // Force everything to smooth plastic to reduce texture memory
@@ -1063,12 +1063,12 @@ Vector2int16 MaterialGenerator::getSpecular(PartMaterial material)
     case ICE_MATERIAL: return Vector2int16(255, 190);
 
     default:
-        RBXASSERT(0); // You missed new material
+        ARLASSERT(0); // You missed new material
         return Vector2int16(0, 50);
     }
 }
 
-unsigned int MaterialGenerator::createFlags(bool skinned, RBX::PartInstance* part, const HumanoidIdentifier* hi, bool& ignoreDecalsOut)
+unsigned int MaterialGenerator::createFlags(bool skinned, ARL::PartInstance* part, const HumanoidIdentifier* hi, bool& ignoreDecalsOut)
 {
 	bool useCompositTexture = hi && hi->humanoid && hi->isPartComposited(part);
 	ignoreDecalsOut = false;
@@ -1142,7 +1142,7 @@ float MaterialGenerator::getTiling(PartMaterial material)
                 return 0.2f;
         }
     default:
-        RBXASSERT(0); // You missed new material
+        ARLASSERT(0); // You missed new material
         return 1.f;
     }
 }

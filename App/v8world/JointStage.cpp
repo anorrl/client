@@ -11,7 +11,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 
 #pragma warning(push)
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list
@@ -24,9 +24,9 @@ JointStage::JointStage(IStage* upstream, World* world)
 
 JointStage::~JointStage()
 {
-	RBXASSERT(jointMap.empty());
-	RBXASSERT(incompleteJoints.empty());
-	RBXASSERT(primitivesHere.empty());
+	ARLASSERT(jointMap.empty());
+	ARLASSERT(incompleteJoints.empty());
+	ARLASSERT(primitivesHere.empty());
 }
 
 
@@ -37,37 +37,37 @@ GroundStage* JointStage::getGroundStage()
 
 void JointStage::moveEdgeToDownstream(Edge* e)
 {
-	RBXASSERT(edgeHasPrimitivesHere(e));
+	ARLASSERT(edgeHasPrimitivesHere(e));
 	getGroundStage()->onEdgeAdded(e);
 }
 
 
 void JointStage::removeEdgeFromDownstream(Edge* e)
 {
-	RBXASSERT(edgeHasPrimitivesHere(e));
+	ARLASSERT(edgeHasPrimitivesHere(e));
 	getGroundStage()->onEdgeRemoving(e);
 }
 
 void JointStage::moveJointToDownstream(Joint* j)
 {
-	RBXASSERT_SLOW(incompleteJoints.find(j) == incompleteJoints.end());
-	RBXASSERT_SLOW(!jointMap.pairInMap(j->getPrimitive(0), j));
-	RBXASSERT_SLOW(!jointMap.pairInMap(j->getPrimitive(1), j));
+	ARLASSERT_SLOW(incompleteJoints.find(j) == incompleteJoints.end());
+	ARLASSERT_SLOW(!jointMap.pairInMap(j->getPrimitive(0), j));
+	ARLASSERT_SLOW(!jointMap.pairInMap(j->getPrimitive(1), j));
 	moveEdgeToDownstream(j);
 }
 
 
 void JointStage::removeJointFromDownstream(Joint* j)
 {
-	RBXASSERT_SLOW(incompleteJoints.find(j) == incompleteJoints.end());
-	RBXASSERT_SLOW(!jointMap.pairInMap(j->getPrimitive(0), j));
-	RBXASSERT_SLOW(!jointMap.pairInMap(j->getPrimitive(1), j));
+	ARLASSERT_SLOW(incompleteJoints.find(j) == incompleteJoints.end());
+	ARLASSERT_SLOW(!jointMap.pairInMap(j->getPrimitive(0), j));
+	ARLASSERT_SLOW(!jointMap.pairInMap(j->getPrimitive(1), j));
 	removeEdgeFromDownstream(j);
 }
 
 bool JointStage::edgeHasPrimitiveHere(Edge* e, Primitive* p)
 {
-	RBXASSERT(e->links(p));
+	ARLASSERT(e->links(p));
 	return (p && (primitivesHere.find(p) != primitivesHere.end()));
 }
 
@@ -80,7 +80,7 @@ bool JointStage::edgeHasPrimitivesHere(Edge *e)
 
 void JointStage::visitAddedPrimitive(Primitive* p, Joint* j, std::vector<Joint*>& jointsToPush)
 {	
-	RBXASSERT(edgeHasPrimitiveHere(j, p));
+	ARLASSERT(edgeHasPrimitiveHere(j, p));
 
 	if (edgeHasPrimitiveHere(j, j->otherPrimitive(p))) {
 		jointsToPush.push_back(j);				
@@ -93,7 +93,7 @@ void JointStage::onPrimitiveAdded(Primitive* p)
 	WriteValidator validator(concurrencyValidator);
 
 	bool ok = primitivesHere.insert(p).second;
-	RBXASSERT(ok);
+	ARLASSERT(ok);
 
 
 	p->putInStage(this);
@@ -114,7 +114,7 @@ void JointStage::onPrimitiveRemoving(Primitive* p)
 {
 	WriteValidator validator(concurrencyValidator);
 
-	RBXASSERT(p->getNumContacts() == 0);
+	ARLASSERT(p->getNumContacts() == 0);
 
 	std::vector<Joint*> jointsToPop;
 
@@ -122,7 +122,7 @@ void JointStage::onPrimitiveRemoving(Primitive* p)
 	while (j) {
 		if (!AnchorJoint::isAnchorJoint(j) && !FreeJoint::isFreeJoint(j)) {
 			if (j->downstreamOfStage(this)) {
-				RBXASSERT(edgeHasPrimitivesHere(j));
+				ARLASSERT(edgeHasPrimitivesHere(j));
 				jointsToPop.push_back(j);
 			}
 		}
@@ -139,19 +139,19 @@ void JointStage::onPrimitiveRemoving(Primitive* p)
 		putJointHere(pop);
 	}
 
-	RBXASSERT(p->getNumJoints() == 1);			// should have one free or anchor joint
+	ARLASSERT(p->getNumJoints() == 1);			// should have one free or anchor joint
 	getGroundStage()->onPrimitiveRemoving(p);
 	p->removeFromStage(this);
 
 	int num = primitivesHere.erase(p);
-	RBXASSERT(num == 1);
+	ARLASSERT(num == 1);
 }
 
 
 void JointStage::putJointHere(Joint* j)
 {
 	bool ok = incompleteJoints.insert(j).second;
-	RBXASSERT(ok);
+	ARLASSERT(ok);
 	jointMap.insertPair(j->getPrimitive(0), j);
 	jointMap.insertPair(j->getPrimitive(1), j);
 }
@@ -159,7 +159,7 @@ void JointStage::putJointHere(Joint* j)
 void JointStage::removeJointFromHere(Joint* j)
 {
 	int num = incompleteJoints.erase(j);
-	RBXASSERT(num == 1);
+	ARLASSERT(num == 1);
 	jointMap.removePair(j->getPrimitive(0), j);
 	jointMap.removePair(j->getPrimitive(1), j);
 }
@@ -168,7 +168,7 @@ void JointStage::onEdgeAdded(Edge* e)
 {
 	WriteValidator validator(concurrencyValidator);
 
-	RBXASSERT(e->getPrimitive(0) && e->getPrimitive(1) && (e->getPrimitive(0) != e->getPrimitive(1)));
+	ARLASSERT(e->getPrimitive(0) && e->getPrimitive(1) && (e->getPrimitive(0) != e->getPrimitive(1)));
 
 	e->putInStage(this);
 
@@ -182,7 +182,7 @@ void JointStage::onEdgeAdded(Edge* e)
 		}
 	}
 	else {
-		RBXASSERT(edgeHasPrimitivesHere(e));					// contacts - both primitives should be here
+		ARLASSERT(edgeHasPrimitivesHere(e));					// contacts - both primitives should be here
 		moveEdgeToDownstream(e);
 	}
 }
@@ -192,14 +192,14 @@ void JointStage::onEdgeRemoving(Edge* e)
 {
 	WriteValidator validator(concurrencyValidator);
 
-	RBXASSERT(e->getPrimitive(0) && e->getPrimitive(1) && (e->getPrimitive(0) != e->getPrimitive(1)));
+	ARLASSERT(e->getPrimitive(0) && e->getPrimitive(1) && (e->getPrimitive(0) != e->getPrimitive(1)));
 
 	if (e->downstreamOfStage(this)) {
-		RBXASSERT(edgeHasPrimitivesHere(e));
+		ARLASSERT(edgeHasPrimitivesHere(e));
 		removeEdgeFromDownstream(e);
 	}
 	else {
-		RBXASSERT(Joint::isJoint(e));
+		ARLASSERT(Joint::isJoint(e));
 		Joint* j = rbx_static_cast<Joint*>(e);
 		removeJointFromHere(j);
 	}

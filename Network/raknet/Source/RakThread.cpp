@@ -43,7 +43,7 @@ int RakThread::Create( void* start_address( void* ), void *arglist, int priority
 #if   defined (_WIN32_WCE)
 	threadHandle = CreateThread(NULL,MAX_ALLOCA_STACK_ALLOCATION*2,start_address,arglist,0,(DWORD*)&threadID);
 	SetThreadPriority(threadHandle, priority);
-#elif defined(RBX_PLATFORM_DURANGO)
+#elif defined(ARL_PLATFORM_DURANGO)
 	threadHandle = (HANDLE)CreateThread(NULL, MAX_ALLOCA_STACK_ALLOCATION * 2, LPTHREAD_START_ROUTINE(start_address),
 		arglist, 0, LPDWORD(&threadID)); // WinRT
 #else

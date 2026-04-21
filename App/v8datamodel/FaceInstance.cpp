@@ -4,10 +4,10 @@
 #include "V8DataModel/PartInstance.h"
 #include "AppDraw/DrawAdorn.h"
 
-using namespace RBX;
+using namespace ARL;
 
 const Reflection::EnumPropDescriptor<FaceInstance, NormalId > FaceInstance::prop_Face("Face", category_Data, &FaceInstance::getFace, &FaceInstance::setFace);
-const char *const RBX::sFaceInstance = "FaceInstance";
+const char *const ARL::sFaceInstance = "FaceInstance";
 
 FaceInstance::FaceInstance(void)
 	:face(NORM_Z_NEG)

@@ -9,11 +9,11 @@
 
 DYNAMIC_FASTINTVARIABLE(TimeBetweenCheckingApiAccessMillis, 5000)
 
-namespace RBX {
+namespace ARL {
     
-	RBX_REGISTER_CLASS(Pages);
-	RBX_REGISTER_CLASS(StandardPages);
-	RBX_REGISTER_CLASS(FriendPages);
+	ARL_REGISTER_CLASS(Pages);
+	ARL_REGISTER_CLASS(StandardPages);
+	ARL_REGISTER_CLASS(FriendPages);
     
     const char* const sPages = "Pages";
 
@@ -73,16 +73,16 @@ namespace RBX {
 
 		if (HttpRbxApiService::isAPIHttpRequest(url))
 		{
-			if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(dm.get()))
+			if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(dm.get()))
 			{
-				apiService->getAsync(HttpRbxApiService::getApiUrlPath(url), true, RBX::PRIORITY_DEFAULT,
+				apiService->getAsync(HttpRbxApiService::getApiUrlPath(url), true, ARL::PRIORITY_DEFAULT,
 					boost::bind(&StandardPages::processFetchSuccess, shared_from(this), _1, resumeFunction, errorFunction),
 					boost::bind(&StandardPages::processFetchError, shared_from(this), _1, errorFunction) );
 			}
 		}
 		else
 		{
-			RBX::Http(url).get(boost::bind(&StandardPages::processFetch, shared_from(this), _1, _2, resumeFunction, errorFunction));
+			ARL::Http(url).get(boost::bind(&StandardPages::processFetch, shared_from(this), _1, _2, resumeFunction, errorFunction));
 		}
     }
 	
@@ -137,7 +137,7 @@ namespace RBX {
 
 	void StandardPages::processFetchError(std::string error, boost::function<void(std::string)> errorFunction)
 	{
-		errorFunction( RBX::format("StandardPages: Request Failed because %s", error.c_str()) );
+		errorFunction( ARL::format("StandardPages: Request Failed because %s", error.c_str()) );
 	}
     
     void StandardPages::processFetch(std::string *response, std::exception *exception, boost::function<void ()> resumeFunction, boost::function<void (std::string)> errorFunction)
@@ -208,16 +208,16 @@ namespace RBX {
 
 			if (HttpRbxApiService::isAPIHttpRequest(url))
 			{
-				if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(dm.get()))
+				if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(dm.get()))
 				{
-					apiService->getAsync(HttpRbxApiService::getApiUrlPath(url), true, RBX::PRIORITY_DEFAULT,
+					apiService->getAsync(HttpRbxApiService::getApiUrlPath(url), true, ARL::PRIORITY_DEFAULT,
 						boost::bind(&FriendPages::processFetchSuccess, shared_from(this), _1, resumeFunction, errorFunction),
 						boost::bind(&FriendPages::processFetchError, shared_from(this), _1, errorFunction) );
 				}
 			}
 			else
 			{
-				RBX::Http(url).get(boost::bind(&FriendPages::processFetch, shared_from(this), _1, _2, resumeFunction, errorFunction));
+				ARL::Http(url).get(boost::bind(&FriendPages::processFetch, shared_from(this), _1, _2, resumeFunction, errorFunction));
 			}
 		} 
 		else
@@ -226,16 +226,16 @@ namespace RBX {
 			std::string url = format("%s%cpage=%i", requestUrl.c_str(), hasQuery ? '&' : '?', pageNumber);
 			if (HttpRbxApiService::isAPIHttpRequest(url))
 			{
-				if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(dm.get()))
+				if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(dm.get()))
 				{
-					apiService->getAsync(HttpRbxApiService::getApiUrlPath(url), true, RBX::PRIORITY_DEFAULT,
+					apiService->getAsync(HttpRbxApiService::getApiUrlPath(url), true, ARL::PRIORITY_DEFAULT,
 						boost::bind(&FriendPages::processFetchSuccess, shared_from(this), _1, resumeFunction, errorFunction),
 						boost::bind(&FriendPages::processFetchError, shared_from(this), _1, errorFunction) );
 				}
 			}
 			else
 			{
-				RBX::Http(url).get(boost::bind(&FriendPages::processFetch, shared_from(this), _1, _2, resumeFunction, errorFunction));
+				ARL::Http(url).get(boost::bind(&FriendPages::processFetch, shared_from(this), _1, _2, resumeFunction, errorFunction));
 			}
 		}
     }
@@ -275,7 +275,7 @@ namespace RBX {
 
 	void FriendPages::processFetchError(std::string error, boost::function<void(std::string)> errorFunction)
 	{
-		errorFunction( RBX::format("FriendPages: Request Failed because %s", error.c_str()) );
+		errorFunction( ARL::format("FriendPages: Request Failed because %s", error.c_str()) );
 	}
     
     void FriendPages::processFetch(std::string *response, std::exception *exception, boost::function<void ()> resumeFunction, boost::function<void (std::string)> errorFunction)
@@ -508,12 +508,12 @@ bool LuaWebService::isApiAccessEnabled()
 			http.doNotUseCachedResponse = true;
 			try
 			{
-				if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(dm))
+				if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(dm))
 				{
-					apiService->get( format("universes/get-info?placeId=%d",dm->getPlaceID()), false, RBX::PRIORITY_EXTREME, response );
+					apiService->get( format("universes/get-info?placeId=%d",dm->getPlaceID()), false, ARL::PRIORITY_EXTREME, response );
 				}
 			} 
-			catch (const RBX::base_exception&) {}
+			catch (const ARL::base_exception&) {}
 
 			bool ableToParse = false;
 			bool parsedValue = false;
@@ -523,7 +523,7 @@ bool LuaWebService::isApiAccessEnabled()
 				boost::shared_ptr<const Reflection::ValueTable> v;
 				if (WebParser::parseJSONTable(response, v))
 				{
-					RBX::Reflection::ValueTable::const_iterator itr = v->find("StudioAccessToApisAllowed");
+					ARL::Reflection::ValueTable::const_iterator itr = v->find("StudioAccessToApisAllowed");
 					if (itr != v->end() && itr->second.isType<bool>())
 					{
 						ableToParse = true;

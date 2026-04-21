@@ -14,13 +14,13 @@
 class btPersistentManifold;
 class bulletNPAlgorithm;
 class btConvexHullShape;
-namespace RBX {
+namespace ARL {
 	class PolyConnector;
 	class BulletShapeCellConnector;
 	class BulletShapeCellContact : public CellMeshContact
 	{
 	public:
-		typedef RBX::FixedArray<BulletShapeCellConnector*, BULLET_CONTACT_ARRAY_SIZE> BulletConnectorArray;
+		typedef ARL::FixedArray<BulletShapeCellConnector*, BULLET_CONTACT_ARRAY_SIZE> BulletConnectorArray;
 
 	private:
 		btCollisionAlgorithm* bulletNPAlgorithm;
@@ -60,7 +60,7 @@ namespace RBX {
 
 		void invalidateContactCache() override;
 
-		void findClosestFeatures(ConnectorArray& newConnectors) override {RBXASSERT(0);} // don't use this when using btCompound Narrow Phase
+		void findClosestFeatures(ConnectorArray& newConnectors) override {ARLASSERT(0);} // don't use this when using btCompound Narrow Phase
 																							  // since it generates too many connectors
 		void findClosestBulletCellFeatures(BulletConnectorArray& newConnectors);
 

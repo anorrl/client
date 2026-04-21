@@ -25,7 +25,7 @@
 #define GUI_SELECTION_INITIAL_REPEAT_TIME 500.0f
 #define GUI_SELECTION_REPEAT_TIME 120.0f
 
-namespace RBX
+namespace ARL
 {
     const char* const sGamepadService = "GamepadService";
     
@@ -69,43 +69,43 @@ namespace RBX
         }
     }
     
-    shared_ptr<RBX::InputObject> GamepadService::createInputObjectForGamepadKeyCode(RBX::KeyCode keyCode, RBX::InputObject::UserInputType gamepadType)
+    shared_ptr<ARL::InputObject> GamepadService::createInputObjectForGamepadKeyCode(ARL::KeyCode keyCode, ARL::InputObject::UserInputType gamepadType)
 	{
 		return Creatable<Instance>::create<InputObject>(gamepadType,
-														RBX::InputObject::INPUT_STATE_END,
+														ARL::InputObject::INPUT_STATE_END,
 	  													G3D::Vector3::zero(),
 														keyCode,
-														RBX::DataModel::get(this));
+														ARL::DataModel::get(this));
     }
     
     void GamepadService::createControllerKeyMapForController(int controllerIndex)
     {
-        RBX::InputObject::UserInputType gamepadType = getGamepadEnumForInt(controllerIndex);
+        ARL::InputObject::UserInputType gamepadType = getGamepadEnumForInt(controllerIndex);
 
         Gamepad controllerKeyMap;
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONA] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONA, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONB] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONB, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONX] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONX, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONY] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONY, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONSTART] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONSTART, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONSELECT] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONSELECT, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONA] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONA, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONB] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONB, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONX] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONX, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONY] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONY, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONSTART] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONSTART, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONSELECT] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONSELECT, gamepadType);
         
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONL1] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONL1, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONR1] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONR1, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONL1] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONL1, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONR1] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONR1, gamepadType);
         
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONL2] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONL2, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONR2] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONR2, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONL2] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONL2, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONR2] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONR2, gamepadType);
         
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONL3] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONL3, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_BUTTONR3] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_BUTTONR3, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONL3] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONL3, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_BUTTONR3] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_BUTTONR3, gamepadType);
         
-        controllerKeyMap[RBX::SDLK_GAMEPAD_DPADUP] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_DPADUP, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_DPADDOWN] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_DPADDOWN, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_DPADLEFT] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_DPADLEFT, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_DPADRIGHT] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_DPADRIGHT, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_DPADUP] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_DPADUP, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_DPADDOWN] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_DPADDOWN, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_DPADLEFT] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_DPADLEFT, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_DPADRIGHT] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_DPADRIGHT, gamepadType);
         
-        controllerKeyMap[RBX::SDLK_GAMEPAD_THUMBSTICK1] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_THUMBSTICK1, gamepadType);
-        controllerKeyMap[RBX::SDLK_GAMEPAD_THUMBSTICK2] = createInputObjectForGamepadKeyCode(RBX::SDLK_GAMEPAD_THUMBSTICK2, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_THUMBSTICK1] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_THUMBSTICK1, gamepadType);
+        controllerKeyMap[ARL::SDLK_GAMEPAD_THUMBSTICK2] = createInputObjectForGamepadKeyCode(ARL::SDLK_GAMEPAD_THUMBSTICK2, gamepadType);
         
         gamepads[controllerIndex] = controllerKeyMap;
     }
@@ -124,20 +124,20 @@ namespace RBX
         
         if (newProvider)
         {
-            for (int i = 0; i < RBX_MAX_GAMEPADS; ++i)
+            for (int i = 0; i < ARL_MAX_GAMEPADS; ++i)
             {
                 createControllerKeyMapForController(i);
 				gamepadNavigationEnabledMap[getGamepadEnumForInt(i)] = true;
             }
 
-			if (UserInputService* inputService = RBX::ServiceProvider::find<UserInputService>(newProvider))
+			if (UserInputService* inputService = ARL::ServiceProvider::find<UserInputService>(newProvider))
 			{
 				updateInputConnection = inputService->updateInputSignal.connect(boost::bind(&GamepadService::updateOnInputStep, this));
 				inputEndedConnection = inputService->coreInputEndedEvent.connect(boost::bind(&GamepadService::onInputEnded, this, _1));
 				inputChangedConnection = inputService->coreInputUpdatedEvent.connect(boost::bind(&GamepadService::onInputChanged, this, _1));
 			}
 
-			if (RBX::Workspace* workspace = RBX::ServiceProvider::find<Workspace>(this))
+			if (ARL::Workspace* workspace = ARL::ServiceProvider::find<Workspace>(this))
 			{
 				cameraCframeUpdateConnection = workspace->getCamera()->cframeChangedSignal.connect(boost::bind(&GamepadService::cameraCframeChanged, this, _1));
 				workspace->currentCameraChangedSignal.connect(boost::bind(&GamepadService::currentCameraChanged, this, _1));
@@ -157,7 +157,7 @@ namespace RBX
 	//todo: figure out a better way to set arrow cursor for gamepad
 	void GamepadService::cameraCframeChanged(CoordinateFrame cframe)
 	{
-		if (UserInputService* inputService = RBX::ServiceProvider::find<UserInputService>(this))
+		if (UserInputService* inputService = ARL::ServiceProvider::find<UserInputService>(this))
 		{
 			InputObject::UserInputType lastType = inputService->getLastInputType();
 			if ( getGamepadIntForEnum(lastType) != -1)
@@ -250,7 +250,7 @@ namespace RBX
 		if (InputObject* inputObject = Instance::fastDynamicCast<InputObject>(event.get()))
 		{
 			const shared_ptr<InputObject> event = shared_from(inputObject);
-			if (event->getKeyCode() == RBX::SDLK_GAMEPAD_THUMBSTICK1)
+			if (event->getKeyCode() == ARL::SDLK_GAMEPAD_THUMBSTICK1)
 			{
 				Vector2 correctGuiDirection = getCorrectedThumbstickDirection(event);
 				if ( isVectorInDeadzone(correctGuiDirection))
@@ -264,7 +264,7 @@ namespace RBX
 	Vector2 GamepadService::getGuiSelectionDirection(const shared_ptr<InputObject>& event)
 	{
 		Vector2 inputVector = Vector2::zero();
-		if (event->getKeyCode() == RBX::SDLK_GAMEPAD_THUMBSTICK1)
+		if (event->getKeyCode() == ARL::SDLK_GAMEPAD_THUMBSTICK1)
 		{
 			Vector2 correctGuiDirection = getCorrectedThumbstickDirection(event);
 
@@ -315,14 +315,14 @@ namespace RBX
 
 	GuiResponse GamepadService::trySelectGuiObject(const Vector2& inputVector)
 	{
-		CoreGuiService* coreGuiService = RBX::ServiceProvider::find<CoreGuiService>(this);
+		CoreGuiService* coreGuiService = ARL::ServiceProvider::find<CoreGuiService>(this);
 		GuiResponse response = trySelectGuiObject(inputVector, shared_ptr<InputObject>(), coreGuiService);
 
 		if (!response.wasSunk())
 		{
-			if (RBX::Network::Players* players = ServiceProvider::find<RBX::Network::Players>(this))
+			if (ARL::Network::Players* players = ServiceProvider::find<ARL::Network::Players>(this))
 			{
-				if (RBX::Network::Player* player = players->getLocalPlayer())
+				if (ARL::Network::Player* player = players->getLocalPlayer())
 				{
 					if (PlayerGui* playerGui = player->findFirstChildOfType<PlayerGui>())
 					{
@@ -337,7 +337,7 @@ namespace RBX
 
 	GuiResponse GamepadService::trySelectGuiObject(const Vector2& inputVector, const shared_ptr<InputObject>& event, BasePlayerGui* guiToProcess)
 	{
-		GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this);
+		GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this);
 		if (!guiService)
 		{
 			return GuiResponse::notSunk();
@@ -391,7 +391,7 @@ namespace RBX
 		if (inputVector == Vector2::zero())
 		{
             if ( event && (isNavigationGamepad(event->getUserInputType()) || isCoreGuiProcessing) &&
-                (event->getKeyCode() == RBX::SDLK_GAMEPAD_THUMBSTICK1 || event->isDPadEvent()) )
+                (event->getKeyCode() == ARL::SDLK_GAMEPAD_THUMBSTICK1 || event->isDPadEvent()) )
             {
                 return GuiResponse::sunk();
             }
@@ -400,7 +400,7 @@ namespace RBX
 				return GuiResponse::sunk();
 			}
 
-			if ( event && (event->getKeyCode() == RBX::SDLK_GAMEPAD_THUMBSTICK1 || event->isDPadEvent()) )
+			if ( event && (event->getKeyCode() == ARL::SDLK_GAMEPAD_THUMBSTICK1 || event->isDPadEvent()) )
 			{
 				lastGuiSelectionDirection = Vector2::zero();
 			}
@@ -408,16 +408,16 @@ namespace RBX
             return GuiResponse::notSunk();
 		}
 
-		CoreGuiService* coreGuiService = RBX::ServiceProvider::find<CoreGuiService>(this);
+		CoreGuiService* coreGuiService = ARL::ServiceProvider::find<CoreGuiService>(this);
 		if (isCoreGuiProcessing && selectedObject->isDescendantOf(coreGuiService))
 		{
             coreGuiService->selectNewGuiObject(inputVector);
 		}
 		else
 		{
-			if (RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this))
+			if (ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this))
 			{
-				if (RBX::Network::Player* player = players->getLocalPlayer())
+				if (ARL::Network::Player* player = players->getLocalPlayer())
 				{
 					if (PlayerGui* playerGui = player->findFirstChildOfType<PlayerGui>())
                     {
@@ -473,7 +473,7 @@ namespace RBX
 
 	GuiResponse GamepadService::autoSelectGui()
 	{
-		GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this);
+		GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this);
 		if (!guiService)
 		{
 			return GuiResponse::notSunk();
@@ -481,7 +481,7 @@ namespace RBX
 
 		if (GuiObject* selectedGuiObject = guiService->getSelectedGuiObject())
 		{
-            CoreGuiService* coreGuiService = RBX::ServiceProvider::find<CoreGuiService>(this);
+            CoreGuiService* coreGuiService = ARL::ServiceProvider::find<CoreGuiService>(this);
 			if (selectedGuiObject->isDescendantOf(coreGuiService))
 			{
 				return GuiResponse::notSunk();
@@ -491,9 +491,9 @@ namespace RBX
 			return GuiResponse::sunk();
 		}
 		
-		if (RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this))
+		if (ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this))
 		{
-			if (RBX::Network::Player* player = players->getLocalPlayer())
+			if (ARL::Network::Player* player = players->getLocalPlayer())
 			{
 				if (PlayerGui* playerGui = player->findFirstChildOfType<PlayerGui>())
 				{
@@ -511,25 +511,25 @@ namespace RBX
 
 	GuiResponse GamepadService::processCore(const shared_ptr<InputObject>& event)
 	{
-		UserInputService* userInputService = RBX::ServiceProvider::find<UserInputService>(this);
+		UserInputService* userInputService = ARL::ServiceProvider::find<UserInputService>(this);
 		if (!userInputService)
 		{
 			return GuiResponse::notSunk();
 		}
 
-		return process(event, RBX::ServiceProvider::find<CoreGuiService>(this));
+		return process(event, ARL::ServiceProvider::find<CoreGuiService>(this));
 	}
 
 	GuiResponse GamepadService::processDev(const shared_ptr<InputObject>& event)
 	{
-		if (autoGuiSelectionAllowed && event->getKeyCode() == RBX::SDLK_GAMEPAD_BUTTONSELECT && event->getUserInputState() == InputObject::INPUT_STATE_BEGIN)
+		if (autoGuiSelectionAllowed && event->getKeyCode() == ARL::SDLK_GAMEPAD_BUTTONSELECT && event->getUserInputState() == InputObject::INPUT_STATE_BEGIN)
 		{
 			return autoSelectGui();
 		}
 
-		if (RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this))
+		if (ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this))
 		{
-			if (RBX::Network::Player* player = players->getLocalPlayer())
+			if (ARL::Network::Player* player = players->getLocalPlayer())
 			{
 				if (PlayerGui* playerGui = player->findFirstChildOfType<PlayerGui>())
 				{
@@ -548,9 +548,9 @@ namespace RBX
 			return GuiResponse::notSunk();
 		}
 
-		if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+		if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 		{
-			if (RBX::GuiObject* guiObject = guiService->getSelectedGuiObject())
+			if (ARL::GuiObject* guiObject = guiService->getSelectedGuiObject())
 			{
 				if (!guiObject->isDescendantOf(guiToProcess))
 				{
@@ -581,5 +581,5 @@ namespace RBX
 	}
 
     
-} // namespace RBX
+} // namespace ARL
 

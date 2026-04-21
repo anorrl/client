@@ -5,7 +5,7 @@
 #include "Humanoid/Humanoid.h"
 #include "v8datamodel/PartInstance.h"
 
-namespace RBX {
+namespace ARL {
 	
 	namespace HUMAN {
 

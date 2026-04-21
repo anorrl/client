@@ -14,7 +14,7 @@
 LOGGROUP(ReflectionMetadata)
 LOGVARIABLE(ReflectionMetadata, 1);
 
-using namespace RBX;
+using namespace ARL;
 using namespace Reflection;
 			
 const char* const Metadata::sReflection	= "ReflectionMetadata";
@@ -43,19 +43,19 @@ BoundProp<int> Metadata::Class::prop_ExplorerImageIndex("ExplorerImageIndex", "R
 BoundProp<std::string> Metadata::Class::prop_PreferredParent("PreferredParent", "Reflection", &Metadata::Class::preferredParent);
 BoundProp<bool> Metadata::Class::prop_Insertable("Insertable", "Reflection", &Metadata::Class::insertable);
 
-RBX_REGISTER_CLASS(Metadata::Reflection);
-RBX_REGISTER_CLASS(Metadata::Class);
-RBX_REGISTER_CLASS(Metadata::Item);
-RBX_REGISTER_CLASS(Metadata::Classes);
-RBX_REGISTER_CLASS(Metadata::Functions);
-RBX_REGISTER_CLASS(Metadata::YieldFunctions);
-RBX_REGISTER_CLASS(Metadata::Member);
-RBX_REGISTER_CLASS(Metadata::Properties);
-RBX_REGISTER_CLASS(Metadata::Events);
-RBX_REGISTER_CLASS(Metadata::Callbacks);
-RBX_REGISTER_CLASS(Metadata::Enums);
-RBX_REGISTER_CLASS(Metadata::Enum);
-RBX_REGISTER_CLASS(Metadata::EnumItem);
+ARL_REGISTER_CLASS(Metadata::Reflection);
+ARL_REGISTER_CLASS(Metadata::Class);
+ARL_REGISTER_CLASS(Metadata::Item);
+ARL_REGISTER_CLASS(Metadata::Classes);
+ARL_REGISTER_CLASS(Metadata::Functions);
+ARL_REGISTER_CLASS(Metadata::YieldFunctions);
+ARL_REGISTER_CLASS(Metadata::Member);
+ARL_REGISTER_CLASS(Metadata::Properties);
+ARL_REGISTER_CLASS(Metadata::Events);
+ARL_REGISTER_CLASS(Metadata::Callbacks);
+ARL_REGISTER_CLASS(Metadata::Enums);
+ARL_REGISTER_CLASS(Metadata::Enum);
+ARL_REGISTER_CLASS(Metadata::EnumItem);
 
 void Metadata::Reflection::registerClasses()
 {
@@ -68,11 +68,11 @@ shared_ptr<Metadata::Reflection> Metadata::Reflection::safe_static_do_get_single
 	static shared_ptr<Reflection> sing;
 	if (!sing)
 	{
-		sing = RBX::Creatable<RBX::Instance>::create<Reflection>();
+		sing = ARL::Creatable<ARL::Instance>::create<Reflection>();
 
 #ifdef QT_ROBLOX_STUDIO
 		QByteArray xmlFilePathUtf8 = RobloxSettings::getResourcesFolder().toUtf8();
-        boost::filesystem::path bfsp = RBX::utf8_decode(std::string(xmlFilePathUtf8.constData(), xmlFilePathUtf8.size()));
+        boost::filesystem::path bfsp = ARL::utf8_decode(std::string(xmlFilePathUtf8.constData(), xmlFilePathUtf8.size()));
 		sing->load( bfsp / "ReflectionMetadata.xml" );
 #else
 		wchar_t buf[MAX_PATH] = {0};
@@ -120,7 +120,7 @@ void Metadata::Reflection::load(const boost::filesystem::path& filePath)
 	readChildren(root.get(), binder, EngineCreator);
 
 	bool bound = binder.resolveRefs();
-	RBXASSERT(bound);
+	ARLASSERT(bound);
 
 	// TODO: Check for duplicate names!
 	classes = this->findFirstChildOfType<Classes>();

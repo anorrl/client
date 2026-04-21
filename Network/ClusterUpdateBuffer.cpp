@@ -7,7 +7,7 @@
 #include "V8DataModel/MegaCluster.h"
 #include "boost/cstdint.hpp"
 
-namespace RBX { 
+namespace ARL { 
 
 namespace Network {
 
@@ -65,7 +65,7 @@ bool ClusterUpdateBuffer::chk(const ClusterCellUpdate& test) {
 
 void ClusterUpdateBuffer::pop(ClusterCellUpdate* out)
 {
-	RBXASSERT(internalSize > 0);
+	ARLASSERT(internalSize > 0);
 
     for (BitSetUpdateMap::iterator it = lastFound; it != bitSetUpdates.end(); ++it)
     {
@@ -82,8 +82,8 @@ void ClusterUpdateBuffer::pop(ClusterCellUpdate* out)
         }
     }
 
-	RBXASSERT(false);
+	ARLASSERT(false);
 }
 
 } // namespace Network
-} // namespace RBX
+} // namespace ARL

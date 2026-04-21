@@ -22,12 +22,12 @@
 #include <boost/unordered_set.hpp>
 #include <boost/scoped_ptr.hpp>
 
-namespace RBX {
+namespace ARL {
 namespace Graphics {
 class CullableSceneNode;
 } }
 
-namespace RBX {
+namespace ARL {
 
 	namespace Profiling
 	{
@@ -151,7 +151,7 @@ namespace RBX {
 		bool intersectingOthers(Primitive* check, float overlapIgnored);
 		bool intersectingOthers(const G3D::Array<Primitive*>& check, float overlapIgnored);
 		bool intersectingOthers(Primitive* check, const std::set<Primitive*>& checkSet, float overlapIgnored);
-		bool intersectingMySimulation(Primitive* check, RBX::SystemAddress myLocalAddress, float overlapIgnored);
+		bool intersectingMySimulation(Primitive* check, ARL::SystemAddress myLocalAddress, float overlapIgnored);
 
 		shared_ptr<const Instances> getPartCollisions(Primitive* check);
 
@@ -159,16 +159,16 @@ namespace RBX {
 		// From the collision engine
 		//
 		void onNewPair(Primitive* p0, Primitive* p1);	
-		void onNewPair(RBX::Graphics::CullableSceneNode* p0, RBX::Graphics::CullableSceneNode* p1) { RBXASSERT(0); } 
+		void onNewPair(ARL::Graphics::CullableSceneNode* p0, ARL::Graphics::CullableSceneNode* p1) { ARLASSERT(0); } 
 
 		void checkTerrainContact(Primitive* p);
-        void checkTerrainContact(RBX::Graphics::CullableSceneNode* p0) {}
+        void checkTerrainContact(ARL::Graphics::CullableSceneNode* p0) {}
 
         bool primitiveIsExcludedFromSpatialHash(Primitive* p);
-        bool primitiveIsExcludedFromSpatialHash(RBX::Graphics::CullableSceneNode* p0) {return false;}
+        bool primitiveIsExcludedFromSpatialHash(ARL::Graphics::CullableSceneNode* p0) {return false;}
 		
 		void releasePair(Primitive* p0, Primitive* p1);
-		void releasePair(RBX::Graphics::CullableSceneNode* p0, RBX::Graphics::CullableSceneNode* p1) { RBXASSERT(0); }
+		void releasePair(ARL::Graphics::CullableSceneNode* p0, ARL::Graphics::CullableSceneNode* p1) { ARLASSERT(0); }
 
 		/////////////////////////////////////////////
 		// From the world

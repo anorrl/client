@@ -3,7 +3,7 @@
 #include <vector>
 #include <cstdlib>
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

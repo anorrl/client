@@ -7,10 +7,10 @@
 
 static void sendLightingShadowsStats()
 {
-	RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "LightingShadows");
+	ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "LightingShadows");
 }
 
-using namespace RBX;
+using namespace ARL;
 
 REFLECTION_BEGIN();
 static Reflection::EventDesc<Lighting, void(bool)> event_LightingChanged(&Lighting::lightingChangedSignal, "LightingChanged", "skyboxChanged");
@@ -42,7 +42,7 @@ Reflection::BoundProp<G3D::Color3> Lighting::desc_GlobalOutdoorAmbient("OutdoorA
 Reflection::BoundProp<bool> Lighting::desc_Outlines("Outlines", category_Appearance, &Lighting::outlines, &Lighting::onPropChanged);
 REFLECTION_END();
 
-const char* const RBX::sLighting = "Lighting";
+const char* const ARL::sLighting = "Lighting";
 
 G3D::Color3 fromRGB(unsigned char r, unsigned char g, unsigned char b)
 {

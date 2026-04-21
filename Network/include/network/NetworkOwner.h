@@ -5,50 +5,50 @@
 #include "Util/SystemAddress.h"
 #include "Util/Color.h"
 
-namespace RBX {
+namespace ARL {
 	namespace Network {
 
 	class NetworkOwner 
 	{
 	public:
-		static const RBX::SystemAddress Server() {
-			static RBX::SystemAddress s(1, 0);
+		static const ARL::SystemAddress Server() {
+			static ARL::SystemAddress s(1, 0);
 			return s;
 		}
 
 		// created on server, have not be properly assigned via network owner job
-		static const RBX::SystemAddress ServerUnassigned() {
-			static RBX::SystemAddress s(1, 1);
+		static const ARL::SystemAddress ServerUnassigned() {
+			static ARL::SystemAddress s(1, 1);
 			return s;
 		}
 
 		// default
-		static const RBX::SystemAddress Unassigned() {
-			static RBX::SystemAddress s;
-			RBXASSERT(s == SystemAddress());
-			RBXASSERT(s != NetworkOwner::Server());
-			RBXASSERT(s != NetworkOwner::ServerUnassigned());
-			RBXASSERT(s != NetworkOwner::AssignedOther());
+		static const ARL::SystemAddress Unassigned() {
+			static ARL::SystemAddress s;
+			ARLASSERT(s == SystemAddress());
+			ARLASSERT(s != NetworkOwner::Server());
+			ARLASSERT(s != NetworkOwner::ServerUnassigned());
+			ARLASSERT(s != NetworkOwner::AssignedOther());
 			return s;
 		}
 
 		// generic value used on client indicating assigned to other clients or server (i.e. not self)
-		static const RBX::SystemAddress AssignedOther() {
-			static RBX::SystemAddress s(0, 1);
+		static const ARL::SystemAddress AssignedOther() {
+			static ARL::SystemAddress s(0, 1);
 			return s;
 		}
 
-		static bool isClient(const RBX::SystemAddress& address) {
+		static bool isClient(const ARL::SystemAddress& address) {
 			return (	(address != Server())
 					&&	(address != Unassigned())	
 					&&  (address != ServerUnassigned()));
 		}
 
-		static bool isServer(const RBX::SystemAddress& address) {
+		static bool isServer(const ARL::SystemAddress& address) {
 			return address == Server() || address == ServerUnassigned();
 		}
 		
-		static Color3 colorFromAddress(const RBX::SystemAddress& systemAddress) {
+		static Color3 colorFromAddress(const ARL::SystemAddress& systemAddress) {
 			if (systemAddress == Server()) {
 				return Color3::white();
 			}
@@ -61,7 +61,7 @@ namespace RBX {
 				unsigned int address = systemAddress.getAddress();
 				unsigned int port = systemAddress.getPort();
 				address += port;
-				return RBX::Color::colorFromInt(address);
+				return ARL::Color::colorFromInt(address);
 			}
 		}
 

@@ -9,7 +9,7 @@
 #include "rbx/threadsafe.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class Edge;
 	class Kernel;
@@ -38,7 +38,7 @@ namespace RBX {
 
 		SimJob* nextSimJob(SimJob* current)
 		{
-			RBXASSERT(!simJobs.empty());
+			ARLASSERT(!simJobs.empty());
 			SimJobList::iterator iter = simJobs.iterator_to(*current);
 			++iter;
 			return (iter == simJobs.end()) ? &simJobs.front() : &*iter;

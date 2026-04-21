@@ -33,7 +33,7 @@
 #include <boost/algorithm/string.hpp>
 
 #ifdef __APPLE__ // needed for pasting ability on OS X
-#if !RBX_PLATFORM_IOS
+#if !ARL_PLATFORM_IOS
 #import <Cocoa/Cocoa.h>
 #endif
 #endif
@@ -61,7 +61,7 @@ FASTFLAGVARIABLE(UserUseNewControlScript, false)
 
 FASTFLAG(UserAllCamerasInLua)
 
-namespace RBX {
+namespace ARL {
     
     namespace Reflection {
         template<>
@@ -148,8 +148,8 @@ namespace RBX {
 	// turn this on to debug touch events
 	// will draw a square on the screen for each touch event
     bool UserInputService::DrawTouchEvents = false;
-    RBX::Color3 UserInputService::DrawTouchColor = RBX::Color3(1,0,0);
-    RBX::Color3 UserInputService::DrawMoveColor = RBX::Color3(0,1,0);
+    ARL::Color3 UserInputService::DrawTouchColor = ARL::Color3(1,0,0);
+    ARL::Color3 UserInputService::DrawMoveColor = ARL::Color3(0,1,0);
     
     REFLECTION_BEGIN();
 	// ROBLOX Only functions/events/props
@@ -173,7 +173,7 @@ namespace RBX {
     static Reflection::EventDesc<UserInputService, void(UserInputService::SwipeDirection, int, bool)> event_SwipeGesture(&UserInputService::swipeGestureEvent, "TouchSwipe", "swipeDirection", "numberOfTouches", "gameProcessedEvent", Security::None);
     static Reflection::EventDesc<UserInputService, void(shared_ptr<const Reflection::ValueArray>, InputObject::UserInputState, bool)> event_LongPressGesture(&UserInputService::longPressGestureEvent, "TouchLongPress", "touchPositions", "state", "gameProcessedEvent", Security::None);
     static Reflection::EventDesc<UserInputService, void(shared_ptr<const Reflection::ValueArray>, float,float,InputObject::UserInputState, bool)> event_RotateGesture(&UserInputService::rotateGestureEvent, "TouchRotate", "touchPositions", "rotation", "velocity", "state", "gameProcessedEvent", Security::None);
-    static Reflection::EventDesc<UserInputService, void(shared_ptr<const Reflection::ValueArray>, RBX::Vector2,RBX::Vector2,InputObject::UserInputState, bool)> event_PanGesture(&UserInputService::panGestureEvent, "TouchPan", "touchPositions", "totalTranslation", "velocity", "state", "gameProcessedEvent", Security::None);
+    static Reflection::EventDesc<UserInputService, void(shared_ptr<const Reflection::ValueArray>, ARL::Vector2,ARL::Vector2,InputObject::UserInputState, bool)> event_PanGesture(&UserInputService::panGestureEvent, "TouchPan", "touchPositions", "totalTranslation", "velocity", "state", "gameProcessedEvent", Security::None);
     
     // Low Level touch events
 	static Reflection::EventDesc<UserInputService, 
@@ -219,7 +219,7 @@ namespace RBX {
     
 	// Keyboard Stuff
 	static Reflection::BoundFuncDesc<UserInputService, shared_ptr<const Reflection::ValueArray>()> func_getKeyboardState(&UserInputService::getKeyboardState, "GetKeysPressed", Security::None);
-	static Reflection::BoundFuncDesc<UserInputService, bool(RBX::KeyCode)> func_isKeyCodeDown(&UserInputService::isKeyDown, "IsKeyDown", "keyCode", Security::None);
+	static Reflection::BoundFuncDesc<UserInputService, bool(ARL::KeyCode)> func_isKeyCodeDown(&UserInputService::isKeyDown, "IsKeyDown", "keyCode", Security::None);
 
     // Motion Stuff
     static Reflection::EventDesc<UserInputService,
@@ -249,7 +249,7 @@ namespace RBX {
 	static Reflection::EventDesc<UserInputService, void(InputObject::UserInputType)> event_gamepadDisconnected(&UserInputService::gamepadConnectedSignal, "GamepadConnected", "gamepadNum", Security::None);
 
 	static Reflection::BoundFuncDesc<UserInputService, shared_ptr<const Reflection::ValueArray>(InputObject::UserInputType)> func_getGamepadState(&UserInputService::getGamepadState, "GetGamepadState", "gamepadNum", Security::None);
-	static Reflection::BoundFuncDesc<UserInputService, bool(InputObject::UserInputType, RBX::KeyCode)> func_getgamepadSupportsKeyCode(&UserInputService::gamepadSupports, "GamepadSupports", "gamepadNum", "gamepadKeyCode", Security::None);
+	static Reflection::BoundFuncDesc<UserInputService, bool(InputObject::UserInputType, ARL::KeyCode)> func_getgamepadSupportsKeyCode(&UserInputService::gamepadSupports, "GamepadSupports", "gamepadNum", "gamepadKeyCode", Security::None);
 	static Reflection::BoundFuncDesc<UserInputService, shared_ptr<const Reflection::ValueArray>(InputObject::UserInputType)> func_getSupportedGamepadKeyCodes(&UserInputService::getSupportedGamepadKeyCodes, "GetSupportedGamepadKeyCodes", "gamepadNum", Security::None);
 	
 	static Reflection::BoundFuncDesc<UserInputService, shared_ptr<const Reflection::ValueArray>()> func_getNavigationGamepads(&UserInputService::getNavigationGamepads, "GetNavigationGamepads", Security::None);
@@ -343,14 +343,14 @@ namespace RBX {
 		modPairs.push_back(std::make_pair(SDLK_RSHIFT, KMOD_RSHIFT));
 		modPairs.push_back(std::make_pair(SDLK_CAPSLOCK, KMOD_CAPS));
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 		keyboardEnabled = true; // used for VirtualUser
 #endif
     }
 
 	bool UserInputService::IsUsingNewKeyboardEvents()
 	{
-#ifdef RBX_PLATFORM_UWP
+#ifdef ARL_PLATFORM_UWP
 		return true;
 #endif
         return false;
@@ -372,9 +372,9 @@ namespace RBX {
         {
             if(DrawTouchEvents)
             {
-               drawTouchFrame = Creatable<Instance>::create<RBX::Frame>();
+               drawTouchFrame = Creatable<Instance>::create<ARL::Frame>();
                drawTouchFrame->setBorderSizePixel(0);
-               drawTouchFrame->setSize(RBX::UDim2(0,4,0,4));
+               drawTouchFrame->setSize(ARL::UDim2(0,4,0,4));
             }
 
 			if (DFFlag::GetFocusedTextBoxEnabled)
@@ -383,9 +383,9 @@ namespace RBX {
 				textboxFocusEndedConnection = textBoxReleaseFocus.connect(boost::bind(&UserInputService::textboxFocusReleased, this, _1));
 			}
             
-            rotationInputObject = RBX::Creatable<Instance>::create<InputObject>(InputObject::TYPE_GYRO, InputObject::INPUT_STATE_CHANGE, Vector3(0,0,0), SDLK_UNKNOWN, RBX::DataModel::get(newProvider));
-            accelerationInputObject = RBX::Creatable<Instance>::create<InputObject>(InputObject::TYPE_ACCELEROMETER, InputObject::INPUT_STATE_CHANGE, Vector3(0,0,0), SDLK_UNKNOWN, RBX::DataModel::get(newProvider));
-            gravityInputObject = RBX::Creatable<Instance>::create<InputObject>(InputObject::TYPE_ACCELEROMETER, InputObject::INPUT_STATE_CHANGE, Vector3(0,0,0), SDLK_UNKNOWN, RBX::DataModel::get(newProvider));
+            rotationInputObject = ARL::Creatable<Instance>::create<InputObject>(InputObject::TYPE_GYRO, InputObject::INPUT_STATE_CHANGE, Vector3(0,0,0), SDLK_UNKNOWN, ARL::DataModel::get(newProvider));
+            accelerationInputObject = ARL::Creatable<Instance>::create<InputObject>(InputObject::TYPE_ACCELEROMETER, InputObject::INPUT_STATE_CHANGE, Vector3(0,0,0), SDLK_UNKNOWN, ARL::DataModel::get(newProvider));
+            gravityInputObject = ARL::Creatable<Instance>::create<InputObject>(InputObject::TYPE_ACCELEROMETER, InputObject::INPUT_STATE_CHANGE, Vector3(0,0,0), SDLK_UNKNOWN, ARL::DataModel::get(newProvider));
             rotationCFrame = CoordinateFrame(Vector3(0,0,0));
             
 			for (int i = InputObject::TYPE_GAMEPAD1; i <= InputObject::TYPE_GAMEPAD8; i++)
@@ -393,21 +393,21 @@ namespace RBX {
 				connectedGamepadsMap[(InputObject::UserInputType) i] = false;
 			}
 
-            fakeMouseEventsMap[InputObject::TYPE_MOUSEMOVEMENT] = RBX::Creatable<RBX::Instance>::create<RBX::InputObject>(RBX::InputObject::TYPE_MOUSEMOVEMENT,
-                                                                                                            RBX::InputObject::INPUT_STATE_CHANGE,
-                                                                                                            RBX::Vector3(-1,-1,0),
-                                                                                                            RBX::Vector3(0,0,0),
-																											RBX::DataModel::get(newProvider));
-            fakeMouseEventsMap[InputObject::TYPE_MOUSEMOVEMENT]->setSourceUserInputType(RBX::InputObject::TYPE_TOUCH);
+            fakeMouseEventsMap[InputObject::TYPE_MOUSEMOVEMENT] = ARL::Creatable<ARL::Instance>::create<ARL::InputObject>(ARL::InputObject::TYPE_MOUSEMOVEMENT,
+                                                                                                            ARL::InputObject::INPUT_STATE_CHANGE,
+                                                                                                            ARL::Vector3(-1,-1,0),
+                                                                                                            ARL::Vector3(0,0,0),
+																											ARL::DataModel::get(newProvider));
+            fakeMouseEventsMap[InputObject::TYPE_MOUSEMOVEMENT]->setSourceUserInputType(ARL::InputObject::TYPE_TOUCH);
 
-            fakeMouseEventsMap[InputObject::TYPE_MOUSEBUTTON1] = RBX::Creatable<RBX::Instance>::create<RBX::InputObject>(RBX::InputObject::TYPE_MOUSEBUTTON1,
-                                                                                                            RBX::InputObject::INPUT_STATE_BEGIN,
-                                                                                                            RBX::Vector3(-1,-1,0),
-                                                                                                            RBX::Vector3(0,0,0),
-																											RBX::DataModel::get(newProvider));
-            fakeMouseEventsMap[InputObject::TYPE_MOUSEBUTTON1]->setSourceUserInputType(RBX::InputObject::TYPE_TOUCH);
+            fakeMouseEventsMap[InputObject::TYPE_MOUSEBUTTON1] = ARL::Creatable<ARL::Instance>::create<ARL::InputObject>(ARL::InputObject::TYPE_MOUSEBUTTON1,
+                                                                                                            ARL::InputObject::INPUT_STATE_BEGIN,
+                                                                                                            ARL::Vector3(-1,-1,0),
+                                                                                                            ARL::Vector3(0,0,0),
+																											ARL::DataModel::get(newProvider));
+            fakeMouseEventsMap[InputObject::TYPE_MOUSEBUTTON1]->setSourceUserInputType(ARL::InputObject::TYPE_TOUCH);
 
-			currentMousePosition = RBX::Creatable<Instance>::create<InputObject>(InputObject::TYPE_MOUSEMOVEMENT, InputObject::INPUT_STATE_CANCEL, Vector3(-10000,-10000,0), SDLK_UNKNOWN, RBX::DataModel::get(newProvider));
+			currentMousePosition = ARL::Creatable<Instance>::create<InputObject>(InputObject::TYPE_MOUSEMOVEMENT, InputObject::INPUT_STATE_CANCEL, Vector3(-10000,-10000,0), SDLK_UNKNOWN, ARL::DataModel::get(newProvider));
         }
     }
 	bool UserInputService::isTenFootInterface()
@@ -419,43 +419,43 @@ namespace RBX {
 	}
 	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getInputBeganEvent(bool whatever)
 	{
-		return RBX::Security::Context::current().hasPermission(RBX::Security::RobloxScript) ? &coreInputBeganEvent : &inputBeganEvent;
+		return ARL::Security::Context::current().hasPermission(ARL::Security::RobloxScript) ? &coreInputBeganEvent : &inputBeganEvent;
 	}
 	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getInputChangedEvent(bool whatever)
 	{
-		return RBX::Security::Context::current().hasPermission(RBX::Security::RobloxScript) ? &coreInputUpdatedEvent : &inputUpdatedEvent;
+		return ARL::Security::Context::current().hasPermission(ARL::Security::RobloxScript) ? &coreInputUpdatedEvent : &inputUpdatedEvent;
 	}
 	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getInputEndedEvent(bool whatever)
 	{
-		return RBX::Security::Context::current().hasPermission(RBX::Security::RobloxScript) ? &coreInputEndedEvent : &inputEndedEvent;
+		return ARL::Security::Context::current().hasPermission(ARL::Security::RobloxScript) ? &coreInputEndedEvent : &inputEndedEvent;
 	}
 
 	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getTouchBeganEvent(bool whatever)
 	{
-		return RBX::Security::Context::current().hasPermission(RBX::Security::RobloxScript) ? &coreTouchStartedEvent : &touchStartedEvent;
+		return ARL::Security::Context::current().hasPermission(ARL::Security::RobloxScript) ? &coreTouchStartedEvent : &touchStartedEvent;
 	}
 	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getTouchChangedEvent(bool whatever)
 	{
-		return RBX::Security::Context::current().hasPermission(RBX::Security::RobloxScript) ? &coreTouchMovedEvent : &touchMovedEvent;
+		return ARL::Security::Context::current().hasPermission(ARL::Security::RobloxScript) ? &coreTouchMovedEvent : &touchMovedEvent;
 	}
 	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getTouchEndedEvent(bool whatever)
 	{
-		return RBX::Security::Context::current().hasPermission(RBX::Security::RobloxScript) ? &coreTouchEndedEvent : &touchEndedEvent;
+		return ARL::Security::Context::current().hasPermission(ARL::Security::RobloxScript) ? &coreTouchEndedEvent : &touchEndedEvent;
 	}
     
     UserInputService::Platform UserInputService::getPlatform()
     {
-#if defined(RBX_PLATFORM_IOS)
+#if defined(ARL_PLATFORM_IOS)
         return PLATFORM_IOS;
-#elif defined(__APPLE__) && !defined(RBX_PLATFORM_IOS)
+#elif defined(__APPLE__) && !defined(ARL_PLATFORM_IOS)
         return PLATFORM_OSX;
-#elif defined(RBX_PLATFORM_DURANGO)
+#elif defined(ARL_PLATFORM_DURANGO)
 		return PLATFORM_XBOXONE;
-#elif defined(RBX_PLATFORM_UWP)
+#elif defined(ARL_PLATFORM_UWP)
 		return PLATFORM_UWP;
-#elif defined(RBX_PLATFORM_DURANGO)
+#elif defined(ARL_PLATFORM_DURANGO)
 		return PLATFORM_XBOXONE;
-#elif defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO) && !defined(RBX_PLATFORM_UWP)
+#elif defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO) && !defined(ARL_PLATFORM_UWP)
         return PLATFORM_WINDOWS;
 #elif defined(__ANDROID__)
         return PLATFORM_ANDROID;
@@ -562,7 +562,7 @@ namespace RBX {
         processedEventSignal(inputObject, processedEvent);
 
 		bool menuIsOpen = false;
-		if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(dataModel))
+		if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(dataModel))
 		{
 			menuIsOpen = guiService->getMenuOpen();
 		}
@@ -611,15 +611,15 @@ namespace RBX {
 		}
 		else if (GamepadService::getGamepadIntForEnum(lastInputType) != -1 && GamepadService::getGamepadIntForEnum(inputObject->getUserInputType()) != -1)
 		{
-			if (Workspace* workspace = RBX::ServiceProvider::find<Workspace>(this))
+			if (Workspace* workspace = ARL::ServiceProvider::find<Workspace>(this))
 			{
 				Vector2 viewport = workspace->getCamera()->getViewport();
 				Vector3 mousePos(viewport.x/2.0f,viewport.y/2.0f,0);
 
-				if (RBX::Network::Players::findLocalPlayer(this))
+				if (ARL::Network::Players::findLocalPlayer(this))
 				{
 					DataModel* dataModel = DataModel::get(this);
-					if (RBX::Workspace* workspace = dataModel->getWorkspace())
+					if (ARL::Workspace* workspace = dataModel->getWorkspace())
 					{
 						if (Camera* camera = workspace->getCamera())
 						{
@@ -632,8 +632,8 @@ namespace RBX {
 					}
 				}
 
-				currentMousePosition = RBX::Creatable<RBX::Instance>::create<RBX::InputObject>(InputObject::TYPE_MOUSEMOVEMENT, InputObject::INPUT_STATE_CHANGE,
-					mousePos, Vector3::zero(), RBX::DataModel::get(this));
+				currentMousePosition = ARL::Creatable<ARL::Instance>::create<ARL::InputObject>(InputObject::TYPE_MOUSEMOVEMENT, InputObject::INPUT_STATE_CHANGE,
+					mousePos, Vector3::zero(), ARL::DataModel::get(this));
 			}
 		}
 	}
@@ -659,7 +659,7 @@ namespace RBX {
             {
                 if(DrawTouchEvents)
                 {
-                    shared_ptr<Instance> newObj = drawTouchFrame->clone(RBX::ScriptingCreator);
+                    shared_ptr<Instance> newObj = drawTouchFrame->clone(ARL::ScriptingCreator);
                     Frame* newFrame = Instance::fastDynamicCast<Frame>(newObj.get());
                     Vector2 framePos = (*iter).first->get2DPosition();
                     newFrame->setPosition(UDim2(0,framePos.x,0,framePos.y));
@@ -683,7 +683,7 @@ namespace RBX {
     
     void UserInputService::processInputObjects()
     {
-        DrawTouchColor = RBX::Color3(1,0,0);
+        DrawTouchColor = ARL::Color3(1,0,0);
         
         // process important start events (i.e. key down, touch start, etc.)
         processInputVector(beginEventsToProcess, InputObject::INPUT_STATE_BEGIN);
@@ -708,7 +708,7 @@ namespace RBX {
         // process all events that only matter for a frame, usually changed events (mouse move, touch move, etc.)
         processInputVector(changeEventsToProcess, InputObject::INPUT_STATE_CHANGE);
         
-        DrawTouchColor = RBX::Color3(0,0,1);
+        DrawTouchColor = ARL::Color3(0,0,1);
         
         // process important end events (i.e. key up, touch end, etc.)
         processInputVector(endEventsToProcess, InputObject::INPUT_STATE_END);
@@ -721,7 +721,7 @@ namespace RBX {
         {
             if (const DataModel* dataModel = DataModel::get(this))
             {
-                if (const RBX::Workspace* workspace = dataModel->getWorkspace())
+                if (const ARL::Workspace* workspace = dataModel->getWorkspace())
                 {
                     if  (const Camera* camera = workspace->getConstCamera())
                     {
@@ -744,7 +744,7 @@ namespace RBX {
 
         if (DataModel* dataModel = DataModel::get(this))
         {
-			RBX::Workspace* workspace = dataModel->getWorkspace();
+			ARL::Workspace* workspace = dataModel->getWorkspace();
 			if(!workspace)
 				return;
 
@@ -754,7 +754,7 @@ namespace RBX {
 
 			if (FFlag::FlyCamOnRenderStep)
 			{
-				if (!RBX::Network::Players::findLocalCharacter(this) || RBX::Network::Players::isCloudEdit(this))
+				if (!ARL::Network::Players::findLocalCharacter(this) || ARL::Network::Players::isCloudEdit(this))
 				{
 					if (ControllerService* service = ServiceProvider::find<ControllerService>(this)) 
 					{
@@ -781,7 +781,7 @@ namespace RBX {
 			}
 
 			if( camera->getCameraType() == Camera::CUSTOM_CAMERA &&
-				RBX::Network::Players::findLocalPlayer(dataModel) && !RBX::Network::Players::isCloudEdit(this))
+				ARL::Network::Players::findLocalPlayer(dataModel) && !ARL::Network::Players::isCloudEdit(this))
 			{
 				cameraZoom = 0; 
 				cameraPanDelta = Vector2::zero();
@@ -833,7 +833,7 @@ namespace RBX {
         
         if (toolEventsVectorTmp.size() > 0)
         {
-            if(RBX::DataModel* dataModel = RBX::DataModel::get(this))
+            if(ARL::DataModel* dataModel = ARL::DataModel::get(this))
             {
                 for(InputObjectVector::iterator iter = toolEventsVectorTmp.begin(); iter != toolEventsVectorTmp.end(); ++iter)
                 {
@@ -856,7 +856,7 @@ namespace RBX {
         {
             for(TextBoxEventsVector::iterator iter = tmpTextboxEventsVector.begin(); iter != tmpTextboxEventsVector.end(); ++iter)
             {
-				shared_ptr<InputObject> dummyReturnInput = RBX::Creatable<Instance>::create<InputObject>(InputObject::TYPE_KEYBOARD, InputObject::INPUT_STATE_BEGIN, Vector3::zero(), SDLK_RETURN, RBX::DataModel::get(this));
+				shared_ptr<InputObject> dummyReturnInput = ARL::Creatable<Instance>::create<InputObject>(InputObject::TYPE_KEYBOARD, InputObject::INPUT_STATE_BEGIN, Vector3::zero(), SDLK_RETURN, ARL::DataModel::get(this));
                 textBoxFinishedEditing((*iter).first->c_str(), (*iter).second, (*iter).second ? dummyReturnInput : shared_ptr<InputObject>());
             }
         }
@@ -876,7 +876,7 @@ namespace RBX {
 	{
 		if (!DFFlag::GetFocusedTextBoxEnabled)
 		{
-			RBX::StandardOut::singleton()->printf(MESSAGE_ERROR, "UserInputService:GetFocusedTextBox() is not yet enabled");
+			ARL::StandardOut::singleton()->printf(MESSAGE_ERROR, "UserInputService:GetFocusedTextBox() is not yet enabled");
 			return shared_ptr<Instance>();
 		}
 		return currentTextBox;
@@ -1042,7 +1042,7 @@ namespace RBX {
     }
     void UserInputService::setLocalCharacterJumpEnabled(bool value)
     {
-        if(RBX::Network::Players::frontendProcessing(this))
+        if(ARL::Network::Players::frontendProcessing(this))
         {
             if(value != localCharacterJumpEnabled)
             {
@@ -1058,12 +1058,12 @@ namespace RBX {
     {
         if(shared_ptr<DataModel> dataModel = weakDataModel.lock())
         {
-            RBX::Workspace* workspace = dataModel->getWorkspace();
+            ARL::Workspace* workspace = dataModel->getWorkspace();
             if(!workspace)
                 return;
             
-            RBX::ModelInstance* localCharacter = RBX::Network::Players::findLocalCharacter(workspace);
-            if(RBX::Humanoid* localHumanoid = RBX::Humanoid::modelIsCharacter(localCharacter))
+            ARL::ModelInstance* localCharacter = ARL::Network::Players::findLocalCharacter(workspace);
+            if(ARL::Humanoid* localHumanoid = ARL::Humanoid::modelIsCharacter(localCharacter))
                 localHumanoid->setJump(isJump);
         }
     }
@@ -1077,7 +1077,7 @@ namespace RBX {
     {
         if(shared_ptr<DataModel> dataModel = weakDataModel.lock())
         {
-            RBX::Workspace* workspace = dataModel->getWorkspace();
+            ARL::Workspace* workspace = dataModel->getWorkspace();
             if(!workspace)
                 return;
             
@@ -1085,8 +1085,8 @@ namespace RBX {
             if(!camera)
                 return;
             
-            RBX::ModelInstance* localCharacter = RBX::Network::Players::findLocalCharacter(workspace);
-            if(RBX::Humanoid* localHumanoid = RBX::Humanoid::modelIsCharacter(localCharacter))
+            ARL::ModelInstance* localCharacter = ARL::Network::Players::findLocalCharacter(workspace);
+            if(ARL::Humanoid* localHumanoid = ARL::Humanoid::modelIsCharacter(localCharacter))
             {
                 if(walkDir == Vector2::zero())
                 {
@@ -1104,14 +1104,14 @@ namespace RBX {
                 Vector2 movementVector = walkDir.direction();
                 
                 // get the angle between the standard "forward" direction and our current desired direction
-                RBX::Vector2 northDirection(0,-1);
+                ARL::Vector2 northDirection(0,-1);
                 float crossMoveWithNorth = (movementVector.x * northDirection.y) - (movementVector.y * northDirection.x);
                 float angle = -atan2(crossMoveWithNorth, movementVector.dot(northDirection));
                 
                 // get camera lookVector, projected into the xz plane
-                RBX::Vector3 camLookVector = (camera->getCameraFocus().translation - camera->getCameraCoordinateFrame().translation).unit();
-                RBX::Vector3 camLookProjected = G3D::Plane(Vector3(0,1,0),Vector3(0,0,0)).closestPoint(camLookVector);
-                RBX::Vector2 camLook2d = RBX::Vector2(camLookProjected.x,camLookProjected.z);
+                ARL::Vector3 camLookVector = (camera->getCameraFocus().translation - camera->getCameraCoordinateFrame().translation).unit();
+                ARL::Vector3 camLookProjected = G3D::Plane(Vector3(0,1,0),Vector3(0,0,0)).closestPoint(camLookVector);
+                ARL::Vector2 camLook2d = ARL::Vector2(camLookProjected.x,camLookProjected.z);
                 
                 // rotate our desired move direction with the camera xz plane projection
                 float cosAngle = cosf(angle);
@@ -1119,7 +1119,7 @@ namespace RBX {
                 float xRotated = camLook2d.x * cosAngle - camLook2d.y * sinAngle;
                 float zRotated = camLook2d.x * sinAngle + camLook2d.y * cosAngle;
                 
-                localHumanoid->setWalkDirection(RBX::Vector3(xRotated,0,zRotated));
+                localHumanoid->setWalkDirection(ARL::Vector3(xRotated,0,zRotated));
             }
         }
     }
@@ -1130,10 +1130,10 @@ namespace RBX {
         walkDirection = walkDir;
         this->maxWalkDelta = fabs(maxWalkDelta);
         
-        moveLocalCharacterInternal(shared_from(RBX::DataModel::get(this)), walkDir, maxWalkDelta);
+        moveLocalCharacterInternal(shared_from(ARL::DataModel::get(this)), walkDir, maxWalkDelta);
     }
     
-    void UserInputService::moveLocalCharacter(RBX::Vector2 movementVector, float maxMovementDelta)
+    void UserInputService::moveLocalCharacter(ARL::Vector2 movementVector, float maxMovementDelta)
     {
 		walkDirection = movementVector;
 		maxWalkDelta = fabs(maxMovementDelta);
@@ -1154,7 +1154,7 @@ namespace RBX {
 			sendJumpRequestEvent();
     }
 
-    void UserInputService::processToolEvent(const shared_ptr<RBX::InputObject>& event)
+    void UserInputService::processToolEvent(const shared_ptr<ARL::InputObject>& event)
     {
 		boost::mutex::scoped_lock lock(ToolEventsMutex);
 		toolEventsVector.push_back(event);
@@ -1164,7 +1164,7 @@ namespace RBX {
     {
         if(shared_ptr<DataModel> dataModel = weakDataModel.lock())
         {
-            RBX::Workspace* workspace = dataModel->getWorkspace();
+            ARL::Workspace* workspace = dataModel->getWorkspace();
             if(!workspace)
                 return;
             
@@ -1180,18 +1180,18 @@ namespace RBX {
         }
     }
 
-	void UserInputService::wrapCamera(RBX::Vector2 mouseWrap)
+	void UserInputService::wrapCamera(ARL::Vector2 mouseWrap)
 	{
 		cameraMouseWrap += mouseWrap;
 	}
     
-    void UserInputService::rotateCamera(RBX::Vector2 mouseDelta)
+    void UserInputService::rotateCamera(ARL::Vector2 mouseDelta)
     {
 		cameraPanDelta += mouseDelta;
 		cameraPanDelta = Vector2(G3D::clamp(cameraPanDelta.x,-100.0f,100.0f),cameraPanDelta.y);
     }
     
-    void UserInputService::rotateCameraLua(RBX::Vector2 mouseDelta)
+    void UserInputService::rotateCameraLua(ARL::Vector2 mouseDelta)
     {
         doCameraRotate( G3D::clamp(mouseDelta.x,-100.0f,100.0f), mouseDelta.y, shared_from(DataModel::get(this)));
     }
@@ -1200,7 +1200,7 @@ namespace RBX {
     {
         if(shared_ptr<DataModel> dataModel = weakDataModel.lock())
         {
-            RBX::Workspace* workspace = dataModel->getWorkspace();
+            ARL::Workspace* workspace = dataModel->getWorkspace();
             if(!workspace)
                 return;
             
@@ -1223,7 +1223,7 @@ namespace RBX {
 		cameraZoom += zoom;
     }
 
-	void UserInputService::mouseTrackCamera(RBX::Vector2 mouseDelta)
+	void UserInputService::mouseTrackCamera(ARL::Vector2 mouseDelta)
 	{
 		cameraMouseTrack = mouseDelta;
 	}
@@ -1308,17 +1308,17 @@ namespace RBX {
 	// Begin Gesture Input signals/functions
 	//////////////////////////////////////////////////////////////////////////
     
-    void UserInputService::addGestureEventToProcess(const UserInputService::Gesture gesture, shared_ptr<RBX::Reflection::ValueArray>& touchPositions, shared_ptr<Reflection::Tuple>& args)
+    void UserInputService::addGestureEventToProcess(const UserInputService::Gesture gesture, shared_ptr<ARL::Reflection::ValueArray>& touchPositions, shared_ptr<Reflection::Tuple>& args)
     {
         if(touchPositions && args)
         {
             boost::mutex::scoped_lock lock(GestureEventsMutex);
             
-            gestureEventsToProcess.push_back(std::pair<UserInputService::Gesture, std::pair<shared_ptr<RBX::Reflection::ValueArray>,shared_ptr<const Reflection::Tuple> > >(gesture, std::pair<shared_ptr<RBX::Reflection::ValueArray>, shared_ptr<const Reflection::Tuple> >(touchPositions, args)));
+            gestureEventsToProcess.push_back(std::pair<UserInputService::Gesture, std::pair<shared_ptr<ARL::Reflection::ValueArray>,shared_ptr<const Reflection::Tuple> > >(gesture, std::pair<shared_ptr<ARL::Reflection::ValueArray>, shared_ptr<const Reflection::Tuple> >(touchPositions, args)));
         }
     }
     
-    void UserInputService::fireGestureEvent(const UserInputService::Gesture gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args, const bool wasSunk)
+    void UserInputService::fireGestureEvent(const UserInputService::Gesture gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args, const bool wasSunk)
     {
         switch (gesture)
         {
@@ -1326,24 +1326,24 @@ namespace RBX {
                 tapGestureEvent(touchPositions, wasSunk);
                 break;
             case UserInputService::GESTURE_SWIPE:
-                RBXASSERT(args->values.size() == 2);
+                ARLASSERT(args->values.size() == 2);
                 swipeGestureEvent(args->values[0].cast<UserInputService::SwipeDirection>(),args->values[1].cast<int>(), wasSunk);
                 break;
             case UserInputService::GESTURE_ROTATE:
-                RBXASSERT(args->values.size() == 3);
+                ARLASSERT(args->values.size() == 3);
                 rotateGestureEvent(touchPositions,args->values[0].cast<float>(),args->values[1].cast<float>(), args->values[2].cast<InputObject::UserInputState>(), wasSunk);
                 break;
             case UserInputService::GESTURE_PINCH:
-                RBXASSERT(args->values.size() == 3);
+                ARLASSERT(args->values.size() == 3);
                 pinchGestureEvent(touchPositions,args->values[0].cast<float>(),args->values[1].cast<float>(), args->values[2].cast<InputObject::UserInputState>(), wasSunk);
                 break;
             case UserInputService::GESTURE_LONGPRESS:
-                RBXASSERT(args->values.size() == 1);
+                ARLASSERT(args->values.size() == 1);
                 longPressGestureEvent(touchPositions,args->values[0].cast<InputObject::UserInputState>(), wasSunk);
                 break;
             case UserInputService::GESTURE_PAN:
-                RBXASSERT(args->values.size() == 3);
-                panGestureEvent(touchPositions,args->values[0].cast<RBX::Vector2>(),args->values[1].cast<RBX::Vector2>(),args->values[2].cast<InputObject::UserInputState>(), wasSunk);
+                ARLASSERT(args->values.size() == 3);
+                panGestureEvent(touchPositions,args->values[0].cast<ARL::Vector2>(),args->values[1].cast<ARL::Vector2>(),args->values[2].cast<InputObject::UserInputState>(), wasSunk);
                 break;
             case UserInputService::GESTURE_NONE:
             default: // intentional fall thru
@@ -1363,7 +1363,7 @@ namespace RBX {
         if (tmpGestureEventsMap.size() > 0)
         {
 			Vector2 guiOffset = Vector2::zero();
-			if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+			if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 			{
 				guiOffset = guiService->getGlobalGuiInset().xy();
 			}
@@ -1372,15 +1372,15 @@ namespace RBX {
             {
                 GuiResponse response;
 
-				shared_ptr<RBX::Reflection::ValueArray> touchPositions = (*iter).second.first;
+				shared_ptr<ARL::Reflection::ValueArray> touchPositions = (*iter).second.first;
 
 				if (guiOffset != Vector2::zero())
 				{
-					for (RBX::Reflection::ValueArray::iterator valueIter = touchPositions->begin(); valueIter != touchPositions->end(); ++valueIter)
+					for (ARL::Reflection::ValueArray::iterator valueIter = touchPositions->begin(); valueIter != touchPositions->end(); ++valueIter)
 					{
-						if ((*valueIter).isType<RBX::Vector2>())
+						if ((*valueIter).isType<ARL::Vector2>())
 						{
-							RBX::Vector2 touchPosition = (*valueIter).cast<RBX::Vector2>();
+							ARL::Vector2 touchPosition = (*valueIter).cast<ARL::Vector2>();
 							touchPosition -= guiOffset;
 							*valueIter = touchPosition;
 						}
@@ -1392,8 +1392,8 @@ namespace RBX {
             
                 if (!response.wasSunk())
                 {
-                    if (RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this))
-                        if (RBX::Network::Player* player = players->getLocalPlayer())
+                    if (ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this))
+                        if (ARL::Network::Player* player = players->getLocalPlayer())
                             if (PlayerGui* playerGui = player->findFirstChildOfType<PlayerGui>())
                                 response = playerGui->processGesture((*iter).first, touchPositions, (*iter).second.second);
                 }
@@ -1568,7 +1568,7 @@ namespace RBX {
 											mouseEventObject->setDelta(inputObject->getDelta());
 											mouseEventObject->setPosition(inputObject->getRawPosition());
 									} else {
-										mouseEventObject = RBX::Creatable<RBX::Instance>::create<RBX::InputObject>(inputObject->getUserInputType(), inputObject->getUserInputState(), 
+										mouseEventObject = ARL::Creatable<ARL::Instance>::create<ARL::InputObject>(inputObject->getUserInputType(), inputObject->getUserInputState(), 
 											inputObject->getRawPosition(), inputObject->getDelta(), DataModel::get(this));
 									}
 									eventPair = std::pair<shared_ptr<InputObject>, void*>( mouseEventObject, nativeInputObject);
@@ -1611,7 +1611,7 @@ namespace RBX {
         return gravityInputObject;
     }
 
-    void UserInputService::fireAccelerationEvent(const RBX::Vector3& newAcceleration)
+    void UserInputService::fireAccelerationEvent(const ARL::Vector3& newAcceleration)
     {
         boost::mutex::scoped_lock lock(MotionEventsMutex);
         
@@ -1623,7 +1623,7 @@ namespace RBX {
         shouldFireAccelerationEvent = true;
     }
     
-    void UserInputService::fireGravityEvent(const RBX::Vector3& newGravity)
+    void UserInputService::fireGravityEvent(const ARL::Vector3& newGravity)
     {
         boost::mutex::scoped_lock lock(MotionEventsMutex);
         
@@ -1635,7 +1635,7 @@ namespace RBX {
         shouldFireGravityEvent = true;
     }
     
-    void UserInputService::fireRotationEvent(const RBX::Vector3& newRotation, const RBX::Vector4& quaternion)
+    void UserInputService::fireRotationEvent(const ARL::Vector3& newRotation, const ARL::Vector4& quaternion)
     {
         boost::mutex::scoped_lock lock(MotionEventsMutex);
         
@@ -1686,7 +1686,7 @@ namespace RBX {
             }
             else if (!gyroscopeEnabled)
             {
-                RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "Trying to listen to rotation events on a device without a gyroscope.");
+                ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "Trying to listen to rotation events on a device without a gyroscope.");
             }
             else
             {
@@ -1707,7 +1707,7 @@ namespace RBX {
             }
             else if (!accelerometerEnabled)
             {
-                RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "Trying to listen to acceleration events on a device without a accelerometer.");
+                ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "Trying to listen to acceleration events on a device without a accelerometer.");
             }
             else
             {
@@ -1739,7 +1739,7 @@ namespace RBX {
 	//////////////////////////////////////////////////////////////////////////
 	// Begin Keyboard/Mouse Input signals/functions
 	//////////////////////////////////////////////////////////////////////////
-    void UserInputService::sendMouseEvent(const shared_ptr<RBX::InputObject>& event, void* nativeEventObject)
+    void UserInputService::sendMouseEvent(const shared_ptr<ARL::InputObject>& event, void* nativeEventObject)
     {
 		fireInputEvent(event, nativeEventObject);
 	}
@@ -1748,7 +1748,7 @@ namespace RBX {
     {
         std::string clipBoardText = "";
         
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO) && !defined(RBX_PLATFORM_UWP)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO) && !defined(ARL_PLATFORM_UWP)
         if(::OpenClipboard(NULL))
 		{
 			HANDLE hData = ::GetClipboardData(CF_TEXT);
@@ -1762,7 +1762,7 @@ namespace RBX {
 #endif
         
 #if defined(__APPLE__)
-#if !RBX_PLATFORM_IOS
+#if !ARL_PLATFORM_IOS
         NSString* pasteString = [[NSPasteboard generalPasteboard] stringForType:NSPasteboardTypeString];
         if(pasteString)
             clipBoardText = [pasteString UTF8String];
@@ -1772,9 +1772,9 @@ namespace RBX {
         return clipBoardText;
     }
     
-    std::vector<RBX::ModCode> UserInputService::getCommandModCodes()
+    std::vector<ARL::ModCode> UserInputService::getCommandModCodes()
     {
-        std::vector<RBX::ModCode> modCodes;
+        std::vector<ARL::ModCode> modCodes;
 #ifdef _WIN32
         modCodes.push_back(KMOD_LCTRL);
         modCodes.push_back(KMOD_RCTRL);
@@ -1785,9 +1785,9 @@ namespace RBX {
         return modCodes;
     }
 
-	RBX::ModCode UserInputService::getCurrentModKey()
+	ARL::ModCode UserInputService::getCurrentModKey()
 	{
-		for(std::vector<std::pair<RBX::KeyCode, RBX::ModCode> >::iterator it = modPairs.begin(); it != modPairs.end(); ++it)
+		for(std::vector<std::pair<ARL::KeyCode, ARL::ModCode> >::iterator it = modPairs.begin(); it != modPairs.end(); ++it)
         {
             if (newKeyState.find(it->first) != newKeyState.end())
 			{
@@ -1800,76 +1800,76 @@ namespace RBX {
 		return KMOD_NONE;
 	}
 
-	char UserInputService::getModifiedKey(RBX::KeyCode key, RBX::ModCode mod)
+	char UserInputService::getModifiedKey(ARL::KeyCode key, ARL::ModCode mod)
 	{
 		// if our keycode is actually a modifier, don't return a char
 		switch(key)
 		{
-		case RBX::SDLK_LSHIFT:
-		case RBX::SDLK_RSHIFT:
-		case RBX::SDLK_LCTRL:
-		case RBX::SDLK_RCTRL:
-		case RBX::SDLK_CAPSLOCK:
-		case RBX::SDLK_LALT:
-		case RBX::SDLK_RALT:
+		case ARL::SDLK_LSHIFT:
+		case ARL::SDLK_RSHIFT:
+		case ARL::SDLK_LCTRL:
+		case ARL::SDLK_RCTRL:
+		case ARL::SDLK_CAPSLOCK:
+		case ARL::SDLK_LALT:
+		case ARL::SDLK_RALT:
 			return 0;
 		default:
 			break;
 		}
 
-		bool shift = ((mod & RBX::KMOD_RSHIFT) != 0) || ((mod & RBX::KMOD_LSHIFT) != 0);
-		bool caps = ((mod & RBX::KMOD_CAPS) != 0);
+		bool shift = ((mod & ARL::KMOD_RSHIFT) != 0) || ((mod & ARL::KMOD_LSHIFT) != 0);
+		bool caps = ((mod & ARL::KMOD_CAPS) != 0);
 
 		//XOR
 		bool isUpper = (shift && !caps) || (!shift && caps);
 
-		if ((key >= RBX::SDLK_a) && (key <= RBX::SDLK_z)) 
+		if ((key >= ARL::SDLK_a) && (key <= ARL::SDLK_z)) 
 		{
 			if (isUpper) 
 			{
-				return 'A' + (key - RBX::SDLK_a);
+				return 'A' + (key - ARL::SDLK_a);
 			}
 			else
 			{	
-				return 'a' + (key - RBX::SDLK_a);
+				return 'a' + (key - ARL::SDLK_a);
 			}
 		}
 
 		// this is bad, doesn't work with non-standard keyboards
-		if ((key >= RBX::SDLK_SPACE) && (key <= RBX::SDLK_AT)) {
+		if ((key >= ARL::SDLK_SPACE) && (key <= ARL::SDLK_AT)) {
 			if(shift)
 			{
 				switch(key)
 				{
-				case RBX::SDLK_1:
-					return RBX::SDLK_EXCLAIM;
+				case ARL::SDLK_1:
+					return ARL::SDLK_EXCLAIM;
 					break;
-				case RBX::SDLK_2:
-					return RBX::SDLK_AT;
+				case ARL::SDLK_2:
+					return ARL::SDLK_AT;
 					break;
-				case RBX::SDLK_3:
-					return RBX::SDLK_HASH;
+				case ARL::SDLK_3:
+					return ARL::SDLK_HASH;
 					break;
-				case RBX::SDLK_4:
-					return RBX::SDLK_DOLLAR;
+				case ARL::SDLK_4:
+					return ARL::SDLK_DOLLAR;
 					break;
-				case RBX::SDLK_5:
-					return RBX::SDLK_PERCENT;
+				case ARL::SDLK_5:
+					return ARL::SDLK_PERCENT;
 					break;
-				case RBX::SDLK_6:
-					return RBX::SDLK_CARET;
+				case ARL::SDLK_6:
+					return ARL::SDLK_CARET;
 					break;
-				case RBX::SDLK_7:
-					return RBX::SDLK_AMPERSAND;
+				case ARL::SDLK_7:
+					return ARL::SDLK_AMPERSAND;
 					break;
-				case RBX::SDLK_8:
-					return RBX::SDLK_ASTERISK;
+				case ARL::SDLK_8:
+					return ARL::SDLK_ASTERISK;
 					break;
-				case RBX::SDLK_9:
-					return RBX::SDLK_LEFTPAREN;
+				case ARL::SDLK_9:
+					return ARL::SDLK_LEFTPAREN;
 					break;
-				case RBX::SDLK_0:
-					return RBX::SDLK_RIGHTPAREN;
+				case ARL::SDLK_0:
+					return ARL::SDLK_RIGHTPAREN;
 					break;
                 default:
                     break;
@@ -1877,7 +1877,7 @@ namespace RBX {
 			}
 			else
 			{
-				return ' ' + (key - RBX::SDLK_SPACE);
+				return ' ' + (key - ARL::SDLK_SPACE);
 			}
 		}
 
@@ -1885,38 +1885,38 @@ namespace RBX {
 		{
 			switch(key)
 			{
-			case RBX::SDLK_SEMICOLON:
-				return RBX::SDLK_COLON;
+			case ARL::SDLK_SEMICOLON:
+				return ARL::SDLK_COLON;
 				break;
-			case RBX::SDLK_COMMA:
-				return RBX::SDLK_LESS;
+			case ARL::SDLK_COMMA:
+				return ARL::SDLK_LESS;
 				break;
-			case RBX::SDLK_PERIOD:
-				return RBX::SDLK_GREATER;
+			case ARL::SDLK_PERIOD:
+				return ARL::SDLK_GREATER;
 				break;
-			case RBX::SDLK_SLASH:
-				return RBX::SDLK_QUESTION;
+			case ARL::SDLK_SLASH:
+				return ARL::SDLK_QUESTION;
 				break;
-			case RBX::SDLK_MINUS:
-				return RBX::SDLK_UNDERSCORE;
+			case ARL::SDLK_MINUS:
+				return ARL::SDLK_UNDERSCORE;
 				break;
-			case RBX::SDLK_BACKQUOTE:
-				return RBX::SDLK_TILDE;
+			case ARL::SDLK_BACKQUOTE:
+				return ARL::SDLK_TILDE;
 				break;
-			case RBX::SDLK_LEFTBRACKET:
-				return RBX::SDLK_LEFTCURLY;
+			case ARL::SDLK_LEFTBRACKET:
+				return ARL::SDLK_LEFTCURLY;
 				break;
-			case RBX::SDLK_RIGHTBRACKET:
-				return RBX::SDLK_RIGHTCURLY;
+			case ARL::SDLK_RIGHTBRACKET:
+				return ARL::SDLK_RIGHTCURLY;
 				break;
-			case RBX::SDLK_BACKSLASH:
-				return RBX::SDLK_PIPE;
+			case ARL::SDLK_BACKSLASH:
+				return ARL::SDLK_PIPE;
 				break;
-			case RBX::SDLK_EQUALS:
-				return RBX::SDLK_PLUS;
+			case ARL::SDLK_EQUALS:
+				return ARL::SDLK_PLUS;
 				break;
-			case RBX::SDLK_QUOTE:
-				return RBX::SDLK_QUOTEDBL;
+			case ARL::SDLK_QUOTE:
+				return ARL::SDLK_QUOTEDBL;
 				break;
             default:
                 break;
@@ -1940,7 +1940,7 @@ namespace RBX {
 		}
 	}
 
-	void UserInputService::setKeyStateInternal(RBX::KeyCode keyCode, ModCode modCode, char modifiedKey, bool isDown) 
+	void UserInputService::setKeyStateInternal(ARL::KeyCode keyCode, ModCode modCode, char modifiedKey, bool isDown) 
 	{
 		if (keyCode == SDLK_CAPSLOCK && isDown)
 		{
@@ -1951,7 +1951,7 @@ namespace RBX {
 
 		if (newKeyState.find(keyCode) == newKeyState.end() )
 		{
-			newKeyState[keyCode] = RBX::Creatable<Instance>::create<InputObject>(InputObject::TYPE_KEYBOARD,
+			newKeyState[keyCode] = ARL::Creatable<Instance>::create<InputObject>(InputObject::TYPE_KEYBOARD,
 																					isDown ? InputObject::INPUT_STATE_BEGIN : InputObject::INPUT_STATE_END, 
 																					keyCode, 
 																					modCode, 
@@ -1969,7 +1969,7 @@ namespace RBX {
 		}
 	}
 
-	void UserInputService::setKeyState(RBX::KeyCode keyCode, ModCode modCode, char modifiedKey, bool isDown) 
+	void UserInputService::setKeyState(ARL::KeyCode keyCode, ModCode modCode, char modifiedKey, bool isDown) 
 	{
         KeyboardData data;
         data.keyCode = keyCode;
@@ -1981,9 +1981,9 @@ namespace RBX {
         keyboardEventsToProcess.push_back(data);
 	}
 
-	bool UserInputService::isKeyDown(RBX::KeyCode keyCode) 
+	bool UserInputService::isKeyDown(ARL::KeyCode keyCode) 
 	{
-        boost::unordered_map<RBX::KeyCode, shared_ptr<InputObject> >::iterator iter = newKeyState.find(keyCode);
+        boost::unordered_map<ARL::KeyCode, shared_ptr<InputObject> >::iterator iter = newKeyState.find(keyCode);
 		if (iter == newKeyState.end())
 		{
 			return false;
@@ -2017,7 +2017,7 @@ namespace RBX {
 	{
 		shared_ptr<Reflection::ValueArray> keyboardArray = rbx::make_shared<Reflection::ValueArray>();
 
-		for (boost::unordered_map<RBX::KeyCode, shared_ptr<InputObject> >::iterator iter = newKeyState.begin(); iter != newKeyState.end(); ++iter)
+		for (boost::unordered_map<ARL::KeyCode, shared_ptr<InputObject> >::iterator iter = newKeyState.begin(); iter != newKeyState.end(); ++iter)
 		{
 			if ((*iter).second->getUserInputState() == InputObject::INPUT_STATE_BEGIN)
 			{
@@ -2355,7 +2355,7 @@ namespace RBX {
 		// after signal this has been set
 		return supportedGamepadKeyCodes[gamepadType];
 	}
-	bool UserInputService::gamepadSupports(InputObject::UserInputType gamepadType, RBX::KeyCode keyCode)
+	bool UserInputService::gamepadSupports(InputObject::UserInputType gamepadType, ARL::KeyCode keyCode)
 	{
 		shared_ptr<const Reflection::ValueArray> gamepadKeyCodes = getSupportedGamepadKeyCodes(gamepadType);
 		const Reflection::Variant keyCodeVariant(keyCode);
@@ -2365,9 +2365,9 @@ namespace RBX {
 			for (Reflection::ValueArray::const_iterator iter = gamepadKeyCodes->begin(); iter != gamepadKeyCodes->end(); ++iter)
 			{
 				const Reflection::Variant iterVariant = (*iter);
-				if (iterVariant.isType<RBX::KeyCode>())
+				if (iterVariant.isType<ARL::KeyCode>())
 				{
-					RBX::KeyCode iterKeyCode = iterVariant.cast<RBX::KeyCode>();
+					ARL::KeyCode iterKeyCode = iterVariant.cast<ARL::KeyCode>();
 					if (iterKeyCode == keyCode)
 					{
 						return true;
@@ -2383,7 +2383,7 @@ namespace RBX {
 	{
 		shared_ptr<Reflection::ValueArray> gamepadArray = rbx::make_shared<Reflection::ValueArray>();
 
-		if (GamepadService* gamepadService = ServiceProvider::create<RBX::GamepadService>(this))
+		if (GamepadService* gamepadService = ServiceProvider::create<ARL::GamepadService>(this))
 		{
 			Gamepad gamepad = gamepadService->getGamepadState(GamepadService::getGamepadIntForEnum(gamepadType));
 
@@ -2400,7 +2400,7 @@ namespace RBX {
 	shared_ptr<const Reflection::ValueArray> UserInputService::getNavigationGamepads()
 	{
 		shared_ptr<Reflection::ValueArray> gamepadNavigationArray = rbx::make_shared<Reflection::ValueArray>();
-		if (GamepadService* gamepadService = ServiceProvider::create<RBX::GamepadService>(this))
+		if (GamepadService* gamepadService = ServiceProvider::create<ARL::GamepadService>(this))
 		{
 			boost::unordered_map<InputObject::UserInputType, bool> navigationGamepadMap = gamepadService->getNavigationGamepadMap();
 			for (boost::unordered_map<InputObject::UserInputType, bool>::iterator iter = navigationGamepadMap.begin(); iter != navigationGamepadMap.end(); ++iter)
@@ -2417,7 +2417,7 @@ namespace RBX {
 
 	bool UserInputService::isNavigationGamepad(InputObject::UserInputType gamepadType)
 	{
-		if (GamepadService* gamepadService = ServiceProvider::create<RBX::GamepadService>(this))
+		if (GamepadService* gamepadService = ServiceProvider::create<ARL::GamepadService>(this))
 		{
 			return gamepadService->isNavigationGamepad(gamepadType);
 		}
@@ -2427,7 +2427,7 @@ namespace RBX {
 
 	void UserInputService::setNavigationGamepad(InputObject::UserInputType gamepadType, bool enabled)
 	{
-		if (GamepadService* gamepadService = ServiceProvider::create<RBX::GamepadService>(this))
+		if (GamepadService* gamepadService = ServiceProvider::create<ARL::GamepadService>(this))
 		{
 			gamepadService->setNavigationGamepad(gamepadType, enabled);
 		}
@@ -2491,4 +2491,4 @@ namespace RBX {
 		return result;
 	}
 
-} // Namespace RBX
+} // Namespace ARL

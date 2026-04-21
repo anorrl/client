@@ -5,7 +5,7 @@
 #include "solver/SolverContainers.h"
 #include "solver/ConstraintJacobian.h"
 
-namespace RBX
+namespace ARL
 {
     class DebugSerializer;
 
@@ -31,7 +31,7 @@ namespace RBX
     class SymmetricMatrix
     {
     public:
-        RBX_SIMD_INLINE Vector3 operator*( const Vector3& v ) const
+        ARL_SIMD_INLINE Vector3 operator*( const Vector3& v ) const
         {
             Vector3 r;
             r.x = diagonals.x * v.x + offDiagonals.x * v.y + offDiagonals.y * v.z;
@@ -40,7 +40,7 @@ namespace RBX
             return r;
         }
 
-        RBX_SIMD_INLINE SymmetricMatrix operator*( float s ) const
+        ARL_SIMD_INLINE SymmetricMatrix operator*( float s ) const
         {
             SymmetricMatrix r;
             r.diagonals = s * diagonals;
@@ -70,20 +70,20 @@ namespace RBX
     class SymmetricMatrixSIMD
     {
     public:
-        RBX_SIMD_INLINE SymmetricMatrixSIMD( const float* _m )
+        ARL_SIMD_INLINE SymmetricMatrixSIMD( const float* _m )
         {
             diagonals = simd::load3( _m );
             offDiagonals = simd::load3( _m + 3 );
         }
 
-        RBX_SIMD_INLINE SymmetricMatrixSIMD( const simd::v4f& _diagonal, const simd::v4f& _offDiagonal ): diagonals( _diagonal ), offDiagonals( _offDiagonal ) { }
+        ARL_SIMD_INLINE SymmetricMatrixSIMD( const simd::v4f& _diagonal, const simd::v4f& _offDiagonal ): diagonals( _diagonal ), offDiagonals( _offDiagonal ) { }
 
-        RBX_SIMD_INLINE SymmetricMatrixSIMD( const SymmetricMatrixPOD& _m ): diagonals( _m.diagonals ), offDiagonals( _m.offDiagonals ) { }
+        ARL_SIMD_INLINE SymmetricMatrixSIMD( const SymmetricMatrixPOD& _m ): diagonals( _m.diagonals ), offDiagonals( _m.offDiagonals ) { }
 
         template< int row, int column >
-        RBX_SIMD_INLINE simd::v4f get() const;
+        ARL_SIMD_INLINE simd::v4f get() const;
 
-        RBX_SIMD_INLINE simd::v4f operator*( const simd::v4f& v ) const
+        ARL_SIMD_INLINE simd::v4f operator*( const simd::v4f& v ) const
         {
             simd::v4f t0 = diagonals * v;
             simd::v4f t1 = simd::permute<0, 2, 1, 3>( offDiagonals ) * simd::permute< 1, 2, 0, 3>( v );
@@ -91,7 +91,7 @@ namespace RBX
             return t0 + t1 + t2;
         }
 
-        RBX_SIMD_INLINE void invert()
+        ARL_SIMD_INLINE void invert()
         {
             simd::v4f x00x00x02x01 = simd::shuffle< 0, 0, 1, 0 >( diagonals, offDiagonals );
             simd::v4f x11x00x01x12 = simd::shuffle< 1, 0, 0, 2 >( diagonals, offDiagonals );
@@ -124,25 +124,25 @@ namespace RBX
     };
 
     template< >
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<0,0>() const { return simd::splat<0>( diagonals ); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<0,0>() const { return simd::splat<0>( diagonals ); }
     template< > 
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<1,1>() const { return simd::splat<1>( diagonals ); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<1,1>() const { return simd::splat<1>( diagonals ); }
     template< > 
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<2,2>() const { return simd::splat<2>( diagonals ); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<2,2>() const { return simd::splat<2>( diagonals ); }
     template< >
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<0,1>() const { return simd::splat<0>( offDiagonals ); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<0,1>() const { return simd::splat<0>( offDiagonals ); }
     template< > 
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<0,2>() const { return simd::splat<1>( offDiagonals ); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<0,2>() const { return simd::splat<1>( offDiagonals ); }
     template< > 
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<1,2>() const { return simd::splat<2>( offDiagonals ); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<1,2>() const { return simd::splat<2>( offDiagonals ); }
     template< >
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<1,0>() const { return get<0,1>(); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<1,0>() const { return get<0,1>(); }
     template< > 
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<2,0>() const { return get<0,2>(); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<2,0>() const { return get<0,2>(); }
     template< > 
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<2,1>() const { return get<1,2>(); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrixSIMD::get<2,1>() const { return get<1,2>(); }
 
-    static RBX_SIMD_INLINE SymmetricMatrixSIMD operator*( const simd::v4f& s, const SymmetricMatrixSIMD& m )
+    static ARL_SIMD_INLINE SymmetricMatrixSIMD operator*( const simd::v4f& s, const SymmetricMatrixSIMD& m )
     {
         return SymmetricMatrixSIMD( s * m.diagonals, s* m.offDiagonals );
     }
@@ -153,31 +153,31 @@ namespace RBX
     class SymmetricMatrix2SIMD
     {
     public:
-        RBX_SIMD_INLINE SymmetricMatrix2SIMD( ) { }
+        ARL_SIMD_INLINE SymmetricMatrix2SIMD( ) { }
 
-        RBX_SIMD_INLINE SymmetricMatrix2SIMD( const simd::v4f& d00, const simd::v4f& d11, const simd::v4f& d01 )
+        ARL_SIMD_INLINE SymmetricMatrix2SIMD( const simd::v4f& d00, const simd::v4f& d11, const simd::v4f& d01 )
         {
             m = simd::gatherX( d00, d01, d01, d11 );
         }
 
-        RBX_SIMD_INLINE void load( const float* _m )
+        ARL_SIMD_INLINE void load( const float* _m )
         {
             m = simd::form( _m[0], _m[2], _m[2], _m[1] );
         }
 
-        RBX_SIMD_INLINE void form( const simd::v4f& d00, const simd::v4f& d11, const simd::v4f& d01 )
+        ARL_SIMD_INLINE void form( const simd::v4f& d00, const simd::v4f& d11, const simd::v4f& d01 )
         {
             m = simd::gatherX( d00, d01, d01, d11 );
         }
 
-        RBX_SIMD_INLINE simd::v4f operator*( const simd::v4f& v ) const
+        ARL_SIMD_INLINE simd::v4f operator*( const simd::v4f& v ) const
         {
             simd::v4f t0 = m * simd::permute< 0, 0, 1, 1 >( v );
             simd::v4f t1 = simd::permute< 2, 3, 0, 1 >( t0 );
             return t0 + t1;
         }
 
-        RBX_SIMD_INLINE void invert()
+        ARL_SIMD_INLINE void invert()
         {
             simd::v4f xt = simd::splat< 1 >( m );
             simd::v4f det = simd::splat< 0 >( m ) * simd::splat< 3 >( m ) - xt * xt;
@@ -186,43 +186,43 @@ namespace RBX
         }
 
         template< int row, int column >
-        RBX_SIMD_INLINE simd::v4f get() const;
+        ARL_SIMD_INLINE simd::v4f get() const;
 
         simd::v4f m;
     };
 
     template<  >
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrix2SIMD::get<0,0>() const { return simd::splat<0>( m ); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrix2SIMD::get<0,0>() const { return simd::splat<0>( m ); }
     template<  >
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrix2SIMD::get<1,0>() const { return simd::splat<1>( m ); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrix2SIMD::get<1,0>() const { return simd::splat<1>( m ); }
     template<  >
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrix2SIMD::get<0,1>() const { return simd::splat<1>( m ); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrix2SIMD::get<0,1>() const { return simd::splat<1>( m ); }
     template<  >
-    RBX_SIMD_INLINE simd::v4f SymmetricMatrix2SIMD::get<1,1>() const { return simd::splat<3>( m ); }
+    ARL_SIMD_INLINE simd::v4f SymmetricMatrix2SIMD::get<1,1>() const { return simd::splat<3>( m ); }
 
     class SolverBodyMassAndInertia
     {
     public:
         void serialize( DebugSerializer& s ) const;
 
-        RBX_SIMD_INLINE SymmetricMatrixSIMD getInvInertiaVelStage() const
+        ARL_SIMD_INLINE SymmetricMatrixSIMD getInvInertiaVelStage() const
         {
             return inertiaSIMD;
         }
 
-        RBX_SIMD_INLINE SymmetricMatrixSIMD getInvInertiaPosStage( float scale ) const
+        ARL_SIMD_INLINE SymmetricMatrixSIMD getInvInertiaPosStage( float scale ) const
         {
             simd::v4f inertiaScale = simd::splat( scale ) * simd::splat( posToVelMassRatio );
             SymmetricMatrixSIMD r( inertiaSIMD );
             return inertiaScale * r;
         }
 
-        RBX_SIMD_INLINE simd::v4f getInvMassVelStage() const
+        ARL_SIMD_INLINE simd::v4f getInvMassVelStage() const
         {
             return simd::splat( massInvVelStage );
         }
 
-        RBX_SIMD_INLINE simd::v4f getInvMassPosStage() const
+        ARL_SIMD_INLINE simd::v4f getInvMassPosStage() const
         {
             return simd::splat( massInvVelStage * posToVelMassRatio );
         }
@@ -231,10 +231,10 @@ namespace RBX
         class PosStage;
 
         template< class StageSelect >
-        RBX_SIMD_INLINE simd::v4f getInvMass() const;
+        ARL_SIMD_INLINE simd::v4f getInvMass() const;
 
         template< class StageSelect >
-        RBX_SIMD_INLINE SymmetricMatrixSIMD getInvInertia( float scale ) const;
+        ARL_SIMD_INLINE SymmetricMatrixSIMD getInvInertia( float scale ) const;
 
         union
         {
@@ -250,25 +250,25 @@ namespace RBX
     };
 
     template<>
-    RBX_SIMD_INLINE simd::v4f SolverBodyMassAndInertia::getInvMass< SolverBodyMassAndInertia::VelStage >() const
+    ARL_SIMD_INLINE simd::v4f SolverBodyMassAndInertia::getInvMass< SolverBodyMassAndInertia::VelStage >() const
     {
         return getInvMassVelStage();
     }
 
     template<>
-    RBX_SIMD_INLINE simd::v4f SolverBodyMassAndInertia::getInvMass< SolverBodyMassAndInertia::PosStage >() const
+    ARL_SIMD_INLINE simd::v4f SolverBodyMassAndInertia::getInvMass< SolverBodyMassAndInertia::PosStage >() const
     {
         return getInvMassPosStage();
     }
 
     template< >
-    RBX_SIMD_INLINE SymmetricMatrixSIMD SolverBodyMassAndInertia::getInvInertia< SolverBodyMassAndInertia::VelStage >( float scale ) const
+    ARL_SIMD_INLINE SymmetricMatrixSIMD SolverBodyMassAndInertia::getInvInertia< SolverBodyMassAndInertia::VelStage >( float scale ) const
     {
         return getInvInertiaVelStage();
     }
 
     template< >
-    RBX_SIMD_INLINE SymmetricMatrixSIMD SolverBodyMassAndInertia::getInvInertia< SolverBodyMassAndInertia::PosStage >( float scale ) const
+    ARL_SIMD_INLINE SymmetricMatrixSIMD SolverBodyMassAndInertia::getInvInertia< SolverBodyMassAndInertia::PosStage >( float scale ) const
     {
         return getInvInertiaPosStage( scale );
     }

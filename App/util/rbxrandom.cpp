@@ -2,11 +2,11 @@
 
 #include "util/rbxrandom.h"
 
-namespace RBX {
+namespace ARL {
 	unsigned int randomSeed()
 	{
 		std::string guid;
-		RBX::Guid::generateStandardGUID(guid);
+		ARL::Guid::generateStandardGUID(guid);
 		unsigned int seed = 0;
 		for (unsigned int i=0; i < guid.size() - 4; i += 4)
 		{

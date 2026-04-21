@@ -5,7 +5,7 @@
 #include "V8World/ParallelRampMesh.h"
 #include "V8World/BlockMesh.h"
 
-namespace RBX {
+namespace ARL {
 
 	class ParallelRampPoly : public Poly {
 	public:

@@ -23,7 +23,7 @@
 #include "Util/Rect.h"
 #include "util/standardout.h"
 
-namespace RBX {
+namespace ARL {
 
 REFLECTION_BEGIN();
 static const Reflection::PropDescriptor<SkateboardPlatform, int> propThrottle("Throttle", "Control", &SkateboardPlatform::getThrottle, &SkateboardPlatform::setThrottle);
@@ -84,8 +84,8 @@ SkateboardPlatform::SkateboardPlatform()
 
 {
 	setName(sSkateboardPlatform);
-	RBXASSERT(Edge::getPrimitive(0) == NULL);
-	RBXASSERT(Edge::getPrimitive(1) == NULL);
+	ARLASSERT(Edge::getPrimitive(0) == NULL);
+	ARLASSERT(Edge::getPrimitive(1) == NULL);
 
 	createPlatformMotor6DSignal.connect(boost::bind(static_cast<void (SkateboardPlatform::*)(shared_ptr<Instance>)>(&SkateboardPlatform::createPlatformMotor6DInternal), this, _1));
 	destroyPlatformMotor6DSignal.connect(boost::bind(&SkateboardPlatform::findAndDestroyPlatformMotor6DInternal, this));
@@ -94,9 +94,9 @@ SkateboardPlatform::SkateboardPlatform()
 
 SkateboardPlatform::~SkateboardPlatform() 
 {
-	RBXASSERT(world == NULL);
-	RBXASSERT(Edge::getPrimitive(0) == NULL);
-	RBXASSERT(Edge::getPrimitive(1) == NULL);
+	ARLASSERT(world == NULL);
+	ARLASSERT(Edge::getPrimitive(0) == NULL);
+	ARLASSERT(Edge::getPrimitive(1) == NULL);
 }
 
 
@@ -150,7 +150,7 @@ void SkateboardPlatform::onLocalPlatformStanding(Humanoid* humanoid)
 	}
 	else
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Error mounting skateboard platform. Both Humanoid and SkateboardPlatform must be direct children of a Model");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Error mounting skateboard platform. Both Humanoid and SkateboardPlatform must be direct children of a Model");
 	}
 }
 
@@ -265,7 +265,7 @@ void SkateboardPlatform::countGroundedWheels()
 	{
 		for(int i = 0; i < wheels.size(); ++i)
 		{
-			RBX::RbxRay caster( wheels[i].joint->getJointWorldCoord(1).translation, downforceDir* 2.0f); // search 2 stud
+			ARL::RbxRay caster( wheels[i].joint->getJointWorldCoord(1).translation, downforceDir* 2.0f); // search 2 stud
 			Primitive* hitPrim = NULL;
 			geom->getHitLocationFilterStairs(humanoid->getParent(), caster, &hitPrim);
 			if(hitPrim)
@@ -316,8 +316,8 @@ bool SkateboardPlatform::stepUi(double distributedGameTime)
 
 	motor6D = findPlatformMotor6D();
 	if (motor6D) {
-		RBXASSERT(humanoidFromMotor6D(motor6D) == this->humanoid);
-		RBXASSERT(humanoidFromMotor6D(motor6D) == this->humanoid);
+		ARLASSERT(humanoidFromMotor6D(motor6D) == this->humanoid);
+		ARLASSERT(humanoidFromMotor6D(motor6D) == this->humanoid);
 	}
 
 /*	if(false)
@@ -527,7 +527,7 @@ void SkateboardPlatform::renderGuange(
 
 	float speedDraw = std::min(speed, 100.0f) * 10;
 	Rect speedo = Rect::fromCenterSize(center, Vector2(speedDraw, 20));
-	adorn->rect2d(speedo.toRect2D(), Color3::blue());	// note RBX color
+	adorn->rect2d(speedo.toRect2D(), Color3::blue());	// note ARL color
 
 	std::string speedText = "Speed: " + StringConverter<int>::convertToString(static_cast<int>(speed));
 	adorn->drawFont2D(
@@ -672,7 +672,7 @@ void SkateboardPlatform::findAndDestroyPlatformMotor6D()
 			PartInstance *p = PartInstance::fromPrimitive(hitPrim);
 			if (p)
 			{
-				if (p->getPartType() == RBX::TRUSS_PART) return true;
+				if (p->getPartType() == ARL::TRUSS_PART) return true;
 			}
 		}
 

@@ -7,7 +7,7 @@ namespace G3D {
 	class RenderDevice;
 }
 
-namespace RBX 
+namespace ARL 
 {
 	class Rect;
 
@@ -29,7 +29,7 @@ namespace RBX
 
 		// generic 2d - must be in 2d mode
 		static void rect2d(
-			const RBX::Rect& rect,
+			const ARL::Rect& rect,
 			G3D::RenderDevice* rd,
 			const G3D::Color4& color = G3D::Color3::white());
 
@@ -40,7 +40,7 @@ namespace RBX
 			const G3D::Color4& color = G3D::Color3::white());
 
 		static void outlineRect2d(
-			const RBX::Rect& rect, 
+			const ARL::Rect& rect, 
 			float thick, 
 			G3D::RenderDevice* rd,
 			const G3D::Color4& color = G3D::Color3::blue());

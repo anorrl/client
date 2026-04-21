@@ -4,9 +4,9 @@
 #include "g3d/CoordinateFrame.h"
 #include "TextureRef.h"
 
-namespace RBX { class ColorSequence; class NumberSequence; }
+namespace ARL { class ColorSequence; class NumberSequence; }
 
-namespace RBX{namespace Graphics{
+namespace ARL{namespace Graphics{
 
 class VisualEngine;
 class RenderQueue;

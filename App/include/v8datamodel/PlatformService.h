@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include "v8datamodel/InputObject.h"
 
-namespace RBX {
+namespace ARL {
 	extern const char* const sPlatformService;
 
     // used for startGame2()
@@ -194,7 +194,7 @@ namespace RBX {
 		//				"ProductId" = (string)__name__
 		//				"ConsumableBalance" = (int)__count__
 		//			}
-		virtual int		fetchInventoryInfo(shared_ptr<RBX::Reflection::ValueArray> values) = 0;
+		virtual int		fetchInventoryInfo(shared_ptr<ARL::Reflection::ValueArray> values) = 0;
 
 		// request the party members from XboxLiveServices
 		// result = list of party members

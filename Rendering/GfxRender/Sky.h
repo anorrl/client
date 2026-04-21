@@ -4,7 +4,7 @@
 
 #include "util/G3DCore.h"
 
-namespace RBX
+namespace ARL
 {
 class ContentId;
 }
@@ -14,7 +14,7 @@ namespace G3D
 class LightingParameters;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

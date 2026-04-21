@@ -8,7 +8,7 @@
 #include "Util/NormalId.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class PartInstance;
 	class MotorJoint;

@@ -11,7 +11,7 @@
 
 #include "VMProtectSDK.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 Replicator::PingBackItem::PingBackItem(Replicator* replicator, RakNet::Time time, unsigned int extraStats)
@@ -37,7 +37,7 @@ bool Replicator::PingBackItem::write(RakNet::BitStream& bitStream) {
 
     if (replicator.canUseProtocolVersion(34))
     {
-#if !defined(RBX_RCC_SECURITY) && !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD)
         if (time & 0x20)
         {
             extraStats = ~extraStats;

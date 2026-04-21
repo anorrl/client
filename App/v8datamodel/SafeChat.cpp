@@ -10,7 +10,7 @@
 #include <boost/thread/mutex.hpp>
 
 
-using namespace RBX;
+using namespace ARL;
 
 static const XmlTag& utterance = XmlTag::declare("utterance");
 
@@ -47,7 +47,7 @@ void SafeChat::loadChildren(ChatOption *node, const XmlElement *DOMsubTree)
 		
 		std::string text;
 		bool succeeded = x->getValue(text); // assert on malformed file
-		RBXASSERT(succeeded);
+		ARLASSERT(succeeded);
 		boost::trim(text);
 		ChatOption* child = new ChatOption(text);
 		node->children.push_back(child);
@@ -77,8 +77,8 @@ std::string SafeChat::getMessage(std::vector<std::string> code)
 	// Returns a message from our chat tree, or "" if no message found
 	// code is an array of tokenized args, the first of which is gauranteed to be "sc"
 	// code[1]..[n] will be chat option child indices - do a tree descent; return correct node
-	RBXASSERT(chatRoot);
-	RBXASSERT(code[0] == "sc");
+	ARLASSERT(chatRoot);
+	ARLASSERT(code[0] == "sc");
 
 	ChatOption *cur = chatRoot.get();
 
@@ -91,7 +91,7 @@ std::string SafeChat::getMessage(std::vector<std::string> code)
 		}
 		catch(std::runtime_error & e)
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Safe Chat error! Failed because %s", e.what());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Safe Chat error! Failed because %s", e.what());
 			return "";
 		}
 

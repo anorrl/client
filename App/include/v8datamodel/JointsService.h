@@ -12,7 +12,7 @@
 #include <boost/shared_ptr.hpp>
 #include "V8DataModel/ManualJointHelper.h"
 
-namespace RBX {
+namespace ARL {
 	class IAdornableCollector;
 
 	extern const char *const sJointsService;

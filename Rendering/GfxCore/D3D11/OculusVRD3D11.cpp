@@ -1,4 +1,4 @@
-#if !defined(RBX_PLATFORM_DURANGO) && !defined(RBX_PLATFORM_UWP)
+#if !defined(ARL_PLATFORM_DURANGO) && !defined(ARL_PLATFORM_UWP)
 #include "DeviceD3D11.h"
 
 #include "FramebufferD3D11.h"
@@ -19,7 +19,7 @@ FASTFLAGVARIABLE(DebugRenderVRHUD, false)
 		if (OVR_FAILURE(vrResult)) FASTLOG1(FLog::VR, "VR ERROR: " #call " returned %d", vrResult); \
 	} while (0)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -145,7 +145,7 @@ namespace Graphics
 
 		Framebuffer* getEyeFramebuffer(int eye) override
 		{
-			RBXASSERT(eye == 0 || eye == 1);
+			ARLASSERT(eye == 0 || eye == 1);
 
 			return textures[eye].fb[textures[eye].textureSet->CurrentIndex].get();
 		}
@@ -262,9 +262,9 @@ namespace Graphics
 
 				ovrResult result = ovr_CreateSwapTextureSetD3D11(session, device11, &dsDesc, ovrSwapTextureSetD3D11_Typeless, &textures[eye].textureSet);
 				if (OVR_FAILURE(result))
-					throw RBX::runtime_error("ovr_CreateSwapTextureSetD3D11 failed with %d", result);
+					throw ARL::runtime_error("ovr_CreateSwapTextureSetD3D11 failed with %d", result);
 
-				RBXASSERT(textures[eye].textureSet->TextureCount <= VRTexture::kMaxCount);
+				ARLASSERT(textures[eye].textureSet->TextureCount <= VRTexture::kMaxCount);
 
 				for (int i = 0; i < textures[eye].textureSet->TextureCount; ++i)
 				{

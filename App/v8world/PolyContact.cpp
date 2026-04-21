@@ -6,13 +6,13 @@
 #include "V8Kernel/Kernel.h"
 #include "V8World/Primitive.h"
 
-namespace RBX {
+namespace ARL {
 
 PolyContact::~PolyContact()
 {
 	deleteConnectors(polyConnectors);
 
-	RBXASSERT(polyConnectors.size() == 0);
+	ARLASSERT(polyConnectors.size() == 0);
 }
 
 ContactConnector* PolyContact::getConnector(int i)	
@@ -31,7 +31,7 @@ void PolyContact::deleteConnectors(ConnectorArray& deleteConnectors)
 	removeAllConnectorsFromKernel();
 
 	for (size_t i = 0; i < deleteConnectors.size(); ++i) {
-		RBXASSERT(!deleteConnectors[i]->isInKernel());
+		ARLASSERT(!deleteConnectors[i]->isInKernel());
 		delete deleteConnectors[i];
 	}
 
@@ -99,19 +99,19 @@ void PolyContact::updateClosestFeatures()
 
 	matchClosestFeatures(newConnectors);	// new Connectors is now the deal!
 
-	RBXASSERT(newConnectors.size() <= 10);
+	ARLASSERT(newConnectors.size() <= 10);
 
 	deleteConnectors(polyConnectors);		// any remaining not matched
 
 	polyConnectors = newConnectors;			// transfer over the pointers
 
-	RBXASSERT(polyConnectors.size() <= 10);
+	ARLASSERT(polyConnectors.size() <= 10);
 }
 
 float PolyContact::worstFeatureOverlap()
 {
 	float worstOverlap = -FLT_MAX;		// i.e. not overlapping
-	RBXASSERT(polyConnectors.size() > 0);
+	ARLASSERT(polyConnectors.size() > 0);
 	for (size_t i = 0; i < polyConnectors.size(); ++i) {				// may not have any overlapping features!
 		float overlap = polyConnectors[i]->computeOverlap();				// computeLength returns negative
 		worstOverlap = std::max(worstOverlap, overlap);

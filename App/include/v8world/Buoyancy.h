@@ -18,7 +18,7 @@
 	the buoyancy and viscosity force applied on that voxel shape.
 */
 
-namespace RBX {
+namespace ARL {
 
 	namespace Voxel { class Grid; }
 	namespace Voxel2 { class Grid; }
@@ -30,7 +30,7 @@ namespace RBX {
 		static float waterViscosity;
 		static const float waterDensity;
 
-		typedef RBX::FixedArray<BuoyancyConnector*, MAX_CONNECTORS> ConnectorArray;
+		typedef ARL::FixedArray<BuoyancyConnector*, MAX_CONNECTORS> ConnectorArray;
 
 		static Geometry::GeometryType determineGeometricType( Primitive *prim );
 		static BuoyancyContact* create( Primitive* p0, Primitive *p1 );

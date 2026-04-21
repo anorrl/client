@@ -16,7 +16,7 @@
 #include "voxel/Grid.h"
 #include "voxel2/Grid.h"
 
-namespace RBX
+namespace ARL
 {
 	using namespace Voxel;
 	///////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +50,7 @@ namespace RBX
 	{
 		removeAllConnectorsFromKernel();
 		for (size_t i = 0; i < connectors.size(); ++i) {
-			RBXASSERT(!connectors[i]->isInKernel());
+			ARLASSERT(!connectors[i]->isInKernel());
 			delete connectors[i];
 		}
 		connectors.fastClear();
@@ -65,7 +65,7 @@ namespace RBX
 
 	Geometry::GeometryType BuoyancyContact::determineGeometricType( Primitive *primitive )
 	{
-		if (RBX::PartInstance::fromPrimitive(primitive)->getPartType() == CYLINDER_PART)
+		if (ARL::PartInstance::fromPrimitive(primitive)->getPartType() == CYLINDER_PART)
 			return Geometry::GEOMETRY_CYLINDER;
 		if (primitive->getCollideType() == Geometry::COLLIDE_BALL)
 			return Geometry::GEOMETRY_BALL;
@@ -83,14 +83,14 @@ namespace RBX
 		if (getPrimitive(0)->getWorld()->getUsingNewPhysicalProperties())
 		{
 			// Buoyancy force does not depend on the object density. Only water density.
-			fullBuoyancy.y = - floaterPrim->getGeometry()->getVolume() * Units::kmsAccelerationToRbx( RBX::Constants::getKmsGravity() ) * waterDensity;
+			fullBuoyancy.y = - floaterPrim->getGeometry()->getVolume() * Units::kmsAccelerationToRbx( ARL::Constants::getKmsGravity() ) * waterDensity;
 		}
 		else
 		{
 			// Buoyant force:			Fb = p_water * grav_constant * Volume_displaced
 			// Can be expanded into:	Fb = p_o * g * V / (p_w/p_o)
 			// Unfortunately legacy Roblox never knew the correct mass of an object, so what the hell?
-			fullBuoyancy.y = - floaterPrim->getConstBody()->getMass() * (Units::kmsAccelerationToRbx( RBX::Constants::getKmsGravity() ) / floaterPrim->getSpecificGravity());
+			fullBuoyancy.y = - floaterPrim->getConstBody()->getMass() * (Units::kmsAccelerationToRbx( ARL::Constants::getKmsGravity() ) / floaterPrim->getSpecificGravity());
 		}
 	}
 
@@ -114,7 +114,7 @@ namespace RBX
 	BuoyancyContact::~BuoyancyContact()
 	{
 		deleteConnectors();
-		RBXASSERT(connectors.size() == 0);
+		ARLASSERT(connectors.size() == 0);
 		floaterPrim->onBuoyancyChanged( false );
 	}
 
@@ -125,14 +125,14 @@ namespace RBX
 
 		if (hasDistanceSubmergedUnderWater(extents.min(), waterLevel, extents.max())) {
 			floatDistance = waterLevel - extents.min().y;
-			RBXASSERT(floatDistance >= -1e-5);
+			ARLASSERT(floatDistance >= -1e-5);
 			if (worldPosUnderWater(extents.max())) {
 				// fully submerged
 				sinkDistance = -1.0f;
 			} else if (worldPosAboveWater(extents.max(), extents.min().y, waterLevel)) {
 				// Partially submerged
 				sinkDistance = extents.max().y - waterLevel;
-				RBXASSERT(sinkDistance >= -1e-5);
+				ARLASSERT(sinkDistance >= -1e-5);
 			} else {
 				// Degenerate case: no water found below the top point within the extent.
 				// Bottom side in the water while top side out of water.
@@ -146,7 +146,7 @@ namespace RBX
 			// No water found above the bottom point
 			if (hasDistanceSubmergedUnderWater(extents.max(), waterLevel, extents.max())) {
 				floatDistance = waterLevel - extents.min().y;
-				RBXASSERT(floatDistance >= -1e-5);
+				ARLASSERT(floatDistance >= -1e-5);
 				if (worldPosAboveWater(extents.min(), extents.min().y - floatDistance, waterLevel)) {
 					// Partially submerged
 					sinkDistance = extents.max().y - waterLevel;
@@ -219,7 +219,7 @@ namespace RBX
 	{
 
 		const Vector3 partialBuoyancy = fullBuoyancy / connectors.size();
-		float viscosity_K = -waterViscosity / RBX::Constants::kernelDt() / connectors.size();
+		float viscosity_K = -waterViscosity / ARL::Constants::kernelDt() / connectors.size();
 
 		for (unsigned int i = 0; i < connectors.size(); ++i) {
 			float submergeRatio = connectors[i]->getSubMergeRatio();
@@ -380,7 +380,7 @@ namespace RBX
 				contact = new BuoyancyCornerWedgeContact(p0, p1);
 				break;
 			default:
-				RBXASSERT(contact);
+				ARLASSERT(contact);
 		}
 
 		contact->initializeCrossSections();
@@ -431,7 +431,7 @@ namespace RBX
 
 	void BuoyancyBallContact::updateWaterBand()
 	{
-		RBXASSERT(connectors.size() == 1);  // Ball has only one connector	
+		ARLASSERT(connectors.size() == 1);  // Ball has only one connector	
 
 		float floatDistance, sinkDistance, waterLevel;
 		Vector3 center = floaterPrim->getPV().position.translation;
@@ -440,24 +440,24 @@ namespace RBX
 	
 		if (hasDistanceSubmergedUnderWater(bottom, waterLevel, top)) {
 			floatDistance = waterLevel - bottom.y;
-			RBXASSERT(floatDistance >= -1e-5);
+			ARLASSERT(floatDistance >= -1e-5);
 			if (worldPosUnderWater(top)) {
 				// fully submerged
 				sinkDistance = -1.0f;
 			} else {
 				bool aboveWater = worldPosAboveWater(top, bottom.y, waterLevel);
-				RBXASSERT(aboveWater);
+				ARLASSERT(aboveWater);
 				// Partially submerged
 				sinkDistance = top.y - waterLevel;
-				RBXASSERT(sinkDistance >= -1e-5);
+				ARLASSERT(sinkDistance >= -1e-5);
 			}
 		} else {
 			// No water found above the bottom point
 			if (worldPosAboveWater(top, bottom.y, waterLevel)) {
 				floatDistance = top.y - waterLevel;
-				RBXASSERT(floatDistance >= -1e-5);
+				ARLASSERT(floatDistance >= -1e-5);
 				sinkDistance = waterLevel - bottom.y;
-				RBXASSERT(sinkDistance >= -1e-5);
+				ARLASSERT(sinkDistance >= -1e-5);
 			} else {
 				// De-generate case : No water found at the top and bottom
 				// Just sample the 4 sides and give a rough estimate
@@ -477,7 +477,7 @@ namespace RBX
 	//    integration over water depth yields volume fraction as (2 + 3k - k^3)/4 where k is normalized water depth over [-1, 1]
 	void BuoyancyBallContact::updateSubmergeRatio()
 	{
-		RBXASSERT(connectors.size() == 1);
+		ARLASSERT(connectors.size() == 1);
 		float floatDistance, sinkDistance;
 		connectors[0]->getWaterBand(floatDistance, sinkDistance);
 		if (floatDistance <= 0.0f)
@@ -490,7 +490,7 @@ namespace RBX
 		}
 	}
 
-	RBX::Vector3 BuoyancyBallContact::getWaterVelocity( int )
+	ARL::Vector3 BuoyancyBallContact::getWaterVelocity( int )
 	{
 		Vector3 center = floaterPrim->getPV().position.translation;
 		Vector3 velocity = cellVelocity( center );
@@ -548,7 +548,7 @@ namespace RBX
 	void BuoyancyBoxContact::getSurfaceAreaInDirection(const Vector3& relativeVelocityDir, float& crossArea, float& tangentArea)
 	{
 		Vector3 componentWeights = relativeVelocityDir * relativeVelocityDir;
-		RBXASSERT(Math::fuzzyEq(componentWeights.x + componentWeights.y + componentWeights.z, 1.0f, 1.0e-4f));
+		ARLASSERT(Math::fuzzyEq(componentWeights.x + componentWeights.y + componentWeights.z, 1.0f, 1.0e-4f));
 
 		crossArea = crossSectionSurfaceAreas.dot(componentWeights);
 		tangentArea = tangentSurfaceAreas.dot(componentWeights);
@@ -566,7 +566,7 @@ namespace RBX
 	{
 		// A box is divided into 8 voxels, one for each connector.
 		// Each voxel computes its own submersion ratio.
-		RBXASSERT(connectors.size() == 8);
+		ARLASSERT(connectors.size() == 8);
 
 		for (unsigned int i = 0; i < connectors.size(); ++i) {
 			float floatDistance, sinkDistnace;		
@@ -605,12 +605,12 @@ namespace RBX
 	//   and a spherical interpolator for cylinder in horizontal position as the following:
 	//   v = 1/2 + (arcsin(x) + x*sqrt(1 - x^2))/pi, where v is the fraction of the volume and x is the fractional
 	//   height of cylinder under water over the interval [-1, 1].
-	void RBX::BuoyancyCylinderContact::updateSubmergeRatio()
+	void ARL::BuoyancyCylinderContact::updateSubmergeRatio()
 	{
 		// Just do a linear interpolation for vertical case
 		BuoyancyBoxContact::updateSubmergeRatio();
 
-		RBXASSERT(connectors.size() == 8);
+		ARLASSERT(connectors.size() == 8);
 		// we average the 4 ratios, and then map them to [-1, 1] from [0, 1]
 		float startPointRatio = (connectors[0]->getSubMergeRatio() + connectors[1]->getSubMergeRatio() +
 								 connectors[2]->getSubMergeRatio() + connectors[3]->getSubMergeRatio()) * 0.5f - 1.0f;
@@ -659,7 +659,7 @@ namespace RBX
 		BuoyancyBoxContact::updateSubmergeRatio();
 		// GetMass() still returns a mass as if it were a box, so voxel weights must sum to number of voxels (8 here)
 		static const float WedgeVoxelWeightArray[8] = {1.0f, 2.0f, 0.0f, 1.0f, 1.0f, 2.0f, 0.0f, 1.0f};
-		RBXASSERT(connectors.size() == 8);
+		ARLASSERT(connectors.size() == 8);
 		for (unsigned int i = 0; i < connectors.size(); ++i)
 			connectors[i]->setSubMergeRatio( WedgeVoxelWeightArray[i] * connectors[i]->getSubMergeRatio() );
 	}
@@ -687,7 +687,7 @@ namespace RBX
 	{
 		BuoyancyBoxContact::updateSubmergeRatio();
 		static const float CornerWedgeVoxelWeightArray[8] = {1.5f, 1.0f, 0.0f, 0.0f, 3.0f, 1.5f, 1.0f, 0.0f};
-		RBXASSERT(connectors.size() == 8);
+		ARLASSERT(connectors.size() == 8);
 		for (unsigned int i = 0; i < connectors.size(); ++i)
 			connectors[i]->setSubMergeRatio( CornerWedgeVoxelWeightArray[i] * connectors[i]->getSubMergeRatio() );
 	}

@@ -4,7 +4,7 @@
 
 #include "HeadersGL.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -53,23 +53,23 @@ static unsigned int getVertexAttributeGL(VertexLayout::Semantic semantic, unsign
     switch (semantic)
 	{
 	case VertexLayout::Semantic_Position:
-		RBXASSERT(index == 0);
+		ARLASSERT(index == 0);
         return 0;
 
 	case VertexLayout::Semantic_Normal:
-		RBXASSERT(index == 0);
+		ARLASSERT(index == 0);
         return 1;
 
 	case VertexLayout::Semantic_Color:
-		RBXASSERT(index < 2);
+		ARLASSERT(index < 2);
         return 2 + index;
 
 	case VertexLayout::Semantic_Texture:
-        RBXASSERT(index < 8);
+        ARLASSERT(index < 8);
         return 4 + index;
 
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
         return -1;
 	}
 }
@@ -115,7 +115,7 @@ template <typename Base> GeometryBufferGL<Base>::GeometryBufferGL(Device* device
 template <typename Base> void GeometryBufferGL<Base>::create()
 {
 	glGenBuffers(1, &id);
-    RBXASSERT(id);
+    ARLASSERT(id);
 
 	glBindBuffer(target, id);
 	glBufferData(target, this->elementSize * this->elementCount, NULL, gBufferUsageGL[this->usage]);
@@ -123,14 +123,14 @@ template <typename Base> void GeometryBufferGL<Base>::create()
 
 template <typename Base> GeometryBufferGL<Base>::~GeometryBufferGL()
 {
-    RBXASSERT(!locked);
+    ARLASSERT(!locked);
 
 	glDeleteBuffers(1, &id);
 }
 
 template <typename Base> void* GeometryBufferGL<Base>::lock(GeometryBuffer::LockMode mode)
 {
-    RBXASSERT(!locked);
+    ARLASSERT(!locked);
     
     unsigned int size = this->elementSize * this->elementCount;
 
@@ -157,14 +157,14 @@ template <typename Base> void* GeometryBufferGL<Base>::lock(GeometryBuffer::Lock
         locked = new char[size];
 	}
 
-    RBXASSERT(locked);
+    ARLASSERT(locked);
 
     return locked;  
 }
 
 template <typename Base> void GeometryBufferGL<Base>::unlock()
 {
-    RBXASSERT(locked);
+    ARLASSERT(locked);
 
     const DeviceCapsGL& caps = static_cast<DeviceGL*>(this->device)->getCapsGL();
 
@@ -186,8 +186,8 @@ template <typename Base> void GeometryBufferGL<Base>::unlock()
 
 template <typename Base> void GeometryBufferGL<Base>::upload(unsigned int offset, const void* data, unsigned int size)
 {
-    RBXASSERT(!locked);
-    RBXASSERT(offset + size <= this->elementSize * this->elementCount);
+    ARLASSERT(!locked);
+    ARLASSERT(offset + size <= this->elementSize * this->elementCount);
 
     glBindBuffer(target, id);
     glBufferSubData(target, offset, size, data);
@@ -209,10 +209,10 @@ IndexBufferGL::IndexBufferGL(Device* device, size_t elementSize, size_t elementC
     const DeviceCapsGL& caps = static_cast<DeviceGL*>(device)->getCapsGL();
 
 	if (elementSize != 2 && elementSize != 4)
-		throw RBX::runtime_error("Invalid element size: %d", (int)elementSize);
+		throw ARL::runtime_error("Invalid element size: %d", (int)elementSize);
 
 	if (elementSize == 4 && !caps.supportsIndex32)
-		throw RBX::runtime_error("Unsupported element size: %d", (int)elementSize);
+		throw ARL::runtime_error("Unsupported element size: %d", (int)elementSize);
 
 	create();
 }
@@ -231,7 +231,7 @@ GeometryGL::GeometryGL(Device* device, const shared_ptr<VertexLayout>& layout, c
 	if (caps.extVertexArrayObject)
 	{
 		glGenVertexArrays(1, &id);
-		RBXASSERT(id);
+		ARLASSERT(id);
 
 		glBindVertexArray(id);
 
@@ -294,13 +294,13 @@ unsigned int GeometryGL::bindArrays()
 		const VertexLayout::Element& e = elements[i];
 
 		int index = getVertexAttributeGL(e.semantic, e.semanticIndex);
-        RBXASSERT(index >= 0);
+        ARLASSERT(index >= 0);
 
-		RBXASSERT(e.stream < vertexBuffers.size());
+		ARLASSERT(e.stream < vertexBuffers.size());
 
 		VertexBufferGL* vb = static_cast<VertexBufferGL*>(vertexBuffers[e.stream].get());
 
-		RBXASSERT(e.offset < vb->getElementSize());
+		ARLASSERT(e.offset < vb->getElementSize());
             
         size_t stride = vb->getElementSize();
 		size_t offset = e.offset + stride * baseVertexIndex;

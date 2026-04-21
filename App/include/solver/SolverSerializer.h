@@ -8,7 +8,7 @@
 
 #include "boost/filesystem.hpp"
 
-namespace RBX
+namespace ARL
 {
 
 class SolverSerializer

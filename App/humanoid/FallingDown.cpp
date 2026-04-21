@@ -6,7 +6,7 @@
 #include "V8DataModel/ModelInstance.h"
 #include "Network/Players.h"
 
-namespace RBX {
+namespace ARL {
 	namespace HUMAN {
 
 const char* const sPhysics = "Physics";
@@ -63,4 +63,4 @@ Physics::Physics(Humanoid* humanoid, StateType priorState)
 
 
 	} // namespace HUMAN
-}	// namespace RBX
+}	// namespace ARL

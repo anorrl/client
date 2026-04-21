@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace RBX {
+namespace ARL {
 
 	// Stub class - primitive descends from this to protect body::setCoordinateFrame() from others
 	class BodyPvSetter

@@ -12,7 +12,7 @@
 
 class sgCObject;
 
-namespace RBX {
+namespace ARL {
 
 class triangulationVertex
 {
@@ -106,7 +106,7 @@ private:
     EditData editData;
 
     std::vector<CSGHalfEdge> halfEdges;
-    RBX::Extents extents;
+    ARL::Extents extents;
     void makeExtents();
 };
 
@@ -140,11 +140,11 @@ protected:
     typedef boost::unordered_map <G3D::uint64,int> IPosClassMap;
     IPosClassMap posclasses;
 
-    typedef RBX::Vector3int32 v3i2[2];
+    typedef ARL::Vector3int32 v3i2[2];
     G3D::uint64 makeKey( const v3i2& v, unsigned int ii );
     IPosClassMap::iterator addPos( G3D::uint64 key, int indx );
     void addPosClasses( G3D::uint64 key[8], int indx );
     void mergeClasses( IPosClassMap::iterator it[8] );
 };
 
-} // namespace RBX
+} // namespace ARL

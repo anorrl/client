@@ -1,9 +1,9 @@
 #pragma once
 
-namespace RBX {
+namespace ARL {
 
 	typedef enum KeywordFilterType {	INCLUDE_KEYWORDS = 0,
 										EXCLUDE_KEYWORDS	} KeywordFilterType;
 
 
-}	// namespace RBX
+}	// namespace ARL

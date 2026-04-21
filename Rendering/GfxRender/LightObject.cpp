@@ -8,7 +8,7 @@
 #include "Util.h"
 #include "VisualEngine.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -88,7 +88,7 @@ static Extents computeLightExtents(const Vector3& position, const Vector3& direc
     }
     else
     {
-        RBXASSERT(false);
+        ARLASSERT(false);
         return Extents();
     }
 }
@@ -109,15 +109,15 @@ static float getLightRange(Light* light)
     }
     else
     {
-        RBXASSERT(false);
+        ARLASSERT(false);
         return 0;
     }
 }
 
 static void resizeShadowProjection(boost::scoped_array<unsigned char>& data, unsigned int oldSize, unsigned int newSize)
 {
-    RBXASSERT(newSize > 0);
-    RBXASSERT(newSize % 2 == 1); // all resize requests are odd; this simplifies the copy logic below
+    ARLASSERT(newSize > 0);
+    ARLASSERT(newSize % 2 == 1); // all resize requests are odd; this simplifies the copy logic below
 
     unsigned char* newData = new unsigned char[newSize * newSize];
 
@@ -128,7 +128,7 @@ static void resizeShadowProjection(boost::scoped_array<unsigned char>& data, uns
     if (oldSize != 0)
     {
         unsigned int sharedSize = std::min(oldSize, newSize);
-        RBXASSERT(sharedSize % 2 == 1);
+        ARLASSERT(sharedSize % 2 == 1);
 
         const unsigned char* oldData = data.get();
 
@@ -175,7 +175,7 @@ void LightObject::onSleepingChangedEx(bool sleeping)
     }
 }
 
-void LightObject::onParentSizeChangedEx(const RBX::Reflection::PropertyDescriptor* pd)
+void LightObject::onParentSizeChangedEx(const ARL::Reflection::PropertyDescriptor* pd)
 {
     if (pd == &PartInstance::prop_Size)
     {
@@ -262,7 +262,7 @@ void LightObject::updateCoordinateFrame(bool recalcLocalBounds)
         updateWorldBounds(Extents());
         
         // Make sure the node is not in the spatial hash
-        RBXASSERT(!IsInSpatialHash());
+        ARLASSERT(!IsInSpatialHash());
     }
 
     invalidateLighting(oldWorldBB);
@@ -284,7 +284,7 @@ void LightObject::onCombinedSignalEx(Instance::CombinedSignalType type, const In
     }
 }
 
-void LightObject::onPropertyChangedEx(const RBX::Reflection::PropertyDescriptor* descriptor)
+void LightObject::onPropertyChangedEx(const ARL::Reflection::PropertyDescriptor* descriptor)
 {
     invalidateEntity();
 }
@@ -303,17 +303,17 @@ void LightObject::onAncestorChangedEx()
     {
         unbind();
         
-        RBX::PartInstance* parent = RBX::Instance::fastDynamicCast<RBX::PartInstance>(lightCopy->getParent());
-        shared_ptr<RBX::PartInstance> part = shared_from(parent);
+        ARL::PartInstance* parent = ARL::Instance::fastDynamicCast<ARL::PartInstance>(lightCopy->getParent());
+        shared_ptr<ARL::PartInstance> part = shared_from(parent);
             
         bind(part, lightCopy);
     }
 }
 
-void LightObject::bind(const shared_ptr<RBX::PartInstance>& part, const shared_ptr<RBX::Light>& light)
+void LightObject::bind(const shared_ptr<ARL::PartInstance>& part, const shared_ptr<ARL::Light>& light)
 {
-    RBXASSERT(!this->part && !this->light);
-    RBXASSERT(light);
+    ARLASSERT(!this->part && !this->light);
+    ARLASSERT(light);
     
     this->part = part;
     this->light = light;
@@ -389,7 +389,7 @@ void LightObject::updateEntity(bool assetsUpdated)
 		}
 		else
 		{
-			RBXASSERT(false);
+			ARLASSERT(false);
 			type = Type_None;
 		}
 	}
@@ -412,7 +412,7 @@ void LightObject::updateEntity(bool assetsUpdated)
         // clamp max size to handle FP issues
         if (lightSize > 31)
         {
-            RBXASSERT(false);
+            ARLASSERT(false);
             lightSize = 31;
         }
 

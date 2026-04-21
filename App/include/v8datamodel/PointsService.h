@@ -3,7 +3,7 @@
 #include "V8Tree/Instance.h"
 #include "V8Tree/Service.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sPointsService;
 
@@ -33,7 +33,7 @@ namespace RBX
 		bool isAtAwardPointsLimit();
 
 		void onHeartbeat(const Heartbeat& heartbeat);
-		static void startAwardPointsBatching(weak_ptr<RBX::DataModel> weakDm);
+		static void startAwardPointsBatching(weak_ptr<ARL::DataModel> weakDm);
 
 		////////////////////////////////////////////////////
 		// Instance

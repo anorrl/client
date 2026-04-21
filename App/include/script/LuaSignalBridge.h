@@ -4,7 +4,7 @@
 #include "reflection/object.h"
 #include "Reflection/Event.h"
 
-namespace RBX
+namespace ARL
 {
 	class Instance;
 	namespace Lua

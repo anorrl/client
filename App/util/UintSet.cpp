@@ -10,7 +10,7 @@
 #include <strings.h>
 #endif
 
-namespace RBX {
+namespace ARL {
 
 const unsigned int UintSet::kShiftForGroup = 5;
 const UintSet::BitGroup UintSet::kBitInGroupMask = 0x1F;
@@ -76,11 +76,11 @@ bool UintSet::contains(const unsigned int intVal) {
 }
 
 void UintSet::pop_smallest(unsigned int* out) {
-	RBXASSERT(internalSize);
-	RBXASSERT(bitSet.size());
+	ARLASSERT(internalSize);
+	ARLASSERT(bitSet.size());
 	BitGroup poppedGroup = minBitGroup;
 	BitGroup& lastData = bitSet[0];
-	RBXASSERT(lastData);
+	ARLASSERT(lastData);
 
 	// Step-by-step for this bit magic:
 	// first (lastData & (lastData - 1)):
@@ -101,8 +101,8 @@ void UintSet::pop_smallest(unsigned int* out) {
 	// 01100000 =
 	// 00000100
 	BitGroup flag = lastData ^ (lastData & (lastData - 1));
-	RBXASSERT(flag != 0);
-	RBXASSERT((flag & (flag - 1)) == 0); // assert exactly 1 bit is set
+	ARLASSERT(flag != 0);
+	ARLASSERT((flag & (flag - 1)) == 0); // assert exactly 1 bit is set
 
 	lastData &= ~flag;
 	internalSize--;

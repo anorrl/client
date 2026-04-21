@@ -10,7 +10,7 @@
 #include "Util/ContentFilter.h"
 #include "Gui/ProfanityFilter.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PartInstance;
 	class ModelInstance;

@@ -6,7 +6,7 @@
 #include "V8Tree/Instance.h"
 #include "V8DataModel/Remote.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sMarketplaceService;
 	class MarketplaceService
@@ -28,7 +28,7 @@ namespace RBX {
 		// Cache the MarketPlace Product Info Response
 		struct ResponseCache
 		{
-			RBX::Time lastFetch;
+			ARL::Time lastFetch;
 			shared_ptr<const Reflection::ValueTable> values;
 		};
 		typedef boost::unordered_map<std::string, ResponseCache> UrlToResponseMap;
@@ -125,8 +125,8 @@ namespace RBX {
 
 		void getProductInfo(const int assetId, const MarketplaceService::InfoType infoType, boost::function<void(shared_ptr<const Reflection::ValueTable>)> resumeFunction, boost::function<void(std::string)> errorFunction);
 
-		void onReceivedRawProductInfoSuccess(std::string urlPath, std::string response, boost::weak_ptr<RBX::DataModel> weakDM, boost::function<void(shared_ptr<const Reflection::ValueTable>)> resumeFunction, boost::function<void(std::string)> errorFunction);
-		void onReceivedRawProductInfoError(std::string error, boost::weak_ptr<RBX::DataModel> weakDM, boost::function<void(std::string)> errorFunction);
+		void onReceivedRawProductInfoSuccess(std::string urlPath, std::string response, boost::weak_ptr<ARL::DataModel> weakDM, boost::function<void(shared_ptr<const Reflection::ValueTable>)> resumeFunction, boost::function<void(std::string)> errorFunction);
+		void onReceivedRawProductInfoError(std::string error, boost::weak_ptr<ARL::DataModel> weakDM, boost::function<void(std::string)> errorFunction);
 
 		void playerOwnsAsset(const shared_ptr<Instance> player, const int assetId, boost::function<void(bool)> resumeFunction, boost::function<void(std::string)> errorFunction);
 

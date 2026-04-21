@@ -5,7 +5,7 @@
 #include "V8DataModel/PartInstance.h"
 #include <boost/multi_index/hashed_index.hpp>
 
-std::size_t boost::hash_value(const shared_ptr<RBX::PartInstance>& b)
+std::size_t boost::hash_value(const shared_ptr<ARL::PartInstance>& b)
 {
 	boost::hash<void*> hasher;
 	return hasher(b.get());

@@ -4,7 +4,7 @@
 #include "Util/Extents.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 	class ExtentsInt32 {
 	public:
@@ -20,8 +20,8 @@ namespace RBX {
 			: low(_min)
 			, high(_max)
 		{
-			RBXASSERT_SLOW(low == low.min(high));
-			RBXASSERT_SLOW(high == high.max(low));
+			ARLASSERT_SLOW(low == low.min(high));
+			ARLASSERT_SLOW(high == high.max(low));
 		}
 
 		bool operator==(const ExtentsInt32& other) const {
@@ -39,8 +39,8 @@ namespace RBX {
 		}
 
 		ExtentsInt32 shiftRight(int shift) const {
-			RBXASSERT_SLOW(shift >= 0);
-			RBXASSERT_SLOW(shift <= 32);
+			ARLASSERT_SLOW(shift >= 0);
+			ARLASSERT_SLOW(shift <= 32);
 			return ExtentsInt32(low >> shift, high >> shift);
 		}
 
@@ -49,8 +49,8 @@ namespace RBX {
 		}
 
 		ExtentsInt32 shiftLeft(int shift) const {
-			RBXASSERT_SLOW(shift >= 0);
-			RBXASSERT_SLOW(shift <= 32);
+			ARLASSERT_SLOW(shift >= 0);
+			ARLASSERT_SLOW(shift <= 32);
 			return ExtentsInt32(low << shift, high << shift);
 		}
 
@@ -98,7 +98,7 @@ namespace RBX {
 		int volume() const {
 			Vector3int32 s = size();
 			long long int answer = s.x * s.y * s.z;
-			RBXASSERT(answer < INT_MAX);
+			ARLASSERT(answer < INT_MAX);
 			return static_cast<int>(answer);
 		}
 

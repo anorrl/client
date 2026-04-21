@@ -6,7 +6,7 @@
 #include "rbx/Debug.h"
 #include "Util/Math.h"
 
-namespace RBX {
+namespace ARL {
 
 	
 Quaternion& Quaternion::operator= (const Quaternion& other) 
@@ -85,14 +85,14 @@ void Quaternion::toRotationMatrix(
 	mat[7] = yz + wx;
 	mat[8] = 1.0f - (xx + yy);
 
-	//RBXASSERT(Math::isOrthonormal(rot));
+	//ARLASSERT(Math::isOrthonormal(rot));
 }
 
 } // namespace
 
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

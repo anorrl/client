@@ -9,8 +9,8 @@
   @edited  2006-02-11
 */
 
-#ifndef G3D_RBX_CAMERA_H
-#define G3D_RBX_CAMERA_H
+#ifndef G3D_ARL_CAMERA_H
+#define G3D_ARL_CAMERA_H
 
 #include "G3D/platform.h"
 #include "G3D/CoordinateFrame.h"
@@ -19,7 +19,7 @@
 #include "G3D/Rect2D.h"
 #include "G3D/debugAssert.h"
 
-namespace RBX {
+namespace ARL {
 
 	using G3D::CoordinateFrame;
 	using G3D::Array;
@@ -185,7 +185,7 @@ public:
       the upper left corners of pixels.  If you want to cast rays
       through pixel centers, add 0.5 to x and y.        
     */
-	RBX::RbxRay worldRay(
+	ARL::RbxRay worldRay(
         float                                  x,
         float                                  y,
         const class G3D::Rect2D&                     viewport) const;

@@ -3,7 +3,7 @@
 #include "Resource.h"
 #include "Texture.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

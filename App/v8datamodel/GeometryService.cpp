@@ -10,9 +10,9 @@
 
 #include "rbx/Profiler.h"
 
-const char* const RBX::sGeometryService = "Geometry";
+const char* const ARL::sGeometryService = "Geometry";
 
-using namespace RBX;
+using namespace ARL;
 
 
 GeometryService::GeometryService(void)
@@ -21,7 +21,7 @@ GeometryService::GeometryService(void)
 {
 }
 
-static void addInstanceToIgnorePrimitiveSet(shared_ptr<RBX::Instance> instance, boost::unordered_set<const Primitive*>& primitiveSet)
+static void addInstanceToIgnorePrimitiveSet(shared_ptr<ARL::Instance> instance, boost::unordered_set<const Primitive*>& primitiveSet)
 {
 	PartInstance *part = Instance::fastDynamicCast<PartInstance>(instance.get());
 	if (part) 
@@ -39,7 +39,7 @@ void GeometryService::getPartsTouchingExtentsWithIgnore(
 {
 	if (workspace)
 	{
-		RBXASSERT(found.size() == 0);
+		ARLASSERT(found.size() == 0);
 		ContactManager* contactManager = workspace->getWorld()->getContactManager();
 		foundPrimitives.fastClear();
 		
@@ -81,7 +81,7 @@ void GeometryService::getPartsTouchingExtents(
 {
 	if (workspace)
 	{
-		RBXASSERT(found.size() == 0);
+		ARLASSERT(found.size() == 0);
 		ContactManager* contactManager = workspace->getWorld()->getContactManager();
 		foundPrimitives.fastClear();
 		contactManager->getPrimitivesTouchingExtents(extents, ignore, maxCount, foundPrimitives);
@@ -92,9 +92,9 @@ void GeometryService::getPartsTouchingExtents(
 }
 
 template<class IgnoreType>
-Vector3 GeometryService::getHitLocationPartFilterDescendents(IgnoreType *ancestor, RBX::RbxRay ray, shared_ptr<PartInstance>& result, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes, bool ignoreWaterCells)
+Vector3 GeometryService::getHitLocationPartFilterDescendents(IgnoreType *ancestor, ARL::RbxRay ray, shared_ptr<PartInstance>& result, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes, bool ignoreWaterCells)
 {
-	RBXPROFILER_SCOPE("Physics", "getHitLocationPartFilterDescendents");
+	ARLPROFILER_SCOPE("Physics", "getHitLocationPartFilterDescendents");
 
 	Primitive* hitPrim = NULL;
 	Vector3 v3result = getHitLocationFilterDescendents(ancestor, ray, &hitPrim, surfaceNormal, surfaceMaterial, terrainCellsAreCubes, ignoreWaterCells);
@@ -109,10 +109,10 @@ Vector3 GeometryService::getHitLocationPartFilterDescendents(IgnoreType *ancesto
 }
 
 // explicitly instantiate IgnoreType so linker doesn't QQ
-template Vector3 GeometryService::getHitLocationPartFilterDescendents<Instance>(Instance*, RBX::RbxRay, shared_ptr<PartInstance>&, Vector3&, PartMaterial&, bool, bool);
-template Vector3 GeometryService::getHitLocationPartFilterDescendents<const Instances>(const Instances*, RBX::RbxRay, shared_ptr<PartInstance>&, Vector3&, PartMaterial&, bool, bool);
+template Vector3 GeometryService::getHitLocationPartFilterDescendents<Instance>(Instance*, ARL::RbxRay, shared_ptr<PartInstance>&, Vector3&, PartMaterial&, bool, bool);
+template Vector3 GeometryService::getHitLocationPartFilterDescendents<const Instances>(const Instances*, ARL::RbxRay, shared_ptr<PartInstance>&, Vector3&, PartMaterial&, bool, bool);
 
-Vector3 GeometryService::getHitLocationFilterDescendents(Instance *ancestor, RBX::RbxRay ray, Primitive **hitPrim, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes, bool ignoreWaterCells)
+Vector3 GeometryService::getHitLocationFilterDescendents(Instance *ancestor, ARL::RbxRay ray, Primitive **hitPrim, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes, bool ignoreWaterCells)
 {
 	if (!workspace) return Vector3::zero();
 
@@ -139,7 +139,7 @@ Vector3 GeometryService::getHitLocationFilterDescendents(Instance *ancestor, RBX
 	
 }
 
-Vector3 GeometryService::getHitLocationFilterDescendents(const Instances *ancestors, RBX::RbxRay ray, Primitive **hitPrim, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes,  bool ignoreWaterCells)
+Vector3 GeometryService::getHitLocationFilterDescendents(const Instances *ancestors, ARL::RbxRay ray, Primitive **hitPrim, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes,  bool ignoreWaterCells)
 {
 	if (!workspace) return Vector3::zero();
 
@@ -166,7 +166,7 @@ Vector3 GeometryService::getHitLocationFilterDescendents(const Instances *ancest
 	
 }
 
-Vector3 GeometryService::getHitLocationFilterStairs(Instance *ancestor, RBX::RbxRay ray, Primitive **hitPrim)
+Vector3 GeometryService::getHitLocationFilterStairs(Instance *ancestor, ARL::RbxRay ray, Primitive **hitPrim)
 {
 	if (!workspace) return Vector3::zero();
 

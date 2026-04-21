@@ -4,13 +4,13 @@
 
 class XmlElement;
 
-namespace RBX
+namespace ARL
 {
 	class WebSerializer {
 	public:
-		static XmlElement* writeTable(const RBX::Reflection::ValueMap& result);
-		static XmlElement* writeList(const RBX::Reflection::ValueArray& result);
-		static XmlElement* writeEntry(const std::string& key, const RBX::Reflection::Variant& value);
-		static XmlElement* writeValue(const RBX::Reflection::Variant& value);
+		static XmlElement* writeTable(const ARL::Reflection::ValueMap& result);
+		static XmlElement* writeList(const ARL::Reflection::ValueArray& result);
+		static XmlElement* writeEntry(const std::string& key, const ARL::Reflection::Variant& value);
+		static XmlElement* writeValue(const ARL::Reflection::Variant& value);
 	};
 }

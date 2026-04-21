@@ -4,7 +4,7 @@
 #include "V8World/Controller.h"
 #include "reflection/enumconverter.h"
 
-namespace RBX {
+namespace ARL {
 namespace Reflection {
 	template<>
 	EnumDesc<LegacyController::InputType>::EnumDesc()
@@ -25,4 +25,4 @@ namespace Reflection {
 		addPair(LegacyController::SIN_INPUT, "Sin");
 	}
 }//namespace Reflection
-}// namespace RBX
+}// namespace ARL

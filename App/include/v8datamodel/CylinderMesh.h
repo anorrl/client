@@ -4,7 +4,7 @@
 
 #include "BevelMesh.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sCylinderMesh;
 	class CylinderMesh 

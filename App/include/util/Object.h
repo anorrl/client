@@ -23,7 +23,7 @@ using boost::weak_ptr;
 using boost::enable_shared_from_this;
 
 
-namespace RBX
+namespace ARL
 {
     namespace Reflection
     {
@@ -87,14 +87,14 @@ namespace RBX
         return !(lhs < rhs) && !(rhs < lhs);
     }
 
-	class RBXInterface ICreator
+	class ARLInterface ICreator
 	{
 	public:
 		virtual shared_ptr<Reflection::DescribedBase> create() const = 0;
 	};
 
 	template<class Class>
-	class RBXBaseClass Creatable
+	class ARLBaseClass Creatable
 	{
 	public:
 		class Deleter
@@ -222,44 +222,44 @@ namespace RBX
 			static int isConstructedTrue() {return 666;}
 			static int isConstructed;				// debugging - if constructed, == 666
 
-			const RBX::Name& getClassNameUnconstructed() const {
-				return RBX::Name::declare<sClassName>();
+			const ARL::Name& getClassNameUnconstructed() const {
+				return ARL::Name::declare<sClassName>();
 			}
 
 		public:
 			static bool wasConstructed() {return isConstructed == isConstructedTrue();}
 
 			/* override */ shared_ptr<Reflection::DescribedBase> create() const {
-				RBXASSERT(wasConstructed());
+				ARLASSERT(wasConstructed());
 				return Creatable<FactoryClass>::template create<Class>();
 			}
 
-			const RBX::Name& getClassName() const {
-				RBXASSERT(wasConstructed());
-				return RBX::Name::declare<sClassName>();
+			const ARL::Name& getClassName() const {
+				ARLASSERT(wasConstructed());
+				return ARL::Name::declare<sClassName>();
 			}
 
 			Creator()
             {
 				// Register this creator for create-by-className
-				const RBX::Name& name = getClassNameUnconstructed();
+				const ARL::Name& name = getClassNameUnconstructed();
                 
                 auto& creators = Creatable<FactoryClass>::getCreators();
 
-				RBXASSERT(creators.find(&name)==creators.end());
-				RBXASSERT(!wasConstructed());
+				ARLASSERT(creators.find(&name)==creators.end());
+				ARLASSERT(!wasConstructed());
 
 				creators[&name] = this;
 				isConstructed = isConstructedTrue();
 
-				RBXASSERT(creators.find(&name)!=creators.end());
-				RBXASSERT(wasConstructed());
+				ARLASSERT(creators.find(&name)!=creators.end());
+				ARLASSERT(wasConstructed());
 			}
 
 			~Creator() {
                 auto& creators = Creatable<FactoryClass>::getCreators();
 
-				RBXASSERT(wasConstructed());
+				ARLASSERT(wasConstructed());
 				creators.erase(&getClassName());
 			}
 		};
@@ -286,7 +286,7 @@ namespace RBX
 		{
 		}
 		static const Creator& static_getCreator() { 
-			RBXASSERT(Creator::wasConstructed());
+			ARLASSERT(Creator::wasConstructed());
 			return creatorPrivate; 
 		}
 	public:
@@ -294,12 +294,12 @@ namespace RBX
 			return static_getCreator(); 
 		}
 
-		static const RBX::Name& className() { return static_getCreator().getClassName(); };
+		static const ARL::Name& className() { return static_getCreator().getClassName(); };
 		static bool isNullClassName() { 
-			RBXASSERT(!className().empty());
+			ARLASSERT(!className().empty());
 			return false; 
 		};
-		const RBX::Name& getClassName() const { return static_getCreator().getClassName(); };
+		const ARL::Name& getClassName() const { return static_getCreator().getClassName(); };
 
 		// Convenient static functions for creating an instance of this class:
 		// TODO: Refactor: rename createInstance --> create, but also need to rename AbstractFactoryProduct::create to something else
@@ -358,18 +358,18 @@ namespace RBX
 		template<class Arg0, class Arg1, class Arg2, class Arg3>
 		NonFactoryProduct(Arg0 arg0, Arg1 arg1, Arg2 arg2, Arg3 arg3):BaseClass(arg0, arg1, arg2, arg3) {}
 
-		static const RBX::Name& className() 
+		static const ARL::Name& className() 
 		{ 
-			return RBX::Name::declare<sClassName>();
+			return ARL::Name::declare<sClassName>();
 		};
 		
 		static bool isNullClassName() { 
-			RBXASSERT(className().empty() == (sClassName==NULL));
+			ARLASSERT(className().empty() == (sClassName==NULL));
 			return sClassName==NULL; 
 		};
-		const RBX::Name& getClassName() const {
+		const ARL::Name& getClassName() const {
 			return className();
 		}
 	};
-}	// namespace RBX
+}	// namespace ARL
 

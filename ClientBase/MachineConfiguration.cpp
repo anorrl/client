@@ -15,7 +15,7 @@
 
 FASTFLAG(UseBuildGenericGameUrl)
 
-static void appendProperty(const char* category, std::stringstream& data, const RBX::Reflection::Property& prop)
+static void appendProperty(const char* category, std::stringstream& data, const ARL::Reflection::Property& prop)
 {
 	if (prop.getDescriptor().category == category)
 	{
@@ -31,7 +31,7 @@ static void HandleAsyncHttp(std::string *response, std::exception *exception)
 	// TODO: log?
 }
 
-namespace RBX
+namespace ARL
 {
     void postMachineConfiguration(const char* baseURL, int lastGfxMode)
 	{
@@ -50,7 +50,7 @@ namespace RBX
 			std::stringstream data;
 			G3D::Vector2int16 displayResolution(800, 600);
 			G3D::Vector2int16 fullscreenResolution(800, 600);
-			RBX::DebugSettings& debugsettings = RBX::DebugSettings::singleton();
+			ARL::DebugSettings& debugsettings = ARL::DebugSettings::singleton();
 			CRenderSettingsItem& rendersettings = CRenderSettingsItem::singleton();
 
             debugsettings.setVertexShaderModel(-1);
@@ -80,7 +80,7 @@ namespace RBX
             data << "lastGfxMode:" << lastGfxMode << ";";
 
 			data.flush();
-			RBX::Http(url).post(data.str(), Http::kContentTypeDefaultUnspecified, false, boost::bind(&HandleAsyncHttp, _1, _2));
+			ARL::Http(url).post(data.str(), Http::kContentTypeDefaultUnspecified, false, boost::bind(&HandleAsyncHttp, _1, _2));
 		}
 		catch (const std::exception&)
 		{

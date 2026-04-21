@@ -13,7 +13,7 @@
 #include "simd/simd.h"
 #include "rbx/ArrayDynamic.h"
 
-namespace RBX
+namespace ARL
 {
 
 class DebugSerializer;
@@ -57,10 +57,10 @@ public:
 class VirtualDisplacement
 {
 public:
-    RBX_SIMD_INLINE VirtualDisplacement( ){ }
-    RBX_SIMD_INLINE VirtualDisplacement( const simd::v4f& linear, const simd::v4f& angular ): lin( linear ), ang( angular ) { }
-    RBX_SIMD_INLINE VirtualDisplacement( const VirtualDisplacementPOD& _v ): lin( _v.linV4 ), ang( _v.angV4 ) { }
-    RBX_SIMD_INLINE operator VirtualDisplacementPOD()
+    ARL_SIMD_INLINE VirtualDisplacement( ){ }
+    ARL_SIMD_INLINE VirtualDisplacement( const simd::v4f& linear, const simd::v4f& angular ): lin( linear ), ang( angular ) { }
+    ARL_SIMD_INLINE VirtualDisplacement( const VirtualDisplacementPOD& _v ): lin( _v.linV4 ), ang( _v.angV4 ) { }
+    ARL_SIMD_INLINE operator VirtualDisplacementPOD()
     {
         VirtualDisplacementPOD r;
         r.linV4 = lin;
@@ -68,14 +68,14 @@ public:
         return r;
     }
 
-    RBX_SIMD_INLINE void reset()
+    ARL_SIMD_INLINE void reset()
     {
         lin = simd::zerof();
         ang = simd::zerof();
     }
 
-    RBX_SIMD_INLINE simd::v4f getLin() const { return lin; }
-    RBX_SIMD_INLINE simd::v4f getAng() const { return ang; }
+    ARL_SIMD_INLINE simd::v4f getLin() const { return lin; }
+    ARL_SIMD_INLINE simd::v4f getAng() const { return ang; }
 
     void serialize( DebugSerializer& s ) const;
 
@@ -90,7 +90,7 @@ private:
 class VirtualDisplacementArray
 {
 public:
-    RBX_SIMD_INLINE VirtualDisplacementArray( size_t _size, size_t alignment ): size( _size ), data( _size, ArrayNoInit(), alignment )
+    ARL_SIMD_INLINE VirtualDisplacementArray( size_t _size, size_t alignment ): size( _size ), data( _size, ArrayNoInit(), alignment )
     { }
 
     inline void reset()
@@ -104,17 +104,17 @@ public:
 
     const VirtualDisplacementPOD* getData() const { return data.data(); }
     VirtualDisplacementPOD* getData() { return data.data(); }
-    RBX_SIMD_INLINE size_t getSize() const { return size; }
+    ARL_SIMD_INLINE size_t getSize() const { return size; }
 
-    RBX_SIMD_INLINE VirtualDisplacementPOD operator[]( int i ) const
+    ARL_SIMD_INLINE VirtualDisplacementPOD operator[]( int i ) const
     {
-        RBXASSERT_VERY_FAST( (size_t)i < size );
+        ARLASSERT_VERY_FAST( (size_t)i < size );
         return data[ i ];
     }
 
-    RBX_SIMD_INLINE VirtualDisplacementPOD& operator[]( int i )
+    ARL_SIMD_INLINE VirtualDisplacementPOD& operator[]( int i )
     {
-        RBXASSERT_VERY_FAST( (size_t)i < size );
+        ARLASSERT_VERY_FAST( (size_t)i < size );
         return data[ i ];
     }
 
@@ -131,20 +131,20 @@ private:
 class EffectiveMass
 {
 public:
-    RBX_SIMD_INLINE EffectiveMass() { }
-    RBX_SIMD_INLINE EffectiveMass( const simd::v4f& linear, const simd::v4f& angular ): lin( linear ), ang( angular ) { }
-    RBX_SIMD_INLINE void applyMultiplier( const simd::v4f& m )
+    ARL_SIMD_INLINE EffectiveMass() { }
+    ARL_SIMD_INLINE EffectiveMass( const simd::v4f& linear, const simd::v4f& angular ): lin( linear ), ang( angular ) { }
+    ARL_SIMD_INLINE void applyMultiplier( const simd::v4f& m )
     {
         lin = m * lin;
         ang = m * ang;
     }
-    RBX_SIMD_INLINE void reset()
+    ARL_SIMD_INLINE void reset()
     {
         lin = simd::zerof();
         ang = simd::zerof();
     }
-    RBX_SIMD_INLINE simd::v4f getLin() const { return lin; }
-    RBX_SIMD_INLINE simd::v4f getAng() const { return ang; }
+    ARL_SIMD_INLINE simd::v4f getLin() const { return lin; }
+    ARL_SIMD_INLINE simd::v4f getAng() const { return ang; }
 
 private:
     simd::v4f lin;
@@ -154,29 +154,29 @@ private:
 class EffectiveMassPair
 {
 public:
-    RBX_SIMD_INLINE EffectiveMassPair( const EffectiveMass& _a, const EffectiveMass& _b ): a( _a ), b( _b ) { }
+    ARL_SIMD_INLINE EffectiveMassPair( const EffectiveMass& _a, const EffectiveMass& _b ): a( _a ), b( _b ) { }
 
-    RBX_SIMD_INLINE EffectiveMassPair( ) { }
+    ARL_SIMD_INLINE EffectiveMassPair( ) { }
 
-    RBX_SIMD_INLINE void reset()
+    ARL_SIMD_INLINE void reset()
     {
         a.reset();
         b.reset();
     }
 
-    RBX_SIMD_INLINE void applyMultipliers( const simd::v4f& mA, const simd::v4f& mB )
+    ARL_SIMD_INLINE void applyMultipliers( const simd::v4f& mA, const simd::v4f& mB )
     {
         a.applyMultiplier( mA );
         b.applyMultiplier( mB );
     }
 
-    RBX_SIMD_INLINE simd::v4f getLinA() const { return a.getLin(); }
-    RBX_SIMD_INLINE simd::v4f getLinB() const { return b.getLin(); }
-    RBX_SIMD_INLINE simd::v4f getAngA() const { return a.getAng(); }
-    RBX_SIMD_INLINE simd::v4f getAngB() const { return b.getAng(); }
+    ARL_SIMD_INLINE simd::v4f getLinA() const { return a.getLin(); }
+    ARL_SIMD_INLINE simd::v4f getLinB() const { return b.getLin(); }
+    ARL_SIMD_INLINE simd::v4f getAngA() const { return a.getAng(); }
+    ARL_SIMD_INLINE simd::v4f getAngB() const { return b.getAng(); }
 
-    RBX_SIMD_INLINE EffectiveMass getPartA() const { return a; }
-    RBX_SIMD_INLINE EffectiveMass getPartB() const { return b; }
+    ARL_SIMD_INLINE EffectiveMass getPartA() const { return a; }
+    ARL_SIMD_INLINE EffectiveMass getPartB() const { return b; }
 
     void serialize( DebugSerializer& s ) const;
 
@@ -191,7 +191,7 @@ private:
 class ConstraintJacobian
 {
 public:
-    RBX_SIMD_INLINE void reset()
+    ARL_SIMD_INLINE void reset()
     {
         linV4 = simd::zerof();
         angV4 = simd::zerof();
@@ -218,28 +218,28 @@ public:
     class AngB;
 
     template< class PartSelect >
-    RBX_SIMD_INLINE simd::v4f get() const;
+    ARL_SIMD_INLINE simd::v4f get() const;
 
-    RBX_SIMD_INLINE simd::v4f getLinA() const { return a.linV4; }
-    RBX_SIMD_INLINE simd::v4f getLinB() const { return b.linV4; }
-    RBX_SIMD_INLINE simd::v4f getAngA() const { return a.angV4; }
-    RBX_SIMD_INLINE simd::v4f getAngB() const { return b.angV4; }
+    ARL_SIMD_INLINE simd::v4f getLinA() const { return a.linV4; }
+    ARL_SIMD_INLINE simd::v4f getLinB() const { return b.linV4; }
+    ARL_SIMD_INLINE simd::v4f getAngA() const { return a.angV4; }
+    ARL_SIMD_INLINE simd::v4f getAngB() const { return b.angV4; }
 
     template< class PartSelect >
-    RBX_SIMD_INLINE void set( const simd::v4f& v );
+    ARL_SIMD_INLINE void set( const simd::v4f& v );
 
-    RBX_SIMD_INLINE void setLinA( const simd::v4f& v ) { a.linV4 = v; }
-    RBX_SIMD_INLINE void setLinB( const simd::v4f& v ) { b.linV4 = v; }
-    RBX_SIMD_INLINE void setAngA( const simd::v4f& v ) { a.angV4 = v; }
-    RBX_SIMD_INLINE void setAngB( const simd::v4f& v ) { b.angV4 = v; }
+    ARL_SIMD_INLINE void setLinA( const simd::v4f& v ) { a.linV4 = v; }
+    ARL_SIMD_INLINE void setLinB( const simd::v4f& v ) { b.linV4 = v; }
+    ARL_SIMD_INLINE void setAngA( const simd::v4f& v ) { a.angV4 = v; }
+    ARL_SIMD_INLINE void setAngB( const simd::v4f& v ) { b.angV4 = v; }
 
-    RBX_SIMD_INLINE void reset()
+    ARL_SIMD_INLINE void reset()
     {
         a.reset();
         b.reset();
     }
 
-    RBX_SIMD_INLINE simd::v4f dot( const EffectiveMassPair& _v ) const
+    ARL_SIMD_INLINE simd::v4f dot( const EffectiveMassPair& _v ) const
     {
         simd::v4f partA = getLinA() * _v.getLinA() + getAngA() * _v.getAngA();
         simd::v4f partB = getLinB() * _v.getLinB() + getAngB() * _v.getAngB();
@@ -254,21 +254,21 @@ public:
 };
 
 template< >
-RBX_SIMD_INLINE simd::v4f ConstraintJacobianPair::get< ConstraintJacobianPair::LinA >() const { return a.linV4; }
+ARL_SIMD_INLINE simd::v4f ConstraintJacobianPair::get< ConstraintJacobianPair::LinA >() const { return a.linV4; }
 template< >
-RBX_SIMD_INLINE simd::v4f ConstraintJacobianPair::get< ConstraintJacobianPair::LinB >() const { return b.linV4; }
+ARL_SIMD_INLINE simd::v4f ConstraintJacobianPair::get< ConstraintJacobianPair::LinB >() const { return b.linV4; }
 template< >
-RBX_SIMD_INLINE simd::v4f ConstraintJacobianPair::get< ConstraintJacobianPair::AngA >() const { return a.angV4; }
+ARL_SIMD_INLINE simd::v4f ConstraintJacobianPair::get< ConstraintJacobianPair::AngA >() const { return a.angV4; }
 template< >
-RBX_SIMD_INLINE simd::v4f ConstraintJacobianPair::get< ConstraintJacobianPair::AngB >() const { return b.angV4; }
+ARL_SIMD_INLINE simd::v4f ConstraintJacobianPair::get< ConstraintJacobianPair::AngB >() const { return b.angV4; }
 
 template< >
-RBX_SIMD_INLINE void ConstraintJacobianPair::set< ConstraintJacobianPair::LinA >( const simd::v4f& v ) { a.linV4 = v; }
+ARL_SIMD_INLINE void ConstraintJacobianPair::set< ConstraintJacobianPair::LinA >( const simd::v4f& v ) { a.linV4 = v; }
 template< >
-RBX_SIMD_INLINE void ConstraintJacobianPair::set< ConstraintJacobianPair::LinB >( const simd::v4f& v ) { b.linV4 = v; }
+ARL_SIMD_INLINE void ConstraintJacobianPair::set< ConstraintJacobianPair::LinB >( const simd::v4f& v ) { b.linV4 = v; }
 template< >
-RBX_SIMD_INLINE void ConstraintJacobianPair::set< ConstraintJacobianPair::AngA >( const simd::v4f& v ) { a.angV4 = v; }
+ARL_SIMD_INLINE void ConstraintJacobianPair::set< ConstraintJacobianPair::AngA >( const simd::v4f& v ) { a.angV4 = v; }
 template< >
-RBX_SIMD_INLINE void ConstraintJacobianPair::set< ConstraintJacobianPair::AngB >( const simd::v4f& v ) { b.angV4 = v; }
+ARL_SIMD_INLINE void ConstraintJacobianPair::set< ConstraintJacobianPair::AngB >( const simd::v4f& v ) { b.angV4 = v; }
 
 }

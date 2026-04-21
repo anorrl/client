@@ -7,7 +7,7 @@
 
 #include <vector>
 
-namespace RBX
+namespace ARL
 {
 	struct FileMeshData
 	{

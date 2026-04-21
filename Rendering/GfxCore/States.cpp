@@ -1,6 +1,6 @@
 #include "GfxCore/States.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

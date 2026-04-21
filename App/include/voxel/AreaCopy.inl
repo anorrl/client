@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 template<unsigned int XDim, unsigned int YDim, unsigned int ZDim>
 bool AreaCopy<XDim, YDim, ZDim>::Chunk::contains(const Vector3int16& cellLocation) const {
@@ -13,7 +13,7 @@ void AreaCopy<XDim, YDim, ZDim>::Chunk::fillEmpty(
 		const Vector3int16& minLoc, const Vector3int16& maxLoc) {
 
 	unsigned int xWidth = maxLoc.x - minLoc.x + 1;
-	RBXASSERT((xWidth & 0x1) == 0);
+	ARLASSERT((xWidth & 0x1) == 0);
 
 	Vector3int16 counter;
 	for (counter.y = minLoc.y; counter.y <= maxLoc.y; ++counter.y) {
@@ -35,8 +35,8 @@ void AreaCopy<XDim, YDim, ZDim>::Chunk::fillFromRegion(const RegionType& region)
 	for (typename RegionType::xline_iterator itr = region.xLineBegin();
 			itr != region.xLineEnd(); ++itr) {
 		const size_t lineSize = itr.getLineSize();
-		RBXASSERT(contains(itr.getCurrentLocation()));
-		RBXASSERT(contains(itr.getCurrentLocation() + Vector3int16(lineSize - 1, 0, 0)));
+		ARLASSERT(contains(itr.getCurrentLocation()));
+		ARLASSERT(contains(itr.getCurrentLocation() + Vector3int16(lineSize - 1, 0, 0)));
 
 		unsigned int index = voxelCoordToArrayIndex(itr.getCurrentLocation());
 		if (lineSize == 32) {
@@ -92,12 +92,12 @@ void AreaCopy<XDim, YDim, ZDim>::Chunk::fillLocalAreaInfo(
 		const Water::RelevantNeighbors& relevantNeighbors,
 		Water::LocalAreaInfo* out) const {
 
-	RBXASSERT(contains(globalCoord));
-	RBXASSERT(contains(globalCoord + relevantNeighbors.aboveNeighbor));
-	RBXASSERT(contains(globalCoord + relevantNeighbors.primaryNeighbor));
-	RBXASSERT(contains(globalCoord + relevantNeighbors.secondaryNeighbor));
-	RBXASSERT(contains(globalCoord + relevantNeighbors.diagonalNeighbor));
-	RBXASSERT(contains(globalCoord + relevantNeighbors.diagonalUpNeighbor));
+	ARLASSERT(contains(globalCoord));
+	ARLASSERT(contains(globalCoord + relevantNeighbors.aboveNeighbor));
+	ARLASSERT(contains(globalCoord + relevantNeighbors.primaryNeighbor));
+	ARLASSERT(contains(globalCoord + relevantNeighbors.secondaryNeighbor));
+	ARLASSERT(contains(globalCoord + relevantNeighbors.diagonalNeighbor));
+	ARLASSERT(contains(globalCoord + relevantNeighbors.diagonalUpNeighbor));
 
 	unsigned int centerIndex = voxelCoordToArrayIndex(globalCoord);
 
@@ -147,8 +147,8 @@ void AreaCopy<XDim, YDim, ZDim>::Chunk::loadData(const Source* source,
 
 		// for material alignment issues, all x segments must be even, and
 		// start from an even location in the region
-		RBXASSERT(((queryMax.x - queryMin.x + 1) & 0x1) == 0);
-		RBXASSERT(((queryMin.x - firstCellLocation.x) & 0x1) == 0);
+		ARLASSERT(((queryMax.x - queryMin.x + 1) & 0x1) == 0);
+		ARLASSERT(((queryMin.x - firstCellLocation.x) & 0x1) == 0);
 
 		typename Source::Region region = source->getRegion(queryMin, queryMax);
 		if (region.isGuaranteedAllEmpty()) {

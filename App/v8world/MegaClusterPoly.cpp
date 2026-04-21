@@ -14,7 +14,7 @@
 #include "BulletCollision/NarrowPhaseCollision/btRaycastCallback.h"
 
 
-namespace RBX {
+namespace ARL {
 using namespace Voxel;
 
 MegaClusterPoly::MegaClusterPoly(Primitive* p)
@@ -80,8 +80,8 @@ bool MegaClusterPoly::hitTestMC(const RbxRay& rayInMe, Vector3& localHitPoint, V
 	for (int index = 0; index < 3; ++index)
     {
 		// DE2702 fix: degenerate ray origins overflow our time-step calculations and cause infinite loops; just early-exit if values are unreasonable
-		RBXASSERT(boost::math::isfinite(rayInMe.origin()[index]));
-		RBXASSERT(boost::math::isfinite(rayInMe.direction()[index]));
+		ARLASSERT(boost::math::isfinite(rayInMe.origin()[index]));
+		ARLASSERT(boost::math::isfinite(rayInMe.direction()[index]));
 
         if ( fabs(rayInMe.origin()[index]) > MC_HUGE_VAL ) {
             surfId = -1;
@@ -229,7 +229,7 @@ size_t MegaClusterPoly::getFaceFromLegacyNormalId( const NormalId nId ) const
 
 bool MegaClusterPoly::findTouchingSurfacesConvex( const CoordinateFrame& myCf, size_t& myFaceId, const Geometry& otherGeom, const CoordinateFrame& otherCf, size_t& otherFaceId ) const
 {
-	RBXASSERT(false); // not implemented
+	ARLASSERT(false); // not implemented
     return false;
 }
 
@@ -1042,7 +1042,7 @@ void MegaClusterPoly::createBulletInverseCornerWedgeCell(void)
 
 btConvexHullShape* MegaClusterPoly::getBulletCellShape(Voxel::CellBlock shape)
 {
-	RBXASSERT(shape >= 0 && shape < CELL_BLOCK_Empty);
+	ARLASSERT(shape >= 0 && shape < CELL_BLOCK_Empty);
 
 	if (shape >= 0 && shape < CELL_BLOCK_Empty)
 		return bulletCellShapes[shape];
@@ -1050,4 +1050,4 @@ btConvexHullShape* MegaClusterPoly::getBulletCellShape(Voxel::CellBlock shape)
 		return NULL;
 }
 
-} // namespace RBX
+} // namespace ARL

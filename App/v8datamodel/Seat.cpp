@@ -7,7 +7,7 @@ DYNAMIC_FASTINTVARIABLE(ActionStationDebounceTime, 2)
 DYNAMIC_FASTFLAGVARIABLE(FixAnchoredSeatingPosition, false)
 DYNAMIC_FASTFLAGVARIABLE(FixSeatingWhileSitting, false)
 
-namespace RBX {
+namespace ARL {
 
 REFLECTION_BEGIN();
 static const Reflection::PropDescriptor<Seat, bool> propDisabled("Disabled", "Control", &Seat::getDisabled, &Seat::setDisabled);

@@ -5,7 +5,7 @@
 #include "V8DataModel/MouseCommand.h"
 #include "Tool/DragUtilities.h"
 
-namespace RBX {
+namespace ARL {
 
 	class MegaDragger;
 
@@ -41,4 +41,4 @@ namespace RBX {
 		~GroupDragTool();
 	};
 
-} // namespace RBX
+} // namespace ARL

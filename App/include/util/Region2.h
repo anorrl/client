@@ -5,7 +5,7 @@
 #include "rbx/Debug.h"
 #include "Util/Math.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Adorn;
 

@@ -8,7 +8,7 @@
 
 class btConvexHullShape;
 
-namespace RBX {
+namespace ARL {
 
 	class MegaClusterInstance;
 	namespace Voxel {

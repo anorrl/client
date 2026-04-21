@@ -3,7 +3,7 @@
 #include "Util/G3DCore.h"
 #include "Util/Quaternion.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PhysicsCoord
 	{
@@ -65,4 +65,4 @@ namespace RBX {
 	};
 
 
-} // namespace RBX
+} // namespace ARL

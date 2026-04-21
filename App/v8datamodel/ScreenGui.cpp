@@ -7,7 +7,7 @@
 #include "GfxBase/Adorn.h"
 #include "FastLog.h"
 
-namespace RBX {
+namespace ARL {
 	const char* const  sScreenGui = "ScreenGui";
 
     REFLECTION_BEGIN();
@@ -61,7 +61,7 @@ namespace RBX {
             // if we have core gui set up, get it's absolute size and use that (instead of 800x600)
             if(CoreGuiService* coreGui = ServiceProvider::create<CoreGuiService>(newProvider))
             {
-                if (shared_ptr<RBX::ScreenGui> coreScreenGui = coreGui->getRobloxScreenGui())
+                if (shared_ptr<ARL::ScreenGui> coreScreenGui = coreGui->getRobloxScreenGui())
                 {
                     if (coreScreenGui.get() != this)
                     {
@@ -149,7 +149,7 @@ namespace RBX {
     
     Vector2 ScreenGui::getAbsolutePosition() const
     {
-        if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+        if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
         {
             Vector4 guiInset = guiService->getGlobalGuiInset();
             return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);
@@ -163,12 +163,12 @@ namespace RBX {
 		return Super::process(event);
 	}
     
-    GuiResponse ScreenGui::processGesture(const UserInputService::Gesture gesture, shared_ptr<const RBX::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args)
+    GuiResponse ScreenGui::processGesture(const UserInputService::Gesture gesture, shared_ptr<const ARL::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args)
     {
         return Super::processGesture(gesture,touchPositions,args);
     }
 
-	bool ScreenGui::removeModalButton(RBX::GuiButton* guiButton)
+	bool ScreenGui::removeModalButton(ARL::GuiButton* guiButton)
 	{
 		for(std::vector<GuiButton*>::iterator iter = modalGuiObjects.begin(); iter != modalGuiObjects.end(); ++iter)
 		{
@@ -181,7 +181,7 @@ namespace RBX {
 		return false;
 	}
 
-	bool ScreenGui::insertModalButton(RBX::GuiButton* guiButton)
+	bool ScreenGui::insertModalButton(ARL::GuiButton* guiButton)
 	{
 		for(std::vector<GuiButton*>::iterator iter = modalGuiObjects.begin(); iter != modalGuiObjects.end(); ++iter)
 			if( (*iter) == guiButton )
@@ -191,7 +191,7 @@ namespace RBX {
 		return true;
 	}
 
-	void ScreenGui::onModalButtonChanged(const RBX::Reflection::PropertyDescriptor* desc, RBX::GuiButton* guiButton)
+	void ScreenGui::onModalButtonChanged(const ARL::Reflection::PropertyDescriptor* desc, ARL::GuiButton* guiButton)
 	{
 		if(guiButton->getModal())
 			insertModalButton(guiButton);
@@ -203,7 +203,7 @@ namespace RBX {
 	{
         Super::onDescendantAdded(instance);
         
-		if(RBX::GuiButton* guiButton = Instance::fastDynamicCast<RBX::GuiButton>(instance))
+		if(ARL::GuiButton* guiButton = Instance::fastDynamicCast<ARL::GuiButton>(instance))
 		{
             connections[instance] = guiButton->propertyChangedSignal.connect(boost::bind(&ScreenGui::onModalButtonChanged,this,_1,guiButton));
             
@@ -215,7 +215,7 @@ namespace RBX {
 	{
         Super::onDescendantRemoving(instance);
         
-		if(RBX::GuiButton* guiButton = Instance::fastDynamicCast<RBX::GuiButton>(instance.get()))
+		if(ARL::GuiButton* guiButton = Instance::fastDynamicCast<ARL::GuiButton>(instance.get()))
 		{
 			removeModalButton(guiButton);
             connections.erase(instance.get());

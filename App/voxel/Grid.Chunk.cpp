@@ -6,7 +6,7 @@
 
 #include "rbx/Profiler.h"
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 const int Grid::Chunk::kFaceDirectionToPointerOffset[7] = {
     kXOffsetMultiplier,
@@ -29,7 +29,7 @@ Grid::Chunk::Chunk() :
  
 Grid::Chunk::~Chunk()
 {
-    RBXPROFILER_COUNTER_SUB("memory/terrain/legacy", data.size() + material.size());
+    ARLPROFILER_COUNTER_SUB("memory/terrain/legacy", data.size() + material.size());
 }
 
 void Grid::Chunk::init(const Grid* owner) {
@@ -49,7 +49,7 @@ void Grid::Chunk::init(const Grid* owner) {
 		material.swap(tmp2);
 		initialized = true;
 
-        RBXPROFILER_COUNTER_ADD("memory/terrain/legacy", data.size() + material.size());
+        ARLPROFILER_COUNTER_ADD("memory/terrain/legacy", data.size() + material.size());
 	}
 }
 

@@ -1,6 +1,6 @@
 #include "GfxBase/Adorn.h"
 
-namespace RBX {
+namespace ARL {
 
 template <typename Modifier>
 static void outlineRect2dImpl(Adorn* adorn, const Rect2D& rect, float thick, const Color4& color, const Modifier& modifier)
@@ -66,7 +66,7 @@ void Adorn::rect2d(const Rect2D& rect, const Vector2& texul, const Vector2& texb
 
 void Adorn::rect2d(const Rect2D& rect, const Vector2& texul, const Vector2& texbr, const Color4& color, const Rect2D& clipRect)
 {
-    RBX::Rect2D intersectRect = rect;
+    ARL::Rect2D intersectRect = rect;
 
     Vector2 lowerUV(texul.x,texul.y);
     Vector2 upperUV(texbr.x,texbr.y);

@@ -8,7 +8,7 @@
 #include "V8World/Mesh.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	namespace POLY {
 
@@ -26,4 +26,4 @@ namespace RBX {
 		};
 
 	} // namespace POLY
-} // namespace RBX
+} // namespace ARL

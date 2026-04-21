@@ -2,7 +2,7 @@
 #include "security/FuzzyTokens.h"
 #include "VMProtectSDK.h"
 
-namespace RBX
+namespace ARL
 {
     unsigned long long Security::teaDecrypt(unsigned long long inTag)
     {  

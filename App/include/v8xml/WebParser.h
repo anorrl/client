@@ -4,7 +4,7 @@
 
 class XmlElement;
 
-namespace RBX
+namespace ARL
 {
 	class WebParser 
 	{
@@ -18,9 +18,9 @@ namespace RBX
 			SkipNonJSON
 		} NonJSONBehavior;
 
-		static bool parseWebGenericResponse(std::istream& stream, RBX::Reflection::Variant& result);
-		static bool parseWebGenericResponse(const XmlElement* root, RBX::Reflection::Variant& result);
-		static bool parseWebListResponse(std::istream& stream, RBX::Reflection::ValueArray& result);
+		static bool parseWebGenericResponse(std::istream& stream, ARL::Reflection::Variant& result);
+		static bool parseWebGenericResponse(const XmlElement* root, ARL::Reflection::Variant& result);
+		static bool parseWebListResponse(std::istream& stream, ARL::Reflection::ValueArray& result);
 		static bool legacyParseWebJSONResponse(std::stringstream& rawWebResponse, shared_ptr<const Reflection::ValueTable>& valueTable);
 		static bool ptreeParseWebJSONResponse(std::stringstream& rawWebResponse, shared_ptr<const Reflection::ValueTable>& valueTable);
 
@@ -31,9 +31,9 @@ namespace RBX
 		static bool writeJSON(const Reflection::Variant& value, std::string& result, NonJSONBehavior skip = SkipNonJSON);
 	
 	protected:
-		static bool loadTable(const XmlElement* tableElement, RBX::Reflection::ValueMap& result);
-		static bool loadList(const XmlElement*  listElement, RBX::Reflection::ValueArray& result);
-		static bool loadEntry(const XmlElement* entryElement, std::string& key, RBX::Reflection::Variant& value);
-		static bool loadValue(const XmlElement* valueElement, RBX::Reflection::Variant& value);
+		static bool loadTable(const XmlElement* tableElement, ARL::Reflection::ValueMap& result);
+		static bool loadList(const XmlElement*  listElement, ARL::Reflection::ValueArray& result);
+		static bool loadEntry(const XmlElement* entryElement, std::string& key, ARL::Reflection::Variant& value);
+		static bool loadValue(const XmlElement* valueElement, ARL::Reflection::Variant& value);
 	};
 }

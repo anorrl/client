@@ -7,7 +7,7 @@
 
 #include "util/PartMaterial.h"
 
-namespace RBX {
+namespace ARL {
 
 class PartInstance;
 class Primitive;
@@ -29,14 +29,14 @@ private:
 public:
 	GeometryService();
 
-	Vector3 getHitLocationFilterStairs(Instance *ancestor, RBX::RbxRay ray, Primitive **hitPrim);
+	Vector3 getHitLocationFilterStairs(Instance *ancestor, ARL::RbxRay ray, Primitive **hitPrim);
 
-	Vector3 getHitLocationFilterDescendents(Instance *ancestor, RBX::RbxRay ray, Primitive **hitPrim, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes, bool ignoreWaterCells);
-	Vector3 getHitLocationFilterDescendents(const Instances *ancestors, RBX::RbxRay ray, Primitive **hitPrim, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes, bool ignoreWaterCells);
+	Vector3 getHitLocationFilterDescendents(Instance *ancestor, ARL::RbxRay ray, Primitive **hitPrim, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes, bool ignoreWaterCells);
+	Vector3 getHitLocationFilterDescendents(const Instances *ancestors, ARL::RbxRay ray, Primitive **hitPrim, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes, bool ignoreWaterCells);
 
 	// we template this function to avoid heavy code duplication: IgnoreType is currently either Instance or Instances
 	template<class IgnoreType>
-	Vector3 getHitLocationPartFilterDescendents(IgnoreType *ancestor, RBX::RbxRay ray, shared_ptr<PartInstance>& result, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes, bool ignoreWaterCells);
+	Vector3 getHitLocationPartFilterDescendents(IgnoreType *ancestor, ARL::RbxRay ray, shared_ptr<PartInstance>& result, Vector3& surfaceNormal, PartMaterial& surfaceMaterial, bool terrainCellsAreCubes, bool ignoreWaterCells);
 
 	void getPartsTouchingExtents(
 				const Extents& extents, 

@@ -4,7 +4,7 @@
 #include "V8DataModel/TouchTransmitter.h"
 #include "V8DataModel/Workspace.h"
 
-namespace RBX {
+namespace ARL {
 	const char *const sTouchTransmitter = "TouchTransmitter";
 
 	// This class encapsulates the de-bouncing of duplicate touch/untouch events.
@@ -17,7 +17,7 @@ namespace RBX {
 		{
 			weak_ptr<PartInstance> other;
 			TouchPair::Type lastType;
-			RBX::Time expireTime;
+			ARL::Time expireTime;
 		};
 		std::vector<Item> items;
 		boost::mutex mutex;
@@ -35,9 +35,9 @@ namespace RBX {
 			const boost::mutex::scoped_lock lock(mutex);
 
 			// Expire after 5 seconds - a reasonably long time for network lag
-			static const RBX::Time::Interval expiration = RBX::Time::Interval(5);
+			static const ARL::Time::Interval expiration = ARL::Time::Interval(5);
 
-			const RBX::Time now = RBX::Time::nowFast();
+			const ARL::Time now = ARL::Time::nowFast();
 
 			for (size_t i = 0; i < items.size(); )
 			{
@@ -48,19 +48,19 @@ namespace RBX {
 					if (item.lastType != type)
 					{
 						item.lastType = type;
-						//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Touch accepted");
+						//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Touch accepted");
 						return true;
 					}
 					else
 					{
-						//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Touch rejected");
+						//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Touch rejected");
 						// Rejected!
 						return false;
 					}
 				}
 				else if (now > item.expireTime)
 				{
-					//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Touch expired");
+					//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Touch expired");
 					// fast-delete the entry
 					if (i < items.size() - 1)
 						item = items[items.size() - 1];
@@ -99,7 +99,7 @@ namespace RBX {
 
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

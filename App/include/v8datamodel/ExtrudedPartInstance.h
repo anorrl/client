@@ -4,7 +4,7 @@
 
 #include "V8DataModel/PartInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 extern const char* const sExtrudedPart;
 

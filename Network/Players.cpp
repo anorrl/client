@@ -58,11 +58,11 @@
 #include <boost/algorithm/string.hpp>
 #include <sstream>
 
-const char* const RBX::Network::sPlayers = "Players";
+const char* const ARL::Network::sPlayers = "Players";
 static const char* const kPlaceIdUrlParamFormat = "&serverplaceid=%d";
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 using namespace RakNet;
 
 LOGGROUP(GoldenHashes)
@@ -183,14 +183,14 @@ namespace {
 		*data << chatType;
 		if (sender) {
 			FASTLOGS(DFLog::WebChatFiltering, "senderGUID: %s", sender->getGuid().readableString());
-			RBX::Guid::Data guid;
+			ARL::Guid::Data guid;
 			sender->getGuid().extract(guid);
 			*data << guid.scope;
 			*data << guid.index;
 		}
 		if (receiver) {
 			FASTLOGS(DFLog::WebChatFiltering, "senderGUID: %s", receiver->getGuid().readableString());
-			RBX::Guid::Data guid;
+			ARL::Guid::Data guid;
 			receiver->getGuid().extract(guid);
 			*data << guid.scope;
 			*data << guid.index;
@@ -201,7 +201,7 @@ namespace {
 
 bool Players::isNetworkClient(Instance* instance)
 {
-	return Instance::fastDynamicCast<RBX::Network::Client>(instance) != NULL;
+	return Instance::fastDynamicCast<ARL::Network::Client>(instance) != NULL;
 }
 Players::Players()
 	:rakPeer(NULL)
@@ -232,9 +232,9 @@ template<class T> bool valueTableGet(shared_ptr<const Reflection::ValueTable> va
 
 void Players::getUserIdFromName(std::string userName, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+	if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 	{
-		apiService->getAsync(format(FString::GetUserIdUrl.c_str(), userName.c_str()), true, RBX::PRIORITY_DEFAULT,
+		apiService->getAsync(format(FString::GetUserIdUrl.c_str(), userName.c_str()), true, ARL::PRIORITY_DEFAULT,
 			boost::bind(&Players::onReceivedRawGetUserIdSuccess, weak_from(DataModel::get(this)), _1, resumeFunction, errorFunction), 
 			boost::bind(&Players::onReceivedRawGetUserIdError, weak_from(DataModel::get(this)), _1, errorFunction) );
 	}
@@ -293,9 +293,9 @@ void Players::onReceivedRawGetUserIdError(weak_ptr<DataModel> weakDataModel, std
 
 void Players::getNameFromUserId(int userId, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+	if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 	{
-		apiService->getAsync(format(FString::GetUserNameUrl.c_str(), userId), true, RBX::PRIORITY_DEFAULT,
+		apiService->getAsync(format(FString::GetUserNameUrl.c_str(), userId), true, ARL::PRIORITY_DEFAULT,
 			boost::bind(&Players::onReceivedRawGetUserNameSuccess, weak_from(DataModel::get(this)), _1, resumeFunction, errorFunction), 
 			boost::bind(&Players::onReceivedRawGetUserNameError, weak_from(DataModel::get(this)), _1, errorFunction) );
 	}
@@ -323,7 +323,7 @@ void Players::setAppearanceParent(shared_ptr<Instance> model, weak_ptr<Instance>
 	if (!i)
 		return;
 
-	if (Instance::fastDynamicCast<RBX::DataModelMesh>(i.get()) || Instance::fastDynamicCast<RBX::Decal>(i.get()) || Instance::fastDynamicCast<RBX::CharacterAppearance>(i.get()))
+	if (Instance::fastDynamicCast<ARL::DataModelMesh>(i.get()) || Instance::fastDynamicCast<ARL::Decal>(i.get()) || Instance::fastDynamicCast<ARL::CharacterAppearance>(i.get()))
 	{
 		i->setParent(model.get());
 	}
@@ -351,7 +351,7 @@ void Players::doLoadAppearance(AsyncHttpQueue::RequestResult result, shared_ptr<
 				resumeFunction(model);
 			}
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
 			amountToLoad.reset();
 			errorFunction(format("Players:GetCharacterAppearanceAsync() Error loading character appearance %s: %s", contentDescription.c_str(), e.what()));
@@ -410,7 +410,7 @@ void Players::makeAccoutrementRequests(std::string *response, std::exception *er
 		{
 			d->submitTask(boost::bind(&Players::doMakeAccoutrementRequests, *response, dataModel, model, resumeFunction, errorFunction), DataModelJob::Write);
 		}
-		catch (const RBX::base_exception&)
+		catch (const ARL::base_exception&)
 		{
 			errorFunction("Players:GetCharacterAppearanceAsync() unexpected error");
 		}
@@ -435,7 +435,7 @@ void Players::getCharacterAppearance(int userId, boost::function<void (shared_pt
 
 	shared_ptr<ModelInstance> model = ModelInstance::createInstance();
 	weak_ptr<DataModel> dm(shared_from(Instance::fastDynamicCast<DataModel>(this->getRootAncestor())));
-	RBX::Http(characterAppearance).get(boost::bind(&makeAccoutrementRequests, _1, _2, boost::weak_ptr<DataModel>(dm), model, resumeFunction, errorFunction));	
+	ARL::Http(characterAppearance).get(boost::bind(&makeAccoutrementRequests, _1, _2, boost::weak_ptr<DataModel>(dm), model, resumeFunction, errorFunction));	
 }
 
 void Players::onReceivedRawGetUserNameSuccess(weak_ptr<DataModel> weakDataModel, std::string response, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
@@ -486,12 +486,12 @@ void Players::onReceivedRawGetUserNameError(weak_ptr<DataModel> weakDataModel, s
 	}
 }
 
-bool Players::clientIsPresent(const RBX::Instance* context, bool testInDatamodel)
+bool Players::clientIsPresent(const ARL::Instance* context, bool testInDatamodel)
 {
 	return Client::clientIsPresent(context, testInDatamodel);
 }
 
-bool Players::serverIsPresent(const RBX::Instance* context, bool testInDatamodel)
+bool Players::serverIsPresent(const ARL::Instance* context, bool testInDatamodel)
 {
 	return Server::serverIsPresent(context, testInDatamodel);
 }
@@ -501,7 +501,7 @@ bool Players::getDistributedPhysicsEnabled()
 	return NetworkSettings::singleton().distributedPhysicsEnabled;
 }
 
-bool Players::isCloudEdit(const RBX::Instance* context)
+bool Players::isCloudEdit(const ARL::Instance* context)
 {
 	if (Client* c = ServiceProvider::find<Client>(context))
 	{
@@ -517,21 +517,21 @@ bool Players::isCloudEdit(const RBX::Instance* context)
 	}
 }
 
-bool Players::frontendProcessing(const RBX::Instance* context, bool testInDatamodel)
+bool Players::frontendProcessing(const ARL::Instance* context, bool testInDatamodel)
 {
 	const ServiceProvider* serviceProvider = ServiceProvider::findServiceProvider(context);
-	RBXASSERT(!testInDatamodel || serviceProvider!=NULL);
+	ARLASSERT(!testInDatamodel || serviceProvider!=NULL);
 	return serviceProvider && !serverIsPresent(context, testInDatamodel);
 }
 
-bool Players::backendProcessing(const RBX::Instance* context, bool testInDatamodel)
+bool Players::backendProcessing(const ARL::Instance* context, bool testInDatamodel)
 {
 	const ServiceProvider* serviceProvider = ServiceProvider::findServiceProvider(context);
-	RBXASSERT(!testInDatamodel || serviceProvider!=NULL);
+	ARLASSERT(!testInDatamodel || serviceProvider!=NULL);
 	return serviceProvider && !clientIsPresent(context, testInDatamodel);
 }
 
-int Players::getPlayerCount(const RBX::Instance* context)
+int Players::getPlayerCount(const ARL::Instance* context)
 {
 	const ServiceProvider* serviceProvider = ServiceProvider::findServiceProvider(context);
 	if(serviceProvider == NULL)
@@ -540,7 +540,7 @@ int Players::getPlayerCount(const RBX::Instance* context)
 	return players ? players->getNumPlayers() : 0;
 }
 
-RBX::SystemAddress Players::findLocalSimulatorAddress(const RBX::Instance* context)
+ARL::SystemAddress Players::findLocalSimulatorAddress(const ARL::Instance* context)
 {
 	if (!getDistributedPhysicsEnabled()) {
 		return NetworkOwner::Unassigned();
@@ -608,20 +608,20 @@ shared_ptr<Instance> Players::createLocalPlayer(int userId, bool teleportedIn)
 		throw std::runtime_error("Local player already exists");
 		
 	{
-		RBX::Security::Impersonator impersonate(RBX::Security::Replicator_);
+		ARL::Security::Impersonator impersonate(ARL::Security::Replicator_);
 		localPlayer = Creatable<Instance>::create<Player>();
 	}
 
-    if(RBX::DataModel* dataModel = (RBX::DataModel*)this->getParent())
+    if(ARL::DataModel* dataModel = (ARL::DataModel*)this->getParent())
         dataModel->getGuiBuilder().removeSafeChatMenu();
 
 	localPlayer->setTeleportedIn(teleportedIn);
 
 	{
-		RBX::Security::Impersonator impersonate(RBX::Security::Replicator_);
+		ARL::Security::Impersonator impersonate(ARL::Security::Replicator_);
 		localPlayer->setUserId(userId);
 	}
-	RBX::RbxDbgInfo::s_instance.PlayerID = userId;
+	ARL::RbxDbgInfo::s_instance.PlayerID = userId;
 	Player::prop_OsPlatform.setValue(localPlayer.get(), DebugSettings::singleton().osPlatform());
 	
 	localPlayer->setParent(this);
@@ -638,7 +638,7 @@ shared_ptr<Instance> Players::createLocalPlayer(int userId, bool teleportedIn)
 
 	//Visit GUI Fixes
 	if (DFFlag::LoadGuisWithoutChar && Network::Players::frontendProcessing(this) && Network::Players::backendProcessing(this))
-		RBX::DataModel::get(this)->setIsGameLoaded(true);
+		ARL::DataModel::get(this)->setIsGameLoaded(true);
 
 	return localPlayer;
 }
@@ -666,10 +666,10 @@ Players::~Players(void)
 
 static void writeMessage(const AbuseReport::Message& msg, XmlElement* messages)
 {
-	XmlElement* element = messages->addChild(RBX::Name::declare("message"));
+	XmlElement* element = messages->addChild(ARL::Name::declare("message"));
 	element->setValue(msg.text);
-	element->addAttribute(RBX::Name::declare("userID"), msg.userID);
-	element->addAttribute(RBX::Name::declare("guid"), msg.guid);
+	element->addAttribute(ARL::Name::declare("userID"), msg.userID);
+	element->addAttribute(ARL::Name::declare("guid"), msg.guid);
 }
 
 ChatMessage::ChatMessage(const char* message, ChatType chatType, shared_ptr<Player> source)
@@ -797,13 +797,13 @@ worker_thread::work_result AbuseReporter::processRequests(shared_ptr<data> _data
 		std::stringstream body;
 		{
 			TextXmlWriter writer(body);
-			XmlElement root(RBX::Name::declare("report"));
-			root.addAttribute(RBX::Name::declare("userID"), r.submitterID);
-			root.addAttribute(RBX::Name::declare("placeID"), r.placeID);
-			root.addAttribute(RBX::Name::declare("gameJobID"), r.gameJobID);
+			XmlElement root(ARL::Name::declare("report"));
+			root.addAttribute(ARL::Name::declare("userID"), r.submitterID);
+			root.addAttribute(ARL::Name::declare("placeID"), r.placeID);
+			root.addAttribute(ARL::Name::declare("gameJobID"), r.gameJobID);
 
-			root.addChild(new XmlElement(RBX::Name::declare("comment"), r.comment));
-			XmlElement* messages = root.addChild(new XmlElement(RBX::Name::declare("messages")));
+			root.addChild(new XmlElement(ARL::Name::declare("comment"), r.comment));
+			XmlElement* messages = root.addChild(new XmlElement(ARL::Name::declare("messages")));
 			std::for_each(r.messages.begin(), r.messages.end(), boost::bind(&writeMessage, _1, messages));
 			writer.serialize(&root);
 
@@ -816,7 +816,7 @@ worker_thread::work_result AbuseReporter::processRequests(shared_ptr<data> _data
 		StandardOut::singleton()->printf(MESSAGE_SENSITIVE, "Posted abuse report to %s", abuseUrl.c_str());
 		StandardOut::singleton()->print(MESSAGE_INFO, "Posted abuse report");
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		StandardOut::singleton()->printf(MESSAGE_SENSITIVE, "Unable to post abuse report to %s. %s", abuseUrl.c_str(), e.what());
 		StandardOut::singleton()->printf(MESSAGE_WARNING, "Unable to post abuse report. %s", e.what());
@@ -853,7 +853,7 @@ void Players::reportAbuse(Player* player, const std::string& comment)
 		r.allegedAbuserID = player ? player->getUserID() : 0;
 		r.comment = comment;
 
-		if(RBX::DataModel* dataModel = RBX::DataModel::get(this))
+		if(ARL::DataModel* dataModel = ARL::DataModel::get(this))
 		{
 			r.placeID = dataModel->getPlaceID();
 			r.gameJobID = dataModel->getJobId();
@@ -893,11 +893,11 @@ void Players::reportAbuseLua(shared_ptr<Instance> instance, std::string reason, 
 	{
 		player = Instance::fastSharedDynamicCast<Player>(instance);
 		if(!player)
-			throw RBX::runtime_error("player must be a Player object or null");
+			throw ARL::runtime_error("player must be a Player object or null");
 	}
 
 	if(!localPlayer)
-		throw RBX::runtime_error("You can only report-abuse from a client machine");
+		throw ARL::runtime_error("You can only report-abuse from a client machine");
 
 	if(localPlayer->getUserID() > 0)
 	{
@@ -938,9 +938,9 @@ void Players::checkChat(const std::string& message)
 	}
 }
 
-static RBX::Guid::Data readPlayerIdentifier(RakNet::BitStream &inBitStream)
+static ARL::Guid::Data readPlayerIdentifier(RakNet::BitStream &inBitStream)
 {
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 	inBitStream >> id.scope;
 	inBitStream >> id.index;
 	return id;
@@ -950,7 +950,7 @@ static void writePlayerIdentifier(RakNet::BitStream& bitStream, const boost::int
 {
 	// Write the sender
 	guidRegistery->registerGuid(player.get());
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 	player->getGuid().extract(id);
 
 	// This is very inefficient without a dictionary, but we can't
@@ -1134,8 +1134,8 @@ Players::ReceiveResult Players::OnReceiveChat(Player* sourceValidation, RakNet::
 
 	inBitstream.IgnoreBits(8); // Ignore the packet id
 
-	RBX::Guid::Data sourceGuid;
-	RBX::Guid::Data destinationGuid;
+	ARL::Guid::Data sourceGuid;
+	ARL::Guid::Data destinationGuid;
 	shared_ptr<Instance> sourceInstance;
 	shared_ptr<Instance> destinationInstance;
 	if(chatType != ID_CHAT_GAME){
@@ -1279,7 +1279,7 @@ Players::ReceiveResult Players::OnReceiveReportAbuse(Player* player, RakNet::Rak
 	inBitstream >> r.allegedAbuserID;
 	inBitstream >> r.comment;
 
-	if(RBX::DataModel* dataModel = RBX::DataModel::get(this))
+	if(ARL::DataModel* dataModel = ARL::DataModel::get(this))
 	{
 		r.placeID = dataModel->getPlaceID();
 		r.gameJobID = dataModel->getJobId();
@@ -1317,7 +1317,7 @@ std::string Players::getLoadDataUrl(int userId) const
 {
 	if(loadDataUrl.empty())
 		throw std::runtime_error("No LoadData url set");
-	return RBX::format(loadDataUrl.c_str(), userId);
+	return ARL::format(loadDataUrl.c_str(), userId);
 }
 void Players::setLoadDataUrl(std::string value)
 {
@@ -1328,7 +1328,7 @@ std::string Players::getSaveDataUrl(int userId) const
 {
 	if(saveDataUrl.empty())
 		throw std::runtime_error("No SaveData url set");
-	return RBX::format(saveDataUrl.c_str(), userId);
+	return ARL::format(saveDataUrl.c_str(), userId);
 }
 void Players::setSaveDataUrl(std::string value)
 {
@@ -1338,7 +1338,7 @@ std::string Players::getSaveLeaderboardDataUrl(int userId) const
 {
 	if(saveLeaderboardDataUrl.empty())
 		throw std::runtime_error("No SaveLeaderboardData url set");
-	return RBX::format(saveLeaderboardDataUrl.c_str(), userId);	
+	return ARL::format(saveLeaderboardDataUrl.c_str(), userId);	
 }
 void Players::setSaveLeaderboardDataUrl(std::string value)
 {
@@ -1469,7 +1469,7 @@ void Players::friendServiceRequest(bool makeFriends, weak_ptr<Player> sourcePlay
 	if(!playerA || !playerB)
 		return;
 	
-	if(RBX::FriendService* fs = ServiceProvider::find<FriendService>(this)){
+	if(ARL::FriendService* fs = ServiceProvider::find<FriendService>(this)){
 		if(!makeFriends){
 			fs->rejectFriendRequestOrBreakFriendship(playerA->getUserID(), playerB->getUserID());	
 		}
@@ -1640,14 +1640,14 @@ void Players::clientReceiveBlockUserFinished(int blockerUserId, int blockeeUserI
 
 void Players::serverMakeBlockUserRequest(bool blockUser, int blockerUserId, int blockeeUserId, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	if(RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+	if(ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 	{
 		std::stringstream params;
 		params << "blockerId=" << blockerUserId << "&blockeeId=" << blockeeUserId;
 
 		std::string apiPath = blockUser ? "userblock/blockuser" : "userblock/unblockuser";
 
-		apiService->postAsync(apiPath, params.str(), true, RBX::PRIORITY_DEFAULT, RBX::HttpService::APPLICATION_URLENCODED,
+		apiService->postAsync(apiPath, params.str(), true, ARL::PRIORITY_DEFAULT, ARL::HttpService::APPLICATION_URLENCODED,
 			boost::bind(&Players::gotBlockUserSuccess, this, _1, blockUser, blockerUserId, blockeeUserId, resumeFunction, errorFunction),
 			boost::bind(&Players::gotBlockUserError, this, _1, blockUser, blockerUserId, blockeeUserId, errorFunction) );
 	}
@@ -1674,7 +1674,7 @@ void Players::internalBlockUser(int blockerUserId, int blockeeUserId, bool isBlo
 		if ( clientBlockUserMap.find(blockerPair) != clientBlockUserMap.end() ||
 			clientBlockUserMap.find(reverseBlockerPair) != clientBlockUserMap.end())
 		{
-			errorFunction( RBX::format("Currently processing block request for userIds %i and %i, please wait until these requests return a value before submitting a new request.", blockerUserId, blockeeUserId) );
+			errorFunction( ARL::format("Currently processing block request for userIds %i and %i, please wait until these requests return a value before submitting a new request.", blockerUserId, blockeeUserId) );
 			return;
 		}
 
@@ -1722,7 +1722,7 @@ void Players::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* n
 			if (DFFlag::LoadGuisWithoutChar)
 			{
 				if (ServiceProvider::create<ReplicatedFirst>(newProvider))
-					loadLocalPlayerGuisConnection = RBX::DataModel::get(newProvider)->gameLoadedSignal.connect(boost::bind(&Players::loadLocalPlayerGuis, this));
+					loadLocalPlayerGuisConnection = ARL::DataModel::get(newProvider)->gameLoadedSignal.connect(boost::bind(&Players::loadLocalPlayerGuis, this));
 			}
 		}
 	}
@@ -1738,7 +1738,7 @@ bool Players::askAddChild(const Instance* instance) const
 	return Instance::fastDynamicCast<Player>(instance)!=NULL;
 }
 
-ModelInstance* Players::findLocalCharacter(RBX::Instance* context)
+ModelInstance* Players::findLocalCharacter(ARL::Instance* context)
 {
 	if (Player* player = findLocalPlayer(context)) {
 		return player->getCharacter();
@@ -1750,7 +1750,7 @@ ModelInstance* Players::findLocalCharacter(RBX::Instance* context)
 
 
 
-const ModelInstance* Players::findConstLocalCharacter(const RBX::Instance* context)
+const ModelInstance* Players::findConstLocalCharacter(const ARL::Instance* context)
 {
 	if (const Player* player = findConstLocalPlayer(context)) {
 		return player->getConstCharacter();
@@ -1780,7 +1780,7 @@ const Player* Players::findConstLocalPlayer(const Instance* context)
 	}
 } 
 
-shared_ptr<Player> Players::findAncestorPlayer(const RBX::Instance* descendent)
+shared_ptr<Player> Players::findAncestorPlayer(const ARL::Instance* descendent)
 {
 	if (Players* players = ServiceProvider::find<Players>(descendent))	{
 		//First check is the descendent is from one of our Players
@@ -1801,7 +1801,7 @@ shared_ptr<Player> Players::findAncestorPlayer(const RBX::Instance* descendent)
 	return shared_ptr<Player>();
 }
 
-shared_ptr<Player> Players::findPlayerWithAddress(const RBX::SystemAddress& playerAddress, const RBX::Instance* context)
+shared_ptr<Player> Players::findPlayerWithAddress(const ARL::SystemAddress& playerAddress, const ARL::Instance* context)
 {
     if (Players* players = ServiceProvider::find<Players>(context))	
 	{
@@ -1863,7 +1863,7 @@ shared_ptr<Instance> Players::playerFromCharacter(shared_ptr<Instance> character
 	return shared_ptr<Instance>();
 }
 
-Player* Players::getPlayerFromCharacter(RBX::Instance* character)
+Player* Players::getPlayerFromCharacter(ARL::Instance* character)
 {
 	if (Players* players = ServiceProvider::find<Network::Players>(character))
 	{
@@ -1912,7 +1912,7 @@ static void callServerStop(DataModel* dm)
 	}
 }
 
-void Players::processRemoteEvent(const Reflection::EventDescriptor& descriptor, const Reflection::EventArguments& args, const RBX::SystemAddress& source)
+void Players::processRemoteEvent(const Reflection::EventDescriptor& descriptor, const Reflection::EventArguments& args, const ARL::SystemAddress& source)
 {
 	if (DFFlag::CloudEditSupportPlayersKickAndShutdown &&
 		descriptor == event_requestCloudEditKick && isCloudEdit(this))
@@ -2040,7 +2040,7 @@ bool Players::hashMatches(const std::string& hash)
 
 unsigned int Players::checkGoldMemHashes(const std::vector<unsigned int>& hashes)
 {
-    boost::mutex::scoped_lock mtx(RBX::Network::Players::goldMemHashesMutex);
+    boost::mutex::scoped_lock mtx(ARL::Network::Players::goldMemHashesMutex);
     unsigned int bestResult = 0;
     unsigned int bestErrors = 0xFFFFFFFF;
     for (MemHashConfigs::const_iterator configIt = goldMemHashes.begin(); configIt < goldMemHashes.end(); ++configIt)
@@ -2106,7 +2106,7 @@ void Players::onRemoteSysStats(int userId, const std::string& stat, const std::s
 	}
 	else{
 		FASTLOGS(FLog::US14116, "onRemoteSysStats: %s",
-			RBX::format("%d | %s | %s", userId, stat.c_str(), message.c_str()));
+			ARL::format("%d | %s | %s", userId, stat.c_str(), message.c_str()));
 		cheatingPlayers[userId].insert(stat+message);
 	}
 
@@ -2149,7 +2149,7 @@ void Players::onRemoteSysStats(int userId, const std::string& stat, const std::s
 	{
 		throw;
 	}
-	catch(RBX::base_exception&)
+	catch(ARL::base_exception&)
 	{
 		//Something went bad with our request
 		if (willKick) {
@@ -2197,8 +2197,8 @@ void Players::onChildAdded(Instance* child)
 			{
 				// we are in a test mode, give every player a unique name and userId
 				// userIds are negative for an extra security measure for uploading to website, etc.
-				RBX::Security::Impersonator impersonate(RBX::Security::Replicator_);
-				player->setName(RBX::format("Player%d", ++testPlayerNameId));
+				ARL::Security::Impersonator impersonate(ARL::Security::Replicator_);
+				player->setName(ARL::format("Player%d", ++testPlayerNameId));
 				player->setUserId(--testPlayerUserId);
 			}
 
@@ -2311,7 +2311,7 @@ bool Players::getNonSuperSafeChatForAllPlayersEnabled() const
 	return nonSuperSafeChatForAllPlayersEnabled;
 }
 
-namespace RBX {
+namespace ARL {
 namespace Reflection {
 template<>
 EnumDesc<Players::ChatOption>::EnumDesc()
@@ -2354,6 +2354,6 @@ bool StringConverter<Players::PlayerChatType>::convertToValue(const std::string&
 {
 	return Reflection::EnumDesc<Players::PlayerChatType>::singleton().convertToValue(text.c_str(),value);
 }
-}//namespace RBX
+}//namespace ARL
 
 

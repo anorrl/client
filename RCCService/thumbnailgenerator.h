@@ -7,7 +7,7 @@ namespace G3D
 	class BinaryOutput;
 };
 
-namespace RBX
+namespace ARL
 {
 	class ContentProvider;
     class ViewBase;
@@ -15,8 +15,8 @@ namespace RBX
 
 extern const char* const sThumbnailGenerator;
 class ThumbnailGenerator 
-	: public RBX::DescribedCreatable<ThumbnailGenerator, RBX::Instance, sThumbnailGenerator>
-	, public RBX::Service
+	: public ARL::DescribedCreatable<ThumbnailGenerator, ARL::Instance, sThumbnailGenerator>
+	, public ARL::Service
 {
 public:
 	int graphicsMode;
@@ -24,11 +24,11 @@ public:
 	
 	ThumbnailGenerator(void);
 	~ThumbnailGenerator(void);
-	shared_ptr<const RBX::Reflection::Tuple> click(std::string fileType, int cx, int cy, bool hideSky,bool crop);
-	shared_ptr<const RBX::Reflection::Tuple> clickTexture(std::string textureId, std::string fileType, int cx, int cy);
+	shared_ptr<const ARL::Reflection::Tuple> click(std::string fileType, int cx, int cy, bool hideSky,bool crop);
+	shared_ptr<const ARL::Reflection::Tuple> clickTexture(std::string textureId, std::string fileType, int cx, int cy);
 
-	void renderThumb(RBX::ViewBase* view, void* windowHandle, std::string fileType, int cx, int cy, bool hideSky, bool crop, std::string* strOutput);
-    void exportScene(RBX::ViewBase* view, std::string* outStr);
+	void renderThumb(ARL::ViewBase* view, void* windowHandle, std::string fileType, int cx, int cy, bool hideSky, bool crop, std::string* strOutput);
+    void exportScene(ARL::ViewBase* view, std::string* outStr);
 
 private:
 	void configureCaches();

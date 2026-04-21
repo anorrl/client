@@ -10,7 +10,7 @@
 
 LOGGROUP(CyclicExecutiveThrottling)
 
-namespace RBX {
+namespace ARL {
 
 PhysicsInstructions::PhysicsInstructions()
 : timeSinceLastRadiusChange(0.0)
@@ -46,19 +46,19 @@ EThrottle:
 	Bad			Good		Bad					down
 */
 
-void PhysicsInstructions::changeSimulationRadius(RBX::Network::Player* dPhysPlayer, float change)
+void PhysicsInstructions::changeSimulationRadius(ARL::Network::Player* dPhysPlayer, float change)
 {
 	timeSinceLastRadiusChange = 0.0;
 
-	RBXASSERT(dPhysPlayer);
+	ARLASSERT(dPhysPlayer);
 	float currentRadius = dPhysPlayer->getSimulationRadius();
 	float newRadius = change * currentRadius;
 	dPhysPlayer->updateSimulationRadius(newRadius);
 }
 
-void PhysicsInstructions::changeMaxSimulationRadius(RBX::Network::Player* dPhysPlayer, float change)
+void PhysicsInstructions::changeMaxSimulationRadius(ARL::Network::Player* dPhysPlayer, float change)
 {
-	RBXASSERT(dPhysPlayer);
+	ARLASSERT(dPhysPlayer);
 	float currentMaxRadius = dPhysPlayer->getMaxSimulationRadius();
 	float newRadius = change * currentMaxRadius;
 	dPhysPlayer->setMaxSimulationRadius(newRadius);
@@ -72,7 +72,7 @@ double PhysicsInstructions::dPhysicsClientEThrottleDutyPercent() {return 0.60;}	
 // dt	  : timespanSinceLastStep.seconds();
 // dutyDt : timespanOfLastStep.seconds();
 
-void PhysicsInstructions::setThrottlesBase(RBX::Network::Player* dPhysPlayer, Workspace* workspace, bool realTimePerfOK, bool dutyPerfOK, double avgDutyPercent, double dt)
+void PhysicsInstructions::setThrottlesBase(ARL::Network::Player* dPhysPlayer, Workspace* workspace, bool realTimePerfOK, bool dutyPerfOK, double avgDutyPercent, double dt)
 {
 	if (realTimePerfOK)
 	{
@@ -120,7 +120,7 @@ void PhysicsInstructions::setThrottlesBase(RBX::Network::Player* dPhysPlayer, Wo
 		changeMaxSimulationRadius(dPhysPlayer, 1.05);
 }
 
-void PhysicsInstructions::setCyclicThrottles(RBX::Network::Player* dPhysPlayer, Workspace* workspace, double cyclicDt, double dt, double dutyDt)
+void PhysicsInstructions::setCyclicThrottles(ARL::Network::Player* dPhysPlayer, Workspace* workspace, double cyclicDt, double dt, double dutyDt)
 {
 
 	averageCyclicDt.sample(cyclicDt);
@@ -145,7 +145,7 @@ void PhysicsInstructions::setCyclicThrottles(RBX::Network::Player* dPhysPlayer, 
 	setThrottlesBase(dPhysPlayer, workspace, stepsOK, dutyOK, avgDutyPercent, dt);
 }
 
-void PhysicsInstructions::setThrottles(RBX::Network::Player* dPhysPlayer, Workspace* workspace, double dt, double dutyDt)
+void PhysicsInstructions::setThrottles(ARL::Network::Player* dPhysPlayer, Workspace* workspace, double dt, double dutyDt)
 {
 	averageDt.sample(dt);
 	averageDutyDt.sample(dutyDt);
@@ -175,7 +175,7 @@ void PhysicsInstructions::setThrottles(RBX::Network::Player* dPhysPlayer, Worksp
 
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

@@ -15,7 +15,7 @@
 #include <boost/shared_ptr.hpp>
 #include "Tool/ToolsArrow.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace Profiling
 	{
@@ -127,7 +127,7 @@ public:
 	// returns true if the context lies within the workspace
 	static bool contextInWorkspace(const Instance* context);
 
-	bool startDecalDrag(Decal *decal, RBX::InsertMode insertMode);
+	bool startDecalDrag(Decal *decal, ARL::InsertMode insertMode);
 	bool startPartDropDrag(const Instances& instances, bool suppressPartsAlign = false);
 
 	void createTerrain();
@@ -153,7 +153,7 @@ private:
 
 	shared_ptr<MouseCommand>				currentCommand;		// current MouseCommand being used;
 	shared_ptr<MouseCommand>				stickyCommand;		// last sticky command - if setting to NULL, this will be used
-	shared_ptr<RBX::InputObject>			idleMouseEvent;		// copy this for the idle event
+	shared_ptr<ARL::InputObject>			idleMouseEvent;		// copy this for the idle event
 
 	int										flySteps;			// used to accelerated cameraFly
 
@@ -265,7 +265,7 @@ public:
 	Extents computeExtentsWorldFast();
 
 private:
-	/*override*/ Extents computeExtentsWorld() {RBXASSERT(this->computeNumParts() < 25);	return RootInstance::computeExtentsWorld();}		// make sure nobody is calling this directly on the workspace?
+	/*override*/ Extents computeExtentsWorld() {ARLASSERT(this->computeNumParts() < 25);	return RootInstance::computeExtentsWorld();}		// make sure nobody is calling this directly on the workspace?
 	/*override*/ const ModelInstance* getCameraOwnerModel() const {return this;}
 
 	rbx::signals::scoped_connection heartbeatConnection;
@@ -308,7 +308,7 @@ public:
 	// TODO: refactor: Move into ToolManager Service
 
 	MouseCommand* getCurrentMouseCommand() {
-		RBXASSERT(currentCommand.get()!=NULL);
+		ARLASSERT(currentCommand.get()!=NULL);
 		return currentCommand.get();
 	}
 
@@ -365,8 +365,8 @@ private:
 	void updateDistributedGameTime();
 
 public:
-	static bool serverIsPresent(const Instance* context);		// shortcut for RBX::Network::Players::serverIsPresent
-	static bool clientIsPresent(const Instance* context);		// shortcut for RBX::Network::Players::clientIsPresent
+	static bool serverIsPresent(const Instance* context);		// shortcut for ARL::Network::Players::serverIsPresent
+	static bool clientIsPresent(const Instance* context);		// shortcut for ARL::Network::Players::clientIsPresent
 
 	void start();
 	void stop();

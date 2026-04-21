@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RBX
+namespace ARL
 {
     void postMachineConfiguration(const char* baseURL, int lastGfxMode);
 }

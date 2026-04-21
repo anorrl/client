@@ -8,7 +8,7 @@
 #include "Util/CameraSubject.h"
 #include "Util/Selectable.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PartInstance;
 	class ModelInstance;
@@ -56,7 +56,7 @@ namespace RBX {
 		void onEvent_AddedBackend(shared_ptr<Instance> child);
 		void onEvent_RemovedBackend(shared_ptr<Instance> child);
 		void onEvent_HandleTouched(shared_ptr<Instance> other);
-		void onEvent_AttachmentAdjusted(const RBX::Reflection::PropertyDescriptor*);
+		void onEvent_AttachmentAdjusted(const ARL::Reflection::PropertyDescriptor*);
 
 		static AccoutrementState characterCanPickUpAccoutrement(Instance* touchingCharacter);
 

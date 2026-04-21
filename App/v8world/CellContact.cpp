@@ -8,13 +8,13 @@
 #include "Voxel/Grid.h"
 #include "V8DataModel/MegaCluster.h"
 
-namespace RBX {
+namespace ARL {
 
 CellMeshContact::~CellMeshContact()
 {
 	deleteConnectors(polyConnectors);
 
-	RBXASSERT(polyConnectors.size() == 0);
+	ARLASSERT(polyConnectors.size() == 0);
 }
 
 ContactConnector* CellMeshContact::getConnector(int i)
@@ -33,7 +33,7 @@ void CellMeshContact::deleteConnectors(ConnectorArray& deleteConnectors)
 	removeAllConnectorsFromKernel();
 
 	for (size_t i = 0; i < deleteConnectors.size(); ++i) {
-		RBXASSERT(!deleteConnectors[i]->isInKernel());
+		ARLASSERT(!deleteConnectors[i]->isInKernel());
 		delete deleteConnectors[i];
 	}
 
@@ -108,7 +108,7 @@ void CellMeshContact::updateClosestFeatures()
 float CellMeshContact::worstFeatureOverlap()
 {
 	float worstOverlap = -FLT_MAX;		// i.e. not overlapping
-	RBXASSERT(polyConnectors.size() > 0);
+	ARLASSERT(polyConnectors.size() > 0);
 	for (size_t i = 0; i < polyConnectors.size(); ++i) {				// may not have any overlapping features!
 		float overlap = polyConnectors[i]->computeOverlap();				// computeLength returns negative
 		worstOverlap = std::max(worstOverlap, overlap);
@@ -145,7 +145,7 @@ void CellMeshContact::updateContactPoints()
 		polyConnectors[i]->updateContactPoint();
 }
 
-bool CellMeshContact::cellFaceIsInterior(const Vector3int16& mainCellLoc, RBX::Voxel::FaceDirection faceDir)
+bool CellMeshContact::cellFaceIsInterior(const Vector3int16& mainCellLoc, ARL::Voxel::FaceDirection faceDir)
 {
     using namespace Voxel;
     

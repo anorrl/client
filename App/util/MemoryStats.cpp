@@ -3,16 +3,16 @@
 #if defined(_WIN32) // should only be used with Microsoft platforms
 #include <Windows.h>
 
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
 #include <psapi.h>
 #endif
 
-using namespace RBX;
-using namespace RBX::MemoryStats;
+using namespace ARL;
+using namespace ARL::MemoryStats;
 
-namespace RBX {
+namespace ARL {
 	namespace MemoryStats {
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
 		MEMORYSTATUSEX globalMemoryStatusEx() {
 			MEMORYSTATUSEX statex;
 			statex.dwLength = sizeof(statex);
@@ -22,11 +22,11 @@ namespace RBX {
 #endif
 
 		DWORDLONG usedMemoryBytes() {
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
 			PROCESS_MEMORY_COUNTERS pmc;
 			GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc));
 			return pmc.WorkingSetSize;
-#elif defined(RBX_PLATFORM_WIN_PHONE)
+#elif defined(ARL_PLATFORM_WIN_PHONE)
 			return Windows::System::MemoryManager::AppMemoryUsage;
 #else
 			// TODO:WinRT Windows Surface App
@@ -35,10 +35,10 @@ namespace RBX {
 		}
 
 		DWORDLONG freeMemoryBytes() {
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
 			MEMORYSTATUSEX statex = globalMemoryStatusEx();
 			return statex.ullAvailPhys;
-#elif defined(RBX_PLATFORM_WIN_PHONE)
+#elif defined(ARL_PLATFORM_WIN_PHONE)
 			return Windows::System::MemoryManager::AppMemoryUsageLimit - Windows::System::MemoryManager::AppMemoryUsage;
 #else
 			// TODO:WinRT Windows Store App
@@ -48,12 +48,12 @@ namespace RBX {
 		}
 
 		DWORDLONG totalMemoryBytes() {
-#if defined (RBX_PLATFORM_DURANGO)
+#if defined (ARL_PLATFORM_DURANGO)
             _TITLEMEMORYSTATUS status;
             status.dwLength = sizeof(TITLEMEMORYSTATUS);
             TitleMemoryStatus(&status);
             return status.ullTotalMem;
-#elif defined(RBX_PLATFORM_WIN_PHONE)
+#elif defined(ARL_PLATFORM_WIN_PHONE)
             return Windows::System::MemoryManager::AppMemoryUsageLimit;
 #else
             MEMORYSTATUSEX statex = globalMemoryStatusEx();

@@ -4,7 +4,7 @@
 
 class btTriangleCallback;
 
-namespace RBX {
+namespace ARL {
 
 union KDNode
 {

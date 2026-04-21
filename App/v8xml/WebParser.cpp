@@ -13,9 +13,9 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
-namespace RBX
+namespace ARL
 {
-	bool WebParser::parseWebListResponse(std::istream& stream, RBX::Reflection::ValueArray& result)
+	bool WebParser::parseWebListResponse(std::istream& stream, ARL::Reflection::ValueArray& result)
 	{
 		TextXmlParser machine(stream.rdbuf());
 		std::auto_ptr<XmlElement> root(machine.parse());
@@ -25,19 +25,19 @@ namespace RBX
 		}
 		return false;
 	}
-	bool WebParser::parseWebGenericResponse(std::istream& stream, RBX::Reflection::Variant& result)
+	bool WebParser::parseWebGenericResponse(std::istream& stream, ARL::Reflection::Variant& result)
 	{
 		TextXmlParser machine(stream.rdbuf());
 		std::auto_ptr<XmlElement> root(machine.parse());
 		return parseWebGenericResponse(root.get(), result);
 	}
-	bool WebParser::parseWebGenericResponse(const XmlElement* root, RBX::Reflection::Variant& result)
+	bool WebParser::parseWebGenericResponse(const XmlElement* root, ARL::Reflection::Variant& result)
 	{
 		if (root->getTag() == tag_WebTable) 
 		{
 			shared_ptr<Reflection::ValueMap> table(new Reflection::ValueMap());
 			if(loadTable(root, *table)){
-				result = shared_ptr<const RBX::Reflection::ValueMap>(table);
+				result = shared_ptr<const ARL::Reflection::ValueMap>(table);
 				return true;
 			}
 		}
@@ -45,7 +45,7 @@ namespace RBX
 		{
 			shared_ptr<Reflection::ValueArray> list(rbx::make_shared<Reflection::ValueArray>());
 			if(loadList(root, *list)){
-				result = shared_ptr<const RBX::Reflection::ValueArray>(list);
+				result = shared_ptr<const ARL::Reflection::ValueArray>(list);
 				return true;
 			}
 		}
@@ -57,7 +57,7 @@ namespace RBX
 		}
 		return false;
 	}
-	bool WebParser::loadList(const XmlElement* listElement, RBX::Reflection::ValueArray& result)
+	bool WebParser::loadList(const XmlElement* listElement, ARL::Reflection::ValueArray& result)
 	{
 		const XmlElement* childEntry = listElement->findFirstChildByTag(tag_WebValue);
 		while (childEntry)
@@ -73,7 +73,7 @@ namespace RBX
 		}
 		return true;
 	}
-	bool WebParser::loadTable(const XmlElement* tableElement, RBX::Reflection::ValueMap& result)
+	bool WebParser::loadTable(const XmlElement* tableElement, ARL::Reflection::ValueMap& result)
 	{
 		const XmlElement* childEntry = tableElement->findFirstChildByTag(tag_WebEntry);
 		while (childEntry)
@@ -90,19 +90,19 @@ namespace RBX
 		}
 		return true;
 	}
-	bool WebParser::loadValue(const XmlElement* valueElement, RBX::Reflection::Variant& value)
+	bool WebParser::loadValue(const XmlElement* valueElement, ARL::Reflection::Variant& value)
 	{
 		if(const XmlElement* tableElement = valueElement->findFirstChildByTag(tag_WebTable)){
 			shared_ptr<Reflection::ValueMap> table(new Reflection::ValueMap());
 			if(loadTable(tableElement, *table)){
-				value = shared_ptr<const RBX::Reflection::ValueMap>(table);
+				value = shared_ptr<const ARL::Reflection::ValueMap>(table);
 				return true;
 			}
 		}
 		else if((tableElement = valueElement->findFirstChildByTag(tag_WebList))){
 			shared_ptr<Reflection::ValueArray> list(rbx::make_shared<Reflection::ValueArray>());
 			if(loadList(tableElement, *list)){
-				value = shared_ptr<const RBX::Reflection::ValueArray>(list);
+				value = shared_ptr<const ARL::Reflection::ValueArray>(list);
 				return true;
 			}
 		}
@@ -180,7 +180,7 @@ namespace RBX
 		}
 		return false;
 	}
-	bool WebParser::loadEntry(const XmlElement* entryElement, std::string& key, RBX::Reflection::Variant& value)
+	bool WebParser::loadEntry(const XmlElement* entryElement, std::string& key, ARL::Reflection::Variant& value)
 	{
 		bool gotKey = false;
 		bool gotValue = false;
@@ -236,7 +236,7 @@ namespace RBX
 						if(!legacyPopulateValueTableFromPtree(it->second,subMap))
 							return false;
 
-						Reflection::Variant variantValue = shared_ptr<const RBX::Reflection::ValueTable>(subMap);
+						Reflection::Variant variantValue = shared_ptr<const ARL::Reflection::ValueTable>(subMap);
 						(*valueTable)[key] = variantValue;
 					}
 
@@ -288,14 +288,14 @@ namespace RBX
 
 				if(key.empty())
 				{
-					RBXASSERT(!subMap);
+					ARLASSERT(!subMap);
 					if(!subArray)
 						subArray = rbx::make_shared<Reflection::ValueArray>();
 					subArray->push_back(value);
 				}
 				else
 				{
-					RBXASSERT(!subArray);
+					ARLASSERT(!subArray);
 					if(!subMap)
 						subMap = rbx::make_shared<Reflection::ValueTable>();
 					(*subMap)[key] = value;
@@ -356,7 +356,7 @@ namespace RBX
 		if(root.HasParseError())
 			return false;
 
-		RBXASSERT(root.IsObject() || root.IsArray());
+		ARLASSERT(root.IsObject() || root.IsArray());
 
 		result = populateValueTableFromRapidJson(root);
 
@@ -454,7 +454,7 @@ namespace RBX
 		if(!result.isType<shared_ptr<const Reflection::ValueTable> >())
 			return false;
 
-		valueTable = result.cast<shared_ptr<const RBX::Reflection::ValueTable> >();
+		valueTable = result.cast<shared_ptr<const ARL::Reflection::ValueTable> >();
 		return true;
 
 	}
@@ -468,7 +468,7 @@ namespace RBX
 		if(!result.isType<shared_ptr<const Reflection::ValueArray> >())
 			return false;
 
-		valueArray = result.cast<shared_ptr<const RBX::Reflection::ValueArray> >();
+		valueArray = result.cast<shared_ptr<const ARL::Reflection::ValueArray> >();
 		return true;
 
 	}

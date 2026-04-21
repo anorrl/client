@@ -9,7 +9,7 @@
 
 DYNAMIC_FASTFLAG(GuiBase3dReplicateColor3WithBrickColor)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sSelectionBox = "SelectionBox";
 

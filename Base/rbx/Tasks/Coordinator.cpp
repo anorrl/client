@@ -1,18 +1,18 @@
 
 #include "rbx/Tasks/Coordinator.h"
 
-using namespace RBX;
+using namespace ARL;
 using namespace Tasks;
 
 bool Barrier::isInhibited(TaskScheduler::Job* job)
 {
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 	return jobs[job] > counter;
 }
 
 void Barrier::onPostStep(TaskScheduler::Job* job)
 {
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 
 	unsigned int& count(jobs[job]);
 
@@ -35,28 +35,28 @@ void Barrier::releaseBarrier()
 
 void Barrier::onAdded(TaskScheduler::Job* job)
 {
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 
-	RBXASSERT(jobs.find(job)==jobs.end());
+	ARLASSERT(jobs.find(job)==jobs.end());
 
 	jobs[job] = counter;
 	remainingTasks++;
 
-	RBXASSERT(remainingTasks <= jobs.size());
+	ARLASSERT(remainingTasks <= jobs.size());
 }
 
 void Barrier::onRemoved(TaskScheduler::Job* job)
 {
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 
-	RBXASSERT(jobs.find(job)!=jobs.end());
+	ARLASSERT(jobs.find(job)!=jobs.end());
 
 	if (jobs[job] <= counter)
 		remainingTasks--;
 
 	jobs.erase(job);
 
-	RBXASSERT(remainingTasks <= jobs.size());
+	ARLASSERT(remainingTasks <= jobs.size());
 }
 
 
@@ -64,7 +64,7 @@ void Barrier::onRemoved(TaskScheduler::Job* job)
 
 bool SequenceBase::isInhibited(TaskScheduler::Job* job)
 {
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 
 	if (nextJobIndex < jobs.size())
 		return jobs[nextJobIndex] != job;
@@ -74,7 +74,7 @@ bool SequenceBase::isInhibited(TaskScheduler::Job* job)
 
 void SequenceBase::advance()
 {
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 
 	if (++nextJobIndex == jobs.size())
 		nextJobIndex = 0;
@@ -82,14 +82,14 @@ void SequenceBase::advance()
 
 void SequenceBase::onAdded(TaskScheduler::Job* job)
 {
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 
 	jobs.push_back(job);
 }
 
 void SequenceBase::onRemoved(TaskScheduler::Job* job)
 {
-	RBX::mutex::scoped_lock lock(mutex);
+	ARL::mutex::scoped_lock lock(mutex);
 
 	for (size_t i=0; i<jobs.size(); ++i)
 		if (jobs[i] == job)
@@ -104,19 +104,19 @@ void SequenceBase::onRemoved(TaskScheduler::Job* job)
 
 bool Exclusive::isInhibited(TaskScheduler::Job* job)
 {
-	RBXASSERT(job != runningJob);
+	ARLASSERT(job != runningJob);
 	return runningJob != NULL;
 }
 
 void Exclusive::onPreStep(TaskScheduler::Job* job)
 {
-	RBXASSERT(runningJob == NULL);
+	ARLASSERT(runningJob == NULL);
 	runningJob = job;
 }
 
 void Exclusive::onPostStep(TaskScheduler::Job* job)
 {
-	RBXASSERT(runningJob == job);
+	ARLASSERT(runningJob == job);
 	runningJob = NULL;
 }
 

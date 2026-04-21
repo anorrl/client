@@ -5,18 +5,18 @@
 #include "V8World/Contact.h"
 #include "V8World/Edge.h"
 
-namespace RBX {
+namespace ARL {
 
 void IWorldStage::onEdgeAdded(Edge* e) 
 {
-	RBXASSERT(getDownstreamWS());
+	ARLASSERT(getDownstreamWS());
 	e->putInStage(this);
 	getDownstreamWS()->onEdgeAdded(e);
 }
 
 void IWorldStage::onEdgeRemoving(Edge* e) 
 {
-	RBXASSERT(getDownstreamWS());
+	ARLASSERT(getDownstreamWS());
 	getDownstreamWS()->onEdgeRemoving(e);
 	e->removeFromStage(this);
 }

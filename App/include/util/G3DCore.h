@@ -32,7 +32,7 @@
 // TODO: this can cause namespace collisions:
 //using G3D::Array;
 
-namespace RBX {
+namespace ARL {
 	typedef G3D::Vector2 Vector2;
 	typedef G3D::Vector3 Vector3;
 	typedef G3D::Vector4 Vector4;
@@ -43,7 +43,7 @@ namespace RBX {
 	typedef G3D::Matrix3 Matrix3;
 	typedef G3D::Matrix4 Matrix4;
 	typedef G3D::CoordinateFrame CoordinateFrame;
-	typedef RBX::RbxRay Ray;
+	typedef ARL::RbxRay Ray;
 	typedef G3D::Plane Plane;
 	typedef G3D::Line Line;
 	typedef G3D::LineSegment LineSegment;

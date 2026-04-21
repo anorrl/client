@@ -4,7 +4,7 @@
 #include "GfxCore/Resource.h"
 #include "TextureRef.h"
 
-namespace RBX { namespace Graphics {
+namespace ARL { namespace Graphics {
 
 class Framebuffer;
 class VisualEngine;

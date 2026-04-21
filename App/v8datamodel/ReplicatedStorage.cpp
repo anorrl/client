@@ -2,9 +2,9 @@
 
 #include "v8datamodel/ReplicatedStorage.h"
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sReplicatedStorage = "ReplicatedStorage";
+const char* const ARL::sReplicatedStorage = "ReplicatedStorage";
 
 ReplicatedStorage::ReplicatedStorage(void)
 {

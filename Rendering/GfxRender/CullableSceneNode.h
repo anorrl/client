@@ -5,12 +5,12 @@
 
 #include "RenderQueue.h"
 
-namespace RBX
+namespace ARL
 {	
 	class Contact;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -21,15 +21,15 @@ class VisualEngine;
 
 class SpatialHashNode;
 
-class CullableSceneNode: public RBX::GfxPart
+class CullableSceneNode: public ARL::GfxPart
 {
 public:
     static const bool hasGetFirstContact = false; // simulate __if_exists
-    static RBX::Contact* getContact(CullableSceneNode* p0, CullableSceneNode* p1) {RBXASSERT(0); return NULL;}  // shouldn't be called if hasGetFirstContact is false
-    static RBX::Contact* getFirstContact() { RBXASSERT(NULL); return NULL;}
-    static RBX::Contact* getNextContact(RBX::Contact* prev) { RBXASSERT(NULL); return NULL;}
-    static int getNumContacts(){ RBXASSERT(NULL); return 0; }
-    static CullableSceneNode* getContactOther(int id){ RBXASSERT(NULL); return NULL; }
+    static ARL::Contact* getContact(CullableSceneNode* p0, CullableSceneNode* p1) {ARLASSERT(0); return NULL;}  // shouldn't be called if hasGetFirstContact is false
+    static ARL::Contact* getFirstContact() { ARLASSERT(NULL); return NULL;}
+    static ARL::Contact* getNextContact(ARL::Contact* prev) { ARLASSERT(NULL); return NULL;}
+    static int getNumContacts(){ ARLASSERT(NULL); return 0; }
+    static CullableSceneNode* getContactOther(int id){ ARLASSERT(NULL); return NULL; }
 
     bool requestFixed() const { return false; }
     const Extents& getFastFuzzyExtents() { return worldBounds; }

@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace RBX {
+namespace ARL {
 
 // The TeleportCallback describes the interface required for teleporting
 // players across different places. You have to define a child class and
@@ -17,4 +17,4 @@ public:
     virtual std::string xBox_getGamerTag() const { return ""; } // needed for placeLauncher.ashx when connecting from xbox client
 };
  
-}  // namespace RBX
+}  // namespace ARL

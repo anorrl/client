@@ -8,7 +8,7 @@
 #include "V8World/Assembly.h"
 #include "V8World/Joint.h"
 
-namespace RBX {
+namespace ARL {
 
 
 #pragma warning(push)
@@ -23,7 +23,7 @@ HumanoidStage::HumanoidStage(IStage* upstream, World* world)
 
 HumanoidStage::~HumanoidStage()
 {
-	RBXASSERT(movingHumanoidAssemblies.size() == 0);
+	ARLASSERT(movingHumanoidAssemblies.size() == 0);
 }
 
 
@@ -39,21 +39,21 @@ void HumanoidStage::fromDynamics(Assembly* a)
 
 void HumanoidStage::toHumanoid(Assembly* a)
 {
-	RBXASSERT(a->getAssemblyState() == Sim::ANCHORED);
+	ARLASSERT(a->getAssemblyState() == Sim::ANCHORED);
 	a->setAssemblyState(Sim::AWAKE);
 
 	getWorld()->getSendPhysics()->onMovingAssemblyRootAdded(a);
 	bool ok = movingHumanoidAssemblies.insert(a).second;
-	RBXASSERT(ok);
+	ARLASSERT(ok);
 }
 
 void HumanoidStage::fromHumanoid(Assembly* a)
 {
 	int num = movingHumanoidAssemblies.erase(a);
-	RBXASSERT(num);
+	ARLASSERT(num);
 	getWorld()->getSendPhysics()->onMovingAssemblyRootRemoving(a);
 
-	RBXASSERT(a->getAssemblyState() == Sim::AWAKE);
+	ARLASSERT(a->getAssemblyState() == Sim::AWAKE);
 	a->setAssemblyState(Sim::ANCHORED);
 }
 

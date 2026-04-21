@@ -10,7 +10,7 @@
 #include "v8datamodel/UserInputService.h"
 #include "Util/Sound.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sGameTool = "GameTool";
 
@@ -41,7 +41,7 @@ void GameTool::onMouseHover(const shared_ptr<InputObject>& inputObject)
 	Vector3 hitPoint;
 	PartInstance* foundPart = getUnlockedPartByLocalCharacter(inputObject, hitPoint);
 
-	UserInputService* userInputService = RBX::ServiceProvider::find<UserInputService>(workspace);
+	UserInputService* userInputService = ARL::ServiceProvider::find<UserInputService>(workspace);
 		
 	if (!foundPart) 
 	{

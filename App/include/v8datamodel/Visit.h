@@ -8,7 +8,7 @@
 #include "rbx/boost.hpp"
 #include <boost/thread/condition.hpp>
 
-namespace RBX {
+namespace ARL {
 	namespace Network {
 		class Player;
 	}
@@ -25,7 +25,7 @@ namespace RBX {
 	{
 	private:
 		std::string uploadUrl;
-		scoped_ptr<RBX::worker_thread> pingThread;
+		scoped_ptr<ARL::worker_thread> pingThread;
 
 	public:
 		Visit();

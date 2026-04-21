@@ -5,10 +5,10 @@
 #include "G3D/CollisionDetection.h"
 #include "G3D/Capsule.h"
 
-namespace RBX {
+namespace ARL {
 
 bool HitTest::hitTestBox(const Part& part, 
-					  RBX::RbxRay& rayInPartCoords, 
+					  ARL::RbxRay& rayInPartCoords, 
 					  Vector3& hitPointInPartCoords,
 					  float gridToReal)
 {
@@ -23,7 +23,7 @@ bool HitTest::hitTestBox(const Part& part,
 
 
 bool HitTest::hitTestBall(const Part& part, 
-					   RBX::RbxRay& rayInPartCoords, 
+					   ARL::RbxRay& rayInPartCoords, 
 					   Vector3& hitPointInPartCoords,
 					   float gridToReal)
 {
@@ -41,7 +41,7 @@ bool HitTest::hitTestBall(const Part& part,
 // TODO: Big optimization possible here...
 // TODO: Clean up hit test here - offset stuff going on
 bool HitTest::hitTestCylinder(const Part& part, 
-						   RBX::RbxRay& rayInPartCoords, 
+						   ARL::RbxRay& rayInPartCoords, 
 						   Vector3& hitPointInPartCoords,
 						   float gridToReal)
 {
@@ -58,15 +58,15 @@ bool HitTest::hitTestCylinder(const Part& part,
 }
 
 bool HitTest::hitTest(const Part& part,
-						   RBX::RbxRay& rayInPartCoords, 
+						   ARL::RbxRay& rayInPartCoords, 
 						   Vector3& hitPointInPartCoords,
 						   float gridToReal)
 {
 	switch (part.type)
 	{
-		case RBX::BLOCK_PART:		return hitTestBox(part, rayInPartCoords, hitPointInPartCoords, gridToReal);
-		case RBX::BALL_PART:		return hitTestBall(part, rayInPartCoords, hitPointInPartCoords, gridToReal);
-		case RBX::CYLINDER_PART:	return hitTestCylinder(part, rayInPartCoords, hitPointInPartCoords, gridToReal);
+		case ARL::BLOCK_PART:		return hitTestBox(part, rayInPartCoords, hitPointInPartCoords, gridToReal);
+		case ARL::BALL_PART:		return hitTestBall(part, rayInPartCoords, hitPointInPartCoords, gridToReal);
+		case ARL::CYLINDER_PART:	return hitTestCylinder(part, rayInPartCoords, hitPointInPartCoords, gridToReal);
 		default:				debugAssert(0);
 	}
 	return false;

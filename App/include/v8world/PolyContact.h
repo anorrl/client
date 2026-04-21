@@ -4,12 +4,12 @@
 
 #include "V8World/Contact.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PolyConnector;
 
-	//typedef RBX::FixedArray<PolyConnector*, 12> ConnectorArray;		// TODO - should only ever need 8
-	typedef RBX::FixedArray<PolyConnector*, CONTACT_ARRAY_SIZE> ConnectorArray;		// TODO - should only ever need 8
+	//typedef ARL::FixedArray<PolyConnector*, 12> ConnectorArray;		// TODO - should only ever need 8
+	typedef ARL::FixedArray<PolyConnector*, CONTACT_ARRAY_SIZE> ConnectorArray;		// TODO - should only ever need 8
 
 	class PolyContact : public Contact 
 	{

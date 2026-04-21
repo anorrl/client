@@ -2,7 +2,7 @@
 
 #include "Voxel/Util.h"
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 namespace Water {
 

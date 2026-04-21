@@ -10,7 +10,7 @@
 
 
 extern const char* const sRenderSettings;
-class CRenderSettingsItem : public RBX::GlobalAdvancedSettingsItem<CRenderSettingsItem, sRenderSettings>, public RBX::CRenderSettings
+class CRenderSettingsItem : public ARL::GlobalAdvancedSettingsItem<CRenderSettingsItem, sRenderSettings>, public ARL::CRenderSettings
 {
 	std::string profileName;
 	G3D::Vector2int16 currentDisplaySize;
@@ -20,7 +20,7 @@ public:
 
 	void setShowAggregation(bool value);
 
-	static RBX::Reflection::BoundProp<std::string> prop_profileName;
+	static ARL::Reflection::BoundProp<std::string> prop_profileName;
 
 	CRenderSettingsItem();
 	
@@ -63,8 +63,8 @@ public:
     bool getObjExportMergeByMaterial() const;
     void setObjExportMergeByMaterial(bool value);
 
-	static RBX::Reflection::EnumPropDescriptor<CRenderSettingsItem, CRenderSettingsItem::ResolutionPreset> prop_resolution;
+	static ARL::Reflection::EnumPropDescriptor<CRenderSettingsItem, CRenderSettingsItem::ResolutionPreset> prop_resolution;
 
 	// special signal used only in native code
-	rbx::signal<void(const RBX::Reflection::PropertyDescriptor*)> settingsChangedSignal;
+	rbx::signal<void(const ARL::Reflection::PropertyDescriptor*)> settingsChangedSignal;
 };

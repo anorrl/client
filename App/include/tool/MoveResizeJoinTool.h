@@ -8,7 +8,7 @@
 #include "Tool/DragTypes.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sMoveResizeJoinTool;
 	class MoveResizeJoinTool : public Named<AdvArrowTool, sMoveResizeJoinTool>
@@ -68,7 +68,7 @@ namespace RBX {
 		  {}
 		/*override*/ shared_ptr<MouseCommand> isSticky() const {return Creatable<MouseCommand>::create<MoveResizeJoinTool>(workspace);}
 
-		static void setSelection(shared_ptr<RBX::Instance> oldSelection, shared_ptr<RBX::Instance> newSelection);
+		static void setSelection(shared_ptr<ARL::Instance> oldSelection, shared_ptr<ARL::Instance> newSelection);
 	};
 
-} // namespace RBX
+} // namespace ARL

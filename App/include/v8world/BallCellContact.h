@@ -4,7 +4,7 @@
 
 #include "V8World/CellContact.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Poly;
 	class BallPlaneConnector;

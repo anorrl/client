@@ -16,12 +16,12 @@
 #include <luaconf.h>
 #include "script/LuaInstanceBridge.h"
 
-const char* const RBX::sPluginManager = "PluginManager";
-const char* const RBX::sPlugin = "Plugin";
-const char *const RBX::sToolbar = "Toolbar";
-const char *const RBX::sButton = "Button";
+const char* const ARL::sPluginManager = "PluginManager";
+const char* const ARL::sPlugin = "Plugin";
+const char *const ARL::sToolbar = "Toolbar";
+const char *const ARL::sButton = "Button";
 
-using namespace RBX;
+using namespace ARL;
 
 REFLECTION_BEGIN();
 // Reflections
@@ -51,7 +51,7 @@ static Reflection::BoundFuncDesc<Toolbar, shared_ptr<Instance>(std::string, std:
 static Reflection::BoundFuncDesc<Button, void(bool)> func_setButtonActive(&Button::setActive, "SetActive", "active", Security::Plugin);
 static Reflection::EventDesc<Button, void()>  desc_buttonClick(&Button::clickSignal, "Click", Security::Plugin);
 
-static Reflection::BoundFuncDesc<Plugin, void(shared_ptr<RBX::Instance>, int)>	func_openScript(&Plugin::openScriptDoc, "OpenScript", "script", "lineNumber", 0, Security::Plugin);
+static Reflection::BoundFuncDesc<Plugin, void(shared_ptr<ARL::Instance>, int)>	func_openScript(&Plugin::openScriptDoc, "OpenScript", "script", "lineNumber", 0, Security::Plugin);
 
 static Reflection::BoundFuncDesc<PluginManager, void(std::string) > func_exportPlace(&PluginManager::exportPlace, "ExportPlace", "filePath", "", Security::Plugin);
 static Reflection::BoundFuncDesc<PluginManager, void(std::string) > func_exportSelection(&PluginManager::exportSelection, "ExportSelection", "filePath", "", Security::Plugin);
@@ -73,7 +73,7 @@ namespace
 			extraGlobals["script"] = script;
 			extraGlobals["plugin"] = plugin;
 
-#if defined(RBX_STUDIO_BUILD)
+#if defined(ARL_STUDIO_BUILD)
 			try {
 				scriptContext->executeInNewThreadWithExtraGlobals(
                     Security::StudioPlugin,
@@ -303,7 +303,7 @@ float Plugin::getGridSize() const
 
 AdvArrowToolBase::JointCreationMode Plugin::getJoinMode()
 {
-	return RBX::AdvArrowTool::getJointCreationMode();
+	return ARL::AdvArrowTool::getJointCreationMode();
 }
 
 void Plugin::activate(bool exclusiveMouse)
@@ -333,7 +333,7 @@ void Plugin::setAssetId(int assetId)
 	this->assetId = assetId;
 }
 
-void Plugin::openScriptDoc(shared_ptr<RBX::Instance> script, int lineNumber)
+void Plugin::openScriptDoc(shared_ptr<ARL::Instance> script, int lineNumber)
 {
 	pluginManager->getStudioHost()->openScriptDoc(script, lineNumber);
 }
@@ -410,7 +410,7 @@ void PluginManager::startModelPluginScripts(DataModel* dataModel)
 int PluginManager::createPlugin(lua_State* L)
 {
 	DataModel* dm = DataModel::get(RobloxExtraSpace::get(L)->context());
-	RBXASSERT(dm);
+	ARLASSERT(dm);
 	shared_ptr<Plugin> p = Creatable<Instance>::create<Plugin>();
 	p->setPluginManager(this);
 	p->setDataModel(dm);
@@ -423,14 +423,14 @@ int PluginManager::createPlugin(lua_State* L)
 	}
 
 	iter->second.addPlugin(p);
-	RBX::Lua::ObjectBridge::push(L, p);
+	ARL::Lua::ObjectBridge::push(L, p);
 
 	return 1;
 }
 
 void PluginManager::deletePlugins(DataModel *dataModel)
 {
-	RBX::Plugin *activePlugin = getActivePlugin(dataModel);
+	ARL::Plugin *activePlugin = getActivePlugin(dataModel);
 	if (activePlugin) 
 	{
 		activate(NULL, dataModel);
@@ -475,7 +475,7 @@ void PluginManager::activate(Plugin *plugin, DataModel *dataModel)
 	if (plugin != NULL)
 	{
 		stateIter iter = state.find(plugin->getDataModel());
-		RBXASSERT(iter != state.end());
+		ARLASSERT(iter != state.end());
 
 		for (StateDataEntry::toolbarsIter i = iter->second.toolbars.begin();i != iter->second.toolbars.end();i ++)
 		{
@@ -513,7 +513,7 @@ shared_ptr<Instance> PluginManager::StateDataEntry::getToolbar(std::string name,
 	toolbarsIter iter = toolbars.find(name);
 	if (iter == toolbars.end())
 	{
-		RBXASSERT(dataModel);
+		ARLASSERT(dataModel);
 		shared_ptr<Toolbar> t = Creatable<Instance>::create<Toolbar>();
 		t->SetId(host->createToolbar(name));
 		t->setHost(host);
@@ -524,7 +524,7 @@ shared_ptr<Instance> PluginManager::StateDataEntry::getToolbar(std::string name,
 	}
 
 	iter = toolbars.find(name);
-	RBXASSERT(iter != toolbars.end());
+	ARLASSERT(iter != toolbars.end());
 
 	return iter->second;
 }
@@ -595,20 +595,20 @@ void PluginManager::StateDataEntry::deleteStudioUI(IStudioPluginHost *host)
 shared_ptr<Instance> PluginManager::createToolbar(Plugin *plugin, std::string name)
 {
 	stateIter iter = state.find(plugin->getDataModel());	
-	RBXASSERT(iter != state.end());
+	ARLASSERT(iter != state.end());
 	return iter->second.getToolbar(name, studioHost, plugin->getDataModel());
 }
 
 void PluginManager::buttonClick(DataModel *dataModel, void *id)
 {
 	stateIter iter = state.find(dataModel);	
-	RBXASSERT(iter != state.end());
+	ARLASSERT(iter != state.end());
 
 	// The click event is exposed in LUA, which in turn may try to change the
 	// datamodel. Grab a write lock before propagating the click.
 	if (iter != state.end()) 
 	{
-		RBX::DataModel::LegacyLock lock(dataModel, DataModelJob::Write);
+		ARL::DataModel::LegacyLock lock(dataModel, DataModelJob::Write);
 		iter->second.fireButtonClick(id);
 	}
 }
@@ -636,12 +636,12 @@ void PluginManager::hideStudioUI(DataModel *dataModel, bool hide)
 
 void PluginManager::exportPlace(std::string filePath)
 {
-	getStudioHost()->exportPlace(filePath, RBX::ExporterSaveType_Everything);
+	getStudioHost()->exportPlace(filePath, ARL::ExporterSaveType_Everything);
 }
 
 void PluginManager::exportSelection(std::string filePath)
 {
-	getStudioHost()->exportPlace(filePath, RBX::ExporterSaveType_Selection);
+	getStudioHost()->exportPlace(filePath, ARL::ExporterSaveType_Selection);
 }
 
 void Plugin::openWikiPage(std::string url)
@@ -669,14 +669,14 @@ void Plugin::promptForExistingAssetId(std::string assetType, boost::function<voi
 	pluginManager->getStudioHost()->promptForExistingAssetId(assetType, resumeFunction, errorFunction);
 }
 
-void PluginManager::fireDragEnterEvent(DataModel* dataModel, shared_ptr<const RBX::Instances> instances, Vector2 location)
+void PluginManager::fireDragEnterEvent(DataModel* dataModel, shared_ptr<const ARL::Instances> instances, Vector2 location)
 {
 	if (!dataModel)
 		return;
 	
-	if (RBX::Plugin* activePlugin = getActivePlugin(dataModel))
+	if (ARL::Plugin* activePlugin = getActivePlugin(dataModel))
 	{
-		RBX::DataModel::LegacyLock lock(dataModel, DataModelJob::Write);
+		ARL::DataModel::LegacyLock lock(dataModel, DataModelJob::Write);
 		shared_ptr<InputObject> input = Creatable<Instance>::create<InputObject>(InputObject::TYPE_MOUSEMOVEMENT, InputObject::INPUT_STATE_CHANGE, Vector3(location.x, location.y, 0), Vector3::zero(), dataModel);
 		ServiceProvider::find<UserInputService>(dataModel)->setCurrentMousePosition(input);
 		activePlugin->getMouse()->fireDragEnterEvent(instances, input);

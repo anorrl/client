@@ -167,23 +167,23 @@ LOGVARIABLE(CyclicExecutiveThrottling, 0)
 DYNAMIC_FASTFLAG(UseR15Character)
 DYNAMIC_LOGVARIABLE(R15Character, 0)
 
-namespace RBX {
+namespace ARL {
 
-static void dummyLoader(RBX::DataModel*) {}
+static void dummyLoader(ARL::DataModel*) {}
 int DataModel::LegacyLock::mainThreadId = ~0;
 
 // DataModel::throttleAt30Fps should only affect the frequency at which Physics and Rendering runs. Nothing else.
 bool DataModel::throttleAt30Fps = true;							// for debugging/benchmarking - default is true;
 unsigned int DataModel::sendStats = 0;									// flipped if client is "hacking" 
 std::string DataModel::hash; // contains the hash of the exe
-boost::function<void(RBX::DataModel*)> DataModel::loaderFunc = boost::function<void(RBX::DataModel*)>(dummyLoader);
+boost::function<void(ARL::DataModel*)> DataModel::loaderFunc = boost::function<void(ARL::DataModel*)>(dummyLoader);
 
 REFLECTION_BEGIN();
 static Reflection::BoundFuncDesc<DataModel, void()> func_loadPlugins(&DataModel::loadPlugins, "LoadPlugins", Security::Roblox);
 
 Reflection::EventDesc<DataModel, void(shared_ptr<Instance>, const Reflection::PropertyDescriptor*)> event_ItemChanged(&DataModel::itemChangedSignal, "ItemChanged", "object", "descriptor");
 
-#if defined(RBX_STUDIO_BUILD) || defined (RBX_RCC_SECURITY) || defined (RBX_TEST_BUILD)
+#if defined(ARL_STUDIO_BUILD) || defined (ARL_RCC_SECURITY) || defined (ARL_TEST_BUILD)
 static Reflection::BoundFuncDesc<DataModel, shared_ptr<const Instances>(ContentId)> getContentFunctionOld(&DataModel::fetchAsset, "get", "url", Security::LocalUser);
 static Reflection::BoundFuncDesc<DataModel, shared_ptr<const Instances>(ContentId)> getContentFunction(&DataModel::fetchAsset, "GetObjects", "url", Security::Plugin);
 #endif
@@ -213,7 +213,7 @@ static Reflection::BoundFuncDesc<DataModel, shared_ptr<const Reflection::ValueAr
 static Reflection::BoundFuncDesc<DataModel, void(std::string, std::string, std::string, std::string, std::string)>  func_reportMeasurement(&DataModel::reportMeasurement, "ReportMeasurement", "id", "key1", "value1", "key2", "value2", Security::RobloxScript);
 static Reflection::BoundFuncDesc<DataModel, void(std::string, std::string, std::string, int)> googleAnalyticsFunction(&DataModel::luaReportGoogleAnalytics, "ReportInGoogleAnalytics", "category", "action", "custom", "label", "none", "value", 0, Security::RobloxScript);
 
-#if defined(RBX_STUDIO_BUILD) || defined (RBX_RCC_SECURITY) || defined (RBX_TEST_BUILD)
+#if defined(ARL_STUDIO_BUILD) || defined (ARL_RCC_SECURITY) || defined (ARL_TEST_BUILD)
 static Reflection::BoundFuncDesc<DataModel, void(bool)> sanitizeFunction(&DataModel::clearContents, "ClearContent", "resettingSimulation", Security::LocalUser);
 #endif
 static Reflection::BoundFuncDesc<DataModel, void()> closeFunction(&DataModel::close, "Shutdown", Security::LocalUser);
@@ -386,31 +386,31 @@ namespace Reflection
 }
 
 template<>
-bool RBX::StringConverter<DataModel::CreatorType>::convertToValue(const std::string& text, DataModel::CreatorType& value)
+bool ARL::StringConverter<DataModel::CreatorType>::convertToValue(const std::string& text, DataModel::CreatorType& value)
 {
 	return Reflection::EnumDesc<DataModel::CreatorType>::singleton().convertToValue(text.c_str(),value);
 }
 
 template<>
-bool RBX::StringConverter<DataModel::Genre>::convertToValue(const std::string& text, DataModel::Genre& value)
+bool ARL::StringConverter<DataModel::Genre>::convertToValue(const std::string& text, DataModel::Genre& value)
 {
 	return Reflection::EnumDesc<DataModel::Genre>::singleton().convertToValue(text.c_str(),value);
 }
 
 template<>
-bool RBX::StringConverter<DataModel::GearGenreSetting>::convertToValue(const std::string& text, DataModel::GearGenreSetting& value)
+bool ARL::StringConverter<DataModel::GearGenreSetting>::convertToValue(const std::string& text, DataModel::GearGenreSetting& value)
 {
 	return Reflection::EnumDesc<DataModel::GearGenreSetting>::singleton().convertToValue(text.c_str(),value);
 }
 
 template<>
-bool RBX::StringConverter<DataModel::GearType>::convertToValue(const std::string& text, DataModel::GearType& value)
+bool ARL::StringConverter<DataModel::GearType>::convertToValue(const std::string& text, DataModel::GearType& value)
 {
 	return Reflection::EnumDesc<DataModel::GearType>::singleton().convertToValue(text.c_str(),value);
 }
 
 template<>
-bool RBX::StringConverter<DataModel::SaveFilter>::convertToValue(const std::string& text, DataModel::SaveFilter& value)
+bool ARL::StringConverter<DataModel::SaveFilter>::convertToValue(const std::string& text, DataModel::SaveFilter& value)
 {
 	return Reflection::EnumDesc<DataModel::SaveFilter>::singleton().convertToValue(text.c_str(),value);
 }
@@ -508,7 +508,7 @@ private:
 				continue;
 			}
 
-			RBX::Time timeNow = RBX::Time::now<RBX::Time::Fast>();
+			ARL::Time timeNow = ARL::Time::now<ARL::Time::Fast>();
 			if (TaskScheduler::priorityMethod != TaskScheduler::FIFO)
 				break;
 			else if (tasks.head_waittime_sec(timeNow) < 0.2)
@@ -524,10 +524,10 @@ private:
 static std::string tempTag()
 {
     static rbx::atomic<int> count = 0;
-	return RBX::format("DataModel-%d", (int)++count);
+	return ARL::format("DataModel-%d", (int)++count);
 }
 
-bool DataModel::canSave(const RBX::Instance* instance)
+bool DataModel::canSave(const ARL::Instance* instance)
 {
 	//If the UploadURL is empty, they don't have permissions to save.  Shut. It. Down.
 	if(Visit* visit = ServiceProvider::find<Visit>(instance))
@@ -617,7 +617,7 @@ DataModel::RequestShutdownResult DataModel::requestShutdown(bool useLuaShutdownF
 		return CLOSE_NO_SAVE_NEEDED;	
 	}
 
-	Visit* visit = RBX::ServiceProvider::find<Visit>(this);
+	Visit* visit = ARL::ServiceProvider::find<Visit>(this);
 	if (!visit || visit->getUploadUrl().empty())
 	{
 		return CLOSE_LOCAL_SAVE;
@@ -629,7 +629,7 @@ DataModel::RequestShutdownResult DataModel::requestShutdown(bool useLuaShutdownF
 			shutdownRequestedCount++;
 			return requestShutdownCallback() ? CLOSE_REQUEST_HANDLED : CLOSE_NOT_HANDLED;
 		}
-		catch(RBX::base_exception&)
+		catch(ARL::base_exception&)
 		{
 			return CLOSE_NOT_HANDLED;
 		}
@@ -663,7 +663,7 @@ void DataModel::doDataModelSetup(shared_ptr<DataModel> dataModel, bool startHear
 	//       like starting a task, then it shouldn't be necessary.
 	LegacyLock lock(dataModel, DataModelJob::Write);
 
-	RBX::DataModel::LegacyLock::mainThreadId = GetCurrentThreadId();
+	ARL::DataModel::LegacyLock::mainThreadId = GetCurrentThreadId();
 
 	dataModel->initializeContents(startHeartbeat);
 	dataModel->isInitialized = true;
@@ -676,9 +676,9 @@ void DataModel::doDataModelSetup(shared_ptr<DataModel> dataModel, bool startHear
 		{
 			if (boost::optional<ProtectedString> source = CoreScript::fetchSource("LoadingScript"))
 			{
-				if (ScriptContext* sc = RBX::ServiceProvider::create<ScriptContext>(dataModel.get()))
+				if (ScriptContext* sc = ARL::ServiceProvider::create<ScriptContext>(dataModel.get()))
 				{
-					sc->executeInNewThread(RBX::Security::RobloxGameScript_, *source, "LoadingScript");
+					sc->executeInNewThread(ARL::Security::RobloxGameScript_, *source, "LoadingScript");
 				}
 			}
 		}
@@ -691,11 +691,11 @@ void DataModel::doDataModelSetup(shared_ptr<DataModel> dataModel, bool startHear
 	FASTLOG1(FLog::CloseDataModel, "DataModel created: %p", dataModel.get());
 }
     
-shared_ptr<DataModel> DataModel::createDataModel(bool startHeartbeat, RBX::Verb* lockVerb, bool shouldShowLoadingScreen)
+shared_ptr<DataModel> DataModel::createDataModel(bool startHeartbeat, ARL::Verb* lockVerb, bool shouldShowLoadingScreen)
 {
 	FASTLOG1(FLog::CloseDataModel, "Create DataModel - heartbeat(%d)", startHeartbeat);
 		
-	shared_ptr<DataModel> dataModel = Creatable<Instance>::create<RBX::DataModel>(lockVerb);
+	shared_ptr<DataModel> dataModel = Creatable<Instance>::create<ARL::DataModel>(lockVerb);
 	
 	doDataModelSetup(dataModel, startHeartbeat, shouldShowLoadingScreen);
     return dataModel;
@@ -715,7 +715,7 @@ bool DataModel::onlyJobsLeftForThisArbiterAreGenericJobs() {
 					anyMatch = true;
 				}
 			}
-			RBXASSERT(anyMatch);
+			ARLASSERT(anyMatch);
 			if (!anyMatch) {
 				return false;
 			}
@@ -729,7 +729,7 @@ void DataModel::doCloseDataModel(shared_ptr<DataModel> dataModel)
 {
 	FASTLOG1(FLog::CloseDataModel, "doCloseDataModel - %p", dataModel.get());
 
-	RBX::Security::Impersonator impersonate(RBX::Security::LocalGUI_);
+	ARL::Security::Impersonator impersonate(ARL::Security::LocalGUI_);
 
 	// Turn off ChangeHistoryService to avoid unecessary recording of state
 	if (ChangeHistoryService* ch = ServiceProvider::find<ChangeHistoryService>(dataModel.get()))
@@ -738,7 +738,7 @@ void DataModel::doCloseDataModel(shared_ptr<DataModel> dataModel)
 	FASTLOG(FLog::CloseDataModel, "Raising close..");
 	dataModel->raiseClose();	// TODO: Demote this to MFC-only project???
 
-	RBXASSERT(dataModel->isInitialized);
+	ARLASSERT(dataModel->isInitialized);
 	dataModel->isInitialized = false;
 
 	FASTLOG(FLog::CloseDataModel, "Removing all players");
@@ -777,11 +777,11 @@ void DataModel::doCloseDataModel(shared_ptr<DataModel> dataModel)
 	FASTLOG(FLog::CloseDataModel, "Clearing services...");
 	dataModel->clearServices();
 
-	RBXASSERT(dataModel->onlyJobsLeftForThisArbiterAreGenericJobs());
+	ARLASSERT(dataModel->onlyJobsLeftForThisArbiterAreGenericJobs());
 
 	FASTLOG(FLog::CloseDataModel, "Removing GenericJobs...");
 	{
-		bool blockingRemove = DataModel::BlockingDataModelShutdown && RBX::DebugSettings::singleton().blockingRemove;
+		bool blockingRemove = DataModel::BlockingDataModelShutdown && ARL::DebugSettings::singleton().blockingRemove;
 		for (GenericJobs::iterator iter = dataModel->genericJobs.begin(); iter!=dataModel->genericJobs.end(); ++iter)
 		{
 			if(blockingRemove)
@@ -822,7 +822,7 @@ void DataModel::closeDataModel(shared_ptr<DataModel> dataModel)
 	{
 		FASTLOG1(FLog::CloseDataModel, "Setting up onClose callback - %p", dataModel.get());
 
-		RBXASSERT(!dataModel->currentThreadHasWriteLock());
+		ARLASSERT(!dataModel->currentThreadHasWriteLock());
 		shared_ptr<CEvent> waitEvent(new CEvent(false));
 
 		{
@@ -850,7 +850,7 @@ void DataModel::onCloseCallbackChanged(const CloseCallback& oldValue)
 	if(onCloseCallback && oldValue)
 	{
 		onCloseCallback = oldValue;
-		throw RBX::runtime_error("OnClose is already set");
+		throw ARL::runtime_error("OnClose is already set");
 	}
 }
 
@@ -863,7 +863,7 @@ void DataModel::onCloseCallbackChanged(const CloseCallback& oldValue)
 //                 that constructs DataModel, and creates essential services.
 //                 All these verbs should be taken out and put into a UI library (which isn't needed by
 //                 by the WebService, for example.
-DataModel::DataModel(RBX::Verb* lockVerb) 
+DataModel::DataModel(ARL::Verb* lockVerb) 
 	:Super("Game"),
 	VerbContainer(NULL),
 	shutdownRequestedCount(0),
@@ -950,7 +950,7 @@ std::string DataModel::getScreenshotSEOInfo()
 // TODO: Refactor. this is gross. can we get away without it?  Or put all other stuff here, too?
 void DataModel::initializeContents(bool startHeartbeat)
 {
-	RBXASSERT(!isInitialized);
+	ARLASSERT(!isInitialized);
 	workspace->setAndLockParent(this);
 	guiRoot->setAndLockParent(this);
 
@@ -985,7 +985,7 @@ void DataModel::initializeContents(bool startHeartbeat)
 	{
 		if (TeleportService::getCustomTeleportLoadingGui() && TeleportService::didTeleport())
 		{
-			if (RBX::ScreenGui* loadingGui = Instance::fastDynamicCast<RBX::ScreenGui>(TeleportService::getCustomTeleportLoadingGui().get()))
+			if (ARL::ScreenGui* loadingGui = Instance::fastDynamicCast<ARL::ScreenGui>(TeleportService::getCustomTeleportLoadingGui().get()))
 			{
 				ts->setTempCustomTeleportLoadingGui(loadingGui->clone(EngineCreator));
 				ts->getTempCustomTeleportLoadingGui()->setParent(coreGuiService->getRobloxScreenGui().get());
@@ -1104,7 +1104,7 @@ struct DataModel::LegacyLock::Implementation : boost::noncopyable
 
 	static void task(shared_ptr<Events> events)
 	{
-		RBXPROFILER_SCOPE("Jobs", "LegacyLock");
+		ARLPROFILER_SCOPE("Jobs", "LegacyLock");
 
 		// Signal the thread that constructed the Implementation object to proceed
 		events->acquiredLock.Set();
@@ -1120,7 +1120,7 @@ struct DataModel::LegacyLock::Implementation : boost::noncopyable
 		:job(job.get())
 		,dataModel(dataModel)
 	{
-		RBXASSERT(job);
+		ARLASSERT(job);
 		previousJob = currentJob().get();
 		// Re-entrancy test. No need to wait if we're recursively locked on this DataModel
 		if (this->job != previousJob)
@@ -1148,7 +1148,7 @@ struct DataModel::LegacyLock::Implementation : boost::noncopyable
 		else
 		{
 			if (job->taskType == DataModelJob::Write)
-				RBXASSERT(dataModel->currentThreadHasWriteLock());
+				ARLASSERT(dataModel->currentThreadHasWriteLock());
 
 			FASTLOG2(FLog::LegacyLock, "LegacyLock::RecursivelyAcquired DataModel: (%p), type(%d)", dataModel, job->taskType);
 		}
@@ -1172,7 +1172,7 @@ struct DataModel::LegacyLock::Implementation : boost::noncopyable
 		else
 		{
 			if (job->taskType == DataModelJob::Write)
-				RBXASSERT(dataModel->currentThreadHasWriteLock());
+				ARLASSERT(dataModel->currentThreadHasWriteLock());
 
 			FASTLOG2(FLog::LegacyLock, "LegacyLock::RecursivelyReleased DataModel: (%p), type(%d)", dataModel, job->taskType);
 		}
@@ -1210,7 +1210,7 @@ DataModel::LegacyLock::~LegacyLock()
 
 shared_ptr<DataModel::GenericJob> DataModel::tryGetGenericJob(DataModelJob::TaskType taskType)
 {
-	RBX::mutex::scoped_lock lock(genericJobsLock);
+	ARL::mutex::scoped_lock lock(genericJobsLock);
 	return genericJobs[taskType];
 }
 
@@ -1266,7 +1266,7 @@ bool DataModel::canSaveLocal() const
 void DataModel::saveToRoblox(boost::function<void(bool)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
 	if(canSave(this)){
-		if (Visit* visit = RBX::ServiceProvider::find<Visit>(this))
+		if (Visit* visit = ARL::ServiceProvider::find<Visit>(this))
 		{
 			std::string uploadUrl = visit->getUploadUrl();
 			if(uploadUrl.find("http") == 0){
@@ -1301,13 +1301,13 @@ void DataModel::HttpHelper(std::string* response, std::exception* exception, boo
 
 void DataModel::doHttpGet(const std::string& url, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBX::Http(url).get(boost::bind(&HttpHelper, _1, _2, resumeFunction, errorFunction));
+	ARL::Http(url).get(boost::bind(&HttpHelper, _1, _2, resumeFunction, errorFunction));
 }
 
 std::string DataModel::doHttpGet(const std::string& url)
 {
 	std::string response;
-	RBX::Http(url).get(response);
+	ARL::Http(url).get(response);
 	return response;
 }
 
@@ -1336,8 +1336,8 @@ static void httpErrorCallback(const std::string& url, const std::string& error)
 
 std::string DataModel::httpGet(std::string url, bool synchronous)
 {
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
-	robloxScriptModifiedCheck(RBX::httpGetFunction.security);
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	robloxScriptModifiedCheck(ARL::httpGetFunction.security);
 	if (url.size()>0)
 	{
 		if (synchronous)
@@ -1353,13 +1353,13 @@ std::string DataModel::httpGet(std::string url, bool synchronous)
 }
 void DataModel::httpGetAsync(std::string url, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 	if (url.size() == 0)
 	{
 		errorFunction("Empty URL");
 		return;
 	}
-	robloxScriptModifiedCheck(RBX::httpGetAsyncFunction.security);
+	robloxScriptModifiedCheck(ARL::httpGetAsyncFunction.security);
 	doHttpGet(url, resumeFunction, errorFunction);
 }
 
@@ -1370,9 +1370,9 @@ void DataModel::reportMeasurement(std::string id, std::string key1, std::string 
 
 std::string DataModel::httpPost(std::string url, std::string data, bool synchronous, std::string optionalContentType)
 {
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 
-	robloxScriptModifiedCheck(RBX::httpPostFunction.security);
+	robloxScriptModifiedCheck(ARL::httpPostFunction.security);
 	if (synchronous)
 	{
 		return doHttpPost(url, data, optionalContentType);
@@ -1386,7 +1386,7 @@ std::string DataModel::httpPost(std::string url, std::string data, bool synchron
 
 void DataModel::httpPostAsync(std::string url, std::string data, std::string optionalContentType, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 	
 	if (url.size() == 0)
 	{
@@ -1394,7 +1394,7 @@ void DataModel::httpPostAsync(std::string url, std::string data, std::string opt
 		return;
 	}
 
-	robloxScriptModifiedCheck(RBX::httpPostAsyncFunction.security);
+	robloxScriptModifiedCheck(ARL::httpPostAsyncFunction.security);
 	doHttpPost(url, data, optionalContentType, resumeFunction, errorFunction);
 }
 
@@ -1412,7 +1412,7 @@ std::auto_ptr<std::istream> DataModel::loadAssetIdIntoStream(int assetID)
 	std::string parameters = "asset/?id=" + boost::lexical_cast<std::string>(assetID);
 	std::string url = ServiceProvider::create<ContentProvider>(this)->getBaseUrl() + parameters;
 
-	StandardOut::singleton()->print(RBX::MESSAGE_INFO, "DataModel Loading place");
+	StandardOut::singleton()->print(ARL::MESSAGE_INFO, "DataModel Loading place");
 
 	return std::auto_ptr<std::istream>(ServiceProvider::create<ContentProvider>(this)->getContent( ContentId(url) ));
 }
@@ -1479,7 +1479,7 @@ void DataModel::loadGame(int assetID)
 
 void DataModel::loadContent(ContentId contentId)
 {
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 
 	if (isContentLoaded)
 	{
@@ -1487,7 +1487,7 @@ void DataModel::loadContent(ContentId contentId)
 		return;
 	}
 
-	StandardOut::singleton()->print(RBX::MESSAGE_INFO, "DataModel Loading place");
+	StandardOut::singleton()->print(ARL::MESSAGE_INFO, "DataModel Loading place");
 
 	G3D::RealTime t1 = G3D::System::time(); // time in seconds
 	std::auto_ptr<std::istream> stream(ServiceProvider::create<ContentProvider>(this)->getContent(contentId, "Place"));
@@ -1531,15 +1531,15 @@ void DataModel::processAfterLoad()
 		// we want to migrate parts by default.
 		if (workspace->getUsingNewPhysicalProperties())
 		{
-			RBX::PartInstance::convertToNewPhysicalPropRecursive(this);
+			ARL::PartInstance::convertToNewPhysicalPropRecursive(this);
 		}
 	}
 }
 
-#if defined(RBX_STUDIO_BUILD) || defined(RBX_RCC_SECURITY) || defined(RBX_TEST_BUILD)
+#if defined(ARL_STUDIO_BUILD) || defined(ARL_RCC_SECURITY) || defined(ARL_TEST_BUILD)
 shared_ptr<const Instances> DataModel::fetchAsset(ContentId contentId) 
 {
-	RBXASSERT(isInitialized);    // If hit show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    // If hit show to David or Erik - threading issue
 
 	ContentProvider* cp = create<ContentProvider>();
 	std::auto_ptr<std::istream> stream(cp->getContent(contentId));
@@ -1577,7 +1577,7 @@ bool DataModel::askAddChild(const Instance* instance) const
 
 double DataModel::getGameTime() const
 {
-	RBXASSERT(runService);
+	ARLASSERT(runService);
 	return runService->gameTime();
 }
 
@@ -1585,7 +1585,7 @@ double DataModel::getGameTime() const
 
 double DataModel::getSmoothFps() const
 {
-	RBXASSERT(runService);
+	ARLASSERT(runService);
 	return runService->smoothFps();
 }
 
@@ -1599,7 +1599,7 @@ void DataModel::computeGuiInset(Adorn* adorn)
 {	
 
 	Vector4 guiInset;
-	if (RBX::GuiService* guiService = RBX::ServiceProvider::find<RBX::GuiService>(this))
+	if (ARL::GuiService* guiService = ARL::ServiceProvider::find<ARL::GuiService>(this))
 	{
 		guiInset = guiService->getGlobalGuiInset(); 
 	}
@@ -1613,7 +1613,7 @@ void DataModel::computeGuiInset(Adorn* adorn)
 
 void DataModel::renderPlayerGui(Adorn* adorn)
 {
-	RBX::Network::Player* player = RBX::Network::Players::findLocalPlayer(this);
+	ARL::Network::Player* player = ARL::Network::Players::findLocalPlayer(this);
 	if ( !Network::Players::isCloudEdit(this) && player ) 
 	{
 		for (size_t i = 0; i < player->numChildren(); i++) 
@@ -1685,21 +1685,21 @@ bool DataModel::canRenderMouse()
 		return false;
 	}
 
-	bool playerExists = (RBX::Network::Players::findLocalPlayer(this) != NULL) && !Network::Players::isCloudEdit(this);
+	bool playerExists = (ARL::Network::Players::findLocalPlayer(this) != NULL) && !Network::Players::isCloudEdit(this);
 
 	if ( UserInputService::isTenFootInterface() )
 	{
 		return userInputService->getMouseIconEnabled();
 	}
 
-	return (!RBX::MouseCommand::isAdvArrowToolEnabled() || playerExists) && userInputService->getMouseEnabled();
+	return (!ARL::MouseCommand::isAdvArrowToolEnabled() || playerExists) && userInputService->getMouseEnabled();
 }
 
 void DataModel::renderPass2d(Adorn* adorn, IMetric* graphicsMetric) 
 {
-	RBXPROFILER_SCOPE("Render", "Pass2d");
+	ARLPROFILER_SCOPE("Render", "Pass2d");
 
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 
 	if (!isInitialized)
 		return;
@@ -1732,7 +1732,7 @@ void DataModel::renderPass2d(Adorn* adorn, IMetric* graphicsMetric)
 	}
 
 	tempMetric = NULL;	// be safe, never use again unless set
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 }
 
 ContentId DataModel::getRenderMouseCursor()
@@ -1740,7 +1740,7 @@ ContentId DataModel::getRenderMouseCursor()
 	if (forceArrowCursor)
 	{
 		if (!MouseCommand::isAdvArrowToolEnabled() || 
-			(RBX::Network::Players::findLocalPlayer(this) || Network::Players::serverIsPresent(this)))
+			(ARL::Network::Players::findLocalPlayer(this) || Network::Players::serverIsPresent(this)))
 		{
 			return userInputService->getDefaultMouseCursor(true);
 		}
@@ -1775,7 +1775,7 @@ void DataModel::renderMouse(Adorn* adorn)
 	}
 	else
 	{
-#ifndef RBX_PLATFORM_UWP
+#ifndef ARL_PLATFORM_UWP
 		UserInputBase* hardwareDevice = service->getHardwareDevice();
         if (hardwareDevice)
         {
@@ -1826,9 +1826,9 @@ void DataModel::onUnbindResourceSignal()
 
 void DataModel::renderPass3dAdorn(Adorn* adorn)
 {
-	RBXPROFILER_SCOPE("Render", "Pass3dAdorn");
+	ARLPROFILER_SCOPE("Render", "Pass3dAdorn");
 
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 	if (!isInitialized) {
 		return;
 	}
@@ -1838,7 +1838,7 @@ void DataModel::renderPass3dAdorn(Adorn* adorn)
 
 	//
 	if (!adorn) {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return;
 	}
 
@@ -1846,8 +1846,8 @@ void DataModel::renderPass3dAdorn(Adorn* adorn)
 	workspace->render3dAdorn(adorn);
 	workspace->append3dSortedAdorn(sortedAdorn);
 
-	RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this);
-	if (RBX::Network::Player* player = players->getLocalPlayer()) {
+	ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this);
+	if (ARL::Network::Player* player = players->getLocalPlayer()) {
 		if (PlayerGui* playerGui = player->findFirstChildOfType<PlayerGui>()) {
 			playerGui->render3dAdorn(adorn);
 			playerGui->append3dSortedAdorn(sortedAdorn, workspace->getConstCamera());
@@ -1873,37 +1873,37 @@ void DataModel::renderPass3dAdorn(Adorn* adorn)
 	}
 	
 	if (Workspace::showEPhysicsRegions) {
-		ServiceProvider::create<RBX::Network::Players>(this)->renderDPhysicsRegions(adorn);
+		ServiceProvider::create<ARL::Network::Players>(this)->renderDPhysicsRegions(adorn);
 	}
 
 	if (Workspace::showStreamedRegions)
 	{
         adorn->setObjectToWorldMatrix(CoordinateFrame());
-		if (RBX::Network::Player* player = players->getLocalPlayer())
+		if (ARL::Network::Player* player = players->getLocalPlayer())
 			player->renderStreamedRegion(adorn);
 	}
 
     if (Workspace::showPartMovementPath)
     {
         adorn->setObjectToWorldMatrix(CoordinateFrame());
-        if (RBX::Network::Player* player = players->getLocalPlayer())
+        if (ARL::Network::Player* player = players->getLocalPlayer())
             player->renderPartMovementPath(adorn);
     }
 
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 }
 
 //Updates non-reflected state for camera and whatnot
 void DataModel::renderStep(float timeIntervalSeconds)
 {
-	RBXPROFILER_SCOPE("Render", "Step");
+	ARLPROFILER_SCOPE("Render", "Step");
 
 	if (runService)
 	{
 		runService->earlyRenderSignal();
 	}
 
-    RBXASSERT(workspace);
+    ARLASSERT(workspace);
     if (FFlag::RelativisticCameraFixEnable && workspace)
     {
         if (Camera* camera = workspace->getCamera())
@@ -1945,16 +1945,16 @@ void DataModel::renderStep(float timeIntervalSeconds)
 float DataModel::physicsStep(float timeInterval, double dt, double dutyDt, int numThreads)
 {
 	if (!isInitialized) {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return 0.0f;					// 12/05/07 - possibly seeing this being called during destruction in other thread?
 	}
 
 // On Mac there is nothing equivalent of _CrtCheckMemory to validate the state of the heap
 // Instead use this on XCode http://developer.apple.com/library/ios/#documentation/Performance/Conceptual/ManagingMemory/Articles/MallocDebug.html
 #ifdef _WIN32
-	RBXASSERT_IF_VALIDATING(_CrtCheckMemory());
+	ARLASSERT_IF_VALIDATING(_CrtCheckMemory());
 #endif
-	bool isCyclicExecutive = RBX::TaskScheduler::singleton().isCyclicExecutive();
+	bool isCyclicExecutive = ARL::TaskScheduler::singleton().isCyclicExecutive();
 	float dtCyclicExecutive = 0.0f;
 	if( isCyclicExecutive )
 	{
@@ -1977,7 +1977,7 @@ float DataModel::physicsStep(float timeInterval, double dt, double dutyDt, int n
 	float timeIntervalUsed = 0.0f;
 
 	// Physics Step
-	RBX::Network::GameMode gameMode = Network::Players::getGameMode(this);
+	ARL::Network::GameMode gameMode = Network::Players::getGameMode(this);
 	if (updatePhysicsInstructions(gameMode))
 	{
 		if ( (gameMode == Network::DPHYS_CLIENT || gameMode == Network::CLIENT || gameMode == Network::VISIT_SOLO ) && !isCyclicExecutive )
@@ -1994,7 +1994,7 @@ float DataModel::physicsStep(float timeInterval, double dt, double dutyDt, int n
 		}
 
 		{
-			RBX::Profiling::Mark mark2(*workspace->profileWorkspaceAssemble, true);
+			ARL::Profiling::Mark mark2(*workspace->profileWorkspaceAssemble, true);
 			workspace->assemble();		// must do assembly here, because "handle fallen parts" may disassemble.  Also, runService->gameStepped may disassemble
 		}
 		{	
@@ -2018,11 +2018,11 @@ float DataModel::physicsStep(float timeInterval, double dt, double dutyDt, int n
 	else
 	{
 		// Assemble always
-		RBX::Profiling::Mark mark2(*workspace->profileWorkspaceAssemble, true);
+		ARL::Profiling::Mark mark2(*workspace->profileWorkspaceAssemble, true);
 		workspace->assemble();
 	}
 
-    if (gameMode == RBX::Network::DPHYS_GAME_SERVER && (physicsStepID % 4) == 0)
+    if (gameMode == ARL::Network::DPHYS_GAME_SERVER && (physicsStepID % 4) == 0)
     {
         // only server records the movement history, once every 3 physics steps
         workspace->updateHistory();
@@ -2033,10 +2033,10 @@ float DataModel::physicsStep(float timeInterval, double dt, double dutyDt, int n
 // On Mac there is nothing equivalent of _CrtCheckMemory to validate the state of the heap
 // Instead use this on XCode http://developer.apple.com/library/ios/#documentation/Performance/Conceptual/ManagingMemory/Articles/MallocDebug.html
 #ifdef _WIN32
-	RBXASSERT_IF_VALIDATING(_CrtCheckMemory());
+	ARLASSERT_IF_VALIDATING(_CrtCheckMemory());
 #endif
 
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 
 	return timeIntervalUsed;
 }
@@ -2048,7 +2048,7 @@ float DataModel::physicsStep(float timeInterval, double dt, double dutyDt, int n
 bool DataModel::updatePhysicsInstructions(Network::GameMode gameMode)
 {
 	SimSendFilter& simSendFilter = workspace->getWorld()->getSimSendFilter();
-	simSendFilter.networkAddress = RBX::Network::Players::findLocalSimulatorAddress(this);
+	simSendFilter.networkAddress = ARL::Network::Players::findLocalSimulatorAddress(this);
 	physicsInstructions.requestedDutyPercent = 0.0;
 	physicsInstructions.bandwidthExceeded = false;
 
@@ -2057,21 +2057,21 @@ bool DataModel::updatePhysicsInstructions(Network::GameMode gameMode)
 	case Network::VISIT_SOLO:
 	case Network::EDIT:
 		{
-			RBXASSERT(simSendFilter.networkAddress == Network::NetworkOwner::Unassigned());
+			ARLASSERT(simSendFilter.networkAddress == Network::NetworkOwner::Unassigned());
 			simSendFilter.mode = SimSendFilter::EditVisit;
 			physicsInstructions.requestedDutyPercent = PhysicsInstructions::visitSoloDutyPercent();
 			return (runService->getRunState() == RS_RUNNING);
 		}
 	case Network::GAME_SERVER:	
 		{
-			RBXASSERT(simSendFilter.networkAddress == Network::NetworkOwner::Unassigned());
+			ARLASSERT(simSendFilter.networkAddress == Network::NetworkOwner::Unassigned());
 			simSendFilter.mode = SimSendFilter::Server;
 			physicsInstructions.requestedDutyPercent = PhysicsInstructions::regularServerDutyPercent();
 			return (runService->getRunState() == RS_RUNNING);
 		}
 	case Network::DPHYS_GAME_SERVER:	
 		{
-			RBXASSERT(simSendFilter.networkAddress == Network::NetworkOwner::Server());
+			ARLASSERT(simSendFilter.networkAddress == Network::NetworkOwner::Server());
 			simSendFilter.mode = SimSendFilter::dPhysServer;
 			simSendFilter.region.clearEmpty();
 			physicsInstructions.requestedDutyPercent = PhysicsInstructions::dPhysicsServerDutyPercent();
@@ -2080,16 +2080,16 @@ bool DataModel::updatePhysicsInstructions(Network::GameMode gameMode)
 	case Network::CLIENT:
 	case Network::WATCH_ONLINE:
 		{
-			RBXASSERT(simSendFilter.networkAddress == Network::NetworkOwner::Unassigned());
+			ARLASSERT(simSendFilter.networkAddress == Network::NetworkOwner::Unassigned());
 			simSendFilter.mode = SimSendFilter::Client;
 			physicsInstructions.requestedDutyPercent = PhysicsInstructions::zeroDutyPercent();
 			return false;
 		}
 	case Network::DPHYS_CLIENT:
 		{
-			RBXASSERT(Network::Players::clientIsPresent(this, true));
+			ARLASSERT(Network::Players::clientIsPresent(this, true));
 			simSendFilter.mode = SimSendFilter::dPhysClient;
-			ServiceProvider::create<RBX::Network::Players>(this)->buildClientRegion(simSendFilter.region);
+			ServiceProvider::create<ARL::Network::Players>(this)->buildClientRegion(simSendFilter.region);
 			physicsInstructions.requestedDutyPercent = PhysicsInstructions::dPhysicsClientEThrottleDutyPercent();
 
 			physicsInstructions.bandwidthExceeded = Network::Player::physicsOutBandwidthExceeded(this);
@@ -2098,7 +2098,7 @@ bool DataModel::updatePhysicsInstructions(Network::GameMode gameMode)
 		}
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return false;
 		}
 	}
@@ -2118,15 +2118,15 @@ void DataModel::checkFetchExperimentalFeatures()
 	ContentProvider* cp = find<ContentProvider>();
 	if(!cp)
 	{
-		RBXASSERT(false);
+		ARLASSERT(false);
 		return;
 	}
 	
 	std::string response;
 
-	if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+	if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 	{
-		apiService->get(RBX::format("game/GetAllowedExperimentalFeatures?placeId=%i", getPlaceID()), true, PRIORITY_EXTREME, response);
+		apiService->get(ARL::format("game/GetAllowedExperimentalFeatures?placeId=%i", getPlaceID()), true, PRIORITY_EXTREME, response);
 	}
 
 	std::stringstream rawStream(response);
@@ -2134,7 +2134,7 @@ void DataModel::checkFetchExperimentalFeatures()
 	if(!WebParser::parseJSONTable(response, result))
 	{
 		FASTLOG(FLog::CloseDataModel, "Can't parse JSON");
-		RBXASSERT(false);
+		ARLASSERT(false);
 		checkedExperimentalFeatures = true;
 		return;
 	}
@@ -2144,7 +2144,7 @@ void DataModel::checkFetchExperimentalFeatures()
 
 void DataModel::onRunTransition(RunTransition event)
 {
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 	if (!isInitialized) {
 		return;
 	}
@@ -2167,7 +2167,7 @@ void DataModel::onRunTransition(RunTransition event)
 		workspace->stop();
 		break;
 	}
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -2216,7 +2216,7 @@ GuiResponse DataModel::processAccelerators(const shared_ptr<InputObject>& event)
 	{
 	case InputObject::TYPE_KEYBOARD:
 		{
-			RBXASSERT(event->isKeyDownEvent() || event->isKeyUpEvent());
+			ARLASSERT(event->isKeyDownEvent() || event->isKeyUpEvent());
 
 			if(event->isKeyUpEvent())
 			{
@@ -2224,10 +2224,10 @@ GuiResponse DataModel::processAccelerators(const shared_ptr<InputObject>& event)
 				{
 				case SDLK_LALT:
 				case SDLK_RALT:
-					RBX::GameBasicSettings::singleton().setFreeLook(false);
+					ARL::GameBasicSettings::singleton().setFreeLook(false);
 					break;
 				default:
-					RBX::GameBasicSettings::singleton().setFreeLook(false);
+					ARL::GameBasicSettings::singleton().setFreeLook(false);
 					break;
 				}
 				break;
@@ -2299,9 +2299,9 @@ GuiResponse DataModel::processAccelerators(const shared_ptr<InputObject>& event)
 						break;
 					case SDLK_BACKSPACE:
 						{
-							if (RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this))
+							if (ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this))
 							{
-								if (RBX::Network::Player* player = players->getLocalPlayer()) 
+								if (ARL::Network::Player* player = players->getLocalPlayer()) 
 								{
 									Tool::dropAll(player);
 								}
@@ -2321,7 +2321,7 @@ GuiResponse DataModel::processAccelerators(const shared_ptr<InputObject>& event)
 					/**************************************/
 
 					case SDLK_F1:
-                        if ( !RBX::GameBasicSettings::singleton().inStudioMode() )
+                        if ( !ARL::GameBasicSettings::singleton().inStudioMode() )
                         {
 						    if (event->mod==0)
 							    verb = getWhitelistVerb("H", "el", "p");
@@ -2331,7 +2331,7 @@ GuiResponse DataModel::processAccelerators(const shared_ptr<InputObject>& event)
 						break;
 
 					case SDLK_F2:
-						if ( !RBX::GameBasicSettings::singleton().inStudioMode() && event->isKeyPressedWithShiftEvent(event->getKeyCode()) )
+						if ( !ARL::GameBasicSettings::singleton().inStudioMode() && event->isKeyPressedWithShiftEvent(event->getKeyCode()) )
 							verb = getWhitelistVerb("", "Render", "Stats");
 						/*else
 							verb = getWhitelistVerb("TogglePlayMode");*/
@@ -2339,32 +2339,32 @@ GuiResponse DataModel::processAccelerators(const shared_ptr<InputObject>& event)
 
 						break;
 					case SDLK_F3:
-						if ( !RBX::GameBasicSettings::singleton().inStudioMode() && event->isKeyPressedWithShiftEvent(event->getKeyCode()) )
+						if ( !ARL::GameBasicSettings::singleton().inStudioMode() && event->isKeyPressedWithShiftEvent(event->getKeyCode()) )
 							verb = getWhitelistVerb("Network", "", "Stats");
 						break;
 
 					case SDLK_F4:
-						if ( !RBX::GameBasicSettings::singleton().inStudioMode() && event->isKeyPressedWithShiftEvent(event->getKeyCode()) )
+						if ( !ARL::GameBasicSettings::singleton().inStudioMode() && event->isKeyPressedWithShiftEvent(event->getKeyCode()) )
 							verb = getWhitelistVerb("Physics", "Stats", "");
 						break;
 
 					case SDLK_F5: // TODO: use for run command in studio
-						if ( !RBX::GameBasicSettings::singleton().inStudioMode() && event->isKeyPressedWithShiftEvent(event->getKeyCode()) )
+						if ( !ARL::GameBasicSettings::singleton().inStudioMode() && event->isKeyPressedWithShiftEvent(event->getKeyCode()) )
 							verb = getWhitelistVerb("Summary", "" , "Stats");
 						break;
 
 					case SDLK_F6:
-						if ( !RBX::GameBasicSettings::singleton().inStudioMode() && event->isKeyPressedWithShiftEvent(event->getKeyCode()) )
+						if ( !ARL::GameBasicSettings::singleton().inStudioMode() && event->isKeyPressedWithShiftEvent(event->getKeyCode()) )
 							verb = getWhitelistVerb("Custom", "Stats", "");
 						break;
 					case SDLK_F7:
-						if (DFFlag::AllowHideHudShortcut && !RBX::GameBasicSettings::singleton().getUsedHideHudShortcut())
+						if (DFFlag::AllowHideHudShortcut && !ARL::GameBasicSettings::singleton().getUsedHideHudShortcut())
 						{
-							if (RBX::GuiService* guiService = RBX::ServiceProvider::find<RBX::GuiService>(this))
+							if (ARL::GuiService* guiService = ARL::ServiceProvider::find<ARL::GuiService>(this))
 							{
 								if (!guiService->notificationCallback.empty())
 								{
-									RBX::GameBasicSettings::singleton().setUsedHideHudShortcut(true);
+									ARL::GameBasicSettings::singleton().setUsedHideHudShortcut(true);
 									guiService->notificationCallback("HUD Hidden", "Press F7 again when you want to unhide all GUIs", boost::bind(notificationCallbackSuccess, this), boost::bind(notificationCallbackError, _1));
 								}
 							}
@@ -2405,11 +2405,11 @@ GuiResponse DataModel::processAccelerators(const shared_ptr<InputObject>& event)
 						break;
 					case SDLK_LALT:
 					case SDLK_RALT:
-						RBX::GameBasicSettings::singleton().setFreeLook(true); // if we are in camlock, holding alt (option on mac) allows us to pan camera freely
+						ARL::GameBasicSettings::singleton().setFreeLook(true); // if we are in camlock, holding alt (option on mac) allows us to pan camera freely
 						break;
 
 					case SDLK_ESCAPE:
-						if (RBX::GuiService* guiService = RBX::ServiceProvider::find<RBX::GuiService>(this))
+						if (ARL::GuiService* guiService = ARL::ServiceProvider::find<ARL::GuiService>(this))
 							guiService->escapeKeyPressed();
 						break;
                     default:
@@ -2432,9 +2432,9 @@ GuiResponse DataModel::processAccelerators(const shared_ptr<InputObject>& event)
 
 GuiResponse DataModel::processPlayerGui(const shared_ptr<InputObject>& event)
 {
-	RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this);
+	ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this);
 
-	if (RBX::Network::Player* player = players->getLocalPlayer())
+	if (ARL::Network::Player* player = players->getLocalPlayer())
 		if (PlayerGui* playerGui = player->findFirstChildOfType<PlayerGui>())
 			return playerGui->process(event);
 
@@ -2467,7 +2467,7 @@ GuiResponse DataModel::processCameraCommands(const shared_ptr<InputObject>& even
 				{
 					if (camera->getCameraType() == Camera::CUSTOM_CAMERA)
 					{
-						if (RBX::Network::Players::findLocalPlayer(this))
+						if (ARL::Network::Players::findLocalPlayer(this))
 						{
 							break;
 						}
@@ -2510,9 +2510,9 @@ GuiResponse DataModel::processCameraCommands(const shared_ptr<InputObject>& even
     return GuiResponse::notSunk(); // don't sink this event when we fire it
 }
     
-void DataModel::setInitialScreenSize(RBX::Vector2 newScreenSize)
+void DataModel::setInitialScreenSize(ARL::Vector2 newScreenSize)
 {
-    if (shared_ptr<RBX::ScreenGui> coreScreenGui = coreGuiService->getRobloxScreenGui())
+    if (shared_ptr<ARL::ScreenGui> coreScreenGui = coreGuiService->getRobloxScreenGui())
     {
         coreScreenGui->setBufferedViewport(Rect2D(newScreenSize));
     }
@@ -2520,7 +2520,7 @@ void DataModel::setInitialScreenSize(RBX::Vector2 newScreenSize)
 
 GuiResponse DataModel::processDevGamepadEvent(const shared_ptr<InputObject>& event)
 {
-	if (GamepadService* gamepadService = ServiceProvider::find<RBX::GamepadService>(this))
+	if (GamepadService* gamepadService = ServiceProvider::find<ARL::GamepadService>(this))
 	{
 		return gamepadService->processDev(event);
 	}
@@ -2530,7 +2530,7 @@ GuiResponse DataModel::processDevGamepadEvent(const shared_ptr<InputObject>& eve
 
 GuiResponse DataModel::processCoreGamepadEvent(const shared_ptr<InputObject>& event)
 {
-	if (GamepadService* gamepadService = ServiceProvider::find<RBX::GamepadService>(this))
+	if (GamepadService* gamepadService = ServiceProvider::find<ARL::GamepadService>(this))
 	{
 		return gamepadService->processCore(event);
 	}
@@ -2613,7 +2613,7 @@ GuiResponse DataModel::processGuiTarget(const shared_ptr<InputObject>& event)
     
 bool DataModel::processEvent(const shared_ptr<InputObject>& event)
 {
-	RBXASSERT(event->getUserInputType() != InputObject::TYPE_NONE);
+	ARLASSERT(event->getUserInputType() != InputObject::TYPE_NONE);
 	if (!isInitialized)
 		return false;
 
@@ -2635,7 +2635,7 @@ bool DataModel::processEvent(const shared_ptr<InputObject>& event)
 	}
 
 	bool isInMenu = false;
-	if (RBX::GuiService* guiService = RBX::ServiceProvider::find<RBX::GuiService>(this))
+	if (ARL::GuiService* guiService = ARL::ServiceProvider::find<ARL::GuiService>(this))
 	{
 		isInMenu = guiService->getMenuOpen();
 	}
@@ -2690,7 +2690,7 @@ bool DataModel::processEvent(const shared_ptr<InputObject>& event)
 
 	if (!response.wasSunk() && event->isKeyDownEvent() && !suppressNavKeys)
 	{
-		if (GamepadService* gamepadService = RBX::ServiceProvider::create<GamepadService>(this))
+		if (GamepadService* gamepadService = ARL::ServiceProvider::create<GamepadService>(this))
 		{
 			FASTLOG(FLog::UserInputProfile, "Handing to gamepadService for keyboard event");
 			response = gamepadService->trySelectGuiObject(userInputService->getKeyboardGuiSelectionDirection(event));
@@ -2802,7 +2802,7 @@ void DataModel::processWorkspaceEvent(const shared_ptr<InputObject>& event)
     
 bool DataModel::processInputObject(shared_ptr<InputObject> event)
 {
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 	if (!isInitialized || !event)
 		return false;
 	
@@ -2828,7 +2828,7 @@ bool DataModel::processInputObject(shared_ptr<InputObject> event)
         }
     }
 
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
     
 	return processedEvent;
 }
@@ -3078,7 +3078,7 @@ double DataModel::getMetricValue(const std::string& metric) const
 		return 0.0;
 	}
     
-    throw RBX::runtime_error("%s is not a valid metric.", metric.c_str());
+    throw ARL::runtime_error("%s is not a valid metric.", metric.c_str());
 }
 
 std::string DataModel::getMetric(const std::string& valueName) const
@@ -3086,7 +3086,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
 	World* world = workspace->getWorld();
 	
 	if (valueName.compare(0, 11, "RenderStats") == 0) return tempMetric->getMetric(valueName);
-	if (valueName.compare(0, 3, "FRM") == 0) return RBX::format("%.3g", tempMetric->getMetricValue(valueName));
+	if (valueName.compare(0, 3, "FRM") == 0) return ARL::format("%.3g", tempMetric->getMetricValue(valueName));
 
 	Stats::StatsService* stats = find<Stats::StatsService>();
 	if (stats)
@@ -3098,7 +3098,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
 			{
 				// raknet
 				if (Stats::Item* raknetItem = Instance::fastDynamicCast<Stats::Item>(item->findFirstChildByName("Stats")->findFirstChildByName(valueName)))
-					return RBX::format("%.0f", raknetItem->getValue());
+					return ARL::format("%.0f", raknetItem->getValue());
 				
 				// replicator
 				if (valueName == "RakNetPing")
@@ -3107,20 +3107,20 @@ std::string DataModel::getMetric(const std::string& valueName) const
 				}
                 else if (valueName == "GeneralStats")
                 {
-                    return RBX::format("%.0f, %.2fms"
+                    return ARL::format("%.0f, %.2fms"
                         , item->findFirstChildByName("Send kBps")->findFirstChildByName("MtuSize")->fastDynamicCast<Stats::Item>()->getValue()
                         , item->findFirstChildByName("Data Ping")->fastDynamicCast<Stats::Item>()->getValue()
                         );
                 }
                 else if (valueName == "OutgoingStats")
                 {
-                    return RBX::format("%.2f"
+                    return ARL::format("%.2f"
                         , item->findFirstChildByName("Send kBps")->fastDynamicCast<Stats::Item>()->getValue()
                         );
                 }
                 else if (valueName == "IncomingStats")
                 {
-                    return RBX::format("%.2f, %.2f, %.0f"
+                    return ARL::format("%.2f, %.2f, %.0f"
                         , item->findFirstChildByName("Receive kBps")->fastDynamicCast<Stats::Item>()->getValue()
                         , item->findFirstChildByName("Received Packets")->fastDynamicCast<Stats::Item>()->getValue()
                         , item->findFirstChildByName("Packet Queue")->fastDynamicCast<Stats::Item>()->getValue()
@@ -3132,7 +3132,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
                     float numPacket = receivedDataPackets->getValue();
                     float avgSize = receivedDataPackets->findFirstChildByName("Size")->fastDynamicCast<Stats::Item>()->getValue();
                     float kBps = numPacket * avgSize / 1000.f;
-                    return RBX::format("%.2f, %.2f, %.2fB", kBps, numPacket, avgSize);
+                    return ARL::format("%.2f, %.2f, %.2fB", kBps, numPacket, avgSize);
                 }
                 else if (valueName == "InPhysics")
                 {
@@ -3140,7 +3140,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
                     float numPacket = inPhysics->getValue();
                     float avgSize = inPhysics->findFirstChildByName("Size")->fastDynamicCast<Stats::Item>()->getValue();
                     float kBps = numPacket * avgSize / 1000.f;
-                    return RBX::format("%.2f, %.2f, %.2fB, %.2f", kBps, numPacket, avgSize
+                    return ARL::format("%.2f, %.2f, %.2fB, %.2f", kBps, numPacket, avgSize
                         , inPhysics->findFirstChildByName("Average Lag")->fastDynamicCast<Stats::Item>()->getValue());
                 }
                 else if (valueName == "InTouches")
@@ -3149,7 +3149,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
                     float numPacket = inTouches->getValue();
                     float avgSize = inTouches->findFirstChildByName("Size")->fastDynamicCast<Stats::Item>()->getValue();
                     float kBps = numPacket * avgSize / 1000.f;
-                    return RBX::format("%.2f, %.2f, %.2fB", kBps, numPacket, avgSize);
+                    return ARL::format("%.2f, %.2f, %.2fB", kBps, numPacket, avgSize);
                 }
                 else if (valueName == "InClusters")
                 {
@@ -3157,7 +3157,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
                     float numPacket = inClusters->getValue();
                     float avgSize = inClusters->findFirstChildByName("Size")->fastDynamicCast<Stats::Item>()->getValue();
                     float kBps = numPacket * avgSize / 1000.f;
-                    return RBX::format("%.2f, %.2f, %.2fB", kBps, numPacket, avgSize);
+                    return ARL::format("%.2f, %.2f, %.2fB", kBps, numPacket, avgSize);
                 }
                 else if (valueName == "OutPhysics")
                 {
@@ -3165,7 +3165,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
                     float numPacket = outPhysics->getValue();
                     float avgSize = outPhysics->findFirstChildByName("Size")->fastDynamicCast<Stats::Item>()->getValue();
                     float kBps = numPacket * avgSize / 1000.f;
-                    return RBX::format("%.2f, %.2f, %.2fB, %.2f%%", kBps, numPacket, avgSize
+                    return ARL::format("%.2f, %.2f, %.2fB, %.2f%%", kBps, numPacket, avgSize
                         , outPhysics->findFirstChildByName("Throttle")->fastDynamicCast<Stats::Item>()->getValue());
                 }
                 else if (valueName == "OutData")
@@ -3174,7 +3174,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
                     float numPacket = outProps->getValue();
                     float avgSize = outProps->findFirstChildByName("Size")->fastDynamicCast<Stats::Item>()->getValue();
                     float kBps = numPacket * avgSize / 1000.f;
-                    return RBX::format("%.2f, %.2f, %.2fB, %.2f%%", kBps, numPacket, avgSize, outProps->findFirstChildByName("Throttle")->fastDynamicCast<Stats::Item>()->getValue());
+                    return ARL::format("%.2f, %.2f, %.2fB, %.2f%%", kBps, numPacket, avgSize, outProps->findFirstChildByName("Throttle")->fastDynamicCast<Stats::Item>()->getValue());
                 }
                 else if (valueName == "OutTouches")
                 {
@@ -3182,7 +3182,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
                     float numPacket = outTouches->getValue();
                     float avgSize = outTouches->findFirstChildByName("Size")->fastDynamicCast<Stats::Item>()->getValue();
                     float kBps = numPacket * avgSize / 1000.f;
-                    return RBX::format("%.2f, %.2f, %.2fB, %.0f", kBps, numPacket, avgSize, outTouches->findFirstChildByName("WaitingTouches")->fastDynamicCast<Stats::Item>()->getValue());
+                    return ARL::format("%.2f, %.2f, %.2fB, %.0f", kBps, numPacket, avgSize, outTouches->findFirstChildByName("WaitingTouches")->fastDynamicCast<Stats::Item>()->getValue());
                 }
                 else if (valueName == "OutClusters")
                 {
@@ -3190,7 +3190,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
                     float numPacket = outClusters->getValue();
                     float avgSize = outClusters->findFirstChildByName("Size")->fastDynamicCast<Stats::Item>()->getValue();
                     float kBps = numPacket * avgSize / 1000.f;
-                    return RBX::format("%.2f, %.2f, %.2fB", kBps, numPacket, avgSize);
+                    return ARL::format("%.2f, %.2f, %.2fB", kBps, numPacket, avgSize);
                 }
                 else if (valueName == "InPhysicsDetails")
                 {
@@ -3230,13 +3230,13 @@ std::string DataModel::getMetric(const std::string& valueName) const
                 }
 				else if (valueName == "FreeMemory")
 				{
-					float result =  RBX::NetworkSettings::singleton().getFreeMemoryMBytes();
-					return RBX::format("%.2fMB", result);
+					float result =  ARL::NetworkSettings::singleton().getFreeMemoryMBytes();
+					return ARL::format("%.2fMB", result);
 				}
 				else if (valueName == "MemoryLevel")
 				{
-					int result = RBX::MemoryStats::slowCheckMemoryLevel(((RBX::MemoryStats::memsize_t)RBX::NetworkSettings::singleton().getExtraMemoryUsedInMB())*1024*1024);
-					return RBX::format("%d", result);
+					int result = ARL::MemoryStats::slowCheckMemoryLevel(((ARL::MemoryStats::memsize_t)ARL::NetworkSettings::singleton().getExtraMemoryUsedInMB())*1024*1024);
+					return ARL::format("%d", result);
 				}
 				else if (valueName == "ReceivedStreamData")
 				{
@@ -3255,15 +3255,15 @@ std::string DataModel::getMetric(const std::string& valueName) const
 		{
 			if (valueName == "HttpTimeInQueue")
 			{
-				return RBX::format("%.2f msec", httpQueue->findFirstChildByName("Average time in queue")->fastDynamicCast<Stats::Item>()->getValue());
+				return ARL::format("%.2f msec", httpQueue->findFirstChildByName("Average time in queue")->fastDynamicCast<Stats::Item>()->getValue());
 			}
 			else if (valueName == "HttpProcessTime")
 			{
-				return RBX::format("%.2f msec", httpQueue->findFirstChildByName("Average process time")->fastDynamicCast<Stats::Item>()->getValue());
+				return ARL::format("%.2f msec", httpQueue->findFirstChildByName("Average process time")->fastDynamicCast<Stats::Item>()->getValue());
 			}
 			else if (valueName == "HttpSlowReq")
 			{
-				return RBX::format("%.0f", httpQueue->findFirstChildByName("Num slow requests")->fastDynamicCast<Stats::Item>()->getValue());
+				return ARL::format("%.0f", httpQueue->findFirstChildByName("Num slow requests")->fastDynamicCast<Stats::Item>()->getValue());
 			}
 		}
 
@@ -3313,13 +3313,13 @@ std::string DataModel::getMetric(const std::string& valueName) const
 		return fmt.str();
 	}
 
-    else if      (valueName == "Effective FPS")              return RBX::format("%.1f/s", 1000.0 / tempMetric->getMetricValue("Delta Between Renders"));
-	else if		(valueName == "Render Nominal FPS")         return RBX::format("%.1f/s", tempMetric->getMetricValue(valueName));
-	else if		(valueName == "Delta Between Renders")		return RBX::format("%.3g", tempMetric->getMetricValue(valueName));
-	else if		(valueName == "Total Render")				return RBX::format("%.3g", tempMetric->getMetricValue(valueName));
-	else if		(valueName == "Render Prepare")				return RBX::format("%.3g", tempMetric->getMetricValue(valueName));
-	else if		(valueName == "Present Time")				return RBX::format("%.3g", tempMetric->getMetricValue(valueName));
-	else if		(valueName == "GPU Delay")				    return RBX::format("%.3g", tempMetric->getMetricValue(valueName));
+    else if      (valueName == "Effective FPS")              return ARL::format("%.1f/s", 1000.0 / tempMetric->getMetricValue("Delta Between Renders"));
+	else if		(valueName == "Render Nominal FPS")         return ARL::format("%.1f/s", tempMetric->getMetricValue(valueName));
+	else if		(valueName == "Delta Between Renders")		return ARL::format("%.3g", tempMetric->getMetricValue(valueName));
+	else if		(valueName == "Total Render")				return ARL::format("%.3g", tempMetric->getMetricValue(valueName));
+	else if		(valueName == "Render Prepare")				return ARL::format("%.3g", tempMetric->getMetricValue(valueName));
+	else if		(valueName == "Present Time")				return ARL::format("%.3g", tempMetric->getMetricValue(valueName));
+	else if		(valueName == "GPU Delay")				    return ARL::format("%.3g", tempMetric->getMetricValue(valueName));
 
 	else if		(valueName == "RequestQueueSize")			return  StringConverter<int>::convertToString(ServiceProvider::create<ContentProvider>()->getRequestQueueSize());
 
@@ -3334,7 +3334,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
 
 	else if		(valueName == "Player Radius")				
 	{	
-		RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this);
+		ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this);
 		int numPlayers = players->getNumPlayers();
 		if (numPlayers == 0)
 			return std::string("N/A");
@@ -3345,7 +3345,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
 		Instances::const_iterator end = myPlayers->end();
 		for (; iter!=end; ++iter)
 		{
-			RBX::Network::Player* player = boost::polymorphic_downcast<RBX::Network::Player*>(iter->get());
+			ARL::Network::Player* player = boost::polymorphic_downcast<ARL::Network::Player*>(iter->get());
 			sumRadius += player->getSimulationRadius();
 			sumMaxRaius += player->getMaxSimulationRadius();
 		}
@@ -3418,8 +3418,8 @@ std::string DataModel::getMetric(const std::string& valueName) const
 						shared_ptr<Stats::Item> worldStep = shared_from_polymorphic_downcast<Stats::Item>(workspaceStep->findFirstChildByName("World Step"));
 						if (worldStep && worldStep->numChildren() > 0)
 						{
-							RBX::Instance* profilerItem = worldStep->findFirstChildByName(valueName);
-							RBX::Stats::Item* profilerStatItem = Instance::fastDynamicCast<RBX::Stats::Item>(profilerItem);
+							ARL::Instance* profilerItem = worldStep->findFirstChildByName(valueName);
+							ARL::Stats::Item* profilerStatItem = Instance::fastDynamicCast<ARL::Stats::Item>(profilerItem);
 							if(profilerStatItem)
 								return profilerStatItem->getStringValue();
 						}
@@ -3490,7 +3490,7 @@ std::string DataModel::getMetric(const std::string& valueName) const
 	else if		(valueName == "energyConnector")return StringConverter<float>::convertToString(world->getKernel()->connectorSpringEnergy());	
     else if		(valueName == "energyTotal")	return StringConverter<float>::convertToString(world->getKernel()->totalKineticEnergy());	
 
-	//RBXASSERT(0);
+	//ARLASSERT(0);
 	return "?";
 }
 
@@ -3517,7 +3517,7 @@ static void appendJobInfo(DataModel* dataModel, shared_ptr<const TaskScheduler::
 	info->push_back(job->averageError());
 	info->push_back(job->isRunning());
 
-	result->push_back(shared_ptr<const RBX::Reflection::ValueArray>(info));
+	result->push_back(shared_ptr<const ARL::Reflection::ValueArray>(info));
 }
 
 shared_ptr<const Reflection::ValueArray> DataModel::getJobsInfo()
@@ -3533,7 +3533,7 @@ shared_ptr<const Reflection::ValueArray> DataModel::getJobsInfo()
 		info->push_back(std::string("averageError"));
 		info->push_back(std::string("isRunning"));
 
-		result->push_back(shared_ptr<const RBX::Reflection::ValueArray>(info));
+		result->push_back(shared_ptr<const ARL::Reflection::ValueArray>(info));
 	}
 	std::vector<boost::shared_ptr<const TaskScheduler::Job> > jobs;
 	TaskScheduler::singleton().getJobsInfo(jobs);
@@ -3603,7 +3603,7 @@ void DataModel::setPlaceID(int placeID, bool robloxPlace)
 	if(ScriptContext* sc = create<ScriptContext>())
 		sc->setRobloxPlace(robloxPlace);
 
-	Http::placeID = RBX::format("%d", placeID);
+	Http::placeID = ARL::format("%d", placeID);
 
 	Analytics::setPlaceId(placeID);
 	RobloxGoogleAnalytics::setPlaceID(placeID);
@@ -3627,8 +3627,8 @@ static void gameStartInfoLoadedHelperSuccess(weak_ptr<DataModel> dm, std::string
 
 	FASTLOGS(DFLog::R15Character, "DataModel::gameStartInfoLoadedHelperSuccess %s", json.c_str());
 
-	RBX::Reflection::Variant v;
-	if (RBX::WebParser::parseJSONObject(json, v))
+	ARL::Reflection::Variant v;
+	if (ARL::WebParser::parseJSONObject(json, v))
 	{
 		bool forceR15 = v.cast<shared_ptr<const Reflection::ValueTable> >()->at("r15Morphing").cast<bool>();
 		dm_shared->setForceR15(forceR15);
@@ -3681,9 +3681,9 @@ void DataModel::requestGameStartInfo()
 {
 	FASTLOG(DFLog::R15Character, "DataModel::requestGameStartInfo universeDataRequested");
 
-	if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::create<RBX::HttpRbxApiService>(this))
+	if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::create<ARL::HttpRbxApiService>(this))
 	{
-		apiService->getAsync( RBX::format("universes/%d/game-start-info", universeId),false, RBX::PRIORITY_DEFAULT,
+		apiService->getAsync( ARL::format("universes/%d/game-start-info", universeId),false, ARL::PRIORITY_DEFAULT,
 			boost::bind(&gameStartInfoLoadedHelperSuccess, weak_from(this), _1),
 			boost::bind(&gameStartInfoLoadedHelperError, weak_from(this), _1));
 	}	
@@ -3733,7 +3733,7 @@ bool DataModel::isGearTypeAllowed(GearType gearType)
 }
 void DataModel::loadPlugins()
 {
-	throw RBX::runtime_error("load plugins not supported");
+	throw ARL::runtime_error("load plugins not supported");
 }
 void DataModel::setGenre(Genre genre)
 {
@@ -3760,9 +3760,9 @@ void DataModel::setGear(GearGenreSetting gearGenreSetting, int allowedGearTypes)
 
 std::string DataModel::getVIPServerId() const
 {
-	if (RBX::Network::Players::clientIsPresent(this))
+	if (ARL::Network::Players::clientIsPresent(this))
 	{
-		RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "VIPServerID checked on client, but only set on server.");
+		ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "VIPServerID checked on client, but only set on server.");
 	}
 
 	return vipServerId; 
@@ -3779,9 +3779,9 @@ void DataModel::setVIPServerId(std::string value)
 
 int DataModel::getVIPServerOwnerId() const
 {
-	if (RBX::Network::Players::clientIsPresent(this))
+	if (ARL::Network::Players::clientIsPresent(this))
 	{
-		RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "VIPServerOwnerID checked on client, but only set on server.");
+		ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "VIPServerOwnerID checked on client, but only set on server.");
 	}
 
 	return vipServerOwnerId; 
@@ -3826,7 +3826,7 @@ static void appendJobExtendedStats(DataModel* dataModel, shared_ptr<const TaskSc
 	info->push_back((double)stats.interval.samples);
 	info->push_back(stats.dutyfraction);
 
-	result->push_back(shared_ptr<const RBX::Reflection::ValueArray>(info));
+	result->push_back(shared_ptr<const ARL::Reflection::ValueArray>(info));
 
 }
 
@@ -3846,7 +3846,7 @@ shared_ptr<const Reflection::ValueArray> DataModel::getJobsExtendedStats()
 		info->push_back(std::string("interval.samples"));
 		info->push_back(std::string("dutyfraction"));
 
-		result->push_back(shared_ptr<const RBX::Reflection::ValueArray>(info));
+		result->push_back(shared_ptr<const ARL::Reflection::ValueArray>(info));
 	}
 	std::vector<boost::shared_ptr<const TaskScheduler::Job> > jobs;
 	TaskScheduler::singleton().getJobsInfo(jobs);
@@ -3897,14 +3897,14 @@ double DataModel::getJobIntervalPeakFraction(std::string jobname, double greater
 }
 
 /*override*/ void DataModel::onChildChanged(Instance* instance, const PropertyChanged& event) {
-	RBXASSERT(write_requested==1);
+	ARLASSERT(write_requested==1);
 	Super::onChildChanged(instance, event);
 	this->setDirty(true);
     if (!itemChangedSignal.empty())
     	itemChangedSignal(shared_from(instance), &event.getDescriptor());
 }
 /*override*/ void DataModel::onDescendantAdded(Instance* instance) {
-	RBXASSERT(write_requested==1);
+	ARLASSERT(write_requested==1);
 
 	// keep track of how instances this datamodel has
 	numInstances++;
@@ -3915,7 +3915,7 @@ double DataModel::getJobIntervalPeakFraction(std::string jobname, double greater
 	this->setDirty(true);
 }
 /*override*/ void DataModel::onDescendantRemoving(const shared_ptr<Instance>& instance) {
-	RBXASSERT(write_requested==1);
+	ARLASSERT(write_requested==1);
 
 	numInstances--;
 	if (Instance::fastDynamicCast<PartInstance>(instance.get()))
@@ -3959,35 +3959,35 @@ void DataModel::setUiMessageBrickCount()
 	uiMessage = "[[[progress]]]";
 }
 
-void DataModel::TakeScreenshotTask(weak_ptr<RBX::DataModel> weakDataModel)
+void DataModel::TakeScreenshotTask(weak_ptr<ARL::DataModel> weakDataModel)
 {
-	if (shared_ptr<RBX::DataModel> dataModel = weakDataModel.lock())
+	if (shared_ptr<ARL::DataModel> dataModel = weakDataModel.lock())
 	{
 		dataModel->screenshotSignal();
 	}
 }
 
-void DataModel::ScreenshotReadyTask(weak_ptr<RBX::DataModel> weakDataModel, const std::string &filename)
+void DataModel::ScreenshotReadyTask(weak_ptr<ARL::DataModel> weakDataModel, const std::string &filename)
 {
-	if (shared_ptr<RBX::DataModel> dataModel = weakDataModel.lock())
+	if (shared_ptr<ARL::DataModel> dataModel = weakDataModel.lock())
 	{
 		dataModel->screenshotReadySignal(filename);
 	}
 }
 
-void DataModel::ScreenshotUploadTask(weak_ptr<RBX::DataModel> weakDataModel, bool finished)
+void DataModel::ScreenshotUploadTask(weak_ptr<ARL::DataModel> weakDataModel, bool finished)
 {
-	if (shared_ptr<RBX::DataModel> dataModel = weakDataModel.lock())
+	if (shared_ptr<ARL::DataModel> dataModel = weakDataModel.lock())
 	{
 		dataModel->screenshotUploadSignal(finished);
 	}
 }
 
-void DataModel::ShowMessage(weak_ptr<RBX::DataModel> weakDataModel, int slot, const std::string &message, double duration)
+void DataModel::ShowMessage(weak_ptr<ARL::DataModel> weakDataModel, int slot, const std::string &message, double duration)
 {
-	if (shared_ptr<RBX::DataModel> dataModel = weakDataModel.lock())
+	if (shared_ptr<ARL::DataModel> dataModel = weakDataModel.lock())
 	{
-		if(shared_ptr<RBX::CoreGuiService> coreGuiService = shared_from(dataModel->find<RBX::CoreGuiService>()))
+		if(shared_ptr<ARL::CoreGuiService> coreGuiService = shared_from(dataModel->find<ARL::CoreGuiService>()))
 		{
 			coreGuiService->displayOnScreenMessage(slot, message, duration);
 		}
@@ -4016,11 +4016,11 @@ DataModel::scoped_write_request::scoped_write_request(Instance* context)
 {
 	if (dataModel)
 	{
-		RBX::mutex::scoped_lock lock(dataModel->debugLock);
+		ARL::mutex::scoped_lock lock(dataModel->debugLock);
 
-		RBXASSERT(dataModel->write_requested == 0);
-		RBXASSERT(dataModel->read_requested == 0);
-		RBXASSERT(dataModel->writeRequestingThread == 0);
+		ARLASSERT(dataModel->write_requested == 0);
+		ARLASSERT(dataModel->read_requested == 0);
+		ARLASSERT(dataModel->writeRequestingThread == 0);
 
 		dataModel->write_requested = 1;
 		dataModel->writeRequestingThread = GetCurrentThreadId();
@@ -4031,11 +4031,11 @@ DataModel::scoped_write_request::~scoped_write_request()
 {
 	if (dataModel)
 	{
-		RBX::mutex::scoped_lock lock(dataModel->debugLock);
+		ARL::mutex::scoped_lock lock(dataModel->debugLock);
 
-		RBXASSERT(dataModel->write_requested == 1);
-		RBXASSERT(dataModel->read_requested == 0);
-		RBXASSERT(dataModel->writeRequestingThread == GetCurrentThreadId());
+		ARLASSERT(dataModel->write_requested == 1);
+		ARLASSERT(dataModel->read_requested == 0);
+		ARLASSERT(dataModel->writeRequestingThread == GetCurrentThreadId());
 
 		dataModel->write_requested = 0;
 		dataModel->writeRequestingThread = 0;
@@ -4048,9 +4048,9 @@ DataModel::scoped_read_request::scoped_read_request(Instance* context)
 {
 	if (dataModel)
 	{
-		RBX::mutex::scoped_lock lock(dataModel->debugLock);
+		ARL::mutex::scoped_lock lock(dataModel->debugLock);
 
-		RBXASSERT(dataModel->write_requested == 0);
+		ARLASSERT(dataModel->write_requested == 0);
 
 		dataModel->read_requested++;
 	}
@@ -4060,10 +4060,10 @@ DataModel::scoped_read_request::~scoped_read_request()
 {
 	if (dataModel)
 	{
-		RBX::mutex::scoped_lock lock(dataModel->debugLock);
+		ARL::mutex::scoped_lock lock(dataModel->debugLock);
 
-		RBXASSERT(dataModel->write_requested == 0);
-		RBXASSERT(dataModel->read_requested > 0);
+		ARLASSERT(dataModel->write_requested == 0);
+		ARLASSERT(dataModel->read_requested > 0);
 
 		dataModel->read_requested--;
 	}
@@ -4075,11 +4075,11 @@ DataModel::scoped_write_transfer::scoped_write_transfer(Instance* context)
 {
 	if (dataModel)
 	{
-		RBX::mutex::scoped_lock lock(dataModel->debugLock);
+		ARL::mutex::scoped_lock lock(dataModel->debugLock);
 
-		RBXASSERT(dataModel->write_requested == 1);
-		RBXASSERT(dataModel->writeRequestingThread != GetCurrentThreadId());
-		RBXASSERT(dataModel->writeRequestingThread != 0);
+		ARLASSERT(dataModel->write_requested == 1);
+		ARLASSERT(dataModel->writeRequestingThread != GetCurrentThreadId());
+		ARLASSERT(dataModel->writeRequestingThread != 0);
 
 		oldWritingThread = dataModel->writeRequestingThread;
 		dataModel->writeRequestingThread = GetCurrentThreadId();
@@ -4090,10 +4090,10 @@ DataModel::scoped_write_transfer::~scoped_write_transfer()
 {
 	if (dataModel)
 	{
-		RBX::mutex::scoped_lock lock(dataModel->debugLock);
+		ARL::mutex::scoped_lock lock(dataModel->debugLock);
 
-		RBXASSERT(dataModel->write_requested == 1);
-		RBXASSERT(dataModel->writeRequestingThread == GetCurrentThreadId());
+		ARLASSERT(dataModel->write_requested == 1);
+		ARLASSERT(dataModel->writeRequestingThread == GetCurrentThreadId());
 
 		dataModel->writeRequestingThread = oldWritingThread;
 	}
@@ -4102,7 +4102,7 @@ DataModel::scoped_write_transfer::~scoped_write_transfer()
 
 unsigned int DataModel::allHackFlagsOredTogether() {
     unsigned int result = 0;
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
 	VMProtectBeginMutation("18");
 	boost::mutex::scoped_lock l(hackFlagSetMutex);
 	
@@ -4128,7 +4128,7 @@ void DataModel::processHttpRequestResponseOnLock(DataModel *dataModel, std::stri
 	{
 		dataModel->submitTask(
 			boost::bind(onLockAcquired, responseCopy, exceptionCopy),
-			RBX::DataModelJob::TaskType::Write);
+			ARL::DataModelJob::TaskType::Write);
 	}
 	else
 	{

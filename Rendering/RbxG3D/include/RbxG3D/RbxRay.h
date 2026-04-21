@@ -25,7 +25,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 
 using G3D::Vector3;
 using G3D::Triangle;

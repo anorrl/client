@@ -7,7 +7,7 @@
 #include "V8DataModel/CollectionService.h"
 #include "V8Tree/Instance.h"
 
-namespace RBX {
+namespace ARL {
 
 extern const char* const sCustomEvent;
 class CustomEvent : public DescribedCreatable<CustomEvent, Instance, sCustomEvent> {

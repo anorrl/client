@@ -28,7 +28,7 @@
 #define alloca _alloca
 #endif
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -305,7 +305,7 @@ static GeometryBatch* createTorus(Device* device, const shared_ptr<VertexLayout>
 }
 
 
-class TextureProxy: public RBX::TextureProxyBase 
+class TextureProxy: public ARL::TextureProxyBase 
 {
 public:
     TextureProxy(const TextureRef& texture)
@@ -365,7 +365,7 @@ AdornRender::AdornRender(VisualEngine* visualEngine, const DataModel* dataModel)
     materials[Material_Outline] = visualEngine->getShaderManager()->getProgramOrFFP("AdornOutlineVS", "AdornOutlineFS");
 }
 
-RBX::Rect2D AdornRender::getViewport() const
+ARL::Rect2D AdornRender::getViewport() const
 {
 	return Rect2D::xywh(0, 0, visualEngine->getViewWidth(), visualEngine->getViewHeight());
 }
@@ -375,7 +375,7 @@ const Camera* AdornRender::getCamera() const
     return dataModel->getWorkspace()->getConstCamera();
 }
 
-void AdornRender::setTexture(int id, const RBX::TextureProxyBaseRef& t)
+void AdornRender::setTexture(int id, const ARL::TextureProxyBaseRef& t)
 {
     if (t)
     {
@@ -387,9 +387,9 @@ void AdornRender::setTexture(int id, const RBX::TextureProxyBaseRef& t)
     }
 }
 
-Rect2D AdornRender::getTextureSize(const RBX::TextureProxyBaseRef& texture) const
+Rect2D AdornRender::getTextureSize(const ARL::TextureProxyBaseRef& texture) const
 {
-    return RBX::Rect2D(texture->getOriginalSize());
+    return ARL::Rect2D(texture->getOriginalSize());
 }
 
 void AdornRender::rect2dImpl(const Vector2& x0y0, const Vector2& x1y0, const Vector2& x0y1, const Vector2& x1y1, const Vector2& tex0, const Vector2& tex1, const Color4& color)
@@ -409,7 +409,7 @@ void AdornRender::rect2dImpl(const Vector2& x0y0, const Vector2& x1y0, const Vec
     visualEngine->getVertexStreamer()->rectBlt(currentTexture, color, px0y0, px1y0, px0y1, px1y1, tex0, tex1, currentTextureType, getIgnoreTexture());
 }
 
-void AdornRender::line2d(const RBX::Vector2& p0, const RBX::Vector2& p1, const RBX::Color4 &color)
+void AdornRender::line2d(const ARL::Vector2& p0, const ARL::Vector2& p1, const ARL::Color4 &color)
 {
 	visualEngine->getVertexStreamer()->line(p0.x, currentHeight-p0.y, p1.x, currentHeight-p1.y, &color[0]);
 }
@@ -593,14 +593,14 @@ void AdornRender::ray(const RbxRay& ray, const Color4& color)
 	submitMesh(*batchCone, getMaterial(), coneOrigin, rotation, Vector3(coneScaleX, coneScaleYZ, coneScaleYZ), color, worldBounds);
 }
 
-void AdornRender::line3d(const Vector3& startPoint, const Vector3& endPoint, const RBX::Color4& color)
+void AdornRender::line3d(const Vector3& startPoint, const Vector3& endPoint, const ARL::Color4& color)
 {
     const Vector3 p0 = currentCFrame.vectorToWorldSpace(startPoint) + currentCFrame.translation;
     const Vector3 p1 = currentCFrame.vectorToWorldSpace(endPoint) + currentCFrame.translation;
     visualEngine->getVertexStreamer()->line3d(p0.x,p0.y,p0.z,p1.x,p1.y,p1.z,&color[0]);
 }
 
-void AdornRender::line3dAA(const Vector3& startPoint, const Vector3& endPoint, const RBX::Color4& color, float thickness, int zIndex, bool alwaysOnTop)
+void AdornRender::line3dAA(const Vector3& startPoint, const Vector3& endPoint, const ARL::Color4& color, float thickness, int zIndex, bool alwaysOnTop)
 {
     // these points cant be behind the camera position, lets project them on infinite plane defined by cam near plane
     const RenderCamera camera = visualEngine->getCamera();
@@ -676,8 +676,8 @@ void AdornRender::convexPolygon2d(const Vector2* v, int countv, const Color4& co
         indices[icount++] = i;
         indices[icount++] = i+1;
     }
-    RBXASSERT(icount == (countv-2) * 3);
-    RBXASSERT(icount <= 0xFFFF);
+    ARLASSERT(icount == (countv-2) * 3);
+    ARLASSERT(icount <= 0xFFFF);
     visualEngine->getVertexStreamer()->triangleList2d(color, vertices, countv, indices, icount);
 }
 
@@ -692,8 +692,8 @@ void AdornRender::convexPolygon(const Vector3* v, int countv, const Color4& colo
         indices[icount++] = i;
         indices[icount++] = i+1;
     }
-    RBXASSERT(icount == (countv-2) * 3);
-    RBXASSERT(icount <= 0xFFFF);
+    ARLASSERT(icount == (countv-2) * 3);
+    ARLASSERT(icount <= 0xFFFF);
     visualEngine->getVertexStreamer()->triangleList(color, currentCFrame, v, countv, indices, icount);
 }
 
@@ -759,11 +759,11 @@ void AdornRender::finishRenderPass()
 
 void AdornRender::render(DeviceContext* context, RenderPassStats& stats)
 {
-    RBXPROFILER_SCOPE("Render", "Adorns");
-    RBXPROFILER_SCOPE("GPU", "Adorns");
+    ARLPROFILER_SCOPE("Render", "Adorns");
+    ARLPROFILER_SCOPE("GPU", "Adorns");
 
     shared_ptr<Texture> defaultTexture = visualEngine->getTextureManager()->getFallbackTexture(TextureManager::Fallback_White);
-	RBXASSERT(defaultTexture);
+	ARLASSERT(defaultTexture);
 
     PIX_SCOPE(context, "AR::Adorns");
 
@@ -783,7 +783,7 @@ void AdornRender::render(DeviceContext* context, RenderPassStats& stats)
 void AdornRender::renderNoDepth(DeviceContext* context, RenderPassStats& stats, int renderIndex)
 {
 	shared_ptr<Texture> defaultTexture = visualEngine->getTextureManager()->getFallbackTexture(TextureManager::Fallback_White);
-	RBXASSERT(defaultTexture);
+	ARLASSERT(defaultTexture);
 
 	PIX_SCOPE(context, "AR::Adorns");
 

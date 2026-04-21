@@ -5,11 +5,11 @@
 #include "rbx/Debug.h"
 #include "Util/G3DCore.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Kernel;
 
-	class RBXBaseClass IStage {
+	class ARLBaseClass IStage {
 	public:
 		typedef enum {	CLEAN_STAGE,
 						JOINT_STAGE,
@@ -66,7 +66,7 @@ namespace RBX {
 		}
 
 		virtual Kernel* getKernel()	{
-			RBXASSERT(downstream);
+			ARLASSERT(downstream);
 			return downstream->getKernel();
 		}
 	};

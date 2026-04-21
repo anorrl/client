@@ -4,7 +4,7 @@
 #include "V8DataModel/ExtrudedPartInstance.h"
 #include "V8World/Primitive.h"
 
-namespace RBX
+namespace ARL
 {
 const char* const sExtrudedPart = "TrussPart";
 
@@ -97,7 +97,7 @@ void ExtrudedPartInstance::setPartSizeXml(const Vector3& rbxSize)
 				newSize.z = MinExtrudedPartSize.z;
 			}
 			else{
-				RBXASSERT(newSize.z >= newSize.x && newSize.z >= newSize.y || !newSize.isFinite());
+				ARLASSERT(newSize.z >= newSize.x && newSize.z >= newSize.y || !newSize.isFinite());
 				newSize.x = MinExtrudedPartSize.x;
 				newSize.y = MinExtrudedPartSize.y;
 			}
@@ -124,16 +124,16 @@ Faces ExtrudedPartInstance::getResizeHandleMask() const
 	}
 	else{
 		if(size.x != MinExtrudedDimensionSize){
-			RBXASSERT(size.y == MinExtrudedDimensionSize && size.z == MinExtrudedDimensionSize);
+			ARLASSERT(size.y == MinExtrudedDimensionSize && size.z == MinExtrudedDimensionSize);
 			return Faces(NORM_X_MASK | NORM_X_NEG_MASK);
 		}
 		else if(size.y != MinExtrudedDimensionSize){
-			RBXASSERT(size.x == MinExtrudedDimensionSize && size.z == MinExtrudedDimensionSize);
+			ARLASSERT(size.x == MinExtrudedDimensionSize && size.z == MinExtrudedDimensionSize);
 			return Faces(NORM_Y_MASK | NORM_Y_NEG_MASK);
 		}
 		else{
-			RBXASSERT(size.z != MinExtrudedDimensionSize);
-			RBXASSERT(size.x == MinExtrudedDimensionSize && size.y == MinExtrudedDimensionSize);
+			ARLASSERT(size.z != MinExtrudedDimensionSize);
+			ARLASSERT(size.x == MinExtrudedDimensionSize && size.y == MinExtrudedDimensionSize);
 			return Faces(NORM_Z_MASK | NORM_Z_NEG_MASK);
 		}
 	}

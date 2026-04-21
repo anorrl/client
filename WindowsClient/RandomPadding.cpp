@@ -7,7 +7,7 @@
 
 template <int N> __forceinline void useless()
 {
-    junk<(N*(RBX_BUILDSEED%16) + __LINE__*N*(RBX_BUILDSEED%15) + N*N) % 17>();
+    junk<(N*(ARL_BUILDSEED%16) + __LINE__*N*(ARL_BUILDSEED%15) + N*N) % 17>();
     useless<N-1>();
     useless<N-1>();
 }

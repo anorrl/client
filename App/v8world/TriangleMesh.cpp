@@ -23,7 +23,7 @@ namespace CSGPhys
 	static const unsigned int blockKeyLen = 5;
 };
 
-namespace RBX {
+namespace ARL {
 
 const std::string physicsKeyTag("CSGPHS");
 
@@ -214,7 +214,7 @@ bool TriangleMesh::hitTest(const RbxRay& rayInMe, Vector3& localHitPoint, Vector
 void TriangleMesh::setSize(const G3D::Vector3& _size)
 {
 	Super::setSize(_size);
-	RBXASSERT(getSize() == _size);
+	ARLASSERT(getSize() == _size);
 
 	centerToCornerDistance = 0.5f * _size.magnitude();	
 
@@ -735,11 +735,11 @@ bool TriangleMesh::FaceEdgesOverlapped( const CoordinateFrame& myCf, size_t& myF
 	return boundingBoxMesh->FaceEdgesOverlapped(myCf, myFaceId, otherGeom, otherCf, otherFaceId, tol);
 }
 
-} // namespace RBX
+} // namespace ARL
 
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

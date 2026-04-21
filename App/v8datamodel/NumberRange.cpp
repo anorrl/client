@@ -3,7 +3,7 @@
 
 
 
-namespace RBX
+namespace ARL
 {
 
     NumberRange::NumberRange(float a, float b)

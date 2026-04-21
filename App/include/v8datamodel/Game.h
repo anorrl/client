@@ -8,7 +8,7 @@
 #include <string>
 #include "security/SecurityContext.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Verb;
 	class CommonVerbs;
@@ -44,7 +44,7 @@ namespace RBX {
       
 		bool getSuppressNavKeys();
 
-		void configurePlayer(RBX::Security::Identities identity, const std::string& params, int launchMode = -1, const char* vrDevice = 0);
+		void configurePlayer(ARL::Security::Identities identity, const std::string& params, int launchMode = -1, const char* vrDevice = 0);
     private:
         void doClearVerbs();
 		void clearVerbs(bool needsLock = true);
@@ -62,4 +62,4 @@ namespace RBX {
 		UnsecuredStudioGame(Verb* lockVerb, const char* baseUrl, bool isNetworked = false, bool showLoadingScreen = false);
 	};
 
-}  // namespace RBX
+}  // namespace ARL

@@ -85,7 +85,7 @@ DYNAMIC_FASTINT(JoinInfluxHundredthsPercentage)
 
 // Security Configuration Flags that should not be removed:
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
 // Security Mask String (more json-friendly than using signed int)
 static const char kKickChar = '.';       // kick+report for normal hash only
 static const char kGoldKickChar = ':';   // kick+report for gold hash and 
@@ -208,13 +208,13 @@ void reportConfigMaskError(const char* name)
         msgStream << "SecurityConfigError: ";
         msgStream << name;
         std::string msg = msgStream.str();
-        RBX::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SecurityException", msg.c_str());    
+        ARL::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SecurityException", msg.c_str());    
     }
 }
 }
 #endif
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 	
 	class ServerReplicator::ServerStatsItem : public Replicator::Stats
@@ -286,10 +286,10 @@ namespace RBX { namespace Network {
 	};
 }}
 
-const char* const RBX::Network::sServerReplicator = "ServerReplicator";
+const char* const ARL::Network::sServerReplicator = "ServerReplicator";
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 REFLECTION_BEGIN();
 static Reflection::BoundCallbackDesc<FilterResult(shared_ptr<Instance>, shared_ptr<Instance>)> desc_filterNew("NewFilter", &ServerReplicator::filterNew, "newItem", "parent", Security::RobloxPlace);
@@ -443,7 +443,7 @@ bool ServerReplicator::checkDistributedReceive(PartInstance* part)
 
 bool ServerReplicator::checkDistributedSend(const PartInstance* part)
 {
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	const PartInstance* rootMoving = getConstMechanismRootMovingPart(part);
 	bool isRootPart = (rootMoving == part);
@@ -460,8 +460,8 @@ bool ServerReplicator::checkDistributedSend(const PartInstance* part)
 // assumes part is root
 bool ServerReplicator::checkDistributedSendFast(const PartInstance* part)
 {
-	RBXASSERT(part);
-	RBXASSERT(getConstMechanismRootMovingPart(part) == part);
+	ARLASSERT(part);
+	ARLASSERT(getConstMechanismRootMovingPart(part) == part);
 
     bool toOwner = part->getNetworkOwner() == RakNetToRbxAddress(remotePlayerId);
 
@@ -731,7 +731,7 @@ bool ServerReplicator::isCloudEdit() const
 void ServerReplicator::sendTop(RakNet::RakPeerInterface *peer)
 {
 #ifdef NETWORK_DEBUG
-    StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "SendTop");
+    StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "SendTop");
 #endif
 	// First, set tags 
 	FASTLOG(FLog::Network, "ServerReplicator:sendTop - begin");
@@ -754,7 +754,7 @@ void ServerReplicator::sendTop(RakNet::RakPeerInterface *peer)
 	if (canUseProtocolVersion(31))
 	{
 		// for analytics
-		RBXASSERT(players);
+		ARLASSERT(players);
 		bitStream << players->getCharacterAutoSpawnProperty();
 	}
 
@@ -781,18 +781,18 @@ void ServerReplicator::sendTop(RakNet::RakPeerInterface *peer)
 	bool topRepContSync = true;
 	if (topRepContSync)
 	{
-		RBXASSERT(topReplicationContainers.size() < 0xFF);
+		ARLASSERT(topReplicationContainers.size() < 0xFF);
 		bitStream << (uint8_t)topReplicationContainers.size();
 	}
 
 	for (TopReplConts::iterator iter = topReplicationContainers.begin(); iter!=end; ++iter)
 	{
-		RBXASSERT(*iter!=NULL);
+		ARLASSERT(*iter!=NULL);
 		bool canReplicate = topRepContSync || canReplicateInstance(*iter, remoteProtocolVersion);
 
 		if (topRepContSync)
 		{
-			DescriptorSender<RBX::Reflection::ClassDescriptor>::IdContainer idContainer = classDictionary.getId(&(*iter)->getDescriptor());
+			DescriptorSender<ARL::Reflection::ClassDescriptor>::IdContainer idContainer = classDictionary.getId(&(*iter)->getDescriptor());
 			classDictionary.send(bitStream, idContainer.id);
 		}
 
@@ -804,7 +804,7 @@ void ServerReplicator::sendTop(RakNet::RakPeerInterface *peer)
 			if (!isCloudEdit())
 			{
 				// ReplicatedFirst needs to just send it's descendants once (so each client can get it)
-				if (RBX::ReplicatedFirst* replicatedFirst = RBX::Instance::fastDynamicCast<RBX::ReplicatedFirst>(*iter))
+				if (ARL::ReplicatedFirst* replicatedFirst = ARL::Instance::fastDynamicCast<ARL::ReplicatedFirst>(*iter))
 				{
 					replicatedFirst->visitDescendants(boost::bind(&ServerReplicator::sendReplicatedFirstDescendants,this,_1));
 
@@ -846,7 +846,7 @@ void ServerReplicator::sendReplicatedFirstDescendants(shared_ptr<Instance> desce
 	highPriorityPendingItems.push_back(new (newInstancePool.get()) NewInstanceItem(this, descendant));
 }
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 CheatHandlingServerReplicator::CheatHandlingServerReplicator(RakNet::SystemAddress systemAddress, Server* server, NetworkSettings* networkSettings)
     :ServerReplicator(systemAddress, server, networkSettings)
     , isAuthenticated(false)
@@ -883,7 +883,7 @@ CheatHandlingServerReplicator::CheatHandlingServerReplicator(RakNet::SystemAddre
 {}
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::preauthenticatePlayer(int userId)
 {
 	try
@@ -892,11 +892,11 @@ void CheatHandlingServerReplicator::preauthenticatePlayer(int userId)
 		{
 			if (ticket.empty()){
 				FASTLOG(FLog::Error, "ServerReplicator:preauthenticatePlayer - MissingTicket");
-				throw RBX::runtime_error("missing ticket");
+				throw ARL::runtime_error("missing ticket");
 			}
 			if (server->preusedTickets.find(ticket) != server->preusedTickets.end()){
 				FASTLOG(FLog::Error, "ServerReplicator:preauthenticatePlayer - DuplicateTicket");
-				throw RBX::runtime_error("ticket has already been used: %s", ticket.c_str());
+				throw ARL::runtime_error("ticket has already been used: %s", ticket.c_str());
 			}
 			server->preusedTickets.insert(ticket);
 
@@ -905,13 +905,13 @@ void CheatHandlingServerReplicator::preauthenticatePlayer(int userId)
 			boost::split(s, ticket, boost::is_any_of(";"));
 			if (s.size()!=3){
 				FASTLOG(FLog::Error, "ServerReplicator:preauthenticatePlayer - BadTicket");
-				throw RBX::runtime_error("bad pre-ticket '%s'", ticket.c_str());
+				throw ARL::runtime_error("bad pre-ticket '%s'", ticket.c_str());
 			}
 			std::string timestamp = s[0];
 			std::string signature2 = s[2];
 
 			// re-create the signed message
-			std::string message = RBX::format(
+			std::string message = ARL::format(
 				"%d\n%s\n%s", 
 				userId,
 				DataModel::get(this)->jobId.c_str(),
@@ -923,14 +923,14 @@ void CheatHandlingServerReplicator::preauthenticatePlayer(int userId)
 				// verify now!
 				Crypt().verifySignatureBase64(message, signature2);
 			}
-			catch(RBX::base_exception&)
+			catch(ARL::base_exception&)
 			{
 				FASTLOG(FLog::Error, "ServerReplicator:preauthenticatePlayer - BadTicketSignature");
 				throw;
 			}
 		}
 	}
-	catch(RBX::base_exception& e)
+	catch(ARL::base_exception& e)
 	{
 		isBadTicket = true;
 		if(ContentProvider* contentProvider = ServiceProvider::find<ContentProvider>(this)){
@@ -955,11 +955,11 @@ void ServerReplicator::installRemotePlayerSafe(weak_ptr<ServerReplicator> weakTh
     {
         strongThis->installRemotePlayer(preferedSpawnName);
     }
-    catch (RBX::base_exception& e)
+    catch (ARL::base_exception& e)
     {
         // catch the exception.  Something has gone wrong in this process.  This shouldn't crash RCC.
         (void)(e);
-        strongThis->remotePlayer = RBX::Creatable<RBX::Instance>::create<RBX::Network::Player>();
+        strongThis->remotePlayer = ARL::Creatable<ARL::Instance>::create<ARL::Network::Player>();
         strongThis->requestDisconnect(DisconnectReason_SendPacketError);
     }
 }
@@ -984,7 +984,7 @@ void ServerReplicator::installRemotePlayer(const std::string& preferedSpawnName)
 
 	remotePlayerInstalled = true;
 
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
 	joinAnalytics.addPoint("PlayerInstalled", (Time::nowFast() - startTime).seconds());
 	sendJoinStatsToInflux();
 #endif
@@ -1016,7 +1016,7 @@ PluginReceiveResult ServerReplicator::OnReceive(Packet *packet) {
 
             // if we are not using a real game replicator (aka CheatHandlingServerReplicator), then send top containers right away
             // Essentially we don't need to wait for the ticket to come in, as we are replicating in studio (guaranteed to have all the same top classes)
-#if !defined(RBX_RCC_SECURITY)
+#if !defined(ARL_RCC_SECURITY)
             sendTop(rakPeer->rawPeer());
 #endif
         }
@@ -1050,7 +1050,7 @@ PluginReceiveResult ServerReplicator::OnReceive(Packet *packet) {
 				if (placeAutenticationResult)
 					placeAuthenticationState = (PlaceAuthenticationState)placeAutenticationResult.get();
 				else
-					placeAuthenticationThread.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&ServerReplicator::PlaceAuthenticationThread, shared_from(this), previousPlaceId, DataModel::get(this)->getPlaceID()), "PlaceAuthenticationThread")));
+					placeAuthenticationThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&ServerReplicator::PlaceAuthenticationThread, shared_from(this), previousPlaceId, DataModel::get(this)->getPlaceID()), "PlaceAuthenticationThread")));
 
 			}
         }
@@ -1089,20 +1089,20 @@ PluginReceiveResult ServerReplicator::OnReceive(Packet *packet) {
 	}
 }
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 bool CheatHandlingServerReplicator::checkRemotePlayer()
 {
     if (remotePlayer)
     {
         return true;
     }
-    remotePlayer = RBX::Creatable<RBX::Instance>::create<RBX::Network::Player>();
+    remotePlayer = ARL::Creatable<ARL::Instance>::create<ARL::Network::Player>();
     requestDisconnect(DisconnectReason_SendPacketError);
     return false;
 }
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::installRemotePlayer(const std::string& preferedSpawnName)
 {
 	if (remotePlayerInstalled)
@@ -1150,19 +1150,19 @@ void CheatHandlingServerReplicator::installRemotePlayer(const std::string& prefe
 	else
 	{
 		if(userIdFromTicket != remotePlayer->getUserID())
-			throw RBX::runtime_error("userId has morphed");
+			throw ARL::runtime_error("userId has morphed");
 	}
 
 	if (server->getIsPlayerAuthenticationRequired())
 	{
 		if (ticket.empty()){
 			FASTLOG(FLog::Error, "ServerReplicator:InstallRemotePlayer - MissingTicket");
-			throw RBX::runtime_error("missing ticket");
+			throw ARL::runtime_error("missing ticket");
 		}
 
 		if (server->usedTickets.find(ticket) != server->usedTickets.end()){
 			FASTLOG(FLog::Error, "ServerReplicator:InstallRemotePlayer - DuplicateTicket");
-			throw RBX::runtime_error("ticket has already been used: %s", ticket.c_str());
+			throw ARL::runtime_error("ticket has already been used: %s", ticket.c_str());
 		}
 
 		server->usedTickets.insert(ticket);
@@ -1172,13 +1172,13 @@ void CheatHandlingServerReplicator::installRemotePlayer(const std::string& prefe
 		boost::split(s, ticket, boost::is_any_of(";"));
 		if (s.size() < 2){
 			FASTLOG(FLog::Error, "ServerReplicator:InstallRemotePlayer - BadTicket");
-			throw RBX::runtime_error("bad ticket '%s'", ticket.c_str());
+			throw ARL::runtime_error("bad ticket '%s'", ticket.c_str());
 		}
 		std::string timestamp = s[0];
 		std::string signature = s[1];
 
 		// re-create the signed message
-		std::string message = RBX::format(
+		std::string message = ARL::format(
 			"%d\n%s\n%s\n%s\n%s", 
 			remotePlayer->getUserID(),
 			remotePlayer->getName().c_str(),
@@ -1192,14 +1192,14 @@ void CheatHandlingServerReplicator::installRemotePlayer(const std::string& prefe
 			// verify now!
 			Crypt().verifySignatureBase64(message, signature);
 		}
-		catch(RBX::base_exception&)
+		catch(ARL::base_exception&)
 		{
 			FASTLOG(FLog::Error, "ServerReplicator:InstallRemotePlayer - BadTicketSignature");
 			throw;
 		}
 	}
 	}
-	catch(RBX::base_exception& e)
+	catch(ARL::base_exception& e)
 	{
 		isBadTicket = true;
 		if(ContentProvider* contentProvider = ServiceProvider::find<ContentProvider>(this)){
@@ -1223,14 +1223,14 @@ void CheatHandlingServerReplicator::installRemotePlayer(const std::string& prefe
 
 	remotePlayerInstalled = true;
 
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
 	joinAnalytics.addPoint("PlayerInstalled", (Time::nowFast() - startTime).seconds());
 	sendJoinStatsToInflux();
 #endif
 }
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 PluginReceiveResult CheatHandlingServerReplicator::OnReceive(Packet *packet)
 {
 	if (packet->systemAddress!=remotePlayerId)
@@ -1282,7 +1282,7 @@ bool ServerReplicator::sendItemsPacket()
 	return true;
 }
 
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
 namespace CryptStrings
 {
     bool cmpIosHash(const char* inString)
@@ -1300,7 +1300,7 @@ namespace CryptStrings
 }
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::processTicket(Packet *packet)
 {
     try
@@ -1371,7 +1371,7 @@ void CheatHandlingServerReplicator::processTicket(Packet *packet)
 	    	isAuthenticated = false;
 
 	    	// log using StatsService
-	    	if (RBX::Stats::StatsService* stats = ServiceProvider::find<RBX::Stats::StatsService>(this))
+	    	if (ARL::Stats::StatsService* stats = ServiceProvider::find<ARL::Stats::StatsService>(this))
 	    	{
 	    		shared_ptr<Reflection::ValueTable> entry(new Reflection::ValueTable());
 	    		(*entry)["PlayerId"] = userIdFromTicket;
@@ -1433,7 +1433,7 @@ void CheatHandlingServerReplicator::processTicket(Packet *packet)
 
 void ServerReplicator::readHashItem(RakNet::BitStream& inBitstream)
 {
-    using namespace RBX::Hasher;
+    using namespace ARL::Hasher;
 
     // Reader
     unsigned char numItems;
@@ -1483,7 +1483,7 @@ void ServerReplicator::readRockyItem(RakNet::BitStream& inBitstream)
     }
 }
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
 void CheatHandlingServerReplicator::processNetPmcResponseItem(RakNet::BitStream& inBitstream)
 {
     uint8_t idx; 
@@ -1507,7 +1507,7 @@ void CheatHandlingServerReplicator::processNetPmcResponseItem(RakNet::BitStream&
 }
 # endif
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
 void CheatHandlingServerReplicator::processRockyCallInfoItem(RakNet::BitStream& inBitstream)
 {
     uint8_t size; 
@@ -1561,10 +1561,10 @@ void ServerReplicator::toggleSendStatsJob(
 	}
 }
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::decodeHashItem(PmcHashContainer& netHashes, unsigned long long* securityTokens)
 {
-    using namespace RBX::Hasher;
+    using namespace ARL::Hasher;
     HashVector& hashes = netHashes.hash;
     unsigned int& nonce = netHashes.nonce;
     unsigned char numItems = hashes.size();
@@ -1617,10 +1617,10 @@ void CheatHandlingServerReplicator::decodeHashItem(PmcHashContainer& netHashes, 
 }
 #endif 
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::processHashValue(const PmcHashContainer& netHashes)
 {
-    using namespace RBX::Hasher;
+    using namespace ARL::Hasher;
     const HashVector& hashes = netHashes.hash;
     const unsigned int& nonce = netHashes.nonce;
     size_t numItems = netHashes.hash.size();
@@ -1669,7 +1669,7 @@ void CheatHandlingServerReplicator::processHashValue(const PmcHashContainer& net
 
     // check against known values  (This is set in gold hash struct)
     checks |= kGoldHashFail * (hashes[kGoldHashStruct] != reportedGoldHash);
-    unsigned int goldChecks = RBX::Network::Players::checkGoldMemHashes(hashes);
+    unsigned int goldChecks = ARL::Network::Players::checkGoldMemHashes(hashes);
 
     // Two additional items are sent in the same packet.  Check these items here.
     static const size_t kRobloxTextBase = 0x401000;
@@ -1742,7 +1742,7 @@ void CheatHandlingServerReplicator::processHashValuePost(const unsigned long lon
             {
                 if (DFFlag::US28292p0)
                 {
-                    RBX::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SecurityException", "Api FakeSkip");
+                    ARL::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SecurityException", "Api FakeSkip");
                 }
                 if (DFFlag::US28292p1)
                 {
@@ -1773,7 +1773,7 @@ void CheatHandlingServerReplicator::processHashValuePost(const unsigned long lon
 }
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 // inner product in gf2.
 // in gf2, * is &, + is ^.  if x, decodeKey are treated as bit-vectors, then the
 // bit-element multiply is handled by bitwise and.  The summation is the parity of 
@@ -1894,7 +1894,7 @@ void CheatHandlingServerReplicator::processRockyMccReport(const MccReport& repor
 }
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::processApiStats(unsigned long long apiStats)
 {
     // split the msb's out from the lsb
@@ -1905,7 +1905,7 @@ void CheatHandlingServerReplicator::processApiStats(unsigned long long apiStats)
     {
         if (DFFlag::US28292p2 && !reportedApiTamper)
         {
-            RBX::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SecurityException", "Api Token Tamper");
+            ARL::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SecurityException", "Api Token Tamper");
         }
         if (DFFlag::US28292p3)
         {
@@ -1923,7 +1923,7 @@ void CheatHandlingServerReplicator::processApiStats(unsigned long long apiStats)
             msgStream << "ApiStats: ";
             msgStream << std::hex << apiStatsLower;
             std::string msg = msgStream.str();
-            RBX::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SecurityException", msg.c_str());    
+            ARL::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SecurityException", msg.c_str());    
         }
         configMask |= getSecurityMask(DFString::US30605p3, kReportChar, &configError);
         if (configMask & apiStatsLower)
@@ -1940,7 +1940,7 @@ void CheatHandlingServerReplicator::processApiStats(unsigned long long apiStats)
 #endif
 
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::updateHashState(PmcHashContainer& netHashes, unsigned long long* securityTokens)
 {
     size_t numItems = netHashes.hash.size();
@@ -1961,7 +1961,7 @@ void CheatHandlingServerReplicator::updateHashState(PmcHashContainer& netHashes,
 }
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::checkPingItemTime()
 {
     RakNet::Time delta = RakNet::GetTimeMS() - replicatorStats.lastReceivedPingTime;
@@ -1977,7 +1977,7 @@ void CheatHandlingServerReplicator::checkPingItemTime()
 }
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::doRemoteSysStats(unsigned int sendStats, unsigned int mask, const char* codeName, const char* details, const std::string& configString)
 {
     bool configError = false;
@@ -2023,10 +2023,10 @@ void CheatHandlingServerReplicator::doDelayedSysStats(unsigned int sendStats, un
 }
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::processHashStats(unsigned int hashStats)
 {
-    using namespace RBX::Hasher;
+    using namespace ARL::Hasher;
     bool configError = false;
     if ((!enableHashCheckBypass) && (hashStats))
     {
@@ -2055,7 +2055,7 @@ void CheatHandlingServerReplicator::processHashStats(unsigned int hashStats)
 
 void CheatHandlingServerReplicator::processGoldHashStats(unsigned int hashStats)
 {
-    using namespace RBX::Hasher;
+    using namespace ARL::Hasher;
     bool configError = false;
     if ((!enableHashCheckBypass) && (hashStats))
     {
@@ -2082,7 +2082,7 @@ void CheatHandlingServerReplicator::processGoldHashStats(unsigned int hashStats)
 }
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::processSendStats(unsigned int sendStats, unsigned int extraStats) {
     unsigned int maskedSendStats = sendStats & ~sendStatsMask;
 	if (maskedSendStats)
@@ -2154,7 +2154,7 @@ void CheatHandlingServerReplicator::processSendStats(unsigned int sendStats, uns
 }
 #endif
 
-void ServerReplicator::readItem(RakNet::BitStream& inBitstream, RBX::Network::Item::ItemType itemType)
+void ServerReplicator::readItem(RakNet::BitStream& inBitstream, ARL::Network::Item::ItemType itemType)
 {
 	switch (itemType)
 	{	
@@ -2217,13 +2217,13 @@ void ServerReplicator::PlaceAuthenticationThreadImpl(int previousPlaceId, int re
 
 void ServerReplicator::onPlaceAuthenticationComplete(PlaceAuthenticationState placeAuthenticationResult)
 {
-	RBXASSERT(placeAuthenticationState == placeAuthenticationResult);
+	ARLASSERT(placeAuthenticationState == placeAuthenticationResult);
 
 	if (placeAuthenticationState == PlaceAuthenticationState_Authenticated)
 		placeAutenticatedSignal();
 }
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::PlaceAuthenticationThreadImpl(int previousPlaceId, int requestedPlaceId)
 {
     placeAuthenticationState = PlaceAuthenticationState_Requesting;
@@ -2245,14 +2245,14 @@ void CheatHandlingServerReplicator::PlaceAuthenticationThreadImpl(int previousPl
     {
         std::string response = "";
 
-		if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+		if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 		{
-			RBX::Http http(url);
-			apiService->get(http, true, RBX::PRIORITY_EXTREME, response);
+			ARL::Http http(url);
+			apiService->get(http, true, ARL::PRIORITY_EXTREME, response);
 		}
 		else
 		{
-			RBX::Http(url).get(response);
+			ARL::Http(url).get(response);
 		}
 #ifdef NETWORK_DEBUG
         StandardOut::singleton()->printf(MESSAGE_INFO, "Place authentication requested (%d -> %d). Result: %s", previousPlaceId, requestedPlaceId, response.c_str());
@@ -2266,9 +2266,9 @@ void CheatHandlingServerReplicator::PlaceAuthenticationThreadImpl(int previousPl
             placeAuthenticationState = PlaceAuthenticationState_Denied;
         }
     }
-    catch (RBX::base_exception& e)
+    catch (ARL::base_exception& e)
     {
-        RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Exception in place validation: %s", e.what());
+        ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Exception in place validation: %s", e.what());
         // we have a web service exception, just let the user play if they are not teleporting
         if (previousPlaceId == 0)
         {
@@ -2290,7 +2290,7 @@ void CheatHandlingServerReplicator::PlaceAuthenticationThreadImpl(int previousPl
 }
 #endif
 
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
 void CheatHandlingServerReplicator::sendNetPmcChallenge()
 {
     if (!reportedNetPmcPending && (!reportedNetPmcError || !DFFlag::HashConfigP2) && netPmc.tooManyPending())
@@ -2390,7 +2390,7 @@ void ServerReplicator::readRequestCharacter(RakNet::BitStream& inBitstream)
 	inBitstream >> spawnName;
 
 	shared_ptr<Instance> instance;
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 
 	if (deserializeInstanceRef(inBitstream, instance, id))
 	{
@@ -2405,7 +2405,7 @@ void ServerReplicator::readRequestCharacter(RakNet::BitStream& inBitstream)
 }
 
 
-void ServerReplicator::processRequestCharacter(Instance* instance, RBX::Guid::Data id, unsigned int sendStats, std::string preferedSpawnName)
+void ServerReplicator::processRequestCharacter(Instance* instance, ARL::Guid::Data id, unsigned int sendStats, std::string preferedSpawnName)
 {
 	if (settings().printInstances) {
 		StandardOut::singleton()->printf(MESSAGE_SENSITIVE,
@@ -2435,7 +2435,7 @@ void ServerReplicator::processRequestCharacter(Instance* instance, RBX::Guid::Da
 
 FilterResult ServerReplicator::filterReceivedChangedProperty(Instance* instance, const Reflection::PropertyDescriptor& desc)
 {
-	RBXASSERT(instance);
+	ARLASSERT(instance);
 
 	if (Super::filterReceivedChangedProperty(instance, desc) == Reject)
 		return Reject;
@@ -2453,7 +2453,7 @@ FilterResult ServerReplicator::filterReceivedChangedProperty(Instance* instance,
 		FilterResult result = strictFilter->filterChangedProperty(instance, desc);
 		
 		if (result == Reject && settings().printDataFilters)
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Filtering is enabled. Property %s change for instance %s will not be replicated.", desc.name.c_str(), instance->getFullName().c_str()); 
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Filtering is enabled. Property %s change for instance %s will not be replicated.", desc.name.c_str(), instance->getFullName().c_str()); 
 		
 		return result;
 	}
@@ -2482,7 +2482,7 @@ FilterResult ServerReplicator::filterReceivedChangedProperty(Instance* instance,
 
 FilterResult ServerReplicator::filterReceivedParent( Instance* instance, Instance* parent )
 {
-	RBXASSERT(instance);
+	ARLASSERT(instance);
 
 	if (isCloudEdit())
 	{
@@ -2503,7 +2503,7 @@ FilterResult ServerReplicator::filterReceivedParent( Instance* instance, Instanc
 		result = strictFilter->filterParent(instance, parent);
 
 		if (result == Reject)
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Filtering is enabled. Parent %s change for instance %s will not be accepted.", parent->getName().c_str(), instance->getFullName().c_str()); 
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Filtering is enabled. Parent %s change for instance %s will not be accepted.", parent->getName().c_str(), instance->getFullName().c_str()); 
 
 		return result;
 	}
@@ -2562,7 +2562,7 @@ void ServerReplicator::onPropertyChanged(Instance* instance, const Reflection::P
 
 void ServerReplicator::writeChangedProperty(const Instance* instance, const Reflection::PropertyDescriptor& desc, RakNet::BitStream& outBitStream)
 {
-    DescriptorSender<RBX::Reflection::PropertyDescriptor>::IdContainer idContainer = propDictionary.getId(&desc);
+    DescriptorSender<ARL::Reflection::PropertyDescriptor>::IdContainer idContainer = propDictionary.getId(&desc);
 
     int byteStart = outBitStream.GetNumberOfBytesUsed();
 
@@ -2581,7 +2581,7 @@ void ServerReplicator::writeChangedProperty(const Instance* instance, const Refl
 	serializePropertyValue(Reflection::ConstProperty(desc, instance), outBitStream, true/*useDictionary*/);
 
 	if (settings().printProperties) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 			"Replication prop: %s:%s.%s >> %s, bytes: %d", 
 			instance->getClassName().c_str(), 
 			instance->getGuid().readableString().c_str(), 
@@ -2600,7 +2600,7 @@ void ServerReplicator::writeChangedRefProperty(const Instance* instance,
 	const Reflection::RefPropertyDescriptor& desc, const Guid::Data& newRefGuid,
 	RakNet::BitStream& outBitStream)
 {
-    DescriptorSender<RBX::Reflection::PropertyDescriptor>::IdContainer idContainer = propDictionary.getId(&desc);
+    DescriptorSender<ARL::Reflection::PropertyDescriptor>::IdContainer idContainer = propDictionary.getId(&desc);
 
     int byteStart = outBitStream.GetNumberOfBytesUsed();
 
@@ -2626,7 +2626,7 @@ void ServerReplicator::writeChangedRefProperty(const Instance* instance,
 	}
 
 	if (settings().printProperties) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 			"Replication ref prop: %s:%s.%s >> %s, bytes: %d", 
 			instance->getClassName().c_str(), 
 			instance->getGuid().readableString().c_str(), 
@@ -2658,7 +2658,7 @@ void ServerReplicator::readPropAcknowledgement(RakNet::BitStream& inBitstream)
 	propDictionary.receive(inBitstream, propertyDescriptor, false);
 
 	shared_ptr<Instance> instance;
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 	if (deserializeInstanceRef(inBitstream, instance, id))
 		propSync.onReceivedAcknowledgement(Reflection::ConstProperty(*propertyDescriptor, instance.get()), version);
 }
@@ -2720,7 +2720,7 @@ void ServerReplicator::onServiceProvider(ServiceProvider* oldProvider, ServicePr
 static void serializeSFFlag(const std::string& name, const std::string& varValue, void* context)
 {
     RakNet::BitStream* bitStream = reinterpret_cast<RakNet::BitStream*>(context);
-    //RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, 
+    //ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, 
     //    "Sent FFLag: %s: %s", name.c_str(), varValue.c_str());
     RakNet::RakString rakName = name.c_str();
     RakNet::RakString rakValue = varValue.c_str();
@@ -2741,12 +2741,12 @@ void ServerReplicator::sendDictionaries()
 		DATAMODEL_RELIABILITY, DATA_CHANNEL, remotePlayerId, false);
 }
 
-using namespace RBX::Reflection;
+using namespace ARL::Reflection;
 void ServerReplicator::writeDescriptorSchema(const ClassDescriptor* classDesc, RakNet::BitStream& bitStream) const
 {
     unsigned int classId = classDictionary.getId(classDesc).id;
 #ifdef NETWORK_DEBUG
-    //StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Class name: %s, id: %d", classDesc->name.toString().c_str(), classId);
+    //StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Class name: %s, id: %d", classDesc->name.toString().c_str(), classId);
 #endif
 
     RakNet::RakString className = classDesc->name.c_str();
@@ -2774,7 +2774,7 @@ void ServerReplicator::writeDescriptorSchema(const ClassDescriptor* classDesc, R
             const EnumPropertyDescriptor& enumDesc = static_cast<const EnumPropertyDescriptor&>(*propDesc);
             bitStream << (unsigned int)enumDesc.enumDescriptor.getEnumCountMSB(); // uint
         }
-        //StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "    Prop name: %s, type: %s, id: %d"
+        //StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "    Prop name: %s, type: %s, id: %d"
         //    , propDesc->name.c_str()
         //    , propDesc->type.name.c_str()
         //    , propertyId
@@ -2800,7 +2800,7 @@ void ServerReplicator::writeDescriptorSchema(const ClassDescriptor* classDesc, R
             unsigned int typeId = typeDictionary.getId(&(*typeIter->type)).id;
             bitStream << typeId;
         }
-        //StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "    Event name: %s, id: %d, size: %d"
+        //StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "    Event name: %s, id: %d, size: %d"
         //    , eventDesc->name.c_str()
         //    , eventId
         //    , signatureDescriptor.arguments.size()
@@ -2877,20 +2877,20 @@ void ServerReplicator::generateApiDictionary(const ServerReplicator* serverRep, 
 
 const RakNet::BitStream& ServerReplicator::getSchemaBitStream() const
 {
-    RBXASSERT(apiSchemaBitStream.GetNumberOfBytesUsed() > 0);
+    ARLASSERT(apiSchemaBitStream.GetNumberOfBytesUsed() > 0);
     return apiSchemaBitStream;
 }
 
 const RakNet::BitStream& ServerReplicator::getApiDictionaryBitStream() const
 {
-    RBXASSERT(apiDictionaryBitStream.GetNumberOfBytesUsed() > 0);
+    ARLASSERT(apiDictionaryBitStream.GetNumberOfBytesUsed() > 0);
     return apiDictionaryBitStream;
 }
 
 void ServerReplicator::teachSchema()
 {
 #ifdef NETWORK_DEBUG
-    StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ServerReplicator::teachSchema()");
+    StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ServerReplicator::teachSchema()");
 #endif
     FASTLOG(FLog::Network, "ServerReplicator::teachSchema()");
 
@@ -2919,7 +2919,7 @@ std::string ServerReplicator::encodeProtectedString(const ProtectedString& value
         else if (canUseProtocolVersion(28))
         {
             boost::optional<std::string> bytecode = server->getScriptBytecodeForIndex(*index, canUseProtocolVersion(33));
-            RBXASSERT(bytecode);
+            ARLASSERT(bytecode);
 
             return *bytecode;
         }

@@ -30,7 +30,7 @@
 class XmlElement;
 
 
-namespace RBX {
+namespace ARL {
 
 class Fonts;
 class GuiRoot;

@@ -3,9 +3,9 @@
 
 #include "V8DataModel/FileMesh.h"
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sFileMesh = "FileMesh";
+const char* const ARL::sFileMesh = "FileMesh";
 
 REFLECTION_BEGIN();
 static Reflection::PropDescriptor<FileMesh, MeshId> desc_meshId("MeshId", category_Data, &FileMesh::getMeshId, &FileMesh::setMeshId);

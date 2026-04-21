@@ -10,7 +10,7 @@
 #include "G3D/Capsule.h"
 #include "v8datamodel/FastLogSettings.h"
 
-namespace RBX {
+namespace ARL {
 
 bool HandleHitTest::hitTestHandleWorld(	const Extents& worldExtents,
 									    HandleType handleType,
@@ -58,7 +58,7 @@ bool HandleHitTest::hitTestHandleLocal(	const Extents& localExtents,
                     handleInWorld );
 
                 const Vector3 arrow = location.vectorToWorldSpace(normalIdToVector3(normalId) * handleRadius);
-                float capsuleRadius = (RBX::ClientAppSettings::singleton().GetValueAxisAdornmentGrabSize()/100.0f) * handleRadius;
+                float capsuleRadius = (ARL::ClientAppSettings::singleton().GetValueAxisAdornmentGrabSize()/100.0f) * handleRadius;
                 
                 Vector3 hitPoint;
 
@@ -135,7 +135,7 @@ bool HandleHitTest::hitTestMoveHandleWorld(const Extents& worldExtents,
                 handleInWorld );
 
             const Vector3 arrow = normalIdToVector3(normalId) * handleRadius;
-			float capsuleRadius = (RBX::ClientAppSettings::singleton().GetValueAxisAdornmentGrabSize()/100.0f) * handleRadius;
+			float capsuleRadius = (ARL::ClientAppSettings::singleton().GetValueAxisAdornmentGrabSize()/100.0f) * handleRadius;
             
             Vector3 hitPoint;
 
@@ -154,4 +154,4 @@ bool HandleHitTest::hitTestMoveHandleWorld(const Extents& worldExtents,
 	return false;
 }
 
-}	// namespace RBX
+}	// namespace ARL

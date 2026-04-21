@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace RBX {
+namespace ARL {
 
 // Helper class to gather identifying information about this machine and for
 // communicating with the web banned machine database.

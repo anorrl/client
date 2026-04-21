@@ -1,11 +1,11 @@
 
-#ifdef RBXTESTHOOKS_EXPORTS
-#define RBXTESTHOOKS_API __declspec(dllexport)
+#ifdef ARLTESTHOOKS_EXPORTS
+#define ARLTESTHOOKS_API __declspec(dllexport)
 #else
-#define RBXTESTHOOKS_API __declspec(dllimport)
+#define ARLTESTHOOKS_API __declspec(dllimport)
 #endif
 
-namespace RBX
+namespace ARL
 {
 
 	class IWorkspaceTestHooks
@@ -16,4 +16,4 @@ namespace RBX
 
 }
 
-RBXTESTHOOKS_API HRESULT IWorkspaceTestHooks_ExecScript(RBX::IWorkspaceTestHooks *p, BSTR script, VARIANT arg1, VARIANT arg2, VARIANT arg3, VARIANT arg4, SAFEARRAY** result);
+ARLTESTHOOKS_API HRESULT IWorkspaceTestHooks_ExecScript(ARL::IWorkspaceTestHooks *p, BSTR script, VARIANT arg1, VARIANT arg2, VARIANT arg3, VARIANT arg4, SAFEARRAY** result);

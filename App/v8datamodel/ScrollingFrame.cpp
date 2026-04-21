@@ -25,7 +25,7 @@
 DYNAMIC_FASTFLAGVARIABLE(LimitScrollWheelMaxToHalfWindowSize, false)
 DYNAMIC_FASTFLAGVARIABLE(FixRotatedHorizontalScrollBar, false)
 
-namespace RBX
+namespace ARL
 {
 	const char* const sScrollingFrame = "ScrollingFrame";
     
@@ -84,12 +84,12 @@ namespace RBX
         {
             wheelDownTimer.reset();
             wheelUpTimer.reset();
-            if(UserInputService* inputService = RBX::ServiceProvider::find<UserInputService>(newProvider))
+            if(UserInputService* inputService = ARL::ServiceProvider::find<UserInputService>(newProvider))
             {
                 inputEndedConnection = inputService->coreInputEndedEvent.connect(boost::bind(&ScrollingFrame::globalInputEnded,this,_1));
             }
 
-			if(GuiService* guiService = RBX::ServiceProvider::find<GuiService>(newProvider))
+			if(GuiService* guiService = ARL::ServiceProvider::find<GuiService>(newProvider))
 			{
 				guiServicePropertyChangedConnection = guiService->propertyChangedSignal.connect(boost::bind(&ScrollingFrame::selectedGuiObjectChanged, this, _1));
 			}
@@ -109,9 +109,9 @@ namespace RBX
 		selectionTimer.reset();
 	}
 
-	void ScrollingFrame::selectedGuiObjectChanged(const RBX::Reflection::PropertyDescriptor* desc)
+	void ScrollingFrame::selectedGuiObjectChanged(const ARL::Reflection::PropertyDescriptor* desc)
 	{
-		GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this);
+		GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this);
 		if (!guiService)
 		{
 			return;
@@ -122,7 +122,7 @@ namespace RBX
 			return;
 		}
 
-		RBX::GuiObject* selectedObject = NULL;
+		ARL::GuiObject* selectedObject = NULL;
 		if (*desc == GuiService::prop_selectedGuiObject)
 		{
 			selectedObject = guiService->getSelectedGuiObjectLua();
@@ -271,11 +271,11 @@ namespace RBX
     Vector2 ScrollingFrame::calculateCanvasPositionClamped(Vector2 desiredValue) const
     {
         // make sure we aren't setting anything to NaN or some other invalid value
-        if (RBX::Math::isNanInf(desiredValue.x))
+        if (ARL::Math::isNanInf(desiredValue.x))
         {
             desiredValue.x = canvasPosition.x;
         }
-        if (RBX::Math::isNanInf(desiredValue.y))
+        if (ARL::Math::isNanInf(desiredValue.y))
         {
             desiredValue.y = canvasPosition.y;
         }
@@ -297,7 +297,7 @@ namespace RBX
 
 		if (newValue != value && printWarnings)
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "ScrollingFrame.CanvasPosition set to invalid position (%f, %f), clamping to position (%f, %f).", value.x,
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "ScrollingFrame.CanvasPosition set to invalid position (%f, %f), clamping to position (%f, %f).", value.x,
 																																											value.y,
 																																											newValue.x,
 																																											newValue.y);
@@ -315,7 +315,7 @@ namespace RBX
 		int newValue = std::max(0, value);
 		if (newValue != value)
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "ScrollingFrame.ScrollBarThickness set to negative value, clamping value to 0.");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "ScrollingFrame.ScrollBarThickness set to negative value, clamping value to 0.");
 		}
 		if (newValue != scrollBarThickness)
 		{
@@ -417,7 +417,7 @@ namespace RBX
 		{
 			if (!scrollByPosition(scrollDelta))
 			{
-				if (GamepadService* gamepadService = RBX::ServiceProvider::create<GamepadService>(this))
+				if (GamepadService* gamepadService = ARL::ServiceProvider::create<GamepadService>(this))
 				{
 					gamepadService->trySelectGuiObject(-lastGamepadScrollDelta.direction());
 					lastGamepadScrollDelta = Vector2::zero();
@@ -765,7 +765,7 @@ namespace RBX
 
     bool ScrollingFrame::hasMouse() const
     {
-        if (RBX::UserInputService* userInputService = RBX::ServiceProvider::find<RBX::UserInputService>(this))
+        if (ARL::UserInputService* userInputService = ARL::ServiceProvider::find<ARL::UserInputService>(this))
             return userInputService->getMouseEnabled();
         
         return false;
@@ -773,7 +773,7 @@ namespace RBX
     
     bool ScrollingFrame::isTouchDevice() const
     {
-        if (RBX::UserInputService* userInputService = RBX::ServiceProvider::find<RBX::UserInputService>(this))
+        if (ARL::UserInputService* userInputService = ARL::ServiceProvider::find<ARL::UserInputService>(this))
 			return userInputService->getTouchEnabled();
         
         return false;
@@ -923,7 +923,7 @@ namespace RBX
 	{
 		bool sinkEvent = false;
 
-		GamepadService* gamepadService = RBX::ServiceProvider::find<GamepadService>(this);
+		GamepadService* gamepadService = ARL::ServiceProvider::find<GamepadService>(this);
 
 		if (!gamepadService)
 		{
@@ -935,7 +935,7 @@ namespace RBX
 			return sinkEvent;
 		}
 
-		GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this);
+		GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this);
 		
 		if (!guiService)
 		{
@@ -1027,7 +1027,7 @@ namespace RBX
         
         if( GuiObject* clippingObject = firstAncestorClipping() )
         {
-            RBX::Rect2D clippedRect = getRect2D().intersect(clippingObject->getClippedRect());
+            ARL::Rect2D clippedRect = getRect2D().intersect(clippingObject->getClippedRect());
             rect = Rect(clippedRect);
         }
         
@@ -1063,7 +1063,7 @@ namespace RBX
 		Rect2D clippedRect = rect;
 		if( GuiObject* clippingObject = firstAncestorClipping())
 		{
-			const RBX::Rect2D clipRect = clippingObject->getClippedRect();
+			const ARL::Rect2D clipRect = clippingObject->getClippedRect();
 			clippedRect = clipRect.intersect(rect);
 		}
 
@@ -1106,8 +1106,8 @@ namespace RBX
 
 			if( GuiObject* clippingObject = firstAncestorClipping())
 			{
-				const RBX::Rect2D clipRect = clippingObject->getClippedRect();
-				RBX::Rect2D clippedRect = clipRect.intersect(imageRect);
+				const ARL::Rect2D clipRect = clippingObject->getClippedRect();
+				ARL::Rect2D clippedRect = clipRect.intersect(imageRect);
 
 				if (rotation != Rotation2D())
 				{
@@ -1116,7 +1116,7 @@ namespace RBX
 						Rotation2D reverseRotation(rotation.getAngle().inverse(),imageRect.center());
 						Vector2 clippedOriginRotated = reverseRotation.rotate(clipRect.x0y0());
 						Vector2 clippedx1y1Rotated = reverseRotation.rotate(clipRect.x1y1());
-						RBX::Rect2D clipRectRotated = Rect2D::xyxy(clippedOriginRotated, clippedx1y1Rotated);
+						ARL::Rect2D clipRectRotated = Rect2D::xyxy(clippedOriginRotated, clippedx1y1Rotated);
 						clippedRect = clipRectRotated.intersect(imageRect);
 					}
 					else
@@ -1145,7 +1145,7 @@ namespace RBX
 					upperUV.y += ( uvheight * ( clippedRect.y1() - imageRect.y1() ) / imageRect.height() );
 				}
 
-				if (clippedRect != RBX::Rect2D())
+				if (clippedRect != ARL::Rect2D())
 				{
 					drawImage.render2d(adorn, 
 						true, 
@@ -1303,4 +1303,4 @@ namespace RBX
 	{
 		return checkDescendantsForInteractable(this);
 	}
-} // namespace RBX
+} // namespace ARL

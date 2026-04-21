@@ -4,7 +4,7 @@
 #include "MessageIdentifiers.h"
 #include "PacketPriority.h"
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 	enum {
 	ID_SET_GLOBALS = ID_USER_PACKET_ENUM,   // Sent by Server to Client

@@ -16,7 +16,7 @@
 
 #include <sstream>
 
-using namespace RBX;
+using namespace ARL;
 
 const char* MachineIdUploader::kBannedMachineMessage = "ANORRL cannot startup. User code = 0x1.";
 static const char* kMacAddressKey = "macAddresses";
@@ -115,7 +115,7 @@ MachineIdUploader::Result MachineIdUploader::uploadMachineId(const char* baseUrl
 	try {
 		http.post(stringInStream, Http::kContentTypeUrlEncoded, false/*compress*/, response);
 		machineBanned = responseIndicatesMachineIsBad(response);
-	} catch (const RBX::base_exception&) {
+	} catch (const ARL::base_exception&) {
 	}
 
 	if (machineBanned) {

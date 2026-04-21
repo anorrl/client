@@ -8,7 +8,7 @@
 #include "boost/scoped_ptr.hpp"
 #include <set>
 
-namespace RBX {
+namespace ARL {
 	class Assembly;
 	class Mechanism;
 	class Joint;
@@ -95,7 +95,7 @@ Dphysics Server;	Address Match (null)		If Awake or Sim
 		SimSendFilter& getSimSendFilter() {return filter;}
 
 		const AssemblySet& getAssemblies(Assembly::FilterPhase phase) {
-			RBXASSERT(phase < Assembly::NUM_PHASES);
+			ARLASSERT(phase < Assembly::NUM_PHASES);
 			return assemblies[phase];
 		}
 	};

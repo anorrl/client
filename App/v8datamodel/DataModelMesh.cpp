@@ -9,7 +9,7 @@
 
 #include "humanoid/Humanoid.h"
 
-namespace RBX {
+namespace ARL {
 
 const char *const sDataModelMesh = "DataModelMesh";
 
@@ -25,8 +25,8 @@ EnumDesc<DataModelMesh::LODType>::EnumDesc()
 }//namespace Reflection
 
 REFLECTION_BEGIN();
-static Reflection::EnumPropDescriptor<DataModelMesh, DataModelMesh::LODType> desc_levelOfDetailX("LODX", category_Data, &DataModelMesh::getLevelOfDetailX, &DataModelMesh::setLevelOfDetailX, RBX::Reflection::PropertyDescriptor::STREAMING);
-static Reflection::EnumPropDescriptor<DataModelMesh, DataModelMesh::LODType> desc_levelOfDetailY("LODY", category_Data, &DataModelMesh::getLevelOfDetailY, &DataModelMesh::setLevelOfDetailY, RBX::Reflection::PropertyDescriptor::STREAMING);
+static Reflection::EnumPropDescriptor<DataModelMesh, DataModelMesh::LODType> desc_levelOfDetailX("LODX", category_Data, &DataModelMesh::getLevelOfDetailX, &DataModelMesh::setLevelOfDetailX, ARL::Reflection::PropertyDescriptor::STREAMING);
+static Reflection::EnumPropDescriptor<DataModelMesh, DataModelMesh::LODType> desc_levelOfDetailY("LODY", category_Data, &DataModelMesh::getLevelOfDetailY, &DataModelMesh::setLevelOfDetailY, ARL::Reflection::PropertyDescriptor::STREAMING);
 static Reflection::PropDescriptor<DataModelMesh, Vector3> desc_scale("Scale", category_Data, &DataModelMesh::getScale, &DataModelMesh::setScale);
 static Reflection::PropDescriptor<DataModelMesh, Vector3> desc_vertColor("VertexColor", category_Data, &DataModelMesh::getVertColor, &DataModelMesh::setVertColor);
 static Reflection::PropDescriptor<DataModelMesh, Vector3> desc_offset("Offset", category_Data, &DataModelMesh::getOffset, &DataModelMesh::setOffset);
@@ -113,4 +113,4 @@ void DataModelMesh::setLevelOfDetailY(LODType value)
 		raisePropertyChanged(desc_levelOfDetailY);
 	}
 }
-} // Namespace RBX
+} // Namespace ARL

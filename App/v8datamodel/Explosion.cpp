@@ -21,7 +21,7 @@
 FASTFLAGVARIABLE(RenderNewExplosionEnable, true)
 
 
-namespace RBX {
+namespace ARL {
 
 const char* const sExplosion = "Explosion";
 
@@ -145,7 +145,7 @@ void Explosion::doBlast(MegaClusterInstance* terrain, const std::vector<shared_p
 				}
 			}
 			world->assemble();					// reassemble the world - HACK - to do: find better place for this
-			RBXASSERT(world->isAssembled());
+			ARLASSERT(world->isAssembled());
 		}
 
 		// Give force and torque to primitives and unjoin them
@@ -159,7 +159,7 @@ void Explosion::doBlast(MegaClusterInstance* terrain, const std::vector<shared_p
 											? Vector3::unitY()
 											: delta.direction();
 
-					RBXASSERT(normal.length() <= 1.001);
+					ARLASSERT(normal.length() <= 1.001);
 					float radius = p->getRadius();
 					float surfaceArea = radius * radius;
 					Vector3 impulse = normal * blastPressure * surfaceArea * (1.0f / 4560.0f);	// normalizing factor
@@ -191,7 +191,7 @@ void Explosion::doBlast(MegaClusterInstance* terrain, const std::vector<shared_p
 						{
 							terrain->fillBallInternal(position, blastRadius, AIR_MATERIAL, /* skipWater= */ true);
 						}
-						catch (RBX::base_exception& e)
+						catch (ARL::base_exception& e)
 						{
 							StandardOut::singleton()->printf(MESSAGE_ERROR, "Explosion could not deform terrain: %s", e.what());
 						}

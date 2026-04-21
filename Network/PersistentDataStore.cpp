@@ -16,12 +16,12 @@ namespace {
 	{
 		std::ostringstream ss;
 		ss << placeId;
-		RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "DataPersistence", ss.str().c_str());
+		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "DataPersistence", ss.str().c_str());
 	}
 
 }
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 static int computeLimit(const Reflection::Variant& value);
 
@@ -49,9 +49,9 @@ static int computeLimit(const Reflection::Variant& value)
 		computeInstanceLimit(value.get<shared_ptr<Instance> >(), &result);
 		return result;
 	}
-	if(value.isType<shared_ptr<const RBX::Reflection::ValueMap> >()){
+	if(value.isType<shared_ptr<const ARL::Reflection::ValueMap> >()){
 		int sum = 1;
-		shared_ptr<const RBX::Reflection::ValueMap> valueMap = value.get<shared_ptr<const RBX::Reflection::ValueMap> >();
+		shared_ptr<const ARL::Reflection::ValueMap> valueMap = value.get<shared_ptr<const ARL::Reflection::ValueMap> >();
 		std::for_each(valueMap->begin(), valueMap->end(), boost::bind(&computeValueMapLimit, _1, &sum));
 		return sum;
 	}
@@ -257,16 +257,16 @@ bool PersistentDataStore::setList(const std::string& key, shared_ptr<const Refle
 
 	return enforceComplexity(key);
 }
-shared_ptr<const RBX::Reflection::ValueMap> PersistentDataStore::getTable(const std::string& key)
+shared_ptr<const ARL::Reflection::ValueMap> PersistentDataStore::getTable(const std::string& key)
 {
 	Reflection::ValueMap::iterator iter = valueMap.find(key);
-	if(iter == valueMap.end() || !iter->second.isType<shared_ptr<const RBX::Reflection::ValueMap> >())
-		return shared_ptr<const RBX::Reflection::ValueMap>();
-	return iter->second.get<shared_ptr<const RBX::Reflection::ValueMap> >();
+	if(iter == valueMap.end() || !iter->second.isType<shared_ptr<const ARL::Reflection::ValueMap> >())
+		return shared_ptr<const ARL::Reflection::ValueMap>();
+	return iter->second.get<shared_ptr<const ARL::Reflection::ValueMap> >();
 }
 
 
-bool PersistentDataStore::setTable(const std::string& key, shared_ptr<const RBX::Reflection::ValueMap> value)
+bool PersistentDataStore::setTable(const std::string& key, shared_ptr<const ARL::Reflection::ValueMap> value)
 {
 	removeKey(key);
 

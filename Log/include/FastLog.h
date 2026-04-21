@@ -79,16 +79,16 @@
 
 #ifndef _WIN32
 #if defined(__i386__)
-#define RBX_DEBUG_BREAK() { __asm__ __volatile__ ( "int $3" ); }(void)0
+#define ARL_DEBUG_BREAK() { __asm__ __volatile__ ( "int $3" ); }(void)0
 #else
-#define RBX_DEBUG_BREAK() { ::abort(); }(void)0
+#define ARL_DEBUG_BREAK() { ::abort(); }(void)0
 #endif
 #else
-#define RBX_DEBUG_BREAK() { __debugbreak(); }(void)0
+#define ARL_DEBUG_BREAK() { __debugbreak(); }(void)0
 #endif
 
-#if defined(_DEBUG) || defined(_NOOPT) || defined(RBX_TEST_BUILD)
-    #define VALIDATE_SYNCHRONIZED_FLAG(var) { if (!var) RBX_DEBUG_BREAK(); } ((void)0)
+#if defined(_DEBUG) || defined(_NOOPT) || defined(ARL_TEST_BUILD)
+    #define VALIDATE_SYNCHRONIZED_FLAG(var) { if (!var) ARL_DEBUG_BREAK(); } ((void)0)
 #else
     #define VALIDATE_SYNCHRONIZED_FLAG(var) ((void)0)
 #endif

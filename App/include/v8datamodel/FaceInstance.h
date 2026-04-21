@@ -5,7 +5,7 @@
 #include "Util/NormalId.h"
 #include "GfxBase/IAdornable.h"
 
-namespace RBX {
+namespace ARL {
 
 	// An instance that is designed to "attach" itself to a face of its parent PartInstance
 	extern const char* const sFaceInstance;
@@ -27,7 +27,7 @@ namespace RBX {
 
 		static const Reflection::EnumPropDescriptor<FaceInstance, NormalId > prop_Face;
 		NormalId getFace() const { return face; }
-		void setFace(RBX::NormalId value);
+		void setFace(ARL::NormalId value);
 	};
 
 }

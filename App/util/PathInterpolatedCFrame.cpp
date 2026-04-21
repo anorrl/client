@@ -9,7 +9,7 @@
 #include "AppDraw/Draw.h"
 #include "AppDraw/DrawAdorn.h"
 
-using namespace RBX;
+using namespace ARL;
 
 FASTINTVARIABLE(InterpolationMaxDelayMSec, 500)
 DYNAMIC_FASTFLAGVARIABLE(SimpleHermiteSplineInterpolate, false)
@@ -238,7 +238,7 @@ CoordinateFrame PathInterpolatedCFrame::computeValue(PartInstance* part, const T
 	} 
 	if(DFFlag::EnableMotionAnalytics)
 	{
-		Primitive * PartPrimitive = RBX::PartInstance::getPrimitive(part);
+		Primitive * PartPrimitive = ARL::PartInstance::getPrimitive(part);
 		if(PartPrimitive)
 		{
 			World *PartWorld = PartPrimitive->getWorld();
@@ -307,7 +307,7 @@ const CoordinateFrame& PathInterpolatedCFrame::interpolate( const Time& now, con
 	targetFrame = upper;
     float timeToTarget = (frameInfos[upper].remoteTime - prevFrame.remoteTime).seconds();
 	float alpha = (targetTime - prevFrame.remoteTime).seconds() / timeToTarget;
-	RBXASSERT(alpha <= 1.0);
+	ARLASSERT(alpha <= 1.0);
 
     if (part)
     {
@@ -333,7 +333,7 @@ const CoordinateFrame& PathInterpolatedCFrame::interpolate( const Time& now, con
 
 			alpha = (targetTime - prevFrame.remoteTime).seconds() / (frameInfos[lookAhead].remoteTime - prevFrame.remoteTime).seconds();
 
-			RBXASSERT(alpha <= 1.0);
+			ARLASSERT(alpha <= 1.0);
 			cf2 = prevFrame.coordinateFrame.lerp(frameInfos[lookAhead].coordinateFrame, alpha);
 
 			alpha = (targetTime - frameInfos[upper - 1].remoteTime).seconds() / (frameInfos[upper].remoteTime - frameInfos[upper - 1].remoteTime).seconds();

@@ -3,16 +3,16 @@
 
 LOGGROUP(TextureContentProvider);
 
-namespace RBX {
+namespace ARL {
 
 	const char* const sTextureContentProvider = "TextureContentProvider";
 	TextureContentProvider::TextureContentProvider()
-		:DescribedNonCreatable<TextureContentProvider, CacheableContentProvider, sTextureContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL>(CACHE_ENFORCE_MEMORY_SIZE, 1024 * 1024 * 32)
+		:DescribedNonCreatable<TextureContentProvider, CacheableContentProvider, sTextureContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL>(CACHE_ENFORCE_MEMORY_SIZE, 1024 * 1024 * 32)
 	{
 		setName(sTextureContentProvider);
 	}
 
-	void TextureContentProvider::setTextureAllocator(boost::function<RBX::Image*(std::istream&, const std::string&)> textureAllocator)
+	void TextureContentProvider::setTextureAllocator(boost::function<ARL::Image*(std::istream&, const std::string&)> textureAllocator)
 	{
 		mTextureAllocator = textureAllocator;
 	}
@@ -44,7 +44,7 @@ namespace RBX {
 		}
 		else{
 			if(ContentId(id).isHttp())
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "TextureContentProvider failed to process %s because 'could not fetch'", id.c_str());
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "TextureContentProvider failed to process %s because 'could not fetch'", id.c_str());
 		}
 		markContentFailed(id);
 		return TaskScheduler::Stepped;

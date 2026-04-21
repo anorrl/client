@@ -30,7 +30,7 @@
 namespace io = boost::iostreams;
 #include <boost/algorithm/string.hpp>
 
-#ifdef __RBX_FILEGZIP__
+#ifdef __ARL_FILEGZIP__
 #include "zlib.h"
 #endif
 
@@ -94,7 +94,7 @@ public:
 				}
 				else
 				{
-					RBX::Http::ThrowLastError(err, "(unknown)", "InternetQueryDataAvailable");
+					ARL::Http::ThrowLastError(err, "(unknown)", "InternetQueryDataAvailable");
 				}
 			}
 		}
@@ -104,7 +104,7 @@ public:
 
 		DWORD bytesRead;
 
-		RBX::Http::ThrowIfFailure(TRUE == ::InternetReadFile(request, (LPVOID) s, std::min(numBytesAvailable, (DWORD)n), &bytesRead), "(unknown)", "InternetReadFile");
+		ARL::Http::ThrowIfFailure(TRUE == ::InternetReadFile(request, (LPVOID) s, std::min(numBytesAvailable, (DWORD)n), &bytesRead), "(unknown)", "InternetReadFile");
 		numBytesAvailable -= bytesRead;
 		return bytesRead;
 	}
@@ -112,7 +112,7 @@ public:
 
 
 
-namespace RBX
+namespace ARL
 {
 	struct CallbackContext
 	{
@@ -157,7 +157,7 @@ namespace RBX
 			throw std::runtime_error("empty url");
 
  		if (!Http::trustCheck(theUrl.c_str(), externalRequest))
- 			throw RBX::runtime_error("trust check failed for %s", theUrl.c_str());
+ 			throw ARL::runtime_error("trust check failed for %s", theUrl.c_str());
 		
 		CUrl u;
 		u.CrackUrl(theUrl.c_str());
@@ -165,16 +165,16 @@ namespace RBX
 		const bool isSecure = u.GetScheme() == ATL_URL_SCHEME_HTTPS;
 
 		if (u.GetHostNameLength()==0)
-			throw RBX::runtime_error("'%s' is missing a hostName", theUrl.c_str());
+			throw ARL::runtime_error("'%s' is missing a hostName", theUrl.c_str());
 
 		// Initialize the User Agent
 		WININETHINTERNET session = InternetOpen("ANORRL/WinInet", PRE_CONFIG_INTERNET_ACCESS, NULL, NULL, 0);
 		if (!session)
-			throw RBX::runtime_error("InternetOpen failed for %s", theUrl.c_str());
+			throw ARL::runtime_error("InternetOpen failed for %s", theUrl.c_str());
 
 		WININETHINTERNET connection = ::InternetConnect(session, u.GetHostName(), u.GetPortNumber(), u.GetUserName(), u.GetPassword(), INTERNET_SERVICE_HTTP, 0, 0); 
 		if (!connection)
-			throw RBX::runtime_error("InternetConnect failed for %s", theUrl.c_str());
+			throw ARL::runtime_error("InternetConnect failed for %s", theUrl.c_str());
 
 		//   1. Open HTTP Request (pass method type [get/post/..] and URL path (except server name))
 		CString requestUrl = u.GetUrlPath();
@@ -201,14 +201,14 @@ namespace RBX
 			flags, 
 			0); 
 		if (!request)
-			throw RBX::runtime_error("HttpOpenRequest failed for %s", theUrl.c_str());
+			throw ARL::runtime_error("HttpOpenRequest failed for %s", theUrl.c_str());
 
 		std::string csrfTokenForRequest;
 		{
 			std::string headers;
 			for (HttpAux::AdditionalHeaders::const_iterator iter = additionalHeaders.begin(); iter!=additionalHeaders.end(); ++iter)
 			{
-				RBXASSERT(!isPost || !boost::iequals("Content-Type", iter->first));
+				ARLASSERT(!isPost || !boost::iequals("Content-Type", iter->first));
 				headers += iter->first + ": " + iter->second + "\r\n";
 			}
 			if (isPost)
@@ -311,25 +311,25 @@ namespace RBX
 			{
 				int e1 = e.error();
 				int e2 = e.zlib_error_code();
-				throw RBX::runtime_error("Upload GZip error %d, ZLib error %d, \"%s\"", e1, e2, theUrl.c_str());
+				throw ARL::runtime_error("Upload GZip error %d, ZLib error %d, \"%s\"", e1, e2, theUrl.c_str());
 			}
 			const size_t uploadSize = uploadData.size();
 
 			if (uploadSize>10000)
 			{
 				// TODO: These headers are added to debug the Gzip bug. Maybe we can eliminate them someday...
-				std::string contentSizeHeader = RBX::format("ANORRL-Content-Size: %d\r\n", uploadSize);
+				std::string contentSizeHeader = ARL::format("ANORRL-Content-Size: %d\r\n", uploadSize);
 				ThrowIfFailure(TRUE==::HttpAddRequestHeaders(request, contentSizeHeader.c_str(), contentSizeHeader.size(), HTTP_ADDREQ_FLAG_ADD), "HttpAddRequestHeaders failed");
 
-				std::string contentFirstHeader = RBX::format("ANORRL-Content-First: %d\r\n", uploadData.c_str()[0]);
+				std::string contentFirstHeader = ARL::format("ANORRL-Content-First: %d\r\n", uploadData.c_str()[0]);
 				ThrowIfFailure(TRUE==::HttpAddRequestHeaders(request, contentFirstHeader.c_str(), contentFirstHeader.size(), HTTP_ADDREQ_FLAG_ADD), "HttpAddRequestHeaders failed");
 
-				std::string contentLastHeader = RBX::format("ANORRL-Content-Last: %d\r\n", uploadData.c_str()[uploadSize-1]);
+				std::string contentLastHeader = ARL::format("ANORRL-Content-Last: %d\r\n", uploadData.c_str()[uploadSize-1]);
 				ThrowIfFailure(TRUE==::HttpAddRequestHeaders(request, contentLastHeader.c_str(), contentLastHeader.size(), HTTP_ADDREQ_FLAG_ADD), "HttpAddRequestHeaders failed");
 
 				boost::scoped_ptr<MD5Hasher> hasher(MD5Hasher::create());
 				hasher->addData(uploadData);
-				std::string contentHashHeader = RBX::format("ANORRL-Content-Hash: %s\r\n", hasher->c_str());
+				std::string contentHashHeader = ARL::format("ANORRL-Content-Hash: %s\r\n", hasher->c_str());
 				ThrowIfFailure(TRUE==::HttpAddRequestHeaders(request, contentHashHeader.c_str(), contentHashHeader.size(), HTTP_ADDREQ_FLAG_ADD), "HttpAddRequestHeaders failed");
 			}
 
@@ -341,7 +341,7 @@ namespace RBX
 				buffer.dwBufferTotal = uploadSize;
 				if (!HttpSendRequestEx(request, &buffer, NULL, 0, 0))
                 {
-                    throw RBX::runtime_error("HttpSendRequestEx failed: %d", GetLastError());
+                    throw ARL::runtime_error("HttpSendRequestEx failed: %d", GetLastError());
                 }
 				
 				if (uploadSize > 0)
@@ -354,7 +354,7 @@ namespace RBX
 						if (bytesWritten!=uploadSize)
 							throw std::runtime_error("Failed to upload content");
 					}
-					catch (RBX::base_exception&)
+					catch (ARL::base_exception&)
 					{
 						::HttpEndRequest(request, NULL, 0, 0);
 						throw;
@@ -382,7 +382,7 @@ namespace RBX
 			{
 				if (CString(transferCoding) != "identity")
 				{
-					throw RBX::runtime_error("External http request uses unsupported transfer encoding.");
+					throw ARL::runtime_error("External http request uses unsupported transfer encoding.");
 				}
 			}
 
@@ -392,7 +392,7 @@ namespace RBX
 				&contentLength, &contentLengthLength, 0) &&
 				(contentLength / 1024) >= static_cast<DWORD>(DFInt::ExternalHttpResponseSizeLimitKB))
 			{
-				throw RBX::runtime_error(
+				throw ARL::runtime_error(
 					"Response exceeded size limit. Current limit: %d KB. Response size: %d KB",
 					DFInt::ExternalHttpResponseSizeLimitKB, (contentLength / 1024));
 			}
@@ -419,12 +419,12 @@ namespace RBX
 			{
 				int e1 = e.error();
 				int e2 = e.zlib_error_code();
-				throw RBX::runtime_error("GZip error %d, ZLib error %d, \"%s\"", e1, e2, theUrl.c_str());
+				throw ARL::runtime_error("GZip error %d, ZLib error %d, \"%s\"", e1, e2, theUrl.c_str());
 			}
 			catch (io::zlib_error& e)
 			{
 				int e1 = e.error();
-				throw RBX::runtime_error("ZLib error %d, \"%s\"", e1, theUrl.c_str());
+				throw ARL::runtime_error("ZLib error %d, \"%s\"", e1, theUrl.c_str());
 			}
 		}
 		if(statusCode == HTTP_STATUS_CREATED)
@@ -459,12 +459,12 @@ namespace RBX
 			TCHAR buffer[512];
 			DWORD length = 512;
 			if(response != "" && externalRequest)
-				RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "Error response: %s", response.c_str());
+				ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "Error response: %s", response.c_str());
 
 			if (::HttpQueryInfo(request, HTTP_QUERY_STATUS_TEXT, (LPVOID) buffer, &length, 0))
-				throw RBX::http_status_error(statusCode,buffer);
+				throw ARL::http_status_error(statusCode,buffer);
 			else
-				throw RBX::http_status_error(statusCode);
+				throw ARL::http_status_error(statusCode);
 		}
 
 

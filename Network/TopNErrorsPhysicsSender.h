@@ -9,7 +9,7 @@
 #include "boost/pool/pool_alloc.hpp"
 
 
-namespace RBX { 
+namespace ARL { 
 	
 	class Instance;
 	class PhysicsService;
@@ -103,5 +103,5 @@ namespace RBX {
 	};
 
 }
-} // namespace RBX
+} // namespace ARL
 

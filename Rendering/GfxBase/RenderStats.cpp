@@ -4,28 +4,28 @@
 #include "GfxBase/RenderStats.h"
 #include "Util/Profiling.h"
 
-using namespace RBX;
+using namespace ARL;
 
 RenderStats::RenderStats() :
-	cpuRenderTotal(new RBX::Profiling::CodeProfiler("3D CPU Total"))
+	cpuRenderTotal(new ARL::Profiling::CodeProfiler("3D CPU Total"))
 
-	, culling(new RBX::Profiling::CodeProfiler("Culling"))
-	, flip(new RBX::Profiling::CodeProfiler("Flipping Backbuffer"))
-	, renderObjects(new RBX::Profiling::CodeProfiler("Render Objects"))
-	, updateLighting(new RBX::Profiling::CodeProfiler("Update Lighting"))
-	, adorn2D(new RBX::Profiling::CodeProfiler("Adorn 2D"))
-	, adorn3D(new RBX::Profiling::CodeProfiler("Adorn 3D"))
-	, visualEngineSceneUpdater(new RBX::Profiling::CodeProfiler("Visual Engine Scene Updater"))
-   	, finishRendering(new RBX::Profiling::CodeProfiler("Finish Rendering"))
-	, renderTargetUpdate(new RBX::Profiling::CodeProfiler("RenderTarget Update"))
+	, culling(new ARL::Profiling::CodeProfiler("Culling"))
+	, flip(new ARL::Profiling::CodeProfiler("Flipping Backbuffer"))
+	, renderObjects(new ARL::Profiling::CodeProfiler("Render Objects"))
+	, updateLighting(new ARL::Profiling::CodeProfiler("Update Lighting"))
+	, adorn2D(new ARL::Profiling::CodeProfiler("Adorn 2D"))
+	, adorn3D(new ARL::Profiling::CodeProfiler("Adorn 3D"))
+	, visualEngineSceneUpdater(new ARL::Profiling::CodeProfiler("Visual Engine Scene Updater"))
+   	, finishRendering(new ARL::Profiling::CodeProfiler("Finish Rendering"))
+	, renderTargetUpdate(new ARL::Profiling::CodeProfiler("RenderTarget Update"))
 
-	, frameRateManager(new RBX::Profiling::CodeProfiler("Frame Rate Manager"))
+	, frameRateManager(new ARL::Profiling::CodeProfiler("Frame Rate Manager"))
 
-	, textureCompositor(new RBX::Profiling::CodeProfiler("Texture Compositor"))
-	, updateSceneGraph(new RBX::Profiling::CodeProfiler("Update SceneGraph"))
-	, updateAllInvalidParts(new RBX::Profiling::CodeProfiler("updateAllInvalidParts"))
-	, updateDynamicsAndAggregateStatics(new RBX::Profiling::CodeProfiler("updateDynamicsAndAggregateStatics"))
-	, updateDynamicParts(new RBX::Profiling::CodeProfiler("updateDynamicParts"))
+	, textureCompositor(new ARL::Profiling::CodeProfiler("Texture Compositor"))
+	, updateSceneGraph(new ARL::Profiling::CodeProfiler("Update SceneGraph"))
+	, updateAllInvalidParts(new ARL::Profiling::CodeProfiler("updateAllInvalidParts"))
+	, updateDynamicsAndAggregateStatics(new ARL::Profiling::CodeProfiler("updateDynamicsAndAggregateStatics"))
+	, updateDynamicParts(new ARL::Profiling::CodeProfiler("updateDynamicParts"))
 {
 	
 }

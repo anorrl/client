@@ -4,7 +4,7 @@
 
 #include <vector>
 
-namespace RBX {
+namespace ARL {
 
 	template<typename T>
 	class Average {

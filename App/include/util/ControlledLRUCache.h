@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Util/LRUCache.h"
-namespace RBX
+namespace ARL
 {
 	enum CacheSizeEnforceMethod { CACHE_ENFORCE_MEMORY_SIZE, CACHE_ENFORCE_OBJECT_COUNT };
 
@@ -22,7 +22,7 @@ public:
 			else if (method == CACHE_ENFORCE_MEMORY_SIZE)
 				evictableCache.reset(new MemEnforcedLRUCache<Key, Data>(maxSize));
 			else
-				RBXASSERT(false);
+				ARLASSERT(false);
 
 			pinnedCache.reset(new LRUCache<Key, Data>());
 		}
@@ -100,7 +100,7 @@ public:
 				curSize = (enforceMethod == CACHE_ENFORCE_MEMORY_SIZE) ? memSize() : size();
 			}
 
-			RBXASSERT((enforceMethod == CACHE_ENFORCE_MEMORY_SIZE ? memSize() : size()) <= newSize);
+			ARLASSERT((enforceMethod == CACHE_ENFORCE_MEMORY_SIZE ? memSize() : size()) <= newSize);
 		}
 
 		inline void insert( const Key &key, const Data &data, unsigned long dataSize = 0 ) 
@@ -141,7 +141,7 @@ public:
 				evictableCache->insert(key,data, dataSize);
 				pinnedCache->remove(key);
 							
-				RBXASSERT(size() <= maxSize);
+				ARLASSERT(size() <= maxSize);
 			}
 	};
 
@@ -149,7 +149,7 @@ public:
 	class ConcurrentControlledLRUCache
 	{
 	private:
-		RBX::ControlledLRUCache<Key, Data> cache;
+		ARL::ControlledLRUCache<Key, Data> cache;
 		boost::mutex mutex;
 
 		unsigned long resetCounter;

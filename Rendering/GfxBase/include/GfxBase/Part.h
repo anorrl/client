@@ -11,7 +11,7 @@
 // Simple description of a part suitable for drawing, etc.  Build Instance on top of this.
 // Low level.
 
-namespace RBX {
+namespace ARL {
 
 	enum PartType {		BALL_PART = 0, 
 						BLOCK_PART, 

@@ -3,7 +3,7 @@
 
 #include "V8World/Feature.h"
 
-namespace RBX {
+namespace ARL {
 
 		int foo_V8World_Feature;	// avoid LNK4221 warning
 

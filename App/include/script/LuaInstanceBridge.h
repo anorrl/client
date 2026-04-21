@@ -3,7 +3,7 @@
 #include "Lua/LuaBridge.h"
 #include "V8Tree/Instance.h"
 
-namespace RBX { namespace Lua {
+namespace ARL { namespace Lua {
 
 	// specialization
 	template<>

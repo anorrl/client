@@ -14,7 +14,7 @@
 
 //#define DEBUG_MULTIPLE_PARTS_DRAG
 
-namespace RBX {
+namespace ARL {
 	class Primitive;
 	class PartInstance;
 	class Workspace;
@@ -76,7 +76,7 @@ namespace RBX {
 		bool								jointCreateMode;
 
 		// new multiple drag
-		boost::shared_ptr<RBX::PartInstance> tempPart;
+		boost::shared_ptr<ARL::PartInstance> tempPart;
 		Locations                            originalLocations;
 		G3D::Array<Primitive*>               savedPrimsForMultiDrag;
 		PartInstance*                        primaryPart;

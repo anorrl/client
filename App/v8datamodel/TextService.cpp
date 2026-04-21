@@ -5,7 +5,7 @@
 FASTFLAGVARIABLE(TypesettersReleaseResources, true);
 FASTFLAGVARIABLE(UseDynamicTypesetterUTF8, false)
 
-namespace RBX
+namespace ARL
 {
 const char* const sTextService = "TextService";
 
@@ -90,7 +90,7 @@ TextService::Font TextService::FromTextFont(Text::Font font)
 	case Text::FONT_SOURCESANSLIGHT:	return FONT_SOURCESANSLIGHT;
 	case Text::FONT_SOURCESANSITALIC:	return FONT_SOURCESANSITALIC;
 	default:
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return FONT_LEGACY;
 	}
 }
@@ -106,7 +106,7 @@ Text::Font TextService::ToTextFont(Font font)
 	case FONT_SOURCESANSLIGHT:	return Text::FONT_SOURCESANSLIGHT;
 	case FONT_SOURCESANSITALIC:	return Text::FONT_SOURCESANSITALIC;
 	default:
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return Text::FONT_LEGACY;
 	}
 }
@@ -122,7 +122,7 @@ Text::XAlign TextService::ToTextXAlign(XAlignment xalign)
 		case TextService::XALIGNMENT_CENTER:
 			return Text::XALIGN_CENTER;	
 		default:
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return Text::XALIGN_LEFT;
 	}
 }
@@ -136,7 +136,7 @@ Text::YAlign TextService::ToTextYAlign(YAlignment yalign)
 		case TextService::YALIGNMENT_BOTTOM:
 			return Text::YALIGN_BOTTOM;	
 		default:
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return Text::YALIGN_TOP;
 	}
 }
@@ -170,15 +170,15 @@ void TextService::clearTypesetters()
         m_typesetters.reset(new shared_ptr<Typesetter>[FONT_LAST]);
     }
 }
-void TextService::registerTypesetter(Font font, shared_ptr<RBX::Typesetter> typesetter)
+void TextService::registerTypesetter(Font font, shared_ptr<ARL::Typesetter> typesetter)
 {
-	RBXASSERT(font < FONT_LAST);
+	ARLASSERT(font < FONT_LAST);
 	m_typesetters[font] = typesetter;
 }
 
 Typesetter* TextService::getTypesetter(Font font)
 {
-	RBXASSERT(font < FONT_LAST);
+	ARLASSERT(font < FONT_LAST);
 	return m_typesetters[font].get();
 }
 

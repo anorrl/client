@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace RBX {
+namespace ARL {
 	namespace DRAG {
 
 		typedef enum {NO_UNJOIN_NO_JOIN, UNJOIN_JOIN, UNJOIN_NO_JOIN} JoinType;

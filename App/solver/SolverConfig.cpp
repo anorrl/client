@@ -10,7 +10,7 @@ FASTINTVARIABLE(PGSAlign2AxesCorrectionDamping, 10) //1.0
 FASTINTVARIABLE(PGSBallInSocketCorrectionDamping, 10) //1.0
 
 
-namespace RBX
+namespace ARL
 {
 
 SolverConfig::SolverConfig( Type type )

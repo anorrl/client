@@ -3,7 +3,7 @@
 #pragma once
 
 #ifndef Rbx_strcasestr
-namespace RBX
+namespace ARL
 {
 
 /* GCC often has strcasestr(); if not, you can use the following */

@@ -13,7 +13,7 @@
 #include "Voxel/ChunkMap.h"
 #include "Voxel/Grid.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

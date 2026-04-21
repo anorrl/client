@@ -26,7 +26,7 @@
 namespace io = boost::iostreams;
 #include <boost/algorithm/string.hpp>
 
-#ifdef __RBX_FILEGZIP__
+#ifdef __ARL_FILEGZIP__
 #include "zlib.h"
 #endif
 
@@ -93,7 +93,7 @@ struct String_sink  : public io::sink {
 
 
 
-namespace RBX
+namespace ARL
 {
 	static VOID CALLBACK redirectCallback(
 	  __in  HINTERNET hInternet,
@@ -123,13 +123,13 @@ namespace RBX
 			throw std::runtime_error("empty url");
 
 		if (!Http::trustCheck(theUrl.c_str(), externalRequest))
-			throw RBX::runtime_error("trust check failed for %s", theUrl.c_str());
+			throw ARL::runtime_error("trust check failed for %s", theUrl.c_str());
 		
 		CUrl u;
 		u.CrackUrl(theUrl.c_str());
 
 		if (u.GetHostNameLength()==0)
-			throw RBX::runtime_error("'%s' is missing a hostName", theUrl.c_str());
+			throw ARL::runtime_error("'%s' is missing a hostName", theUrl.c_str());
 
 		// Use WinHttpOpen to obtain a session handle.
 		WINHTTPHINTERNET hSession = ::WinHttpOpen( L"Roblox/WinHttp", WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0 );	
@@ -155,7 +155,7 @@ namespace RBX
 			std::string headers;
 			for (HttpAux::AdditionalHeaders::const_iterator iter = additionalHeaders.begin(); iter!=additionalHeaders.end(); ++iter)
 			{
-				RBXASSERT(!isPost || !boost::iequals("Content-Type", iter->first));
+				ARLASSERT(!isPost || !boost::iequals("Content-Type", iter->first));
 				headers += iter->first + ": " + iter->second + "\r\n";
 			}
 			if (isPost)
@@ -218,19 +218,19 @@ namespace RBX
 			{
 				int e1 = e.error();
 				int e2 = e.zlib_error_code();
-				throw RBX::runtime_error("Upload GZip error %d, ZLib error %d, \"%s\"", e1, e2, theUrl.c_str());
+				throw ARL::runtime_error("Upload GZip error %d, ZLib error %d, \"%s\"", e1, e2, theUrl.c_str());
 			}
 			const size_t uploadSize = uploadData.size();
 
 			if (uploadSize>10000)
 			{
 				// TODO: These headers are added to debug the Gzip bug. Maybe we can eliminate them someday...
-				std::string contentSizeHeader = RBX::format("ANORRL-Content-Size: %d\r\n", uploadSize);
+				std::string contentSizeHeader = ARL::format("ANORRL-Content-Size: %d\r\n", uploadSize);
 				ThrowIfFailure(TRUE==::WinHttpAddRequestHeaders(hRequest, CComBSTR(contentSizeHeader.c_str()), -1, WINHTTP_ADDREQ_FLAG_ADD), "WinHttpAddRequestHeaders failed");
 
 				boost::scoped_ptr<MD5Hasher> hasher(MD5Hasher::create());
 				hasher->addData(uploadData);
-				std::string contentHashHeader = RBX::format("ANORRL-Content-Hash: %s\r\n", hasher->c_str());
+				std::string contentHashHeader = ARL::format("ANORRL-Content-Hash: %s\r\n", hasher->c_str());
 				ThrowIfFailure(TRUE==::WinHttpAddRequestHeaders(hRequest, CComBSTR(contentHashHeader.c_str()), -1, WINHTTP_ADDREQ_FLAG_ADD), "WinHttpAddRequestHeaders failed");
 			}
 
@@ -250,7 +250,7 @@ namespace RBX
 			{
 				if (CString(transferCoding) != "identity")
 				{
-					throw RBX::runtime_error("External http request uses unsupported transfer encoding.");
+					throw ARL::runtime_error("External http request uses unsupported transfer encoding.");
 				}
 			}
 
@@ -260,7 +260,7 @@ namespace RBX
 				NULL, &contentLength, &contentLengthLength, 0) &&
 				(contentLength / 1024) >= static_cast<DWORD>(DFInt::ExternalHttpResponseSizeLimitKB))
 			{
-				throw RBX::runtime_error(
+				throw ARL::runtime_error(
 					"Response exceeded size limit. Current limit: %d KB. Response size: %d KB",
 					DFInt::ExternalHttpResponseSizeLimitKB, (contentLength / 1024));
 			}
@@ -293,12 +293,12 @@ namespace RBX
 		{
 			int e1 = e.error();
 			int e2 = e.zlib_error_code();
-			throw RBX::runtime_error("GZip error %d, ZLib error %d, \"%s\"", e1, e2, theUrl.c_str());
+			throw ARL::runtime_error("GZip error %d, ZLib error %d, \"%s\"", e1, e2, theUrl.c_str());
 		}
 		catch (io::zlib_error& e)
 		{
 			int e1 = e.error();
-			throw RBX::runtime_error("ZLib error %d, \"%s\"", e1, theUrl.c_str());
+			throw ARL::runtime_error("ZLib error %d, \"%s\"", e1, theUrl.c_str());
 		}
 
 		if (statusCode < 200 || statusCode >= 300)
@@ -327,9 +327,9 @@ namespace RBX
 			WCHAR buffer[512];
 			DWORD length = 512;
 			if (::WinHttpQueryHeaders(hRequest, WINHTTP_QUERY_STATUS_TEXT, NULL, (LPVOID) buffer, &length, WINHTTP_NO_HEADER_INDEX))
-				throw RBX::http_status_error(statusCode, (LPCTSTR)CString(buffer));
+				throw ARL::http_status_error(statusCode, (LPCTSTR)CString(buffer));
 			else
-				throw RBX::http_status_error(statusCode);
+				throw ARL::http_status_error(statusCode);
 		}
 
 	}

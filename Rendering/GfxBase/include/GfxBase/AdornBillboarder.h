@@ -2,7 +2,7 @@
 
 #include "GfxBase/Adorn.h"
 
-namespace RBX {
+namespace ARL {
 
 	class ViewportBillboarder;
 
@@ -31,10 +31,10 @@ namespace RBX {
 
 		/*override*/ void setTexture(
 			int id, 
-			const RBX::TextureProxyBaseRef& texture) { parent->setTexture(id, texture); };
+			const ARL::TextureProxyBaseRef& texture) { parent->setTexture(id, texture); };
 
 		/*override*/ Rect2D getTextureSize(
-			const RBX::TextureProxyBaseRef& texture) const { return parent->getTextureSize(texture); };
+			const ARL::TextureProxyBaseRef& texture) const { return parent->getTextureSize(texture); };
 
         virtual bool useFontSmoothScalling() { return true; }
 
@@ -137,12 +137,12 @@ namespace RBX {
 		/*override*/ void line3d(
 			const Vector3&	startPoint,
 			const Vector3&	endPoint,
-			const RBX::Color4& color) { throw std::runtime_error("Invalid operation"); };
+			const ARL::Color4& color) { throw std::runtime_error("Invalid operation"); };
 
         /*override*/ virtual void line3dAA(
             const Vector3& startPoint, 
             const Vector3& endPoint, 
-            const RBX::Color4& color, 
+            const ARL::Color4& color, 
             float thickness,
 			int zIndex,
             bool alwaysOnTop)  { throw std::runtime_error("Invalid operation"); };

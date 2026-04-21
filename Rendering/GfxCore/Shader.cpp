@@ -4,7 +4,7 @@
 
 LOGGROUP(Graphics)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

@@ -4,7 +4,7 @@
 #undef min
 #undef max
 
-namespace RBX {
+namespace ARL {
 
 class ColorSequenceKeypoint
 {

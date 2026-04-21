@@ -15,7 +15,7 @@
 #include "v8datamodel/changehistory.h"
 #include "RbxG3D/RbxRay.h"
 
-namespace RBX {
+namespace ARL {
 
 ///////////////////////////////////////////////////////////////
 
@@ -72,7 +72,7 @@ shared_ptr<MouseCommand> AxisToolBase::onMouseDown(const shared_ptr<InputObject>
 
 void AxisToolBase::onMouseMove(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(captured());
+	ARLASSERT(captured());
 
 	if ( !dragging 
 		&&	(inputObject->get2DPosition() - downPoint2d).length() > 4)
@@ -94,8 +94,8 @@ void AxisToolBase::onMouseMove(const shared_ptr<InputObject>& inputObject)
 		closePoint = DragUtilities::toGrid(closePoint);				// snapped
 
 		Vector3 delta = DragUtilities::toGrid(closePoint - lastPoint3d);
-		RBXASSERT(delta[(dragAxis + 1) % 3] == 0.0f);
-		RBXASSERT(delta[(dragAxis + 2) % 3] == 0.0f);
+		ARLASSERT(delta[(dragAxis + 1) % 3] == 0.0f);
+		ARLASSERT(delta[(dragAxis + 2) % 3] == 0.0f);
 
 		if (delta != Vector3::zero()) {
 			megaDragger->continueDragging();			// do this every time - multiplayer
@@ -128,7 +128,7 @@ void AxisToolBase::render2d(Adorn* adorn)
 
 	if (getExtents(worldExtents)) {
 
-		RBX::DrawAdorn::handles2d(
+		ARL::DrawAdorn::handles2d(
 			worldExtents.size(),
 			CoordinateFrame(worldExtents.center()),
 			*(workspace->getConstCamera()),
@@ -146,7 +146,7 @@ void AxisToolBase::render3dAdorn(Adorn* adorn)
 	
 	if (getExtents(worldExtents)) {
 
-		RBX::DrawAdorn::handles3d(
+		ARL::DrawAdorn::handles3d(
 			worldExtents.size(),
 			CoordinateFrame(worldExtents.center()),
 			adorn, 
@@ -189,7 +189,7 @@ bool AxisToolBase::getOverHandle(const shared_ptr<InputObject>& inputObject) con
 
 bool AxisToolBase::getOverHandle(const shared_ptr<InputObject>& inputObject, Vector3& hitPointWorld, NormalId& normalId) const
 {
-	RBXASSERT(!captured());
+	ARLASSERT(!captured());
 
 	Extents extents;
     bool result = false;

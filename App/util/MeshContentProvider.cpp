@@ -4,11 +4,11 @@
 
 #include "GfxBase/FileMeshData.h"
 
-namespace RBX {
+namespace ARL {
     
 	const char* const sMeshContentProvider = "MeshContentProvider";
 	MeshContentProvider::MeshContentProvider()
-		:DescribedNonCreatable<MeshContentProvider, CacheableContentProvider, sMeshContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL>(CACHE_ENFORCE_MEMORY_SIZE, 1024 * 1024 * 32)
+		:DescribedNonCreatable<MeshContentProvider, CacheableContentProvider, sMeshContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL>(CACHE_ENFORCE_MEMORY_SIZE, 1024 * 1024 * 32)
 	{
 		setName(sMeshContentProvider);
 	}
@@ -28,7 +28,7 @@ namespace RBX {
 			return TaskScheduler::Stepped;
 		}
 		else{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "MeshContentProvider failed to process %s because 'could not fetch'", id.c_str());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "MeshContentProvider failed to process %s because 'could not fetch'", id.c_str());
 		}
 		markContentFailed(id);
 		return TaskScheduler::Stepped;

@@ -5,7 +5,7 @@
 #include "V8DataModel/MouseCommand.h"
 #include "V8DataModel/ManualJointHelper.h"
 
-namespace RBX {
+namespace ARL {
 
 class PartInstance;
 class Decal;
@@ -69,7 +69,7 @@ class Decal;
 		ManualJointHelper manualJointHelper;
 		typedef ArrowToolBase Super;
 	protected:
-		typedef std::map<boost::weak_ptr<RBX::PartInstance>, float> PartsTransparencyCollection;
+		typedef std::map<boost::weak_ptr<ARL::PartInstance>, float> PartsTransparencyCollection;
 		static PartsTransparencyCollection originalPartsTransparency;
 	public:
 		AdvArrowToolBase(Workspace* workspace) : ArrowToolBase(workspace), manualJointHelper(workspace)
@@ -158,4 +158,4 @@ class Decal;
 		~BoxSelectCommand();
 	};
 
-} // namespace RBX
+} // namespace ARL

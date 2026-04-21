@@ -5,13 +5,13 @@
 #include "RakNetTypes.h"
 
 #ifdef _WIN32
-#if defined(_NOOPT) || defined(_DEBUG) || defined(RBX_TEST_BUILD)
+#if defined(_NOOPT) || defined(_DEBUG) || defined(ARL_TEST_BUILD)
 #define NETWORK_PROFILER
 #define NETWORK_DEBUG
 #endif
 #endif
 
-namespace RBX {
+namespace ARL {
 
 namespace SpatialRegion {
 	class Id;
@@ -19,7 +19,7 @@ namespace SpatialRegion {
 
 namespace Network {
 
-	const RBX::SystemAddress RakNetToRbxAddress(const RakNet::SystemAddress& raknetAddress);
+	const ARL::SystemAddress RakNetToRbxAddress(const RakNet::SystemAddress& raknetAddress);
 	std::string RakNetAddressToString(const RakNet::SystemAddress& raknetAddress, bool writePort = true, char portDelineator='|');
 
 }}	// namespace

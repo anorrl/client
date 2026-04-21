@@ -7,7 +7,7 @@
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/ModelInstance.h"
 
-namespace RBX {
+namespace ARL {
 	namespace Network {
 		class Players;
 		class Player;
@@ -33,13 +33,13 @@ namespace RBX {
 		ClickDetector();
 		virtual ~ClickDetector() {}
 
-		void fireMouseClick(float distance, RBX::Network::Player* player);
-		void fireMouseHover(RBX::Network::Player* player);
-		void fireMouseHoverLeave(RBX::Network::Player* player);
+		void fireMouseClick(float distance, ARL::Network::Player* player);
+		void fireMouseHover(ARL::Network::Player* player);
+		void fireMouseHoverLeave(ARL::Network::Player* player);
 		static Reflection::BoundProp<float> propMaxActivationDistance;
 
 		shared_ptr<Instance> getLastHoverPart() { return lastHoverPart; }
-		bool updateLastHoverPart(shared_ptr<Instance> newHover, RBX::Network::Player* player);
+		bool updateLastHoverPart(shared_ptr<Instance> newHover, ARL::Network::Player* player);
 
 		rbx::remote_signal<void(shared_ptr<Instance>)> mouseClickSignal;
 		rbx::remote_signal<void(shared_ptr<Instance>)> mouseHoverSignal;
@@ -49,12 +49,12 @@ namespace RBX {
 
 		float getMaxActivationDistance() {return maxActivationDistance;}
 
-		static bool isClickable(shared_ptr<PartInstance> part, float distanceToCharacter, bool raiseClickedEvent, RBX::Network::Player* player);
-		static bool isHovered(PartInstance *part, float distanceToCharacter, bool raiseHoveredEvent, RBX::Network::Player* player);
-		static void stopHover(shared_ptr<PartInstance> part, RBX::Network::Player* player);
+		static bool isClickable(shared_ptr<PartInstance> part, float distanceToCharacter, bool raiseClickedEvent, ARL::Network::Player* player);
+		static bool isHovered(PartInstance *part, float distanceToCharacter, bool raiseHoveredEvent, ARL::Network::Player* player);
+		static void stopHover(shared_ptr<PartInstance> part, ARL::Network::Player* player);
 		/* override */ bool askSetParent(const Instance* parent) const {return (Instance::fastDynamicCast<PartInstance>(parent) != NULL) || (Instance::fastDynamicCast<ModelInstance>(parent) != NULL);}
 		/* override */ bool askAddChild(const Instance* instance) const {return true;}
 
 		
 	};
-}	// namespace RBX
+}	// namespace ARL

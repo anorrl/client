@@ -6,13 +6,13 @@
 #include "Util/BrickColor.h"
 #include "Script/LuaVM.h"
 
-#if defined(RBX_SECURE_DOUBLE)
+#if defined(ARL_SECURE_DOUBLE)
 #define LUA_VALUE_CONVERT(x) (x.binary[sizeof(ValueType)/sizeof(int)-1] ^= ::LuaSecureDouble::luaXorMask[3])
 #else
 #define LUA_VALUE_CONVERT(x) void(0)
 #endif
 
-namespace RBX
+namespace ARL
 {
 	void registerValueClasses();
 
@@ -135,7 +135,7 @@ namespace RBX
 	typedef Value<G3D::Vector3, sVector3Value> Vector3Value;
 
 	extern const char* const sRayValue;
-	typedef Value<RBX::RbxRay, sRayValue> RayValue;
+	typedef Value<ARL::RbxRay, sRayValue> RayValue;
 
 	extern const char* const sCFrameValue;
 	typedef Value<G3D::CoordinateFrame, sCFrameValue> CFrameValue;
@@ -144,10 +144,10 @@ namespace RBX
 	typedef Value<G3D::Color3, sColor3Value> Color3Value;
 
 	extern const char* const sBrickColorValue;
-	typedef Value<RBX::BrickColor, sBrickColorValue> BrickColorValue;
+	typedef Value<ARL::BrickColor, sBrickColorValue> BrickColorValue;
 
     extern const char* const sBinaryStringValue;
-    typedef Value<RBX::BinaryString, sBinaryStringValue> BinaryStringValue;
+    typedef Value<ARL::BinaryString, sBinaryStringValue> BinaryStringValue;
 
 	extern const char* const sStringValue;
 	class StringValue 
@@ -271,7 +271,7 @@ namespace RBX
 		}
 		Instance* getValue() const;
 		void setValue(Instance* value);
-		static RBX::Reflection::RefPropDescriptor<ObjectValue, Instance> desc_Value;
+		static ARL::Reflection::RefPropDescriptor<ObjectValue, Instance> desc_Value;
 		rbx::signal<void(shared_ptr<Instance>)> valueChangedSignal;
 	protected:
 		virtual bool askSetParent(const Instance* instance) const {

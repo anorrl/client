@@ -44,7 +44,7 @@ namespace RakNet {
 
 struct ReplicatorTestWrapper;
 
-namespace RBX { 
+namespace ARL { 
 
 class PartInstance;
 class SimJob;
@@ -88,9 +88,9 @@ struct DeserializedPacket
 
 extern const char* const sReplicator;
 class Replicator
-	: public RBX::DescribedNonCreatable<Replicator, IdSerializer, sReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL>
+	: public ARL::DescribedNonCreatable<Replicator, IdSerializer, sReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL>
 	, public RakNet::PluginInterface2
-	, public RBX::IMetric
+	, public ARL::IMetric
 	, public Voxel::CellChangeListener
 	, public Voxel2::GridListener
 {
@@ -180,10 +180,10 @@ public:
 	virtual bool checkDistributedReceive(PartInstance* part) = 0;
 	virtual bool checkDistributedSend(const PartInstance* part) = 0;
 	virtual bool checkDistributedSendFast(const PartInstance* part) = 0;
-    virtual void readPlayerSimulationRegion(const PartInstance* playerHead, Region2::WeightedPoint& weightedPoint){RBXASSERT(false);}
+    virtual void readPlayerSimulationRegion(const PartInstance* playerHead, Region2::WeightedPoint& weightedPoint){ARLASSERT(false);}
 
 	size_t incomingPacketsCount() const;
-	double incomingPacketsCountHeadWaitTimeSec(const RBX::Time& timeNow);
+	double incomingPacketsCountHeadWaitTimeSec(const ARL::Time& timeNow);
 
 	// Call this function to request that the Replicator disconnect.
 	// This function will submit a task to set Parent to null.
@@ -225,7 +225,7 @@ public:
 	virtual bool UsesReliabilityLayer(void) const {return true;} // this need to be set to true for OnInternalPacket to be called
 	virtual void OnInternalPacket(RakNet::InternalPacket *internalPacket, unsigned frameNumber, RakNet::SystemAddress remoteSystemAddress, RakNet::TimeMS time, int isSend);
 
-	virtual const RBX::Name& getClassName() const {
+	virtual const ARL::Name& getClassName() const {
 		return Name::getNullName();
 	}
 
@@ -235,7 +235,7 @@ public:
 	shared_ptr<Instance> sendMarker();
 	
 	bool isSerializePending(const Instance* instance) const;
-	bool isPropertyChangedPending(const RBX::Reflection::ConstProperty& property) const;
+	bool isPropertyChangedPending(const ARL::Reflection::ConstProperty& property) const;
 
 	virtual void requestCharacter() { throw std::runtime_error(""); }
 	virtual void requestInstances() { throw std::runtime_error(""); } // overwrite in client replicator
@@ -281,9 +281,9 @@ public:
 
 	Time getSendQueueHeadTime() const { return pendingItems.head_time(); }
 
-	RBX::Time remoteRaknetTimeToLocalRbxTime(const RemoteTime& time);
-	RBX::Time raknetTimeToRbxTime(const RakNet::Time& time);
-	RakNet::Time rbxTimeToRakNetTime(const RBX::Time& time);
+	ARL::Time remoteRaknetTimeToLocalRbxTime(const RemoteTime& time);
+	ARL::Time raknetTimeToRbxTime(const RakNet::Time& time);
+	RakNet::Time rbxTimeToRakNetTime(const ARL::Time& time);
 
 protected:
 	class ChangePropertyItem;
@@ -306,23 +306,23 @@ protected:
 	class Stats;
 	class SendStatsJob;
 
-    #ifndef RBX_STUDIO_BUILD
+    #ifndef ARL_STUDIO_BUILD
     class NetPmcResponseItem;
     class RockyDbgItem;
     #endif
 
-    #ifdef RBX_RCC_SECURITY
+    #ifdef ARL_RCC_SECURITY
     class NetPmcChallengeItem;
     #endif
 
 	// Item pools
-	boost::scoped_ptr<RBX::AutoMemPool> newInstancePool;
-	boost::scoped_ptr<RBX::AutoMemPool> deleteInstancePool;
-	boost::scoped_ptr<RBX::AutoMemPool> changePropertyPool;
-	boost::scoped_ptr<RBX::AutoMemPool> eventInvocationPool;
-	boost::scoped_ptr<RBX::AutoMemPool> pingPool;
-	boost::scoped_ptr<RBX::AutoMemPool> pingBackPool;
-	boost::scoped_ptr<RBX::AutoMemPool> referencePropertyChangedPool;
+	boost::scoped_ptr<ARL::AutoMemPool> newInstancePool;
+	boost::scoped_ptr<ARL::AutoMemPool> deleteInstancePool;
+	boost::scoped_ptr<ARL::AutoMemPool> changePropertyPool;
+	boost::scoped_ptr<ARL::AutoMemPool> eventInvocationPool;
+	boost::scoped_ptr<ARL::AutoMemPool> pingPool;
+	boost::scoped_ptr<ARL::AutoMemPool> pingBackPool;
+	boost::scoped_ptr<ARL::AutoMemPool> referencePropertyChangedPool;
 
 	DescriptorDictionary<Reflection::ClassDescriptor> classDictionary;
 	DescriptorDictionary<Reflection::PropertyDescriptor> propDictionary;
@@ -374,12 +374,12 @@ protected:
 	ItemQueue highPriorityPendingItems;
 	int numItemsLeftFromPrevStep;
 
-	typedef boost::unordered_set<RBX::Reflection::ConstProperty, boost::hash<RBX::Reflection::ConstProperty>, 
-		std::equal_to<RBX::Reflection::ConstProperty>, boost::fast_pool_allocator<RBX::Reflection::ConstProperty> > PendingPropertyChanges;
+	typedef boost::unordered_set<ARL::Reflection::ConstProperty, boost::hash<ARL::Reflection::ConstProperty>, 
+		std::equal_to<ARL::Reflection::ConstProperty>, boost::fast_pool_allocator<ARL::Reflection::ConstProperty> > PendingPropertyChanges;
 	PendingPropertyChanges pendingChangedPropertyItems;
 
 	typedef boost::unordered_set<const Instance*> PendingInstances;			// note - now watching for concurrency issues here
-	mutable RBX::mutex pendingInstancesMutex;
+	mutable ARL::mutex pendingInstancesMutex;
 	PendingInstances pendingNewInstances;
 	const Instance* serializingInstance;
 
@@ -388,7 +388,7 @@ protected:
 	const Reflection::EventInvocation* deserializingEventInvocation;	// The currently deserializing EventInvocation (if any)
 
 	// Data-in/out
-	typedef std::map< const RBX::Name*, shared_ptr<Instance> > DefaultObjects;
+	typedef std::map< const ARL::Name*, shared_ptr<Instance> > DefaultObjects;
 	DefaultObjects defaultObjects;  // Used for stripping out default properties (compression)
 
 	// Note: This queue doesn't need a concurrency guard, but we need the timestamping feature
@@ -402,8 +402,8 @@ protected:
 
 	NetworkSettings* networkSettings;
 
-    SharedDictionary<RBX::SystemAddress> systemAddressDictionary;
-	SharedDictionary<RBX::ContentId> contentIdDictionary;
+    SharedDictionary<ARL::SystemAddress> systemAddressDictionary;
+	SharedDictionary<ARL::ContentId> contentIdDictionary;
 
 	// Part Streaming
     bool streamingEnabled;
@@ -485,7 +485,7 @@ protected:
     void onStatisticsChanged(const ConnectionStats&);
 
 	// Creates a "Default" object which has all default properties. Used to optimize streaming
-	const Instance* getDefault(const RBX::Name& className);
+	const Instance* getDefault(const ARL::Name& className);
 
 	virtual bool wantReplicate(const Instance* source) const;
 
@@ -523,7 +523,7 @@ protected:
 	void sendClusterContent(shared_ptr<RakNet::BitStream>& bitStream, ClusterChunksIterator& container, unsigned maxBytesSend);
 	void sendClusterContent(shared_ptr<RakNet::BitStream>& bitStream, OneQuarterClusterChunkCellIterator &container);
 
-    static void RemoteCheatHelper2(weak_ptr<RBX::DataModel> weakDataModel);
+    static void RemoteCheatHelper2(weak_ptr<ARL::DataModel> weakDataModel);
 
 	void serializePropertyValue(const Reflection::ConstProperty& property, RakNet::BitStream& outBitStream, bool useDictionary);
 	void deserializePropertyValue(RakNet::BitStream& inBitStream, Reflection::Property property, bool useDictionary, bool preventBounceBack, Reflection::Variant* value);
@@ -553,10 +553,10 @@ protected:
     bool isPropertyCacheable(const Reflection::Type& type);
     bool isPropertyCacheable(const Reflection::Type* type, bool isEnum);
 
-    virtual bool ProcessOutdatedChangedProperty(RakNet::BitStream& inBitstream, const RBX::Guid::Data& id, const Instance* instance, const Reflection::PropertyDescriptor* propertyDescriptor, unsigned int propId) {return false;}
+    virtual bool ProcessOutdatedChangedProperty(RakNet::BitStream& inBitstream, const ARL::Guid::Data& id, const Instance* instance, const Reflection::PropertyDescriptor* propertyDescriptor, unsigned int propId) {return false;}
     virtual bool ProcessOutdatedProperties(RakNet::BitStream& inBitstream, Instance* instance, PropertyCacheType cacheType, bool useDictionary, bool preventBounceBack, std::vector<PropValuePair>* valueArray) {return false;}
-    virtual bool ProcessOutdatedInstance(RakNet::BitStream& inBitstream, bool isJoinData, const RBX::Guid::Data& id, const Reflection::ClassDescriptor* classDescriptor, unsigned int classId) {return false;}
-    virtual bool ProcessOutdatedEventInvocation(RakNet::BitStream& inBitstream, const RBX::Guid::Data& id, const Instance* instance, const Reflection::EventDescriptor* eventDescriptor, unsigned int eventId) {return false;}
+    virtual bool ProcessOutdatedInstance(RakNet::BitStream& inBitstream, bool isJoinData, const ARL::Guid::Data& id, const Reflection::ClassDescriptor* classDescriptor, unsigned int classId) {return false;}
+    virtual bool ProcessOutdatedEventInvocation(RakNet::BitStream& inBitstream, const ARL::Guid::Data& id, const Instance* instance, const Reflection::EventDescriptor* eventDescriptor, unsigned int eventId) {return false;}
     virtual bool ProcessOutdatedEnumSerialization(const Reflection::Type& type, const Reflection::Variant& value, RakNet::BitStream& outBitStream) {return false;}
     virtual bool ProcessOutdatedEnumDeserialization(RakNet::BitStream& inBitStream, const Reflection::Type& type, Reflection::Variant& value) {return false;}
     virtual bool ProcessOutdatedPropertyEnumSerialization(const Reflection::ConstProperty& property, RakNet::BitStream& outBitStream) {return false;}
@@ -572,7 +572,7 @@ protected:
 
 private:
 
-	typedef RBX::DescribedNonCreatable<Replicator, IdSerializer, sReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
+	typedef ARL::DescribedNonCreatable<Replicator, IdSerializer, sReplicator, Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
 
 	// Physics-in
 
@@ -597,8 +597,8 @@ private:
 
 	bool removeFromPendingNewInstances(const Instance* instance);
 
-	void createStatsItems(RBX::Stats::StatsService* stats);
-	void updateStatsItem(RBX::Stats::StatsService* stats);
+	void createStatsItems(ARL::Stats::StatsService* stats);
+	void updateStatsItem(ARL::Stats::StatsService* stats);
 	
 	void clusterOutStep();
 
@@ -646,7 +646,7 @@ private:
 	void sendStats(int version);
 	virtual void sendNetPmcChallenge() {}
 
-	void assignRef(Reflection::Property& property, RBX::Guid::Data id);
+	void assignRef(Reflection::Property& property, ARL::Guid::Data id);
 	bool shouldStreamingHandleOnAddedForChild(shared_ptr<const Instance> child);
 	bool isHighPriorityInstance(const Instance* instance);
 

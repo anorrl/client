@@ -7,7 +7,7 @@
 #include "rbx/Debug.h"
 #include <boost/functional/hash.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	class BrickColor::BrickMap
 	{
@@ -760,7 +760,7 @@ namespace RBX {
 
 	G3D::Color4uint8 BrickColor::color4uint8() const {
 		const std::vector<BrickMap::ColorInfo>& colors = BrickMap::singleton().map;
-		RBXASSERT(static_cast<unsigned int>(number) < colors.size() && colors[number].valid);
+		ARLASSERT(static_cast<unsigned int>(number) < colors.size() && colors[number].valid);
 		return colors[number].colorInt;
 	}
 
@@ -771,13 +771,13 @@ namespace RBX {
 
 	const std::string& BrickColor::name() const {
 		const std::vector<BrickMap::ColorInfo>& colors = BrickMap::singleton().map;
-		RBXASSERT(static_cast<unsigned int>(number) < colors.size() && colors[number].valid);
+		ARLASSERT(static_cast<unsigned int>(number) < colors.size() && colors[number].valid);
 		return colors[number].name;
 	}
 
 	G3D::Color4 BrickColor::color4() const {
 		const std::vector<BrickMap::ColorInfo>& colors = BrickMap::singleton().map;
-		RBXASSERT(static_cast<unsigned int>(number) < colors.size() && colors[number].valid);
+		ARLASSERT(static_cast<unsigned int>(number) < colors.size() && colors[number].valid);
 		return colors[number].color;
 	}
 

@@ -13,7 +13,7 @@
 #include "SelectState.h"
 
 
-namespace RBX {
+namespace ARL {
 
 const char* const sPartDropTool = "PartDropTool";
 
@@ -36,7 +36,7 @@ PartDropTool::PartDropTool(	PartInstance* mousePart,
 
 /*override*/ shared_ptr<MouseCommand> PartDropTool::onMouseDown(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(0);
+	ARLASSERT(0);
 	return shared_from(this);
 }
 //MouseCommand* PartDropTool::onMouseUp(const shared_ptr<InputObject>& inputObject)
@@ -48,7 +48,7 @@ PartDropTool::PartDropTool(	PartInstance* mousePart,
 
 void PartDropTool::onMouseDelta(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 
 	if (	(!dragging)
 		&&	megaDragger->mousePartAlive()

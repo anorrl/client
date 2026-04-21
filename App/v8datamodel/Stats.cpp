@@ -21,7 +21,7 @@
 #include "Util/FileSystem.h"
 #include "VersionInfo.h"
 #elif __ANDROID__
-namespace RBX
+namespace ARL
 {
 namespace JNI
 {
@@ -46,110 +46,110 @@ DYNAMIC_FASTFLAGVARIABLE(UseNewAnalyticsApi, false)
 
 extern const char *const sTotalCountTimeIntervalItem = "TotalCountTimeIntervalItem";
 
-class TotalCountTimeIntervalItem : public RBX::DescribedNonCreatable<TotalCountTimeIntervalItem, RBX::Stats::Item, sTotalCountTimeIntervalItem> 
+class TotalCountTimeIntervalItem : public ARL::DescribedNonCreatable<TotalCountTimeIntervalItem, ARL::Stats::Item, sTotalCountTimeIntervalItem> 
 {
-	const RBX::TotalCountTimeInterval<>& tcti;
+	const ARL::TotalCountTimeInterval<>& tcti;
 public:
-	TotalCountTimeIntervalItem(const RBX::TotalCountTimeInterval<>* tcti) : tcti(*tcti) {}
+	TotalCountTimeIntervalItem(const ARL::TotalCountTimeInterval<>* tcti) : tcti(*tcti) {}
 	virtual void update() 
 	{
 		int v = tcti.getCount();
 		if (val != v)
 		{
 			val = v;
-			sValue = RBX::format("%d", v);
+			sValue = ARL::format("%d", v);
 		}
 	}
 };
 
 template<class T>
-class RunningAverageItem : public RBX::Stats::Item 
+class RunningAverageItem : public ARL::Stats::Item 
 {
-	const RBX::RunningAverage<T, double>& ra;
+	const ARL::RunningAverage<T, double>& ra;
 public:
-	RunningAverageItem(const RBX::RunningAverage<T, double>* ra):ra(*ra) {}
+	RunningAverageItem(const ARL::RunningAverage<T, double>* ra):ra(*ra) {}
 
 	virtual void update() {
 		double v = ra.value();
 		if (val != v)
 		{
 			val = v;
-			sValue = RBX::format("%g (%.0f%%CV)", v, 100.0 * ra.coefficient_of_variation());
+			sValue = ARL::format("%g (%.0f%%CV)", v, 100.0 * ra.coefficient_of_variation());
 		}
 	}
 };
 
 extern const char *const sRunningAverageItemInt = "RunningAverageItemInt";
 
-class RunningAverageItemInt : public RBX::DescribedNonCreatable<RunningAverageItemInt, RunningAverageItem<int>, sRunningAverageItemInt> 
+class RunningAverageItemInt : public ARL::DescribedNonCreatable<RunningAverageItemInt, RunningAverageItem<int>, sRunningAverageItemInt> 
 {
 public:
-	RunningAverageItemInt(const RBX::RunningAverage<int, double>* ra)
-		:RBX::DescribedNonCreatable<RunningAverageItemInt, RunningAverageItem<int>, sRunningAverageItemInt>(ra) 
+	RunningAverageItemInt(const ARL::RunningAverage<int, double>* ra)
+		:ARL::DescribedNonCreatable<RunningAverageItemInt, RunningAverageItem<int>, sRunningAverageItemInt>(ra) 
 	{}
 };
 
 
 extern const char *const sRunningAverageItemDouble = "RunningAverageItemDouble";
 
-class RunningAverageItemDouble : public RBX::DescribedNonCreatable<RunningAverageItemDouble, RunningAverageItem<double>, sRunningAverageItemDouble> 
+class RunningAverageItemDouble : public ARL::DescribedNonCreatable<RunningAverageItemDouble, RunningAverageItem<double>, sRunningAverageItemDouble> 
 {
 public:
-	RunningAverageItemDouble(const RBX::RunningAverage<double, double>* ra)
-		:RBX::DescribedNonCreatable<RunningAverageItemDouble, RunningAverageItem<double>, sRunningAverageItemDouble>(ra) 
+	RunningAverageItemDouble(const ARL::RunningAverage<double, double>* ra)
+		:ARL::DescribedNonCreatable<RunningAverageItemDouble, RunningAverageItem<double>, sRunningAverageItemDouble>(ra) 
 	{}
 };
 
-template<RBX::Time::SampleMethod sampleMethod = RBX::Time::Benchmark>
-class RunningAverageTimeIntervalItem : public RBX::Stats::Item 
+template<ARL::Time::SampleMethod sampleMethod = ARL::Time::Benchmark>
+class RunningAverageTimeIntervalItem : public ARL::Stats::Item 
 {
-    const RBX::RunningAverageTimeInterval<sampleMethod>& ra;
+    const ARL::RunningAverageTimeInterval<sampleMethod>& ra;
 public:
-    RunningAverageTimeIntervalItem(const RBX::RunningAverageTimeInterval<sampleMethod>* ra):ra(*ra) {}
+    RunningAverageTimeIntervalItem(const ARL::RunningAverageTimeInterval<sampleMethod>* ra):ra(*ra) {}
 
     virtual void update() {
         double v = ra.rate();
         if (val != v)
         {
             val = v;
-            sValue = RBX::format("%g (%.2f%%CV)", v, 100.0 * ra.coefficient_of_variation());
+            sValue = ARL::format("%g (%.2f%%CV)", v, 100.0 * ra.coefficient_of_variation());
         }
     }
 };
 
 extern const char *const sRunningAverageTimeInterval = "RunningAverageTimeIntervalItem";
 
-class RunningAverageTimeIntervalItemTimeBenchmark : public RBX::DescribedNonCreatable<RunningAverageTimeIntervalItemTimeBenchmark, RunningAverageTimeIntervalItem<RBX::Time::Benchmark>, sRunningAverageTimeInterval>
+class RunningAverageTimeIntervalItemTimeBenchmark : public ARL::DescribedNonCreatable<RunningAverageTimeIntervalItemTimeBenchmark, RunningAverageTimeIntervalItem<ARL::Time::Benchmark>, sRunningAverageTimeInterval>
 {
 public:
-    RunningAverageTimeIntervalItemTimeBenchmark(const RBX::RunningAverageTimeInterval<RBX::Time::Benchmark>* ra)
-        :RBX::DescribedNonCreatable<RunningAverageTimeIntervalItemTimeBenchmark, RunningAverageTimeIntervalItem<RBX::Time::Benchmark>, sRunningAverageTimeInterval>(ra)
+    RunningAverageTimeIntervalItemTimeBenchmark(const ARL::RunningAverageTimeInterval<ARL::Time::Benchmark>* ra)
+        :ARL::DescribedNonCreatable<RunningAverageTimeIntervalItemTimeBenchmark, RunningAverageTimeIntervalItem<ARL::Time::Benchmark>, sRunningAverageTimeInterval>(ra)
     {}
 };
 
 extern const char *const sProfilingItem = "ProfilingItem";
 
-class ProfilingItem : public RBX::DescribedNonCreatable<ProfilingItem, RBX::Stats::Item, sProfilingItem> 
+class ProfilingItem : public ARL::DescribedNonCreatable<ProfilingItem, ARL::Stats::Item, sProfilingItem> 
 {
-	const RBX::Profiling::Profiler& p;
+	const ARL::Profiling::Profiler& p;
 public:
-	ProfilingItem(const RBX::Profiling::Profiler* p):p(*p) {}
+	ProfilingItem(const ARL::Profiling::Profiler* p):p(*p) {}
 
 	// Returns a Tuple of 4 numbers
-	shared_ptr<const RBX::Reflection::Tuple> getTimes(double window)
+	shared_ptr<const ARL::Reflection::Tuple> getTimes(double window)
 	{
-		RBX::Profiling::Bucket b = p.getWindow(window);
-		shared_ptr<RBX::Reflection::Tuple> result(new RBX::Reflection::Tuple(3));
+		ARL::Profiling::Bucket b = p.getWindow(window);
+		shared_ptr<ARL::Reflection::Tuple> result(new ARL::Reflection::Tuple(3));
 		result->values[0] = b.getWallTime();
 		result->values[1] = b.getSampleTime();
 		result->values[2] = b.frames;
 		return result;
 	}
 
-	shared_ptr<const RBX::Reflection::Tuple> getTimesForFrames(int frames)
+	shared_ptr<const ARL::Reflection::Tuple> getTimesForFrames(int frames)
 	{
-		RBX::Profiling::Bucket b = p.getFrames(frames);
-		shared_ptr<RBX::Reflection::Tuple> result(new RBX::Reflection::Tuple(3));
+		ARL::Profiling::Bucket b = p.getFrames(frames);
+		shared_ptr<ARL::Reflection::Tuple> result(new ARL::Reflection::Tuple(3));
 		result->values[0] = b.getWallTime();
 		result->values[1] = b.getSampleTime();
 		result->values[2] = b.frames;
@@ -157,15 +157,15 @@ public:
 	}
 
 	virtual void update() {
-		const double window = RBX::Profiling::Profiler::profilingWindow;
-		RBX::Profiling::Bucket b = p.getWindow(window);
+		const double window = ARL::Profiling::Profiler::profilingWindow;
+		ARL::Profiling::Bucket b = p.getWindow(window);
 		if (b.sampleTimeElapsed>0)
 		{
 			val = b.getWallTime() / b.sampleTimeElapsed;
 			char buffer[256];
 			if (b.frames>0)
 			{
-				std::string t = RBX::Log::formatTime(b.getNominalFramePeriod());
+				std::string t = ARL::Log::formatTime(b.getNominalFramePeriod());
 				sprintf(buffer, "%s %.3g/s nom%.3g/s %.3g%%", t.c_str(), b.getActualFPS(), b.getNominalFPS(), 100.0 * val);
 			}
 			else
@@ -183,12 +183,12 @@ public:
 };
 
 REFLECTION_BEGIN();
-static RBX::Reflection::BoundFuncDesc<ProfilingItem, shared_ptr<const RBX::Reflection::Tuple>(double)> func_GetTimes(&ProfilingItem::getTimes, "GetTimes", "window", 0.0, RBX::Security::Plugin);
-static RBX::Reflection::BoundFuncDesc<ProfilingItem, shared_ptr<const RBX::Reflection::Tuple>(int)> func_GetTimesForFrames(&ProfilingItem::getTimesForFrames, "GetTimesForFrames", "frames", 1, RBX::Security::Plugin);
+static ARL::Reflection::BoundFuncDesc<ProfilingItem, shared_ptr<const ARL::Reflection::Tuple>(double)> func_GetTimes(&ProfilingItem::getTimes, "GetTimes", "window", 0.0, ARL::Security::Plugin);
+static ARL::Reflection::BoundFuncDesc<ProfilingItem, shared_ptr<const ARL::Reflection::Tuple>(int)> func_GetTimesForFrames(&ProfilingItem::getTimesForFrames, "GetTimesForFrames", "frames", 1, ARL::Security::Plugin);
 REFLECTION_END();
 
 
-namespace RBX
+namespace ARL
 {		
 	namespace Stats
 	{
@@ -202,7 +202,7 @@ namespace RBX
 		{
 			if (exception)
 			{
-#if !defined(RBX_PLATFORM_DURANGO) // remove this define in future?
+#if !defined(ARL_PLATFORM_DURANGO) // remove this define in future?
 				StandardOut::singleton()->printf(MESSAGE_ERROR, "%s: %s", url.c_str(), exception->what());
 #endif
 			}
@@ -235,8 +235,8 @@ namespace RBX
 
 		void setUserId(int id)
 		{
-			userId = RBX::format("%d", id);
-			RBX::Analytics::setUserId(id);
+			userId = ARL::format("%d", id);
+			ARL::Analytics::setUserId(id);
 		}
 
 		void setBrowserTrackerId(const std::string& trackerId)
@@ -253,31 +253,31 @@ namespace RBX
 			if (baseUrl[baseUrl.size() - 1] != '/')
 				baseUrl += '/';
 
-			httpPost(RBX::format("%sclient-status/set?browserTrackerId=%s&status=%s", baseUrl.c_str(), Http::urlEncode(browserTrackerId).c_str(), Http::urlEncode(status).c_str()), "", blocking, "*/*");
+			httpPost(ARL::format("%sclient-status/set?browserTrackerId=%s&status=%s", baseUrl.c_str(), Http::urlEncode(browserTrackerId).c_str(), Http::urlEncode(status).c_str()), "", blocking, "*/*");
 		}
 
 		const char* const  sStats = "Stats";
 
         REFLECTION_BEGIN();
-		static Reflection::BoundFuncDesc<StatsService, void(std::string, shared_ptr<const Reflection::ValueTable>)> func_report(&StatsService::report, "Report", "category", "data", RBX::Security::RobloxScript);
-		static Reflection::BoundFuncDesc<StatsService, void(bool)> func_reportTaskScheduler(&StatsService::reportTaskScheduler, "ReportTaskScheduler", "includeJobs", false, RBX::Security::RobloxScript);
-		static Reflection::BoundFuncDesc<StatsService, void()> func_reportJobsStepWindow(&StatsService::reportJobsStepWindow, "ReportJobsStepWindow", RBX::Security::RobloxScript);
+		static Reflection::BoundFuncDesc<StatsService, void(std::string, shared_ptr<const Reflection::ValueTable>)> func_report(&StatsService::report, "Report", "category", "data", ARL::Security::RobloxScript);
+		static Reflection::BoundFuncDesc<StatsService, void(bool)> func_reportTaskScheduler(&StatsService::reportTaskScheduler, "ReportTaskScheduler", "includeJobs", false, ARL::Security::RobloxScript);
+		static Reflection::BoundFuncDesc<StatsService, void()> func_reportJobsStepWindow(&StatsService::reportJobsStepWindow, "ReportJobsStepWindow", ARL::Security::RobloxScript);
 		static Reflection::BoundFuncDesc<StatsService, void(std::string)> prop_reportUrl(&StatsService::setReportUrl, "SetReportUrl", "url", Security::RobloxScript);
 		static Reflection::BoundProp<std::string> prop_reporterType("ReporterType", "Reporting", &StatsService::reporterType, Reflection::PropertyDescriptor::UI, Security::RobloxScript);
 		static Reflection::BoundProp<double> prop_minReportInterval("MinReportInterval", "Reporting", &StatsService::minReportInterval, Reflection::PropertyDescriptor::UI, Security::RobloxScript);
 		
 		const char* const  sStatsItem = "StatsItem";
 
-		static Reflection::BoundFuncDesc<Item, std::string()> func_values(&Item::getStringValue2, "GetValueString", RBX::Security::Plugin);
-		static Reflection::BoundFuncDesc<Item, double()> func_value(&Item::getValue, "GetValue", RBX::Security::Plugin);
+		static Reflection::BoundFuncDesc<Item, std::string()> func_values(&Item::getStringValue2, "GetValueString", ARL::Security::Plugin);
+		static Reflection::BoundFuncDesc<Item, double()> func_value(&Item::getValue, "GetValue", ARL::Security::Plugin);
         REFLECTION_END();
 
 		static void reportResult(std::string * message, std::exception * exception)
 		{
 			if (exception)
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "StatsService Report failed: %s", exception->what());
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "StatsService Report failed: %s", exception->what());
 			//if (message)
-			//	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "StatsService Report result: %s", message->c_str());
+			//	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "StatsService Report result: %s", message->c_str());
 		}
 
 		void JsonWriter::writeTableEntries(const Reflection::ValueTable& data)
@@ -378,11 +378,11 @@ namespace RBX
 			{
 				s << value.get<std::string>();
 			}
-			else if (value.type() == RBX::Reflection::Type::singleton<bool>())
+			else if (value.type() == ARL::Reflection::Type::singleton<bool>())
 			{
 				s << value.get<std::string>();	// v = "true" | "false"
 			}
-			else if (value.type() == RBX::Reflection::Type::singleton< shared_ptr<const Reflection::ValueTable> >())
+			else if (value.type() == ARL::Reflection::Type::singleton< shared_ptr<const Reflection::ValueTable> >())
 			{
 				s << "{ "; 
 				bool needComma = false;
@@ -391,7 +391,7 @@ namespace RBX
 				s << " }";
 				hasNonJsonType = writer.seenNonJsonType();
 			}
-			else if (value.type() == RBX::Reflection::Type::singleton< shared_ptr<const Reflection::ValueArray> >())
+			else if (value.type() == ARL::Reflection::Type::singleton< shared_ptr<const Reflection::ValueArray> >())
 			{
 				s << "[ "; 
 				bool needComma = false;
@@ -436,7 +436,7 @@ namespace RBX
 			int id = 0;
 			bool needComma = false;
 
-			if (RBX::DataModel* dataModel = DataModel::get(this))
+			if (ARL::DataModel* dataModel = DataModel::get(this))
 			{
 				id = dataModel->getPlaceIDOrZeroInStudio();
 				if (id != 0)
@@ -472,7 +472,7 @@ static const bool jobsAsArray = true;
 			// copy base url, to allow modification
 			std::string baseUrl = baseUrlInput;
 
-			RBXASSERT(baseUrl.substr(0, 7) == "http://");
+			ARLASSERT(baseUrl.substr(0, 7) == "http://");
 			if (baseUrl.find("arl.lambda.cam") != std::string::npos)
 				baseUrl = "http://arl.lambda.cam/";
 			else
@@ -549,7 +549,7 @@ static const bool jobsAsArray = true;
 
 			*stream << " \"category\":\"" << category << "\"";
 
-			*stream << ", \"ThreadPoolSize\": "     << RBX::TaskScheduler::singleton().threadPoolSize();
+			*stream << ", \"ThreadPoolSize\": "     << ARL::TaskScheduler::singleton().threadPoolSize();
 
 			std::vector<boost::shared_ptr<const TaskScheduler::Job> > jobs;
 			TaskScheduler::singleton().getJobsInfo(jobs);
@@ -608,14 +608,14 @@ static const bool jobsAsArray = true;
 			*stream << " \"category\":\"" << category << "\""; 
 
 			*stream << ", \"DataModelCount\": "     << DataModel::count;
-			*stream << ", \"ThreadAffinity\": "     << RBX::TaskScheduler::singleton().threadAffinity();
-			*stream << ", \"NumSleepingJobs\": "    << RBX::TaskScheduler::singleton().numSleepingJobs();
-			*stream << ", \"NumWaitingJobs\": "     << RBX::TaskScheduler::singleton().numWaitingJobs();
-			*stream << ", \"NumRunningJobs\": "     << RBX::TaskScheduler::singleton().numRunningJobs();
-			*stream << ", \"ThreadPoolSize\": "     << RBX::TaskScheduler::singleton().threadPoolSize();
-			*stream << ", \"SchedulerRate\": "      << RBX::TaskScheduler::singleton().schedulerRate();
-			*stream << ", \"SchedulerDutyCyclePerThread\": " << RBX::TaskScheduler::singleton().getSchedulerDutyCyclePerThread();
-			*stream << ", \"PriorityMethod\": "     << RBX::TaskScheduler::priorityMethod;
+			*stream << ", \"ThreadAffinity\": "     << ARL::TaskScheduler::singleton().threadAffinity();
+			*stream << ", \"NumSleepingJobs\": "    << ARL::TaskScheduler::singleton().numSleepingJobs();
+			*stream << ", \"NumWaitingJobs\": "     << ARL::TaskScheduler::singleton().numWaitingJobs();
+			*stream << ", \"NumRunningJobs\": "     << ARL::TaskScheduler::singleton().numRunningJobs();
+			*stream << ", \"ThreadPoolSize\": "     << ARL::TaskScheduler::singleton().threadPoolSize();
+			*stream << ", \"SchedulerRate\": "      << ARL::TaskScheduler::singleton().schedulerRate();
+			*stream << ", \"SchedulerDutyCyclePerThread\": " << ARL::TaskScheduler::singleton().getSchedulerDutyCyclePerThread();
+			*stream << ", \"PriorityMethod\": "     << ARL::TaskScheduler::priorityMethod;
 
 			if (includeJobs)
 			{
@@ -685,7 +685,7 @@ static const bool jobsAsArray = true;
 				return true;
 			}
 
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "The report '%s' was throttled. Adhere to MinReportInterval", category.c_str());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "The report '%s' was throttled. Adhere to MinReportInterval", category.c_str());
 			return false;
 		}
 
@@ -703,7 +703,7 @@ static const bool jobsAsArray = true;
 					VMProtectEnd();
 				}
 			}
-			catch (RBX::base_exception&)
+			catch (ARL::base_exception&)
 			{
                 // Swallow exception to make it harder to see (security)
 			}
@@ -712,7 +712,7 @@ static const bool jobsAsArray = true;
 		static void onGatherScript(weak_ptr<DataModel> dm, std::string* json, std::exception* error )
 		{
 			if (error)
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "StatsService script url retrieval failed: %s", error->what());
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "StatsService script url retrieval failed: %s", error->what());
 			else if (json)
 			{
 				if (shared_ptr<DataModel> d = dm.lock())
@@ -744,10 +744,10 @@ static const bool jobsAsArray = true;
                         Http http(url);
 						http.get(script);
 					}
-					catch (RBX::base_exception& e)
+					catch (ARL::base_exception& e)
 					{
-						RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, "StatsService script %s retrieval failed: %s", url.c_str(), e.what());
-						RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "StatsService script retrieval failed: %s", e.what());
+						ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "StatsService script %s retrieval failed: %s", url.c_str(), e.what());
+						ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "StatsService script retrieval failed: %s", e.what());
 						return;
 					}
 
@@ -755,9 +755,9 @@ static const bool jobsAsArray = true;
 					{
 						d->submitTask(boost::bind(&runScript, d, script), DataModelJob::Write);
 					}
-					catch (RBX::base_exception& e)
+					catch (ARL::base_exception& e)
 					{
-						RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "StatsService failed to run script: %s", e.what());
+						ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "StatsService failed to run script: %s", e.what());
 					}
 					
 				}
@@ -918,7 +918,7 @@ static const bool jobsAsArray = true;
 		}
 
         template<>
-        Item* Item::createBoundChildItem(const char* name, const RunningAverageTimeInterval<RBX::Time::Benchmark>& ra)
+        Item* Item::createBoundChildItem(const char* name, const RunningAverageTimeInterval<ARL::Time::Benchmark>& ra)
         {
             shared_ptr<Item> item = Creatable<Instance>::create< RunningAverageTimeIntervalItemTimeBenchmark >(&ra);
             item->setName(name);
@@ -956,16 +956,16 @@ static const bool jobsAsArray = true;
 }
 
 
-RBX_REGISTER_CLASS(RBX::Stats::Item);
-RBX_REGISTER_CLASS(RunningAverageItemInt);
-RBX_REGISTER_CLASS(RunningAverageItemDouble);
-RBX_REGISTER_CLASS(ProfilingItem);
-RBX_REGISTER_CLASS(RBX::Stats::StatsService);
-RBX_REGISTER_CLASS(TotalCountTimeIntervalItem);
-RBX_REGISTER_CLASS(RunningAverageTimeIntervalItemTimeBenchmark);
+ARL_REGISTER_CLASS(ARL::Stats::Item);
+ARL_REGISTER_CLASS(RunningAverageItemInt);
+ARL_REGISTER_CLASS(RunningAverageItemDouble);
+ARL_REGISTER_CLASS(ProfilingItem);
+ARL_REGISTER_CLASS(ARL::Stats::StatsService);
+ARL_REGISTER_CLASS(TotalCountTimeIntervalItem);
+ARL_REGISTER_CLASS(RunningAverageTimeIntervalItemTimeBenchmark);
 
-void RBX::registerStatsClasses()
+void ARL::registerStatsClasses()
 {
 	// Prevent optimizer from stripping code
-	RBX::Stats::StatsService::classDescriptor();
+	ARL::Stats::StatsService::classDescriptor();
 }

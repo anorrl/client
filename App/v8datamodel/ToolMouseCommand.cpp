@@ -14,7 +14,7 @@
 
 FASTFLAG(UseFixedRightMouseClickBehaviour)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sToolMouseCommand = "ToolMouseCommand";
 
@@ -41,7 +41,7 @@ void ToolMouseCommand::updateTargetPoint(const shared_ptr<InputObject>& inputObj
 	{
 		if (!getPartByLocalCharacter(workspace, inputObject, NULL, hitWorld)) 
 		{
-			RBX::RbxRay ray = getSearchRay(inputObject);
+			ARL::RbxRay ray = getSearchRay(inputObject);
 			PartInstance* head = h->getHeadSlow();
 			hitWorld = head ? head->getCoordinateFrame().translation : ray.origin();
 			hitWorld += ray.direction();
@@ -116,7 +116,7 @@ bool ToolMouseCommand::tryClickable(const shared_ptr<InputObject>& inputObject, 
 	bool clickable = false;
 	if(part)
 	{
-		RBX::Network::Player* localPlayer = RBX::Network::Players::findLocalPlayer(tool.get());
+		ARL::Network::Player* localPlayer = ARL::Network::Players::findLocalPlayer(tool.get());
 		clickable = ClickDetector::isClickable(part, distanceToCharacter(part->getTranslationUi()), true, localPlayer);
 	}
 

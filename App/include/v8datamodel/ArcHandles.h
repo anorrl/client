@@ -9,7 +9,7 @@
 
 #include "AppDraw/HandleType.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sArcHandles;
 
@@ -21,17 +21,17 @@ namespace RBX
 	public:
 		ArcHandles();
 
-		rbx::remote_signal<void(RBX::Vector3::Axis)>				mouseEnterSignal;
-		rbx::remote_signal<void(RBX::Vector3::Axis)>				mouseLeaveSignal;	
-		rbx::remote_signal<void(RBX::Vector3::Axis,float,float)>	mouseDragSignal;
-		rbx::remote_signal<void(RBX::Vector3::Axis)>				mouseButton1DownSignal;
-		rbx::remote_signal<void(RBX::Vector3::Axis)>				mouseButton1UpSignal;	
+		rbx::remote_signal<void(ARL::Vector3::Axis)>				mouseEnterSignal;
+		rbx::remote_signal<void(ARL::Vector3::Axis)>				mouseLeaveSignal;	
+		rbx::remote_signal<void(ARL::Vector3::Axis,float,float)>	mouseDragSignal;
+		rbx::remote_signal<void(ARL::Vector3::Axis)>				mouseButton1DownSignal;
+		rbx::remote_signal<void(ARL::Vector3::Axis)>				mouseButton1UpSignal;	
 
-		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseEnter,		void(RBX::Vector3::Axis));
-		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseLeave,		void(RBX::Vector3::Axis));
-		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseDrag,		void(RBX::Vector3::Axis,float,float));
-		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseButton1Down,	void(RBX::Vector3::Axis));
-		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseButton1Up,	void(RBX::Vector3::Axis));
+		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseEnter,		void(ARL::Vector3::Axis));
+		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseLeave,		void(ARL::Vector3::Axis));
+		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseDrag,		void(ARL::Vector3::Axis,float,float));
+		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseButton1Down,	void(ARL::Vector3::Axis));
+		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseButton1Up,	void(ARL::Vector3::Axis));
 		
 		void	setAxes(Axes value);
 		Axes	getAxes() const { return axes; }
@@ -50,7 +50,7 @@ namespace RBX
 		////////////////////////////////////////////////////////////////////////////////////
 		// 
 		// HandlesBase
-		/*override*/ RBX::HandleType getHandleType() const;
+		/*override*/ ARL::HandleType getHandleType() const;
 
 	protected:
 		////////////////////////////////////////////////////////////////////////////////////

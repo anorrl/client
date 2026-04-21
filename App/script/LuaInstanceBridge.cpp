@@ -35,7 +35,7 @@
 
 FASTFLAG(LuaDebugger)
 
-void RBX::Lua::newweaktable(lua_State *L, const char *mode) {
+void ARL::Lua::newweaktable(lua_State *L, const char *mode) {
 	lua_newtable(L);
 	lua_pushvalue(L, -1);  // table is its own metatable
 	lua_setmetatable(L, -2);
@@ -44,9 +44,9 @@ void RBX::Lua::newweaktable(lua_State *L, const char *mode) {
 	lua_settable(L, -3);   // metatable.__mode = mode
 }
 
-using namespace RBX;
-using namespace RBX::Reflection;
-using namespace RBX::Lua;
+using namespace ARL;
+using namespace ARL::Reflection;
+using namespace ARL::Lua;
 
 template<>
 const char* Bridge< shared_ptr<Instance>, false >::className("Object"); 		
@@ -65,11 +65,11 @@ const luaL_reg ObjectBridge::classLibrary[] = {
 int ObjectBridge::newInstance(lua_State *thread)
 {
 	const char* name = throwable_lua_tostring(thread, 1);
-	const RBX::Name& className = RBX::Name::lookup(name);
+	const ARL::Name& className = ARL::Name::lookup(name);
 
-	shared_ptr<Instance> instance = Creatable<Instance>::createByName(className, RBX::ScriptingCreator);
+	shared_ptr<Instance> instance = Creatable<Instance>::createByName(className, ARL::ScriptingCreator);
 	if (!instance)
-		throw RBX::runtime_error("Unable to create an Instance of type \"%s\"", name);
+		throw ARL::runtime_error("Unable to create an Instance of type \"%s\"", name);
 
 	if (lua_gettop(thread)>=2)
 	{
@@ -78,7 +78,7 @@ int ObjectBridge::newInstance(lua_State *thread)
 		{
 			// only allow parenting to roblox locked objects if we are in the right permission level 
 			if (parent->getRobloxLocked())
-				RBX::Security::Context::current().requirePermission(RBX::Security::Plugin, "Parent in Instance.new()");
+				ARL::Security::Context::current().requirePermission(ARL::Security::Plugin, "Parent in Instance.new()");
 
 			instance->setParent(parent.get());
 		}
@@ -104,15 +104,15 @@ int ObjectBridge::unlockInstance(lua_State *thread)
 
 
 
-static void pushLuaValue(RBX::Reflection::ConstProperty p, lua_State *L, RBX::Security::Context& securityContext)
+static void pushLuaValue(ARL::Reflection::ConstProperty p, lua_State *L, ARL::Security::Context& securityContext)
 {
-	const RBX::Reflection::PropertyDescriptor& desc(p.getDescriptor());
+	const ARL::Reflection::PropertyDescriptor& desc(p.getDescriptor());
 
-	if (desc.security!=RBX::Security::None)
+	if (desc.security!=ARL::Security::None)
 		securityContext.requirePermission(desc.security, desc.name.c_str());
 
 	if (!desc.isScriptable())
-		throw RBX::runtime_error("Unable to query property %s. It is not scriptable", p.getName().c_str());
+		throw ARL::runtime_error("Unable to query property %s. It is not scriptable", p.getName().c_str());
 
 	if (desc.type==Type::singleton<int>())
 	{
@@ -180,9 +180,9 @@ static void pushLuaValue(RBX::Reflection::ConstProperty p, lua_State *L, RBX::Se
 		return;
 	}
 
-	if (desc.type==Type::singleton<RBX::RbxRay>())
+	if (desc.type==Type::singleton<ARL::RbxRay>())
 	{
-		RbxRayBridge::pushNewObject(L, p.getValue<RBX::RbxRay>());
+		RbxRayBridge::pushNewObject(L, p.getValue<ARL::RbxRay>());
 		return;
 	}
 
@@ -301,7 +301,7 @@ static void pushLuaValue(RBX::Reflection::ConstProperty p, lua_State *L, RBX::Se
 				EnumItem::push(L, item);
 				return;
 			}
-			throw RBX::runtime_error("Invalid value for enum %s", enumDesc->name.c_str());
+			throw ARL::runtime_error("Invalid value for enum %s", enumDesc->name.c_str());
 		}
 	}
 
@@ -326,7 +326,7 @@ static void pushLuaValue(RBX::Reflection::ConstProperty p, lua_State *L, RBX::Se
 
 	// TODO: Implement ValueArray
 
-	throw RBX::runtime_error("Unable to get property %s, type %s", p.getName().c_str(), desc.type.name.c_str());
+	throw ARL::runtime_error("Unable to get property %s, type %s", p.getName().c_str(), desc.type.name.c_str());
 }
 
 
@@ -341,7 +341,7 @@ static const char* PropertyNameCorrection(const shared_ptr<Instance>& object, co
 	return name;
 }
 
-namespace RBX { namespace Lua {
+namespace ARL { namespace Lua {
 
 	template<>
 	int Bridge< shared_ptr<Instance>, false >::on_index(const shared_ptr<Instance>& object, const char* name, lua_State *L)
@@ -349,12 +349,12 @@ namespace RBX { namespace Lua {
 		if (object==NULL)
 			throw std::runtime_error("The object has been deleted");
 
-        RBXPROFILER_SCOPE("LuaBridge", "$index");
-        RBXPROFILER_LABELF("LuaBridge", "%s.%s", object->getDescriptor().name.c_str(), name);
+        ARLPROFILER_SCOPE("LuaBridge", "$index");
+        ARLPROFILER_LABELF("LuaBridge", "%s.%s", object->getDescriptor().name.c_str(), name);
 
 		name = PropertyNameCorrection(object, name, L);
 
-		RBX::Security::Context& securityContext = RBX::Security::Context::current();
+		ARL::Security::Context& securityContext = ARL::Security::Context::current();
 
 
 		// Look for a property:
@@ -389,7 +389,7 @@ namespace RBX { namespace Lua {
 				lua_pushvalue(L, -2);               // Stack:   closure, desc, closure
 				lua_settable(L, LUA_ENVIRONINDEX);  // Stack:   closure
 			}
-			RBXASSERT(lua_isfunction(L, -1));          // Stack:   closure
+			ARLASSERT(lua_isfunction(L, -1));          // Stack:   closure
 			return 1;
 		}
 
@@ -417,7 +417,7 @@ namespace RBX { namespace Lua {
 				lua_pushvalue(L, -2);               // Stack:   closure, desc, closure
 				lua_settable(L, LUA_ENVIRONINDEX);  // Stack:   closure
 			}
-			RBXASSERT(lua_isfunction(L, -1));          // Stack:   closure
+			ARLASSERT(lua_isfunction(L, -1));          // Stack:   closure
 			return 1;
 		}
 
@@ -426,7 +426,7 @@ namespace RBX { namespace Lua {
 		{
 			object->securityCheck(securityContext);
 			if (object->getRobloxLocked())
-				securityContext.requirePermission(RBX::Security::Plugin, name);
+				securityContext.requirePermission(ARL::Security::Plugin, name);
 
 			EventInstance evt = { signal, object };
 			EventBridge::pushNewObject(L, evt);
@@ -435,24 +435,24 @@ namespace RBX { namespace Lua {
 
 		// Look for a child with the same name
 		{
-			RBX::Instance* child = object->findFirstChildByName(name);
+			ARL::Instance* child = object->findFirstChildByName(name);
 			if (child!=NULL)
 			{
 				object->securityCheck(securityContext);
 				if (object->getRobloxLocked())
-					securityContext.requirePermission(RBX::Security::Plugin, name);
+					securityContext.requirePermission(ARL::Security::Plugin, name);
 				ObjectBridge::push(L, shared_from(child));
 				return 1;
 			}
 		}
 
-        if (RBX::Name::lookup(name).empty())
+        if (ARL::Name::lookup(name).empty())
         {
             // Short-term hack to handle old-style camelCase members
             std::string name2 = name;
             name2[0] = toupper(name[0]);
             // TODO: We should only look up members of the class in question, not generically for ALL names in the world!
-            if (name2[0]!=name[0] && !RBX::Name::lookup(name2).empty())
+            if (name2[0]!=name[0] && !ARL::Name::lookup(name2).empty())
             {
                 int result = on_index(object, name2.c_str(), L);
                 ScriptContext::getContext(L).camelCaseViolation(object, name, RobloxExtraSpace::get(L)->script.lock());
@@ -462,25 +462,25 @@ namespace RBX { namespace Lua {
 
         if (object->findCallbackDescriptor(name))
         {
-            throw RBX::runtime_error("%s is a callback member of %s; you can only set the callback value, get is not available", name, object->getDescriptor().name.c_str());
+            throw ARL::runtime_error("%s is a callback member of %s; you can only set the callback value, get is not available", name, object->getDescriptor().name.c_str());
         }
 
 		// Failure
-		throw RBX::runtime_error("%s is not a valid member of %s", name, object->getDescriptor().name.c_str());
+		throw ARL::runtime_error("%s is not a valid member of %s", name, object->getDescriptor().name.c_str());
 	}
 
 }} //namespace
 
 
-static void assignLuaValue(RBX::Reflection::Property p, lua_State *L, int index, RBX::Security::Context& securityContext)
+static void assignLuaValue(ARL::Reflection::Property p, lua_State *L, int index, ARL::Security::Context& securityContext)
 {
-	const RBX::Reflection::PropertyDescriptor& desc(p.getDescriptor());
+	const ARL::Reflection::PropertyDescriptor& desc(p.getDescriptor());
 
-	if(desc.security!=RBX::Security::None)
+	if(desc.security!=ARL::Security::None)
 		securityContext.requirePermission(desc.security, desc.name.c_str());
 
 	if (!desc.isScriptable())
-		throw RBX::runtime_error("Unable to assign property %s. It is not scriptable", p.getName().c_str());
+		throw ARL::runtime_error("Unable to assign property %s. It is not scriptable", p.getName().c_str());
 
 	if (desc.type==Type::singleton<int>())
 	{
@@ -560,9 +560,9 @@ static void assignLuaValue(RBX::Reflection::Property p, lua_State *L, int index,
 		}
 	}
 
-	if (desc.type==Type::singleton<RBX::RbxRay>())
+	if (desc.type==Type::singleton<ARL::RbxRay>())
 	{
-		p.setValue<RBX::RbxRay>(RbxRayBridge::getObject(L, index));
+		p.setValue<ARL::RbxRay>(RbxRayBridge::getObject(L, index));
 		return;
 	}
 
@@ -638,28 +638,28 @@ static void assignLuaValue(RBX::Reflection::Property p, lua_State *L, int index,
     }
 
 
-	const TypedPropertyDescriptor<RBX::Soundscape::SoundId>* soundProp = dynamic_cast<const TypedPropertyDescriptor<RBX::Soundscape::SoundId>*>(&p.getDescriptor());
+	const TypedPropertyDescriptor<ARL::Soundscape::SoundId>* soundProp = dynamic_cast<const TypedPropertyDescriptor<ARL::Soundscape::SoundId>*>(&p.getDescriptor());
 	if (soundProp!=NULL)
 	{
-		p.setValue<RBX::Soundscape::SoundId>(ContentId(throwable_lua_tostring(L, index)));
+		p.setValue<ARL::Soundscape::SoundId>(ContentId(throwable_lua_tostring(L, index)));
 		return;
 	}
 
-	const TypedPropertyDescriptor<RBX::TextureId>* textureProp = dynamic_cast<const TypedPropertyDescriptor<RBX::TextureId>*>(&p.getDescriptor());
+	const TypedPropertyDescriptor<ARL::TextureId>* textureProp = dynamic_cast<const TypedPropertyDescriptor<ARL::TextureId>*>(&p.getDescriptor());
 	if (textureProp!=NULL)
 	{
 		p.setValue<TextureId>(ContentId(throwable_lua_tostring(L, index)));
 		return;
 	}
 
-	const TypedPropertyDescriptor<RBX::MeshId>* meshProp = dynamic_cast<const TypedPropertyDescriptor<RBX::MeshId>*>(&p.getDescriptor());
+	const TypedPropertyDescriptor<ARL::MeshId>* meshProp = dynamic_cast<const TypedPropertyDescriptor<ARL::MeshId>*>(&p.getDescriptor());
 	if (meshProp!=NULL)
 	{
 		p.setValue<MeshId>(ContentId(throwable_lua_tostring(L, index)));
 		return;
 	}
 
-	const TypedPropertyDescriptor<RBX::AnimationId>* animationProp = dynamic_cast<const TypedPropertyDescriptor<RBX::AnimationId>*>(&p.getDescriptor());
+	const TypedPropertyDescriptor<ARL::AnimationId>* animationProp = dynamic_cast<const TypedPropertyDescriptor<ARL::AnimationId>*>(&p.getDescriptor());
 	if (animationProp!=NULL)
 	{
 		p.setValue<AnimationId>(ContentId(throwable_lua_tostring(L, index)));
@@ -674,20 +674,20 @@ static void assignLuaValue(RBX::Reflection::Property p, lua_State *L, int index,
 		if (EnumItem::getItem(L, index, item))
 		{
 			if (!enumDesc->setEnumItem(p.getInstance(), *item))
-				throw RBX::runtime_error("Invalid type %s for enum %s", item->owner.name.c_str(), enumDesc->name.c_str());
+				throw ARL::runtime_error("Invalid type %s for enum %s", item->owner.name.c_str(), enumDesc->name.c_str());
 		}
 		else if (lua_isnumber(L, index))
 		{
 			if (!enumDesc->setEnumValue(p.getInstance(), lua_tointeger(L, index) ))
-				throw RBX::runtime_error("Invalid value %d for enum %s", static_cast<int>(lua_tointeger(L, index)), enumDesc->name.c_str());
+				throw ARL::runtime_error("Invalid value %d for enum %s", static_cast<int>(lua_tointeger(L, index)), enumDesc->name.c_str());
 		}
 		else if (lua_isstring(L, index))
 		{
 			if (!enumDesc->setStringValue(p.getInstance(), lua_tostring(L, index)))
-				throw RBX::runtime_error("Invalid value \"%s\" for enum %s", lua_tostring(L, index), enumDesc->name.c_str());
+				throw ARL::runtime_error("Invalid value \"%s\" for enum %s", lua_tostring(L, index), enumDesc->name.c_str());
 		} 
 		else
-			throw RBX::runtime_error("Invalid value for enum %s", enumDesc->name.c_str());
+			throw ARL::runtime_error("Invalid value for enum %s", enumDesc->name.c_str());
 		return;
 	}
 
@@ -699,7 +699,7 @@ static void assignLuaValue(RBX::Reflection::Property p, lua_State *L, int index,
 		return;
 	}
 
-	throw RBX::runtime_error("Unable to set property %s, type %s", p.getName().c_str(), p.getDescriptor().type.name.c_str());
+	throw ARL::runtime_error("Unable to set property %s, type %s", p.getName().c_str(), p.getDescriptor().type.name.c_str());
 }
 
 
@@ -713,14 +713,14 @@ static void readResults(shared_ptr<Reflection::Tuple>& result, lua_State* thread
 	}
 }
 
-namespace RBX { namespace Lua {
+namespace ARL { namespace Lua {
 shared_ptr<Tuple> callCallback(Lua::WeakFunctionRef function, shared_ptr<const Tuple> args, boost::intrusive_ptr<WeakThreadRef> cachedCallbackThread)
 {
 	ThreadRef functionThread = function.lock();
 	if(!functionThread)
 		throw std::runtime_error("Script that implemented this callback has been destroyed");
 
-	RBXASSERT_BALLANCED_LUA_STACK(functionThread);
+	ARLASSERT_BALLANCED_LUA_STACK(functionThread);
 
 	// Create a child thread that will execute the callback
 	ThreadRef callbackThread = cachedCallbackThread->lock();
@@ -732,21 +732,21 @@ shared_ptr<Tuple> callCallback(Lua::WeakFunctionRef function, shared_ptr<const T
 		int top = lua_gettop(functionThread);
 
 		callbackThread = lua_newthread(functionThread);
-		RBXASSERT(lua_isthread(functionThread, -1));
+		ARLASSERT(lua_isthread(functionThread, -1));
 
 		while (lua_gettop(functionThread)>top+1)				//oldTop, ???, slotThread
 		{
 			// This is because of a strange bug in Lua???
 			lua_remove(functionThread, -2);
 		}
-		RBXASSERT(lua_isthread(functionThread, -1));
-		RBXASSERT(top+1 == lua_gettop(functionThread));			//oldTop, slotThread
+		ARLASSERT(lua_isthread(functionThread, -1));
+		ARLASSERT(top+1 == lua_gettop(functionThread));			//oldTop, slotThread
 
 		createdThread = true;
 	}
 
 	{
-		RBXASSERT_BALLANCED_LUA_STACK(callbackThread);
+		ARLASSERT_BALLANCED_LUA_STACK(callbackThread);
 
 		// Push the function onto the stack
 		lua_pushfunction(functionThread, function);						//createdThread ? (oldTop, function) : (oldTop, slotThread, function)
@@ -760,9 +760,9 @@ shared_ptr<Tuple> callCallback(Lua::WeakFunctionRef function, shared_ptr<const T
 		const int nargs = LuaArguments::pushTuple(*args, callbackThread);
 
 		//HACK: Make sure we don't yield while debugging
-		RBX::Scripting::ScriptDebugger* pDebugger = NULL;
+		ARL::Scripting::ScriptDebugger* pDebugger = NULL;
 		if (::FFlag::LuaDebugger)
-			pDebugger = RBX::Scripting::DebuggerManager::singleton().findDebugger(callbackThread.get());
+			pDebugger = ARL::Scripting::DebuggerManager::singleton().findDebugger(callbackThread.get());
 
 		if (pDebugger)
 			pDebugger->setIgnoreDebuggerBreak(true);
@@ -775,7 +775,7 @@ shared_ptr<Tuple> callCallback(Lua::WeakFunctionRef function, shared_ptr<const T
 		// Pop callbackThread from the parent's stack
 		if (createdThread)
 		{
-			RBXASSERT(lua_isthread(functionThread, -1));
+			ARLASSERT(lua_isthread(functionThread, -1));
 			lua_pop(functionThread, 1);
 		}
 
@@ -838,7 +838,7 @@ void callAsyncCallback(Lua::WeakFunctionRef function, shared_ptr<const Tuple> ar
 	if(!functionThread)
 		throw std::runtime_error("Script that implemented this callback has been destroyed");
 
-	RBXASSERT_BALLANCED_LUA_STACK(functionThread);
+	ARLASSERT_BALLANCED_LUA_STACK(functionThread);
 
 	// Create a child thread that will execute the callback
 	ThreadRef callbackThread = cachedCallbackThread->lock();
@@ -855,7 +855,7 @@ void callAsyncCallback(Lua::WeakFunctionRef function, shared_ptr<const Tuple> ar
 	}
 
     // Push the function onto the stack
-    RBXASSERT(lua_gettop(callbackThread) == 0);
+    ARLASSERT(lua_gettop(callbackThread) == 0);
 
     lua_pushfunction(callbackThread, function);
 
@@ -886,7 +886,7 @@ void callAsyncCallback(Lua::WeakFunctionRef function, shared_ptr<const Tuple> ar
             continuations.success = boost::bind(callAsyncCallbackSuccess, resumeFunction, _1);
             continuations.error = boost::bind(callAsyncCallbackError, errorFunction, _1);
 
-            RBXASSERT(RobloxExtraSpace::get(callbackThread.get())->continuations.get() == NULL);
+            ARLASSERT(RobloxExtraSpace::get(callbackThread.get())->continuations.get() == NULL);
             RobloxExtraSpace::get(callbackThread.get())->continuations.reset(new Lua::Continuations(continuations));
 
             break;
@@ -905,16 +905,16 @@ void callAsyncCallback(Lua::WeakFunctionRef function, shared_ptr<const Tuple> ar
 
 }}
 
-static void assignLuaCallback(RBX::Reflection::Callback callback, lua_State *L, int index)
+static void assignLuaCallback(ARL::Reflection::Callback callback, lua_State *L, int index)
 {
-	const RBX::Reflection::CallbackDescriptor& desc(callback.getDescriptor());
+	const ARL::Reflection::CallbackDescriptor& desc(callback.getDescriptor());
 
-	if (desc.security!=RBX::Security::None)
-		RBX::Security::Context::current().requirePermission(desc.security, desc.name.c_str());
+	if (desc.security!=ARL::Security::None)
+		ARL::Security::Context::current().requirePermission(desc.security, desc.name.c_str());
 
     if (desc.isAsync())
     {
-        const RBX::Reflection::AsyncCallbackDescriptor& adesc = static_cast<const RBX::Reflection::AsyncCallbackDescriptor&>(desc);
+        const ARL::Reflection::AsyncCallbackDescriptor& adesc = static_cast<const ARL::Reflection::AsyncCallbackDescriptor&>(desc);
 
         if (lua_isnil(L, index))
         {
@@ -929,7 +929,7 @@ static void assignLuaCallback(RBX::Reflection::Callback callback, lua_State *L, 
     }
     else
     {
-        const RBX::Reflection::SyncCallbackDescriptor& sdesc = static_cast<const RBX::Reflection::SyncCallbackDescriptor&>(desc);
+        const ARL::Reflection::SyncCallbackDescriptor& sdesc = static_cast<const ARL::Reflection::SyncCallbackDescriptor&>(desc);
 
         if (lua_isnil(L, index))
         {
@@ -950,13 +950,13 @@ void Bridge< shared_ptr<Instance>, false >::on_newindex(shared_ptr<Instance>& ob
 	if (!object)
 		throw std::runtime_error("The object has been deleted");
 
-    RBXPROFILER_SCOPE("LuaBridge", "$newindex");
-    RBXPROFILER_LABELF("LuaBridge", "%s.%s", object->getDescriptor().name.c_str(), name);
+    ARLPROFILER_SCOPE("LuaBridge", "$newindex");
+    ARLPROFILER_LABELF("LuaBridge", "%s.%s", object->getDescriptor().name.c_str(), name);
 
 	// TODO: Ensure that this cast is safe!
 	Instance* instance = boost::polymorphic_downcast<Instance*>(object.get());
 
-	RBX::Security::Context& securityContext = RBX::Security::Context::current();
+	ARL::Security::Context& securityContext = ARL::Security::Context::current();
 
 	instance->securityCheck(securityContext);
 
@@ -969,17 +969,17 @@ void Bridge< shared_ptr<Instance>, false >::on_newindex(shared_ptr<Instance>& ob
 		if (desc==Instance::propParent)
 		{
 			if(instance->getRobloxLocked())
-				securityContext.requirePermission(RBX::Security::Plugin, desc.name.c_str());
+				securityContext.requirePermission(ARL::Security::Plugin, desc.name.c_str());
 
 			if(!object->getDescriptor().isScriptCreatable())
-				throw RBX::runtime_error("Cannot change Parent of type %s", object->getDescriptor().name.c_str());
+				throw ARL::runtime_error("Cannot change Parent of type %s", object->getDescriptor().name.c_str());
 
 			shared_ptr<Instance> parent = ObjectBridge::getInstance(L, 3);
 			if (instance->getParent() != parent.get())
 			{
 				if((parent && parent->getRobloxLocked()) || (instance->getParent() && instance->getParent()->getRobloxLocked())){
 					//To add or remove a node from a locked parent, it requires permission
-					securityContext.requirePermission(RBX::Security::Plugin, desc.name.c_str());
+					securityContext.requirePermission(ARL::Security::Plugin, desc.name.c_str());
 				}
 
 				// Was causing too much output spamming so it it being removed.
@@ -991,7 +991,7 @@ void Bridge< shared_ptr<Instance>, false >::on_newindex(shared_ptr<Instance>& ob
 		else
 		{
 			if(instance->getRobloxLocked())
-				securityContext.requirePermission(RBX::Security::Plugin, desc.name.c_str());
+				securityContext.requirePermission(ARL::Security::Plugin, desc.name.c_str());
 
 			assignLuaValue(Property(*prop, instance), L, 3, securityContext);
 		}
@@ -1001,44 +1001,44 @@ void Bridge< shared_ptr<Instance>, false >::on_newindex(shared_ptr<Instance>& ob
 	if (CallbackDescriptor* callback = object->findCallbackDescriptor(name))
 	{
 		if(instance->getRobloxLocked())
-			securityContext.requirePermission(RBX::Security::Plugin, callback->name.c_str());
+			securityContext.requirePermission(ARL::Security::Plugin, callback->name.c_str());
 
 		assignLuaCallback(Callback(*callback, object.get()), L, 3);
 		return;
 	}
 
-	throw RBX::runtime_error("%s is not a valid member of %s", name, object->getDescriptor().name.c_str());
+	throw ARL::runtime_error("%s is not a valid member of %s", name, object->getDescriptor().name.c_str());
 }
 
 int ObjectBridge::callMemberFunction(lua_State *L)
 {
-    RBXPROFILER_SCOPE("LuaBridge", "$call");
+    ARLPROFILER_SCOPE("LuaBridge", "$call");
 
 	// FunctionDescriptor* is at lua_upvalueindex(1)
-	RBXASSERT(lua_islightuserdata(L, lua_upvalueindex(1)));
+	ARLASSERT(lua_islightuserdata(L, lua_upvalueindex(1)));
 
 	const Reflection::FunctionDescriptor* desc = reinterpret_cast<const Reflection::FunctionDescriptor*>(lua_touserdata(L, lua_upvalueindex(1)));
-	if (desc->security!=RBX::Security::None)
-		RBX::Security::Context::current().requirePermission(desc->security, desc->name.c_str());
+	if (desc->security!=ARL::Security::None)
+		ARL::Security::Context::current().requirePermission(desc->security, desc->name.c_str());
 
-    RBXPROFILER_LABELF("LuaBridge", "%s.%s", desc->owner.name.c_str(), desc->name.c_str());
+    ARLPROFILER_LABELF("LuaBridge", "%s.%s", desc->owner.name.c_str(), desc->name.c_str());
 
 	// Instance (self) is at arg index 1
 	shared_ptr<Instance> instance;
 	if (!getPtr(L, 1, instance) || !instance)
-		throw RBX::runtime_error("Expected ':' not '.' calling member function %s", desc->name.c_str());
+		throw ARL::runtime_error("Expected ':' not '.' calling member function %s", desc->name.c_str());
 
-	RBX::Security::Context& securityContext = RBX::Security::Context::current();
+	ARL::Security::Context& securityContext = ARL::Security::Context::current();
 
 	instance->securityCheck(securityContext);
 
 	// only don't call roblox locked objects if they are under core gui (this is a service we control, and roblox locked was designed for this class)
 	if ( instance->getRobloxLocked() && instance->isDescendantOf(ServiceProvider::find<CoreGuiService>(instance.get())) )
-		securityContext.requirePermission(RBX::Security::Plugin, desc->name.c_str());
+		securityContext.requirePermission(ARL::Security::Plugin, desc->name.c_str());
 
 	// Make sure the function is truly a member of the object
 	if (!desc->isMemberOf(instance.get()))
-		throw RBX::runtime_error("The function %s is not a member of \"%s\"", desc->name.c_str(), instance->getDescriptor().name.c_str());
+		throw ARL::runtime_error("The function %s is not a member of \"%s\"", desc->name.c_str(), instance->getDescriptor().name.c_str());
 
 	if (desc->getKind() == FunctionDescriptor::Kind_Custom)
 		return desc->executeCustom(instance.get(), L);
@@ -1070,7 +1070,7 @@ protected:
 				}
 			}
 
-            RBX::ScriptContext* context = RobloxExtraSpace::get(thread)->context();
+            ARL::ScriptContext* context = RobloxExtraSpace::get(thread)->context();
 
             if (context)
             {
@@ -1140,7 +1140,7 @@ public:
 private:
 	void onReturnResult(Variant value)
 	{
-		RBXASSERT(!reentrancyCheck);
+		ARLASSERT(!reentrancyCheck);
 		reentrancyCheck = true;
 
 		if (isExecuting && callingThreadId == GetCurrentThreadId())
@@ -1159,7 +1159,7 @@ private:
 
 	void onRaiseException(std::string message)
 	{
-		RBXASSERT(!reentrancyCheck);
+		ARLASSERT(!reentrancyCheck);
 		reentrancyCheck = true;
 
 		if (isExecuting && callingThreadId == GetCurrentThreadId())
@@ -1174,32 +1174,32 @@ private:
 };
 
 int ObjectBridge::callMemberYieldFunction(lua_State *L) {
-    RBXPROFILER_SCOPE("LuaBridge", "$call");
+    ARLPROFILER_SCOPE("LuaBridge", "$call");
 
 	// YieldFunctionDescriptor* is at lua_upvalueindex(1)
-	RBXASSERT(lua_islightuserdata(L, lua_upvalueindex(1)));
+	ARLASSERT(lua_islightuserdata(L, lua_upvalueindex(1)));
 
 	const Reflection::YieldFunctionDescriptor* desc = reinterpret_cast<const Reflection::YieldFunctionDescriptor*>(lua_touserdata(L, lua_upvalueindex(1)));
-	if (desc->security!=RBX::Security::None)
-		RBX::Security::Context::current().requirePermission(desc->security, desc->name.c_str());
+	if (desc->security!=ARL::Security::None)
+		ARL::Security::Context::current().requirePermission(desc->security, desc->name.c_str());
 
-    RBXPROFILER_LABELF("LuaBridge", "%s.%s", desc->owner.name.c_str(), desc->name.c_str());
+    ARLPROFILER_LABELF("LuaBridge", "%s.%s", desc->owner.name.c_str(), desc->name.c_str());
 
 	// Instance (self) is at arg index 1
 	shared_ptr<Instance> instance;
 	if (!getPtr(L, 1, instance) || !instance)
-		throw RBX::runtime_error("Did you forget a colon? The first argument of member function %s must be an Object", desc->name.c_str());
+		throw ARL::runtime_error("Did you forget a colon? The first argument of member function %s must be an Object", desc->name.c_str());
 
-	RBX::Security::Context& securityContext = RBX::Security::Context::current();
+	ARL::Security::Context& securityContext = ARL::Security::Context::current();
 
 	instance->securityCheck(securityContext);
 
 	if (instance->getRobloxLocked())
-		securityContext.requirePermission(RBX::Security::Plugin, desc->name.c_str());
+		securityContext.requirePermission(ARL::Security::Plugin, desc->name.c_str());
 
 	// Make sure the function is truly a member of the object
 	if (!desc->isMemberOf(instance.get()))
-		throw RBX::runtime_error("The function %s is not a member of \"%s\"", desc->name.c_str(), instance->getDescriptor().name.c_str());
+		throw ARL::runtime_error("The function %s is not a member of \"%s\"", desc->name.c_str(), instance->getDescriptor().name.c_str());
 
 	//Construct a shared_ptr object to keep track of the thread for resuming it later
 	shared_ptr<YieldFunctionStateObject> functionObject(new YieldFunctionStateObject(desc, instance, L));
@@ -1207,7 +1207,7 @@ int ObjectBridge::callMemberYieldFunction(lua_State *L) {
 	return functionObject->execute();
 }
 
-namespace RBX
+namespace ARL
 {
 	namespace Lua
 	{

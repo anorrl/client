@@ -7,7 +7,7 @@
 
 #include "rbx/Profiler.h"
 
-namespace RBX { namespace Voxel2 {
+namespace ARL { namespace Voxel2 {
 
     const unsigned int kChunkSizeLog2 = 5;
     const unsigned int kChunkSize = 1 << kChunkSizeLog2;
@@ -204,7 +204,7 @@ namespace RBX { namespace Voxel2 {
     static unsigned char readUInt8(const std::string& data, unsigned int& readOffset)
     {
         if (readOffset >= data.size())
-            throw RBX::runtime_error("Error while decoding data: unexpected end at offset %u", readOffset);
+            throw ARL::runtime_error("Error while decoding data: unexpected end at offset %u", readOffset);
         
         return data[readOffset++];
     }
@@ -295,7 +295,7 @@ namespace RBX { namespace Voxel2 {
 			std::pair<Cell, unsigned int> run = decodeCellRun(data, readOffset);
 
 			if (offset + run.second > cells.size())
-				throw RBX::runtime_error("Error while decoding data: chunk overflow at %u cells", offset + run.second);
+				throw ARL::runtime_error("Error while decoding data: chunk overflow at %u cells", offset + run.second);
 
             for (unsigned int i = 0; i < run.second; ++i)
                 cells[offset + i] = run.first;
@@ -322,7 +322,7 @@ namespace RBX { namespace Voxel2 {
         
         void operator()(Cell* cells)
         {
-            RBXPROFILER_COUNTER_SUB("memory/terrain/voxel", size);
+            ARLPROFILER_COUNTER_SUB("memory/terrain/voxel", size);
 
     		::operator delete(cells);
         }
@@ -343,7 +343,7 @@ namespace RBX { namespace Voxel2 {
 
 	bool Region::aligned(unsigned int size) const
 	{
-        RBXASSERT(size != 0 && (size & (size - 1)) == 0);
+        ARLASSERT(size != 0 && (size & (size - 1)) == 0);
 
         return ((begin_.x | begin_.y | begin_.z | end_.x | end_.y | end_.z) & (size - 1)) == 0;
 	}
@@ -373,7 +373,7 @@ namespace RBX { namespace Voxel2 {
 
 	Region Region::expandToGrid(unsigned int size) const
 	{
-        RBXASSERT(size != 0 && (size & (size - 1)) == 0);
+        ARLASSERT(size != 0 && (size & (size - 1)) == 0);
 
         int mask = size - 1;
 
@@ -454,7 +454,7 @@ namespace RBX { namespace Voxel2 {
         void* cells = ::operator new(size);
         memset(cells, 0, size);
         
-        RBXPROFILER_COUNTER_ADD("memory/terrain/voxel", size);
+        ARLPROFILER_COUNTER_ADD("memory/terrain/voxel", size);
 
 		data.reset(static_cast<Cell*>(cells), DeallocateCells(size));
     }
@@ -470,7 +470,7 @@ namespace RBX { namespace Voxel2 {
             void* cells = ::operator new(size);
             memcpy(cells, data.get(), size);
 
-            RBXPROFILER_COUNTER_ADD("memory/terrain/voxel", size);
+            ARLPROFILER_COUNTER_ADD("memory/terrain/voxel", size);
 
 			result.data.reset(static_cast<Cell*>(cells), DeallocateCells(size));
 		}
@@ -502,7 +502,7 @@ namespace RBX { namespace Voxel2 {
 
 	void Grid::connectListener(GridListener* listener)
 	{
-        RBXASSERT(std::find(listeners.begin(), listeners.end(), listener) == listeners.end());
+        ARLASSERT(std::find(listeners.begin(), listeners.end(), listener) == listeners.end());
 
 		listeners.push_back(listener);
 	}
@@ -511,15 +511,15 @@ namespace RBX { namespace Voxel2 {
 	{
         std::vector<GridListener*>::iterator it = std::find(listeners.begin(), listeners.end(), listener);
 		
-		RBXASSERT(it != listeners.end());
+		ARLASSERT(it != listeners.end());
 		listeners.erase(it);
 	}
     
     Box Grid::read(const Region& region, int lod) const
     {
-        RBXPROFILER_SCOPE("Voxel", "read");
+        ARLPROFILER_SCOPE("Voxel", "read");
 
-		RBXASSERT(region.aligned(1 << lod));
+		ARLASSERT(region.aligned(1 << lod));
 
 		if (lod < kChunkMips)
 		{
@@ -564,9 +564,9 @@ namespace RBX { namespace Voxel2 {
     
     void Grid::write(const Region& region, const Box& box)
     {
-        RBXPROFILER_SCOPE("Voxel", "write");
+        ARLPROFILER_SCOPE("Voxel", "write");
 
-		RBXASSERT(region.size() == box.getSize());
+		ARLASSERT(region.size() == box.getSize());
         
         std::vector<Vector3int32> chunkIds = region.getChunkIds(kChunkSizeLog2);
         std::vector<Region> dirtyRegions;
@@ -629,7 +629,7 @@ namespace RBX { namespace Voxel2 {
 			// if we did a lot of partial writes chunk may be empty; we can quickly check the low mip to make sure
 			if (!hasSolidCells(chunk.data[kChunkMips - 1]))
             {
-                RBXASSERT(chunk.volume == 0);
+                ARLASSERT(chunk.volume == 0);
 
 				chunks.erase(cit);
             }
@@ -745,7 +745,7 @@ namespace RBX { namespace Voxel2 {
 
             // encode chunk data
             auto cit = chunks.find(id);
-            RBXASSERT(cit != chunks.end());
+            ARLASSERT(cit != chunks.end());
 
             encodeChunk(result, cit->second.data[0], cells);
 
@@ -763,13 +763,13 @@ namespace RBX { namespace Voxel2 {
 		int version = static_cast<char>(readUInt8(data, readOffset));
 
         if (version != 1)
-			throw RBX::runtime_error("Error while decoding data: unsupported version");
+			throw ARL::runtime_error("Error while decoding data: unsupported version");
 
 		int chunkSizeLog2 = readUInt8(data, readOffset);
 		int chunkSize = 1 << chunkSizeLog2;
 
 		if (chunkSizeLog2 > 8)
-			throw RBX::runtime_error("Error while decoding data: malformed chunk size");
+			throw ARL::runtime_error("Error while decoding data: malformed chunk size");
 
         Vector3int32 lastIndex;
 		std::vector<Cell> cells;

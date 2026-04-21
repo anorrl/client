@@ -18,7 +18,7 @@
 
 #include "script/ThreadRef.h"
 
-namespace RBX {
+namespace ARL {
     
     namespace Network
     {
@@ -198,7 +198,7 @@ namespace RBX {
         void setupLocalCharacterConnections(ModelInstance* character);
         
         void checkForLocalPlayer(shared_ptr<Instance> newPlayer);
-        void setupLocalPlayerConnections(RBX::Network::Player* localPlayer);
+        void setupLocalPlayerConnections(ARL::Network::Player* localPlayer);
 
 		void bindActionInternal(const std::string actionName, Lua::WeakFunctionRef functionToBind, bool createTouchButton, shared_ptr<const Reflection::Tuple> hotkeys, FunctionMap& funcMap, FunctionVector& funcVector);
         

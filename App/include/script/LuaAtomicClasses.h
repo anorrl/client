@@ -19,7 +19,7 @@
 #include "v8datamodel/ColorSequence.h"
 #include "v8datamodel/NumberRange.h"
 
-namespace RBX { namespace Lua {
+namespace ARL { namespace Lua {
 
 	class CoordinateFrameBridge : public Bridge<G3D::CoordinateFrame>
 	{
@@ -91,13 +91,13 @@ namespace RBX { namespace Lua {
 		static const luaL_reg classLibrary[];
     };
     
-	class Region3Bridge : public Bridge<RBX::Region3>
+	class Region3Bridge : public Bridge<ARL::Region3>
 	{
-		friend class Bridge< RBX::Region3 >;
+		friend class Bridge< ARL::Region3 >;
 	public:
 		static void registerClassLibrary (lua_State *L) ;
 
-		static void pushRegion3(lua_State *L, const RBX::Region3& v)
+		static void pushRegion3(lua_State *L, const ARL::Region3& v)
 		{
 			pushNewObject(L, v);
 		}
@@ -107,13 +107,13 @@ namespace RBX { namespace Lua {
 		static const luaL_reg classLibrary[];
 	};
 
-	class Region3int16Bridge : public Bridge<RBX::Region3int16>
+	class Region3int16Bridge : public Bridge<ARL::Region3int16>
 	{
-		friend class Bridge< RBX::Region3int16 >;
+		friend class Bridge< ARL::Region3int16 >;
 	public:
 		static void registerClassLibrary (lua_State *L);
 
-		static void pushRegion3int16(lua_State *L, const RBX::Region3int16& v)
+		static void pushRegion3int16(lua_State *L, const ARL::Region3int16& v)
 		{
 			pushNewObject(L, v);
 		}
@@ -164,13 +164,13 @@ namespace RBX { namespace Lua {
 		static const luaL_reg classLibrary[];
 	};
 
-	class RbxRayBridge : public Bridge<RBX::RbxRay>
+	class RbxRayBridge : public Bridge<ARL::RbxRay>
 	{
-		friend class Bridge< RBX::RbxRay >;
+		friend class Bridge< ARL::RbxRay >;
 	public:
 		static void registerClassLibrary (lua_State *L);
 			
-		static void pushRay(lua_State *L, const RBX::RbxRay& v)
+		static void pushRay(lua_State *L, const ARL::RbxRay& v)
 		{
 			pushNewObject(L, v);
 		}
@@ -185,13 +185,13 @@ namespace RBX { namespace Lua {
 	};
 
 
-	class Vector2Bridge : public Bridge<RBX::Vector2>
+	class Vector2Bridge : public Bridge<ARL::Vector2>
 	{
-		friend class Bridge< RBX::Vector2 >;
+		friend class Bridge< ARL::Vector2 >;
 	public:
 		static void registerClassLibrary (lua_State *L);
 
-		static void pushVector2(lua_State *L, const RBX::Vector2& v)
+		static void pushVector2(lua_State *L, const ARL::Vector2& v)
 		{
 			pushNewObject(L, v);
 		}
@@ -205,13 +205,13 @@ namespace RBX { namespace Lua {
 		static const luaL_reg classLibrary[];
 	};
 
-	class Vector2int16Bridge : public Bridge<RBX::Vector2int16>
+	class Vector2int16Bridge : public Bridge<ARL::Vector2int16>
 	{
-		friend class Bridge< RBX::Vector2int16 >;
+		friend class Bridge< ARL::Vector2int16 >;
 	public:
 		static void registerClassLibrary (lua_State *L);
 
-		static void pushVector2int16(lua_State *L, const RBX::Vector2int16& v)
+		static void pushVector2int16(lua_State *L, const ARL::Vector2int16& v)
 		{
 			pushNewObject(L, v);
 		}
@@ -237,13 +237,13 @@ namespace RBX { namespace Lua {
 		static const luaL_reg classLibrary[];
 	};
 
-	class UDimBridge : public Bridge<RBX::UDim>
+	class UDimBridge : public Bridge<ARL::UDim>
 	{
-		friend class Bridge< RBX::UDim>;
+		friend class Bridge< ARL::UDim>;
 	public:
 		static void registerClassLibrary (lua_State *L);
 
-		static void pushUDim(lua_State *L, const RBX::UDim& v)
+		static void pushUDim(lua_State *L, const ARL::UDim& v)
 		{
 			pushNewObject(L, v);
 		}
@@ -255,9 +255,9 @@ namespace RBX { namespace Lua {
 		static const luaL_reg classLibrary[];
 	};
 
-	class UDim2Bridge : public Bridge<RBX::UDim2>
+	class UDim2Bridge : public Bridge<ARL::UDim2>
 	{
-		friend class Bridge< RBX::UDim2>;
+		friend class Bridge< ARL::UDim2>;
 	public:
 		static void registerClassLibrary (lua_State *L);
 
@@ -270,9 +270,9 @@ namespace RBX { namespace Lua {
 		static const luaL_reg classLibrary[];
 	};
 
-	class FacesBridge : public Bridge<RBX::Faces>
+	class FacesBridge : public Bridge<ARL::Faces>
 	{
-		friend class Bridge< RBX::Faces>;
+		friend class Bridge< ARL::Faces>;
 	public:
 		static void registerClassLibrary (lua_State *L);
 
@@ -281,9 +281,9 @@ namespace RBX { namespace Lua {
 		static const luaL_reg classLibrary[];
 	};
 
-	class AxesBridge : public Bridge<RBX::Axes>
+	class AxesBridge : public Bridge<ARL::Axes>
 	{
-		friend class Bridge< RBX::Axes>;
+		friend class Bridge< ARL::Axes>;
 	public:
 		static void registerClassLibrary (lua_State *L);
 
@@ -292,9 +292,9 @@ namespace RBX { namespace Lua {
 		static const luaL_reg classLibrary[];
 	};
 	
-	class BrickColorBridge : public Bridge<RBX::BrickColor>
+	class BrickColorBridge : public Bridge<ARL::BrickColor>
 	{
-		friend class Bridge< RBX::BrickColor >;
+		friend class Bridge< ARL::BrickColor >;
 	public:
 		static void registerClassLibrary (lua_State *L) ;
 
@@ -386,17 +386,17 @@ template<>
 void Bridge<G3D::Vector3>::registerClass (lua_State *L);
 
 template<>
-void Bridge<RBX::Vector2>::registerClass (lua_State *L); 
+void Bridge<ARL::Vector2>::registerClass (lua_State *L); 
 
 template<>
 void Bridge<G3D::CoordinateFrame>::registerClass (lua_State *L);
 
 // Specialization to implement arithmatic operators
 template<>
-void Bridge<RBX::UDim>::registerClass (lua_State *L);
+void Bridge<ARL::UDim>::registerClass (lua_State *L);
 
 // Specialization to implement arithmatic operators
 template<>
-void Bridge<RBX::UDim2>::registerClass (lua_State *L);
+void Bridge<ARL::UDim2>::registerClass (lua_State *L);
 
 } }

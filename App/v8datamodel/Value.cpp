@@ -2,7 +2,7 @@
 
 #include "v8datamodel/value.h"
 
-namespace RBX
+namespace ARL
 {
 	int valueCount = 0;
     REFLECTION_BEGIN();
@@ -56,12 +56,12 @@ namespace RBX
 	
 	const char* const sRayValue = "RayValue";
 	template<>
-	const RBX::RbxRay RayValue::defaultValue(G3D::Vector3(0,0,0),G3D::Vector3(0,0,0));
+	const ARL::RbxRay RayValue::defaultValue(G3D::Vector3(0,0,0),G3D::Vector3(0,0,0));
 	template<>
-	Reflection::BoundProp<RBX::RbxRay> RayValue::desc_Value("Value", category_Data, &RayValue::value, &RayValue::onValueChanged);
+	Reflection::BoundProp<ARL::RbxRay> RayValue::desc_Value("Value", category_Data, &RayValue::value, &RayValue::onValueChanged);
 	template<>
-	Reflection::EventDesc< RayValue, void(RBX::RbxRay)> RayValue::desc_ValueChanged(&RayValue::valueChangedSignal, "Changed", "value");
-	Reflection::EventDesc< RayValue, void(RBX::RbxRay)> dep_RayValueChanged(&RayValue::valueChangedSignal, "changed", "value", Reflection::Descriptor::Attributes::deprecated(RayValue::desc_ValueChanged));
+	Reflection::EventDesc< RayValue, void(ARL::RbxRay)> RayValue::desc_ValueChanged(&RayValue::valueChangedSignal, "Changed", "value");
+	Reflection::EventDesc< RayValue, void(ARL::RbxRay)> dep_RayValueChanged(&RayValue::valueChangedSignal, "changed", "value", Reflection::Descriptor::Attributes::deprecated(RayValue::desc_ValueChanged));
 
 	const char* const sCFrameValue = "CFrameValue";
 	template<>

@@ -10,14 +10,14 @@ namespace G3D {
 	class RenderDevice;
 }
 
-namespace RBX {
+namespace ARL {
 
 class Primitive;
 class Adorn;
 class PartInstance;
 
 extern const char *const sPVInstance;
-class RBXBaseClass PVInstance
+class ARLBaseClass PVInstance
 	: public Reflection::Described<PVInstance, sPVInstance, Instance >
 	, public virtual IHasLocation
 {
@@ -46,7 +46,7 @@ protected:
 	// PVINSTANCE
 	//
 	void renderCoordinateFrame(Adorn* adorn);
-	/*implement*/ virtual bool hitTestImpl(const RBX::RbxRay& worldRay, Vector3& worldHitPoint) = 0;
+	/*implement*/ virtual bool hitTestImpl(const ARL::RbxRay& worldRay, Vector3& worldHitPoint) = 0;
 public:
 	/*implement*/ virtual Extents computeExtentsWorld() const = 0;
 	/*implement*/ virtual PartInstance* getPrimaryPart() = 0;	
@@ -67,7 +67,7 @@ public:
 
 	void moveToPointNoJoin(Vector3 point);	
 
-	bool hitTest(const RBX::RbxRay& worldRay, Vector3& worldHitPoint) {
+	bool hitTest(const ARL::RbxRay& worldRay, Vector3& worldHitPoint) {
 		return hitTestImpl(worldRay, worldHitPoint);
 	}
 

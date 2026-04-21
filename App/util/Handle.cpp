@@ -7,7 +7,7 @@
 #include "boost/lexical_cast.hpp"
 #include "reflection/Object.h"
 
-namespace RBX {
+namespace ARL {
 
 	InstanceHandle::InstanceHandle(Reflection::DescribedBase* target)
 		:target(shared_from(target))
@@ -28,4 +28,4 @@ namespace RBX {
 
 
 
-}	// end namespace RBX
+}	// end namespace ARL

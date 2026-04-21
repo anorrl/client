@@ -4,7 +4,7 @@
 #include "boost/cast.hpp"
 #include "rbx/atomic.h"
 
-namespace RBX
+namespace ARL
 {
 
 	const char* const sServiceProvider = "ServiceProvider";
@@ -37,9 +37,9 @@ namespace RBX
 
 	shared_ptr<Instance> ServiceProvider::getPublicServiceByClassNameString(std::string sName)
 	{
-		const Name& serviceName = RBX::Name::lookup(sName);
+		const Name& serviceName = ARL::Name::lookup(sName);
 		if (serviceName.empty())
-			throw RBX::runtime_error("'%s' is not a valid Service name", sName.c_str());
+			throw ARL::runtime_error("'%s' is not a valid Service name", sName.c_str());
 
 		shared_ptr<Instance> result = ServiceProvider::create(this, serviceName);
 		if(Service* service = dynamic_cast<Service*>(result.get())){
@@ -53,9 +53,9 @@ namespace RBX
 
 	shared_ptr<Instance> ServiceProvider::findPublicServiceByClassNameString(std::string sName)
 	{
-		const Name& serviceName = RBX::Name::lookup(sName);
+		const Name& serviceName = ARL::Name::lookup(sName);
 		if (serviceName.empty())
-			throw RBX::runtime_error("'%s' is not a valid Service name", sName.c_str());
+			throw ARL::runtime_error("'%s' is not a valid Service name", sName.c_str());
 
 		shared_ptr<Instance> result = findServiceByClassName(serviceName);
 		if(Service* service = dynamic_cast<Service*>(result.get())){
@@ -66,9 +66,9 @@ namespace RBX
 		return shared_ptr<Instance>();
 	}
 
-	shared_ptr<Instance> ServiceProvider::findServiceByClassName(const RBX::Name& className) const
+	shared_ptr<Instance> ServiceProvider::findServiceByClassName(const ARL::Name& className) const
 	{
-		std::map<const RBX::Name*, shared_ptr<Instance> >::iterator iter = serviceMap.find(&className);
+		std::map<const ARL::Name*, shared_ptr<Instance> >::iterator iter = serviceMap.find(&className);
 		if (iter!=serviceMap.end())
 			return iter->second;
 		else
@@ -89,7 +89,7 @@ namespace RBX
 
 	void ServiceProvider::onChildRemoving(Instance* instance)
 	{
-		std::map<const RBX::Name*, shared_ptr<Instance> >::iterator iter = serviceMap.find(&instance->getClassName());
+		std::map<const ARL::Name*, shared_ptr<Instance> >::iterator iter = serviceMap.find(&instance->getClassName());
 		if (iter!=serviceMap.end())
 			serviceRemovingSignal(iter->second);
 		Super::onChildRemoving(instance);
@@ -97,7 +97,7 @@ namespace RBX
 
 	void ServiceProvider::clearServices()
 	{
-		RBXASSERT(numChildren()==0);
+		ARLASSERT(numChildren()==0);
 		serviceArray.clear();
 		serviceMap.clear();
 	}
@@ -105,7 +105,7 @@ namespace RBX
 	void ServiceProvider::onChildAdded(Instance* instance)
 	{
 		// There should be only one ServiceProvider, I think
-		RBXASSERT(Instance::fastDynamicCast<ServiceProvider>(instance)==NULL);
+		ARLASSERT(Instance::fastDynamicCast<ServiceProvider>(instance)==NULL);
 
 		Super::onChildAdded(instance);
 
@@ -113,9 +113,9 @@ namespace RBX
 		if (service!=NULL)
 		{
 			shared_ptr<Instance> i = shared_from(instance);
-			if (instance->getClassName()!=RBX::Name::getNullName())
+			if (instance->getClassName()!=ARL::Name::getNullName())
 			{
-				RBXASSERT_SLOW(findServiceByClassName(instance->getClassName())==NULL);
+				ARLASSERT_SLOW(findServiceByClassName(instance->getClassName())==NULL);
 				instance->lockParent();
 				serviceMap[&instance->getClassName()] = i;
 			}
@@ -123,7 +123,7 @@ namespace RBX
 		}
 	}
 
-	shared_ptr<Instance> ServiceProvider::createChild(const RBX::Name& className, RBX::CreatorRole creatorRole)
+	shared_ptr<Instance> ServiceProvider::createChild(const ARL::Name& className, ARL::CreatorRole creatorRole)
 	{
 		// If the childElement is data for a Service, then have an existing Service read the data
 		// rather than creating a new Service.
@@ -134,7 +134,7 @@ namespace RBX
 			return Super::createChild(className, creatorRole);
 	}
 
-	shared_ptr<Instance> ServiceProvider::create(Instance* context, const RBX::Name& name)
+	shared_ptr<Instance> ServiceProvider::create(Instance* context, const ARL::Name& name)
 	{
 		while (context!=NULL)
 		{

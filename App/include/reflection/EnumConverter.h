@@ -7,7 +7,7 @@
 #include <boost/unordered_map.hpp>
 #include <boost/thread/once.hpp>
 
-namespace RBX {
+namespace ARL {
 
 
 	namespace Reflection {
@@ -43,9 +43,9 @@ namespace RBX {
 			};
 
 #if 0
-			typedef boost::unordered_map<const RBX::Name*, const EnumDescriptor*> EnumNameTable;
+			typedef boost::unordered_map<const ARL::Name*, const EnumDescriptor*> EnumNameTable;
 #else
-			typedef std::map<const RBX::Name*, const EnumDescriptor*> EnumNameTable;
+			typedef std::map<const ARL::Name*, const EnumDescriptor*> EnumNameTable;
 #endif
 
 		private:
@@ -73,7 +73,7 @@ namespace RBX {
 			std::vector< const Item* >::const_iterator end() const {
 				return allItems.end();
 			}		
-			static const EnumDescriptor* lookupDescriptor(const RBX::Name& name) {
+			static const EnumDescriptor* lookupDescriptor(const ARL::Name& name) {
 				EnumNameTable::const_iterator iter = allEnumsNameLookup().find(&name);
 				if (iter!=allEnumsNameLookup().end())
 					return iter->second;
@@ -145,9 +145,9 @@ template<typename Enum> class EnumRegistrar;
 				std::for_each(allItems.begin(), allItems.end(), &del_fun<const Item>);
 			}
 
-			std::map<const RBX::Name*, Enum> nameToEnum;
-			std::map<const RBX::Name*, Enum> nameToEnumLegacy;
-			std::vector< const RBX::Name* > enumToName;		// maps enum to Name (there may be gaps)
+			std::map<const ARL::Name*, Enum> nameToEnum;
+			std::map<const ARL::Name*, Enum> nameToEnumLegacy;
+			std::vector< const ARL::Name* > enumToName;		// maps enum to Name (there may be gaps)
 
 			std::vector< std::string > enumToString;		// maps enum to String (there may be gaps)
 			std::vector< const Item* > enumToItem;		// maps enum to Item (there may be gaps)
@@ -160,11 +160,11 @@ template<typename Enum> class EnumRegistrar;
 			// Used in constructor
 			void addPair(Enum value, const char* name, Descriptor::Attributes attributes = Descriptor::Attributes())
 			{
-				RBXASSERT_VERY_FAST(value >= 0);
+				ARLASSERT_VERY_FAST(value >= 0);
 				// No spaces in enums:
-				RBXASSERT_VERY_FAST(std::string(name).find(' ') == std::string::npos);
+				ARLASSERT_VERY_FAST(std::string(name).find(' ') == std::string::npos);
 				// No no CamelCase in enums:
-				RBXASSERT_VERY_FAST(!isCamel(name));
+				ARLASSERT_VERY_FAST(!isCamel(name));
 
 				const Item* item = new Item(name, attributes, value, enumCount, *this);
 
@@ -174,7 +174,7 @@ template<typename Enum> class EnumRegistrar;
 					intToEnum.resize(value+1, (Enum)-1);
 				intToEnum[value] = value;
 
-				RBXASSERT(value>=0);
+				ARLASSERT(value>=0);
 
 				if (enumToIndex.size()<=(size_t)value)
 					enumToIndex.resize(value+1, -1);
@@ -182,7 +182,7 @@ template<typename Enum> class EnumRegistrar;
 				indexToEnum.push_back(value);
 
 				if (enumToName.size()<=(size_t)value)
-					enumToName.resize(value+1, &RBX::Name::getNullName());
+					enumToName.resize(value+1, &ARL::Name::getNullName());
 				enumToName[value] = &item->name;
 
 				if (enumToString.size()<=(size_t)value)
@@ -200,33 +200,33 @@ template<typename Enum> class EnumRegistrar;
 			}
 			void addLegacy(int oldValue, const char* name, Enum value)
 			{
-				RBXASSERT_VERY_FAST(value >= 0);
+				ARLASSERT_VERY_FAST(value >= 0);
 
 				if (intToEnum.size()<=(size_t)oldValue)
 					intToEnum.resize(oldValue+1, (Enum)-1);
 				intToEnum[oldValue] = value;
-				nameToEnumLegacy[&RBX::Name::declare(name)] = value;
+				nameToEnumLegacy[&ARL::Name::declare(name)] = value;
 			}
 			void addLegacyName(const char* name, Enum value)
 			{
-				nameToEnumLegacy[&RBX::Name::declare(name)] = value;
+				nameToEnumLegacy[&ARL::Name::declare(name)] = value;
 			}
 		public:
-			const RBX::Name& convertToName(const Enum& value) const
+			const ARL::Name& convertToName(const Enum& value) const
 			{
-				RBXASSERT(value>=0);
-				RBXASSERT(value<enumToItem.size());
+				ARLASSERT(value>=0);
+				ARLASSERT(value<enumToItem.size());
 				if (value<0)
-					return RBX::Name::getNullName();
+					return ARL::Name::getNullName();
 				if ((size_t)value>=enumToName.size())
-					return RBX::Name::getNullName();
+					return ARL::Name::getNullName();
 
 				return *enumToName[value];
 			}
 			std::string convertToString(const Enum& value) const
 			{
-				RBXASSERT(value>=0);
-				RBXASSERT((size_t)value<enumToItem.size());
+				ARLASSERT(value>=0);
+				ARLASSERT((size_t)value<enumToItem.size());
 				if (value<0)
 					return "";
 				if ((size_t)value>=enumToString.size())
@@ -236,8 +236,8 @@ template<typename Enum> class EnumRegistrar;
 			}
 			const Item* convertToItem(const Enum& value) const
 			{
-				RBXASSERT(value>=0);
-				RBXASSERT((size_t)value<enumToItem.size());
+				ARLASSERT(value>=0);
+				ARLASSERT((size_t)value<enumToItem.size());
 				if (value<0)
 					return NULL;
 				if ((size_t)value>=enumToItem.size())
@@ -260,9 +260,9 @@ template<typename Enum> class EnumRegistrar;
 				return true;
 			}
 
-			bool convertToValue(const RBX::Name& name, Enum& value) const
+			bool convertToValue(const ARL::Name& name, Enum& value) const
 			{
-				typename std::map<const RBX::Name*, Enum>::const_iterator iter = nameToEnum.find(&name);
+				typename std::map<const ARL::Name*, Enum>::const_iterator iter = nameToEnum.find(&name);
 				if (iter!=nameToEnum.end()) {
 					value = iter->second;
 					return true;
@@ -279,7 +279,7 @@ template<typename Enum> class EnumRegistrar;
 			/*implement*/ const Item* lookup(const char* text) const
 			{
 				Enum e;
-				if (convertToValue(RBX::Name::lookup(text), e))
+				if (convertToValue(ARL::Name::lookup(text), e))
 					return convertToItem(e);
 				else
 					return NULL;
@@ -309,11 +309,11 @@ template<typename Enum> class EnumRegistrar;
 
 			bool convertToValue(const char* text, Enum& value) const
 			{
-				return convertToValue(RBX::Name::lookup(text), value);
+				return convertToValue(ARL::Name::lookup(text), value);
 			}
 			size_t convertToIndex(Enum value) const
 			{
-				RBXASSERT(value>=0);
+				ARLASSERT(value>=0);
 				if ((size_t)value<enumToIndex.size())
 					return enumToIndex[value];
 				else
@@ -333,7 +333,7 @@ template<typename Enum> class EnumRegistrar;
 
 // Helper macro
 // GCC does not generate the registrar variable defination & fails at Link Time. Force Construct by passing in an dummy arg to ctor. That works. WEIRD huh? 
-#define RBX_REGISTER_ENUM(Enum)		namespace RBX { namespace Reflection {								\
+#define ARL_REGISTER_ENUM(Enum)		namespace ARL { namespace Reflection {								\
 									template<>															\
 									const Type& Type::getSingleton<Enum>()			  					\
 									{																	\

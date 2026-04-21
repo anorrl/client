@@ -20,7 +20,7 @@
 #include "v8tree/Instance.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class DataModel;
 	class Workspace;
@@ -289,4 +289,4 @@ namespace RBX {
 		bool isCtrlEvent() const;
 		bool isAltEvent() const;
 	};
-}	// namespace RBX
+}	// namespace ARL

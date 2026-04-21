@@ -2,44 +2,44 @@
 
 #include "v8datamodel/contentprovider.h"
 
-namespace RBX {
+namespace ARL {
 
 		class AsyncResult
 		{
 		public:
 			AsyncResult()
-				: reqResult(RBX::AsyncHttpQueue::Succeeded)
+				: reqResult(ARL::AsyncHttpQueue::Succeeded)
 			{
 			};
 			
 			// make result always more restrictive only.
 			// Succeeded < Waiting < Failed.
-			void returnResult(RBX::AsyncHttpQueue::RequestResult reqResult)
+			void returnResult(ARL::AsyncHttpQueue::RequestResult reqResult)
 			{
 				switch(reqResult)
 				{
-				case RBX::AsyncHttpQueue::Succeeded: 
+				case ARL::AsyncHttpQueue::Succeeded:
 					break;
-				case RBX::AsyncHttpQueue::Waiting: 
-					if(this->reqResult == RBX::AsyncHttpQueue::Succeeded)
+				case ARL::AsyncHttpQueue::Waiting:
+					if(this->reqResult == ARL::AsyncHttpQueue::Succeeded)
 					{
 						this->reqResult = reqResult;
 					}
 					break;
-				case RBX::AsyncHttpQueue::Failed:
+				case ARL::AsyncHttpQueue::Failed:
 					this->reqResult = reqResult;
 					break;
 				}
 			}
 
-			void returnWaitingFor(const RBX::ContentId& id)
+			void returnWaitingFor(const ARL::ContentId& id)
 			{
-				returnResult(RBX::AsyncHttpQueue::Waiting);
+				returnResult(ARL::AsyncHttpQueue::Waiting);
 				waitingFor.push_back(id);
 			}
 
-			RBX::AsyncHttpQueue::RequestResult reqResult;
-			std::vector<RBX::ContentId> waitingFor;
+			ARL::AsyncHttpQueue::RequestResult reqResult;
+			std::vector<ARL::ContentId> waitingFor;
 		};
 
 

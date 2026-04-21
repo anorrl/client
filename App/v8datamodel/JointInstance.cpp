@@ -20,7 +20,7 @@
 
 LOGGROUP(JointInstanceLifetime)
 
-using namespace RBX;
+using namespace ARL;
 using namespace Reflection;
 
 REFLECTION_BEGIN();
@@ -48,19 +48,19 @@ static const PropDescriptor<Motor, float/**/> prop_CurrentAngle("CurrentAngle", 
 REFLECTION_END();
 
 
-const char *const RBX::sJointInstance = "JointInstance";
-const char *const RBX::sSnap = "Snap";
-const char *const RBX::sWeld = "Weld";
-const char *const RBX::sManualSurfaceJointInstance = "ManualSurfaceJointInstance";
-const char *const RBX::sManualWeld = "ManualWeld";
-const char *const RBX::sManualGlue = "ManualGlue";
-const char *const RBX::sGlue = "Glue";
-const char *const RBX::sRotate = "Rotate";
-const char *const RBX::sDynamicRotate = "DynamicRotate";
-const char *const RBX::sRotateP = "RotateP";
-const char *const RBX::sRotateV = "RotateV";
-const char *const RBX::sMotor = "Motor";
-const char *const RBX::sMotor6D = "Motor6D";
+const char *const ARL::sJointInstance = "JointInstance";
+const char *const ARL::sSnap = "Snap";
+const char *const ARL::sWeld = "Weld";
+const char *const ARL::sManualSurfaceJointInstance = "ManualSurfaceJointInstance";
+const char *const ARL::sManualWeld = "ManualWeld";
+const char *const ARL::sManualGlue = "ManualGlue";
+const char *const ARL::sGlue = "Glue";
+const char *const ARL::sRotate = "Rotate";
+const char *const ARL::sDynamicRotate = "DynamicRotate";
+const char *const ARL::sRotateP = "RotateP";
+const char *const ARL::sRotateV = "RotateV";
+const char *const ARL::sMotor = "Motor";
+const char *const ARL::sMotor6D = "Motor6D";
 
 
 /////////////////////////////////////////////////////////////////
@@ -82,8 +82,8 @@ JointInstance::JointInstance(Joint* joint)
 JointInstance::~JointInstance()
 {
 	FASTLOG2(FLog::JointInstanceLifetime, "Joint Instance destroyed: %p, joint: %p", this, joint);
-	RBXASSERT(getParent() == NULL);
-	RBXASSERT(joint->findWorld() == NULL);
+	ARLASSERT(getParent() == NULL);
+	ARLASSERT(joint->findWorld() == NULL);
 
 	joint->setJointOwner(NULL);
 	joint->setPrimitive(0, NULL);
@@ -92,7 +92,7 @@ JointInstance::~JointInstance()
 	joint = NULL;
 }
 
-XmlElement* JointInstance::writeXml(const boost::function<bool(Instance*)>& isInScope, RBX::CreatorRole creatorRole)
+XmlElement* JointInstance::writeXml(const boost::function<bool(Instance*)>& isInScope, ARL::CreatorRole creatorRole)
 {
 	PartInstance* const p0 = getPart0();
 	PartInstance* const p1 = getPart1();
@@ -126,7 +126,7 @@ bool JointInstance::shouldRender3dAdorn() const
 {
 	// We'd like to be able to toggle showSpanningTree in runtime; however, on iPad this costs us ~2% of the frame,
 	// since we call render3dAdorn for many joints even when we don't have to.
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
 	return PartInstance::showSpanningTree;
 #else
 	return true;
@@ -135,7 +135,7 @@ bool JointInstance::shouldRender3dAdorn() const
 
 void JointInstance::render3dAdorn(Adorn* adorn)
 {
-	RBXASSERT(shouldRender3dAdorn());
+	ARLASSERT(shouldRender3dAdorn());
 
     if (PartInstance::showSpanningTree && Joint::isSpanningTreeJoint(joint) &&
 		(joint->inSpanningTree() || Joint::isSpringJoint(joint)))			// remove "inSpanningTree" to show all spanning joints
@@ -211,7 +211,7 @@ World* JointInstance::computeWorld()
 bool JointInstance::inEngine()
 {
 	bool answer = joint->inPipeline();
-	RBXASSERT(answer == (computeWorld() != NULL));
+	ARLASSERT(answer == (computeWorld() != NULL));
 	return answer;
 }
 
@@ -249,11 +249,11 @@ void JointInstance::handleWorldChanged()
 
 		if (oldWorld) {
 			oldWorld->removeJoint(joint);		// is this dangerous?...
-			RBXASSERT_SLOW(!joint->findWorld());
+			ARLASSERT_SLOW(!joint->findWorld());
 		}
 		if (newWorld) {
 			newWorld->insertJoint(joint);
-			RBXASSERT_SLOW(joint->findWorld());
+			ARLASSERT_SLOW(joint->findWorld());
 		}
 	}
 }
@@ -300,7 +300,7 @@ void JointInstance::setC1(const CoordinateFrame& value)
 }
 
 
-#ifdef RBX_FLYWEIGHT_INSTANCES
+#ifdef ARL_FLYWEIGHT_INSTANCES
 static const boost::flyweight<std::string> snapName("Snap");
 #else
 static const char* snapName("Snap");
@@ -311,9 +311,9 @@ Snap::Snap(Joint* joint)
 	:DescribedCreatable<Snap, JointInstance, sSnap>(joint)
 {
 	this->setName(snapName);
-	RBXASSERT(joint->getJointType() == Joint::SNAP_JOINT);
-	//RBXASSERT(joint->getJointCoord(0) == CoordinateFrame());		
-	RBXASSERT(Math::isAxisAligned(joint->getJointCoord(0).rotation));		
+	ARLASSERT(joint->getJointType() == Joint::SNAP_JOINT);
+	//ARLASSERT(joint->getJointCoord(0) == CoordinateFrame());		
+	ARLASSERT(Math::isAxisAligned(joint->getJointCoord(0).rotation));		
 }
 
 Snap::Snap()
@@ -322,7 +322,7 @@ Snap::Snap()
 	this->setName(snapName);
 }
 
-#ifdef RBX_FLYWEIGHT_INSTANCES
+#ifdef ARL_FLYWEIGHT_INSTANCES
 static const boost::flyweight<std::string> weldName("Weld");
 #else
 static const char* weldName("Weld");
@@ -333,9 +333,9 @@ Weld::Weld(Joint* joint)
 	:DescribedCreatable<Weld, JointInstance, sWeld>(joint)
 {
 	this->setName(weldName);
-	RBXASSERT(joint->getJointType() == Joint::WELD_JOINT);
-//	RBXASSERT(joint->getJointCoord(0) == CoordinateFrame());		
-	RBXASSERT(Math::isAxisAligned(joint->getJointCoord(0).rotation));
+	ARLASSERT(joint->getJointType() == Joint::WELD_JOINT);
+//	ARLASSERT(joint->getJointCoord(0) == CoordinateFrame());		
+	ARLASSERT(Math::isAxisAligned(joint->getJointCoord(0).rotation));
 }
 
 Weld::Weld()
@@ -460,9 +460,9 @@ ManualWeld::ManualWeld(Joint* joint)
 	:DescribedCreatable<ManualWeld, ManualSurfaceJointInstance, sManualWeld>(joint)
 {
 	this->setName("ManualWeld");
-	RBXASSERT(joint->getJointType() == Joint::MANUAL_WELD_JOINT);
-//	RBXASSERT(joint->getJointCoord(0) == CoordinateFrame());		
-	RBXASSERT(Math::isAxisAligned(joint->getJointCoord(0).rotation));
+	ARLASSERT(joint->getJointType() == Joint::MANUAL_WELD_JOINT);
+//	ARLASSERT(joint->getJointCoord(0) == CoordinateFrame());		
+	ARLASSERT(Math::isAxisAligned(joint->getJointCoord(0).rotation));
 }
 
 ManualWeld::ManualWeld()
@@ -517,7 +517,7 @@ ManualGlue::ManualGlue(Joint* joint)
 	:DescribedCreatable<ManualGlue, ManualSurfaceJointInstance, sManualGlue>(joint)
 {
 	this->setName("ManualGlue");
-	RBXASSERT(joint->getJointType() == Joint::MANUAL_GLUE_JOINT);
+	ARLASSERT(joint->getJointType() == Joint::MANUAL_GLUE_JOINT);
 }
 
 ManualGlue::ManualGlue()
@@ -574,7 +574,7 @@ void ManualGlue::render3dAdorn(Adorn* adorn)
 Glue::Glue(Joint* joint)
 	:DescribedCreatable<Glue, JointInstance, sGlue>(joint)
 {
-	RBXASSERT(joint->getJointType() == Joint::GLUE_JOINT);
+	ARLASSERT(joint->getJointType() == Joint::GLUE_JOINT);
 }
 
 Glue::Glue()
@@ -613,7 +613,7 @@ CREATE_GLUE_FACE(3);
 Rotate::Rotate(Joint* joint)
 	:DescribedCreatable<Rotate, JointInstance, sRotate>(joint)
 {
-	RBXASSERT(joint->getJointType() == Joint::ROTATE_JOINT);
+	ARLASSERT(joint->getJointType() == Joint::ROTATE_JOINT);
 }
 
 
@@ -654,7 +654,7 @@ DynamicRotate::DynamicRotate(Joint* joint)
 RotateP::RotateP(Joint* joint)
 	:DescribedCreatable<RotateP, DynamicRotate, sRotateP>(joint)
 {
-	RBXASSERT(joint->getJointType() == Joint::ROTATE_P_JOINT);
+	ARLASSERT(joint->getJointType() == Joint::ROTATE_P_JOINT);
 }
 
 RotateP::RotateP()
@@ -666,7 +666,7 @@ RotateP::RotateP()
 RotateV::RotateV(Joint* joint)
 	:DescribedCreatable<RotateV, DynamicRotate, sRotateV>(joint)
 {
-	RBXASSERT(joint->getJointType() == Joint::ROTATE_V_JOINT);
+	ARLASSERT(joint->getJointType() == Joint::ROTATE_V_JOINT);
 }
 
 RotateV::RotateV()
@@ -680,8 +680,8 @@ RotateV::RotateV()
 Motor::Motor(Joint* joint)
 	:DescribedCreatable<Motor, JointInstance, sMotor>(joint)
 {
-	RBXASSERT(joint->getJointType() == Joint::MOTOR_1D_JOINT);
-	RBXASSERT(0);	// creating a motor by AutoJoin
+	ARLASSERT(joint->getJointType() == Joint::MOTOR_1D_JOINT);
+	ARLASSERT(0);	// creating a motor by AutoJoin
 	this->setName("Motor");
 }
 
@@ -811,8 +811,8 @@ void Motor::setCurrentAngleUi(float value)		// note - setting this is a "command
 Motor6D::Motor6D(Joint* joint)
 	:DescribedCreatable<Motor6D, Motor, sMotor6D>(joint, 1)
 {
-	RBXASSERT(joint->getJointType() == Joint::MOTOR_6D_JOINT);
-	RBXASSERT(0);	// creating a motor by AutoJoin
+	ARLASSERT(joint->getJointType() == Joint::MOTOR_6D_JOINT);
+	ARLASSERT(0);	// creating a motor by AutoJoin
 	this->setName("Motor6D");
 }
 

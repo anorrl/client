@@ -7,7 +7,7 @@
 #include "Util/StreamRegion.h"
 #include "Util/SpatialRegion.h"
 
-namespace RBX {
+namespace ARL {
 
 class ClusterChunksIterator
 {
@@ -53,7 +53,7 @@ public:
 
 	inline void pop(Vector3int16* out)
     {
-        RBXASSERT(internalSize > 0);
+        ARLASSERT(internalSize > 0);
 
         Vector3int16 local = Vector3int16((indexOfNextCellToIssue & 0x1f), ((indexOfNextCellToIssue >> 10) & 0xf), ((indexOfNextCellToIssue >> 5) & 0x1f));
 
@@ -113,12 +113,12 @@ struct OneQuarterClusterChunkCellIterator
         Vector3int16 offset = StreamRegion::getMinVoxelCoordinateInsideRegion(StreamRegion::regionContainingVoxel(cellpos));
         Vector3int16 delta = cellpos - offset;
         int index = delta.x | (delta.y << 8) | (delta.z << 4);
-        //RBXASSERT(index+1 < (int)StreamRegion::getTotalVoxelVolumeOfARegion());
+        //ARLASSERT(index+1 < (int)StreamRegion::getTotalVoxelVolumeOfARegion());
         cellFromIndex(offset, index+1, out);
     }
 
 	inline void pop(Vector3int16* out) {
-		RBXASSERT(internalSize);
+		ARLASSERT(internalSize);
 		cellFromIndex(cellOffset, internalCell, out);
 		++internalCell;
 		--internalSize;

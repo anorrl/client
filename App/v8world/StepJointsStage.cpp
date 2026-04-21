@@ -10,7 +10,7 @@
 #include "Util/Region2.h"
 
 
-namespace RBX {
+namespace ARL {
 
 #pragma warning(push)
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list
@@ -24,7 +24,7 @@ StepJointsStage::StepJointsStage(IStage* upstream, World* world)
 
 StepJointsStage::~StepJointsStage()
 {
-	RBXASSERT(worldStepJoints.empty());
+	ARLASSERT(worldStepJoints.empty());
 }
 
 
@@ -41,7 +41,7 @@ void StepJointsStage::removeJoint(Joint* j)
 		worldStepJoints.erase(worldStepJoints.iterator_to(*j));
 	}
 	else {
-		RBXASSERT(!j->StepJointsStageHook::is_linked());
+		ARLASSERT(!j->StepJointsStageHook::is_linked());
 	}
 }
 
@@ -98,11 +98,11 @@ void StepJointsStage::onEdgeRemoving(Edge* e)
 
 void StepJointsStage::jointsStepWorld()
 {
-	RBX::Profiling::Mark mark(*profilingJointUpdate, false);
+	ARL::Profiling::Mark mark(*profilingJointUpdate, false);
 
 	for (Joints::iterator it = worldStepJoints.begin(); it != worldStepJoints.end(); ++it) 
 	{
-		RBXASSERT(it->canStepWorld());
+		ARLASSERT(it->canStepWorld());
 		it->stepWorld();
 	}
 }

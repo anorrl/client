@@ -1,7 +1,7 @@
 #pragma once
 #include "Lua/LuaBridge.h"
 
-namespace RBX { 
+namespace ARL { 
 namespace Lua {
 
 	class Library

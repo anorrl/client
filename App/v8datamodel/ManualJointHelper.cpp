@@ -19,7 +19,7 @@
 #include "V8DataModel/JointInstance.h"
 #include "V8DataModel/MegaCluster.h"
 
-namespace RBX {
+namespace ARL {
 
 const float autoJointLineThickness = 0.1f;
 
@@ -114,7 +114,7 @@ void ManualJointHelper::findPermissibleJointSurfacePairs(void)
     {
 	    for( unsigned int i = 0; i < selectedPrimitives.size(); i++ )
 	    {
-            if( selectedPrimitives[i]->getGeometryType() != RBX::Geometry::GEOMETRY_MEGACLUSTER )
+            if( selectedPrimitives[i]->getGeometryType() != ARL::Geometry::GEOMETRY_MEGACLUSTER )
             {
                 std::vector<Vector3int16> cells;
                 static_cast<const MegaClusterPoly*>(mCPrim->getConstGeometry())->findPlanarTouchesWithGeom(mCPrim->getCoordinateFrame(),
@@ -149,13 +149,13 @@ void ManualJointHelper::findPermissibleJointSurfacePairs(void)
 void ManualJointHelper::createTerrainJointSurfacePair(Primitive& p0, Primitive& p1, Vector3int16& cellIndex)
 {
 	PartInstance* part0 = PartInstance::fromPrimitive(&p0);
-	RBXASSERT(part0->getParent());
+	ARLASSERT(part0->getParent());
 	PartInstance* part1 = PartInstance::fromPrimitive(&p1);
-	RBXASSERT(part1->getParent());
+	ARLASSERT(part1->getParent());
 
 	ConstraintSurfacePair* aPair = NULL;
 
-	RBXASSERT( p1.getConstGeometry()->getGeometryType() != RBX::Geometry::GEOMETRY_MEGACLUSTER );
+	ARLASSERT( p1.getConstGeometry()->getGeometryType() != ARL::Geometry::GEOMETRY_MEGACLUSTER );
 	size_t fix = -1;
 	// need to check if p1 is about to be joined to a no_join cell!
 	const MegaClusterPoly* terrainPoly = static_cast<const MegaClusterPoly*>(p0.getConstGeometry());
@@ -188,9 +188,9 @@ void ManualJointHelper::createTerrainJointSurfacePair(Primitive& p0, Primitive& 
 void ManualJointHelper::createSmoothTerrainJointSurfacePair(Primitive& p0, Primitive& p1)
 {
 	PartInstance* part0 = PartInstance::fromPrimitive(&p0);
-	RBXASSERT(part0->getParent());
+	ARLASSERT(part0->getParent());
 	PartInstance* part1 = PartInstance::fromPrimitive(&p1);
-	RBXASSERT(part1->getParent());
+	ARLASSERT(part1->getParent());
 
 	size_t fix = -1;
 	SmoothTerrainManualJointSurfacePair* pair = new SmoothTerrainManualJointSurfacePair(p0, fix, p1, fix);
@@ -212,9 +212,9 @@ bool ManualJointHelper::surfaceIsNoJoin(const Primitive& p0, size_t& face0Id, co
 void ManualJointHelper::createJointSurfacePair(Primitive& p0, size_t& face0Id, Primitive& p1, size_t& face1Id)
 {
 	PartInstance* part0 = PartInstance::fromPrimitive(&p0);
-	RBXASSERT(part0->getParent());
+	ARLASSERT(part0->getParent());
 	PartInstance* part1 = PartInstance::fromPrimitive(&p1);
-	RBXASSERT(part1->getParent());
+	ARLASSERT(part1->getParent());
 
     ConstraintSurfacePair* aPair = NULL;
 
@@ -239,8 +239,8 @@ void ManualJointHelper::createJointSurfacePair(Primitive& p0, size_t& face0Id, P
         aPair = new DisallowedJointSurfacePair(p0, face0Id, p1, face1Id);
     else
     {
-        RBXASSERT( p1.getConstGeometry()->getGeometryType() != RBX::Geometry::GEOMETRY_MEGACLUSTER );
-        if( p0.getConstGeometry()->getGeometryType() == RBX::Geometry::GEOMETRY_MEGACLUSTER )
+        ARLASSERT( p1.getConstGeometry()->getGeometryType() != ARL::Geometry::GEOMETRY_MEGACLUSTER );
+        if( p0.getConstGeometry()->getGeometryType() == ARL::Geometry::GEOMETRY_MEGACLUSTER )
             aPair = new TerrainManualJointSurfacePair(p0, face0Id, p1, face1Id);
         else if( Joint::compatibleForStudAutoJoint(p0, face0Id, p1, face1Id) )
 	        if(Joint::positionedForStudAutoJoint(p0, face0Id, p1, face1Id))
@@ -590,7 +590,7 @@ void TerrainManualJointSurfacePair::createJoint(void)
 {
     // check if the non-terrain part, p1, is already welded to this terrain cell
     // in this case, do not create it
-    RBXASSERT( p1->getConstGeometry()->getGeometryType() != RBX::Geometry::GEOMETRY_MEGACLUSTER );
+    ARLASSERT( p1->getConstGeometry()->getGeometryType() != ARL::Geometry::GEOMETRY_MEGACLUSTER );
     for (int i = 0; i < p1->getNumJoints(); ++i)
     {
         const ManualWeldJoint* existingJoint = dynamic_cast<const ManualWeldJoint*>(p1->getConstJoint(i));
@@ -623,7 +623,7 @@ void TerrainManualJointSurfacePair::createJoint(void)
 		    mJoint->setC1(c1);
 		    mJoint->setParent(PartInst1);
 
-            RBXASSERT(mJoint->getJointType() == Joint::MANUAL_WELD_JOINT);
+            ARLASSERT(mJoint->getJointType() == Joint::MANUAL_WELD_JOINT);
             static_cast<ManualWeldJoint*>(mJoint->getJoint())->setCell(cellIndex);
 		}
 	}
@@ -637,7 +637,7 @@ void SmoothTerrainManualJointSurfacePair::createJoint(void)
 {
     // check if the non-terrain part, p1, is already welded to terrain
     // in this case, do not create it
-    RBXASSERT( p1->getConstGeometry()->getGeometryType() != RBX::Geometry::GEOMETRY_MEGACLUSTER );
+    ARLASSERT( p1->getConstGeometry()->getGeometryType() != ARL::Geometry::GEOMETRY_MEGACLUSTER );
 
     for (int i = 0; i < p1->getNumJoints(); ++i)
     {

@@ -3,7 +3,7 @@
 #include "PhysicsReceiver.h"
 #include "ReplicatorStats.h"
 
-namespace RBX { 
+namespace ARL { 
 
 	namespace Network {
 

@@ -7,7 +7,7 @@
 #include "V8Kernel/Constants.h"
 #include "V8DataModel/GameBasicSettings.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace HUMAN {
 
@@ -85,7 +85,7 @@ namespace RBX {
 				const CoordinateFrame& rootCoord = root->getCoordinateFrame();
 
 				Vector3 angVelRoot = rootCoord.vectorToObjectSpace(angVelWorld);
-				RBXASSERT(!Math::isNanInfVector3(angVelRoot));
+				ARLASSERT(!Math::isNanInfVector3(angVelRoot));
 
 				// P control component
 				Vector3 controlTorqueRoot = -pPitch * (root->getBranchIBody() *  rootCoord.vectorToObjectSpace( pitchTilt ) );  // apply scalar to Vector3, not Matrix3				
@@ -99,7 +99,7 @@ namespace RBX {
 				Vector3 torqueWorld = rootCoord.vectorToWorldSpace( controlTorqueRoot );
 				root->accumulateTorque( torqueWorld - externalTorqueWorld );
 
-				//RBX::StandardOut::singleton()->printf( RBX::MESSAGE_WARNING, "Swimming facing vector (%f, %f, %f)\n", controlTorqueRoot.x, controlTorqueRoot.y, controlTorqueRoot.z );
+				//ARL::StandardOut::singleton()->printf( ARL::MESSAGE_WARNING, "Swimming facing vector (%f, %f, %f)\n", controlTorqueRoot.x, controlTorqueRoot.y, controlTorqueRoot.z );
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace RBX {
 				if (desiredWalkVelocity.linear.magnitude() > 0.1) {
 					float yawAngle = static_cast<float>(Math::radWrap(Math::getHeading(desiredVelocity.linear) - getHumanoid()->getTorsoHeading()));
 					float pitchAngle = static_cast<float>(Math::radWrap(Math::getElevation(desiredVelocity.linear.direction()) - getHumanoid()->getTorsoElevation()));
-					if(!RBX::GameBasicSettings::singleton().mouseLockedInMouseLockMode())
+					if(!ARL::GameBasicSettings::singleton().mouseLockedInMouseLockMode())
 					{
 						if (fabs(yawAngle) > 0.2f)
 							desiredVelocity.rotational.y = kTurnSpeed() * Math::polarity(yawAngle);

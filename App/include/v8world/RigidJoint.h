@@ -3,14 +3,14 @@
 #include "V8World/Joint.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class RigidJoint : public Joint
 	{
 	private:
 		///////////////////////////////////////////////////
 		// Joint
-		/*override*/ virtual JointType getJointType() const	{RBXASSERT(0); return Joint::NO_JOINT;}
+		/*override*/ virtual JointType getJointType() const	{ARLASSERT(0); return Joint::NO_JOINT;}
 		/*override*/ virtual bool isBroken() const {return false;}
 
 		///////////////////////////////////////////////////

@@ -13,7 +13,7 @@
 
 FASTFLAGVARIABLE(PhysPropConstructFromMaterial, false)
 
-namespace RBX { namespace Lua {
+namespace ARL { namespace Lua {
 
 const char* safe_lua_tostring(lua_State *L, int idx)
 {
@@ -45,7 +45,7 @@ const char* lua_checkstring_secure(lua_State* L, int idx)
 
 void lua_resetstack(lua_State* L, int idx)
 {
-	RBXASSERT(idx >= 0 && idx <= lua_gettop(L));
+	ARLASSERT(idx >= 0 && idx <= lua_gettop(L));
 
     if (idx < lua_gettop(L))
 		luaF_close(L, L->base + idx);
@@ -134,20 +134,20 @@ int Bridge<G3D::Color3>::on_index(const G3D::Color3& object, const char* name, l
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
 void Bridge<G3D::Color3>::on_newindex(G3D::Color3& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
-/// RBX::RbxRay has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
-/// RBX::RbxRay has a default implementation for registerClass() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
+/// ARL::RbxRay has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
+/// ARL::RbxRay has a default implementation for registerClass() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
 template<>
-const char* Bridge<RBX::RbxRay>::className("Ray");
+const char* Bridge<ARL::RbxRay>::className("Ray");
 
 const luaL_reg RbxRayBridge::classLibrary[] = {
 	{"new", newRbxRay},
@@ -178,14 +178,14 @@ int RbxRayBridge::newRbxRay(lua_State *L)
 	{
 		direction = Vector3Bridge::getObject(L, 2);
 	}
-	pushNewObject(L, RBX::RbxRay::fromOriginAndDirection(origin, direction));
+	pushNewObject(L, ARL::RbxRay::fromOriginAndDirection(origin, direction));
 
 	return 1;
 }
 
 static int closestPointVector3(lua_State *L)
 {
-	RBX::RbxRay& self	= Bridge<RBX::RbxRay>::getObject(L, 1);
+	ARL::RbxRay& self	= Bridge<ARL::RbxRay>::getObject(L, 1);
 	G3D::Vector3& point = Bridge<G3D::Vector3>::getObject(L, 2);
 	Bridge<G3D::Vector3>::pushNewObject(L, self.closestPoint(point));
 	return 1;
@@ -193,7 +193,7 @@ static int closestPointVector3(lua_State *L)
 
 static int distanceVector3(lua_State *L)
 {
-	RBX::RbxRay& self	= Bridge<RBX::RbxRay>::getObject(L, 1);
+	ARL::RbxRay& self	= Bridge<ARL::RbxRay>::getObject(L, 1);
 	G3D::Vector3& point = Bridge<G3D::Vector3>::getObject(L, 2);
 	lua_pushnumber(L, self.distance(point));
 	return 1;
@@ -201,7 +201,7 @@ static int distanceVector3(lua_State *L)
 
 //Lower case are legacy
 template<>
-int Bridge<RBX::RbxRay>::on_index(const RBX::RbxRay& object, const char* name, lua_State *L)
+int Bridge<ARL::RbxRay>::on_index(const ARL::RbxRay& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"Origin")==0)
 	{
@@ -215,7 +215,7 @@ int Bridge<RBX::RbxRay>::on_index(const RBX::RbxRay& object, const char* name, l
 	}
 	if (strcmp(name,"unit")==0 || strcmp(name,"Unit")==0)
 	{
-		Bridge<RBX::RbxRay>::pushNewObject(L, object.unit());
+		Bridge<ARL::RbxRay>::pushNewObject(L, object.unit());
 		return 1;
 	}
 	if (strcmp(name,"ClosestPoint")==0)
@@ -230,21 +230,21 @@ int Bridge<RBX::RbxRay>::on_index(const RBX::RbxRay& object, const char* name, l
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
-void Bridge<RBX::RbxRay>::on_newindex(RBX::RbxRay& object, const char* name, lua_State *L)
+void Bridge<ARL::RbxRay>::on_newindex(ARL::RbxRay& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 
 
 /// Region3 has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
 template<>
-const char* Bridge<RBX::Region3>::className("Region3");
+const char* Bridge<ARL::Region3>::className("Region3");
 
 const luaL_reg Region3Bridge::classLibrary[] = {
 	{"new", newRegion3},
@@ -295,7 +295,7 @@ int Region3Bridge::expandToGrid(lua_State *L)
 
 //Lower case are legacy
 template<>
-int Bridge<RBX::Region3>::on_index(const RBX::Region3& object, const char* name, lua_State *L)
+int Bridge<ARL::Region3>::on_index(const ARL::Region3& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"CFrame")==0)
 	{
@@ -314,18 +314,18 @@ int Bridge<RBX::Region3>::on_index(const RBX::Region3& object, const char* name,
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
-void Bridge<RBX::Region3>::on_newindex(RBX::Region3& object, const char* name, lua_State *L)
+void Bridge<ARL::Region3>::on_newindex(ARL::Region3& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 template<>
-const char* Bridge<RBX::Region3int16>::className("Region3int16");
+const char* Bridge<ARL::Region3int16>::className("Region3int16");
 
 const luaL_reg Region3int16Bridge::classLibrary[] = {
 	{"new", newRegion3int16},
@@ -355,7 +355,7 @@ int Region3int16Bridge::newRegion3int16(lua_State *L)
 
 //Lower case are legacy
 template<>
-int Bridge<RBX::Region3int16>::on_index(const RBX::Region3int16& object, const char* name, lua_State *L)
+int Bridge<ARL::Region3int16>::on_index(const ARL::Region3int16& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"Min")==0)
 	{
@@ -369,14 +369,14 @@ int Bridge<RBX::Region3int16>::on_index(const RBX::Region3int16& object, const c
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
-void Bridge<RBX::Region3int16>::on_newindex(RBX::Region3int16& object, const char* name, lua_State *L)
+void Bridge<ARL::Region3int16>::on_newindex(ARL::Region3int16& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 
@@ -409,10 +409,10 @@ int PhysicalPropertiesBridge::newPhysicalProperties(lua_State *L)
 		EnumDescriptorItemPtr item;
 		if (EnumItem::getItem(L, 1, item))
 		{
-			if(!item->owner.isType<RBX::PartMaterial>())
-				throw RBX::runtime_error("PhysicalProperties.new with 1 argument expects Enum.Material inputs");
+			if(!item->owner.isType<ARL::PartMaterial>())
+				throw ARL::runtime_error("PhysicalProperties.new with 1 argument expects Enum.Material inputs");
 
-			RBX::PartMaterial partMaterial = (RBX::PartMaterial)item->value;
+			ARL::PartMaterial partMaterial = (ARL::PartMaterial)item->value;
 			properties = MaterialProperties::generatePhysicalMaterialFromPartMaterial(partMaterial);
 		}
 	}
@@ -427,9 +427,9 @@ int PhysicalPropertiesBridge::newPhysicalProperties(lua_State *L)
 	else
 	{
 		if (FFlag::PhysPropConstructFromMaterial)
-			throw RBX::runtime_error("Invalid number of arguments: %d, PhysicalProperties objects expect 1,3 or 5", count);
+			throw ARL::runtime_error("Invalid number of arguments: %d, PhysicalProperties objects expect 1,3 or 5", count);
 		else
-			throw RBX::runtime_error("Invalid number of arguments: %d, PhysicalProperties objects expect 3 or 5", count);
+			throw ARL::runtime_error("Invalid number of arguments: %d, PhysicalProperties objects expect 3 or 5", count);
 	}
 
 	pushNewObject(L, properties);
@@ -467,14 +467,14 @@ int Bridge<PhysicalProperties>::on_index(const PhysicalProperties& object, const
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member of PhysicalProperties", name);
+	throw ARL::runtime_error("%s is not a valid member of PhysicalProperties", name);
 }
 
 template<>
 void Bridge<PhysicalProperties>::on_newindex(PhysicalProperties& object, const char* name, lua_State *L)
 {
 	// Failure CAN OVERRIDE THIS TO MAKE SETTING WORK
-	throw RBX::runtime_error("PhysicalProperties.%s cannot be assigned to", name);
+	throw ARL::runtime_error("PhysicalProperties.%s cannot be assigned to", name);
 }
 
 /// G3D::Rect2D has a default implementation for on_tostring() invoked from LuaBridge.cpp.
@@ -516,7 +516,7 @@ int Rect2DBridge::newRect2D(lua_State *L)
     }
     else
     {
-        throw RBX::runtime_error("Invalid number of arguments: %d", count);
+        throw ARL::runtime_error("Invalid number of arguments: %d", count);
 	}
     pushNewObject(L, rect);
     return 1;
@@ -547,14 +547,14 @@ int Bridge<G3D::Rect2D>::on_index(const G3D::Rect2D& object, const char* name, l
 		return 1;
 	}
     // Failure
-    throw RBX::runtime_error("%s is not a valid member", name);
+    throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
 void Bridge<G3D::Rect2D>::on_newindex(G3D::Rect2D& object, const char* name, lua_State *L)
 {
     // Failure
-    throw RBX::runtime_error("%s cannot be assigned to", name);
+    throw ARL::runtime_error("%s cannot be assigned to", name);
 }
     
     
@@ -680,13 +680,13 @@ int Vector3Bridge::newVector3FromNormalId(lua_State *L)
 	EnumDescriptorItemPtr item;
 	if (EnumItem::getItem(L, 1, item))
 	{
-		if(!item->owner.isType<RBX::NormalId>()){
-			throw RBX::runtime_error("Vector3.FromNormalId expects Enum.NormalId input");
+		if(!item->owner.isType<ARL::NormalId>()){
+			throw ARL::runtime_error("Vector3.FromNormalId expects Enum.NormalId input");
 		}
-		Bridge<G3D::Vector3>::pushNewObject(L,RBX::normalIdToVector3((RBX::NormalId)item->value));
+		Bridge<G3D::Vector3>::pushNewObject(L,ARL::normalIdToVector3((ARL::NormalId)item->value));
 	}
 	else {
-		throw RBX::runtime_error("Vector3.FromNormalId expects Enum.NormalId input");
+		throw ARL::runtime_error("Vector3.FromNormalId expects Enum.NormalId input");
 	}
 	return 1;
 }
@@ -696,17 +696,17 @@ int Vector3Bridge::newVector3FromAxis(lua_State *L)
 	EnumDescriptorItemPtr item;
 	if (EnumItem::getItem(L, 1, item))
 	{
-		if(!item->owner.isType<RBX::Vector3::Axis>()){
-			throw RBX::runtime_error("Vector3.FromAxis expects Enum.Axis input");
+		if(!item->owner.isType<ARL::Vector3::Axis>()){
+			throw ARL::runtime_error("Vector3.FromAxis expects Enum.Axis input");
 		}
 		Bridge<G3D::Vector3>::pushNewObject(L,
-			RBX::normalIdToVector3(
-				Axes::axisToNormalId((RBX::Vector3::Axis)item->value)
+			ARL::normalIdToVector3(
+				Axes::axisToNormalId((ARL::Vector3::Axis)item->value)
 				)
 			);
 	}
 	else {
-		throw RBX::runtime_error("Vector3.FromAxis expects Enum.Axis input");
+		throw ARL::runtime_error("Vector3.FromAxis expects Enum.Axis input");
 	}
 	return 1;
 }
@@ -803,18 +803,18 @@ int Bridge<G3D::Vector3>::on_index(const G3D::Vector3& object, const char* name,
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
 void Bridge<G3D::Vector3>::on_newindex(G3D::Vector3& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 template<>
-const char* Bridge<RBX::Vector3int16>::className("Vector3int16");
+const char* Bridge<ARL::Vector3int16>::className("Vector3int16");
 
 const luaL_reg Vector3int16Bridge::classLibrary[] = {
 	{"new", newVector3int16},
@@ -831,26 +831,26 @@ void Vector3int16Bridge::registerClassLibrary (lua_State *L) {
     
 int Vector3int16Bridge::on_add(lua_State *L)
 {
-	const RBX::Vector3int16& a = Vector3int16Bridge::getObject(L, 1);
-	const RBX::Vector3int16& b = Vector3int16Bridge::getObject(L, 2);
+	const ARL::Vector3int16& a = Vector3int16Bridge::getObject(L, 1);
+	const ARL::Vector3int16& b = Vector3int16Bridge::getObject(L, 2);
 	pushVector3int16(L, a + b);
 	return 1;
 };
 
 int Vector3int16Bridge::on_sub(lua_State *L)
 {
-	const RBX::Vector3int16& a = Vector3int16Bridge::getObject(L, 1);
-	const RBX::Vector3int16& b = Vector3int16Bridge::getObject(L, 2);
+	const ARL::Vector3int16& a = Vector3int16Bridge::getObject(L, 1);
+	const ARL::Vector3int16& b = Vector3int16Bridge::getObject(L, 2);
 	pushVector3int16(L, a - b);
 	return 1;
 };
 
 int Vector3int16Bridge::on_mul(lua_State *L)
 {
-	RBX::Vector3int16 a;
+	ARL::Vector3int16 a;
 	if (Vector3int16Bridge::getValue(L, 1, a))
 	{
-		RBX::Vector3int16 b;
+		ARL::Vector3int16 b;
 		if (Vector3int16Bridge::getValue(L, 2, b))
 			pushVector3int16(L, a * b);
 		else
@@ -869,16 +869,16 @@ int Vector3int16Bridge::on_mul(lua_State *L)
 
 int Vector3int16Bridge::on_div(lua_State *L)
 {
-	RBX::Vector3int16 a;
+	ARL::Vector3int16 a;
 	if (Vector3int16Bridge::getValue(L, 1, a))
 	{
-		RBX::Vector3int16 b;
+		ARL::Vector3int16 b;
 		if (Vector3int16Bridge::getValue(L, 2, b))
 		{
 			if (b.x == 0 || b.y == 0 || b.z == 0)
 			{
 				// Failure
-				throw RBX::runtime_error("Divide by zero exception");
+				throw ARL::runtime_error("Divide by zero exception");
 			}
 				
 			Vector3int16 c( a.x / b.x, a.y / b.y, a.z / b.z );
@@ -898,7 +898,7 @@ int Vector3int16Bridge::on_div(lua_State *L)
 		if (a.x == 0 || a. y == 0 || a.z == 0)
 		{
 			// Failure
-			throw RBX::runtime_error("Divide by zero exception");
+			throw ARL::runtime_error("Divide by zero exception");
 		}
 
 		Vector3int16 c( b / a.x, b / a.y, b / a.z );
@@ -932,7 +932,7 @@ int Vector3int16Bridge::newVector3int16(lua_State *L)
 
 
 template<>
-int Bridge<RBX::Vector3int16>::on_index(const RBX::Vector3int16& object, const char* name, lua_State *L)
+int Bridge<ARL::Vector3int16>::on_index(const ARL::Vector3int16& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"x")==0 || strcmp(name,"X")==0)
 	{
@@ -951,19 +951,19 @@ int Bridge<RBX::Vector3int16>::on_index(const RBX::Vector3int16& object, const c
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 
 template<>
-void Bridge<RBX::Vector3int16>::on_newindex(RBX::Vector3int16& object, const char* name, lua_State *L)
+void Bridge<ARL::Vector3int16>::on_newindex(ARL::Vector3int16& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 template<>
-const char* Bridge<RBX::Vector2int16>::className("Vector2int16");
+const char* Bridge<ARL::Vector2int16>::className("Vector2int16");
 
 const luaL_reg Vector2int16Bridge::classLibrary[] = {
 	{"new", newVector2int16},
@@ -980,26 +980,26 @@ void Vector2int16Bridge::registerClassLibrary (lua_State *L) {
     
 int Vector2int16Bridge::on_add(lua_State *L)
 {
-	const RBX::Vector2int16& a = Vector2int16Bridge::getObject(L, 1);
-	const RBX::Vector2int16& b = Vector2int16Bridge::getObject(L, 2);
+	const ARL::Vector2int16& a = Vector2int16Bridge::getObject(L, 1);
+	const ARL::Vector2int16& b = Vector2int16Bridge::getObject(L, 2);
 	pushVector2int16(L, a + b);
 	return 1;
 };
 
 int Vector2int16Bridge::on_sub(lua_State *L)
 {
-	const RBX::Vector2int16& a = Vector2int16Bridge::getObject(L, 1);
-	const RBX::Vector2int16& b = Vector2int16Bridge::getObject(L, 2);
+	const ARL::Vector2int16& a = Vector2int16Bridge::getObject(L, 1);
+	const ARL::Vector2int16& b = Vector2int16Bridge::getObject(L, 2);
 	pushVector2int16(L, a - b);
 	return 1;
 };
 
 int Vector2int16Bridge::on_mul(lua_State *L)
 {
-	RBX::Vector2int16 a;
+	ARL::Vector2int16 a;
 	if (Vector2int16Bridge::getValue(L, 1, a))
 	{
-		RBX::Vector2int16 b;
+		ARL::Vector2int16 b;
 		if (Vector2int16Bridge::getValue(L, 2, b))
 			pushVector2int16(L, a * b);
 		else
@@ -1018,16 +1018,16 @@ int Vector2int16Bridge::on_mul(lua_State *L)
 
 int Vector2int16Bridge::on_div(lua_State *L)
 {
-	RBX::Vector2int16 a;
+	ARL::Vector2int16 a;
 	if (Vector2int16Bridge::getValue(L, 1, a))
 	{
-		RBX::Vector2int16 b;
+		ARL::Vector2int16 b;
 		if (Vector2int16Bridge::getValue(L, 2, b))
 		{
 			if (b.x == 0 || b.y == 0)
 			{
 				// Failure
-				throw RBX::runtime_error("Divide by zero exception");
+				throw ARL::runtime_error("Divide by zero exception");
 			}
 
 			pushVector2int16(L, a / b);
@@ -1046,10 +1046,10 @@ int Vector2int16Bridge::on_div(lua_State *L)
 		if (a.x == 0 || a.y == 0)
 		{
 			// Failure
-			throw RBX::runtime_error("Divide by zero exception");
+			throw ARL::runtime_error("Divide by zero exception");
 		}
 		
-		pushVector2int16(L, RBX::Vector2int16(b,b) / a);
+		pushVector2int16(L, ARL::Vector2int16(b,b) / a);
 	}
 	return 1;
 };
@@ -1077,7 +1077,7 @@ int Vector2int16Bridge::newVector2int16(lua_State *L)
 
 
 template<>
-int Bridge<RBX::Vector2int16>::on_index(const RBX::Vector2int16& object, const char* name, lua_State *L)
+int Bridge<ARL::Vector2int16>::on_index(const ARL::Vector2int16& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"x")==0 || strcmp(name,"X")==0)
 	{
@@ -1091,7 +1091,7 @@ int Bridge<RBX::Vector2int16>::on_index(const RBX::Vector2int16& object, const c
 	}
 	//if (strcmp(name,"unit")==0)
 	//{
-	//	Bridge<RBX::Vector2int16>::pushNewObject(L, object.direction());
+	//	Bridge<ARL::Vector2int16>::pushNewObject(L, object.direction());
 	//	return 1;
 	//}
 	//if (strcmp(name,"magnitude")==0)
@@ -1106,20 +1106,20 @@ int Bridge<RBX::Vector2int16>::on_index(const RBX::Vector2int16& object, const c
 	//}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 
 template<>
-void Bridge<RBX::Vector2int16>::on_newindex(RBX::Vector2int16& object, const char* name, lua_State *L)
+void Bridge<ARL::Vector2int16>::on_newindex(ARL::Vector2int16& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
-/// RBX::Vector2 has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
+/// ARL::Vector2 has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
 template<>
-const char* Bridge<RBX::Vector2>::className("Vector2");
+const char* Bridge<ARL::Vector2>::className("Vector2");
 
 const luaL_reg Vector2Bridge::classLibrary[] = {
 	{"new", newVector2},
@@ -1136,26 +1136,26 @@ void Vector2Bridge::registerClassLibrary (lua_State *L) {
     
 int Vector2Bridge::on_add(lua_State *L)
 {
-	const RBX::Vector2& a = Vector2Bridge::getObject(L, 1);
-	const RBX::Vector2& b = Vector2Bridge::getObject(L, 2);
+	const ARL::Vector2& a = Vector2Bridge::getObject(L, 1);
+	const ARL::Vector2& b = Vector2Bridge::getObject(L, 2);
 	pushVector2(L, a + b);
 	return 1;
 };
 
 int Vector2Bridge::on_sub(lua_State *L)
 {
-	const RBX::Vector2& a = Vector2Bridge::getObject(L, 1);
-	const RBX::Vector2& b = Vector2Bridge::getObject(L, 2);
+	const ARL::Vector2& a = Vector2Bridge::getObject(L, 1);
+	const ARL::Vector2& b = Vector2Bridge::getObject(L, 2);
 	pushVector2(L, a - b);
 	return 1;
 };
 
 int Vector2Bridge::on_mul(lua_State *L)
 {
-	RBX::Vector2 a;
+	ARL::Vector2 a;
 	if (Vector2Bridge::getValue(L, 1, a))
 	{
-		RBX::Vector2 b;
+		ARL::Vector2 b;
 		if (Vector2Bridge::getValue(L, 2, b))
 			pushVector2(L, a * b);
         else if(!lua_isnumber(L, 2))
@@ -1182,10 +1182,10 @@ int Vector2Bridge::on_mul(lua_State *L)
 
 int Vector2Bridge::on_div(lua_State *L)
 {
-	RBX::Vector2 a;
+	ARL::Vector2 a;
 	if (Vector2Bridge::getValue(L, 1, a))
 	{
-		RBX::Vector2 b;
+		ARL::Vector2 b;
 		if (Vector2Bridge::getValue(L, 2, b))
 			pushVector2(L, a / b);
         else if(!lua_isnumber(L, 2))
@@ -1206,7 +1206,7 @@ int Vector2Bridge::on_div(lua_State *L)
 	{
 		a = Vector2Bridge::getObject(L, 2);
 		float b = lua_tofloat(L, 1);
-		pushVector2(L, RBX::Vector2(b,b) / a);
+		pushVector2(L, ARL::Vector2(b,b) / a);
 	}
 	return 1;
 };
@@ -1234,15 +1234,15 @@ int Vector2Bridge::newVector2(lua_State *L)
 
 static int lerpVector2(lua_State *L)
 {
-	RBX::Vector2& self = Bridge<RBX::Vector2>::getObject(L, 1);
-	RBX::Vector2& v = Bridge<RBX::Vector2>::getObject(L, 2);
+	ARL::Vector2& self = Bridge<ARL::Vector2>::getObject(L, 1);
+	ARL::Vector2& v = Bridge<ARL::Vector2>::getObject(L, 2);
 	float alpha = lua_tofloat(L, 3);
-	Bridge<RBX::Vector2>::pushNewObject(L, self.lerp(v, alpha));
+	Bridge<ARL::Vector2>::pushNewObject(L, self.lerp(v, alpha));
 	return 1;
 }
 
 template<>
-int Bridge<RBX::Vector2>::on_index(const RBX::Vector2& object, const char* name, lua_State *L)
+int Bridge<ARL::Vector2>::on_index(const ARL::Vector2& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"x")==0 || strcmp(name,"X")==0)
 	{
@@ -1256,7 +1256,7 @@ int Bridge<RBX::Vector2>::on_index(const RBX::Vector2& object, const char* name,
 	}
 	if (strcmp(name,"unit")==0)
 	{
-		Bridge<RBX::Vector2>::pushNewObject(L, object.direction());
+		Bridge<ARL::Vector2>::pushNewObject(L, object.direction());
 		return 1;
 	}
 	if (strcmp(name,"magnitude")==0)
@@ -1271,20 +1271,20 @@ int Bridge<RBX::Vector2>::on_index(const RBX::Vector2& object, const char* name,
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
-void Bridge<RBX::Vector2>::on_newindex(RBX::Vector2& object, const char* name, lua_State *L)
+void Bridge<ARL::Vector2>::on_newindex(ARL::Vector2& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
-/// RBX::BrickColor has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
-/// RBX::BrickColor has a default implementation for registerClass() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
+/// ARL::BrickColor has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
+/// ARL::BrickColor has a default implementation for registerClass() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
 template<>
-const char* Bridge<RBX::BrickColor>::className("BrickColor");
+const char* Bridge<ARL::BrickColor>::className("BrickColor");
 
 void BrickColorBridge::registerClassLibrary (lua_State *L) {
     
@@ -1395,7 +1395,7 @@ int BrickColorBridge::paletteBrickColor(lua_State *L)
 		index = lua_tointeger(L, 1);
 	}
 	if(index < 0 || index >= int(BrickColor::colorPalette().size())){
-		throw RBX::runtime_error("palette index out of bounds (%d)", index);
+		throw ARL::runtime_error("palette index out of bounds (%d)", index);
 	}
 	pushNewObject(L, BrickColor::colorPalette().at(index));
 	return 1;
@@ -1407,7 +1407,7 @@ int BrickColorBridge::randomBrickColor(lua_State *L)
 }
 
 template<>
-int Bridge<RBX::BrickColor>::on_index(const RBX::BrickColor& object, const char* name, lua_State *L)
+int Bridge<ARL::BrickColor>::on_index(const ARL::BrickColor& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"number")==0)
 	{
@@ -1451,14 +1451,14 @@ int Bridge<RBX::BrickColor>::on_index(const RBX::BrickColor& object, const char*
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
-void Bridge<RBX::BrickColor>::on_newindex(RBX::BrickColor& object, const char* name, lua_State *L)
+void Bridge<ARL::BrickColor>::on_newindex(ARL::BrickColor& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 /// G3D::CoordinateFrame has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
@@ -1536,7 +1536,7 @@ int CoordinateFrameBridge::newCoordinateFrame(lua_State *L)
 		break;
 
 	default:
-		throw RBX::runtime_error("Invalid number of arguments: %d", count);
+		throw ARL::runtime_error("Invalid number of arguments: %d", count);
 		break;
 
 	}
@@ -1832,19 +1832,19 @@ int Bridge<G3D::CoordinateFrame>::on_index(const G3D::CoordinateFrame& object, c
 
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
 void Bridge<G3D::CoordinateFrame>::on_newindex(G3D::CoordinateFrame& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 
 template<>
-const char* Bridge<RBX::UDim>::className("UDim");
+const char* Bridge<ARL::UDim>::className("UDim");
 
 
 const luaL_reg UDimBridge::classLibrary[] = {
@@ -1904,7 +1904,7 @@ int UDimBridge::on_unm(lua_State *L)
 };
 
 template<>
-int Bridge<RBX::UDim>::on_index(const RBX::UDim& object, const char* name, lua_State *L)
+int Bridge<ARL::UDim>::on_index(const ARL::UDim& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"Scale")==0)
 	{
@@ -1918,21 +1918,21 @@ int Bridge<RBX::UDim>::on_index(const RBX::UDim& object, const char* name, lua_S
 	}
 
 	if(name && !isupper(name[0]))
-		throw RBX::runtime_error("%s is not a valid member, did you forget to capitalize the first letter?", name);
+		throw ARL::runtime_error("%s is not a valid member, did you forget to capitalize the first letter?", name);
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
-void Bridge<RBX::UDim>::on_newindex(RBX::UDim& object, const char* name, lua_State *L)
+void Bridge<ARL::UDim>::on_newindex(ARL::UDim& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 template<>
-const char* Bridge<RBX::UDim2>::className("UDim2");
+const char* Bridge<ARL::UDim2>::className("UDim2");
 
 
 const luaL_reg UDim2Bridge::classLibrary[] = {
@@ -1995,7 +1995,7 @@ int UDim2Bridge::on_unm(lua_State *L)
 };
 
 template<>
-int Bridge<RBX::UDim2>::on_index(const RBX::UDim2& object, const char* name, lua_State *L)
+int Bridge<ARL::UDim2>::on_index(const ARL::UDim2& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"X")==0 || strcmp(name,"Width")==0)
 	{
@@ -2009,23 +2009,23 @@ int Bridge<RBX::UDim2>::on_index(const RBX::UDim2& object, const char* name, lua
 	}
 
 	if(name && !isupper(name[0]))
-		throw RBX::runtime_error("%s is not a valid member, did you forget to capitalize the first letter?", name);
+		throw ARL::runtime_error("%s is not a valid member, did you forget to capitalize the first letter?", name);
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
-void Bridge<RBX::UDim2>::on_newindex(RBX::UDim2& object, const char* name, lua_State *L)
+void Bridge<ARL::UDim2>::on_newindex(ARL::UDim2& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
-/// RBX::Faces has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
-/// RBX::Faces has a default implementation for registerClass() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
+/// ARL::Faces has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
+/// ARL::Faces has a default implementation for registerClass() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
 template<>
-const char* Bridge<RBX::Faces>::className("Faces");
+const char* Bridge<ARL::Faces>::className("Faces");
 
 
 const luaL_reg FacesBridge::classLibrary[] = {
@@ -2046,16 +2046,16 @@ int FacesBridge::newFaces(lua_State *L)
 	// There should be up to 6 Enum parameters () . Following Lua conventions ignore others and use 0 for missing
 	int count = std::min(6,lua_gettop(L));
 
-	int normalIdMask = RBX::NORM_NONE_MASK;
+	int normalIdMask = ARL::NORM_NONE_MASK;
 	for(int index = 1; index<= count; index++){
 		//Select each enum, 
 		EnumDescriptorItemPtr item;
 		if (EnumItem::getItem(L, index, item))
 		{
-			if(!item->owner.isType<RBX::NormalId>())
-				throw RBX::runtime_error("Faces.new expects Enum.NormalId inputs");
+			if(!item->owner.isType<ARL::NormalId>())
+				throw ARL::runtime_error("Faces.new expects Enum.NormalId inputs");
 
-			normalIdMask |= normalIdToMask((RBX::NormalId)item->value);
+			normalIdMask |= normalIdToMask((ARL::NormalId)item->value);
 		}
 	}
 
@@ -2065,56 +2065,56 @@ int FacesBridge::newFaces(lua_State *L)
 }
 
 template<>
-int Bridge<RBX::Faces>::on_index(const RBX::Faces& object, const char* name, lua_State *L)
+int Bridge<ARL::Faces>::on_index(const ARL::Faces& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"Top")==0)
 	{
-		lua_pushboolean(L, object.getNormalId(RBX::NORM_Y));
+		lua_pushboolean(L, object.getNormalId(ARL::NORM_Y));
 		return 1;
 	}
 	if (strcmp(name,"Bottom")==0)
 	{
-		lua_pushboolean(L, object.getNormalId(RBX::NORM_Y_NEG));
+		lua_pushboolean(L, object.getNormalId(ARL::NORM_Y_NEG));
 		return 1;
 	}
 	if (strcmp(name,"Back")==0)
 	{
-		lua_pushboolean(L, object.getNormalId(RBX::NORM_Z));
+		lua_pushboolean(L, object.getNormalId(ARL::NORM_Z));
 		return 1;
 	}
 	if (strcmp(name,"Front")==0)
 	{
-		lua_pushboolean(L, object.getNormalId(RBX::NORM_Z_NEG));
+		lua_pushboolean(L, object.getNormalId(ARL::NORM_Z_NEG));
 		return 1;
 	}
 	if (strcmp(name,"Right")==0)
 	{
-		lua_pushboolean(L, object.getNormalId(RBX::NORM_X));
+		lua_pushboolean(L, object.getNormalId(ARL::NORM_X));
 		return 1;
 	}
 	if (strcmp(name,"Left")==0)
 	{
-		lua_pushboolean(L, object.getNormalId(RBX::NORM_X_NEG));
+		lua_pushboolean(L, object.getNormalId(ARL::NORM_X_NEG));
 		return 1;
 	}
 
 	if(name && !isupper(name[0]))
-		throw RBX::runtime_error("%s is not a valid member, did you forget to capitalize the first letter?", name);
+		throw ARL::runtime_error("%s is not a valid member, did you forget to capitalize the first letter?", name);
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member. Valid members are Top,Bottom,Left,Right,Back,Front", name);
+	throw ARL::runtime_error("%s is not a valid member. Valid members are Top,Bottom,Left,Right,Back,Front", name);
 }
 
 template<>
-void Bridge<RBX::Faces>::on_newindex(RBX::Faces& object, const char* name, lua_State *L)
+void Bridge<ARL::Faces>::on_newindex(ARL::Faces& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
-/// RBX::Axes has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
-/// RBX::Axes has a default implementation for registerClass() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
+/// ARL::Axes has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
+/// ARL::Axes has a default implementation for registerClass() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
 template<>
-const char* Bridge<RBX::Axes>::className("Axes");
+const char* Bridge<ARL::Axes>::className("Axes");
 
 const luaL_reg AxesBridge::classLibrary[] = {
 	{"new", newAxes},
@@ -2140,86 +2140,86 @@ int AxesBridge::newAxes(lua_State *L)
 		EnumDescriptorItemPtr item;
 		if (EnumItem::getItem(L, index, item))
 		{
-			if(!item->owner.isType<RBX::Vector3::Axis>() && !item->owner.isType<RBX::NormalId>() )
-				throw RBX::runtime_error("Axes.new expects Enum.Axis or Enum.NormalId inputs");
-			if(item->owner.isType<RBX::Vector3::Axis>()){
-				axisMask |= RBX::Axes::axisToMask((RBX::Vector3::Axis)item->value);
+			if(!item->owner.isType<ARL::Vector3::Axis>() && !item->owner.isType<ARL::NormalId>() )
+				throw ARL::runtime_error("Axes.new expects Enum.Axis or Enum.NormalId inputs");
+			if(item->owner.isType<ARL::Vector3::Axis>()){
+				axisMask |= ARL::Axes::axisToMask((ARL::Vector3::Axis)item->value);
 			}
 			else{
-				axisMask |= RBX::Axes::axisToMask(RBX::Axes::normalIdToAxis((RBX::NormalId)item->value));
+				axisMask |= ARL::Axes::axisToMask(ARL::Axes::normalIdToAxis((ARL::NormalId)item->value));
 
 			}
 
 		}
 	}
 
-	pushNewObject(L, RBX::Axes(axisMask));
+	pushNewObject(L, ARL::Axes(axisMask));
 
 	return 1;
 }
 
 template<>
-int Bridge<RBX::Axes>::on_index(const RBX::Axes& object, const char* name, lua_State *L)
+int Bridge<ARL::Axes>::on_index(const ARL::Axes& object, const char* name, lua_State *L)
 {
 	if (strcmp(name,"X")==0)
 	{
-		lua_pushboolean(L, object.getAxis(RBX::Vector3::X_AXIS));
+		lua_pushboolean(L, object.getAxis(ARL::Vector3::X_AXIS));
 		return 1;
 	}
 	if (strcmp(name,"Y")==0)
 	{
-		lua_pushboolean(L, object.getAxis(RBX::Vector3::Y_AXIS));
+		lua_pushboolean(L, object.getAxis(ARL::Vector3::Y_AXIS));
 		return 1;
 	}
 	if (strcmp(name,"Z")==0)
 	{
-		lua_pushboolean(L, object.getAxis(RBX::Vector3::Z_AXIS));
+		lua_pushboolean(L, object.getAxis(ARL::Vector3::Z_AXIS));
 		return 1;
 	}
 
 
 	if (strcmp(name,"Top")==0)
 	{
-		lua_pushboolean(L, object.getAxisByNormalId(RBX::NORM_Y));
+		lua_pushboolean(L, object.getAxisByNormalId(ARL::NORM_Y));
 		return 1;
 	}
 	if (strcmp(name,"Bottom")==0)
 	{
-		lua_pushboolean(L, object.getAxisByNormalId(RBX::NORM_Y_NEG));
+		lua_pushboolean(L, object.getAxisByNormalId(ARL::NORM_Y_NEG));
 		return 1;
 	}
 	if (strcmp(name,"Back")==0)
 	{
-		lua_pushboolean(L, object.getAxisByNormalId(RBX::NORM_Z));
+		lua_pushboolean(L, object.getAxisByNormalId(ARL::NORM_Z));
 		return 1;
 	}
 	if (strcmp(name,"Front")==0)
 	{
-		lua_pushboolean(L, object.getAxisByNormalId(RBX::NORM_Z_NEG));
+		lua_pushboolean(L, object.getAxisByNormalId(ARL::NORM_Z_NEG));
 		return 1;
 	}
 	if (strcmp(name,"Right")==0)
 	{
-		lua_pushboolean(L, object.getAxisByNormalId(RBX::NORM_X));
+		lua_pushboolean(L, object.getAxisByNormalId(ARL::NORM_X));
 		return 1;
 	}
 	if (strcmp(name,"Left")==0)
 	{
-		lua_pushboolean(L, object.getAxisByNormalId(RBX::NORM_X_NEG));
+		lua_pushboolean(L, object.getAxisByNormalId(ARL::NORM_X_NEG));
 		return 1;
 	}
 
 	if(name && !isupper(name[0]))
-		throw RBX::runtime_error("%s is not a valid member, did you forget to capitalize the first letter?", name);
+		throw ARL::runtime_error("%s is not a valid member, did you forget to capitalize the first letter?", name);
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member, valid members are X,Y,Z,Top,Bottom,Left,Right,Front,Back", name);
+	throw ARL::runtime_error("%s is not a valid member, valid members are X,Y,Z,Top,Bottom,Left,Right,Front,Back", name);
 }
 
 template<>
-void Bridge<RBX::Axes>::on_newindex(RBX::Axes& object, const char* name, lua_State *L)
+void Bridge<ARL::Axes>::on_newindex(ARL::Axes& object, const char* name, lua_State *L)
 {
 	// Failure
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 template<>
@@ -2279,19 +2279,19 @@ int Bridge<CellID>::on_index(const CellID& object, const char* name, lua_State *
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member, valid members are IsNil,Location,TerrainPart", name);
+	throw ARL::runtime_error("%s is not a valid member, valid members are IsNil,Location,TerrainPart", name);
 }
     
 template<>
 void Bridge<CellID>::on_newindex(CellID& object, const char* name, lua_State *L)
 {
     // Failure
-    throw RBX::runtime_error("%s cannot be assigned to", name);
+    throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-template<> const char* Bridge<RBX::NumberSequence>::className("NumberSequence");
+template<> const char* Bridge<ARL::NumberSequence>::className("NumberSequence");
 
 const luaL_reg NumberSequenceBridge::classLibrary[] = 
 {
@@ -2311,7 +2311,7 @@ int NumberSequenceBridge::newNumberSequence(lua_State* L)
 {
     if (lua_isnumber(L,-1))
     {
-        pushNumberSequence(L, RBX::NumberSequence(lua_tonumber(L,-1)));
+        pushNumberSequence(L, ARL::NumberSequence(lua_tonumber(L,-1)));
         return 1;
     }
 
@@ -2333,7 +2333,7 @@ int NumberSequenceBridge::newNumberSequence(lua_State* L)
         NumberSequenceKeypoint kp;
         if (!NumberSequenceKeypointBridge::getValue(L, lua_gettop(L), kp))
         {
-            throw RBX::runtime_error("NumberSequence ctor: expected 'NumberSequenceKeypoint' at index %d", j);
+            throw ARL::runtime_error("NumberSequence ctor: expected 'NumberSequenceKeypoint' at index %d", j);
         }
 
         lua_pop(L,1); // pop the keypoint
@@ -2358,20 +2358,20 @@ int Bridge<NumberSequence>::on_index(const NumberSequence& object, const char* n
         }
         return 1;
     }
-    throw RBX::runtime_error("'%s' is not a member of NumberSequence", name);
+    throw ARL::runtime_error("'%s' is not a member of NumberSequence", name);
 }
 
 template<>
 void Bridge<NumberSequence>::on_newindex( NumberSequence& object, const char* name, lua_State *L)
 {
-    throw RBX::runtime_error("%s cannot be assigned to", name);
+    throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 // ColorSequence
 
-template<> const char* Bridge<RBX::ColorSequence>::className("ColorSequence");
+template<> const char* Bridge<ARL::ColorSequence>::className("ColorSequence");
 
 const luaL_reg ColorSequenceBridge::classLibrary[] = 
 {
@@ -2430,7 +2430,7 @@ int ColorSequenceBridge::newColorSequence(lua_State* L)
         ColorSequenceKeypoint kp;
         if (!ColorSequenceKeypointBridge::getValue(L, lua_gettop(L), kp))
         {
-            throw RBX::runtime_error("ColorSequence ctor: expected 'ColorSequenceKeypoint' at index %d", j);
+            throw ARL::runtime_error("ColorSequence ctor: expected 'ColorSequenceKeypoint' at index %d", j);
         }
 
         lua_pop(L,1); // pop the keypoint
@@ -2455,13 +2455,13 @@ int Bridge<ColorSequence>::on_index(const ColorSequence& object, const char* nam
         }
         return 1;
     }
-    throw RBX::runtime_error("'%s' is not a member of ColorSequence", name);
+    throw ARL::runtime_error("'%s' is not a member of ColorSequence", name);
 }
 
 template<>
 void Bridge<ColorSequence>::on_newindex( ColorSequence& object, const char* name, lua_State *L)
 {
-    throw RBX::runtime_error("%s cannot be assigned to", name);
+    throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 
@@ -2469,7 +2469,7 @@ void Bridge<ColorSequence>::on_newindex( ColorSequence& object, const char* name
 //////////////////////////////////////////////////////////////////////////
 // NumberSequenceKeypoint
 
-template<> const char* Bridge<RBX::NumberSequenceKeypoint>::className("NumberSequenceKeypoint");
+template<> const char* Bridge<ARL::NumberSequenceKeypoint>::className("NumberSequenceKeypoint");
 
 const luaL_reg NumberSequenceKeypointBridge::classLibrary[] = 
 {
@@ -2510,19 +2510,19 @@ int Bridge<NumberSequenceKeypoint>::on_index(const NumberSequenceKeypoint& objec
     {
         return lua_pushnumber(L,object.envelope), 1;
     }
-    throw RBX::runtime_error("'%s' is not a valid member of NumberSequenceKeypoint", name);
+    throw ARL::runtime_error("'%s' is not a valid member of NumberSequenceKeypoint", name);
 }
 
 template<>
 void Bridge<NumberSequenceKeypoint>::on_newindex( NumberSequenceKeypoint& object, const char* name, lua_State *L)
 {
-    throw RBX::runtime_error("%s cannot be assigned to", name);
+    throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 //////////////////////////////////////////////////////////////////////////
 // ColorSequenceKeypoint
 
-template<> const char* Bridge<RBX::ColorSequenceKeypoint>::className("ColorSequenceKeypoint");
+template<> const char* Bridge<ARL::ColorSequenceKeypoint>::className("ColorSequenceKeypoint");
 
 const luaL_reg ColorSequenceKeypointBridge::classLibrary[] = 
 {
@@ -2544,7 +2544,7 @@ int ColorSequenceKeypointBridge::newColorSequenceKeypoint(lua_State* L)
     kp.time = luaL_checknumber(L,1);
     bool b = Color3Bridge::getValue(L, 2, kp.value );
     if (!b)
-        throw RBX::runtime_error("could not parse arg #2 to ColorSequenceKeypoint.new(), Color3 expected.");
+        throw ARL::runtime_error("could not parse arg #2 to ColorSequenceKeypoint.new(), Color3 expected.");
     kp.envelope = 0; //lua_tonumber(L,3); // disabled for now
     pushColorSequenceKeypoint(L, kp);
     return 1;
@@ -2567,18 +2567,18 @@ int Bridge<ColorSequenceKeypoint>::on_index(const ColorSequenceKeypoint& object,
         return lua_pushnumber(L,object.envelope), 1;
     }
     */
-    throw RBX::runtime_error("'%s' is not a valid member of ColorSequenceKeypoint", name);
+    throw ARL::runtime_error("'%s' is not a valid member of ColorSequenceKeypoint", name);
 }
 
 template<>
 void Bridge<ColorSequenceKeypoint>::on_newindex( ColorSequenceKeypoint& object, const char* name, lua_State *L)
 {
-    throw RBX::runtime_error("%s cannot be assigned to", name);
+    throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 //////////////////////////////////////////////////////////////////////////
 
 
-template<> const char* Bridge<RBX::NumberRange>::className("NumberRange");
+template<> const char* Bridge<ARL::NumberRange>::className("NumberRange");
 
 const luaL_reg NumberRangeBridge::classLibrary[] = 
 {
@@ -2604,7 +2604,7 @@ int NumberRangeBridge::newNumberRange(lua_State* L)
         b = a;
     
     if (b < a)
-        throw RBX::runtime_error("NumberRange: invalid range");
+        throw ARL::runtime_error("NumberRange: invalid range");
 
     pushNumberRange(L, NumberRange(a,b));
     return 1;
@@ -2621,13 +2621,13 @@ int Bridge<NumberRange>::on_index(const NumberRange& object, const char* name, l
     {
         return lua_pushnumber(L, object.max), 1;
     }
-    throw RBX::runtime_error("'%s' is not a valid member of NumberRange", name);
+    throw ARL::runtime_error("'%s' is not a valid member of NumberRange", name);
 }
 
 template<>
 void Bridge<NumberRange>::on_newindex( NumberRange& object, const char* name, lua_State *L)
 {
-    throw RBX::runtime_error("%s cannot be assigned to", name);
+    throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 
@@ -2791,7 +2791,7 @@ void Bridge<G3D::Vector3>::registerClass (lua_State *L)
 
 // The default implementation for registerClass() is available in LuaBridge.cpp. This is a specialization.		
 template<>
-void Bridge<RBX::Vector2>::registerClass (lua_State *L)
+void Bridge<ARL::Vector2>::registerClass (lua_State *L)
 {
 	// Register the object events
 	luaL_newmetatable(L, className);
@@ -2891,7 +2891,7 @@ void Bridge<G3D::CoordinateFrame>::registerClass (lua_State *L)
     
 // The default implementation for registerClass() is available in LuaBridge.cpp. This is a specialization.
 template<>
-void Bridge<RBX::Rect2D>::registerClass(lua_State *L)
+void Bridge<ARL::Rect2D>::registerClass(lua_State *L)
 {   
     // Register the object events
     luaL_newmetatable(L, className);
@@ -2958,7 +2958,7 @@ void Bridge<PhysicalProperties>::registerClass(lua_State *L)
 
 // The default implementation for registerClass() is available in LuaBridge.cpp. This is a specialization.		
 template<>
-void Bridge<RBX::UDim>::registerClass (lua_State *L)
+void Bridge<ARL::UDim>::registerClass (lua_State *L)
 {
 	// Register the object events
 	luaL_newmetatable(L, className);
@@ -3002,7 +3002,7 @@ void Bridge<RBX::UDim>::registerClass (lua_State *L)
 
 // The default implementation for registerClass() is available in LuaBridge.cpp. This is a specialization.		
 template<>
-void Bridge<RBX::UDim2>::registerClass (lua_State *L)
+void Bridge<ARL::UDim2>::registerClass (lua_State *L)
 {
 	// Register the object events
 	luaL_newmetatable(L, className);

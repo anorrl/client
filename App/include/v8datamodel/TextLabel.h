@@ -3,7 +3,7 @@
 #include "V8DataModel/GuiObject.h"
 #include "V8DataModel/GuiText.h"
 
-namespace RBX {
+namespace ARL {
 
 extern const char* const sTextLabel;
 
@@ -26,4 +26,4 @@ public:
 
 };
 
-}  // namespace RBX
+}  // namespace ARL

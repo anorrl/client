@@ -38,7 +38,7 @@ DYNAMIC_FASTFLAG(FixTouchEndedReporting)
 FASTFLAG(PGSSolverFileDump)
 DYNAMIC_FASTFLAG(MaterialPropertiesEnabled)
 
-namespace RBX {
+namespace ARL {
 
 bool Primitive::allowSleep = true;	// globalSwitch
 
@@ -81,9 +81,9 @@ Primitive::Primitive(Geometry::GeometryType geometryType)
 
 Primitive::~Primitive() 
 {
-	RBXASSERT(!world);
-	RBXASSERT(geometry);
-	RBXASSERT(body);
+	ARLASSERT(!world);
+	ARLASSERT(geometry);
+	ARLASSERT(body);
 
 	delete geometry;
 	delete body;
@@ -114,7 +114,7 @@ unsigned int Primitive::getSizeMultiplier() const
 		case Primitive::ROOT_SIZE:		return 10;
 		case Primitive::SEAT_SIZE:		return 20;
 
-		default:					RBXASSERT(0); return 1;
+		default:					ARLASSERT(0); return 1;
 	}
 }
 
@@ -127,7 +127,7 @@ void Primitive::setSizeMultiplier(SizeMultiplier value)
 			sortSize = 0;
 		}
 		else {
-			RBXASSERT(0);		// show to dave - changing primitive name to/from "Torso" while in world
+			ARLASSERT(0);		// show to dave - changing primitive name to/from "Torso" while in world
 		}
 	}
 }
@@ -140,7 +140,7 @@ const Guid& Primitive::getGuid() const
 
 void Primitive::setGuid(const Guid& value)
 {
-	RBXASSERT(!world);
+	ARLASSERT(!world);
 	guid.copyDataFrom(value);
 
     if( FFlag::PGSSolverFileDump )
@@ -163,7 +163,7 @@ static const int fuzzyExtentsReset()
 
 Extents Primitive::computeFuzzyExtents()
 {
-	RBXASSERT(!Math::isNanInfVector3(getBody()->getPos()));
+	ARLASSERT(!Math::isNanInfVector3(getBody()->getPos()));
 	Extents answer = Extents::fromCenterCorner(
 									getBody()->getPos(), 
 									geometry->getCenterToCorner(getBody()->getCoordinateFrame().rotation));
@@ -179,8 +179,8 @@ const Extents& Primitive::getFastFuzzyExtents()
 		fuzzyExtentsStateId = getBody()->getStateIndex();
 	}
 
-	RBXASSERT_VERY_FAST(computeFuzzyExtents() == fuzzyExtents);	
-	RBXASSERT_VERY_FAST(fuzzyExtentsStateId == getBody()->getStateIndex());
+	ARLASSERT_VERY_FAST(computeFuzzyExtents() == fuzzyExtents);	
+	ARLASSERT_VERY_FAST(fuzzyExtentsStateId == getBody()->getStateIndex());
 
 	return fuzzyExtents;
 }
@@ -212,15 +212,15 @@ Primitive* Primitive::downstreamPrimitive(Joint* j)
 	else {
 		Body* b0 = p0->getBody();
 		Body* b1 = p1->getBody();
-		RBXASSERT((b0->getParent() == b1) || (b1->getParent() == b0));
+		ARLASSERT((b0->getParent() == b1) || (b1->getParent() == b0));
 		return (b0->getParent() == b1) ? p0 : p1;
 	}
 }
 
 Edge* EdgeList::getNext(const Primitive* p, Edge* e) const
 {
-	RBXASSERT(e);
-	RBXASSERT(e->links(p));
+	ARLASSERT(e);
+	ARLASSERT(e->links(p));
 	unsigned int nextIndex = e->getIndex(p) + 1;
 	return (nextIndex < list.size())
 		? list[nextIndex].edge
@@ -229,7 +229,7 @@ Edge* EdgeList::getNext(const Primitive* p, Edge* e) const
 
 void EdgeList::insertEdge(Edge* e)
 {
-	RBXASSERT(e->getIndex(owner) == -1);
+	ARLASSERT(e->getIndex(owner) == -1);
 
 	e->setIndex(owner, list.size());
     
@@ -241,8 +241,8 @@ void EdgeList::removeEdge(Edge* e)
 {
 	int removeIndex = e->getIndex(owner);
 
-	RBXASSERT(removeIndex >= 0);
-	RBXASSERT(list[removeIndex].edge == e);
+	ARLASSERT(removeIndex >= 0);
+	ARLASSERT(list[removeIndex].edge == e);
 
 	// Move last item to removal index
 	Entry oldLast = list.back();		// if array size == 1, this is redundant
@@ -284,11 +284,11 @@ void Primitive::insertEdge(Edge* e)
 			p1->joints.insertEdge(e);
 		}
 		else {
-			RBXASSERT(AnchorJoint::isAnchorJoint(rbx_static_cast<Joint*>(e)) || FreeJoint::isFreeJoint(rbx_static_cast<Joint*>(e)));
+			ARLASSERT(AnchorJoint::isAnchorJoint(rbx_static_cast<Joint*>(e)) || FreeJoint::isFreeJoint(rbx_static_cast<Joint*>(e)));
 		}
 	}
 	else {
-		RBXASSERT_VERY_FAST(Contact::isContact(e));
+		ARLASSERT_VERY_FAST(Contact::isContact(e));
 		p0->contacts.insertEdge(e);
 		p1->contacts.insertEdge(e);
 	}
@@ -305,11 +305,11 @@ void Primitive::removeEdge(Edge* e)
 			p1->joints.removeEdge(e);
 		}
 		else {
-			RBXASSERT(AnchorJoint::isAnchorJoint(rbx_static_cast<Joint*>(e)) || FreeJoint::isFreeJoint(rbx_static_cast<Joint*>(e)));
+			ARLASSERT(AnchorJoint::isAnchorJoint(rbx_static_cast<Joint*>(e)) || FreeJoint::isFreeJoint(rbx_static_cast<Joint*>(e)));
 		}
 	}
 	else {
-		RBXASSERT_VERY_FAST(Contact::isContact(e));
+		ARLASSERT_VERY_FAST(Contact::isContact(e));
 		p0->contacts.removeEdge(e);
 		p1->contacts.removeEdge(e);
 	}
@@ -326,7 +326,7 @@ Edge* Primitive::getFirstEdge() const
 
 Edge* Primitive::getNextEdge(Edge* e) const 
 {
-	RBXASSERT_VERY_FAST(e);
+	ARLASSERT_VERY_FAST(e);
 	
 	if (e->getEdgeType() == Edge::JOINT) {
 		if (Edge* answer = joints.getNext(this, e)) {
@@ -355,7 +355,7 @@ Joint* Primitive::getFirstJoint()
 
 const Joint* Primitive::getConstNextJoint(const Joint* prev) const 
 {
-	RBXASSERT_VERY_FAST(prev);
+	ARLASSERT_VERY_FAST(prev);
 
 	Edge* e = joints.getNext(this, const_cast<Joint*>(prev));
 
@@ -376,7 +376,7 @@ Contact* Primitive::getFirstContact()
 
 Contact* Primitive::getNextContact(Contact* prev) 
 {
-	RBXASSERT_VERY_FAST(prev);
+	ARLASSERT_VERY_FAST(prev);
 
 	return rbx_static_cast<Contact*>(contacts.getNext(this, prev));
 }
@@ -407,7 +407,7 @@ RigidJoint* Primitive::getNextRigid(RigidJoint* prev)
 
 Joint* Primitive::getJoint(Primitive* p0, Primitive* p1, int index)
 {
-	RBXASSERT_VERY_FAST(p0 != p1);
+	ARLASSERT_VERY_FAST(p0 != p1);
 	Primitive* leastJoints = (p0->getNumJoints() < p1->getNumJoints()) ? p0 : p1;
 	Primitive* mostJoints = (leastJoints == p0) ? p1 : p0;
 
@@ -417,7 +417,7 @@ Joint* Primitive::getJoint(Primitive* p0, Primitive* p1, int index)
 		Primitive* other = leastJoints->getJointOther(i);
 		if (other == mostJoints)
 		{
-			RBXASSERT(leastJoints->getJoint(i)->links(p0, p1));
+			ARLASSERT(leastJoints->getJoint(i)->links(p0, p1));
 			if (foundId == index)
 			{
 				return leastJoints->getJoint(i);
@@ -426,7 +426,7 @@ Joint* Primitive::getJoint(Primitive* p0, Primitive* p1, int index)
 		}
 		else
 		{
-			RBXASSERT(!leastJoints->getJoint(i)->links(p0, p1));
+			ARLASSERT(!leastJoints->getJoint(i)->links(p0, p1));
 		}
 	}
 	return NULL;
@@ -435,7 +435,7 @@ Joint* Primitive::getJoint(Primitive* p0, Primitive* p1, int index)
 
 Contact* Primitive::getContact(Primitive* p0, Primitive* p1)
 {
-	RBXASSERT_VERY_FAST(p0 != p1);
+	ARLASSERT_VERY_FAST(p0 != p1);
 	Primitive* leastContacts = (p0->getNumContacts() < p1->getNumContacts()) ? p0 : p1;
 	Primitive* mostContacts = (leastContacts == p0) ? p1 : p0;
 
@@ -444,12 +444,12 @@ Contact* Primitive::getContact(Primitive* p0, Primitive* p1)
 		Primitive* other = leastContacts->getContactOther(i);
 		if (other == mostContacts)
 		{
-			RBXASSERT(leastContacts->getContact(i)->links(p0, p1));
+			ARLASSERT(leastContacts->getContact(i)->links(p0, p1));
 			return leastContacts->getContact(i);
 		}
 		else
 		{
-			RBXASSERT(!leastContacts->getContact(i)->links(p0, p1));
+			ARLASSERT(!leastContacts->getContact(i)->links(p0, p1));
 		}
 	}
 	return NULL;
@@ -460,8 +460,8 @@ static void reportOverlap(Primitive* touchReporting, Primitive* touchOther)
 {
 	Assembly* touchReportingAssembly = touchReporting->getAssembly();
 	Assembly* touchOtherAssembly = touchOther->getAssembly();
-	RBXASSERT(touchReportingAssembly);
-	RBXASSERT(touchOtherAssembly);
+	ARLASSERT(touchReportingAssembly);
+	ARLASSERT(touchOtherAssembly);
 
 	if (	touchReporting->getOwner()->reportTouches()
 		&& 	(touchReportingAssembly->getAssemblyIsMovingState() || touchOtherAssembly->getAssemblyIsMovingState() || 
@@ -562,14 +562,14 @@ Geometry* Primitive::newGeometry(Geometry::GeometryType geometryType)
 
 Geometry::GeometryType Primitive::getGeometryType() const
 {
-	RBXASSERT(geometry);
+	ARLASSERT(geometry);
     return geometry ? geometry->getGeometryType() : Geometry::GEOMETRY_UNDEFINED;
 }
 
 
 Geometry::CollideType Primitive::getCollideType() const
 {
-	RBXASSERT(geometry);
+	ARLASSERT(geometry);
 	return geometry->getCollideType();
 }
 
@@ -584,7 +584,7 @@ Primitive* Primitive::getMechRoot()
 
 Primitive* Primitive::getRootMovingPrimitive()
 {
-	// This if statement is because we have RBX Assert that we don't want to trigger
+	// This if statement is because we have ARL Assert that we don't want to trigger
 	// inside of the getRootMovingPrimitive call.
 	if (this->getConstAssembly())
 	{
@@ -613,7 +613,7 @@ int Primitive::getGeometryParameter(const std::string& parameter) const
 
 void Primitive::resetGeometryType(Geometry::GeometryType geometryType)
 {
-	RBXASSERT_VERY_FAST(!hasAutoJoints());
+	ARLASSERT_VERY_FAST(!hasAutoJoints());
 	Vector3 oldSize = geometry->getSize();
 	delete geometry;
 	geometry = newGeometry(geometryType);
@@ -626,7 +626,7 @@ void Primitive::resetGeometryType(Geometry::GeometryType geometryType)
 
 void Primitive::setGeometryType(Geometry::GeometryType geometryType)
 {
-	RBXASSERT_VERY_FAST(!hasAutoJoints());
+	ARLASSERT_VERY_FAST(!hasAutoJoints());
 
 	if (geometry->getGeometryType() != geometryType) 
 	{
@@ -636,7 +636,7 @@ void Primitive::setGeometryType(Geometry::GeometryType geometryType)
 
 void Primitive::setSize(const G3D::Vector3& size)
 {
-	RBXASSERT_VERY_FAST(!hasAutoJoints());
+	ARLASSERT_VERY_FAST(!hasAutoJoints());
 
 	Vector3 protectedSize = clipToSafeSize(size);
 
@@ -736,7 +736,7 @@ Vector3 Primitive::clipToSafeSize(const Vector3& newSize)
 	if ((safeSize.x * safeSize.y * safeSize.z) > maxVolume)			// up from 1 million
 	{
 		safeSize.y = floorf(1.0e6f / (safeSize.x * safeSize.z));
-		RBXASSERT_VERY_FAST(safeSize.x * safeSize.y * safeSize.z <= (maxVolume * 1.01f));
+		ARLASSERT_VERY_FAST(safeSize.x * safeSize.y * safeSize.z <= (maxVolume * 1.01f));
 	}
 	return safeSize;
 }
@@ -758,7 +758,7 @@ void Primitive::setCanThrottle(bool value)
 		}
 
 		body->setCanThrottle(value, *this);
-		RBXASSERT(!inPipeline() || !inKernel());
+		ARLASSERT(!inPipeline() || !inKernel());
 		if (changing) {
 			world->onPrimitiveEngineChanged(changing);
 		}
@@ -914,7 +914,7 @@ void Primitive::setPV(const PV& newPv)
 		bool assemblyRoot = (assembly && (assembly->getAssemblyPrimitive() == this));
 		bool moved = (newPv.position != bodyPv.position);
 		
-		RBXASSERT((world == NULL) == (assembly == NULL));
+		ARLASSERT((world == NULL) == (assembly == NULL));
 
 		if (assemblyRoot || !assembly) {
 			getBody()->setPv(newPv, *this);
@@ -1003,7 +1003,7 @@ void Primitive::setSurfaceType(	NormalId			id,
 	// removing joints from that specific surface, then rejoining
 	//
 
-	RBXASSERT_IF_VALIDATING(!hasAutoJoints());
+	ARLASSERT_IF_VALIDATING(!hasAutoJoints());
 
 	surfaceType[id] = newSurfaceType;
 }
@@ -1054,8 +1054,8 @@ unsigned int Primitive::getSortSize()
 void Primitive::calculateSortSize()
 {
 	float planar = getPlanarSize();
-	RBXASSERT(planar * 1000.0f + 1 < (float)std::numeric_limits<unsigned int>::max());
-	RBXASSERT(planar > 0.0f);
+	ARLASSERT(planar * 1000.0f + 1 < (float)std::numeric_limits<unsigned int>::max());
+	ARLASSERT(planar > 0.0f);
 
 	//unsigned long long int planarInt = Math::iFloor(planar);
 	unsigned int planarInt = Math::iFloor(planar * 50.0f);

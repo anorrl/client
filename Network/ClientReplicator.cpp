@@ -58,7 +58,7 @@
 
 #include "rbx/Profiler.h"
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include "util/CheatEngine.h"
 #include "security/ApiSecurity.h"
 #endif
@@ -77,10 +77,10 @@ FASTFLAGVARIABLE(CopyArrayReferences, true)
 FASTFLAG(FilterSinglePass)
 
 namespace{
-    static RBX::Network::MccReport mccReport = {};
+    static ARL::Network::MccReport mccReport = {};
 }
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 	class ClientReplicator::ClientStatsItem : public Replicator::Stats
 	{
@@ -127,7 +127,7 @@ namespace RBX { namespace Network {
 		}
 	};
 
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD) && !defined(ARL_PLATFORM_DURANGO)
     // Periodically check that the program memory hashing job is still running
     class ClientReplicator::BadAppCheckerJob : public DataModelJob {
         shared_ptr<ClientReplicator> clientReplicator;
@@ -181,7 +181,7 @@ namespace RBX { namespace Network {
             // This should be debugged.
             if (speedhackScanner.isSpeedhack())
             {
-                RBX::Tokens::simpleToken |= HATE_SPEEDHACK;
+                ARL::Tokens::simpleToken |= HATE_SPEEDHACK;
             }
 #endif
             VMProtectEnd();
@@ -189,7 +189,7 @@ namespace RBX { namespace Network {
             if(ceDetected || isCeDetectedLocal)
             {
                 dataModel->addHackFlag(HATE_CHEATENGINE_OLD);
-                RBX::Tokens::sendStatsToken.addFlagSafe(HATE_CHEATENGINE_OLD);
+                ARL::Tokens::sendStatsToken.addFlagSafe(HATE_CHEATENGINE_OLD);
             }
             VMProtectEnd();
             #endif
@@ -233,7 +233,7 @@ namespace RBX { namespace Network {
 
 
 
-#if !defined(RBX_STUDIO_BUILD) && !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_STUDIO_BUILD) && !defined(ARL_PLATFORM_DURANGO)
 	// Periodically hash program memory, and raise an alert if the hash changes
 	class ClientReplicator::MemoryCheckerJob : public DataModelJob {
 
@@ -293,7 +293,7 @@ namespace RBX { namespace Network {
             HANDLE thisThread = reinterpret_cast<HANDLE>(~(size_t)(1));
 	        if (ntApi.getThreadContext(thisThread, &context) && (context.Dr7 & 0xff) != 0)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag9, HATE_DEBUGGER);
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag9, HATE_DEBUGGER);
 				return TaskScheduler::Stepped;
 			}
 #endif
@@ -313,7 +313,7 @@ namespace RBX { namespace Network {
             #if !defined(_DEBUG) && !defined(_NOOPT) && defined(_WIN32)
             // The golden hash is a char* to make it identifable to be patched in the exe
             // Underlying data is actually an unsigned int.
-            int goldDiff = (memoryChecker->getLastGoldenHash() != RBX::Security::rbxGoldHash);
+            int goldDiff = (memoryChecker->getLastGoldenHash() != ARL::Security::rbxGoldHash);
             goldCodeChanged = static_cast<unsigned int>(goldDiff | -goldDiff) >> 31;
             #endif
 
@@ -323,15 +323,15 @@ namespace RBX { namespace Network {
             if (sendSignal == ProgramMemoryChecker::kAllDone)
             {
                 hashReadySignal();
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURNAGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURNAGO)
                 isLuaLockFail = ((memoryChecker->isLuaLockOk() != ProgramMemoryChecker::kLuaLockOk));
 
                 MEMORY_BASIC_INFORMATION trapInfo;
-                ntApi.virtualQuery(&RBX::writecopyTrap, &trapInfo, sizeof(trapInfo));
+                ntApi.virtualQuery(&ARL::writecopyTrap, &trapInfo, sizeof(trapInfo));
                 if (trapInfo.Protect != PAGE_WRITECOPY)
                 {
                     // report
-                    RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag3, HATE_CE_ASM);
+                    ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag3, HATE_CE_ASM);
                 }
 #endif
             }
@@ -343,23 +343,23 @@ namespace RBX { namespace Network {
             VMProtectBeginVirtualization(NULL);
             if (codeChanged)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag1, HATE_MEMORY_HASH_CHANGED);
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag1, HATE_MEMORY_HASH_CHANGED);
             }
             if (isHsceHashFail)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag2, HATE_HSCE_HASH_CHANGED);
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag2, HATE_HSCE_HASH_CHANGED);
             }
             if (goldCodeChanged)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag3, HATE_MEMORY_HASH_CHANGED);
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag3, HATE_MEMORY_HASH_CHANGED);
             }
             if (isLuaLockFail)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag4, HATE_DLL_INJECTION);
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag4, HATE_DLL_INJECTION);
             }
             if (isHsceUnitFail)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag5, HATE_HSCE_HASH_CHANGED);
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag5, HATE_HSCE_HASH_CHANGED);
             }
 			VMProtectEnd();
 			return TaskScheduler::Stepped;
@@ -375,7 +375,7 @@ namespace RBX { namespace Network {
 	};
 #endif
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO) && !defined(RBX_STUDIO_BUILD)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO) && !defined(ARL_STUDIO_BUILD)
 	// Periodically check that the program memory hashing job is still running
 	class ClientReplicator::MemoryCheckerCheckerJob : public DataModelJob {
 
@@ -404,7 +404,7 @@ namespace RBX { namespace Network {
             return false;
         }
 
-        __forceinline void populateMccReport(RBX::Network::MccReport& report)
+        __forceinline void populateMccReport(ARL::Network::MccReport& report)
         {
             report.localChecksEncoded = encodedReport;
             report.memcheckRunTime = static_cast<unsigned int>(clientReplicator->memoryCheckerJob->getLastRunTime().timestampSeconds());
@@ -454,19 +454,19 @@ namespace RBX { namespace Network {
             bool isVehUnhook = false;
             bool isFreeConsoleHooked = false;
             ++runCount;
-#if (!defined(NOOPT) && !defined(DEBUG)) && !defined(RBX_PLATFORM_DURANGO)
+#if (!defined(NOOPT) && !defined(DEBUG)) && !defined(ARL_PLATFORM_DURANGO)
             // a switch statement might result in a jump table, which is not compatible with VMProtect.
             if (runCount % 8 == 0)
             {
-                isBadTextSection =(memPermissionChanged(RBX::Security::rbxTextBase, RBX::Security::rbxTextSize, PAGE_EXECUTE_READ));
+                isBadTextSection =(memPermissionChanged(ARL::Security::rbxTextBase, ARL::Security::rbxTextSize, PAGE_EXECUTE_READ));
             }
             else if (runCount % 8 == 2)
             {
-                isBadVmpSection = (memPermissionChanged(RBX::Security::rbxVmpBase, RBX::Security::rbxVmpSize, PAGE_EXECUTE_READ));
+                isBadVmpSection = (memPermissionChanged(ARL::Security::rbxVmpBase, ARL::Security::rbxVmpSize, PAGE_EXECUTE_READ));
             }
             else if (runCount % 8 == 4)
             {
-                isBadRdataSection = (memPermissionChanged(RBX::Security::rbxRdataBase, RBX::Security::rbxRdataSize, PAGE_READONLY));
+                isBadRdataSection = (memPermissionChanged(ARL::Security::rbxRdataBase, ARL::Security::rbxRdataSize, PAGE_READONLY));
             }
             else if (runCount % 8 == 6)
             {
@@ -506,17 +506,17 @@ namespace RBX { namespace Network {
             VMProtectBeginVirtualization(NULL);
             if (isBadTextSection)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag4, HATE_NEW_AV_CHECK);
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag4, HATE_NEW_AV_CHECK);
                 encodedReport ^= kGf2EncodeLut[MCC_TEXT_IDX];
             }
             if (isBadVmpSection)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag5, HATE_NEW_AV_CHECK);
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag5, HATE_NEW_AV_CHECK);
                 encodedReport ^= kGf2EncodeLut[MCC_VMP_IDX];
             }
             if (isBadRdataSection)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag6, HATE_NEW_AV_CHECK);
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag6, HATE_NEW_AV_CHECK);
                 encodedReport ^= kGf2EncodeLut[MCC_RDATA_IDX];
             }
             else if (runCount % 8 == 5)
@@ -529,17 +529,17 @@ namespace RBX { namespace Network {
             }
             if (isHwbpSet)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag3, HATE_NEW_HWBP);
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag3, HATE_NEW_HWBP);
                 encodedReport ^= kGf2EncodeLut[MCC_HWBP_IDX];
             }
             if (isGtxHook)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag11, HATE_HOOKED_GTX); // change this later
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag11, HATE_HOOKED_GTX); // change this later
                 encodedReport ^=  kGf2EncodeLut[MCC_GTX_IDX];
             }
             if (isVehUnhook)
             {
-                RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag1, HATE_UNHOOKED_VEH); // change this later
+                ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag1, HATE_UNHOOKED_VEH); // change this later
                 encodedReport ^= kGf2EncodeLut[MCC_VEH_IDX];
             }
             if (isFreeConsoleHooked)
@@ -557,10 +557,10 @@ namespace RBX { namespace Network {
 #endif
 }}
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
-const char* const RBX::Network::sClientReplicator = "ClientReplicator";
+const char* const ARL::Network::sClientReplicator = "ClientReplicator";
 
 REFLECTION_BEGIN();
 static Reflection::BoundFuncDesc<ClientReplicator, void(bool)> func_requestServerStats(&ClientReplicator::requestServerStats, "RequestServerStats", "request", Security::RobloxScript);
@@ -599,7 +599,7 @@ ClientReplicator::ClientReplicator(RakNet::SystemAddress systemAddress, Client* 
 , avgRequestCount(0.1)
 , clientInstanceQuota(0)
 , sampleTimer(-1.0f) // guarantee fire on first call
-, memoryLevel(RBX::MemoryStats::MEMORYLEVEL_OK)
+, memoryLevel(ARL::MemoryStats::MEMORYLEVEL_OK)
 {
 	setName("ClientReplicator");
 	cframePool.reset(new AutoMemPool(sizeof(CFrameAcknowledgementItem)));
@@ -628,7 +628,7 @@ bool ClientReplicator::isLegalSendInstance(const Instance* instance)
 	if (strictFilter && (strictFilter->filterNew(instance, instance->getParent()) == Reject))
 	{
 		if (settings().printDataFilters)
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Filtering is enabled. New Instance %s will not be replicated.", instance->getFullName().c_str());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Filtering is enabled. New Instance %s will not be replicated.", instance->getFullName().c_str());
 
 		return false;
 	}
@@ -647,7 +647,7 @@ bool ClientReplicator::isLegalSendProperty(Instance* instance, const Reflection:
 			isLegal = strictFilter->filterChangedProperty(instance, desc) == Accept;
 
 		if (!isLegal && (desc.canReplicate() || (desc == Instance::propParent)) && settings().printDataFilters)
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Filtering is enabled. Property %s change for instance %s will not be replicated.", desc.name.c_str(), instance->getFullName().c_str()); 
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Filtering is enabled. Property %s change for instance %s will not be replicated.", desc.name.c_str(), instance->getFullName().c_str()); 
 		
 		return isLegal;
 	}
@@ -662,7 +662,7 @@ bool ClientReplicator::isLegalSendProperty(Instance* instance, const Reflection:
 			}
 			else
 			{
-				RBXASSERT(false);
+				ARLASSERT(false);
 			}
 		}
 	}
@@ -675,7 +675,7 @@ bool ClientReplicator::isLegalSendEvent(Instance* instance, const Reflection::Ev
 	if (strictFilter && (strictFilter->filterEvent(instance, desc) == Reject))
 	{
 		if (settings().printDataFilters)
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Filtering is enabled. Event %s for instance %s will not be replicated.", desc.name.c_str(), instance->getFullName().c_str());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Filtering is enabled. Event %s for instance %s will not be replicated.", desc.name.c_str(), instance->getFullName().c_str());
 
 		return false;
 	}
@@ -729,7 +729,7 @@ public:
 
         if (replicator.settings().printInstances)
         {
-            RBX::Guid::Data id;
+            ARL::Guid::Data id;
             targetPlayer->getGuid().extract(id);
 
 			StandardOut::singleton()->printf(MESSAGE_SENSITIVE, "%s: Requesting character for %s",
@@ -769,14 +769,14 @@ RakNet::PluginReceiveResult ClientReplicator::OnReceive(RakNet::Packet *packet)
 
     case ID_PROTOCAL_MISMATCH:
 		{
-            std::string mismatchString = RBX::format("Protocol mismatch from %s", RakNetAddressToString(packet->systemAddress).c_str());
+            std::string mismatchString = ARL::format("Protocol mismatch from %s", RakNetAddressToString(packet->systemAddress).c_str());
             
 			StandardOut::singleton()->print(MESSAGE_SENSITIVE, mismatchString.c_str());
             // Also log this so we can see in output (primarily for iOS)
             FASTLOGS(FLog::Network,"Protocol mismatch %s",mismatchString.c_str());
             
 			Client *client = getParent()->fastDynamicCast<Client>();
-			RBXASSERT(client);
+			ARLASSERT(client);
 			client->connectionFailedSignal(RakNetAddressToString(packet->systemAddress), (int) packet->data[0], "Network protocol mismatch. Please upgrade.");
 			requestDisconnect(DisconnectReason_ProtocolMismatch);
 			return RR_CONTINUE_PROCESSING;
@@ -797,7 +797,7 @@ RakNet::PluginReceiveResult ClientReplicator::OnReceive(RakNet::Packet *packet)
             {
                 StandardOut::singleton()->printf(MESSAGE_ERROR, "Place ID verification failed.");
                 Client *client = getParent()->fastDynamicCast<Client>();
-                RBXASSERT(client);
+                ARLASSERT(client);
                 client->connectionFailedSignal(RakNetAddressToString(packet->systemAddress), (int) packet->data[0], "Illegal teleport destination.");
                 requestDisconnect(DisconnectReason_IllegalTeleport);
             }
@@ -810,8 +810,8 @@ RakNet::PluginReceiveResult ClientReplicator::OnReceive(RakNet::Packet *packet)
 
 void ClientReplicator::processPacket(Packet *packet)
 {
-	RBXPROFILER_SCOPE("Network", "processPacket");
-    RBXPROFILER_LABELF("Network", "ID %d (%d bytes)", packet->data[0], packet->length);
+	ARLPROFILER_SCOPE("Network", "processPacket");
+    ARLPROFILER_LABELF("Network", "ID %d (%d bytes)", packet->data[0], packet->length);
 
 	switch (packet->data[0])
 	{
@@ -877,7 +877,7 @@ void ClientReplicator::processPacket(Packet *packet)
                 }
                 else
                 {
-                    RBXASSERT(false);
+                    ARLASSERT(false);
                 }
 
                 if (networkFilterEnabled)
@@ -910,7 +910,7 @@ void ClientReplicator::processPacket(Packet *packet)
 					scriptContext->setKeys(scriptKey ^ xorKey, coreScriptModKey ^ xorKey);
 				}
 				else
-					RBXASSERT(false);
+					ARLASSERT(false);
 			}
 
 			uint8_t numTopRepContainers;
@@ -921,7 +921,7 @@ void ClientReplicator::processPacket(Packet *packet)
 				const Reflection::ClassDescriptor* classDescriptor;
 				classDictionary.receive(inBitstream, classDescriptor, false /*we don't do version check for class here, if the properties or events of the class are changed, they will be handled later*/);
 
-				RBX::Guid::Data id;
+				ARL::Guid::Data id;
 				deserializeId(inBitstream, id);
 
 				TopReplContsMap::iterator iter = topReplicationContainersMap.find(classDescriptor);
@@ -1018,9 +1018,9 @@ void ClientReplicator::postProcessPacket()
 	}
 }
 
-shared_ptr<DeserializedItem> ClientReplicator::deserializeItem(RakNet::BitStream& inBitstream, RBX::Network::Item::ItemType itemType)
+shared_ptr<DeserializedItem> ClientReplicator::deserializeItem(RakNet::BitStream& inBitstream, ARL::Network::Item::ItemType itemType)
 {
-    RBXPROFILER_SCOPE("Network", "deserializeItem");
+    ARLPROFILER_SCOPE("Network", "deserializeItem");
 
 	shared_ptr<DeserializedItem> item = shared_ptr<DeserializedItem>();
 
@@ -1054,7 +1054,7 @@ shared_ptr<DeserializedItem> ClientReplicator::deserializeItem(RakNet::BitStream
 	return item;
 }
 
-void ClientReplicator::readItem(RakNet::BitStream& inBitstream, RBX::Network::Item::ItemType itemType)
+void ClientReplicator::readItem(RakNet::BitStream& inBitstream, ARL::Network::Item::ItemType itemType)
 {
 	switch (itemType)
 	{	
@@ -1090,7 +1090,7 @@ void ClientReplicator::processTag(int tag)
 	// This means the service can start running local scripts
 	if (tag == REPLICATED_FIRST_FINISHED_TAG)
 	{
-		if (ReplicatedFirst* repFirst = RBX::ServiceProvider::find<ReplicatedFirst>(this) )
+		if (ReplicatedFirst* repFirst = ARL::ServiceProvider::find<ReplicatedFirst>(this) )
 		{
 			repFirst->setAllInstancesHaveReplicated();
 		}
@@ -1118,7 +1118,7 @@ void ClientReplicator::readTag(RakNet::BitStream& inBitstream)
 	int id;
 	inBitstream >> id;
 	if (settings().printInstances) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,
 			"Received tag %d from %s", id,
 			RakNetAddressToString(remotePlayerId).c_str());
 	}
@@ -1210,7 +1210,7 @@ shared_ptr<Reflection::ValueTable> ClientReplicator::readStats(RakNet::BitStream
 	return stats;
 }
 
-void ClientReplicator::readRockyItem(RakNet::BitStream& inBitstream, uint8_t& idx, RBX::Security::NetPmcChallenge& key)
+void ClientReplicator::readRockyItem(RakNet::BitStream& inBitstream, uint8_t& idx, ARL::Security::NetPmcChallenge& key)
 {
     uint8_t subtype;
     inBitstream >> subtype;
@@ -1221,10 +1221,10 @@ void ClientReplicator::readRockyItem(RakNet::BitStream& inBitstream, uint8_t& id
     inBitstream >> key.result;
 }
 
-void ClientReplicator::doNetPmcCheck(shared_ptr<ClientReplicator> rep, uint8_t idx, RBX::Security::NetPmcChallenge challenge)
+void ClientReplicator::doNetPmcCheck(shared_ptr<ClientReplicator> rep, uint8_t idx, ARL::Security::NetPmcChallenge challenge)
 {
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD)
-    challenge ^= *const_cast<const RBX::Security::NetPmcChallenge*>(&RBX::Security::kChallenges[idx]); 
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
+    challenge ^= *const_cast<const ARL::Security::NetPmcChallenge*>(&ARL::Security::kChallenges[idx]); 
     uint32_t result = netPmcHashCheck(challenge);
 	rep->pendingItems.push_back(new Replicator::NetPmcResponseItem(rep.get(), result, challenge.result, idx));
 #endif
@@ -1233,7 +1233,7 @@ void ClientReplicator::doNetPmcCheck(shared_ptr<ClientReplicator> rep, uint8_t i
 void ClientReplicator::processRockyItem(RakNet::BitStream& inBitstream)
 {
     uint8_t idx;
-    RBX::Security::NetPmcChallenge challenge;
+    ARL::Security::NetPmcChallenge challenge;
     readRockyItem(inBitstream, idx, challenge);
     DataModel::get(this)->submitTask(
         boost::bind(&ClientReplicator::doNetPmcCheck, shared_from(this), idx, challenge), DataModelJob::Write);
@@ -1272,7 +1272,7 @@ void ClientReplicator::processStreamDataRegionId(Replicator::StreamJob::RegionIt
 	}
 	else if (successorBitMask != Replicator::StreamJob::ITER_NONE)
 	{
-		RBXASSERT(false);
+		ARLASSERT(false);
 	}
 
 	lastReadStreamId = id;
@@ -1393,7 +1393,7 @@ void ClientReplicator::requestCharacterImpl()
 		playerCharacterAddedConnection = targetPlayer->characterAddedSignal.connect(boost::bind(&ClientReplicator::onPlayerCharacterAdded, this));
 	else
 	{
-		RBXASSERT(false);
+		ARLASSERT(false);
 		processAllPacketsPerStep = false;
 	}
 }
@@ -1413,12 +1413,12 @@ void ClientReplicator::requestServerStats(bool request)
 
 bool ClientReplicator::hasEnoughMemoryToReceiveInstances()
 {
-    return (!gcJob->pendingGC()) && memoryLevel >= RBX::MemoryStats::MEMORYLEVEL_OK;
+    return (!gcJob->pendingGC()) && memoryLevel >= ARL::MemoryStats::MEMORYLEVEL_OK;
 }
 
 bool ClientReplicator::needGC()
 {
-    return gcJob->pendingGC() || memoryLevel <= RBX::MemoryStats::MEMORYLEVEL_ALL_LOW;
+    return gcJob->pendingGC() || memoryLevel <= ARL::MemoryStats::MEMORYLEVEL_ALL_LOW;
 }
 
 bool ClientReplicator::canUpdateClientCapacity() 
@@ -1437,8 +1437,8 @@ bool ClientReplicator::canUpdateClientCapacity()
 
 void ClientReplicator::updateMemoryStats()
 {
-    memoryLevel = RBX::MemoryStats::slowCheckMemoryLevel(((RBX::MemoryStats::memsize_t)NetworkSettings::singleton().getExtraMemoryUsedInMB())*1024*1024);
-    if (memoryLevel == RBX::MemoryStats::MEMORYLEVEL_ONLY_PHYSICAL_CRITICAL_LOW)
+    memoryLevel = ARL::MemoryStats::slowCheckMemoryLevel(((ARL::MemoryStats::memsize_t)NetworkSettings::singleton().getExtraMemoryUsedInMB())*1024*1024);
+    if (memoryLevel == ARL::MemoryStats::MEMORYLEVEL_ONLY_PHYSICAL_CRITICAL_LOW)
     {
         // if the physical memory level is critical while pool memory is ample, release all the pool memory
         MemoryStats::releaseAllPoolMemory();
@@ -1479,7 +1479,7 @@ void ClientReplicator::updateClientCapacity()
                 float avgInstanceProcessTime = avgStreamDataReadTime.value() / avgInstancesPerStreamData.value();
                 predictedTotalInstanceProcessTime = avgInstanceProcessTime * avgInstancesPerStreamData.value() * incomingPacketsCount();
                 // evaluate the client capacity
-                clientInstanceQuota = (RBX::Network::kMaxIncomePacketWaitTime - predictedTotalInstanceProcessTime) / avgInstanceProcessTime;
+                clientInstanceQuota = (ARL::Network::kMaxIncomePacketWaitTime - predictedTotalInstanceProcessTime) / avgInstanceProcessTime;
                 if (clientInstanceQuota < 1)
                 {
                     clientInstanceQuota = 1; // this will not clear the existing server pending queue
@@ -1496,7 +1496,7 @@ void ClientReplicator::updateClientCapacity()
         {
             if (settings().printStreamInstanceQuota)
             {
-                StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "clientInstanceQuota %d, packet in queue %d, predictedTotalInstanceProcessTime %f, avgStreamDataReadTime %f, avgInstancesPerStreamData %f", clientInstanceQuota, (int)incomingPacketsCount(), predictedTotalInstanceProcessTime, avgStreamDataReadTime.value(), avgInstancesPerStreamData.value());
+                StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "clientInstanceQuota %d, packet in queue %d, predictedTotalInstanceProcessTime %f, avgStreamDataReadTime %f, avgInstancesPerStreamData %f", clientInstanceQuota, (int)incomingPacketsCount(), predictedTotalInstanceProcessTime, avgStreamDataReadTime.value(), avgInstancesPerStreamData.value());
             }
             pendingItems.push_back(new ClientCapacityUpdateItem(this, instanceQuotaDiff, gcJob->getMaxRegionDistance()));
         }
@@ -1521,7 +1521,7 @@ void ClientReplicator::dataOutStep()
 
 bool ClientReplicator::processChangedParentPropertyForStreaming(const Guid::Data& parentId, Reflection::Property prop)
 {
-	RBXASSERT(streamingEnabled && prop.getDescriptor() == Instance::propParent);
+	ARLASSERT(streamingEnabled && prop.getDescriptor() == Instance::propParent);
 
 	Instance* instance = static_cast<Instance*>(prop.getInstance());
 	shared_ptr<Instance> parent;
@@ -1531,7 +1531,7 @@ bool ClientReplicator::processChangedParentPropertyForStreaming(const Guid::Data
 	// client sent a GC notice for Part A
 	// simultaneously server sent a reparent message setting parent to Part A
 	// resolution: GC reparented instance (and its descendants)
-	RBXASSERT(gcJob);
+	ARLASSERT(gcJob);
 	if (gcJob && instance && !recognizedId)
 	{
 		// TODO: add an ACK mechanism to GC instance list, and only allow unknown
@@ -1561,7 +1561,7 @@ void ClientReplicator::readChangedProperty(RakNet::BitStream& bitStream, Reflect
 		// Remember the read offset before we read out the id from the stream.
 		RakNet::BitSize_t currentReadOffset = bitStream.GetReadOffset();
 
-		RBX::Guid::Data parentId;
+		ARL::Guid::Data parentId;
 		deserializeId(bitStream, parentId);
 
 		if (processChangedParentPropertyForStreaming(parentId, prop))
@@ -1608,7 +1608,7 @@ void ClientReplicator::readChangedPropertyItem(DeserializedChangePropertyItem* i
 
 void ClientReplicator::writePropAcknowledgementIfNeeded(const Instance* instance, const Reflection::PropertyDescriptor& desc, RakNet::BitStream& outBitStream)
 {
-    DescriptorSender<RBX::Reflection::PropertyDescriptor>::IdContainer idContainer = propDictionary.getId(&desc);
+    DescriptorSender<ARL::Reflection::PropertyDescriptor>::IdContainer idContainer = propDictionary.getId(&desc);
     if (idContainer.outdated)
     {
         return;
@@ -1682,13 +1682,13 @@ FilterResult ClientReplicator::filterReceivedParent(Instance* instance, Instance
 
 void ClientReplicator::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider)
 {
-#if !defined(RBX_STUDIO_BUILD) && !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_STUDIO_BUILD) && !defined(ARL_PLATFORM_DURANGO)
 #ifdef _WIN32
     TaskScheduler::singleton().remove(memoryCheckerCheckerJob);
     memoryCheckerCheckerJob.reset();
 #endif
 
-#if defined(_WIN32) || (defined(__APPLE__) && !defined(RBX_PLATFORM_IOS))
+#if defined(_WIN32) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS))
     TaskScheduler::singleton().remove(memoryCheckerJob);
     memoryCheckerJob.reset();
 #endif
@@ -1713,19 +1713,19 @@ void ClientReplicator::onServiceProvider(ServiceProvider* oldProvider, ServicePr
 
 	if (newProvider)
 	{ 
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
         VMProtectBeginMutation("30");
-#if !defined(LOVE_ALL_ACCESS) && defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if !defined(LOVE_ALL_ACCESS) && defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
         badAppCheckerJob.reset(new BadAppCheckerJob(shared_from(this)));
         TaskScheduler::singleton().add(badAppCheckerJob);
 #endif
 
-#if !defined(LOVE_ALL_ACCESS) && (defined(_WIN32) || (defined(__APPLE__) && !defined(RBX_PLATFORM_IOS))) && !defined(RBX_PLATFORM_DURANGO)
+#if !defined(LOVE_ALL_ACCESS) && (defined(_WIN32) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS))) && !defined(ARL_PLATFORM_DURANGO)
         memoryCheckerJob.reset(new MemoryCheckerJob(shared_from(this)));
         TaskScheduler::singleton().add(memoryCheckerJob);
 #endif
 
-#if !defined(LOVE_ALL_ACCESS) && defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if !defined(LOVE_ALL_ACCESS) && defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
         memoryCheckerCheckerJob.reset(new MemoryCheckerCheckerJob(shared_from(this)));
         TaskScheduler::singleton().add(memoryCheckerCheckerJob);
         hashReadyConnection = memoryCheckerJob->hashReadySignal.connect(boost::bind(&ClientReplicator::onHashReady, this));
@@ -1762,7 +1762,7 @@ void ClientReplicator::deserializeSFFlags(RakNet::BitStream& inBitStream)
         RakNet::RakString varValue;
         inBitStream.Read(name);
         inBitStream.Read(varValue);
-        //RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, 
+        //ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, 
         //    "Received FFLag: %s: %s", name.C_String(), varValue.C_String());
         std::string stdName(name.C_String());
         std::string stdValue(varValue.C_String());
@@ -1789,7 +1789,7 @@ void ClientReplicator::streamOutPartHelper(const Guid::Data& data,
 		// replication of events and property changes while we set the joint's
 		// part reference (to the streamed out part) to NULL.
 		{
-			RBX::ScopedAssign<Instance*> assign(removingInstance, jointInstance.get());
+			ARL::ScopedAssign<Instance*> assign(removingInstance, jointInstance.get());
 			refPropDescriptor->setRefValue(jointInstance.get(), NULL);
 		}
 
@@ -1802,7 +1802,7 @@ void ClientReplicator::streamOutAutoJointHelper(std::vector<shared_ptr<PartInsta
     if (shared_ptr<JointInstance> jointInstance =
         Instance::fastSharedDynamicCast<JointInstance>(instance))
     {
-        RBXASSERT(Joint::isManualJoint(jointInstance->getJoint()) == false);
+        ARLASSERT(Joint::isManualJoint(jointInstance->getJoint()) == false);
 
         PartInstance* partInstance0 = jointInstance->getPart0();
         PartInstance* partInstance1 = jointInstance->getPart1();
@@ -1831,7 +1831,7 @@ void ClientReplicator::streamOutAutoJointHelper(std::vector<shared_ptr<PartInsta
                     continue;
                 }
                 {
-                    RBX::ScopedAssign<Instance*> assign(removingInstance, jointInstance.get());
+                    ARL::ScopedAssign<Instance*> assign(removingInstance, jointInstance.get());
                     refPropDescriptor->setRefValue(jointInstance.get(), NULL);
                 }
                 addPendingRef(refPropDescriptor, jointInstance, data);
@@ -1855,13 +1855,13 @@ void ClientReplicator::streamOutTerrain(const Vector3int16 &cellPos) {
 
 void ClientReplicator::streamOutInstance(Instance* instance, bool deleteImmediately)
 {
-	RBXASSERT(instance);
+	ARLASSERT(instance);
 
-    CPUPROFILER_START(RBX::Network::NetworkProfiler::PROFILER_streamOutPart);
+    CPUPROFILER_START(ARL::Network::NetworkProfiler::PROFILER_streamOutPart);
 
 	disconnectReplicationData(shared_from(instance));
 
-    CPUPROFILER_STEP(RBX::Network::NetworkProfiler::PROFILER_streamOutPart);
+    CPUPROFILER_STEP(ARL::Network::NetworkProfiler::PROFILER_streamOutPart);
 	// Unregistration happens in the instance destructor. Perform it here
 	// to be on the safe side. This ensures the streamed out instance is not
 	// used if the guid is seen later, possibly before all of the shared
@@ -1871,7 +1871,7 @@ void ClientReplicator::streamOutInstance(Instance* instance, bool deleteImmediat
     instance->visitDescendants(boost::bind(&unregisterHelper, guidRegistry.get(), _1));
     guidRegistry->unregister(instance);
 
-	CPUPROFILER_STEP(RBX::Network::NetworkProfiler::PROFILER_streamOutPart);
+	CPUPROFILER_STEP(ARL::Network::NetworkProfiler::PROFILER_streamOutPart);
 
 	if (PartInstance* part = Instance::fastDynamicCast<PartInstance>(instance)) 
 	{
@@ -1911,7 +1911,7 @@ void ClientReplicator::streamOutInstance(Instance* instance, bool deleteImmediat
         deleteImmediately = true;
     }
 
-    CPUPROFILER_STEP(RBX::Network::NetworkProfiler::PROFILER_streamOutPart);
+    CPUPROFILER_STEP(ARL::Network::NetworkProfiler::PROFILER_streamOutPart);
 
 	// Normally removingInstance is set after the replicator sees the
 	// setParent(NULL) property change event. Set it before hand to
@@ -1923,11 +1923,11 @@ void ClientReplicator::streamOutInstance(Instance* instance, bool deleteImmediat
 	// locked parent?
     if (deleteImmediately)
     {
-	    RBX::ScopedAssign<Instance*> assign(removingInstance, instance);
+	    ARL::ScopedAssign<Instance*> assign(removingInstance, instance);
 	    instance->setParent(NULL);
     }
 
-    CPUPROFILER_STEP(RBX::Network::NetworkProfiler::PROFILER_streamOutPart);
+    CPUPROFILER_STEP(ARL::Network::NetworkProfiler::PROFILER_streamOutPart);
 }
 
 int ClientReplicator::getNumRegionsToGC() const
@@ -1959,12 +1959,12 @@ void ClientReplicator::renderPartMovementPath(Adorn* adorn)
     }
 }
 
-using namespace RBX::Reflection;
+using namespace ARL::Reflection;
 
 void ClientReplicator::learnSchema(RakNet::BitStream& inBitStream)
 {
 #ifdef NETWORK_DEBUG
-    StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Syncing schema from server..");
+    StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Syncing schema from server..");
 #endif
     RakNet::BitStream bitStream;
     decompressBitStream(inBitStream, bitStream);
@@ -2059,7 +2059,7 @@ void ClientReplicator::learnSchema(RakNet::BitStream& inBitStream)
                     // This is to simulate property adding / changing scenario
                     if (classContainer->name == "WedgePart" && propertyContainer->name == "BrickColor")
                     {
-                        StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Simulating property adding / changing on WedgePart.BrickColor");
+                        StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Simulating property adding / changing on WedgePart.BrickColor");
                         propertyContainer->needSync = true;
                         ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
                         while (iter!=ClassDescriptor::all_end())
@@ -2077,7 +2077,7 @@ void ClientReplicator::learnSchema(RakNet::BitStream& inBitStream)
             }
             else
             {
-                //StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Unknown property %s (%s)", propName, propType);
+                //StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Unknown property %s (%s)", propName, propType);
                 propertyContainer->needSync = true;
             }
             if (classContainer->needSync == true)
@@ -2107,10 +2107,10 @@ void ClientReplicator::learnSchema(RakNet::BitStream& inBitStream)
                 bitStream >> typeId;
                 const Reflection::Type* type;
                 typeDictionary.getValue(typeId, type);
-                RBXASSERT(type);
+                ARLASSERT(type);
                 eventContainer->argTypes.push_back(type);
             }
-            //StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Event %s, %d", eventContainer->name.c_str(), eventContainer->argTypes.size());
+            //StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Event %s, %d", eventContainer->name.c_str(), eventContainer->argTypes.size());
 
             const Reflection::EventDescriptor* eventDesc;
             eventDictionary.getValue(eventId, eventDesc);
@@ -2151,7 +2151,7 @@ void ClientReplicator::learnSchema(RakNet::BitStream& inBitStream)
                     // This is to simulate event adding / changing scenario
                     if (classContainer->name == "Player" && eventContainer->name == "OnTeleport")
                     {
-                        StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Simulating event adding / changing on Player.OnTeleport");
+                        StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Simulating event adding / changing on Player.OnTeleport");
                         eventContainer->needSync = true;
                         ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
                         while (iter!=ClassDescriptor::all_end())
@@ -2212,7 +2212,7 @@ void ClientReplicator::writeProperties(const Instance* instance, RakNet::BitStre
             {
                 // the content of this class has changed, we need use server scheme to deserialize the properties
                 ReflectionPropertyList::const_iterator propIter = reflectionClass->properties.begin();
-                RBX::Reflection::ConstPropertyIterator iter = instance->properties_begin();
+                ARL::Reflection::ConstPropertyIterator iter = instance->properties_begin();
                 for (; propIter != reflectionClass->properties.end(); propIter++)
                 {
                     const shared_ptr<ReflectionPropertyContainer>& reflectionProperty = *propIter;
@@ -2225,13 +2225,13 @@ void ClientReplicator::writeProperties(const Instance* instance, RakNet::BitStre
                             {
                                 // optimization for bool properties
                                 if (settings().printBits) {
-                                    std::string str = RBX::format(
+                                    std::string str = ARL::format(
                                         "   write %s %s, 1 bit (using server schema)", 
                                         reflectionProperty->type ? reflectionProperty->type->name.c_str() : "Unknown",
                                         reflectionProperty->name.c_str()
                                         );
 
-                                    RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, "%s", str.c_str());
+                                    ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "%s", str.c_str());
 
                                 }
                                 outBitstream << true;
@@ -2263,12 +2263,12 @@ void ClientReplicator::writeProperties(const Instance* instance, RakNet::BitStre
                         ++iter;
                     }
                 }
-                RBXASSERT(iter == instance->properties_end());
+                ARLASSERT(iter == instance->properties_end());
             }
             else
             {
                 // client schema is same as server's, why we get here?
-                RBXASSERT(false);
+                ARLASSERT(false);
             }
         }
         else
@@ -2282,7 +2282,7 @@ void ClientReplicator::writeProperties(const Instance* instance, RakNet::BitStre
     }
 }
 
-bool ClientReplicator::ProcessOutdatedChangedProperty(RakNet::BitStream& inBitstream, const RBX::Guid::Data& id, const Instance* instance, const Reflection::PropertyDescriptor* propertyDescriptor, unsigned int propId)
+bool ClientReplicator::ProcessOutdatedChangedProperty(RakNet::BitStream& inBitstream, const ARL::Guid::Data& id, const Instance* instance, const Reflection::PropertyDescriptor* propertyDescriptor, unsigned int propId)
 {
     if (instance && !(*(instance->getDescriptor().isOutdated)))
     {
@@ -2311,7 +2311,7 @@ bool ClientReplicator::ProcessOutdatedChangedProperty(RakNet::BitStream& inBitst
             }
             else
             {
-                RBXASSERT(false);
+                ARLASSERT(false);
             }
         }
         else
@@ -2349,7 +2349,7 @@ bool ClientReplicator::ProcessOutdatedChangedProperty(RakNet::BitStream& inBitst
         }
         else
         {
-            RBXASSERT(false);
+            ARLASSERT(false);
         }
     }
     return false;
@@ -2394,8 +2394,8 @@ bool ClientReplicator::ProcessOutdatedProperties(RakNet::BitStream& inBitstream,
                 else
                 {
                     // for each recognizable property, we iterate through the instance property collection and set the value
-                    RBX::Reflection::PropertyIterator iter = instance->properties_begin();
-                    RBX::Reflection::PropertyIterator end = instance->properties_end();
+                    ARL::Reflection::PropertyIterator iter = instance->properties_begin();
+                    ARL::Reflection::PropertyIterator end = instance->properties_end();
                     while (iter!=end)
                     {
                         Reflection::Property property = *iter;
@@ -2428,19 +2428,19 @@ bool ClientReplicator::ProcessOutdatedProperties(RakNet::BitStream& inBitstream,
         else
         {
             // client schema is same as server's, why are we here?
-            RBXASSERT(false);
+            ARLASSERT(false);
         }
     }
 	else
 	{
 		// we got the object from the server, how can it not be in the map?
-		RBXASSERT(false);
+		ARLASSERT(false);
 	}
 
     return false;
 }
 
-bool ClientReplicator::ProcessOutdatedInstance(RakNet::BitStream& inBitstream, bool isJoinData, const RBX::Guid::Data& id, const Reflection::ClassDescriptor* classDescriptor, unsigned int classId)
+bool ClientReplicator::ProcessOutdatedInstance(RakNet::BitStream& inBitstream, bool isJoinData, const ARL::Guid::Data& id, const Reflection::ClassDescriptor* classDescriptor, unsigned int classId)
 {
 #ifdef NETWORK_DEBUG
     if (FFlag::DebugProtocolSynchronization)
@@ -2448,7 +2448,7 @@ bool ClientReplicator::ProcessOutdatedInstance(RakNet::BitStream& inBitstream, b
         // This is to simulate class adding scenario
         if (classDescriptor && classDescriptor->name.toString() == "VehicleSeat")
         {
-            StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Simulating class adding on %s", classDescriptor->name.c_str());
+            StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Simulating class adding on %s", classDescriptor->name.c_str());
             classDescriptor = NULL;
         }
     }
@@ -2473,10 +2473,10 @@ bool ClientReplicator::ProcessOutdatedInstance(RakNet::BitStream& inBitstream, b
             {
                 // we found the class defined at the server side
                 // let's map the instance GUID to the class definition so we can deserialize property changes about this instance properly
-                serverInstanceClassMap.insert(std::pair<RBX::Guid::Data, shared_ptr<ReflectionClassContainer> >(id, reflectionClass));
+                serverInstanceClassMap.insert(std::pair<ARL::Guid::Data, shared_ptr<ReflectionClassContainer> >(id, reflectionClass));
 
                 if (settings().printInstances) {
-                    RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+                    ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
                         "Skipping: %s:%s << %s",								// note: remove player always on the left
                         reflectionClass->name.c_str(), 
                         id.readableString().c_str(), 
@@ -2485,7 +2485,7 @@ bool ClientReplicator::ProcessOutdatedInstance(RakNet::BitStream& inBitstream, b
                 }
                 bool deleteOnDisconnect;
                 inBitstream >> deleteOnDisconnect;
-                RBX::Guid::Data parentId;
+                ARL::Guid::Data parentId;
                 if (!isJoinData)
                 {
                     // read all non-cachable properties first
@@ -2548,7 +2548,7 @@ bool ClientReplicator::ProcessOutdatedInstance(RakNet::BitStream& inBitstream, b
     return false;
 }
 
-bool ClientReplicator::ProcessOutdatedEventInvocation(RakNet::BitStream& inBitstream, const RBX::Guid::Data& id, const Instance* instance, const Reflection::EventDescriptor* eventDescriptor, unsigned int eventId)
+bool ClientReplicator::ProcessOutdatedEventInvocation(RakNet::BitStream& inBitstream, const ARL::Guid::Data& id, const Instance* instance, const Reflection::EventDescriptor* eventDescriptor, unsigned int eventId)
 {
     if (instance && !(*(instance->getDescriptor().isOutdated)))
     {
@@ -2577,7 +2577,7 @@ bool ClientReplicator::ProcessOutdatedEventInvocation(RakNet::BitStream& inBitst
             }
             else
             {
-                RBXASSERT(false);
+                ARLASSERT(false);
             }
         }
         else
@@ -2602,7 +2602,7 @@ bool ClientReplicator::ProcessOutdatedEventInvocation(RakNet::BitStream& inBitst
             }
             else
             {
-                RBXASSERT(false);
+                ARLASSERT(false);
             }
         }
         shared_ptr<ReflectionEventContainer> serverBasedEvent;
@@ -2613,7 +2613,7 @@ bool ClientReplicator::ProcessOutdatedEventInvocation(RakNet::BitStream& inBitst
         }
         else
         {
-            RBXASSERT(false);
+            ARLASSERT(false);
         }
     }
     return false;
@@ -2662,7 +2662,7 @@ bool ClientReplicator::ProcessOutdatedEnumDeserialization(RakNet::BitStream& inB
             return true;
         }
 
-        RBXASSERT(false);
+        ARLASSERT(false);
     }
     return false;
 }
@@ -2706,7 +2706,7 @@ void ClientReplicator::skipPropertyValue(RakNet::BitStream& inBitStream, const s
 		int value = 0;
 		readFastN( inBitStream, value, prop->enumMSB+1 );
 	}
-	else if (type == Reflection::Type::singleton<RBX::ProtectedString>())
+	else if (type == Reflection::Type::singleton<ARL::ProtectedString>())
     {
         BinaryString strValue;
 
@@ -2762,9 +2762,9 @@ void ClientReplicator::skipPropertyValue(RakNet::BitStream& inBitStream, const s
         UDim2 dummy;
         inBitStream >> dummy;
     }
-    else if (type==Reflection::Type::singleton<RBX::RbxRay>())
+    else if (type==Reflection::Type::singleton<ARL::RbxRay>())
     {
-        RBX::RbxRay dummy;
+        ARL::RbxRay dummy;
         inBitStream >> dummy;
     }
     else if (type==Reflection::Type::singleton<Faces>())
@@ -2817,7 +2817,7 @@ void ClientReplicator::skipPropertyValue(RakNet::BitStream& inBitStream, const s
     }
     else if (Reflection::RefPropertyDescriptor::isRefPropertyDescriptor(type))
     {
-        RBX::Guid::Data id;
+        ARL::Guid::Data id;
         if (useDictionary)
         {
             deserializeId(inBitStream, id);
@@ -2827,17 +2827,17 @@ void ClientReplicator::skipPropertyValue(RakNet::BitStream& inBitStream, const s
             deserializeIdWithoutDictionary(inBitStream, id);
         }
     }
-    else if (type==Reflection::Type::singleton<RBX::ContentId>())
+    else if (type==Reflection::Type::singleton<ARL::ContentId>())
     {
-        RBX::ContentId dummy;
+        ARL::ContentId dummy;
 		if (useDictionary)
 			contentIdDictionary.receive(inBitStream, dummy);
 		else
 			inBitStream >> dummy;
     }
-    else if (type==Reflection::Type::singleton<RBX::SystemAddress>())
+    else if (type==Reflection::Type::singleton<ARL::SystemAddress>())
     {
-        RBX::SystemAddress value;
+        ARL::SystemAddress value;
         if (useDictionary)
             systemAddressDictionary.receive(inBitStream, value);
         else
@@ -2856,7 +2856,7 @@ void ClientReplicator::skipPropertyValue(RakNet::BitStream& inBitStream, const s
     else
     {
         StandardOut::singleton()->printf(MESSAGE_ERROR, "A new property type is not supported on this legacy client. Please flag off the replication before client and server are synchronized");
-        RBXASSERT(false);
+        ARLASSERT(false);
     }
 }
 
@@ -2868,7 +2868,7 @@ void ClientReplicator::skipPropertiesInternal(const shared_ptr<ClientReplicator:
     {
         inBitstream >> boolValue;
         if (settings().printBits) {
-            RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, 
+            ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, 
                 "   skip %s %s, 1 bit", 
                 prop->typeName.c_str(),
                 prop->name.c_str()
@@ -2882,7 +2882,7 @@ void ClientReplicator::skipPropertiesInternal(const shared_ptr<ClientReplicator:
         if (isDefault)
         {
             if (settings().printBits) {
-                RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, 
+                ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, 
                     "   skip %s %s, 1 bit (default)", 
                     prop->typeName.c_str(),
                     prop->name.c_str()
@@ -2896,7 +2896,7 @@ void ClientReplicator::skipPropertiesInternal(const shared_ptr<ClientReplicator:
             skipPropertyValue(inBitstream, prop, useDictionary);
 
             if (settings().printBits) {
-                RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, 
+                ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, 
                     "   skip %s %s, %d bits", 
                     prop->typeName.c_str(),
                     prop->name.c_str(),
@@ -2913,7 +2913,7 @@ void ClientReplicator::skipChangedProperty(RakNet::BitStream& bitStream, const s
     bitStream >> versionReset;
     if (prop->name == Instance::propParent.name.toString())
     {
-        RBX::Guid::Data parentId;
+        ARL::Guid::Data parentId;
         deserializeId(bitStream, parentId);
     }
     else
@@ -2996,7 +2996,7 @@ bool ClientReplicator::isClassRemoved(const Instance* instance)
         // This is to simulate class removal scenario
         if (instance->getClassNameStr() == "TrussPart")
         {
-            StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Simulating class removal TrussPart");
+            StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Simulating class removal TrussPart");
             return true;
         }
     }
@@ -3013,7 +3013,7 @@ bool ClientReplicator::isPropertyRemoved(const Instance* instance, const Name& p
         // This is to simulate property removal scenario
         if (instance->getClassNameStr() == "WedgePart" && propertyName == "Material")
         {
-            StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Simulating property removal on WedgePart.Material");
+            StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Simulating property removal on WedgePart.Material");
             return true;
         }
     }
@@ -3053,7 +3053,7 @@ bool ClientReplicator::isEventRemoved(const Instance* instance, const Name& even
         // This is to simulate event removal scenario
         if (instance->getClassNameStr() == "Tool" && eventName == "Activated")
         {
-            StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Simulating event removal on Tool.Activated");
+            StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Simulating event removal on Tool.Activated");
             return true;
         }
     }
@@ -3094,7 +3094,7 @@ bool ClientReplicator::hasEnumChanged(const Reflection::EnumDescriptor& enumDesc
         // This is to simulate enum change scenario
         if (!strcmp(enumDesc.name.c_str(), "TeleportState") || !strcmp(enumDesc.name.c_str(), "Material"))
         {
-            StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Simulating enum modification on %s", enumDesc.name.c_str());
+            StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Simulating enum modification on %s", enumDesc.name.c_str());
             newMSB = enumDesc.getEnumCountMSB();
             return true;
         }

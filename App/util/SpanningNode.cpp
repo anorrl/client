@@ -5,7 +5,7 @@
 #include "Util/SpanningEdge.h"
 
 
-namespace RBX {
+namespace ARL {
 
 
 // Having a parent edge == in the spanning tree
@@ -17,9 +17,9 @@ void SpanningNode::setEdgeToParent(SpanningEdge* edge)
 
 bool SpanningNode::lessThan(const IndexedTree* other) const
 {
-	RBXASSERT(edgeToParent);
+	ARLASSERT(edgeToParent);
 	const SpanningNode* otherNode = rbx_static_cast<const SpanningNode*>(other);
-	RBXASSERT(otherNode->getConstEdgeToParent());
+	ARLASSERT(otherNode->getConstEdgeToParent());
 	return edgeToParent->isLighterThan(otherNode->getConstEdgeToParent());
 }
 

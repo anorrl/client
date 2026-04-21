@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-namespace RBX {
+namespace ARL {
 
 struct Base64BinaryOutputStream {
 private:

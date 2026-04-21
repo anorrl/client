@@ -14,7 +14,7 @@
 struct IDirect3DDevice9;
 struct IDirect3DSwapChain9;
 
-namespace RBX {
+namespace ARL {
 
 class FrameRateManager;
 class ViewBase;
@@ -58,18 +58,18 @@ class ViewBase;
 
 		boost::scoped_ptr<IVideoCapture> capture;
 		boost::scoped_ptr<SoundState> soundState;
-		RBX::ViewBase *rbxView;
+		ARL::ViewBase *rbxView;
 		FrameRateManager *frameRateManager;
 		Verb *verb;
 
         void onFrameData(void* device);
 	public:
-		VideoControl(IVideoCapture *capture, RBX::ViewBase *rbxView, FrameRateManager *frameRateManager, Verb *verb);
+		VideoControl(IVideoCapture *capture, ARL::ViewBase *rbxView, FrameRateManager *frameRateManager, Verb *verb);
 
 		void unPause();
 		void pause();
 		void stopRecording();
-		void startRecording(RBX::Soundscape::SoundService *soundservice);
+		void startRecording(ARL::Soundscape::SoundService *soundservice);
 		bool isReadyToUpload();
 		bool isVideoPaused();
 		bool isVideoRecording();

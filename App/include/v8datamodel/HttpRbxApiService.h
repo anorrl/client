@@ -9,7 +9,7 @@
 
 DYNAMIC_FASTINT(PercentApiRequestsRecordGoogleAnalytics)
 
-namespace RBX {
+namespace ARL {
 
 	class HttpRbxApiJob;
 
@@ -103,7 +103,7 @@ namespace RBX {
 		rbx::signals::scoped_connection contentProviderPropertyChangedConnection;
 
 		unsigned int totalNumOfApiCalls;
-		RBX::Timer<RBX::Time::Fast> instanceAliveTimer;
+		ARL::Timer<ARL::Time::Fast> instanceAliveTimer;
 
 		bool recordInGoogleAnalytics;
 
@@ -114,7 +114,7 @@ namespace RBX {
 		// initialization helpers
 		void checkForClientAndServer(Instance* context);
 		void newServiceAdded(shared_ptr<Instance> newService);
-		void playersPropertyChanged(const RBX::Reflection::PropertyDescriptor* desc);
+		void playersPropertyChanged(const ARL::Reflection::PropertyDescriptor* desc);
 		void disconnectEventConnections();
 
 		// general function that allows either async or sync functions to have their errors set appropriately
@@ -140,7 +140,7 @@ namespace RBX {
 
 		static bool retrySyncRequest(Http& http, std::string& syncResponse);
 
-		void setStaticApiBaseUrl(const RBX::Reflection::PropertyDescriptor* pPropertyDescriptor);
+		void setStaticApiBaseUrl(const ARL::Reflection::PropertyDescriptor* pPropertyDescriptor);
 
 		//////////////////////////////////////////////////////////////
 		// Instance
@@ -181,7 +181,7 @@ namespace RBX {
 			boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction);
 		void postAsync(std::string urlPath, std::string data,bool useHttps, ThrottlingPriority throttlePriority, HttpService::HttpContentType content, 
 			boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction);
-		void postAsyncWithAdditionalHeaders(std::string urlPath, std::string data,bool useHttps, ThrottlingPriority throttlePriority, HttpService::HttpContentType content, RBX::HttpAux::AdditionalHeaders additionalHeaders,
+		void postAsyncWithAdditionalHeaders(std::string urlPath, std::string data,bool useHttps, ThrottlingPriority throttlePriority, HttpService::HttpContentType content, ARL::HttpAux::AdditionalHeaders additionalHeaders,
 			boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction);
 		void postAsyncLua(std::string urlPath, std::string data,bool useHttps, ThrottlingPriority throttlePriority, HttpService::HttpContentType content, 
 			boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction);
@@ -190,4 +190,4 @@ namespace RBX {
 		static bool isAPIHttpRequest(const Http& httpRequest);
 		static std::string getApiUrlPath(const Http& httpRequest);
 	};
-} //namespace RBX
+} //namespace ARL

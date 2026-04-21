@@ -14,7 +14,7 @@
 #include "G3D/Ray.h"
 #include "G3D/Matrix4.h"
 
-namespace RBX {
+namespace ARL {
 
 
 RbxCamera::RbxCamera() {
@@ -86,7 +86,7 @@ float RbxCamera::getViewportHeight(const G3D::Rect2D& viewport) const {
 
 
 // ROBLOX
-RBX::RbxRay RbxCamera::worldRay(
+ARL::RbxRay RbxCamera::worldRay(
     float                                  x,
     float                                  y,
     const G3D::Rect2D&                           viewport) const {
@@ -109,7 +109,7 @@ RBX::RbxRay RbxCamera::worldRay(
     // Normalize the direction (we didn't do it before)
     direction = direction.direction();
 
-	return RBX::RbxRay::fromOriginAndDirection(origin, direction);
+	return ARL::RbxRay::fromOriginAndDirection(origin, direction);
 }
 // ==================
 

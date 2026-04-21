@@ -5,7 +5,7 @@
 #include "Util/RunStateOwner.h"
 #include "solver/Constraint.h"
 
-namespace RBX
+namespace ARL
 {
 	class PartInstance;
 	class World;

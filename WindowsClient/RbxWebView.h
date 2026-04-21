@@ -41,13 +41,13 @@ class RbxWebView :
 	ULONG m_cRef;
 	HICON m_hIcon;
 	std::string url;
-	weak_ptr<RBX::Game> game;
+	weak_ptr<ARL::Game> game;
 	bool dialogActive;
 
 	WebBrowserEvents webBrowserEvents;
 
 public:
-	enum { IDD = IDD_RBXWEBVIEW };
+	enum { IDD = IDD_ARLWEBVIEW };
 
 	BEGIN_MSG_MAP(RbxWebView)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
@@ -55,9 +55,9 @@ public:
 		MESSAGE_HANDLER(WM_SIZE, OnSize)
 	END_MSG_MAP()
 
-	RbxWebView(const std::string& url, shared_ptr<RBX::Game> game);
+	RbxWebView(const std::string& url, shared_ptr<ARL::Game> game);
 
-	weak_ptr<RBX::Game> getGame() {return game;}
+	weak_ptr<ARL::Game> getGame() {return game;}
 	SHDocVw::IWebBrowserAppPtr RbxWebView::getWebBrowser();
 
 	LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);

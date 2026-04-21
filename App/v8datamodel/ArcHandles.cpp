@@ -11,18 +11,18 @@
 #include "Util/HitTest.h"
 #include "Util/Faces.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sArcHandles = "ArcHandles";
 
 REFLECTION_BEGIN();
 static const Reflection::PropDescriptor<ArcHandles, Axes>	prop_Axes("Axes", category_Data, &ArcHandles::getAxes, &ArcHandles::setAxes);
 
-Reflection::RemoteEventDesc<ArcHandles, void(RBX::Vector3::Axis)>	   event_MouseEnter(&ArcHandles::mouseEnterSignal,		  "MouseEnter",       "axis", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
-Reflection::RemoteEventDesc<ArcHandles, void(RBX::Vector3::Axis)>	   event_MouseLeave(&ArcHandles::mouseLeaveSignal,		  "MouseLeave",		  "axis", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
-Reflection::RemoteEventDesc<ArcHandles, void(RBX::Vector3::Axis, float, float)> event_MouseDrag(&ArcHandles::mouseDragSignal, "MouseDrag",		  "axis", "relativeAngle", "deltaRadius", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
-Reflection::RemoteEventDesc<ArcHandles, void(RBX::Vector3::Axis)> event_MouseButton1Down(&ArcHandles::mouseButton1DownSignal, "MouseButton1Down", "axis", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
-Reflection::RemoteEventDesc<ArcHandles, void(RBX::Vector3::Axis)> event_MouseButton1Up  (&ArcHandles::mouseButton1UpSignal,   "MouseButton1Up",	  "axis", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
+Reflection::RemoteEventDesc<ArcHandles, void(ARL::Vector3::Axis)>	   event_MouseEnter(&ArcHandles::mouseEnterSignal,		  "MouseEnter",       "axis", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
+Reflection::RemoteEventDesc<ArcHandles, void(ARL::Vector3::Axis)>	   event_MouseLeave(&ArcHandles::mouseLeaveSignal,		  "MouseLeave",		  "axis", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
+Reflection::RemoteEventDesc<ArcHandles, void(ARL::Vector3::Axis, float, float)> event_MouseDrag(&ArcHandles::mouseDragSignal, "MouseDrag",		  "axis", "relativeAngle", "deltaRadius", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
+Reflection::RemoteEventDesc<ArcHandles, void(ARL::Vector3::Axis)> event_MouseButton1Down(&ArcHandles::mouseButton1DownSignal, "MouseButton1Down", "axis", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
+Reflection::RemoteEventDesc<ArcHandles, void(ARL::Vector3::Axis)> event_MouseButton1Up  (&ArcHandles::mouseButton1UpSignal,   "MouseButton1Up",	  "axis", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
 
 IMPLEMENT_EVENT_REPLICATOR(ArcHandles,event_MouseEnter,		"MouseEnter",		MouseEnter);
 IMPLEMENT_EVENT_REPLICATOR(ArcHandles,event_MouseLeave,		"MouseLeave",		MouseLeave);
@@ -58,13 +58,13 @@ void ArcHandles::setAxes(Axes value)
 int ArcHandles::getHandlesNormalIdMask() const
 {
 	Faces faces;
-	faces.setNormalId(RBX::NORM_X, axes.getAxisByNormalId(RBX::NORM_X));
-	faces.setNormalId(RBX::NORM_Y, axes.getAxisByNormalId(RBX::NORM_Y));
-	faces.setNormalId(RBX::NORM_Z, axes.getAxisByNormalId(RBX::NORM_Z));
+	faces.setNormalId(ARL::NORM_X, axes.getAxisByNormalId(ARL::NORM_X));
+	faces.setNormalId(ARL::NORM_Y, axes.getAxisByNormalId(ARL::NORM_Y));
+	faces.setNormalId(ARL::NORM_Z, axes.getAxisByNormalId(ARL::NORM_Z));
 
-	faces.setNormalId(RBX::NORM_X_NEG, axes.getAxisByNormalId(RBX::NORM_X));
-	faces.setNormalId(RBX::NORM_Y_NEG, axes.getAxisByNormalId(RBX::NORM_Y));
-	faces.setNormalId(RBX::NORM_Z_NEG, axes.getAxisByNormalId(RBX::NORM_Z));
+	faces.setNormalId(ARL::NORM_X_NEG, axes.getAxisByNormalId(ARL::NORM_X));
+	faces.setNormalId(ARL::NORM_Y_NEG, axes.getAxisByNormalId(ARL::NORM_Y));
+	faces.setNormalId(ARL::NORM_Z_NEG, axes.getAxisByNormalId(ARL::NORM_Z));
 
 	return faces.normalIdMask;
 }
@@ -140,7 +140,7 @@ GuiResponse ArcHandles::process(const shared_ptr<InputObject>& event)
 			}
 			case InputObject::TYPE_MOUSEBUTTON1:
 			{
-				RBXASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
+				ARLASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
 
 				if (event->isLeftMouseDownEvent())
 				{
@@ -177,7 +177,7 @@ GuiResponse ArcHandles::process(const shared_ptr<InputObject>& event)
 	return GuiResponse::notSunk();
 }
 
-RBX::HandleType ArcHandles::getHandleType() const 
+ARL::HandleType ArcHandles::getHandleType() const 
 {
 	return HANDLE_ROTATE;
 }

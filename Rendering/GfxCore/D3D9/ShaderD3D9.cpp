@@ -13,7 +13,7 @@
 
 LOGGROUP(Graphics)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -77,7 +77,7 @@ static std::vector<UniformD3D9> extractUniforms(const DWORD* bytecodePointer, un
 	if (SUCCEEDED(hr))
 	{
         if (!ctab)
-            throw RBX::runtime_error("Error parsing bytecode: no constant table present");
+            throw ARL::runtime_error("Error parsing bytecode: no constant table present");
 
 		std::vector<UniformD3D9> result = extractUniforms(ctab, outSamplerMask);
 
@@ -86,7 +86,7 @@ static std::vector<UniformD3D9> extractUniforms(const DWORD* bytecodePointer, un
         return result;
 	}
 	else
-		throw RBX::runtime_error("Error parsing bytecode: %x", hr);
+		throw ARL::runtime_error("Error parsing bytecode: %x", hr);
 }
 
 static void disableUniform(UniformD3D9& u)
@@ -111,21 +111,21 @@ static void validateUniformsAndDisableGlobal(std::vector<UniformD3D9>& uniforms,
         UniformD3D9& u = uniforms[i];
 
 		if (u.registerSet != UniformD3D9::Register_Float)
-			throw RBX::runtime_error("Uniform %s has unsupported register set %d", u.name.c_str(), u.registerSet);
+			throw ARL::runtime_error("Uniform %s has unsupported register set %d", u.name.c_str(), u.registerSet);
 
 		if (u.registerIndex + u.registerCount <= globalDataRegisterCount)
 		{
 			std::map<std::string, ShaderGlobalConstant>::const_iterator git = globalConstants.find(u.name);
 
 			if (git == globalConstants.end())
-				throw RBX::runtime_error("Uniform %s register range [%d..%d) overlaps with global register range [0..%d)",
+				throw ARL::runtime_error("Uniform %s register range [%d..%d) overlaps with global register range [0..%d)",
                     u.name.c_str(), u.registerIndex, u.registerIndex + u.registerCount, globalDataRegisterCount);
 
 			unsigned int expectedRegisterIndex = git->second.offset / 16;
 			unsigned int expectedRegisterCount = git->second.size / 16;
 
 			if (u.registerIndex != expectedRegisterIndex || u.registerCount > expectedRegisterCount)
-				throw RBX::runtime_error("Uniform %s register range [%d..%d) is not a prefix of expected register range [%d..%d)",
+				throw ARL::runtime_error("Uniform %s register range [%d..%d) is not a prefix of expected register range [%d..%d)",
                     u.name.c_str(), u.registerIndex, u.registerIndex + u.registerCount, expectedRegisterIndex, expectedRegisterIndex + expectedRegisterCount);
 
 			disableUniform(u);
@@ -168,7 +168,7 @@ static void reloadUniforms(std::vector<UniformD3D9>& uniforms, const std::vector
 static IDirect3DVertexShader9* createVertexShader(Device* device, const std::vector<char>& bytecode,
     std::vector<UniformD3D9>& uniforms, int& registerWorldMatrix, int& registerWorldMatrixArray, unsigned int& maxWorldTransforms)
 {
-    RBXASSERT(bytecode.size() > 0 && bytecode.size() % sizeof(DWORD) == 0);
+    ARLASSERT(bytecode.size() > 0 && bytecode.size() % sizeof(DWORD) == 0);
 	const DWORD* bytecodePointer = reinterpret_cast<const DWORD*>(&bytecode[0]);
 
 	uniforms = extractUniforms(bytecodePointer, NULL);
@@ -193,7 +193,7 @@ static IDirect3DVertexShader9* createVertexShader(Device* device, const std::vec
 	{
 		UniformD3D9& u = uniforms[uniformWorldMatrixArray];
 
-		RBXASSERT(u.registerCount % 3 == 0);
+		ARLASSERT(u.registerCount % 3 == 0);
 
 		registerWorldMatrixArray = u.registerIndex;
 		maxWorldTransforms = u.registerCount / 3;
@@ -208,7 +208,7 @@ static IDirect3DVertexShader9* createVertexShader(Device* device, const std::vec
 	IDirect3DVertexShader9* object = NULL;
 	HRESULT hr = device9->CreateVertexShader(bytecodePointer, &object);
     if (FAILED(hr))
-		throw RBX::runtime_error("Error creating vertex shader: %x", hr);
+		throw ARL::runtime_error("Error creating vertex shader: %x", hr);
 
     return object;
 }
@@ -216,7 +216,7 @@ static IDirect3DVertexShader9* createVertexShader(Device* device, const std::vec
 static IDirect3DPixelShader9* createPixelShader(Device* device, const std::vector<char>& bytecode,
     std::vector<UniformD3D9>& uniforms, unsigned int& samplerMask)
 {
-    RBXASSERT(bytecode.size() > 0 && bytecode.size() % sizeof(DWORD) == 0);
+    ARLASSERT(bytecode.size() > 0 && bytecode.size() % sizeof(DWORD) == 0);
 	const DWORD* bytecodePointer = reinterpret_cast<const DWORD*>(&bytecode[0]);
 
 	uniforms = extractUniforms(bytecodePointer, &samplerMask);
@@ -229,7 +229,7 @@ static IDirect3DPixelShader9* createPixelShader(Device* device, const std::vecto
 	IDirect3DPixelShader9* object = NULL;
 	HRESULT hr = device9->CreatePixelShader(bytecodePointer, &object);
     if (FAILED(hr))
-		throw RBX::runtime_error("Error creating fragment shader: %x", hr);
+		throw ARL::runtime_error("Error creating fragment shader: %x", hr);
 
     return object;
 }
@@ -333,7 +333,7 @@ void ShaderProgramD3D9::setWorldTransforms4x3(const float* data, size_t matrixCo
 
 	if (vs9->getRegisterWorldMatrixArray() >= 0)
 	{
-        RBXASSERT(matrixCount <= vs9->getMaxWorldTransforms());
+        ARLASSERT(matrixCount <= vs9->getMaxWorldTransforms());
     
 		device9->SetVertexShaderConstantF(vs9->getRegisterWorldMatrixArray(), data, matrixCount * 3);
 	}
@@ -353,12 +353,12 @@ void ShaderProgramD3D9::setConstant(int handle, const float* data, size_t vector
 	{
         const std::vector<UniformD3D9>& uniforms = static_cast<VertexShaderD3D9*>(vertexShader.get())->getUniforms();
 
-        RBXASSERT(static_cast<unsigned int>(vs) < uniforms.size());
+        ARLASSERT(static_cast<unsigned int>(vs) < uniforms.size());
 		const UniformD3D9& u = uniforms[vs];
 
 		if (u.registerCount)
 		{
-            RBXASSERT(vectorCount >= u.registerCount);
+            ARLASSERT(vectorCount >= u.registerCount);
 
 			device9->SetVertexShaderConstantF(u.registerIndex, data, u.registerCount);
 		}
@@ -368,12 +368,12 @@ void ShaderProgramD3D9::setConstant(int handle, const float* data, size_t vector
 	{
         const std::vector<UniformD3D9>& uniforms = static_cast<FragmentShaderD3D9*>(fragmentShader.get())->getUniforms();
 
-        RBXASSERT(static_cast<unsigned int>(fs) < uniforms.size());
+        ARLASSERT(static_cast<unsigned int>(fs) < uniforms.size());
 		const UniformD3D9& u = uniforms[fs];
 
 		if (u.registerCount)
 		{
-            RBXASSERT(vectorCount >= u.registerCount);
+            ARLASSERT(vectorCount >= u.registerCount);
 
 			device9->SetPixelShaderConstantF(u.registerIndex, data, u.registerCount);
 		}
@@ -385,7 +385,7 @@ int ShaderProgramD3D9::getConstantHandle(const char* name) const
 	int vs = findUniform(static_cast<VertexShaderD3D9*>(vertexShader.get())->getUniforms(), name);
 	int fs = findUniform(static_cast<FragmentShaderD3D9*>(fragmentShader.get())->getUniforms(), name);
 
-    RBXASSERT(vs >= -1 && fs >= -1);
+    ARLASSERT(vs >= -1 && fs >= -1);
 
     if (vs < 0 && fs < 0)
         return -1;
@@ -419,7 +419,7 @@ struct IncludeCallback: ID3DXInclude
 
 		if (pParentData)
 		{
-            RBXASSERT(paths.count(pParentData));
+            ARLASSERT(paths.count(pParentData));
 
             path = paths[pParentData];
 
@@ -451,7 +451,7 @@ struct IncludeCallback: ID3DXInclude
 
 	virtual HRESULT STDMETHODCALLTYPE Close(LPCVOID pData)
 	{
-		RBXASSERT(paths.count(pData));
+		ARLASSERT(paths.count(pData));
 		paths.erase(pData);
         delete[] static_cast<const char*>(pData);
 
@@ -513,7 +513,7 @@ template <typename T> static std::vector<T> consumeData(HRESULT hr, ID3DXBuffer*
 			ShaderProgram::dumpToFLog(log.c_str(), FLog::Graphics);
         }
 
-		RBXASSERT(buffer->GetBufferSize() % sizeof(T) == 0);
+		ARLASSERT(buffer->GetBufferSize() % sizeof(T) == 0);
 		std::vector<T> result(static_cast<T*>(buffer->GetBufferPointer()), static_cast<T*>(buffer->GetBufferPointer()) + buffer->GetBufferSize() / sizeof(T));
 
 		buffer->Release();
@@ -529,7 +529,7 @@ template <typename T> static std::vector<T> consumeData(HRESULT hr, ID3DXBuffer*
         throw std::runtime_error(log.c_str());
     }
     else
-        throw RBX::runtime_error("Unknown error %x", hr);
+        throw ARL::runtime_error("Unknown error %x", hr);
 }
 
 std::string ShaderProgramD3D9::createShaderSource(const std::string& path, const std::string& defines, boost::function<std::string (const std::string&)> fileCallback)
@@ -537,7 +537,7 @@ std::string ShaderProgramD3D9::createShaderSource(const std::string& path, const
 	TypeD3DXPreprocessShader preprocessor = loadShaderPreprocessor();
 
     if (!preprocessor)
-		throw RBX::runtime_error("Unable to load shader preprocessor");
+		throw ARL::runtime_error("Unable to load shader preprocessor");
 
     // split define string into strings
     std::vector<std::string> defineStrings;
@@ -604,7 +604,7 @@ std::vector<char> ShaderProgramD3D9::createShaderBytecode(const std::string& sou
 	TypeD3DXCompileShader compiler = loadShaderCompiler();
 
     if (!compiler)
-		throw RBX::runtime_error("Unable to load shader compiler");
+		throw ARL::runtime_error("Unable to load shader compiler");
 
     unsigned int flags = D3DXSHADER_PACKMATRIX_ROWMAJOR;
 

@@ -8,7 +8,7 @@
 #include "rbx/Debug.h"
 #include "G3D/Array.h"
 
-namespace RBX {
+namespace ARL {
 
 /* USAGE
 	class C 
@@ -18,7 +18,7 @@ namespace RBX {
 
 	public:
 		C() : index(-1) {}
-		~C() {RBXASSERT(index == -1);}
+		~C() {ARLASSERT(index == -1);}
 
 		int&	getIndex() {return index;}
 	};
@@ -57,9 +57,9 @@ namespace RBX {
 
 		inline void fastAppend(Item* item)
 		{
-			RBXASSERT(item);
-			RBXASSERT(indexOf(item) == -1);
-			RBXASSERT_IF_VALIDATING(array.find(item) == array.end());
+			ARLASSERT(item);
+			ARLASSERT(indexOf(item) == -1);
+			ARLASSERT_IF_VALIDATING(array.find(item) == array.end());
 
 			indexOf(item) = array.size();
 			array.append(item);
@@ -67,12 +67,12 @@ namespace RBX {
 
 		inline void fastRemove(Item* item)
 		{
-			RBXASSERT_IF_VALIDATING(array.find(item) != array.end());
+			ARLASSERT_IF_VALIDATING(array.find(item) != array.end());
 
 			int removeIndex = indexOf(item);
 
-			RBXASSERT(removeIndex >= 0);
-			RBXASSERT(array[removeIndex] == item);
+			ARLASSERT(removeIndex >= 0);
+			ARLASSERT(array[removeIndex] == item);
 
 			// Move last item to removal index
 			Item* oldLast = array.last();		// if array size == 1, this is redundant
@@ -86,12 +86,12 @@ namespace RBX {
 
 		inline void remove(Item* item)
 		{
-			RBXASSERT_IF_VALIDATING(array.find(item) != array.end());
+			ARLASSERT_IF_VALIDATING(array.find(item) != array.end());
 
 			int removeIndex = indexOf(item);
 
-			RBXASSERT(removeIndex >= 0);
-			RBXASSERT(array[removeIndex] == item);
+			ARLASSERT(removeIndex >= 0);
+			ARLASSERT(array[removeIndex] == item);
 
 			// Move all the items back in the array. 
 			for (int i = removeIndex; i < array.size() - 1; i++)
@@ -110,7 +110,7 @@ namespace RBX {
 		inline bool fastContains(Item* item) const
 		{
 			bool answer = (indexOf(item) >= 0);
-			RBXASSERT_IF_VALIDATING(answer == underlyingArray().contains(item));
+			ARLASSERT_IF_VALIDATING(answer == underlyingArray().contains(item));
 			return answer;
 		}
 
@@ -123,22 +123,22 @@ namespace RBX {
 		}
 
 		inline Item* operator[](int n) {
-			RBXASSERT(indexOf(array[n]) == n);
+			ARLASSERT(indexOf(array[n]) == n);
 			return array[n];
 		}
 
 		inline Item* operator[](unsigned int n) {
-			RBXASSERT(indexOf(array[n]) == n);
+			ARLASSERT(indexOf(array[n]) == n);
 			return array[n];
 		}
 
 		inline Item* const operator[](int n) const {		// the pointer is const?
-			RBXASSERT(indexOf(array[n]) == n);
+			ARLASSERT(indexOf(array[n]) == n);
 			return array[n];
 		}
 
 		inline Item* const operator[](unsigned int n) const {	// the pointer is const?...
-			RBXASSERT(indexOf(array[n]) == n);
+			ARLASSERT(indexOf(array[n]) == n);
 			return array[n];
 		}
 

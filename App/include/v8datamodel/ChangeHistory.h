@@ -9,7 +9,7 @@
 
 #include "Voxel2/GridListener.h"
 
-namespace RBX {
+namespace ARL {
 
 class DataModel;
 class MegaClusterInstance;
@@ -113,9 +113,9 @@ private:
 	void mergeFirstTwoWaypoints();
     void computeDataSize();
 
-	virtual void onItemAdded(shared_ptr<RBX::Instance> item);
-	virtual void onItemRemoved(shared_ptr<RBX::Instance> item);
-	virtual void onItemChanged(shared_ptr<RBX::Instance> item, const Reflection::PropertyDescriptor* descriptor);
+	virtual void onItemAdded(shared_ptr<ARL::Instance> item);
+	virtual void onItemRemoved(shared_ptr<ARL::Instance> item);
+	virtual void onItemChanged(shared_ptr<ARL::Instance> item, const Reflection::PropertyDescriptor* descriptor);
 	bool isRecordable(Instance* instance);
 
 	/*override*/ virtual void terrainCellChanged(const Voxel::CellChangeInfo& cell);
@@ -130,7 +130,7 @@ private:
 	void onRunTransition(RunTransition event);
 	void setWaypoint(const char* name);
 	void setRunWaypoint();
-	void reportMissedPhysicsChanges(shared_ptr<RBX::Instance> instance);
+	void reportMissedPhysicsChanges(shared_ptr<ARL::Instance> instance);
 };
 
 }

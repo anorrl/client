@@ -61,7 +61,7 @@ LOGGROUP(HumanoidFloorProcess)
 DYNAMIC_FASTFLAG(CheckForHeadHit)
 DYNAMIC_FASTFLAG(UseR15Character)
 
-namespace RBX {
+namespace ARL {
 	namespace HUMAN {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,8 +104,8 @@ inline StateType getStateFast(StateType oldState, EventType eventType)
 
 StateType getState(StateType oldState, EventType eventType)
 {
-	RBXASSERT(STATE_TABLE[oldState+1][0] == oldState);
-	RBXASSERT(STATE_TABLE[0][eventType+1] == eventType);
+	ARLASSERT(STATE_TABLE[oldState+1][0] == oldState);
+	ARLASSERT(STATE_TABLE[0][eventType+1] == eventType);
 
     return getStateFast(oldState, eventType);
 }
@@ -267,7 +267,7 @@ StateType HumanoidState::stateFromAssembly()
 // ASSERT the humanoid is always in the world
 const Humanoid* HumanoidState::getHumanoidConst() const
 {
-	RBXASSERT(humanoid);
+	ARLASSERT(humanoid);
 	return humanoid;
 }
 
@@ -552,7 +552,7 @@ void HumanoidState::preStepFloor()
 // State is master
 void HumanoidState::simulate(shared_ptr<HumanoidState>& state, float dt)
 {
-	RBXASSERT(state.get());
+	ARLASSERT(state.get());
 
 	if (state->getStateType() != state->stateFromAssembly()) {	
 		state->stateToAssembly();
@@ -568,7 +568,7 @@ void HumanoidState::simulate(shared_ptr<HumanoidState>& state, float dt)
 
 	state->onSimulatorStepImpl(dt);						// only for simulating humanoids
 	state->onStepImpl();			
-	RBXASSERT(!state->getAssembly() || state->getStateType() == state->stateFromAssembly());
+	ARLASSERT(!state->getAssembly() || state->getStateType() == state->stateFromAssembly());
 
 	state->humanoid->setActivatePhysics(false, Vector3::zero());
 	
@@ -676,7 +676,7 @@ void HumanoidState::updateHumanoidFloorStatus(shared_ptr<HumanoidState>& state)
 			floorRootPrim = floorAssembly->getAssemblyPrimitive();
 			// Need to see RootFloor assembly for checking FilterPhase
 			// It's okay for floorAssembly to be NULL
-			PartInstance* floorRootPart = PartInstance::fromPrimitive(RBX::Mechanism::getRootMovingPrimitive(lastFloorPrim));
+			PartInstance* floorRootPart = PartInstance::fromPrimitive(ARL::Mechanism::getRootMovingPrimitive(lastFloorPrim));
 			state->humanoid->setRootFloorPart(floorRootPart);
 		}
 
@@ -714,7 +714,7 @@ bool HumanoidState::hasFloorChanged(shared_ptr<HumanoidState>& state, Primitive*
 // Assembly is master for state, state is slave
 void HumanoidState::noSimulate(shared_ptr<HumanoidState>& state)			// for non-simulating humanoids, match states
 {
-	RBXASSERT(state.get());
+	ARLASSERT(state.get());
 
 	StateType newType = state->stateFromAssembly();
 
@@ -774,7 +774,7 @@ void HumanoidState::doSimulatorStateTable(shared_ptr<HumanoidState>& state, floa
 		StateType newType = getState(oldType, e);						// hack - should be in state table
         volatile StateType newTypeBackup = newType;
 
-		RBXASSERT(newType != RUNNING_SLAVE);							// only should come to slave side, never out of state table
+		ARLASSERT(newType != RUNNING_SLAVE);							// only should come to slave side, never out of state table
 
         if ((newType != xx) && (newType != oldType) && (humanoid->getStateTransitionEnabled(newType)))
 		{
@@ -801,13 +801,13 @@ void HumanoidState::doSimulatorStateTable(shared_ptr<HumanoidState>& state, floa
     }
     if (isBadType)
     {
-        RBX::Security::setHackFlagVmp<LINE_RAND1>(RBX::Security::hackFlag5, HATE_HSCE_EBX);
+        ARL::Security::setHackFlagVmp<LINE_RAND1>(ARL::Security::hackFlag5, HATE_HSCE_EBX);
     }
     if (isBadNvReg)
     {
         Tokens::sendStatsToken.addFlagFast(HATE_HSCE_EBX);
         Tokens::simpleToken |= HATE_HSCE_EBX;
-        RBX::Security::setHackFlagVmp<LINE_RAND1>(RBX::Security::hackFlag7, HATE_HSCE_EBX);
+        ARL::Security::setHackFlagVmp<LINE_RAND1>(ARL::Security::hackFlag7, HATE_HSCE_EBX);
     }
     VMProtectEnd();
 }
@@ -847,46 +847,46 @@ bool HumanoidState::computeEvent(EventType eventType)
     bool returnValue;
 	switch (eventType) 
 	{
-	case HAS_BUOYANCY:			RBX_JUNK; returnValue = computeHasBuoyancy(); break;
-	case NO_BUOYANCY:			RBX_JUNK; returnValue = !computeHasBuoyancy(); break;
-	case NO_HEALTH:				RBX_JUNK; returnValue = (humanoid->getHealth() <= 0.0f); break;
-	case NO_NECK:				RBX_JUNK; returnValue = (!humanoid->getNeck()); break;
-	case JUMP_CMD:				RBX_JUNK; returnValue = computeJumped(); break;
-	case SIT_CMD:				RBX_JUNK; returnValue = humanoid->getSit(); break;
-	case NO_SIT_CMD:			RBX_JUNK; returnValue = !humanoid->getSit(); break;
-	case PLATFORM_STAND_CMD:	RBX_JUNK; returnValue = humanoid->getPlatformStanding(); break;
-	case NO_PLATFORM_STAND_CMD:	RBX_JUNK; returnValue = !humanoid->getPlatformStanding(); break;
-	case TIPPED:				RBX_JUNK; returnValue = computeTipped(); break;
-	case UPRIGHT:				RBX_JUNK; returnValue = computeUpright(); break;
-	case FACE_LDR:				RBX_JUNK; returnValue = facingLadder; break;
-	case AWAY_LDR:				RBX_JUNK; returnValue = !facingLadder; break;
-	case STRAFE_CMD:			RBX_JUNK; returnValue = false; break;
-	case NO_STRAFE_CMD:			RBX_JUNK; returnValue = !humanoid->getStrafe(); break;
-	case ON_FLOOR:				RBX_JUNK; returnValue = (floorPart != NULL) && (!DFFlag::FixJumpGracePeriod || getRelativeMovementVelocity().y <= 0.0f); break;
-	case OFF_FLOOR:				RBX_JUNK; returnValue = (floorPart == NULL); break;
-	case OFF_FLOOR_GRACE:		RBX_JUNK; returnValue = (noFloorTimer > fallDelay()); break;
-	case TOUCHED:				RBX_JUNK; returnValue = computeTouched(); break;
-	case NEARLY_TOUCHED:		RBX_JUNK; returnValue = computeNearlyTouched(); break;
-	case TOUCHED_HARD:			RBX_JUNK; returnValue = computeTouchedHard(); break;
-	case ACTIVATE_PHYSICS:		RBX_JUNK; returnValue = computeActivatePhysics(); break;
-	case TIMER_UP:				RBX_JUNK; returnValue = (timer <= 0.0f); break;
+	case HAS_BUOYANCY:			ARL_JUNK; returnValue = computeHasBuoyancy(); break;
+	case NO_BUOYANCY:			ARL_JUNK; returnValue = !computeHasBuoyancy(); break;
+	case NO_HEALTH:				ARL_JUNK; returnValue = (humanoid->getHealth() <= 0.0f); break;
+	case NO_NECK:				ARL_JUNK; returnValue = (!humanoid->getNeck()); break;
+	case JUMP_CMD:				ARL_JUNK; returnValue = computeJumped(); break;
+	case SIT_CMD:				ARL_JUNK; returnValue = humanoid->getSit(); break;
+	case NO_SIT_CMD:			ARL_JUNK; returnValue = !humanoid->getSit(); break;
+	case PLATFORM_STAND_CMD:	ARL_JUNK; returnValue = humanoid->getPlatformStanding(); break;
+	case NO_PLATFORM_STAND_CMD:	ARL_JUNK; returnValue = !humanoid->getPlatformStanding(); break;
+	case TIPPED:				ARL_JUNK; returnValue = computeTipped(); break;
+	case UPRIGHT:				ARL_JUNK; returnValue = computeUpright(); break;
+	case FACE_LDR:				ARL_JUNK; returnValue = facingLadder; break;
+	case AWAY_LDR:				ARL_JUNK; returnValue = !facingLadder; break;
+	case STRAFE_CMD:			ARL_JUNK; returnValue = false; break;
+	case NO_STRAFE_CMD:			ARL_JUNK; returnValue = !humanoid->getStrafe(); break;
+	case ON_FLOOR:				ARL_JUNK; returnValue = (floorPart != NULL) && (!DFFlag::FixJumpGracePeriod || getRelativeMovementVelocity().y <= 0.0f); break;
+	case OFF_FLOOR:				ARL_JUNK; returnValue = (floorPart == NULL); break;
+	case OFF_FLOOR_GRACE:		ARL_JUNK; returnValue = (noFloorTimer > fallDelay()); break;
+	case TOUCHED:				ARL_JUNK; returnValue = computeTouched(); break;
+	case NEARLY_TOUCHED:		ARL_JUNK; returnValue = computeNearlyTouched(); break;
+	case TOUCHED_HARD:			ARL_JUNK; returnValue = computeTouchedHard(); break;
+	case ACTIVATE_PHYSICS:		ARL_JUNK; returnValue = computeActivatePhysics(); break;
+	case TIMER_UP:				ARL_JUNK; returnValue = (timer <= 0.0f); break;
 	case NO_TOUCH_ONE_SECOND:
 		{
-            RBX_JUNK;
+            ARL_JUNK;
 			computeTouched();			// updates the timer;
 			computeNearlyTouched();
 			returnValue = (noTouchTimer > 1.0f && !computeHasGyro());
 		}
         break;
-	case FINISHED:		RBX_JUNK; returnValue = finished; break;
-    case HAS_GYRO:		RBX_JUNK; returnValue = computeHasGyro(); break;
+	case FINISHED:		ARL_JUNK; returnValue = finished; break;
+    case HAS_GYRO:		ARL_JUNK; returnValue = computeHasGyro(); break;
 	default:
 		{
 			returnValue = false;
 		}
         break;
 	}
-    RBX_JUNK;
+    ARL_JUNK;
     return returnValue;
 }
 
@@ -904,7 +904,7 @@ HumanoidState* HumanoidState::create(StateType newType, StateType oldType, Human
 
 HumanoidState* HumanoidState::createNew(StateType newType, StateType oldType, Humanoid* humanoid)
 {
-	RBXASSERT(humanoid);
+	ARLASSERT(humanoid);
 
 	switch (newType) 
 	{
@@ -927,7 +927,7 @@ HumanoidState* HumanoidState::createNew(StateType newType, StateType oldType, Hu
 	case PHYSICS:			return new Physics(humanoid, oldType);
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return new Running(humanoid, oldType);
 		}
 	}
@@ -936,7 +936,7 @@ HumanoidState* HumanoidState::createNew(StateType newType, StateType oldType, Hu
 
 void HumanoidState::fireEvent(StateType stateType, bool entering)
 {
-	RBXASSERT(humanoid);
+	ARLASSERT(humanoid);
 
 	switch (stateType) 
 	{
@@ -971,7 +971,7 @@ void HumanoidState::fireEvent(StateType stateType, bool entering)
 
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 		}
 	}
 }
@@ -1007,7 +1007,7 @@ const char *HumanoidState::getStateNameByType(StateType state)
 
 	default:
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 		}
 	}
 	return NULL;
@@ -1022,7 +1022,7 @@ float HumanoidState::computeTilt() const
 	}
 	else 
 	{
-		//RBXASSERT(0);
+		//ARLASSERT(0);
 		return 1.0f;
 	}
 }
@@ -1087,7 +1087,7 @@ bool HumanoidState::computeUpright() const
 bool HumanoidState::computeHasGyro() const
 {
 	const ModelInstance* character = Humanoid::getConstCharacterFromHumanoid(humanoid);
-	RBXASSERT(character);
+	ARLASSERT(character);
 	const BodyMover* bodyMover = character->findConstFirstDescendantOfType<BodyMover>();
 	return (bodyMover != NULL);
 }
@@ -1099,11 +1099,11 @@ bool HumanoidState::computeHasBuoyancy()
 
 bool HumanoidState::computeTouchedByMySimulation()
 {
-	RBXASSERT(humanoid->getWorld());
+	ARLASSERT(humanoid->getWorld());
 	if (World* world = humanoid->getWorld()) 
 	{
 		if (PartInstance* foundTorso = humanoid->getTorsoSlow()) {
-			RBX::SystemAddress myLocalAddress = RBX::Network::Players::findLocalSimulatorAddress(humanoid);
+			ARL::SystemAddress myLocalAddress = ARL::Network::Players::findLocalSimulatorAddress(humanoid);
 
 			if (world->getContactManager()->intersectingMySimulation(foundTorso->getPartPrimitive(), myLocalAddress, 0.0f)) {
 				noTouchTimer = 0.0f;
@@ -1118,7 +1118,7 @@ bool HumanoidState::computeTouchedByMySimulation()
 			}
 		}
 		else {
-			RBXASSERT(0);	// no torso - why am I here?
+			ARLASSERT(0);	// no torso - why am I here?
 		}
 	}
 	return false;
@@ -1143,7 +1143,7 @@ static bool intersectsOutsideOfCharacter(Primitive* check, const Instance* chara
 
 bool HumanoidState::computeTouched() 	// only torso, head
 {
-	RBXASSERT(humanoid->getWorld());
+	ARLASSERT(humanoid->getWorld());
 
     Instance* character = humanoid->getParent();
 
@@ -1164,7 +1164,7 @@ bool HumanoidState::computeTouched() 	// only torso, head
         }
     }
     else {
-			RBXASSERT(0);	// NO TORSO - why am I here?
+			ARLASSERT(0);	// NO TORSO - why am I here?
     }
 	return false;
 }
@@ -1203,12 +1203,12 @@ bool HumanoidState::computeHitByHighImpactObject()
 		for (int i = 0; i < humanPrim->getNumContacts(); ++i )
 		{
 			Contact* contact = humanPrim->getContact(i);
-			RBXASSERT( contact );
+			ARLASSERT( contact );
 
 			for( int j = 0; j < contact->numConnectors(); ++j )
 			{
 				ContactConnector* connector = contact->getConnector(j);
-				RBXASSERT( connector );
+				ARLASSERT( connector );
 
 				lastContactVel = connector->computeRelativeVelocity();
 				if ( lastContactVel <= getHumanoid()->getRagdollCriteria() )
@@ -1311,7 +1311,7 @@ void HumanoidState::findFloor(shared_ptr<PartInstance>& oldFloor)
 // Filters body parts during hit tests with floor
 HitTestFilter::Result HumanoidState::filterResult(const Primitive* testMe) const
 {
-	RBXASSERT(testMe);
+	ARLASSERT(testMe);
 
 	HitTestFilter::Result newResult = HitTestFilter::INCLUDE_PRIM;
 
@@ -1352,13 +1352,13 @@ void HumanoidState::AverageFloorRayCast(shared_ptr<PartInstance> &floorPart, Vec
 
 shared_ptr<PartInstance> HumanoidState::tryFloor(const RbxRay& ray, Vector3& hitLocation, Vector3& hitNormal, float maxDistance, Assembly* humanoidAssembly, PartMaterial& recentFloorMaterial)
 {
-	RBXASSERT(humanoid->getWorld());
+	ARLASSERT(humanoid->getWorld());
 
-	RBXASSERT(humanoidAssembly);
+	ARLASSERT(humanoidAssembly);
 	filteringAssembly = humanoidAssembly;
 	Primitive* floorPrim = NULL;
 
-	RBXASSERT(ray.direction().isUnit());
+	ARLASSERT(ray.direction().isUnit());
 	RbxRay worldRay = RbxRay::fromOriginAndDirection(ray.origin(), ray.direction());
 	worldRay.direction() *= maxDistance;
 
@@ -1381,14 +1381,14 @@ shared_ptr<PartInstance> HumanoidState::tryFloor(const RbxRay& ray, Vector3& hit
 // This works even when throttling and the velocity is not in synch with the character velocity
 const Velocity HumanoidState::getFloorPointVelocity() 
 {
-	RBXASSERT(humanoid->getWorld());
+	ARLASSERT(humanoid->getWorld());
 
 	if (Primitive* p = getFloorPrimitive()) 
 	{
-		RBXASSERT(p->getWorld());
+		ARLASSERT(p->getWorld());
 		if (p->getWorld())
 		{
-			RBXASSERT(floorTouchInWorld != unitializedFloorTouch());
+			ARLASSERT(floorTouchInWorld != unitializedFloorTouch());
 
 			World* world = humanoid->getWorld();
 
@@ -1414,7 +1414,7 @@ const Velocity HumanoidState::getFloorPointVelocity()
 
 Vector3 HumanoidState::getRelativeMovementVelocity()
 {
-	RBX::Primitive *torso = humanoid->getTorsoPrimitiveSlow();
+	ARL::Primitive *torso = humanoid->getTorsoPrimitiveSlow();
 	if (torso)
 	{
 		if (DFFlag::NoWalkAnimWeld && torso->getAssembly() && torso->getAssembly()->getAssemblyState() == Sim::ANCHORED)
@@ -1528,11 +1528,11 @@ bool HumanoidState::findPrimitiveInLadderZone(Adorn* adorn)
 {
     
 	Body* torsoBody = humanoid->getTorsoPrimitiveSlow()->getBody();
-	RBXASSERT(torsoBody);
+	ARLASSERT(torsoBody);
 
 	const CoordinateFrame& cf = torsoBody->getCoordinateFrame();
 	GeometryService *geom = ServiceProvider::find<GeometryService>(humanoid);
-	RBXASSERT(geom);
+	ARLASSERT(geom);
 
 	float bottom = -lowLadderSearch(this);
 	float top = 0.0f;
@@ -1686,7 +1686,7 @@ bool HumanoidState::findLadder(Adorn* adorn)
 			PartInstance *p = PartInstance::fromPrimitive(hitPrim);
 			if (p)
 			{
-				if (p->getPartType() == RBX::TRUSS_PART) return true;
+				if (p->getPartType() == ARL::TRUSS_PART) return true;
 			}
 		}
 
@@ -1838,4 +1838,4 @@ unsigned int HumanoidState::checkComputeEvent()
 
 
 } // namespace HUMAN
-} // namespace RBX
+} // namespace ARL

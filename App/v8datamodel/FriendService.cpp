@@ -8,7 +8,7 @@
 #include "Util/LuaWebService.h"
 #include "v8datamodel/HttpRbxApiService.h"
 
-namespace RBX
+namespace ARL
 {
 
 const char* const sFriendService = "FriendService";
@@ -83,14 +83,14 @@ void FriendService::processServiceSuccess(int maxFriends, std::string result, bo
 
 void FriendService::processServiceError(std::string error, boost::function<void(std::string)> errorFunction)
 {
-	errorFunction( RBX::format("FriendService: Request Failed because %s", error.c_str()) );
+	errorFunction( ARL::format("FriendService: Request Failed because %s", error.c_str()) );
 }
 
 void FriendService::getFriendsOnline(int maxFriends, boost::function<void(shared_ptr<const Reflection::ValueArray>)> resumeFunction, boost::function<void(std::string)> errorFunction) 
 {	
-	if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+	if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 	{
-		apiService->getAsync(FString::FriendsOnlineUrl, true, RBX::PRIORITY_DEFAULT,
+		apiService->getAsync(FString::FriendsOnlineUrl, true, ARL::PRIORITY_DEFAULT,
 			boost::bind(&FriendService::processServiceSuccess, this, maxFriends, _1, resumeFunction, errorFunction),
 			boost::bind(&FriendService::processServiceError, this, _1, errorFunction) );
 	}
@@ -175,7 +175,7 @@ void FriendService::issueFriendRequestOrMakeFriendship(int userId, int otherUser
 
 	if(!createFriendRequestUrl.empty() && !isGuest){
 		//Fire and forget on the website
-		Http(RBX::format(createFriendRequestUrl.c_str(), userId, otherUserId))
+		Http(ARL::format(createFriendRequestUrl.c_str(), userId, otherUserId))
 			.post("", Http::kContentTypeDefaultUnspecified, false, &DontCareResponse);
 	}	
 
@@ -189,7 +189,7 @@ void FriendService::issueFriendRequestOrMakeFriendship(int userId, int otherUser
 		storeAndReplicateFriendStatus(userId, otherUserId, FRIEND_STATUS_FRIEND);
 
 		if(!makeFriendUrl.empty() && !isGuest){
-			Http(RBX::format(makeFriendUrl.c_str(), userId, otherUserId))
+			Http(ARL::format(makeFriendUrl.c_str(), userId, otherUserId))
 				.post("", Http::kContentTypeDefaultUnspecified, false, &DontCareResponse);
 		}
 	}
@@ -219,13 +219,13 @@ void FriendService::rejectFriendRequestOrBreakFriendship(int userId, int otherUs
 	
 	if(!breakFriendUrl.empty()  && !isGuest){
 		//Fire and forget on the website
-		Http(RBX::format(breakFriendUrl.c_str(), userId, otherUserId))
+		Http(ARL::format(breakFriendUrl.c_str(), userId, otherUserId))
 			.post("", Http::kContentTypeDefaultUnspecified, false, &DontCareResponse);
 	}
 
 	if(!deleteFriendRequestUrl.empty() && !isGuest){
 		//Fire and forget on the website
-		Http(RBX::format(deleteFriendRequestUrl.c_str(), userId, otherUserId))
+		Http(ARL::format(deleteFriendRequestUrl.c_str(), userId, otherUserId))
 			.post("", Http::kContentTypeDefaultUnspecified, false, &DontCareResponse);
 	}
 
@@ -268,9 +268,9 @@ void FriendService::ProcessBulkFriendResponse(weak_ptr<FriendService> weakFriend
 					(*stream) >> otherUserId >> comma;
 				}
 			}
-			catch(RBX::base_exception& e)
+			catch(ARL::base_exception& e)
 			{
-				RBX::Log::current()->writeEntry(Log::Error, e.what());
+				ARL::Log::current()->writeEntry(Log::Error, e.what());
 			}
 		}
 		else{
@@ -303,7 +303,7 @@ void FriendService::playerAdded(int userId)
 				
 				bool nonGuests = false;
 				std::ostringstream ostr;
-				ostr << RBX::format(getBulkFriendsUrl.c_str(), userId);
+				ostr << ARL::format(getBulkFriendsUrl.c_str(), userId);
 				for(std::set<int>::const_iterator iter = players.begin(), end=players.end(); iter != end; ++iter)
 				{
 					if((*iter) >= 0){

@@ -20,22 +20,22 @@
 
 namespace
 {
-	void updateCookie(RBX::PartInstance* part)
+	void updateCookie(ARL::PartInstance* part)
 	{
 		if (part)
-			part->setCookie(RBX::PartCookie::compute(part));
+			part->setCookie(ARL::PartCookie::compute(part));
 	}
 }
 
-namespace RBX
+namespace ARL
 {	
 	GfxBinding::~GfxBinding()
 	{
-		RBXASSERT(!isBound());
+		ARLASSERT(!isBound());
 	}
 
 		// connects property change event listeners.
-	void GfxBinding::bindProperties(const shared_ptr<RBX::PartInstance>& part)
+	void GfxBinding::bindProperties(const shared_ptr<ARL::PartInstance>& part)
 	{
 		updateCookie(part.get());
 		connections.push_back(part->combinedSignal.connect(boost::bind(&GfxPart::onCombinedSignal, this, _1, _2)));
@@ -112,7 +112,7 @@ namespace RBX
 		}
 	}
 
-	bool GfxBinding::isInWorkspace(RBX::Instance* part)
+	bool GfxBinding::isInWorkspace(ARL::Instance* part)
 	{
 		Instance* ws = Workspace::findWorkspace(part);
 		return ws && part->isDescendantOf(ws);
@@ -237,16 +237,16 @@ namespace RBX
 			updateCookie(partInstance.get());
 			invalidateEntity();
 		}
-		else if (*descriptor==RBX::Decal::prop_Texture)
+		else if (*descriptor==ARL::Decal::prop_Texture)
 		{
 			updateCookie(partInstance.get());
 			invalidateEntity();
 		}
-		else if (*descriptor==RBX::Decal::prop_Specular)
+		else if (*descriptor==ARL::Decal::prop_Specular)
 			invalidateEntity();
-		else if (*descriptor==RBX::Decal::prop_Shiny)
+		else if (*descriptor==ARL::Decal::prop_Shiny)
 			invalidateEntity();
-		else if (*descriptor==RBX::Decal::prop_Transparency || *descriptor==Decal::prop_LocalTransparencyModifier)
+		else if (*descriptor==ARL::Decal::prop_Transparency || *descriptor==Decal::prop_LocalTransparencyModifier)
 			invalidateEntity();
 	}
 

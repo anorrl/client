@@ -8,7 +8,7 @@
 #include "V8DataModel/UserInputService.h"
 #include "Tool/DragTool.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sGrabTool = "Grab";
 
@@ -28,7 +28,7 @@ void GrabTool::onMouseHover(const shared_ptr<InputObject>& inputObject)
 {
 	PartInstance* foundPart = getUnlockedPartByLocalCharacter(inputObject);
 
-	UserInputService* userInputService = RBX::ServiceProvider::find<UserInputService>(workspace);
+	UserInputService* userInputService = ARL::ServiceProvider::find<UserInputService>(workspace);
 
 	if (!foundPart)
 	{

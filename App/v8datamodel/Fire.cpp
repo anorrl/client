@@ -7,7 +7,7 @@
 
 FASTFLAGVARIABLE(RenderNewParticles2Enable,true);
 
-namespace RBX {
+namespace ARL {
 
 const char* const sFire = "Fire";
 

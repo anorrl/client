@@ -7,11 +7,11 @@
 
 LOGGROUP(NetworkStatsReport)
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 // Used by ConcurrentRakPeer to synchronize the sending of packets in a thread-safe way
-class ConcurrentRakPeer::PacketJob : public RBX::DataModelJob
+class ConcurrentRakPeer::PacketJob : public ARL::DataModelJob
 {
 public:
 	struct SendData
@@ -82,7 +82,7 @@ private:
 			while (sendQueue.pop_if_present(data))
 			{
 				bool result = safePeer->Send(data.bitStream.get(), data.priority, data.reliability, data.orderingChannel, data.systemAddress, data.broadcast) != 0;
-				RBXASSERT(result);
+				ARLASSERT(result);
 			}
 			return TaskScheduler::Stepped;
 		}
@@ -91,7 +91,7 @@ private:
 };
 
 
-class ConcurrentRakPeer::StatsUpdateJob : public RBX::DataModelJob
+class ConcurrentRakPeer::StatsUpdateJob : public ARL::DataModelJob
 {
 private:
     struct SystemAddressHasher {
@@ -204,7 +204,7 @@ private:
 
 void ConcurrentRakPeer::addStats(RakNet::SystemAddress address, boost::function<void(const ConnectionStats&)> callback)
 {
-	RBXASSERT(dataModel->write_requested);
+	ARLASSERT(dataModel->write_requested);
 	StatsUpdateJob::StatsMap::value_type p(address, ConnectionStats());
 	statsUpdateJob->updateStats(p);
 
@@ -219,27 +219,27 @@ void ConcurrentRakPeer::addStats(RakNet::SystemAddress address, boost::function<
 
 void ConcurrentRakPeer::removeStats(RakNet::SystemAddress address)
 {
-	RBXASSERT(dataModel->write_requested);
+	ARLASSERT(dataModel->write_requested);
 	boost::mutex::scoped_lock lock(statsUpdateJob->mapMutex);
 	statsUpdateJob->statsMap.erase(address);
     statsUpdateJob->updateCallbackMap.erase(address);
 }
 
-ConcurrentRakPeer::ConcurrentRakPeer(RakNet::RakPeerInterface* peer, RBX::DataModel* dataModel)
+ConcurrentRakPeer::ConcurrentRakPeer(RakNet::RakPeerInterface* peer, ARL::DataModel* dataModel)
 	:peer(shared_ptr<RakNet::RakPeerInterface>(peer))
 	,dataModel(dataModel)
 {
 	packetJob.reset(new PacketJob(this->peer, dataModel));
 	statsUpdateJob.reset(new StatsUpdateJob(this->peer, dataModel));
-	RBX::TaskScheduler::singleton().add(packetJob);
-	RBX::TaskScheduler::singleton().add(statsUpdateJob);
+	ARL::TaskScheduler::singleton().add(packetJob);
+	ARL::TaskScheduler::singleton().add(statsUpdateJob);
 }
 
 
 ConcurrentRakPeer::~ConcurrentRakPeer()
 {
-	RBX::TaskScheduler::singleton().remove(packetJob);
-	RBX::TaskScheduler::singleton().remove(statsUpdateJob);
+	ARL::TaskScheduler::singleton().remove(packetJob);
+	ARL::TaskScheduler::singleton().remove(statsUpdateJob);
 }
 
 void ConcurrentRakPeer::Send(boost::shared_ptr<const RakNet::BitStream> bitStream, PacketPriority priority, PacketReliability reliability, char orderingChannel, RakNet::SystemAddress systemAddress, bool broadcast )
@@ -274,12 +274,12 @@ double ConcurrentRakPeer::GetCongestionControlExceeded( const RakNet::SystemAddr
 
 RakNet::RakPeerInterface* ConcurrentRakPeer::rawPeer() 
 { 
-	RBXASSERT(dataModel->write_requested);
+	ARLASSERT(dataModel->write_requested);
 	return peer.get(); 
 }
 const RakNet::RakPeerInterface* ConcurrentRakPeer::rawPeer() const 
 { 
-	RBXASSERT(dataModel->write_requested);
+	ARLASSERT(dataModel->write_requested);
 	return peer.get(); 
 }
 

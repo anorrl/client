@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
     #include <OpenGLES/ES2/gl.h>
     #include <OpenGLES/ES2/glext.h>
     #ifdef __OBJC__
@@ -16,7 +16,7 @@
 #else
     #include <GL/glew.h>
 
-    void glewInitRBX();
+    void glewInitARL();
 #endif
 
 #ifdef __ANDROID__

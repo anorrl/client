@@ -8,7 +8,7 @@
 #include "V8Tree/Instance.h"
 #include "V8Tree/Service.h"
 
-namespace RBX
+namespace ARL
 {
     
 	extern const char* const sLoginService;

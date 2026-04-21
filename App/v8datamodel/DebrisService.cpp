@@ -4,9 +4,9 @@
 #include "V8Datamodel/TimerService.h"
 #include "util/standardout.h"
 
-const char* const RBX::sDebrisService = "Debris";
+const char* const ARL::sDebrisService = "Debris";
 
-using namespace RBX;
+using namespace ARL;
 
 REFLECTION_BEGIN();
 static Reflection::PropDescriptor<DebrisService, int> prop_MaxItems("MaxItems", category_Data, &DebrisService::getMaxItems, &DebrisService::setMaxItems);
@@ -30,7 +30,7 @@ static void cleanup(weak_ptr<Instance> item)
 		{
 			i->destroy();
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
 			StandardOut::singleton()->print(MESSAGE_WARNING, e);
 		}
@@ -69,7 +69,7 @@ void DebrisService::setLegacyMaxItems(bool value)
 void DebrisService::setMaxItems(int value)
 {
 	if(!legacyMaxItems){
-		RBX::Security::Context::current().requirePermission(RBX::Security::LocalUser, "DebrisService MaxItems is restricted");
+		ARL::Security::Context::current().requirePermission(ARL::Security::LocalUser, "DebrisService MaxItems is restricted");
 	}
 
 	if (value!=maxItems)

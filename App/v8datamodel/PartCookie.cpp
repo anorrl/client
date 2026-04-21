@@ -11,9 +11,9 @@
 #include "v8datamodel/PyramidInstance.h"
 
 
-namespace RBX {
+namespace ARL {
 
-unsigned int PartCookie::compute(RBX::PartInstance* part)
+unsigned int PartCookie::compute(ARL::PartInstance* part)
 {
 	unsigned int cookie = part->getCookie() & IS_HUMANOID_PART;
 
@@ -41,13 +41,13 @@ unsigned int PartCookie::compute(RBX::PartInstance* part)
 					cookie |= HAS_FILEMESH;
 				}
 			}
-			else if (RBX::Decal* decal = Instance::fastDynamicCast<RBX::Decal>(instance))
+			else if (ARL::Decal* decal = Instance::fastDynamicCast<ARL::Decal>(instance))
 			{
 				if (!decal->getTexture().isNull())
 				{
 					cookie |= HAS_DECALS;
 
-					if (decal->getFace() == RBX::NORM_Z_NEG)
+					if (decal->getFace() == ARL::NORM_Z_NEG)
 					{
 						cookie |= HAS_DECALS_Z_NEG;
 					}

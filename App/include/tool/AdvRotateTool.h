@@ -4,7 +4,7 @@
 
 #include "Tool/AdvMoveTool.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sAdvRotateTool;
 	class AdvRotateTool : public Named<AdvMoveToolBase, sAdvRotateTool>
@@ -37,4 +37,4 @@ namespace RBX {
 
 
 
-} // namespace RBX
+} // namespace ARL

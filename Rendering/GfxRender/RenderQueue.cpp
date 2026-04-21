@@ -6,7 +6,7 @@
 
 #include "rbx/Debug.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -55,7 +55,7 @@ void RenderQueueGroup::sort(SortMode mode)
         break;
 
 	default:
-        RBXASSERT(false);
+        ARLASSERT(false);
 	}
 }
 

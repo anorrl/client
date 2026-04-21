@@ -21,7 +21,7 @@ using namespace G3D;
 
 #ifndef CSG_KERNEL_OLD
 
-namespace RBX {
+namespace ARL {
 
 namespace {
 CSGMeshFactory *csgMeshFactory = 0;
@@ -120,7 +120,7 @@ std::string CSGMesh::createHash(const std::string saltIn) const
         std::swap(byteBuffer[i], byteBuffer[randGen.value() % buffSize]);
     }
     
-  	boost::scoped_ptr<RBX::MD5Hasher> hasher(RBX::MD5Hasher::create());
+  	boost::scoped_ptr<ARL::MD5Hasher> hasher(ARL::MD5Hasher::create());
     hasher->addData((const char*)&byteBuffer[0], byteBuffer.size());
 
     memcpy(&hash[0], hasher->toString().c_str(), hashSize);
@@ -149,7 +149,7 @@ void CSGMesh::computeDecalRemap()
     for (unsigned vi = 0; vi < vertices.size(); ++vi)
     {
         unsigned face = vertices[vi].extra.r - 1;
-        RBXASSERT(face < 6);
+        ARLASSERT(face < 6);
         decalVertexRemap[face].push_back(vi);
         tmpTranslation[vi] = decalVertexRemap[face].size() - 1;
     }
@@ -345,6 +345,6 @@ bool CSGMesh::isNotEmpty() const
 	return false;
 }
 
-} // namespace RBX
+} // namespace ARL
 
 #endif

@@ -17,7 +17,7 @@
 #include "Reflection/Type.h"
 #include "Reflection/EnumConverter.h"
 
-namespace RBX {    
+namespace ARL {    
 
 	const char* const sInputObject = "InputObject";
     
@@ -147,7 +147,7 @@ namespace RBX {
 		, modCodes(0)
 		, inputText("")
 		, scanCode(SDL_SCANCODE_UNKNOWN)
-		, weakWorkspace(weak_from(RBX::ServiceProvider::find<Workspace>(dm)))
+		, weakWorkspace(weak_from(ARL::ServiceProvider::find<Workspace>(dm)))
 		, sourceInputType(inputType)
 	{
 		setName(sInputObject);
@@ -163,7 +163,7 @@ namespace RBX {
 		, modCodes(0)
 		, inputText("")
 		, scanCode(SDL_SCANCODE_UNKNOWN)
-		, weakWorkspace(weak_from(RBX::ServiceProvider::find<Workspace>(dm)))
+		, weakWorkspace(weak_from(ARL::ServiceProvider::find<Workspace>(dm)))
 		, sourceInputType(inputType)
 	{
 		setName(sInputObject);
@@ -179,7 +179,7 @@ namespace RBX {
 		, modCodes(0)
 		, inputText("")
 		, scanCode(SDL_SCANCODE_UNKNOWN)
-		, weakWorkspace(weak_from(RBX::ServiceProvider::find<Workspace>(dm)))
+		, weakWorkspace(weak_from(ARL::ServiceProvider::find<Workspace>(dm)))
 		, sourceInputType(inputType)
 	{
 		setName(sInputObject);
@@ -195,7 +195,7 @@ namespace RBX {
 		, modCodes(0)
 		, inputText("")
 		, scanCode(SDL_SCANCODE_UNKNOWN)
-		, weakWorkspace(weak_from(RBX::ServiceProvider::find<Workspace>(dm)))
+		, weakWorkspace(weak_from(ARL::ServiceProvider::find<Workspace>(dm)))
 		, sourceInputType(inputType)
 	{
 		setName(sInputObject);
@@ -211,7 +211,7 @@ namespace RBX {
 		, inputText(newInputText)
 		, mod(KMOD_NONE)
 		, modifiedKey(newInputText[0])
-		, weakWorkspace(weak_from(RBX::ServiceProvider::find<Workspace>(dm)))
+		, weakWorkspace(weak_from(ARL::ServiceProvider::find<Workspace>(dm)))
 		, sourceInputType(inputType)
 	{
 		setName(sInputObject);
@@ -292,9 +292,9 @@ namespace RBX {
 	Vector4 InputObject::getGuiInset() const
 	{
 		Vector4 guiInset = Vector4::zero();
-		if (shared_ptr<RBX::Workspace> workspace = weakWorkspace.lock())
+		if (shared_ptr<ARL::Workspace> workspace = weakWorkspace.lock())
 		{
-			if (RBX::GuiService* guiService = RBX::ServiceProvider::find<RBX::GuiService>(workspace.get()))
+			if (ARL::GuiService* guiService = ARL::ServiceProvider::find<ARL::GuiService>(workspace.get()))
 			{
 				guiInset = guiService->getGlobalGuiInset();
 			}
@@ -305,7 +305,7 @@ namespace RBX {
 
 	G3D::Vector2int16 InputObject::getWindowSize() const
 	{
-		if (shared_ptr<RBX::Workspace> workspace = weakWorkspace.lock())
+		if (shared_ptr<ARL::Workspace> workspace = weakWorkspace.lock())
 		{
 			if (Camera* camera = workspace->getCamera())
 			{
@@ -440,4 +440,4 @@ namespace RBX {
 	{
 		return (GamepadService::getGamepadIntForEnum(inputType) != -1);
 	}
-} // namespace RBX
+} // namespace ARL

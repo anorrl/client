@@ -5,12 +5,12 @@
 #include "Util/HeapValue.h"
 
 #ifdef _WIN32
-#if defined(_NOOPT) || defined(_DEBUG) || defined(RBX_TEST_BUILD)
+#if defined(_NOOPT) || defined(_DEBUG) || defined(ARL_TEST_BUILD)
 //#define DEBUG_TELEPORT
 #endif
 #endif
 
-namespace RBX {
+namespace ARL {
 
 	class DataModel;
 	class TeleportCallback;
@@ -29,7 +29,7 @@ namespace RBX {
         static bool _waitingForUserInput;
         bool requestingTeleport;
         std::string url;
-        RBX::Timer<RBX::Time::Fast> retryTimer;
+        ARL::Timer<ARL::Time::Fast> retryTimer;
         boost::scoped_ptr<boost::thread> teleportThread;
 
         static HeapValue<int> previousPlaceId;

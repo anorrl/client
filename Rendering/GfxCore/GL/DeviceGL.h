@@ -5,7 +5,7 @@
 
 typedef struct __GLsync *GLsync;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

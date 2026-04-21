@@ -6,7 +6,7 @@
 #include "NetPmc.h"
 #include "security/ApiSecurity.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 class ClientReplicator;
@@ -44,7 +44,7 @@ class DeserializedRockyItem : public DeserializedItem
 {
 public:
     uint8_t idx;
-    RBX::Security::NetPmcChallenge challenge;
+    ARL::Security::NetPmcChallenge challenge;
 
 	DeserializedRockyItem() { type = Item::ItemTypeRocky; }
 	~DeserializedRockyItem() {}
@@ -53,7 +53,7 @@ public:
 };
 
 
-#ifndef RBX_STUDIO_BUILD
+#ifndef ARL_STUDIO_BUILD
 class Replicator::NetPmcResponseItem : public Item
 {
     uint32_t response;
@@ -75,7 +75,7 @@ public:
 };
 #endif
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
 class Replicator::NetPmcChallengeItem : public Item
 {
     uint8_t idx;

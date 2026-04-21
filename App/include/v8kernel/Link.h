@@ -7,11 +7,11 @@
 #include "Util/Memory.h"
 #include "Util/Math.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Body;
 
-	class RBXBaseClass Link
+	class ARLBaseClass Link
 	{
 		friend class Body;
 
@@ -77,7 +77,7 @@ namespace RBX {
 	public:
 		void setJointOffsetCFrame(const CoordinateFrame& value) {
 			offsetCFrame = value;
-			RBXASSERT(!Math::hasNanOrInf(value));
+			ARLASSERT(!Math::hasNanOrInf(value));
 			dirty();
 		}
 	};

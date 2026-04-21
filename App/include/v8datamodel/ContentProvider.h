@@ -19,7 +19,7 @@
 #include "boost/filesystem.hpp"
 #include "boost/optional.hpp"
 
-namespace RBX {
+namespace ARL {
 
 	class AssetFetchMediator;
 	class Instance;
@@ -35,7 +35,7 @@ namespace RBX {
 		typedef DescribedNonCreatable<ContentProvider, Instance, sContentProvider, Reflection::ClassDescriptor::RUNTIME_LOCAL> Super;
 	public:
 		static Log *appLog;
-		static RBX::mutex *appLogLock;
+		static ARL::mutex *appLogLock;
 
 		static float PRIORITY_DEFAULT;
 
@@ -99,7 +99,7 @@ namespace RBX {
 
 		static ContentId registerContent(std::istream& stream);
 
-		bool isUrlBad(RBX::ContentId id);
+		bool isUrlBad(ARL::ContentId id);
 
 		void blockingLoadInstances(ContentId id, std::vector<shared_ptr<Instance> >& instances);
 
@@ -114,8 +114,8 @@ namespace RBX {
 		void setBaseUrl(std::string url);
 		void setThreadPool(int count);
 		void setCacheSize(int count);
-		void preloadContentWithCallback(RBX::ContentId id, float priority, boost::function<void (AsyncHttpQueue::RequestResult)> callback, AsyncHttpQueue::ResultJob jobType = AsyncHttpQueue::AsyncInline, const std::string& expectedType = "");
-		void preloadContent(RBX::ContentId id);
+		void preloadContentWithCallback(ARL::ContentId id, float priority, boost::function<void (AsyncHttpQueue::RequestResult)> callback, AsyncHttpQueue::ResultJob jobType = AsyncHttpQueue::AsyncInline, const std::string& expectedType = "");
+		void preloadContent(ARL::ContentId id);
 
 		void preloadContentBlockingList(shared_ptr<const Reflection::ValueArray> idList, boost::function<void()> resumeFunction, boost::function<void(std::string)> errorFunction);
 		static boost::mutex preloadContentBlockingMutex;
@@ -133,9 +133,9 @@ namespace RBX {
 		shared_ptr<const std::string> requestContentString(const ContentId& id, float priority);
 
 		// Async request
-		void getContent(const RBX::ContentId& id, float priority, AsyncHttpQueue::RequestCallback callback, AsyncHttpQueue::ResultJob jobType = AsyncHttpQueue::AsyncInline, const std::string& expectedType = "");
-		void loadContent(const RBX::ContentId& id, float priority, boost::function<void (AsyncHttpQueue::RequestResult, shared_ptr<Instances>, shared_ptr<std::exception>)> callback, AsyncHttpQueue::ResultJob jobType=AsyncHttpQueue::AsyncInline);
-		void loadContentString(const RBX::ContentId& id, float priority, boost::function<void (AsyncHttpQueue::RequestResult, shared_ptr<const std::string>, shared_ptr<std::exception>)> callback, AsyncHttpQueue::ResultJob jobType=AsyncHttpQueue::AsyncInline);
+		void getContent(const ARL::ContentId& id, float priority, AsyncHttpQueue::RequestCallback callback, AsyncHttpQueue::ResultJob jobType = AsyncHttpQueue::AsyncInline, const std::string& expectedType = "");
+		void loadContent(const ARL::ContentId& id, float priority, boost::function<void (AsyncHttpQueue::RequestResult, shared_ptr<Instances>, shared_ptr<std::exception>)> callback, AsyncHttpQueue::ResultJob jobType=AsyncHttpQueue::AsyncInline);
+		void loadContentString(const ARL::ContentId& id, float priority, boost::function<void (AsyncHttpQueue::RequestResult, shared_ptr<const std::string>, shared_ptr<std::exception>)> callback, AsyncHttpQueue::ResultJob jobType=AsyncHttpQueue::AsyncInline);
 
 		// The following functions throw exceptions upon failure or return NULL
 		shared_ptr<const std::string> getContentString(ContentId id);
@@ -159,7 +159,7 @@ namespace RBX {
 		static bool isUrl(const std::string& s);
 		static bool isHttpUrl(const std::string& s);
 
-		static std::string findAsset(RBX::ContentId contentId); 
+		static std::string findAsset(ARL::ContentId contentId); 
 
 		static Reflection::PropDescriptor<ContentProvider, std::string> desc_baseUrl;
 

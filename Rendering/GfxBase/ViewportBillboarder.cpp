@@ -4,7 +4,7 @@
 #include "V8World/World.h"
 #include "V8World/ContactManager.h"
 
-namespace RBX {
+namespace ARL {
 
 ViewportBillboarder::ViewportBillboarder()
     :guiScreenSize(NULL)
@@ -26,7 +26,7 @@ ViewportBillboarder::ViewportBillboarder(
     ,screenOffset2D(Vector2::zero())
 {}
 
-Vector2 ViewportBillboarder::getScreenOffset(const Rect2D& parentviewport, const RBX::Camera& camera, const CoordinateFrame& desiredModelView)
+Vector2 ViewportBillboarder::getScreenOffset(const Rect2D& parentviewport, const ARL::Camera& camera, const CoordinateFrame& desiredModelView)
 {
     const CoordinateFrame& cameraFrame = camera.coordinateFrame();
 
@@ -92,10 +92,10 @@ void ViewportBillboarder::update(const Rect2D& parentviewport, const Camera& cam
 }
 
 bool ViewportBillboarder::hitTest(const Vector2int16& mousePosition, const Vector2int16& windowSize, 
-                                    RBX::Workspace* workspace, 
+                                    ARL::Workspace* workspace, 
                                     Vector2& billboardMousePosition)
 {
-    const RBX::Camera& camera = *(workspace->getConstCamera());
+    const ARL::Camera& camera = *(workspace->getConstCamera());
 
 	Vector3 x0y0Screen, x1y1Screen;
 

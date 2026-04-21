@@ -5,7 +5,7 @@
 #include "V8World/Primitive.h"
 #include "V8World/Contact.h"
 
-namespace RBX {
+namespace ARL {
 
 const float kTerrainBreakOverlap = -0.2f;
 

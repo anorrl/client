@@ -7,12 +7,12 @@
 
 #include <rbx/threadsafe.h>
 
-namespace RBX
+namespace ARL
 {
     class ThreadPool;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

@@ -70,9 +70,9 @@ DYNAMIC_FASTFLAG(CleanUpInterpolationTimestamps)
 
 namespace
 {
-	bool computeNetworkOwnerIsSomeoneElseImpl(const RBX::SystemAddress& address, const RBX::SystemAddress& localAddress)
+	bool computeNetworkOwnerIsSomeoneElseImpl(const ARL::SystemAddress& address, const ARL::SystemAddress& localAddress)
 	{
-		bool networkOwnerAssigned = ((address != RBX::Network::NetworkOwner::Unassigned()) && (address != RBX::Network::NetworkOwner::ServerUnassigned()));
+		bool networkOwnerAssigned = ((address != ARL::Network::NetworkOwner::Unassigned()) && (address != ARL::Network::NetworkOwner::ServerUnassigned()));
 		bool ownerIsSomeoneElse = (address != localAddress);
 
 		return (networkOwnerAssigned && ownerIsSomeoneElse);
@@ -80,16 +80,16 @@ namespace
 
 	bool currentSecurityIdentityIsScript()
 	{
-		RBX::Security::Context securityContext = RBX::Security::Context::current();
+		ARL::Security::Context securityContext = ARL::Security::Context::current();
 
-		if (securityContext.identity == RBX::Security::LocalGUI_ ||
-			securityContext.identity == RBX::Security::GameScript_ ||
-			securityContext.identity == RBX::Security::GameScriptInRobloxPlace_ ||
-			securityContext.identity == RBX::Security::RobloxGameScript_ ||
-#if defined(RBX_STUDIO_BUILD)
-            securityContext.identity == RBX::Security::StudioPlugin ||
+		if (securityContext.identity == ARL::Security::LocalGUI_ ||
+			securityContext.identity == ARL::Security::GameScript_ ||
+			securityContext.identity == ARL::Security::GameScriptInRobloxPlace_ ||
+			securityContext.identity == ARL::Security::RobloxGameScript_ ||
+#if defined(ARL_STUDIO_BUILD)
+            securityContext.identity == ARL::Security::StudioPlugin ||
 #endif
-			securityContext.identity == RBX::Security::CmdLine_)
+			securityContext.identity == ARL::Security::CmdLine_)
 		{
 			return true;
 		} else {
@@ -98,7 +98,7 @@ namespace
 	}
 }
 
-namespace RBX {
+namespace ARL {
 
 bool PartInstance::showContactPoints = false;
 bool PartInstance::showJointCoordinates = false;
@@ -118,9 +118,9 @@ bool PartInstance::showInterpolationPath = false;
 const char* const  sPart = "BasePart";
 
 // Declare some dictionary entries
-static const RBX::Name& namePart = RBX::Name::declare(sPart);
-static const RBX::Name& nameCFrame = RBX::Name::declare("CFrame");
-static const RBX::Name& namePosition = RBX::Name::declare("Position");
+static const ARL::Name& namePart = ARL::Name::declare(sPart);
+static const ARL::Name& nameCFrame = ARL::Name::declare("CFrame");
+static const ARL::Name& namePosition = ARL::Name::declare("Position");
 
 using namespace Reflection;
 
@@ -235,9 +235,9 @@ static BoundFuncDesc<PartInstance, bool()> desc_getNetOwnershipIsAuto(&PartInsta
 static BoundFuncDesc<PartInstance, shared_ptr<const Reflection::Tuple>()> desc_canSetNetworkOwnershipScript(&PartInstance::canSetNetworkOwnershipScript, "CanSetNetworkOwnership", Security::None);
     
 // shape, size, form factor - both UI and streaming
-const PropDescriptor<PartInstance, RBX::Vector3> prop_Siz("siz", category_Part, NULL, &PartInstance::setPartSizeXml, PropertyDescriptor::LEGACY); // Used to prepare for TA14264
-const PropDescriptor<PartInstance, RBX::Vector3> PartInstance::prop_Size("size", category_Part, &PartInstance::getPartSizeXml, &PartInstance::setPartSizeXml, PropertyDescriptor::STREAMING);
-static const PropDescriptor<PartInstance, RBX::Vector3> prop_SizeUi("Size", category_Part, &PartInstance::getPartSizeUi, &PartInstance::setPartSizeUi, PropertyDescriptor::UI);
+const PropDescriptor<PartInstance, ARL::Vector3> prop_Siz("siz", category_Part, NULL, &PartInstance::setPartSizeXml, PropertyDescriptor::LEGACY); // Used to prepare for TA14264
+const PropDescriptor<PartInstance, ARL::Vector3> PartInstance::prop_Size("size", category_Part, &PartInstance::getPartSizeXml, &PartInstance::setPartSizeXml, PropertyDescriptor::STREAMING);
+static const PropDescriptor<PartInstance, ARL::Vector3> prop_SizeUi("Size", category_Part, &PartInstance::getPartSizeUi, &PartInstance::setPartSizeUi, PropertyDescriptor::UI);
 
 const PropDescriptor<PartInstance, float> PartInstance::prop_Elasticity("Elasticity", category_Part, &PartInstance::getElasticity, &PartInstance::setElasticity);
 const PropDescriptor<PartInstance, float> PartInstance::prop_Friction("Friction", category_Part, &PartInstance::getFriction, &PartInstance::setFriction);
@@ -271,14 +271,14 @@ const BoundFuncDesc<PartInstance, shared_ptr<const Instances>()> func_getTouchin
 
 // Used for network communication - streamed, not in the UI
 // Nuked "v1" because the "" empty string is no longer legal
-const PropDescriptor<PartInstance, RBX::SystemAddress> PartInstance::prop_NetworkOwner("NetworkOwnerV3", category_Data, &PartInstance::getNetworkOwner, &PartInstance::setNetworkOwner, PropertyDescriptor::REPLICATE_ONLY);
+const PropDescriptor<PartInstance, ARL::SystemAddress> PartInstance::prop_NetworkOwner("NetworkOwnerV3", category_Data, &PartInstance::getNetworkOwner, &PartInstance::setNetworkOwner, PropertyDescriptor::REPLICATE_ONLY);
 static RemoteEventDesc<PartInstance,
-    void(RBX::SystemAddress),
-    rbx::remote_signal<void(RBX::SystemAddress)>,
-    rbx::remote_signal<void(RBX::SystemAddress)>* (PartInstance::*)(bool)
+    void(ARL::SystemAddress),
+    rbx::remote_signal<void(ARL::SystemAddress)>,
+    rbx::remote_signal<void(ARL::SystemAddress)>* (PartInstance::*)(bool)
     > event_NetworkOwnerChanged(&PartInstance::getOrCreateNetworkOwnerChangedSignal, "NetworkOwnerChanged", "systemAddress", Security::LocalUser, RemoteEventCommon::REPLICATE_ONLY, RemoteEventCommon::CLIENT_SERVER);
 const PropDescriptor<PartInstance, bool> PartInstance::prop_NetworkIsSleeping("NetworkIsSleeping", category_Data, &PartInstance::getNetworkIsSleeping, &PartInstance::setNetworkIsSleeping, PropertyDescriptor::REPLICATE_ONLY);
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 EventDesc<PartInstance, void(float, float)> event_OwnershipChange(&PartInstance::ownershipChangeSignal, "OwnershipChange", "binaryAddress", "port", Security::None);
 #endif
 
@@ -324,7 +324,7 @@ Extents PartInstance::computeExtentsWorld() const
 
 void PartInstance::addTouchTransmitter()
 {
-	RBXASSERT(!onDemandRead() || onDemandRead()->touchTransmitter == NULL);
+	ARLASSERT(!onDemandRead() || onDemandRead()->touchTransmitter == NULL);
 	shared_ptr<TouchTransmitter> tt = Creatable<Instance>::create<TouchTransmitter>();
 	tt->setParent(this);
 
@@ -342,21 +342,21 @@ void PartInstance::removeTouchTransmitter()
 
 void PartInstance::incrementTouchedSlotCount()
 {
-	RBX_CRASH_ASSERT(!onDemandRead() || onDemandRead()->touchedSlotCount >= 0);
+	ARL_CRASH_ASSERT(!onDemandRead() || onDemandRead()->touchedSlotCount >= 0);
 	if (++(onDemandWrite()->touchedSlotCount) == 1) 
 		// TODO: This isn't thread-safe, as it might appear
 		addTouchTransmitter();
-	RBX_CRASH_ASSERT(onDemandRead()->touchedSlotCount >= 0);
+	ARL_CRASH_ASSERT(onDemandRead()->touchedSlotCount >= 0);
 }
 
 void PartInstance::decrementTouchedSlotCount()
 {
-	RBX_CRASH_ASSERT(!onDemandRead() || onDemandRead()->touchedSlotCount >= 0);
+	ARL_CRASH_ASSERT(!onDemandRead() || onDemandRead()->touchedSlotCount >= 0);
 
 	if (--(onDemandWrite()->touchedSlotCount) == 0)
 		// TODO: This isn't thread-safe, as it might appear
 		removeTouchTransmitter();
-	RBX_CRASH_ASSERT(onDemandRead()->touchedSlotCount >= 0);
+	ARL_CRASH_ASSERT(onDemandRead()->touchedSlotCount >= 0);
 }
 
 void PartInstance::onChildRemoved(Instance* child)
@@ -412,7 +412,7 @@ static float toSpecificGravity(PartMaterial material)
 		case BASALT_MATERIAL: return 2.691;
 		case GROUND_MATERIAL: return 0.9;
 		case CRACKED_LAVA_MATERIAL: return 2.691;
-		default: RBXASSERT(false); return 1;
+		default: ARLASSERT(false); return 1;
 	}
 }
 
@@ -452,9 +452,9 @@ PartInstance::~PartInstance()
 {
 	FASTLOG2(FLog::PartInstanceLifetime, "PartInstance destroyed: %p, primitive: %p", this, getPartPrimitive());
 
-	RBXASSERT(getPartPrimitive());
-	RBXASSERT(getPartPrimitive()->getClump()==NULL);
-	RBXASSERT(getPartPrimitive()->getWorld() == NULL);
+	ARLASSERT(getPartPrimitive());
+	ARLASSERT(getPartPrimitive()->getClump()==NULL);
+	ARLASSERT(getPartPrimitive()->getWorld() == NULL);
 }
 
 OnDemandInstance* PartInstance::initOnDemand()
@@ -494,7 +494,7 @@ void PartInstance::setName(const std::string& value)
 
 void PartInstance::onGuidChanged()
 {
-	RBXASSERT(!getPartPrimitive()->getWorld());		// not in workspace!
+	ARLASSERT(!getPartPrimitive()->getWorld());		// not in workspace!
 	getPartPrimitive()->setGuid(this->getGuid());
 }
 
@@ -541,7 +541,7 @@ bool PartInstance::aligned(bool useGlobalGridSetting) const
 		Vector3 pointInMe = myCoord.pointToWorldSpace(extentPoint);
 		Vector3 pointSnapped = myCoordSnapped.pointToWorldSpace(extentPoint);
 		float delta = (pointInMe - pointSnapped).magnitude();
-		RBXASSERT(delta < (Tolerance::maxOverlapOrGap() * 0.5));
+		ARLASSERT(delta < (Tolerance::maxOverlapOrGap() * 0.5));
 	}
 #endif
 	return isAligned;
@@ -607,7 +607,7 @@ void PartInstance::findParts(Instance* instance, std::vector<weak_ptr<PartInstan
 bool PartInstance::nonNullInWorkspace(const shared_ptr<PartInstance>& part)
 {
 	bool answer = (part.get() && part->getPartPrimitive()->getWorld());
-	RBXASSERT(!answer || part->getPartPrimitive()->inPipeline());
+	ARLASSERT(!answer || part->getPartPrimitive()->inPipeline());
 	return answer;
 }
 
@@ -626,7 +626,7 @@ void convertPartsToNewGANotify(DataModel* dataModel)
 				boost::lexical_cast<std::string>(dataModel->getPlaceID()).c_str(), 0, false);
 }
 
-void PartInstance::convertToNewPhysicalPropRecursive(RBX::Instance* instance)
+void PartInstance::convertToNewPhysicalPropRecursive(ARL::Instance* instance)
 {
 	if (PartInstance* part = Instance::fastDynamicCast<PartInstance>(instance)) 
 	{
@@ -649,7 +649,7 @@ void PartInstance::convertToNewPhysicalPropRecursive(RBX::Instance* instance)
 	}
 }
 
-bool PartInstance::instanceOrChildrenContainsNewCustomPhysics(RBX::Instance* instance)
+bool PartInstance::instanceOrChildrenContainsNewCustomPhysics(ARL::Instance* instance)
 {
 	if (PartInstance* part = Instance::fastDynamicCast<PartInstance>(instance))
 	{
@@ -759,7 +759,7 @@ void PartInstance::onSleepingChanged(bool sleeping)
 	// TODO: This may be removable if we have user slots, like scripts, run asynchronously.
 	shared_ptr<Instance> keep(shared_from(this));
 
-	RBXASSERT(sleeping == getSleeping());
+	ARLASSERT(sleeping == getSleeping());
 	if(onDemandRead())
 		onDemandWrite()->sleepingChangedSignal(sleeping);
 
@@ -812,28 +812,28 @@ const PartInstance* PartInstance::fromConstPrimitive(const Primitive* p)
 Clump* PartInstance::getClump()
 {
 	Primitive* p = this->getPartPrimitive();
-	RBXASSERT(p);
+	ARLASSERT(p);
 	return p ? p->getClump() : NULL;
 }
 
 const Clump* PartInstance::getConstClump() const
 {
 	const Primitive* p = this->getConstPartPrimitive();
-	RBXASSERT(p);
+	ARLASSERT(p);
 	return p ? p->getConstClump() : NULL;
 }
 
 
 PartInstance* PartInstance::fromAssembly(Assembly* a)
 {
-	RBXASSERT(a);
+	ARLASSERT(a);
 	Primitive* p = a->getAssemblyPrimitive();
 	return PartInstance::fromPrimitive(p);
 }
 
 const PartInstance* PartInstance::fromConstAssembly(const Assembly* a)
 {
-	RBXASSERT(a);
+	ARLASSERT(a);
 	const Primitive* p = a->getConstAssemblyPrimitive();
 	return PartInstance::fromConstPrimitive(p);
 }
@@ -903,7 +903,7 @@ void PartInstance::updatePrimitiveState()
 
 	if (world != oldWorld)
 	{
-		RBXASSERT(oldWorld || (getPartPrimitive()->getClump()==NULL));
+		ARLASSERT(oldWorld || (getPartPrimitive()->getClump()==NULL));
 
 		if (oldWorld)
 		{			
@@ -931,13 +931,13 @@ void PartInstance::updatePrimitiveState()
 
 			setMovingManager(workspace);
 
-			const RBX::SystemAddress localAddress = RBX::Network::Players::findLocalSimulatorAddress(this);
+			const ARL::SystemAddress localAddress = ARL::Network::Players::findLocalSimulatorAddress(this);
 
 			// assign network ownership, this allows the part to be simulated asap
 			// this assignment is only temporary until it gets updated by server network owner job
-			if (getNetworkOwner() == RBX::Network::NetworkOwner::Unassigned())
+			if (getNetworkOwner() == ARL::Network::NetworkOwner::Unassigned())
 			{
-				if (RBX::Network::Player* player = RBX::Network::Players::findLocalPlayer(this))
+				if (ARL::Network::Player* player = ARL::Network::Players::findLocalPlayer(this))
 				{
 					CoordinateFrame temp;
 					// TODO WHEN REMOVING THIS FLAG:
@@ -954,7 +954,7 @@ void PartInstance::updatePrimitiveState()
 				}
 				else
 				{
-					getPartPrimitive()->setNetworkOwner(RBX::Network::NetworkOwner::ServerUnassigned());
+					getPartPrimitive()->setNetworkOwner(ARL::Network::NetworkOwner::ServerUnassigned());
 				}
 			}
 
@@ -1044,7 +1044,7 @@ void PartInstance::render3dAdorn(Adorn* adorn)
 				case Sim::WAKE_PENDING:				sleepColor = Color3::purple();	break;
 				case Sim::SLEEPING_CHECKING:		sleepColor = Color3::orange();	break;
 				case Sim::SLEEPING_DEEPLY:			sleepColor = Color3::yellow();	break;
-				default: RBXASSERT(0);	break;
+				default: ARLASSERT(0);	break;
 			}
 			Draw::selectionBox(
 				getPart(),
@@ -1066,7 +1066,7 @@ void PartInstance::render3dAdorn(Adorn* adorn)
 				case Sim::SLEEPING_CHECKING:		wakeColor = Color3::orange();	break;
 				case Sim::RECURSIVE_WAKE_PENDING:	wakeColor = Color3::purple();		break;
 				case Sim::WAKE_PENDING:				wakeColor = Color3::purple();		break;
-				default: RBXASSERT(0);	break;
+				default: ARLASSERT(0);	break;
 			}
 			Draw::selectionBox(
 				getPart(),
@@ -1093,7 +1093,7 @@ void PartInstance::render3dAdorn(Adorn* adorn)
 				else if ( simBody->isJointBody() )
 					Draw::selectionBox(	getPart(), adorn, Color3::blue());
 				else {
-					RBXASSERT( simBody->isContactBody() );
+					ARLASSERT( simBody->isContactBody() );
 					if (simBody->isSymmetricContact())
 					{
 						if (simBody->isVerticalContact())
@@ -1222,8 +1222,8 @@ void PartInstance::render3dAdorn(Adorn* adorn)
 	if (Workspace::showEPhysicsOwners) {
 		if (this->getPartPrimitive()->getAssembly()) {
 			if (Primitive* movingRoot = Mechanism::getRootMovingPrimitive(this->getPartPrimitive())) {
-				const RBX::SystemAddress& systemAddress = PartInstance::fromPrimitive(movingRoot)->getNetworkOwner();
-				Color3 color = RBX::Network::NetworkOwner::colorFromAddress(systemAddress);
+				const ARL::SystemAddress& systemAddress = PartInstance::fromPrimitive(movingRoot)->getNetworkOwner();
+				Color3 color = ARL::Network::NetworkOwner::colorFromAddress(systemAddress);
 				
 				Assembly* a = movingRoot->getAssembly();
                 World* world = getPartPrimitive()->getWorld();
@@ -1251,7 +1251,7 @@ void PartInstance::render3dAdorn(Adorn* adorn)
 			Draw::selectionBox(
 				getPart(),
 				adorn,
-				RBX::Color::colorFromPointer(a));
+				ARL::Color::colorFromPointer(a));
 		}
 	}
     if (PartInstance::showMechanisms) {
@@ -1259,7 +1259,7 @@ void PartInstance::render3dAdorn(Adorn* adorn)
 			Draw::selectionBox(
 				getPart(),
 				adorn,
-				RBX::Color::colorFromPointer(m));
+				ARL::Color::colorFromPointer(m));
 		}
 	}
 }
@@ -1277,9 +1277,9 @@ void PartInstance::render3dSelect(Adorn* adorn, SelectState selectState)
 
 
 
-bool PartInstance::hitTestImpl(const RBX::RbxRay& worldRay, Vector3& worldHitPoint) 
+bool PartInstance::hitTestImpl(const ARL::RbxRay& worldRay, Vector3& worldHitPoint) 
 {
-	RBX::RbxRay rayInPartCoords = getCoordinateFrame().toObjectSpace(worldRay);	
+	ARL::RbxRay rayInPartCoords = getCoordinateFrame().toObjectSpace(worldRay);	
 
 	Vector3 hitPointInPartCoords;
 
@@ -1338,7 +1338,7 @@ void PartInstance::onPVChangedFromReflection()
 
 shared_ptr<const Instances> PartInstance::getTouchingParts()
 {
-	RBXASSERT(getPartPrimitive());
+	ARLASSERT(getPartPrimitive());
 
 	if (ContactManager* contactManager = Workspace::getContactManagerIfInWorkspace(this))
 		return contactManager->getPartCollisions(getPartPrimitive());
@@ -1348,8 +1348,8 @@ shared_ptr<const Instances> PartInstance::getTouchingParts()
 
 void PartInstance::safeMove()
 {
-	RBXASSERT(getPartPrimitive());
-	RBXASSERT_IF_VALIDATING(!getPartPrimitive()->hasAutoJoints());
+	ARLASSERT(getPartPrimitive());
+	ARLASSERT_IF_VALIDATING(!getPartPrimitive()->hasAutoJoints());
 
 	if (ContactManager* contactManager = Workspace::getContactManagerIfInWorkspace(this)) {
 		G3D::Array<Primitive*> temp;
@@ -1375,7 +1375,7 @@ void PartInstance::setPhysics(const CoordinateFrame& value)
 {
 	if (value != getPartPrimitive()->getCoordinateFrame())
 	{
-		RBXASSERT_IF_VALIDATING(Math::isOrthonormal(value.rotation));
+		ARLASSERT_IF_VALIDATING(Math::isOrthonormal(value.rotation));
 
 		getPartPrimitive()->setCoordinateFrame(value);
 	}
@@ -1423,8 +1423,8 @@ void PartInstance::setCoordinateFrame(const CoordinateFrame& value)
 
 CoordinateFrame PartInstance::computeRenderingCoordinateFrame(PartInstance* mechanismRootPart, const Time& t)
 {
-	RBXASSERT(this->getConstPartPrimitive()->getConstMechanism() == mechanismRootPart->getConstPartPrimitive()->getConstMechanism());
-	RBXASSERT(mechanismRootPart->getConstPartPrimitive()->getConstMechanism()->getConstMechanismPrimitive() == mechanismRootPart->getConstPartPrimitive());
+	ARLASSERT(this->getConstPartPrimitive()->getConstMechanism() == mechanismRootPart->getConstPartPrimitive()->getConstMechanism());
+	ARLASSERT(mechanismRootPart->getConstPartPrimitive()->getConstMechanism()->getConstMechanismPrimitive() == mechanismRootPart->getConstPartPrimitive());
 
 	if (this == mechanismRootPart) 
 	{
@@ -1472,7 +1472,7 @@ CoordinateFrame PartInstance::calcRenderingCoordinateFrame(const Time& t)
 	if (DFFlag::HumanoidFloorPVUpdateSignal && !PartInstance::disableInterpolation && m && (!networkOwnerIsSomeoneElse)) 
 	{
 		PartInstance* mechRootPart = PartInstance::fromPrimitive(m->getMechanismPrimitive());
-		Humanoid* humanoid = RBX::Humanoid::modelIsCharacter(mechRootPart->getParent());
+		Humanoid* humanoid = ARL::Humanoid::modelIsCharacter(mechRootPart->getParent());
 		if (humanoid && humanoid->getLastFloor())
 		{
 			const shared_ptr<PartInstance>& floorPart = humanoid->getLastFloor();
@@ -1535,17 +1535,17 @@ bool PartInstance::isProjectile() const
 	const Primitive* clumpRoot = p->getRoot<Primitive>();
 	if (clumpRoot->numChildren() > 0)				// clumps of more than one parts are not projectiles
 		return false;
-	RBXASSERT(p == clumpRoot);
+	ARLASSERT(p == clumpRoot);
 	const Clump* c = p->getConstClump();
 	const Clump* assemblyRoot = c->getRootClump();
 	if (assemblyRoot->numChildren() > 0)			// Assemblies of more than one clumps are not projectiles
 		return false;
-	RBXASSERT(c == assemblyRoot);
+	ARLASSERT(c == assemblyRoot);
 	const Assembly* a = p->getConstAssembly();
 	const Assembly* mechanismRoot = Mechanism::getConstMovingAssemblyRoot(a);
 	if (mechanismRoot->numChildren() > 0)			// Mechanisms of more than one assemblies are not projectiles
 		return false;
-	RBXASSERT(a == mechanismRoot);
+	ARLASSERT(a == mechanismRoot);
 
 	return true;
 }
@@ -1651,7 +1651,7 @@ float PartInstance::getMass() const
 	return getConstPartPrimitive()->getConstBody()->getMass();
 }
 
-RBX::Vector3 PartInstance::getPrincipalMoment() const
+ARL::Vector3 PartInstance::getPrincipalMoment() const
 {
 	return getConstPartPrimitive()->getConstBody()->getIBodyV3();
 
@@ -1730,7 +1730,7 @@ void PartInstance::setPartSizeXml(const Vector3& rbxSize)
 		// since this requirement might cause a size change we need a special case for it
 		if ((!hasThreeDimensionalSize() && rbxSize.xxx() != getPartSizeXml()))
 		{
-			RBXASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
+			ARLASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
 
 			getPartPrimitive()->setSize(rbxSize.xxx());
 
@@ -1740,7 +1740,7 @@ void PartInstance::setPartSizeXml(const Vector3& rbxSize)
 		}
 		else if (rbxSize != getPartSizeXml())
 		{
-			RBXASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
+			ARLASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
 
 			getPartPrimitive()->setSize(rbxSize);
 
@@ -1753,13 +1753,13 @@ void PartInstance::setPartSizeXml(const Vector3& rbxSize)
 	{
 		if (rbxSize != getPartSizeXml())
 		{
-			RBXASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
+			ARLASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
 
 			Vector3 newRbxSize = hasThreeDimensionalSize() ? rbxSize : rbxSize.xxx();
 
 			// current smallest size is plate height (0.4) and grid x,z (1.0)
 			// TODO: ASSERT
-			//RBXASSERT(newRbxSize.max(Vector3(1.0, plateHeight(), 1.0)) == newRbxSize);
+			//ARLASSERT(newRbxSize.max(Vector3(1.0, plateHeight(), 1.0)) == newRbxSize);
 
 			getPartPrimitive()->setSize(newRbxSize);
 
@@ -1776,7 +1776,7 @@ void PartInstance::refreshPartSizeUi()
 
 void PartInstance::setPartSizeUnjoined(const Vector3& uiSize)
 {
-	RBXASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
+	ARLASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
 	Vector3 newRbxSize = this->uiToXmlSize(uiSize);
 	setPartSizeXml(newRbxSize);
 	safeMove();			// only moves if in-world
@@ -1832,7 +1832,7 @@ void PartInstance::onNetworkIsSleepingChanged(Time now)
 	// (which often results in floating parts).
 	if (getNetworkIsSleeping())
 	{
-		RBXASSERT(!now.isZero()); // setNetworkIsSleeping passes 0 for speed when waking up.
+		ARLASSERT(!now.isZero()); // setNetworkIsSleeping passes 0 for speed when waking up.
 		if (DFFlag::CleanUpInterpolationTimestamps)
 		{
 			if (renderingCoordinateFrame && renderingCoordinateFrame->getLocalToRemoteTimeOffset() > 0.0)
@@ -1847,20 +1847,20 @@ void PartInstance::onNetworkIsSleepingChanged(Time now)
 	raiseChanged(prop_NetworkIsSleeping);
 }
 
-const RBX::SystemAddress PartInstance::getNetworkOwner() const
+const ARL::SystemAddress PartInstance::getNetworkOwner() const
 {
-	RBXASSERT(getConstPartPrimitive());
+	ARLASSERT(getConstPartPrimitive());
 	return getConstPartPrimitive()->getNetworkOwner();
 }
 
-void PartInstance::setNetworkOwnerNotifyIfServer(const RBX::SystemAddress value, bool ownershipBecomingManual)
+void PartInstance::setNetworkOwnerNotifyIfServer(const ARL::SystemAddress value, bool ownershipBecomingManual)
 {
 	if (ownershipBecomingManual)
 	{
 		setNetworkOwnershipRule(NetworkOwnership_Manual);
 	}
 
-	if (RBX::Network::Players::serverIsPresent(this, false))
+	if (ARL::Network::Players::serverIsPresent(this, false))
 	{
 		setNetworkOwnerAndNotify(value);
 	}
@@ -1878,13 +1878,13 @@ void PartInstance::setNetworkOwnershipRuleIfServer(NetworkOwnership value)
 	}
 }
 
-void PartInstance::setNetworkOwner(const RBX::SystemAddress value)
+void PartInstance::setNetworkOwner(const ARL::SystemAddress value)
 {
-    const RBX::SystemAddress currentOwner = getConstPartPrimitive()->getNetworkOwner();
+    const ARL::SystemAddress currentOwner = getConstPartPrimitive()->getNetworkOwner();
 	if (value != currentOwner) {
-		RBXASSERT(value != Network::NetworkOwner::Unassigned());
+		ARLASSERT(value != Network::NetworkOwner::Unassigned());
 
-        const RBX::SystemAddress localAddress = RBX::Network::Players::findLocalSimulatorAddress(this);
+        const ARL::SystemAddress localAddress = ARL::Network::Players::findLocalSimulatorAddress(this);
 
         if (value == localAddress)
         {
@@ -1911,23 +1911,23 @@ void PartInstance::setNetworkOwner(const RBX::SystemAddress value)
 
 		getPartPrimitive()->setNetworkOwner(value);
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 		ownershipChangeSignal((float)value.getAddress(), (float)value.getPort());
 #endif
 	}
 }
 
-void PartInstance::setNetworkOwnerAndNotify(const RBX::SystemAddress value)
+void PartInstance::setNetworkOwnerAndNotify(const ARL::SystemAddress value)
 {
-	const RBX::SystemAddress oldOwner = getConstPartPrimitive()->getNetworkOwner();
+	const ARL::SystemAddress oldOwner = getConstPartPrimitive()->getNetworkOwner();
 	setNetworkOwner(value);
 
 	notifyNetworkOwnerChanged(oldOwner);
 }
 
-void PartInstance::notifyNetworkOwnerChanged(const RBX::SystemAddress oldOwner)
+void PartInstance::notifyNetworkOwnerChanged(const ARL::SystemAddress oldOwner)
 {
-	const RBX::SystemAddress currentOwner = getConstPartPrimitive()->getNetworkOwner();
+	const ARL::SystemAddress currentOwner = getConstPartPrimitive()->getNetworkOwner();
 	if (oldOwner != currentOwner)
 	{
 		/*
@@ -1967,7 +1967,7 @@ void PartInstance::notifyNetworkOwnerChanged(const RBX::SystemAddress oldOwner)
 		else
 		{
 			// client should only be changing owner to server
-			RBXASSERT(currentOwner == Network::NetworkOwner::Server());
+			ARLASSERT(currentOwner == Network::NetworkOwner::Server());
 
 			args[0] = currentOwner;
 			raiseEventInvocation(event_NetworkOwnerChanged, args, NULL);
@@ -1976,7 +1976,7 @@ void PartInstance::notifyNetworkOwnerChanged(const RBX::SystemAddress oldOwner)
 	}
 }
 
-rbx::remote_signal<void(RBX::SystemAddress)>* PartInstance::getOrCreateNetworkOwnerChangedSignal(bool create)
+rbx::remote_signal<void(ARL::SystemAddress)>* PartInstance::getOrCreateNetworkOwnerChangedSignal(bool create)
 {
     return NULL;
 }
@@ -2058,7 +2058,7 @@ void PartInstance::setAnchored(bool value)
 			// Anchored will prevent position updates from syncing up between clients.
 			// This sends one final position update to make sure anchored parts stay anchored in same place on 
 			// all clients.
-			const RBX::SystemAddress localAddress = RBX::Network::Players::findLocalSimulatorAddress(this);
+			const ARL::SystemAddress localAddress = ARL::Network::Players::findLocalSimulatorAddress(this);
 			if (this->getNetworkOwner() == localAddress)
 			{
 				raiseChanged(prop_CFrame);
@@ -2136,7 +2136,7 @@ void PartInstance::gatherResetOwnershipDataPreUnanchor(std::vector<Primitive*>& 
 
 void PartInstance::updateOwnershipSettingsPostUnAnchor(std::vector<Primitive*>& previousOwnershipRoots)
 {
-	RBX::SystemAddress consistentAddress;
+	ARL::SystemAddress consistentAddress;
 	bool hasConsistentOwner;
 	bool hasConsistentManualOwnershipRule;
 	PartInstance::checkConsistentOwnerAndRuleResetRoots(consistentAddress, hasConsistentOwner, hasConsistentManualOwnershipRule, previousOwnershipRoots);
@@ -2250,7 +2250,7 @@ void PartInstance::updateOwnershipSettingsPostAnchor(std::vector<Primitive*>& fu
 				else
 				{
 					futureMechRootPart->setNetworkOwner(ownershipData.ownerAddress);
-					if ((RBX::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
+					if ((ARL::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
 						&& ownershipData.ownershipManual)
 					{
 						futureMechRootPart->setNetworkOwnershipRule(NetworkOwnership_Manual);
@@ -2260,7 +2260,7 @@ void PartInstance::updateOwnershipSettingsPostAnchor(std::vector<Primitive*>& fu
 		}
 		else
 		{
-			RBXASSERT(Mechanism::isMovingAssemblyRoot(futureMechRoots[i]->getAssembly()));
+			ARLASSERT(Mechanism::isMovingAssemblyRoot(futureMechRoots[i]->getAssembly()));
 			PartInstance* futureMechRootPart = PartInstance::fromPrimitive(futureMechRoots[i]);
 			if (DFFlag::NetworkOwnershipRuleReplicates)
 			{
@@ -2269,7 +2269,7 @@ void PartInstance::updateOwnershipSettingsPostAnchor(std::vector<Primitive*>& fu
 			else
 			{
 				futureMechRootPart->setNetworkOwner(ownershipData.ownerAddress);
-				if ((RBX::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
+				if ((ARL::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
 					&& ownershipData.ownershipManual)
 				{
 					futureMechRootPart->setNetworkOwnershipRule(NetworkOwnership_Manual);
@@ -2313,7 +2313,7 @@ void PartInstance::updateResetOwnershipSettingsOnUnAnchor()
 				}
 			}
 			// Process for consistency
-			RBX::SystemAddress addressToPass;
+			ARL::SystemAddress addressToPass;
 			bool hasConsistentAddress;
 			bool hasConsistentOwnership;
 			PartInstance::checkConsistentOwnerAndRuleResetRoots(addressToPass, hasConsistentAddress, hasConsistentOwnership, ownershipRoots);
@@ -2331,7 +2331,7 @@ void PartInstance::updateResetOwnershipSettingsOnUnAnchor()
 					else
 					{
 						rootMovingPrimPart->setNetworkOwner(addressToPass);
-						if ((RBX::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
+						if ((ARL::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
 							&& hasConsistentOwnership)
 						{
 							rootMovingPrimPart->setNetworkOwnershipRule(NetworkOwnership_Manual);
@@ -2477,7 +2477,7 @@ void PartInstance::setNetworkOwnershipRule(NetworkOwnership value)
 	if (getNetworkOwnershipRule() != value)
 	{
 		getPartPrimitive()->setNetworkOwnershipRuleInternal(value);
-		if (DFFlag::NetworkOwnershipRuleReplicates && RBX::Network::Players::serverIsPresent(this, false))
+		if (DFFlag::NetworkOwnershipRuleReplicates && ARL::Network::Players::serverIsPresent(this, false))
 		{
 			raisePropertyChanged(prop_networkOwnershipRuleBool);
 			//DFFlagNetworkOwnershipRuleReplicates
@@ -2546,14 +2546,14 @@ void PartInstance::setNetworkOwnerScript(shared_ptr<Instance> playerInstance)
 			}
 		}
 
-		RBX::SystemAddress ownerAddress;
+		ARL::SystemAddress ownerAddress;
 		if (player)
 		{
 			ownerAddress = player->getRemoteAddressAsRbxAddress();
 		}
 		else
 		{
-			ownerAddress = RBX::Network::NetworkOwner::Server();
+			ownerAddress = ARL::Network::NetworkOwner::Server();
 		}
 
 		if (rootPart)
@@ -2584,7 +2584,7 @@ shared_ptr<Instance> PartInstance::getNetworkOwnerScript()
 					boost::lexical_cast<std::string>(dm->getPlaceID()).c_str(), 0, false));
 			}
 
-			RBX::SystemAddress networkOwner = rootPrim->getNetworkOwner();
+			ARL::SystemAddress networkOwner = rootPrim->getNetworkOwner();
 			shared_ptr<Instance> player = Network::Players::findPlayerWithAddress(networkOwner, this);
 			return player;
 
@@ -2667,7 +2667,7 @@ bool PartInstance::isPlayerCharacterPart(PartInstance* part)
 	return false;
 }
 
-void PartInstance::checkConsistentOwnerAndRuleResetRoots(RBX::SystemAddress& consistentAddress, bool& hasConsistentOwner, bool& hasConsistentManualOwnershipRule, std::vector<Primitive*>& primRoots)
+void PartInstance::checkConsistentOwnerAndRuleResetRoots(ARL::SystemAddress& consistentAddress, bool& hasConsistentOwner, bool& hasConsistentManualOwnershipRule, std::vector<Primitive*>& primRoots)
 {
 	bool ownerInitialized = false;
 	consistentAddress                = Network::NetworkOwner::Unassigned();
@@ -2837,7 +2837,7 @@ bool PartInstance::resizeFloat(NormalId localNormalId, float amount, bool checkI
 
 bool PartInstance::resizeImpl(NormalId localNormalId, int amount)
 {
-	RBXASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
+	ARLASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
 
 	if (amount == 0) {
 		return false;
@@ -2855,7 +2855,7 @@ bool PartInstance::resizeImpl(NormalId localNormalId, int amount)
 		else {
 			if (!DFFlag::FormFactorDeprecated) 
 			{
-				RBXASSERT(getFormFactor() == PartInstance::SYMETRIC);
+				ARLASSERT(getFormFactor() == PartInstance::SYMETRIC);
 			}
 			deltaSizeUi = amount * Vector3(1,1,1);
 		}  
@@ -2887,7 +2887,7 @@ bool PartInstance::resizeImpl(NormalId localNormalId, int amount)
 
 bool PartInstance::advResizeImpl(NormalId localNormalId, float amount, bool checkIntersection)
 {
-	RBXASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
+	ARLASSERT_VERY_FAST(!getPartPrimitive()->hasAutoJoints());
 
 	// Blow out if the requested change is less than the min resize increment.
 	if ( fabs(amount) < getMinimumResizeIncrement() ) {
@@ -2935,7 +2935,7 @@ bool PartInstance::advResizeImpl(NormalId localNormalId, float amount, bool chec
 		else {
 			if (!DFFlag::FormFactorDeprecated) 
 			{
-				RBXASSERT(getFormFactor() == PartInstance::SYMETRIC);
+				ARLASSERT(getFormFactor() == PartInstance::SYMETRIC);
 			}
 			deltaSizeUi = amount * Vector3(1,1,1);
 		}
@@ -3009,11 +3009,11 @@ float PartInstance::getMinimumXOrZDimension(void) const
 
 
 // This is in Grid Location units - parts have their corner at 0,0,0
-Surface PartInstance::getSurface(const RBX::RbxRay& gridRay, int& surfaceId)
+Surface PartInstance::getSurface(const ARL::RbxRay& gridRay, int& surfaceId)
 {
 	const CoordinateFrame& currentCoord = getCoordinateFrame();
 
-	RBX::RbxRay localRay = currentCoord.toObjectSpace(gridRay);
+	ARL::RbxRay localRay = currentCoord.toObjectSpace(gridRay);
 
 	Extents extents = getPartPrimitive()->getExtentsLocal();
 	Vector3 hitPoint;
@@ -3034,7 +3034,7 @@ Surface PartInstance::getSurface(const RBX::RbxRay& gridRay, int& surfaceId)
 			return Surface(this, (NormalId)surfaceId);
 		}
 	}
-	RBXASSERT_IF_VALIDATING(0);
+	ARLASSERT_IF_VALIDATING(0);
 	return Surface(NULL, NORM_X);
 }
 
@@ -3060,7 +3060,7 @@ LegacyController::InputType PartInstance::getInput(NormalId surfId) const
 
 void PartInstance::setSurfaceInput(NormalId surfId, LegacyController::InputType inputType)
 {
-	RBXASSERT(getPartPrimitive());
+	ARLASSERT(getPartPrimitive());
 	SurfaceData current = getPartPrimitive()->getSurfaceData(surfId);
 	if (inputType != current.inputType)
 	{
@@ -3073,13 +3073,13 @@ void PartInstance::setSurfaceInput(NormalId surfId, LegacyController::InputType 
 
 float PartInstance::getParamA(NormalId surfId) const
 {
-	RBXASSERT(getConstPartPrimitive());
+	ARLASSERT(getConstPartPrimitive());
 	return getConstPartPrimitive()->getConstSurfaceData(surfId).paramA;
 }
 
 float PartInstance::getParamB(NormalId surfId) const
 {
-	RBXASSERT(getConstPartPrimitive());
+	ARLASSERT(getConstPartPrimitive());
 	return getConstPartPrimitive()->getConstSurfaceData(surfId).paramB;
 }
 
@@ -3107,12 +3107,12 @@ void PartInstance::setParamB(NormalId surfId, float value)
 	}
 }
 
-bool PartInstance::containedByFrustum(const RBX::Frustum& frustum) const
+bool PartInstance::containedByFrustum(const ARL::Frustum& frustum) const
 {
 	return frustum.containsAABB(getConstPartPrimitive()->getExtentsLocal(), getCoordinateFrame());
 }
 
-bool PartInstance::intersectFrustum(const RBX::Frustum& frustum) const
+bool PartInstance::intersectFrustum(const ARL::Frustum& frustum) const
 {
     return frustum.intersectsAABB(getConstPartPrimitive()->getExtentsLocal(), getCoordinateFrame());
 }
@@ -3142,7 +3142,7 @@ static float getComponent(const XmlElement* element, const XmlTag& name)
 	float result = 0.0f;
 	if(const XmlElement* valueElement = element->findFirstChildByTag(name)){
 		bool gotComponent = valueElement->getValue(result);
-		RBXASSERT(gotComponent);
+		ARLASSERT(gotComponent);
 		return result;
 	}
 	return result;
@@ -3150,7 +3150,7 @@ static float getComponent(const XmlElement* element, const XmlTag& name)
 
 namespace Reflection {
 template<>
-void RBX::TypedPropertyDescriptor<CoordinateFrame>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void ARL::TypedPropertyDescriptor<CoordinateFrame>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -3172,7 +3172,7 @@ void RBX::TypedPropertyDescriptor<CoordinateFrame>::readValue(DescribedBase* ins
 }
 
 template<>
-void RBX::TypedPropertyDescriptor<CoordinateFrame>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void ARL::TypedPropertyDescriptor<CoordinateFrame>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	// Write the data out in accordance with ROBLOX Schema
 	G3D::CoordinateFrame c = getValue(instance);
@@ -3197,17 +3197,17 @@ int TypedPropertyDescriptor<CoordinateFrame>::getDataSize(const DescribedBase* i
 }
 
 template<>
-bool RBX::TypedPropertyDescriptor<CoordinateFrame>::hasStringValue() const {
+bool ARL::TypedPropertyDescriptor<CoordinateFrame>::hasStringValue() const {
 	return false;
 }
 
 template<>
-std::string RBX::TypedPropertyDescriptor<CoordinateFrame>::getStringValue(const DescribedBase* instance) const{
+std::string ARL::TypedPropertyDescriptor<CoordinateFrame>::getStringValue(const DescribedBase* instance) const{
 	return Super::getStringValue(instance);
 }
 
 template<>
-bool RBX::TypedPropertyDescriptor<CoordinateFrame>::setStringValue(DescribedBase* instance, const std::string& text) const {
+bool ARL::TypedPropertyDescriptor<CoordinateFrame>::setStringValue(DescribedBase* instance, const std::string& text) const {
 	return Super::setStringValue(instance, text);
 }
 }//namespace Reflection

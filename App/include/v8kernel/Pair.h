@@ -7,7 +7,7 @@
 #include "Util/G3DCore.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Body;
 
@@ -51,13 +51,13 @@ namespace RBX {
 		float		edgeLength1;
 		struct {
 			union {
-				RBX::NormalId	normalID0;
+				ARL::NormalId	normalID0;
 				float			radius0;		};
 			union {
-				RBX::NormalId	normalID1;
+				ARL::NormalId	normalID1;
 				float			radiusSum;		};
 			union {
-				RBX::NormalId	planeID;// edge/edge/plane coords - the normal from the plane
+				ARL::NormalId	planeID;// edge/edge/plane coords - the normal from the plane
 				int				point0ID;		};
 		} pairData;
 
@@ -78,14 +78,14 @@ namespace RBX {
 				case (POINT_PLANE_PAIR):		computePointPlane(_params);			break;
 				case (EDGE_EDGE_PLANE_PAIR):	computeEdgeEdgePlane2(_params);		break;
 				case (EDGE_EDGE_PAIR):			computeEdgeEdge(_params);			break;
-				default:	RBXASSERT(0);
+				default:	ARLASSERT(0);
 			}
 		}
 
 		///////////////// GeoPair geometric functions
 
 		void setPointPlane(const Vector3* _offsetPoint,
-							const Vector3* _offsetPlane, int _pointID, RBX::NormalId _planeNormalID) {
+							const Vector3* _offsetPlane, int _pointID, ARL::NormalId _planeNormalID) {
 			offset0 = *_offsetPoint;
 			offset1 = *_offsetPlane;
 			pairData.point0ID = _pointID;		// purely here for the match
@@ -94,7 +94,7 @@ namespace RBX {
 		}
 
 		void setEdgeEdgePlane(const Vector3* _edge0, const Vector3* _edge1, 
-				RBX::NormalId _normal0, RBX::NormalId _normal1, RBX::NormalId _planeID, float _edgeLength0, float _edgeLength1) {
+				ARL::NormalId _normal0, ARL::NormalId _normal1, ARL::NormalId _planeID, float _edgeLength0, float _edgeLength1) {
 			offset0 = *_edge0;
 			offset1 = *_edge1;
 			pairData.normalID0 = _normal0;
@@ -106,7 +106,7 @@ namespace RBX {
 		}
 
 		void setEdgeEdge(const Vector3* _edge0, const Vector3* _edge1, 
-							RBX::NormalId _normal0, RBX::NormalId _normal1) {
+							ARL::NormalId _normal0, ARL::NormalId _normal1) {
 			offset0 = *_edge0;
 			offset1 = *_edge1;
 			pairData.normalID0 = _normal0;
@@ -130,7 +130,7 @@ namespace RBX {
 			}
 
 			else {
-				RBXASSERT(_pairType == EDGE_EDGE_PAIR);
+				ARLASSERT(_pairType == EDGE_EDGE_PAIR);
 				return (	(	(_b0 == body0)
 							&&	(_b1 == body1) 
 							&&  (param0 == pairData.normalID0)
@@ -145,4 +145,4 @@ namespace RBX {
 		}
 	};
 
-} // namespace RBX
+} // namespace ARL

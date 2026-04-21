@@ -13,7 +13,7 @@
 
 #include <boost/pool/pool_alloc.hpp>
 
-namespace RBX
+namespace ARL
 {
 	class Humanoid;
     class MegaClusterInstance;
@@ -21,11 +21,11 @@ namespace RBX
     namespace Voxel { struct DataModelPartCache; }
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
-    using RBX::Voxel::DataModelPartCache;
+    using ARL::Voxel::DataModelPartCache;
     class VisualEngine;
 	class FastCluster;
 	class SuperCluster;
@@ -38,49 +38,49 @@ namespace Graphics
 		public Voxel2::GridListener
 	{
 	private:
-		RBX::mutex queue_mutex;
+		ARL::mutex queue_mutex;
 		CRenderSettings* mSettings;
 	
 		// debugging.
 		std::vector<rbx::signals::connection> connections;
 
 	protected:
-		boost::shared_ptr<RBX::DataModel> dataModel;
+		boost::shared_ptr<ARL::DataModel> dataModel;
 		RenderStats* mRenderStats; // for debugging.
 		const RenderCaps* mRenderCaps;
 
 		unsigned long currentFrameNum;
-		RBX::Frustum updateFrustum;
+		ARL::Frustum updateFrustum;
 
 	public:
         void unbind();
 
 		// some of these should be made private?
 		// call this in response to sleep events.
-		void notifyAwake(RBX::GfxPart* part);
-		void notifySleeping(RBX::GfxPart* part); 
+		void notifyAwake(ARL::GfxPart* part);
+		void notifySleeping(ARL::GfxPart* part); 
 		
-		void notifyDestroyed(RBX::GfxPart* part);
+		void notifyDestroyed(ARL::GfxPart* part);
 
 		// call this when a part or a cluster's properties changed, and must be refreshed.
-		void queueInvalidatePart(RBX::GfxPart* part);
+		void queueInvalidatePart(ARL::GfxPart* part);
 
-		void queueInvalidateFastCluster(RBX::GfxPart* cluster);
-		void queuePriorityInvalidateFastCluster(RBX::GfxPart* cluster);
-		void queueFullInvalidateMegaCluster(RBX::GfxPart* part);
-		void queueChunkInvalidateMegaCluster(RBX::GfxPart* part, const SpatialRegion::Id& pos, bool isWaterChunk);
+		void queueInvalidateFastCluster(ARL::GfxPart* cluster);
+		void queuePriorityInvalidateFastCluster(ARL::GfxPart* cluster);
+		void queueFullInvalidateMegaCluster(ARL::GfxPart* part);
+		void queueChunkInvalidateMegaCluster(ARL::GfxPart* part, const SpatialRegion::Id& pos, bool isWaterChunk);
 
         void invalidateAllFastClusters();
 
-		void updatePrepare(unsigned long currentFrameNum, const RBX::Frustum& updateFrustum);
+		void updatePrepare(unsigned long currentFrameNum, const ARL::Frustum& updateFrustum);
         void updatePerform();
 
-		void notifyWaitingForAssets(RBX::GfxPart* part, const std::vector<RBX::ContentId>& ids);
+		void notifyWaitingForAssets(ARL::GfxPart* part, const std::vector<ARL::ContentId>& ids);
 
-		void queuePartToCreate(const boost::shared_ptr<RBX::PartInstance>& part);
-		void queueAttachementToCreate(const boost::shared_ptr<RBX::Instance>& instance);
+		void queuePartToCreate(const boost::shared_ptr<ARL::PartInstance>& part);
+		void queueAttachementToCreate(const boost::shared_ptr<ARL::Instance>& instance);
 
-		void queueFastClusterCheck(RBX::GfxPart* cluster, bool isFW);
+		void queueFastClusterCheck(ARL::GfxPart* cluster, bool isFW);
 
 		bool arePartsWaitingForAssets();
 
@@ -92,31 +92,31 @@ namespace Graphics
 		struct MegaClusterChunk
 		{
 			MegaClusterChunk() : chunkPos(Vector3int16::zero()) {};
-			MegaClusterChunk(RBX::GfxPart* part, const SpatialRegion::Id& pos, bool isWaterChunk)
+			MegaClusterChunk(ARL::GfxPart* part, const SpatialRegion::Id& pos, bool isWaterChunk)
 				: cluster(part), chunkPos(pos), isWaterChunk(isWaterChunk) {};
-			RBX::GfxPart* cluster;
+			ARL::GfxPart* cluster;
 			SpatialRegion::Id chunkPos;
 			bool isWaterChunk;
 		};
 		typedef std::vector<MegaClusterChunk> MegaClusterChunkList;
 
-		static bool isPartStatic(RBX::PartInstance* part);
+		static bool isPartStatic(ARL::PartInstance* part);
 
-		const boost::shared_ptr<RBX::DataModel>& getDataModel() const { return dataModel; }
+		const boost::shared_ptr<ARL::DataModel>& getDataModel() const { return dataModel; }
 
 	protected:
 		rbx::signals::scoped_connection workspaceDescendantAddedConnection;
         rbx::signals::scoped_connection propertyChangedSignal;
 
-		void addMegaCluster(const shared_ptr<RBX::PartInstance>& part);
-		void addFastPart(const shared_ptr<RBX::PartInstance>& part, bool isFW, bool isPriorityPart);
-		void addAttachment(const shared_ptr<RBX::Instance>& instance);
+		void addMegaCluster(const shared_ptr<ARL::PartInstance>& part);
+		void addFastPart(const shared_ptr<ARL::PartInstance>& part, bool isFW, bool isPriorityPart);
+		void addAttachment(const shared_ptr<ARL::Instance>& instance);
 
-		typedef boost::unordered_set<RBX::GfxPart*, boost::hash<RBX::GfxPart*>, std::equal_to<RBX::GfxPart*>, boost::fast_pool_allocator<RBX::GfxPart*> > GfxPartSet;	
+		typedef boost::unordered_set<ARL::GfxPart*, boost::hash<ARL::GfxPart*>, std::equal_to<ARL::GfxPart*>, boost::fast_pool_allocator<ARL::GfxPart*> > GfxPartSet;	
 		GfxPartSet mFastClustersToCheck;
 		GfxPartSet mFastClustersToCheckFW;
 	private:
-		void onWorkspaceDescendantAdded(boost::shared_ptr<RBX::Instance> descendant);
+		void onWorkspaceDescendantAdded(boost::shared_ptr<ARL::Instance> descendant);
 
 		void updateDynamicParts();
 		void processPendingMegaClusters();
@@ -129,11 +129,11 @@ namespace Graphics
         void computeLightingPrepare();
 		void computeLightingPerform();
 
-        void onPropertyChanged(const RBX::Reflection::PropertyDescriptor* descriptor);
+        void onPropertyChanged(const ARL::Reflection::PropertyDescriptor* descriptor);
 
 		void updateMegaClusters(bool bulkExecution);
 
-		typedef boost::unordered_map<RBX::PartInstance*, boost::weak_ptr<RBX::PartInstance> > PartInstanceSet;		
+		typedef boost::unordered_map<ARL::PartInstance*, boost::weak_ptr<ARL::PartInstance> > PartInstanceSet;		
 
 		GfxPartSet mDynamicNodes;
 		GfxPartSet mInvalidatedParts;
@@ -151,30 +151,30 @@ namespace Graphics
 		MegaClusterChunkList mMiddleChunkInvalidates;
 		MegaClusterChunkList mFarChunkInvalidates;
 		
-		typedef boost::unordered_map<RBX::Instance*, boost::weak_ptr<RBX::Instance> > InstanceSet;		
+		typedef boost::unordered_map<ARL::Instance*, boost::weak_ptr<ARL::Instance> > InstanceSet;		
 		InstanceSet mAddedAttachementInstances;
 
-		typedef std::multimap<RBX::GfxPart*, RBX::ContentId> AssetPartMap;
+		typedef std::multimap<ARL::GfxPart*, ARL::ContentId> AssetPartMap;
 		AssetPartMap mWaitingParts; // parts waiting for content.
 
 	public:
 		typedef SpatialGrid<FastCluster>  FastGrid;
 		typedef SpatialGrid<SuperCluster> FastGridSC;
 
-		SceneUpdater(shared_ptr<RBX::DataModel> dataModel, VisualEngine* ve);
+		SceneUpdater(shared_ptr<ARL::DataModel> dataModel, VisualEngine* ve);
 		~SceneUpdater();
 	
 		void destroyAttachment(GfxPart* object);
 		void destroyFastCluster(FastCluster* cluster);
 		void destroySuperCluster(SuperCluster* cluster);
 		
-		static RBX::Humanoid* getHumanoid(RBX::PartInstance* part);
+		static ARL::Humanoid* getHumanoid(ARL::PartInstance* part);
 		bool checkAddSeenFastClusters(const SpatialGridIndex& index);
 
-		void lightingInvalidateOccupancy(const RBX::Extents& extents, const RBX::Vector3& highPriorityPoint, bool isFixed);
-		void lightingInvalidateLocal(const RBX::Extents& extents);
+		void lightingInvalidateOccupancy(const ARL::Extents& extents, const ARL::Vector3& highPriorityPoint, bool isFixed);
+		void lightingInvalidateLocal(const ARL::Extents& extents);
 
-		RBX::WindowAverage<double,double>::Stats getLightingTimeStats();
+		ARL::WindowAverage<double,double>::Stats getLightingTimeStats();
 		unsigned getLastOccupancyUpdates() { return mLastOccupancyUpdates; }
 		unsigned getLastLightingUpdates() { return mLastLightingUpdates; }
 		unsigned getLightOldestAge();
@@ -199,7 +199,7 @@ namespace Graphics
 		bool seenIndexBefore(const SpatialGridIndex& index);
 		void checkAndActivateLighting();
 
-		RBX::WindowAverage<double, double> mLightingComputeAverage;
+		ARL::WindowAverage<double, double> mLightingComputeAverage;
 		unsigned mLastOccupancyUpdates;
 		unsigned mLastLightingUpdates;
 

@@ -11,15 +11,15 @@
 
 typedef boost::unordered_set<std::string> Set;
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sCacheableContentProvider;
 	class CacheableContentProvider
-		: public DescribedNonCreatable<CacheableContentProvider, Instance, sCacheableContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL>
+		: public DescribedNonCreatable<CacheableContentProvider, Instance, sCacheableContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL>
 		, public Service
 		, public HeartbeatInstance
 	{
-		typedef DescribedNonCreatable<CacheableContentProvider, Instance, sCacheableContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL> Super;
+		typedef DescribedNonCreatable<CacheableContentProvider, Instance, sCacheableContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL> Super;
 
 	protected:
 		class CachedItem

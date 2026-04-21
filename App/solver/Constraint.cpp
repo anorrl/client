@@ -11,7 +11,7 @@
 FASTFLAGVARIABLE( PGSVariablePenetrationMarginFix, false )
 FASTFLAGVARIABLE( PGSApplyImpulsesAtMidpoints, false )
 
-namespace RBX
+namespace ARL
 {
 
 //
@@ -627,9 +627,9 @@ void ConstraintAchievePosition::buildEquation( ConstraintJacobianPair* _jacobian
     Vector3 t = ( absoluteDeltaP - thresholdMin ) / ( thresholdMax - thresholdMin );
     t = fselv( Vector3(1.0f), fselv( Vector3(0.0f), t, thresholdMin - absoluteDeltaP ), absoluteDeltaP - thresholdMax );
 
-    RBXASSERT( t.x>=0.0f && t.x<=1.0f );
-    RBXASSERT( t.y>=0.0f && t.y<=1.0f );
-    RBXASSERT( t.z>=0.0f && t.z<=1.0f );
+    ARLASSERT( t.x>=0.0f && t.x<=1.0f );
+    ARLASSERT( t.y>=0.0f && t.y<=1.0f );
+    ARLASSERT( t.z>=0.0f && t.z<=1.0f );
 
     Vector3 stabilizedVel = t * targetVelocity;
     Vector3 vectorToSolveByStabilization = ( Vector3(1.0f) - t ) * deltaP;

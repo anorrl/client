@@ -7,7 +7,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 
 bool Poly::hitTest(const Ray& rayInMe, Vector3& localHitPoint, Vector3& surfaceNormal)
 {
@@ -59,7 +59,7 @@ Vector3 Poly::getCofmOffset( void ) const
 void Poly::setSize(const G3D::Vector3& _size)
 {
 	Super::setSize(_size);
-	RBXASSERT(_size == getSize());
+	ARLASSERT(_size == getSize());
 
 	centerToCornerDistance = 0.5f * _size.magnitude();
 
@@ -84,25 +84,25 @@ size_t Poly::closestSurfaceToPoint( const Vector3& pointInBody ) const
 			}
 		}
 	}
-	RBXASSERT( faceId != (size_t)-1 );
+	ARLASSERT( faceId != (size_t)-1 );
 	return faceId;
 }
 
 Plane Poly::getPlaneFromSurface( const size_t surfaceId ) const 
 {
-    RBXASSERT( surfaceId != (size_t)-1 );
+    ARLASSERT( surfaceId != (size_t)-1 );
     return surfaceId != (size_t)-1 ? mesh->getFace(surfaceId)->plane() : Plane();
 }
 
 Vector3 Poly::getSurfaceNormalInBody( const size_t surfaceId ) const 
 {
-    RBXASSERT( surfaceId != (size_t)-1 );
+    ARLASSERT( surfaceId != (size_t)-1 );
     return surfaceId != (size_t)-1 ? mesh->getFace(surfaceId)->normal() : Vector3(0, 0, 0);
 }
 
 Vector3 Poly::getSurfaceVertInBody( const size_t surfaceId, const int vertId ) const 
 {
-    RBXASSERT( surfaceId != (size_t)-1 );
+    ARLASSERT( surfaceId != (size_t)-1 );
 	return surfaceId != (size_t)-1 ? mesh->getFace(surfaceId)->getVertex(vertId)->getOffset() : Vector3(0, 0, 0);
 }
 
@@ -120,25 +120,25 @@ size_t Poly::getMostAlignedSurface( const Vector3& vecInWorld, const G3D::Matrix
 			faceId = i;
 		}
 	}
-    RBXASSERT( faceId != (size_t)-1 );
+    ARLASSERT( faceId != (size_t)-1 );
 	return faceId;
 }
 
 int Poly::getNumVertsInSurface( const size_t surfaceId ) const
 {
-    RBXASSERT( surfaceId != (size_t)-1 );
+    ARLASSERT( surfaceId != (size_t)-1 );
     return surfaceId != (size_t)-1 ? mesh->getFace(surfaceId)->numVertices() : 0;
 }
 
 bool Poly::vertOverlapsFace( const Vector3& pointInBody, const size_t surfaceId ) const
 {
-   RBXASSERT( surfaceId != (size_t)-1 );
+   ARLASSERT( surfaceId != (size_t)-1 );
    return surfaceId != (size_t)-1 ? mesh->getFace(surfaceId)->pointInExtrusion(pointInBody) : false; 
 }
 
 CoordinateFrame Poly::getSurfaceCoordInBody( const size_t surfaceId ) const
 {
-    RBXASSERT( surfaceId != (size_t)-1 );
+    ARLASSERT( surfaceId != (size_t)-1 );
     CoordinateFrame aCS;
     if( surfaceId == (size_t)-1 )
 	    return aCS;
@@ -153,7 +153,7 @@ CoordinateFrame Poly::getSurfaceCoordInBody( const size_t surfaceId ) const
 std::vector<Vector3> Poly::polygonIntersectionWithFace( const std::vector<Vector3>& otherPolygonInBody, const size_t surfaceId ) const
 {
 
-    RBXASSERT( surfaceId != (size_t)-1 );
+    ARLASSERT( surfaceId != (size_t)-1 );
     std::vector<Vector3> intersection3d;
     if( surfaceId == (size_t)-1 )
 	    return intersection3d;
@@ -357,4 +357,4 @@ bool Poly::FaceEdgesOverlapped( const CoordinateFrame& myCf, size_t& myFaceId, c
 }
 
 
-} // namespace RBX
+} // namespace ARL

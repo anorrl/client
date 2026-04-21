@@ -6,7 +6,7 @@
 
 LOGGROUP(Graphics)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -63,7 +63,7 @@ static IDirect3DVertexBuffer9* createVertexBuffer(IDirect3DDevice9* device9, siz
 
 	HRESULT hr = device9->CreateVertexBuffer(elementSize * elementCount, gBufferUsageD3D9[usage].usage, 0, gBufferUsageD3D9[usage].pool, &result, NULL);
     if (FAILED(hr))
-		throw RBX::runtime_error("Error creating vertex buffer: %x", hr);
+		throw ARL::runtime_error("Error creating vertex buffer: %x", hr);
 
     return result;
 }
@@ -76,7 +76,7 @@ static IDirect3DIndexBuffer9* createIndexBuffer(IDirect3DDevice9* device9, size_
 
 	HRESULT hr = device9->CreateIndexBuffer(elementSize * elementCount, gBufferUsageD3D9[usage].usage, format, gBufferUsageD3D9[usage].pool, &result, NULL);
     if (FAILED(hr))
-		throw RBX::runtime_error("Error creating index buffer: %x", hr);
+		throw ARL::runtime_error("Error creating index buffer: %x", hr);
 
     return result;
 }
@@ -104,7 +104,7 @@ VertexLayoutD3D9::VertexLayoutD3D9(Device* device, const std::vector<Element>& e
         // FFP does not support UBYTE4 but we won't use it anyway so convert to a float
 		if (caps.supportsFFP && e9.Type == D3DDECLTYPE_UBYTE4)
 		{
-			RBXASSERT(e9.Usage == D3DDECLUSAGE_TEXCOORD);
+			ARLASSERT(e9.Usage == D3DDECLUSAGE_TEXCOORD);
 			e9.Type = D3DDECLTYPE_FLOAT1;
 		}
 
@@ -119,7 +119,7 @@ VertexLayoutD3D9::VertexLayoutD3D9(Device* device, const std::vector<Element>& e
 
 	HRESULT hr = device9->CreateVertexDeclaration(&elements9[0], &object);
     if (FAILED(hr))
-		throw RBX::runtime_error("Error creating vertex declaration: %x", hr);
+		throw ARL::runtime_error("Error creating vertex declaration: %x", hr);
 }
 
 VertexLayoutD3D9::~VertexLayoutD3D9()
@@ -166,7 +166,7 @@ void VertexBufferD3D9::unlock()
 
 void VertexBufferD3D9::upload(unsigned int offset, const void* data, unsigned int size)
 {
-    RBXASSERT(offset + size <= elementSize * elementCount);
+    ARLASSERT(offset + size <= elementSize * elementCount);
 
 	void* target = lock(Lock_Normal);
     memcpy(static_cast<char*>(target) + offset, data, size);
@@ -196,7 +196,7 @@ IndexBufferD3D9::IndexBufferD3D9(Device* device, size_t elementSize, size_t elem
 	: IndexBuffer(device, elementSize, elementCount, usage)
 {
 	if (elementSize != 2 && elementSize != 4)
-		throw RBX::runtime_error("Invalid element size: %d", (int)elementSize);
+		throw ARL::runtime_error("Invalid element size: %d", (int)elementSize);
 
     IDirect3DDevice9* device9 = static_cast<DeviceD3D9*>(device)->getDevice9();
 
@@ -231,7 +231,7 @@ void IndexBufferD3D9::unlock()
 
 void IndexBufferD3D9::upload(unsigned int offset, const void* data, unsigned int size)
 {
-    RBXASSERT(offset + size <= elementSize * elementCount);
+    ARLASSERT(offset + size <= elementSize * elementCount);
 
 	void* target = lock(Lock_Normal);
     memcpy(static_cast<char*>(target) + offset, data, size);
@@ -285,7 +285,7 @@ static unsigned int getPrimitiveCount(Geometry::Primitive primitive, unsigned in
         return count - 2;
 
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
         return 0;
 	}
 }

@@ -4,17 +4,17 @@
 #include "Util/HeartbeatInstance.h"
 #include "Util/RunStateOwner.h"
 
-namespace RBX {
+namespace ARL {
 
 void HeartbeatInstance::onServiceProviderHeartbeatInstance(ServiceProvider* oldProvider, ServiceProvider* newProvider)
 {
-	RBXASSERT((oldProvider == NULL) != (newProvider == NULL));
+	ARLASSERT((oldProvider == NULL) != (newProvider == NULL));
 
 	heartbeatConnection.disconnect();
 
 	if (newProvider) {
 		RunService* runService = ServiceProvider::create<RunService>(newProvider);
-		RBXASSERT(runService);
+		ARLASSERT(runService);
 		heartbeatConnection = runService->heartbeatSignal.connect(boost::bind(&HeartbeatInstance::onHeartbeat, this, _1));
 	}
 }

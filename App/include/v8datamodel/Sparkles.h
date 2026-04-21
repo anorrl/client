@@ -7,7 +7,7 @@
 #include "V8DataModel/Effect.h"
 #include "V8DataModel/PartInstance.h"
 
-namespace RBX {
+namespace ARL {
 	class PartInstance;
 	class ModelInstance;
 
@@ -40,4 +40,4 @@ namespace RBX {
 		bool askSetParent(const Instance* parent) const {return Instance::fastDynamicCast<PartInstance>(parent) != NULL;}
 		bool askAddChild(const Instance* instance) const {return true;}
 	};
-}	// namespace RBX
+}	// namespace ARL

@@ -8,7 +8,7 @@
 
 DYNAMIC_FASTINTVARIABLE(TexAtlasUpdateLineHeight, 150)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -19,7 +19,7 @@ namespace Graphics
     {
         reset();
 
-        RBXASSERT((height & (height - 1)) == 0); // glyph texture height has to be power of two!
+        ARLASSERT((height & (height - 1)) == 0); // glyph texture height has to be power of two!
         moduloParam = height - 1;
 
         updateWindow = new unsigned char[textureSize.x * 2 * DFInt::TexAtlasUpdateLineHeight];
@@ -86,12 +86,12 @@ namespace Graphics
             unsigned uploadWindowStartIdx = (uploadRect.min - updateWindowPosition) * textureSize.x;
             unsigned char* dataPtr = &updateWindow[uploadWindowStartIdx];
             unsigned height = textureMax > texureMin ? textureMax - texureMin : textureSize.y - texureMin;
-            texture.getTexture()->upload(0, 0, RBX::Graphics::TextureRegion(0, texureMin, textureSize.x, height), dataPtr, textureSize.x * (height));
+            texture.getTexture()->upload(0, 0, ARL::Graphics::TextureRegion(0, texureMin, textureSize.x, height), dataPtr, textureSize.x * (height));
 
             if (textureMax < texureMin)
             {
                 dataPtr = &updateWindow[uploadWindowStartIdx + height * textureSize.x];
-                texture.getTexture()->upload(0, 0, RBX::Graphics::TextureRegion(0, 0, textureSize.x, textureMax), dataPtr, textureSize.x * textureMax);
+                texture.getTexture()->upload(0, 0, ARL::Graphics::TextureRegion(0, 0, textureSize.x, textureMax), dataPtr, textureSize.x * textureMax);
             }
 
             texture.getTexture()->commitChanges();
@@ -222,7 +222,7 @@ namespace Graphics
         for (int i = 0; i < size.y; ++i)
         {
             unsigned yPos = dataPos.y + i - updateWindowPosition;
-            RBXASSERT((int)yPos < DFInt::TexAtlasUpdateLineHeight * 2);
+            ARLASSERT((int)yPos < DFInt::TexAtlasUpdateLineHeight * 2);
             unsigned dataIdx = (yPos * textureSize.x) + dataPos.x;
             unsigned sourceIdx = (i * dataPitch);
 

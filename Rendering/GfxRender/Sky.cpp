@@ -22,7 +22,7 @@
 FASTFLAG(DebugRenderDownloadAssets)
 FASTFLAGVARIABLE(RenderMoonBillboard, true)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -208,8 +208,8 @@ void Sky::prerender()
 
 void Sky::render(DeviceContext* context, const RenderCamera& camera, bool drawStars)
 {
-    RBXPROFILER_SCOPE("Render", "Sky");
-	RBXPROFILER_SCOPE("GPU", "Sky");
+    ARLPROFILER_SCOPE("Render", "Sky");
+	ARLPROFILER_SCOPE("GPU", "Sky");
     PIX_SCOPE(context, "Sky");
 
     // Update load-in-progress
@@ -324,7 +324,7 @@ void Sky::setSkyBoxDefault()
 
 void Sky::loadSkyBoxDefault(TextureRef* textures)
 {
-    RBX::Sky dummy;
+    ARL::Sky dummy;
 
 	loadSkyBox(textures, dummy.skyRt, dummy.skyLf, dummy.skyBk, dummy.skyFt, dummy.skyUp, dummy.skyDn);
 }

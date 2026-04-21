@@ -15,7 +15,7 @@
 
 FASTFLAGVARIABLE(BillboardGuiVR, false)
 
-namespace RBX {
+namespace ARL {
 	const char* const sAdornmentGui = "BillboardGui";
 	const Reflection::RefPropDescriptor<BillboardGui, Instance>	prop_adornee("Adornee", category_Data, &BillboardGui::getAdorneeDangerous, &BillboardGui::setAdornee);
 	Reflection::PropDescriptor<BillboardGui, Vector3> prop_studsOffset("StudsOffset", category_Data, &BillboardGui::getStudsOffset, &BillboardGui::setStudsOffset);
@@ -254,9 +254,9 @@ namespace RBX {
             if (!part || !workspace)
                 return;
 
-    		if (RBX::Network::Player* player = Network::Players::findLocalPlayer(DataModel::get(part.get())))
+    		if (ARL::Network::Player* player = Network::Players::findLocalPlayer(DataModel::get(part.get())))
     			if (shared_ptr<Instance> noPlayerRender = playerToHideFrom.lock())
-    				if (player == fastDynamicCast<RBX::Network::Player>(noPlayerRender.get()))
+    				if (player == fastDynamicCast<ARL::Network::Player>(noPlayerRender.get()))
     					return;
 
             if (alwaysOnTop && !adorn->isVR())
@@ -286,9 +286,9 @@ namespace RBX {
     		boost::shared_ptr<Instance> part = getPart();
     		Workspace* workspace = ServiceProvider::find<Workspace>(part.get());
 
-    		if (RBX::Network::Player* player = Network::Players::findLocalPlayer(DataModel::get(part.get())))
+    		if (ARL::Network::Player* player = Network::Players::findLocalPlayer(DataModel::get(part.get())))
     			if (Instance* noPlayerRender = playerToHideFrom.lock().get())
-    				if (player == fastDynamicCast<RBX::Network::Player>(noPlayerRender))
+    				if (player == fastDynamicCast<ARL::Network::Player>(noPlayerRender))
     					return;
 
     		if (part && workspace)
@@ -324,7 +324,7 @@ namespace RBX {
                     Vector2 hit;
                     if (getBillboardHit(workspace, pos, ray, viewport.wh(), projectionFrame, alwaysOnTop, hit))
                     {
-    					shared_ptr<InputObject> transformedEvent = RBX::Creatable<Instance>::create<InputObject>(*event);
+    					shared_ptr<InputObject> transformedEvent = ARL::Creatable<Instance>::create<InputObject>(*event);
     					transformedEvent->setPosition(Vector3(Math::roundVector2(hit), 0));
     					return Super::process(transformedEvent);
     				}
@@ -344,7 +344,7 @@ namespace RBX {
     				Vector2 billboardPosition;
     				if(viewportBillboarder->hitTest(event->get2DPosition(), event->getWindowSize(), workspace, billboardPosition))
     				{
-    					shared_ptr<InputObject> transformedEvent = RBX::Creatable<Instance>::create<InputObject>(*event);
+    					shared_ptr<InputObject> transformedEvent = ARL::Creatable<Instance>::create<InputObject>(*event);
     					transformedEvent->setPosition( Vector3((int)billboardPosition.x, (int)billboardPosition.y, 0) );
     					return Super::process(transformedEvent);
     				}
@@ -362,7 +362,7 @@ namespace RBX {
 
 	void BillboardGui::setPlayerToHideFrom(Instance* value)
 	{
-		if (value && !fastDynamicCast<RBX::Network::Player>(value))
+		if (value && !fastDynamicCast<ARL::Network::Player>(value))
 			throw std::runtime_error("HideFromPlayer can only be of type Player");
 
 		if (playerToHideFrom.lock().get() != value)

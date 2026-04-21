@@ -7,7 +7,7 @@
 #include "V8Tree/Service.h"
 #include "Network/Player.h"
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
 // for debugging of an exploit
 #include "Util/CheatEngine.h"
 #endif
@@ -15,7 +15,7 @@
 // Debug of a potential exploit.
 FASTFLAGVARIABLE(US31006, false);
 
-namespace RBX
+namespace ARL
 {
 
 const char* const sDialogRoot= "Dialog";
@@ -66,10 +66,10 @@ DialogRoot::DialogRoot()
 
 DialogRoot::~DialogRoot() 
 {
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
     if (FFlag::US31006 && initialPrompt.capacity() > 1000)
     {
-        RBX::removeWriteBreakpoint(reinterpret_cast<uintptr_t>(&initialPrompt));
+        ARL::removeWriteBreakpoint(reinterpret_cast<uintptr_t>(&initialPrompt));
     }
 #endif
 }
@@ -132,10 +132,10 @@ void DialogRoot::setInUse(bool value)
 
 void DialogRoot::setInitialPrompt(std::string value)
 {
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
     if (FFlag::US31006 && initialPrompt.capacity() > 1000)
     {
-        RBX::removeWriteBreakpoint(reinterpret_cast<uintptr_t>(&initialPrompt));
+        ARL::removeWriteBreakpoint(reinterpret_cast<uintptr_t>(&initialPrompt));
     }
 #endif
 	if(initialPrompt != value)
@@ -143,10 +143,10 @@ void DialogRoot::setInitialPrompt(std::string value)
 		initialPrompt = value;
 		raisePropertyChanged(prop_InitialPrompt);
 	}
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
     if (FFlag::US31006 && value.size() > 1000)
     {
-        RBX::addWriteBreakpoint(reinterpret_cast<uintptr_t>(&initialPrompt));
+        ARL::addWriteBreakpoint(reinterpret_cast<uintptr_t>(&initialPrompt));
     }
 #endif
 }

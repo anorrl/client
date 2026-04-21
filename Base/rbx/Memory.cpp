@@ -9,15 +9,15 @@
 #include "rbx/Memory.h"
 
 
-bool RBX::roblox_allocator::crashOnAllocationFailure = true;
+bool ARL::roblox_allocator::crashOnAllocationFailure = true;
 
-namespace RBX 
+namespace ARL 
 {
     std::vector<size_t*> poolAvailabilityList;
     std::vector<releaseFunc> poolReleaseMemoryFuncList;
     std::vector<size_t*> poolAllocationList;
 
-#ifdef RBX_MEMORY_SCALABLE_MALLOC
+#ifdef ARL_MEMORY_SCALABLE_MALLOC
 	char* roblox_allocator::malloc(const size_type size)
 	{
 		return reinterpret_cast<char *>(scalable_malloc(size > 0 ? size : 1));
@@ -35,7 +35,7 @@ namespace RBX
 	{
 		char* result = (char*)std::malloc(size > 0 ? size : 1);
 		if (!result && size && crashOnAllocationFailure)
-			RBXCRASH();	// We want a nice fat crash here so that the process quits and we can log it
+			ARLCRASH();	// We want a nice fat crash here so that the process quits and we can log it
 		return result;
 	}
 	void roblox_allocator::free(char * const block)
@@ -46,14 +46,14 @@ namespace RBX
 	{
 		char* result = (char*)std::realloc(ptr, nsize);
 		if (!result && nsize && crashOnAllocationFailure)
-			RBXCRASH();	// We want a nice fat crash here so that the process quits and we can log it
+			ARLCRASH();	// We want a nice fat crash here so that the process quits and we can log it
 		return result;
 	}
 #endif
 }
 
 // Globally override new/delete operators
-#ifdef RBX_MEMORY_SCALABLE_MALLOC
+#ifdef ARL_MEMORY_SCALABLE_MALLOC
 
 void* operator new(size_t size)
 {
@@ -64,8 +64,8 @@ void* operator new(size_t size)
 	//(we return NULL if it is a no-throw implementation)
 	if (void* ptr = scalable_malloc(size > 0 ? size : 1))
         return ptr;
-	if (RBX::roblox_allocator::crashOnAllocationFailure)
-		RBXCRASH();	// We want a nice fat crash here so that the process quits and we can log it
+	if (ARL::roblox_allocator::crashOnAllocationFailure)
+		ARLCRASH();	// We want a nice fat crash here so that the process quits and we can log it
     throw std::bad_alloc();
 }
 

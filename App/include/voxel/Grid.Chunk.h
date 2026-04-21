@@ -4,7 +4,7 @@
 #include "Util/SpatialRegion.h"
 #include "Voxel/Water.h"
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 // Private storage structure supporting Grid.
 // NOT TO BE USED ANYWHERE EXCEPT Grid.cpp AND Grid.h.
@@ -55,7 +55,7 @@ public:
 
 	void updateCountOfNonEmptyCells(int delta) {
 		countOfNonEmptyCells += delta;
-		RBXASSERT((int)(countOfNonEmptyCells) >= 0);
+		ARLASSERT((int)(countOfNonEmptyCells) >= 0);
 	}
 	bool hasNoUsefulData() const {
 		return countOfNonEmptyCells == 0;

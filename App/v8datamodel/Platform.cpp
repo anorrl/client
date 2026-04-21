@@ -3,7 +3,7 @@
 
 #include "V8DataModel/Platform.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sPlatform = "Platform";
 

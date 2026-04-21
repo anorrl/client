@@ -51,13 +51,13 @@ DYNAMIC_FASTINTVARIABLE(HashConfigP5, 1)     // down
 DYNAMIC_FASTINTVARIABLE(HashConfigP6, 1)     // up
 DYNAMIC_FASTINTVARIABLE(HashConfigP8, 64)    // pending limit
 
-namespace RBX {
+namespace ARL {
 namespace Security{
 std::vector<uint32_t> hackFlagVector;
 const volatile uint32_t kHackFlagVectorDecrypt = 1; // might not be random
 
 
-#ifndef RBX_STUDIO_BUILD
+#ifndef ARL_STUDIO_BUILD
 const volatile NetPmcChallenge kChallenges[kNumChallenges] = {};
 
 uint32_t netPmcHashCheck(const NetPmcChallenge& challenge)
@@ -90,7 +90,7 @@ uint32_t netPmcHashCheck(const NetPmcChallenge& challenge)
 }
 #endif
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
 std::vector<NetPmcChallenge> netPmcKeys = generateNetPmcKeys();
 
 NetPmcServer::NetPmcServer() : // some are set to safe, but odd defaults
@@ -112,7 +112,7 @@ NetPmcServer::NetPmcServer() : // some are set to safe, but odd defaults
 
 // the intent it to make it much harder to detect this mechanism by making it
 // only work in places that are actually games.
-bool NetPmcServer::canSendChallenge(const RBX::Network::Replicator* rep) /*non-const*/
+bool NetPmcServer::canSendChallenge(const ARL::Network::Replicator* rep) /*non-const*/
 {
     auto dm = DataModel::get(rep);
     if (dm)
@@ -137,7 +137,7 @@ bool NetPmcServer::canSendChallenge(const RBX::Network::Replicator* rep) /*non-c
     return (!isGameCreator && gameHasManyPlayers && gameHasManyParts && userHasActivity);
 }
 
-unsigned int NetPmcServer::generateDebugInfo(const RBX::Network::Replicator* rep, uint32_t& sent, uint32_t& recv, uint32_t& pending) const
+unsigned int NetPmcServer::generateDebugInfo(const ARL::Network::Replicator* rep, uint32_t& sent, uint32_t& recv, uint32_t& pending) const
 {
     unsigned int debugInfo = 0;
 
@@ -202,7 +202,7 @@ bool NetPmcServer::removeFromList(uint8_t challengeNum)
 
 bool NetPmcServer::checkResult(uint8_t idx, uint32_t response, uint64_t correct) const
 {
-    uint64_t correctDecrypted = RBX::Security::teaDecrypt(correct);
+    uint64_t correctDecrypted = ARL::Security::teaDecrypt(correct);
     if (response != (correctDecrypted&0xFFFFFFFF))
     {
         // hash mismatch

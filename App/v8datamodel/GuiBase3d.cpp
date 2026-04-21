@@ -3,7 +3,7 @@
 
 #include "V8DataModel/GuiBase3d.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sGuiBase3d = "GuiBase3d";
 

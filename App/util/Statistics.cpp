@@ -26,7 +26,7 @@ LOGGROUP(ClientSettings);
 
 ABTEST_NEWSTUDIOUSERS_VARIABLE(DummyTest);
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 static std::string defaultFilePath;
 
 void SetDefaultFilePath(const std::string &path)
@@ -51,7 +51,7 @@ const std::string& GetBaseURL()
 	return defaultBaseUrl;
 }
 
-std::string RBX::Http::urlEncode(const std::string& url)
+std::string ARL::Http::urlEncode(const std::string& url)
 {
 	std::string result;
 
@@ -66,7 +66,7 @@ std::string RBX::Http::urlEncode(const std::string& url)
 			(c>=123)
 			)
 		{
-			result += RBX::format("%%%02X", c);
+			result += ARL::format("%%%02X", c);
 		}
 		else
 			result += c;
@@ -75,7 +75,7 @@ std::string RBX::Http::urlEncode(const std::string& url)
 	return result;
 }
 
-std::string RBX::Http::urlDecode(const std::string& fragment)
+std::string ARL::Http::urlDecode(const std::string& fragment)
 {
 	std::string result;
 
@@ -87,7 +87,7 @@ std::string RBX::Http::urlDecode(const std::string& fragment)
 		unsigned char c = fragment[i];
 		if (c == '%')
 		{
-			RBXASSERT((i + 3) <= strLen);
+			ARLASSERT((i + 3) <= strLen);
 			hexBuffer[0] = fragment[i + 1];
 			hexBuffer[1] = fragment[i + 2];
 			hexBuffer[2] = '\0';
@@ -114,14 +114,14 @@ std::string UploadLogFile(const std::string& baseUrl, const std::string& data)
 		dataStream << data << char(0);
 
 		std::string result;
-		RBX::Http(request.str()).post(dataStream, RBX::Http::kContentTypeDefaultUnspecified, true, result);
+		ARL::Http(request.str()).post(dataStream, ARL::Http::kContentTypeDefaultUnspecified, true, result);
 		return result;
 	}
 	catch(std::bad_alloc&)
 	{
 		throw;
 	}
-	catch(RBX::base_exception&)
+	catch(ARL::base_exception&)
 	{
 		return "";
 	}
@@ -131,7 +131,7 @@ bool FetchLocalClientSettingsData(const char* group, SimpleJSON* dest)
 {
 	std::string localSettingsData;
 	// Load from file
-	boost::filesystem::path localFilename = RBX::FileSystem::getUserDirectory(false, RBX::DirExe, "ClientSettings") / (group + std::string(".json"));
+	boost::filesystem::path localFilename = ARL::FileSystem::getUserDirectory(false, ARL::DirExe, "ClientSettings") / (group + std::string(".json"));
 	std::ifstream localConfigFile(localFilename.native().c_str());
 
 	if(localConfigFile.is_open())
@@ -184,57 +184,57 @@ void FetchClientSettingsData(const char* group, const char* apiKey, std::string*
 
 	const std::string& baseUrl = GetBaseURL();
 	if (baseUrl.size()==0)
-		RBXCRASH();	// You didn't set BaseURL before loading settings!
+		ARLCRASH();	// You didn't set BaseURL before loading settings!
 
 	std::string url = GetSettingsUrl(baseUrl, group, apiKey);
 
-	RBX::Http request(url);
+	ARL::Http request(url);
 
 	try 
 	{
 		request.get(*dest);
 	}
-	catch (RBX::base_exception&)
+	catch (ARL::base_exception&)
 	{
 		FASTLOG(FLog::Always, "FetchClientSettingsData exception");
 	}
 }
 
 
-RBX::HttpFuture FetchClientSettingsDataAsync(const char* group, const char* apiKey)
+ARL::HttpFuture FetchClientSettingsDataAsync(const char* group, const char* apiKey)
 {
 	FASTLOGS(FLog::ClientSettings, "Loading group %s to string", group);
 
 	const std::string& baseUrl = GetBaseURL();
 	if (baseUrl.size()==0)
-		RBXCRASH();	// You didn't set BaseURL before loading settings!
+		ARLCRASH();	// You didn't set BaseURL before loading settings!
 
 	std::string url = GetSettingsUrl(baseUrl, group, apiKey);
 
-	return RBX::HttpAsync::get(url);
+	return ARL::HttpAsync::get(url);
 }
 
 struct ABPass {
 	std::string entry;
-	shared_ptr<RBX::Reflection::ValueArray> experiments;
+	shared_ptr<ARL::Reflection::ValueArray> experiments;
 };
 
 void addABTest(const std::string& name, const std::string& value, void* context)
 {
 	ABPass* pass = (ABPass*)context;
 
-	shared_ptr<RBX::Reflection::ValueTable> experimentTable = rbx::make_shared<RBX::Reflection::ValueTable>();
+	shared_ptr<ARL::Reflection::ValueTable> experimentTable = rbx::make_shared<ARL::Reflection::ValueTable>();
 	(*experimentTable)["Name"] = name;
 	(*experimentTable)["Type"] = pass->entry;
 
-	pass->experiments->push_back(shared_ptr<const RBX::Reflection::ValueTable>(experimentTable));
+	pass->experiments->push_back(shared_ptr<const ARL::Reflection::ValueTable>(experimentTable));
 }
 
-RBX::HttpFuture FetchABTestDataAsync(const std::string& url)
+ARL::HttpFuture FetchABTestDataAsync(const std::string& url)
 {
 	FASTLOG(FLog::ClientSettings, "Loading AB tests to http future");
 
-	shared_ptr<RBX::Reflection::ValueArray> experiments = rbx::make_shared<RBX::Reflection::ValueArray>();
+	shared_ptr<ARL::Reflection::ValueArray> experiments = rbx::make_shared<ARL::Reflection::ValueArray>();
 	ABPass passData;
 	passData.experiments = experiments;
 
@@ -246,39 +246,39 @@ RBX::HttpFuture FetchABTestDataAsync(const std::string& url)
 	FLog::ForEachVariable(addABTest, &passData, FASTVARTYPE_AB_ALLUSERS);
 
 	std::string jsonRequest;
-	RBX::WebParser::writeJSON(shared_ptr<const RBX::Reflection::ValueArray>(experiments), jsonRequest);
+	ARL::WebParser::writeJSON(shared_ptr<const ARL::Reflection::ValueArray>(experiments), jsonRequest);
 
-	RBX::HttpPostData postData(jsonRequest, RBX::Http::kContentTypeApplicationJson, false);
+	ARL::HttpPostData postData(jsonRequest, ARL::Http::kContentTypeApplicationJson, false);
 
-	return RBX::HttpAsync::post(url, postData);
+	return ARL::HttpAsync::post(url, postData);
 }
 
 std::string LoadABTestFromString(const std::string& responseData)
 {
 	std::string trackerId = "";
-	shared_ptr<const RBX::Reflection::ValueTable> jsonResponse;
-	bool result = RBX::WebParser::parseJSONTable(responseData, jsonResponse);
-	RBXASSERT(result);
+	shared_ptr<const ARL::Reflection::ValueTable> jsonResponse;
+	bool result = ARL::WebParser::parseJSONTable(responseData, jsonResponse);
+	ARLASSERT(result);
 	if(!result)
 		return trackerId;
 
 	try 
 	{
-		shared_ptr<const RBX::Reflection::ValueTable> experiments = jsonResponse->at("Experiments").cast<shared_ptr<const RBX::Reflection::ValueTable> >();
+		shared_ptr<const ARL::Reflection::ValueTable> experiments = jsonResponse->at("Experiments").cast<shared_ptr<const ARL::Reflection::ValueTable> >();
 
-		for(RBX::Reflection::ValueTable::const_iterator it = experiments->begin(); it != experiments->end(); ++it)
+		for(ARL::Reflection::ValueTable::const_iterator it = experiments->begin(); it != experiments->end(); ++it)
 		{
-			shared_ptr<const RBX::Reflection::ValueTable> experimentDesc = it->second.cast<shared_ptr<const RBX::Reflection::ValueTable> >();
+			shared_ptr<const ARL::Reflection::ValueTable> experimentDesc = it->second.cast<shared_ptr<const ARL::Reflection::ValueTable> >();
 			int value = experimentDesc->at("Variation").cast<int>();
 			bool locked = experimentDesc->at("IsLocked").cast<bool>();		
 
 			// -1, 0, 1 and 2 are control groups, 3+ are variations
 			int variation = std::max(value - 2, 0);
-			FLog::SetValue(it->first, RBX::StringConverter<int>::convertToString(variation));
+			FLog::SetValue(it->first, ARL::StringConverter<int>::convertToString(variation));
 
  			if(value > 0 && !locked) 
  			{
- 				RBX::RobloxGoogleAnalytics::setExperimentVariation(it->first, value);
+ 				ARL::RobloxGoogleAnalytics::setExperimentVariation(it->first, value);
  			}
 		}
 
@@ -287,7 +287,7 @@ std::string LoadABTestFromString(const std::string& responseData)
 	}
 	catch(std::exception& e)
 	{
-		RBXASSERT(false);
+		ARLASSERT(false);
 		FASTLOGS(FLog::ClientSettings, "Failed to parse AB test JSON - %s", e.what());
 	}
 
@@ -346,7 +346,7 @@ void ReportStatisticPost(const std::string& baseUrl, const std::string& id, cons
 	try
 	{
 		std::string idStr = std::string("ANORRLAPP ") + std::string(id);
-		idStr = RBX::Http::urlEncode(idStr);
+		idStr = ARL::Http::urlEncode(idStr);
 		
 		std::stringstream request;
 		request << baseUrl + "/Analytics/Measurement.ashx?Type=" << idStr;
@@ -365,17 +365,17 @@ void ReportStatisticPost(const std::string& baseUrl, const std::string& id, cons
 		std::string result;
 		
 		if(postData.length() > 0){
-			RBX::Http(request.str()).post(postData, RBX::Http::kContentTypeDefaultUnspecified,
+			ARL::Http(request.str()).post(postData, ARL::Http::kContentTypeDefaultUnspecified,
 				true, &DontCareResponse);
 		}
 		else{
-			RBX::Http(request.str()).get(&DontCareResponse);
+			ARL::Http(request.str()).get(&DontCareResponse);
 		}
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		std::stringstream log;
 		log << "ReportStat '" << id << "' failed. " << e.what() << '\n';
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR,"%s",log.str().c_str());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR,"%s",log.str().c_str());
 	}
 }

@@ -7,7 +7,7 @@
 
 #include "BitStream.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 DeserializedChangePropertyItem::DeserializedChangePropertyItem()
@@ -29,7 +29,7 @@ Replicator::ChangePropertyItem::ChangePropertyItem(
 
 bool Replicator::ChangePropertyItem::write(RakNet::BitStream& bitStream) {
 	replicator.pendingChangedPropertyItems.erase(
-		RBX::Reflection::ConstProperty(desc, instance.get()));
+		ARL::Reflection::ConstProperty(desc, instance.get()));
 
 	// Check to see if we are still replicating this object
 	if (!replicator.isReplicationContainer(instance.get()))
@@ -58,11 +58,11 @@ shared_ptr<DeserializedItem> Replicator::ChangePropertyItem::read(Replicator& re
 	}
 
 	if (!deserializedData->propertyDescriptor)
-		throw RBX::runtime_error("Replicator readChangedProperty NULL descriptor");
+		throw ARL::runtime_error("Replicator readChangedProperty NULL descriptor");
 
 	if (deserializedInstance && !deserializedInstance->getDescriptor().isA(deserializedData->propertyDescriptor->owner))
 	{
-		throw RBX::runtime_error("Replication: Bad re-binding prop %s-%s << %s",
+		throw ARL::runtime_error("Replication: Bad re-binding prop %s-%s << %s",
 			deserializedInstance->getClassName().c_str(),
 			deserializedData->propertyDescriptor->name.c_str(), 
 			RakNetAddressToString(replicator.remotePlayerId).c_str());

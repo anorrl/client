@@ -4,7 +4,7 @@
 #include "V8Tree/Instance.h"
 #include "V8DataModel/KeyframeSequence.h"
 
-namespace RBX {
+namespace ARL {
 	class Animator;
 	class AnimationTrackState;
     class Animation;

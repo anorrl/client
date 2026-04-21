@@ -189,7 +189,7 @@ string decodeString(const std::string& source)
 			else
 			{
 				// TODO: Should we throw a parse error???
-				RBXASSERT(false);
+				ARLASSERT(false);
 				result += "&" + entity + ";";
 			}
 		}
@@ -331,7 +331,7 @@ void TextXmlWriter::writeCloseTag(const XmlElement* element, int depth)
 
 string TextXmlParser::removeTag(const string& contents, int& index)
 {
-	RBXASSERT (contents[0] == '<');
+	ARLASSERT (contents[0] == '<');
 	int start = 1;
 	while (myIsWhiteSpace(contents[start]) && (start < (int)contents.length()))
 		start++;
@@ -339,7 +339,7 @@ string TextXmlParser::removeTag(const string& contents, int& index)
 	index = start;
 	while (!myIsWhiteSpace(contents[index]) && contents[index] != '>' && (index < (int)contents.length()))
 		index++;
-	RBXASSERT(index > start);
+	ARLASSERT(index > start);
 
 	return contents.substr(start, index - start);
 }
@@ -350,7 +350,7 @@ static bool findNextToken(const string& contents, int& index)
 	const char* c = contents.c_str() + index;
 	while (true)
 	{
-		RBXASSERT(*c);
+		ARLASSERT(*c);
 
 		if (*c == '>')
 			return false;
@@ -469,14 +469,14 @@ std::auto_ptr<XmlElement> TextXmlParser::parse()
 
 			// no open tag
 			if (currentElement == NULL)
-				throw RBX::runtime_error("TextXmlParser::parse - Got close tag %s without open tag.", currentTag.c_str());
+				throw ARL::runtime_error("TextXmlParser::parse - Got close tag %s without open tag.", currentTag.c_str());
 
 			// pop up the previous open tag
 			elements.pop();
 
 	        if (elements.empty()) {
 				// document processing is over
-				RBXASSERT(currentElement!=NULL);
+				ARLASSERT(currentElement!=NULL);
 				return std::auto_ptr<XmlElement>(currentElement);
 			} 
 		} 
@@ -486,7 +486,7 @@ std::auto_ptr<XmlElement> TextXmlParser::parse()
 
 			// special-case the "Content" tag
 			// TODO: Move this into the Reflection::Property reading code instead?
-			if (newElement->getTag()==RBX::Reflection::Type::singleton<RBX::ContentId>().tag)
+			if (newElement->getTag()==ARL::Reflection::Type::singleton<ARL::ContentId>().tag)
 			{
 				XmlAttribute* xsinil = newElement->findAttribute(name_xsinil);
 				bool val; //Note: 'nil' is already define on OSX
@@ -508,30 +508,30 @@ std::auto_ptr<XmlElement> TextXmlParser::parse()
 						if (tagName.compare(0, 6, "binary") == 0)	// The binary tag may have attributes, so we have to compare a substring
 						{
 							// We no longer support binary content
-							RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Not reading binary data");
+							ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Not reading binary data");
 							readText(false);
-							newElement->setValue(RBX::ContentId());
+							newElement->setValue(ARL::ContentId());
 						}
 						else if (tag_hash==tagName)
 						{
 							// We no longer support binary content
 							readText(false);
-							newElement->setValue(RBX::ContentId());
+							newElement->setValue(ARL::ContentId());
 						}
 						else if (tagName.compare(0, 3, "url") == 0)
 						{
-							newElement->setValue(RBX::ContentId(this->readText(true).c_str()));
+							newElement->setValue(ARL::ContentId(this->readText(true).c_str()));
 						}
 						else if (tag_null==tagName)
 						{
-							newElement->setValue(RBX::ContentId());
+							newElement->setValue(ARL::ContentId());
 						}
 						else
-							throw RBX::runtime_error("TextXmlParser::parse - Unknown tag '%s'.", tagName.substr(0, 32).c_str());
+							throw ARL::runtime_error("TextXmlParser::parse - Unknown tag '%s'.", tagName.substr(0, 32).c_str());
 
 						std::string closingTag = readTag();	// closing tag
 						if (!isCloseTag(closingTag.c_str()))
-							throw RBX::runtime_error("TextXmlParser::parse - '%s' should be a closing tag", closingTag.substr(0, 32).c_str());
+							throw ARL::runtime_error("TextXmlParser::parse - '%s' should be a closing tag", closingTag.substr(0, 32).c_str());
 					}
 				}
 			}
@@ -588,11 +588,11 @@ void TextXmlWriter::serialize(const XmlElement* xmlNode)
 
 void TextXmlWriter::serializeNode(const XmlElement* xmlNode, int depth) 
 {
-	// Special handling for RBX::ContentId
+	// Special handling for ARL::ContentId
 	// TODO: move to Reflection::Property?
-	if (xmlNode->isValueType<RBX::ContentId>())
+	if (xmlNode->isValueType<ARL::ContentId>())
 	{
-		RBX::ContentId contentId;
+		ARL::ContentId contentId;
 		xmlNode->getValue(contentId);
 
 		writeOpenTag(xmlNode, depth);

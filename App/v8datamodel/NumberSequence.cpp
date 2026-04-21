@@ -8,7 +8,7 @@ using G3D::clamp;
 using G3D::lerp;
 
 
-namespace RBX
+namespace ARL
 {
 
 
@@ -35,7 +35,7 @@ NumberSequence::NumberSequence(const std::vector<Key>& keys, bool exc)
 NumberSequence::NumberSequence(const NumberSequence& r, float min /* = -1e22f */, float max /* = 1e22f */)
 : m_data(r.m_data)
 {
-    RBXASSERT(validate(m_data, false));
+    ARLASSERT(validate(m_data, false));
 
     for (unsigned j=0, e=m_data.size(); j<e; ++j )
     {
@@ -48,9 +48,9 @@ NumberSequence::NumberSequence(const NumberSequence& r, float min /* = -1e22f */
 void NumberSequence::resample(Vector2* result, int numPoints, float minV, float maxV) const
 {
     // this should not happen under any circumstances:
-    RBXASSERT( m_data.size() >= 2 );
-    RBXASSERT( m_data.front().time == 0.0f ); // ==
-    RBXASSERT( m_data.back().time == 1.0f );  // 
+    ARLASSERT( m_data.size() >= 2 );
+    ARLASSERT( m_data.front().time == 0.0f ); // ==
+    ARLASSERT( m_data.back().time == 1.0f );  // 
 
     int src = 0;
     float t = 0, dt = 1.0f/(numPoints-1.0f) - 1e-5f;
@@ -87,42 +87,42 @@ bool NumberSequence::validate(const std::vector<Key>& keys, bool exc)
 {
     if (keys.size()<2)
     {
-        if (exc) throw RBX::runtime_error("NumberSequence: requires at least 2 keypoints"); else return false;
+        if (exc) throw ARL::runtime_error("NumberSequence: requires at least 2 keypoints"); else return false;
     }
     
     if (keys.size()>kMaxSize)
     {
-        if (exc) throw RBX::runtime_error("NumberSequence: max. number of keypoints exceeded."); else return false;
+        if (exc) throw ARL::runtime_error("NumberSequence: max. number of keypoints exceeded."); else return false;
     }
     
     for (unsigned j=0; j<keys.size(); ++j)
     {
         if ( j<keys.size()-1 && keys[j].time > keys[j+1].time)
         {
-            if (exc) throw RBX::runtime_error("NumberSequence: all keypoints must be ordered by time"); else return false;
+            if (exc) throw ARL::runtime_error("NumberSequence: all keypoints must be ordered by time"); else return false;
         }
 //        if (keys[j].value < 0)
-//            if (exc) throw RBX::runtime_error("NumberSequence: value must be non-negative"); else return false;
+//            if (exc) throw ARL::runtime_error("NumberSequence: value must be non-negative"); else return false;
 
         if (keys[j].envelope < 0 )
         {
-            if (exc) throw RBX::runtime_error("NumberSequence: envelope must be non-negative"); else return false;
+            if (exc) throw ARL::runtime_error("NumberSequence: envelope must be non-negative"); else return false;
         }
         
         if (keys[j].value - keys[j].envelope < 0)
         {
-            if (exc) throw RBX::runtime_error("NumberSequence: envelope must not exceed the value"); else return false;
+            if (exc) throw ARL::runtime_error("NumberSequence: envelope must not exceed the value"); else return false;
         }
     }
 
     if (fabsf(keys.front().time) > 1e-4f)
     {
-        if (exc) throw RBX::runtime_error("NumberSequence must start at time=0.0"); else return false;
+        if (exc) throw ARL::runtime_error("NumberSequence must start at time=0.0"); else return false;
     }
     
     if (fabsf(keys.back().time - 1.0f) > 1e-4f)
     {
-        if (exc) throw RBX::runtime_error("NumberSequence must end at time=1.0"); else return false;
+        if (exc) throw ARL::runtime_error("NumberSequence must end at time=1.0"); else return false;
     }
     
     return true;
@@ -255,6 +255,6 @@ template<> std::string StringConverter<NumberSequenceKeypoint>::convertToString(
     return oss.str();
 }
 
-} // ns RBX
+} // ns ARL
 
 

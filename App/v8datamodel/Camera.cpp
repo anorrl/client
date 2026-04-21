@@ -32,7 +32,7 @@ FASTFLAGVARIABLE(CameraInterpolateMethodEnhancement, true)
 
 FASTFLAGVARIABLE(CameraVR, true)
 
-namespace RBX {
+namespace ARL {
 
 const char* const  sCamera = "Camera";
 
@@ -41,8 +41,8 @@ const char *const category_Camera = "Camera";
 REFLECTION_BEGIN();
 static Reflection::EnumPropDescriptor<Camera, Camera::CameraType> desc_cameraType("CameraType", category_Camera, &Camera::getCameraType, &Camera::setCameraType);
 
-static Reflection::BoundFuncDesc<Camera, RBX::RbxRay(float,float,float)> func_viewportToWorldRay(&Camera::worldRayViewportLua, "ViewportPointToRay", "x","y","depth",0, Security::None);
-static Reflection::BoundFuncDesc<Camera, RBX::RbxRay(float,float,float)> func_screenToWorldRay(&Camera::worldRayLua, "ScreenPointToRay", "x","y","depth",0, Security::None);
+static Reflection::BoundFuncDesc<Camera, ARL::RbxRay(float,float,float)> func_viewportToWorldRay(&Camera::worldRayViewportLua, "ViewportPointToRay", "x","y","depth",0, Security::None);
+static Reflection::BoundFuncDesc<Camera, ARL::RbxRay(float,float,float)> func_screenToWorldRay(&Camera::worldRayLua, "ScreenPointToRay", "x","y","depth",0, Security::None);
 
 static Reflection::BoundFuncDesc<Camera, shared_ptr<const Reflection::Tuple>(Vector3)> func_worldToViewportPoint(&Camera::projectViewportLua, "WorldToViewportPoint", "worldPoint", Security::None);
 static Reflection::BoundFuncDesc<Camera, shared_ptr<const Reflection::Tuple>(Vector3)> func_worldToScreenPoint(&Camera::projectLua, "WorldToScreenPoint", "worldPoint", Security::None);
@@ -101,29 +101,29 @@ EnumDesc<Camera::CameraMode>::EnumDesc()
 }
 
 template<>
-EnumDesc<RBX::Camera::CameraPanMode>::EnumDesc()
+EnumDesc<ARL::Camera::CameraPanMode>::EnumDesc()
 :EnumDescriptor("CameraPanMode")
 {
-	addPair(RBX::Camera::CAMERAPANMODE_CLASSIC,	"Classic");
-	addPair(RBX::Camera::CAMERAPANMODE_EDGEBUMP, "EdgeBump");
+	addPair(ARL::Camera::CAMERAPANMODE_CLASSIC,	"Classic");
+	addPair(ARL::Camera::CAMERAPANMODE_EDGEBUMP, "EdgeBump");
 }
 
 template<>
-RBX::Camera::CameraPanMode& Variant::convert<RBX::Camera::CameraPanMode>(void)
+ARL::Camera::CameraPanMode& Variant::convert<ARL::Camera::CameraPanMode>(void)
 {
-	return genericConvert<RBX::Camera::CameraPanMode>();
+	return genericConvert<ARL::Camera::CameraPanMode>();
 }
 }//namespace Reflection
 
 template<>
-bool RBX::StringConverter<RBX::Camera::CameraPanMode>::convertToValue(const std::string& text, RBX::Camera::CameraPanMode& value)
+bool ARL::StringConverter<ARL::Camera::CameraPanMode>::convertToValue(const std::string& text, ARL::Camera::CameraPanMode& value)
 {
 	if(text.find("Classic") != std::string::npos){
-		value = RBX::Camera::CAMERAPANMODE_CLASSIC;
+		value = ARL::Camera::CAMERAPANMODE_CLASSIC;
 		return true;
 	}
 	if(text.find("EdgeBump") != std::string::npos){
-		value = RBX::Camera::CAMERAPANMODE_EDGEBUMP;
+		value = ARL::Camera::CAMERAPANMODE_EDGEBUMP;
 		return true;
 	}
 	return false;
@@ -222,7 +222,7 @@ bool Camera::isPartVisibleFast(const PartInstance& part, const ContactManager& c
 
 bool Camera::isPartInFrustum(const PartInstance& part) const
 {
-	RBX::Frustum fr( frustum() );
+	ARL::Frustum fr( frustum() );
 	if(!part.containedByFrustum(fr))
 		return false;
 
@@ -244,7 +244,7 @@ void Camera::onHeartbeat(const Heartbeat& event)
 	CameraSubject* subject = getCameraSubject();
 	if (subject != NULL && cameraType != Camera::LOCKED_CAMERA && cameraType != Camera::CUSTOM_CAMERA)
 		subject->onCameraHeartbeat(cameraCoord.translation, cameraFocus.translation);
-	else if(RBX::GameBasicSettings::singleton().inStudioMode()) // only do camera interpolation if we are currently using studio
+	else if(ARL::GameBasicSettings::singleton().inStudioMode()) // only do camera interpolation if we are currently using studio
     {
 		if( (cameraCoordGoal != cameraCoord) && (cameraFocus != cameraFocusGoal) && camInterpolation == CAM_INTERPOLATION_CONSTANT_SPEED )
         {
@@ -275,7 +275,7 @@ ICameraOwner* Camera::getCameraOwner()
 // this method will push the current camera data onto a stack, so we can have a camera history! (this will only work in studio with [] keys)
 void Camera::pushCameraHistoryStack() 
 {
-	if(RBX::Time::nowFastSec() - lastHistoryPushTime < 0.5f) // don't update history too fast
+	if(ARL::Time::nowFastSec() - lastHistoryPushTime < 0.5f) // don't update history too fast
 		return;
 
 	std::pair<CoordinateFrame,CoordinateFrame> newPair(cameraCoord,cameraFocus);
@@ -283,7 +283,7 @@ void Camera::pushCameraHistoryStack()
 		cameraHistoryStack.at(currentCameraHistoryPosition) == newPair) // don't want to push the same thing in history twice
 		return;
 
-	lastHistoryPushTime = RBX::Time::nowFastSec();
+	lastHistoryPushTime = ARL::Time::nowFastSec();
 
 	if(currentCameraHistoryPosition >= 0 )
 	{
@@ -370,7 +370,7 @@ void Camera::updateFocus()
 // moves the camera from one position to another at a constant rate, not over a constant time period
 void Camera::fixedSpeedInterpolateCamera(double elapsedTime)
 {
-	RBXASSERT(camInterpolation == CAM_INTERPOLATION_CONSTANT_SPEED);
+	ARLASSERT(camInterpolation == CAM_INTERPOLATION_CONSTANT_SPEED);
 
 	double percentOfDist = elapsedTime * interpolationSpeed();
 
@@ -406,8 +406,8 @@ void Camera::beginCameraInterpolation(CoordinateFrame endPos, CoordinateFrame en
 {
     if (FFlag::CameraInterpolateMethodEnhancement)
     {
-        RBXASSERT(duration >= 0.f);
-        RBXASSERT(cameraType == Camera::LOCKED_CAMERA ||
+        ARLASSERT(duration >= 0.f);
+        ARLASSERT(cameraType == Camera::LOCKED_CAMERA ||
                   GameBasicSettings::singleton().inStudioMode());	// camera must be scriptable, if not used from Studio
         
         if (duration < 0.f)
@@ -445,8 +445,8 @@ void Camera::beginCameraInterpolation(CoordinateFrame endPos, CoordinateFrame en
     }
     else
     {
-        RBXASSERT(duration > 0.f);
-        RBXASSERT(cameraType == Camera::LOCKED_CAMERA);	// camera must be scriptable
+        ARLASSERT(duration > 0.f);
+        ARLASSERT(cameraType == Camera::LOCKED_CAMERA);	// camera must be scriptable
         
         if (duration <= 0.f)
         {
@@ -634,10 +634,10 @@ void Camera::lerpToExtents(const Extents& extents)
 	CoordinateFrame pos = cameraCoordGoal;
 	CoordinateFrame focus = cameraFocusGoal;
 
-	if ( RBX::ServiceProvider::findServiceProvider(this) != NULL &&
-		 ( RBX::Network::Players::getGameMode(this) == RBX::Network::EDIT || 
-		   RBX::Network::Players::getGameMode(this) == RBX::Network::DPHYS_GAME_SERVER ||
-		   RBX::Network::Players::getGameMode(this) == RBX::Network::GAME_SERVER ) )
+	if ( ARL::ServiceProvider::findServiceProvider(this) != NULL &&
+		 ( ARL::Network::Players::getGameMode(this) == ARL::Network::EDIT || 
+		   ARL::Network::Players::getGameMode(this) == ARL::Network::DPHYS_GAME_SERVER ||
+		   ARL::Network::Players::getGameMode(this) == ARL::Network::GAME_SERVER ) )
 	{
 		const Vector3 focusToCameraUnit = -initialCameraToFocus.unit();
 		float distNeeded = (extents.longestSide()) - (pos.translation - extents.center()).magnitude();
@@ -725,7 +725,7 @@ void Camera::zoomExtents(const Extents& extents, ZoomType zoomType)
 	}
 
 	const float current = std::min(max, std::max(min, cameraToFocus));
-	RBXASSERT(G3D::isFinite(current));
+	ARLASSERT(G3D::isFinite(current));
 
 	if (G3D::isFinite(min) && G3D::isFinite(current) && G3D::isFinite(max))
 	{
@@ -848,8 +848,8 @@ void Camera::setCameraSubject(Instance* newSubject)
 		cameraSubject = shared_from(newSubject);
 
 		// this is to help when people set the camera back to the character, instead of the humanoid (control schemes can't interface with camera otherwise)
-		shared_ptr<RBX::Instance> potentialHuman = shared_from(cameraSubject->findFirstChildByName("Humanoid"));
-		if(potentialHuman &&  Instance::fastDynamicCast<RBX::Humanoid>(potentialHuman.get()))
+		shared_ptr<ARL::Instance> potentialHuman = shared_from(cameraSubject->findFirstChildByName("Humanoid"));
+		if(potentialHuman &&  Instance::fastDynamicCast<ARL::Humanoid>(potentialHuman.get()))
 			cameraSubject = potentialHuman;
 
 		raisePropertyChanged(cameraSubjectProp);
@@ -866,7 +866,7 @@ const CameraSubject* Camera::getConstCameraSubject() const
 	const Instance* i = cameraSubject.get();
 	if (i) {
 		const CameraSubject* answer = dynamic_cast<const CameraSubject*>(i);
-		RBXASSERT(answer);
+		ARLASSERT(answer);
 		return answer;
 	}
 	else {
@@ -1074,13 +1074,13 @@ bool Camera::nonCharacterZoom(float in)
 
 bool Camera::isEditMode() const
 {
-	return RBX::ServiceProvider::findServiceProvider(this) != NULL && 
-		(RBX::Network::Players::getGameMode(this) == RBX::Network::EDIT || RBX::Network::Players::isCloudEdit(this));
+	return ARL::ServiceProvider::findServiceProvider(this) != NULL && 
+		(ARL::Network::Players::getGameMode(this) == ARL::Network::EDIT || ARL::Network::Players::isCloudEdit(this));
 }
 
 bool Camera::hasClientPlayer() const
 {
-	RBX::Network::Players* players = ServiceProvider::create<Network::Players>(this);
+	ARL::Network::Players* players = ServiceProvider::create<Network::Players>(this);
 	return players && players->getLocalPlayer() && !Network::Players::isCloudEdit(this);
 }
 
@@ -1194,7 +1194,7 @@ bool Camera::tiltRadians(float tilt)
 
 		if (newElevation != elevation)
 		{
-			if(RBX::GameBasicSettings::singleton().inHybridMode() && !isFirstPersonCamera() && isCharacterCamera()) // don't allow hybrid mode to tilt so much
+			if(ARL::GameBasicSettings::singleton().inHybridMode() && !isFirstPersonCamera() && isCharacterCamera()) // don't allow hybrid mode to tilt so much
 				newElevation = G3D::clamp(newElevation,-0.44f,0.22f);
 			setHeadingElevationDistance(heading, newElevation, distance);
 			return true;
@@ -1206,8 +1206,8 @@ bool Camera::tiltRadians(float tilt)
 
 void Camera::panRadians(float angle)
 {
-	RBXASSERT(angle > -100.0f);
-	RBXASSERT(angle < 100.0f);	// catch weird numbers here
+	ARLASSERT(angle > -100.0f);
+	ARLASSERT(angle < 100.0f);	// catch weird numbers here
 
 	if (angle != 0.0f)
 	{
@@ -1409,7 +1409,7 @@ shared_ptr<const Reflection::Tuple> Camera::projectLua(Vector3 point)
 	const Vector4 projection = projectPointToScreen(point);
 	
 	Vector3 offsetVector = Vector3(projection.x, projection.y, projection.w);
-	if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+	if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 	{
 		Vector4 guiInset = guiService->getGlobalGuiInset();
 		offsetVector = Vector3(offsetVector.x - guiInset.x, offsetVector.y - guiInset.y, offsetVector.z);
@@ -1441,7 +1441,7 @@ Vector3 Camera::project(const Vector3& point) const
 
 RbxRay Camera::worldRayLua(float x, float y, float depth)
 {
-	if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+	if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 	{
 		Vector4 guiInset = guiService->getGlobalGuiInset();
 		return worldRayViewportLua(x + guiInset.x, y + guiInset.y, depth);
@@ -1455,7 +1455,7 @@ RbxRay Camera::worldRayViewportLua(float x, float y, float depth)
 	return worldRay(x, y, depth);
 }
 
-RBX::RbxRay Camera::worldRay(float x, float y, float depth) const
+ARL::RbxRay Camera::worldRay(float x, float y, float depth) const
 {
 	int screenWidth  = viewport.x;
 	int screenHeight = viewport.y;
@@ -1479,7 +1479,7 @@ RBX::RbxRay Camera::worldRay(float x, float y, float depth) const
 	float theta = acos(std::min(1.0f, direction.dot(cameraFrame.lookVector())));
 	float depthToNearClipPlane = imagePlaneDepth / sin((Math::pif() / 2) - theta);
         
-	return RBX::RbxRay::fromOriginAndDirection(origin + (direction * depthToNearClipPlane) + (direction * depth), direction);
+	return ARL::RbxRay::fromOriginAndDirection(origin + (direction * depthToNearClipPlane) + (direction * depth), direction);
 }
 
 const CoordinateFrame& Camera::coordinateFrame() const {
@@ -1491,13 +1491,13 @@ float Camera::dot(const Vector3& point) const {
 	return cameraCoord.lookVector().dot(toPoint);
 }
 
-RBX::Frustum Camera::frustum() const {
-    RBX::Frustum f;
+ARL::Frustum Camera::frustum() const {
+    ARL::Frustum f;
 	frustum(farPlaneZ(), f);
     return f;
 }
 
-void Camera::frustum(const float farPlaneZ, RBX::Frustum& fr) const 
+void Camera::frustum(const float farPlaneZ, ARL::Frustum& fr) const 
 {
 	fr.faceArray.fastClear();
 	// The volume is the convex hull of the vertices defining the view
@@ -1598,5 +1598,5 @@ void Camera::setHeadLocked(bool value)
 	}
 }
 
-} // namespace RBX
+} // namespace ARL
 

@@ -4,7 +4,7 @@
 #include "GfxBase/Adorn.h"
 #include "GfxBase/IAdornable.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Workspace;
 	class Instance;

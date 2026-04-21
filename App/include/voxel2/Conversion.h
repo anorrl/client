@@ -5,7 +5,7 @@
 #include "voxel/Grid.h"
 #include "voxel2/Grid.h"
 
-namespace RBX { namespace Voxel2 { namespace Conversion {
+namespace ARL { namespace Voxel2 { namespace Conversion {
 
 	static const int kOccupancySolid = Cell::Occupancy_Max;
 	static const int kOccupancyWedge = Cell::Occupancy_Max / 2;
@@ -52,7 +52,7 @@ namespace RBX { namespace Voxel2 { namespace Conversion {
 			return kOccupancyInverseCorner;
 
 		default:
-			RBXASSERT(false);
+			ARLASSERT(false);
 			return 0;
 		}
 	}

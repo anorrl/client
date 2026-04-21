@@ -9,7 +9,7 @@
 #include "V8DataModel/GuiService.h"
 #include "v8datamodel/UserInputService.h"
 
-namespace RBX {
+namespace ARL {
 
 
 const char *const sMouse = "Mouse";
@@ -30,7 +30,7 @@ static Reflection::EventDesc<Mouse, void(std::string) > desc_Mouse_KeyUp(&Mouse:
 static Reflection::PropDescriptor<Mouse, G3D::CoordinateFrame> desc_Hit("Hit", category_Data, &Mouse::getHit, NULL);
 static Reflection::PropDescriptor<Mouse, G3D::CoordinateFrame> dep_Hit("hit", category_Data, &Mouse::getHit, NULL, Reflection::PropertyDescriptor::Attributes::deprecated(desc_Hit, Reflection::PropertyDescriptor::HIDDEN_SCRIPTING));
 static Reflection::PropDescriptor<Mouse, G3D::CoordinateFrame> desc_Origin("Origin", category_Data, &Mouse::getOrigin, NULL);
-static Reflection::PropDescriptor<Mouse, RBX::RbxRay> desc_UnitRay("UnitRay", category_Data, &Mouse::getUnitRay, NULL);
+static Reflection::PropDescriptor<Mouse, ARL::RbxRay> desc_UnitRay("UnitRay", category_Data, &Mouse::getUnitRay, NULL);
 static Reflection::RefPropDescriptor<Mouse, Instance> desc_TargetFilter("TargetFilter", category_Data, &Mouse::getTargetFilterUnsafe, &Mouse::setTargetFilter);
 static Reflection::RefPropDescriptor<Mouse, PartInstance> desc_Target("Target", category_Data, &Mouse::getTarget, NULL);
 static Reflection::RefPropDescriptor<Mouse, PartInstance> dep_Target("target", category_Data, &Mouse::getTarget, NULL, Reflection::PropertyDescriptor::Attributes::deprecated(desc_Target));
@@ -63,11 +63,11 @@ CoordinateFrame Mouse::getHit() const
 	}
 	return cf;
 }
-RBX::RbxRay Mouse::getUnitRay() const
+ARL::RbxRay Mouse::getUnitRay() const
 {
 	checkActive();
 
-	RBX::RbxRay ray;
+	ARL::RbxRay ray;
 	if (lastEvent && lastEvent->getUserInputState() != InputObject::INPUT_STATE_NONE)
 	{
 		ray = MouseCommand::getUnitMouseRay(lastEvent, getWorkspace());
@@ -78,7 +78,7 @@ RBX::RbxRay Mouse::getUnitRay() const
 CoordinateFrame Mouse::getOrigin() const
 {
 	checkActive();
-	RBX::RbxRay ray;
+	ARL::RbxRay ray;
 	if (lastEvent && lastEvent->getUserInputState() != InputObject::INPUT_STATE_NONE)
 	{
 		ray = MouseCommand::getUnitMouseRay(lastEvent, getWorkspace());
@@ -243,7 +243,7 @@ int Mouse::getViewSizeX() const
 {
 	checkActive();
 
-	if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(workspace))
+	if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(workspace))
 	{
 		return guiService->getScreenResolution().x - guiService->getGlobalGuiInset().x;
 	}
@@ -255,7 +255,7 @@ int Mouse::getViewSizeY() const
 {
 	checkActive();
 
-	if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(workspace))
+	if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(workspace))
 	{
 		return guiService->getScreenResolution().y - guiService->getGlobalGuiInset().y;
 	}
@@ -266,7 +266,7 @@ int Mouse::getViewSizeY() const
 void Mouse::checkActive() const {
 	if (!workspace) 
 	{
-		RBXASSERT(0);
+		ARLASSERT(0);
 		throw std::runtime_error("This Mouse is no longer active");
 	}
 }

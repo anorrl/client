@@ -2,7 +2,7 @@
 
 #include "util/StreamRegion.h"
 
-namespace RBX {
+namespace ARL {
 	namespace StreamRegion {
 
 		std::size_t hash_value(const Id& key) {

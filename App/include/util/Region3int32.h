@@ -3,7 +3,7 @@
 
 #include "Util/Vector3int32.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Region3int32 {
 	private:

@@ -21,7 +21,7 @@
 #include "V8DataModel/JointInstance.h"
 #include "V8World/Geometry.h"
 
-namespace RBX {
+namespace ARL {
 
 void RunDragger::SnapInfo::updateSurfaceFromHit()
 {
@@ -66,7 +66,7 @@ void RunDragger::SnapInfo::updateHitFromSurface(const RbxRay& mouseRay)
 		    hitWorld = snapCoord.pointToWorldSpace(hitInSnap);
 	    }
 	    else {
-		    RBXASSERT(0);
+		    ARLASSERT(0);
 		    ok = Math::intersectRayPlane(rayInSnap, plane, hitInSnap);
 	    }
         // Debugging - record last good one
@@ -95,14 +95,14 @@ RunDragger::~RunDragger()
 
 void RunDragger::snapInfoFromSnapPart()
 {
-	RBXASSERT(!dragPart.expired());
-	RBXASSERT(Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == workspace->getWorld());
-	RBXASSERT(dragPart.lock()->getPartPrimitive() == drag);
-	RBXASSERT(PartInstance::nonNullInWorkspace(dragPart.lock()));
+	ARLASSERT(!dragPart.expired());
+	ARLASSERT(Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == workspace->getWorld());
+	ARLASSERT(dragPart.lock()->getPartPrimitive() == drag);
+	ARLASSERT(PartInstance::nonNullInWorkspace(dragPart.lock()));
 
 	shared_ptr<PartInstance> p(snapPart.lock());
 	if (PartInstance::nonNullInWorkspace(p)) {
-		RBXASSERT(Workspace::getWorldIfInWorkspace(p.get()) == workspace->getWorld());
+		ARLASSERT(Workspace::getWorldIfInWorkspace(p.get()) == workspace->getWorld());
 		snapInfo.snap = p->getPartPrimitive();
 	}
 	else {
@@ -115,7 +115,7 @@ void RunDragger::snapPartFromSnapInfo()
 {
 	if (snapInfo.snap) {
 		snapPart = shared_from(PartInstance::fromPrimitive(snapInfo.snap));
-		RBXASSERT(Workspace::getWorldIfInWorkspace(snapPart.lock().get()) == workspace->getWorld());
+		ARLASSERT(Workspace::getWorldIfInWorkspace(snapPart.lock().get()) == workspace->getWorld());
 	}
 	else {
 		snapPart.reset();
@@ -126,8 +126,8 @@ void RunDragger::initLocal(	Workspace*				_workspace,
 						    weak_ptr<PartInstance>	_dragPart,	
 						    const Vector3&			_dragPointLocal)
 {
-	RBXASSERT(!_dragPart.expired());
-	RBXASSERT(PartInstance::nonNullInWorkspace(_dragPart.lock()));
+	ARLASSERT(!_dragPart.expired());
+	ARLASSERT(PartInstance::nonNullInWorkspace(_dragPart.lock()));
 	workspace = _workspace;
 	dragPart = _dragPart;
 
@@ -141,15 +141,15 @@ void RunDragger::initLocal(	Workspace*				_workspace,
 
 	turnUpright(dp.get());
 
-	RBXASSERT(Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == workspace->getWorld());
+	ARLASSERT(Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == workspace->getWorld());
 }
 
 void RunDragger::init(	Workspace*				_workspace,
 						weak_ptr<PartInstance>	_dragPart,	
 						const Vector3&			_dragPointWorld)
 {
-	RBXASSERT(!_dragPart.expired());
-	RBXASSERT(PartInstance::nonNullInWorkspace(_dragPart.lock()));
+	ARLASSERT(!_dragPart.expired());
+	ARLASSERT(PartInstance::nonNullInWorkspace(_dragPart.lock()));
 	workspace = _workspace;
 	dragPart = _dragPart;
 
@@ -163,7 +163,7 @@ void RunDragger::init(	Workspace*				_workspace,
 
 	turnUpright(dp.get());
 
-	RBXASSERT(Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == workspace->getWorld());
+	ARLASSERT(Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == workspace->getWorld());
 }
 
 /*
@@ -174,7 +174,7 @@ void RunDragger::init(	Workspace*				_workspace,
 
 RunDragger::SnapInfo RunDragger::createSnapSurface(Primitive* snap, G3D::Array<size_t> *ignore)
 {
-	RBXASSERT(snap);
+	ARLASSERT(snap);
 
 	SnapInfo answer;
 	answer.snap = snap;
@@ -233,7 +233,7 @@ bool RunDragger::moveDragPart()
 	    return false;
 
 	// Snap object rotation matrix in world
-#ifdef RBXASSERTENABLED
+#ifdef ARLASSERTENABLED
 	const Matrix3& snapRotation = snapInfo.snap->getCoordinateFrame().rotation;
 #endif
 
@@ -246,8 +246,8 @@ bool RunDragger::moveDragPart()
 
 	// Drag object rotation matrix in world
 	Matrix3 dragInWorld = drag->getCoordinateFrame().rotation;
-	RBXASSERT(Math::isOrthonormal(dragInWorld));
-	RBXASSERT(Math::isOrthonormal(snapRotation));
+	ARLASSERT(Math::isOrthonormal(dragInWorld));
+	ARLASSERT(Math::isOrthonormal(snapRotation));
 	
 	// The face from the drag object that we want to align with the snap face and its normal
 	myDragSurfaceId = drag->getGeometry()->getMostAlignedSurface(-snapNormalWorld, dragInWorld);
@@ -307,7 +307,7 @@ bool RunDragger::moveDragPart()
                              plane,
                              dragHitLocal);
     
-	RBXASSERT_IF_VALIDATING(hitPlane);
+	ARLASSERT_IF_VALIDATING(hitPlane);
 
 	// clamp the place where we think the ray hits the drag part - for 
 	// steep obtuse angles, keep this local hit point within 100x the size of the drag part
@@ -358,7 +358,7 @@ bool RunDragger::snapDragPart()
 bool RunDragger::notTried(Primitive* check, const G3D::Array<Primitive*>& tried)
 {
 
-	RBXASSERT(check != drag);
+	ARLASSERT(check != drag);
 	return (check && (tried.find(check) == tried.end()));
 }
 
@@ -463,7 +463,7 @@ bool RunDragger::fallOffPart(bool& snapped)
 
 bool RunDragger::colliding()
 {
-    RBXASSERT_VERY_FAST(!drag->hasAutoJoints());
+    ARLASSERT_VERY_FAST(!drag->hasAutoJoints());
     return workspace->getWorld()->getContactManager()->intersectingOthers(drag,Tolerance::maxOverlapOrGap());
 }
 
@@ -558,7 +558,7 @@ void RunDragger::findNoSnapPosition(const CoordinateFrame& original)
 // Note: will NOT update dragOriginalRotation
 void RunDragger::turnUpright(PartInstance* part)
 {
-	RBXASSERT(part);
+	ARLASSERT(part);
 	if (part->isStandardPart()) {
 		CoordinateFrame dragCoord = part->getCoordinateFrame();
 
@@ -575,7 +575,7 @@ void RunDragger::turnUpright(PartInstance* part)
 // Note: will NOT update dragOriginalRotation
 void RunDragger::rotatePart(PartInstance* part)
 {
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	CoordinateFrame rotated = part->getCoordinateFrame();
 	Math::rotateMatrixAboutY90(rotated.rotation);
@@ -613,7 +613,7 @@ void RunDragger::rotatePartAboutSnapFaceAxis( Vector3::Axis axis, const float& a
 // Note: will NOT update dragOriginalRotation
 void RunDragger::tiltPart(PartInstance* part, const CoordinateFrame& camera)
 {
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	CoordinateFrame dragCoord = part->getCoordinateFrame();
 
@@ -641,8 +641,8 @@ void RunDragger::findSafeY()
 //		temp.push_back(part);
 
 		Vector3 moved = Dragger::safeMoveNoDrop(temp, Vector3::zero(), *workspace->getWorld()->getContactManager());
-		RBXASSERT(moved.x == 0.0);
-		RBXASSERT(moved.y != 0.0);
+		ARLASSERT(moved.x == 0.0);
+		ARLASSERT(moved.y != 0.0);
 		CoordinateFrame newC = drag->getCoordinateFrame();
 		newC.translation += moved;
 		dragPart.lock()->setCoordinateFrame(newC);

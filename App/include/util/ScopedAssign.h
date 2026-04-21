@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RBX
+namespace ARL
 {
 	// TODO: This probably exists in some other library somewhere...
 	template <typename V>

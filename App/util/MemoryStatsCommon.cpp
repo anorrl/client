@@ -6,7 +6,7 @@
 
 DYNAMIC_FASTINTVARIABLE(StreamingMemoryUsagePercent, 50)
 
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
 FASTINTVARIABLE(StreamingSafeMemWatermarkMB, 30)
 FASTINTVARIABLE(StreamingLowMemWatermarkMB, 10)
 FASTINTVARIABLE(StreamingCriticalLowMemWatermarkMB, 5)
@@ -18,10 +18,10 @@ FASTINTVARIABLE(StreamingCriticalLowMemWatermarkMB, 15)
 FASTINTVARIABLE(StremingMemoryPoolReleaseThresholdMB, 5)
 #endif
 
-namespace RBX {
+namespace ARL {
 extern std::vector<size_t*> poolAvailabilityList;
 extern std::vector<releaseFunc> poolReleaseMemoryFuncList;
-#ifdef RBX_POOL_ALLOCATION_STATS
+#ifdef ARL_POOL_ALLOCATION_STATS
 extern std::vector<size_t*> poolAllocationList;
 #endif
 
@@ -29,7 +29,7 @@ namespace MemoryStats {
 
 memsize_t minTargetMemoryBytes()
 {
-    RBXASSERT(MemoryStats::totalMemoryBytes() > 0);
+    ARLASSERT(MemoryStats::totalMemoryBytes() > 0);
 	return MemoryStats::totalMemoryBytes() * (DFInt::StreamingMemoryUsagePercent * 0.01f);
 }
 
@@ -38,9 +38,9 @@ size_t slowGetMemoryPoolAllocation()
     // keep the definition here
 
     size_t totalPoolAllocation = 0;
-#ifdef RBX_POOL_ALLOCATION_STATS
+#ifdef ARL_POOL_ALLOCATION_STATS
     std::vector<size_t*>::iterator iter;
-    for (iter = RBX::poolAllocationList.begin(); iter != RBX::poolAllocationList.end(); iter++)
+    for (iter = ARL::poolAllocationList.begin(); iter != ARL::poolAllocationList.end(); iter++)
     {
         totalPoolAllocation+=**iter;
     }
@@ -53,7 +53,7 @@ size_t slowGetMemoryPoolAvailability()
     // keep the definition here
     size_t totalPoolAvailability = 0;
     std::vector<size_t*>::iterator iter;
-    for (iter = RBX::poolAvailabilityList.begin(); iter != RBX::poolAvailabilityList.end(); iter++)
+    for (iter = ARL::poolAvailabilityList.begin(); iter != ARL::poolAvailabilityList.end(); iter++)
     {
         totalPoolAvailability+=**iter;
     }
@@ -65,7 +65,7 @@ void releaseAllPoolMemory()
     // keep the definition here
 
     std::vector<releaseFunc>::iterator iter;
-    for (iter = RBX::poolReleaseMemoryFuncList.begin(); iter != RBX::poolReleaseMemoryFuncList.end(); iter++)
+    for (iter = ARL::poolReleaseMemoryFuncList.begin(); iter != ARL::poolReleaseMemoryFuncList.end(); iter++)
     {
         (*iter)();
     }

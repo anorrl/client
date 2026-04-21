@@ -15,11 +15,11 @@
 
 #include "security/ApiSecurity.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Name : public boost::noncopyable
 	{
-		static RBX::mutex& mutex();
+		static ARL::mutex& mutex();
 		class NameMap;
 		static NameMap& map();
 
@@ -131,10 +131,10 @@ namespace RBX {
 		void setOrderIndex();
 	};
 
-	std::ostream& operator<<(std::ostream& os, const RBX::Name& name);
+	std::ostream& operator<<(std::ostream& os, const ARL::Name& name);
 
 	// An object that has a Name
-	class RBXInterface INamed {
+	class ARLInterface INamed {
 	public:
 		virtual const Name& getName() const = 0;
 	};

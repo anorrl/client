@@ -8,14 +8,14 @@
 // raknet
 #include "BitStream.h"
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 LOGGROUP(TerrainCellListener)
 
-const char* const RBX::Network::sClusterPacketCacheBase = "ClusterPacketCacheBase";
-const char* const RBX::Network::sClusterPacketCache = "ClusterPacketCache";
-const char* const RBX::Network::sOneQuarterClusterPacketCache = "OneQuarterClusterPacketCacheBase";
+const char* const ARL::Network::sClusterPacketCacheBase = "ClusterPacketCacheBase";
+const char* const ARL::Network::sClusterPacketCache = "ClusterPacketCache";
+const char* const ARL::Network::sOneQuarterClusterPacketCache = "OneQuarterClusterPacketCacheBase";
 
 template <class Key>
 ClusterPacketCacheBase<Key>::ClusterPacketCacheBase()
@@ -115,7 +115,7 @@ void ClusterPacketCache::terrainCellChanged(const Voxel::CellChangeInfo& cell)
 
 void ClusterPacketCache::onTerrainRegionChanged(const Voxel2::Region& region)
 {
-    RBXASSERT(false);
+    ARLASSERT(false);
 }
 
 void OneQuarterClusterPacketCache::terrainCellChanged(const Voxel::CellChangeInfo& cell)

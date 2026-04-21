@@ -6,7 +6,7 @@
 
 #include <boost/scoped_ptr.hpp>
 
-namespace RBX {
+namespace ARL {
 
 class Instance;
 
@@ -15,7 +15,7 @@ namespace Network {
 class DeserializedDeleteInstanceItem : public DeserializedItem
 {
 public:
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 
 	DeserializedDeleteInstanceItem();
 	~DeserializedDeleteInstanceItem() {}

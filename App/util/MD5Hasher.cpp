@@ -11,7 +11,7 @@
 #define MD5_DIGEST_LENGTH 16
 
 
-namespace RBX
+namespace ARL
 {
 	extern void ThrowLastError(const char* message);
 
@@ -36,7 +36,7 @@ namespace RBX
 
 		virtual void addData(std::istream& data)
 		{
-            RBXASSERT(!resultReady);
+            ARLASSERT(!resultReady);
 
 			// TODO: Should I do this reset here????
 			data.clear();
@@ -52,14 +52,14 @@ namespace RBX
 
 		virtual void addData(const std::string& data)
 		{
-            RBXASSERT(!resultReady);
+            ARLASSERT(!resultReady);
 
 			MD5_Update(&context, (void*)data.data(), data.length());
 		}
 
 		virtual void addData(const char* data, size_t nBytes)
 		{
-            RBXASSERT(!resultReady);
+            ARLASSERT(!resultReady);
 
 			MD5_Update(&context, (void*)data, nBytes);
 		}
@@ -127,7 +127,7 @@ namespace RBX
 	
 	std::string CollectMd5Hash(const std::string& fileName)
 	{
-		boost::scoped_ptr<RBX::MD5Hasher> hasher(RBX::MD5Hasher::create());
+		boost::scoped_ptr<ARL::MD5Hasher> hasher(ARL::MD5Hasher::create());
 		std::ifstream input(utf8_decode(fileName).c_str(),std::ios_base::binary);
 		hasher->addData(input);
 		return hasher->toString();

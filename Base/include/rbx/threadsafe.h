@@ -20,7 +20,7 @@ using boost::shared_ptr;
 
 LOGGROUP(MutexLifetime);
 
-namespace RBX
+namespace ARL
 {
 	// A lightweight mutex that uses CRITICAL_SECTION under Windows.
 	// This mutex is non-recursive.
@@ -32,12 +32,12 @@ namespace RBX
 		mutex()
 		{
 			::InitializeCriticalSection( &cs );
-			FASTLOG1(FLog::MutexLifetime, "RBX::mutext init m = 0x%x", this);
+			FASTLOG1(FLog::MutexLifetime, "ARL::mutext init m = 0x%x", this);
 		}		
 		~mutex()
 		{
 			::DeleteCriticalSection(&cs);
-			FASTLOG1(FLog::MutexLifetime, "RBX::mutext destroy m = 0x%x", this);
+			FASTLOG1(FLog::MutexLifetime, "ARL::mutext destroy m = 0x%x", this);
 		}
 		class scoped_lock : boost::noncopyable
 		{
@@ -92,7 +92,7 @@ namespace RBX
 #endif	
 	};
 
-	// calls RBXCRASH() on contention.
+	// calls ARLCRASH() on contention.
 	class concurrency_catcher : boost::noncopyable
 	{
         rbx::atomic<int> value;
@@ -111,7 +111,7 @@ namespace RBX
 	};
 
 	
-	// calls RBXCRASH() on contention.
+	// calls ARLCRASH() on contention.
 	struct reentrant_concurrency_catcher : boost::noncopyable
 	{
         rbx::atomic<int> value;
@@ -285,10 +285,10 @@ namespace rbx
 		struct timestamped_safe_queue_item
 		{
 			T value;
-			RBX::Time timestamp;
+			ARL::Time timestamp;
 			timestamped_safe_queue_item() {}
 			timestamped_safe_queue_item(const T& value)
-				:timestamp(RBX::Time::now<RBX::Time::Fast>())
+				:timestamp(ARL::Time::now<ARL::Time::Fast>())
 				,value(value)
 			{}
 		};
@@ -338,12 +338,12 @@ namespace rbx
 		}
 
 		// pops the head item if it has been waiting at least waitTime
-		bool pop_if_waited(RBX::Time::Interval waitTime, T& value)
+		bool pop_if_waited(ARL::Time::Interval waitTime, T& value)
 		{
 			mutex::scoped_lock lock(this->m);
 			if (this->queue.empty())
 				return false;
-			if (RBX::Time::now<RBX::Time::Fast>() < this->queue.front().timestamp + waitTime)
+			if (ARL::Time::now<ARL::Time::Fast>() < this->queue.front().timestamp + waitTime)
 				return false;
 			value = this->queue.front().value;
 			this->queue.pop();
@@ -359,7 +359,7 @@ namespace rbx
 		}
 
 		// Returns the time that the head item has been waiting or zero.
-		double head_waittime_sec(const RBX::Time& timeNow) const
+		double head_waittime_sec(const ARL::Time& timeNow) const
 		{
 			if (headTimestamp > 0.f)
             {

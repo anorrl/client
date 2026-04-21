@@ -4,7 +4,7 @@
 #include "V8World/SnapJoint.h"
 #include "V8World/Primitive.h"
 
-namespace RBX {
+namespace ARL {
 
 bool SnapJoint::compatibleSurfaces(
 	Primitive* p0, 

@@ -4,10 +4,10 @@
 
 #pragma once
 
-namespace RBX 
+namespace ARL 
 {
 	// Base class to control all selection functionality
-	class RBXBaseClass Selectable
+	class ARLBaseClass Selectable
 	{
 	public:
 		virtual bool isSelectable3d() { return true; }

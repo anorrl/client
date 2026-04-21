@@ -1,4 +1,4 @@
-#ifdef RBX_PLATFORM_DURANGO
+#ifdef ARL_PLATFORM_DURANGO
 
 #include "stdafx.h"
 #include "util/FileSystem.h"
@@ -6,7 +6,7 @@
 #include <wrl.h>
 
 // needed for filesystem
-namespace RBX
+namespace ARL
 {
 namespace FileSystem
 {

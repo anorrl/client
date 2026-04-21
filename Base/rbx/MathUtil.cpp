@@ -3,7 +3,7 @@
 #include <float.h>
 #include <cmath>
 
-namespace RBX{
+namespace ARL{
 
 int GetMappedDOF(int dof)
 {
@@ -94,8 +94,8 @@ inline double TCritical(unsigned dof, Confidence conf)
 
 	int mappedDOF = GetMappedDOF(dof);
 
-	RBXASSERT(conf < 4);
-	RBXASSERT(mappedDOF < ARRAYSIZE(DOFs));
+	ARLASSERT(conf < 4);
+	ARLASSERT(mappedDOF < ARRAYSIZE(DOFs));
 
 	return DOFs[mappedDOF][conf+1];
 }

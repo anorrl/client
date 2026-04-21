@@ -6,7 +6,7 @@
 #include <map>
 #include <vector>
 
-namespace RBX
+namespace ARL
 {
 	namespace Profiling
 	{

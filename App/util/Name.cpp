@@ -9,7 +9,7 @@
 #include <boost/thread/once.hpp>
 #include <boost/unordered_map.hpp>
 
-using namespace RBX;
+using namespace ARL;
 
 
 namespace { 
@@ -58,9 +58,9 @@ Name::NameMap::~NameMap()
 //////////////////////////////////////////
 // Cumbersome code to ensure that the mutex is initalized 
 // in a thread-safe manner
-static RBX::mutex& moo2()
+static ARL::mutex& moo2()
 {
-	static RBX::mutex mutex2;
+	static ARL::mutex mutex2;
 	return mutex2;
 }
 static void initMoo()
@@ -68,7 +68,7 @@ static void initMoo()
 	moo2();
 }
 static boost::once_flag mooFlag = BOOST_ONCE_INIT;
-RBX::mutex& Name::mutex()
+ARL::mutex& Name::mutex()
 {
 	boost::call_once(&initMoo, mooFlag);
 	return moo2();
@@ -113,19 +113,19 @@ void Name::setOrderIndex()
 	size_t i = ordered.size();
 	for (; i > 0; --i)
 	{
-		RBXASSERT(ordered[i-1]->str != str);
+		ARLASSERT(ordered[i-1]->str != str);
 		if (str > ordered[i-1]->str)
 			break;
 
 		ordered[i-1]->sortIndex++;
-		RBXASSERT(ordered[i-1]->sortIndex == i);
+		ARLASSERT(ordered[i-1]->sortIndex == i);
 	}
 	this->sortIndex = i;
 	ordered.insert(ordered.begin() + i, this);
 
 #ifdef _DEBUG
 	for (size_t j = 0; j < ordered.size(); ++j)
-		RBXASSERT(ordered[j]->sortIndex == j);
+		ARLASSERT(ordered[j]->sortIndex == j);
 #endif
 }
 
@@ -141,8 +141,8 @@ const Name& Name::declare(const char* const& sName) {
 		// This scope needs to be closed before calling getNullName or the 
 		// mutex will be recursively locked.
 
-		RBX::mutex::scoped_lock lock(mutex());
-        const Name& (*thisFunction)(const char* const &) = &RBX::Name::declare; // required due to overload.
+		ARL::mutex::scoped_lock lock(mutex());
+        const Name& (*thisFunction)(const char* const &) = &ARL::Name::declare; // required due to overload.
         checkRbxCaller<kCallCheckCallersCode, callCheckSetApiFlag<kNameApiOffset> >(reinterpret_cast<void*>(thisFunction));
 
 		NameMap::iterator iter = map().find(sName);
@@ -155,7 +155,7 @@ const Name& Name::declare(const char* const& sName) {
 		result = name;
 	}
 
-	RBXASSERT(sName[0]=='\0' || (!result->str.empty() && lookup(sName) != Name::getNullName()) );
+	ARLASSERT(sName[0]=='\0' || (!result->str.empty() && lookup(sName) != Name::getNullName()) );
 	return *result;
 }
 
@@ -165,8 +165,8 @@ const Name& Name::lookup(const char* const& sName) {
 
 	const Name* result = NULL;
 	{
-		RBX::mutex::scoped_lock lock(mutex());
-        const Name& (*thisFunction)(const char* const &) = &RBX::Name::lookup; // required due to overload.
+		ARL::mutex::scoped_lock lock(mutex());
+        const Name& (*thisFunction)(const char* const &) = &ARL::Name::lookup; // required due to overload.
         checkRbxCaller<kCallCheckCallersCode, callCheckSetApiFlag<kNameApiOffset> >(
             reinterpret_cast<void*>(thisFunction));
 
@@ -179,7 +179,7 @@ const Name& Name::lookup(const char* const& sName) {
 	return result != NULL ? *result : Name::getNullName();
 }
 
-std::ostream& RBX::operator<<( std::ostream& os, const Name& name )
+std::ostream& ARL::operator<<( std::ostream& os, const Name& name )
 {
 	return os << name.c_str();
 }

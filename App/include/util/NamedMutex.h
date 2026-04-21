@@ -3,7 +3,7 @@
 #ifdef _WIN32
 #include <windows.h>
 
-namespace RBX
+namespace ARL
 {
 class ScopedNamedMutex
 {
@@ -13,5 +13,5 @@ public:
     ScopedNamedMutex(const char* name);
     ~ScopedNamedMutex();
 };
-} // namespace RBX
+} // namespace ARL
 #endif // #ifdef _WIN32 

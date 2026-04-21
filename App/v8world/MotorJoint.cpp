@@ -9,7 +9,7 @@
 
 #include "boost/functional/hash/hash.hpp"
 
-namespace RBX {
+namespace ARL {
 		
 
 MotorJoint::MotorJoint()
@@ -42,7 +42,7 @@ int MotorJoint::getParentId() const
 	const Body* b1 = getConstPrimitive(1)->getConstBody();
 
 	int parentId = (b1->getConstParent() == b0) ? 0 : 1;
-	RBXASSERT((parentId == 0) || (b0->getConstParent() == b1));
+	ARLASSERT((parentId == 0) || (b0->getConstParent() == b1));
 
 	return parentId;
 }
@@ -50,7 +50,7 @@ int MotorJoint::getParentId() const
 
 void MotorJoint::setJointAngle(float value)
 {
-	RBXASSERT(link);
+	ARLASSERT(link);
 	
 	link->setJointAngle(value);	// Parent id == 0: value
 }
@@ -112,7 +112,7 @@ CoordinateFrame MotorJoint::getMeInOther(Primitive* me)
 		return p1InP0;
 	}
 	else {
-		RBXASSERT(me == getPrimitive(0));
+		ARLASSERT(me == getPrimitive(0));
 		return p1InP0.inverse();
 	}
 }

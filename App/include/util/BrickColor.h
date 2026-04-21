@@ -9,7 +9,7 @@
 
 #include <vector>
 
-namespace RBX {
+namespace ARL {
 
 	// A collection of official ROBLOX colors
 	class BrickColor

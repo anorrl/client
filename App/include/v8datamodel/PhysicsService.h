@@ -7,7 +7,7 @@
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/Workspace.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char *const sPhysicsService;
 
@@ -20,7 +20,7 @@ namespace RBX {
 		typedef DescribedNonCreatable<PhysicsService, Instance, sPhysicsService> Super;
 
 	public:
-		typedef RBX::Intrusive::Set< PartInstance, PhysicsService > Parts;
+		typedef ARL::Intrusive::Set< PartInstance, PhysicsService > Parts;
 		typedef Parts::Iterator PartsIt;
 
 	private:

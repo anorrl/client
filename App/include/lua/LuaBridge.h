@@ -7,7 +7,7 @@
 #include "rbx/Debug.h"
 #include "rbx/atomic.h"
 
-namespace RBX { namespace Lua {
+namespace ARL { namespace Lua {
 
 void newweaktable(lua_State *L, const char *mode);
 
@@ -90,7 +90,7 @@ public:
     static void registerClass (lua_State *L);
 
 /// gcc craps out with the error while it is called from ScriptContext.cpp for registerClass fns for the Bridge e.g EventBridge::registerClass(globalState);
-// error: 'static int RBX::Lua::Bridge<Class, __eq>::on_index(lua_State*) [with Class = RBX::Lua::EventInstance, bool __eq = true]' is protected
+// error: 'static int ARL::Lua::Bridge<Class, __eq>::on_index(lua_State*) [with Class = ARL::Lua::EventInstance, bool __eq = true]' is protected
 #ifdef _WIN32
 protected:
 #endif
@@ -163,7 +163,7 @@ public:
 
 			lua_pushlightuserdata(L, (void*)&push ); /* Registry mapping for weak table. Key is arbitrary. */
 			lua_rawget(L, LUA_REGISTRYINDEX);                             // Stack:   t
-			RBXASSERT(!lua_isnil( L, -1 ));  // Did you forget to call registerClassLibrary??
+			ARLASSERT(!lua_isnil( L, -1 ));  // Did you forget to call registerClassLibrary??
 
 			// Now the top of the stack is our lookup table
 			// See if we already have a UserData for this instance
@@ -180,7 +180,7 @@ public:
 			}
 			lua_remove (L, -2);															// Stack:   I
 #ifdef _DEBUG
-			RBXASSERT(lua_gettop(L) == i + 1);
+			ARLASSERT(lua_gettop(L) == i + 1);
 #endif
 		}
 	}
@@ -190,7 +190,7 @@ public:
 		if (lua_isnil(L, index))
 			return boost::shared_ptr<Class>();
 		else
-			return RBX::Lua::Bridge<boost::shared_ptr<Class>, false>::getObject(L, index);
+			return ARL::Lua::Bridge<boost::shared_ptr<Class>, false>::getObject(L, index);
 	}
 
 	template<typename V>
@@ -234,7 +234,7 @@ public:
 
 		lua_pushlightuserdata(L, (void*)&push); /* Registry mapping for table. Key is arbitrary. */
 		lua_rawget(L, LUA_REGISTRYINDEX);                             // Stack:   t
-		RBXASSERT(!lua_isnil( L, -1 ));  // Did you forget to call registerClassLibrary??
+		ARLASSERT(!lua_isnil( L, -1 ));  // Did you forget to call registerClassLibrary??
 
 		// Now the top of the stack is our lookup table
 		// See if we already have a UserData for this instance
@@ -253,7 +253,7 @@ public:
 		lua_remove (L, -2);                                           // Stack:   I
 
 #ifdef _DEBUG
-		RBXASSERT(lua_gettop(L) == i + 1);
+		ARLASSERT(lua_gettop(L) == i + 1);
 #endif
 	}
 };

@@ -8,7 +8,7 @@
 
 #define MAX_AXIS_VALUE 32767.0f
 
-SDLGameController::SDLGameController(shared_ptr<RBX::DataModel> newDM)
+SDLGameController::SDLGameController(shared_ptr<ARL::DataModel> newDM)
 {
 	dataModel = newDM;
     initSDL();
@@ -26,30 +26,30 @@ void SDLGameController::initSDL()
 		return;
 	}
 
-	RBX::ContentId gameControllerDb = RBX::ContentId::fromAssets("fonts/gamecontrollerdb.txt");
-	std::string filePath = RBX::ContentProvider::findAsset(gameControllerDb);
+	ARL::ContentId gameControllerDb = ARL::ContentId::fromAssets("fonts/gamecontrollerdb.txt");
+	std::string filePath = ARL::ContentProvider::findAsset(gameControllerDb);
 
 	if (SDL_GameControllerAddMappingsFromFile(filePath.c_str()) == -1)
 	{
 		std::string error = SDL_GetError();
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Unable to add SDL controller mappings because %s", error.c_str());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Unable to add SDL controller mappings because %s", error.c_str());
 	}
 
-	if (shared_ptr<RBX::DataModel> sharedDM = dataModel.lock())
+	if (shared_ptr<ARL::DataModel> sharedDM = dataModel.lock())
 	{
-		sharedDM->submitTask(boost::bind(&SDLGameController::bindToDataModel, this), RBX::DataModelJob::Write);
+		sharedDM->submitTask(boost::bind(&SDLGameController::bindToDataModel, this), ARL::DataModelJob::Write);
 	}
 }
 
 void SDLGameController::bindToDataModel()
 {
-	if (RBX::UserInputService* inputService = getUserInputService())
+	if (ARL::UserInputService* inputService = getUserInputService())
 	{
 		renderSteppedConnection = inputService->updateInputSignal.connect(boost::bind(&SDLGameController::updateControllers, this));
 		getSupportedGamepadKeyCodesConnection = inputService->getSupportedGamepadKeyCodesSignal.connect(boost::bind(&SDLGameController::findAvailableGamepadKeyCodesAndSet, this, _1));
 	}
 
-	if (RBX::HapticService* hapticService = getHapticService())
+	if (ARL::HapticService* hapticService = getHapticService())
 	{
 		setEnabledVibrationMotorsConnection = hapticService->setEnabledVibrationMotorsSignal.connect(boost::bind(&SDLGameController::setVibrationMotorsEnabled, this, _1));
 		setVibrationMotorConnection = hapticService->setVibrationMotorSignal.connect(boost::bind(&SDLGameController::setVibrationMotor, this, _1, _2, _3));
@@ -77,11 +77,11 @@ SDLGameController::~SDLGameController()
     SDL_Quit();
 }
 
-RBX::UserInputService* SDLGameController::getUserInputService()
+ARL::UserInputService* SDLGameController::getUserInputService()
 {
-	if (shared_ptr<RBX::DataModel> sharedDM = dataModel.lock())
+	if (shared_ptr<ARL::DataModel> sharedDM = dataModel.lock())
 	{
-		if (RBX::UserInputService* inputService = RBX::ServiceProvider::create<RBX::UserInputService>(sharedDM.get()))
+		if (ARL::UserInputService* inputService = ARL::ServiceProvider::create<ARL::UserInputService>(sharedDM.get()))
 		{
 			return inputService;
 		}
@@ -90,11 +90,11 @@ RBX::UserInputService* SDLGameController::getUserInputService()
 	return NULL;
 }
 
-RBX::HapticService* SDLGameController::getHapticService()
+ARL::HapticService* SDLGameController::getHapticService()
 {
-	if (shared_ptr<RBX::DataModel> sharedDM = dataModel.lock())
+	if (shared_ptr<ARL::DataModel> sharedDM = dataModel.lock())
 	{
-		if (RBX::HapticService* hapticService = RBX::ServiceProvider::create<RBX::HapticService>(sharedDM.get()))
+		if (ARL::HapticService* hapticService = ARL::ServiceProvider::create<ARL::HapticService>(sharedDM.get()))
 		{
 			return hapticService;
 		}
@@ -103,11 +103,11 @@ RBX::HapticService* SDLGameController::getHapticService()
 	return NULL;
 }
 
-RBX::GamepadService* SDLGameController::getGamepadService()
+ARL::GamepadService* SDLGameController::getGamepadService()
 {
-	if (shared_ptr<RBX::DataModel> sharedDM = dataModel.lock())
+	if (shared_ptr<ARL::DataModel> sharedDM = dataModel.lock())
 	{
-		if (RBX::GamepadService* gamepadService = RBX::ServiceProvider::create<RBX::GamepadService>(sharedDM.get()))
+		if (ARL::GamepadService* gamepadService = ARL::ServiceProvider::create<ARL::GamepadService>(sharedDM.get()))
 		{
 			return gamepadService;
 		}
@@ -119,7 +119,7 @@ RBX::GamepadService* SDLGameController::getGamepadService()
 SDL_GameController* SDLGameController::removeControllerMapping(int joystickId)
 {
 	SDL_GameController* gameController = NULL;
-	RBX::UserInputService* inputService = getUserInputService();
+	ARL::UserInputService* inputService = getUserInputService();
 
 	if (joystickIdToGamepadId.find(joystickId) != joystickIdToGamepadId.end())
 	{
@@ -131,7 +131,7 @@ SDL_GameController* SDLGameController::removeControllerMapping(int joystickId)
 
 			if (inputService)
 			{
-                inputService->safeFireGamepadDisconnected(RBX::GamepadService::getGamepadEnumForInt(gamepadId));
+                inputService->safeFireGamepadDisconnected(ARL::GamepadService::getGamepadEnumForInt(gamepadId));
 			}
 		}
 
@@ -155,9 +155,9 @@ void SDLGameController::setupControllerId(int joystickId, int gamepadId, SDL_Gam
 	gamepadIdToGameController[gamepadId] = std::pair<int,SDL_GameController*>(joystickId, pad);
 	joystickIdToGamepadId[joystickId] = gamepadId;
 
-	if (RBX::UserInputService* inputService = getUserInputService())
+	if (ARL::UserInputService* inputService = getUserInputService())
 	{
-        inputService->safeFireGamepadConnected(RBX::GamepadService::getGamepadEnumForInt(gamepadId));
+        inputService->safeFireGamepadConnected(ARL::GamepadService::getGamepadEnumForInt(gamepadId));
 	}
 }
 
@@ -185,94 +185,94 @@ void SDLGameController::removeController(int joystickId)
 	}
 }
 
-RBX::Gamepad SDLGameController::getRbxGamepadFromJoystickId(int joystickId)
+ARL::Gamepad SDLGameController::getRbxGamepadFromJoystickId(int joystickId)
 {
 	if (joystickIdToGamepadId.find(joystickId) != joystickIdToGamepadId.end())
 	{
-		if (RBX::GamepadService* gamepadService = getGamepadService())
+		if (ARL::GamepadService* gamepadService = getGamepadService())
 		{
 			int gamepadId = joystickIdToGamepadId[joystickId];
 			return gamepadService->getGamepadState(gamepadId);
 		}
 	}
 
-	return RBX::Gamepad();
+	return ARL::Gamepad();
 }
 
-RBX::KeyCode getKeyCodeFromSDLAxis(SDL_GameControllerAxis sdlAxis, int& axisValueChanged)
+ARL::KeyCode getKeyCodeFromSDLAxis(SDL_GameControllerAxis sdlAxis, int& axisValueChanged)
 {
 	switch (sdlAxis)
 	{
 	case SDL_CONTROLLER_AXIS_LEFTX:
 		axisValueChanged = 0;
-		return RBX::SDLK_GAMEPAD_THUMBSTICK1;
+		return ARL::SDLK_GAMEPAD_THUMBSTICK1;
 	case SDL_CONTROLLER_AXIS_LEFTY:
 		axisValueChanged = 1;
-		return RBX::SDLK_GAMEPAD_THUMBSTICK1;
+		return ARL::SDLK_GAMEPAD_THUMBSTICK1;
 	case SDL_CONTROLLER_AXIS_RIGHTX:
 		axisValueChanged = 0;
-		return RBX::SDLK_GAMEPAD_THUMBSTICK2;
+		return ARL::SDLK_GAMEPAD_THUMBSTICK2;
 	case SDL_CONTROLLER_AXIS_RIGHTY:
 		axisValueChanged = 1;
-		return RBX::SDLK_GAMEPAD_THUMBSTICK2;
+		return ARL::SDLK_GAMEPAD_THUMBSTICK2;
 	case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
 		axisValueChanged = 2;
-		return RBX::SDLK_GAMEPAD_BUTTONL2;
+		return ARL::SDLK_GAMEPAD_BUTTONL2;
 	case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
 		axisValueChanged = 2;
-		return RBX::SDLK_GAMEPAD_BUTTONR2;
+		return ARL::SDLK_GAMEPAD_BUTTONR2;
     case SDL_CONTROLLER_AXIS_INVALID:
     case SDL_CONTROLLER_AXIS_MAX:
-        return RBX::SDLK_UNKNOWN;
+        return ARL::SDLK_UNKNOWN;
 	}
 
-	return RBX::SDLK_UNKNOWN;
+	return ARL::SDLK_UNKNOWN;
 }
 
-RBX::KeyCode getKeyCodeFromSDLButton(SDL_GameControllerButton sdlButton)
+ARL::KeyCode getKeyCodeFromSDLButton(SDL_GameControllerButton sdlButton)
 {
 	switch (sdlButton)
 	{
 	case SDL_CONTROLLER_BUTTON_A:
-		return RBX::SDLK_GAMEPAD_BUTTONA;
+		return ARL::SDLK_GAMEPAD_BUTTONA;
 	case SDL_CONTROLLER_BUTTON_B:
-		return RBX::SDLK_GAMEPAD_BUTTONB;
+		return ARL::SDLK_GAMEPAD_BUTTONB;
 	case SDL_CONTROLLER_BUTTON_X:
-		return RBX::SDLK_GAMEPAD_BUTTONX;
+		return ARL::SDLK_GAMEPAD_BUTTONX;
 	case SDL_CONTROLLER_BUTTON_Y:
-		return RBX::SDLK_GAMEPAD_BUTTONY;
+		return ARL::SDLK_GAMEPAD_BUTTONY;
 
 	case SDL_CONTROLLER_BUTTON_START:
-		return RBX::SDLK_GAMEPAD_BUTTONSTART;
+		return ARL::SDLK_GAMEPAD_BUTTONSTART;
 	case SDL_CONTROLLER_BUTTON_BACK:
-		return RBX::SDLK_GAMEPAD_BUTTONSELECT;
+		return ARL::SDLK_GAMEPAD_BUTTONSELECT;
 
 	case SDL_CONTROLLER_BUTTON_DPAD_UP:
-		return RBX::SDLK_GAMEPAD_DPADUP;
+		return ARL::SDLK_GAMEPAD_DPADUP;
 	case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-		return RBX::SDLK_GAMEPAD_DPADDOWN;
+		return ARL::SDLK_GAMEPAD_DPADDOWN;
 	case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-		return RBX::SDLK_GAMEPAD_DPADLEFT;
+		return ARL::SDLK_GAMEPAD_DPADLEFT;
 	case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-		return RBX::SDLK_GAMEPAD_DPADRIGHT;
+		return ARL::SDLK_GAMEPAD_DPADRIGHT;
 
 	case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:
-		return RBX::SDLK_GAMEPAD_BUTTONL1;
+		return ARL::SDLK_GAMEPAD_BUTTONL1;
 	case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
-		return RBX::SDLK_GAMEPAD_BUTTONR1;
+		return ARL::SDLK_GAMEPAD_BUTTONR1;
 
 	case SDL_CONTROLLER_BUTTON_LEFTSTICK:
-		return RBX::SDLK_GAMEPAD_BUTTONL3;
+		return ARL::SDLK_GAMEPAD_BUTTONL3;
 	case SDL_CONTROLLER_BUTTON_RIGHTSTICK:
-		return RBX::SDLK_GAMEPAD_BUTTONR3;
+		return ARL::SDLK_GAMEPAD_BUTTONR3;
             
     case SDL_CONTROLLER_BUTTON_INVALID:
     case SDL_CONTROLLER_BUTTON_GUIDE:
     case SDL_CONTROLLER_BUTTON_MAX:
-        return RBX::SDLK_UNKNOWN;
+        return ARL::SDLK_UNKNOWN;
 	}
 
-	return RBX::SDLK_UNKNOWN;
+	return ARL::SDLK_UNKNOWN;
 }
 
 bool SDLGameController::setupHapticsForDevice(int id)
@@ -303,7 +303,7 @@ bool SDLGameController::setupHapticsForDevice(int id)
 	return false;
 }
 
-void SDLGameController::setVibrationMotorsEnabled(RBX::InputObject::UserInputType gamepadType)
+void SDLGameController::setVibrationMotorsEnabled(ARL::InputObject::UserInputType gamepadType)
 {
 	int gamepadId = getGamepadIntForEnum(gamepadType);
 	if (!setupHapticsForDevice(gamepadId))
@@ -314,17 +314,17 @@ void SDLGameController::setVibrationMotorsEnabled(RBX::InputObject::UserInputTyp
 	SDL_Haptic* haptic = hapticsFromGamepadId[gamepadId].hapticDevice;
 	if (haptic)
 	{
-		if (RBX::HapticService* hapticService = getHapticService())
+		if (ARL::HapticService* hapticService = getHapticService())
 		{
-			hapticService->setEnabledVibrationMotors(gamepadType, RBX::HapticService::MOTOR_LARGE, true);
-			hapticService->setEnabledVibrationMotors(gamepadType, RBX::HapticService::MOTOR_SMALL, true);
-			hapticService->setEnabledVibrationMotors(gamepadType, RBX::HapticService::MOTOR_LEFTTRIGGER, false);
-			hapticService->setEnabledVibrationMotors(gamepadType, RBX::HapticService::MOTOR_RIGHTTRIGGER, false);
+			hapticService->setEnabledVibrationMotors(gamepadType, ARL::HapticService::MOTOR_LARGE, true);
+			hapticService->setEnabledVibrationMotors(gamepadType, ARL::HapticService::MOTOR_SMALL, true);
+			hapticService->setEnabledVibrationMotors(gamepadType, ARL::HapticService::MOTOR_LEFTTRIGGER, false);
+			hapticService->setEnabledVibrationMotors(gamepadType, ARL::HapticService::MOTOR_RIGHTTRIGGER, false);
 		}
 	}
 }
 
-void SDLGameController::setVibrationMotor(RBX::InputObject::UserInputType gamepadType, RBX::HapticService::VibrationMotor vibrationMotor, shared_ptr<const RBX::Reflection::Tuple> args)
+void SDLGameController::setVibrationMotor(ARL::InputObject::UserInputType gamepadType, ARL::HapticService::VibrationMotor vibrationMotor, shared_ptr<const ARL::Reflection::Tuple> args)
 {
 	int gamepadId = getGamepadIntForEnum(gamepadType);
 	if (!setupHapticsForDevice(gamepadId))
@@ -333,7 +333,7 @@ void SDLGameController::setVibrationMotor(RBX::InputObject::UserInputType gamepa
 	}
 
 	float newMotorValue = 0.0f;
-	RBX::Reflection::Variant newValue = args->values[0];
+	ARL::Reflection::Variant newValue = args->values[0];
 	if (newValue.isFloat())
 	{
 		newMotorValue = newValue.get<float>();
@@ -341,7 +341,7 @@ void SDLGameController::setVibrationMotor(RBX::InputObject::UserInputType gamepa
 	}
 	else // no valid number in first position, lets bail
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "First value to HapticService:SetMotor is not a valid number (must be a number between 0-1)");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "First value to HapticService:SetMotor is not a valid number (must be a number between 0-1)");
 		return;
 	}
 
@@ -351,11 +351,11 @@ void SDLGameController::setVibrationMotor(RBX::InputObject::UserInputType gamepa
 	float leftMotorValue = iter->second.currentLeftMotorValue;
 	float rightMotorValue = iter->second.currentRightMotorValue;
 
-	if (vibrationMotor == RBX::HapticService::MOTOR_LARGE)
+	if (vibrationMotor == ARL::HapticService::MOTOR_LARGE)
 	{
 		leftMotorValue = newMotorValue;
 	}
-	else if (vibrationMotor == RBX::HapticService::MOTOR_SMALL)
+	else if (vibrationMotor == ARL::HapticService::MOTOR_SMALL)
 	{
 		rightMotorValue = newMotorValue;
 	}
@@ -420,16 +420,16 @@ void SDLGameController::refreshHapticEffects()
 
 void SDLGameController::onControllerButton( const SDL_ControllerButtonEvent sdlEvent )
 {
-	const RBX::KeyCode buttonCode = getKeyCodeFromSDLButton((SDL_GameControllerButton) sdlEvent.button);
+	const ARL::KeyCode buttonCode = getKeyCodeFromSDLButton((SDL_GameControllerButton) sdlEvent.button);
 
-	if (buttonCode == RBX::SDLK_UNKNOWN)
+	if (buttonCode == ARL::SDLK_UNKNOWN)
 	{
 		return;
 	}
 
-	RBX::Gamepad gamepad = getRbxGamepadFromJoystickId(sdlEvent.which);
+	ARL::Gamepad gamepad = getRbxGamepadFromJoystickId(sdlEvent.which);
 	const int buttonState = (sdlEvent.type == SDL_CONTROLLERBUTTONDOWN) ? 1 : 0;
-	RBX::InputObject::UserInputState newState = (buttonState == 1) ? RBX::InputObject::INPUT_STATE_BEGIN : RBX::InputObject::INPUT_STATE_END;
+	ARL::InputObject::UserInputState newState = (buttonState == 1) ? ARL::InputObject::INPUT_STATE_BEGIN : ARL::InputObject::INPUT_STATE_END;
 
 	if (newState == gamepad[buttonCode]->getUserInputState())
 	{
@@ -442,7 +442,7 @@ void SDLGameController::onControllerButton( const SDL_ControllerButtonEvent sdlE
 	gamepad[buttonCode]->setDelta(gamepad[buttonCode]->getPosition() - lastPos);
 	gamepad[buttonCode]->setInputState(newState);
 
-	if (RBX::UserInputService* inputService = getUserInputService())
+	if (ARL::UserInputService* inputService = getUserInputService())
 	{
         inputService->dangerousFireInputEvent(gamepad[buttonCode], NULL);
 	}
@@ -451,9 +451,9 @@ void SDLGameController::onControllerButton( const SDL_ControllerButtonEvent sdlE
 void SDLGameController::onControllerAxis( const SDL_ControllerAxisEvent sdlEvent )
 {
 	int axisValueChanged = -1;
-	const RBX::KeyCode axisCode = getKeyCodeFromSDLAxis((SDL_GameControllerAxis) sdlEvent.axis, axisValueChanged);
+	const ARL::KeyCode axisCode = getKeyCodeFromSDLAxis((SDL_GameControllerAxis) sdlEvent.axis, axisValueChanged);
 
-	if (axisCode == RBX::SDLK_UNKNOWN)
+	if (axisCode == ARL::SDLK_UNKNOWN)
 	{
 		return;
 	}
@@ -462,7 +462,7 @@ void SDLGameController::onControllerAxis( const SDL_ControllerAxisEvent sdlEvent
 	axisValue /= MAX_AXIS_VALUE;
 	axisValue = G3D::clamp(axisValue, -1.0f, 1.0f);
 
-	RBX::Gamepad gamepad = getRbxGamepadFromJoystickId(sdlEvent.which);
+	ARL::Gamepad gamepad = getRbxGamepadFromJoystickId(sdlEvent.which);
 	G3D::Vector3 currentPosition = gamepad[axisCode]->getPosition();
 
 	switch (axisValueChanged)
@@ -485,20 +485,20 @@ void SDLGameController::onControllerAxis( const SDL_ControllerAxisEvent sdlEvent
 	{
 		gamepad[axisCode]->setPosition(currentPosition);
 
-		RBX::InputObject::UserInputState currentState = RBX::InputObject::INPUT_STATE_CHANGE;
+		ARL::InputObject::UserInputState currentState = ARL::InputObject::INPUT_STATE_CHANGE;
 		if (currentPosition == G3D::Vector3::zero())
 		{
-			currentState = RBX::InputObject::INPUT_STATE_END;
+			currentState = ARL::InputObject::INPUT_STATE_END;
 		}
 		else if (currentPosition.z >= 1.0f)
 		{
-			currentState = RBX::InputObject::INPUT_STATE_BEGIN;
+			currentState = ARL::InputObject::INPUT_STATE_BEGIN;
 		}
 
 		gamepad[axisCode]->setDelta(currentPosition - lastPos);
 		gamepad[axisCode]->setInputState(currentState);
 
-		if (RBX::UserInputService* inputService = getUserInputService())
+		if (ARL::UserInputService* inputService = getUserInputService())
 		{
             inputService->dangerousFireInputEvent(gamepad[axisCode], NULL);
 		}
@@ -538,67 +538,67 @@ void SDLGameController::updateControllers()
 	refreshHapticEffects();
 }
 
-RBX::KeyCode getKeyCodeFromSDLName(std::string sdlName)
+ARL::KeyCode getKeyCodeFromSDLName(std::string sdlName)
 {
 	if (sdlName.compare("a") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONA;
+		return ARL::SDLK_GAMEPAD_BUTTONA;
 	if (sdlName.compare("b") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONB;
+		return ARL::SDLK_GAMEPAD_BUTTONB;
 	if (sdlName.compare("x") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONX;
+		return ARL::SDLK_GAMEPAD_BUTTONX;
 	if (sdlName.compare("y") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONY;
+		return ARL::SDLK_GAMEPAD_BUTTONY;
 
 	if (sdlName.compare("back") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONSELECT;
+		return ARL::SDLK_GAMEPAD_BUTTONSELECT;
 	if (sdlName.compare("start") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONSTART;
+		return ARL::SDLK_GAMEPAD_BUTTONSTART;
 
 	if (sdlName.compare("dpdown") == 0)
-		return RBX::SDLK_GAMEPAD_DPADDOWN;
+		return ARL::SDLK_GAMEPAD_DPADDOWN;
 	if (sdlName.compare("dpleft") == 0)
-		return RBX::SDLK_GAMEPAD_DPADLEFT;
+		return ARL::SDLK_GAMEPAD_DPADLEFT;
 	if (sdlName.compare("dpright") == 0)
-		return RBX::SDLK_GAMEPAD_DPADRIGHT;
+		return ARL::SDLK_GAMEPAD_DPADRIGHT;
 	if (sdlName.compare("dpup") == 0)
-		return RBX::SDLK_GAMEPAD_DPADUP;
+		return ARL::SDLK_GAMEPAD_DPADUP;
 
 	if (sdlName.compare("leftshoulder") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONL1;
+		return ARL::SDLK_GAMEPAD_BUTTONL1;
 	if (sdlName.compare("lefttrigger") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONL2;
+		return ARL::SDLK_GAMEPAD_BUTTONL2;
 	if (sdlName.compare("leftstick") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONL3;
+		return ARL::SDLK_GAMEPAD_BUTTONL3;
 
 	if (sdlName.compare("rightshoulder") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONR1;
+		return ARL::SDLK_GAMEPAD_BUTTONR1;
 	if (sdlName.compare("righttrigger") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONR2;
+		return ARL::SDLK_GAMEPAD_BUTTONR2;
 	if (sdlName.compare("rightstick") == 0)
-		return RBX::SDLK_GAMEPAD_BUTTONR3;
+		return ARL::SDLK_GAMEPAD_BUTTONR3;
 
 	if (sdlName.compare("leftx") == 0 ||
 		sdlName.compare("lefty") == 0)
-		return RBX::SDLK_GAMEPAD_THUMBSTICK1;
+		return ARL::SDLK_GAMEPAD_THUMBSTICK1;
 
 	if (sdlName.compare("rightx") == 0 ||
 		sdlName.compare("righty") == 0)
-		return RBX::SDLK_GAMEPAD_THUMBSTICK2;
+		return ARL::SDLK_GAMEPAD_THUMBSTICK2;
 
-	return RBX::SDLK_UNKNOWN;
+	return ARL::SDLK_UNKNOWN;
 }
 
-int SDLGameController::getGamepadIntForEnum(RBX::InputObject::UserInputType gamepadType)
+int SDLGameController::getGamepadIntForEnum(ARL::InputObject::UserInputType gamepadType)
 {
 	switch (gamepadType)
 	{
-	case RBX::InputObject::TYPE_GAMEPAD1:
+	case ARL::InputObject::TYPE_GAMEPAD1:
 		return 0;
-	case RBX::InputObject::TYPE_GAMEPAD2:
+	case ARL::InputObject::TYPE_GAMEPAD2:
 		return 1;
-	case RBX::InputObject::TYPE_GAMEPAD3:
+	case ARL::InputObject::TYPE_GAMEPAD3:
 		return 2;
-	case RBX::InputObject::TYPE_GAMEPAD4:
+	case ARL::InputObject::TYPE_GAMEPAD4:
 		return 3;
 	default:
 		break;
@@ -607,22 +607,22 @@ int SDLGameController::getGamepadIntForEnum(RBX::InputObject::UserInputType game
 	return -1;
 }
 
-void SDLGameController::findAvailableGamepadKeyCodesAndSet(RBX::InputObject::UserInputType gamepadType)
+void SDLGameController::findAvailableGamepadKeyCodesAndSet(ARL::InputObject::UserInputType gamepadType)
 {
-	shared_ptr<const RBX::Reflection::ValueArray> availableGamepadKeyCodes = getAvailableGamepadKeyCodes(gamepadType);
-	if (RBX::UserInputService* inputService = getUserInputService())
+	shared_ptr<const ARL::Reflection::ValueArray> availableGamepadKeyCodes = getAvailableGamepadKeyCodes(gamepadType);
+	if (ARL::UserInputService* inputService = getUserInputService())
 	{
 		inputService->setSupportedGamepadKeyCodes(gamepadType, availableGamepadKeyCodes);
 	}
 }
 
-shared_ptr<const RBX::Reflection::ValueArray> SDLGameController::getAvailableGamepadKeyCodes(RBX::InputObject::UserInputType gamepadType)
+shared_ptr<const ARL::Reflection::ValueArray> SDLGameController::getAvailableGamepadKeyCodes(ARL::InputObject::UserInputType gamepadType)
 {
 	int gamepadId = getGamepadIntForEnum(gamepadType);
 
 	if ( gamepadId < 0 || (gamepadIdToGameController.find(gamepadId) == gamepadIdToGameController.end()) )
 	{
-		return shared_ptr<const RBX::Reflection::ValueArray>();
+		return shared_ptr<const ARL::Reflection::ValueArray>();
 	}
 
 	if (SDL_GameController* gameController = gamepadIdToGameController[gamepadId].second)
@@ -632,7 +632,7 @@ shared_ptr<const RBX::Reflection::ValueArray> SDLGameController::getAvailableGam
 		std::istringstream controllerMappingStream(gameControllerMapping);
 		std::string mappingItem;
 
-		shared_ptr<RBX::Reflection::ValueArray> supportedGamepadFunctions(new RBX::Reflection::ValueArray());
+		shared_ptr<ARL::Reflection::ValueArray> supportedGamepadFunctions(new ARL::Reflection::ValueArray());
 
 		int count = 0;
 		while(std::getline(controllerMappingStream, mappingItem, ',')) 
@@ -650,8 +650,8 @@ shared_ptr<const RBX::Reflection::ValueArray> SDLGameController::getAvailableGam
 					break;
 				}
 
-				RBX::KeyCode gamepadCode = getKeyCodeFromSDLName(sdlName);
-				if (gamepadCode != RBX::SDLK_UNKNOWN)
+				ARL::KeyCode gamepadCode = getKeyCodeFromSDLName(sdlName);
+				if (gamepadCode != ARL::SDLK_UNKNOWN)
 				{
 					supportedGamepadFunctions->push_back(gamepadCode);
 				}
@@ -662,5 +662,5 @@ shared_ptr<const RBX::Reflection::ValueArray> SDLGameController::getAvailableGam
 		return supportedGamepadFunctions;
 	}
 
-	return shared_ptr<const RBX::Reflection::ValueArray>();
+	return shared_ptr<const ARL::Reflection::ValueArray>();
 }

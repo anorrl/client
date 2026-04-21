@@ -5,7 +5,7 @@
 #include "V8World/Primitive.h"
 #include "V8World/Poly.h"
 
-namespace RBX
+namespace ARL
 {
 namespace PART
 {

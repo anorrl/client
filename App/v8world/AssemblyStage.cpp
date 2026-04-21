@@ -9,7 +9,7 @@
 #include "V8World/Contact.h"
 #include "V8World/Primitive.h"
 
-namespace RBX {
+namespace ARL {
 
 #pragma warning(push)
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list
@@ -38,7 +38,7 @@ Assembly* AssemblyStage::onEngineChanging(Primitive* p)
 
 void AssemblyStage::onEngineChanged(Assembly* a)
 {
-	RBXASSERT(a);
+	ARLASSERT(a);
 	onSimulateAssemblyDescendentAdded(a);					// basically push and pop from downstream
 }
 

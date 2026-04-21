@@ -2,7 +2,7 @@
 
 #include <boost/functional/hash_fwd.hpp>
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

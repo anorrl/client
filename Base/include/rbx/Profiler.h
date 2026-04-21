@@ -2,13 +2,13 @@
 
 #include <stdint.h>
 
-#include "RbxFormat.h" // for RBX_PRINTF_ATTR
+#include "RbxFormat.h" // for ARL_PRINTF_ATTR
 
 #if defined(_WIN32) || defined(__APPLE__) || defined(__ANDROID__)
-#define RBXPROFILER
+#define ARLPROFILER
 #endif
 
-namespace RBX
+namespace ARL
 {
 	namespace Profiler
 	{
@@ -22,7 +22,7 @@ namespace RBX
 		void leaveRegion(Token token, uint64_t enterTimestamp);
 
 		void addLabel(Token token, const char* name);
-        RBX_PRINTF_ATTR(2, 3) void addLabelFormat(Token token, const char* name, ...);
+        ARL_PRINTF_ATTR(2, 3) void addLabelFormat(Token token, const char* name, ...);
         
         void counterAdd(Token token, long long count);
         void counterSet(Token token, long long count);
@@ -79,21 +79,21 @@ namespace RBX
 	}
 }
 
-#define RBXPROFILER_TOKEN_PASTE0(a, b) a ## b
-#define RBXPROFILER_TOKEN_PASTE(a, b) RBXPROFILER_TOKEN_PASTE0(a,b)
+#define ARLPROFILER_TOKEN_PASTE0(a, b) a ## b
+#define ARLPROFILER_TOKEN_PASTE(a, b) ARLPROFILER_TOKEN_PASTE0(a,b)
 
-#ifdef RBXPROFILER
-	#define RBXPROFILER_SCOPE(group, name, ...) static ::RBX::Profiler::Token RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::RBX::Profiler::getToken(group "", name "", ## __VA_ARGS__); ::RBX::Profiler::Scope RBXPROFILER_TOKEN_PASTE(profscope, __LINE__)(RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__))
-	#define RBXPROFILER_LABEL(group, label) static ::RBX::Profiler::Token RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::RBX::Profiler::getLabelToken(group ""); ::RBX::Profiler::addLabel(RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__), label)
-	#define RBXPROFILER_LABELF(group, label, ...) static ::RBX::Profiler::Token RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::RBX::Profiler::getLabelToken(group ""); ::RBX::Profiler::addLabelFormat(RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__), label, ## __VA_ARGS__)
-	#define RBXPROFILER_COUNTER_ADD(name, count) static ::RBX::Profiler::Token RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::RBX::Profiler::getCounterToken(name ""); ::RBX::Profiler::counterAdd(RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__), static_cast<long long>(count))
-	#define RBXPROFILER_COUNTER_SUB(name, count) static ::RBX::Profiler::Token RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::RBX::Profiler::getCounterToken(name ""); ::RBX::Profiler::counterAdd(RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__), -static_cast<long long>(count))
-	#define RBXPROFILER_COUNTER_SET(name, count) static ::RBX::Profiler::Token RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::RBX::Profiler::getCounterToken(name ""); ::RBX::Profiler::counterSet(RBXPROFILER_TOKEN_PASTE(proftoken, __LINE__), count)
+#ifdef ARLPROFILER
+	#define ARLPROFILER_SCOPE(group, name, ...) static ::ARL::Profiler::Token ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::ARL::Profiler::getToken(group "", name "", ## __VA_ARGS__); ::ARL::Profiler::Scope ARLPROFILER_TOKEN_PASTE(profscope, __LINE__)(ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__))
+	#define ARLPROFILER_LABEL(group, label) static ::ARL::Profiler::Token ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::ARL::Profiler::getLabelToken(group ""); ::ARL::Profiler::addLabel(ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__), label)
+	#define ARLPROFILER_LABELF(group, label, ...) static ::ARL::Profiler::Token ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::ARL::Profiler::getLabelToken(group ""); ::ARL::Profiler::addLabelFormat(ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__), label, ## __VA_ARGS__)
+	#define ARLPROFILER_COUNTER_ADD(name, count) static ::ARL::Profiler::Token ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::ARL::Profiler::getCounterToken(name ""); ::ARL::Profiler::counterAdd(ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__), static_cast<long long>(count))
+	#define ARLPROFILER_COUNTER_SUB(name, count) static ::ARL::Profiler::Token ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::ARL::Profiler::getCounterToken(name ""); ::ARL::Profiler::counterAdd(ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__), -static_cast<long long>(count))
+	#define ARLPROFILER_COUNTER_SET(name, count) static ::ARL::Profiler::Token ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__) = ::ARL::Profiler::getCounterToken(name ""); ::ARL::Profiler::counterSet(ARLPROFILER_TOKEN_PASTE(proftoken, __LINE__), count)
 #else
-	#define RBXPROFILER_SCOPE(group, name, ...) (void)0
-	#define RBXPROFILER_LABEL(group, label) (void)0
-	#define RBXPROFILER_LABELF(group, label, ...) (void)sizeof(0, __VA_ARGS__)
-	#define RBXPROFILER_COUNTER_ADD(name, count) (void)0
-	#define RBXPROFILER_COUNTER_SUB(name, count) (void)0
-	#define RBXPROFILER_COUNTER_SET(name, count) (void)0
+	#define ARLPROFILER_SCOPE(group, name, ...) (void)0
+	#define ARLPROFILER_LABEL(group, label) (void)0
+	#define ARLPROFILER_LABELF(group, label, ...) (void)sizeof(0, __VA_ARGS__)
+	#define ARLPROFILER_COUNTER_ADD(name, count) (void)0
+	#define ARLPROFILER_COUNTER_SUB(name, count) (void)0
+	#define ARLPROFILER_COUNTER_SET(name, count) (void)0
 #endif

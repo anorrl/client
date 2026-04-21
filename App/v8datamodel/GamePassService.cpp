@@ -7,7 +7,7 @@
 #include "V8DataModel/Workspace.h"
 #include "util/RbxStringTable.h"
 
-namespace RBX
+namespace ARL
 {
 const char* const sGamePassService = "GamePassService";
 
@@ -36,7 +36,7 @@ void GamePassService::dispatchRequest(const std::string& url, boost::function<vo
 		{
 			luaWebService->asyncRequest(url, LUA_WEB_SERVICE_STANDARD_PRIORITY, resumeFunction, errorFunction);
 		}
-		catch(RBX::base_exception&)
+		catch(ARL::base_exception&)
 		{
 			errorFunction("Error during dispatch");
 		}
@@ -61,7 +61,7 @@ void GamePassService::playerHasPass(shared_ptr<Instance> playerInstance, int gam
 			return;
 		}
 		int playerId = player->getUserID();
-		std::string url(RBX::format(playerHasPassUrl.c_str(), playerId, gamePassId));
+		std::string url(ARL::format(playerHasPassUrl.c_str(), playerId, gamePassId));
 		dispatchRequest(url, resumeFunction, errorFunction);
 	}
 	else

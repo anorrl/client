@@ -1,6 +1,6 @@
 #include "Util/Hash.h"
 
-namespace RBX {
+namespace ARL {
 
 	unsigned int Hash::hash(const void* data, size_t bytes) 
 	{

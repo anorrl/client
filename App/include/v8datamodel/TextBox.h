@@ -5,7 +5,7 @@
 #include "rbx/rbxTime.h"
 #include "Util/HeartbeatInstance.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sTextBox;
 
@@ -21,7 +21,7 @@ namespace RBX
 		bool showingCursor;
 		bool clearTextOnFocus;
 		std::string bufferedText;
-		RBX::Time lastSwap;
+		ARL::Time lastSwap;
 		bool shouldFocusFromInput;
 
 		int cursorPos; // this represents the character the cursor should be drawn after
@@ -38,7 +38,7 @@ namespace RBX
 				TYPE_RIGHTARROW
 			};
 			KeyType keyType;
-			RBX::KeyCode keyCode;
+			ARL::KeyCode keyCode;
 			char character;
 
 			enum RepeatState
@@ -61,11 +61,11 @@ namespace RBX
 		void doKey(RepeatKeyState::KeyType keyType, std::string key);
 		void doKey(RepeatKeyState::KeyType keyType, char key);
 
-		void keyUp(RepeatKeyState::KeyType keyType, RBX::KeyCode keyCode, char key);
-		void keyDown(RepeatKeyState::KeyType keyType, RBX::KeyCode keyCode, char key);
+		void keyUp(RepeatKeyState::KeyType keyType, ARL::KeyCode keyCode, char key);
+		void keyDown(RepeatKeyState::KeyType keyType, ARL::KeyCode keyCode, char key);
 		void textInput(RepeatKeyState::KeyType keyType, std::string textInput);
 
-		int getCursorPos(RBX::Vector2 mousePos);
+		int getCursorPos(ARL::Vector2 mousePos);
 
 		void gainFocus(const shared_ptr<InputObject>& event);
         void setFocusLost(bool enterPressed, const shared_ptr<InputObject>& inputThatCausedFocusLoss);

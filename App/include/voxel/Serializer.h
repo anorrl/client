@@ -9,7 +9,7 @@
 #include "Voxel/Cell.h"
 #include "Voxel/Grid.h"
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 class SerializerConstants {
 public:
@@ -62,7 +62,7 @@ class Serializer {
 				nextContent == content) {
 				copyCount++;
 				cellBuffer.pop(&unread);
-				RBXASSERT(nextPos == unread);
+				ARLASSERT(nextPos == unread);
                 CellBuffer::nextCellInIterationOrder(nextPos, &nextPos);
 				nextChunk = SpatialRegion::regionContainingVoxel(nextPos);
 				nextCellValue = Cell::serializeAsUnsignedChar(region.voxelAt(nextPos));
@@ -139,7 +139,7 @@ public:
 				if (continuing) {
 					Vector3int16 unused;
 					cellBuffer.pop(&unused);
-					RBXASSERT(unused == nextPos);
+					ARLASSERT(unused == nextPos);
 				}
 			} while (continuing);
 
@@ -214,7 +214,7 @@ public:
 					inputStream.ReadBits(&backIndex, SerializerConstants::kRecentlyEncodedReferenceBits);
 					unsigned int count = 0;
 					VarInt<>::decode(inputStream, &count);
-					RBXASSERT(count > 0);
+					ARLASSERT(count > 0);
 
 					unsigned int content = lastSeenNewCells[backIndex];
 					unsigned char material = content >> 8;
@@ -238,4 +238,4 @@ public:
 	}
 };
 
-} } // namespace RBX
+} } // namespace ARL

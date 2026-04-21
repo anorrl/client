@@ -7,7 +7,7 @@
 #include <boost/weak_ptr.hpp>
 #include <vector>
 
-namespace RBX
+namespace ARL
 {
 	class Instance;
 	class DataModel;
@@ -32,6 +32,6 @@ namespace RBX
 		bool isTrustedContent(const char* url);
 	}
 
-	void spawnDebugCheckThreads(boost::weak_ptr<RBX::DataModel> weakDataModel);
+	void spawnDebugCheckThreads(boost::weak_ptr<ARL::DataModel> weakDataModel);
     extern unsigned int initialProgramHash;
 }

@@ -19,7 +19,7 @@ LOGGROUP(HumanoidFloorProcess)
 DYNAMIC_FASTFLAG(HumanoidFeetIsPlastic)
 DYNAMIC_FASTFLAG(UseTerrainCustomPhysicalProperties)
 
-namespace RBX {
+namespace ARL {
 namespace HUMAN {
 
 const char* const sMovingNoPhysicsBase = "MovingNoPhysicsBase";
@@ -30,7 +30,7 @@ MovingNoPhysicsBase::MovingNoPhysicsBase(Humanoid* humanoid, StateType priorStat
 	:Named<HumanoidState, sMovingNoPhysicsBase>(humanoid, priorState)
 {
 	torsoPart = shared_from<PartInstance>(humanoid->getTorsoSlow());
-	RBXASSERT(!torsoPart.get() || torsoPart->getPartPrimitive()->getEngineType() == Primitive::DYNAMICS_ENGINE);
+	ARLASSERT(!torsoPart.get() || torsoPart->getPartPrimitive()->getEngineType() == Primitive::DYNAMICS_ENGINE);
 
 	if (torsoPart.get())
 	{
@@ -46,16 +46,16 @@ MovingNoPhysicsBase::~MovingNoPhysicsBase()
 {
 	disconnectTorso();
 
-	RBXASSERT(!torsoPart.get());
+	ARLASSERT(!torsoPart.get());
 }
 
 // should never be called!
 void MovingNoPhysicsBase::onComputeForceImpl()
 {
-#ifdef __RBX_NOT_RELEASE
+#ifdef __ARL_NOT_RELEASE
 	//	Note humanoid is always in kernel!
 	if (torsoPart.get()) {
-		RBXASSERT(!torsoPart->getPartPrimitive()->inKernel());
+		ARLASSERT(!torsoPart->getPartPrimitive()->inKernel());
 	}
 #endif
 }
@@ -65,7 +65,7 @@ void MovingNoPhysicsBase::onEvent_TorsoAncestryChanged()
 {
 	disconnectTorso();
 
-	RBXASSERT(!torsoPart.get());
+	ARLASSERT(!torsoPart.get());
 }
 
 void MovingNoPhysicsBase::disconnectTorso()
@@ -74,7 +74,7 @@ void MovingNoPhysicsBase::disconnectTorso()
 
 	if (torsoPart.get())
 	{
-		RBXASSERT(torsoPart->getPartPrimitive()->getEngineType() == Primitive::HUMANOID_ENGINE);
+		ARLASSERT(torsoPart->getPartPrimitive()->getEngineType() == Primitive::HUMANOID_ENGINE);
 
 		torsoPart->getPartPrimitive()->setEngineType(Primitive::DYNAMICS_ENGINE);
 
@@ -119,7 +119,7 @@ void MovingNoPhysicsBase::onSimulatorStepImpl(float stepDt)
 	{
 		if (torso->getAssembly()->getAssemblyPrimitive() == torso) 
 		{
-			RBXASSERT(!(torso->getBody()->getRootSimBody()->isInKernel()));		// make sure engine not simulating with physics
+			ARLASSERT(!(torso->getBody()->getRootSimBody()->isInKernel()));		// make sure engine not simulating with physics
 			CoordinateFrame currentPosition = torso->getCoordinateFrame();
 			Velocity desiredVelocity = getHumanoid()->calcDesiredWalkVelocity() + getFloorPointVelocity(); 
 
@@ -245,4 +245,4 @@ void MovingNoPhysicsBase::fireEvents()
 
 
 } // namespace HUMAN
-} // namespace RBX
+} // namespace ARL

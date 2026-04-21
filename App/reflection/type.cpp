@@ -6,7 +6,7 @@
 #include <boost/functional/hash.hpp>
 
 
-namespace RBX { namespace Reflection {
+namespace ARL { namespace Reflection {
 
 	size_t StringHashPredicate::operator ()(const char* s) const
 	{
@@ -130,34 +130,34 @@ SignatureDescriptor::SignatureDescriptor()
 {
 }
 
-SignatureDescriptor::Item::Item(const RBX::Name* name, const Type* type, const Variant& defaultValue)
+SignatureDescriptor::Item::Item(const ARL::Name* name, const Type* type, const Variant& defaultValue)
 	:name(name)
 	,type(type)
 	,defaultValue(defaultValue)
 {
 	// Arguments must be camelCase
-	RBXASSERT(name->c_str()[0] == tolower(name->c_str()[0]));
+	ARLASSERT(name->c_str()[0] == tolower(name->c_str()[0]));
 }
 
-SignatureDescriptor::Item::Item(const RBX::Name* name, const Type* type)
+SignatureDescriptor::Item::Item(const ARL::Name* name, const Type* type)
 	:name(name)
 	,type(type)
 	,defaultValue()
 {
 	// Arguments must be camelCase
-	RBXASSERT(name->c_str()[0] == tolower(name->c_str()[0]));
-	RBXASSERT(defaultValue.isVoid());
+	ARLASSERT(name->c_str()[0] == tolower(name->c_str()[0]));
+	ARLASSERT(defaultValue.isVoid());
 }
 
-void SignatureDescriptor::addArgument(const RBX::Name& name, const Type& type)
+void SignatureDescriptor::addArgument(const ARL::Name& name, const Type& type)
 {
 	Item i(&name, &type);
 	arguments.push_back(i);
 }
 
-void SignatureDescriptor::addArgument(const RBX::Name& name, const Type& type, const Variant& defaultValue)
+void SignatureDescriptor::addArgument(const ARL::Name& name, const Type& type, const Variant& defaultValue)
 {
-	RBXASSERT(defaultValue.isVoid() || defaultValue.type()==type);
+	ARLASSERT(defaultValue.isVoid() || defaultValue.type()==type);
 	Item i(&name, &type, defaultValue);
 	arguments.push_back(i);
 }

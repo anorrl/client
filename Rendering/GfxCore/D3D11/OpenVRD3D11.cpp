@@ -1,4 +1,4 @@
-#if !defined(RBX_PLATFORM_DURANGO) && !defined(RBX_PLATFORM_UWP)
+#if !defined(ARL_PLATFORM_DURANGO) && !defined(ARL_PLATFORM_UWP)
 #include "DeviceD3D11.h"
 
 #include "FramebufferD3D11.h"
@@ -23,7 +23,7 @@ using namespace vr;
 		if (vrResult) FASTLOG1(FLog::VR, "VR ERROR: " #call " returned %d", vrResult); \
 	} while (0)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -147,7 +147,7 @@ namespace Graphics
 
 		Framebuffer* getEyeFramebuffer(int eye) override
 		{
-			RBXASSERT(eye == 0 || eye == 1);
+			ARLASSERT(eye == 0 || eye == 1);
 
 			return fb[eye].get();
 		}
@@ -184,7 +184,7 @@ namespace Graphics
 
 		void submitFrame(DeviceContext* context) override
 		{
-			RBXPROFILER_SCOPE("VR", "submitFrame");
+			ARLPROFILER_SCOPE("VR", "submitFrame");
 
 			for (int eye = 0; eye < 2; ++eye)
 			{

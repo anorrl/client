@@ -2,7 +2,7 @@
 
 #include "GuiBase.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sGuiBase2d;
 
@@ -67,6 +67,6 @@ namespace RBX {
 	private:
 		typedef DescribedNonCreatable<GuiBase2d, GuiBase, sGuiBase2d> Super;
 
-		static void RecursiveRenderChildren(shared_ptr<RBX::Instance> instance, Adorn* adorn);
+		static void RecursiveRenderChildren(shared_ptr<ARL::Instance> instance, Adorn* adorn);
 	};
 }

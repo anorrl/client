@@ -12,7 +12,7 @@
 
 //#define DISABLE_ANGULAR_CONSTRAINTS
 
-namespace RBX
+namespace ARL
 {
 
 class SolverConfig

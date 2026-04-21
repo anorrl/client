@@ -6,17 +6,17 @@
 
 extern void dprintf( const char* fmt, ... );
 
-#ifndef RBX_PLATFORM_DURANGO // TODO: refactor the whole dprintf() thingy
+#ifndef ARL_PLATFORM_DURANGO // TODO: refactor the whole dprintf() thingy
 void dprintf( const char* fmt, ... )
 {
     va_list ap;
     va_start( ap, fmt );
-    RBX::StandardOut::singleton()->print( RBX::MESSAGE_OUTPUT, RBX::vformat(fmt, ap) );
+    ARL::StandardOut::singleton()->print( ARL::MESSAGE_OUTPUT, ARL::vformat(fmt, ap) );
     va_end(ap);
 }
 #endif
 
-namespace RBX {
+namespace ARL {
 
 const char* const sPlatformService = "PlatformService";
 
@@ -170,7 +170,7 @@ void endTask( PlatformService* ps, const Lambda& t )
 				 
 void PlatformService::beginAuthorization(InputObject::UserInputType gamepadId, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread worker( 
 		[=]() -> void
@@ -191,7 +191,7 @@ void PlatformService::beginAuthorization(InputObject::UserInputType gamepadId, b
 }
 void PlatformService::beginAuthUnlinkCheck(InputObject::UserInputType gamepadId, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
     auto cl = makeClosure(resumeFunction, errorFunction);
     boost::thread worker( 
         [=]() -> void
@@ -211,7 +211,7 @@ void PlatformService::beginAuthUnlinkCheck(InputObject::UserInputType gamepadId,
 
 void PlatformService::beginAccountLink(std::string accountName, std::string password, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread worker( 
 		[=]() -> void
@@ -231,7 +231,7 @@ void PlatformService::beginAccountLink(std::string accountName, std::string pass
 }
 void PlatformService::beginUnlinkAccount(boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread worker( 
 		[=]() -> void
@@ -252,7 +252,7 @@ void PlatformService::beginUnlinkAccount(boost::function<void(int)> resumeFuncti
 
 void PlatformService::beginSetRobloxCredentials(std::string accountName, std::string password, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread worker( 
 		[=]() -> void
@@ -272,7 +272,7 @@ void PlatformService::beginSetRobloxCredentials(std::string accountName, std::st
 }
 void PlatformService::beginHasLinkedAccount(boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread worker( 
 		[=]() -> void
@@ -286,7 +286,7 @@ void PlatformService::beginHasLinkedAccount(boost::function<void(int)> resumeFun
 }
 void PlatformService::beginHasRobloxCredentials(boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread worker( 
 		[=]() -> void
@@ -301,7 +301,7 @@ void PlatformService::beginHasRobloxCredentials(boost::function<void(int)> resum
 
 void PlatformService::beginStartGame3(int mode, int id, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
     GameJoinType joinType = (GameJoinType)mode;
     if( joinType < 0 || joinType > GameJoin__MaxCnt )
     {
@@ -328,13 +328,13 @@ void PlatformService::beginStartGame3(int mode, int id, boost::function<void(int
 
 void PlatformService::requestGameShutdown()
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
     boost::thread( [this]() { platform->requestGameShutdown(false); } ).detach();
 }
 
 void PlatformService::beginFetchFriends(InputObject::UserInputType gamepadId, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
     auto cl = makeClosure( resumeFunction, errorFunction );
     boost::thread(
         [=]() -> void
@@ -357,27 +357,27 @@ void PlatformService::beginFetchFriends(InputObject::UserInputType gamepadId, bo
 }
 void PlatformService::popupAccountPickerUI(InputObject::UserInputType gamepadId)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	platform->popupAccountPickerUI(gamepadId);
 }
 void PlatformService::popupGameInviteUI()
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	platform->popupGameInviteUI();
 }
 void PlatformService::popupHelpUI()
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	platform->popupHelpUI();
 }
 void PlatformService::launchPlatformUri(const std::string baseUri)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	platform->launchPlatformUri(baseUri);
 }
 void PlatformService::popupPartyUI(InputObject::UserInputType gamepadId, boost::function<void(void)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
     auto cl = makeClosure(resumeFunction, errorFunction);
     boost::thread(
         [=]() -> void
@@ -402,7 +402,7 @@ void PlatformService::popupPartyUI(InputObject::UserInputType gamepadId, boost::
 
 void PlatformService::showKeyBoard(std::string title, std::string description, std::string defaultText, XboxKeyBoardType keyboardType)
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
 
     if (DataModel* dm = DataModel::get(this))
         platform->showKeyBoard(title, description, defaultText, keyboardType, dm);
@@ -410,7 +410,7 @@ void PlatformService::showKeyBoard(std::string title, std::string description, s
 
 void PlatformService::popupProfileUI(InputObject::UserInputType gamepadId, std::string uid, boost::function<void(void)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread(
 		[=]() -> void
@@ -439,7 +439,7 @@ void PlatformService::popupProfileUI(InputObject::UserInputType gamepadId, std::
 
 void PlatformService::beginGetPartyMembers(boost::function<void(shared_ptr<const Reflection::ValueArray>)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread(
 		[=]() -> void
@@ -464,7 +464,7 @@ void PlatformService::beginGetPartyMembers(boost::function<void(shared_ptr<const
 
 void PlatformService::beginGetInGamePlayers(boost::function<void(shared_ptr<const Reflection::ValueArray>)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread(
 		[=]() -> void
@@ -489,7 +489,7 @@ void PlatformService::beginGetInGamePlayers(boost::function<void(shared_ptr<cons
 
 void PlatformService::beginGetPMPCreatorId(boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread(
 		[=]() -> void
@@ -505,13 +505,13 @@ void PlatformService::beginGetPMPCreatorId(boost::function<void(int)> resumeFunc
 
 int PlatformService::getTitleId()
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	return platform->getTitleId();
 }
 
 shared_ptr<const Reflection::ValueTable> PlatformService::getVersionIdInfo()
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	return platform->getVersionIdInfo();
 }
 
@@ -522,7 +522,7 @@ shared_ptr<const Reflection::ValueTable> PlatformService::getPlatformUserInfo()
 
 void PlatformService::beginGetInventoryInfo(boost::function<void(shared_ptr<const Reflection::ValueArray>)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread(
 		[=]() -> void
@@ -546,7 +546,7 @@ void PlatformService::beginGetInventoryInfo(boost::function<void(shared_ptr<cons
 }
 void PlatformService::beginGetCatalogInfo(boost::function<void(shared_ptr<const Reflection::ValueArray>)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread(
 		[=]() -> void
@@ -570,7 +570,7 @@ void PlatformService::beginGetCatalogInfo(boost::function<void(shared_ptr<const 
 }
 void PlatformService::beginPlatformStorePurchase(const std::string productId, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-	RBXASSERT(platform);
+	ARLASSERT(platform);
 	auto cl = makeClosure(resumeFunction, errorFunction);
 	boost::thread(
 		[=]() -> void
@@ -590,7 +590,7 @@ void PlatformService::beginPlatformStorePurchase(const std::string productId, bo
 
 void PlatformService::beginAwardAchievement(std::string eventName, boost::function<void(int)> resumeFn, boost::function<void(std::string)> errorFunction)
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
 	auto cl = makeClosure(resumeFn, errorFunction);
 	boost::thread(
 		[=]() -> void
@@ -604,7 +604,7 @@ void PlatformService::beginAwardAchievement(std::string eventName, boost::functi
 
 void PlatformService::beginHeroStat(std::string eventName, double value, boost::function<void(int)> resumeFn, boost::function<void(std::string)> errorFunction)
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
     auto cl = makeClosure(resumeFn, errorFunction);
     boost::thread(
         [=]() -> void
@@ -625,7 +625,7 @@ void PlatformService::beginHeroStat(std::string eventName, double value, boost::
 
 void PlatformService::changeScreenResolution(double px, double py)
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
     dprintf("NOTE: PlatformService:ChangeScreenResolution() is deprecated.\n");
     platform->setScreenResolution(px, py);
 }
@@ -643,14 +643,14 @@ PlatformDatamodelType PlatformService::getPlatformDatamodelType() const
 
 void PlatformService::voiceChatSetMuteState(int userId, bool mute)
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
     platform->voiceChatSetMuteState(userId, mute);
 }
 
 VoiceChatState PlatformService::voiceChatGetState(int userId)
 {
-    RBXASSERT(platform);
+    ARLASSERT(platform);
     return (VoiceChatState)platform->voiceChatGetState(userId);
 }
 
-} // end RBX
+} // end ARL

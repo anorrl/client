@@ -13,13 +13,13 @@
 //		Accoutrement
 
 
-namespace RBX {
+namespace ARL {
 
 	class Weld;
 	class PartInstance;
 	class Workspace;
 
-	class RBXInterface IEquipable
+	class ARLInterface IEquipable
 	{
 	protected:
 

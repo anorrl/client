@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace RBX {
+namespace ARL {
 
 namespace _internal {
     AssertionHook _debugHook;
@@ -25,19 +25,19 @@ namespace _internal {
 } // internal
  
 void setAssertionHook(AssertionHook hook) {
-	RBX::_internal::_debugHook = hook;
+	ARL::_internal::_debugHook = hook;
 }
 
 AssertionHook assertionHook() {
-	return 	RBX::_internal::_debugHook;
+	return 	ARL::_internal::_debugHook;
 }
 
 void setFailureHook(AssertionHook hook) {
-	RBX::_internal::_failureHook = hook;
+	ARL::_internal::_failureHook = hook;
 }
 
 AssertionHook failureHook() {
-	return RBX::_internal::_failureHook;
+	return ARL::_internal::_failureHook;
 }
 
 

@@ -14,7 +14,7 @@
 
 DYNAMIC_FASTINTVARIABLE(PGSJumpForceAdjustment, 520)
 
-namespace RBX {
+namespace ARL {
 namespace HUMAN {
 
 const char* const sJumping = "Jumping";
@@ -54,7 +54,7 @@ void Jumping::onComputeForceImpl()
 		float targetVelocity = humanoid->getJumpPower();
 
 		const float yAccelDesired = root ? kJumpP() * (targetVelocity - jumpVelocity) : 0.0f;
-		//StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "%f", root->getVelocity().linear.y);
+		//StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "%f", root->getVelocity().linear.y);
 
 		if (yAccelDesired<=0.0) {		// We've acheived the desired velocity
 			setFinished(true);
@@ -157,7 +157,7 @@ shared_ptr<PartInstance> Jumping::tryCeiling(const RbxRay& ray, float maxDistanc
 {
 	Humanoid* humanoid = getHumanoid();
 	float distance;
-	RBXASSERT(humanoidAssembly);
+	ARLASSERT(humanoidAssembly);
 
 	filteringAssembly = humanoidAssembly;
 	Vector3 hitPoint;
@@ -179,7 +179,7 @@ shared_ptr<PartInstance> Jumping::tryCeiling(const RbxRay& ray, float maxDistanc
 
 HitTestFilter::Result Jumping::filterResult(const Primitive* testMe) const
 {
-	RBXASSERT(testMe);
+	ARLASSERT(testMe);
 
 	HitTestFilter::Result newResult = HitTestFilter::INCLUDE_PRIM;
 

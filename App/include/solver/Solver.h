@@ -13,7 +13,7 @@
 #include "boost/container/vector.hpp"
 #include <map>
 
-namespace RBX
+namespace ARL
 {
 
 class ContactConnector;

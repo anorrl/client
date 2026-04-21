@@ -15,7 +15,7 @@ probably won't be decremented if a client incremented it and then disconnects.
 
 */
 
-namespace RBX
+namespace ARL
 {
 	template <typename Parent, typename Signature>
 	class EventReplicatorBase
@@ -30,7 +30,7 @@ namespace RBX
 		rbx::signals::connection listenerConnection;
 		void listenerConnectionAdded()
 		{ 
-			//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, 
+			//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, 
 			//					"   Connection incremented to %s", 
 			//					connectionCount.name.c_str()
 			//				);
@@ -69,7 +69,7 @@ namespace RBX
 		{
 			if(!listenerConnection.connected()){
 				//Only one EventReplicator should be working on each signal, if not we'll run into trouble
-				RBXASSERT(connectionSignal.empty());
+				ARLASSERT(connectionSignal.empty());
 				listenerConnection = connectionSignal.connect(boost::bind(&EventReplicatorBase::listenerConnectionAdded, this));
 				if(alreadyConnected){
 					listenerConnectionAdded();
@@ -83,7 +83,7 @@ namespace RBX
 					//Someone on the other side is listening now, so we need to set up a connection
 					if(connectionCount.getValue(instance) > 0){
 						if(!signalConnection.connected()){
-							//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, 
+							//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, 
 							//	"   Connection received to %s", 
 							//	connectionCount.name.c_str()
 							//);
@@ -92,7 +92,7 @@ namespace RBX
 					}
 					else{
 						if(signalConnection.connected()){
-							//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, 
+							//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, 
 							//	"   Disconnection received to %s", 
 							//	connectionCount.name.c_str()
 							//);
@@ -230,11 +230,11 @@ namespace RBX
 #define DECLARE_EVENT_REPLICATOR_SIG(Parent,eventName,signature)\
     int CHELPER3(var,eventName,ConnectionCount);\
 	static Reflection::BoundProp<int> CHELPER3(prop_,eventName,ConnectionCount);\
-	RBX::EventReplicator<Parent,signature> CHELPER2(eventReplicator,eventName);
+	ARL::EventReplicator<Parent,signature> CHELPER2(eventReplicator,eventName);
 
 #define category_EventReplicator "EventReplicator"
 #define IMPLEMENT_EVENT_REPLICATOR(Parent,eventDesc,eventText,eventName)\
-	Reflection::BoundProp<int> Parent::CHELPER3(prop_,eventName,ConnectionCount)(eventText "ConnectionCount", category_EventReplicator, &Parent::CHELPER3(var,eventName,ConnectionCount), RBX::Reflection::PropertyDescriptor::REPLICATE_ONLY);
+	Reflection::BoundProp<int> Parent::CHELPER3(prop_,eventName,ConnectionCount)(eventText "ConnectionCount", category_EventReplicator, &Parent::CHELPER3(var,eventName,ConnectionCount), ARL::Reflection::PropertyDescriptor::REPLICATE_ONLY);
 
 #define CONSTRUCT_EVENT_REPLICATOR(Parent,remoteSignalName,eventDesc,eventName)\
   CHELPER2(eventReplicator,eventName)(remoteSignalName.connectionSignal,eventDesc,CHELPER3(prop_,eventName,ConnectionCount))\

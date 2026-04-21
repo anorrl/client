@@ -5,7 +5,7 @@
 #include "Util/NavKeys.h"
 #include "Util/Rect.h"
 
-namespace RBX {
+namespace ARL {
 
 
 UserInputBase::UserInputBase() 
@@ -43,7 +43,7 @@ void UserInputBase::onUnbindResourceSignal()
 	unbindResourceSignal.disconnect();
 }
 
-RBX::TextureProxyBaseRef UserInputBase::getGameCursor(Adorn* adorn)
+ARL::TextureProxyBaseRef UserInputBase::getGameCursor(Adorn* adorn)
 {
 	if (!currentCursor || currentCursor == fallbackCursor)
 	{
@@ -87,7 +87,7 @@ bool UserInputBase::setCursorId(Adorn *adorn, const TextureId& id)
 
 void UserInputBase::renderGameCursor(Adorn* adorn)
 {	
-	RBX::TextureProxyBaseRef cursor = getGameCursor(adorn);
+	ARL::TextureProxyBaseRef cursor = getGameCursor(adorn);
 		
 	if (cursor)
 	{

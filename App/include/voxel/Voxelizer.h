@@ -6,7 +6,7 @@
 
 #include <vector>
 
-namespace RBX {
+namespace ARL {
 	class MegaClusterInstance;
 	class ContactManager;
 	class PartInstance;

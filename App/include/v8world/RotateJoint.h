@@ -5,7 +5,7 @@
 #include "V8World/MultiJoint.h"
 #include "Util/NormalId.h"
 
-namespace RBX {
+namespace ARL {
 	
 	class RotateConnector;
     class ConstraintAlign2Axes;

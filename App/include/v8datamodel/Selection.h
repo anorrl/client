@@ -5,7 +5,7 @@
 
 #include <vector>
 
-namespace RBX {
+namespace ARL {
 
 	class Selection;
 
@@ -20,7 +20,7 @@ namespace RBX {
 		{}
 	};
 
-	class RBXInterface ISelectionBase
+	class ARLInterface ISelectionBase
 	{
 		friend class Selection;
 	private:
@@ -35,7 +35,7 @@ namespace RBX {
 	private:
 		copy_on_write_ptr<Instances> selection;
 		std::vector<ISelectionBase*> filteredSelections;
-		typedef std::map<RBX::Instance*, rbx::signals::connection> Connections;
+		typedef std::map<ARL::Instance*, rbx::signals::connection> Connections;
 		Connections connections;
 
 	public:
@@ -213,7 +213,7 @@ namespace RBX {
 		void raiseRemoved(shared_ptr<Instance> source);
 		void connect(Instance* instance);
 		void disconnect(Instance* instance);
-		void propagateChangeSignalToLua(const RBX::SelectionChanged& event);
+		void propagateChangeSignalToLua(const ARL::SelectionChanged& event);
 		bool instanceCanLiveInSelection(Instance* instance);
 
 		rbx::signals::connection selectionChangedConnection;
@@ -247,7 +247,7 @@ namespace RBX {
 
 		// Returns the generic Selection service
 		Selection* getSelection() {
-			RBXASSERT(rootSelection!=NULL);
+			ARLASSERT(rootSelection!=NULL);
 			return rootSelection.get();
 		}
 

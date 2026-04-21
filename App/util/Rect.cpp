@@ -4,7 +4,7 @@
 #include "Util/Rect.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 const float Rect::BORDER_RATIO = 0.15f;			// 0.0 to 1.0;
 const float Rect::BORDER_RATIO_DRAG = 0.08f;		// 0.0 to 1.0;
@@ -41,7 +41,7 @@ Vector2 Rect::positionPoint(Location xLocation, Location yLocation) const
 	case CENTER:	break;
 	case LEFT:		answer.x = low.x; break;
 	case RIGHT:		answer.x = high.x; break;
-	default:		RBXASSERT(0);	break;
+	default:		ARLASSERT(0);	break;
 	}	
 
 	switch (yLocation)
@@ -49,7 +49,7 @@ Vector2 Rect::positionPoint(Location xLocation, Location yLocation) const
 	case CENTER:	break;
 	case TOP:		answer.y = low.y; break;
 	case BOTTOM:	answer.y = high.y; break;
-	default:		RBXASSERT(0);	break;
+	default:		ARLASSERT(0);	break;
 	}	
 
 	return answer;
@@ -64,14 +64,14 @@ Vector2 Rect::positionPoint(const Vector2& point, Location xLocation, Location y
 	{
 	case LEFT:		answer.x = low.x + point.x; break;
 	case RIGHT:		answer.x = high.x - point.x; break;
-	default:		RBXASSERT(0);	break;
+	default:		ARLASSERT(0);	break;
 	}	
 
 	switch (yLocation)
 	{
 	case TOP:		answer.y = low.y + point.y; break;
 	case BOTTOM:	answer.y = high.y - point.y; break;
-	default:		RBXASSERT(0);	break;
+	default:		ARLASSERT(0);	break;
 	}	
 
 	return answer;
@@ -88,7 +88,7 @@ Rect Rect::positionChild(const Rect& child, Location xLocation, Location yLocati
 		case LEFT:		answer.x = low.x; break;
 		case CENTER:	answer.x = 0.5f * (high.x - childSize.x); break;
 		case RIGHT:		answer.x = high.x - childSize.x; break;
-		default:		RBXASSERT(0);	break;
+		default:		ARLASSERT(0);	break;
 	}	
 
 	switch (yLocation)
@@ -96,7 +96,7 @@ Rect Rect::positionChild(const Rect& child, Location xLocation, Location yLocati
 		case TOP:		answer.y = low.y; break;
 		case CENTER:	answer.y = 0.5f * (high.y - childSize.y); break;
 		case BOTTOM:	answer.y = high.y - childSize.y; break;
-		default:		RBXASSERT(0);	break;
+		default:		ARLASSERT(0);	break;
 	}	
 	return Rect(answer, answer + childSize);
 }

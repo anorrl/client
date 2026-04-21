@@ -32,15 +32,15 @@ LOGVARIABLE(HttpRbxApiBudget, 0);
 namespace {
 	static inline void sendApiServiceDidThrottle()
 	{
-		RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "GameHasBeenAPIThrottled");
+		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "GameHasBeenAPIThrottled");
 	}
 	static inline void sendApiServiceDidQueue()
 	{
-		RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "GameHasBeenAPIQueued");
+		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "GameHasBeenAPIQueued");
 	}
 }
 
-namespace RBX {
+namespace ARL {
 	std::string HttpRbxApiService::StaticApiBaseUrl;
 	const char* const sHttpRbxApiService = "HttpRbxApiService";
 
@@ -87,9 +87,9 @@ namespace RBX {
 		setName(sHttpRbxApiService);
 	}
 
-	void HttpRbxApiService::setStaticApiBaseUrl(const RBX::Reflection::PropertyDescriptor* pPropertyDescriptor)
+	void HttpRbxApiService::setStaticApiBaseUrl(const ARL::Reflection::PropertyDescriptor* pPropertyDescriptor)
 	{
-		if (*pPropertyDescriptor == RBX::ContentProvider::desc_baseUrl)
+		if (*pPropertyDescriptor == ARL::ContentProvider::desc_baseUrl)
 		{		
 			contentProviderPropertyChangedConnection.disconnect();
 
@@ -123,18 +123,18 @@ namespace RBX {
 			{
 				if (isPlaySolo)
 				{
-					RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "TotalHttpApiCallsInPlaySolo", totalNumOfApiCalls);
-					RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "AvgHttpApiCallsPerSecInPlaySolo",((double)totalNumOfApiCalls)/instanceAliveTimer.delta().seconds());
+					ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "TotalHttpApiCallsInPlaySolo", totalNumOfApiCalls);
+					ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "AvgHttpApiCallsPerSecInPlaySolo",((double)totalNumOfApiCalls)/instanceAliveTimer.delta().seconds());
 				}
 				else if(serverPresent)
 				{
-					RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "TotalHttpApiCallsInServer",totalNumOfApiCalls);
-					RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "AvgHttpApiCallsPerSecInServer",((double)totalNumOfApiCalls)/instanceAliveTimer.delta().seconds());
+					ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "TotalHttpApiCallsInServer",totalNumOfApiCalls);
+					ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "AvgHttpApiCallsPerSecInServer",((double)totalNumOfApiCalls)/instanceAliveTimer.delta().seconds());
 				}
 				else if(clientPresent)
 				{
-					RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "TotalHttpApiCallsInClient",totalNumOfApiCalls);
-					RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "AvgHttpApiCallsPerSecInClient",((double)totalNumOfApiCalls)/instanceAliveTimer.delta().seconds());
+					ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "TotalHttpApiCallsInClient",totalNumOfApiCalls);
+					ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", "AvgHttpApiCallsPerSecInClient",((double)totalNumOfApiCalls)/instanceAliveTimer.delta().seconds());
 				}
 			}
 
@@ -192,7 +192,7 @@ namespace RBX {
 		playersChangedConnection.disconnect();
 	}
 
-	void HttpRbxApiService::playersPropertyChanged(const RBX::Reflection::PropertyDescriptor* desc)
+	void HttpRbxApiService::playersPropertyChanged(const ARL::Reflection::PropertyDescriptor* desc)
 	{
 		if (!serverPresent && !clientPresent && desc == &Network::Players::propLocalPlayer)
 		{
@@ -287,7 +287,7 @@ namespace RBX {
 		if (exception)
 		{		
 			long statusCode = -1;
-			if (RBX::http_status_error* httpError = dynamic_cast<RBX::http_status_error*>(exception))
+			if (ARL::http_status_error* httpError = dynamic_cast<ARL::http_status_error*>(exception))
 			{
 				statusCode = httpError->statusCode;
 			}
@@ -373,7 +373,7 @@ namespace RBX {
 			if (shouldRetryRequest(exception, request, apiService->getRecordInGoogleAnalytics())) // we got an error that requires retry, try to do it again
 			{
 				DataModel::processHttpRequestResponseOnLock(
-					RBX::DataModel::get(apiService.get()),
+					ARL::DataModel::get(apiService.get()),
 					response,
 					exception,
 					boost::bind(&httpHelperRetryLockAcquired,
@@ -384,7 +384,7 @@ namespace RBX {
 			else
 			{
 				DataModel::processHttpRequestResponseOnLock(
-					RBX::DataModel::get(apiService.get()),
+					ARL::DataModel::get(apiService.get()),
 					response,
 					exception,
 					boost::bind(&httpHelperExecuteLockAcquired,
@@ -407,7 +407,7 @@ namespace RBX {
 		if (!isAPIHttpRequest(httpRequest))
 		{
 			// don't pass non api calls here! Use regular http functions instead unless you want to get throttled
-			RBXASSERT(false);
+			ARLASSERT(false);
 			if (getRecordInGoogleAnalytics())
 			{
 				RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpRbxApiService", ("postAsyncNotApiRequest for " + httpRequest.url).c_str());
@@ -423,7 +423,7 @@ namespace RBX {
 		{
 			// don't pass calls here with api proxy domain already in them!
 			// just pass the path, ex: adimpression/validate-request
-			RBXASSERT(false);
+			ARLASSERT(false);
 
 			if (getRecordInGoogleAnalytics())
 			{
@@ -444,7 +444,7 @@ namespace RBX {
 		postAsyncInternal(http, data, content, data.size() > HTTP_POST_COMPRESSION_LIMIT, throttlePriority, resumeFunction, errorFunction);
 	}
 
-	void HttpRbxApiService::postAsyncWithAdditionalHeaders(std::string urlPath, std::string data,bool useHttps, ThrottlingPriority throttlePriority, HttpService::HttpContentType content, RBX::HttpAux::AdditionalHeaders additionalHeaders,
+	void HttpRbxApiService::postAsyncWithAdditionalHeaders(std::string urlPath, std::string data,bool useHttps, ThrottlingPriority throttlePriority, HttpService::HttpContentType content, ARL::HttpAux::AdditionalHeaders additionalHeaders,
 		boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
 	{
 		std::string fullUrl = "https" + apiBaseUrl + urlPath;
@@ -465,7 +465,7 @@ namespace RBX {
 		checkAndUpdatePostUrl(fullUrl, urlPath);
 
 		Http http(fullUrl);
-		robloxScriptModifiedCheck(RBX::apiPostAsyncFunction.security);
+		robloxScriptModifiedCheck(ARL::apiPostAsyncFunction.security);
 		postAsyncInternal(http, data, content, data.size() > HTTP_POST_COMPRESSION_LIMIT, throttlePriority, resumeFunction, errorFunction);
 	}
 
@@ -533,7 +533,7 @@ namespace RBX {
 		if (!isAPIHttpRequest(httpRequest))
 		{
 			// don't pass non api calls here! Use regular http functions instead unless you want to get throttled
-			RBXASSERT(false);
+			ARLASSERT(false);
 
 			if (getRecordInGoogleAnalytics())
 			{
@@ -558,7 +558,7 @@ namespace RBX {
 
 
 		Http http(fullUrl);
-		robloxScriptModifiedCheck(RBX::apiGetAsyncFunction.security);
+		robloxScriptModifiedCheck(ARL::apiGetAsyncFunction.security);
 		getAsyncInternal(http, throttlePriority, resumeFunction, errorFunction);
 	}
 
@@ -583,7 +583,7 @@ namespace RBX {
 		const ServiceProvider* serviceProvider = ServiceProvider::findServiceProvider(this);
 		if (serviceProvider == NULL) 
 		{
-			RBXASSERT(false);
+			ARLASSERT(false);
 			return 0;
 		}
 
@@ -744,7 +744,7 @@ namespace RBX {
 					boost::call_once(&sendApiServiceDidThrottle, flag);
 				}
 
-				std::string throttleError = RBX::format("number of API requests/minute exceeded limit for HTTP API throttle. Please don't issue more than %i API requests/minute with server scripts and no more than %i API requests/minute with local scripts.",
+				std::string throttleError = ARL::format("number of API requests/minute exceeded limit for HTTP API throttle. Please don't issue more than %i API requests/minute with server scripts and no more than %i API requests/minute with local scripts.",
 					DFInt::HttpRbxApiRequestsPerMinuteServerLimit + (DFInt::HttpRbxApiRequestsPerMinutePerPlayerInServerLimit * getPlayerNum()), DFInt::HttpRbxApiClientPerMinuteRequestLimit);
 				setErrorForAsync(throttleError, errorFunction);
 			}
@@ -829,4 +829,4 @@ namespace RBX {
 		return true;
 	}
 
-} //namespace RBX
+} //namespace ARL

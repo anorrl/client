@@ -17,7 +17,7 @@
 
 #define CHARACTER_FORCE_DEBUG	0
 
-namespace RBX
+namespace ARL
 {
 	class Humanoid;
 	class PartInstance;
@@ -228,15 +228,15 @@ namespace RBX
 			Primitive* getFloorPrimitive();
 			const Primitive* getFloorPrimitiveConst() const;
 			const Vector3& getFloorTouchInWorld() const {
-				RBXASSERT(floorTouchInWorld != unitializedFloorTouch());
+				ARLASSERT(floorTouchInWorld != unitializedFloorTouch());
 				return floorTouchInWorld;
 			}
 			const Vector3& getFloorTouchNormal() const {
-				RBXASSERT(floorTouchInWorld != unitializedFloorTouch());
+				ARLASSERT(floorTouchInWorld != unitializedFloorTouch());
 				return floorTouchNormal;
 			}
 			const Vector3& getFloorHumanoidLocationInWorld() const {
-				RBXASSERT(floorHumanoidLocationInWorld != unitializedFloorTouch());
+				ARLASSERT(floorHumanoidLocationInWorld != unitializedFloorTouch());
 				return floorHumanoidLocationInWorld;
 			}
 
@@ -330,7 +330,7 @@ namespace RBX
             static inline const void* getComputeEventBaseAddress()
             {
 #ifdef _WIN32
-                bool (RBX::HUMAN::HumanoidState::* hsce)(EventType) = &computeEvent;
+                bool (ARL::HUMAN::HumanoidState::* hsce)(EventType) = &computeEvent;
                 if(sizeof(hsce) == 8 || sizeof(hsce) == 4)
                 {
                     return (const void*&)(hsce); // odd, but required syntax for this horrible conversion.
@@ -343,4 +343,4 @@ namespace RBX
 		};
 
 	}	// namespace HUMAN
-} // namespace RBX
+} // namespace ARL

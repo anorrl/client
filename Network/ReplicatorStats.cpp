@@ -5,7 +5,7 @@
 //RakNet
 #include "GetTime.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 static double lerp = 0.05;

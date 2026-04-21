@@ -13,7 +13,7 @@
 
 #include <string>
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 DeserializedDeleteInstanceItem::DeserializedDeleteInstanceItem()
@@ -42,8 +42,8 @@ Replicator::DeleteInstanceItem::DeleteInstanceItem(Replicator* replicator, const
 
 bool Replicator::DeleteInstanceItem::write(RakNet::BitStream& bitStream) {
 	if (!id.valid)
-		RBX::StandardOut::singleton()->printf(
-		RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(
+		ARL::MESSAGE_SENSITIVE, 
 		"Replication: ~NULL >> %s",						// remove player always on right 
 		RakNetAddressToString(replicator.remotePlayerId).c_str());
 	else
@@ -57,7 +57,7 @@ bool Replicator::DeleteInstanceItem::write(RakNet::BitStream& bitStream) {
 			replicator.sendId(bitStream, id);
 
 			if (details)
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 				"Replication: ~%s:%s >> %s, bytes: %d", 
 				details->className.c_str(), 
 				details->guid.c_str(),
@@ -72,7 +72,7 @@ bool Replicator::DeleteInstanceItem::write(RakNet::BitStream& bitStream) {
 		}
 		catch (std::runtime_error& e)
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 				"Replication: ~%s >> %s, %s", 
 				"UnknownInstance", //instance->getClassName().c_str(), 
 				RakNetAddressToString(replicator.remotePlayerId).c_str(), 

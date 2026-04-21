@@ -10,7 +10,7 @@ struct IDirect3DDevice9;
 struct IDirect3DSurface9;
 struct IDirect3DQuery9;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

@@ -7,7 +7,7 @@
 #include "boost/thread/mutex.hpp"
 #include "Math.h"
 
-namespace RBX {
+namespace ARL {
 
 #define MH_NUM_MAX_NODES 80
 #define MH_MIN_PRECISION 0.01f

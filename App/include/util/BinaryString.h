@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace RBX {
+namespace ARL {
 
 // use this for properties that contain binary data so that they're serialized to XML without roundtrip issues
 class BinaryString

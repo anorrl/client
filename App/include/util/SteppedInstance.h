@@ -8,7 +8,7 @@
 
 LOGGROUP(ISteppedLifetime)
 
-namespace RBX {
+namespace ARL {
 	
 	class IStepped
 	{
@@ -38,4 +38,4 @@ namespace RBX {
 		IStepped(StepType stepType = StepType_Default): stepType(stepType) {}
 		virtual ~IStepped()	{}
 	};
-}	// namespace RBX
+}	// namespace ARL

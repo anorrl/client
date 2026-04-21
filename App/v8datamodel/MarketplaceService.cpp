@@ -29,7 +29,7 @@ DYNAMIC_FASTINTVARIABLE(PurchaseMismatchReportRate, 100)
 DYNAMIC_FASTINTVARIABLE(PurchaseErrorReportRate, 100)
 
 
-namespace RBX
+namespace ARL
 {
 
     REFLECTION_BEGIN();
@@ -172,17 +172,17 @@ namespace RBX
 			{
 				if (funcName != "PromptPurchase()" && funcName != "PromptProductPurchase()")
 				{
-					std::string longFuncName = RBX::format("MarketplaceService:%s",funcName.c_str());
+					std::string longFuncName = ARL::format("MarketplaceService:%s",funcName.c_str());
 					 longFuncName.append(" was called on a guest, please use this call only on players with an account.");
                 
-					RBX::StandardOut::singleton()->print(RBX::MESSAGE_WARNING, longFuncName);
+					ARL::StandardOut::singleton()->print(ARL::MESSAGE_WARNING, longFuncName);
 					return false;
 				}
 			} 
 		} 
 		else // we don't have a player type object, are you even trying?
 		{
-            std::string longFuncName = RBX::format("MarketplaceService:%s",funcName.c_str());
+            std::string longFuncName = ARL::format("MarketplaceService:%s",funcName.c_str());
             longFuncName.append(" player should be of type Player, but is of type ");
             longFuncName.append(player ? player->getClassNameStr().c_str() : "nil");
             
@@ -202,22 +202,22 @@ namespace RBX
 		if(!isValidPlayer(player,"PromptProductPurchase()"))
 			return;
 
-		if(Network::Players* players = ServiceProvider::find<RBX::Network::Players>(this))
+		if(Network::Players* players = ServiceProvider::find<ARL::Network::Players>(this))
 			if(Network::Players::frontendProcessing(this) &&  (player.get() != players->getLocalPlayer()) )
 			{
-				RBX::StandardOut::singleton()->printf( RBX::MESSAGE_WARNING, "MarketplaceService:PromptProductPurchase called from a local script, but not called on a local player. Local scripts can only prompt the local player.");
+				ARL::StandardOut::singleton()->printf( ARL::MESSAGE_WARNING, "MarketplaceService:PromptProductPurchase called from a local script, but not called on a local player. Local scripts can only prompt the local player.");
 				return;
 			}
 
 		if(productId <= 0)
-			throw RBX::runtime_error("MarketplaceService:PromptPurchase() second argument is not a valid productId (supplied productId was less than 0)");
+			throw ARL::runtime_error("MarketplaceService:PromptPurchase() second argument is not a valid productId (supplied productId was less than 0)");
 
 		DataModel* dm = DataModel::get(this);
-		RBXASSERT(dm);
+		ARLASSERT(dm);
 		if (dm)
 			if (LuaWebService* lws = dm->create<LuaWebService>())
 				if (!lws->isApiAccessEnabled())
-					throw RBX::runtime_error("Studio API access is not enabled. Enable it by going to the Game Settings page.");
+					throw ARL::runtime_error("Studio API access is not enabled. Enable it by going to the Game Settings page.");
 
 		// fire a signal so our purchase script can show the purchase ui and eventually call signalPromptProductPurchaseFinished
 		event_promptProductPurchaseRequested.fireAndReplicateEvent(this, player,productId,equipIfPurchased,currencyType);
@@ -228,22 +228,22 @@ namespace RBX
 		if(!isValidPlayer(player,"PromptPurchase()"))
 			return;
 
-		if(Network::Players* players = ServiceProvider::find<RBX::Network::Players>(this))
+		if(Network::Players* players = ServiceProvider::find<ARL::Network::Players>(this))
 			if(Network::Players::frontendProcessing(this) &&  (player.get() != players->getLocalPlayer()) )
 			{
-				RBX::StandardOut::singleton()->printf( RBX::MESSAGE_WARNING, "MarketplaceService:PromptPurchase called from a local script, but not called on a local player. Local scripts can only prompt the local player.");
+				ARL::StandardOut::singleton()->printf( ARL::MESSAGE_WARNING, "MarketplaceService:PromptPurchase called from a local script, but not called on a local player. Local scripts can only prompt the local player.");
 				return;
 			}
 
 		if(assetId <= 0)
-			throw RBX::runtime_error("MarketplaceService:PromptPurchase() second argument is not a valid assetId (supplied assetId was less than 0)");
+			throw ARL::runtime_error("MarketplaceService:PromptPurchase() second argument is not a valid assetId (supplied assetId was less than 0)");
 
 		DataModel* dm = DataModel::get(this);
-		RBXASSERT(dm);
+		ARLASSERT(dm);
 		if (dm)
 			if (LuaWebService* lws = dm->create<LuaWebService>())
 				if (!lws->isApiAccessEnabled())
-					throw RBX::runtime_error("Studio API access is not enabled. Enable it by going to the Game Settings page.");
+					throw ARL::runtime_error("Studio API access is not enabled. Enable it by going to the Game Settings page.");
 
 		// fire a signal so our purchase script can show the purchase ui and eventually call signalPromptPurchaseFinished
 		event_promptPurchaseRequested.fireAndReplicateEvent(this, player,assetId,equipIfPurchased,currencyType);
@@ -364,7 +364,7 @@ namespace RBX
 			{
 				luaWebService->asyncRequest(url, LUA_WEB_SERVICE_STANDARD_PRIORITY, resumeFunction, errorFunction);
 			}
-			catch(RBX::base_exception&)
+			catch(ARL::base_exception&)
 			{
 				errorFunction("MarketplaceService:getProductInfo() - Error during dispatch");
 			}
@@ -416,7 +416,7 @@ namespace RBX
 			return;
 		}
 
-		if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+		if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 		{
 			std::string infoPath = "";
 			if( infoType == MarketplaceService::INFO_ASSET )
@@ -424,7 +424,7 @@ namespace RBX
 			else if( infoType == MarketplaceService::INFO_PRODUCT)
 				infoPath = devProductInfoUrl;
 
-			std::string infoPathFull(RBX::format(infoPath.c_str(),assetId));
+			std::string infoPathFull(ARL::format(infoPath.c_str(),assetId));
 
 			UrlToResponseMap::const_iterator it = mMap.find(infoPathFull);
 			if(it != mMap.end())
@@ -440,19 +440,19 @@ namespace RBX
 	
 			}
 
-			apiService->getAsync(infoPathFull, true, RBX::PRIORITY_DEFAULT,
-				boost::bind(&MarketplaceService::onReceivedRawProductInfoSuccess, this, infoPathFull, _1, weak_from(RBX::DataModel::get(this)), resumeFunction, errorFunction),
-				boost::bind(&MarketplaceService::onReceivedRawProductInfoError, this, _1, weak_from(RBX::DataModel::get(this)), errorFunction) );
+			apiService->getAsync(infoPathFull, true, ARL::PRIORITY_DEFAULT,
+				boost::bind(&MarketplaceService::onReceivedRawProductInfoSuccess, this, infoPathFull, _1, weak_from(ARL::DataModel::get(this)), resumeFunction, errorFunction),
+				boost::bind(&MarketplaceService::onReceivedRawProductInfoError, this, _1, weak_from(ARL::DataModel::get(this)), errorFunction) );
 		}
 	}
 
-	void MarketplaceService::onReceivedRawProductInfoSuccess(std::string url, std::string response, boost::weak_ptr<RBX::DataModel> weakDM, boost::function<void(shared_ptr<const Reflection::ValueTable>)> resumeFunction, boost::function<void(std::string)> errorFunction)
+	void MarketplaceService::onReceivedRawProductInfoSuccess(std::string url, std::string response, boost::weak_ptr<ARL::DataModel> weakDM, boost::function<void(shared_ptr<const Reflection::ValueTable>)> resumeFunction, boost::function<void(std::string)> errorFunction)
 	{
-		if(shared_ptr<RBX::DataModel> sharedDM = weakDM.lock())
+		if(shared_ptr<ARL::DataModel> sharedDM = weakDM.lock())
 		{
 			if( response.empty() )
 			{
-				errorFunction( RBX::format("MarketplaceService:getProductInfo() failed because rawProductInfo was empty") );
+				errorFunction( ARL::format("MarketplaceService:getProductInfo() failed because rawProductInfo was empty") );
 				return;
 			}
 
@@ -472,13 +472,13 @@ namespace RBX
 				errorFunction("MarketplaceService::getProductInfo() an error occured while parsing web response");
 		}
 	}
-	void MarketplaceService::onReceivedRawProductInfoError(std::string error, boost::weak_ptr<RBX::DataModel> weakDM, boost::function<void(std::string)> errorFunction)
+	void MarketplaceService::onReceivedRawProductInfoError(std::string error, boost::weak_ptr<ARL::DataModel> weakDM, boost::function<void(std::string)> errorFunction)
 	{
-		if(shared_ptr<RBX::DataModel> sharedDM = weakDM.lock())
+		if(shared_ptr<ARL::DataModel> sharedDM = weakDM.lock())
 		{
 			if (!error.empty())
 			{
-				errorFunction( RBX::format("MarketplaceService:getProductInfo() failed because %s", error.c_str()) );
+				errorFunction( ARL::format("MarketplaceService:getProductInfo() failed because %s", error.c_str()) );
 			}
 			else
 			{
@@ -507,7 +507,7 @@ namespace RBX
 	{
 		if (!error.empty())
 		{
-			errorFunction(RBX::format("MarketPlaceService::PlayerOwnsAsset failed because %s",error.c_str()));
+			errorFunction(ARL::format("MarketPlaceService::PlayerOwnsAsset failed because %s",error.c_str()));
 			return;
 		}
 		else
@@ -546,9 +546,9 @@ namespace RBX
             url = contentProvider->getApiBaseUrl() + playerOwnsAssetUrl;
         }
         
-		if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+		if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 		{
-			apiService->getAsync( RBX::format(playerOwnsAssetUrl.c_str(), userId, assetId), true, RBX::PRIORITY_DEFAULT,
+			apiService->getAsync( ARL::format(playerOwnsAssetUrl.c_str(), userId, assetId), true, ARL::PRIORITY_DEFAULT,
 				boost::bind(&MarketplaceService::processPlayerOwnsAssetResponseSuccess, this, _1, resumeFunction,errorFunction), 
 				boost::bind(&MarketplaceService::processPlayerOwnsAssetResponseError, this, _1, errorFunction) );
 		}
@@ -569,7 +569,7 @@ namespace RBX
 	void MarketplaceService::verifyPurchaseErrorNoDMLock(std::string error, int userId, int productId)
 	{
 		int placeId = 0;
-		if(RBX::DataModel* dataModel = RBX::DataModel::get(this))
+		if(ARL::DataModel* dataModel = ARL::DataModel::get(this))
 			placeId = dataModel->getPlaceID();
 
 		shared_ptr<Reflection::ValueTable> values(rbx::make_shared<Reflection::ValueTable>());
@@ -587,9 +587,9 @@ namespace RBX
 	{
 		if (Network::Players::backendProcessing(this, false))
 		{
-			if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+			if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 			{
-				apiService->postAsync( RBX::format("%s/validatepurchase?receipt=%s", urlApiPath(), ticket.c_str()), std::string("GameServerVerifyPurchase"), true, RBX::PRIORITY_EXTREME, HttpService::TEXT_PLAIN,
+				apiService->postAsync( ARL::format("%s/validatepurchase?receipt=%s", urlApiPath(), ticket.c_str()), std::string("GameServerVerifyPurchase"), true, ARL::PRIORITY_EXTREME, HttpService::TEXT_PLAIN,
 					boost::bind(&MarketplaceService::verifyPurchaseResponseNoDMLock, this, _1, userId, productId), 
 					boost::bind(&MarketplaceService::verifyPurchaseErrorNoDMLock, this, _1, userId, productId) );
 			}
@@ -618,7 +618,7 @@ namespace RBX
 			
 			callbackFunctionMap[player] = callback;
 
-			const RBX::SystemAddress& target = thePlayer->getRemoteAddressAsRbxAddress();
+			const ARL::SystemAddress& target = thePlayer->getRemoteAddressAsRbxAddress();
 
 			shared_ptr<Reflection::Tuple> args(new Reflection::Tuple());
 			args->values.push_back(message);
@@ -693,7 +693,7 @@ namespace RBX
 
 		if (newSp)
 		{
-			verifyPurchaseConnection = clientPurchaseSuccess.connect(boost::bind(&RBX::MarketplaceService::verifyPurchaseTicket,
+			verifyPurchaseConnection = clientPurchaseSuccess.connect(boost::bind(&ARL::MarketplaceService::verifyPurchaseTicket,
 				this, _1, _2, _3));
 		}
 	}
@@ -705,7 +705,7 @@ namespace RBX
 			// Property changed callbacks are called after the value has been updated,
 			// so if we are not backend processing we should revert the value
 			receiptCallback.clear();
-			throw RBX::runtime_error("Can only register ProcessReceipt callback on server");
+			throw ARL::runtime_error("Can only register ProcessReceipt callback on server");
 		}
 
 		receiptProcessingEnabledByUser = true;
@@ -722,8 +722,8 @@ namespace RBX
 
 	void MarketplaceService::setupBackendOnlyReceiptHandling()
 	{
-		RBXASSERT(Network::Players::backendProcessing(this));
-		RBXASSERT(!receiptProcessingEnabledByUser);
+		ARLASSERT(Network::Players::backendProcessing(this));
+		ARLASSERT(!receiptProcessingEnabledByUser);
 		receiptProcessingEnabledByUser = false;
 		receiptCallback = boost::bind(&alwaysApproveReceiptsCallback, _1, _2, _3);
 	}
@@ -756,9 +756,9 @@ namespace RBX
 				http.additionalHeaders["Cache-Control"] = "no-cache";
 				http.doNotUseCachedResponse = true;
 
-				if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+				if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 				{
-					apiService->getAsync(http, RBX::PRIORITY_EXTREME,
+					apiService->getAsync(http, ARL::PRIORITY_EXTREME,
 						boost::bind(&MarketplaceService::handleReceiptQueryResponseSuccess, weak_from(this), _1),
 						boost::bind(&MarketplaceService::handleReceiptQueryResponseFailure, weak_from(this), _1)
 						);
@@ -870,9 +870,9 @@ namespace RBX
 						currencyType = receiptInfo->at("CurrencyType").get<CurrencyType>();
 						currencySpent = receiptInfo->at("CurrencySpent").get<int>();
 					}
-					catch (const RBX::base_exception&)
+					catch (const ARL::base_exception&)
 					{
-						RBXASSERT(false);
+						ARLASSERT(false);
 					}
 
 					std::string receiptId = receiptInfo->at("PurchaseId").get<std::string>();
@@ -881,7 +881,7 @@ namespace RBX
 							receiptId, currencyType, currencySpent, _1),
 						boost::bind(&doNothingErrorHandler, _1));
 				}
-				catch (const RBX::base_exception&)
+				catch (const ARL::base_exception&)
 				{
 				}
 			}
@@ -898,14 +898,14 @@ namespace RBX
 				decision = result->at(0).get<MarketplaceService::ProductPurchaseDecision>();
 			}
 		}
-		catch (const RBX::base_exception&)
+		catch (const ARL::base_exception&)
 		{
 		}
 		if (decision == DECISION_PURCHASE_GRANTED)
 		{
-			if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(mk.get()))
+			if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(mk.get()))
 			{
-				apiService->postAsync("gametransactions/settransactionstatuscomplete", format("receipt=%s", receiptId.c_str()), true, RBX::PRIORITY_EXTREME, HttpService::APPLICATION_URLENCODED,
+				apiService->postAsync("gametransactions/settransactionstatuscomplete", format("receipt=%s", receiptId.c_str()), true, ARL::PRIORITY_EXTREME, HttpService::APPLICATION_URLENCODED,
 					boost::bind(&doNothingHttpCallbackSuccess, _1), 
 					boost::bind(&doNothingHttpCallbackError, _1) );
 			}
@@ -931,17 +931,17 @@ namespace RBX
 		if(!isValidPlayer(player,"PromptThirdPartyPurchase()"))
 			return;
 
-		if(Network::Players* players = ServiceProvider::find<RBX::Network::Players>(this))
+		if(Network::Players* players = ServiceProvider::find<ARL::Network::Players>(this))
         {
 			if(Network::Players::frontendProcessing(this) &&  (player.get() != players->getLocalPlayer()) )
 			{
-				RBX::StandardOut::singleton()->printf( RBX::MESSAGE_WARNING, "MarketplaceService:PromptThirdPartyPurchase called from a local script, but not called on a local player. Local scripts can only prompt the local player.");
+				ARL::StandardOut::singleton()->printf( ARL::MESSAGE_WARNING, "MarketplaceService:PromptThirdPartyPurchase called from a local script, but not called on a local player. Local scripts can only prompt the local player.");
 				return;
 			}
         }
         
         if(thirdPartyProductId.empty())
-            throw RBX::runtime_error("MarketplaceService:PromptThirdPartyPurchase() productId is empty");
+            throw ARL::runtime_error("MarketplaceService:PromptThirdPartyPurchase() productId is empty");
 
         // fire a signal so the native platform can do the appropriate purchase calls
         event_promptThirdPartyPurchaseRequested.fireAndReplicateEvent(this, player, thirdPartyProductId);
@@ -957,17 +957,17 @@ namespace RBX
 		if(!isValidPlayer(player,"PromptNativePurchase()"))
 			return;
         
-		if(Network::Players* players = ServiceProvider::find<RBX::Network::Players>(this))
+		if(Network::Players* players = ServiceProvider::find<ARL::Network::Players>(this))
         {
 			if(Network::Players::frontendProcessing(this) &&  (player.get() != players->getLocalPlayer()) )
 			{
-				RBX::StandardOut::singleton()->printf( RBX::MESSAGE_WARNING, "MarketplaceService:PromptNativePurchase called from a local script, but not called on a local player. Local scripts can only prompt the local player.");
+				ARL::StandardOut::singleton()->printf( ARL::MESSAGE_WARNING, "MarketplaceService:PromptNativePurchase called from a local script, but not called on a local player. Local scripts can only prompt the local player.");
 				return;
 			}
         }
         
         if(nativeProductId.empty())
-            throw RBX::runtime_error("MarketplaceService:PromptNativePurchase() productId is empty");
+            throw ARL::runtime_error("MarketplaceService:PromptNativePurchase() productId is empty");
         
         // fire a signal so the native platform can do the appropriate purchase calls
         event_promptNativePurchaseRequested.fireAndReplicateEvent(this, player, nativeProductId);
@@ -989,4 +989,4 @@ namespace RBX
 		pagination->fetchNextChunk(boost::bind(resumeFunction, pagination), errorFunction);
     }
 
-} // namespace RBX
+} // namespace ARL

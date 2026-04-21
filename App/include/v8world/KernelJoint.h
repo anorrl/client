@@ -3,7 +3,7 @@
 #include "V8World/Joint.h"
 #include "V8Kernel/Connector.h"
 
-namespace RBX {
+namespace ARL {
 	
 	class KernelJoint 
 		: public Joint
@@ -21,7 +21,7 @@ namespace RBX {
 
 		// Connector
 		/*override*/ Body* getBody(BodyIndex id) {
-			RBXASSERT(inKernel());
+			ARLASSERT(inKernel());
 			if (id == body0) {
 				return getEngineBody();
 			}

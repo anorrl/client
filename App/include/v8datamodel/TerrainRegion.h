@@ -6,7 +6,7 @@
 #include "Voxel/Grid.h"
 #include "voxel2/Grid.h"
 
-namespace RBX {
+namespace ARL {
 
 extern const char* const sTerrainRegion;
 

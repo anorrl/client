@@ -5,7 +5,7 @@
 #include "Gui/GUI.h"
 #include "V8Tree/Verb.h"
 
-namespace RBX
+namespace ARL
 {
 	namespace Gui
 	{

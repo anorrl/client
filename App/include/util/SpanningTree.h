@@ -5,7 +5,7 @@
 #include "G3D/Array.h"
 #include <set>
 
-namespace RBX {
+namespace ARL {
 
 	class SpanningNode;
 	class SpanningEdge;

@@ -6,7 +6,7 @@
 #include "V8DataModel/Camera.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 Extents Extents::clampInsideOf(const Extents& other) const { //		Extents& operator&= (const Extents& other) {
 	Extents answer;
@@ -51,8 +51,8 @@ NormalId Extents::closestFace(const Vector3& point)
 
 Vector3int16 Extents::getCornerIndex(int i) const
 {
-	RBXASSERT(i >= 0);
-	RBXASSERT(i <= 7);
+	ARLASSERT(i >= 0);
+	ARLASSERT(i <= 7);
 	int x_id = i / 4;			// 0,0,0,0,1,1,1,1
 	int y_id = (i / 2) % 2;		// 0,0,1,1,0,0,1,1
 	int z_id = i % 2;			// 0,1,0,1,0,1,0,1
@@ -102,7 +102,7 @@ void Extents::getFaceCorners(
         break;
 
     default:
-		RBXASSERT(0);
+		ARLASSERT(0);
 		break;
     }
 }
@@ -170,7 +170,7 @@ Vector3 Extents::clamp(const Extents& innerExtents) const
 
 	// for x..z
 	for (int i = 0; i < 3; i++) {
-		RBXASSERT(innerExtents.size()[i] <= this->size()[i]);
+		ARLASSERT(innerExtents.size()[i] <= this->size()[i]);
 		if (innerExtents.max()[i] > this->max()[i]) {
 			answer[i] = this->max()[i] - innerExtents.max()[i];
 		}
@@ -191,7 +191,7 @@ float Extents::computeClosestSqDistanceToPoint(const Vector3& point) const
 
 bool Extents::separatedByMoreThan(const Extents& other, float distance) const
 {
-	RBXASSERT(distance > 0.0);
+	ARLASSERT(distance > 0.0);
 	Extents thisExpanded(*this);
 	thisExpanded.expand(distance);
 	return !(thisExpanded.overlapsOrTouches(other));

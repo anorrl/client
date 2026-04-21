@@ -5,13 +5,13 @@
 #include "util/G3DCore.h"
 #include "VertexStreamer.h"
 
-namespace RBX
+namespace ARL
 {
     class DataModel;
     struct RenderPassStats;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -53,17 +53,17 @@ public:
     void render(DeviceContext* context, RenderPassStats& stats);
 	void renderNoDepth(DeviceContext* context, RenderPassStats& stats, int renderIndex);
 
-    virtual RBX::Rect2D getViewport() const;
+    virtual ARL::Rect2D getViewport() const;
     virtual const Camera* getCamera() const;
 
     TextureProxyBaseRef createTextureProxy(const ContentId& id, bool& waiting, bool bBlocking = false, const std::string& context = "");
 
-    virtual void setTexture(int id, const RBX::TextureProxyBaseRef& t);
+    virtual void setTexture(int id, const ARL::TextureProxyBaseRef& t);
     virtual Rect2D getTextureSize(const TextureProxyBaseRef& texture) const;
 
     virtual void rect2dImpl(const Vector2& x0y0, const Vector2& x1y0, const Vector2& x0y1, const Vector2& x1y1, const Vector2& tex0, const Vector2& tex1, const Color4 & color);
 
-    virtual void line2d(const RBX::Vector2& p0,	const RBX::Vector2& p1, const RBX::Color4& color);
+    virtual void line2d(const ARL::Vector2& p0,	const ARL::Vector2& p1, const ARL::Color4& color);
 
     virtual Vector2 get2DStringBounds(const std::string& s, float size, Text::Font font, const Vector2& availableSpace) const;
 
@@ -98,8 +98,8 @@ public:
 
     virtual void explosion(const Sphere& sphere);
 
-    virtual void line3d(const Vector3& startPoint, const Vector3& endPoint, const RBX::Color4& color);
-    virtual void line3dAA(const Vector3& startPoint, const Vector3& endPoint, const RBX::Color4& color, float thickness, int zIndex, bool alwaysOnTop);
+    virtual void line3d(const Vector3& startPoint, const Vector3& endPoint, const ARL::Color4& color);
+    virtual void line3dAA(const Vector3& startPoint, const Vector3& endPoint, const ARL::Color4& color, float thickness, int zIndex, bool alwaysOnTop);
 
     virtual void quad(const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector3& v3, const Color4& color, const Vector2& v0tex, const Vector2& v2tex, int zIndex, bool alwaysOnTop);
 

@@ -43,13 +43,13 @@ LOGGROUP(Asserts)
 
 /* Overview of builds and switches:
 
-RBXASSERT:					Standard assert.  Should be reasonably fast.  Do not do "finds" or complex stuff here.  Simple bools, simple math, a couple levels of pointer indirection, etc.
-RBXASSERT_VERY_FAST:		High fr  equency, extremely fast assert.  Not in regular debug build because frequency too high.  Mostly inner engine stuff
-RBXASSERT_SLOW:				Put things like "find" here.  Will always run in debug builds
-RBXASSERT_IF_VALIDATING:	Very slow stuff.  Only turns on if the "validating debug" switch is turned on in debug or noOpt build
-RBXASSERT_FISHING:			Usually doesn't go off, should be safe - turn on for engine testing
+ARLASSERT:					Standard assert.  Should be reasonably fast.  Do not do "finds" or complex stuff here.  Simple bools, simple math, a couple levels of pointer indirection, etc.
+ARLASSERT_VERY_FAST:		High fr  equency, extremely fast assert.  Not in regular debug build because frequency too high.  Mostly inner engine stuff
+ARLASSERT_SLOW:				Put things like "find" here.  Will always run in debug builds
+ARLASSERT_IF_VALIDATING:	Very slow stuff.  Only turns on if the "validating debug" switch is turned on in debug or noOpt build
+ARLASSERT_FISHING:			Usually doesn't go off, should be safe - turn on for engine testing
 
-							RBXASSERT()			RBXASSERT_VERY_FAST()	RBXASSERT_SLOW()		RBXASSERT_IF_VALIDATING()	RBXASSERT_FISHING()
+							ARLASSERT()			ARLASSERT_VERY_FAST()	ARLASSERT_SLOW()		ARLASSERT_IF_VALIDATING()	ARLASSERT_FISHING()
 	DEBUG						X					X						X							X							-
 	NoOpt						X					X						-							-							-
 	ReleaseAssert				X					-						-							-							-
@@ -59,20 +59,20 @@ RBXASSERT_FISHING:			Usually doesn't go off, should be safe - turn on for engine
 
 
 #ifdef _DEBUG
-	#define __RBX_VERY_FAST_ASSERT
-	#define __RBX_VALIDATE_ASSERT
-//	#define __RBX_SLOW_ASSERT	// TODO: Hire a physics guy to enable them
-//	#define __RBX_FISHING_ASSERT
-	#define __RBX_NOT_RELEASE
+	#define __ARL_VERY_FAST_ASSERT
+	#define __ARL_VALIDATE_ASSERT
+//	#define __ARL_SLOW_ASSERT	// TODO: Hire a physics guy to enable them
+//	#define __ARL_FISHING_ASSERT
+	#define __ARL_NOT_RELEASE
 #endif
 
 #ifdef _NOOPT
-	#define __RBX_CRASH_ON_ASSERT
-	#define __RBX_VERY_FAST_ASSERT
-	#define __RBX_NOT_RELEASE
+	#define __ARL_CRASH_ON_ASSERT
+	#define __ARL_VERY_FAST_ASSERT
+	#define __ARL_NOT_RELEASE
 #endif
 
-namespace RBX {
+namespace ARL {
 
 	// Used for memory leak detection and other stuff
 	class Debugable
@@ -89,8 +89,8 @@ namespace RBX {
 
 }
 
-void RBXCRASH();
-void RBXCRASH(const char* message);
+void ARLCRASH();
+void ARLCRASH(const char* message);
 
 void ReleaseAssert(int channel, const char* msg);
 
@@ -98,107 +98,107 @@ void ReleaseAssert(int channel, const char* msg);
 #define TOSTRING(x) STRINGIFY(x)
 
 // macro to convince a compiler a variable is used while not generating instructions (useful for removing warnings)
-#define RBX_UNUSED(x) (void)(sizeof((x), 0))
+#define ARL_UNUSED(x) (void)(sizeof((x), 0))
 
-// This macro will cause a crash. Usually you don't call it directly. Use RBXASSERT instead
-#define RBX_CRASH_ASSERT(expr) \
+// This macro will cause a crash. Usually you don't call it directly. Use ARLASSERT instead
+#define ARL_CRASH_ASSERT(expr) \
 		((void) (!!(expr) || \
-		((RBX::_internal::_debugHook != NULL) && (RBX::_internal::_debugHook(#expr, __FILE__, __LINE__))) || \
-		(RBX::Debugable::doCrash(#expr), 0)))
+		((ARL::_internal::_debugHook != NULL) && (ARL::_internal::_debugHook(#expr, __FILE__, __LINE__))) || \
+		(ARL::Debugable::doCrash(#expr), 0)))
 
 // This macro will just log an assert string, if we will run into crash log with the assert information will be sent to us
-#define RBX_LOG_ASSERT(expr) \
+#define ARL_LOG_ASSERT(expr) \
 	((void) (FLog::Asserts && (!!(expr) || \
-	((RBX::_internal::_debugHook != NULL) && (RBX::_internal::_debugHook(#expr, __FILE__, __LINE__))) || \
+	((ARL::_internal::_debugHook != NULL) && (ARL::_internal::_debugHook(#expr, __FILE__, __LINE__))) || \
 	(ReleaseAssert(FLog::Asserts,#expr " file: " __FILE__ " line: " TOSTRING(__LINE__)), 0))))
 
 
 // LEGACY_ASSERT should be used when we have some assert bogging us and it seems like this guy is a good candidate for removal
-// usage just replace RBXASSERT with LEGACY_ASSERT and it will gone by default, but if you need to see it temporary define FIRE_LEGACY_ASSERT
+// usage just replace ARLASSERT with LEGACY_ASSERT and it will gone by default, but if you need to see it temporary define FIRE_LEGACY_ASSERT
 #undef FIRE_LEGACY_ASSERT
 
 #ifdef FIRE_LEGACY_ASSERT
-	#define LEGACY_ASSERT(expr) RBXASSERT(expr)
+	#define LEGACY_ASSERT(expr) ARLASSERT(expr)
 #else
 	#define LEGACY_ASSERT(expr) ((void)0)
 #endif
 
-#define RBXASSERTENABLED
+#define ARLASSERTENABLED
 
-// RBXASSERT()
+// ARLASSERT()
 //
-#ifdef __RBX_CRASH_ON_ASSERT
-	#define RBXASSERT RBX_CRASH_ASSERT
+#ifdef __ARL_CRASH_ON_ASSERT
+	#define ARLASSERT ARL_CRASH_ASSERT
 #else
 	#if (defined(_DEBUG) && defined(__APPLE__))		// Apple Debug
         #include "TargetConditionals.h"
         #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-            #define RBXASSERT RBX_LOG_ASSERT // iOS has no way to step over asserts (makes debugging hard)
+            #define ARLASSERT ARL_LOG_ASSERT // iOS has no way to step over asserts (makes debugging hard)
         #else
-            #define RBXASSERT(expr) assert(expr)
-            #define RBXASSERTENABLED
+            #define ARLASSERT(expr) assert(expr)
+            #define ARLASSERTENABLED
         #endif
 	#elif (defined(_DEBUG) && defined(_WIN32))		// Windows Debug
-		#define RBXASSERT(expr) \
+		#define ARLASSERT(expr) \
 			((void) (!!(expr) || \
-			((RBX::_internal::_debugHook != NULL) && (RBX::_internal::_debugHook(#expr, __FILE__, __LINE__))) || \
+			((ARL::_internal::_debugHook != NULL) && (ARL::_internal::_debugHook(#expr, __FILE__, __LINE__))) || \
 			(_ASSERTE(expr), 0)))
-		#define RBXASSERTENABLED
+		#define ARLASSERTENABLED
 	#else											// All Platform Release
-		#define RBXASSERT RBX_LOG_ASSERT
+		#define ARLASSERT ARL_LOG_ASSERT
 	#endif
 #endif
 
 
 
-// RBXASSERT_VERY_FAST()
+// ARLASSERT_VERY_FAST()
 //
-#ifdef __RBX_VERY_FAST_ASSERT
-	#define RBXASSERT_VERY_FAST(expr) RBXASSERT(expr)
+#ifdef __ARL_VERY_FAST_ASSERT
+	#define ARLASSERT_VERY_FAST(expr) ARLASSERT(expr)
 #else
-	#define RBXASSERT_VERY_FAST(expr) ((void)0)
+	#define ARLASSERT_VERY_FAST(expr) ((void)0)
 #endif
 
 
-// RBXASSERT_SLOW()
+// ARLASSERT_SLOW()
 //
-#ifdef __RBX_SLOW_ASSERT
-	#define RBXASSERT_SLOW(expr) RBXASSERT(expr)
+#ifdef __ARL_SLOW_ASSERT
+	#define ARLASSERT_SLOW(expr) ARLASSERT(expr)
 #else
-	#define RBXASSERT_SLOW(expr) ((void)0)
+	#define ARLASSERT_SLOW(expr) ((void)0)
 #endif
 
 
-// RBXASSERT_FISHING)
+// ARLASSERT_FISHING)
 //
-#ifdef __RBX_FISHING_ASSERT
-	#define RBXASSERT_FISHING(expr) RBXASSERT(expr)
+#ifdef __ARL_FISHING_ASSERT
+	#define ARLASSERT_FISHING(expr) ARLASSERT(expr)
 #else
-	#define RBXASSERT_FISHING(expr) ((void)0)
+	#define ARLASSERT_FISHING(expr) ((void)0)
 #endif
 
 
-// RBXASSERT_IF_VALIDATING()
+// ARLASSERT_IF_VALIDATING()
 //
-#ifdef __RBX_VALIDATE_ASSERT
-	#define RBXASSERT_IF_VALIDATING(expr)	RBXASSERT( (expr) ) 
+#ifdef __ARL_VALIDATE_ASSERT
+	#define ARLASSERT_IF_VALIDATING(expr)	ARLASSERT( (expr) ) 
 
 #else
-	#define RBXASSERT_IF_VALIDATING(expr) ((void)0)
+	#define ARLASSERT_IF_VALIDATING(expr) ((void)0)
 #endif
 
 
-// RBXASSERT_NOT_RELEASE()		make sure this code is not being compiled in release build
-#ifdef __RBX_NOT_RELEASE
-	#define RBXASSERT_NOT_RELEASE()			((void)0)
+// ARLASSERT_NOT_RELEASE()		make sure this code is not being compiled in release build
+#ifdef __ARL_NOT_RELEASE
+	#define ARLASSERT_NOT_RELEASE()			((void)0)
 #else
-	#define RBXASSERT_NOT_RELEASE()			RBXCRASH()
+	#define ARLASSERT_NOT_RELEASE()			ARLCRASH()
 #endif
 
 
-// Same as boost::polymorphic_downcast but with an RBXASSERT
+// Same as boost::polymorphic_downcast but with an ARLASSERT
 template<class T, class U>
 inline T rbx_static_cast(U u) {
-	RBXASSERT_SLOW(dynamic_cast<T>(u)==u);
+	ARLASSERT_SLOW(dynamic_cast<T>(u)==u);
 	return static_cast<T>(u);
 }

@@ -3,14 +3,14 @@
 #include "Reflection/Function.h"
 #include <boost/function.hpp>
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
 		class YieldFunction;
 
 		// Base that describes a YieldFunction
-		class RBXBaseClass YieldFunctionDescriptor : public MemberDescriptor
+		class ARLBaseClass YieldFunctionDescriptor : public MemberDescriptor
 		{
 		public:
 
@@ -49,7 +49,7 @@ namespace RBX
 				return *this;
 			}
 
-			inline const RBX::Name& getName() const { 
+			inline const ARL::Name& getName() const { 
 				return descriptor->name; 
 			}
 

@@ -5,7 +5,7 @@
 #include <boost/unordered_map.hpp>
 #include "Util/StandardOut.h"
 
-namespace RBX
+namespace ARL
 {
 
 template<class Key, class Data> 
@@ -41,7 +41,7 @@ public:
 	{
 		for(List_Iter iter = list.begin(); iter != list.end(); ++iter)
 		{
-			StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "%s", iter->first.c_str());
+			StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "%s", iter->first.c_str());
 		}
 	}
 
@@ -223,7 +223,7 @@ public:
 		while( this->totalMemory > maxMemSize ) 
 		{
 			Super::removeLeastRecentlyUsed();
-			RBXASSERT(this->totalMemory >= 0);
+			ARLASSERT(this->totalMemory >= 0);
 		}
 	}
 
@@ -234,7 +234,7 @@ public:
 		// Check to see if we need to remove an element due to exceeding max_size
 		while( this->totalMemory > maxMemSize ) {
 			Super::removeLeastRecentlyUsed();
-			RBXASSERT(this->totalMemory >= 0);
+			ARLASSERT(this->totalMemory >= 0);
 		}
 	}
 };
@@ -243,7 +243,7 @@ template<class Key,class Data>
 class ConcurrentLRUCache 
 {
 public:
-		RBX::LRUCache<Key, Data> cache;
+		ARL::LRUCache<Key, Data> cache;
 		boost::mutex mutex;
 		public:
 			ConcurrentLRUCache (int size) 

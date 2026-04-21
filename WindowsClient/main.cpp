@@ -12,7 +12,7 @@
 
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
 
-RBX::Application* appPtr;
+ARL::Application* appPtr;
 
 LOGGROUP(HangDetection)
 LOGGROUP(RobloxWndInit)
@@ -40,7 +40,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_GETMINMAXINFO:
-		RBX::Application::OnGetMinMaxInfo((MINMAXINFO*)lParam);
+		ARL::Application::OnGetMinMaxInfo((MINMAXINFO*)lParam);
 		break;
 	case WM_KEYDOWN:
 	case WM_MOUSEMOVE:
@@ -101,7 +101,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 
-	RBX::Application app;
+	ARL::Application app;
 	appPtr = &app;
 	CComModule comModule; // Needed for ActiveX hosting of IWebBrowser2
 
@@ -116,7 +116,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	std::string clientSettingsString;
 	FetchClientSettingsData(CLIENT_APP_SETTINGS_STRING, CLIENT_SETTINGS_API_KEY, &clientSettingsString);
 	// Apply client settings
-	LoadClientSettingsFromString(CLIENT_APP_SETTINGS_STRING, clientSettingsString, &RBX::ClientAppSettings::singleton());
+	LoadClientSettingsFromString(CLIENT_APP_SETTINGS_STRING, clientSettingsString, &ARL::ClientAppSettings::singleton());
 
 	TCHAR szTitle[MAX_LOADSTRING];
 
@@ -139,7 +139,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         if (!app.Initialize(hWnd, hInstance))
             return FALSE;
 	} 
-	catch (const RBX::initialization_error& e) 
+	catch (const ARL::initialization_error& e) 
 	{
 		const char* const errorMessage = e.what();
 		FASTLOGS(FLog::RobloxWndInit, "Error during initialization. User message = %s", errorMessage);
@@ -169,7 +169,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     // at this point, threads will still be around.
     DWORD unused;
-    VirtualProtect(reinterpret_cast<void*>(RBX::Security::rbxVmpBase), RBX::Security::rbxVmpSize, PAGE_EXECUTE_READWRITE, &unused);
+    VirtualProtect(reinterpret_cast<void*>(ARL::Security::rbxVmpBase), ARL::Security::rbxVmpSize, PAGE_EXECUTE_READWRITE, &unused);
 
 	app.Shutdown();
 

@@ -13,11 +13,11 @@
 #include "V8Tree/Service.h"
 #include "V8DataModel/InputObject.h"
 
-namespace RBX
+namespace ARL
 {
     extern const char *const sTouchInputService;
     
-    typedef std::pair<RBX::Vector3, RBX::InputObject::UserInputState> TouchInfo;
+    typedef std::pair<ARL::Vector3, ARL::InputObject::UserInputState> TouchInfo;
     typedef boost::unordered_map<int, std::vector<TouchInfo> > TouchBufferMap;
     
     class TouchInputService

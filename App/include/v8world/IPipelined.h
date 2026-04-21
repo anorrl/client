@@ -5,11 +5,11 @@
 #include "V8World/IWorldStage.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Kernel;
 
-	class RBXBaseClass IPipelined
+	class ARLBaseClass IPipelined
 	{
 	private:
 		IStage*		currentStage;
@@ -22,7 +22,7 @@ namespace RBX {
 		{}
 	
 		virtual ~IPipelined() {
-			RBXASSERT(currentStage == NULL);
+			ARLASSERT(currentStage == NULL);
 			currentStage = static_cast<IStage*>(Debugable::badMemory());
 		}
 
@@ -41,30 +41,30 @@ namespace RBX {
 		const IStage* getCurrentStage() const {return currentStage;}
 
 		bool inStage(IStage::StageType stageType) const {
-			RBXASSERT(currentStage);
+			ARLASSERT(currentStage);
 			return (currentStage && (currentStage->getStageType() == stageType));
 		}
 
 		bool inStage(IStage* iStage) const {
-			RBXASSERT(iStage);
-			RBXASSERT(currentStage);
+			ARLASSERT(iStage);
+			ARLASSERT(currentStage);
 			return (currentStage == iStage);
 		}
 
 		bool inOrDownstreamOfStage(IStage::StageType stageType) const {
-			RBXASSERT(currentStage);
+			ARLASSERT(currentStage);
 			return (currentStage && (currentStage->getStageType() >= stageType));
 		}
 
 		bool inOrDownstreamOfStage(IStage* iStage) const {
-			RBXASSERT(iStage);
-			RBXASSERT(currentStage);
+			ARLASSERT(iStage);
+			ARLASSERT(currentStage);
 			return (currentStage && iStage && (currentStage->getStageType() >= iStage->getStageType()));
 		}
 
 		bool downstreamOfStage(IStage* iStage) const {
-			RBXASSERT(iStage);
-			RBXASSERT(currentStage);
+			ARLASSERT(iStage);
+			ARLASSERT(currentStage);
 			return (currentStage && iStage && currentStage->getStageType() > iStage->getStageType());
 		}
 

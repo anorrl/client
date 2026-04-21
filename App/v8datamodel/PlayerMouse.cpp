@@ -4,7 +4,7 @@
 #include "V8DataModel/PlayerMouse.h"
 #include "V8DataModel/ScriptMouseCommand.h"
 
-namespace RBX {
+namespace ARL {
 	
 const char *const sPlayerMouse = "PlayerMouse";
 

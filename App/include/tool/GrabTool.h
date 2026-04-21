@@ -4,7 +4,7 @@
 
 #include "V8DataModel/MouseCommand.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sGrabTool;
 	class GrabTool : public Named<MouseCommand, sGrabTool>
@@ -29,4 +29,4 @@ namespace RBX {
 		/*override*/ shared_ptr<MouseCommand> isSticky() const {return Creatable<MouseCommand>::create<GrabTool>(workspace);}
 	};
 
-} // namespace RBX
+} // namespace ARL

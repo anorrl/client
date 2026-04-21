@@ -4,7 +4,7 @@
 
 #include "Tool/AxisMoveTool.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sAxisRotateTool;
 	class AxisRotateTool : public Named<AxisToolBase, sAxisRotateTool>
@@ -22,4 +22,4 @@ namespace RBX {
 
 
 
-} // namespace RBX
+} // namespace ARL

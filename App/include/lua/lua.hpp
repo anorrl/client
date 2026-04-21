@@ -4,7 +4,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
-namespace RBX
+namespace ARL
 {
 	namespace Lua
 	{

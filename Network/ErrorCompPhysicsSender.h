@@ -20,7 +20,7 @@ using boost::multi_index_container;
 using namespace boost::multi_index;
 
 
-namespace RBX { 
+namespace ARL { 
 	
 	class Instance;
 	class PhysicsService;

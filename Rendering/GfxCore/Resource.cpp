@@ -2,7 +2,7 @@
 
 #include "GfxCore/Device.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -14,7 +14,7 @@ Resource::Resource(Device* device)
 {
 	if (device->resourceListHead)
 	{
-		RBXASSERT(device->resourceListTail);
+		ARLASSERT(device->resourceListTail);
 
 		prev = device->resourceListTail;
 		device->resourceListTail->next = this;
@@ -22,7 +22,7 @@ Resource::Resource(Device* device)
 	}
 	else
 	{
-		RBXASSERT(!device->resourceListTail);
+		ARLASSERT(!device->resourceListTail);
 
 		device->resourceListHead = this;
 		device->resourceListTail = this;
@@ -35,7 +35,7 @@ Resource::~Resource()
 		prev->next = next;
 	else
 	{
-		RBXASSERT(device->resourceListHead == this);
+		ARLASSERT(device->resourceListHead == this);
 		device->resourceListHead = next;
 	}
 
@@ -43,7 +43,7 @@ Resource::~Resource()
 		next->prev = prev;
 	else
 	{
-		RBXASSERT(device->resourceListTail == this);
+		ARLASSERT(device->resourceListTail == this);
 		device->resourceListTail = prev;
 	}
 }

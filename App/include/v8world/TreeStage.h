@@ -7,7 +7,7 @@
 #include "Util/Utilities.h"
 #include "Util/SpanningTree.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Primitive;
 	class Joint;

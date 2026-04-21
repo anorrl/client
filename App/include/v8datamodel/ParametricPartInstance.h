@@ -4,7 +4,7 @@
 
 #include "V8DataModel/BasicPartInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 namespace PART {
 

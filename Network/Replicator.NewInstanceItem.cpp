@@ -15,7 +15,7 @@
 
 #include "VMProtectSDK.h"
 
-namespace RBX { 
+namespace ARL { 
 namespace Network {
 
 DeserializedNewInstanceItem::DeserializedNewInstanceItem() : classDescriptor(NULL)
@@ -46,7 +46,7 @@ Replicator::NewInstanceItem::NewInstanceItem(Replicator* replicator, shared_ptr<
 	if (!replicator->isLegalSendInstance(instance.get()))
 		return;
 
-	RBX::mutex::scoped_lock lock(replicator->pendingInstancesMutex);
+	ARL::mutex::scoped_lock lock(replicator->pendingInstancesMutex);
 	replicator->pendingNewInstances.insert(instance.get());
 
 	// create an entry in new instance bitstream cache
@@ -67,7 +67,7 @@ bool Replicator::NewInstanceItem::write(RakNet::BitStream& bitStream)
 	{
 		return true;
 	}
-	DescriptorSender<RBX::Reflection::ClassDescriptor>::IdContainer idContainer = replicator.classDictionary.getId(&instance->getDescriptor());
+	DescriptorSender<ARL::Reflection::ClassDescriptor>::IdContainer idContainer = replicator.classDictionary.getId(&instance->getDescriptor());
 
 	int byteStart = bitStream.GetNumberOfBytesUsed();
 	if (!replicator.removeFromPendingNewInstances(instance.get()))
@@ -79,7 +79,7 @@ bool Replicator::NewInstanceItem::write(RakNet::BitStream& bitStream)
 	replicator.serializeId(bitStream, instance.get());
 
 	if (replicator.settings().printInstances) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,				// remote player always on right
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,				// remote player always on right
 			"Replication NewInstance::write: %s:%s:%s >> %s", 
 			instance->getClassName().c_str(), 
 			instance->getGuid().readableString().c_str(),
@@ -122,7 +122,7 @@ bool Replicator::NewInstanceItem::write(RakNet::BitStream& bitStream)
 		{
 			if (replicator.settings().printBits)
 			{
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,
 					"   write from cache %d bits", 
 					bitStream.GetWriteOffset() - startBit);
 			}
@@ -166,31 +166,31 @@ bool Replicator::NewInstanceItem::read(Replicator& replicator, RakNet::BitStream
 	{
 		// We got back an object we've already seen
 		if (i==0)
-			throw RBX::runtime_error("readInstanceNew got a null object (guid %s)", deserializedItem.id.readableString(32).c_str());
+			throw ARL::runtime_error("readInstanceNew got a null object (guid %s)", deserializedItem.id.readableString(32).c_str());
 
 		deserializedItem.instance = i;
 
 		if (deserializedItem.instance->getDescriptor()!=*deserializedItem.classDescriptor)
 		{
-			std::string message = RBX::format("Replication: Bad re-binding in deserialize new instance %s-%s << %s, %s-%s", 
+			std::string message = ARL::format("Replication: Bad re-binding in deserialize new instance %s-%s << %s, %s-%s", 
 				deserializedItem.classDescriptor->name.c_str(), 
 				deserializedItem.id.readableString().c_str(), 
 				RakNetAddressToString(replicator.remotePlayerId).c_str(), 
 				deserializedItem.instance->getClassName().c_str(), 
 				deserializedItem.id.readableString().c_str());
 
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, "%s", message.c_str());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "%s", message.c_str());
 
-			throw RBX::runtime_error("%s", message.c_str());
+			throw ARL::runtime_error("%s", message.c_str());
 		}
 	}
 	else
 	{
-		deserializedItem.instance = Creatable<Instance>::createByName(deserializedItem.classDescriptor->name, RBX::ReplicationCreator);
+		deserializedItem.instance = Creatable<Instance>::createByName(deserializedItem.classDescriptor->name, ARL::ReplicationCreator);
 		if (!deserializedItem.instance)
 		{
 			std::string message = format("Replication: Can't create object of type %s", deserializedItem.classDescriptor->name.c_str());
-			RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, message);
+			ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, message);
 			throw std::runtime_error(message);
 		}
 

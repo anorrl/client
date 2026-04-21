@@ -10,7 +10,7 @@
 
 DYNAMIC_FASTFLAG(UseR15Character)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sCharacterAppearance	= "CharacterAppearance";
 
@@ -216,7 +216,7 @@ void CharacterAppearance::onAncestorChanged(const AncestorChanged& event)
 
 		if(event.newParent)
 		{
-			RBX::Humanoid* humanoid = Humanoid::modelIsCharacter(event.newParent);
+			ARL::Humanoid* humanoid = Humanoid::modelIsCharacter(event.newParent);
 			if(humanoid)
 			{
 				applyByMyself(humanoid);
@@ -224,7 +224,7 @@ void CharacterAppearance::onAncestorChanged(const AncestorChanged& event)
 		}
 		if(event.oldParent)
 		{
-			RBX::Humanoid* humanoid = Humanoid::modelIsCharacter(event.oldParent);
+			ARL::Humanoid* humanoid = Humanoid::modelIsCharacter(event.oldParent);
 			if(humanoid)
 			{
 				applyByMyself(humanoid);

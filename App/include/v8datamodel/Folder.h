@@ -3,7 +3,7 @@
 
 #include "V8Tree/Instance.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sFolder;
 	class Folder

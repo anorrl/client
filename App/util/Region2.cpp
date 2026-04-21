@@ -4,7 +4,7 @@
 #include "Util/Region2.h"
 #include "Util/quadedge.h"
 
-namespace RBX {
+namespace ARL {
 
 
 // static

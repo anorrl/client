@@ -4,15 +4,15 @@
 #include "rbx/atomic.h"
 
 
-#ifdef __RBX_NOT_RELEASE
-	#define RBX_USE_CONCURRENCY_VALIDATOR(expr) (expr)
+#ifdef __ARL_NOT_RELEASE
+	#define ARL_USE_CONCURRENCY_VALIDATOR(expr) (expr)
 #else
-	#define RBX_USE_CONCURRENCY_VALIDATOR(expr) ((void)0)
+	#define ARL_USE_CONCURRENCY_VALIDATOR(expr) ((void)0)
 #endif
 
 
 
-namespace RBX { 
+namespace ARL { 
 
 class ConcurrencyValidator
 {
@@ -27,8 +27,8 @@ public:
 	}
 
 	~ConcurrencyValidator() {
-		RBXASSERT(writing == 0);
-		RBXASSERT(reading == 0);
+		ARLASSERT(writing == 0);
+		ARLASSERT(reading == 0);
 	}
 
 private:
@@ -39,14 +39,14 @@ private:
 		++reading;
 
 		long wasWriting = writing;
-		if (wasWriting != 0) {RBXASSERT(false && "writing check failed in preRead");}
+		if (wasWriting != 0) {ARLASSERT(false && "writing check failed in preRead");}
 		return true;
 	}
 
 	bool postRead() const {
 		long wasWriting = writing;
-		if (wasWriting != 0)	{RBXASSERT(false && "wasWriting check failed in postRead");}
-		if (writing != 0)		{RBXASSERT(false && "writing check failed in postRead");}
+		if (wasWriting != 0)	{ARLASSERT(false && "wasWriting check failed in postRead");}
+		if (writing != 0)		{ARLASSERT(false && "writing check failed in postRead");}
 
 		--reading;
 		return true;
@@ -56,13 +56,13 @@ private:
 		long wasWriting = writing;
 		long wasReading = reading;
 
-		if (wasReading != 0)	{RBXASSERT(false && "wasReading check failed in preWrite");}
-		if (wasWriting != 0)	{RBXASSERT(false && "wasWriting check failed in preWrite");}
-		if (writing != 0)		{RBXASSERT(false && "writing check failed in preWrite");}
+		if (wasReading != 0)	{ARLASSERT(false && "wasReading check failed in preWrite");}
+		if (wasWriting != 0)	{ARLASSERT(false && "wasWriting check failed in preWrite");}
+		if (writing != 0)		{ARLASSERT(false && "writing check failed in preWrite");}
 
 		long result = ++writing;
 
-		if (result != 1)		{RBXASSERT(false && "InterlocedIncrement returned not -1 in preWrite");}
+		if (result != 1)		{ARLASSERT(false && "InterlocedIncrement returned not -1 in preWrite");}
 		return true;
 	}
 
@@ -78,14 +78,14 @@ private:
 		long wasWriting = writing;
 		long wasReading = reading;
 
-		if (wasWriting != 1)	{RBXASSERT(false && "wasWriting check failed in postWrite");}
-		if (writing != 1)		{RBXASSERT(false && "writing check failed in postWrite");}
-		if (wasReading != 0)	{RBXASSERT(false && "wasReading check failed in postWrite");}
-		if (reading != 0)		{RBXASSERT(false && "reading check failed in postWrite");}
+		if (wasWriting != 1)	{ARLASSERT(false && "wasWriting check failed in postWrite");}
+		if (writing != 1)		{ARLASSERT(false && "writing check failed in postWrite");}
+		if (wasReading != 0)	{ARLASSERT(false && "wasReading check failed in postWrite");}
+		if (reading != 0)		{ARLASSERT(false && "reading check failed in postWrite");}
 
 		long result = --writing;
-		if (result != 0)		{RBXASSERT(false && "InterlocedIncrement returned not 0 in postWrite");}
-		if (reading != 0)		{RBXASSERT(false && "reading check failed in postWrite");}
+		if (result != 0)		{ARLASSERT(false && "InterlocedIncrement returned not 0 in postWrite");}
+		if (reading != 0)		{ARLASSERT(false && "reading check failed in postWrite");}
 		return true;
 	}
 };
@@ -97,11 +97,11 @@ private:
 
 public:
 	ReadOnlyValidator(const ConcurrencyValidator& c) : concurrencyValidator(c) {
-		RBX_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.preRead());
+		ARL_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.preRead());
 	}
 
 	~ReadOnlyValidator() {
-		RBX_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.postRead());
+		ARL_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.postRead());
 	}
 };
 
@@ -113,19 +113,19 @@ private:
 
 public:
 	WriteValidator(ConcurrencyValidator& c) : concurrencyValidator(c) {
-		RBX_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.preWrite());
+		ARL_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.preWrite());
 	}
 
 	WriteValidator(ConcurrencyValidator& c, const std::string& writeWhere) : concurrencyValidator(c) {
-		RBX_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.preWrite(writeWhere));
+		ARL_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.preWrite(writeWhere));
 	}
 
 	WriteValidator(ConcurrencyValidator& c, const char* writeWhere) : concurrencyValidator(c) {
-		RBX_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.preWrite(writeWhere));
+		ARL_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.preWrite(writeWhere));
 	}
 
 	~WriteValidator() {
-		RBX_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.postWrite());
+		ARL_USE_CONCURRENCY_VALIDATOR(concurrencyValidator.postWrite());
 	}
 };
 

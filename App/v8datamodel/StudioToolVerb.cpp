@@ -5,7 +5,7 @@
 #include "V8DataModel/StudioToolMouseCommand.h"
 #include "V8DataModel/Workspace.h"
 
-namespace RBX
+namespace ARL
 {
 	StudioToolVerb::StudioToolVerb(const char* name, StudioTool* studioTool,  Workspace* workspace, bool toggle) 
 		: Verb(workspace, name)

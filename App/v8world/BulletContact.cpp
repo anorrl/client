@@ -14,7 +14,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(UseTerrainCustomPhysicalProperties, false)
 
-namespace RBX {
+namespace ARL {
 
 static void computeManifolds(World* world, btCollisionAlgorithm*& algorithm, btManifoldArray& manifoldArray, btCollisionObject* colObj0, btCollisionObject* colObj1)
 {
@@ -65,7 +65,7 @@ static void matchConnectors(World* world, btManifoldArray& manifoldArray, Bullet
                 {
                     BulletConnector* conn = static_cast<BulletConnector*>(pt.m_userPersistentData);
                     
-                    RBXASSERT(conn->bulletManifoldIndex < 0);
+                    ARLASSERT(conn->bulletManifoldIndex < 0);
 
                     conn->bulletManifoldIndex = i;
                     conn->bulletPointCacheIndex = j;
@@ -123,7 +123,7 @@ static void createConnectors(btManifoldArray& manifoldArray, BulletConnectorArra
                 }
                 else
                 {
-                    RBXASSERT(!"Contact array is full, dropping contact");
+                    ARLASSERT(!"Contact array is full, dropping contact");
                 }
             }
         }
@@ -217,7 +217,7 @@ static void deleteConnectors(World* world, btManifoldArray& manifoldArray, Bulle
 
     for (size_t i = 0; i < connectors.size(); ++i)
     {
-        RBXASSERT(!connectors[i]->isInKernel());
+        ARLASSERT(!connectors[i]->isInKernel());
         delete connectors[i];
     }
     

@@ -8,7 +8,7 @@
 
 #include <rapidjson/document.h>
 
-namespace RBX {
+namespace ARL {
 
     class DataModel;
     
@@ -159,15 +159,15 @@ namespace RBX {
 
 		// A generic mechanism for displaying stats (like 3D FPS, network traffic, etc.)
 		class StatsService 
-			: public DescribedNonCreatable<StatsService, Instance, sStats, Reflection::ClassDescriptor::INTERNAL_LOCAL, RBX::Security::LocalUser>
+			: public DescribedNonCreatable<StatsService, Instance, sStats, Reflection::ClassDescriptor::INTERNAL_LOCAL, ARL::Security::LocalUser>
 			, public Service
 		{
 			std::string customReportUrl;
-			typedef boost::unordered_map<std::string, RBX::Time> LastReportTimes;
+			typedef boost::unordered_map<std::string, ARL::Time> LastReportTimes;
 			LastReportTimes lastReportTimes;
 			rbx::signals::scoped_connection baseUrlConnection;
 		public:
-			StatsService():DescribedNonCreatable<StatsService, Instance, sStats, Reflection::ClassDescriptor::INTERNAL_LOCAL, RBX::Security::LocalUser>("Stats") 
+			StatsService():DescribedNonCreatable<StatsService, Instance, sStats, Reflection::ClassDescriptor::INTERNAL_LOCAL, ARL::Security::LocalUser>("Stats") 
 				,minReportInterval(10)
 			{}
 			std::string reporterType;

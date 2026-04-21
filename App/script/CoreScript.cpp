@@ -11,7 +11,7 @@
 
 #include "StringConv.h"
 
-namespace RBX
+namespace ARL
 {
 	const char* const sCoreScript = "CoreScript";
 
@@ -27,10 +27,10 @@ namespace RBX
 	{
 		if(oldProvider && !workspace)
 		{
-			RBX::ScriptContext* sc = ServiceProvider::find<ScriptContext>(oldProvider);
-			RBXASSERT(sc);
+			ARL::ScriptContext* sc = ServiceProvider::find<ScriptContext>(oldProvider);
+			ARLASSERT(sc);
 
-			RBXASSERT(sc->hasScript(this));
+			ARLASSERT(sc->hasScript(this));
 			sc->removeScript(weak_from(this));	
 		}
 		Super::onServiceProvider(oldProvider, newProvider);
@@ -72,7 +72,7 @@ namespace RBX
         }
         else
         {
-            throw RBX::runtime_error("Error loading core script %s", getName().c_str());
+            throw ARL::runtime_error("Error loading core script %s", getName().c_str());
         }
     }
 
@@ -82,7 +82,7 @@ namespace RBX
 		std::stringstream out;
 		
 		// format and collect error information
-		const char* error = RBX::Lua::safe_lua_tostring(thread, -1);
+		const char* error = ARL::Lua::safe_lua_tostring(thread, -1);
 		if (error && strlen(error)>0)
 			out << error;
 		else
@@ -91,7 +91,7 @@ namespace RBX
 		int line;
 		shared_ptr<BaseScript> source;
 		out << "\n\nCallStack:\n" << ScriptContext::extractCallStack(thread, source, line);
-		RBXASSERT(source.get() == this);
+		ARLASSERT(source.get() == this);
 
 		if(DataModel* dataModel = DataModel::get(this))
 			out << "\nPlaceID: " << dataModel->getPlaceIDOrZeroInStudio();
@@ -101,14 +101,14 @@ namespace RBX
 		
 		// create cse file, later to be uploaded to s3 (same place as .dmp)
 		std::stringstream fileOut;
-		fileOut << RBX::FileSystem::getUserDirectory(true, RBX::DirAppData, "logs") << this->getName() << "_ln" << line << "_" << ".cse";
+		fileOut << ARL::FileSystem::getUserDirectory(true, ARL::DirAppData, "logs") << this->getName() << "_ln" << line << "_" << ".cse";
 		std::string filename = fileOut.str();
 		
 		std::ofstream errorLog;
 		errorLog.open(filename.c_str());
 		if(errorLog.is_open())
 		{
-			RBX::Log::timeStamp(errorLog, true);
+			ARL::Log::timeStamp(errorLog, true);
 			errorLog << errorReport;
 		}
 		errorLog.close();

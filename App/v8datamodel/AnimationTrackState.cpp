@@ -10,7 +10,7 @@
 #include "V8DataModel/Animation.h"
 #include "V8datamodel/KeyframeSequenceProvider.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const  sAnimationTrackState = "AnimationTrackState";
 static const float autoStopFadeTime = 0.3f;
@@ -352,7 +352,7 @@ void AnimationTrackState::detectKeyframeReached(double animationTime, double las
 	for (int index = 0; index < numKf; index++)
 	{
 		const Keyframe* keyframe = Instance::fastDynamicCast<const Keyframe>(kfs->getChild(index));
-		RBXASSERT(keyframe);
+		ARLASSERT(keyframe);
 
 		bool passedKeyframe;
 		if (!inReverse())

@@ -2,12 +2,12 @@
 
 #include "TextureRef.h"
 
-namespace RBX
+namespace ARL
 {
 	class DataModel;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

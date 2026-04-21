@@ -6,7 +6,7 @@
 
 struct IDirect3DSurface9;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

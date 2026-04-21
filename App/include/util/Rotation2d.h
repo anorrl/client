@@ -2,7 +2,7 @@
 
 #include "Util/G3DCore.h"
 
-namespace RBX {
+namespace ARL {
 
 // Represents rotations in angles
 class RotationAngle

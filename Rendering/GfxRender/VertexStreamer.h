@@ -4,12 +4,12 @@
 
 #include "GfxCore/Geometry.h"
 
-namespace RBX
+namespace ARL
 {
     struct RenderPassStats;
 }
 
-namespace RBX
+namespace ARL
 {
 
 enum BatchTextureType
@@ -62,7 +62,7 @@ namespace Graphics
 		
 		struct Vertex
 		{
-			Vertex(const RBX::Vector3& pos, unsigned int color, const RBX::Vector2& uv)
+			Vertex(const ARL::Vector3& pos, unsigned int color, const ARL::Vector2& uv)
 				: pos(pos)
 				, color(color)
 				, uv(uv) 
@@ -71,9 +71,9 @@ namespace Graphics
 
 			Vertex() {}
 
-			RBX::Vector3 pos;
+			ARL::Vector3 pos;
 			unsigned int color;
-			RBX::Vector2 uv;
+			ARL::Vector2 uv;
 		};
 
 		struct VertexChunk

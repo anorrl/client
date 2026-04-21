@@ -2,7 +2,7 @@
 
 #include "V8DataModel/Folder.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sFolder = "Folder";
 

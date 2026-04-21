@@ -27,7 +27,7 @@ White			RGB: 255, 255, 255
 */
 
 
-namespace RBX {
+namespace ARL {
 
 	class Color {
 	private:

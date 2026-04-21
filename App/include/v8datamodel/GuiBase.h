@@ -8,7 +8,7 @@
 #include "V8DataModel/UserInputService.h"
 #include "GfxBase/IAdornable.h"
 
-namespace RBX {
+namespace ARL {
 
 	enum GuiQueue
 	{
@@ -35,7 +35,7 @@ namespace RBX {
 		virtual GuiResponse process(const shared_ptr<InputObject>& event) { return GuiResponse::notSunk(); }
 		virtual bool canProcessMeAndDescendants() const = 0;
         
-        virtual GuiResponse processGesture(const UserInputService::Gesture& gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args) { return GuiResponse::notSunk(); }
+        virtual GuiResponse processGesture(const UserInputService::Gesture& gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args) { return GuiResponse::notSunk(); }
 
 		virtual int getZIndex() const = 0;
 		virtual GuiQueue getGuiQueue() const = 0;

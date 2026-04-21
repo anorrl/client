@@ -1,7 +1,7 @@
 #include "./Marker.h"
 #include "rbx/atomic.h"
 
-namespace RBX {
+namespace ARL {
 	namespace Network {
 
 const char* const sMarker = "NetworkMarker";

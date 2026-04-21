@@ -4,7 +4,7 @@
 
 #include "Replicator.h"
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 struct PropValuePair
 {
@@ -20,8 +20,8 @@ public:
 	typedef std::vector<PropValuePair> PropValuePairList;
 	PropValuePairList propValueList; // for non creatable instances
 
-	RBX::Guid::Data id;
-	RBX::Guid::Data parentId;
+	ARL::Guid::Data id;
+	ARL::Guid::Data parentId;
 	const Reflection::ClassDescriptor* classDescriptor;
 
 	shared_ptr<Instance> instance;
@@ -48,7 +48,7 @@ class Replicator::NewInstanceItem : public PooledItem
 {
 	shared_ptr<const Instance> instance;
 	bool useStoredParentGuid;
-	RBX::Guid::Data parentIdAtItemCreation;
+	ARL::Guid::Data parentIdAtItemCreation;
 
 	bool deleteOnDisconnect;
 

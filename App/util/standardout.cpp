@@ -5,7 +5,7 @@
 #include "rbx/Log.h"
 #include "RbxFormat.h"
 
-using namespace RBX;
+using namespace ARL;
 
 bool StandardOut::allowPrintWarnings = true;
 
@@ -21,7 +21,7 @@ void StandardOut::print_exception(const boost::function0<void>& f, MessageType t
 	{
 		f();
 	}
-	catch (const RBX::base_exception& e)
+	catch (const ARL::base_exception& e)
 	{
 		singleton()->print(type, e);
 		if (rethrow)
@@ -33,7 +33,7 @@ void StandardOut::printf(MessageType type, const char* format, ...)
 {
 	va_list arg_list;
 	va_start(arg_list, format);
-	std::string message = RBX::vformat(format, arg_list);
+	std::string message = ARL::vformat(format, arg_list);
 	va_end(arg_list);
 	print(type, message);
 }
@@ -56,31 +56,31 @@ void StandardOut::print(MessageType type, const char* message)
 
 void StandardOut::print(MessageType type, const std::string& message)
 {
-	if (RBX::Log::current())
+	if (ARL::Log::current())
 	{
 		switch (type)
 		{
 		case MESSAGE_ERROR:
-			RBX::Log::current()->writeEntry(Log::Error, message.c_str());
+			ARL::Log::current()->writeEntry(Log::Error, message.c_str());
 			break;
 		case MESSAGE_WARNING:
-			RBX::Log::current()->writeEntry(Log::Warning, message.c_str());
+			ARL::Log::current()->writeEntry(Log::Warning, message.c_str());
 			break;
 		case MESSAGE_INFO:
-			RBX::Log::current()->writeEntry(Log::Information, message.c_str());
+			ARL::Log::current()->writeEntry(Log::Information, message.c_str());
 			break;
 		case MESSAGE_OUTPUT:
 			// No more than 256 characters please!
 			if (message.size() < 256)
-				RBX::Log::current()->writeEntry(Log::Information, message.c_str());
+				ARL::Log::current()->writeEntry(Log::Information, message.c_str());
 			else
-				RBX::Log::current()->writeEntry(Log::Information,message.substr(0, 256).c_str());
+				ARL::Log::current()->writeEntry(Log::Information,message.substr(0, 256).c_str());
 			break;
 		case MESSAGE_SENSITIVE:
-			RBX::Log::current()->writeEntry(Log::Warning, message.c_str());
+			ARL::Log::current()->writeEntry(Log::Warning, message.c_str());
 			break;
         default:
-            RBX::Log::current()->writeEntry(Log::Error,"Standard Message Out set with incorrect Message Type");
+            ARL::Log::current()->writeEntry(Log::Error,"Standard Message Out set with incorrect Message Type");
             break;
                 
 		}

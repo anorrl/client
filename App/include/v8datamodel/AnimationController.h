@@ -5,7 +5,7 @@
 #include "Util/SteppedInstance.h"
 #include "Util/RunStateOwner.h"
 
-namespace RBX {
+namespace ARL {
 	
 //	class Workspace;
 //	class Primitive;
@@ -39,4 +39,4 @@ namespace RBX {
 		rbx::signal<void(shared_ptr<Instance>)> animationPlayedSignal;
 	};
 
-}	// namespace RBX
+}	// namespace ARL

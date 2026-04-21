@@ -1,6 +1,6 @@
 #include "util/StreamHelpers.h"
 
-namespace RBX
+namespace ARL
 {
     void readStreamIntoString(std::istream &stream, std::string& content)
     {
@@ -12,4 +12,4 @@ namespace RBX
         content = std::string(contentLength, '\0');
         stream.read(&content[0], contentLength);
     }
-} // RBX
+} // ARL

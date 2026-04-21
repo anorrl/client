@@ -5,7 +5,7 @@
 #include "AppDraw/Draw.h"
 #include "AppDraw/DrawPrimitives.h"
 
-namespace RBX {
+namespace ARL {
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -125,7 +125,7 @@ GuiResponse Widget::processMouse(const shared_ptr<InputObject>& event)
 		break;
 
 	default:
-		RBXASSERT(0);
+		ARLASSERT(0);
 		break;
 	}
 	return GuiResponse::notSunk();

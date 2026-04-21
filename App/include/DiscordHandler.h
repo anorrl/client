@@ -4,7 +4,7 @@
 
 #include "discord_rpc.h"
 
-namespace RBX {
+namespace ARL {
 	class DiscordHandler {
 	public:
 		static void SetDetails(std::string state, std::string details);

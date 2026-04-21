@@ -2,7 +2,7 @@
 
 #include "Util/G3DCore.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Velocity
 	{
@@ -77,4 +77,4 @@ namespace RBX {
 	};
 
 
-} // namespace RBX
+} // namespace ARL

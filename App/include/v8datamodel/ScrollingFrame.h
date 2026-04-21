@@ -6,7 +6,7 @@
 #include "Util/SteppedInstance.h"
 #include <boost/circular_buffer.hpp>
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sScrollingFrame;
     
@@ -72,7 +72,7 @@ namespace RBX
 		typedef DescribedCreatable<ScrollingFrame, GuiObject, sScrollingFrame> Super;
 		
 
-		RBX::Timer<RBX::Time::Fast> selectionTimer;
+		ARL::Timer<ARL::Time::Fast> selectionTimer;
 
         // need to keep a reference to all images to stop flickering
         GuiDrawImage vTopImage;
@@ -113,9 +113,9 @@ namespace RBX
 
 		Vector2 lastGamepadScrollDelta;
 
-		RBX::Timer<RBX::Time::Fast> wheelUpTimer;
-		RBX::Timer<RBX::Time::Fast> wheelDownTimer;
-        RBX::Timer<RBX::Time::Fast> touchDeltaTimer;
+		ARL::Timer<ARL::Time::Fast> wheelUpTimer;
+		ARL::Timer<ARL::Time::Fast> wheelDownTimer;
+        ARL::Timer<ARL::Time::Fast> touchDeltaTimer;
         
         rbx::signals::scoped_connection inputEndedConnection;
 		rbx::signals::scoped_connection guiServicePropertyChangedConnection;
@@ -178,7 +178,7 @@ namespace RBX
 
 		void selectionLost();
 		void selectionGained();
-		void selectedGuiObjectChanged(const RBX::Reflection::PropertyDescriptor* desc);
+		void selectedGuiObjectChanged(const ARL::Reflection::PropertyDescriptor* desc);
 
 		/////////////////////////////////////////////////////////////
 		// GuiBase2d

@@ -5,7 +5,7 @@
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/PVInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sPartAdornment = "PartAdornment";
 

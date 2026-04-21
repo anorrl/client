@@ -9,7 +9,7 @@
 #include "rbx/TaskScheduler.Job.h"
 #include "util/IMetric.h"
 
-namespace RBX {
+namespace ARL {
 
 class FunctionMarshaller;
 class View;
@@ -46,4 +46,4 @@ public:
 	void stop();
 };
 
-}  // namespace RBX
+}  // namespace ARL

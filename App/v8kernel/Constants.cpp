@@ -8,7 +8,7 @@
 #include <vector>
 #include <algorithm>
 
-namespace RBX {
+namespace ARL {
 
 //static int kernelStepsPerWorldStepTest = 80;
 //static float originalHzFactorTest = 19.0f;
@@ -119,8 +119,8 @@ float Constants::LEGO_JOINT_K() {
 
 float Constants::getKmsMaxJointForce(float grid1, float grid2)		// kg*mm/s^2
 {
-	RBXASSERT(std::abs(grid1*10.0f - Math::iRound(grid1*10.0f)) < 0.01f);		// Can't enter with values too far off grid
-	RBXASSERT(std::abs(grid2*10.0f - Math::iRound(grid2*10.0f)) < 0.01f);		// indicates a bad snap
+	ARLASSERT(std::abs(grid1*10.0f - Math::iRound(grid1*10.0f)) < 0.01f);		// Can't enter with values too far off grid
+	ARLASSERT(std::abs(grid2*10.0f - Math::iRound(grid2*10.0f)) < 0.01f);		// indicates a bad snap
 																// for now - all snapes should be on units of 0.2
 	int grid1int = std::max(1, Math::iRound(grid1));
 	int grid2int = std::max(1, Math::iRound(grid2));
@@ -389,15 +389,15 @@ BLOCK		80	80	80	440000.00	128000.00	3.44
 // New version from actual data - June 30, 2005
 float Constants::getJointKMultiplier(const Vector3& clippedSortedSize, bool ball)
 {
-	RBXASSERT(clippedSortedSize.y >= clippedSortedSize.x);
-	RBXASSERT(clippedSortedSize.z >= clippedSortedSize.y);
-	RBXASSERT(clippedSortedSize.max(Vector3(1,1,1)) == clippedSortedSize);
+	ARLASSERT(clippedSortedSize.y >= clippedSortedSize.x);
+	ARLASSERT(clippedSortedSize.z >= clippedSortedSize.y);
+	ARLASSERT(clippedSortedSize.max(Vector3(1,1,1)) == clippedSortedSize);
 
 	Vector3int16 size(clippedSortedSize);
 
 	if (ball) 
 	{
-		RBXASSERT(size.x >= 1);
+		ARLASSERT(size.x >= 1);
 
 		switch (size.x)
 		{

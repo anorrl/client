@@ -11,8 +11,8 @@
 
 DYNAMIC_FASTFLAGVARIABLE(FixYieldThrottling, false)
 
-using namespace RBX;
-using namespace RBX::Lua;
+using namespace ARL;
+using namespace ARL::Lua;
 
 YieldingThreads::YieldingThreads(ScriptContext* context)
 	:context(context)
@@ -28,10 +28,10 @@ void YieldingThreads::queueWaiter(lua_State *L)
 
 void YieldingThreads::queueWaiter(lua_State *L, LUA_NUMBER delay)
 {
-	RBXASSERT(!RobloxExtraSpace::get(L)->yieldCaptured);
+	ARLASSERT(!RobloxExtraSpace::get(L)->yieldCaptured);
 	RobloxExtraSpace::get(L)->yieldCaptured = true;
 
-	waitingThreads.push(WaitingThread(L, RBX::Time::Interval(delay)));
+	waitingThreads.push(WaitingThread(L, ARL::Time::Interval(delay)));
 }
 
 std::size_t YieldingThreads::waiterCount() const
@@ -48,14 +48,14 @@ void YieldingThreads::resume(double wallTime, Time expirationTime, bool& throttl
 
 	while ((!DFFlag::FixYieldThrottling || count-- > 0) && !waitingThreads.empty()) 
 	{
-		RBX::Time now = RBX::Time::now<RBX::Time::Precise>();
+		ARL::Time now = ARL::Time::now<ARL::Time::Precise>();
 
 		const WaitingThread& w = waitingThreads.top();
 
 		if (now < w.resumeTime)
 			break;	// we're done
 
-		RBX::Time::Interval elapsedTime = now - w.waitTime;
+		ARL::Time::Interval elapsedTime = now - w.waitTime;
 		ThreadRef thread = w.thread->lock();
 
 		waitingThreads.pop();
@@ -90,7 +90,7 @@ void YieldingThreads::clearAllSinks()
 		waitingThreads.pop();
 }
 
-namespace RBX
+namespace ARL
 {
 	namespace Lua
 	{

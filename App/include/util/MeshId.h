@@ -7,7 +7,7 @@
 #include "Reflection/Event.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class PartInstance;
 
@@ -19,4 +19,4 @@ namespace RBX {
 		MeshId(const std::string& id):ContentId(id) {}
 		MeshId() {}
 	};
-} // namespace RBX
+} // namespace ARL

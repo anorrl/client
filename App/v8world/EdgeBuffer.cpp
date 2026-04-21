@@ -12,18 +12,18 @@
 #include "V8world/ContactManagerSpatialHash.h"
 #include "V8Kernel/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 EdgeBuffer::~EdgeBuffer()
 {
-	RBXASSERT(assemblyEdges.empty());
+	ARLASSERT(assemblyEdges.empty());
 }
 
 
 
 void EdgeBuffer::afterAssemblyAdded(Assembly* a)
 {
-	RBXASSERT_SLOW(debugAddAssembly(a));
+	ARLASSERT_SLOW(debugAddAssembly(a));
 
 	a->visitPrimitives(boost::bind(&EdgeBuffer::assemblyPrimitiveAdded, this, _1));
 }
@@ -32,7 +32,7 @@ void EdgeBuffer::beforeAssemblyRemoving(Assembly* a)
 {
 	a->visitPrimitives(boost::bind(&EdgeBuffer::assemblyPrimitiveRemoved, this, _1));
 
-	RBXASSERT_SLOW(debugRemoveAssembly(a));
+	ARLASSERT_SLOW(debugRemoveAssembly(a));
 }
 
 
@@ -77,21 +77,21 @@ bool EdgeBuffer::assemblyIsHere(Assembly* a)
 void EdgeBuffer::pushEdgeIfOk(Edge* e)
 {
 	if (e->inStage(this)) {
-		RBXASSERT(Joint::isKinematicJoint(e) == Joint::isMotorJoint(e));
+		ARLASSERT(Joint::isKinematicJoint(e) == Joint::isMotorJoint(e));
 
 		bool ok = Joint::isKinematicJoint(e) ? pushKinematicOk(e) : pushSpringOk(e);		// this is asserting in some places, but needed to allow animation of leg joints after sitting
 
 		if (ok) {
             e->generateDataForMovingAssemblyStage();
 			getDownstreamWS()->onEdgeAdded(e);
-			RBXASSERT_SLOW(debugPushEdgeToDownstream(e));
+			ARLASSERT_SLOW(debugPushEdgeToDownstream(e));
 		}
 	}
 }
 
 bool EdgeBuffer::pushSpringOk(Edge* e)
 {
-	RBXASSERT(e->inStage(this));
+	ARLASSERT(e->inStage(this));
 
 	Assembly* a0 = e->getPrimitive(0)->getAssembly();
 	Assembly* a1 = e->getPrimitive(1)->getAssembly();
@@ -115,12 +115,12 @@ bool EdgeBuffer::pushSpringOk(Edge* e)
 
 bool EdgeBuffer::pushKinematicOk(Edge* e)
 {
-	RBXASSERT(e->inStage(this));
-	RBXASSERT(Joint::isMotorJoint(e));
+	ARLASSERT(e->inStage(this));
+	ARLASSERT(Joint::isMotorJoint(e));
 
 	Assembly* a0 = e->getPrimitive(0)->getAssembly();
 
-	RBX_ENGINE_ASSERT(a0 == e->getPrimitive(1)->getAssembly());
+	ARL_ENGINE_ASSERT(a0 == e->getPrimitive(1)->getAssembly());
 
 	bool allClientsStepUi = a0->computeIsGrounded();
 	bool thisClientDoDPhysics = (assemblyIsHere(a0) && a0->downstreamOfStage(this));
@@ -133,7 +133,7 @@ void EdgeBuffer::removeEdgeIfDownstream(Edge* e)
 {
 	if (e->downstreamOfStage(this)) {
 		getDownstreamWS()->onEdgeRemoving(e);
-		RBXASSERT_SLOW(debugRemoveEdgeFromDownstream(e));
+		ARLASSERT_SLOW(debugRemoveEdgeFromDownstream(e));
 	}
 }
 
@@ -145,8 +145,8 @@ void EdgeBuffer::removeEdgeIfDownstream(Edge* e)
 
 void EdgeBuffer::onEdgeAdded(Edge* e)
 {
-	RBXASSERT(!Joint::isGroundJoint(e));
-	RBXASSERT(!Joint::isRigidJoint(e));
+	ARLASSERT(!Joint::isGroundJoint(e));
+	ARLASSERT(!Joint::isRigidJoint(e));
 	e->putInStage(this);
 	pushEdgeIfOk(e);
 }
@@ -165,20 +165,20 @@ void EdgeBuffer::onEdgeRemoving(Edge* e)
 
 bool EdgeBuffer::debugPushEdgeToDownstream(Edge* e)
 {
-	RBXASSERT_NOT_RELEASE();
+	ARLASSERT_NOT_RELEASE();
 
-	RBXASSERT(e->downstreamOfStage(this));
+	ARLASSERT(e->downstreamOfStage(this));
 
 	Assembly* a0 = e->getPrimitive(0)->getAssembly();
 	Assembly* a1 = e->getPrimitive(1)->getAssembly();
-	RBXASSERT(a0 && a1);
+	ARLASSERT(a0 && a1);
 
 	if (a0 != a1) {
 		assemblyEdges.insertPair(a0, e);
 		assemblyEdges.insertPair(a1, e);
 	}
 	else {
-		RBXASSERT(Joint::isMotorJoint(e));
+		ARLASSERT(Joint::isMotorJoint(e));
 	}
 	return true;
 }
@@ -186,18 +186,18 @@ bool EdgeBuffer::debugPushEdgeToDownstream(Edge* e)
 
 bool EdgeBuffer::debugRemoveEdgeFromDownstream(Edge* e)
 {
-	RBXASSERT_NOT_RELEASE();
+	ARLASSERT_NOT_RELEASE();
 
 	Assembly* a0 = e->getPrimitive(0)->getAssembly();
 	Assembly* a1 = e->getPrimitive(1)->getAssembly();
-	RBXASSERT(a0 && a1);
+	ARLASSERT(a0 && a1);
 
 	if (a0 != a1) {
 		assemblyEdges.removePair(a0, e);
 		assemblyEdges.removePair(a1, e);
 	}
 	else {
-		RBXASSERT(Joint::isMotorJoint(e));
+		ARLASSERT(Joint::isMotorJoint(e));
 	}
 
 	return true;
@@ -206,9 +206,9 @@ bool EdgeBuffer::debugRemoveEdgeFromDownstream(Edge* e)
 
 bool EdgeBuffer::debugAddAssembly(Assembly* a)
 {
-	RBXASSERT_NOT_RELEASE();
+	ARLASSERT_NOT_RELEASE();
 
-	//RBXASSERT(assemblyEdges.emptyLeft(a));
+	//ARLASSERT(assemblyEdges.emptyLeft(a));
 	return true;
 }
 
@@ -216,9 +216,9 @@ bool EdgeBuffer::debugAddAssembly(Assembly* a)
 
 bool EdgeBuffer::debugRemoveAssembly(Assembly* a)
 {
-	RBXASSERT_NOT_RELEASE();
+	ARLASSERT_NOT_RELEASE();
 
-	RBXASSERT(assemblyEdges.emptyLeft(a));
+	ARLASSERT(assemblyEdges.emptyLeft(a));
 	return true;
 }
 

@@ -15,7 +15,7 @@
 #include "V8DataModel/Workspace.h"
 #include "G3D/CollisionDetection.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sHandleAdornment = "HandleAdornment";
 
@@ -44,7 +44,7 @@ CoordinateFrame HandleAdornment::getWorldCoordinateFrame() const
 {
 	if (shared_ptr<PVInstance> pvInstance = adornee.lock())
 	{
-		if (shared_ptr<PartInstance> partInstance = RBX::Instance::fastSharedDynamicCast<PartInstance>(pvInstance))
+		if (shared_ptr<PartInstance> partInstance = ARL::Instance::fastSharedDynamicCast<PartInstance>(pvInstance))
 		{
 			CoordinateFrame pvCFrame = partInstance->getCoordinateFrame();
 
@@ -53,9 +53,9 @@ CoordinateFrame HandleAdornment::getWorldCoordinateFrame() const
 
 			return CoordinateFrame(worldSpaceCFrame.rotation, worldSpaceCFrame.translation + worldSpaceOffset);
 		}
-		else if (shared_ptr<ModelInstance> modelInstance = RBX::Instance::fastSharedDynamicCast<ModelInstance>(pvInstance))
+		else if (shared_ptr<ModelInstance> modelInstance = ARL::Instance::fastSharedDynamicCast<ModelInstance>(pvInstance))
 		{
-			RBX::Part pvPart = modelInstance->computePart();
+			ARL::Part pvPart = modelInstance->computePart();
 
 			CoordinateFrame pvCFrame = pvPart.coordinateFrame;
 
@@ -369,7 +369,7 @@ bool LineHandleAdornment::isCollidingWithHandle(const shared_ptr<InputObject>& i
 	{
 		RbxRay gridRay(MouseCommand::getUnitMouseRay(inputObject, workspace));
 
-		RBX::Camera* camera = workspace->getCamera();
+		ARL::Camera* camera = workspace->getCamera();
 
 		Vector4 mousePos = camera->projectPointToScreen(gridRay.origin() + gridRay.direction());
 		

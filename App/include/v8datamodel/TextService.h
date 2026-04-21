@@ -4,7 +4,7 @@
 #include "V8Tree/Instance.h"
 #include "GfxBase/Typesetter.h"
 
-namespace RBX {
+namespace ARL {
 	class PartInstance;
 
 	extern const char *const sTextService ;
@@ -79,7 +79,7 @@ namespace RBX {
 		TextService();
 
 
-		void registerTypesetter(Font font, shared_ptr<RBX::Typesetter> typesetter);
+		void registerTypesetter(Font font, shared_ptr<ARL::Typesetter> typesetter);
 		void clearTypesetters();
 
 		Vector2 getTextSize(std::string text, int fontSize, Font font, Vector2 frameSize);

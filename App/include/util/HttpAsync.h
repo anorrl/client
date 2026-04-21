@@ -7,7 +7,7 @@
 #include <boost/unordered_map.hpp>
 #include "util/HttpAux.h"
 
-namespace RBX
+namespace ARL
 {
     typedef boost::shared_future<std::string> HttpFuture;
 

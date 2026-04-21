@@ -5,7 +5,7 @@
 #include "Util/ContentId.h"
 #include "V8DataModel/KeyframeSequence.h"
 
-namespace RBX {
+namespace ARL {
 	extern const char *const sAnimationTrackState;
 
 	class KeyframeSequence;

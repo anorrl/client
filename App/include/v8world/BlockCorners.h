@@ -7,7 +7,7 @@
 	Utility class - holds Vector3 [8] so that all blocks of the same size use the same geometry to improve cache / ram size for collisions
 */
 
-namespace RBX {
+namespace ARL {
 
 	namespace POLY {
 
@@ -38,4 +38,4 @@ namespace RBX {
 		};
 
 	} // namespace POLY
-} // namespace RBX
+} // namespace ARL

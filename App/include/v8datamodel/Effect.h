@@ -4,7 +4,7 @@
 
 // Common base class for graphical effect "nuggets"
 
-namespace RBX {
+namespace ARL {
 
 	class Effect
 	{

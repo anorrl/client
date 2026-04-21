@@ -5,7 +5,7 @@
 #include "reflection/reflection.h"
 #include <boost/filesystem.hpp>
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{

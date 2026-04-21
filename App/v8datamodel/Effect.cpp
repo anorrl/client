@@ -5,7 +5,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 
     Effect::Effect()
     {

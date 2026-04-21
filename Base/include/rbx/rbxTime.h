@@ -8,7 +8,7 @@
 #undef max
 #endif
 
-namespace RBX {
+namespace ARL {
 
 	/*
 	Records time in a variety of ways: CPU counters, OS Times, Multimedia Timers, etc.

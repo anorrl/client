@@ -4,7 +4,7 @@
 #include "rbx/Thread.hpp"
 #include "rbx/Debug.h"
 
-namespace RBX
+namespace ARL
 {
 	namespace Security
 	{
@@ -18,7 +18,7 @@ namespace RBX
 			case Anonymous:
 			case GameScript_:
 				return false;
-#if defined(RBX_STUDIO_BUILD)
+#if defined(ARL_STUDIO_BUILD)
             case StudioPlugin:
                 return p == Plugin;
 #endif
@@ -35,7 +35,7 @@ namespace RBX
 			case WebService:
 				return true;
 			default:
-				RBXASSERT(false);
+				ARLASSERT(false);
 				return false;
 			}
 		}

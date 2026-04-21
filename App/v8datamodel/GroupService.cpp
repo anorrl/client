@@ -14,7 +14,7 @@ FASTSTRINGVARIABLE(GetGroupsUrl, "%susers/%i/groups")
 
 DYNAMIC_FASTFLAGVARIABLE(GetGroupsAsyncEnabled, false)
 
-namespace RBX
+namespace ARL
 {
 	const char* const sGroupService = "GroupService";
 
@@ -38,9 +38,9 @@ namespace RBX
 			return;
 		}
 		
-		if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+		if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 		{
-			apiService->getAsync(format(FString::GroupInfoUrl.c_str(), "", groupId), true, RBX::PRIORITY_DEFAULT,
+			apiService->getAsync(format(FString::GroupInfoUrl.c_str(), "", groupId), true, ARL::PRIORITY_DEFAULT,
 				boost::bind(&GroupService::onReceivedRawGroupInfoSuccess, weak_from(DataModel::get(this)), _1, resumeFunction, errorFunction), 
 				boost::bind(&GroupService::onReceivedRawGroupInfoError, weak_from(DataModel::get(this)), _1, errorFunction) );
 		}
@@ -89,9 +89,9 @@ namespace RBX
 			return;
 		}
 		
-		if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+		if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 		{
-			apiService->getAsync(format(FString::GetGroupsUrl.c_str(), "", userId), true, RBX::PRIORITY_DEFAULT,
+			apiService->getAsync(format(FString::GetGroupsUrl.c_str(), "", userId), true, ARL::PRIORITY_DEFAULT,
 				boost::bind(&GroupService::onReceivedRawGetGroupsSuccess, weak_from(DataModel::get(this)), _1, resumeFunction, errorFunction), 
 				boost::bind(&GroupService::onReceivedRawGetGroupsError, weak_from(DataModel::get(this)), _1, errorFunction) );
 		}
@@ -154,7 +154,7 @@ namespace RBX
 }
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

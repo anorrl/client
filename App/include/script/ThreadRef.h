@@ -12,7 +12,7 @@ using boost::shared_ptr;
 
 LOGGROUP(WeakThreadRef)
 
-namespace RBX { 
+namespace ARL { 
 
 	namespace Lua {
 

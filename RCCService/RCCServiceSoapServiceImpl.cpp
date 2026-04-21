@@ -99,9 +99,9 @@ long closeAllJobsCount=0;
 #define BEGIN_PRINT(func, msg) \
 static int func = 0; \
 int counter = func++; \
-RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Begin-%s%d\r\n", msg,counter)
+ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Begin-%s%d\r\n", msg,counter)
 #define END_PRINT(func, msg) \
-RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "End---%s%d\r\n", msg,counter)
+ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "End---%s%d\r\n", msg,counter)
 #else
 #define BEGIN_PRINT(func, msg)
 #define END_PRINT(func, msg)
@@ -118,13 +118,13 @@ DYNAMIC_FASTFLAGVARIABLE(DebugCrashOnFailToLoadClientSettings, false)
 DYNAMIC_FASTFLAGVARIABLE(UseNewSecurityKeyApi, false);
 DYNAMIC_FASTFLAGVARIABLE(UseNewMemHashApi, false);
 DYNAMIC_FASTSTRINGVARIABLE(MemHashConfig, "");
-FASTINTVARIABLE(RCCServiceThreadCount, RBX::TaskScheduler::Threads1)
+FASTINTVARIABLE(RCCServiceThreadCount, ARL::TaskScheduler::Threads1)
 DYNAMIC_FASTFLAGVARIABLE(US30476, false);
 FASTFLAGVARIABLE(UseDataDomain, true);
 
 FASTFLAGVARIABLE(Dep, true)
 
-namespace RBX
+namespace ARL
 {
 	class Explosion;
 	class Cofm;
@@ -156,7 +156,7 @@ class CrashAfterTimeout
 		boost::mutex::scoped_lock lock(*mutex);
 		bool set = event->timed_wait(lock, xt);
 		if (!set)
-			RBXCRASH();
+			ARLCRASH();
 	}
 public:
 	CrashAfterTimeout(int seconds):event(new boost::condition_variable_any()),mutex(new boost::mutex())
@@ -173,7 +173,7 @@ public:
 
 };
 
-class RCCServiceSettings : public RBX::FastLogJSON
+class RCCServiceSettings : public ARL::FastLogJSON
 {
 public:
 	START_DATA_MAP(RCCServiceSettings);
@@ -197,13 +197,13 @@ class SecurityDataUpdater
 protected:
 	std::string data;
 
-	virtual void processDataArray(shared_ptr<const RBX::Reflection::ValueArray> dataArray) = 0;
+	virtual void processDataArray(shared_ptr<const ARL::Reflection::ValueArray> dataArray) = 0;
 	bool fetchData()
 	{
 		std::string newData;
 		try 
 		{
-			RBX::Http request(apiUrl);
+			ARL::Http request(apiUrl);
 			
 			request.get(newData);
 
@@ -213,7 +213,7 @@ protected:
 		}
 		catch (std::exception& ex)
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "SecurityDataUpdater failed to fetch data from %s, %s", apiUrl.c_str(), ex.what());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "SecurityDataUpdater failed to fetch data from %s, %s", apiUrl.c_str(), ex.what());
 			return false;
 		}
 
@@ -230,13 +230,13 @@ public:
 		if (!fetchData())
 			return;
 
-		shared_ptr<const RBX::Reflection::ValueTable> jsonResult(rbx::make_shared<const RBX::Reflection::ValueTable>());
-		if(RBX::WebParser::parseJSONTable(data, jsonResult))
+		shared_ptr<const ARL::Reflection::ValueTable> jsonResult(rbx::make_shared<const ARL::Reflection::ValueTable>());
+		if(ARL::WebParser::parseJSONTable(data, jsonResult))
 		{
-			RBX::Reflection::ValueTable::const_iterator iter = jsonResult->find("data");
+			ARL::Reflection::ValueTable::const_iterator iter = jsonResult->find("data");
 			if (iter != jsonResult->end())
 			{
-				shared_ptr<const RBX::Reflection::ValueArray> dataArray = iter->second.cast<shared_ptr<const RBX::Reflection::ValueArray> >();
+				shared_ptr<const ARL::Reflection::ValueArray> dataArray = iter->second.cast<shared_ptr<const ARL::Reflection::ValueArray> >();
 				processDataArray(dataArray);
 			}
 		}
@@ -246,10 +246,10 @@ public:
 class MD5Updater : public SecurityDataUpdater
 {
 protected:
-	void processDataArray(shared_ptr<const RBX::Reflection::ValueArray> dataArray)
+	void processDataArray(shared_ptr<const ARL::Reflection::ValueArray> dataArray)
 	{
 		std::set<std::string> hashes;
-		for (RBX::Reflection::ValueArray::const_iterator it = dataArray->begin(); it != dataArray->end(); ++it)
+		for (ARL::Reflection::ValueArray::const_iterator it = dataArray->begin(); it != dataArray->end(); ++it)
 		{
 			std::string value = it->get<std::string>();
 			hashes.insert(value);
@@ -258,7 +258,7 @@ protected:
 		// always add hash for ios
 		hashes.insert("ios,ios");
 
-		RBX::Network::Players::setGoldenHashes2(hashes);
+		ARL::Network::Players::setGoldenHashes2(hashes);
 	}
 
 public:
@@ -269,18 +269,18 @@ public:
 class SecurityKeyUpdater : public SecurityDataUpdater
 {
 protected:
-	void processDataArray(shared_ptr<const RBX::Reflection::ValueArray> dataArray)
+	void processDataArray(shared_ptr<const ARL::Reflection::ValueArray> dataArray)
 	{
 		std::vector<std::string> versions;
-		for (RBX::Reflection::ValueArray::const_iterator it = dataArray->begin(); it != dataArray->end(); ++it)
+		for (ARL::Reflection::ValueArray::const_iterator it = dataArray->begin(); it != dataArray->end(); ++it)
 		{
 			// version = data + salt
 			std::string value = it->get<std::string>();
-			std::string version = RBX::sha1(value + "askljfLUZF");
+			std::string version = ARL::sha1(value + "askljfLUZF");
 			versions.push_back(version);
 		}
 
-		RBX::Network::setSecurityVersions(versions);
+		ARL::Network::setSecurityVersions(versions);
 	}
 
 public:
@@ -292,10 +292,10 @@ class MemHashUpdater : public SecurityDataUpdater
 {
 public:
     // this is public until we get a web api to do this better.
-    static void populateMemHashConfigs(RBX::Network::MemHashConfigs& hashConfigs, const std::string& cfgStr)
+    static void populateMemHashConfigs(ARL::Network::MemHashConfigs& hashConfigs, const std::string& cfgStr)
     {
-        hashConfigs.push_back(RBX::Network::MemHashVector());
-        RBX::Network::MemHashVector& thisHashVector = hashConfigs.back();
+        hashConfigs.push_back(ARL::Network::MemHashVector());
+        ARL::Network::MemHashVector& thisHashVector = hashConfigs.back();
 
     	std::vector<std::string> hashStrInfo;
     	boost::split(hashStrInfo, cfgStr, boost::is_any_of(";"));
@@ -305,7 +305,7 @@ public:
             boost::split(args, *hpIt, boost::is_any_of(","));
             if (args.size() >= 3)
             {
-                RBX::Network::MemHash thisHash;
+                ARL::Network::MemHash thisHash;
                 thisHash.checkIdx = boost::lexical_cast<unsigned int>(args[0]);
                 thisHash.value = boost::lexical_cast<unsigned int>(args[1]);
                 thisHash.failMask = boost::lexical_cast<unsigned int>(args[2]);
@@ -314,15 +314,15 @@ public:
         }
     };
 protected:
-	void processDataArray(shared_ptr<const RBX::Reflection::ValueArray> dataArray)
+	void processDataArray(shared_ptr<const ARL::Reflection::ValueArray> dataArray)
 	{
-        RBX::Network::MemHashConfigs hashConfigs;
-		for (RBX::Reflection::ValueArray::const_iterator it = dataArray->begin(); it != dataArray->end(); ++it)
+        ARL::Network::MemHashConfigs hashConfigs;
+		for (ARL::Reflection::ValueArray::const_iterator it = dataArray->begin(); it != dataArray->end(); ++it)
 		{
             populateMemHashConfigs(hashConfigs, it->get<std::string>());
 		}
 
-		RBX::Network::Players::setGoldMemHashes(hashConfigs);
+		ARL::Network::Players::setGoldMemHashes(hashConfigs);
 	}
 
 public:
@@ -331,7 +331,7 @@ public:
 };
 
 
-class RCCServiceDynamicSettings : public RBX::FastLogJSON
+class RCCServiceDynamicSettings : public ARL::FastLogJSON
 {
 	typedef std::map<std::string, std::string> FVariables;
 	FVariables fVars;
@@ -339,7 +339,7 @@ class RCCServiceDynamicSettings : public RBX::FastLogJSON
 public:
 	virtual void ProcessVariable(const std::string& valueName, const std::string& valueData, bool dynamic)
 	{
-		RBXASSERT(dynamic);
+		ARLASSERT(dynamic);
 		fVars.insert(std::make_pair(valueName, valueData));
 	}
 
@@ -376,14 +376,14 @@ DATA_MAP_IMPL_END()
 
 static boost::scoped_ptr<MainLogManager> mainLogManager(new MainLogManager("Roblox Web Service", ".dmp", ".crashevent"));
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 std::string RCCServiceSettingsKeyOverwrite;
 #endif
 
 class CWebService
 {
 	boost::shared_ptr<CProcessPerfCounter> s_perfCounter;
-	boost::shared_ptr<RBX::ProfanityFilter> s_profanityFilter;
+	boost::shared_ptr<ARL::ProfanityFilter> s_profanityFilter;
 	boost::scoped_ptr<boost::thread> perfData;
 	boost::scoped_ptr<boost::thread> fetchSecurityDataThread;
 	boost::scoped_ptr<boost::thread> fetchClientSettingsThread;
@@ -408,8 +408,8 @@ public:
 	{
 		enum JobItemRunStatus { RUNNING_JOB, JOB_DONE, JOB_ERROR };
 		const std::string id;
-		shared_ptr<RBX::DataModel> dataModel;
-		RBX::Time expirationTime;
+		shared_ptr<ARL::DataModel> dataModel;
+		ARL::Time expirationTime;
 		int category;
 		double cores;
 		ATL::CEvent jobCheckLeaseEvent;
@@ -446,7 +446,7 @@ public:
 	{
 		JobMap::iterator iter = jobs.find(jobID);
 		if (iter==jobs.end())
-			throw RBX::runtime_error("JobItem %s not found", jobID.c_str());
+			throw ARL::runtime_error("JobItem %s not found", jobID.c_str());
 		return iter;
 	}
 
@@ -466,7 +466,7 @@ public:
 
 				// security versions changed, update all jobs with new versions
 				if (prevVersionData != securityVersionData)
-					RBX::Network::setSecurityVersions(versions);
+					ARL::Network::setSecurityVersions(versions);
 			}
 
 	        if (DFFlag::UseNewMemHashApi)
@@ -479,9 +479,9 @@ public:
                     }
                     else
                     {
-                        RBX::Network::MemHashConfigs hashConfigs;
+                        ARL::Network::MemHashConfigs hashConfigs;
                         MemHashUpdater::populateMemHashConfigs(hashConfigs, DFString::MemHashConfig);
-		                RBX::Network::Players::setGoldMemHashes(hashConfigs);
+		                ARL::Network::Players::setGoldMemHashes(hashConfigs);
                     }
                 }
 	        }
@@ -519,7 +519,7 @@ public:
 					// HACK: Client settings are global, meaning all datamodels use the same set,
 					// current we only have 1 datamodel running per rccservice, so submit write task just on first datamodel
 					shared_ptr<JobItem> job = jobs.begin()->second;
-					job->dataModel->submitTask(boost::bind(&RCCServiceDynamicSettings::UpdateSettings, &rccDynamicSettings), RBX::DataModelJob::Write);
+					job->dataModel->submitTask(boost::bind(&RCCServiceDynamicSettings::UpdateSettings, &rccDynamicSettings), ARL::DataModelJob::Write);
 				}
 				else
 					rccDynamicSettings.UpdateSettings();
@@ -546,7 +546,7 @@ public:
 		catch (std::exception& e)
 		{
 			assert(false);
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "doCheckLease failure: %s", e.what());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "doCheckLease failure: %s", e.what());
 		}
 	}
 
@@ -556,7 +556,7 @@ public:
 		getJob(id)->second->touch(expirationInSeconds);
 	}
 
-	static void convertToLua(const RBX::Reflection::Variant& source, ns1__LuaValue& dest, soap* soap)
+	static void convertToLua(const ARL::Reflection::Variant& source, ns1__LuaValue& dest, soap* soap)
 	{
 		assert(dest.type == ns1__LuaType__LUA_USCORETNIL);
 		assert(dest.value == NULL);
@@ -591,7 +591,7 @@ public:
 			return;
 		}
 
-		if (source.isType<RBX::ContentId>())
+		if (source.isType<ARL::ContentId>())
 		{
 			dest.type = ns1__LuaType__LUA_USCORETSTRING;
 			dest.value = soap_new_std__string(soap, -1);
@@ -599,9 +599,9 @@ public:
 			return;
 		}
 
-		if (source.isType<shared_ptr<const RBX::Reflection::ValueArray> >())
+		if (source.isType<shared_ptr<const ARL::Reflection::ValueArray> >())
 		{
-			shared_ptr<const RBX::Reflection::ValueArray> collection = source.cast<shared_ptr<const RBX::Reflection::ValueArray> >();
+			shared_ptr<const ARL::Reflection::ValueArray> collection = source.cast<shared_ptr<const ARL::Reflection::ValueArray> >();
 			dest.type = ns1__LuaType__LUA_USCORETTABLE;
 			dest.table = soap_new_ns1__ArrayOfLuaValue(soap, -1);
 			dest.table->LuaValue.resize(collection->size());
@@ -617,7 +617,7 @@ public:
 		dest.type = ns1__LuaType__LUA_USCORETNIL;
 	}
 
-	static void convert(const ns1__LuaValue* source, RBX::Reflection::Variant& dest)
+	static void convert(const ns1__LuaValue* source, ARL::Reflection::Variant& dest)
 	{
 		switch (source->type)
 		{
@@ -643,41 +643,41 @@ public:
 				const size_t count = source->table->LuaValue.size();
 
 				// Create a collection so that we can populate it
-				shared_ptr<RBX::Reflection::ValueArray> table(new RBX::Reflection::ValueArray(count));
+				shared_ptr<ARL::Reflection::ValueArray> table(new ARL::Reflection::ValueArray(count));
 				
 				for (size_t i=0; i<count; ++i)
 					convert(source->table->LuaValue[i], (*table)[i]);
 
 				// Set the value to a ValueArray type
-				dest = shared_ptr<const RBX::Reflection::ValueArray>(table);
+				dest = shared_ptr<const ARL::Reflection::ValueArray>(table);
 			}
 			break;
 		}
 	}
 
 	// Gathers all non-global Instances that are in the heap
-	void arbiterActivityDump(RBX::Reflection::ValueArray& result)
+	void arbiterActivityDump(ARL::Reflection::ValueArray& result)
 	{
 		boost::mutex::scoped_lock lock(sync);
 		for (JobMap::iterator iter = jobs.begin(); iter != jobs.end(); ++iter)
 		{
-			shared_ptr<RBX::DataModel> dataModel = iter->second->dataModel;
-			shared_ptr<RBX::Reflection::ValueArray> tuple(new RBX::Reflection::ValueArray());
+			shared_ptr<ARL::DataModel> dataModel = iter->second->dataModel;
+			shared_ptr<ARL::Reflection::ValueArray> tuple(new ARL::Reflection::ValueArray());
 			tuple->push_back(dataModel->arbiterName());
 			tuple->push_back(dataModel->getAverageActivity());
-			result.push_back(shared_ptr<const RBX::Reflection::ValueArray>(tuple));
+			result.push_back(shared_ptr<const ARL::Reflection::ValueArray>(tuple));
 		}
 	}
 
 	// Gathers all non-global Instances that are in the heap
-	void leakDump(RBX::Reflection::ValueArray& result)
+	void leakDump(ARL::Reflection::ValueArray& result)
 	{
 	}
 
 	// Gathers diagnostic data. Does NOT require locks on datamodel :)
-	const RBX::Reflection::ValueArray* diag(int type, shared_ptr<RBX::DataModel> dataModel)
+	const ARL::Reflection::ValueArray* diag(int type, shared_ptr<ARL::DataModel> dataModel)
 	{
-		std::auto_ptr<RBX::Reflection::ValueArray> tuple(new RBX::Reflection::ValueArray());
+		std::auto_ptr<ARL::Reflection::ValueArray> tuple(new ARL::Reflection::ValueArray());
 		
 		/* This is the format of the Diag data:
 
@@ -706,7 +706,7 @@ public:
 		tuple->push_back(dataModelCount);
 
 		{
-			shared_ptr<RBX::Reflection::ValueArray> perfCounterData(new RBX::Reflection::ValueArray());
+			shared_ptr<ARL::Reflection::ValueArray> perfCounterData(new ARL::Reflection::ValueArray());
 			perfCounterData->push_back(s_perfCounter->GetProcessCores());
 			perfCounterData->push_back(s_perfCounter->GetTotalProcessorTime());
 			perfCounterData->push_back(s_perfCounter->GetProcessorTime());
@@ -719,19 +719,19 @@ public:
 			perfCounterData->push_back(s_perfCounter->GetPageFileBytes());
 			perfCounterData->push_back(s_perfCounter->GetPageFaultsPerSecond());
 
-			tuple->push_back(shared_ptr<const RBX::Reflection::ValueArray>(perfCounterData));
+			tuple->push_back(shared_ptr<const ARL::Reflection::ValueArray>(perfCounterData));
 		}
 		{
-			shared_ptr<RBX::Reflection::ValueArray> taskSchedulerData(new RBX::Reflection::ValueArray());
+			shared_ptr<ARL::Reflection::ValueArray> taskSchedulerData(new ARL::Reflection::ValueArray());
 			taskSchedulerData->push_back(0);	// obsolete
-			taskSchedulerData->push_back(RBX::TaskScheduler::singleton().threadAffinity());
-			taskSchedulerData->push_back(RBX::TaskScheduler::singleton().numSleepingJobs());
-			taskSchedulerData->push_back(RBX::TaskScheduler::singleton().numWaitingJobs());
-			taskSchedulerData->push_back(RBX::TaskScheduler::singleton().numRunningJobs());
-			taskSchedulerData->push_back((long) RBX::TaskScheduler::singleton().threadPoolSize());
-			taskSchedulerData->push_back(RBX::TaskScheduler::singleton().schedulerRate());
-			taskSchedulerData->push_back(RBX::TaskScheduler::singleton().getSchedulerDutyCyclePerThread());
-			tuple->push_back(shared_ptr<const RBX::Reflection::ValueArray>(taskSchedulerData));
+			taskSchedulerData->push_back(ARL::TaskScheduler::singleton().threadAffinity());
+			taskSchedulerData->push_back(ARL::TaskScheduler::singleton().numSleepingJobs());
+			taskSchedulerData->push_back(ARL::TaskScheduler::singleton().numWaitingJobs());
+			taskSchedulerData->push_back(ARL::TaskScheduler::singleton().numRunningJobs());
+			taskSchedulerData->push_back((long) ARL::TaskScheduler::singleton().threadPoolSize());
+			taskSchedulerData->push_back(ARL::TaskScheduler::singleton().schedulerRate());
+			taskSchedulerData->push_back(ARL::TaskScheduler::singleton().getSchedulerDutyCyclePerThread());
+			tuple->push_back(shared_ptr<const ARL::Reflection::ValueArray>(taskSchedulerData));
 		}
 
 		if (dataModel)
@@ -740,52 +740,52 @@ public:
 			tuple->push_back(0);
 
 		{
-			shared_ptr<RBX::Reflection::ValueArray> machineData(new RBX::Reflection::ValueArray());
-			machineData->push_back(RBX::DebugSettings::singleton().totalPhysicalMemory());
-			machineData->push_back(RBX::DebugSettings::singleton().cpu());
-			machineData->push_back(RBX::DebugSettings::singleton().cpuCount());
-			machineData->push_back(RBX::DebugSettings::singleton().cpuSpeed());
-			tuple->push_back(shared_ptr<const RBX::Reflection::ValueArray>(machineData));
+			shared_ptr<ARL::Reflection::ValueArray> machineData(new ARL::Reflection::ValueArray());
+			machineData->push_back(ARL::DebugSettings::singleton().totalPhysicalMemory());
+			machineData->push_back(ARL::DebugSettings::singleton().cpu());
+			machineData->push_back(ARL::DebugSettings::singleton().cpuCount());
+			machineData->push_back(ARL::DebugSettings::singleton().cpuSpeed());
+			tuple->push_back(shared_ptr<const ARL::Reflection::ValueArray>(machineData));
 		}
 
 		{
-            // TODO, use RBX::poolAllocationList and RBX::poolAvailablityList to get complete stats
-			shared_ptr<RBX::Reflection::ValueArray> memCounters(new RBX::Reflection::ValueArray());
-			memCounters->push_back(RBX::Diagnostics::Countable<RBX::Instance>::getCount());
-			memCounters->push_back(RBX::Diagnostics::Countable<RBX::PartInstance>::getCount());
-			memCounters->push_back(RBX::Diagnostics::Countable<RBX::ModelInstance>::getCount());
-			memCounters->push_back(RBX::Diagnostics::Countable<RBX::Explosion>::getCount());
-			memCounters->push_back(RBX::Diagnostics::Countable<RBX::Soundscape::SoundChannel>::getCount());
-			memCounters->push_back(RBX::Diagnostics::Countable<rbx::signals::connection>::getCount());
-			memCounters->push_back(RBX::Diagnostics::Countable<rbx::signals::connection::islot>::getCount());
-			memCounters->push_back(RBX::Diagnostics::Countable<RBX::Reflection::GenericSlotWrapper>::getCount());
-			memCounters->push_back(RBX::Diagnostics::Countable<RBX::TaskScheduler::Job>::getCount());
-			memCounters->push_back(RBX::Diagnostics::Countable<RBX::Network::Player>::getCount());
-#ifdef RBX_ALLOCATOR_COUNTS
-			memCounters->push_back(RBX::Allocator<RBX::Body>::getCount());
-			memCounters->push_back(RBX::Allocator<RBX::Cofm>::getCount());
-			memCounters->push_back(RBX::Allocator<RBX::NormalBreakConnector>::getCount());
-			memCounters->push_back(RBX::Allocator<RBX::ContactConnector>::getCount());
-			memCounters->push_back(RBX::Allocator<RBX::RevoluteLink>::getCount());
-			memCounters->push_back(RBX::Allocator<RBX::SimBody>::getCount());
-			memCounters->push_back(RBX::Allocator<RBX::BallBallContact>::getCount());
-			memCounters->push_back(RBX::Allocator<RBX::BallBlockContact>::getCount());
-			memCounters->push_back(RBX::Allocator<RBX::BlockBlockContact>::getCount());
-			memCounters->push_back(RBX::Allocator<XmlAttribute>::getCount());
-			memCounters->push_back(RBX::Allocator<XmlElement>::getCount());
+            // TODO, use ARL::poolAllocationList and ARL::poolAvailablityList to get complete stats
+			shared_ptr<ARL::Reflection::ValueArray> memCounters(new ARL::Reflection::ValueArray());
+			memCounters->push_back(ARL::Diagnostics::Countable<ARL::Instance>::getCount());
+			memCounters->push_back(ARL::Diagnostics::Countable<ARL::PartInstance>::getCount());
+			memCounters->push_back(ARL::Diagnostics::Countable<ARL::ModelInstance>::getCount());
+			memCounters->push_back(ARL::Diagnostics::Countable<ARL::Explosion>::getCount());
+			memCounters->push_back(ARL::Diagnostics::Countable<ARL::Soundscape::SoundChannel>::getCount());
+			memCounters->push_back(ARL::Diagnostics::Countable<rbx::signals::connection>::getCount());
+			memCounters->push_back(ARL::Diagnostics::Countable<rbx::signals::connection::islot>::getCount());
+			memCounters->push_back(ARL::Diagnostics::Countable<ARL::Reflection::GenericSlotWrapper>::getCount());
+			memCounters->push_back(ARL::Diagnostics::Countable<ARL::TaskScheduler::Job>::getCount());
+			memCounters->push_back(ARL::Diagnostics::Countable<ARL::Network::Player>::getCount());
+#ifdef ARL_ALLOCATOR_COUNTS
+			memCounters->push_back(ARL::Allocator<ARL::Body>::getCount());
+			memCounters->push_back(ARL::Allocator<ARL::Cofm>::getCount());
+			memCounters->push_back(ARL::Allocator<ARL::NormalBreakConnector>::getCount());
+			memCounters->push_back(ARL::Allocator<ARL::ContactConnector>::getCount());
+			memCounters->push_back(ARL::Allocator<ARL::RevoluteLink>::getCount());
+			memCounters->push_back(ARL::Allocator<ARL::SimBody>::getCount());
+			memCounters->push_back(ARL::Allocator<ARL::BallBallContact>::getCount());
+			memCounters->push_back(ARL::Allocator<ARL::BallBlockContact>::getCount());
+			memCounters->push_back(ARL::Allocator<ARL::BlockBlockContact>::getCount());
+			memCounters->push_back(ARL::Allocator<XmlAttribute>::getCount());
+			memCounters->push_back(ARL::Allocator<XmlElement>::getCount());
 #else
 			for(int i = 0; i<11; ++i)
 				memCounters->push_back(-1);
 #endif
 			memCounters->push_back((int)ThumbnailGenerator::totalCount);
-			tuple->push_back(shared_ptr<const RBX::Reflection::ValueArray>(memCounters));
+			tuple->push_back(shared_ptr<const ARL::Reflection::ValueArray>(memCounters));
 		}
 
 		if (type & 1)
 		{
-			shared_ptr<RBX::Reflection::ValueArray> result(new RBX::Reflection::ValueArray());
+			shared_ptr<ARL::Reflection::ValueArray> result(new ARL::Reflection::ValueArray());
 			leakDump(*result);
-			tuple->push_back(shared_ptr<const RBX::Reflection::ValueArray>(result));
+			tuple->push_back(shared_ptr<const ARL::Reflection::ValueArray>(result));
 		}
 
 		if (type & 2)
@@ -809,9 +809,9 @@ public:
 
 		if (type & 4)
 		{
-			shared_ptr<RBX::Reflection::ValueArray> result(new RBX::Reflection::ValueArray());
+			shared_ptr<ARL::Reflection::ValueArray> result(new ARL::Reflection::ValueArray());
 			arbiterActivityDump(*result);
-			tuple->push_back(shared_ptr<const RBX::Reflection::ValueArray>(result));
+			tuple->push_back(shared_ptr<const ARL::Reflection::ValueArray>(result));
 		}
 
 		return tuple.release();
@@ -820,31 +820,31 @@ public:
 	void execute(const std::string& jobID, ns1__ScriptExecution* script, std::vector<ns1__LuaValue*> * result, soap* soap)
 	{
 		std::string code = *script->script;
-		if (RBX::ContentProvider::isHttpUrl(code))
+		if (ARL::ContentProvider::isHttpUrl(code))
 		{
-			RBX::Http http(code);
+			ARL::Http http(code);
 			http.get(code);
 		}
 
-		shared_ptr<RBX::DataModel> dataModel;
+		shared_ptr<ARL::DataModel> dataModel;
 		{
 			boost::mutex::scoped_lock lock(sync);
 			JobMap::iterator iter = getJob(jobID);
 			dataModel = iter->second->dataModel;
 		}
 
-		std::auto_ptr<const RBX::Reflection::Tuple> tuple;
+		std::auto_ptr<const ARL::Reflection::Tuple> tuple;
 		{
 			const size_t count = script->arguments ? script->arguments->LuaValue.size() : 0;
-			RBX::Reflection::Tuple args(count);
+			ARL::Reflection::Tuple args(count);
 			for (size_t i=0; i<count; ++i)
 				convert(script->arguments->LuaValue[i], args.values[i]);
 
-			RBX::DataModel::LegacyLock lock(dataModel, RBX::DataModelJob::Write);
+			ARL::DataModel::LegacyLock lock(dataModel, ARL::DataModelJob::Write);
 			if (dataModel->isClosed())
 				throw std::runtime_error("The DataModel is closed");
-			RBX::ScriptContext* scriptContext = RBX::ServiceProvider::create<RBX::ScriptContext>(dataModel.get());
-			tuple = scriptContext->executeInNewThread(RBX::Security::WebService, RBX::ProtectedString::fromTrustedSource(code), script->name->c_str(), args);
+			ARL::ScriptContext* scriptContext = ARL::ServiceProvider::create<ARL::ScriptContext>(dataModel.get());
+			tuple = scriptContext->executeInNewThread(ARL::Security::WebService, ARL::ProtectedString::fromTrustedSource(code), script->name->c_str(), args);
 		}
 
 		result->resize(tuple->values.size());
@@ -857,10 +857,10 @@ public:
 
 	void diag(int type, std::string jobID, std::vector<ns1__LuaValue*>* result, soap* soap)
 	{
-		std::auto_ptr<const RBX::Reflection::ValueArray> tuple;
+		std::auto_ptr<const ARL::Reflection::ValueArray> tuple;
 
 		{
-			shared_ptr<RBX::DataModel> dataModel;
+			shared_ptr<ARL::DataModel> dataModel;
 			if (!jobID.empty())
 			{
 				boost::mutex::scoped_lock lock(sync);
@@ -878,51 +878,51 @@ public:
 		}
 	}
 
-	void contentDataLoaded(shared_ptr<RBX::DataModel>& dataModel)
+	void contentDataLoaded(shared_ptr<ARL::DataModel>& dataModel)
 	{
-		RBX::CSGDictionaryService* dictionaryService = RBX::ServiceProvider::create<RBX::CSGDictionaryService>(dataModel.get());
-		RBX::NonReplicatedCSGDictionaryService* nrDictionaryService = RBX::ServiceProvider::create<RBX::NonReplicatedCSGDictionaryService>(dataModel.get());
+		ARL::CSGDictionaryService* dictionaryService = ARL::ServiceProvider::create<ARL::CSGDictionaryService>(dataModel.get());
+		ARL::NonReplicatedCSGDictionaryService* nrDictionaryService = ARL::ServiceProvider::create<ARL::NonReplicatedCSGDictionaryService>(dataModel.get());
 
 		dictionaryService->reparentAllChildData();
 	}
 
-	void setupServerConnections(RBX::DataModel* dataModel)
+	void setupServerConnections(ARL::DataModel* dataModel)
 	{
 		if (!dataModel)
 		{
 			return;
 		}
 
-		if (RBX::AdService* adService = dataModel->create<RBX::AdService>())
+		if (ARL::AdService* adService = dataModel->create<ARL::AdService>())
 		{
-			adService->sendServerVideoAdVerification.connect(boost::bind(&RBX::AdService::checkCanPlayVideoAd,adService,_1, _2));
-			adService->sendServerRecordImpression.connect(boost::bind(&RBX::AdService::sendAdImpression,adService,_1,_2,_3));
+			adService->sendServerVideoAdVerification.connect(boost::bind(&ARL::AdService::checkCanPlayVideoAd,adService,_1, _2));
+			adService->sendServerRecordImpression.connect(boost::bind(&ARL::AdService::sendAdImpression,adService,_1,_2,_3));
 		}
 	}
 
-	shared_ptr<JobItem> createJob(const ns1__Job& job, bool startHeartbeat, shared_ptr<RBX::DataModel>& dataModel)
+	shared_ptr<JobItem> createJob(const ns1__Job& job, bool startHeartbeat, shared_ptr<ARL::DataModel>& dataModel)
 	{
-		srand(RBX::randomSeed()); // make sure this thread is seeded
+		srand(ARL::randomSeed()); // make sure this thread is seeded
 		std::string id = job.id;
 
-		dataModel = RBX::DataModel::createDataModel(startHeartbeat, new RBX::NullVerb(NULL,""), false);
+		dataModel = ARL::DataModel::createDataModel(startHeartbeat, new ARL::NullVerb(NULL,""), false);
         setupServerConnections(dataModel.get());
 
-		RBX::Network::Players* players = dataModel->find<RBX::Network::Players>();
+		ARL::Network::Players* players = dataModel->find<ARL::Network::Players>();
 		if(players)
 		{
 			LoadClientSettings(rccSettings);
             if (rccSettings.GetError())
             {
-                RBXCRASH(rccSettings.GetErrorString().c_str());
+                ARLCRASH(rccSettings.GetErrorString().c_str());
             }
 
 			{
 				bool useCurl = rand() % 100 < rccSettings.GetValueHttpUseCurlPercentageRCC();
 				FASTLOG1(FLog::RCCDataModelInit, "Using CURL = %d", useCurl);
-				RBX::Http::SetUseCurl(useCurl);
+				ARL::Http::SetUseCurl(useCurl);
 
-                RBX::Http::SetUseStatistics(true);
+                ARL::Http::SetUseStatistics(true);
 			}
 
 			FASTLOGS(FLog::RCCDataModelInit, "Creating Data Model, Windows MD5: %s", rccSettings.GetValueWindowsMD5());
@@ -932,7 +932,7 @@ public:
 
 			if (rccSettings.GetValueGoogleAnalyticsInitFix())
 			{
-				RBX::Analytics::GoogleAnalytics::lotteryInit(rccSettings.GetValueGoogleAnalyticsAccountPropertyID(), rccSettings.GetValueGoogleAnalyticsLoad());
+				ARL::Analytics::GoogleAnalytics::lotteryInit(rccSettings.GetValueGoogleAnalyticsAccountPropertyID(), rccSettings.GetValueGoogleAnalyticsLoad());
 			}
 			else
 			{
@@ -942,13 +942,13 @@ public:
 				{
 					FASTLOG1(FLog::RCCDataModelInit, "Setting Google Analytics ThreadPool Max Schedule Size: %d", rccSettings.GetValueGoogleAnalyticsThreadPoolMaxScheduleSize());
 					FASTLOGS(FLog::RCCDataModelInit, "Setting Google Analytics Account Property ID: %s", rccSettings.GetValueGoogleAnalyticsAccountPropertyID());
-					RBX::RobloxGoogleAnalytics::setCanUseAnalytics();
-					RBX::RobloxGoogleAnalytics::init(rccSettings.GetValueGoogleAnalyticsAccountPropertyID(), rccSettings.GetValueGoogleAnalyticsThreadPoolMaxScheduleSize());
+					ARL::RobloxGoogleAnalytics::setCanUseAnalytics();
+					ARL::RobloxGoogleAnalytics::init(rccSettings.GetValueGoogleAnalyticsAccountPropertyID(), rccSettings.GetValueGoogleAnalyticsThreadPoolMaxScheduleSize());
 				}
 			}
 
-			RBX::DataModel::LegacyLock lock(dataModel, RBX::DataModelJob::Write);
-			dataModel->create<RBX::Network::WebChatFilter>();
+			ARL::DataModel::LegacyLock lock(dataModel, ARL::DataModelJob::Write);
+			dataModel->create<ARL::Network::WebChatFilter>();
 		}
 
 		dataModel->workspaceLoadedSignal.connect(boost::bind(&CWebService::contentDataLoaded, this, dataModel));
@@ -963,7 +963,7 @@ public:
 		{
 			boost::mutex::scoped_lock lock(sync);
 			if (jobs.find(id)!=jobs.end())
-				throw RBX::runtime_error("JobItem %s already exists", id.c_str());
+				throw ARL::runtime_error("JobItem %s already exists", id.c_str());
 			jobs[id] = j;
 		}
 
@@ -974,7 +974,7 @@ public:
 	{
 		std::string id = job.id;
 
-		shared_ptr<RBX::DataModel> dataModel;
+		shared_ptr<ARL::DataModel> dataModel;
 		::InterlockedIncrement(&dataModelCount);
 		try
 		{
@@ -984,7 +984,7 @@ public:
 			FASTLOG1(FLog::RCCServiceJobs, "DataModel: %p", dataModel.get());
 
 			//Spin off a thread for the BatchJob to execute in
-			boost::thread(RBX::thread_wrapper(boost::bind(&CWebService::asyncExecute, this, id, script, result, soap), "AsyncExecute"));
+			boost::thread(ARL::thread_wrapper(boost::bind(&CWebService::asyncExecute, this, id, script, result, soap), "AsyncExecute"));
 
 			while (true)
 			{
@@ -994,11 +994,11 @@ public:
 				{
 					if (::WaitForSingleObject(j->jobCheckLeaseEvent.m_h, 1)!=WAIT_TIMEOUT){
 						if(j->status == JobItem::JOB_ERROR)
-							throw RBX::runtime_error(j->errorMessage.c_str());
+							throw ARL::runtime_error(j->errorMessage.c_str());
 					}
 
 					closeJob(id);
-					throw RBX::runtime_error("BatchJob Timeout");
+					throw ARL::runtime_error("BatchJob Timeout");
 				}
 				else if (::WaitForSingleObject(j->jobCheckLeaseEvent.m_h, (DWORD)(sleepTimeInSeconds * 1000.0) + 3) == WAIT_TIMEOUT)
 				{
@@ -1008,7 +1008,7 @@ public:
 				{
 					// jobCheckLeaseEvent was set
 					if(j->status == JobItem::JOB_ERROR)
-						throw RBX::runtime_error(j->errorMessage.c_str());
+						throw ARL::runtime_error(j->errorMessage.c_str());
 
 					// TODO: Shouldn't this be called BEFORE we throw??????
 					closeJob(id);
@@ -1040,9 +1040,9 @@ public:
 	void openJob(const ns1__Job& job, ns1__ScriptExecution* script, std::vector<ns1__LuaValue*>* result, soap* soap, bool startHeartbeat)
 	{
 		std::string id = job.id;
-		RBX::Http::gameID = job.id;
+		ARL::Http::gameID = job.id;
 
-		shared_ptr<RBX::DataModel> dataModel;
+		shared_ptr<ARL::DataModel> dataModel;
 		::InterlockedIncrement(&dataModelCount);
 		try
 		{
@@ -1050,22 +1050,22 @@ public:
 
 			try
 			{
-				RBX::DataModel *pDataModel = dataModel.get();
+				ARL::DataModel *pDataModel = dataModel.get();
 
 				// Monitor the job and close it if needed
-				boost::thread(RBX::thread_wrapper(boost::bind(&CWebService::doCheckLease, this, j), "Check Expiration"));
+				boost::thread(ARL::thread_wrapper(boost::bind(&CWebService::doCheckLease, this, j), "Check Expiration"));
 
 				FASTLOGS(FLog::RCCServiceJobs, "Opened JobItem %s", id.c_str());
 				FASTLOG1(FLog::RCCServiceJobs, "DataModel: %p", pDataModel);
 
 				this->execute(id, script, result, soap);
 
-				RBX::RunService* runService = RBX::ServiceProvider::find<RBX::RunService>(pDataModel);
-				RBXASSERT(runService != NULL);
+				ARL::RunService* runService = ARL::ServiceProvider::find<ARL::RunService>(pDataModel);
+				ARLASSERT(runService != NULL);
 				j->notifyAliveConnection = runService->heartbeatSignal.connect(boost::bind(&CWebService::notifyAlive, this, _1));
 
 				{
-					RBX::DataModel::LegacyLock lock(pDataModel, RBX::DataModelJob::Write);
+					ARL::DataModel::LegacyLock lock(pDataModel, ARL::DataModelJob::Write);
 					pDataModel->loadCoreScripts();
 				}
 			}
@@ -1094,14 +1094,14 @@ public:
 		}
 	}
 
-	void closeDataModel(shared_ptr<RBX::DataModel> dataModel)
+	void closeDataModel(shared_ptr<ARL::DataModel> dataModel)
 	{
-		RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+		ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 		//CrashAfterTimeout crash(90);	// If after 90 seconds the datamodel doesn't close, then CRASH!!!!
-		RBX::DataModel::closeDataModel(dataModel);
+		ARL::DataModel::closeDataModel(dataModel);
 	}
 
-	void notifyAlive(const RBX::Heartbeat& h)
+	void notifyAlive(const ARL::Heartbeat& h)
 	{
 		mainLogManager->NotifyFGThreadAlive();
 	}
@@ -1114,7 +1114,7 @@ public:
 		// to close the data model block at the mutex until the first one finishes.
 		boost::mutex::scoped_lock closeLock(currentlyClosingMutex);
 
-		shared_ptr<RBX::DataModel> dataModel;
+		shared_ptr<ARL::DataModel> dataModel;
 		{
 			boost::mutex::scoped_lock lock(sync);
 			JobMap::iterator iter = jobs.find(jobID);
@@ -1225,17 +1225,17 @@ void start_CWebService(LPCTSTR contentpath, bool crashUploaderOnly)
 		::GetModuleFileName(_AtlBaseModule.m_hInst, name, 500);
 		CPath path = name;
 		path.RemoveFileSpec();
-		RBX::ContentProvider::setAssetFolder(path.m_strPath + "\\" + contentpath);
+		ARL::ContentProvider::setAssetFolder(path.m_strPath + "\\" + contentpath);
 	}
 	else
 	{
-		RBX::ContentProvider::setAssetFolder(contentpath);
+		ARL::ContentProvider::setAssetFolder(contentpath);
 	}
 
 	CWebService::singleton.reset(new CWebService(crashUploaderOnly));
 }
 
-RBX_REGISTER_CLASS(ThumbnailGenerator);
+ARL_REGISTER_CLASS(ThumbnailGenerator);
 
 void CWebService::collectPerfData()
 {
@@ -1247,28 +1247,28 @@ CWebService::CWebService(bool crashUploadOnly) :
    doneEvent(TRUE, FALSE),
    dataModelCount(0)
 {
-	RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "Intializing Roblox Web Service");
+	ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "Intializing Roblox Web Service");
 
 	{
 		CVersionInfo vi;
 		vi.Load(_AtlBaseModule.m_hInst);
-		RBX::DebugSettings::robloxVersion = vi.GetFileVersionAsDotString();
+		ARL::DebugSettings::robloxVersion = vi.GetFileVersionAsDotString();
 
-		RBX::Analytics::setReporter("RCCService");
-		RBX::Analytics::setAppVersion(vi.GetFileVersionAsString());
+		ARL::Analytics::setReporter("RCCService");
+		ARL::Analytics::setAppVersion(vi.GetFileVersionAsString());
 	}
 
 	s_perfCounter = CProcessPerfCounter::getInstance();
-	s_profanityFilter = RBX::ProfanityFilter::getInstance();
-	perfData.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&CWebService::collectPerfData, this), "CWebService::collectPerfData")));
+	s_profanityFilter = ARL::ProfanityFilter::getInstance();
+	perfData.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&CWebService::collectPerfData, this), "CWebService::collectPerfData")));
 
-	RBX::Http::init(RBX::Http::WinHttp, RBX::Http::CookieSharingSingleProcessMultipleThreads);
-	RBX::Http::requester = "Server";
+	ARL::Http::init(ARL::Http::WinHttp, ARL::Http::CookieSharingSingleProcessMultipleThreads);
+	ARL::Http::requester = "Server";
 
-	RBX::Profiling::init(false);
-	static RBX::FactoryRegistrator registerFactoryObjects; // this needs to be here so srand is called before rand
+	ARL::Profiling::init(false);
+	static ARL::FactoryRegistrator registerFactoryObjects; // this needs to be here so srand is called before rand
 
-	RBX::Analytics::InfluxDb::init();	// calls rand()
+	ARL::Analytics::InfluxDb::init();	// calls rand()
 
 	RobloxCrashReporter::silent = true;
 	mainLogManager->WriteCrashDump();
@@ -1279,22 +1279,22 @@ CWebService::CWebService(bool crashUploadOnly) :
 	LoadClientSettings(rccSettings);
     if (rccSettings.GetError())
     {
-        RBXCRASH(rccSettings.GetErrorString().c_str());
+        ARLCRASH(rccSettings.GetErrorString().c_str());
     }
 
-	RBX::TaskSchedulerSettings::singleton();
-	RBX::TaskScheduler::singleton().setThreadCount(RBX::TaskScheduler::ThreadPoolConfig(FInt::RCCServiceThreadCount));
+	ARL::TaskSchedulerSettings::singleton();
+	ARL::TaskScheduler::singleton().setThreadCount(ARL::TaskScheduler::ThreadPoolConfig(FInt::RCCServiceThreadCount));
 
 	// Force loading of settings classes
-	RBX::GameSettings::singleton();
-	RBX::LuaSettings::singleton();
-	RBX::DebugSettings::singleton();
-	RBX::PhysicsSettings::singleton();
+	ARL::GameSettings::singleton();
+	ARL::LuaSettings::singleton();
+	ARL::DebugSettings::singleton();
+	ARL::PhysicsSettings::singleton();
 
-	RBX::Soundscape::SoundService::soundDisabled = true;
+	ARL::Soundscape::SoundService::soundDisabled = true;
 
 	// Initialize the network code
-	RBX::Network::initWithServerSecurity();
+	ARL::Network::initWithServerSecurity();
 
 	//If crashUploadOnly = true, don't create a separate thread of control for uploading
 	static DumpErrorUploader dumpErrorUploader(!crashUploadOnly, "RCCService");
@@ -1304,7 +1304,7 @@ CWebService::CWebService(bool crashUploadOnly) :
 	dumpErrorUploader.Upload(dmpHandlerUrl);
 
 
-	fetchClientSettingsThread.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&CWebService::validateClientSettings, this), "CWebService::validateClientSettings")));
+	fetchClientSettingsThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&CWebService::validateClientSettings, this), "CWebService::validateClientSettings")));
 
 	// load and set security versions immediately at start up so it's guaranteed to be there when server is launched
 	securityKeyUpdater.reset(new SecurityKeyUpdater(GetSecurityKeyUrl2(GetBaseURL(), "2b4ba7fc-5843-44cf-b107-ba22d3319dcd")));
@@ -1318,7 +1318,7 @@ CWebService::CWebService(bool crashUploadOnly) :
 	else
 	{
 		std::vector<std::string> versions = fetchAllowedSecurityVersions();
-		RBX::Network::setSecurityVersions(versions);
+		ARL::Network::setSecurityVersions(versions);
 	}
 
 	md5Updater->run();
@@ -1331,26 +1331,26 @@ CWebService::CWebService(bool crashUploadOnly) :
         }
         else
         {
-            RBX::Network::MemHashConfigs hashConfigs;
+            ARL::Network::MemHashConfigs hashConfigs;
             MemHashUpdater::populateMemHashConfigs(hashConfigs, DFString::MemHashConfig);
-		    RBX::Network::Players::setGoldMemHashes(hashConfigs);
+		    ARL::Network::Players::setGoldMemHashes(hashConfigs);
         }
 	}
 
 	// this thread uses client setting values, so it must be started AFTER client settings are loaded
 	// create a thread to periodically check for security key changes
-	fetchSecurityDataThread.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&CWebService::validateSecurityData, this), "CWebService::validateSecurityData")));
+	fetchSecurityDataThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&CWebService::validateSecurityData, this), "CWebService::validateSecurityData")));
 
 	counters.reset(new CountersClient(GetBaseURL().c_str(), "76E5A40C-3AE1-4028-9F10-7C62520BD94F", NULL));
 	
-	RBX::ViewBase::InitPluginModules();
+	ARL::ViewBase::InitPluginModules();
 
     if (DFFlag::US30476)
     {
-        RBX::initAntiMemDump();
+        ARL::initAntiMemDump();
     }
-    RBX::initLuaReadOnly();
-    RBX::initHwbpVeh();
+    ARL::initLuaReadOnly();
+    ARL::initHwbpVeh();
 
     if (FFlag::Dep)
     {
@@ -1375,12 +1375,12 @@ CWebService::~CWebService()
 	int result;
 	closeAllJobs(&result);
 
-	RBX::ViewBase::ShutdownPluginModules();
+	ARL::ViewBase::ShutdownPluginModules();
 }
 
 std::string CWebService::GetSettingsKey()
 {
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 	if (RCCServiceSettingsKeyOverwrite.length() > 0)
 		return RCCServiceSettingsKeyOverwrite;
 #endif
@@ -1438,8 +1438,8 @@ void CWebService::LoadClientSettings(std::string& clientDest, std::string& thumb
 	{
 		// hack: we want to log failure to load client settings in GA, but GA init require client setting...
 		// so just init GA with default settings, which points to "test" account
-		RBX::RobloxGoogleAnalytics::setCanUseAnalytics();
-		RBX::RobloxGoogleAnalytics::init(rccSettings.GetValueGoogleAnalyticsAccountPropertyID(), rccSettings.GetValueGoogleAnalyticsThreadPoolMaxScheduleSize());
+		ARL::RobloxGoogleAnalytics::setCanUseAnalytics();
+		ARL::RobloxGoogleAnalytics::init(rccSettings.GetValueGoogleAnalyticsAccountPropertyID(), rccSettings.GetValueGoogleAnalyticsThreadPoolMaxScheduleSize());
 
 		TCHAR computerName[1024];
 		DWORD size = 1024;
@@ -1447,21 +1447,21 @@ void CWebService::LoadClientSettings(std::string& clientDest, std::string& thumb
 
         if (invalidClientSettings)
         {
-		    RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, key.length() ? "Empty settings string" : "Empty settings key", computerName);
+		    ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, key.length() ? "Empty settings string" : "Empty settings key", computerName);
         }
         else
         {
-		    RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, "Empty thumbnailer settings string", computerName);
+		    ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, "Empty thumbnailer settings string", computerName);
         }
 
 		if (DFFlag::DebugCrashOnFailToLoadClientSettings)
-			RBXCRASH();
+			ARLCRASH();
 	}
 }
 
 void CWebService::LoadAppSettings()
 {
-	boost::filesystem::path exePath = RBX::FileSystem::getUserDirectory(false, RBX::DirExe, NULL);
+	boost::filesystem::path exePath = ARL::FileSystem::getUserDirectory(false, ARL::DirExe, NULL);
 
 	FASTLOGS(FLog::RCCServiceInit, "Loading AppSettings.xml, current path: %s", exePath.string());
 
@@ -1470,7 +1470,7 @@ void CWebService::LoadAppSettings()
 	TextXmlParser machine(stream.rdbuf());
 	std::auto_ptr<XmlElement> root = machine.parse();
 
-	const XmlElement* baseURLNode = root->findFirstChildByTag(RBX::Name::declare("BaseUrl"));
+	const XmlElement* baseURLNode = root->findFirstChildByTag(ARL::Name::declare("BaseUrl"));
 	if(baseURLNode)
 	{
 		std::string baseURL;
@@ -1486,13 +1486,13 @@ std::vector<std::string> CWebService::fetchAllowedSecurityVersions()
 {
 	const std::string& baseUrl = GetBaseURL();
 	if (baseUrl.size()==0)
-		RBXCRASH();	// y u no set BaseURL??
+		ARLCRASH();	// y u no set BaseURL??
 
 	std::vector<std::string> versions;
 
 	std::string url = GetSecurityKeyUrl(baseUrl, "2b4ba7fc-5843-44cf-b107-ba22d3319dcd");
 
-	RBX::Http request(url);
+	ARL::Http request(url);
 
 	std::string allowedSecurityVerionsData = "";
 	try 
@@ -1511,7 +1511,7 @@ std::vector<std::string> CWebService::fetchAllowedSecurityVersions()
 		BOOST_FOREACH(const boost::property_tree::ptree::value_type& child, pt.get_child("data"))
 		{
 			// version = data + salt
-			std::string version = RBX::sha1(child.second.data() + "askljfLUZF");
+			std::string version = ARL::sha1(child.second.data() + "askljfLUZF");
 			versions.push_back(version);
 		}
 
@@ -1528,12 +1528,12 @@ std::vector<std::string> CWebService::fetchAllowedSecurityVersions()
 
 void CWebService::JobItem::touch(double seconds)
 {
-	expirationTime = RBX::Time::now<RBX::Time::Fast>() + RBX::Time::Interval(seconds);
+	expirationTime = ARL::Time::now<ARL::Time::Fast>() + ARL::Time::Interval(seconds);
 }
 
 double CWebService::JobItem::secondsToTimeout() const
 {
-	return (expirationTime - RBX::Time::now<RBX::Time::Fast>()).seconds();
+	return (expirationTime - ARL::Time::now<ARL::Time::Fast>()).seconds();
 }
 
 
@@ -1554,7 +1554,7 @@ int RCCServiceSoapService::Diag(_ns1__Diag *ns1__Diag, _ns1__DiagResponse *ns1__
 	BEGIN_PRINT(Diag,"Diag");
 
 	::InterlockedIncrement(&diagCount);
-	RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	CWebService::singleton->diag(ns1__Diag->type, *ns1__Diag->jobID, &ns1__DiagResponse->DiagResult, this);
 	::InterlockedDecrement(&diagCount);
 
@@ -1565,7 +1565,7 @@ int RCCServiceSoapService::DiagEx(_ns1__DiagEx *ns1__DiagEx, _ns1__DiagExRespons
 {
 	BEGIN_PRINT(DiagEx,"DiagEx");
 	::InterlockedIncrement(&diagCount);
-	RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	ns1__DiagExResponse->DiagExResult = soap_new_ns1__ArrayOfLuaValue(this, -1);
 	CWebService::singleton->diag(ns1__DiagEx->type, *ns1__DiagEx->jobID, &ns1__DiagExResponse->DiagExResult->LuaValue, this);
 	::InterlockedDecrement(&diagCount);
@@ -1577,7 +1577,7 @@ int RCCServiceSoapService::GetVersion(_ns1__GetVersion *ns1__GetVersion, _ns1__G
 {
 	BEGIN_PRINT(GetVersion,"GetVersion");
 	::InterlockedIncrement(&getVersionCount);
-	ns1__GetVersionResponse->GetVersionResult = RBX::DebugSettings::robloxVersion.c_str();
+	ns1__GetVersionResponse->GetVersionResult = ARL::DebugSettings::robloxVersion.c_str();
 	::InterlockedDecrement(&getVersionCount);
 	END_PRINT(GetVersion,"GetVersion");
 	return 0;
@@ -1590,7 +1590,7 @@ int RCCServiceSoapService::GetStatus(_ns1__GetStatus *ns1__GetStatus, _ns1__GetS
 	::InterlockedIncrement(&getStatusCount);
 	ns1__GetStatusResponse->GetStatusResult = soap_new_ns1__Status(this, -1);
 	ns1__GetStatusResponse->GetStatusResult->version = soap_new_std__string(this, -1);
-	*ns1__GetStatusResponse->GetStatusResult->version = RBX::DebugSettings::robloxVersion.c_str();
+	*ns1__GetStatusResponse->GetStatusResult->version = ARL::DebugSettings::robloxVersion.c_str();
 	ns1__GetStatusResponse->GetStatusResult->environmentCount = CWebService::singleton->jobCount();
 	::InterlockedDecrement(&getStatusCount);
 	END_PRINT(GetStatus,"GetStatus");
@@ -1601,7 +1601,7 @@ int RCCServiceSoapService::OpenJob(_ns1__OpenJob *ns1__OpenJob, _ns1__OpenJobRes
 {
 	BEGIN_PRINT(OpenJob,"OpenJob");
 	::InterlockedIncrement(&openJobCount);
-	RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	CWebService::singleton->openJob(*ns1__OpenJob->job, ns1__OpenJob->script, &ns1__OpenJobResponse->OpenJobResult, this, true);
 	::InterlockedDecrement(&openJobCount);
 	END_PRINT(OpenJob,"OpenJob");
@@ -1614,7 +1614,7 @@ int RCCServiceSoapService::OpenJobEx(_ns1__OpenJobEx *ns1__OpenJobEx, _ns1__Open
 	BEGIN_PRINT(OpenJobEx,"OpenJobEx");
 
 	::InterlockedIncrement(&openJobCount);
-	RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	ns1__OpenJobExResponse->OpenJobExResult = soap_new_ns1__ArrayOfLuaValue(this, -1);
 	CWebService::singleton->openJob(*ns1__OpenJobEx->job, ns1__OpenJobEx->script, &ns1__OpenJobExResponse->OpenJobExResult->LuaValue, this, true);
 	::InterlockedDecrement(&openJobCount);
@@ -1630,7 +1630,7 @@ int RCCServiceSoapService::Execute(_ns1__Execute *ns1__Execute, _ns1__ExecuteRes
 	::InterlockedIncrement(&executeCount);
 	try
 	{
-		RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+		ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 		CWebService::singleton->execute(ns1__Execute->jobID, ns1__Execute->script, &ns1__ExecuteResponse->ExecuteResult, this);
 	}
 	catch(std::exception&)
@@ -1650,7 +1650,7 @@ int RCCServiceSoapService::ExecuteEx(_ns1__ExecuteEx *ns1__ExecuteEx, _ns1__Exec
 	::InterlockedIncrement(&executeCount);
 	try
 	{
-		RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+		ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 		ns1__ExecuteExResponse->ExecuteExResult = soap_new_ns1__ArrayOfLuaValue(this, -1);
 		CWebService::singleton->execute(ns1__ExecuteEx->jobID, ns1__ExecuteEx->script, &ns1__ExecuteExResponse->ExecuteExResult->LuaValue, this);
 	}
@@ -1673,7 +1673,7 @@ int RCCServiceSoapService::CloseJob(_ns1__CloseJob *ns1__CloseJob, _ns1__CloseJo
 	::InterlockedIncrement(&closeJobCount);
 	try
 	{
-		RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+		ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 		CWebService::singleton->closeJob(ns1__CloseJob->jobID);
 	}
 	catch(std::exception&)
@@ -1693,7 +1693,7 @@ int RCCServiceSoapService::RenewLease(_ns1__RenewLease *ns1__RenewLease, _ns1__R
 	::InterlockedIncrement(&renewLeaseCount);
 	try
 	{
-		RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+		ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 		CWebService::singleton->renewLease(ns1__RenewLease->jobID, ns1__RenewLease->expirationInSeconds);
 	}
 	catch(std::exception&)
@@ -1711,7 +1711,7 @@ int RCCServiceSoapService::BatchJob(_ns1__BatchJob *ns1__BatchJob, _ns1__BatchJo
 	BEGIN_PRINT(BatchJob,"BatchJob");
 
 	::InterlockedIncrement(&batchJobCount);
- 	RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+ 	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	// Batch jobs are completed synchronously, so there is no need to start the heartbeat
 	try
 	{
@@ -1734,7 +1734,7 @@ int RCCServiceSoapService::BatchJobEx(_ns1__BatchJobEx *ns1__BatchJobEx, _ns1__B
 	BEGIN_PRINT(BatchJobEx,"BatchJobEx");
 
 	::InterlockedIncrement(&batchJobCount);
- 	RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+ 	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	ns1__BatchJobExResponse->BatchJobExResult = soap_new_ns1__ArrayOfLuaValue(this, -1);
    // Batch jobs are completed synchronously, so there is no need to start the heartbeat
 	try
@@ -1775,7 +1775,7 @@ int RCCServiceSoapService::GetAllJobs(_ns1__GetAllJobs *ns1__GetAllJobs, _ns1__G
 	BEGIN_PRINT(GetAllJobs,"GetAllJobs");
 
 	::InterlockedIncrement(&getAllJobsCount);
-	RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	CWebService::singleton->getAllJobs(ns1__GetAllJobsResponse->GetAllJobsResult, this);
 	::InterlockedDecrement(&getAllJobsCount);
 	END_PRINT(GetAllJobs,"GetAllJobs");
@@ -1787,7 +1787,7 @@ int RCCServiceSoapService::GetAllJobsEx(_ns1__GetAllJobsEx *ns1__GetAllJobsEx, _
 	BEGIN_PRINT(GetAllJobsEx,"GetAllJobsEx");
 
 	::InterlockedIncrement(&getAllJobsCount);
-	RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	ns1__GetAllJobsExResponse->GetAllJobsExResult = soap_new_ns1__ArrayOfJob(this, -1);
 	CWebService::singleton->getAllJobs(ns1__GetAllJobsExResponse->GetAllJobsExResult->Job, this);
 	::InterlockedDecrement(&getAllJobsCount);
@@ -1800,7 +1800,7 @@ int RCCServiceSoapService::CloseExpiredJobs(_ns1__CloseExpiredJobs *ns1__CloseEx
 	BEGIN_PRINT(GetAllJobs,"CloseExpiredJobs");
 
 	::InterlockedIncrement(&closeExpiredJobsCount);
-	RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	CWebService::singleton->closeExpiredJobs(&ns1__CloseExpiredJobsResponse->CloseExpiredJobsResult);
 	::InterlockedDecrement(&closeExpiredJobsCount);
 	END_PRINT(GetAllJobs,"CloseExpiredJobs");
@@ -1812,7 +1812,7 @@ int RCCServiceSoapService::CloseAllJobs(_ns1__CloseAllJobs *ns1__CloseAllJobs, _
 	BEGIN_PRINT(GetAllJobs,"CloseAllJobs");
 
 	::InterlockedIncrement(&closeAllJobsCount);
-	RBX::Security::Impersonator impersonate(RBX::Security::WebService);
+	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	CWebService::singleton->closeAllJobs(&ns1__CloseAllJobsResponse->CloseAllJobsResult);
 	::InterlockedDecrement(&closeAllJobsCount);
 	END_PRINT(GetAllJobs,"CloseAllJobs");

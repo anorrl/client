@@ -2,14 +2,14 @@
 
 #include "util/RunStateOwner.h"
 
-namespace RBX
+namespace ARL
 {
 	class BaseScript;
 	class ModuleScript;
 
 	// Interface for Instances that turn in-game Scripts on and off
 	// Implementations can add/remove the script from ScriptContext
-	class RBXInterface IScriptFilter
+	class ARLInterface IScriptFilter
 	{
 		friend class BaseScript;
 	protected:

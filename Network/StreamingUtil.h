@@ -11,7 +11,7 @@
 
 #include "bitstream.h"
 
-namespace RBX
+namespace ARL
 {
 	class BrickColor;
 	class UDim;
@@ -52,7 +52,7 @@ namespace RBX
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, float value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, double value);
 
-    RakNet::BitStream& operator << (RakNet::BitStream& stream, const RBX::Guid::Scope& value);
+    RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::Guid::Scope& value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const BinaryString& value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const std::string& value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const ContentId& value);
@@ -63,12 +63,12 @@ namespace RBX
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Vector2int16& value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Color3& value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::CoordinateFrame& value);
-	RakNet::BitStream& operator << (RakNet::BitStream& stream, const RBX::Velocity& value);
-	RakNet::BitStream& operator << (RakNet::BitStream& stream, RBX::SystemAddress value);
+	RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::Velocity& value);
+	RakNet::BitStream& operator << (RakNet::BitStream& stream, ARL::SystemAddress value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const BrickColor& value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const UDim& value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const UDim2& value);
-	RakNet::BitStream& operator << (RakNet::BitStream& stream, const RBX::RbxRay& value);
+	RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::RbxRay& value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const Faces& value);
 	RakNet::BitStream& operator << (RakNet::BitStream& stream, const Axes& value);
     RakNet::BitStream& operator << (RakNet::BitStream& stream, const NumberSequence& value);

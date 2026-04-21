@@ -6,7 +6,7 @@
 #include "Util/NormalId.h"
 #include "appdraw/HandleType.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Extents;
 
@@ -34,4 +34,4 @@ namespace RBX {
 										NormalId& worldNormalId,
 										const int normalIdMask = NORM_ALL_MASK);
 	};
-}	// namespace RBX
+}	// namespace ARL

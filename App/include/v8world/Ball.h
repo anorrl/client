@@ -4,7 +4,7 @@
 #include "V8World/GeometryPool.h"
 #include "V8World/BulletGeometryPoolObjects.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Ball : public Geometry {
 	public:
@@ -60,9 +60,9 @@ namespace RBX {
 		bool vertOverlapsFace( const Vector3& pointInBody, const size_t surfaceId ) const;
 
         bool findTouchingSurfacesConvex( const CoordinateFrame& myCf, size_t& myFaceId, const Geometry& otherGeom, const CoordinateFrame& otherCf, size_t& otherFaceId ) const {return false;}
-        bool FacesOverlapped( const CoordinateFrame& myCf, size_t& myFaceId, const Geometry& otherGeom, const CoordinateFrame& otherCf, size_t& otherFaceId, float tol ) const {RBXASSERT(0); return false;}
-        bool FaceVerticesOverlapped( const CoordinateFrame& myCf, size_t& myFaceId, const Geometry& otherGeom, const CoordinateFrame& otherCf, size_t& otherFaceId, float tol ) const{RBXASSERT(0); return false;}
-        bool FaceEdgesOverlapped( const CoordinateFrame& myCf, size_t& myFaceId, const Geometry& otherGeom, const CoordinateFrame& otherCf, size_t& otherFaceId, float tol ) const {RBXASSERT(0); return false;}
+        bool FacesOverlapped( const CoordinateFrame& myCf, size_t& myFaceId, const Geometry& otherGeom, const CoordinateFrame& otherCf, size_t& otherFaceId, float tol ) const {ARLASSERT(0); return false;}
+        bool FaceVerticesOverlapped( const CoordinateFrame& myCf, size_t& myFaceId, const Geometry& otherGeom, const CoordinateFrame& otherCf, size_t& otherFaceId, float tol ) const{ARLASSERT(0); return false;}
+        bool FaceEdgesOverlapped( const CoordinateFrame& myCf, size_t& myFaceId, const Geometry& otherGeom, const CoordinateFrame& otherCf, size_t& otherFaceId, float tol ) const {ARLASSERT(0); return false;}
 		
 		/*override*/ bool setUpBulletCollisionData(void);
 	};

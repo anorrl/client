@@ -4,7 +4,7 @@
 #include "Gui/Guidraw.h"
 
 
-namespace RBX
+namespace ARL
 {
 	const char* const sFrame = "Frame";
 	const Reflection::EnumPropDescriptor<Frame, Frame::Style> prop_style("Style", category_Data, &Frame::getStyle, &Frame::setStyle);
@@ -45,7 +45,7 @@ namespace RBX
 			case Frame::ROBLOX_DROPSHADOW_STYLE:
 				return Scale9Rect2D(getRect2D(), 8, 21);
 			default:
-				RBXASSERT(0);
+				ARLASSERT(0);
 				return getRect2D();
 		}
 	}

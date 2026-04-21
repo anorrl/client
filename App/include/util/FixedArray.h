@@ -5,7 +5,7 @@
 #include "boost/array.hpp"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 /* USAGE
 
@@ -23,21 +23,21 @@ namespace RBX {
 		{}
 
 		void push_back(const T& x) {
-			RBXASSERT_VERY_FAST(num < N);
+			ARLASSERT_VERY_FAST(num < N);
 			data[num] = x;
 			++num;
 		}
 
 		void fastRemove(size_t i) {
-			RBXASSERT_VERY_FAST(i < num);
-			RBXASSERT_VERY_FAST(num <= N);
+			ARLASSERT_VERY_FAST(i < num);
+			ARLASSERT_VERY_FAST(num <= N);
 			data[i] = data[num - 1];
 			--num;
 		}
 
 		void replace(size_t i, const T& x) {
-			RBXASSERT_VERY_FAST(i < num);
-			RBXASSERT_VERY_FAST(num <= N);
+			ARLASSERT_VERY_FAST(i < num);
+			ARLASSERT_VERY_FAST(num <= N);
 			data[i] = x;
 		}
 
@@ -46,12 +46,12 @@ namespace RBX {
 		}
 
 		T operator[](size_t i) {
-			RBXASSERT_VERY_FAST(i < num);
+			ARLASSERT_VERY_FAST(i < num);
 			return data[i];
 		}
 
 		const T operator[](size_t i) const {
-			RBXASSERT_VERY_FAST(i < num);
+			ARLASSERT_VERY_FAST(i < num);
 			return data[i];
 		}
 

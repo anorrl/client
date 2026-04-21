@@ -3,7 +3,7 @@
 #include "v8Kernel/BuoyancyConnector.h"
 #include "V8Kernel/Body.h"
 
-namespace RBX
+namespace ARL
 {
 	const Vector3 BuoyancyConnector::getWorldPosition()
 	{

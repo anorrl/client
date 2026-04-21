@@ -13,7 +13,7 @@
 #include "Util/SoundService.h"
 #include "SelectState.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sFillTool = "Fill";
 const char* const  sMaterialTool = "Material";
@@ -83,7 +83,7 @@ shared_ptr<MouseCommand> DropperTool::onMouseDown(const shared_ptr<InputObject>&
 	}
 
 	//enable FillTool
-	return Creatable<RBX::MouseCommand>::create<RBX::FillTool>(workspace);
+	return Creatable<ARL::MouseCommand>::create<ARL::FillTool>(workspace);
 }
 
 

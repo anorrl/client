@@ -11,7 +11,7 @@
 #include "rbx/signal.h"
 #include "rbx/Declarations.h"
 
-namespace RBX {
+namespace ARL {
 
 class I3DLinearFunc;
 class RenderCaps;
@@ -27,9 +27,9 @@ struct Canvas
 	int normalizedFontSize(int fontSize) const;
 };
 
-// RBX::Adorn is a base class used to decorate other objects using 2D or 3D
+// ARL::Adorn is a base class used to decorate other objects using 2D or 3D
 // basic shapes.
-class RBXBaseClass Adorn
+class ARLBaseClass Adorn
 {
 public:
     enum Material
@@ -110,11 +110,11 @@ public:
 	// Sets the texture used by the Adorn.
 	virtual void setTexture(
 		int id,
-		const RBX::TextureProxyBaseRef& texture) = 0;
+		const ARL::TextureProxyBaseRef& texture) = 0;
 
 	// Gets the size of the texture being used by the Adorn.
 	virtual Rect2D getTextureSize(
-		const RBX::TextureProxyBaseRef& texture) const = 0;
+		const ARL::TextureProxyBaseRef& texture) const = 0;
 
 	// Draws a line on the screen.
 	virtual void line2d(
@@ -163,7 +163,7 @@ public:
 		Text::XAlign        xalign  = Text::XALIGN_LEFT,
 		Text::YAlign        yalign  = Text::YALIGN_TOP,
 		const Vector2&		availableSpace = Vector2::zero(),
-		const Rect2D&		clippingRect = RBX::Rect2D::xyxy(-1,-1,-1,-1),
+		const Rect2D&		clippingRect = ARL::Rect2D::xyxy(-1,-1,-1,-1),
 		const Rotation2D&   rotation = Rotation2D());
 
 	virtual Vector2 drawFont2DImpl(
@@ -188,12 +188,12 @@ public:
 	virtual void line3d(
 		const Vector3&	startPoint,
 		const Vector3&	endPoint,
-		const RBX::Color4& color) = 0;
+		const ARL::Color4& color) = 0;
 
     virtual void line3dAA(
         const Vector3& startPoint, 
         const Vector3& endPoint, 
-        const RBX::Color4& color, 
+        const ARL::Color4& color, 
         float thickness,
 		int zIndex,
         bool alwaysOnTop) = 0;
@@ -322,8 +322,8 @@ public:
 	// and evaluation for f(0) is used again for f(1).
 	// Future: if closeTrajectory != closeProfile, that could indicate we need
 	// caps at the end.
-	virtual void extrusion(RBX::I3DLinearFunc* trajectory, int trajectorysegments,
-						   RBX::I3DLinearFunc* profile, int profilesegments,
+	virtual void extrusion(ARL::I3DLinearFunc* trajectory, int trajectorysegments,
+						   ARL::I3DLinearFunc* profile, int profilesegments,
 						   const Color4& color, bool closeTrajectory = true,
 						   bool closeProfile = true) = 0;
     
@@ -338,4 +338,4 @@ protected:
     Material currentMaterial;
 };
 
-}  // namespace RBX
+}  // namespace ARL

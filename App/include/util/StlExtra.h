@@ -6,7 +6,7 @@
 #include <vector>
 
 
-namespace RBX {
+namespace ARL {
 
 	// only fast for very short vectors - should do no allocation
 	// returns index of the item removed
@@ -14,10 +14,10 @@ namespace RBX {
 	template<class T>
 	void fastRemoveIndex(std::vector<T>& vec, size_t index)
 	{
-		RBXASSERT(index >= 0);
-		RBXASSERT(index < vec.size());
-		RBXASSERT(!vec.empty());
-		RBXASSERT(vec.size() < 32);			// Note - possibly should be using some other container here - to find item requires N time
+		ARLASSERT(index >= 0);
+		ARLASSERT(index < vec.size());
+		ARLASSERT(!vec.empty());
+		ARLASSERT(vec.size() < 32);			// Note - possibly should be using some other container here - to find item requires N time
 #ifdef _DEBUG
 		size_t currentCapacity = vec.capacity();
 #endif
@@ -30,7 +30,7 @@ namespace RBX {
 		vec.resize(newSize);				// hopefully, don't do a memory realloc/shrink
 
 #ifdef _DEBUG
-		RBXASSERT(currentCapacity == vec.capacity());		// confirm no reallocation
+		ARLASSERT(currentCapacity == vec.capacity());		// confirm no reallocation
 #endif
 	}
 
@@ -44,9 +44,9 @@ namespace RBX {
 
 		size_t answer = it - vec.begin();
 
-		RBXASSERT(vec[answer] == item);
-		RBXASSERT(it != vec.end());
-		RBXASSERT(vec.size() < 32);			// Note - possibly should be using some other container here - to find item requires N time
+		ARLASSERT(vec[answer] == item);
+		ARLASSERT(it != vec.end());
+		ARLASSERT(vec.size() < 32);			// Note - possibly should be using some other container here - to find item requires N time
 #ifdef _DEBUG
 		size_t currentCapacity = vec.capacity();
 #endif
@@ -54,7 +54,7 @@ namespace RBX {
 		typename std::vector<T>::iterator lastOne(vec.end());
 		--lastOne;
 
-		RBXASSERT(*lastOne == vec.back());
+		ARLASSERT(*lastOne == vec.back());
 
 		if (it != lastOne) {
 			*it = *lastOne;					// move back item into the place once held by item
@@ -62,12 +62,12 @@ namespace RBX {
 		vec.resize(vec.size() - 1);				// hopefully, don't do a memory realloc/shrink
 
 #ifdef _DEBUG
-		RBXASSERT(currentCapacity == vec.capacity());		// confirm no reallocation
+		ARLASSERT(currentCapacity == vec.capacity());		// confirm no reallocation
 #endif
 		return answer;
 	}
 
 
 
-}	// namespace RBX
+}	// namespace ARL
 

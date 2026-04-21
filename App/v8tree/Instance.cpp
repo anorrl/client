@@ -17,7 +17,7 @@ LOGVARIABLE(InstanceTreeManipulation, 0)
 
 DYNAMIC_FASTFLAGVARIABLE(LockViolationInstanceCrash, false)
 
-namespace RBX {
+namespace ARL {
 
 ///////////////////////////////////
 
@@ -97,14 +97,14 @@ Reflection::EventDesc<Instance, void(shared_ptr<Instance>, shared_ptr<Instance>)
 Reflection::EventDesc<Instance, void(const Reflection::PropertyDescriptor*)> event_propertyChanged(&Instance::propertyChangedSignal, "Changed", "property");
 REFLECTION_END();
 
-shared_ptr<Instance> Instance::createChild(const RBX::Name& className, RBX::CreatorRole creatorRole)
+shared_ptr<Instance> Instance::createChild(const ARL::Name& className, ARL::CreatorRole creatorRole)
 {
 	return Creatable<Instance>::createByName(className, creatorRole);
 }
 
 void Instance::readChild(const XmlElement* childElement, IReferenceBinder& binder, CreatorRole creatorRole)
 {
-	const RBX::Name* className = NULL;
+	const ARL::Name* className = NULL;
 	if (!childElement->findAttributeValue(tag_class, className))
 		return;
 
@@ -124,7 +124,7 @@ void Instance::readChild(const XmlElement* childElement, IReferenceBinder& binde
 		if (className)
 			message += className->c_str();
 		message += "\"";
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_WARNING, message.c_str());
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_WARNING, message.c_str());
 #endif
 		// Read the referent attribute, if it exists
 		// We do this here because instance is NULL and therefore can't read it!
@@ -135,7 +135,7 @@ void Instance::readChild(const XmlElement* childElement, IReferenceBinder& binde
 
 }
 
-void Instance::readChildren(const XmlElement* element, IReferenceBinder& binder, RBX::CreatorRole creatorRole)
+void Instance::readChildren(const XmlElement* element, IReferenceBinder& binder, ARL::CreatorRole creatorRole)
 {
 	if (!element)
 		return;
@@ -168,7 +168,7 @@ void Instance::readProperties(const XmlElement* container, IReferenceBinder& bin
 	}
 }
 
-void Instance::read(const XmlElement* element, IReferenceBinder& binder, RBX::CreatorRole creatorRole)
+void Instance::read(const XmlElement* element, IReferenceBinder& binder, ARL::CreatorRole creatorRole)
 {
 	// Read the referent attribute, if it exists
 	const XmlAttribute* referentAttribute = element->findAttribute(name_referent);
@@ -199,12 +199,12 @@ static bool itIsInScope(Instance*)
 	return true;
 }
 
-void Instance::writeChildren(XmlElement* container, RBX::CreatorRole creatorRole, const SaveFilter saveFilter)
+void Instance::writeChildren(XmlElement* container, ARL::CreatorRole creatorRole, const SaveFilter saveFilter)
 {
 	writeChildren(container, itIsInScope, creatorRole, saveFilter);
 }
 
-void Instance::writeChildren(XmlElement* container, const boost::function<bool(Instance*)>& isInScope, RBX::CreatorRole creatorRole, const SaveFilter saveFilter)
+void Instance::writeChildren(XmlElement* container, const boost::function<bool(Instance*)>& isInScope, ARL::CreatorRole creatorRole, const SaveFilter saveFilter)
 {
 	if (children)
 	{
@@ -221,7 +221,7 @@ void Instance::writeChildren(XmlElement* container, const boost::function<bool(I
 void Instance::writeProperties(XmlElement* container) const
 {
 	// Write each Property, provided it wants to be streamed
-	RBX::Reflection::ConstPropertyIterator iter = properties_begin();
+	ARL::Reflection::ConstPropertyIterator iter = properties_begin();
 	while (iter!=properties_end())
 	{
 		const Reflection::PropertyDescriptor& descriptor = (*iter).getDescriptor();
@@ -234,17 +234,17 @@ void Instance::writeProperties(XmlElement* container) const
 	}
 }
 
-XmlElement* Instance::writeXml(const boost::function<bool(Instance*)>& isInScope, RBX::CreatorRole creatorRole)
+XmlElement* Instance::writeXml(const boost::function<bool(Instance*)>& isInScope, ARL::CreatorRole creatorRole)
 {
 	// TODO: archivable==false messes up functions like clone()
 	//       find a better way to do this
-	if (!getIsArchivable() || (getClassName()==RBX::Name::getNullName()))
+	if (!getIsArchivable() || (getClassName()==ARL::Name::getNullName()))
 		return NULL;
 
 	switch(creatorRole)
 	{
 	case ReplicationCreator:	
-		RBXASSERT(0); 
+		ARLASSERT(0); 
 		break;
 	case SerializationCreator:
 		if(!getDescriptor().isSerializable()) 
@@ -294,7 +294,7 @@ void Instance::onChildChanged(Instance* instance, const PropertyChanged& event)
 
 int Instance::findChildIndex(const Instance* instance) const
 {
-	RBXASSERT(children);
+	ARLASSERT(children);
     Instances::const_iterator it;
 	const Instances& c(*children);
 	it = std::find( c.begin(), c.end(), instance->shared_from_this() );
@@ -428,10 +428,10 @@ ChildRemoved::ChildRemoved(const ChildRemoved& event):child(event.child) {
 
 void Instance::securityCheck() const
 {
-	securityCheck(RBX::Security::Context::current());
+	securityCheck(ARL::Security::Context::current());
 }
 
-void Instance::securityCheck(RBX::Security::Context& context) const
+void Instance::securityCheck(ARL::Security::Context& context) const
 {
 	context.requirePermission(getDescriptor().security, "Class security check");
 
@@ -489,20 +489,20 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
 	//  Player objects (when removed)
 	//  Server Replicators
 	if (!ignoreLock && getIsParentLocked()) {
-		std::string message = RBX::format("The Parent property of %s is locked, current parent: %s, new parent %s", getFullName().c_str(), 
+		std::string message = ARL::format("The Parent property of %s is locked, current parent: %s, new parent %s", getFullName().c_str(), 
 			parent ? parent->getName().c_str() : "NULL", 
 			newParent ? newParent->getName().c_str() : "NULL");
 		throw std::runtime_error(message);
 	}
 
 	if (this==newParent) {
-		std::string message = RBX::format("Attempt to set %s as its own parent", getFullName().c_str());
+		std::string message = ARL::format("Attempt to set %s as its own parent", getFullName().c_str());
 		throw std::runtime_error(message);
 	}
 
 	if (this->isAncestorOf(newParent)) {
-		RBXASSERT(newParent);
-		std::string message = RBX::format("Attempt to set parent of %s to %s would result in circular reference", getFullName().c_str(), newParent->getFullName().c_str());
+		ARLASSERT(newParent);
+		std::string message = ARL::format("Attempt to set parent of %s to %s would result in circular reference", getFullName().c_str(), newParent->getFullName().c_str());
 		throw std::runtime_error(message);
 	}
 
@@ -517,9 +517,9 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
 
 		std::string parentName = parent ? parent->getName() : "NULL";
 		std::string newParentName = newParent ? newParent->getName() : "NULL";
-		std::string message = RBX::format("Something unexpectedly tried to set the parent of %s to %s while trying to set the parent of %s. Current parent is %s.", 
+		std::string message = ARL::format("Something unexpectedly tried to set the parent of %s to %s while trying to set the parent of %s. Current parent is %s.", 
 			getName().c_str(), newParentName.c_str(), getName().c_str(), parentName.c_str());
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_WARNING, message.c_str());
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_WARNING, message.c_str());
 
 		return false;
 	}
@@ -601,7 +601,7 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
     checkRbxCaller<kCallCheckCallArg, callCheckSetBasicFlag<HATE_RETURN_CHECK> >(thisFunction);    
 
 	// signals for the child being added
-#if !defined(RBX_RCC_SECURITY) && !defined(RBX_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
     bool detectedExploit = false;
 #endif
 	if (newParent != NULL)
@@ -616,10 +616,10 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
 
 		checkParentWaitingForChildren();
 	}
-#if !defined(RBX_RCC_SECURITY) && !defined(RBX_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
     else
     {
-        detectedExploit = (detectDllByExceptionChainStack<4>(&newParent, RBX::Security::kCheckDefault) != 0);
+        detectedExploit = (detectDllByExceptionChainStack<4>(&newParent, ARL::Security::kCheckDefault) != 0);
     }
 #endif
 
@@ -629,11 +629,11 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
 
 	raiseChanged(propParent);
 
-#if !defined(RBX_RCC_SECURITY) && !defined(RBX_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
     if (detectedExploit)
     {
         VMProtectBeginVirtualization(NULL);
-        RBX::Security::setHackFlagVs<0>(RBX::Security::hackFlag3, HATE_SEH_CHECK);
+        ARL::Security::setHackFlagVs<0>(ARL::Security::hackFlag3, HATE_SEH_CHECK);
         VMProtectEnd();
     }
 #endif
@@ -714,7 +714,7 @@ static bool isInScope(Instance* parent, Instance* child)
 }
 
 // DB 12/5/05 - added here to centralize the spawner behavior - to, from XML
-XmlElement* Instance::toNewXmlRoot(Instance* instance, RBX::CreatorRole creatorRole)
+XmlElement* Instance::toNewXmlRoot(Instance* instance, ARL::CreatorRole creatorRole)
 {
 	XmlElement* answer = Serializer::newRootElement();
 	if(XmlElement* child = instance->writeXml(boost::bind(isInScope, instance, _1), creatorRole))
@@ -759,7 +759,7 @@ private:
 	// This function simply duplicates all the instances, but doesn't create the tree nor copy properties
 	shared_ptr<Instance> createClones(shared_ptr<const Instance> instance)
 	{
-		RBXASSERT(instance);
+		ARLASSERT(instance);
 
 		if (!instance->getDescriptor().isSerializable())
 			return shared_ptr<Instance>();
@@ -769,9 +769,9 @@ private:
 
 		shared_ptr<Instance> copy = Creatable<Instance>::createByName(instance->getDescriptor().name, creatorRole);
 		if (!copy)
-			throw std::runtime_error(RBX::format("%s cannot be cloned", instance->getFullName().c_str()));
+			throw std::runtime_error(ARL::format("%s cannot be cloned", instance->getFullName().c_str()));
 
-		RBXASSERT(map.find(instance.get()) == map.end());
+		ARLASSERT(map.find(instance.get()) == map.end());
 		map[instance.get()] = copy;
 
 		instance->visitChildren(boost::bind(&Cloner::createClones, this, _1));
@@ -789,7 +789,7 @@ private:
 	}
 
 	// Copy non-Parent serializable property
-	void copyProperty(const RBX::Reflection::ConstProperty& prop, const Instance* source, Instance* destination)
+	void copyProperty(const ARL::Reflection::ConstProperty& prop, const Instance* source, Instance* destination)
 	{
 		if (!prop.getDescriptor().alwaysClone())
 		{
@@ -798,13 +798,13 @@ private:
 			if (!prop.getDescriptor().canXmlWrite())
 				return;
 		}
-		RBXASSERT (prop.getDescriptor() != Instance::propParent);
+		ARLASSERT (prop.getDescriptor() != Instance::propParent);
 
-		RBXASSERT(source == prop.getInstance());
+		ARLASSERT(source == prop.getInstance());
 		if (Reflection::RefPropertyDescriptor::isRefPropertyDescriptor(prop.getDescriptor()))
 		{
 			const Reflection::RefPropertyDescriptor* refDesc = static_cast<const Reflection::RefPropertyDescriptor*>(&prop.getDescriptor());
-			RBXASSERT(refDesc);
+			ARLASSERT(refDesc);
 
 			Instance* value = static_cast<Instance*>(refDesc->getRefValue(source));
 			Map::const_iterator iter = map.find(value);
@@ -833,11 +833,11 @@ private:
 		if (destination == clone)
 			return;	// don't set the root's parent
 
-		RBXASSERT(source->getParent());
-		RBXASSERT(map.find(source->getParent()) != map.end());
+		ARLASSERT(source->getParent());
+		ARLASSERT(map.find(source->getParent()) != map.end());
 
 		Instance* parent = map[source->getParent()].get();
-		RBXASSERT(parent);
+		ARLASSERT(parent);
 
 		destination->setParent(parent);
 	}
@@ -846,7 +846,7 @@ private:
 	{
 		const Instance* source = value.first;
 		if(source->onDemandRead())
-			const_cast<RBX::Instance*>(source)->onDemandWrite()->instanceClonedSignal(value.second);
+			const_cast<ARL::Instance*>(source)->onDemandWrite()->instanceClonedSignal(value.second);
 	}
 };
 
@@ -857,13 +857,13 @@ shared_ptr<Instance> Instance::clone(CreatorRole creatorRole)
 
 shared_ptr<Instance> Instance::luaClone()
 {
-	return clone(RBX::ScriptingCreator);
+	return clone(ARL::ScriptingCreator);
 }
 
 
 // Declare some dictionary entries
-static const RBX::Name& nameName = RBX::Name::declare("Name");
-static const RBX::Name& nameParent = RBX::Name::declare("Parent");
+static const ARL::Name& nameName = ARL::Name::declare("Name");
+static const ARL::Name& nameParent = ARL::Name::declare("Parent");
 
 Instance::Instance()
 	:parent(NULL)
@@ -887,7 +887,7 @@ Instance::Instance(const char* name)
 
 Instance::~Instance() 
 {
-	RBXASSERT(parent==NULL);
+	ARLASSERT(parent==NULL);
 }
 
 void Instance::remove()
@@ -902,7 +902,7 @@ void Instance::remove()
 void Instance::destroy()
 {
 	if (getIsParentLocked() && getParent())
-		throw RBX::runtime_error("The Parent property of %s is locked", getFullName().c_str());
+		throw ARL::runtime_error("The Parent property of %s is locked", getFullName().c_str());
 
 	// This method will remove this object from the DataModel, possibly
 	// removing the last shared_ptr reference to this. Make a local
@@ -1004,7 +1004,7 @@ void Instance::predelete(Instance* instance)
 
 void Instance::predelete()
 {	
-	RBXASSERT(parent==NULL);
+	ARLASSERT(parent==NULL);
 
 	while (children)
 	{
@@ -1091,7 +1091,7 @@ void Instance::setAndLockParent(Instance* instance)
 	{
 		failedToSetParent = !setLockedParent(instance);
 	}
-	catch (RBX::base_exception&)
+	catch (ARL::base_exception&)
 	{
 		if (!wasLocked)
 		{
@@ -1127,7 +1127,7 @@ OnDemandInstance* Instance::onDemandWrite()
 	{
 		onDemandPtr.reset(initOnDemand());
 		onDemand = onDemandPtr.get();
-		RBXASSERT(onDemand);
+		ARLASSERT(onDemand);
 	}
 
 	return onDemand;
@@ -1142,12 +1142,12 @@ static FORCEINLINE void validateThreadAccess(Instance* inst)
 {
     // this is actually useful for combating exploits.
     if (!DataModel::currentThreadHasWriteLock(inst))
-        RBXCRASH();
+        ARLCRASH();
 }
 
-void Instance::raisePropertyChanged(const RBX::Reflection::PropertyDescriptor& descriptor)
+void Instance::raisePropertyChanged(const ARL::Reflection::PropertyDescriptor& descriptor)
 {
-    PropertyChanged event(RBX::Reflection::Property(descriptor, this));
+    PropertyChanged event(ARL::Reflection::Property(descriptor, this));
     this->onPropertyChanged(descriptor);
     // security (This ensures the caller has a data model lock)
     if (this->parent && DFFlag::LockViolationInstanceCrash) // fast-path for replication and serialization
@@ -1162,7 +1162,7 @@ void Instance::raisePropertyChanged(const RBX::Reflection::PropertyDescriptor& d
         getParent()->onChildChanged(this, event);
 }
 
-void Instance::raiseEventInvocation(const RBX::Reflection::EventDescriptor& descriptor, const RBX::Reflection::EventArguments& args, const SystemAddress* target)
+void Instance::raiseEventInvocation(const ARL::Reflection::EventDescriptor& descriptor, const ARL::Reflection::EventArguments& args, const SystemAddress* target)
 {
     if (this->parent && DFFlag::LockViolationInstanceCrash) // fast-path for replication and serialization
     {
@@ -1188,7 +1188,7 @@ const void* Instance::getSetParentAddr()
 #ifdef _WIN32
     // VS2012 allows this code here, but not in member functions.
     // This code becomes invalid if setParentInternal becomes virtual.
-    bool (RBX::Instance::*thisPmfn)(RBX::Instance*, bool) = &setParentInternal;
+    bool (ARL::Instance::*thisPmfn)(ARL::Instance*, bool) = &setParentInternal;
     const void* thisCodeStruct = (const void*&)(thisPmfn);
     return thisCodeStruct;
 #else
@@ -1196,9 +1196,9 @@ const void* Instance::getSetParentAddr()
 #endif
 }
 
-}	// namespace RBX
+}	// namespace ARL
 
-namespace RBX{ namespace Security {
+namespace ARL{ namespace Security {
     // the .rdata section
     volatile const uintptr_t rbxTextEndNeg = 0x00400000;
     volatile const size_t rbxTextSizeNeg = 1024;

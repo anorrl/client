@@ -16,7 +16,7 @@
 #include "Util/NavKeys.h"
 
 
-namespace RBX {
+namespace ARL {
 
 const char* const sSkateboardController = "SkateboardController";
 
@@ -167,7 +167,7 @@ void SkateboardController::setSteer(float value)
 
 void SkateboardController::setSkateboardPlatform(SkateboardPlatform* value)
 {
-	RBXASSERT(skateboardPlatform.expired());
+	ARLASSERT(skateboardPlatform.expired());
 
 	skateboardPlatform = shared_from<SkateboardPlatform>(value);
 }

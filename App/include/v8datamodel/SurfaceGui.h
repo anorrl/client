@@ -9,7 +9,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 	class PartInstance;
 
 	extern const char* const sAdornmentSurfaceGui;

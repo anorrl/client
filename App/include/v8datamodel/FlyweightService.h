@@ -8,7 +8,7 @@
 #include <boost/unordered_map.hpp>
 #include "Value.h"
 
-namespace RBX
+namespace ARL
 {
 
 	class InstanceStringData
@@ -43,7 +43,7 @@ namespace RBX
 		rbx::signals::scoped_connection stringChildAddedSignal;
 		rbx::signals::scoped_connection stringChildRemovedSignal;
 
-		virtual void onChildAdded(shared_ptr<RBX::Instance> childInstance);
+		virtual void onChildAdded(shared_ptr<ARL::Instance> childInstance);
 
 		void storeStringData(BinaryString& str, bool forceIncrement, const std::string& name);
 		void retrieveStringData(BinaryString& str);
@@ -52,13 +52,13 @@ namespace RBX
 		std::string getLocalKeyHash(const std::string& str);
 		std::string getLocalKeyHash(const BinaryString& str);
 
-		virtual void refreshRefCountUnderInstance(RBX::Instance* instance) {}
+		virtual void refreshRefCountUnderInstance(ARL::Instance* instance) {}
 
 		void cleanChildren();
 
 		virtual void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 
-		bool isChildData(shared_ptr<RBX::Instance> childData);
+		bool isChildData(shared_ptr<ARL::Instance> childData);
 
 	public:
 

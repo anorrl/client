@@ -31,7 +31,7 @@ const float mouseRayMinDistance = 0.5f;
 
 } // namespace
 
-namespace RBX {
+namespace ARL {
 
 bool AdvRunDragger::dragMultiPartsAsSinglePart = false;
 
@@ -84,7 +84,7 @@ void AdvRunDragger::SnapInfo::updateHitFromSurface(const RbxRay& mouseRay)
 	    }
 	    else 
         {
-		    RBXASSERT(0);
+		    ARLASSERT(0);
 		    ok = Math::intersectRayPlane(rayInSnap, plane, hitInSnap);
 	    }
 
@@ -126,17 +126,17 @@ void AdvRunDragger::snapInfoFromSnapPart()
 #ifdef _DEBUG
 	World* world = workspace->getWorld();
 #endif
-	RBXASSERT(!dragPart.expired());
+	ARLASSERT(!dragPart.expired());
 #ifdef _DEBUG
-	RBXASSERT(Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == world);
+	ARLASSERT(Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == world);
 #endif
-	RBXASSERT(dragPart.lock()->getPartPrimitive() == drag);
-	RBXASSERT(handleMultipleParts || PartInstance::nonNullInWorkspace(dragPart.lock()));
+	ARLASSERT(dragPart.lock()->getPartPrimitive() == drag);
+	ARLASSERT(handleMultipleParts || PartInstance::nonNullInWorkspace(dragPart.lock()));
 
 	shared_ptr<PartInstance> p(snapPart.lock());
 	if (PartInstance::nonNullInWorkspace(p)) {
 #ifdef _DEBUG
-		RBXASSERT(Workspace::getWorldIfInWorkspace(p.get()) == world);
+		ARLASSERT(Workspace::getWorldIfInWorkspace(p.get()) == world);
 #endif
 		snapInfo.snap = p->getPartPrimitive();
 	}
@@ -150,7 +150,7 @@ void AdvRunDragger::snapPartFromSnapInfo()
 {
 	if (snapInfo.snap) {
 		snapPart = shared_from(PartInstance::fromPrimitive(snapInfo.snap));
-		RBXASSERT(Workspace::getWorldIfInWorkspace(snapPart.lock().get()) == workspace->getWorld());
+		ARLASSERT(Workspace::getWorldIfInWorkspace(snapPart.lock().get()) == workspace->getWorld());
 	}
 	else {
 		snapPart.reset();
@@ -162,8 +162,8 @@ void AdvRunDragger::initLocal(	Workspace*				_workspace,
 						    const Vector3&			_dragPointLocal,
 							WeakParts				_dragParts)
 {
-	RBXASSERT(!_dragPart.expired());
-	RBXASSERT(PartInstance::nonNullInWorkspace(_dragPart.lock()));
+	ARLASSERT(!_dragPart.expired());
+	ARLASSERT(PartInstance::nonNullInWorkspace(_dragPart.lock()));
 	workspace = _workspace;
 	dragPart = _dragPart;
 
@@ -179,17 +179,17 @@ void AdvRunDragger::initLocal(	Workspace*				_workspace,
 		weak_ptr<PartInstance> partFromGroup = _dragParts[i];
 		Primitive* dragPrim = NULL;
 
-		RBXASSERT(!partFromGroup.expired());
+		ARLASSERT(!partFromGroup.expired());
 #ifdef _DEBUG
-		RBXASSERT(Workspace::getWorldIfInWorkspace(partFromGroup.lock().get()) == world);
+		ARLASSERT(Workspace::getWorldIfInWorkspace(partFromGroup.lock().get()) == world);
 #endif
-		RBXASSERT(PartInstance::nonNullInWorkspace(partFromGroup.lock()));
+		ARLASSERT(PartInstance::nonNullInWorkspace(partFromGroup.lock()));
 
 		shared_ptr<PartInstance> p(partFromGroup.lock());
 		if (PartInstance::nonNullInWorkspace(p))
 		{
 #ifdef _DEBUG
-			RBXASSERT(Workspace::getWorldIfInWorkspace(p.get()) == world);
+			ARLASSERT(Workspace::getWorldIfInWorkspace(p.get()) == world);
 #endif
 			dragPrim = p->getPartPrimitive();
 			dragParts.push_back(dragPrim);
@@ -207,7 +207,7 @@ void AdvRunDragger::initLocal(	Workspace*				_workspace,
 		std::vector<Instance*> selection = instanceSelection->items();
 		if (selection.size() == 1)
 		{
-			RBX::ModelInstance* mInstance = RBX::Instance::fastDynamicCast<RBX::ModelInstance>(selection[0]);
+			ARL::ModelInstance* mInstance = ARL::Instance::fastDynamicCast<ARL::ModelInstance>(selection[0]);
 			if (mInstance)
 				primaryPart = mInstance->getPrimaryPartSetByUser();
 		}
@@ -245,7 +245,7 @@ void AdvRunDragger::initLocal(	Workspace*				_workspace,
 
 	//turnUpright(dp.get());
 
-	RBXASSERT(handleMultipleParts || (Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == workspace->getWorld()));
+	ARLASSERT(handleMultipleParts || (Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == workspace->getWorld()));
 
 	// Add the run dragger instance to the collection of adornable objects.
 	workspace->getAdornableCollector()->onRenderableDescendantAdded(this);
@@ -256,8 +256,8 @@ void AdvRunDragger::init(	Workspace*				_workspace,
 						weak_ptr<PartInstance>	_dragPart,	
 						const Vector3&			_dragPointWorld)
 {
-	RBXASSERT(!_dragPart.expired());
-	RBXASSERT(PartInstance::nonNullInWorkspace(_dragPart.lock()));
+	ARLASSERT(!_dragPart.expired());
+	ARLASSERT(PartInstance::nonNullInWorkspace(_dragPart.lock()));
 	workspace = _workspace;
 	dragPart = _dragPart;
 
@@ -270,7 +270,7 @@ void AdvRunDragger::init(	Workspace*				_workspace,
 
 	//turnUpright(dp.get());
 
-	RBXASSERT(Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == workspace->getWorld());
+	ARLASSERT(Workspace::getWorldIfInWorkspace(dragPart.lock().get()) == workspace->getWorld());
 }
 
 /*
@@ -280,7 +280,7 @@ void AdvRunDragger::init(	Workspace*				_workspace,
 */
 AdvRunDragger::SnapInfo AdvRunDragger::createSnapSurface(Primitive* snap, G3D::Array<size_t> *ignore)
 {
-	RBXASSERT(snap);
+	ARLASSERT(snap);
 
 	SnapInfo answer;
 	answer.snap = snap;
@@ -357,8 +357,8 @@ bool AdvRunDragger::moveDragPart()
 	drag->setCoordinateFrame(originalDragCoord);
 
 	Matrix3 dragInWorld = drag->getCoordinateFrame().rotation;
-	RBXASSERT(Math::isOrthonormal(dragInWorld));
-	RBXASSERT(Math::isOrthonormal(snapRotation));
+	ARLASSERT(Math::isOrthonormal(dragInWorld));
+	ARLASSERT(Math::isOrthonormal(snapRotation));
 	
 	bool draggingOnSlope = false;
 	// The face from the drag object that we want to align with the snap face and its normal
@@ -441,7 +441,7 @@ bool AdvRunDragger::moveDragPart()
 												plane, 
 												dragHitLocal);
 
-	RBXASSERT_IF_VALIDATING(hitPlane);
+	ARLASSERT_IF_VALIDATING(hitPlane);
 
 	// clamp the place where we think the ray hits the drag part - for 
 	// steep obtuse angles, keep this local hit point within 100x the size of the drag part
@@ -547,7 +547,7 @@ bool AdvRunDragger::pushDragPart(const Vector3& snapNormal)
 bool AdvRunDragger::notTried(Primitive* check, const G3D::Array<Primitive*>& tried)
 {
 
-	RBXASSERT(check != drag);
+	ARLASSERT(check != drag);
 	return (check && (tried.find(check) == tried.end()));
 }
 
@@ -670,7 +670,7 @@ bool AdvRunDragger::fallOffPart(bool& snapped)
 
 bool AdvRunDragger::colliding()
 {
-    RBXASSERT_VERY_FAST(!drag->hasAutoJoints());
+    ARLASSERT_VERY_FAST(!drag->hasAutoJoints());
 	if (handleMultipleParts)
 	{
 		// TODO: Fix this to get collision detection working using extents only		
@@ -808,8 +808,8 @@ void AdvRunDragger::findNoSnapPosition(const CoordinateFrame& original)
 
             if (handleMultipleParts)
 			{
-				RBXASSERT(primaryPart);
-				RBX::CoordinateFrame cFrameBefore = primaryPart->getCoordinateFrame();
+				ARLASSERT(primaryPart);
+				ARL::CoordinateFrame cFrameBefore = primaryPart->getCoordinateFrame();
 				G3D::Array<Primitive*> primsToMove(savedPrimsForMultiDrag);				
 				Dragger::safeMoveYDrop(primsToMove, delta, *workspace->getWorld()->getContactManager());
 				// update temporary part position
@@ -828,7 +828,7 @@ void AdvRunDragger::findNoSnapPosition(const CoordinateFrame& original)
 // Note: will NOT update dragOriginalRotation
 void AdvRunDragger::turnUpright(PartInstance* part)
 {
-	RBXASSERT(part);
+	ARLASSERT(part);
 	if (part->isStandardPart()) {
 		CoordinateFrame dragCoord = part->getCoordinateFrame();
 
@@ -845,7 +845,7 @@ void AdvRunDragger::turnUpright(PartInstance* part)
 // Note: will NOT update dragOriginalRotation
 void AdvRunDragger::rotatePart(PartInstance* part)
 {
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	CoordinateFrame rotated = part->getCoordinateFrame();
 	Math::rotateMatrixAboutY90(rotated.rotation);
@@ -884,7 +884,7 @@ void AdvRunDragger::rotatePartAboutSnapFaceAxis( Vector3::Axis axis, const float
 // Note: will NOT update dragOriginalRotation
 void AdvRunDragger::tiltPart(PartInstance* part, const CoordinateFrame& camera)
 {
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	CoordinateFrame dragCoord = part->getCoordinateFrame();
 
@@ -892,7 +892,7 @@ void AdvRunDragger::tiltPart(PartInstance* part, const CoordinateFrame& camera)
 	NormalId normId = Math::getClosestObjectNormalId(camera.rightVector(), dragCoord.rotation);
 	Vector3 axis = Math::getWorldNormal(normId, dragCoord);
 
-	RBXASSERT(0); // test: are we even hitting this?
+	ARLASSERT(0); // test: are we even hitting this?
 	size_t surfId = part->getPartPrimitive()->getGeometry()->getMostAlignedSurface(camera.rightVector(), dragCoord.rotation);
 	axis = dragCoord.vectorToWorldSpace(part->getPartPrimitive()->getGeometry()->getSurfaceNormalInBody(surfId));
 
@@ -911,8 +911,8 @@ void AdvRunDragger::findSafeY()
 		temp.append(part->getPartPrimitive());
 
 		Vector3 moved = Dragger::safeMoveNoDrop(temp, Vector3::zero(), *workspace->getWorld()->getContactManager());
-		RBXASSERT(moved.x == 0.0);
-		RBXASSERT(moved.y != 0.0);
+		ARLASSERT(moved.x == 0.0);
+		ARLASSERT(moved.y != 0.0);
 
 		CoordinateFrame newC = drag->getCoordinateFrame();
 		newC.translation += moved;
@@ -1190,7 +1190,7 @@ Contact* AdvRunDragger::getNextContact(Primitive*& prim, Contact* c)
 	void AdvRunDragger::render3dAdorn(Adorn* adorn)
 	{
 		if (dragPart.lock())
-			RBX::Draw::selectionBox(dragPart.lock()->getPart(), adorn, Color4(Color3::orange()));
+			ARL::Draw::selectionBox(dragPart.lock()->getPart(), adorn, Color4(Color3::orange()));
 	}
 #endif
 

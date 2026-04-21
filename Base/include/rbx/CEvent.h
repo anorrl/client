@@ -5,11 +5,11 @@
 
 #include <boost/thread.hpp>
 
-namespace RBX
+namespace ARL
 {
 
 #ifndef _WIN32		
-#define RBX_CEVENT_BOOST
+#define ARL_CEVENT_BOOST
 #endif
 
 	// TODO: This class is modeled heavily off of ATL::CEvent and should be
@@ -18,7 +18,7 @@ namespace RBX
 	class CEvent :
 		public boost::noncopyable
 	{
-#ifdef RBX_CEVENT_BOOST
+#ifdef ARL_CEVENT_BOOST
 		const bool manualReset;
 		volatile bool isSet;
 		boost::condition_variable cond;
@@ -36,7 +36,7 @@ namespace RBX
 		void Wait();
 		// TODO: Deprecate:
 		bool Wait(int milliseconds);
-		bool Wait(RBX::Time::Interval interval) { return Wait((int)(1000.0 * interval.seconds())); }
+		bool Wait(ARL::Time::Interval interval) { return Wait((int)(1000.0 * interval.seconds())); }
 
 	private:
 		static const int cWAIT_OBJECT_0 = 0;

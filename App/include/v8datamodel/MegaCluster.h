@@ -15,9 +15,9 @@ LOGGROUP(MegaClusterInit)
 LOGGROUP(MegaClusterDirty)
 LOGGROUP(MegaClusterDecodeStream)
 
-namespace RBX { namespace Voxel2 { class MaterialTable; class Grid; } }
+namespace ARL { namespace Voxel2 { class MaterialTable; class Grid; } }
 
-namespace RBX {
+namespace ARL {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -7,7 +7,7 @@
 #include "V8World/Primitive.h"
 
 
-namespace RBX {
+namespace ARL {
 
 
 SendPhysics::SendPhysics()
@@ -16,13 +16,13 @@ SendPhysics::SendPhysics()
 
 SendPhysics::~SendPhysics()
 {
-	RBXASSERT(simJobs.empty());
+	ARLASSERT(simJobs.empty());
 }
 
 void SendPhysics::buildSimJob(SimJob* job)
 {
 	if (job->getAssembly()) {
-		RBXASSERT(!job->getConstAssembly()->getConstSimJob());
+		ARLASSERT(!job->getConstAssembly()->getConstSimJob());
 		job->getAssembly()->setSimJob(job);
 	}
 
@@ -32,7 +32,7 @@ void SendPhysics::buildSimJob(SimJob* job)
 
 void SendPhysics::destroySimJob(SimJob* job)
 {
-	RBXASSERT_SLOW(job->is_linked());
+	ARLASSERT_SLOW(job->is_linked());
 
 	SimJob* transferTo = (simJobs.size() > 1) 
 										? nextSimJob(job) 
@@ -42,7 +42,7 @@ void SendPhysics::destroySimJob(SimJob* job)
 	simJobs.erase(simJobs.iterator_to(*job));
 
 	if (job->getAssembly()) {
-		RBXASSERT(job->getAssembly()->getSimJob() == job);
+		ARLASSERT(job->getAssembly()->getSimJob() == job);
 		job->getAssembly()->setSimJob(NULL);
 	}
 }
@@ -51,7 +51,7 @@ void SendPhysics::onMovingAssemblyRootAdded(Assembly* a)
 {
 	WriteValidator writeValidator(concurrencyValidator);
 
-	RBXASSERT(Mechanism::isMovingAssemblyRoot(a));
+	ARLASSERT(Mechanism::isMovingAssemblyRoot(a));
 	if (!a->getSimJob())
 	{
 		SimJob* job = new SimJob(a);
@@ -67,7 +67,7 @@ void SendPhysics::onMovingAssemblyRootRemoving(Assembly* a)
 {
 	WriteValidator writeValidator(concurrencyValidator);
 
-//	RBXASSERT_VERY_FAST(Mechanism::isMovingAssemblyRoot(a));					// todo - get rid of this assert by refactoring primitive anchoring
+//	ARLASSERT_VERY_FAST(Mechanism::isMovingAssemblyRoot(a));					// todo - get rid of this assert by refactoring primitive anchoring
 	SimJob* job = a->getSimJob();
 	job->useCount--;
 

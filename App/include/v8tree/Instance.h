@@ -19,7 +19,7 @@
 #include <boost/static_assert.hpp>
 #include <boost/flyweight.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	class Instance;
 
@@ -188,7 +188,7 @@ public:
 	void unlockParent() { isParentLocked = false; }
 	bool getIsParentLocked() const { return isParentLocked; }
 	void securityCheck() const;
-	void securityCheck(RBX::Security::Context& context) const;
+	void securityCheck(ARL::Security::Context& context) const;
 
 	static Reflection::PropDescriptor<Instance, bool> propArchivable;
 	bool getIsArchivable() const { return archivable; }
@@ -317,7 +317,7 @@ public:
 
 	shared_ptr<Instance> clone(CreatorRole creatorRole);
 	virtual shared_ptr<Instance> luaClone(); //Just like regular clone, but it enforces the Instance limits
-	static XmlElement* toNewXmlRoot(Instance* instance, RBX::CreatorRole creatorRole);		// DB 12/5/05 - added here to centralize the spawner behavior - to, from XML
+	static XmlElement* toNewXmlRoot(Instance* instance, ARL::CreatorRole creatorRole);		// DB 12/5/05 - added here to centralize the spawner behavior - to, from XML
 
 	void removeAllChildren();
 
@@ -490,7 +490,7 @@ public:
 	// getTypedRoot
 	template<class Type>
 	Type* getTypedRoot() {
-		RBXASSERT(dynamic_cast<Type*>(this));
+		ARLASSERT(dynamic_cast<Type*>(this));
 		if (Type* typedParent = dynamic_cast<Type*>(parent)) {
 			return typedParent->template getTypedRoot<Type>();
 		}
@@ -500,7 +500,7 @@ public:
 	}
 	template<class Type>
 	const Type* getTypedRoot() const {
-		RBXASSERT(dynamic_cast<const Type*>(this));
+		ARLASSERT(dynamic_cast<const Type*>(this));
 		if (const Type* typedParent = dynamic_cast<const Type*>(parent)) {
 			return typedParent->template getTypedRoot<Type>();
 		}
@@ -708,7 +708,7 @@ public:
 		for (; first != last; ++first)
 		{
 			Instance* instance = *first;
-			RBXASSERT(canAddChild(instance));
+			ARLASSERT(canAddChild(instance));
 			instance->setParent(this);
 		}
 	}
@@ -720,18 +720,18 @@ public:
 	
 	void readProperties(const XmlElement* container, IReferenceBinder& binder);
 
-	virtual shared_ptr<Instance> createChild(const RBX::Name& className, RBX::CreatorRole creatorRole);
-	void read(const XmlElement* element, IReferenceBinder& binder, RBX::CreatorRole creatorRole);
-	void readChildren(const XmlElement* element, IReferenceBinder& binder, RBX::CreatorRole creatorRole);
-	void readChild(const XmlElement* childElement, IReferenceBinder& binder, RBX::CreatorRole creatorRole);
+	virtual shared_ptr<Instance> createChild(const ARL::Name& className, ARL::CreatorRole creatorRole);
+	void read(const XmlElement* element, IReferenceBinder& binder, ARL::CreatorRole creatorRole);
+	void readChildren(const XmlElement* element, IReferenceBinder& binder, ARL::CreatorRole creatorRole);
+	void readChild(const XmlElement* childElement, IReferenceBinder& binder, ARL::CreatorRole creatorRole);
 
-	virtual XmlElement* writeXml(const boost::function<bool(Instance*)>& isInScope, RBX::CreatorRole creatorRole);
+	virtual XmlElement* writeXml(const boost::function<bool(Instance*)>& isInScope, ARL::CreatorRole creatorRole);
 
-	void writeChildren(XmlElement* container, const boost::function<bool(Instance*)>& isInScope, RBX::CreatorRole creatorRole, const SaveFilter saveFilter = SAVE_ALL);
-	void writeChildren(XmlElement* container, RBX::CreatorRole creatorRole, const SaveFilter saveFilter = SAVE_ALL);
+	void writeChildren(XmlElement* container, const boost::function<bool(Instance*)>& isInScope, ARL::CreatorRole creatorRole, const SaveFilter saveFilter = SAVE_ALL);
+	void writeChildren(XmlElement* container, ARL::CreatorRole creatorRole, const SaveFilter saveFilter = SAVE_ALL);
 
-	void raisePropertyChanged(const RBX::Reflection::PropertyDescriptor& descriptor);
-	void raiseEventInvocation(const RBX::Reflection::EventDescriptor& descriptor, const RBX::Reflection::EventArguments& args, const SystemAddress* target);
+	void raisePropertyChanged(const ARL::Reflection::PropertyDescriptor& descriptor);
+	void raiseEventInvocation(const ARL::Reflection::EventDescriptor& descriptor, const ARL::Reflection::EventArguments& args, const SystemAddress* target);
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
@@ -770,7 +770,7 @@ protected:
 
 	virtual void readProperty(const XmlElement* propertyElement, IReferenceBinder& binder);
 
-	void raiseChanged(const RBX::Reflection::PropertyDescriptor& descriptor)
+	void raiseChanged(const ARL::Reflection::PropertyDescriptor& descriptor)
 	{
 		raisePropertyChanged(descriptor);
 	}
@@ -783,4 +783,4 @@ private:
 	bool setParentInternal(Instance* instance, bool ignoreLock);
 };
 
-} // namespace RBX
+} // namespace ARL

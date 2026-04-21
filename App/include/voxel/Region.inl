@@ -5,7 +5,7 @@
 /////////////////////////////////////////////////////
 // template implementation file for Region.h
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 template<class InternalStorageType>
 const Region<InternalStorageType> Region<InternalStorageType>::kEndRegion(NULL, Vector3int16::one(), Vector3int16::zero());
@@ -38,7 +38,7 @@ bool Region<InternalStorageType>::contains(const Vector3int16& globalCoord) cons
 template<class InternalStorageType>
 const Cell& Region<InternalStorageType>::voxelAt(
 		const Vector3int16& globalCoord) const {
-	RBXASSERT_SLOW(contains(globalCoord));
+	ARLASSERT_SLOW(contains(globalCoord));
 
 	if (isGuaranteedAllEmpty()) {
 		return Constants::kUniqueEmptyCellRepresentation;
@@ -50,7 +50,7 @@ const Cell& Region<InternalStorageType>::voxelAt(
 template<class InternalStorageType>
 CellMaterial Region<InternalStorageType>::materialAt(
 		const Vector3int16& globalCoord) const {
-	RBXASSERT_SLOW(contains(globalCoord));
+	ARLASSERT_SLOW(contains(globalCoord));
 
 	if (isGuaranteedAllEmpty()) {
 		return CELL_MATERIAL_Water;
@@ -64,7 +64,7 @@ CellMaterial Region<InternalStorageType>::materialAt(
 template<class InternalStorageType>
 bool Region<InternalStorageType>::hasWaterAt(
 		const Vector3int16& globalCoord) const {
-	RBXASSERT_SLOW(contains(globalCoord));
+	ARLASSERT_SLOW(contains(globalCoord));
 
 	if (isGuaranteedAllEmpty()) {
 		return false;
@@ -118,7 +118,7 @@ bool Region<InternalStorageType>::operator==(
 template<class InternalStorageType>
 const Cell& Region<InternalStorageType>::voxelAtSkipAllEmptyCheck(
 		const Vector3int16& globalCoord) const {
-	RBXASSERT_SLOW(!isGuaranteedAllEmpty());
+	ARLASSERT_SLOW(!isGuaranteedAllEmpty());
 	return internalStorage->getConstData()[
 			internalStorage->voxelCoordToArrayIndex(globalCoord)];
 }
@@ -127,7 +127,7 @@ template<class InternalStorageType>
 bool Region<InternalStorageType>::hasWaterAtSkipAllEmptyCheck(
 		const Cell& cell,
 		const Vector3int16& globalCoord) const {
-	RBXASSERT_SLOW(!isGuaranteedAllEmpty());
+	ARLASSERT_SLOW(!isGuaranteedAllEmpty());
 	return Water::cellHasWater(internalStorage, cell, globalCoord);
 }
 

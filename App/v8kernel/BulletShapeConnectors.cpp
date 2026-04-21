@@ -7,7 +7,7 @@
 #include "BulletCollision/NarrowphaseCollision/btPersistentManifold.h"
 #include "btBulletCollisionCommon.h"
 
-namespace RBX {
+namespace ARL {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -113,7 +113,7 @@ void BulletShapeConnector::updateConnectorPointFromManifold(bool refreshContacts
 	btManifoldArray manifoldArray;
 	bulletAlgo->getAllContactManifolds(manifoldArray);
 
-	RBXASSERT(manifoldArray.size() > bulletManifoldIndex);
+	ARLASSERT(manifoldArray.size() > bulletManifoldIndex);
 	Vector3 pt0InWorld, pt1InWorld;
 	bool hasValidPoints = false;
 	bool swapped = !(manifoldArray[bulletManifoldIndex]->getBody0() == bulletCollisionObject0);
@@ -164,7 +164,7 @@ bool BulletShapeConnector::recalculateValidPoints(btManifoldArray& btManArray, V
 		bulletCollisionObject1->getCollisionShape()->getShapeType() == GIMPACT_SHAPE_PROXYTYPE)
 	{
 		//GImpact collision algorithm should only yield 1 Manifold
-		RBXASSERT(btManArray.size() <= 1);
+		ARLASSERT(btManArray.size() <= 1);
 		if (btManArray.size())
 		{
 			btManArray[0]->refreshContactPoints(bulletCollisionObject0->getWorldTransform(), bulletCollisionObject1->getWorldTransform());

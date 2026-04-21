@@ -11,7 +11,7 @@
 #include "Util/Units.h"
 #include "Util/Math.h"
 
-namespace RBX {
+namespace ARL {
 
 
 Joint* JointBuilder::canJoin(Primitive* p0, Primitive* p1) 

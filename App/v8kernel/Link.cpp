@@ -4,7 +4,7 @@
 #include "V8Kernel/Link.h"
 #include "V8Kernel/Body.h"
 
-namespace RBX {
+namespace ARL {
 
 
 Link::Link()
@@ -21,7 +21,7 @@ void Link::dirty()
 {	
 	if (body)
 	{
-		RBXASSERT(body->getLink() == this);
+		ARLASSERT(body->getLink() == this);
 		body->makeStateDirty();
 	}
 }

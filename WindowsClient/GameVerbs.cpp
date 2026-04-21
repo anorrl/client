@@ -22,7 +22,7 @@
 #include "WebBrowserAxDialog.h"
 
 
-namespace RBX {
+namespace ARL {
 
 LeaveGameVerb::LeaveGameVerb(View& view, VerbContainer* container)
 	: Verb(container, "Exit")
@@ -62,19 +62,19 @@ void ScreenshotVerb::doIt(IDataState* dataState)
 
 // TODO: Why Facebook?
 // TODO: Make non-static
-static void PostImageFinished(std::string *response, std::exception *ex, weak_ptr<RBX::DataModel> weakDataModel)
+static void PostImageFinished(std::string *response, std::exception *ex, weak_ptr<ARL::DataModel> weakDataModel)
 {
-	if(shared_ptr<RBX::DataModel> dataModel = weakDataModel.lock())
+	if(shared_ptr<ARL::DataModel> dataModel = weakDataModel.lock())
 	{
 		if ((ex == NULL) && (response->compare("ok") == 0))
-			dataModel->submitTask(boost::bind(&RBX::DataModel::ShowMessage, weak_ptr<RBX::DataModel>(dataModel), 1, "Image uploaded to Facebook", 2), RBX::DataModelJob::Write);
+			dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Image uploaded to Facebook", 2), ARL::DataModelJob::Write);
 		else
 		{
-			dataModel->submitTask(boost::bind(&RBX::DataModel::ShowMessage, weak_ptr<RBX::DataModel>(dataModel), 1, "Failed to upload image", 2), RBX::DataModelJob::Write);
-			RBX::GameSettings::singleton().setPostImageSetting(RBX::GameSettings::ASK);
+			dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Failed to upload image", 2), ARL::DataModelJob::Write);
+			ARL::GameSettings::singleton().setPostImageSetting(ARL::GameSettings::ASK);
 		}
 
-		dataModel->submitTask(boost::bind(&RBX::DataModel::ScreenshotUploadTask, weak_ptr<RBX::DataModel>(dataModel), true), RBX::DataModelJob::Write);
+		dataModel->submitTask(boost::bind(&ARL::DataModel::ScreenshotUploadTask, weak_ptr<ARL::DataModel>(dataModel), true), ARL::DataModelJob::Write);
 	}
 }
 
@@ -88,8 +88,8 @@ void ScreenshotVerb::screenshotFinished(const std::string &filename)
 		DataModelJob::Write);
 
 	
-	switch (RBX::GameSettings::singleton().getPostImageSetting()) {
-		case RBX::GameSettings::ASK:
+	switch (ARL::GameSettings::singleton().getPostImageSetting()) {
+		case ARL::GameSettings::ASK:
 		{
 			// TODO We should ASK user here from UI thread.
 			// image upload is disabled anyway on web site, so it looks OK just to file bug to fix this later
@@ -97,12 +97,12 @@ void ScreenshotVerb::screenshotFinished(const std::string &filename)
 			doc.GetMarshaller()->Submit(boost::bind(&ScreenshotVerb::askUploadScreenshot, this, filename));
 			break;
 		}
-		case RBX::GameSettings::ALWAYS:
+		case ARL::GameSettings::ALWAYS:
 		{
 			uploadScreenshot(filename);
 			break;
 		}
-		case RBX::GameSettings::NEVER:
+		case ARL::GameSettings::NEVER:
 			break;
 	}
 	
@@ -113,8 +113,8 @@ void ScreenshotVerb::askUploadScreenshot(std::string filename)
 	// Random parameter to force refresh
 	/*char n[16];
 	itoa(rand(), n, 10);
-    std::string pictureDir = RBX::FileSystem::getUserDirectory(true, RBX::DirPicture).string();
-	std::string url = RBX::format("%s/UploadMedia/PostImage.aspx?seostr=%s&filename=%s&screenshotdir=%s&from=client&rand=", 
+    std::string pictureDir = ARL::FileSystem::getUserDirectory(true, ARL::DirPicture).string();
+	std::string url = ARL::format("%s/UploadMedia/PostImage.aspx?seostr=%s&filename=%s&screenshotdir=%s&from=client&rand=", 
 		GetBaseURL().c_str(), 
 		doc.GetSEOStr().c_str(), 
 		filename.c_str(), 
@@ -136,30 +136,30 @@ void ScreenshotVerb::uploadScreenshot(const std::string& filename)
 	{
 		std::string seostr = doc.GetSEOStr();
 
-		std::string url = RBX::format("%s/UploadMedia/DoPostImage.ashx?from=client", GetBaseURL().c_str());
-		RBX::Http http(url);
+		std::string url = ARL::format("%s/UploadMedia/DoPostImage.ashx?from=client", GetBaseURL().c_str());
+		ARL::Http http(url);
 		// in case the seo info contains nothing but whitespaces, add a line break to prevent facebook from returning errors
 		http.additionalHeaders[seostr] = seostr + "%0D%0A";
 		shared_ptr<std::ifstream> in(new std::ifstream);
 		in->open(filename.c_str(), std::ios::binary);
 		if (in->fail())
 		{
-			dataModel->submitTask(boost::bind(&RBX::DataModel::ShowMessage, weak_ptr<RBX::DataModel>(dataModel), 1, "Failed to upload image", 2), RBX::DataModelJob::Write);
+			dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Failed to upload image", 2), ARL::DataModelJob::Write);
 		}
 		else
 		{
-			dataModel->submitTask(boost::bind(&RBX::DataModel::ShowMessage, weak_ptr<RBX::DataModel>(dataModel), 1, "Uploading image ...", 0), RBX::DataModelJob::Write);
+			dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Uploading image ...", 0), ARL::DataModelJob::Write);
 
-			dataModel->submitTask(boost::bind(&RBX::DataModel::ScreenshotUploadTask, weak_ptr<RBX::DataModel>(dataModel), false), RBX::DataModelJob::Write);
+			dataModel->submitTask(boost::bind(&ARL::DataModel::ScreenshotUploadTask, weak_ptr<ARL::DataModel>(dataModel), false), ARL::DataModelJob::Write);
 			http.post(in, Http::kContentTypeDefaultUnspecified, false,
-				boost::bind(&PostImageFinished, _1, _2, weak_ptr<RBX::DataModel>(dataModel)));
+				boost::bind(&PostImageFinished, _1, _2, weak_ptr<ARL::DataModel>(dataModel)));
 		}
 	}
 	catch (...)
 	{
-		dataModel->submitTask(boost::bind(&RBX::DataModel::ShowMessage, weak_ptr<RBX::DataModel>(dataModel), 1, "Failed to upload image", 2), RBX::DataModelJob::Write);
+		dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Failed to upload image", 2), ARL::DataModelJob::Write);
 
-		dataModel->submitTask(boost::bind(&RBX::DataModel::ScreenshotUploadTask, weak_ptr<RBX::DataModel>(dataModel), true), RBX::DataModelJob::Write);
+		dataModel->submitTask(boost::bind(&ARL::DataModel::ScreenshotUploadTask, weak_ptr<ARL::DataModel>(dataModel), true), ARL::DataModelJob::Write);
 	}
 }
 
@@ -241,7 +241,7 @@ void RecordToggleVerb::startAction()
 
 	fileName = videoControl->getFileName();
 
-	RBX::GameSettings::singleton().videoRecordingSignal(true);
+	ARL::GameSettings::singleton().videoRecordingSignal(true);
 }
 
 void RecordToggleVerb::stopAction()
@@ -250,7 +250,7 @@ void RecordToggleVerb::stopAction()
 
 	GameBasicSettings& settings = GameBasicSettings::singleton();
 
-	RBX::GameSettings::singleton().videoRecordingSignal(false);
+	ARL::GameSettings::singleton().videoRecordingSignal(false);
 
 	if (settings.getUploadVideoSetting() == GameSettings::NEVER)
 		return;
@@ -268,8 +268,8 @@ void RecordToggleVerb::abortCapture()
 
 void RecordToggleVerb::uploadVideo()
 {
-    /*std::string videoDir = RBX::FileSystem::getUserDirectory(true, RBX::DirVideo).string();
-	std::string url = RBX::format("%s/UploadMedia/UploadVideo.aspx?from=client&videodir=%s&rand=",
+    /*std::string videoDir = ARL::FileSystem::getUserDirectory(true, ARL::DirVideo).string();
+	std::string url = ARL::format("%s/UploadMedia/UploadVideo.aspx?from=client&videodir=%s&rand=",
 		GetBaseURL().c_str(),
 		videoDir.c_str());
 
@@ -321,7 +321,7 @@ bool ToggleFullscreenVerb::isEnabled() const
 	return true; 
 }
 
-void ToggleFullscreenVerb::doIt(RBX::IDataState* dataState)
+void ToggleFullscreenVerb::doIt(ARL::IDataState* dataState)
 {
 	FASTLOG(FLog::Verbs, "Gui:ToggleFullscreen");
 
@@ -329,4 +329,4 @@ void ToggleFullscreenVerb::doIt(RBX::IDataState* dataState)
 }
 
 
-}  // namespace RBX
+}  // namespace ARL

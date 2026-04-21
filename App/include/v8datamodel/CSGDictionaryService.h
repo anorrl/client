@@ -9,7 +9,7 @@
 #include <boost/unordered_map.hpp>
 #include "Value.h"
 
-namespace RBX
+namespace ARL
 {
 	class PartOperation;
     class CSGMesh;
@@ -25,13 +25,13 @@ namespace RBX
 		CSGMeshMap cachedBREPMeshMap;
 		CSGMeshMap cachedMeshMap;
 
-		void reparentChildData(shared_ptr<RBX::Instance> sharedInstance);
+		void reparentChildData(shared_ptr<ARL::Instance> sharedInstance);
 
-		virtual void refreshRefCountUnderInstance(RBX::Instance* instance);
+		virtual void refreshRefCountUnderInstance(ARL::Instance* instance);
 
-        boost::shared_ptr<CSGMesh> insertMesh(const std::string key, const RBX::BinaryString& meshData);
+        boost::shared_ptr<CSGMesh> insertMesh(const std::string key, const ARL::BinaryString& meshData);
 
-		boost::shared_ptr<CSGMesh> insertCachedMesh(const std::string key, const RBX::BinaryString& meshData);
+		boost::shared_ptr<CSGMesh> insertCachedMesh(const std::string key, const ARL::BinaryString& meshData);
 
         virtual void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 
@@ -42,8 +42,8 @@ namespace RBX
 		void storeData(PartOperation& partOperation, bool forceIncrement = false);
 		void retrieveData(PartOperation& partOperation);
 
-		void storeAllDescendants(shared_ptr<RBX::Instance> instance);
-		void retrieveAllDescendants(shared_ptr<RBX::Instance> instance);
+		void storeAllDescendants(shared_ptr<ARL::Instance> instance);
+		void retrieveAllDescendants(shared_ptr<ARL::Instance> instance);
 		
 		void reparentAllChildData();
 

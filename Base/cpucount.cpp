@@ -12,6 +12,6 @@ unsigned int RbxTotalUsableCoreCount(unsigned int defaultValue)
     unsigned n = std::thread::hardware_concurrency();
     return n ? n : defaultValue;
 #else
-	return RBX::SystemUtil::getCPUCoreCount();
+	return ARL::SystemUtil::getCPUCoreCount();
 #endif
 }

@@ -13,7 +13,7 @@
 
 class btCollisionObject;
 
-namespace RBX {
+namespace ARL {
 
 	/*
 			Body class.  Handles rigid joints and kinematic/dynamic joints.  Automatically calculates
@@ -108,12 +108,12 @@ namespace RBX {
 		bool				validateParentCofmDirty();
 
 		const CoordinateFrame& getMeInParent() {
-			RBXASSERT(getParent());
+			ARLASSERT(getParent());
 			return getLink() ? getLink()->getChildInParent() : meInParent;
 		}
 		const CoordinateFrame& getConstMeInParent() const {
-			RBXASSERT(getConstParent());
-			RBXASSERT(!getConstLink());				// fails if linked (i.e. only works in same clump);
+			ARLASSERT(getConstParent());
+			ARLASSERT(!getConstLink());				// fails if linked (i.e. only works in same clump);
 			return meInParent;
 		}
 
@@ -203,12 +203,12 @@ namespace RBX {
 		const Link*	getConstLink() const			{return link;}
 
 		const Body* getRoot() const {
-			RBXASSERT_SLOW(root == calcRootConst());
+			ARLASSERT_SLOW(root == calcRootConst());
 			return root;
 		}
 
 		Body* getRoot() {
-			RBXASSERT_SLOW(root == calcRootConst());
+			ARLASSERT_SLOW(root == calcRootConst());
 			return root;
 		}
 
@@ -252,7 +252,7 @@ namespace RBX {
 		// 
 
 		const PV& getPvFast() const {
-			RBXASSERT_FISHING(pvIsUpToDate());
+			ARLASSERT_FISHING(pvIsUpToDate());
 			return pv;
 		}
 
@@ -274,7 +274,7 @@ namespace RBX {
 		}
 
 		const Vector3& getPosFast() const {
-			RBXASSERT_FISHING(pvIsUpToDate());
+			ARLASSERT_FISHING(pvIsUpToDate());
 			return pv.position.translation;
 		}
 
@@ -284,7 +284,7 @@ namespace RBX {
 		}
 	
 		const CoordinateFrame& getCoordinateFrameFast() const {
-			RBXASSERT_FISHING(pvIsUpToDate());
+			ARLASSERT_FISHING(pvIsUpToDate());
 			return pv.position;
 		}
 
@@ -321,7 +321,7 @@ namespace RBX {
 		}
 
 		void accumulateForceAtBranchCofm(const Vector3& force) {
-			RBXASSERT(getRoot() == this);			// should only be called on Root objects
+			ARLASSERT(getRoot() == this);			// should only be called on Root objects
 			if (SimBody* s = getRootSimBody()) {
 				s->accumulateForceCofm(force);
 			}
@@ -352,19 +352,19 @@ namespace RBX {
 		}
 
 		const Vector3& getBranchForce() const {
-			RBXASSERT(getRoot() == this);			// should only be called on Root objects
+			ARLASSERT(getRoot() == this);			// should only be called on Root objects
 			const SimBody* s = getConstRootSimBody();
 			return s ? s->getForce() : Vector3::zero();
 		}
 
 		const Vector3& getBranchTorque() const {
-			RBXASSERT(getRoot() == this);			// should only be called on Root objects
+			ARLASSERT(getRoot() == this);			// should only be called on Root objects
 			const SimBody* s = getConstRootSimBody();
 			return s ? s->getTorque() : Vector3::zero();
 		}
 
 		const Velocity& getBranchVelocity() {		// velocity at the COFM of the assembly
-			RBXASSERT(getRoot() == this);			// should only be called on Root objects
+			ARLASSERT(getRoot() == this);			// should only be called on Root objects
 			const SimBody* s = getRootSimBody();
 			return s ? s->getPV().velocity : Velocity::zero();
 		}

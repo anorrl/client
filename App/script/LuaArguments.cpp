@@ -5,7 +5,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(LuaCrashOnIncorrectTables, false)
 
-namespace RBX { namespace Lua {
+namespace ARL { namespace Lua {
 
 bool LuaArguments::getString(int index, std::string& value) const
 {
@@ -35,7 +35,7 @@ bool LuaArguments::getVector3int16(int index, Vector3int16& value) const
 	if (index > lua_gettop(L))
 		return false;
 
-	return Bridge<RBX::Vector3int16>::getValue(L, index, value);
+	return Bridge<ARL::Vector3int16>::getValue(L, index, value);
 }
 
 bool LuaArguments::getRegion3int16(int index, Region3int16& value) const
@@ -45,7 +45,7 @@ bool LuaArguments::getRegion3int16(int index, Region3int16& value) const
 	if (index > lua_gettop(L))
 		return false;
 
-	return Bridge<RBX::Region3int16>::getValue(L, index, value);
+	return Bridge<ARL::Region3int16>::getValue(L, index, value);
 }
 
 bool LuaArguments::getVector3(int index, Vector3& value) const
@@ -55,7 +55,7 @@ bool LuaArguments::getVector3(int index, Vector3& value) const
 	if (index > lua_gettop(L))
 		return false;
 
-	return Bridge<RBX::Vector3>::getValue(L, index, value);
+	return Bridge<ARL::Vector3>::getValue(L, index, value);
 }
 
 bool LuaArguments::getRegion3(int index, Region3& value) const
@@ -65,7 +65,7 @@ bool LuaArguments::getRegion3(int index, Region3& value) const
 	if (index > lua_gettop(L))
 		return false;
 
-	return Bridge<RBX::Region3>::getValue(L, index, value);
+	return Bridge<ARL::Region3>::getValue(L, index, value);
 }
 
 bool LuaArguments::getRect(int index, Rect2D& value) const
@@ -75,7 +75,7 @@ bool LuaArguments::getRect(int index, Rect2D& value) const
 	if (index > lua_gettop(L))
 		return false;
 
-	return Bridge<RBX::Rect2D>::getValue(L, index, value);
+	return Bridge<ARL::Rect2D>::getValue(L, index, value);
 }
 
 bool LuaArguments::getPhysicalProperties(int index, PhysicalProperties& value) const
@@ -240,7 +240,7 @@ bool LuaArguments::getRec(lua_State *L, int luaIndex, Reflection::Variant& value
 				}
 
 				// Assign the values object to our ValueArray
-				value = shared_ptr<const RBX::Reflection::ValueArray>(values);
+				value = shared_ptr<const ARL::Reflection::ValueArray>(values);
 			}
 			else
 			{
@@ -279,7 +279,7 @@ bool LuaArguments::getRec(lua_State *L, int luaIndex, Reflection::Variant& value
 				}			
 
 				if (values)
-					value = shared_ptr<const RBX::Reflection::ValueTable>(values);
+					value = shared_ptr<const ARL::Reflection::ValueTable>(values);
 				else
 					// Assume an empty Lua table is an empty ValueArray (they can auto-convert later)
 					value = rbx::make_shared<const Reflection::ValueArray>();
@@ -405,7 +405,7 @@ public:
 		return 1;
 	}
 
-	int operator()(const RBX::ProtectedString& value)
+	int operator()(const ARL::ProtectedString& value)
 	{
 		lua_pushstring(L, value.getSource());
 		return 1;
@@ -468,7 +468,7 @@ public:
 				{
 					static std::string k = _First->first;
 					static Reflection::Variant v = _First->second;
-					RBXCRASH();
+					ARLCRASH();
 				}
 			}
 			lua_settable(L, -3);
@@ -501,7 +501,7 @@ public:
 		lua_createtable(L, 0, valueMap->size());		
 		while (_First!=_Last)
 		{
-			RBXASSERT(!_First->first.empty());
+			ARLASSERT(!_First->first.empty());
 			lua_pushstring(L, _First->first);
 			LuaArguments::push(_First->second, L);
 			lua_settable(L, -3);

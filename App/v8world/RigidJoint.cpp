@@ -6,7 +6,7 @@
 
 DYNAMIC_FASTFLAG(OrthonormalizeJointCoords)
 
-namespace RBX {
+namespace ARL {
 
 bool RigidJoint::isAligned()
 {

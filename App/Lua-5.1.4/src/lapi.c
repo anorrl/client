@@ -384,7 +384,7 @@ LUA_API const char *lua_tolstringsecure(lua_State *L, int idx, size_t *len)
     // verify the string data
     const char* str = svalue(o);
     unsigned int l = tsvalue(o)->len;
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
     if (lua_hash(str, l) == tsvalue(o)->hash)
     {
         if (len != NULL) *len = l;
@@ -392,7 +392,7 @@ LUA_API const char *lua_tolstringsecure(lua_State *L, int idx, size_t *len)
 	}
 	else
 	{
-        RBX::DataModel::sendStats |= HATE_LUA_HASH_CHANGED;
+        ARL::DataModel::sendStats |= HATE_LUA_HASH_CHANGED;
 
         if (len != NULL) *len = 0;
         return NULL;

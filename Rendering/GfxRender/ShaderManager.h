@@ -5,7 +5,7 @@
 #include <string>
 #include <boost/unordered_map.hpp>
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

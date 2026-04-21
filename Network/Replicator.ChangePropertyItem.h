@@ -3,7 +3,7 @@
 #include "Item.h"
 #include "Replicator.h"
 
-namespace RBX {
+namespace ARL {
 
 class Instance;
 namespace Reflection {
@@ -17,7 +17,7 @@ class DeserializedChangePropertyItem : public DeserializedItem
 {
 public:
 
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 	shared_ptr<Instance> instance;
 	const Reflection::PropertyDescriptor* propertyDescriptor;
 	Reflection::Variant value;

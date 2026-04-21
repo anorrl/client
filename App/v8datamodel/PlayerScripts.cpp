@@ -12,7 +12,7 @@
 #include "Reflection/Event.h"
 
 
-namespace RBX {
+namespace ARL {
 
 const char* const sPlayerScripts = "PlayerScripts";
 PlayerScripts::PlayerScripts()
@@ -23,7 +23,7 @@ PlayerScripts::PlayerScripts()
 
 bool PlayerScripts::askSetParent(const Instance* parent) const
 {
-	return Instance::fastDynamicCast<RBX::Network::Player>(parent) != NULL;
+	return Instance::fastDynamicCast<ARL::Network::Player>(parent) != NULL;
 }
 
 bool PlayerScripts::askForbidParent(const Instance* parent) const
@@ -39,7 +39,7 @@ bool PlayerScripts::askAddChild(const Instance* instance) const
 	if (Instance::fastDynamicCast<ModuleScript>(instance) != NULL)
 		return true;
 
-	return Instance::fastDynamicCast<RBX::LocalScript>(instance) != NULL;
+	return Instance::fastDynamicCast<ARL::LocalScript>(instance) != NULL;
 }
 
 bool PlayerScripts::askForbidChild(const Instance* instance) const
@@ -50,14 +50,14 @@ bool PlayerScripts::askForbidChild(const Instance* instance) const
 
 bool PlayerScripts::scriptShouldRun(BaseScript* script)
 {
-	RBXASSERT(isAncestorOf(script));
+	ARLASSERT(isAncestorOf(script));
 
 	bool answer = false;
 
 	if (script->fastDynamicCast<LocalScript>())
 	{
 		{
-			RBX::Network::Player* localPlayer = Network::Players::findLocalPlayer(this);
+			ARL::Network::Player* localPlayer = Network::Players::findLocalPlayer(this);
 			answer = (localPlayer && (getParent() == localPlayer));
 			if(answer){
 				script->setLocalPlayer(shared_from(localPlayer));
@@ -93,11 +93,11 @@ void PlayerScripts::onServiceProvider(ServiceProvider* oldProvider, ServiceProvi
 {
 	Super::onServiceProvider(oldProvider, newProvider);
 
-	if (newProvider && RBX::Network::Players::frontendProcessing(newProvider))
+	if (newProvider && ARL::Network::Players::frontendProcessing(newProvider))
 	{
 		// Check to see if we need to load the default scripts into this object - Client side from StarterPlayerService
-		RBX::Network::Player* player = findFirstAncestorOfType<RBX::Network::Player>();
-		RBX::Network::Player* localPlayer = Network::Players::findLocalPlayer(newProvider);
+		ARL::Network::Player* player = findFirstAncestorOfType<ARL::Network::Player>();
+		ARL::Network::Player* localPlayer = Network::Players::findLocalPlayer(newProvider);
 		if (player && player == localPlayer)
 		{
 			if (StarterPlayerService* starterPlayer = ServiceProvider::find<StarterPlayerService>(newProvider)) 
@@ -106,7 +106,7 @@ void PlayerScripts::onServiceProvider(ServiceProvider* oldProvider, ServiceProvi
 				if (scripts)
 					scripts->requestDefaultScripts();
 			} else {
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "PlayerScripts %s didn't find StarterPlayerService", getName().c_str());
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "PlayerScripts %s didn't find StarterPlayerService", getName().c_str());
 			}
 		}
 	}
@@ -136,7 +136,7 @@ StarterPlayerScripts::StarterPlayerScripts()
 
 bool StarterPlayerScripts::askSetParent(const Instance* parent) const
 {
-	return Instance::fastDynamicCast<RBX::StarterPlayerService>(parent) != NULL;
+	return Instance::fastDynamicCast<ARL::StarterPlayerService>(parent) != NULL;
 }
 
 bool StarterPlayerScripts::askForbidParent(const Instance* parent) const
@@ -152,7 +152,7 @@ bool StarterPlayerScripts::askAddChild(const Instance* instance) const
 	if (Instance::fastDynamicCast<ModuleScript>(instance) != NULL)
 		return true;
 
-	return Instance::fastDynamicCast<RBX::LocalScript>(instance) != NULL;
+	return Instance::fastDynamicCast<ARL::LocalScript>(instance) != NULL;
 }
 
 bool StarterPlayerScripts::askForbidChild(const Instance* instance) const
@@ -235,7 +235,7 @@ bool StarterPlayerScripts::checkDefaultScriptsLoaded()
 // CLIENT - Request confirmation from server that control scripts are loaded
 void StarterPlayerScripts::requestDefaultScripts()
 {
-	RBX::Network::Player* localPlayer = Network::Players::findLocalPlayer(this);
+	ARL::Network::Player* localPlayer = Network::Players::findLocalPlayer(this);
 	if (localPlayer && !defaultScriptsRequested) 
 	{
 		event_requestDefaultScripts.fireAndReplicateEvent(this, shared_from(localPlayer));
@@ -246,7 +246,7 @@ void StarterPlayerScripts::requestDefaultScripts()
 // SERVER - Client has requested confirmation that scripts are loaded
 void StarterPlayerScripts::requestDefaultScriptsServer(shared_ptr<Instance> player)
 {
-	RBX::Network::Player* pPlayer = Instance::fastDynamicCast<RBX::Network::Player>(player.get());
+	ARL::Network::Player* pPlayer = Instance::fastDynamicCast<ARL::Network::Player>(player.get());
 	if (pPlayer)
 	{		    
 		if (checkDefaultScriptsLoaded()) 
@@ -262,18 +262,18 @@ void StarterPlayerScripts::requestDefaultScriptsServer(shared_ptr<Instance> play
 }
 
 // SERVER - Send to client confirmation that scripts are loaded
-void StarterPlayerScripts::defaultScriptsSend(weak_ptr<RBX::Network::Player> p)
+void StarterPlayerScripts::defaultScriptsSend(weak_ptr<ARL::Network::Player> p)
 {
 
-	shared_ptr<RBX::Network::Player> player = p.lock();
+	shared_ptr<ARL::Network::Player> player = p.lock();
 	if (player) 
 	{
-		RBX::Network::Player* pPlayer = player.get();
+		ARL::Network::Player* pPlayer = player.get();
 		if (pPlayer) {
 
 			if (Network::Players::serverIsPresent(this)) // check for play solo
 			{
-				const RBX::SystemAddress& target = pPlayer->getRemoteAddressAsRbxAddress();
+				const ARL::SystemAddress& target = pPlayer->getRemoteAddressAsRbxAddress();
 
 				// respond to client
 				Reflection::EventArguments args(1);
@@ -292,7 +292,7 @@ void StarterPlayerScripts::defaultScriptsSend(weak_ptr<RBX::Network::Player> p)
 // CLIENT - Receive confirmation from server that scripts are replicated
 void StarterPlayerScripts::defaultScriptsReceived(int confirm)
 {
-	RBX::Network::Player* localPlayer = Network::Players::findLocalPlayer(this);	
+	ARL::Network::Player* localPlayer = Network::Players::findLocalPlayer(this);	
 	if (localPlayer && confirm == 1) 
 	{
 		PlayerScripts* scripts = localPlayer->findFirstChildOfType<PlayerScripts>();
@@ -308,7 +308,7 @@ void StarterPlayerScripts::onServiceProvider(ServiceProvider* oldProvider, Servi
 	Super::onServiceProvider(oldProvider, newProvider);
 
 	// Check to see if we need to load the default scripts into this object - Server side from files
-	if (newProvider && RBX::Network::Players::backendProcessing(newProvider) )
+	if (newProvider && ARL::Network::Players::backendProcessing(newProvider) )
 	{
 		if (RunService* runService = ServiceProvider::create<RunService>(newProvider))
 		{
@@ -323,7 +323,7 @@ void StarterPlayerScripts::onServiceProvider(ServiceProvider* oldProvider, Servi
 		requestDefaultScriptsSignal.connect(boost::bind(&StarterPlayerScripts::requestDefaultScriptsServer, this, _1));
 	}
 
-	if (newProvider && RBX::Network::Players::frontendProcessing(newProvider))
+	if (newProvider && ARL::Network::Players::frontendProcessing(newProvider))
 	{
 		confirmDefaultScriptsSignal.connect(boost::bind(&StarterPlayerScripts::defaultScriptsReceived, this, _1)); 
 		requestDefaultScripts();

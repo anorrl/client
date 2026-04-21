@@ -28,7 +28,7 @@
 
 #include "VisualEngine.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -422,7 +422,7 @@ namespace Graphics
 
 	void ObjectExporter::prepareModelsFromSelection()
 	{
-		RBX::Selection* selection = RBX::ServiceProvider::create< RBX::Selection >(dataModel);
+		ARL::Selection* selection = ARL::ServiceProvider::create< ARL::Selection >(dataModel);
     
 		for (Instances::const_iterator it = selection->begin(); it != selection->end(); ++it)
 			prepareModelsTree(it->get());

@@ -6,7 +6,7 @@
 
 #include "rbx/Profiler.h"
 
-namespace RBX { namespace Voxel2 { namespace Mesher {
+namespace ARL { namespace Voxel2 { namespace Mesher {
 
 	static const unsigned char kVertexIndexTable[][3] =
 	{
@@ -139,7 +139,7 @@ namespace RBX { namespace Voxel2 { namespace Mesher {
 		unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3,
 		bool flip)
 	{
-		RBXASSERT(v0 < vb.size() && v1 < vb.size() && v2 < vb.size() && v3 < vb.size());
+		ARLASSERT(v0 < vb.size() && v1 < vb.size() && v2 < vb.size() && v3 < vb.size());
 
 		unsigned int m0 = vb[v0].material;
 		unsigned int m1 = vb[v1].material;
@@ -395,10 +395,10 @@ namespace RBX { namespace Voxel2 { namespace Mesher {
 		if (box.isEmpty())
 			return BasicMesh();
 
-		RBXPROFILER_SCOPE("Voxel", "generateGeometry");
+		ARLPROFILER_SCOPE("Voxel", "generateGeometry");
 
 		int sizeX = box.getSizeX(), sizeY = box.getSizeY(), sizeZ = box.getSizeZ();
-		RBXASSERT(sizeX > 2 && sizeY > 2 && sizeZ > 2);
+		ARLASSERT(sizeX > 2 && sizeY > 2 && sizeZ > 2);
 
 		int sizeXZ = sizeX * sizeZ;
 
@@ -548,7 +548,7 @@ namespace RBX { namespace Voxel2 { namespace Mesher {
 		if (mesh.indices.empty())
 			return GraphicsMesh();
 
-		RBXPROFILER_SCOPE("Voxel", "generateGraphicsGeometry");
+		ARLPROFILER_SCOPE("Voxel", "generateGraphicsGeometry");
 
         size_t triangleCount = mesh.indices.size() / 3;
 
@@ -637,7 +637,7 @@ namespace RBX { namespace Voxel2 { namespace Mesher {
                     result.solidIndices.push_back(3 * i + 1);
                     result.solidIndices.push_back(3 * i + 2);
 
-                    RBXASSERT((i ^ 1) < triangleCount);
+                    ARLASSERT((i ^ 1) < triangleCount);
 
                     if (iswater[i ^ 1])
                     {
@@ -666,7 +666,7 @@ namespace RBX { namespace Voxel2 { namespace Mesher {
 		if (mesh.indices.empty())
 			return GraphicsMeshPacked();
 
-		RBXPROFILER_SCOPE("Voxel", "generateGraphicsGeometryPacked");
+		ARLPROFILER_SCOPE("Voxel", "generateGraphicsGeometryPacked");
 
         size_t triangleCount = mesh.indices.size() / 3;
 
@@ -768,7 +768,7 @@ namespace RBX { namespace Voxel2 { namespace Mesher {
                 result.solidIndices.push_back(gi1);
                 result.solidIndices.push_back(gi2);
 
-                RBXASSERT((i ^ 1) < triangleCount);
+                ARLASSERT((i ^ 1) < triangleCount);
 
                 if (iswater[i ^ 1])
                 {

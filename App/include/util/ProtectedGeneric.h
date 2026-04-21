@@ -3,7 +3,7 @@
 #include <string>
 #include <boost/functional/hash/hash.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	template<class Type>
 	class ProtectedGeneric

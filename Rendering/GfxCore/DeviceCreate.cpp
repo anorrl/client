@@ -5,7 +5,7 @@
 #include "D3D11/DeviceD3D11.h"
 #endif
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -13,7 +13,7 @@ namespace Graphics
 Device* Device::create(API api, void* windowHandle)
 {
 #ifdef _WIN32
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
 	if (api == API_Direct3D9)
         return new DeviceD3D9(windowHandle);
 #endif
@@ -22,12 +22,12 @@ Device* Device::create(API api, void* windowHandle)
         return new DeviceD3D11(windowHandle);
 #endif
 
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
 	if (api == API_OpenGL)
         return new DeviceGL(windowHandle);
 #endif
 
-	throw RBX::runtime_error("Unsupported API: %d", api);
+	throw ARL::runtime_error("Unsupported API: %d", api);
 }
 
 }

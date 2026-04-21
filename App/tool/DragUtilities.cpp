@@ -12,17 +12,17 @@
 #include "V8World/Tolerance.h"
 #include "Tool/ToolsArrow.h"
 
-namespace RBX {
+namespace ARL {
 
 
 Vector3 DragUtilities::safeMoveYDrop(const PartArray& parts, const Vector3& tryDrag, ContactManager& contactManager, const float customPlaneHeight)
 {
 	G3D::Array<Primitive*> primitives;
 	DragUtilities::partsToPrimitives(parts, primitives);
-	RBXASSERT(primitives.size() > 0);
+	ARLASSERT(primitives.size() > 0);
 
 	Vector3 answer = Dragger::safeMoveYDrop(primitives, tryDrag, contactManager, customPlaneHeight);
-	RBXASSERT(!contactManager.intersectingOthers(primitives, Tolerance::maxOverlapOrGap()));
+	ARLASSERT(!contactManager.intersectingOthers(primitives, Tolerance::maxOverlapOrGap()));
 
 	return answer;
 }
@@ -63,7 +63,7 @@ bool DragUtilities::anyPartAlive(const PartArray& parts)
 
 World* DragUtilities::partsToPrimitives(const PartArray& parts, G3D::Array<Primitive*>& primitives)
 {
-	RBXASSERT(primitives.size() == 0);
+	ARLASSERT(primitives.size() == 0);
 	World* answer = NULL;
 
 	for (size_t i = 0; i < parts.size(); ++i) {
@@ -71,7 +71,7 @@ World* DragUtilities::partsToPrimitives(const PartArray& parts, G3D::Array<Primi
 		if (PartInstance::nonNullInWorkspace(part)) {
 			primitives.append(part->getPartPrimitive());
 			answer = answer ? answer : Workspace::getWorldIfInWorkspace(part.get());
-			RBXASSERT(answer);
+			ARLASSERT(answer);
 		}
 	}
 	return answer;
@@ -79,7 +79,7 @@ World* DragUtilities::partsToPrimitives(const PartArray& parts, G3D::Array<Primi
 
 void DragUtilities::partsToPrimitives(const PartArray& parts, std::vector<const Primitive*>& primitives)
 {
-	RBXASSERT(primitives.size() == 0);
+	ARLASSERT(primitives.size() == 0);
 
 	for (size_t i = 0; i < parts.size(); ++i) {
 		const shared_ptr<PartInstance>& part = parts[i].lock();
@@ -91,7 +91,7 @@ void DragUtilities::partsToPrimitives(const PartArray& parts, std::vector<const 
 
 void DragUtilities::partsToPrimitives(const PartArray& parts, std::vector<Primitive*>& primitives)
 {
-	RBXASSERT(primitives.size() == 0);
+	ARLASSERT(primitives.size() == 0);
 
 	for (size_t i = 0; i < parts.size(); ++i) {
 		const shared_ptr<PartInstance>& part = parts[i].lock();
@@ -165,7 +165,7 @@ void DragUtilities::unJoinFromOutsiders(const PartArray& parts)
 		world->destroyAutoJointsToWorld(primitives);
 	}
 
-	RBXASSERT(notJoinedToOutsiders(parts));
+	ARLASSERT(notJoinedToOutsiders(parts));
 }
 
 
@@ -180,7 +180,7 @@ void DragUtilities::joinToOutsiders(const PartArray& parts)
 		world->createAutoJointsToWorld(primitives);
 	}
 
-	RBXASSERT(notJoinedToOutsiders(parts));
+	ARLASSERT(notJoinedToOutsiders(parts));
 }
 
 void DragUtilities::unJoin(const PartArray& parts)
@@ -191,7 +191,7 @@ void DragUtilities::unJoin(const PartArray& parts)
 			part->destroyJoints();
 		}
 	}
-	RBXASSERT(notJoined(parts));
+	ARLASSERT(notJoined(parts));
 }
 
 void DragUtilities::join(const PartArray& parts)
@@ -332,7 +332,7 @@ bool DragUtilities::hitObjectOrPlane(const ContactManager& contactManager,
 									Vector3& hit,
                                     bool snapToGrid)
 {
-	RBXASSERT(unitSearchRay.direction().isUnit());
+	ARLASSERT(unitSearchRay.direction().isUnit());
 	RbxRay searchRay = MouseCommand::getSearchRay(unitSearchRay);	// length determines how far to search;
 
 	if (!contactManager.getHit(	searchRay,
@@ -356,7 +356,7 @@ bool DragUtilities::hitObject(	const ContactManager& contactManager,
 								Vector3& hit,
                                 bool snapToGrid)
 {
-	RBXASSERT(unitSearchRay.direction().isUnit());
+	ARLASSERT(unitSearchRay.direction().isUnit());
 	RbxRay searchRay = MouseCommand::getSearchRay(unitSearchRay);	// length determines how far to search;
 
 	if (!contactManager.getHit(	searchRay,
@@ -435,7 +435,7 @@ Vector3 DragUtilities::toLocalGrid(const Vector3& deltaIn)
     delta.unitize();
     
     // We assume that grid is uniform for now.
-    RBXASSERT(DragUtilities::getGrid().x == DragUtilities::getGrid().y &&
+    ARLASSERT(DragUtilities::getGrid().x == DragUtilities::getGrid().y &&
              DragUtilities::getGrid().y == DragUtilities::getGrid().z &&
              DragUtilities::getGrid().z == DragUtilities::getGrid().x);
     

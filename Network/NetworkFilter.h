@@ -5,7 +5,7 @@
 #include "network/api.h"
 #include <boost/unordered_set.hpp>
 
-namespace RBX
+namespace ARL
 {
 	class Instance;
 	namespace Network

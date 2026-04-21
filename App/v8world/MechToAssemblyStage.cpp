@@ -7,7 +7,7 @@
 #include "V8World/Assembly.h"
 #include "V8World/Primitive.h"
 
-namespace RBX {
+namespace ARL {
 
 #pragma warning(push)
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list

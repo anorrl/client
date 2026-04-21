@@ -4,7 +4,7 @@
 #include "Util/IndexedMesh.h"
 
 
-namespace RBX {
+namespace ARL {
 
 
 IndexedMesh::IndexedMesh() 
@@ -17,11 +17,11 @@ IndexedMesh::IndexedMesh()
 
 IndexedMesh::~IndexedMesh() 
 {
-	RBXASSERT(!lower);
-	RBXASSERT(!upper);
-	RBXASSERT(!computedUpper);
-	RBXASSERT(!getTypedParent<IndexedMesh>());
-	RBXASSERT(numChildren() == 0);
+	ARLASSERT(!lower);
+	ARLASSERT(!upper);
+	ARLASSERT(!computedUpper);
+	ARLASSERT(!getTypedParent<IndexedMesh>());
+	ARLASSERT(numChildren() == 0);
 }
 
 
@@ -76,7 +76,7 @@ void IndexedMesh::setLower(IndexedMesh* newLower)
 			setIndexedTreeParent(NULL);								// 2.  Sew children to the old parent
 			while (numChildren() > 0) {
 				IndexedMesh* backChild = getTypedChild<IndexedMesh>(numChildren() - 1);
-				RBXASSERT(backChild->getTypedParent<IndexedMesh>() == this);
+				ARLASSERT(backChild->getTypedParent<IndexedMesh>() == this);
 				backChild->setIndexedTreeParent(oldParent);			// 3.  No need to use Severe Children - we konw them
 			}
 		}
@@ -171,7 +171,7 @@ const IndexedMesh* IndexedMesh::computeParentFromLower() const
 const IndexedMesh* IndexedMesh::getConstIndexedMeshParent() const
 {
 	const IndexedMesh* answer = getConstTypedParent<IndexedMesh>();
-	RBXASSERT(answer == computeParentFromLower());
+	ARLASSERT(answer == computeParentFromLower());
 	return answer;
 }
 
@@ -201,7 +201,7 @@ IndexedMesh* IndexedMesh::computeUpper(IndexedMesh* lower)
 
 const IndexedMesh* IndexedMesh::getConstComputedUpper() const
 {
-	RBXASSERT_SLOW(computedUpper == IndexedMesh::computeConstUpper(this));
+	ARLASSERT_SLOW(computedUpper == IndexedMesh::computeConstUpper(this));
 	return computedUpper;
 }
 
@@ -217,7 +217,7 @@ bool IndexedMesh::isUpperRoot(const IndexedMesh* lower)
 	bool answer = (		lower 
 					&&	lower->getConstUpper()		);
 	
-	RBXASSERT(answer == (lower && (computeConstUpper(lower)->lower == lower)));
+	ARLASSERT(answer == (lower && (computeConstUpper(lower)->lower == lower)));
 
 	return answer;
 }

@@ -73,7 +73,7 @@ DYNAMIC_FASTFLAGVARIABLE(RotateFirstPersonInVR, true)
 FASTFLAGVARIABLE(HumanoidRenderBillboard, false)
 FASTFLAGVARIABLE(HumanoidRenderBillboardVR, true)
 
-namespace RBX {
+namespace ARL {
 
 	// TODO: Create template version of normalIdToMatrix3 to avoid the switch statement
 static CoordinateFrame rightShoulderP(	normalIdToMatrix3(NORM_X), Vector3(1, 0.5, 0));
@@ -139,7 +139,7 @@ static Reflection::EnumPropDescriptor<Humanoid, Humanoid::HumanoidRigType> propR
 static const Reflection::PropDescriptor<Humanoid, float> propCameraMinDistance("CameraMinDistance", category_Data, &Humanoid::getMinDistance, &Humanoid::setMinDistance, Reflection::PropertyDescriptor::REPLICATE_ONLY);
 static const Reflection::PropDescriptor<Humanoid, float> propCameraMaxDistance("CameraMaxDistance", category_Data, &Humanoid::getMaxDistance, &Humanoid::setMaxDistance, Reflection::PropertyDescriptor::REPLICATE_ONLY);
 static const Reflection::PropDescriptor<Humanoid, Vector3> propCameraOffset("CameraOffset", category_Data, &Humanoid::getCamearaOffset, &Humanoid::setCameraOffset, Reflection::PropertyDescriptor::SCRIPTING);
-static Reflection::EnumPropDescriptor<Humanoid, RBX::Camera::CameraMode> prop_CameraMode("CameraMode", category_Data, &Humanoid::getCameraMode, &Humanoid::setCameraMode, Reflection::PropertyDescriptor::REPLICATE_ONLY);
+static Reflection::EnumPropDescriptor<Humanoid, ARL::Camera::CameraMode> prop_CameraMode("CameraMode", category_Data, &Humanoid::getCameraMode, &Humanoid::setCameraMode, Reflection::PropertyDescriptor::REPLICATE_ONLY);
 
 static Reflection::BoundFuncDesc<Humanoid, void(float)> func_TakeDamage(&Humanoid::takeDamage, "TakeDamage", "amount", Security::None);
 static Reflection::BoundFuncDesc<Humanoid, void(float)> dep_TakeDamage(&Humanoid::takeDamage, "takeDamage", "amount", Security::None, Reflection::Descriptor::Attributes::deprecated(func_TakeDamage));
@@ -162,7 +162,7 @@ static Reflection::EventDesc<Humanoid, void(bool)> event_PlatformStanding(&Human
 static Reflection::EventDesc<Humanoid, void(float)> event_Swimming(&Humanoid::swimmingSignal, "Swimming", "speed");
     static Reflection::EventDesc<Humanoid, void(HUMAN::StateType, HUMAN::StateType)> event_StateChanged(&Humanoid::stateChangedSignal, "StateChanged", "old", "new");
 static Reflection::BoundFuncDesc<Humanoid, HUMAN::StateType()> func_GetState(&Humanoid::getCurrentStateType, "GetState", Security::None);
-static Reflection::BoundFuncDesc<Humanoid, void(HUMAN::StateType)> func_ChangeState(&Humanoid::changeState, "ChangeState", "state", RBX::HUMAN::xx, Security::None);
+static Reflection::BoundFuncDesc<Humanoid, void(HUMAN::StateType)> func_ChangeState(&Humanoid::changeState, "ChangeState", "state", ARL::HUMAN::xx, Security::None);
 
 static Reflection::EventDesc<Humanoid, void(float)> event_HealthChanged(&Humanoid::healthChangedSignal, "HealthChanged", "health");
 
@@ -211,23 +211,23 @@ template<>
 EnumDesc<HUMAN::StateType>::EnumDesc()
 	:EnumDescriptor("HumanoidStateType")
 {
-	addPair(RBX::HUMAN::FALLING_DWN, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::FALLING_DWN));
-	addPair(RBX::HUMAN::RUNNING, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::RUNNING));
-	addPair(RBX::HUMAN::RUNNING_NO_PHYS, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::RUNNING_NO_PHYS));
-	addPair(RBX::HUMAN::CLIMBING, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::CLIMBING));
-	addPair(RBX::HUMAN::STRAFING_NO_PHYS, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::STRAFING_NO_PHYS));
-	addPair(RBX::HUMAN::RAGDOLL, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::RAGDOLL));
-	addPair(RBX::HUMAN::GETTING_UP, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::GETTING_UP));
-	addPair(RBX::HUMAN::JUMPING, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::JUMPING));
-	addPair(RBX::HUMAN::LANDED, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::LANDED));
-	addPair(RBX::HUMAN::FLYING, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::FLYING));
-	addPair(RBX::HUMAN::FREE_FALL, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::FREE_FALL));
-	addPair(RBX::HUMAN::SEATED, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::SEATED));
-	addPair(RBX::HUMAN::PLATFORM_STANDING, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::PLATFORM_STANDING));
-	addPair(RBX::HUMAN::DEAD, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::DEAD));
-	addPair(RBX::HUMAN::SWIMMING, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::SWIMMING));
-	addPair(RBX::HUMAN::PHYSICS, RBX::HUMAN::HumanoidState::getStateNameByType(RBX::HUMAN::PHYSICS));
-	addPair(RBX::HUMAN::xx, "None");
+	addPair(ARL::HUMAN::FALLING_DWN, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::FALLING_DWN));
+	addPair(ARL::HUMAN::RUNNING, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::RUNNING));
+	addPair(ARL::HUMAN::RUNNING_NO_PHYS, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::RUNNING_NO_PHYS));
+	addPair(ARL::HUMAN::CLIMBING, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::CLIMBING));
+	addPair(ARL::HUMAN::STRAFING_NO_PHYS, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::STRAFING_NO_PHYS));
+	addPair(ARL::HUMAN::RAGDOLL, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::RAGDOLL));
+	addPair(ARL::HUMAN::GETTING_UP, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::GETTING_UP));
+	addPair(ARL::HUMAN::JUMPING, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::JUMPING));
+	addPair(ARL::HUMAN::LANDED, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::LANDED));
+	addPair(ARL::HUMAN::FLYING, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::FLYING));
+	addPair(ARL::HUMAN::FREE_FALL, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::FREE_FALL));
+	addPair(ARL::HUMAN::SEATED, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::SEATED));
+	addPair(ARL::HUMAN::PLATFORM_STANDING, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::PLATFORM_STANDING));
+	addPair(ARL::HUMAN::DEAD, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::DEAD));
+	addPair(ARL::HUMAN::SWIMMING, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::SWIMMING));
+	addPair(ARL::HUMAN::PHYSICS, ARL::HUMAN::HumanoidState::getStateNameByType(ARL::HUMAN::PHYSICS));
+	addPair(ARL::HUMAN::xx, "None");
 }
 template<>
 HUMAN::StateType& Variant::convert<HUMAN::StateType>(void)
@@ -239,7 +239,7 @@ HUMAN::StateType& Variant::convert<HUMAN::StateType>(void)
 
 bool Humanoid::isStateInString(const std::string& text, const HUMAN::StateType &compare, HUMAN::StateType& value)
 {
-	if(text == RBX::HUMAN::HumanoidState::getStateNameByType(compare)) {
+	if(text == ARL::HUMAN::HumanoidState::getStateNameByType(compare)) {
 		value = compare;
 		return true;
 	}
@@ -247,26 +247,26 @@ bool Humanoid::isStateInString(const std::string& text, const HUMAN::StateType &
 }
 
 template<>
-bool RBX::StringConverter<HUMAN::StateType>::convertToValue(const std::string& text, HUMAN::StateType& value)
+bool ARL::StringConverter<HUMAN::StateType>::convertToValue(const std::string& text, HUMAN::StateType& value)
 {
-	if (Humanoid::isStateInString(text, RBX::HUMAN::FALLING_DWN, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::RUNNING, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::RUNNING_NO_PHYS, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::CLIMBING, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::STRAFING_NO_PHYS, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::RAGDOLL, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::GETTING_UP, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::JUMPING, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::LANDED, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::FLYING, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::FREE_FALL, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::SEATED, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::PLATFORM_STANDING, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::DEAD, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::SWIMMING, value)) return true;
-	if (Humanoid::isStateInString(text, RBX::HUMAN::PHYSICS, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::FALLING_DWN, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::RUNNING, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::RUNNING_NO_PHYS, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::CLIMBING, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::STRAFING_NO_PHYS, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::RAGDOLL, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::GETTING_UP, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::JUMPING, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::LANDED, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::FLYING, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::FREE_FALL, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::SEATED, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::PLATFORM_STANDING, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::DEAD, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::SWIMMING, value)) return true;
+	if (Humanoid::isStateInString(text, ARL::HUMAN::PHYSICS, value)) return true;
 	if(text.find("None")){
-		value = RBX::HUMAN::xx;
+		value = ARL::HUMAN::xx;
 		return true;
 	}
 	return false;
@@ -293,7 +293,7 @@ static const std::string& getAppendageString(size_t appendage, bool R15)
 	}
     else
     {
-        RBXASSERT(!"Unknown appendage type");
+        ARLASSERT(!"Unknown appendage type");
 
         static std::string dummy;
         return dummy;
@@ -366,12 +366,12 @@ Humanoid::Humanoid()
 
 Humanoid::~Humanoid()
 {
-	RBXASSERT(!currentState.get());
-	RBXASSERT(world==NULL);
+	ARLASSERT(!currentState.get());
+	ARLASSERT(world==NULL);
 	FASTLOG1(FLog::ISteppedLifetime, "Humanoid destroyed - %p", this);
 }
 
-void collectStatus(shared_ptr<RBX::Instance> instance, Reflection::ValueArray* result)
+void collectStatus(shared_ptr<ARL::Instance> instance, Reflection::ValueArray* result)
 {
 	//Try to push an enum first
 	if(const Reflection::EnumDescriptor::Item* item = Reflection::EnumDesc<Humanoid::Status>::singleton().lookup(instance->getName().c_str())){
@@ -498,12 +498,12 @@ void Humanoid::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* 
 	{
 		humanoidEquipConnection	= serverEquipToolSignal.connect(boost::bind(&Humanoid::equipToolInstance,this,_1));
 
-		if (DFFlag::UseR15Character && RBX::Network::Players::backendProcessing(this))
+		if (DFFlag::UseR15Character && ARL::Network::Players::backendProcessing(this))
 		{
 			DataModel* dataModel = Instance::fastDynamicCast<DataModel>(newProvider);
 			if (dataModel)
 			{
-				RBX::Security::Impersonator impersonate(RBX::Security::Replicator_);
+				ARL::Security::Impersonator impersonate(ARL::Security::Replicator_);
 				if (dataModel->getForceR15())
 					setRigType(Humanoid::HUMANOID_RIG_TYPE_R15);
 				else 
@@ -530,8 +530,8 @@ void Humanoid::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* 
 bool Humanoid::getDead() const
 {
 	if (this->world != NULL) {
-		RBXASSERT(currentState.get());
-		return (currentState->getStateType() == RBX::HUMAN::DEAD);
+		ARLASSERT(currentState.get());
+		return (currentState->getStateType() == ARL::HUMAN::DEAD);
 	}
 	else {
 		return true;
@@ -636,7 +636,7 @@ void Humanoid::setMaxHealth(float value)
 
 void Humanoid::takeDamage(float value)		// honors explosions, forceFields, etc.
 {
-	RBX::PartInstance* tempTorso = getTorsoSlow();
+	ARL::PartInstance* tempTorso = getTorsoSlow();
 	if (tempTorso) {
 		if (!ForceField::partInForceField(tempTorso)) {
 			setHealth(getHealth() - value);
@@ -718,12 +718,12 @@ shared_ptr<JointInstance> newJoint(bool animated)
 void Humanoid::setRigType(HumanoidRigType type)
 { 
 	try {
-		RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "setRigType");
+		ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "setRigType");
 	} 
-	catch (RBX::base_exception& e) 
+	catch (ARL::base_exception& e) 
 	{
 		raisePropertyChanged(propRigType);
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to setRigType");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to setRigType");
 		throw e;
 	}
 
@@ -779,7 +779,7 @@ void Humanoid::buildJointsFromAttachments(PartInstance* part, std::vector<PartIn
 		Instances::const_iterator end =children->end();
 		for (Instances::const_iterator iter = children->begin(); iter != end; ++iter)
 		{
-			if(RBX::Attachment* attachment = Instance::fastDynamicCast<RBX::Attachment>((*iter).get()))
+			if(ARL::Attachment* attachment = Instance::fastDynamicCast<ARL::Attachment>((*iter).get()))
 			{
 				// only do joint build from "RigAttachments"
 				const std::string attachmentName = attachment->getName();
@@ -819,16 +819,16 @@ void Humanoid::buildJointsFromAttachments(PartInstance* part, std::vector<PartIn
 }
 
 // Server side
-void Humanoid::buildJoints(RBX::DataModel* dm)
+void Humanoid::buildJoints(ARL::DataModel* dm)
 {
 	if(!status){
-		status = Creatable<Instance>::create<RBX::StatusInstance>();
+		status = Creatable<Instance>::create<ARL::StatusInstance>();
 		Instance::propArchivable.setValue(status.get(), false);
 		status->setParent(this);
 	}
 
 	ModelInstance* character = getCharacterFromHumanoid(this);
-	RBXASSERT(character);
+	ARLASSERT(character);
 	if (character)
 	{	
 		if (dm && dm->getForceR15())
@@ -851,7 +851,7 @@ void Humanoid::buildJoints(RBX::DataModel* dm)
 			PartInstance* rightLeg = getRightLegSlow();
 			PartInstance* leftLeg = getLeftLegSlow();
 
-			RBXASSERT(head && torso && rightArm && leftArm && rightLeg && leftLeg);
+			ARLASSERT(head && torso && rightArm && leftArm && rightLeg && leftLeg);
 
 			if (torso)
 			{
@@ -998,7 +998,7 @@ bool Humanoid::hasWalkToPoint(Vector3& worldPosition) const
 {
 	Network::Player* player = Network::Players::getPlayerFromCharacter(getCharacterFromHumanoid(const_cast<Humanoid*>(this))); // this should always be safe, right?
 	// only do click-to-walk in certain modes
-	if(player && (RBX::GameBasicSettings::singleton().inHybridMode() || RBX::GameBasicSettings::singleton().inMousepanMode()) )
+	if(player && (ARL::GameBasicSettings::singleton().inHybridMode() || ARL::GameBasicSettings::singleton().inMousepanMode()) )
 		return false;
 
 	if (walkToPart.get())
@@ -1026,10 +1026,10 @@ HUMAN::StateType Humanoid::getCurrentStateType()
 	{
 		return currentState->getStateType();
 	}
-	return RBX::HUMAN::xx;
+	return ARL::HUMAN::xx;
 }
 
-void Humanoid::setPreviousStateType(RBX::HUMAN::StateType newState)
+void Humanoid::setPreviousStateType(ARL::HUMAN::StateType newState)
 {
 	if (newState != previousState)
 	{
@@ -1057,7 +1057,7 @@ void Humanoid::equipToolInstance(shared_ptr<Instance> instance)
 			equipTool(tool);
 }
 
-void Humanoid::equipTool(RBX::Tool* tool)
+void Humanoid::equipTool(ARL::Tool* tool)
 {
 	if(tool)
 	{
@@ -1065,7 +1065,7 @@ void Humanoid::equipTool(RBX::Tool* tool)
 		{
 			unequipTools();
 
-			if (RBX::Network::Players::backendProcessing(this))
+			if (ARL::Network::Players::backendProcessing(this))
 			{
 				// if also frontend, we are in solo play
 				if (Network::Players::frontendProcessing(this))
@@ -1085,7 +1085,7 @@ void Humanoid::equipTool(RBX::Tool* tool)
 					{
 						Reflection::EventArguments args(1);
 						args[0] = Instance::fastSharedDynamicCast<Instance>(shared_from(tool));
-						const RBX::SystemAddress addr = player->getRemoteAddressAsRbxAddress();
+						const ARL::SystemAddress addr = player->getRemoteAddressAsRbxAddress();
 						raiseEventInvocation(desc_serverEquipTool, args, &addr);
 					}
 					else
@@ -1116,12 +1116,12 @@ void Humanoid::unequipTools()
         {
 			if(Network::Player* player = Network::Players::getPlayerFromCharacter(character))
 			{
-				if(RBX::Backpack* backpack = player->findFirstChildOfType<Backpack>())
+				if(ARL::Backpack* backpack = player->findFirstChildOfType<Backpack>())
 				{
 					Instances::const_iterator end = character->getChildren()->end();
 					for (Instances::const_iterator iter = character->getChildren()->begin(); iter != end; ++iter)
 					{
-						if(RBX::Tool* tool = Instance::fastDynamicCast<RBX::Tool>((*iter).get()))
+						if(ARL::Tool* tool = Instance::fastDynamicCast<ARL::Tool>((*iter).get()))
 							tool->setParent(backpack);
 					}
 				}
@@ -1143,7 +1143,7 @@ Velocity Humanoid::calcDesiredWalkVelocity() const
 		intendedMovementVector = luaMoveDirection;
 		if (luaMoveDirection != Vector3::zero() && !luaMoveDirection.isUnit())
 		{
-			RBXASSERT(false);
+			ARLASSERT(false);
 		}
 	}
 	else
@@ -1175,7 +1175,7 @@ Velocity Humanoid::calcDesiredWalkVelocity() const
 
 	if (autorotate)
 	{
-		if (player && RBX::GameBasicSettings::singleton().getRotationType() == RBX::GameBasicSettings::ROTATION_TYPE_CAMERA_RELATIVE)
+		if (player && ARL::GameBasicSettings::singleton().getRotationType() == ARL::GameBasicSettings::ROTATION_TYPE_CAMERA_RELATIVE)
 		{
 			answer.rotational.y = getWalkAngleError() * Humanoid::autoTurnSpeed() * 0.5f;		// hacky - multiplying angle error times auto turn speed here go get velocity
 		}
@@ -1263,7 +1263,7 @@ void Humanoid::setWalkDirectionInternal(const Vector3& value, bool raiseSignal)
 {
 	{
 		// value should be normalized
-		RBXASSERT(value.x <= 1.0f && value.z <= 1.0f);
+		ARLASSERT(value.x <= 1.0f && value.z <= 1.0f);
 
 		if (fabs(value.x - walkDirection.x) > 0.000001f || fabs(value.z - walkDirection.z) > 0.000001f)
 		{
@@ -1286,7 +1286,7 @@ void Humanoid::setWalkDirectionInternal(const Vector3& value, bool raiseSignal)
 
 	// walkdirection has been set (most likely by user input)
 	// cancel move direction now
-	if (walkDirection != RBX::Vector3::zero())
+	if (walkDirection != ARL::Vector3::zero())
 	{
 		setLuaMoveDirection(Vector3::zero());
 	}
@@ -1330,7 +1330,7 @@ void Humanoid::setLuaMoveDirection(const Vector3& value)
 
 bool Humanoid::allow3dWalkDirection() const
 {
-	return ( (currentState.get()) ? currentState->getStateType() == RBX::HUMAN::SWIMMING : false);
+	return ( (currentState.get()) ? currentState->getStateType() == ARL::HUMAN::SWIMMING : false);
 }
 
 void Humanoid::setWalkAngleError(const float &value)
@@ -1531,12 +1531,12 @@ void Humanoid::moveTo(const Vector3& worldPosition, PartInstance* part)
 
 void Humanoid::move(Vector3 walkVector, bool relativeToCamera)
 {
-	if(DataModel* dataModel = RBX::DataModel::get(this))
+	if(DataModel* dataModel = ARL::DataModel::get(this))
 	{
 		if(walkVector == Vector3::zero())
 		{
-			setLuaMoveDirection(RBX::Vector3(0,0,0));
-			rawMovementVector = RBX::Vector3(0,0,0);
+			setLuaMoveDirection(ARL::Vector3(0,0,0));
+			rawMovementVector = ARL::Vector3(0,0,0);
 			return;
 		}
 		else if (walkVector.length() > 1.0f)
@@ -1553,7 +1553,7 @@ void Humanoid::move(Vector3 walkVector, bool relativeToCamera)
 		// get the angle between the standard "forward" direction and our current desired direction
 		if (relativeToCamera)
 		{
-			RBX::Workspace* workspace = dataModel->getWorkspace();
+			ARL::Workspace* workspace = dataModel->getWorkspace();
 			if(!workspace)
 				return;
 
@@ -1561,7 +1561,7 @@ void Humanoid::move(Vector3 walkVector, bool relativeToCamera)
 			if(!camera)
 				return;
 
-			const RBX::Vector3 northDirection(0,0,-1);
+			const ARL::Vector3 northDirection(0,0,-1);
 
 			if (currentState.get() && currentState->getStateType() == HUMAN::SWIMMING) // we can move in three dimensions
 			{
@@ -1664,7 +1664,7 @@ void Humanoid::setHeadDecal(Decal* val)
 CoordinateFrame Humanoid::getTopOfHead() const
 {
 	//PartInstance *h = getHead();
-	//RBXASSERT(h);
+	//ARLASSERT(h);
 	//CoordinateFrame c(h->getCoordinateFrame());
 	// HACK. USE EXTENTS to allow for different sized heads.
 	return CoordinateFrame(G3D::Vector3(0,.5f, 0));
@@ -1737,7 +1737,7 @@ PartInstance* Humanoid::getAppendageFast(AppendageType appendage, shared_ptr<Par
 {
 	PartInstance* answer = appendagePart.get();
 
-	RBXASSERT_FISHING(		!answer 
+	ARLASSERT_FISHING(		!answer 
 						||	(answer == Instance::fastDynamicCast<PartInstance>(getParent()->findFirstChildByName(getAppendageString(appendage, getUseR15()))))	);
 
 	return answer;
@@ -1876,17 +1876,17 @@ void Humanoid::computeForce(bool throttling)
 {
 	if (FFlag::PhysicsSkipNonRealTimeHumanoidForceCalc)
 	{
-		RBXASSERT(getEngineBody() && getEngineBody()->getRootSimBody());
+		ARLASSERT(getEngineBody() && getEngineBody()->getRootSimBody());
 		if (!getEngineBody()->getRootSimBody()->isRealTimeBody())
 			return;
 	}
 
 	if (world && currentState.get())			// put this here for safety
 	{
-		RBXASSERT(currentState.get());
+		ARLASSERT(currentState.get());
 
 		G3D::Vector3 temp;
-		// The following RBXASSERT is just a way to get around the system to build this line on DEBUG build
+		// The following ARLASSERT is just a way to get around the system to build this line on DEBUG build
 		// The expression will always evaluate to true as we are comparing temp == temp
 		// The return value of getTorsoFast()->getCoordinateFrame().translation is not bool & is Vector3.
 		LEGACY_ASSERT(getTorsoFast() ? ((temp = getTorsoFast()->getCoordinateFrame().translation) == temp) : true);
@@ -1965,7 +1965,7 @@ void Humanoid::onEvent_ChildModified(shared_ptr<Instance> child)
 	}
 }
 
-void Humanoid::onEvent_SiblingPropertyChanged(const RBX::Reflection::PropertyDescriptor* desc)
+void Humanoid::onEvent_SiblingPropertyChanged(const ARL::Reflection::PropertyDescriptor* desc)
 {
 	if (desc == &Instance::desc_Name)
 	{
@@ -2030,7 +2030,7 @@ void Humanoid::onAncestorChanged(const AncestorChanged& event)
 	if (world != newWorld) 
 	{
 		if (world != NULL) {				// HACK - currentState destructor looks at world
-			RBXASSERT(newWorld == NULL);
+			ARLASSERT(newWorld == NULL);
 
 			ownedByLocalPlayer = false;
 			onCFrameChangedConnection.disconnect();
@@ -2070,7 +2070,7 @@ void Humanoid::onLocalHumanoidEnteringWorkspace()
 	// called when Humanoid enters workspace
 	Workspace* workspace = ServiceProvider::find<Workspace>(this);
 
-	RBXASSERT(workspace);
+	ARLASSERT(workspace);
 
 	Humanoid *me = Humanoid::getLocalHumanoidFromContext(this);
 	if (this == me)
@@ -2124,7 +2124,7 @@ void Humanoid::onStepped(const Stepped& event)
 		return;   // sign, still waiting for torso
     }
 
-    RBXPROFILER_SCOPE("Physics", "Humanoid::onStepped");
+    ARLPROFILER_SCOPE("Physics", "Humanoid::onStepped");
 
 	// 1. All Humanoids - update local walk mode variables
 	if (event.longStep)
@@ -2136,17 +2136,17 @@ void Humanoid::onStepped(const Stepped& event)
 
 	// 2. All Humanoids - nothing to do with local - simulate those in spatial region, otherwise "no-simulate" them
 	if (localSimulating || ownedByLocalPlayer) {
-		RBXASSERT(world);
-		RBXASSERT(currentState.get());
+		ARLASSERT(world);
+		ARLASSERT(currentState.get());
 		if (Instance::fastDynamicCast<ModelInstance>(getParent()))
 		{
 			G3D::Vector3 temp;
-			// The following RBXASSERT is just a way to get around the system to build this line on DEBUG build
+			// The following ARLASSERT is just a way to get around the system to build this line on DEBUG build
 			// The expression will always evaluate to true as we are comapring temp == temp
 			// The return value of getTorsoFast()->getCoordinateFrame().translation is not bool & is Vector3.
-			RBXASSERT(getTorsoFast() ? ((temp = getTorsoFast()->getCoordinateFrame().translation) == temp) : true);
+			ARLASSERT(getTorsoFast() ? ((temp = getTorsoFast()->getCoordinateFrame().translation) == temp) : true);
 
-			if (!ownedByLocalPlayer && !RBX::TaskScheduler::singleton().isCyclicExecutive())
+			if (!ownedByLocalPlayer && !ARL::TaskScheduler::singleton().isCyclicExecutive())
 			{
 				if (event.longStep)
 				{
@@ -2158,7 +2158,7 @@ void Humanoid::onStepped(const Stepped& event)
 				HUMAN::HumanoidState::simulate(currentState, event.gameStep);		// may change state
 			}
 
-			RBXASSERT(getTorsoFast() ? ((temp - getTorsoFast()->getCoordinateFrame().translation).length() < 10.0f) : true);
+			ARLASSERT(getTorsoFast() ? ((temp - getTorsoFast()->getCoordinateFrame().translation).length() < 10.0f) : true);
 		}
 
 		updateHadHealth();
@@ -2168,14 +2168,14 @@ void Humanoid::onStepped(const Stepped& event)
 	{
 		if (world)
 		{
-			RBXASSERT(currentState.get());
+			ARLASSERT(currentState.get());
 			HUMAN::HumanoidState::noSimulate(currentState);							// may change currentState
 		}
 	}
 
 	if (world) 
 	{
-		RBXASSERT(currentState.get());
+		ARLASSERT(currentState.get());
 		if (currentState.get()) 
 		{						
 			shared_ptr<HUMAN::HumanoidState> tempState(currentState);	// Holding the current state in case of ancestor changed and a reset
@@ -2192,7 +2192,7 @@ void Humanoid::onStepped(const Stepped& event)
 
 void Humanoid::renderWaypoint(Adorn* adorn, const Vector3& waypoint)
 {
-    if(RBX::GameBasicSettings::singleton().inClassicMode())
+    if(ARL::GameBasicSettings::singleton().inClassicMode())
 		DrawAdorn::cylinder(adorn, CoordinateFrame(waypoint), 1, 0.2, 1.0, Color3::green());
 }
 
@@ -2204,7 +2204,7 @@ void Humanoid::render3dAdorn(Adorn* adorn)
 	}
 }
 
-void Humanoid::renderMultiplayer(Adorn* adorn, const RBX::Camera& camera)
+void Humanoid::renderMultiplayer(Adorn* adorn, const ARL::Camera& camera)
 {
 	if (displayDistanceType == Humanoid::HUMANOID_DISPLAY_DISTANCE_TYPE_NONE)
 		return;
@@ -2243,7 +2243,7 @@ void Humanoid::renderMultiplayer(Adorn* adorn, const RBX::Camera& camera)
 		if(DFFlag::EnableMotionAnalytics)
 		{
 			Vector3 pos3 = aboveHead;
-			Primitive * HeadPrimitive = RBX::PartInstance::getPrimitive(foundHead);
+			Primitive * HeadPrimitive = ARL::PartInstance::getPrimitive(foundHead);
 			if(HeadPrimitive)
 			{
 				World *HeadWorld = HeadPrimitive->getWorld();
@@ -2489,7 +2489,7 @@ void Humanoid::renderMultiplayer(Adorn* adorn, const RBX::Camera& camera)
 	}
 }
 
-void Humanoid::renderBillboard(Adorn* adorn, const RBX::Camera& camera)
+void Humanoid::renderBillboard(Adorn* adorn, const ARL::Camera& camera)
 {
 	if (displayDistanceType == Humanoid::HUMANOID_DISPLAY_DISTANCE_TYPE_NONE)
 		return;
@@ -2764,7 +2764,7 @@ void Humanoid::render3dSortedAdorn(Adorn* adorn)
     }
 }
 
-static void collectAllDescendantCharacterPrims(shared_ptr<RBX::Instance> descendant, std::vector<Primitive*>& primitives)
+static void collectAllDescendantCharacterPrims(shared_ptr<ARL::Instance> descendant, std::vector<Primitive*>& primitives)
 {
 	PartInstance *part = Instance::fastDynamicCast<PartInstance>(descendant.get());
 	if (part) 
@@ -2782,7 +2782,7 @@ void Humanoid::getPrimitives(std::vector<Primitive*>& primitives) const
 	m->visitDescendants(boost::bind(&collectAllDescendantCharacterPrims, _1, boost::ref(primitives)));
 }
 
-static void collectAllDescendantCharacterParts(shared_ptr<RBX::Instance> descendant, std::vector<PartInstance*>& parts)
+static void collectAllDescendantCharacterParts(shared_ptr<ARL::Instance> descendant, std::vector<PartInstance*>& parts)
 {
 	if (PartInstance *part = Instance::fastDynamicCast<PartInstance>(descendant.get())) 
 	{
@@ -2859,7 +2859,7 @@ void Humanoid::getCameraIgnorePrimitives(std::vector<const Primitive*>& primitiv
 }
 
 
-static void setLocalTransparencyModifierDecendants(shared_ptr<RBX::Instance> descendant, float transparencyModifier)
+static void setLocalTransparencyModifierDecendants(shared_ptr<ARL::Instance> descendant, float transparencyModifier)
 {
 	PartInstance *part = Instance::fastDynamicCast<PartInstance>(descendant.get());
 	if (part) 
@@ -2965,80 +2965,80 @@ void Humanoid::setFirstPersonRotationalVelocity(const Vector3& desiredLook, bool
 
 namespace Reflection {
 template<>
-EnumDesc<RBX::Humanoid::NameOcclusion>::EnumDesc()
+EnumDesc<ARL::Humanoid::NameOcclusion>::EnumDesc()
 :EnumDescriptor("NameOcclusion")
 {
-	addPair(RBX::Humanoid::NAME_OCCLUSION_ALL, "OccludeAll");
-	addPair(RBX::Humanoid::NAME_OCCLUSION_ENEMY, "EnemyOcclusion");
-	addPair(RBX::Humanoid::NAME_OCCLUSION_NONE, "NoOcclusion");
+	addPair(ARL::Humanoid::NAME_OCCLUSION_ALL, "OccludeAll");
+	addPair(ARL::Humanoid::NAME_OCCLUSION_ENEMY, "EnemyOcclusion");
+	addPair(ARL::Humanoid::NAME_OCCLUSION_NONE, "NoOcclusion");
 }
 
 template<>
-EnumDesc<RBX::Humanoid::HumanoidDisplayDistanceType>::EnumDesc()
+EnumDesc<ARL::Humanoid::HumanoidDisplayDistanceType>::EnumDesc()
 :EnumDescriptor("HumanoidDisplayDistanceType")
 {
-	addPair(RBX::Humanoid::HUMANOID_DISPLAY_DISTANCE_TYPE_VIEWER, "Viewer");
-	addPair(RBX::Humanoid::HUMANOID_DISPLAY_DISTANCE_TYPE_SUBJECT, "Subject");
-	addPair(RBX::Humanoid::HUMANOID_DISPLAY_DISTANCE_TYPE_NONE, "None");
+	addPair(ARL::Humanoid::HUMANOID_DISPLAY_DISTANCE_TYPE_VIEWER, "Viewer");
+	addPair(ARL::Humanoid::HUMANOID_DISPLAY_DISTANCE_TYPE_SUBJECT, "Subject");
+	addPair(ARL::Humanoid::HUMANOID_DISPLAY_DISTANCE_TYPE_NONE, "None");
 }
 
 template<>
-EnumDesc<RBX::Humanoid::HumanoidRigType>::EnumDesc()
+EnumDesc<ARL::Humanoid::HumanoidRigType>::EnumDesc()
 	:EnumDescriptor("HumanoidRigType")
 {
-	addPair(RBX::Humanoid::HUMANOID_RIG_TYPE_R6, "R6");
-	addPair(RBX::Humanoid::HUMANOID_RIG_TYPE_R15, "R15");
+	addPair(ARL::Humanoid::HUMANOID_RIG_TYPE_R6, "R6");
+	addPair(ARL::Humanoid::HUMANOID_RIG_TYPE_R15, "R15");
 }
 
 
 template<>
-RBX::Humanoid::NameOcclusion& Variant::convert<RBX::Humanoid::NameOcclusion>(void)
+ARL::Humanoid::NameOcclusion& Variant::convert<ARL::Humanoid::NameOcclusion>(void)
 {
-	return genericConvert<RBX::Humanoid::NameOcclusion>();
+	return genericConvert<ARL::Humanoid::NameOcclusion>();
 }
 
 template<>
-EnumDesc<RBX::Humanoid::Status>::EnumDesc()
+EnumDesc<ARL::Humanoid::Status>::EnumDesc()
 :EnumDescriptor("Status")
 {
-	addPair(RBX::Humanoid::POISON_STATUS, "Poison");
-	addPair(RBX::Humanoid::CONFUSION_STATUS, "Confusion");
+	addPair(ARL::Humanoid::POISON_STATUS, "Poison");
+	addPair(ARL::Humanoid::CONFUSION_STATUS, "Confusion");
 }
 
 template<>
-RBX::Humanoid::Status& Variant::convert<RBX::Humanoid::Status>(void)
+ARL::Humanoid::Status& Variant::convert<ARL::Humanoid::Status>(void)
 {
-	return genericConvert<RBX::Humanoid::Status>();
+	return genericConvert<ARL::Humanoid::Status>();
 }
 }  // namespace Reflection
 
 template<>
-bool RBX::StringConverter<RBX::Humanoid::NameOcclusion>::convertToValue(const std::string& text, RBX::Humanoid::NameOcclusion& value)
+bool ARL::StringConverter<ARL::Humanoid::NameOcclusion>::convertToValue(const std::string& text, ARL::Humanoid::NameOcclusion& value)
 {
 	if(text.find("OccludeAll")){
-		value = RBX::Humanoid::NAME_OCCLUSION_ALL;
+		value = ARL::Humanoid::NAME_OCCLUSION_ALL;
 		return true;
 	}
 	if(text.find("EnemyOcclusion")){
-		value = RBX::Humanoid::NAME_OCCLUSION_ENEMY;
+		value = ARL::Humanoid::NAME_OCCLUSION_ENEMY;
 		return true;
 	}
 	if(text.find("NoOcclusion")){
-		value = RBX::Humanoid::NAME_OCCLUSION_NONE;
+		value = ARL::Humanoid::NAME_OCCLUSION_NONE;
 		return true;
 	}
 	return false;
 }
 
 template<>
-bool RBX::StringConverter<RBX::Humanoid::Status>::convertToValue(const std::string& text, RBX::Humanoid::Status& value)
+bool ARL::StringConverter<ARL::Humanoid::Status>::convertToValue(const std::string& text, ARL::Humanoid::Status& value)
 {
 	if(text.find("Poison")){
-		value = RBX::Humanoid::POISON_STATUS;
+		value = ARL::Humanoid::POISON_STATUS;
 		return true;
 	}
 	if(text.find("Confusion")){
-		value = RBX::Humanoid::CONFUSION_STATUS;
+		value = ARL::Humanoid::CONFUSION_STATUS;
 		return true;
 	}
 	return false;
@@ -3052,7 +3052,7 @@ void Humanoid::setupAnimator()
 
 		if (!animator)
 		{
-			animator = shared_ptr<Animator>(Creatable<Instance>::create<RBX::Animator>(this));
+			animator = shared_ptr<Animator>(Creatable<Instance>::create<ARL::Animator>(this));
 			if (getParent()->getClassNameStr() == "Model")
 				animator->setParent(this);
 		}
@@ -3062,7 +3062,7 @@ void Humanoid::setupAnimator()
 Animator* Humanoid::getAnimator()
 {
 	setupAnimator();
-	RBXASSERT(animator);
+	ARLASSERT(animator);
 	return animator.get();
 }
 
@@ -3080,7 +3080,7 @@ bool Humanoid::getStateTransitionEnabled(HUMAN::StateType state)
 {
     if (state < HUMAN::FALLING_DWN || state >= HUMAN::NUM_STATE_TYPES)
     {
-        RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Invalid state passed to GetStateEnabled.");
+        ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Invalid state passed to GetStateEnabled.");
     } 
     else 
     {        
@@ -3093,7 +3093,7 @@ void Humanoid::setStateTransitionEnabled(HUMAN::StateType state, bool enabled)
 {
     if (state < HUMAN::FALLING_DWN || state >= HUMAN::NUM_STATE_TYPES)
     {
-        RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Invalid state passed to SetStateEnabled.");
+        ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Invalid state passed to SetStateEnabled.");
     } 
     else 
     {        
@@ -3113,7 +3113,7 @@ bool Humanoid::computeNearlyTouched()
 		for ( int i = 0; i < prim->getNumContacts(); ++i)
 		{
 			Contact* contact = prim->getContact(i);
-			RBXASSERT( contact );
+			ARLASSERT( contact );
 			if ( !contact->isInContact() )
 				++nearCount;
 		}					
@@ -3199,7 +3199,7 @@ bool foundShortestDistanceFromCornerToObject(PartInstance* floorPart, Humanoid* 
 	if ( characterWorld == NULL )
 		return false;
 
-	RBX::ContactManager* contactManager = characterWorld->getContactManager();
+	ARL::ContactManager* contactManager = characterWorld->getContactManager();
 	CoordinateFrame torsoCFrame = charHumanoid->getTorsoPrimitiveFast()->getCoordinateFrame();
 	allowedDisplacementOut = deltaDisplacementGoal;
 
@@ -3277,7 +3277,7 @@ void Humanoid::truncateDisplacementIfObstacle(PartInstance* floorPart, Vector3& 
 	}
 }
 
-Vector3 Humanoid::getSimulatedFrictionVelocityOffset(PartInstance* floorPart, Vector3& newCharPosition, const Vector3& previousCharPosition, const Vector3& charPosInFloorSpace, const RBX::Velocity& previousFloorVelocity, float& netDt)
+Vector3 Humanoid::getSimulatedFrictionVelocityOffset(PartInstance* floorPart, Vector3& newCharPosition, const Vector3& previousCharPosition, const Vector3& charPosInFloorSpace, const ARL::Velocity& previousFloorVelocity, float& netDt)
 {
 	Primitive* floorPrim = floorPart->getPartPrimitive();
 	if (floorPrim && (getCurrentFloorFilterPhase() >= Assembly::NoSim_SendIfSim) && floorPrim->getWorld())
@@ -3300,12 +3300,12 @@ Vector3 Humanoid::getSimulatedFrictionVelocityOffset(PartInstance* floorPart, Ve
 
 		float multiplyer = 0.0f;
 		if (getWorld()->getUsingPGSSolver())
-			multiplyer = RBX::HUMAN::HumanoidState::runningKMovePForPGS() * netDt * (1000.0f/(DFInt::HumanoidFloorManualFrictionVelocityMultValue));
+			multiplyer = ARL::HUMAN::HumanoidState::runningKMovePForPGS() * netDt * (1000.0f/(DFInt::HumanoidFloorManualFrictionVelocityMultValue));
 		else
-			multiplyer = RBX::HUMAN::HumanoidState::runningKMoveP() * netDt * (1000.0f/(DFInt::HumanoidFloorManualFrictionVelocityMultValue));
+			multiplyer = ARL::HUMAN::HumanoidState::runningKMoveP() * netDt * (1000.0f/(DFInt::HumanoidFloorManualFrictionVelocityMultValue));
 
 		Vector3 approxXZForce(deltaVelocity.x * multiplyer , 0 , deltaVelocity.z * multiplyer);
-		float forceMagnitudeOverMax = (approxXZForce.magnitude() / (RBX::HUMAN::HumanoidState::maxLinearGroundMoveForce()));  
+		float forceMagnitudeOverMax = (approxXZForce.magnitude() / (ARL::HUMAN::HumanoidState::maxLinearGroundMoveForce()));  
 											
 
 		// If the approximate force application by this "Network Update" is larger than 
@@ -3332,7 +3332,7 @@ Vector3 Humanoid::getSimulatedFrictionVelocityOffset(PartInstance* floorPart, Ve
 	return Vector3(0,0,0);
 }
 
-void Humanoid::updateNetworkFloorPosition(PartInstance* floorPart, CoordinateFrame& previousFloorPosition, RBX::Velocity& lastFloorVelocity, float& netDt)
+void Humanoid::updateNetworkFloorPosition(PartInstance* floorPart, CoordinateFrame& previousFloorPosition, ARL::Velocity& lastFloorVelocity, float& netDt)
 {
 	Body* rootHumanBody = getRootBodyFast();
 	if (floorPart && getWorld() && rootHumanBody && validateNetworkUpdateDistance(floorPart, previousFloorPosition, netDt))
@@ -3473,11 +3473,11 @@ bool Humanoid::primitiveIsLastFloor(Primitive* prim)
 
 const Velocity Humanoid::getHumanoidRelativeVelocityToPart(Primitive* floorPrim)
 {
-	RBXASSERT(getWorld());
+	ARLASSERT(getWorld());
 
 	if (floorPrim) 
 	{
-		RBXASSERT(floorPrim->getWorld());
+		ARLASSERT(floorPrim->getWorld());
 		if (floorPrim->getWorld())
 		{
 

@@ -6,14 +6,14 @@
 #include "rbx/Declarations.h"
 #include "GfxBase/RenderSettings.h"
 
-namespace RBX {
+namespace ARL {
 
 class DataModel;
 class ViewBase;
 class FrameRateManager;
 class CRenderSettings;
 class RenderStats;
-class RBXInterface IMetric;
+class ARLInterface IMetric;
 class Instance;
 
 enum ExporterFormat
@@ -70,7 +70,7 @@ public:
 	static void ShutdownPluginModules();
 
 	virtual void initResources() = 0;
-	virtual void bindWorkspace(boost::shared_ptr<RBX::DataModel> dataModel) = 0;
+	virtual void bindWorkspace(boost::shared_ptr<ARL::DataModel> dataModel) = 0;
 
 	virtual void render(IMetric* metric, double timeJobStart);
 	virtual void renderPrepare(IMetric* metric) = 0;
@@ -113,4 +113,4 @@ public:
 	virtual ~ViewBase() {}
 };
 
-}  // namespace RBX
+}  // namespace ARL

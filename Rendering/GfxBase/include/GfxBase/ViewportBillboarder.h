@@ -3,7 +3,7 @@
 #include "V8DataModel/Workspace.h"
 #include "util/UDim.h"
 
-namespace RBX {
+namespace ARL {
 
 class ViewportBillboarder
 {
@@ -13,7 +13,7 @@ private:
     bool visibleAndValid;
     Vector2 screenOffset2D;
 
-    Vector2 getScreenOffset(const Rect2D& parentviewport, const RBX::Camera& camera, const CoordinateFrame& desiredModelView);
+    Vector2 getScreenOffset(const Rect2D& parentviewport, const ARL::Camera& camera, const CoordinateFrame& desiredModelView);
 
 public:
 
@@ -35,7 +35,7 @@ public:
     void update(const Rect2D& parentviewport, const Camera& camera, Vector3 partSize, CoordinateFrame partCFrame);
 
     bool hitTest(const Vector2int16& mousePosition, const Vector2int16& windowSize, 
-        RBX::Workspace* workspace, Vector2& billboardMousePosition);
+        ARL::Workspace* workspace, Vector2& billboardMousePosition);
 
     const Vector2& getScreenOffset() const { return screenOffset2D; }
 

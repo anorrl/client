@@ -7,7 +7,7 @@
 DYNAMIC_FASTFLAG(EnableClimbingDirection)
 
 
-namespace RBX {
+namespace ARL {
 namespace HUMAN {
 
 const char* const sRunning =		"Running";
@@ -72,4 +72,4 @@ void Climbing::fireEvents()
 
 
 } // namespace HUMAN
-} // namespace RBX
+} // namespace ARL

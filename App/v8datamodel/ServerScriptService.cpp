@@ -7,9 +7,9 @@
 #include "script/ModuleScript.h"
 #include "network/Players.h"
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sServerScriptService = "ServerScriptService";
+const char* const ARL::sServerScriptService = "ServerScriptService";
 
 REFLECTION_BEGIN();
 Reflection::PropDescriptor<ServerScriptService, bool> ServerScriptService::desc_loadStringEnabled("LoadStringEnabled", category_Behavior, &ServerScriptService::getLoadStringEnabled, &ServerScriptService::setLoadStringEnabled, Reflection::PropertyDescriptor::PUBLIC_SERIALIZED);
@@ -44,12 +44,12 @@ bool ServerScriptService::askAddChild(const Instance* instance) const
 bool ServerScriptService::scriptShouldRun(BaseScript* script)
 {	
 	bool isAncestor = isAncestorOf(script);
-	RBXASSERT(isAncestor);
+	ARLASSERT(isAncestor);
 
 	if(!isAncestor)
 		return false;
 
-	if (!RBX::Network::Players::backendProcessing(script))
+	if (!ARL::Network::Players::backendProcessing(script))
 		return false;
 
 	if (script->fastDynamicCast<Script>() && !script->fastDynamicCast<LocalScript>())

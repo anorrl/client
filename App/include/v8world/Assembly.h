@@ -14,7 +14,7 @@
 #include "boost/intrusive/list.hpp"
 #include "Network/CompactCFrame.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Joint;
 	class Primitive;
@@ -205,14 +205,14 @@ namespace RBX {
 		template<class Func>
 		inline void visitPrimitives(Func func) {
 			Primitive* p = getAssemblyPrimitive();
-			RBXASSERT(p);
+			ARLASSERT(p);
 			visitPrimitivesImpl(func, p);
 		}
 
 		template<class Func>
 		inline Primitive* findFirstPrimitive(Func func) {
 			Primitive* p = getAssemblyPrimitive();
-			RBXASSERT(p);
+			ARLASSERT(p);
 			return findFirstPrimitiveImpl(func, p);
 		}
 	};

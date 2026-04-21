@@ -10,7 +10,7 @@
 #include "V8DataModel/PartInstance.h"
 #include "Tool/DragTypes.h"
 
-namespace RBX {
+namespace ARL {
 	
 	class Part;
 	class Adorn;
@@ -74,7 +74,7 @@ namespace RBX {
 
 		static void zeroPlaneGrid(
 			Adorn*						adorn,
-			const RBX::Camera&			camera,
+			const ARL::Camera&			camera,
 			const int					studsPerBox,
 			const int					yLevel,
 			const G3D::Color4&			smallGridColor,
@@ -91,7 +91,7 @@ namespace RBX {
 
 		static void axisWidget(
 			Adorn* adorn, 
-			const RBX::Camera& camera);
+			const ARL::Camera& camera);
 
 		static void circularGridAtCoord(
 			Adorn*                      adorn,
@@ -152,7 +152,7 @@ namespace RBX {
 		static void handles2d(	
 			const G3D::Vector3&			size,
 			const G3D::CoordinateFrame&	position,
-			const RBX::Camera&			camera,		
+			const ARL::Camera&			camera,		
 			Adorn*						adorn,
 			HandleType					handleType,
 			const G3D::Color4&			color,
@@ -163,7 +163,7 @@ namespace RBX {
         static void partInfoText2D(
             const G3D::Vector3&			size,
             const G3D::CoordinateFrame&	position,
-            const RBX::Camera&			camera,		
+            const ARL::Camera&			camera,		
             Adorn*						adorn,
             const std::string&          text,
             const G3D::Color4&			color,

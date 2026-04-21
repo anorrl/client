@@ -34,14 +34,14 @@ bool LogManager::logsEnabled = true;
 
 MainLogManager* LogManager::mainLogManager = NULL;
 
-RBX::mutex MainLogManager::fastLogChannelsLock;
+ARL::mutex MainLogManager::fastLogChannelsLock;
 
 #pragma comment(lib, "shell32.lib")
 
 static const ATL::CPath& DoGetPath()
 {
     // DO NOT REMOVE the CString conversion, this is to preserve the old behavior of losing unicodeness.
-	static ATL::CPath path = CString( RBX::FileSystem::getUserDirectory(true, RBX::DirAppData, "logs").native().c_str() );
+	static ATL::CPath path = CString( ARL::FileSystem::getUserDirectory(true, ARL::DirAppData, "logs").native().c_str() );
 	return path;
 }
 
@@ -67,7 +67,7 @@ const ATL::CPath& LogManager::GetLogPath() const
 
 void MainLogManager::fastLogMessage(FLog::Channel id, const char* message)
 {
-	RBX::mutex::scoped_lock lock(fastLogChannelsLock);
+	ARL::mutex::scoped_lock lock(fastLogChannelsLock);
 
 	if(mainLogManager)
 	{
@@ -77,10 +77,10 @@ void MainLogManager::fastLogMessage(FLog::Channel id, const char* message)
 		if(mainLogManager->fastLogChannels[id] == NULL)
 		{
 
-			mainLogManager->fastLogChannels[id] = new RBX::Log(mainLogManager->getFastLogFileName(id).c_str(), "Log Channel");
+			mainLogManager->fastLogChannels[id] = new ARL::Log(mainLogManager->getFastLogFileName(id).c_str(), "Log Channel");
 		}
 
-		mainLogManager->fastLogChannels[id]->writeEntry(RBX::Log::Information, message);
+		mainLogManager->fastLogChannels[id]->writeEntry(ARL::Log::Information, message);
 	}
 }
 
@@ -159,20 +159,20 @@ std::string ThreadLogManager::getLogFileName()
 	return fileName;
 }
 
-RBX::Log* LogManager::getLog()
+ARL::Log* LogManager::getLog()
 {
 	if (!logsEnabled)
 		return NULL;
 	if (log==NULL)
 	{
-		log = new RBX::Log(getLogFileName().c_str(), name.c_str());
+		log = new ARL::Log(getLogFileName().c_str(), name.c_str());
 		// TODO: delete an old log that isn't in use
 	}
 	return log;
 }
 
 
-RBX::Log* MainLogManager::provideLog()
+ARL::Log* MainLogManager::provideLog()
 {
 	if (GetCurrentThreadId()==threadID)
 		return this->getLog();
@@ -244,7 +244,7 @@ void MainLogManager::WriteCrashDump()
 	crashReporter->Start();
 	CString eventMessage;
 	eventMessage.Format("CrashReporter Start");
-	RBX::Log::current()->writeEntry(RBX::Log::Information, eventMessage);
+	ARL::Log::current()->writeEntry(ARL::Log::Information, eventMessage);
 };
 
 bool MainLogManager::CreateFakeCrashDump()  
@@ -327,7 +327,7 @@ static void purecallHandler(void)
 	_CrtDbgBreak();
 #endif
 	// Cause a crash
-	RBXCRASH();
+	ARLCRASH();
 }
 
 MainLogManager::MainLogManager(LPCTSTR productName, const char* crashExtention, const char* crashEventExtention)
@@ -336,17 +336,17 @@ MainLogManager::MainLogManager(LPCTSTR productName, const char* crashExtention, 
 	crashEventExtention(crashEventExtention),
 	gameState(MainLogManager::GameState::UN_INITIALIZED)
 {
-	RBX::Guid::generateRBXGUID(guid);
+	ARL::Guid::generateARLGUID(guid);
 	CullLogs("\\", 1024);
 	CullLogs("archive\\", 1024);
 
-	RBXASSERT(mainLogManager == NULL);
+	ARLASSERT(mainLogManager == NULL);
 	mainLogManager = this;
 
-	RBX::Log::setLogProvider(this);
+	ARL::Log::setLogProvider(this);
 
-	RBX::setAssertionHook(&MainLogManager::handleDebugAssert);
-	RBX::setFailureHook(&MainLogManager::handleFailure);
+	ARL::setAssertionHook(&MainLogManager::handleDebugAssert);
+	ARL::setFailureHook(&MainLogManager::handleFailure);
 
    _set_purecall_handler(purecallHandler);
 
@@ -359,7 +359,7 @@ MainLogManager* LogManager::getMainLogManager() {
 
 
 ThreadLogManager::ThreadLogManager()
-	:LogManager(RBX::get_thread_name())
+	:LogManager(ARL::get_thread_name())
 {
 }
 
@@ -588,7 +588,7 @@ void MainLogManager::CullLogs(const char* folder, int filesRemaining)
 
 MainLogManager::~MainLogManager()
 {
-	RBX::mutex::scoped_lock lock(fastLogChannelsLock);
+	ARL::mutex::scoped_lock lock(fastLogChannelsLock);
 
 	FLog::SetExternalLogFunc(NULL);
 
@@ -679,7 +679,7 @@ HRESULT LogManager::ReportCOMError(const CLSID& clsid, LPCSTR lpszDesc, HRESULT 
 
 HRESULT LogManager::ReportCOMError(const CLSID& clsid, HRESULT hRes)
 {
-	std::string message = RBX::format("HRESULT 0x%X", hRes);
+	std::string message = ARL::format("HRESULT 0x%X", hRes);
 	LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, message.c_str());
 	return RbxReportError(clsid, message.c_str(), GUID_NULL, hRes);
 }
@@ -723,7 +723,7 @@ bool MainLogManager::handleDebugAssert(
 	eventMessage.Format("Assertion failed: %s\n%s(%d)", expression, filename, lineNumber);
 	LogManager::ReportEvent(EVENTLOG_WARNING_TYPE, eventMessage);
 #ifdef _DEBUG
-	RBXCRASH();
+	ARLCRASH();
 	return true;
 #else
 	return false;
@@ -754,7 +754,7 @@ bool MainLogManager::handleFailure(
 	_CrtDbgBreak();
 #endif
 	// Cause a crash
-	RBXCRASH(); 
+	ARLCRASH(); 
 	return false;
 }
 
@@ -765,13 +765,13 @@ HRESULT LogManager::ReportExceptionAsCOMError(const CLSID& clsid, std::exception
 
 void LogManager::ReportException(std::exception const& exp)
 {
-	RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, exp);
+	ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, exp);
 }
 
 void LogManager::ReportLastError(LPCSTR message)
 {
 	DWORD error = GetLastError();
-	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "%s, GetLastError=%d", message, error);
+	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "%s, GetLastError=%d", message, error);
 }
 
 void LogManager::ReportEvent(WORD type, LPCSTR message)
@@ -779,19 +779,19 @@ void LogManager::ReportEvent(WORD type, LPCSTR message)
 	switch (type)
 	{
 	case EVENTLOG_SUCCESS:
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "%s", message);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "%s", message);
 		break;
 	case EVENTLOG_ERROR_TYPE:
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "%s", message);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "%s", message);
 		break;
 	case EVENTLOG_INFORMATION_TYPE:
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "%s", message);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "%s", message);
 		break;
 	case EVENTLOG_AUDIT_SUCCESS:
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "%s", message);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "%s", message);
 		break;
 	case EVENTLOG_AUDIT_FAILURE:
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "%s", message);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "%s", message);
 		break;
 	}
 #ifdef _DEBUG

@@ -10,7 +10,7 @@
 #include "util/ProtectedString.h"
 #include "util/PhysicalProperties.h"
 
-namespace RBX {
+namespace ARL {
 
 	// Utility function that expands a variant to a strongly-typed value
 	template<typename R, typename F>
@@ -37,8 +37,8 @@ namespace RBX {
 		if (value.isType<std::string>())
 			return f(value.cast<std::string>());
 
-		if (value.isType<RBX::ProtectedString>())
-			return f(value.cast<RBX::ProtectedString>());
+		if (value.isType<ARL::ProtectedString>())
+			return f(value.cast<ARL::ProtectedString>());
 
 		if (value.isType< shared_ptr<Instance> >())
 			return f(value.cast<shared_ptr<Instance> >());
@@ -47,7 +47,7 @@ namespace RBX {
 		{
 			const Reflection::EnumDescriptor::Item* item = desc->lookup(value);
 			if (item == NULL)
-				throw RBX::runtime_error("Invalid value for enum %s", desc->name.c_str());
+				throw ARL::runtime_error("Invalid value for enum %s", desc->name.c_str());
 			return f(*item);
 		}
 
@@ -81,24 +81,24 @@ namespace RBX {
 			return f(value.cast<G3D::Vector2int16>());
 		if (value.isType<G3D::Vector3>())
 			return f(value.cast<G3D::Vector3>());
-		if (value.isType<RBX::Vector2>())
+		if (value.isType<ARL::Vector2>())
 			return f(value.cast<G3D::Vector2>());
         if (value.isType<G3D::Rect2D>())
 			return f(value.cast<G3D::Rect2D>());
 		if (value.isType<PhysicalProperties>())
 			return f(value.cast<PhysicalProperties>());
-		if (value.isType<RBX::RbxRay>())
-			return f(value.cast<RBX::RbxRay>());
+		if (value.isType<ARL::RbxRay>())
+			return f(value.cast<ARL::RbxRay>());
 		if (value.isType<G3D::CoordinateFrame>())
 			return f(value.cast<G3D::CoordinateFrame>());
 		if (value.isType<G3D::Color3>())
 			return f(value.cast<G3D::Color3>());
 		if (value.isType<BrickColor>())
 			return f(value.cast<BrickColor>());
-		if (value.isType<RBX::Region3>())
-			return f(value.cast<RBX::Region3>());
-		if( value.isType<RBX::Region3int16>())
-			return f(value.cast<RBX::Region3int16>());
+		if (value.isType<ARL::Region3>())
+			return f(value.cast<ARL::Region3>());
+		if( value.isType<ARL::Region3int16>())
+			return f(value.cast<ARL::Region3int16>());
 		if (value.isType<UDim>())
 			return f(value.cast<UDim>());
 		if (value.isType<UDim2>())
@@ -129,7 +129,7 @@ namespace RBX {
         if (value.isType<ColorSequenceKeypoint>())
             return f(value.cast<ColorSequenceKeypoint>());
 
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return f();
 	}
 
@@ -163,8 +163,8 @@ namespace RBX {
 			for (int i = 0; i<argCount; ++i)
 			{
 				Reflection::Variant& v = args->values.at(i);
-				bool success = RBX::Lua::LuaArguments::get(L, i+1, v, false);
-				RBXASSERT(success);
+				bool success = ARL::Lua::LuaArguments::get(L, i+1, v, false);
+				ARLASSERT(success);
 			}
 
 			return args;
@@ -196,7 +196,7 @@ namespace RBX {
 		// value:       the value to set. If index >= size(), then value is unchanged
 		/*implement*/ bool getVariant(int index, Reflection::Variant& value) const {
 			const int luaIndex = index + offset;
-			RBXASSERT(luaIndex>0);
+			ARLASSERT(luaIndex>0);
 			return get(L, luaIndex, value, true);
 		}
 		/*implement*/ bool getLong(int index, long& value) const
@@ -233,7 +233,7 @@ namespace RBX {
 			while (_First!=_Last)
 			{
 				int count = push(*_First, L);
-				RBXASSERT(count == 1);	// If not 1, then what do we do?
+				ARLASSERT(count == 1);	// If not 1, then what do we do?
 				lua_rawseti(L, -2, ++i);
 				++_First;
 			}

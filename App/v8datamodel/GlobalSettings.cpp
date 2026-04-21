@@ -16,16 +16,16 @@
 
 FASTFLAGVARIABLE(DisableGlobalSettingsParentChange, true)
 
-const char* const RBX::sGlobalAdvancedSettings		= "GlobalSettings";
-const char* const RBX::sGlobalBasicSettings			= "UserSettings";
-const char* const RBX::sSettings					= "GenericSettings";
-const char* const RBX::sSettingsItem				= NULL;
+const char* const ARL::sGlobalAdvancedSettings		= "GlobalSettings";
+const char* const ARL::sGlobalBasicSettings			= "UserSettings";
+const char* const ARL::sSettings					= "GenericSettings";
+const char* const ARL::sSettingsItem				= NULL;
 
-using namespace RBX;
+using namespace ARL;
 
 REFLECTION_BEGIN();
 static Reflection::BoundFuncDesc<GlobalAdvancedSettings, std::string(std::string)> fun_getFastVariable(&GlobalAdvancedSettings::getFVariable, "GetFVariable", "name", Security::None);
-static Reflection::BoundFuncDesc<GlobalAdvancedSettings, shared_ptr<const RBX::Reflection::ValueTable>()> fun_getFastVariables(&GlobalAdvancedSettings::getFVariables, "GetFVariables", Security::RobloxScript);
+static Reflection::BoundFuncDesc<GlobalAdvancedSettings, shared_ptr<const ARL::Reflection::ValueTable>()> fun_getFastVariables(&GlobalAdvancedSettings::getFVariables, "GetFVariables", Security::RobloxScript);
 static Reflection::BoundFuncDesc<GlobalAdvancedSettings, bool(std::string)> func_getFFlag(&GlobalAdvancedSettings::getFFlag, "GetFFlag", "name", Security::None);
 REFLECTION_END();
 
@@ -82,9 +82,9 @@ void Settings::loadState(const std::string& optGlobalSettingsFile)
 			binder.resolveRefs();
 		}
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
-		StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Exception thrown in loadState %s", e.what());
+		StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Exception thrown in loadState %s", e.what());
 	}
 }
 
@@ -122,14 +122,14 @@ void Settings::verifyAddDescendant(const Instance* newParent, const Instance* in
 		invalid = invalidDetector.anyInvalid;
 	}
 	if (invalid) {
-		throw RBX::runtime_error("Not allowed to add that under settings");
+		throw ARL::runtime_error("Not allowed to add that under settings");
 	}
 	Super::verifyAddDescendant(newParent, instanceGettingNewParent);
 }
 
 static std::string globalAdvancedSettingsFile()
 {
-	boost::filesystem::path file = RBX::FileSystem::getUserDirectory(true, RBX::DirAppData);
+	boost::filesystem::path file = ARL::FileSystem::getUserDirectory(true, ARL::DirAppData);
 	if (!file.string().empty())
 		file /= "GlobalSettings_13.xml";
 	return file.string();
@@ -158,7 +158,7 @@ shared_ptr<GlobalAdvancedSettings> GlobalAdvancedSettings::singleton()
 
 GlobalAdvancedSettings* GlobalAdvancedSettings::raw_singleton()
 {
-	RBXASSERT(g_sing);
+	ARLASSERT(g_sing);
 	return g_sing;
 }
 
@@ -182,14 +182,14 @@ GlobalAdvancedSettings::~GlobalAdvancedSettings()
 
 /*override*/ void GlobalAdvancedSettings::verifySetParent(const Instance* instance) const
 {
-	if (FFlag::DisableGlobalSettingsParentChange && (RBX::Security::Context::current().identity != RBX::Security::Anonymous))
+	if (FFlag::DisableGlobalSettingsParentChange && (ARL::Security::Context::current().identity != ARL::Security::Anonymous))
 	{
 		try {
-			RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set settings parent");
+			ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set settings parent");
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set settings parent");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set settings parent");
 			throw e;
 		}
 	}
@@ -198,7 +198,7 @@ GlobalAdvancedSettings::~GlobalAdvancedSettings()
 
 static std::string globalBasicSettingsFile()
 {
-	boost::filesystem::path file = RBX::FileSystem::getUserDirectory(true, RBX::DirAppData);
+	boost::filesystem::path file = ARL::FileSystem::getUserDirectory(true, ARL::DirAppData);
 	if (!file.string().empty())
 		file /= "GlobalBasicSettings_13.xml";
 	return file.string();
@@ -244,13 +244,13 @@ void GlobalBasicSettings::reset()
 	visitChildren(&resetChild);
 }
 
-bool RBX::GlobalBasicSettings::isUserFeatureEnabled( std::string name )
+bool ARL::GlobalBasicSettings::isUserFeatureEnabled( std::string name )
 {
 	std::string user("User");
 
 	if (name.compare(0, user.length(), user) != 0)
 	{
-		throw std::runtime_error(RBX::format("Flag %s does not exist", name.c_str()));
+		throw std::runtime_error(ARL::format("Flag %s does not exist", name.c_str()));
 	}
 
 	std::string result;
@@ -258,19 +258,19 @@ bool RBX::GlobalBasicSettings::isUserFeatureEnabled( std::string name )
 	{
 		return boost::iequals(result, "true");
 	}
-	throw std::runtime_error(RBX::format("Flag %s does not exist", name.c_str()));
+	throw std::runtime_error(ARL::format("Flag %s does not exist", name.c_str()));
 }
 
 /*override*/ void GlobalBasicSettings::verifySetParent(const Instance* instance) const
 {
-	if (RBX::Security::Context::current().identity != RBX::Security::Anonymous) 
+	if (ARL::Security::Context::current().identity != ARL::Security::Anonymous) 
 	{
 		try {
-			RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set UserSettings parent");
+			ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set UserSettings parent");
 		} 
-		catch (RBX::base_exception& e) 
+		catch (ARL::base_exception& e) 
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set UserSettings parent");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set UserSettings parent");
 			throw e;
 		}
 	}
@@ -280,33 +280,33 @@ bool RBX::GlobalBasicSettings::isUserFeatureEnabled( std::string name )
 
 static void visit(const std::string& name, const std::string& value, void* context)
 {
-	RBX::Reflection::ValueTable* table = reinterpret_cast<RBX::Reflection::ValueTable*>(context);
+	ARL::Reflection::ValueTable* table = reinterpret_cast<ARL::Reflection::ValueTable*>(context);
 
 	(*table)[name] = value;
 }
 
-shared_ptr<const RBX::Reflection::ValueTable> RBX::GlobalAdvancedSettings::getFVariables()
+shared_ptr<const ARL::Reflection::ValueTable> ARL::GlobalAdvancedSettings::getFVariables()
 {
 	shared_ptr<Reflection::ValueTable> values(rbx::make_shared<Reflection::ValueTable>());
     FLog::ForEachVariable(&visit, values.get(), FASTVARTYPE_ANY);
 	return values;
 }
 
-bool RBX::GlobalAdvancedSettings::getFFlag( std::string name )
+bool ARL::GlobalAdvancedSettings::getFFlag( std::string name )
 {
 	std::string result;
 	if (FLog::GetValue(name.c_str(), result, true))
 	{
 		return boost::iequals(result, "true");
 	}
-	throw std::runtime_error(RBX::format("Flag %s does not exist", name.c_str()));
+	throw std::runtime_error(ARL::format("Flag %s does not exist", name.c_str()));
 }
 
 
-std::string RBX::GlobalAdvancedSettings::getFVariable( std::string name )
+std::string ARL::GlobalAdvancedSettings::getFVariable( std::string name )
 {
 	std::string result;
 	if (FLog::GetValue(name.c_str(), result))
 		return result;
-	throw std::runtime_error(RBX::format("Flag %s does not exist", name.c_str()));
+	throw std::runtime_error(ARL::format("Flag %s does not exist", name.c_str()));
 }

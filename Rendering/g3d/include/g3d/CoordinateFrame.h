@@ -218,7 +218,7 @@ public:
     class Ray toObjectSpace(const Ray& r) const;
 	
 	// ROBLOX
-	RBX::RbxRay toObjectSpace(const RBX::RbxRay& r) const;
+	ARL::RbxRay toObjectSpace(const ARL::RbxRay& r) const;
 	// ======
 
     Ray toWorldSpace(const Ray& r) const;

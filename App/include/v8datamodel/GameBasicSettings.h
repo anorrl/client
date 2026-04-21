@@ -3,7 +3,7 @@
 #include "V8DataModel/GlobalSettings.h"
 #include "V8DataModel/GameSettings.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char *const sGameBasicSettings;
 	class GameBasicSettings

@@ -12,7 +12,7 @@
 
 #include "boost/optional/optional.hpp"
 
-namespace RBX {
+namespace ARL {
 
 	class IModelModifier;
 
@@ -87,7 +87,7 @@ namespace RBX {
 		/*override*/ void onChildChanged(Instance* instance, const PropertyChanged& event);
 
 		// PVInstance
-		/*override*/ bool hitTestImpl(const class RBX::RbxRay& worldRay, G3D::Vector3& worldHitPoint);
+		/*override*/ bool hitTestImpl(const class ARL::RbxRay& worldRay, G3D::Vector3& worldHitPoint);
 
 	public:
 		ModelInstance();
@@ -142,7 +142,7 @@ namespace RBX {
 		/////////////////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////////////
 
-		bool containedByFrustum(const class RBX::Frustum& frustrum) const;
+		bool containedByFrustum(const class ARL::Frustum& frustrum) const;
 		void setFrontAndTop(const Vector3& front);
 
 		void makeJoints();

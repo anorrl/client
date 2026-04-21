@@ -9,13 +9,13 @@
 #define PIX_CONCAT2(a,b) PIX_CONCAT3(a,b)
 #define PIX_CONCAT3(a,b) a##b
 
-#define PIX_MARKER(ctx,...)   RBX::Graphics::PixMarker(ctx,__VA_ARGS__)
-#define PIX_SCOPE(ctx,...)    RBX::Graphics::PixScope PIX_CONCAT(pixScopeVar,__LINE__)(ctx,__VA_ARGS__)
+#define PIX_MARKER(ctx,...)   ARL::Graphics::PixMarker(ctx,__VA_ARGS__)
+#define PIX_SCOPE(ctx,...)    ARL::Graphics::PixScope PIX_CONCAT(pixScopeVar,__LINE__)(ctx,__VA_ARGS__)
 
 // PIX support, D3D-only
 // pix.cpp is in GfxCore/D3D9
 
-namespace RBX { namespace Graphics {
+namespace ARL { namespace Graphics {
 
 class DeviceContext;
 void PixMarker(DeviceContext* ctx, const char* fmt, ...);

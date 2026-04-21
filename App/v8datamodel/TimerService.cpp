@@ -4,9 +4,9 @@
 #include "v8datamodel/TimerService.h"
 #include "util/standardout.h"
 
-const char* const RBX::sTimerService = "TimerService";
+const char* const ARL::sTimerService = "TimerService";
 
-using namespace RBX;
+using namespace ARL;
 
 
 TimerService::TimerService(void)
@@ -51,7 +51,7 @@ void TimerService::onHeartbeat(const Heartbeat& heartbeat)
 			{
 				item.func();
 			}
-			catch (RBX::base_exception& e)
+			catch (ARL::base_exception& e)
 			{
 				StandardOut::singleton()->print(MESSAGE_WARNING, e);
 			}

@@ -10,7 +10,7 @@
 #include "V8Kernel/Body.h"
 #include "V8World/World.h"
 
-namespace RBX {
+namespace ARL {
 namespace HUMAN {
 
 const char* const sFreefall = "Freefall";
@@ -45,13 +45,13 @@ Freefall::~Freefall()
 	// Note - skip the properties stuff - don't replicate
 	if (PartInstance* head = getHumanoid()->getHeadSlow()) {
 		if (headFriction > 0.0f) {
-			RBXASSERT(head->getPartPrimitive()->getFriction() == 0.0f);
+			ARLASSERT(head->getPartPrimitive()->getFriction() == 0.0f);
 			head->getPartPrimitive()->setFriction(headFriction);
 		}
 	}
 	if (PartInstance* torso = getHumanoid()->getTorsoSlow()) {
 		if (torsoFriction > 0.0f) {
-			RBXASSERT(torso->getPartPrimitive()->getFriction() == 0.0f);
+			ARLASSERT(torso->getPartPrimitive()->getFriction() == 0.0f);
 			torso->getPartPrimitive()->setFriction(torsoFriction);
 		}
 	}
@@ -87,7 +87,7 @@ void Freefall::onSimulatorStepImpl(const float stepDt)
 	else {
 		if (desiredWalkVelocity.linear.magnitude() > 0.1) {
 			float angleError = static_cast<float>(Math::radWrap(Math::getHeading(desiredVelocity.linear) - getHumanoid()->getTorsoHeading()));
-			if(!RBX::GameBasicSettings::singleton().mouseLockedInMouseLockMode())
+			if(!ARL::GameBasicSettings::singleton().mouseLockedInMouseLockMode())
 			{
 				if (getHumanoid()->getAutoRotate()) 
 				{

@@ -24,7 +24,7 @@ FASTFLAG(RenderVR)
 
 FASTFLAGVARIABLE(GraphicsGLReduceLatency, false)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -298,7 +298,7 @@ static void GLAPIENTRY debugOutputGLARB(GLenum source, GLenum type, GLuint id, G
 
 static DeviceVRGL* createVR()
 {
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
 	if (DeviceVRGL* result = DeviceVRGL::createCardboard())
 		return result;
 #endif
@@ -363,7 +363,7 @@ DeviceGL::DeviceGL(void* windowHandle)
 	if (caps.extTimerQuery)
 	{
 		glGenQueries(1, &frameTimeQueryId);
-		RBXASSERT(frameTimeQueryId);
+		ARLASSERT(frameTimeQueryId);
 	}
 
     if (FFlag::DebugGraphicsGL && GLEW_ARB_debug_output)
@@ -481,7 +481,7 @@ void DeviceGL::endFrame()
         if (frameEventQueryIssued)
         {
             int rc = glClientWaitSync(frameEventQueryId, GL_SYNC_FLUSH_COMMANDS_BIT, GLuint64(5e9));
-            RBXASSERT(rc == GL_CONDITION_SATISFIED || rc == GL_ALREADY_SIGNALED);
+            ARLASSERT(rc == GL_CONDITION_SATISFIED || rc == GL_ALREADY_SIGNALED);
 
             glDeleteSync(frameEventQueryId);
             frameEventQueryId = 0;
@@ -493,7 +493,7 @@ void DeviceGL::endFrame()
         if (!frameEventQueryIssued)
         {
             frameEventQueryId = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
-            RBXASSERT(frameEventQueryId);
+            ARLASSERT(frameEventQueryId);
 
             frameEventQueryIssued = true;
         }
@@ -524,8 +524,8 @@ void DeviceGL::setVR(bool enabled)
 
 void DeviceGL::defineGlobalConstants(size_t dataSize, const std::vector<ShaderGlobalConstant>& constants)
 {
-	RBXASSERT(globalConstants.empty());
-	RBXASSERT(!constants.empty());
+	ARLASSERT(globalConstants.empty());
+	ARLASSERT(!constants.empty());
 
     globalConstants = constants;
 
@@ -550,7 +550,7 @@ std::string DeviceGL::createShaderSource(const std::string& path, const std::str
 std::vector<char> DeviceGL::createShaderBytecode(const std::string& source, const std::string& target, const std::string& entrypoint)
 {
     // No bytecode support
-    RBXASSERT(entrypoint == "main");
+    ARLASSERT(entrypoint == "main");
 
     return std::vector<char>(source.begin(), source.end());
 }
@@ -558,7 +558,7 @@ std::vector<char> DeviceGL::createShaderBytecode(const std::string& source, cons
 shared_ptr<VertexShader> DeviceGL::createVertexShader(const std::vector<char>& bytecode)
 {
 	if (!caps.supportsShaders)
-        throw RBX::runtime_error("No shader support");
+        throw ARL::runtime_error("No shader support");
 
     std::string source(bytecode.begin(), bytecode.end());
 
@@ -568,7 +568,7 @@ shared_ptr<VertexShader> DeviceGL::createVertexShader(const std::vector<char>& b
 shared_ptr<FragmentShader> DeviceGL::createFragmentShader(const std::vector<char>& bytecode)
 {
 	if (!caps.supportsShaders)
-        throw RBX::runtime_error("No shader support");
+        throw ARL::runtime_error("No shader support");
 
     std::string source(bytecode.begin(), bytecode.end());
 
@@ -578,14 +578,14 @@ shared_ptr<FragmentShader> DeviceGL::createFragmentShader(const std::vector<char
 shared_ptr<ShaderProgram> DeviceGL::createShaderProgram(const shared_ptr<VertexShader>& vertexShader, const shared_ptr<FragmentShader>& fragmentShader)
 {
 	if (!caps.supportsShaders)
-        throw RBX::runtime_error("No shader support");
+        throw ARL::runtime_error("No shader support");
 
     return shared_ptr<ShaderProgram>(new ShaderProgramGL(this, vertexShader, fragmentShader));
 }
 
 shared_ptr<ShaderProgram> DeviceGL::createShaderProgramFFP()
 {
-	throw RBX::runtime_error("No FFP support");
+	throw ARL::runtime_error("No FFP support");
 }
 
 shared_ptr<VertexBuffer> DeviceGL::createVertexBuffer(size_t elementSize, size_t elementCount, VertexBuffer::Usage usage)

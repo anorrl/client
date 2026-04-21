@@ -85,7 +85,7 @@ FASTFLAGVARIABLE(GamepadCursorChanges, false)
 DYNAMIC_FASTFLAG(FixFallenPartsNotDeleted)
 DYNAMIC_FASTFLAGVARIABLE(TrackPhysicalPropertiesGA, false);
 
-namespace RBX {
+namespace ARL {
 
 namespace Reflection {
 template<>
@@ -108,7 +108,7 @@ static Reflection::PropDescriptor<Workspace, float> prop_fallenPartDestroyHeight
 Reflection::PropDescriptor<Workspace, bool> Workspace::prop_allowThirdPartySales("AllowThirdPartySales", category_Behavior, &Workspace::getAllowThirdPartySales, &Workspace::setAllowThirdPartySales, Reflection::PropertyDescriptor::STANDARD_NO_REPLICATE);
 
 // Use ReleastTest build to ask whether or not we have a certain PhysicalProperties mode enabled
-#ifndef RBX_TEST_BUILD
+#ifndef ARL_TEST_BUILD
 	Reflection::EnumPropDescriptor<Workspace, PhysicalPropertiesMode> Workspace::prop_physicalPropertiesMode("PhysicalPropertiesMode", category_Behavior, &Workspace::getPhysicalPropertiesMode, &Workspace::setPhysicalPropertiesMode, Reflection::PropertyDescriptor::STANDARD_NO_SCRIPTING);
 #else
 	Reflection::EnumPropDescriptor<Workspace, PhysicalPropertiesMode> Workspace::prop_physicalPropertiesMode("PhysicalPropertiesMode", category_Behavior, &Workspace::getPhysicalPropertiesMode, &Workspace::setPhysicalPropertiesMode, Reflection::PropertyDescriptor::STANDARD);
@@ -132,15 +132,15 @@ float Workspace::gridSizeModifier = 4.0f;
 const char* const sWorkspace = "Workspace";
 
 // static			
-bool Workspace::serverIsPresent(const Instance* context)				// shortcut for RBX::Network::Players::serverIsPresent
+bool Workspace::serverIsPresent(const Instance* context)				// shortcut for ARL::Network::Players::serverIsPresent
 {
-	return RBX::Network::Players::serverIsPresent(context, false);		// if not in the datamodel, will go false
+	return ARL::Network::Players::serverIsPresent(context, false);		// if not in the datamodel, will go false
 }
 
 // static
-bool Workspace::clientIsPresent(const Instance* context)				// shortcut for RBX::Network::Players::clientIsPresent
+bool Workspace::clientIsPresent(const Instance* context)				// shortcut for ARL::Network::Players::clientIsPresent
 {
-	return RBX::Network::Players::clientIsPresent(context, false);		// if not in the datamodel, will go false
+	return ARL::Network::Players::clientIsPresent(context, false);		// if not in the datamodel, will go false
 }
 
 const Workspace* Workspace::findConstWorkspace(const Instance* context)
@@ -156,10 +156,10 @@ Workspace* Workspace::findWorkspace(Instance* context)
 
 Instance* Workspace::findTopInstance(Instance* context)		// finds the top level Instance in the workspace (right below the workspace)
 {
-	RBXASSERT(getWorldIfInWorkspace(context));
+	ARLASSERT(getWorldIfInWorkspace(context));
 	Workspace* workspace = Workspace::getWorkspaceIfInWorkspace(context);
-	RBXASSERT(workspace);
-	RBXASSERT(workspace != context);
+	ARLASSERT(workspace);
+	ARLASSERT(workspace != context);
 
 	while (context->getParent() != workspace)
 	{
@@ -204,7 +204,7 @@ ContactManager* Workspace::getContactManagerIfInWorkspace(Instance* context)
 bool Workspace::contextInWorkspace(const Instance* context)
 {
 	const Workspace* workspace = findConstWorkspace(context);
-	RBXASSERT(!workspace || (workspace != context));
+	ARLASSERT(!workspace || (workspace != context));
 	return (workspace && context->isDescendantOf(workspace));
 }
 
@@ -277,7 +277,7 @@ Workspace::Workspace(IDataState* dataState)	 :
 	networkFilteringEnabled(false),
 	allowThirdPartySales(false)
 {
-	RBXASSERT(dataState!=NULL);
+	ARLASSERT(dataState!=NULL);
 	setName("Workspace");
 	FASTLOG1(FLog::GuiTargetLifetime, "Workspace created: %p", this);
 
@@ -411,7 +411,7 @@ void Workspace::setDistributedGameTimeNoTransmit(double value)
 
 bool Workspace::forceDrawConnectors() const
 {
-	RBXASSERT(currentCommand.get() != NULL);
+	ARLASSERT(currentCommand.get() != NULL);
 	if (currentCommand.get()) {
 		return currentCommand->drawConnectors();
 	}
@@ -529,7 +529,7 @@ void Workspace::onHeartbeat(const Heartbeat& heartbeat)
 
 bool Workspace::askAddChild(const Instance* instance) const
 {
-	return dynamic_cast<const IAdornable*>(instance)!=NULL;		// TODO: Hmmm. Is this a good choice? What about RBX::Message?
+	return dynamic_cast<const IAdornable*>(instance)!=NULL;		// TODO: Hmmm. Is this a good choice? What about ARL::Message?
 }
 
 void Workspace::onDescendantRemoving(const shared_ptr<Instance>& instance)
@@ -562,7 +562,7 @@ void Workspace::onDescendantAdded(Instance* instance)
 	}
 }
 
-bool Workspace::startDecalDrag(Decal *decal, RBX::InsertMode insertMode)
+bool Workspace::startDecalDrag(Decal *decal, ARL::InsertMode insertMode)
 {
 	ServiceClient< Selection > sel(this);
 	if (decal) {
@@ -631,7 +631,7 @@ Camera* Workspace::getCurrentCameraDangerous() const
 
 void destroyIfNotCurrent(shared_ptr<Instance> destroy, const Camera* current)
 {
-	RBXASSERT(current);
+	ARLASSERT(current);
 	if (Instance::fastDynamicCast<Camera>(destroy.get())) {
 		if (destroy.get() != current) {
 			destroy->setParent(NULL);
@@ -688,7 +688,7 @@ void Workspace::createTerrain()
 		part->setCoordinateFrame(clusterFrame);
 
 		t->setAndLockParent(this);
-		RBXASSERT(terrain);
+		ARLASSERT(terrain);
 	}
 }
 
@@ -837,12 +837,12 @@ void Workspace::start()
 {
 	assemble();
 
-	RBXASSERT(!getCurrentMouseCommand()->captured());
+	ARLASSERT(!getCurrentMouseCommand()->captured());
 
 	// makes sure building tools are not greyed out
-	shared_ptr<RBX::CoreGuiService> coreGuiService = shared_from(ServiceProvider::find<RBX::CoreGuiService>(this));
+	shared_ptr<ARL::CoreGuiService> coreGuiService = shared_from(ServiceProvider::find<ARL::CoreGuiService>(this));
 	if(coreGuiService)
-		if(RBX::ImageLabel* frame = Instance::fastDynamicCast<RBX::ImageLabel>(coreGuiService->findFirstChildByName2("Frame",true).get()))
+		if(ARL::ImageLabel* frame = Instance::fastDynamicCast<ARL::ImageLabel>(coreGuiService->findFirstChildByName2("Frame",true).get()))
 			frame->setZIndex(1);
 }
 
@@ -850,12 +850,12 @@ void Workspace::start()
 void Workspace::stop()
 {
 	// makes sure building tools are grayed out (not simulating, therefore building tools don't work currently)
-	shared_ptr<RBX::CoreGuiService> coreGuiService = shared_from(ServiceProvider::find<RBX::CoreGuiService>(this));
+	shared_ptr<ARL::CoreGuiService> coreGuiService = shared_from(ServiceProvider::find<ARL::CoreGuiService>(this));
 	if(coreGuiService)
-		if(RBX::ImageLabel* frame = Instance::fastDynamicCast<RBX::ImageLabel>(coreGuiService->findFirstChildByName2("Frame",true).get()))
+		if(ARL::ImageLabel* frame = Instance::fastDynamicCast<ARL::ImageLabel>(coreGuiService->findFirstChildByName2("Frame",true).get()))
 			frame->setZIndex(10);
 
-	RBXASSERT(!getCurrentMouseCommand()->captured());
+	ARLASSERT(!getCurrentMouseCommand()->captured());
 
 	updateDistributedGameTime();
 }
@@ -874,7 +874,7 @@ void Workspace::detachParent(Instance* test)
 	#ifdef _DEBUG
 		std::vector<weak_ptr<PartInstance> > parts;
 		PartInstance::findParts(test, parts);
-		RBXASSERT(parts.empty());
+		ARLASSERT(parts.empty());
 	#endif
 
 	test->setParent(NULL);
@@ -929,8 +929,8 @@ void Workspace::clearEmptiedModels(shared_ptr<Instance>& test)
 
 void Workspace::handleFallenParts()
 {
-	RBXASSERT(fallenParts.size() == 0);
-	RBXASSERT(fallenPrimitives.size() == 0);
+	ARLASSERT(fallenParts.size() == 0);
+	ARLASSERT(fallenPrimitives.size() == 0);
 
 	world->computeFallen(fallenPrimitives);
 
@@ -951,7 +951,7 @@ void Workspace::handleFallenParts()
 				part->resetNetworkOwnerTime(3.0);
 			}
 
-			part->setNetworkOwnerAndNotify(RBX::Network::NetworkOwner::Server());
+			part->setNetworkOwnerAndNotify(ARL::Network::NetworkOwner::Server());
 		}
 	}
 	else // otherwise, we summarily execute them, since we have the authority to do so
@@ -972,7 +972,7 @@ void Workspace::handleFallenParts()
 void Workspace::assemble()
 {
 	world->assemble();
-	RBXASSERT(world->isAssembled());
+	ARLASSERT(world->isAssembled());
 }
 
 
@@ -994,7 +994,7 @@ int Workspace::updatePhysicsStepsRequiredForCyclicExecutive(float timeInterval)
 
 float Workspace::physicsStep(bool longStep, float timeInterval, int numThreads)
 {
-	RBXASSERT(world->isAssembled());				// testing - assemble in 
+	ARLASSERT(world->isAssembled());				// testing - assemble in 
 
 	if (longStep)
 	{
@@ -1006,13 +1006,13 @@ float Workspace::physicsStep(bool longStep, float timeInterval, int numThreads)
 
     if( FFlag::PGSSolverFileDump )
     {
-        RBX::Network::Player* localPlayer = RBX::Network::Players::findLocalPlayer(DataModel::get( this ));
+        ARL::Network::Player* localPlayer = ARL::Network::Players::findLocalPlayer(DataModel::get( this ));
         int id = 0;
         if( localPlayer ) id = localPlayer->getUserID();
         getWorld()->setUserId( id );
     }
 
-    world->setPhysicsAnalyzerEnabled( RBX::PhysicsSettings::singleton().getPhysicsAnalyzerState() );
+    world->setPhysicsAnalyzerEnabled( ARL::PhysicsSettings::singleton().getPhysicsAnalyzerState() );
 
 	// Step the world
 	timeInterval = world->step(longStep, distributedGameTime, timeInterval, numThreads);
@@ -1052,7 +1052,7 @@ float Workspace::physicsStep(bool longStep, float timeInterval, int numThreads)
 
 	world->clearTouchInfoFromLastStep();
 
-	RBXASSERT(world->isAssembled());
+	ARLASSERT(world->isAssembled());
 
 	handleFallenParts();
 
@@ -1103,8 +1103,8 @@ void Workspace::setMouseCommand(shared_ptr<MouseCommand> newMouseCommand, bool a
 {
 	FASTLOG2(FLog::MouseCommand, "Set mouse command: %p, old command: %p", newMouseCommand.get(), currentCommand.get());
 
-	RBX::DataModel *dataModel = (DataModel*)ServiceProvider::findServiceProvider(this);
-	RBX::Plugin *activePlugin = PluginManager::singleton()->getActivePlugin(dataModel);
+	ARL::DataModel *dataModel = (DataModel*)ServiceProvider::findServiceProvider(this);
+	ARL::Plugin *activePlugin = PluginManager::singleton()->getActivePlugin(dataModel);
 
 	if ((!newMouseCommand || allowPluginOverride) && activePlugin && activePlugin->isTool())
 	{
@@ -1134,11 +1134,11 @@ void Workspace::setMouseCommand(shared_ptr<MouseCommand> newMouseCommand, bool a
 		}
 	}
 
-	RBXASSERT(newMouseCommand.get());
+	ARLASSERT(newMouseCommand.get());
 
 	if (newMouseCommand != currentCommand) 
 	{
-		RBXASSERT((currentCommand.get() == NULL) || !currentCommand.get()->captured());
+		ARLASSERT((currentCommand.get() == NULL) || !currentCommand.get()->captured());
 		FASTLOG2(FLog::MouseCommand, "Current command update, new: %p, old: %p", newMouseCommand.get(), currentCommand.get());
 		currentCommand = newMouseCommand;
 		shared_ptr<MouseCommand> sticky = newMouseCommand->isSticky();
@@ -1299,10 +1299,10 @@ void Workspace::render3dAdorn(Adorn* adorn)
 		Network::Player* localPlayer = Network::Players::findLocalPlayer(this);
 
 	if(show3DGrid && (!localPlayer || Network::Players::isCloudEdit(this)))
-				RBX::DrawAdorn::zeroPlaneGrid(adorn, *getCamera(), gridSizeModifier, 0.05, Color3(0.3f,0.3f,0.3f), Color3(0.4f,0.4f,0.4f));
+				ARL::DrawAdorn::zeroPlaneGrid(adorn, *getCamera(), gridSizeModifier, 0.05, Color3(0.3f,0.3f,0.3f), Color3(0.4f,0.4f,0.4f));
 
 		if(showAxisWidget)
-			RBX::DrawAdorn::axisWidget(adorn, *getCamera());
+			ARL::DrawAdorn::axisWidget(adorn, *getCamera());
 	}
 
 void Workspace::append3dSortedAdorn(std::vector<AdornableDepth>& sortedAdorn)
@@ -1319,7 +1319,7 @@ bool Workspace::hasModalGuiObjects()
 
 	if(!isModal)
 	{
-		shared_ptr<RBX::CoreGuiService> coreGuiService = shared_from(ServiceProvider::find<RBX::CoreGuiService>(this));
+		shared_ptr<ARL::CoreGuiService> coreGuiService = shared_from(ServiceProvider::find<ARL::CoreGuiService>(this));
 		if(coreGuiService)
 			isModal = coreGuiService->findModalGuiObject();
 	}
@@ -1346,16 +1346,16 @@ void Workspace::requestFirstPersonCamera(bool firstPersonOn, bool cameraTransiti
 		inRightMousePan = false;
 		userInputService->setMouseWrapMode(UserInputService::WRAP_AUTO);
 	}
-	else if( ( (firstPersonOn && !cameraTransitioning) || RBX::GameBasicSettings::singleton().mouseLockedInMouseLockMode() ) && !hasModalGuiObjects() )
+	else if( ( (firstPersonOn && !cameraTransitioning) || ARL::GameBasicSettings::singleton().mouseLockedInMouseLockMode() ) && !hasModalGuiObjects() )
 	{
 		userInput->centerCursor();
 		userInputService->setMouseWrapMode(UserInputService::WRAP_CENTER);
 	}
-	else if(RBX::GameBasicSettings::singleton().inHybridMode() && !inRightMousePan && !inMiddleMouseTrack)
+	else if(ARL::GameBasicSettings::singleton().inHybridMode() && !inRightMousePan && !inMiddleMouseTrack)
 		userInputService->setMouseWrapMode(UserInputService::WRAP_HYBRID);
 	else 
 	{
-		if (!RBX::GameBasicSettings::singleton().inMousepanMode() && !inRightMousePan && !inMiddleMouseTrack)
+		if (!ARL::GameBasicSettings::singleton().inMousepanMode() && !inRightMousePan && !inMiddleMouseTrack)
 			userInputService->setMouseWrapMode(UserInputService::WRAP_AUTO);
 	}
 }
@@ -1421,7 +1421,7 @@ GuiResponse Workspace::handleSurfaceGui(const shared_ptr<InputObject>& event)
 
 	if (SurfaceGui::numInstances() && event->isMouseEvent() && cam)
 	{
-		RBX::Network::Player* player = Network::Players::findLocalPlayer(this);
+		ARL::Network::Player* player = Network::Players::findLocalPlayer(this);
 
 		// 'Tool punch-though concept': surfaceGUI is clickable if the character is not wielding a tool
 		// --or-- if the character has a tool active and he is within a certain distance of the SG.
@@ -1447,7 +1447,7 @@ GuiResponse Workspace::handleSurfaceGui(const shared_ptr<InputObject>& event)
 		ray.direction() *= 1000.f;
 
 		GeometryService* geometryService = ServiceProvider::create<GeometryService>(this);
-		RBXASSERT(geometryService);
+		ARLASSERT(geometryService);
 
 		shared_ptr<PartInstance> part;
 		Vector3 surfaceNormal;
@@ -1509,7 +1509,7 @@ GuiResponse Workspace::process(const shared_ptr<InputObject>& event)
     if( resp.wasSunk() )
         return resp;
 
-	RBXASSERT(currentCommand.get() != NULL);
+	ARLASSERT(currentCommand.get() != NULL);
 	shared_ptr<MouseCommand> processingCommand = currentCommand;
 
 	if (event->isMouseEvent()) // copy last mouse position
@@ -1532,7 +1532,7 @@ GuiResponse Workspace::process(const shared_ptr<InputObject>& event)
 		}
 	case InputObject::TYPE_KEYBOARD:
 		{
-			RBXASSERT(event->isKeyDownEvent() || event->isKeyUpEvent());
+			ARLASSERT(event->isKeyDownEvent() || event->isKeyUpEvent());
 
 			if (event->isKeyDownEvent())
             {
@@ -1562,7 +1562,7 @@ GuiResponse Workspace::process(const shared_ptr<InputObject>& event)
 		}
 	case InputObject::TYPE_MOUSEBUTTON2:
 		{
-			RBXASSERT(event->isRightMouseDownEvent() || event->isRightMouseUpEvent());
+			ARLASSERT(event->isRightMouseDownEvent() || event->isRightMouseUpEvent());
 
 			if (event->isRightMouseDownEvent())
 			{
@@ -1591,7 +1591,7 @@ GuiResponse Workspace::process(const shared_ptr<InputObject>& event)
 		}
 	case InputObject::TYPE_MOUSEBUTTON1:
 		{
-			RBXASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
+			ARLASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
 
 			if(event->isLeftMouseDownEvent())
             {
@@ -1636,7 +1636,7 @@ GuiResponse Workspace::process(const shared_ptr<InputObject>& event)
         }
 	case InputObject::TYPE_MOUSEWHEEL:
 		{
-			RBXASSERT(event->isMouseWheelBackward() || event->isMouseWheelForward());
+			ARLASSERT(event->isMouseWheelBackward() || event->isMouseWheelForward());
 
 			if (event->isMouseWheelForward())
 			processingCommand->onMouseWheelForward(event);
@@ -1669,7 +1669,7 @@ GuiResponse Workspace::process(const shared_ptr<InputObject>& event)
 	FASTLOG(FLog::UserInputProfile, "Done with workspace process");
 	FASTLOG1(FLog::MouseCommand, "Workspace::Process finish, captured: %u", processingCommand->captured());
 
-	RBXASSERT(processingCommand.get() != NULL);
+	ARLASSERT(processingCommand.get() != NULL);
 	if (processingCommand->captured()) {
 		return GuiResponse::sunkWithTarget(this);
 	}
@@ -1783,7 +1783,7 @@ void Workspace::setPhysicalPropertiesMode(PhysicalPropertiesMode mode)
 		}
 		else
 		{
-			RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "Cannot change PhysicalPropertiesMode during Runtime");
+			ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "Cannot change PhysicalPropertiesMode during Runtime");
 		}
 	}
 }
@@ -1821,7 +1821,7 @@ public:
 		Stats::Item* pDataModelStep = result->createBoundChildItem(*workspace->profileDataModelStep);
 			Stats::Item* pWorkspaceStep = pDataModelStep->createBoundChildItem(*workspace->profileWorkspaceStep);
 				Stats::Item* pWorldStep = pWorkspaceStep->createBoundChildItem(world->getProfileWorldStep());
-				std::vector<RBX::Profiling::CodeProfiler*> worldProfilers;
+				std::vector<ARL::Profiling::CodeProfiler*> worldProfilers;
 				world->loadProfilers(worldProfilers);
 				for (size_t i = 0; i < worldProfilers.size(); ++i)
 				{
@@ -1882,7 +1882,7 @@ void Workspace::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider*
 	if (newProvider)
 	{
 		RunService* runService = ServiceProvider::create<RunService>(newProvider);
-		RBXASSERT(runService);
+		ARLASSERT(runService);
 		heartbeatConnection = runService->heartbeatSignal.connect(boost::bind(&Workspace::onHeartbeat, this, _1));
 
 		Stats::StatsService* stats = ServiceProvider::create<Stats::StatsService>(newProvider);
@@ -1905,7 +1905,7 @@ void Workspace::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider*
 
 bool Workspace::scriptShouldRun(BaseScript* script)
 {
-	RBXASSERT(isAncestorOf(script));
+	ARLASSERT(isAncestorOf(script));
 
 	bool answer = false;
 
@@ -1931,7 +1931,7 @@ bool Workspace::scriptShouldRun(BaseScript* script)
 
 std::size_t hash_value(const TouchPair& p)
 {
-	std::size_t result = boost::hash<const RBX::PartInstance*>()(p.p1.get());
+	std::size_t result = boost::hash<const ARL::PartInstance*>()(p.p1.get());
 	boost::hash_combine(result, p.p2.get());
 	boost::hash_combine(result, p.type);
 	return result;

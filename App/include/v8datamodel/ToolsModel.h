@@ -4,7 +4,7 @@
 
 #include "V8DataModel/MouseCommand.h"
 
-namespace RBX {
+namespace ARL {
 
 	class ModelTool : public MouseCommand
 	{
@@ -49,4 +49,4 @@ namespace RBX {
 		LockTool(Workspace* workspace) : Named<ModelTool, sLockTool>(workspace) {}
 	};
 
-} // namespace RBX
+} // namespace ARL

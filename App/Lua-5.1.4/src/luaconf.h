@@ -30,7 +30,7 @@
 
 #include "RBX/Debug.h"
 
-namespace RBX
+namespace ARL
 {
 	class BaseScript;
 	class ScriptContext;
@@ -46,7 +46,7 @@ namespace RBX
 
 // ROBLOX:
 #if defined(_DEBUG) || defined(_NOOPT)
-#define lua_assert(x) RBXASSERT(x)
+#define lua_assert(x) ARLASSERT(x)
 #else
 #define lua_assert(x) ((void)0)
 #endif
@@ -656,7 +656,7 @@ catch (lua_exception& e)	\
 	if ((c)->status == 0) \
 		(c)->status = -1; \
 }\
-catch (RBX::base_exception const& e)	\
+catch (ARL::base_exception const& e)	\
 {\
 	/* We caught a conventional exception. Convert it into a lua_exception which can then be passed on to Lua */\
 	try \
@@ -762,32 +762,32 @@ catch (RBX::base_exception const& e)	\
 #pragma pack(8)
 // This object is embedded in every Lua thread to manage Roblox-specific information
 
-class RobloxExtraSpace : public RBX::Intrusive::Set<RobloxExtraSpace>::Hook
+class RobloxExtraSpace : public ARL::Intrusive::Set<RobloxExtraSpace>::Hook
 {
-	typedef RBX::Intrusive::Set<RobloxExtraSpace> AllThreads;
+	typedef ARL::Intrusive::Set<RobloxExtraSpace> AllThreads;
 
 	struct Shared
 	{
 		int threadCount;
-		RBX::ScriptContext* context;
+		ARL::ScriptContext* context;
 		// We need to keep track of all Nodes so that we can clear them on shutdown.
 		// See eraseRefsFromAllNodes
 		AllThreads allThreads;
 		Shared():threadCount(0),context(NULL) {}
 	};
 	const boost::shared_ptr<Shared> shared;
-	typedef RBX::Lua::WeakThreadRef::Node Node;
+	typedef ARL::Lua::WeakThreadRef::Node Node;
 	boost::intrusive_ptr<Node> node;
 public:
-	RBX::Security::Identities identity : 5;
+	ARL::Security::Identities identity : 5;
 	bool yieldCaptured : 1; 
-	boost::weak_ptr<RBX::BaseScript> script;	// The script associated with this thread, if any
-	boost::scoped_ptr<RBX::Lua::Continuations> continuations;
+	boost::weak_ptr<ARL::BaseScript> script;	// The script associated with this thread, if any
+	boost::scoped_ptr<ARL::Lua::Continuations> continuations;
 
-	RBX::ScriptContext* context() const { return shared->context; }
+	ARL::ScriptContext* context() const { return shared->context; }
 	size_t getThreadCount() const { return (size_t) shared->threadCount; }
 
-	void setContext(RBX::ScriptContext* context) { shared->context = context; }
+	void setContext(ARL::ScriptContext* context) { shared->context = context; }
 
 	Node* getNode() const { return node.get(); }
 
@@ -835,7 +835,7 @@ public:
 private:
 	RobloxExtraSpace()
 		:shared(new Shared())
-		,identity(RBX::Security::Anonymous)
+		,identity(ARL::Security::Anonymous)
 		,node(0)
 	{
 		shared->threadCount++;
@@ -852,11 +852,11 @@ private:
 	{
 		shared->threadCount++;
 
-		RBXASSERT(node);
+		ARLASSERT(node);
 
         if (!shared->context->checkSecurityAnchorValid())
         {
-            RBX::Tokens::apiToken.addFlagSafe(RBX::kScriptContextCopy);
+            ARL::Tokens::apiToken.addFlagSafe(ARL::kScriptContextCopy);
         }
         else
         {
@@ -869,7 +869,7 @@ private:
 		shared->allThreads.remove_element(*this);
 
 		shared->threadCount--;
-		RBXASSERT(shared->threadCount >= 0);
+		ARLASSERT(shared->threadCount >= 0);
 	}
 
 
@@ -957,14 +957,14 @@ inline void luai_userstateyield(lua_State *L, int nresults)
 void lua_vmhooked_handler(lua_State* L);
 inline void lua_vmhooked_handler_ex(lua_State* L)
 {
-    RBX::Tokens::apiToken.addFlagFast(RBX::kLuaHooked);
-    RBX::pmcHash.nonce = 0;
+    ARL::Tokens::apiToken.addFlagFast(ARL::kLuaHooked);
+    ARL::pmcHash.nonce = 0;
     lua_vmhooked_handler(L);
 }
 
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD)
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
 
-#define lua_chk_ptr_rblx(ptr, handler, L) (RBX::isRbxTextAddr(ptr) ? ((void)0) : handler(L))
+#define lua_chk_ptr_rblx(ptr, handler, L) (ARL::isRbxTextAddr(ptr) ? ((void)0) : handler(L))
 #define lua_lock(L) ((void)0)
 #define lua_unlock(L) lua_chk_ptr_rblx(_ReturnAddress(), lua_vmhooked_handler_ex, L)
 #define lua_threadyield(L) ((void)0)

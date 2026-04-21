@@ -5,7 +5,7 @@
 #include "Humanoid/Balancing.h"
 #include "Util/Name.h"
 
-namespace RBX {
+namespace ARL {
 	namespace HUMAN {
 
 	// Flying occurs when there's no ground below you. You have the ability

@@ -8,7 +8,7 @@
 
 #include "rbx/Profiler.h"
 
-using namespace RBX;
+using namespace ARL;
 
 #define MEM_POOL_INCREMENT 4
 #define MAX_NUM_MEM_POOLS 16
@@ -86,7 +86,7 @@ void* LuaAllocator::alloc(void *ud, void *ptr, size_t osize, size_t nsize)
 bool LuaAllocator::hasSpace(const long diff)
 {
 	if (heapLimit > 0 && diff > 0 && diff + heapSize > heapLimit &&
-		(RBX::Security::Context::current().identity == RBX::Security::GameScript_ || RBX::Security::Context::current().identity == RBX::Security::RobloxGameScript_) )
+		(ARL::Security::Context::current().identity == ARL::Security::GameScript_ || ARL::Security::Context::current().identity == ARL::Security::RobloxGameScript_) )
 		return false;
 	return true;
 }
@@ -110,7 +110,7 @@ void* LuaAllocator::alloc(void *ptr, size_t osize, size_t nsize)
 			int index = getMemPoolIndex(osize);
 			if (index > -1)
 			{
-				RBXASSERT(osize == memPools[index]->get_requested_size());
+				ARLASSERT(osize == memPools[index]->get_requested_size());
 				memPools[index]->free(ptr);
 			}
 			else
@@ -123,7 +123,7 @@ void* LuaAllocator::alloc(void *ptr, size_t osize, size_t nsize)
 			int index1 = getMemPoolIndex(nsize);
 			if (index1 > -1)
 			{
-				RBXASSERT(nsize == memPools[index1]->get_requested_size());
+				ARLASSERT(nsize == memPools[index1]->get_requested_size());
 
 				// copy data to new pool
 				result = memPools[index1]->malloc();
@@ -133,7 +133,7 @@ void* LuaAllocator::alloc(void *ptr, size_t osize, size_t nsize)
 				int index2 = getMemPoolIndex(osize);
 				if (index2 > -1)
 				{
-					RBXASSERT(osize == memPools[index2]->get_requested_size());
+					ARLASSERT(osize == memPools[index2]->get_requested_size());
 
 					memPools[index2]->free(ptr);
 				}
@@ -143,7 +143,7 @@ void* LuaAllocator::alloc(void *ptr, size_t osize, size_t nsize)
 				int index2 = getMemPoolIndex(osize);
 				if (index2 > -1)
 				{
-					RBXASSERT(osize == memPools[index2]->get_requested_size());
+					ARLASSERT(osize == memPools[index2]->get_requested_size());
 
 					// was in a pool but does not belong to any new pools
 					result = malloc(nsize);
@@ -183,7 +183,7 @@ void* LuaAllocator::alloc(void *ptr, size_t osize, size_t nsize)
 	maxHeapSize = std::max<size_t>(maxHeapSize, heapSize);
 	maxHeapCount = std::max<size_t>(maxHeapCount, heapCount);
 
-    RBXPROFILER_COUNTER_ADD("memory/lua/heap", diff);
+    ARLPROFILER_COUNTER_ADD("memory/lua/heap", diff);
 
 	return result;
 }

@@ -2,9 +2,9 @@
 
 #include "V8Datamodel/Decal.h"
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sDecal = "Decal";
+const char* const ARL::sDecal = "Decal";
 
 const Reflection::PropDescriptor<Decal, TextureId> Decal::prop_Texture("Texture", category_Appearance, &Decal::getTexture, &Decal::setTexture);
 const Reflection::PropDescriptor<Decal, float> Decal::prop_Specular("Specular", category_Appearance, &Decal::getSpecular, &Decal::setSpecular, Reflection::PropertyDescriptor::Attributes::deprecated());
@@ -77,7 +77,7 @@ void Decal::setLocalTransparencyModifier(float value)
 	}
 }
 
-namespace RBX {
+namespace ARL {
 
 // TODO: Refactor: It is a little ugly to have to implement these 6 functions for each "ContentID" derived class
 //  Potentially we can template this a little. Maybe define a templated ContentIDPropDescriptor or something.
@@ -97,13 +97,13 @@ bool StringConverter<TextureId>::convertToValue(const std::string& text, Texture
 namespace Reflection {
 
 template<>
-const Type& Type::getSingleton<RBX::TextureId>()
+const Type& Type::getSingleton<ARL::TextureId>()
 {
 	return Type::singleton<ContentId>();
 }
 
 template<>
-void TypedPropertyDescriptor<RBX::TextureId>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void TypedPropertyDescriptor<ARL::TextureId>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -114,7 +114,7 @@ void TypedPropertyDescriptor<RBX::TextureId>::readValue(DescribedBase* instance,
 }
 
 template<>
-void TypedPropertyDescriptor<RBX::TextureId>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void TypedPropertyDescriptor<ARL::TextureId>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	element->setValue(ContentId(getValue(instance)));
 }
@@ -132,25 +132,25 @@ TextureId& Variant::convert<TextureId>(void)
 }
 
 template<>
-int TypedPropertyDescriptor<RBX::TextureId>::getDataSize(const DescribedBase* instance) const 
+int TypedPropertyDescriptor<ARL::TextureId>::getDataSize(const DescribedBase* instance) const 
 {
-    return sizeof(RBX::TextureId) + getValue(instance).toString().size();
+    return sizeof(ARL::TextureId) + getValue(instance).toString().size();
 }
 
 template<>
-bool TypedPropertyDescriptor<RBX::TextureId>::hasStringValue() const {
+bool TypedPropertyDescriptor<ARL::TextureId>::hasStringValue() const {
 	return true;
 }
 
 template<>
-std::string TypedPropertyDescriptor<RBX::TextureId>::getStringValue(const DescribedBase* instance) const{
-	return StringConverter<RBX::TextureId>::convertToString(getValue(instance));
+std::string TypedPropertyDescriptor<ARL::TextureId>::getStringValue(const DescribedBase* instance) const{
+	return StringConverter<ARL::TextureId>::convertToString(getValue(instance));
 }
 
 template<>
-bool TypedPropertyDescriptor<RBX::TextureId>::setStringValue(DescribedBase* instance, const std::string& text) const {
-	RBX::TextureId value;
-	if (StringConverter<RBX::TextureId>::convertToValue(text, value))
+bool TypedPropertyDescriptor<ARL::TextureId>::setStringValue(DescribedBase* instance, const std::string& text) const {
+	ARL::TextureId value;
+	if (StringConverter<ARL::TextureId>::convertToValue(text, value))
 	{
 		setValue(instance, value);
 		return true;
@@ -161,7 +161,7 @@ bool TypedPropertyDescriptor<RBX::TextureId>::setStringValue(DescribedBase* inst
 
 }} //namespace
 
-const char* const RBX::sDecalTexture = "Texture";
+const char* const ARL::sDecalTexture = "Texture";
 
 const Reflection::PropDescriptor<DecalTexture, float> DecalTexture::prop_StudsPerTileU("StudsPerTileU", category_Appearance, &DecalTexture::getStudsPerTileU, &DecalTexture::setStudsPerTileU);
 const Reflection::PropDescriptor<DecalTexture, float> DecalTexture::prop_StudsPerTileV("StudsPerTileV", category_Appearance, &DecalTexture::getStudsPerTileV, &DecalTexture::setStudsPerTileV);

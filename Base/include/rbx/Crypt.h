@@ -1,17 +1,17 @@
 #pragma once
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include <windows.h>
 #include <wincrypt.h>
 #endif
 
 #include <string>
 
-namespace RBX
+namespace ARL
 {
 	class Crypt
 	{
-#if defined (_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined (_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 	HCRYPTPROV context;
 	HCRYPTKEY key;
 #endif

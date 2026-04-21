@@ -3,7 +3,7 @@
 #include "V8Tree/Service.h"
 #include "script/IScriptFilter.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sReplicatedFirst;
 

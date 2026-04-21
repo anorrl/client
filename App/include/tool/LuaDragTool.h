@@ -6,7 +6,7 @@
 #include "Tool/LuaDragger.h"
 #include <boost/shared_ptr.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	class PartInstance;
 	
@@ -38,4 +38,4 @@ namespace RBX {
 		~LuaDragTool();
 	};
 
-} // namespace RBX
+} // namespace ARL

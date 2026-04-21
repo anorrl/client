@@ -6,7 +6,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 
 // i.e., .75*prev + .25*new
 float RunningAverageState::weight() 

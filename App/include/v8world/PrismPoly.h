@@ -5,7 +5,7 @@
 #include "V8World/PrismMesh.h"
 #include "V8World/BlockMesh.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PrismPoly : public Poly {
 	private:

@@ -4,7 +4,7 @@
 
 #include "Humanoid/HumanoidState.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace HUMAN { 
 
@@ -49,5 +49,5 @@ namespace RBX {
 
 
 	} // namespace HUMAN
-}	// namespace RBX
+}	// namespace ARL
 

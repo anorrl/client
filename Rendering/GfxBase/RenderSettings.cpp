@@ -2,7 +2,7 @@
 
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 const G3D::Vector2int16 CRenderSettings::minGameWindowSize = G3D::Vector2int16((G3D::int16)816,(G3D::int16)638);
 
@@ -32,7 +32,7 @@ const CRenderSettings::RESOLUTIONENTRY ResolutionTable [] = {
 };
 
 CRenderSettings::CRenderSettings()
-#if !RBX_PLATFORM_IOS
+#if !ARL_PLATFORM_IOS
 	: fullscreenSize(G3D::Vector2int16(800,  600)) // these are just fail safes in case auto detect procedure fails.
 	, windowSize(G3D::Vector2int16(800,  600))    //
 #else
@@ -62,11 +62,11 @@ CRenderSettings::CRenderSettings()
 
 const CRenderSettings::RESOLUTIONENTRY& CRenderSettings::getResolutionPreset(ResolutionPreset preset) const
 {
-	RBXASSERT(preset < ResolutionMaxIndex);
-	RBXASSERT(ResolutionTable[preset-1].preset == preset);
-	RBXASSERT(ResolutionMaxIndex == ARRAYSIZE(ResolutionTable)+1);
+	ARLASSERT(preset < ResolutionMaxIndex);
+	ARLASSERT(ResolutionTable[preset-1].preset == preset);
+	ARLASSERT(ResolutionMaxIndex == ARRAYSIZE(ResolutionTable)+1);
 
 	return ResolutionTable[preset-1];
 }
 
-}  // namespace RBX
+}  // namespace ARL

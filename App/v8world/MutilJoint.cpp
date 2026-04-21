@@ -8,7 +8,7 @@
 #include "V8Kernel/Connector.h"
 #include "V8Kernel/Point.h"
 
-namespace RBX {
+namespace ARL {
 
 void MultiJoint::init(int numBreaking)
 {
@@ -39,8 +39,8 @@ MultiJoint::MultiJoint(
 
 MultiJoint::~MultiJoint() 
 {
-	RBXASSERT(connector[0] == NULL);
-	RBXASSERT(numConnector == 0);
+	ARLASSERT(connector[0] == NULL);
+	ARLASSERT(numConnector == 0);
 }
 
 void MultiJoint::putInKernel(Kernel* _kernel)
@@ -56,7 +56,7 @@ float MultiJoint::getJointK()
 
 void MultiJoint::addToMultiJoint(Point* point0, Point* point1, Connector* _connector)
 {
-	RBXASSERT(numConnector < 4);
+	ARLASSERT(numConnector < 4);
 	
 	point[numConnector*2] = point0;
 	point[numConnector*2+1] = point1;
@@ -65,28 +65,28 @@ void MultiJoint::addToMultiJoint(Point* point0, Point* point1, Connector* _conne
 
 	numConnector++;
 
-	RBXASSERT_IF_VALIDATING(validateMultiJoint());
+	ARLASSERT_IF_VALIDATING(validateMultiJoint());
 }
 
 Point* MultiJoint::getPoint(int id)
 {
-	RBXASSERT(id < 8);
-	RBXASSERT(point[id] != NULL);
-	RBXASSERT(point[id]->getBody() == getPrimitive(id % 2)->getBody());
+	ARLASSERT(id < 8);
+	ARLASSERT(point[id] != NULL);
+	ARLASSERT(point[id]->getBody() == getPrimitive(id % 2)->getBody());
 	return point[id];
 }
 
 Connector* MultiJoint::getConnector(int id)
 {
-	RBXASSERT(id < 4);
-	RBXASSERT(connector[id] != NULL);
+	ARLASSERT(id < 4);
+	ARLASSERT(connector[id] != NULL);
 	return connector[id];
 }
 
-#ifdef __RBX_VALIDATE_ASSERT
+#ifdef __ARL_VALIDATE_ASSERT
 bool MultiJoint::pointsAligned() const
 {
-	RBXASSERT(numBreakingConnectors <= numConnector);
+	ARLASSERT(numBreakingConnectors <= numConnector);
 
 		// THIS ASSERT WILL BLOW in the situation where "unaligned" joints
 		// are present on save or sleep.  For now, just watching to see how often 
@@ -112,10 +112,10 @@ bool MultiJoint::validateMultiJoint()
 	for (int j = 0; j < 2; ++j)
 	{{
 		Point *p = point[i*2 + j];
-		RBXASSERT(p->getBody() == this->getPrimitive(j)->getBody());
+		ARLASSERT(p->getBody() == this->getPrimitive(j)->getBody());
 		
 		Connector* c = connector[i];
-		RBXASSERT(c->getBody((Connector::BodyIndex)j) == this->getPrimitive(j)->getBody());
+		ARLASSERT(c->getBody((Connector::BodyIndex)j) == this->getPrimitive(j)->getBody());
 	}}
 #endif
 	return true;
@@ -124,15 +124,15 @@ bool MultiJoint::validateMultiJoint()
 
 void MultiJoint::removeFromKernel()
 {
-	RBXASSERT(this->inKernel());
+	ARLASSERT(this->inKernel());
 
 // TODO - unsuppress this - indicates something that will NOT rejoin!
-//	RBXASSERT_IF_VALIDATING(pointsAligned());
+//	ARLASSERT_IF_VALIDATING(pointsAligned());
 
-	RBXASSERT_IF_VALIDATING(validateMultiJoint());
+	ARLASSERT_IF_VALIDATING(validateMultiJoint());
 
 	for (int i = 0; i < numConnector; i++) {
-		RBXASSERT(connector[i]);
+		ARLASSERT(connector[i]);
 
 		getKernel()->removeConnector(connector[i]);
 		delete connector[i];
@@ -148,20 +148,20 @@ void MultiJoint::removeFromKernel()
 
 	Super::removeFromKernel();
 
-	RBXASSERT(!this->inKernel());
+	ARLASSERT(!this->inKernel());
 }
 
 bool MultiJoint::isBroken() const 
 {
 ///	int max = std::min(numConnector, numBreakingConnectors);
-	RBXASSERT(numBreakingConnectors <= numConnector);
-	RBXASSERT(this->inKernel());
+	ARLASSERT(numBreakingConnectors <= numConnector);
+	ARLASSERT(this->inKernel());
 
 //	ToDo:  Saving joints, otherwise a save in this configuration could cause broken joints.
-//	RBXASSERT_IF_VALIDATING(pointsAligned());
+//	ARLASSERT_IF_VALIDATING(pointsAligned());
 	
 	for (int i = 0; i < numBreakingConnectors; ++i) {
-		RBXASSERT(connector[i]);
+		ARLASSERT(connector[i]);
 		if (connector[i]->getBroken()) {
 			return true;
 		}
@@ -173,7 +173,7 @@ bool MultiJoint::isBroken() const
 } // namespace
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

@@ -5,7 +5,7 @@
 #include "V8Tree/Instance.h"
 #include "Util/G3DCore.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char *const sDataModelMesh;
 		
@@ -13,7 +13,7 @@ namespace RBX
 		: public DescribedNonCreatable<DataModelMesh, Instance, sDataModelMesh>
 	{
 	public:
-		// Do not change these integer values, they correlate to the enum on the RBXViewNew side
+		// Do not change these integer values, they correlate to the enum on the ARLViewNew side
 		enum LODType
 		{
 			LOW_LOD = 0,

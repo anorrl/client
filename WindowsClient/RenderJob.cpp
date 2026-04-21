@@ -18,7 +18,7 @@
 
 FASTFLAG(RenderLowLatencyLoop)
 
-namespace RBX {
+namespace ARL {
 
 RenderJob::RenderJob(View* robloxView, 
 					 FunctionMarshaller* marshaller,
@@ -48,7 +48,7 @@ Time::Interval RenderJob::sleepTime(const Stats& stats)
     if (isAwake)
         return computeStandardSleepTime(stats, maxFrameRate);
     else
-        return RBX::Time::Interval::max();
+        return ARL::Time::Interval::max();
 }
 
 
@@ -109,7 +109,7 @@ TaskScheduler::StepResult RenderJob::stepDataModelJob(const Stats& stats)
 		return TaskScheduler::Done;
 
 	// Enable security checks for speedhack and attached debugger in release mode
-#if !defined(LOVE_ALL_ACCESS) && !defined(RBX_STUDIO_BUILD) && !defined(_NOOPT) && !defined(DEBUG)
+#if !defined(LOVE_ALL_ACCESS) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(DEBUG)
 	VMProtectBeginMutation("34");
 	if (Time::isSpeedCheater())
 	{
@@ -130,11 +130,11 @@ TaskScheduler::StepResult RenderJob::stepDataModelJob(const Stats& stats)
 
 	if (FFlag::RenderLowLatencyLoop)
 	{
-		RBX::DataModel::scoped_write_request request(dm.get());
+		ARL::DataModel::scoped_write_request request(dm.get());
 
 		const double renderDelta = timeSinceLastRender().seconds();
 
-		lastRenderTime = RBX::Time::now<RBX::Time::Fast>();
+		lastRenderTime = ARL::Time::now<ARL::Time::Fast>();
 		isAwake = false;
 
 		marshaller->Submit(boost::bind(&scheduleRender, weak_from(this), view, timeJobStart));
@@ -175,7 +175,7 @@ TaskScheduler::StepResult RenderJob::stepDataModelJob(const Stats& stats)
 std::string RenderJob::getMetric(const std::string& metric) const
 {
 	if (metric == "Graphics Mode") 
-		return RBX::Reflection::EnumDesc<CRenderSettings::GraphicsMode>::singleton().convertToString(robloxView->GetLatchedGraphicsMode());
+		return ARL::Reflection::EnumDesc<CRenderSettings::GraphicsMode>::singleton().convertToString(robloxView->GetLatchedGraphicsMode());
 
 	if  (metric == "Render") {
 		boost::format fmt("%.1f/s %d%%");
@@ -184,7 +184,7 @@ std::string RenderJob::getMetric(const std::string& metric) const
 	}
 
 	ViewBase* view = robloxView->GetGfxView();
-	RBX::FrameRateManager* frm = view ? view->getFrameRateManager() : 0;
+	ARL::FrameRateManager* frm = view ? view->getFrameRateManager() : 0;
 	if(frm) {
 		if (metric == "FRM")						return (frm && frm->IsBlockCullingEnabled()) ? "On" : "Off";
 		if (metric == "Anti-Aliasing")				return (frm && frm->getAntialiasingMode() == CRenderSettings::AntialiasingOn) ? "On" : "Off";
@@ -192,7 +192,7 @@ std::string RenderJob::getMetric(const std::string& metric) const
 
 	// If we got here it means we were explicitly asked for information we do 
 	// not have.
-	RBXASSERT(0);
+	ARLASSERT(0);
 	return "?";
 }
 
@@ -213,8 +213,8 @@ double RenderJob::getMetricValue(const std::string& metric) const
 
 	// If we got here it means we were explicitly asked for information we do 
 	// not have.
-	RBXASSERT(0);
+	ARLASSERT(0);
 	return 0.0;
 }
 
-}  // namespace RBX
+}  // namespace ARL

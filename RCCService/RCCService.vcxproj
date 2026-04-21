@@ -100,7 +100,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\fmod\include;$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\Base\include;.;gSOAP;..\App\include;..\TBB_4_1\include;..\Win;..\Network\include;..\Rendering;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d;..\Rendering\g3d\png;..\RobloxInstall\src;$(CONTRIB_PATH)\SDK\Include;..\Log\include;..\ClientShared;$(CONTRIB_PATH);..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_CONSOLE;RBX_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_CONSOLE;ARL_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -131,7 +131,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>..\fmod\include;$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\Base\include;.;gSOAP;..\App\include;..\TBB_4_1\include;..\Win;..\Network\include;..\Rendering;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d;..\Rendering\g3d\png;..\RobloxInstall\src;$(CONTRIB_PATH)\SDK\Include;..\Log\include;..\ClientShared;$(CONTRIB_PATH)\discord-rpc-win32-static\include;..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_CONSOLE;RBX_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_CONSOLE;ARL_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -181,7 +181,7 @@ echo placeholder &gt; "$(ProjectDir)$(OutDir)boost.pdb"
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>..\fmod\include;$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\Base\include;.;gSOAP;..\App\include;..\TBB_4_1\include;..\Win;..\Network\include;..\Rendering;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d;..\Rendering\g3d\png;..\RobloxInstall\src;$(CONTRIB_PATH)\SDK\Include;..\Log\include;..\ClientShared;$(CONTRIB_PATH);..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_CONSOLE;RBX_TEST_BUILD;RBX_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_CONSOLE;ARL_TEST_BUILD;ARL_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -217,7 +217,7 @@ echo placeholder &gt; "$(ProjectDir)$(OutDir)boost.pdb"
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>..\fmod\include;$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\Base\include;.;gSOAP;..\App\include;..\TBB_4_1\include;..\Win;..\Network\include;..\Rendering;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d;..\Rendering\g3d\png;..\RobloxInstall\src;$(CONTRIB_PATH)\SDK\Include;..\Log\include;..\ClientShared;$(CONTRIB_PATH);..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_CONSOLE;_NOOPT;RBX_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_CONSOLE;_NOOPT;ARL_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>

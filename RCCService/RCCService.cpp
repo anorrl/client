@@ -40,7 +40,7 @@ extern long getAllJobsCount;
 extern long closeExpiredJobsCount;
 extern long closeAllJobsCount;
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 extern std::string RCCServiceSettingsKeyOverwrite;
 #endif
 
@@ -54,7 +54,7 @@ void process_request(RCCServiceSoapService *service)
 	}
 	catch (...)
 	{
-		RBXCRASH();
+		ARLCRASH();
 	}
 	::InterlockedDecrement(&requestCount);
 } 
@@ -63,7 +63,7 @@ static void StringCrash(const char* s)
 {
 	char str[256];
 	strncpy_s(str, 256, s, 256);
-	RBXCRASH();
+	ARLCRASH();
 }
 
 template <class Soap>
@@ -88,7 +88,7 @@ public:
 		}
 		catch (...)
 		{
-			RBXCRASH();
+			ARLCRASH();
 			return soap_receiver_fault(this, "Unexpected C++ exception type", NULL); // return fault to sender 
 		}
 	}
@@ -161,7 +161,7 @@ static void startupRCC(int port, LPCTSTR contentpath, bool crashUploaderOnly)
 
 	char buffer[64];
 	sprintf_s(buffer, 64, "Service Started on port %d", port); 
-	RBX::StandardOut::singleton()->print(RBX::MESSAGE_SENSITIVE, buffer);
+	ARL::StandardOut::singleton()->print(ARL::MESSAGE_SENSITIVE, buffer);
 	SvcReportEvent(EVENTLOG_INFORMATION_TYPE, buffer);
 }
 
@@ -174,7 +174,7 @@ DWORD CALLBACK process_request_func(LPVOID param)
 static void stepRCC()
 {
 	if (requestCount>100)
-		throw std::runtime_error(RBX::format("%d outstanding requests, execute=%d, openJob=%d, batchJob=%d, diag=%d, getVersion=%d, renewLease=%d, getAllJobs=%d, getStatusCount=%d, closeExpiredJobs=%d, closeJob=%d, helloWorld=%d, getExpiration=%d, closeAllJobs=%d", 
+		throw std::runtime_error(ARL::format("%d outstanding requests, execute=%d, openJob=%d, batchJob=%d, diag=%d, getVersion=%d, renewLease=%d, getAllJobs=%d, getStatusCount=%d, closeExpiredJobs=%d, closeJob=%d, helloWorld=%d, getExpiration=%d, closeAllJobs=%d", 
 								 requestCount, executeCount, openJobCount, batchJobCount, diagCount, getVersionCount, renewLeaseCount, getAllJobsCount, getStatusCount, closeExpiredJobsCount, closeJobCount, helloWorldCount, getExpirationCount, closeAllJobsCount));
 
 	SOAP_SOCKET s = service.accept(); 
@@ -190,7 +190,7 @@ static void stepRCC()
 		throw std::runtime_error(*soap_faultstring(&service)); 
 
 	if (!QueueUserWorkItem(&process_request_func, copy, WT_EXECUTELONGFUNCTION))
-		RBXCRASH();
+		ARLCRASH();
 }
 
 void stop_CWebService();
@@ -290,7 +290,7 @@ static int parsePlaceId(int argc, _TCHAR* argv[])
 	return atoi(placeId);
 }
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 static LPCTSTR parseMD5(int argc, _TCHAR* argv[])
 {
 	const _TCHAR szTag[] = _T("-Md5:");
@@ -309,7 +309,7 @@ void WINAPI Handler(DWORD control)
     //ASSERT(SERVICE_CONTROL_STOP == control);
 
     UpdateState(SERVICE_STOP_PENDING);
-	RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "SERVICE_STOP_PENDING");
+	ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "SERVICE_STOP_PENDING");
 	SvcReportEvent(EVENTLOG_INFORMATION_TYPE, "SERVICE_STOP_PENDING");
 
     // Perform shutdown steps here.
@@ -319,7 +319,7 @@ void WINAPI Handler(DWORD control)
                           INFINITE);
 
     UpdateState(SERVICE_STOPPED);
-	RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "SERVICE_STOPPED");
+	ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "SERVICE_STOPPED");
 	SvcReportEvent(EVENTLOG_INFORMATION_TYPE, "SERVICE_STOPPED");
 }
 
@@ -347,7 +347,7 @@ VOID WINAPI ServiceMain( DWORD dwArgc, LPTSTR *lpszArgv )
 	}
 	catch (std::exception& e)
 	{
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, e);
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e);
 		SvcReportEvent(EVENTLOG_ERROR_TYPE, e.what());
 	}
 
@@ -368,7 +368,7 @@ VOID WINAPI ServiceMain( DWORD dwArgc, LPTSTR *lpszArgv )
 		}
 		catch (std::exception& e)
 		{
-			RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, e);
+			ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e);
 			SvcReportEvent(EVENTLOG_ERROR_TYPE, e.what());
 		}
     }
@@ -563,7 +563,7 @@ public:
 
 bool Console::done = false;
 
-namespace RBX {
+namespace ARL {
 	extern bool nameThreads;
 }
 
@@ -571,10 +571,10 @@ static boost::mutex keyLockMutex;
 
 void ReadAccessKey()
 {
-	if (RBX::Http::accessKey.empty())
+	if (ARL::Http::accessKey.empty())
 	{
 		boost::mutex::scoped_lock lock(keyLockMutex);
-		if (RBX::Http::accessKey.empty()) 
+		if (ARL::Http::accessKey.empty()) 
 		{
 			CRegKey key;
 			if (SUCCEEDED(key.Open(HKEY_LOCAL_MACHINE, "Software\\GraceRBLX\\ANORRL\\", KEY_READ))) 
@@ -584,13 +584,13 @@ void ReadAccessKey()
 				if (SUCCEEDED(key.QueryStringValue("AccessKey", keyData, &bufLen))) 
 				{
 					keyData[bufLen] = 0;
-					RBX::Http::accessKey = std::string(keyData);
-					RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, "Access key read: %s", RBX::Http::accessKey.c_str());
+					ARL::Http::accessKey = std::string(keyData);
+					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "Access key read: %s", ARL::Http::accessKey.c_str());
 				}
 			}
 		}
 	}
-	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, "Current Access key: %s", RBX::Http::accessKey.c_str());
+	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "Current Access key: %s", ARL::Http::accessKey.c_str());
 }
 
 class PrintfLogger
@@ -602,24 +602,24 @@ public:
 	PrintfLogger()
 		:handle(GetStdHandle(STD_OUTPUT_HANDLE))
 	{
-		messageConnection = RBX::StandardOut::singleton()->messageOut.connect(boost::bind(&PrintfLogger::onMessage, this, _1));
+		messageConnection = ARL::StandardOut::singleton()->messageOut.connect(boost::bind(&PrintfLogger::onMessage, this, _1));
 	}
 protected:
-	void onMessage(const RBX::StandardOutMessage& message)
+	void onMessage(const ARL::StandardOutMessage& message)
 	{
 		rbx::spin_mutex::scoped_lock lock(mutex);
 		switch (message.type)
 		{
-		case RBX::MESSAGE_OUTPUT:
+		case ARL::MESSAGE_OUTPUT:
 			SetConsoleTextAttribute(handle, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 			break;
-		case RBX::MESSAGE_INFO:
+		case ARL::MESSAGE_INFO:
 			SetConsoleTextAttribute(handle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 			break;
-		case RBX::MESSAGE_WARNING:
+		case ARL::MESSAGE_WARNING:
 			SetConsoleTextAttribute(handle, FOREGROUND_RED | FOREGROUND_GREEN);
 			break;
-		case RBX::MESSAGE_ERROR:
+		case ARL::MESSAGE_ERROR:
 			SetConsoleTextAttribute(handle, FOREGROUND_RED | FOREGROUND_INTENSITY);
 			break;
 		}
@@ -637,7 +637,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	ReadAccessKey();
 
-	RBX::UTIL::setWindowsNoFragHeap();
+	ARL::UTIL::setWindowsNoFragHeap();
 
 	try
 	{
@@ -660,7 +660,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			if (_tcsicmp(argv[i], _T("-AQTime")) == 0)
 			{
-				RBX::nameThreads = false;
+				ARL::nameThreads = false;
 				continue;
 			}
 
@@ -704,8 +704,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		if (isConsole)
 		{
-#ifdef RBX_TEST_BUILD
-			RBX::DataModel::hash = parseMD5(argc, argv);
+#ifdef ARL_TEST_BUILD
+			ARL::DataModel::hash = parseMD5(argc, argv);
 			RCCServiceSettingsKeyOverwrite = parseSettingsKey(argc, argv);
 #endif
 			startupRCC(parsePort(argc, argv), parseContent(argc, argv), isCrashUploader);
@@ -752,7 +752,7 @@ int _tmain(int argc, _TCHAR* argv[])
 						if (_getch() == 27)
 							break;
 						else
-							RBX::TaskScheduler::singleton().printDiagnostics(true);
+							ARL::TaskScheduler::singleton().printDiagnostics(true);
 					stepRCC();
 				}
 			}
@@ -776,10 +776,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 	catch (std::exception& e)
 	{
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, e);
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e);
 		SvcReportEvent(EVENTLOG_ERROR_TYPE, e.what());
 	}
-    RBX::clearLuaReadOnly();
+    ARL::clearLuaReadOnly();
 }
 
 #pragma optimize( "", on )

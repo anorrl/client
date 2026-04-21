@@ -4,7 +4,7 @@
 
 #include "V8Datamodel/Mouse.h"
 #include "V8Datamodel/Workspace.h"
-namespace RBX {
+namespace ARL {
 
 	extern const char *const sPlayerMouse;
 

@@ -6,7 +6,7 @@
 
 LOGGROUP(DataModelJobs)
 
-namespace RBX {
+namespace ARL {
 
 	class DataModelArbiter;
 

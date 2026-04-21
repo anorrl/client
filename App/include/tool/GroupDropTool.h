@@ -6,7 +6,7 @@
 #include "Tool/ICancelableTool.h"
 #include "Tool/DragUtilities.h"
 
-namespace RBX {
+namespace ARL {
 
 	class MegaDragger;
 
@@ -40,4 +40,4 @@ namespace RBX {
 		~GroupDropTool();
 	};
 
-} // namespace RBX
+} // namespace ARL

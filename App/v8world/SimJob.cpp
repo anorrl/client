@@ -6,7 +6,7 @@
 #include "V8World/Assembly.h"
 #include "Util/StlExtra.h"
 
-namespace RBX {
+namespace ARL {
 
 const SimJob* SimJob::getConstSimJobFromPrimitive(const Primitive* primitive)
 {
@@ -38,11 +38,11 @@ void SimJobTracker::stopTracking()
 {
 	if (simJob) {
 
-		RBXASSERT(this->containedBy(simJob));
+		ARLASSERT(this->containedBy(simJob));
 	
 		fastRemoveShort<SimJobTracker*>(simJob->trackers, this);
 
-		RBXASSERT(!this->containedBy(simJob));
+		ARLASSERT(!this->containedBy(simJob));
 
 		simJob = NULL;
 	}
@@ -51,7 +51,7 @@ void SimJobTracker::stopTracking()
 bool SimJobTracker::tracking()
 {
 	if (simJob) {
-		RBXASSERT(this->containedBy(simJob));
+		ARLASSERT(this->containedBy(simJob));
 		return true;
 	}
 	else {
@@ -64,11 +64,11 @@ void SimJobTracker::setSimJob(SimJob* m)
 	stopTracking();
 
 	if (m) {
-		RBXASSERT(!this->containedBy(m));
+		ARLASSERT(!this->containedBy(m));
 
 		m->trackers.push_back(this);
 
-		RBXASSERT(this->containedBy(m));
+		ARLASSERT(this->containedBy(m));
 
 		simJob = m;
 	}
@@ -76,15 +76,15 @@ void SimJobTracker::setSimJob(SimJob* m)
 
 SimJob* SimJobTracker::getSimJob()
 {
-	RBXASSERT(simJob);
-	RBXASSERT(this->containedBy(simJob));
+	ARLASSERT(simJob);
+	ARLASSERT(this->containedBy(simJob));
 	return simJob;
 }
 
 void SimJobTracker::transferTrackers(SimJob* from, SimJob* to)
 {
-	RBXASSERT(from);
-	RBXASSERT(from != to);
+	ARLASSERT(from);
+	ARLASSERT(from != to);
 
 	while (!from->trackers.empty())
 	{
@@ -98,14 +98,14 @@ void SimJobTracker::transferTrackers(SimJob* from, SimJob* to)
 
 SimJob::SimJob(Assembly* _assembly) : assembly(_assembly), useCount(0)
 {
-	RBXASSERT(assembly->getConstSimJob() == NULL);
+	ARLASSERT(assembly->getConstSimJob() == NULL);
 }
 
 
 SimJob::~SimJob()
 {
-	RBXASSERT(useCount == 0);
-	RBXASSERT(assembly->getConstSimJob() == NULL);
+	ARLASSERT(useCount == 0);
+	ARLASSERT(assembly->getConstSimJob() == NULL);
 }
 
 }	// namespace

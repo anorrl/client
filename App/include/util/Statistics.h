@@ -5,7 +5,7 @@
 
 class SimpleJSON;
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 void SetDefaultFilePath(const std::string &path);
 const std::string &GetDefaultFilePath();
 #endif
@@ -31,6 +31,6 @@ bool FetchLocalClientSettingsData(const char* group, SimpleJSON* dest);
 void LoadClientSettingsFromString(const char* group, const std::string& settingsData, SimpleJSON* dest);
 bool FetchClientSettingsData(const char* group, const char* apiKey, SimpleJSON* dest);
 void FetchClientSettingsData(const char* group, const char* apiKey, std::string* dest);
-RBX::HttpFuture FetchClientSettingsDataAsync(const char* group, const char* apiKey);
-RBX::HttpFuture FetchABTestDataAsync(const std::string& url);
+ARL::HttpFuture FetchClientSettingsDataAsync(const char* group, const char* apiKey);
+ARL::HttpFuture FetchABTestDataAsync(const std::string& url);
 std::string LoadABTestFromString(const std::string& responseData);

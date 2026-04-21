@@ -2,7 +2,7 @@
 
 #include "Voxel/Cell.h"
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 template <class ValueType> ChunkMap<ValueType>::ChunkMap()
 {

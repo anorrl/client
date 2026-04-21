@@ -18,7 +18,7 @@ namespace RakNet {
 	class BitStream;
 }
 
-namespace RBX { 
+namespace ARL { 
 	
 	class Assembly;
 	class Primitive;
@@ -31,7 +31,7 @@ namespace RBX {
 
 	class Replicator;
 
-	class RBXBaseClass PhysicsSender : boost::noncopyable
+	class ARLBaseClass PhysicsSender : boost::noncopyable
 	{
 	private:
 		class Job;	// The Job that sends physics

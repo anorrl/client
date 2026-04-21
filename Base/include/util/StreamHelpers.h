@@ -1,7 +1,7 @@
 #include <istream>
 #include <string>
 
-namespace RBX
+namespace ARL
 {
     void readStreamIntoString(std::istream &stream, std::string& content);
-} // RBX
+} // ARL

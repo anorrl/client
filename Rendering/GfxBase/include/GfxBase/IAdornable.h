@@ -7,12 +7,12 @@
 #include "V8Tree/Instance.h"
 #include "SelectState.h"
 
-namespace RBX {
+namespace ARL {
 	class IAdornableCollector;
 	class Adorn;
 	class Camera;
 
-	class RBXInterface IAdornable
+	class ARLInterface IAdornable
 		: public Selectable
 	{
 	friend class IAdornableCollector;

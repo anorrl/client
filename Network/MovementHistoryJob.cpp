@@ -7,8 +7,8 @@
 #include "Util.h"
 
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 MovementHistoryJob::MovementHistoryJob(shared_ptr<DataModel> dataModel)
 	: DataModelJob("Movement History Job", DataModelJob::Write, false, dataModel, Time::Interval(0))
@@ -33,7 +33,7 @@ TaskScheduler::Job::Error MovementHistoryJob::error(const Stats& stats)
 TaskScheduler::StepResult MovementHistoryJob::stepDataModelJob(const Stats& stats) 
 {
     bool deprecated = true;
-    RBXASSERT(!deprecated);
+    ARLASSERT(!deprecated);
 
     if(shared_ptr<DataModel> safeDataModel = dataModel.lock()){
         DataModel::scoped_write_request request(safeDataModel.get());

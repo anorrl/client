@@ -12,5 +12,5 @@ public:
 	AuthenticationMarshallar(const char* domain);
 	~AuthenticationMarshallar(void);
 	std::string Authenticate(const char* url, const char* ticket);
-	RBX::HttpFuture AuthenticateAsync(const char* url, const char* ticket);
+	ARL::HttpFuture AuthenticateAsync(const char* url, const char* ticket);
 };

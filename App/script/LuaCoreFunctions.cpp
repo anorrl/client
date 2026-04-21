@@ -208,7 +208,7 @@ static int debug_traceback(lua_State *L)
 {
 	std::string callStack;
 
-	RBX::ScriptContext::printCallStack(L, &callStack, true);
+	ARL::ScriptContext::printCallStack(L, &callStack, true);
 	lua_pushstring(L, callStack.c_str());
 	return 1;
 }

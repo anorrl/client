@@ -4,7 +4,7 @@
 #include "V8World/Edge.h"
 
 
-namespace RBX {
+namespace ARL {
 
 Edge::Edge(Primitive* prim0, Primitive* prim1) :
 	edgeState(Sim::UNDEFINED),
@@ -18,8 +18,8 @@ Edge::Edge(Primitive* prim0, Primitive* prim1) :
 
 void Edge::setPrimitive(int i, Primitive* p)
 {
-//	RBXASSERT(!this->inPipeline());
-	RBXASSERT((i == 0) || (i == 1));
+//	ARLASSERT(!this->inPipeline());
+	ARLASSERT((i == 0) || (i == 1));
 	if (i == 0) {
 		prim0 = p;
 	}

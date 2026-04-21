@@ -24,7 +24,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(ErrorOnFailedToLoadAnim, false)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sAnimator = "Animator";
 
@@ -141,7 +141,7 @@ shared_ptr<Instance> Animator::loadAnimation(shared_ptr<Instance> instance)
 	}
 	else
 	{
-		throw RBX::runtime_error("Argument error: must be an Animation object");
+		throw ARL::runtime_error("Argument error: must be an Animation object");
 	}
 }
 
@@ -200,7 +200,7 @@ void Animator::calcAnimatableJoints(Instance* rootInstance, shared_ptr<Instance>
 
 void Animator::onStepped(const Stepped& event)
 {
-    RBXPROFILER_SCOPE("Physics", "Animator::onStepped");
+    ARLPROFILER_SCOPE("Physics", "Animator::onStepped");
 
 	calcAnimatableJoints(getRootInstance());
 
@@ -320,7 +320,7 @@ void Animator::onStepped(const Stepped& event)
     }
     else
     {
-        throw RBX::runtime_error("Animator has to be placed under Humanoid or AnimationController!");
+        throw ARL::runtime_error("Animator has to be placed under Humanoid or AnimationController!");
     }
 }
 
@@ -361,7 +361,7 @@ void Animator::onEvent_DescendantRemoving(shared_ptr<Instance> descendant)
 
 void Animator::onEvent_ClumpChanged(shared_ptr<Instance> instance)
 {
-	RBXASSERT(animatableJoints.size() > 0);
+	ARLASSERT(animatableJoints.size() > 0);
 
 	PartInstance* part = Instance::fastDynamicCast<PartInstance>(instance.get());
 	if (Primitive* primitive = part->getPartPrimitive())

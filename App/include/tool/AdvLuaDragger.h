@@ -4,7 +4,7 @@
 
 #include "V8Tree/Instance.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Joint;
 	class PartInstance;
@@ -35,10 +35,10 @@ namespace RBX {
 
 		std::vector<CoordinateFrame> m_originalPositions;
 
-		void tryStartDragging(const RBX::RbxRay& unitMouseRay);
+		void tryStartDragging(const ARL::RbxRay& unitMouseRay);
 		void startDragging();
-		void doDrag(const RBX::RbxRay& unitMouseRay);
-		bool getSnapHitPoint(PartInstance* part, const RBX::RbxRay& unitMouseRay, Vector3& hitPoint);
+		void doDrag(const ARL::RbxRay& unitMouseRay);
+		bool getSnapHitPoint(PartInstance* part, const ARL::RbxRay& unitMouseRay, Vector3& hitPoint);
 		ContactManager& getContactManager(PartInstance* partInstance);
 
 		const float breakFreeDistance();	// distance in studs at the mouse down point before movement
@@ -58,7 +58,7 @@ namespace RBX {
 						const Vector3& _pointOnMousePart,
 						const std::vector<weak_ptr<PartInstance> > _dragParts);	
 
-		void mouseMove(RBX::RbxRay mouseRay);		// inefficient, but easier to have just one version
+		void mouseMove(ARL::RbxRay mouseRay);		// inefficient, but easier to have just one version
 
 		void mouseUp();
 
@@ -77,4 +77,4 @@ namespace RBX {
 		void alignPartToGrid( void );
 	};
 
-} // namespace RBX
+} // namespace ARL

@@ -18,8 +18,8 @@
 #include "V8World/DistributedPhysics.h"
 #include "Network/NetworkOwner.h"
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 DYNAMIC_FASTFLAG(CyclicExecutiveForServerTweaks)
 
@@ -54,7 +54,7 @@ TaskScheduler::StepResult NetworkOwnerJob::stepDataModelJob(const Stats& stats)
 {
 	if(shared_ptr<DataModel> safeDataModel = dataModel.lock()){
 		DataModel::scoped_write_request request(safeDataModel.get());
-		RBXASSERT(Server::serverIsPresent(safeDataModel.get()));
+		ARLASSERT(Server::serverIsPresent(safeDataModel.get()));
 
 		if (Server* server = ServiceProvider::find<Server>(safeDataModel.get()))
 		{
@@ -68,7 +68,7 @@ TaskScheduler::StepResult NetworkOwnerJob::stepDataModelJob(const Stats& stats)
 				for (it = assemblies.begin(); it != assemblies.end(); ++it)
 				{
 					Assembly* assembly = *it;
-					RBXASSERT(Mechanism::isMovingAssemblyRoot(assembly));
+					ARLASSERT(Mechanism::isMovingAssemblyRoot(assembly));
 					PartInstance* part = PartInstance::fromPrimitive(assembly->getAssemblyPrimitive());
 					updateNetworkOwner(part);
 				}
@@ -95,7 +95,7 @@ void NetworkOwnerJob::updatePlayerLocations(Server* server)
 				const Mechanism* headMechanism = headPrim->getConstMechanism();
 				LEGACY_ASSERT(Mechanism::isMovingAssemblyRoot(headPrim->getConstAssembly()));
 		
-				RBX::SystemAddress rbxAddress = RakNetToRbxAddress(proxy->remotePlayerId);
+				ARL::SystemAddress rbxAddress = RakNetToRbxAddress(proxy->remotePlayerId);
 				ClientMapPair pair(rbxAddress, ClientLocation(weightedPoint, proxy, headMechanism));
 				clientMap.insert(pair);
 
@@ -110,11 +110,11 @@ void NetworkOwnerJob::updatePlayerLocations(Server* server)
 
 void NetworkOwnerJob::updateNetworkOwner(PartInstance* part)
 {
-	RBXASSERT(part->getPartPrimitive());
-	RBXASSERT(Assembly::isAssemblyRootPrimitive(part->getPartPrimitive()));
-	RBXASSERT(part->getPartPrimitive()->getAssembly()->getAssemblyPrimitive() == part->getPartPrimitive());
+	ARLASSERT(part->getPartPrimitive());
+	ARLASSERT(Assembly::isAssemblyRootPrimitive(part->getPartPrimitive()));
+	ARLASSERT(part->getPartPrimitive()->getAssembly()->getAssemblyPrimitive() == part->getPartPrimitive());
 
-    RBX::SystemAddress owner = part->getNetworkOwner();  
+    ARL::SystemAddress owner = part->getNetworkOwner();  
     
     if (part->getNetworkOwnershipRule() == NetworkOwnership_Manual)
 	{
@@ -133,7 +133,7 @@ void NetworkOwnerJob::updateNetworkOwner(PartInstance* part)
     
 	if ((owner == NetworkOwner::Unassigned()) || (owner == NetworkOwner::ServerUnassigned())) {
 
-		RBX::SystemAddress newOwner = NetworkOwner::Server();
+		ARL::SystemAddress newOwner = NetworkOwner::Server();
 
 		// check to see if this part belong to a player character
 		if(ModelInstance* m = Instance::fastDynamicCast<ModelInstance>(part->getParent()))
@@ -194,7 +194,7 @@ void NetworkOwnerJob::updateNetworkOwner(PartInstance* part)
 	resetNetworkOwner(part, NetworkOwner::Server());
 }
 
-void NetworkOwnerJob::resetNetworkOwner(PartInstance* part, const RBX::SystemAddress value)
+void NetworkOwnerJob::resetNetworkOwner(PartInstance* part, const ARL::SystemAddress value)
 {
 	if (part->getNetworkOwner() != value) 
 	{
@@ -246,7 +246,7 @@ NetworkOwnerJob::ClientMapConstIt NetworkOwnerJob::findClosestClient(const Vecto
 
 bool NetworkOwnerJob::clientCanSimulate(PartInstance* part, ClientMapConstIt testLocation)
 {
-	RBXASSERT(testLocation != clientMap.end());
+	ARLASSERT(testLocation != clientMap.end());
 
 //	return false;
 
@@ -266,7 +266,7 @@ bool NetworkOwnerJob::isClientCharacterMechanism(PartInstance* part, ClientMapCo
 	const Primitive* dPhysPrim = part->getConstPartPrimitive();
 	const Mechanism* dPhysMechanism = dPhysPrim->getConstMechanism();
 		
-	RBXASSERT(Mechanism::isMovingAssemblyRoot(dPhysPrim->getConstAssembly()));
+	ARLASSERT(Mechanism::isMovingAssemblyRoot(dPhysPrim->getConstAssembly()));
 	
 	if (characterMechanism == dPhysMechanism) {
 		return true;
@@ -278,10 +278,10 @@ bool NetworkOwnerJob::isClientCharacterMechanism(PartInstance* part, ClientMapCo
 
 bool NetworkOwnerJob::switchOwners(PartInstance* part, ClientMapConstIt currentOwner, ClientMapConstIt possibleNewOwner)
 {
-	RBXASSERT(currentOwner != clientMap.end());
-	RBXASSERT(possibleNewOwner != clientMap.end());
-	RBXASSERT(part->getNetworkOwner() == currentOwner->first);
-	RBXASSERT(part->getNetworkOwner() != possibleNewOwner->first);
+	ARLASSERT(currentOwner != clientMap.end());
+	ARLASSERT(possibleNewOwner != clientMap.end());
+	ARLASSERT(part->getNetworkOwner() == currentOwner->first);
+	ARLASSERT(part->getNetworkOwner() != possibleNewOwner->first);
 
 	if (isClientCharacterMechanism(part, currentOwner)) {			// no switch allowed if current mechanism is current owner mechanism
 		return false;
@@ -294,7 +294,7 @@ bool NetworkOwnerJob::switchOwners(PartInstance* part, ClientMapConstIt currentO
 	}
 }
 
-void NetworkOwnerJob::invalidateProjectileOwnership(RBX::SystemAddress addr)
+void NetworkOwnerJob::invalidateProjectileOwnership(ARL::SystemAddress addr)
 {
     ClientMapIt clientLoc = clientMap.find(addr);
     if (clientLoc != clientMap.end())

@@ -328,8 +328,8 @@ Ray CoordinateFrame::toObjectSpace(const Ray& r) const {
     return Ray::fromOriginAndDirection(pointToObjectSpace(r.origin()), vectorToObjectSpace(r.direction()));
 }
 
-RBX::RbxRay CoordinateFrame::toObjectSpace(const RBX::RbxRay& r) const {
-	return RBX::RbxRay::fromOriginAndDirection(pointToObjectSpace(r.origin()), vectorToObjectSpace(r.direction()));
+ARL::RbxRay CoordinateFrame::toObjectSpace(const ARL::RbxRay& r) const {
+	return ARL::RbxRay::fromOriginAndDirection(pointToObjectSpace(r.origin()), vectorToObjectSpace(r.direction()));
 }
 
 

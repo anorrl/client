@@ -10,14 +10,14 @@
 #include "Util/Object.h"
 #include "Util/Memory.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace Reflection
 	{
 		class DescribedBase;
 	}
 
-	// Used to reference RBX::Reflection::DescribedBase in the XmlElement class
+	// Used to reference ARL::Reflection::DescribedBase in the XmlElement class
 	class InstanceHandle {
 		shared_ptr<Reflection::DescribedBase> target;
 	public:

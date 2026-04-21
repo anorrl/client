@@ -28,7 +28,7 @@ FASTFLAGVARIABLE(UseUserListMenu, false)
 FASTFLAGVARIABLE(EnableSetCoreTopbarEnabled, false)
 FASTFLAGVARIABLE(Durango3DBackground, true)     // this is Xbox flag. Defined here so it is accessible in studio and xbox client
 
-namespace RBX
+namespace ARL
 {
 	const char* const sGuiService = "GuiService";
     REFLECTION_BEGIN();
@@ -196,7 +196,7 @@ namespace RBX
 			return true;
 		if(newDialog->dialogType < currentDialog->dialogType)
 			return false;
-		RBXASSERT(newDialog->dialogType == currentDialog->dialogType);
+		ARLASSERT(newDialog->dialogType == currentDialog->dialogType);
 
 		switch(newDialog->dialogType){
 			case CENTER_DIALOG_UNSOLICITED_DIALOG:
@@ -206,7 +206,7 @@ namespace RBX
 			case CENTER_DIALOG_QUIT_DIALOG:
 				return true;
 			default:
-				RBXASSERT(0);
+				ARLASSERT(0);
 				return false;
 		}
 	}
@@ -223,7 +223,7 @@ namespace RBX
 			case CENTER_DIALOG_QUIT_DIALOG:
 				return true;
 			default:
-				RBXASSERT(0);
+				ARLASSERT(0);
 				return false;
 		}
 	}
@@ -292,7 +292,7 @@ namespace RBX
 						sc->callInNewThread(callback, args);
 						return;
 					}
-					catch (RBX::base_exception& e)
+					catch (ARL::base_exception& e)
 					{
                         StandardOut::singleton()->printf(MESSAGE_ERROR, "Unexpected error while invoking callback: %s", e.what());
                     }
@@ -307,14 +307,14 @@ namespace RBX
 	{
 		shared_ptr<GuiObject> dialog = Instance::fastSharedDynamicCast<GuiObject>(dialogInstance);
 		if(!dialog)
-			throw RBX::runtime_error("dialog must be a GuiObject instance");
+			throw ARL::runtime_error("dialog must be a GuiObject instance");
 
 		weak_ptr<GuiObject> weakDialog = weak_from(dialog.get());
 		std::map<boost::weak_ptr<GuiObject>, DialogWrapper*>::iterator iter = dialogWrapperMap.find(weakDialog);
 		if(iter != dialogWrapperMap.end()){
 			if( DialogWrapper* wrapper = iter->second){
 				if(wrapper->dialogType != type){
-					throw RBX::runtime_error("A dialogInstance should not change CenterDialogTypes");
+					throw ARL::runtime_error("A dialogInstance should not change CenterDialogTypes");
 				}
 
 				if(wrapper == currentDialog){
@@ -330,7 +330,7 @@ namespace RBX
 				dialogWrapperMap.erase(iter);
 			}
 		}
-		RBXASSERT(dialogWrapperMap.find(weakDialog) == dialogWrapperMap.end());
+		ARLASSERT(dialogWrapperMap.find(weakDialog) == dialogWrapperMap.end());
 		
 		std::list<boost::function<void()> > callbacks;
 		
@@ -361,7 +361,7 @@ namespace RBX
 	}
 	bool GuiService::showWaitingDialog(CenterDialogType type)
 	{
-		RBXASSERT(currentDialog == NULL);
+		ARLASSERT(currentDialog == NULL);
 
 		if(!dialogQueue[type].empty()){
 			DialogWrapper* result = dialogQueue[type].front();
@@ -377,7 +377,7 @@ namespace RBX
 	{
 		shared_ptr<GuiObject> dialog = Instance::fastSharedDynamicCast<GuiObject>(dialogInstance);
 		if(!dialog)
-			throw RBX::runtime_error("dialog must be a GuiObject instance");
+			throw ARL::runtime_error("dialog must be a GuiObject instance");
 		
 		weak_ptr<GuiObject> weakDialog = weak_from(dialog.get());
 		if(DialogWrapper* wrapper = dialogWrapperMap[weakDialog]){
@@ -409,12 +409,12 @@ namespace RBX
 		return false;
 	}
 	
-	bool GuiService::processKeyDown(const shared_ptr<RBX::InputObject>& event)
+	bool GuiService::processKeyDown(const shared_ptr<ARL::InputObject>& event)
 	{
 		// ensure we are dealing with a key down
-		RBXASSERT(event->isKeyDownEvent());
+		ARLASSERT(event->isKeyDownEvent());
 
-		if(event->isTextCharacterKey() || (UserInputService::IsUsingNewKeyboardEvents() && event->getUserInputType() == RBX::InputObject::TYPE_KEYBOARD))
+		if(event->isTextCharacterKey() || (UserInputService::IsUsingNewKeyboardEvents() && event->getUserInputType() == ARL::InputObject::TYPE_KEYBOARD))
 		{
 			if(!event->isAltEvent() && !event->isCtrlEvent())
 			{
@@ -456,7 +456,7 @@ namespace RBX
 	void GuiService::addKey(std::string key)
 	{
 		if(key.size() != 1)
-			throw RBX::runtime_error("GuiService:AddKey requires a string with a single character");
+			throw ARL::runtime_error("GuiService:AddKey requires a string with a single character");
 		char character = tolower(key[0]);
 
 		if(subscribedChars.find(character) == subscribedChars.end()){
@@ -466,7 +466,7 @@ namespace RBX
 	void GuiService::removeKey(std::string key)
 	{
 		if(key.size() != 1)
-			throw RBX::runtime_error("GuiService:RemoveKey requires a string with a single character");
+			throw ARL::runtime_error("GuiService:RemoveKey requires a string with a single character");
 		char character = tolower(key[0]);
 
 		std::set<char>::iterator it = subscribedChars.find(character);
@@ -494,12 +494,12 @@ namespace RBX
 
 	void GuiService::openBrowserWindow(std::string url)
 	{
-		if( !RBX::Http::isRobloxSite(url.c_str()) )
+		if( !ARL::Http::isRobloxSite(url.c_str()) )
 		{
 			StandardOut::singleton()->print(MESSAGE_WARNING, "GuiService::OpenBrowserWindow() was called on non-Roblox url.");
 			return;
 		}
-		if(!RBX::Network::Players::frontendProcessing(this))
+		if(!ARL::Network::Players::frontendProcessing(this))
 		{
 			StandardOut::singleton()->print(MESSAGE_WARNING, "GuiService::OpenBrowserWindow() was called on not a client (use local scripts on this call).");
 			return;
@@ -546,13 +546,13 @@ namespace RBX
 
 		if(Workspace* workspace = ServiceProvider::find<Workspace>(this))
 		{
-#ifdef RBX_STUDIO_BUILD
+#ifdef ARL_STUDIO_BUILD
 			verb = workspace->getVerb(verbString);
 #else
 			verb = workspace->getWhitelistVerb(verbString);
 			if (verb && verb->getVerbSecurity())
 			{
-				RBX::Tokens::simpleToken |= HATE_VERB_SNATCH;
+				ARL::Tokens::simpleToken |= HATE_VERB_SNATCH;
 				verb = NULL;
 			}
 #endif
@@ -560,7 +560,7 @@ namespace RBX
 
 		if (verb && verb->isEnabled())
 		{
-			Verb::doItWithChecks(verb, RBX::DataModel::get(this));
+			Verb::doItWithChecks(verb, ARL::DataModel::get(this));
 		}
 
 		VMProtectEnd();
@@ -573,9 +573,9 @@ namespace RBX
 
 	void GuiService::setSelectedGuiObjectLua(GuiObject* value)
 	{
-		if (RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this))
+		if (ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this))
 		{
-			if (RBX::Network::Player* player = players->getLocalPlayer()) 
+			if (ARL::Network::Player* player = players->getLocalPlayer()) 
 			{
 				if (PlayerGui* playerGui = player->findFirstChildOfType<PlayerGui>())
 				{
@@ -601,9 +601,9 @@ namespace RBX
     
     GuiObject* GuiService::getSelectedGuiObjectLua() const
     {
-		if (RBX::Network::Players* players = ServiceProvider::create<RBX::Network::Players>(this))
+		if (ARL::Network::Players* players = ServiceProvider::create<ARL::Network::Players>(this))
 		{
-			if (RBX::Network::Player* player = players->getLocalPlayer()) 
+			if (ARL::Network::Player* player = players->getLocalPlayer()) 
 			{
 				if (PlayerGui* playerGui = player->findFirstChildOfType<PlayerGui>())
 				{
@@ -666,7 +666,7 @@ namespace RBX
 
 	bool GuiService::getAutoGuiSelectionAllowed() const
 	{
-		if (GamepadService* gamepadService = RBX::ServiceProvider::create<GamepadService>(this))
+		if (GamepadService* gamepadService = ARL::ServiceProvider::create<GamepadService>(this))
 		{
 			return gamepadService->getAutoGuiSelectionAllowed();
 		}
@@ -675,7 +675,7 @@ namespace RBX
 	}
 	void GuiService::setAutoGuiSelectionAllowed(bool value)
 	{
-		if (GamepadService* gamepadService = RBX::ServiceProvider::create<GamepadService>(this))
+		if (GamepadService* gamepadService = ARL::ServiceProvider::create<GamepadService>(this))
 		{
 			if (gamepadService->setAutoGuiSelectionAllowed(value))
 			{
@@ -689,13 +689,13 @@ namespace RBX
 		shared_ptr<GuiObject> guiObjectParent = shared_from( Instance::fastDynamicCast<GuiObject>(selectionParent.get()) );
 		if (!guiObjectParent)
 		{
-			RBX::StandardOut::singleton()->printf(MESSAGE_ERROR, "GuiService:AddSelectionParent for group name %s: parent is not a GuiObject.", selectionGroupName.c_str());
+			ARL::StandardOut::singleton()->printf(MESSAGE_ERROR, "GuiService:AddSelectionParent for group name %s: parent is not a GuiObject.", selectionGroupName.c_str());
 			return;
 		}
 
 		if (selectionMap.find(selectionGroupName) != selectionMap.end())
 		{
-			RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "GuiService:AddSelectionParent already has selection group with name %s, overwriting selection group.", selectionGroupName.c_str());
+			ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "GuiService:AddSelectionParent already has selection group with name %s, overwriting selection group.", selectionGroupName.c_str());
 			removeSelectionGroup(selectionGroupName);
 		}
 
@@ -705,7 +705,7 @@ namespace RBX
 	{
 		if (selectionMap.find(selectionGroupName) != selectionMap.end())
 		{
-			RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "GuiService:AddSelectionTuple already has selection group with name %s, overwriting selection group.", selectionGroupName.c_str());
+			ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "GuiService:AddSelectionTuple already has selection group with name %s, overwriting selection group.", selectionGroupName.c_str());
 			removeSelectionGroup(selectionGroupName);
 		}
 

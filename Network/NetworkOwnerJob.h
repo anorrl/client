@@ -6,7 +6,7 @@
 #include "Util/Region2.h"
 #include <map>
 
-namespace RBX { 
+namespace ARL { 
 
 	class PartInstance;
 	class Mechanism;
@@ -39,8 +39,8 @@ namespace Network {
 			{}
 		};
 		
-		typedef std::map<RBX::SystemAddress, ClientLocation> ClientMap;
-		typedef std::pair<RBX::SystemAddress, ClientLocation> ClientMapPair;
+		typedef std::map<ARL::SystemAddress, ClientLocation> ClientMap;
+		typedef std::pair<ARL::SystemAddress, ClientLocation> ClientMapPair;
 		typedef ClientMap::const_iterator ClientMapConstIt;
         typedef ClientMap::iterator ClientMapIt;
 
@@ -54,7 +54,7 @@ namespace Network {
 		bool clientCanSimulate(PartInstance* part, ClientMapConstIt testLocation);
 		bool isClientCharacterMechanism(PartInstance* part, ClientMapConstIt testLocation);
 		bool switchOwners(PartInstance* part, ClientMapConstIt currentOwner, ClientMapConstIt possibleNewOwner);
-		static void resetNetworkOwner(PartInstance* part, const RBX::SystemAddress value);
+		static void resetNetworkOwner(PartInstance* part, const ARL::SystemAddress value);
 
 		// Job overrides
 		/*override*/ virtual Error error(const Stats& stats);
@@ -64,7 +64,7 @@ namespace Network {
 
 	public:
 		NetworkOwnerJob(shared_ptr<DataModel> dataModel);
-        void invalidateProjectileOwnership(RBX::SystemAddress addr);
+        void invalidateProjectileOwnership(ARL::SystemAddress addr);
 	};
 	
 }

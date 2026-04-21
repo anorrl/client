@@ -8,7 +8,7 @@
 #include <vector>
 #include "RbxG3D/Frustum.h"
 
-namespace RBX {
+namespace ARL {
 
 class ICameraOwner;
 class CameraSubject;
@@ -220,9 +220,9 @@ public:
 	// Taken from RbxCamera, a derivative of the G3D Camera.
 	// Returns the world space view frustum, which is a truncated pyramid describing
 	// the volume of space seen by this camera.
-	void frustum(const float farPlaneZ, RBX::Frustum& fr) const;
+	void frustum(const float farPlaneZ, ARL::Frustum& fr) const;
 
-	RBX::Frustum frustum() const;
+	ARL::Frustum frustum() const;
 
 	const CoordinateFrame& coordinateFrame() const;
 
@@ -319,4 +319,4 @@ private:
 	double lastHistoryPushTime;
 };
 
-}	// namespace RBX
+}	// namespace ARL

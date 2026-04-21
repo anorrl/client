@@ -10,7 +10,7 @@
 #include "rbx/ProcessPerfCounter.h"
 #include "rbx/Profiler.h"
 
-using namespace RBX;
+using namespace ARL;
 using boost::shared_ptr;
 
 //#define TASKSCHEDULAR_PROFILING
@@ -22,10 +22,10 @@ FASTFLAGVARIABLE(DebugTaskSchedulerProfiling, false)
 DYNAMIC_FASTINTVARIABLE(TaskSchedularBatchErrorCalcFPS, 300)
 DYNAMIC_FASTFLAGVARIABLE(CyclicExecutiveForServerTweaks, false)
 
-RBX::TaskScheduler::PriorityMethod TaskScheduler::priorityMethod = AccumulatedError;
-//RBX::TaskScheduler::PriorityMethod TaskScheduler::priorityMethod = FIFO;
+ARL::TaskScheduler::PriorityMethod TaskScheduler::priorityMethod = AccumulatedError;
+//ARL::TaskScheduler::PriorityMethod TaskScheduler::priorityMethod = FIFO;
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
     int TaskScheduler::findJobFPS = 100;
     bool TaskScheduler::updateJobPriorityOnWake = false;
 #endif
@@ -62,7 +62,7 @@ struct PrintTaskSchedulerItem
 	}
 };
 
-static std::string computeKey(const RBX::TaskScheduler::Job* job)
+static std::string computeKey(const ARL::TaskScheduler::Job* job)
 {
 	std::string key = job->name;
 	size_t index = key.find(':');
@@ -75,17 +75,17 @@ static std::string computeKey(const RBX::TaskScheduler::Job* job)
 	return key;
 }
 
-void PrintArbiters(std::vector<boost::shared_ptr<const RBX::TaskScheduler::Job> >& jobs)
+void PrintArbiters(std::vector<boost::shared_ptr<const ARL::TaskScheduler::Job> >& jobs)
 {
-	std::set<shared_ptr<RBX::TaskScheduler::Arbiter> > arbiters;
-	for (std::vector<boost::shared_ptr<const RBX::TaskScheduler::Job> >::iterator iter = jobs.begin(); iter!=jobs.end(); ++iter)
+	std::set<shared_ptr<ARL::TaskScheduler::Arbiter> > arbiters;
+	for (std::vector<boost::shared_ptr<const ARL::TaskScheduler::Job> >::iterator iter = jobs.begin(); iter!=jobs.end(); ++iter)
 	{
 		if ((*iter)->getArbiter())
 			arbiters.insert((*iter)->getArbiter());
 	}
 
 	double total = 0;
-	for (std::set<shared_ptr<RBX::TaskScheduler::Arbiter> >::iterator iter = arbiters.begin(); iter!=arbiters.end(); ++iter)
+	for (std::set<shared_ptr<ARL::TaskScheduler::Arbiter> >::iterator iter = arbiters.begin(); iter!=arbiters.end(); ++iter)
 	{
 		double activity = (*iter)->getAverageActivity();
 		printf("Arbiter %s\t%.1f%%\t%s\n", (*iter)->arbiterName().c_str(), 100.0 * activity, (*iter)->isThrottled() ? "throttled" : "");
@@ -94,10 +94,10 @@ void PrintArbiters(std::vector<boost::shared_ptr<const RBX::TaskScheduler::Job> 
 	printf("Total activity\t%.1f%%\n", 100.0 * total);
 }
 
-void PrintTasks(std::vector<boost::shared_ptr<const RBX::TaskScheduler::Job> >& jobs)
+void PrintTasks(std::vector<boost::shared_ptr<const ARL::TaskScheduler::Job> >& jobs)
 {
 	printf("%25.25s\tSleep\tPrior\t%%\tSteps\tCV\tStep\n", "Arbiter:TaskName");
-	for (std::vector<boost::shared_ptr<const RBX::TaskScheduler::Job> >::iterator iter = jobs.begin(); iter!=jobs.end(); ++iter)
+	for (std::vector<boost::shared_ptr<const ARL::TaskScheduler::Job> >::iterator iter = jobs.begin(); iter!=jobs.end(); ++iter)
 	{
 		if ((*iter)->getSleepingTime()>Time::Interval(2))
 			printf("%25.25s\tAsleep for %.1fs\n", 
@@ -115,10 +115,10 @@ void PrintTasks(std::vector<boost::shared_ptr<const RBX::TaskScheduler::Job> >& 
 	}
 }
 
-void PrintAggregatedTasks(std::vector<boost::shared_ptr<const RBX::TaskScheduler::Job> >& jobs)
+void PrintAggregatedTasks(std::vector<boost::shared_ptr<const ARL::TaskScheduler::Job> >& jobs)
 {
 	std::map<std::string, PrintTaskSchedulerItem> items;
-	for (std::vector<boost::shared_ptr<const RBX::TaskScheduler::Job> >::iterator iter = jobs.begin(); iter!=jobs.end(); ++iter)
+	for (std::vector<boost::shared_ptr<const ARL::TaskScheduler::Job> >::iterator iter = jobs.begin(); iter!=jobs.end(); ++iter)
 	{
 		std::string key = computeKey(iter->get());
 		if ((*iter)->getSleepingTime()<Time::Interval(5))
@@ -153,7 +153,7 @@ void PrintAggregatedTasks(std::vector<boost::shared_ptr<const RBX::TaskScheduler
 
 void TaskScheduler::printDiagnostics(bool aggregateJobs)
 {
-	std::vector<boost::shared_ptr<const RBX::TaskScheduler::Job> > jobs;
+	std::vector<boost::shared_ptr<const ARL::TaskScheduler::Job> > jobs;
 	getJobsInfo(jobs);
 
 	if (aggregateJobs)
@@ -177,12 +177,12 @@ void TaskScheduler::printDiagnostics(bool aggregateJobs)
 
 
 
-RBX::ExclusiveArbiter RBX::ExclusiveArbiter::singleton;
+ARL::ExclusiveArbiter ARL::ExclusiveArbiter::singleton;
 
-bool RBX::ExclusiveArbiter::areExclusive(TaskScheduler::Job* task1, TaskScheduler::Job* task2)
+bool ARL::ExclusiveArbiter::areExclusive(TaskScheduler::Job* task1, TaskScheduler::Job* task2)
 {
-	RBXASSERT(task1->hasArbiter(this));
-	RBXASSERT(task2->hasArbiter(this));
+	ARLASSERT(task1->hasArbiter(this));
+	ARLASSERT(task2->hasArbiter(this));
 	return true;
 }
 
@@ -221,7 +221,7 @@ TaskScheduler::TaskScheduler()
 ,nonCyclicJobsToDo(0)
 ,lastCyclcTimestamp(Time::now<Time::Fast>())
 {
-	runningJobCounterThread.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&TaskScheduler::sampleRunningJobCount, this), "Roblox sampleRunningJobCount")));
+	runningJobCounterThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&TaskScheduler::sampleRunningJobCount, this), "Roblox sampleRunningJobCount")));
 
 	// Publish the fast flag out to the schedulers API so that it can be overridden by specific clients.
 	// E.g. this is not yet something to be done on the server.
@@ -261,18 +261,18 @@ void TaskScheduler::remove(boost::shared_ptr<TaskScheduler::Job> task, bool join
 					return;
 			}
 	#ifdef _DEBUG
-			RBXASSERT(false);	// Why did it take so long to join?
+			ARLASSERT(false);	// Why did it take so long to join?
 	#endif
-			RBXCRASH();	// We want to learn about this. Blocking a long time means a thread in the pool is locked up!
+			ARLCRASH();	// We want to learn about this. Blocking a long time means a thread in the pool is locked up!
 		}
 		else
 		{
 			if (!joinEvent->Wait(1000 * 60 * 5))
 			{
 	#ifdef _DEBUG
-				RBXASSERT(false);	// Why did it take so long to join?
+				ARLASSERT(false);	// Why did it take so long to join?
 	#endif
-				RBXCRASH();	// We want to learn about this. Blocking a long time means a thread in the pool is locked up!
+				ARLCRASH();	// We want to learn about this. Blocking a long time means a thread in the pool is locked up!
 			}
 		}
 	}
@@ -283,10 +283,10 @@ void TaskScheduler::remove(boost::shared_ptr<TaskScheduler::Job> task, bool join
 void TaskScheduler::reschedule(boost::shared_ptr<Job> job)
 {
 	{
-		RBX::mutex::scoped_lock lock(mutex);
+		ARL::mutex::scoped_lock lock(mutex);
 		if (job->SleepingHook::is_linked())
 		{
-			RBXASSERT( !cyclicExecutiveEnabled || job->cyclicExecutive == false );
+			ARLASSERT( !cyclicExecutiveEnabled || job->cyclicExecutive == false );
 
 			sleepingJobs.erase(sleepingJobs.iterator_to(*job));
 			scheduleJob(*job);
@@ -294,7 +294,7 @@ void TaskScheduler::reschedule(boost::shared_ptr<Job> job)
 		else if(cyclicExecutiveEnabled && job->cyclicExecutive)
 		{
 			CyclicExecutiveJobs::iterator i = std::find( cyclicExecutiveJobs.begin(), cyclicExecutiveJobs.end(), job );
-			RBXASSERT( i != cyclicExecutiveJobs.end() );
+			ARLASSERT( i != cyclicExecutiveJobs.end() );
 			if( i != cyclicExecutiveJobs.end() )
 			{
 				// Reschedule immediately without waiting for other jobs.  Prevents theoretical deadlocks.
@@ -311,15 +311,15 @@ bool TaskScheduler::jobCompare(const CyclicExecutiveJob& jobA, const CyclicExecu
 
 void TaskScheduler::add(boost::shared_ptr<Job> job)
 {
-	RBX::mutex::scoped_lock lock(mutex);
-	RBXASSERT(allJobs.find(job)==allJobs.end());
+	ARL::mutex::scoped_lock lock(mutex);
+	ARLASSERT(allJobs.find(job)==allJobs.end());
 	allJobs.insert(job);
 
 	if(cyclicExecutiveEnabled)
 	{
 		if( job->cyclicExecutive )
 		{
-			RBXASSERT( std::find( cyclicExecutiveJobs.begin(), cyclicExecutiveJobs.end(), job ) == cyclicExecutiveJobs.end() );
+			ARLASSERT( std::find( cyclicExecutiveJobs.begin(), cyclicExecutiveJobs.end(), job ) == cyclicExecutiveJobs.end() );
 			cyclicExecutiveJobs.push_back( job );
 			std::sort(cyclicExecutiveJobs.begin(), cyclicExecutiveJobs.end(), jobCompare);
 		}
@@ -352,7 +352,7 @@ void TaskScheduler::scheduleJob(Job& job)
 	if(cyclicExecutiveEnabled && job.cyclicExecutive)
 	{
 		CyclicExecutiveJobs::iterator i = std::find( cyclicExecutiveJobs.begin(), cyclicExecutiveJobs.end(), job );
-		RBXASSERT( i != cyclicExecutiveJobs.end() );
+		ARLASSERT( i != cyclicExecutiveJobs.end() );
 		if( i != cyclicExecutiveJobs.end() )
 		{
 			i->isRunning = false;
@@ -365,7 +365,7 @@ void TaskScheduler::scheduleJob(Job& job)
 
 	if (job.wakeTime <= now)
 	{
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
         errorCalculationPerSec.sample();
 #endif
 		job.updateError(now);
@@ -374,7 +374,7 @@ void TaskScheduler::scheduleJob(Job& job)
 			job.sleepRate.sample(0);
 			job.startWaiting();
             
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 			if (updateJobPriorityOnWake)
 #endif
             {
@@ -393,15 +393,15 @@ void TaskScheduler::scheduleJob(Job& job)
 
 void TaskScheduler::remove(const boost::shared_ptr<TaskScheduler::Job>& job, boost::shared_ptr<CEvent> joinEvent)
 {
-	RBX::mutex::scoped_lock lock(mutex);
-	RBXASSERT(allJobs.find(job)!=allJobs.end());
+	ARL::mutex::scoped_lock lock(mutex);
+	ARLASSERT(allJobs.find(job)!=allJobs.end());
 	FASTLOG1(FLog::TaskSchedulerRun,
 		"Removing job %p from allJobs (::remove)", job.get());
 	allJobs.erase(job);
 
 	if (job->SleepingHook::is_linked())
 	{
-		RBXASSERT( !cyclicExecutiveEnabled || job->cyclicExecutive == false );
+		ARLASSERT( !cyclicExecutiveEnabled || job->cyclicExecutive == false );
 		FASTLOG1(FLog::TaskSchedulerRun,
 			"Removing job %p from sleepingJobs (::remove)", job.get());
 		sleepingJobs.erase(sleepingJobs.iterator_to(*job));
@@ -410,7 +410,7 @@ void TaskScheduler::remove(const boost::shared_ptr<TaskScheduler::Job>& job, boo
 	}
 	else if (job->WaitingHook::is_linked())
 	{
-		RBXASSERT( !cyclicExecutiveEnabled || job->cyclicExecutive == false );
+		ARLASSERT( !cyclicExecutiveEnabled || job->cyclicExecutive == false );
 		FASTLOG1(FLog::TaskSchedulerRun,
 			"Removing job %p from waitingJobs (::remove)", job.get());
 
@@ -424,7 +424,7 @@ void TaskScheduler::remove(const boost::shared_ptr<TaskScheduler::Job>& job, boo
 		if (cyclicExecutiveEnabled && job->cyclicExecutive)
 		{
 			CyclicExecutiveJobs::iterator i = std::find( cyclicExecutiveJobs.begin(), cyclicExecutiveJobs.end(), job );
-			RBXASSERT( i != cyclicExecutiveJobs.end() );
+			ARLASSERT( i != cyclicExecutiveJobs.end() );
 			if( i != cyclicExecutiveJobs.end() )
 			{
 				if( !i->isRunning )
@@ -439,7 +439,7 @@ void TaskScheduler::remove(const boost::shared_ptr<TaskScheduler::Job>& job, boo
 
 		if (joinEvent)
 		{
-			RBXASSERT(!job->joinEvent);	// Did somebody else already try to remove this task????
+			ARLASSERT(!job->joinEvent);	// Did somebody else already try to remove this task????
 			// TODO: Support multiple joins by using a collection?
 
 			// We must wait for the task to be completed before signaling the joinEvent
@@ -487,7 +487,7 @@ void TaskScheduler::enqueueWaitingJob(Job& job)
 	FASTLOG1(FLog::TaskSchedulerFindJob,
 		"Adding job %p to waitingJobs (::enqueueWaitingJob)", &job);
 
-	RBXASSERT( !cyclicExecutiveEnabled || job.cyclicExecutive == false );
+	ARLASSERT( !cyclicExecutiveEnabled || job.cyclicExecutive == false );
 
 	waitingJobs.push_back(job);
 }
@@ -507,7 +507,7 @@ void TaskScheduler::wakeSleepingJobs()
 	while (iter!=sleepingJobs.end())
 	{
 		Job& job(*iter);
-		RBXASSERT( !cyclicExecutiveEnabled || job.cyclicExecutive == false );
+		ARLASSERT( !cyclicExecutiveEnabled || job.cyclicExecutive == false );
 
 		if (job.wakeTime > now)
 		{
@@ -517,12 +517,12 @@ void TaskScheduler::wakeSleepingJobs()
 		else
 		{
 			iter = sleepingJobs.erase(iter);
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
             errorCalculationPerSec.sample();
 #endif
             job.updateError(now);
             
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 			if (updateJobPriorityOnWake)
 #endif
             {
@@ -564,7 +564,7 @@ boost::shared_ptr<TaskScheduler::Job> TaskScheduler::findJobToRun(shared_ptr<Thr
 {
 #ifdef TASKSCHEDULAR_PROFILING
     int theCount = 0;
-    RBX::Timer<RBX::Time::Precise> timer;
+    ARL::Timer<ARL::Time::Precise> timer;
 #endif
 	Time now = Time::now<Time::Fast>();
 
@@ -709,7 +709,7 @@ int TaskScheduler::numNonCyclicJobsWithWork()
 	return jobCount;
 }
 
-shared_ptr<TaskScheduler::Job> TaskScheduler::findJobToRunNonCyclicJobs(boost::shared_ptr<Thread> requestingThread, RBX::Time now)
+shared_ptr<TaskScheduler::Job> TaskScheduler::findJobToRunNonCyclicJobs(boost::shared_ptr<Thread> requestingThread, ARL::Time now)
 {
 	shared_ptr<TaskScheduler::Job> result;
 	wakeSleepingJobs();
@@ -729,13 +729,13 @@ shared_ptr<TaskScheduler::Job> TaskScheduler::findJobToRunNonCyclicJobs(boost::s
 	}
 	double errorCalcInterval = 1.f / (double)fps;
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 	errorCalcInterval = 1.f / findJobFPS;
 #endif
 	shouldCalcError = (timeSinceLastSorting.seconds() > errorCalcInterval);
 	if (shouldCalcError)
 	{
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 		sortFrequency.sample();
 #endif
 		lastSortTime = now;
@@ -757,7 +757,7 @@ shared_ptr<TaskScheduler::Job> TaskScheduler::findJobToRunNonCyclicJobs(boost::s
 		{
 			if (shouldCalcError)
 			{
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 				errorCalculationPerSec.sample();
 #endif
 				job.updateError(now);
@@ -846,7 +846,7 @@ shared_ptr<TaskScheduler::Job> TaskScheduler::findJobToRunNonCyclicJobs(boost::s
 	if (bestJob != waitingJobs.end())
 	{
 		result = bestJob->shared_from_this();
-		RBXASSERT(bestJob->WaitingHook::is_linked());
+		ARLASSERT(bestJob->WaitingHook::is_linked());
 		waitingJobs.erase(waitingJobs.iterator_to(*bestJob));
 		averageThreadAffinity.sample(bestHasAffinity);
 		FASTLOG3(FLog::TaskSchedulerFindJob, "RunJob, job: %p, arbiter %p error: %u", result.get(), result->getArbiter().get(), (unsigned)result->currentError.error);
@@ -856,7 +856,7 @@ shared_ptr<TaskScheduler::Job> TaskScheduler::findJobToRunNonCyclicJobs(boost::s
 #ifdef TASKSCHEDULAR_PROFILING
 	if (FFlag::DebugTaskSchedulerProfiling)
 	{
-		static RBX::Timer<RBX::Time::Fast> totalTimer;
+		static ARL::Timer<ARL::Time::Fast> totalTimer;
 		static int totalCount = 0;
 		static double taskSchedulerTime = 0.f;
 		static int lastTotalCount = 0;
@@ -875,5 +875,5 @@ shared_ptr<TaskScheduler::Job> TaskScheduler::findJobToRunNonCyclicJobs(boost::s
 	return result;
 }
 
-rbx::atomic<int> RBX::SimpleThrottlingArbiter::arbiterCount;
-bool RBX::SimpleThrottlingArbiter::isThrottlingEnabled = false;
+rbx::atomic<int> ARL::SimpleThrottlingArbiter::arbiterCount;
+bool ARL::SimpleThrottlingArbiter::isThrottlingEnabled = false;

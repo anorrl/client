@@ -14,7 +14,7 @@ struct ID3D11Buffer;
 struct ID3D11Device;
 struct ID3D11InputLayout;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

@@ -3,7 +3,7 @@
 #include "Util/G3DCore.h"
 #include "Voxel/Util.h"
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 // Read-only view of a contiguous, axis-aligned subsection of the entire voxel
 // grid.

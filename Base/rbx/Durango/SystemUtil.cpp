@@ -1,6 +1,6 @@
 #include "rbx/SystemUtil.h"
 
-namespace RBX
+namespace ARL
 {
     namespace SystemUtil
     {

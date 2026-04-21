@@ -4,7 +4,7 @@
 #include "reflection/enumConverter.h"
 #include "rbxformat.h"
 
-namespace RBX { namespace Lua {
+namespace ARL { namespace Lua {
 
 	class AllEnumDescriptors
 	{
@@ -16,7 +16,7 @@ namespace RBX { namespace Lua {
 	{
 	public:
 		static void declareAllEnums(lua_State *L);
-		static bool getValue(lua_State *L, unsigned int index, RBX::Reflection::Variant& value);
+		static bool getValue(lua_State *L, unsigned int index, ARL::Reflection::Variant& value);
 	};
 
 	typedef const Reflection::EnumDescriptor* EnumDescriptorPtr;

@@ -3,7 +3,7 @@
 #include "ClientReplicator.h"
 
 
-using namespace RBX;
+using namespace ARL;
 using namespace Network;
 
 struct JobInfo

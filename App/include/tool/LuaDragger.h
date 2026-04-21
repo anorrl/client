@@ -4,7 +4,7 @@
 
 #include "V8Tree/Instance.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Joint;
 	class PartInstance;
@@ -70,4 +70,4 @@ namespace RBX {
 		void alignPartToGrid( void );
 	};
 
-} // namespace RBX
+} // namespace ARL

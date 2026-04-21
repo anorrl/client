@@ -9,7 +9,7 @@
 
 #include "voxel/Voxelizer.h"
 
-namespace RBX
+namespace ARL
 {
 	class PartInstance;
 	class Frustum;
@@ -23,12 +23,12 @@ namespace RBX
     }
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
 
-using RBX::Voxel::DataModelPartCache;
+using ARL::Voxel::DataModelPartCache;
 class VisualEngine;
 class SpatialHashedScene;
 

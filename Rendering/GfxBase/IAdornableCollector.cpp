@@ -8,7 +8,7 @@
 LOGGROUP(AdornableLifetime);
 DYNAMIC_FASTFLAGVARIABLE(DontReorderScreenGuisWhenDescendantRemoving, false)
 
-namespace RBX {
+namespace ARL {
 
 
 IAdornable::~IAdornable()
@@ -38,14 +38,14 @@ IAdornableCollector::~IAdornableCollector()
 	FASTLOG1(FLog::AdornableLifetime, "Adornable Collector %p deleted", this);
 	FASTLOG3(FLog::AdornableLifetime, "Renderables 2D: %u 3D: %u 3DSorted: %u", renderable2ds.size(), renderable3ds.size(), renderable3dSorteds.size());
 
-	RBXASSERT(renderable2ds.size() == 0);
-	RBXASSERT(renderable3ds.size() == 0);
-	RBXASSERT(renderable3dSorteds.size() == 0);
+	ARLASSERT(renderable2ds.size() == 0);
+	ARLASSERT(renderable3ds.size() == 0);
+	ARLASSERT(renderable3dSorteds.size() == 0);
 }
 
 void IAdornableCollector::recomputeShouldRender(IAdornable* iR)
 {
-	RBXASSERT(iR->bucket == this);
+	ARLASSERT(iR->bucket == this);
 
 	if (iR->shouldRender2d()) {
 		if (!renderable2ds.fastContains(iR)) {
@@ -91,10 +91,10 @@ void IAdornableCollector::recomputeShouldRender(IAdornable* iR)
 
 void IAdornableCollector::onRenderableDescendantAdded(IAdornable* iR)
 {
-	RBXASSERT(iR->index2d == -1);
-	RBXASSERT(iR->index3d == -1);
-	RBXASSERT(iR->index3dSorted == -1);
-	RBXASSERT(iR->bucket == NULL);
+	ARLASSERT(iR->index2d == -1);
+	ARLASSERT(iR->index3d == -1);
+	ARLASSERT(iR->index3dSorted == -1);
+	ARLASSERT(iR->bucket == NULL);
 
 	iR->bucket = this;
 
@@ -104,7 +104,7 @@ void IAdornableCollector::onRenderableDescendantAdded(IAdornable* iR)
 
 void IAdornableCollector::onRenderableDescendantRemoving(IAdornable* iR)
 {
-	RBXASSERT(iR->bucket == this);
+	ARLASSERT(iR->bucket == this);
 
 	if (renderable2ds.fastContains(iR)) {
 		FASTLOG2(FLog::AdornableLifetime, "Collector %p: Removing 2D adorn %p", this, iR);
@@ -130,9 +130,9 @@ void IAdornableCollector::onRenderableDescendantRemoving(IAdornable* iR)
 
 	iR->bucket = NULL;
 
-	RBXASSERT(iR->index2d == -1);
-	RBXASSERT(iR->index3d == -1);
-	RBXASSERT(iR->index3dSorted == -1);
+	ARLASSERT(iR->index2d == -1);
+	ARLASSERT(iR->index3d == -1);
+	ARLASSERT(iR->index3dSorted == -1);
 }
 
 
@@ -166,4 +166,4 @@ void IAdornableCollector::append3dSortedAdornItems(std::vector<AdornableDepth>& 
 	}
 }
 
-}  // namespace RBX
+}  // namespace ARL

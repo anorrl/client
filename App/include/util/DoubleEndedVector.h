@@ -4,7 +4,7 @@
 
 #include <vector>
 
-namespace RBX {
+namespace ARL {
 
 /**
  * Wrapper around std::vector that allows for quick insert and pop from both
@@ -28,14 +28,14 @@ private:
 				size_t firstSegment = data.size() - head;
 				size_t secondSegment = internalSize - firstSegment;
 
-				RBXASSERT(firstSegment + secondSegment == data.size());
+				ARLASSERT(firstSegment + secondSegment == data.size());
 				std::copy(&data[head], &data[head] + firstSegment, &replacement[0]);
 				std::copy(&data[0], &data[0] + secondSegment, &replacement[firstSegment]);
 			}
 
 			head = 0;
 			data.swap(replacement);
-			RBXASSERT((data.size() & (data.size() - 1)) == 0);
+			ARLASSERT((data.size() & (data.size() - 1)) == 0);
 			dataSizeMask = data.size() - 1;
 		}
 	}
@@ -65,7 +65,7 @@ public:
 	}
 
 	void pop_front(T* out) {
-		RBXASSERT(internalSize > 0);
+		ARLASSERT(internalSize > 0);
 		(*out) = data[head];
 		head = (head + 1) & dataSizeMask;
 		internalSize--;

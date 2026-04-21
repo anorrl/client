@@ -4,7 +4,7 @@
 #include "rbx/TaskScheduler.Job.h"
 #include <util/HeapValue.h>
 
-namespace RBX
+namespace ARL
 {
 	bool vmProtectedDetectCheatEngineIcon();
 
@@ -53,11 +53,11 @@ namespace RBX
     HANDLE setupCeLogWatcher();
 
     // A job to profile this detection method and optionally enable it.
-    class VerifyConnectionJob : public RBX::TaskScheduler::Job
+    class VerifyConnectionJob : public ARL::TaskScheduler::Job
     {
     public:
         VerifyConnectionJob();
-        /*override*/ RBX::Time::Interval sleepTime(const Stats& stats);
+        /*override*/ ARL::Time::Interval sleepTime(const Stats& stats);
         /*override*/ Job::Error error(const Stats& stats);
         /*override*/ TaskScheduler::StepResult step(const Stats& stats);
         /*override*/ double getPriorityFactor();	
@@ -105,4 +105,4 @@ namespace RBX
 
     __declspec(align(4096)) extern int writecopyTrap[4096];
 
-} // namespace RBX
+} // namespace ARL

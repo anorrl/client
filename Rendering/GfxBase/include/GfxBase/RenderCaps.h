@@ -2,7 +2,7 @@
 #include <string>
 #include "GfxBase/RenderSettings.h"
 
-namespace RBX { 
+namespace ARL { 
 
 	class RenderCaps
 	{

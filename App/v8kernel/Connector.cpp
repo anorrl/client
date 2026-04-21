@@ -6,7 +6,7 @@
 #include "V8Kernel/Body.h"
 #include "Util/Math.h"
 
-namespace RBX {
+namespace ARL {
 
 
 bool Connector::computeCanThrottle()
@@ -23,7 +23,7 @@ void PointToPointBreakConnector::forceToPoints(const G3D::Vector3& force)
 {
 	point0->accumulateForce(-force);
 	point1->accumulateForce(force);
-	RBXASSERT_SLOW(force.magnitude() < Math::inf());
+	ARLASSERT_SLOW(force.magnitude() < Math::inf());
 }	
 
 Body* PointToPointBreakConnector::getBody(BodyIndex id)
@@ -76,7 +76,7 @@ float RotateConnector::computeNormalRotationFromBase(Vector3& normal)
 										normal);
 
 	float answer = angle - baseRotation;
-	RBXASSERT_FISHING(fabs(answer) <= Math::twoPif());
+	ARLASSERT_FISHING(fabs(answer) <= Math::twoPif());
 	return answer;
 }
 
@@ -90,7 +90,7 @@ float RotateConnector::computeNormalRotationFromBaseFast(Vector3& normal)
 										normal);
 
 	float answer = angle - baseRotation;
-	RBXASSERT(fabs(answer) <= Math::twoPif());
+	ARLASSERT(fabs(answer) <= Math::twoPif());
 	return answer;
 }
 
@@ -159,7 +159,7 @@ void RotateConnector::computeForce(bool throttling)
 
 	float deltaRotation = Math::deltaRotationClose(desiredAngle, currentAngle);		// between -pi and pi;
 
-	RBXASSERT(fabs(deltaRotation) <= Math::pif());
+	ARLASSERT(fabs(deltaRotation) <= Math::pif());
 	
 	float torqueVal = k * deltaRotation;
 	Vector3 torque = normal * torqueVal;

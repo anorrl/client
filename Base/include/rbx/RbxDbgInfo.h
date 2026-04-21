@@ -6,7 +6,7 @@
 #define PLACE_HISTORY 4
 #define DBG_STRING_MAX 128
 
-namespace RBX
+namespace ARL
 {
 
 	// Global struct with the sole purpose of being accessible in minidump

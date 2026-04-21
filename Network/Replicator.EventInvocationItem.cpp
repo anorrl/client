@@ -10,7 +10,7 @@
 
 #include "BitStream.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 DeserializedEventInvocationItem::DeserializedEventInvocationItem()
@@ -39,7 +39,7 @@ bool Replicator::EventInvocationItem::write(RakNet::BitStream& bitStream)
 	if (!replicator.isReplicationContainer(instance.get()))
 		return true;
 
-    DescriptorSender<RBX::Reflection::EventDescriptor>::IdContainer idContainer = replicator.eventDictionary.getId(&desc);
+    DescriptorSender<ARL::Reflection::EventDescriptor>::IdContainer idContainer = replicator.eventDictionary.getId(&desc);
     if (idContainer.outdated)
     {
         return true;
@@ -64,7 +64,7 @@ bool Replicator::EventInvocationItem::write(RakNet::BitStream& bitStream)
 		Reflection::EventInvocation(Reflection::Event(desc, instance),arguments), bitStream);
 
 	if (replicator.settings().printEvents) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 			"Replication: %s-%s.%s >> %s, bytes: %d", 
 			instance->getClassName().c_str(), 
 			instance->getGuid().readableString().c_str(), 
@@ -87,7 +87,7 @@ shared_ptr<DeserializedItem> Replicator::EventInvocationItem::read(Replicator& r
 	shared_ptr<DeserializedEventInvocationItem> deserializedData(new DeserializedEventInvocationItem());
 
 	shared_ptr<Instance> deseiralizedInstance;
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 	replicator.deserializeInstanceRef(inBitstream, deseiralizedInstance, id);
 
 	// Read the event name
@@ -100,14 +100,14 @@ shared_ptr<DeserializedItem> Replicator::EventInvocationItem::read(Replicator& r
 
 	if (deseiralizedInstance && !deseiralizedInstance->getDescriptor().isA(deserializedData->eventDescriptor->owner))
 	{
-		throw RBX::runtime_error("Replication: Bad re-binding event %s-%s << %s",
+		throw ARL::runtime_error("Replication: Bad re-binding event %s-%s << %s",
 			deseiralizedInstance->getClassName().c_str(),
 			deserializedData->eventDescriptor->name.c_str(), 
 			RakNetAddressToString(replicator.remotePlayerId).c_str());
 	}
 
 	if (replicator.settings().printEvents)
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 		"Replication: %s-%s.%s << %s",							// remote player always on right side 
 		deseiralizedInstance ? deseiralizedInstance->getClassName().c_str() : "?", 
 		id.readableString().c_str(), 

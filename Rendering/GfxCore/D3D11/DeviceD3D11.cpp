@@ -18,7 +18,7 @@ LOGGROUP(VR)
 
 FASTFLAGVARIABLE(DebugD3D11DebugMode, false)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -30,7 +30,7 @@ namespace Graphics
         {
             unsigned maxQualityLevel;
             HRESULT hr = device11->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, mode, &maxQualityLevel);
-            RBXASSERT(SUCCEEDED(hr));
+            ARLASSERT(SUCCEEDED(hr));
             if (maxQualityLevel <= 0)
                 break;
             
@@ -115,13 +115,13 @@ namespace Graphics
 
         queryDesc.Query = D3D11_QUERY_TIMESTAMP;
         hr = device11->CreateQuery(&queryDesc, &beginQuery);
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
         hr = device11->CreateQuery(&queryDesc, &endQuery);
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
 
         queryDesc.Query = D3D11_QUERY_TIMESTAMP_DISJOINT;
         hr = device11->CreateQuery(&queryDesc, &disjointQuery);
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
 
 		if (IDXGIDevice1* deviceDXGI1 = queryInterface<IDXGIDevice1>(device11))
 		{
@@ -150,7 +150,7 @@ namespace Graphics
 			{
 				vr->setup(this);
 			}
-			catch (RBX::base_exception& e)
+			catch (ARL::base_exception& e)
 			{
 				FASTLOGS(FLog::VR, "VR ERROR during setup: %s", e.what());
 				vr.reset();
@@ -161,12 +161,12 @@ namespace Graphics
 
     void DeviceD3D11::createMainFramebuffer(unsigned width, unsigned height)
     {
-        RBXASSERT(!mainFramebuffer);
+        ARLASSERT(!mainFramebuffer);
 
         // Get back buffer, create view
         ID3D11Texture2D* backBuffer = NULL;
         HRESULT hr = swapChain11->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&backBuffer );
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
 
         shared_ptr<Renderbuffer> backBufferRB = shared_ptr<Renderbuffer>(new RenderbufferD3D11(this, Texture::Format_RGBA8, width, height, 1, backBuffer));
         std::vector<shared_ptr<Renderbuffer>> colorBuffers;
@@ -198,11 +198,11 @@ namespace Graphics
 
     void DeviceD3D11::defineGlobalConstants(size_t dataSize, const std::vector<ShaderGlobalConstant>& constants)
     {
-        RBXASSERT(!constants.empty());
+        ARLASSERT(!constants.empty());
 
         // Since constants are directly set to register values, we impose additional restrictions on constant data
         // The struct should be an integer number of float4 registers, and every constant has to be aligned to float4 boundary
-        RBXASSERT(dataSize % 16 == 0);
+        ARLASSERT(dataSize % 16 == 0);
 
         immediateContext->defineGlobalConstants(dataSize);
     }
@@ -383,7 +383,7 @@ namespace Graphics
 
     shared_ptr<ShaderProgram> DeviceD3D11::createShaderProgramFFP()
     {
-        throw RBX::runtime_error("No FFP support");
+        throw ARL::runtime_error("No FFP support");
     }
 
 }

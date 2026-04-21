@@ -7,7 +7,7 @@ struct ID3D11Buffer;
 struct ID3D11DeviceContext;
 struct D3D11_INPUT_ELEMENT_DESC;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

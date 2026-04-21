@@ -8,7 +8,7 @@
 #include "GfxBase/IAdornable.h"
 #include "V8DataModel/Effect.h"
 
-namespace RBX {
+namespace ARL {
 	
 	class Workspace;
 	class Primitive;
@@ -26,7 +26,7 @@ namespace RBX {
 		typedef DescribedCreatable<Explosion, Instance, sExplosion> Super;
 		Vector3 position;
 		float blastRadius;
-		float blastPressure;	// RBX Force / RBX^2 approximately
+		float blastPressure;	// ARL Force / ARL^2 approximately
 		float destroyJointRadiusPercent;
 
 		float renderTime() const			{return 0.10f;}	// seconds
@@ -89,4 +89,4 @@ namespace RBX {
 
 	};
 
-}	// namespace RBX
+}	// namespace ARL

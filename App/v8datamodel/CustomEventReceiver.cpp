@@ -5,7 +5,7 @@
 #include "V8DataModel/CollectionService.h"
 #include "reflection/reflection.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sCustomEventReceiver = "CustomEventReceiver";
 REFLECTION_BEGIN();
@@ -85,11 +85,11 @@ void CustomEventReceiver::onServiceProvider(ServiceProvider* oldProvider, Servic
 }
 
 
-} // namespace RBX
+} // namespace ARL
 
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

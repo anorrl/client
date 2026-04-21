@@ -7,7 +7,7 @@
 #include "V8World/RigidJoint.h"
 #include "V8World/KernelJoint.h"
 
-namespace RBX {
+namespace ARL {
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ EdgeStage* GroundStage::getEdgeStage()
 
 void GroundStage::onPrimitiveAdded(Primitive* p)
 {
-	RBXASSERT(p->getNumEdges() == 0);
+	ARLASSERT(p->getNumEdges() == 0);
 
 	// Primitive
 	p->putInStage(this);
@@ -48,13 +48,13 @@ void GroundStage::onPrimitiveAdded(Primitive* p)
 
 void GroundStage::onPrimitiveRemoving(Primitive* p)
 {
-	RBXASSERT(p->getNumEdges() == 1);
+	ARLASSERT(p->getNumEdges() == 1);
 
 	removeGroundJoint(p, p->requestFixed());
 
 	getEdgeStage()->onPrimitiveRemoving(p);
 	p->removeFromStage(this);
-	RBXASSERT(p->getNumEdges() == 0);
+	ARLASSERT(p->getNumEdges() == 0);
 }
 
 void GroundStage::onPrimitiveFixedChanging(Primitive* p)
@@ -89,8 +89,8 @@ void GroundStage::onPrimitiveFixedChanged(Primitive* p)
 
 void GroundStage::addGroundJoint(Primitive* p, bool grounded)
 {
-	RBXASSERT(!Joint::findConstJoint(p, Joint::ANCHOR_JOINT));
-	RBXASSERT(!Joint::findConstJoint(p, Joint::FREE_JOINT));
+	ARLASSERT(!Joint::findConstJoint(p, Joint::ANCHOR_JOINT));
+	ARLASSERT(!Joint::findConstJoint(p, Joint::FREE_JOINT));
 
 	Joint* j;
 	if (grounded) { 
@@ -115,7 +115,7 @@ void GroundStage::removeGroundJoint(Primitive* p, bool grounded)
 									: Joint::FREE_JOINT;
 
 	Joint* j = Joint::getJoint(p, jointType);
-	RBXASSERT(j);
+	ARLASSERT(j);
 
 	// TODO:  saw a crash here.  Should always be a joint here, but for now play it safe.
 	if (j) {
@@ -125,8 +125,8 @@ void GroundStage::removeGroundJoint(Primitive* p, bool grounded)
 		j->setPrimitive(1, NULL);
 		delete j;
 	}
-	RBXASSERT(!Joint::findConstJoint(p, Joint::ANCHOR_JOINT));
-	RBXASSERT(!Joint::findConstJoint(p, Joint::FREE_JOINT));
+	ARLASSERT(!Joint::findConstJoint(p, Joint::ANCHOR_JOINT));
+	ARLASSERT(!Joint::findConstJoint(p, Joint::FREE_JOINT));
 }
 
 
@@ -176,17 +176,17 @@ void GroundStage::onEdgeRemoving(Edge* e)
 
 void GroundStage::onKernelJointAdded(KernelJoint* k)
 {
-	RBXASSERT(k->getPrimitive(0));
-	RBXASSERT(k->getPrimitive(1));
-	RBXASSERT(k->getPrimitive(0)->downstreamOfStage(this));
+	ARLASSERT(k->getPrimitive(0));
+	ARLASSERT(k->getPrimitive(1));
+	ARLASSERT(k->getPrimitive(0)->downstreamOfStage(this));
 }
 
 
 void GroundStage::onKernelJointRemoving(KernelJoint* k)
 {
-	RBXASSERT(k->getPrimitive(0));
-	RBXASSERT(k->getPrimitive(1));
-	RBXASSERT(k->getPrimitive(0)->downstreamOfStage(this));
+	ARLASSERT(k->getPrimitive(0));
+	ARLASSERT(k->getPrimitive(1));
+	ARLASSERT(k->getPrimitive(0)->downstreamOfStage(this));
 }
 
 
@@ -194,8 +194,8 @@ void GroundStage::checkForFreeGroundJoint(RigidJoint* r)
 {
 	Primitive* p0 = r->getPrimitive(0);
 	Primitive* p1 = r->getPrimitive(1);
-	RBXASSERT(p0->downstreamOfStage(this));
-	RBXASSERT(p1->downstreamOfStage(this));
+	ARLASSERT(p0->downstreamOfStage(this));
+	ARLASSERT(p1->downstreamOfStage(this));
 
 	bool p0request = p0->requestFixed();
 	bool p1request = p1->requestFixed();
@@ -245,14 +245,14 @@ void GroundStage::rebuildFreeGround(Primitive* p)
 		}
 	}
 	else {
-		RBXASSERT(Joint::findConstJoint(p, Joint::ANCHOR_JOINT));
+		ARLASSERT(Joint::findConstJoint(p, Joint::ANCHOR_JOINT));
 	}
 }
 
 
 RigidJoint* GroundStage::heaviestRigidToGround(Primitive* p)
 {
-	RBXASSERT(!p->requestFixed());
+	ARLASSERT(!p->requestFixed());
 	RigidJoint* answer = NULL;
 
 	RigidJoint* r = p->getFirstRigid();

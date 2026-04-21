@@ -14,7 +14,7 @@
 
 #include "rbx/Profiler.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -22,7 +22,7 @@ namespace Graphics
 #define GFXSPATIALHASHLEVELS 4
 #define GFXSPATIALHASH_MAX_CELLS_PER_PRIMITIVE 8
 
-class GfxSpatialHash : public RBX::SpatialHash<CullableSceneNode, RBX::Contact, RBX::ContactManager, GFXSPATIALHASHLEVELS>
+class GfxSpatialHash : public ARL::SpatialHash<CullableSceneNode, ARL::Contact, ARL::ContactManager, GFXSPATIALHASHLEVELS>
 {
 public:
     GfxSpatialHash()
@@ -144,7 +144,7 @@ struct FrustumVisitor: public GfxSpatialHash::SpaceFilter
 
 void SpatialHashedScene::queryFrustumOrdered(std::vector<CullableSceneNode*>& nodes, const RenderCamera& camera, const Vector3& pointOfInterest, FrameRateManager* frm)
 {
-    RBXPROFILER_SCOPE("Render", "queryFrustumOrdered");
+    ARLPROFILER_SCOPE("Render", "queryFrustumOrdered");
 
     for (UnhashedNodes::iterator it = unhashedNodes.begin(); it != unhashedNodes.end(); ++it)
     {
@@ -168,7 +168,7 @@ static bool sphereIntersects(const Vector3& center, float radius, const Extents&
 
 void SpatialHashedScene::querySphere(std::vector<CullableSceneNode*>& nodes, const Vector3& center, float radius, unsigned int flags)
 {
-	RBXPROFILER_SCOPE("Render", "querySphere");
+	ARLPROFILER_SCOPE("Render", "querySphere");
 
 	for (CullableSceneNode* node: unhashedNodes)
 	{
@@ -188,7 +188,7 @@ void SpatialHashedScene::querySphere(std::vector<CullableSceneNode*>& nodes, con
 
 void SpatialHashedScene::queryExtents(std::vector<CullableSceneNode*>& nodes, const Extents& extents, unsigned int flags)
 {
-	RBXPROFILER_SCOPE("Render", "queryExtents");
+	ARLPROFILER_SCOPE("Render", "queryExtents");
 
     for (CullableSceneNode* node: unhashedNodes)
     {

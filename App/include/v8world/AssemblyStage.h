@@ -4,7 +4,7 @@
 
 #include "V8World/EdgeBuffer.h"
 
-namespace RBX {
+namespace ARL {
 	class Assembly;
 	class Primitive;
 

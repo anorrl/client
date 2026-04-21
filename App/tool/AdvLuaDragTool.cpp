@@ -10,7 +10,7 @@
 LOGGROUP(DragProfile)
 DYNAMIC_FASTFLAG(RestoreTransparencyOnToolChange)
 
-namespace RBX {
+namespace ARL {
 
 // This must be a human-readable name. It will be used for such things as undo/redo:
 const char* const sAdvLuaDragTool = "Drag";
@@ -36,7 +36,7 @@ AdvLuaDragTool::AdvLuaDragTool(	PartInstance* mousePart,
 
 AdvLuaDragTool::~AdvLuaDragTool()
 {
-	RBX::GameBasicSettings::singleton().setCanMousePan(true);
+	ARL::GameBasicSettings::singleton().setCanMousePan(true);
 }
 
 
@@ -49,7 +49,7 @@ shared_ptr<MouseCommand> AdvLuaDragTool::onMouseDown(const shared_ptr<InputObjec
 	capture();
 	setCursor("advClosed-hand");
 
-	RBX::GameBasicSettings::singleton().setCanMousePan(false);
+	ARL::GameBasicSettings::singleton().setCanMousePan(false);
 
     downPoint2d = inputObject->get2DPosition();
 
@@ -80,7 +80,7 @@ void AdvLuaDragTool::onMouseMove(const shared_ptr<InputObject>& inputObject)
 	FASTLOG(FLog::DragProfile, "AdvLuaDragTool - mouse move received");
 	Super::onMouseMove(inputObject);
 
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 	advLuaDragger->mouseMove(MouseCommand::getUnitMouseRay(inputObject, workspace));
 }
 
@@ -94,14 +94,14 @@ void AdvLuaDragTool::onMouseIdle(const shared_ptr<InputObject>& inputObject)
 
 shared_ptr<MouseCommand> AdvLuaDragTool::onMouseUp(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 	advLuaDragger->mouseUp();
     dragging = false;
     
 	if (DFFlag::RestoreTransparencyOnToolChange)
 		AdvArrowToolBase::restoreSavedPartsTransparency();
 
-	RBX::GameBasicSettings::singleton().setCanMousePan(true);
+	ARL::GameBasicSettings::singleton().setCanMousePan(true);
 	if (!advLuaDragger->didDrag())
 	{
 		if (shared_ptr<Instance> instance = selectIfNoDrag.lock())
@@ -156,7 +156,7 @@ shared_ptr<MouseCommand> AdvLuaDragTool::onKeyDown(const shared_ptr<InputObject>
 		return shared_from(this);
 	}
 	else {
-		RBXASSERT(0);		// when did this happen
+		ARLASSERT(0);		// when did this happen
 		return shared_ptr<MouseCommand>();
 	}
 }

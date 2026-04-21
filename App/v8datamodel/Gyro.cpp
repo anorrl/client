@@ -15,27 +15,27 @@ DYNAMIC_FASTFLAGVARIABLE(PGSWakePrimitivesWithBodyMoverPropertyChanges, false)
 FASTFLAGVARIABLE(PGSUsesConstraintBasedBodyMovers, false)
 
 
-const char* const  RBX::sBodyMover = "BodyMover";
-const char* const  RBX::sBodyPosition = "BodyPosition";
-const char* const  RBX::sBodyVelocity = "BodyVelocity";
-const char* const  RBX::sBodyGyro = "BodyGyro";
-const char* const  RBX::sBodyAngularVelocity = "BodyAngularVelocity";
-const char* const  RBX::sBodyForce = "BodyForce";
-const char* const  RBX::sBodyThrust = "BodyThrust";
-const char* const  RBX::sRocket = "RocketPropulsion";
+const char* const  ARL::sBodyMover = "BodyMover";
+const char* const  ARL::sBodyPosition = "BodyPosition";
+const char* const  ARL::sBodyVelocity = "BodyVelocity";
+const char* const  ARL::sBodyGyro = "BodyGyro";
+const char* const  ARL::sBodyAngularVelocity = "BodyAngularVelocity";
+const char* const  ARL::sBodyForce = "BodyForce";
+const char* const  ARL::sBodyThrust = "BodyThrust";
+const char* const  ARL::sRocket = "RocketPropulsion";
 
-RBX_REGISTER_CLASS(RBX::BodyGyro);
-RBX_REGISTER_CLASS(RBX::BodyForce);
-RBX_REGISTER_CLASS(RBX::BodyThrust);
-RBX_REGISTER_CLASS(RBX::BodyPosition);
-RBX_REGISTER_CLASS(RBX::BodyVelocity);
-RBX_REGISTER_CLASS(RBX::BodyAngularVelocity);
-RBX_REGISTER_CLASS(RBX::Rocket);
+ARL_REGISTER_CLASS(ARL::BodyGyro);
+ARL_REGISTER_CLASS(ARL::BodyForce);
+ARL_REGISTER_CLASS(ARL::BodyThrust);
+ARL_REGISTER_CLASS(ARL::BodyPosition);
+ARL_REGISTER_CLASS(ARL::BodyVelocity);
+ARL_REGISTER_CLASS(ARL::BodyAngularVelocity);
+ARL_REGISTER_CLASS(ARL::Rocket);
 
 
 static const float PGSSolverSpringConstantScale = 1.0f/19.0f;
 
-void RBX::registerBodyMovers()
+void ARL::registerBodyMovers()
 {
 	BodyGyro::className();
 	BodyPosition::className();
@@ -46,7 +46,7 @@ void RBX::registerBodyMovers()
 	Rocket::className();
 }
 
-using namespace RBX;
+using namespace ARL;
 
 BodyMover::BodyMover(const char* name)
 	: world(NULL)
@@ -56,8 +56,8 @@ BodyMover::BodyMover(const char* name)
 
 BodyMover::~BodyMover()
 {
-	RBXASSERT(world==NULL);
-	RBXASSERT(!part.lock());
+	ARLASSERT(world==NULL);
+	ARLASSERT(!part.lock());
 }
 
 void BodyMover::putInKernel(Kernel* _kernel)
@@ -73,17 +73,17 @@ void BodyMover::removeFromKernel()
 
 void BodyMover::computeForce(bool throttling)
 {
-	RBXASSERT(world);
-	RBXASSERT(part.lock());
-	RBXASSERT(part.lock()->getPartPrimitive()->getBody());
-//	RBXASSERT(part.lock()->getPrimitive()->getAssembly()->inKernel());
+	ARLASSERT(world);
+	ARLASSERT(part.lock());
+	ARLASSERT(part.lock()->getPartPrimitive()->getBody());
+//	ARLASSERT(part.lock()->getPrimitive()->getAssembly()->inKernel());
 
 	Vector3 force;
 	Vector3 torque;
 	Body* root;
 	computeForce(throttling, root, force, torque);
 
-	//RBXASSERT(root->inKernel());
+	//ARLASSERT(root->inKernel());
 	root->accumulateForceAtBranchCofm(force);
 	root->accumulateTorque(torque);
 }
@@ -92,7 +92,7 @@ void BodyMover::computeForce(bool throttling, Body* &root, Vector3& force, Vecto
 {
     shared_ptr<PartInstance> pi = part.lock();
 
-	RBXASSERT(force == Vector3::zero());
+	ARLASSERT(force == Vector3::zero());
 	if ( !pi || !(pi->getPartPrimitive()) ||
 		 !(pi->getPartPrimitive()->getBody()) )
 		return;
@@ -106,8 +106,8 @@ void BodyMover::computeForce(bool throttling, Body* &root, Vector3& force, Vecto
 
 bool different5percent(const Vector3& v0, const Vector3& v1)
 {
-	RBXASSERT(Math::fuzzyEq(Vector3(1,1,1), Vector3(1.04,1,1), 0.05f));
-	RBXASSERT(!Math::fuzzyEq(Vector3(1,1,1), Vector3(1.2,1,1), 0.05f));
+	ARLASSERT(Math::fuzzyEq(Vector3(1,1,1), Vector3(1.04,1,1), 0.05f));
+	ARLASSERT(!Math::fuzzyEq(Vector3(1,1,1), Vector3(1.2,1,1), 0.05f));
 
 	return (!Math::fuzzyEq(v0, v1, 0.05f));	
 }
@@ -136,7 +136,7 @@ Body* BodyMover::getEngineBody()
 		return part.lock()->getPartPrimitive()->getBody();
 	}
 	else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return NULL;
 	}
 }
@@ -153,7 +153,7 @@ bool BodyMover::duplicateBodyMoverExists(Primitive* p0, Primitive* p1)
 		joint = Primitive::getJoint(p0, p1, pairId);
 		if (joint && (typeid(*joint) == typeid(*this)))
 		{
-			//RBXASSERT(0);	// show to DB, then delete
+			//ARLASSERT(0);	// show to DB, then delete
 			return true;
 		}
 		pairId++;
@@ -189,7 +189,7 @@ void BodyMover::onAncestorChanged(const AncestorChanged& event)
 	}
 
 	if (world != NULL && newWorld == NULL) {
-		RBXASSERT(world != NULL); 
+		ARLASSERT(world != NULL); 
 		if (this->inPipeline()) {
 			if (world) {						// TODO - remove this test after a while - asserting now for safety
 				world->removeJoint(this);
@@ -203,14 +203,14 @@ void BodyMover::onAncestorChanged(const AncestorChanged& event)
 
 	if (newWorld != NULL)
 	{
-		RBXASSERT(!this->inPipeline());
+		ARLASSERT(!this->inPipeline());
 		Primitive* p0 = part.lock()->getPartPrimitive();
 		Primitive* p1 = world->getGroundPrimitive();
 		this->setPrimitive(0, p0);
 		this->setPrimitive(1, p1);
 		if (!duplicateBodyMoverExists(p0, p1)) {
 			world->insertJoint(this);
-			RBXASSERT(this->inPipeline());
+			ARLASSERT(this->inPipeline());
 			if (p0->getWorld()) 
 				world->ticklePrimitive(p0, false);
 		}
@@ -310,7 +310,7 @@ void Rocket::computeForceImpl(	bool throttling,
 								Vector3& force, 
 								Vector3& torque)
 {
-	RBXASSERT(world);
+	ARLASSERT(world);
 
 	if (!active) {
 		return;
@@ -523,8 +523,8 @@ void BodyGyro::computeForceImpl(	bool throttling,
 									Vector3& force, 
 									Vector3& torque)
 {
-	RBXASSERT(world);
-	RBXASSERT(part.lock());
+	ARLASSERT(world);
+	ARLASSERT(part.lock());
 
 	torque = computeBalanceTorque(body, root);
 	torque += computeOrientationTorque(body, root);
@@ -769,8 +769,8 @@ Reflection::PropDescriptor<BodyPosition, G3D::Vector3> BodyPosition::prop_positi
 
 // Query for debugging:
 // TODO: Can we fix Reflection to allow const member functions???
-RBX::Reflection::BoundFuncDesc<BodyPosition, G3D::Vector3()> func_getLastForce(&BodyPosition::getLastForce, "GetLastForce", Security::None);
-RBX::Reflection::BoundFuncDesc<BodyPosition, G3D::Vector3()> func_getLastForceOld(&BodyPosition::getLastForce, "lastForce", Security::None, Reflection::PropertyDescriptor::Attributes::deprecated(func_getLastForce));
+ARL::Reflection::BoundFuncDesc<BodyPosition, G3D::Vector3()> func_getLastForce(&BodyPosition::getLastForce, "GetLastForce", Security::None);
+ARL::Reflection::BoundFuncDesc<BodyPosition, G3D::Vector3()> func_getLastForceOld(&BodyPosition::getLastForce, "lastForce", Security::None, Reflection::PropertyDescriptor::Attributes::deprecated(func_getLastForce));
 
 static Reflection::RemoteEventDesc<BodyPosition, void()> event_BodyPositionReachedTarget(&BodyPosition::reachedTargetSignal, "ReachedTarget", 
 																						 Security::None, Reflection::RemoteEventCommon::SCRIPTING,
@@ -853,8 +853,8 @@ void BodyPosition::computeForceImpl(
 									Vector3& force, 
 									Vector3& torque)
 {
-	RBXASSERT(world);
-	RBXASSERT(part.lock());
+	ARLASSERT(world);
+	ARLASSERT(part.lock());
 
 	if (FFlag::PGSUsesConstraintBasedBodyMovers && world && world->getUsingPGSSolver())
 	{
@@ -945,8 +945,8 @@ Reflection::PropDescriptor<BodyVelocity, G3D::Vector3> BodyVelocity::prop_veloci
 
 // Query for debugging:
 // TODO: Can we fix Reflection to allow const member functions???
-RBX::Reflection::BoundFuncDesc<BodyVelocity, G3D::Vector3()> func_getLastForceVOld(&BodyVelocity::getLastForce, "lastForce", Security::None);
-RBX::Reflection::BoundFuncDesc<BodyVelocity, G3D::Vector3()> func_getLastForceV(&BodyVelocity::getLastForce, "GetLastForce", Security::None);
+ARL::Reflection::BoundFuncDesc<BodyVelocity, G3D::Vector3()> func_getLastForceVOld(&BodyVelocity::getLastForce, "lastForce", Security::None);
+ARL::Reflection::BoundFuncDesc<BodyVelocity, G3D::Vector3()> func_getLastForceV(&BodyVelocity::getLastForce, "GetLastForce", Security::None);
 
 BodyVelocity::BodyVelocity(void)
 	:DescribedCreatable<BodyVelocity, BodyMover, sBodyVelocity>(sBodyVelocity)
@@ -1023,7 +1023,7 @@ void BodyVelocity::computeForceImpl(
     }
 
     // P control system
-	RBXASSERT(body->getRoot());
+	ARLASSERT(body->getRoot());
 	Vector3 pAccel = newKP * (velocity - body->getRoot()->getBranchVelocity().linear);
 
 	lastForce = body->getRoot()->getBranchMass() * pAccel;
@@ -1127,7 +1127,7 @@ void BodyAngularVelocity::computeForceImpl(
 											Vector3& force, 
 											Vector3& torque)
 {
-	RBXASSERT(world);
+	ARLASSERT(world);
 
     float newKP = kP;
     if( world && world->getUsingPGSSolver() )

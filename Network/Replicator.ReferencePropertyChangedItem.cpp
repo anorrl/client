@@ -7,7 +7,7 @@
 
 #include "BitStream.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 Replicator::ReferencePropertyChangedItem::ReferencePropertyChangedItem(

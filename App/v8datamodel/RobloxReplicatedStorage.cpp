@@ -2,9 +2,9 @@
 
 #include "v8datamodel/RobloxReplicatedStorage.h"
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sRobloxReplicatedStorage = "RobloxReplicatedStorage";
+const char* const ARL::sRobloxReplicatedStorage = "RobloxReplicatedStorage";
 
 RobloxReplicatedStorage::RobloxReplicatedStorage(void)
 {

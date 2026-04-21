@@ -15,7 +15,7 @@
 
 FASTFLAGVARIABLE(EnableVideoAds, true)
 
-namespace RBX
+namespace ARL
 {
 	const char* const sAdService = "AdService";
     
@@ -56,7 +56,7 @@ namespace RBX
             return;
         }
         
-        if (RBX::UserInputService* inputService = RBX::ServiceProvider::find<RBX::UserInputService>(this))
+        if (ARL::UserInputService* inputService = ARL::ServiceProvider::find<ARL::UserInputService>(this))
         {
             if (!inputService->getTouchEnabled())
             {
@@ -75,7 +75,7 @@ namespace RBX
         
 		if (Network::Player* player =  Network::Players::findLocalPlayer(this))
 		{
-			if (RBX::ServiceProvider::find<RBX::UserInputService>(this))
+			if (ARL::ServiceProvider::find<ARL::UserInputService>(this))
 			{
 				event_serverAdVerification.fireAndReplicateEvent(this, player->getUserID(), UserInputService::getPlatform());
 			}
@@ -96,7 +96,7 @@ namespace RBX
     
     void AdService::receivedServerShowAdMessage(const bool success, int userId, const std::string& errorMessage)
     {
-        if (!RBX::Network::Players::clientIsPresent(this))
+        if (!ARL::Network::Players::clientIsPresent(this))
         {
             return;
         }
@@ -157,7 +157,7 @@ namespace RBX
 
 	void AdService::verifyCanPlayVideoAdReceivedError(const std::string& error, int userId)
 	{
-		RBX::DataModel::LegacyLock dmLock( RBX::DataModel::get(this), RBX::DataModelJob::Write);
+		ARL::DataModel::LegacyLock dmLock( ARL::DataModel::get(this), ARL::DataModelJob::Write);
 		event_sendClientAdVerificationResults.fireAndReplicateEvent(this, false, userId, error);
 	}
 
@@ -182,20 +182,20 @@ namespace RBX
 
 	void AdService::checkCanPlayVideoAd(int userId, UserInputService::Platform userPlatform)
 	{
-		if (!RBX::Network::Players::serverIsPresent(this))
+		if (!ARL::Network::Players::serverIsPresent(this))
 		{
 			return;
 		}
 
-		if(RBX::DataModel* dataModel = RBX::DataModel::get(this))
+		if(ARL::DataModel* dataModel = ARL::DataModel::get(this))
 		{
-            std::string data = RBX::format("userId=%d&placeId=%d&deviceOSType=%s", userId, dataModel->getPlaceID(), platformToWebString(userPlatform).c_str());
+            std::string data = ARL::format("userId=%d&placeId=%d&deviceOSType=%s", userId, dataModel->getPlaceID(), platformToWebString(userPlatform).c_str());
 
-			if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+			if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 			{
-				apiService->postAsync(RBX::format("adimpression/validate-request?%s", data.c_str()),
+				apiService->postAsync(ARL::format("adimpression/validate-request?%s", data.c_str()),
 					std::string("ServerCanPlayAd"),
-					true, RBX::PRIORITY_DEFAULT, HttpService::TEXT_PLAIN,
+					true, ARL::PRIORITY_DEFAULT, HttpService::TEXT_PLAIN,
 					boost::bind(&AdService::verifyCanPlayVideoAdReceivedResponseNoDMLock, this, _1, userId), 
 					boost::bind(&AdService::verifyCanPlayVideoAdReceivedErrorNoDMLock, this, _1, userId) );
 			}
@@ -209,7 +209,7 @@ namespace RBX
 
 		if (Network::Player* player =  Network::Players::findLocalPlayer(this))
 		{
-			if (RBX::ServiceProvider::find<RBX::UserInputService>(this))
+			if (ARL::ServiceProvider::find<ARL::UserInputService>(this))
 			{
 				event_sendServerRecordImpression.fireAndReplicateEvent(this, player->getUserID(), UserInputService::getPlatform(), didPlay);
 			}
@@ -223,19 +223,19 @@ namespace RBX
 
 	void AdService::sendAdImpression(int userId, UserInputService::Platform platform, bool didPlay)
 	{
-		if(RBX::DataModel* dataModel = RBX::DataModel::get(this))
+		if(ARL::DataModel* dataModel = ARL::DataModel::get(this))
 		{
 			if (Network::Players::serverIsPresent(dataModel))
 			{
 				std::string apiBaseUrl = ServiceProvider::create<ContentProvider>(this)->getApiBaseUrl();
 				// fire and forget, we don't care about results on the client, at least for now
-                std::string data = RBX::format("userId=%i&placeId=%d&deviceOSType=%s&wasSuccessful=%s", userId, dataModel->getPlaceID(), platformToWebString(platform).c_str(), didPlay ? "true" : "false");
+                std::string data = ARL::format("userId=%i&placeId=%d&deviceOSType=%s&wasSuccessful=%s", userId, dataModel->getPlaceID(), platformToWebString(platform).c_str(), didPlay ? "true" : "false");
 
-				if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+				if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 				{
-					apiService->postAsync( RBX::format("adimpression/record-impression?%s", data.c_str()),
+					apiService->postAsync( ARL::format("adimpression/record-impression?%s", data.c_str()),
 						std::string("ServerSendAdImpression"),
-						true, RBX::PRIORITY_DEFAULT, HttpService::TEXT_PLAIN,
+						true, ARL::PRIORITY_DEFAULT, HttpService::TEXT_PLAIN,
 						boost::bind(&ForgetResponse,_1),
 						boost::bind(&ForgetResponse,_1));
 				}

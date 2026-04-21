@@ -4,7 +4,7 @@
 #include "Util/Http.h"
 #include "v8datamodel/DataModel.h"
 
-namespace RBX
+namespace ARL
 {
 	const char* const sContentFilter = "ContentFilter";
 	const unsigned ContentFilter::MAX_CONTENT_FILTER_SIZE = 1024;

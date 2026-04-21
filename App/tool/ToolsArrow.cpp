@@ -24,7 +24,7 @@ FASTFLAGVARIABLE(StudioDE6194FixEnabled, false)
 
 DYNAMIC_FASTFLAGVARIABLE(RestoreTransparencyOnToolChange, false)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sBoxSelectCommand	= "BoxSelect";
 const char* const sAdvArrowTool  	= "AdvArrow";
@@ -90,7 +90,7 @@ Decal* ArrowToolBase::findDecal(PartInstance* p, const shared_ptr<InputObject>& 
 
 shared_ptr<MouseCommand> ArrowToolBase::onMouseDown(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(inputObject->isLeftMouseDownEvent());
+	ARLASSERT(inputObject->isLeftMouseDownEvent());
 	Vector3 hitWorld;
 
 	PartInstance* frontPart = getUnlockedPart(inputObject, hitWorld);
@@ -150,7 +150,7 @@ shared_ptr<MouseCommand> ArrowToolBase::onMouseDown(const shared_ptr<InputObject
 shared_ptr<MouseCommand> ArrowToolBase::onPeekKeyDown(const shared_ptr<InputObject>& inputObject)
 {
 #ifdef STUDIO_CAMERA_CONTROL_SHORTCUTS
-	RBXASSERT(inputObject->isKeyDownEvent());
+	ARLASSERT(inputObject->isKeyDownEvent());
 	switch(inputObject->getKeyCode())
 	{
 	case SDLK_f: // we want to zoom in on any selected object
@@ -317,7 +317,7 @@ shared_ptr<MouseCommand> AdvArrowToolBase::onKeyDown(const shared_ptr<InputObjec
 
 shared_ptr<MouseCommand> AdvArrowToolBase::onMouseDown(const shared_ptr<InputObject>& inputObject)
 {
-    RBXASSERT(inputObject->isLeftMouseDownEvent());
+    ARLASSERT(inputObject->isLeftMouseDownEvent());
 	Vector3 hitWorld;
 
 	PartInstance* frontPart = getUnlockedPart(inputObject, hitWorld);

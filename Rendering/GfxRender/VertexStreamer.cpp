@@ -18,7 +18,7 @@
 FASTFLAG(GUIZFighterGPU)
 FASTFLAG(UseDynamicTypesetterUTF8)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -61,9 +61,9 @@ void VertexStreamer::cleanUpFrameData()
 
 void VertexStreamer::renderPrepare()
 {
-    RBXPROFILER_SCOPE("Render", "prepare");
+    ARLPROFILER_SCOPE("Render", "prepare");
 
-	RBXASSERT(vertexData.size() <= kVertexBufferMaxCount);
+	ARLASSERT(vertexData.size() <= kVertexBufferMaxCount);
 
     // allocate hardware buffer according to total # of vertices
     unsigned int bufferSize = 32;
@@ -93,7 +93,7 @@ void VertexStreamer::renderPrepare()
 	{
 		for (G3D::Array<VertexChunk>::iterator iter = chunks[CS_WorldSpaceNoDepth].begin(); iter != chunks[CS_WorldSpaceNoDepth].end(); ++iter)
 		{
-			RBXASSERT( iter->index >= 0 );
+			ARLASSERT( iter->index >= 0 );
 			worldSpaceZDepthLayers[iter->index].push_back(&(*iter));
 		}
 	}
@@ -101,7 +101,7 @@ void VertexStreamer::renderPrepare()
  
 void VertexStreamer::render3D(DeviceContext* context, const RenderCamera& camera, RenderPassStats& stats)
 {
-    RBXPROFILER_SCOPE("Render", "render3D");
+    ARLPROFILER_SCOPE("Render", "render3D");
 
     PIX_SCOPE(context, "3D");
     renderInternal(context, CS_WorldSpace, camera, stats);
@@ -109,7 +109,7 @@ void VertexStreamer::render3D(DeviceContext* context, const RenderCamera& camera
 
 void VertexStreamer::render3DNoDepth(DeviceContext* context, const RenderCamera& camera, RenderPassStats& stats, int renderIndex)
 {
-    RBXPROFILER_SCOPE("Render", "render3DNoDepth");
+    ARLPROFILER_SCOPE("Render", "render3DNoDepth");
 
 	PIX_SCOPE(context, "3D");
 	renderInternal(context, CS_WorldSpaceNoDepth, camera, stats, renderIndex);
@@ -117,7 +117,7 @@ void VertexStreamer::render3DNoDepth(DeviceContext* context, const RenderCamera&
 
 void VertexStreamer::render2D(DeviceContext* context, unsigned int viewWidth, unsigned int viewHeight, RenderPassStats& stats)
 {
-    RBXPROFILER_SCOPE("Render", "render2D");
+    ARLPROFILER_SCOPE("Render", "render2D");
 
     RenderCamera orthoCamera;
     orthoCamera.setViewMatrix(Matrix4::identity());
@@ -128,7 +128,7 @@ void VertexStreamer::render2D(DeviceContext* context, unsigned int viewWidth, un
 
 void VertexStreamer::render2DVR(DeviceContext* context, unsigned int viewWidth, unsigned int viewHeight, RenderPassStats& stats)
 {
-    RBXPROFILER_SCOPE("Render", "render2DVR");
+    ARLPROFILER_SCOPE("Render", "render2DVR");
 
 	float scaleX = float(viewWidth) / float(visualEngine->getViewWidth());
 	float scaleY = float(viewHeight) / float(visualEngine->getViewHeight());
@@ -154,7 +154,7 @@ void VertexStreamer::renderInternal(DeviceContext* context, CoordinateSpace coor
 
     // Get resources
 	shared_ptr<Texture> defaultTexture = visualEngine->getTextureManager()->getFallbackTexture(TextureManager::Fallback_White);
-    RBXASSERT(defaultTexture);
+    ARLASSERT(defaultTexture);
 
     static const SamplerState defaultSamplerState(SamplerState::Filter_Linear, SamplerState::Address_Clamp);
     static const SamplerState wrapSamplerState(SamplerState::Filter_Linear, SamplerState::Address_Wrap);
@@ -261,7 +261,7 @@ VertexStreamer::VertexChunk* VertexStreamer::prepareChunk(const shared_ptr<Textu
     }
 	else
 	{
-        RBXASSERT(orderedChunks.back().batchTextureType == batchTexType);
+        ARLASSERT(orderedChunks.back().batchTextureType == batchTexType);
 		orderedChunks.back().vertexCount += vertexCount;
 	}
 
@@ -310,7 +310,7 @@ void VertexStreamer::triangleList2d(const Color4& color4, const Vector2* v, int 
 	{
         unsigned int color = packColor(color4, colorOrderBGR);
 
-        RBXASSERT(icount % 3 == 0);
+        ARLASSERT(icount % 3 == 0);
         //todo: we currently just ignore the nice indexing work done. todo: support indexing.
         for (int i = 0; i < icount; ++i)
         {
@@ -325,7 +325,7 @@ void VertexStreamer::triangleList(const Color4& color4, const CoordinateFrame& c
 	{
         unsigned int color = packColor(color4, colorOrderBGR);
 
-        RBXASSERT(icount % 3 == 0);
+        ARLASSERT(icount % 3 == 0);
         //todo: we currently just ignore the nice indexing work done. todo: support indexing.
         for (int i = 0; i < icount; ++i)
         {

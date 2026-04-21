@@ -11,7 +11,7 @@
 #include "Util/SoundService.h"
 #include "Util/UserInputBase.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sFlatTool = "Flat";
 const char* const sGlueTool = "Glue";
@@ -63,7 +63,7 @@ void SurfaceTool::render3dAdorn(Adorn* adorn)
 	Super::render3dAdorn(adorn);
 
 	if (partInstance) {
-		RBXASSERT(surface.getPartInstance());
+		ARLASSERT(surface.getPartInstance());
 
 		DrawAdorn::partSurface(
 			partInstance->getPart(), 
@@ -72,19 +72,19 @@ void SurfaceTool::render3dAdorn(Adorn* adorn)
 	}			
 }
 
-DecalTool::DecalTool(Workspace* workspace, Decal *decal, RBX::InsertMode insertMode)
+DecalTool::DecalTool(Workspace* workspace, Decal *decal, ARL::InsertMode insertMode)
 : Named<SurfaceTool, sDecalTool>(workspace)	
 {
 	this->decal = shared_from(decal);
 	this->insertMode = insertMode;
-	parentIsPart = Instance::fastDynamicCast<RBX::PartInstance>(decal->getParent()) != NULL;
+	parentIsPart = Instance::fastDynamicCast<ARL::PartInstance>(decal->getParent()) != NULL;
 }
 
 void DecalTool::onMouseHover(const shared_ptr<InputObject>& inputObject)
 {
 	SurfaceTool::onMouseHover(inputObject);
 
-	if ((insertMode == RBX::INSERT_TO_3D_VIEW) && !parentIsPart)
+	if ((insertMode == ARL::INSERT_TO_3D_VIEW) && !parentIsPart)
 	{
 		if (partInstance)
 		{
@@ -131,7 +131,7 @@ shared_ptr<MouseCommand> DecalTool::onMouseUp(const shared_ptr<InputObject>& inp
 		return shared_ptr<MouseCommand>();
 	}
 
-	if (Instance::fastDynamicCast<RBX::PartInstance>(decal->getParent()) != NULL)
+	if (Instance::fastDynamicCast<ARL::PartInstance>(decal->getParent()) != NULL)
 	{
 		parentIsPart = true;
 		insertMode = INSERT_TO_TREE;

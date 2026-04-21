@@ -13,9 +13,9 @@
 #include "Util/RunStateOwner.h"
 #include "V8DataModel/TimerService.h"
 
-namespace RBX {
+namespace ARL {
 
-using namespace RBX::Network;
+using namespace ARL::Network;
 
 const char* const sFlag = "Flag";
 

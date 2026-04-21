@@ -4,7 +4,7 @@
 #include <boost/type_traits/is_base_of.hpp>
 #include <boost/static_assert.hpp>
 
-namespace RBX
+namespace ARL
 {
 	// A Service is an instance that is "Singleton" in the scope of its containing
 	// ServiceProvider. In other words, a Service-derived class is unique within the
@@ -40,7 +40,7 @@ namespace RBX
 		static Reflection::BoundFuncDesc<ServiceProvider, shared_ptr<Instance>(std::string)> dep_GetService;
 		typedef std::vector< shared_ptr<Instance> > ServiceArray;
 		mutable ServiceArray serviceArray;
-		mutable std::map<const RBX::Name*, shared_ptr<Instance> > serviceMap;
+		mutable std::map<const ARL::Name*, shared_ptr<Instance> > serviceMap;
 	public:
 		rbx::signal<void()> closingSignal;
 		rbx::signal<void()> closingLateSignal;
@@ -84,11 +84,11 @@ namespace RBX
 			return service;
 		}
 
-		//mutable RBX::reentrant_concurrency_catcher threadGuard;
+		//mutable ARL::reentrant_concurrency_catcher threadGuard;
 		template<class ServiceClass>
 		ServiceClass* create() const
 		{
-			//RBX::reentrant_concurrency_catcher::scoped_lock lock(threadGuard);
+			//ARL::reentrant_concurrency_catcher::scoped_lock lock(threadGuard);
 
 			ServiceClass* service = this->find<ServiceClass>();
 			if (service==NULL)
@@ -105,7 +105,7 @@ namespace RBX
 				serviceArray[index] = s;				
 
 				// By now onDescendantAdded will have been called, which will add the service to serviceMap:
-				RBXASSERT((ServiceClass::className()==RBX::Name::getNullName()) || serviceMap.find(&ServiceClass::className())!=serviceMap.end());
+				ARLASSERT((ServiceClass::className()==ARL::Name::getNullName()) || serviceMap.find(&ServiceClass::className())!=serviceMap.end());
 				
 			}
 			return service;
@@ -155,11 +155,11 @@ namespace RBX
 		
 		// Less efficient factory functions that use classNames. Use only if
 		// you don't know the type of Service you want.
-		static shared_ptr<Instance> create(Instance* context, const RBX::Name& name);
+		static shared_ptr<Instance> create(Instance* context, const ARL::Name& name);
 		shared_ptr<Instance> getPublicServiceByClassNameString(std::string name); 
 		
 	protected:
-		/*override*/ shared_ptr<Instance> createChild(const RBX::Name& className, RBX::CreatorRole creatorRole);
+		/*override*/ shared_ptr<Instance> createChild(const ARL::Name& className, ARL::CreatorRole creatorRole);
 		/*override*/ void onDescendantRemoving(const shared_ptr<Instance>& instance);
 		/*override*/ void onDescendantAdded(Instance* instance);
 		/*override*/ void onChildAdded(Instance* child);
@@ -189,7 +189,7 @@ namespace RBX
 			doGetClassIndex<ServiceClass>();
 		}
 
-		shared_ptr<Instance> findServiceByClassName(const RBX::Name& className) const;
+		shared_ptr<Instance> findServiceByClassName(const ARL::Name& className) const;
 		shared_ptr<Instance> findPublicServiceByClassNameString(std::string name);
 		
 	private:

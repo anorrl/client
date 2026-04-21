@@ -4,7 +4,7 @@
 #include "Reflection/EnumConverter.h"
 
 
-namespace RBX {
+namespace ARL {
 namespace Reflection {
 	//////////////////////////////////////////////////////////
 	template<>
@@ -27,5 +27,5 @@ namespace Reflection {
 		addLegacyName("Bumps", GLUE);
 	}
 }//namespace Reflection
-}// namespace RBX
+}// namespace ARL
 

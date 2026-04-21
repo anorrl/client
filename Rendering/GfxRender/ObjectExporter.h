@@ -33,7 +33,7 @@ namespace G3D
     class GImage;
 };
 
-namespace RBX
+namespace ARL
 {
 
 class MegaClusterInstance;

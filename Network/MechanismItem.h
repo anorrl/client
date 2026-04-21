@@ -8,7 +8,7 @@
 #include "CompactCFrame.h"
 #include "RakNetTime.h"
 
-namespace RBX { 
+namespace ARL { 
 	
 	class Primitive;
 
@@ -16,7 +16,7 @@ namespace RBX {
 	{
 	public:
 		shared_ptr<PartInstance> rootPart;
-		RBX::PV pv;
+		ARL::PV pv;
 		G3D::Array<CompactCFrame> motorAngles;
 
 		void reset() {
@@ -56,7 +56,7 @@ namespace RBX {
 		int numAssemblies() const {return currentElements;}
 
 		AssemblyItem& getAssemblyItem(int i) const {
-			RBXASSERT(i < currentElements);
+			ARLASSERT(i < currentElements);
 			return *buffer[i];
 		}
 

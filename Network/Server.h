@@ -18,7 +18,7 @@
 #include <boost/thread/condition.hpp>
 #include <boost/thread/thread.hpp>
 
-namespace RBX { 
+namespace ARL { 
 	namespace Network {
 
 	class ServerReplicator;

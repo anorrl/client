@@ -8,7 +8,7 @@
 #include "V8World/Assembly.h"
 #include "V8World/World.h"
 
-namespace RBX {
+namespace ARL {
 
 
 #pragma warning(push)
@@ -23,17 +23,17 @@ SimulateStage::SimulateStage(IStage* upstream, World* world)
 
 SimulateStage::~SimulateStage()
 {
-	RBXASSERT(movingDynamicAssemblies.size() == 0);
-	RBXASSERT(realTimeAssemblies.size() == 0);
-	RBXASSERT(movingAssemblyRoots.size() == 0);
+	ARLASSERT(movingDynamicAssemblies.size() == 0);
+	ARLASSERT(realTimeAssemblies.size() == 0);
+	ARLASSERT(movingAssemblyRoots.size() == 0);
 }
 
 
 // Receives assemblies from the sleep stage
 void SimulateStage::onAssemblyAdded(Assembly* a)
 {
-	RBXASSERT(!a->getAssemblyPrimitive()->requestFixed());
-	RBXASSERT(!a->computeIsGrounded());
+	ARLASSERT(!a->getAssemblyPrimitive()->requestFixed());
+	ARLASSERT(!a->computeIsGrounded());
 
 	if (a->getCanThrottle())
 		movingDynamicAssemblies.push_back(*a);
@@ -68,7 +68,7 @@ void SimulateStage::onAssemblyRemoving(Assembly* a)
 void SimulateStage::putFirstMovingRootInSendPhysics(Assembly* a)
 {
 	Assembly* movingRoot = Mechanism::getMovingAssemblyRoot(a);
-	RBXASSERT(Mechanism::isMovingAssemblyRoot(movingRoot));
+	ARLASSERT(Mechanism::isMovingAssemblyRoot(movingRoot));
 	
 	AssemblyMap::iterator it = movingAssemblyRoots.find(movingRoot);
 	if (it == movingAssemblyRoots.end())
@@ -95,10 +95,10 @@ void SimulateStage::removeLastMovingRootFromSendPhysics(Assembly* a)
 	Assembly* root = a->getRoot<Assembly>();
 	if (!removeFromSendPhysics(root)) {
 		Assembly* oneBelowRoot = a->getOneBelowRoot<Assembly>();
-		RBXASSERT(oneBelowRoot);
+		ARLASSERT(oneBelowRoot);
 		if (oneBelowRoot) {
 			bool ok = removeFromSendPhysics(oneBelowRoot);
-			RBXASSERT(ok);
+			ARLASSERT(ok);
 		}
 	}
 }
@@ -128,14 +128,14 @@ bool SimulateStage::validateEdge(Edge* e)
 #ifdef _DEBUG
 	Assembly* a0 = e->getPrimitive(0)->getAssembly();
 	Assembly* a1 = e->getPrimitive(1)->getAssembly();
-	RBXASSERT(a0 && a1);
+	ARLASSERT(a0 && a1);
 #endif
 	return true;
 }
 
 void SimulateStage::onEdgeAdded(Edge* e)
 {
-	RBXASSERT(validateEdge(e));
+	ARLASSERT(validateEdge(e));
 	e->putInStage(this);
 	e->putInKernel(getKernel());
 }
@@ -143,7 +143,7 @@ void SimulateStage::onEdgeAdded(Edge* e)
 
 void SimulateStage::onEdgeRemoving(Edge* e)
 {
-	RBXASSERT(validateEdge(e));
+	ARLASSERT(validateEdge(e));
 
 	e->removeFromKernel();
 	e->removeFromStage(this);

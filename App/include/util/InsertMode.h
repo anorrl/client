@@ -2,7 +2,7 @@
 
 // A simple hash function from Robert Sedgwicks Algorithms in C book. 
 
-namespace RBX {
+namespace ARL {
 
 	typedef enum {INSERT_RAW, INSERT_TO_TREE, INSERT_TO_3D_VIEW} InsertMode;
 

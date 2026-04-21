@@ -8,7 +8,7 @@
 #include "Tool/DragTypes.h"
 //#include <vector>
 
-namespace RBX {
+namespace ARL {
 	class Primitive;
 	class PVInstance;
 	class PartInstance;
@@ -60,7 +60,7 @@ namespace RBX {
 
 		// Part Dragger
 		weak_ptr<PartInstance> getMousePart() {
-			RBXASSERT(!mousePart.expired());
+			ARLASSERT(!mousePart.expired());
 			return mousePart;
 		}
 

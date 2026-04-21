@@ -8,14 +8,14 @@
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits.hpp>
 
-#if defined RBX_PLATFORM_IOS
+#if defined ARL_PLATFORM_IOS
 #define NULL_FUNCTION_PTR typeof(NULL)
 #else
 #define NULL_FUNCTION_PTR int
 #endif
 #define _PRISM_PYRAMID_
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
 // data_seg  = init rw
 // const_seg = init ro
 // bss_seg   =      rw
@@ -26,7 +26,7 @@
 #define REFLECTION_END()
 #endif
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
@@ -62,7 +62,7 @@ namespace RBX
 				ClassDescriptor::Functionality functionality = Reflection::ClassDescriptor::PERSISTENT, 
 				Security::Permissions security = Security::None
 		>
-		class RBXBaseClass Described : public BaseClass
+		class ARLBaseClass Described : public BaseClass
 		{
 			void forceRegistration()
 			{
@@ -107,7 +107,7 @@ namespace RBX
 
 
 		// Handy macro for registering a class
-#define RBX_REGISTER_CLASS(Class)		template<> RBX::Reflection::ClassRegistrar<Class> RBX::Reflection::ClassRegistrar<Class>::registrar(0)
+#define ARL_REGISTER_CLASS(Class)		template<> ARL::Reflection::ClassRegistrar<Class> ARL::Reflection::ClassRegistrar<Class>::registrar(0)
 
 		// This CRTP class puts a property declaration all together. 
 		// It binds a PropertyDescriptor with getter/setter functions.
@@ -322,7 +322,7 @@ namespace RBX
 					return false;
 			}
 			// An alternate, more efficient version of setStringValue
-			virtual bool setStringValue(DescribedBase* instance, const RBX::Name& name) const
+			virtual bool setStringValue(DescribedBase* instance, const ARL::Name& name) const
 			{
 				V value;
 				if (enumDesc.convertToValue(name, value))
@@ -334,7 +334,7 @@ namespace RBX
 					return false;
 			}
 
-			virtual void readValue(DescribedBase* instance, const XmlElement* element, RBX::IReferenceBinder& binder) const
+			virtual void readValue(DescribedBase* instance, const XmlElement* element, ARL::IReferenceBinder& binder) const
 			{
 				if (!element->isXsiNil()) {
 
@@ -367,7 +367,7 @@ namespace RBX
 					}
 
 					// TODO: throw error?
-					RBXASSERT(false);
+					ARLASSERT(false);
 				}
 			}
 			virtual void writeValue(const DescribedBase* instance, XmlElement* element) const
@@ -681,7 +681,7 @@ namespace RBX
 				if (defaultArg)
 					return *defaultArg;
 				else
-					throw RBX::runtime_error("Argument %d missing or nil", index);
+					throw ARL::runtime_error("Argument %d missing or nil", index);
 			}
 
 			// Specialization for Tuple, which takes all arguments >= index
@@ -798,7 +798,7 @@ namespace RBX
 			void declareSignature(const char* arg1Name, Variant arg1Default)
 			{
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
 			}
 
 		public:
@@ -869,8 +869,8 @@ namespace RBX
 			{
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg1, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
 			}
 
 		public:
@@ -958,9 +958,9 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg1, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg2, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
 			}
 
 		public:
@@ -1062,10 +1062,10 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg2, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg3, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
-				this->signature.addArgument(RBX::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
 			}
 
 		public:
@@ -1187,11 +1187,11 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg3, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg4, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
-				this->signature.addArgument(RBX::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
-				this->signature.addArgument(RBX::Name::declare(arg5Name), Type::singleton<Arg5>(), arg5Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
+				this->signature.addArgument(ARL::Name::declare(arg5Name), Type::singleton<Arg5>(), arg5Default);
 			}
 
 		public:
@@ -1334,12 +1334,12 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg4, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg5, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
-				this->signature.addArgument(RBX::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
-				this->signature.addArgument(RBX::Name::declare(arg5Name), Type::singleton<Arg5>(), arg5Default);
-				this->signature.addArgument(RBX::Name::declare(arg6Name), Type::singleton<Arg6>(), arg6Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
+				this->signature.addArgument(ARL::Name::declare(arg5Name), Type::singleton<Arg5>(), arg5Default);
+				this->signature.addArgument(ARL::Name::declare(arg6Name), Type::singleton<Arg6>(), arg6Default);
 			}
 
 		public:
@@ -1505,13 +1505,13 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg5, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg6, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<result_type>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
-				this->signature.addArgument(RBX::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
-				this->signature.addArgument(RBX::Name::declare(arg5Name), Type::singleton<Arg5>(), arg5Default);
-				this->signature.addArgument(RBX::Name::declare(arg6Name), Type::singleton<Arg6>(), arg6Default);
-				this->signature.addArgument(RBX::Name::declare(arg7Name), Type::singleton<Arg7>(), arg7Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
+				this->signature.addArgument(ARL::Name::declare(arg5Name), Type::singleton<Arg5>(), arg5Default);
+				this->signature.addArgument(ARL::Name::declare(arg6Name), Type::singleton<Arg6>(), arg6Default);
+				this->signature.addArgument(ARL::Name::declare(arg7Name), Type::singleton<Arg7>(), arg7Default);
 			}
 
 		public:
@@ -1736,7 +1736,7 @@ namespace RBX
 			void declareSignature(const char* arg1Name, Variant arg1Default)
 			{
 				this->signature.resultType = &Type::singleton<ReturnType>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
 			}
 
 		public:
@@ -1778,7 +1778,7 @@ namespace RBX
 			void declareSignature(const char* arg1Name, Variant arg1Default)
 			{
 				this->signature.resultType = &Type::singleton<void>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
 			}
 
 		public:
@@ -1823,8 +1823,8 @@ namespace RBX
 			{
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg1, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<ReturnType>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
 			}
 
 		public:
@@ -1881,8 +1881,8 @@ namespace RBX
 			{
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg1, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<void>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
 			}
 
 		public:
@@ -1942,9 +1942,9 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg1, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg2, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<ReturnType>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
 			}
 
 		public:
@@ -2018,9 +2018,9 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg1, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg2, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<void>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
 			}
 
 		public:
@@ -2095,10 +2095,10 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg1, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg2, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<ReturnType>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
-				this->signature.addArgument(RBX::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
 			}
 
 		public:
@@ -2190,10 +2190,10 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg1, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg2, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<void>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
-				this->signature.addArgument(RBX::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
 			}
 
 		public:
@@ -2285,11 +2285,11 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg1, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg2, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<ReturnType>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
-				this->signature.addArgument(RBX::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
-				this->signature.addArgument(RBX::Name::declare(arg5Name), Type::singleton<Arg5>(), arg5Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
+				this->signature.addArgument(ARL::Name::declare(arg5Name), Type::singleton<Arg5>(), arg5Default);
 			}
 
 		public:
@@ -2401,11 +2401,11 @@ namespace RBX
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg1, shared_ptr<const Tuple> >::value));
 				BOOST_STATIC_ASSERT((!boost::is_same<Arg2, shared_ptr<const Tuple> >::value));
 				this->signature.resultType = &Type::singleton<void>();
-				this->signature.addArgument(RBX::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
-				this->signature.addArgument(RBX::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
-				this->signature.addArgument(RBX::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
-				this->signature.addArgument(RBX::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
-				this->signature.addArgument(RBX::Name::declare(arg5Name), Type::singleton<Arg5>(), arg5Default);
+				this->signature.addArgument(ARL::Name::declare(arg1Name), Type::singleton<Arg1>(), arg1Default);
+				this->signature.addArgument(ARL::Name::declare(arg2Name), Type::singleton<Arg2>(), arg2Default);
+				this->signature.addArgument(ARL::Name::declare(arg3Name), Type::singleton<Arg3>(), arg3Default);
+				this->signature.addArgument(ARL::Name::declare(arg4Name), Type::singleton<Arg4>(), arg4Default);
+				this->signature.addArgument(ARL::Name::declare(arg5Name), Type::singleton<Arg5>(), arg5Default);
 			}
 
 		public:

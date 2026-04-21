@@ -2,12 +2,12 @@
 
 #include "Util/G3DCore.h"
 
-namespace RBX
+namespace ARL
 {
     class Extents;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

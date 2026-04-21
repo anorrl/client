@@ -7,7 +7,7 @@
 #include "V8DataModel/ModelInstance.h"
 #include "Script/Script.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern char sPartDragger;
 	class PartDragger : public DescribedCreatable<PartDragger, Tool, sPartDragger>

@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-namespace RBX {
+namespace ARL {
 
 // convert wstring to UTF-8 string
 std::string utf8_encode(const std::wstring &path)

@@ -11,7 +11,7 @@
 #include <map>
 
 
-namespace RBX { 
+namespace ARL { 
 
 	class DataModel;
 
@@ -28,10 +28,10 @@ namespace RBX {
 			RunningAverage<> bufferHealth;
 			int prevBufferSize;
 
-			RBX::RunningAverage<double> averageBandwidthExceeded;
-			RBX::RunningAverage<double> averageCongestionControlExceeded;
-			RBX::RunningAverage<double> kiloBytesSentPerSecond;
-			RBX::RunningAverage<double> kiloBytesReceivedPerSecond;
+			ARL::RunningAverage<double> averageBandwidthExceeded;
+			ARL::RunningAverage<double> averageCongestionControlExceeded;
+			ARL::RunningAverage<double> kiloBytesSentPerSecond;
+			ARL::RunningAverage<double> kiloBytesReceivedPerSecond;
 
 			RakNet::RakNetStatistics rakStats;
 
@@ -73,12 +73,12 @@ namespace RBX {
 			boost::shared_ptr<PacketJob> packetJob;
 			class StatsUpdateJob;
 			boost::shared_ptr<StatsUpdateJob> statsUpdateJob;
-			RBX::DataModel* const dataModel;
+			ARL::DataModel* const dataModel;
 
 
 
 		public:
-			ConcurrentRakPeer(RakNet::RakPeerInterface* peer, RBX::DataModel* dataModel);
+			ConcurrentRakPeer(RakNet::RakPeerInterface* peer, ARL::DataModel* dataModel);
 			~ConcurrentRakPeer();
 
 			void addStats(RakNet::SystemAddress address, boost::function<void(const ConnectionStats&)> updateCallback);

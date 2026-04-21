@@ -10,7 +10,7 @@ namespace RakNet {
 	class BitStream;
 }
 
-namespace RBX {
+namespace ARL {
 	namespace Network {
 
 		extern const char* const sPhysicsPacketCache;
@@ -92,7 +92,7 @@ namespace RBX {
 				CachedBitStream(const std::string& guid) : dirty(true), guidString(guid) {}
 				~CachedBitStream() {}
 
-				void onPropertyChanged(const RBX::Reflection::PropertyDescriptor* desc) { dirty = true; }
+				void onPropertyChanged(const ARL::Reflection::PropertyDescriptor* desc) { dirty = true; }
 			};
 
 			typedef boost::unordered_map<const Instance*, boost::shared_ptr<CachedBitStream> > StreamCacheMap;

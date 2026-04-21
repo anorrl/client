@@ -7,7 +7,7 @@
 #include "Util/ContentFilter.h"
 #include <string>
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sMessage;
 	class Message :	public DescribedCreatable<Message, Instance, sMessage>,
@@ -51,4 +51,4 @@ namespace RBX {
 
 
 
-}	// namespace RBX
+}	// namespace ARL

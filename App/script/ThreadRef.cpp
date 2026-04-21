@@ -13,8 +13,8 @@
 
 LOGVARIABLE(ThreadRefCounts, 1)
 
-using namespace RBX;
-using namespace RBX::Lua;
+using namespace ARL;
+using namespace ARL::Lua;
 
 WeakThreadRef::Mutex WeakThreadRef::sync;
 
@@ -104,7 +104,7 @@ void WeakThreadRef::removeFromNode()
 
 void WeakThreadRef::addRef(lua_State* L)
 {
-	RBXASSERT(!liveThreadRef);
+	ARLASSERT(!liveThreadRef);
 	// Add a Lua ref to the thread so that it doesn't get collected
 	if (L)
 	{
@@ -157,7 +157,7 @@ WeakThreadRef::Node* WeakThreadRef::Node::get(lua_State* thread)
 	return RobloxExtraSpace::get(thread)->getNode();
 }
 
-namespace RBX
+namespace ARL
 {
 	namespace Lua
 	{
@@ -165,14 +165,14 @@ namespace RBX
 		int Bridge<boost::intrusive_ptr<WeakThreadRef::Node> >::on_index(const boost::intrusive_ptr<WeakThreadRef::Node>& object, const char* name, lua_State *L)
 		{
 			// Failure
-			throw RBX::runtime_error("%s is not a valid member", name);
+			throw ARL::runtime_error("%s is not a valid member", name);
 		}
 
 		template<>
 		void Bridge<boost::intrusive_ptr<WeakThreadRef::Node> >::on_newindex(boost::intrusive_ptr<WeakThreadRef::Node>& object, const char* name, lua_State *L)
 		{
 			// Failure
-			throw RBX::runtime_error("%s cannot be assigned to", name);
+			throw ARL::runtime_error("%s cannot be assigned to", name);
 		}
 
 
@@ -199,7 +199,7 @@ WeakFunctionRef::WeakFunctionRef(lua_State* thread, int functionIndex)
 	functionId = luaL_ref(thread, LUA_REGISTRYINDEX);
 }
 
-namespace RBX
+namespace ARL
 {
 	namespace Lua
 	{
@@ -211,14 +211,14 @@ namespace RBX
 		int GenericFunctionBridge::on_index(const shared_ptr<GenericFunction>& object, const char* name, lua_State *L)
 		{
 			// Failure
-			throw RBX::runtime_error("%s is not a valid member", name);
+			throw ARL::runtime_error("%s is not a valid member", name);
 		}
 
 		template<>
 		void GenericFunctionBridge::on_newindex(shared_ptr<GenericFunction>& object, const char* name, lua_State *L)
 		{
 			// Failure
-			throw RBX::runtime_error("%s cannot be assigned to", name);
+			throw ARL::runtime_error("%s cannot be assigned to", name);
 		}
 
 
@@ -230,14 +230,14 @@ namespace RBX
 		int GenericAsyncFunctionBridge::on_index(const shared_ptr<GenericAsyncFunction>& object, const char* name, lua_State *L)
 		{
 			// Failure
-			throw RBX::runtime_error("%s is not a valid member", name);
+			throw ARL::runtime_error("%s is not a valid member", name);
 		}
 
 		template<>
 		void GenericAsyncFunctionBridge::on_newindex(shared_ptr<GenericAsyncFunction>& object, const char* name, lua_State *L)
 		{
 			// Failure
-			throw RBX::runtime_error("%s cannot be assigned to", name);
+			throw ARL::runtime_error("%s cannot be assigned to", name);
 		}
 	}
 }
@@ -286,14 +286,14 @@ static void onAsyncResult(ThreadRef thread, weak_ptr<ScriptContext> context, IAs
 	{
 		value = result->getValue();
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		// TODO: How do we resume an exception in Lua?
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Exception caught from async call. %s", e.what());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Exception caught from async call. %s", e.what());
 		return;
 	}
 
-	if (shared_ptr<RBX::ScriptContext> lockedContext = context.lock())
+	if (shared_ptr<ARL::ScriptContext> lockedContext = context.lock())
 		lockedContext->scheduleResume(thread, value);
 }
 
@@ -307,7 +307,7 @@ static int callGenericAsyncFunctionBridge (lua_State *L)
 
 	(*f)(args, boost::bind(&onAsyncResult, ThreadRef(L), weak_from(RobloxExtraSpace::get(L)->context()), _1));
 
-	RBXASSERT(!RobloxExtraSpace::get(L)->yieldCaptured);
+	ARLASSERT(!RobloxExtraSpace::get(L)->yieldCaptured);
 	RobloxExtraSpace::get(L)->yieldCaptured = true;
 
 	return lua_yield(L, 0);
@@ -359,10 +359,10 @@ WeakFunctionRef::WeakFunctionRef(const WeakFunctionRef& other)
 	}
 }
 
-RBX::Lua::detail::LiveThreadRef::LiveThreadRef (lua_State* thread)
+ARL::Lua::detail::LiveThreadRef::LiveThreadRef (lua_State* thread)
 :L(thread)
 {
-	RBXASSERT(L);
+	ARLASSERT(L);
 
 	// copies the current thread onto the stack
 	lua_pushthread(L);
@@ -370,7 +370,7 @@ RBX::Lua::detail::LiveThreadRef::LiveThreadRef (lua_State* thread)
 	threadId = luaL_ref(L, LUA_REGISTRYINDEX);
 }
 
-RBX::Lua::detail::LiveThreadRef::~LiveThreadRef()
+ARL::Lua::detail::LiveThreadRef::~LiveThreadRef()
 {
 	luaL_unref(ScriptContext::getGlobalState(L), LUA_REGISTRYINDEX, threadId);
 }
@@ -415,29 +415,29 @@ WeakFunctionRef& WeakFunctionRef::operator=(const WeakFunctionRef& other)
 	return *this;
 }
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
 		template<>
-		const Type& Type::getSingleton<RBX::Lua::WeakFunctionRef>()
+		const Type& Type::getSingleton<ARL::Lua::WeakFunctionRef>()
 		{
-			static TType<RBX::Lua::WeakFunctionRef> type("Function");
+			static TType<ARL::Lua::WeakFunctionRef> type("Function");
 			return type;
 		}
 
 		template<>
-		RBX::Lua::WeakFunctionRef& Variant::convert<RBX::Lua::WeakFunctionRef>(void)
+		ARL::Lua::WeakFunctionRef& Variant::convert<ARL::Lua::WeakFunctionRef>(void)
 		{
 			// Interpret "void" (Lua nil) as a null function
 			// TODO: Is that correct behavior????
 			if (isType<void>())
 			{
-				value = RBX::Lua::WeakFunctionRef();
-				_type = &Type::singleton<RBX::Lua::WeakFunctionRef>();
+				value = ARL::Lua::WeakFunctionRef();
+				_type = &Type::singleton<ARL::Lua::WeakFunctionRef>();
 			}
 
-			RBX::Lua::WeakFunctionRef* val = tryCast<RBX::Lua::WeakFunctionRef>();
+			ARL::Lua::WeakFunctionRef* val = tryCast<ARL::Lua::WeakFunctionRef>();
 			if (val==NULL)
 				throw std::runtime_error("Unable to cast value to function");
 			return *val;

@@ -3,10 +3,10 @@
 #include "V8DataModel/Selection.h"
 #include "V8DataModel/DataModel.h"
 
-const char* const RBX::sSelection			= "Selection";
-const char* const RBX::sFilteredSelection	= NULL;
+const char* const ARL::sSelection			= "Selection";
+const char* const ARL::sFilteredSelection	= NULL;
 
-using namespace RBX;
+using namespace ARL;
 
 
 REFLECTION_BEGIN();
@@ -24,8 +24,8 @@ Selection::Selection()
 }
 
 Selection::~Selection() {
-	RBXASSERT(size()==0);
-	RBXASSERT(connections.empty());
+	ARLASSERT(size()==0);
+	ARLASSERT(connections.empty());
 }
 
 void Selection::onAncestryChanged(Instance* source)
@@ -36,19 +36,19 @@ void Selection::onAncestryChanged(Instance* source)
 
 void Selection::connect(Instance* instance)
 {
-		RBXASSERT_SLOW(connections.find(instance)==connections.end());
+		ARLASSERT_SLOW(connections.find(instance)==connections.end());
 		connections[instance] = instance->ancestryChangedSignal.connect(boost::bind(&Selection::onAncestryChanged, this, instance));
 }
 
 void Selection::disconnect(Instance* instance)
 {
-		RBXASSERT(connections.find(instance)!=connections.end());
+		ARLASSERT(connections.find(instance)!=connections.end());
 		Connections::iterator iter = connections.find(instance);
 		iter->second.disconnect();
 		connections.erase(iter);
 }
 
-void Selection::propagateChangeSignalToLua(const RBX::SelectionChanged& event) {
+void Selection::propagateChangeSignalToLua(const ARL::SelectionChanged& event) {
 	luaSelectionChanged();
 }
 
@@ -60,7 +60,7 @@ bool Selection::instanceCanLiveInSelection(Instance* instance)
 
 void Selection::toggleSelection(Instance* instance)
 {
-	RBXASSERT(DataModel::get(this)->write_requested);
+	ARLASSERT(DataModel::get(this)->write_requested);
 	shared_ptr<Instance> shared = shared_from(instance);
 
 	shared_ptr<Instances> sel = selection.write();
@@ -128,10 +128,10 @@ void Selection::addToSelection(Instance* instance)
 		return;
 	}
 
-	RBXASSERT(!DataModel::get(this) || DataModel::get(this)->write_requested);
+	ARLASSERT(!DataModel::get(this) || DataModel::get(this)->write_requested);
 	shared_ptr<Instance> shared = shared_from(instance);
 
-	RBXASSERT(instance!=NULL);
+	ARLASSERT(instance!=NULL);
 	shared_ptr<Instances> sel = selection.write();
 	Instances::const_iterator it = std::find( sel->begin(), sel->end(), shared );
 	if (it == sel->end()) {
@@ -143,7 +143,7 @@ void Selection::addToSelection(Instance* instance)
 
 void Selection::clearSelection()
 {
-	RBXASSERT(!DataModel::get(this) || DataModel::get(this)->write_requested);
+	ARLASSERT(!DataModel::get(this) || DataModel::get(this)->write_requested);
 	while (selection->size()>0)
 	{
 		shared_ptr<Instance> instance = selection->back();
@@ -194,7 +194,7 @@ void Selection::setSelection(shared_ptr<const Instances> instances)
 	{
 		shared_ptr<Instances> currentSelection = selection.write();
 
-		RBXASSERT(!DataModel::get(this) || DataModel::get(this)->write_requested);
+		ARLASSERT(!DataModel::get(this) || DataModel::get(this)->write_requested);
 
 		for (Instances::const_iterator iter = instances->begin(); iter != instances->end(); ++iter)
 		{
@@ -220,7 +220,7 @@ void Selection::setSelection(shared_ptr<const Instances> instances)
 
 void Selection::setSelection(Instance* instance)
 {
-	RBXASSERT(DataModel::get(this)->write_requested);
+	ARLASSERT(DataModel::get(this)->write_requested);
 	// Note that we call selection.write() multiple times.
 	// It is slightly dangerous to use a single write() instance
 	// throughout the algorithm because the raiseRemoved call
@@ -268,8 +268,8 @@ void Selection::setSelection(Instance* instance)
 
 void Selection::removeFromSelection(Instance* instance)
 {
-	RBXASSERT(!DataModel::get(this) || DataModel::get(this)->write_requested);
-	RBXASSERT(instance!=NULL);
+	ARLASSERT(!DataModel::get(this) || DataModel::get(this)->write_requested);
+	ARLASSERT(instance!=NULL);
 
 	shared_ptr<Instances> sel = selection.write();
 	Instances::iterator iter = std::find(sel->begin(), sel->end(), shared_from(instance));

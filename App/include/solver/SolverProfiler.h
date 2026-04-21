@@ -4,7 +4,7 @@
 #include "RbxAssert.h"
 #include "util/standardout.h"
 
-namespace RBX
+namespace ARL
 {
 
 //
@@ -49,7 +49,7 @@ public:
     }
 
 private:
-    RBX::Time startTime;
+    ARL::Time startTime;
     Time::Interval accumulator;
     const char* format;
     int maxSamples;

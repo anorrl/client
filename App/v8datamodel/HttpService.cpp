@@ -14,11 +14,11 @@ DYNAMIC_FASTINTVARIABLE(UserHttpRequestsPerMinuteLimit, 500)
 namespace {
 	static inline void sendHttpServiceStats(int placeId)
 	{
-		RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpService", RBX::StringConverter<int>::convertToString(placeId).c_str());
+		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "HttpService", ARL::StringConverter<int>::convertToString(placeId).c_str());
 	}
 }
 
-namespace RBX {
+namespace ARL {
 	const char* const sHttpService = "HttpService";
 
     REFLECTION_BEGIN();
@@ -108,7 +108,7 @@ namespace RBX {
 	void HttpService::addIdHeader(Http& request)
 	{
 		DataModel* dm = DataModel::get(this);
-		request.additionalHeaders["ANORRL-Id"] = RBX::StringConverter<int>::convertToString(dm->getPlaceID());
+		request.additionalHeaders["ANORRL-Id"] = ARL::StringConverter<int>::convertToString(dm->getPlaceID());
 	}
 
 	void HttpService::userHttpPostAsync(std::string url, std::string data, HttpContentType contentType, bool compress, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction)
@@ -193,7 +193,7 @@ namespace RBX {
 
 		if (!wrapInCurlyBraces)
 		{
-			RBXASSERT(result.size() > 2);
+			ARLASSERT(result.size() > 2);
 			result = result.substr(1, result.size() - 2);
 		}
 

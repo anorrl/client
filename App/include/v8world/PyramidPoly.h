@@ -5,7 +5,7 @@
 #include "V8World/PyramidMesh.h"
 #include "V8World/BlockMesh.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PyramidPoly : public Poly {
 	private:

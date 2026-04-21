@@ -35,7 +35,7 @@ const char VidCapID[] = "VideoCapture";
 	hr = expr;\
 	if (FAILED(hr))\
 	{\
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO,  "Call failed 0x%x", hr);\
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO,  "Call failed 0x%x", hr);\
 		goto Error;\
 	}\
 
@@ -43,12 +43,12 @@ const char VidCapID[] = "VideoCapture";
 #define SAFE_RELEASE(p)      { if(p) { (p)->Release(); (p)=NULL; } }
 #endif
 
-using namespace RBX;
+using namespace ARL;
 
 LOGGROUP(VideoCapture)
 LOGGROUP(DeviceLost)
 
-namespace RBX {
+namespace ARL {
 
 	namespace DS {
 		// {172325B6-8DA1-4DF0-A5B4-428E382E2968}
@@ -59,10 +59,10 @@ namespace RBX {
 		DEFINE_GUID(CLSID_GameAudioStream, 
 		0xc75fc93f, 0xfd9, 0x4fea, 0x89, 0x5d, 0x5f, 0x5b, 0xfb, 0x59, 0xf6, 0x21);
 
-		const LPWSTR RbxVideoId = L"RBXVideo";
+		const LPWSTR RbxVideoId = L"ARLVideo";
 		const LPWSTR VideoFileExt = L"wmv";
 		const LPWSTR ProcTitle = L"anorrlapp";
-		const LPWSTR RbxAudioId = L"RBXAudio";
+		const LPWSTR RbxAudioId = L"ARLAudio";
 		const int MaxWaitTime = 500; //2fps is very bad
 		const int MaxFramesQueue = 5; // no more than 5 frames kept (will prevent out of memory on slow machines)
 		const int DefSampleRate = 48000;
@@ -321,10 +321,10 @@ namespace RBX {
 					pushedFrames ++;
 					frameRate = audioTime->GetAbsoluteTime() / pushedFrames;
 
-					RBXASSERT(lDataLen == frameData.second);
+					ARLASSERT(lDataLen == frameData.second);
 					frame = frameData.first;
 
-					RBXASSERT(frame);
+					ARLASSERT(frame);
 					memcpy(pData, frame, lDataLen);
 
 					delete [] frame;
@@ -508,7 +508,7 @@ namespace RBX {
 
 					default:
 						// We should never agree any other pixel sizes
-						RBXASSERT(0);
+						ARLASSERT(0);
 						break;
 				}
 
@@ -581,7 +581,7 @@ namespace RBX {
 			FMOD_DSP_DESCRIPTION  dspdesc; 
 			memset(&dspdesc, 0, sizeof(FMOD_DSP_DESCRIPTION)); 
 
-			strncpy_s(dspdesc.name, sizeof(dspdesc.name)/sizeof(dspdesc.name[0]), "SCRBX", sizeof(dspdesc.name)/sizeof(dspdesc.name[0])); 
+			strncpy_s(dspdesc.name, sizeof(dspdesc.name)/sizeof(dspdesc.name[0]), "SCARL", sizeof(dspdesc.name)/sizeof(dspdesc.name[0])); 
 			//dspdesc.channels     = 0;                   // 0 = whatever comes in, else specify, no longer a property in FMOD STUDIO
 			dspdesc.read         = audioGrabber; 
 			dspdesc.userdata     = (void *)this; 
@@ -642,7 +642,7 @@ namespace RBX {
 			CAudioStream *stream = (CAudioStream*)userdata;
 			const unsigned short videoChannelsCount = 2;
 			short *soundData = new short[videoChannelsCount*length];
-			RBXASSERT(inchannels == *outchannels);
+			ARLASSERT(inchannels == *outchannels);
 
 			for (unsigned int count = 0; count < length; count++) 
 			{ 
@@ -691,7 +691,7 @@ namespace RBX {
 
 			WAVEFORMATEX* pwfexCurrent = (WAVEFORMATEX*)m_mt.Format();
 
-			RBXASSERT(pwfexCurrent->wBitsPerSample == 16 && pwfexCurrent->nChannels == 2);
+			ARLASSERT(pwfexCurrent->wBitsPerSample == 16 && pwfexCurrent->nChannels == 2);
 
 			short *sound = NULL;
 			int actualLen = 0;
@@ -711,7 +711,7 @@ namespace RBX {
 				actualLen = frameInfo.second*sizeof(short);
 				framesQueue.pop();
 
-				RBXASSERT(sound);
+				ARLASSERT(sound);
 				memcpy(pData, sound, actualLen);
 				delete [] sound;
 			}
@@ -779,7 +779,7 @@ namespace RBX {
 
 			WAVEFORMATEX *pwfexCurrent = (WAVEFORMATEX*)m_mt.Format();
 
-			RBXASSERT(WAVE_FORMAT_PCM == pwfexCurrent->wFormatTag);
+			ARLASSERT(WAVE_FORMAT_PCM == pwfexCurrent->wFormatTag);
 			pProperties->cbBuffer = 16*1024;
 
 			int nBitsPerSample = pwfexCurrent->wBitsPerSample;
@@ -896,7 +896,7 @@ namespace RBX {
 		case S_FALSE:
 			break;
 		default:
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO,  "CoInitializeEx result = 0x%x", hr);
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO,  "CoInitializeEx result = 0x%x", hr);
 		}
 		graph = NULL;
 		mediaControl = NULL;
@@ -948,19 +948,19 @@ namespace RBX {
 
 			if (FAILED(hr))
 			{
-				ReportStatisticWithMessage(GetBaseURL(), VidCapID, RBX::format("Audio enabled = %d, Expected frame freq = 48000 actual freq = %d", (int)s->enabledFunction(), s->getSampleRateFunction()));
+				ReportStatisticWithMessage(GetBaseURL(), VidCapID, ARL::format("Audio enabled = %d, Expected frame freq = 48000 actual freq = %d", (int)s->enabledFunction(), s->getSampleRateFunction()));
 
 				DestroyCaptureGgaph();
 				hr = BuildCaptureGraph(ncx, ncy, true);
 			}
 
-			RBXASSERT(graph);
-			RBXASSERT(mediaControl);
+			ARLASSERT(graph);
+			ARLASSERT(mediaControl);
 			
 			hr = mediaControl->Run();
 			if (!SUCCEEDED(hr))
 			{
-				ReportStatisticWithMessage(GetBaseURL(), VidCapID, RBX::format("Video capture startup failed error = %d", hr));
+				ReportStatisticWithMessage(GetBaseURL(), VidCapID, ARL::format("Video capture startup failed error = %d", hr));
 				return false;
 			}
 
@@ -986,7 +986,7 @@ namespace RBX {
 
 		if (running)
 		{
-			RBXASSERT(mediaControl);
+			ARLASSERT(mediaControl);
 			if (audioSource)
 			{
 				audioSource->StopSoundCapture();
@@ -997,10 +997,10 @@ namespace RBX {
 			{
 				Sleep(1000);
 				hr = mediaControl->Stop();
-				RBXASSERT(SUCCEEDED(hr));
+				ARLASSERT(SUCCEEDED(hr));
 			}
 
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO,  "Video recording stopped");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO,  "Video recording stopped");
 		}
 		DestroyCaptureGgaph();
 		return SUCCEEDED(hr);
@@ -1018,7 +1018,7 @@ namespace RBX {
 		
 		OAFilterState state;
 		HRESULT hr = mediaControl->GetState(INFINITE, &state);
-		RBXASSERT(SUCCEEDED(hr));
+		ARLASSERT(SUCCEEDED(hr));
 		if (FAILED(hr))
 		{
 			FASTLOG(FLog::Error, "MediaControl GetState failed");
@@ -1052,7 +1052,7 @@ namespace RBX {
 
 	static void cancelRecording(DataModel* dm, Verb* cancelAction)
 	{
-		RBX::GuiService* guiService = RBX::ServiceProvider::find<GuiService>(dm);
+		ARL::GuiService* guiService = ARL::ServiceProvider::find<GuiService>(dm);
 
 		if (guiService && !guiService->notificationCallback.empty())
 		{
@@ -1066,9 +1066,9 @@ namespace RBX {
     void DSVideoCaptureEngine::pushNextFrame(void* device, Verb *cancelAction)
     {
         FASTLOG(FLog::VideoCapture, "Pushing next frame.");
-        RBXASSERT(isRunning());
-        RBXASSERT(videoSource);
-        RBXASSERT(cancelAction);
+        ARLASSERT(isRunning());
+        ARLASSERT(videoSource);
+        ARLASSERT(cancelAction);
         HRESULT hr = S_OK;
 
         LONG absTime = GetAbsoluteTime();
@@ -1077,18 +1077,18 @@ namespace RBX {
         if (absTime > MaxRecordTime)
         {
             FASTLOG(FLog::DeviceLost, "DSVideoCaptureEngine: Cancel by time");
-            RBXASSERT(cancelAction);
+            ARLASSERT(cancelAction);
             cancelAction->doIt(NULL);
             return;
         }
 
-        RBX::Graphics::Device* graphicsDevice = static_cast<RBX::Graphics::Device*>(device);
-        RBX::Graphics::Framebuffer* fb = graphicsDevice->getMainFramebuffer();
+        ARL::Graphics::Device* graphicsDevice = static_cast<ARL::Graphics::Device*>(device);
+        ARL::Graphics::Framebuffer* fb = graphicsDevice->getMainFramebuffer();
         // lets limit video size by time
         if (!fb)
         {
             FASTLOG(FLog::DeviceLost, "DSVideoCaptureEngine: Cancel by device lost");
-            RBXASSERT(cancelAction);
+            ARLASSERT(cancelAction);
             cancelAction->doIt(NULL);
             return;
         }
@@ -1107,7 +1107,7 @@ namespace RBX {
         {
             FASTLOG(FLog::DeviceLost, "DSVideoCaptureEngine: Cancel by resize");
 
-			if (RBX::DataModel* dm = dynamic_cast<RBX::DataModel*>(cancelAction->getContainer()))
+			if (ARL::DataModel* dm = dynamic_cast<ARL::DataModel*>(cancelAction->getContainer()))
 			{
 				// This is not safe if the verb dies before the DM does! But we can't take ownership of the verb here and generally verbs are tied to DM lifetime...
 				dm->submitTask(boost::bind(cancelRecording, dm, cancelAction), DataModelJob::Write);
@@ -1116,7 +1116,7 @@ namespace RBX {
             return;
         }
 
-        if ((absTime - lastPushedVideoFrameTime) < videoSource->GetTargetFrameRate() || videoSource->GetQueueSize() >= RBX::DS::MaxFramesQueue)
+        if ((absTime - lastPushedVideoFrameTime) < videoSource->GetTargetFrameRate() || videoSource->GetQueueSize() >= ARL::DS::MaxFramesQueue)
         {
             return;
         }
@@ -1165,14 +1165,14 @@ namespace RBX {
 		return curTime - startTime;
 	}
 
-	const WCHAR profileDataV[] = L"<profile version=\"589824\" \r\n             storageformat=\"1\" \r\n             name=\"RBXVideo\" \r\n             description=\"Streams: 1 video\"> \r\n                   <streamconfig majortype=\"{73646976-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"1\" \r\n                   streamname=\"Video1\" \r\n                   inputname=\"\" \r\n                   bitrate=\"1000000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n                     <videomediaprops maxkeyframespacing=\"80000000\" \r\n                                     quality=\"100\"/> \r\n             <wmmediatype subtype=\"{32564D57-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"0\" \r\n                   btemporalcompression=\"1\" \r\n                   lsamplesize=\"0\"> \r\n       <videoinfoheader dwbitrate=\"1000000\" \r\n                        dwbiterrorrate=\"0\" \r\n                        avgtimeperframe=\"555555\"> \r\n        <rcsource left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n        <rctarget left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n            <bitmapinfoheader biwidth=\"854\" \r\n                              biheight=\"480\" \r\n                              biplanes=\"1\" \r\n                              bibitcount=\"24\" \r\n                              bicompression=\"WMV2\" \r\n                              bisizeimage=\"0\" \r\n                              bixpelspermeter=\"0\" \r\n                              biypelspermeter=\"0\" \r\n                              biclrused=\"0\" \r\n                              biclrimportant=\"0\"/> \r\n       </videoinfoheader>\r\n            </wmmediatype>\r\n            </streamconfig>\r\n                   </profile> \r\n ";
+	const WCHAR profileDataV[] = L"<profile version=\"589824\" \r\n             storageformat=\"1\" \r\n             name=\"ARLVideo\" \r\n             description=\"Streams: 1 video\"> \r\n                   <streamconfig majortype=\"{73646976-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"1\" \r\n                   streamname=\"Video1\" \r\n                   inputname=\"\" \r\n                   bitrate=\"1000000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n                     <videomediaprops maxkeyframespacing=\"80000000\" \r\n                                     quality=\"100\"/> \r\n             <wmmediatype subtype=\"{32564D57-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"0\" \r\n                   btemporalcompression=\"1\" \r\n                   lsamplesize=\"0\"> \r\n       <videoinfoheader dwbitrate=\"1000000\" \r\n                        dwbiterrorrate=\"0\" \r\n                        avgtimeperframe=\"555555\"> \r\n        <rcsource left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n        <rctarget left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n            <bitmapinfoheader biwidth=\"854\" \r\n                              biheight=\"480\" \r\n                              biplanes=\"1\" \r\n                              bibitcount=\"24\" \r\n                              bicompression=\"WMV2\" \r\n                              bisizeimage=\"0\" \r\n                              bixpelspermeter=\"0\" \r\n                              biypelspermeter=\"0\" \r\n                              biclrused=\"0\" \r\n                              biclrimportant=\"0\"/> \r\n       </videoinfoheader>\r\n            </wmmediatype>\r\n            </streamconfig>\r\n                   </profile> \r\n ";
 
-//	const WCHAR newProfileDataAV[] = L"<profile version=\"589824\" \r\n             storageformat=\"1\" \r\n             name=\"RBXVideo\" \r\n             description=\"Streams: 1 audio 1 video\"> \r\n                   <streamconfig majortype=\"{73646976-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"1\" \r\n                   streamname=\"Video1\" \r\n                   inputname=\"\" \r\n                   bitrate=\"1000000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n                     <videomediaprops maxkeyframespacing=\"80000000\" \r\n                                     quality=\"100\"/> \r\n             <wmmediatype subtype=\"{32564D57-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"0\" \r\n                   btemporalcompression=\"1\" \r\n                   lsamplesize=\"0\"> \r\n       <videoinfoheader dwbitrate=\"1000000\" \r\n                        dwbiterrorrate=\"0\" \r\n                        avgtimeperframe=\"555555\"> \r\n        <rcsource left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n        <rctarget left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n            <bitmapinfoheader biwidth=\"854\" \r\n                              biheight=\"480\" \r\n                              biplanes=\"1\" \r\n                              bibitcount=\"24\" \r\n                              bicompression=\"WMV2\" \r\n                              bisizeimage=\"0\" \r\n                              bixpelspermeter=\"0\" \r\n                              biypelspermeter=\"0\" \r\n                              biclrused=\"0\" \r\n                              biclrimportant=\"0\"/> \r\n       </videoinfoheader>\r\n            </wmmediatype>\r\n            </streamconfig>\r\n                   <streamconfig majortype=\"{73647561-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"2\" \r\n                   streamname=\"Audio2\" \r\n                   inputname=\"\" \r\n                   bitrate=\"64024\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n             <wmmediatype subtype=\"{00000161-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"1\" \r\n                   btemporalcompression=\"0\" \r\n                   lsamplesize=\"0\"> \r\n           <waveformatex wFormatTag=\"353\" \r\n                         nChannels=\"2\" \r\n                         nSamplesPerSec=\"48000\" \r\n                         nAvgBytesPerSec=\"12000\" \r\n                         nBlockAlign=\"4096\" \r\n                         wBitsPerSample=\"16\" \r\n                         codecdata=\"008800000F0000000000\"/> \r\n            </wmmediatype>\r\n            </streamconfig>\r\n    </profile> \r\n";
-	const WCHAR newProfileDataAV[] = L"<profile version=\"589824\" \r\n             storageformat=\"1\" \r\n             name=\"RBXVideo\" \r\n             description=\"Streams: 1 audio 1 video\"> \r\n                   <streamconfig majortype=\"{73646976-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"1\" \r\n                   streamname=\"Video1\" \r\n                   inputname=\"\" \r\n                   bitrate=\"1000000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n                     <videomediaprops maxkeyframespacing=\"80000000\" \r\n                                     quality=\"100\"/> \r\n             <wmmediatype subtype=\"{32564D57-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"0\" \r\n                   btemporalcompression=\"1\" \r\n                   lsamplesize=\"0\"> \r\n       <videoinfoheader dwbitrate=\"1000000\" \r\n                        dwbiterrorrate=\"0\" \r\n                        avgtimeperframe=\"555555\"> \r\n        <rcsource left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n        <rctarget left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n            <bitmapinfoheader biwidth=\"854\" \r\n                              biheight=\"480\" \r\n                              biplanes=\"1\" \r\n                              bibitcount=\"24\" \r\n                              bicompression=\"WMV2\" \r\n                              bisizeimage=\"0\" \r\n                              bixpelspermeter=\"0\" \r\n                              biypelspermeter=\"0\" \r\n                              biclrused=\"0\" \r\n                              biclrimportant=\"0\"/> \r\n       </videoinfoheader>\r\n            </wmmediatype>\r\n            </streamconfig>\r\n                   <streamconfig majortype=\"{73647561-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"2\" \r\n                   streamname=\"Audio2\" \r\n                   inputname=\"\" \r\n                   bitrate=\"48000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n             <wmmediatype subtype=\"{00000162-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"1\" \r\n                   btemporalcompression=\"0\" \r\n                   lsamplesize=\"0\"> \r\n           <waveformatex wFormatTag=\"354\" \r\n                         nChannels=\"2\" \r\n                         nSamplesPerSec=\"48000\" \r\n                         nAvgBytesPerSec=\"6000\" \r\n                         nBlockAlign=\"2048\" \r\n                         wBitsPerSample=\"16\" \r\n                         codecdata=\"1000030000000000000000000000600042C0\"/> \r\n            </wmmediatype>\r\n            </streamconfig>\r\n    </profile> \r\n";
+//	const WCHAR newProfileDataAV[] = L"<profile version=\"589824\" \r\n             storageformat=\"1\" \r\n             name=\"ARLVideo\" \r\n             description=\"Streams: 1 audio 1 video\"> \r\n                   <streamconfig majortype=\"{73646976-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"1\" \r\n                   streamname=\"Video1\" \r\n                   inputname=\"\" \r\n                   bitrate=\"1000000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n                     <videomediaprops maxkeyframespacing=\"80000000\" \r\n                                     quality=\"100\"/> \r\n             <wmmediatype subtype=\"{32564D57-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"0\" \r\n                   btemporalcompression=\"1\" \r\n                   lsamplesize=\"0\"> \r\n       <videoinfoheader dwbitrate=\"1000000\" \r\n                        dwbiterrorrate=\"0\" \r\n                        avgtimeperframe=\"555555\"> \r\n        <rcsource left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n        <rctarget left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n            <bitmapinfoheader biwidth=\"854\" \r\n                              biheight=\"480\" \r\n                              biplanes=\"1\" \r\n                              bibitcount=\"24\" \r\n                              bicompression=\"WMV2\" \r\n                              bisizeimage=\"0\" \r\n                              bixpelspermeter=\"0\" \r\n                              biypelspermeter=\"0\" \r\n                              biclrused=\"0\" \r\n                              biclrimportant=\"0\"/> \r\n       </videoinfoheader>\r\n            </wmmediatype>\r\n            </streamconfig>\r\n                   <streamconfig majortype=\"{73647561-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"2\" \r\n                   streamname=\"Audio2\" \r\n                   inputname=\"\" \r\n                   bitrate=\"64024\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n             <wmmediatype subtype=\"{00000161-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"1\" \r\n                   btemporalcompression=\"0\" \r\n                   lsamplesize=\"0\"> \r\n           <waveformatex wFormatTag=\"353\" \r\n                         nChannels=\"2\" \r\n                         nSamplesPerSec=\"48000\" \r\n                         nAvgBytesPerSec=\"12000\" \r\n                         nBlockAlign=\"4096\" \r\n                         wBitsPerSample=\"16\" \r\n                         codecdata=\"008800000F0000000000\"/> \r\n            </wmmediatype>\r\n            </streamconfig>\r\n    </profile> \r\n";
+	const WCHAR newProfileDataAV[] = L"<profile version=\"589824\" \r\n             storageformat=\"1\" \r\n             name=\"ARLVideo\" \r\n             description=\"Streams: 1 audio 1 video\"> \r\n                   <streamconfig majortype=\"{73646976-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"1\" \r\n                   streamname=\"Video1\" \r\n                   inputname=\"\" \r\n                   bitrate=\"1000000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n                     <videomediaprops maxkeyframespacing=\"80000000\" \r\n                                     quality=\"100\"/> \r\n             <wmmediatype subtype=\"{32564D57-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"0\" \r\n                   btemporalcompression=\"1\" \r\n                   lsamplesize=\"0\"> \r\n       <videoinfoheader dwbitrate=\"1000000\" \r\n                        dwbiterrorrate=\"0\" \r\n                        avgtimeperframe=\"555555\"> \r\n        <rcsource left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n        <rctarget left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n            <bitmapinfoheader biwidth=\"854\" \r\n                              biheight=\"480\" \r\n                              biplanes=\"1\" \r\n                              bibitcount=\"24\" \r\n                              bicompression=\"WMV2\" \r\n                              bisizeimage=\"0\" \r\n                              bixpelspermeter=\"0\" \r\n                              biypelspermeter=\"0\" \r\n                              biclrused=\"0\" \r\n                              biclrimportant=\"0\"/> \r\n       </videoinfoheader>\r\n            </wmmediatype>\r\n            </streamconfig>\r\n                   <streamconfig majortype=\"{73647561-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"2\" \r\n                   streamname=\"Audio2\" \r\n                   inputname=\"\" \r\n                   bitrate=\"48000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n             <wmmediatype subtype=\"{00000162-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"1\" \r\n                   btemporalcompression=\"0\" \r\n                   lsamplesize=\"0\"> \r\n           <waveformatex wFormatTag=\"354\" \r\n                         nChannels=\"2\" \r\n                         nSamplesPerSec=\"48000\" \r\n                         nAvgBytesPerSec=\"6000\" \r\n                         nBlockAlign=\"2048\" \r\n                         wBitsPerSample=\"16\" \r\n                         codecdata=\"1000030000000000000000000000600042C0\"/> \r\n            </wmmediatype>\r\n            </streamconfig>\r\n    </profile> \r\n";
 
-	const WCHAR profWinXPAV[] = L"<profile version=\"589824\" \r\n             storageformat=\"1\" \r\n             name=\"RBXVidXP\" \r\n             description=\"Streams: 1 audio 1 video\"> \r\n                   <streamconfig majortype=\"{73646976-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"1\" \r\n                   streamname=\"Video1\" \r\n                   inputname=\"\" \r\n                   bitrate=\"100000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n                     <videomediaprops maxkeyframespacing=\"80000000\" \r\n                                     quality=\"100\"/> \r\n             <wmmediatype subtype=\"{33564D57-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"0\" \r\n                   btemporalcompression=\"1\" \r\n                   lsamplesize=\"0\"> \r\n       <videoinfoheader dwbitrate=\"100000\" \r\n                        dwbiterrorrate=\"0\" \r\n                        avgtimeperframe=\"555555\"> \r\n        <rcsource left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n        <rctarget left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n            <bitmapinfoheader biwidth=\"854\" \r\n                              biheight=\"480\" \r\n                              biplanes=\"1\" \r\n                              bibitcount=\"24\" \r\n                              bicompression=\"WMV3\" \r\n                              bisizeimage=\"0\" \r\n                              bixpelspermeter=\"0\" \r\n                              biypelspermeter=\"0\" \r\n                              biclrused=\"0\" \r\n                              biclrimportant=\"0\"/> \r\n       </videoinfoheader>\r\n            </wmmediatype>\r\n            </streamconfig>\r\n                   <streamconfig majortype=\"{73647561-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"2\" \r\n                   streamname=\"Audio2\" \r\n                   inputname=\"\" \r\n                   bitrate=\"64024\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n> \r\n             <wmmediatype subtype=\"{00000161-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"1\" \r\n                   btemporalcompression=\"0\" \r\n                   lsamplesize=\"0\"> \r\n           <waveformatex wFormatTag=\"353\" \r\n                         nChannels=\"2\" \r\n                         nSamplesPerSec=\"48000\" \r\n                         nAvgBytesPerSec=\"12000\" \r\n                         nBlockAlign=\"4096\" \r\n                         wBitsPerSample=\"16\" \r\n                         codecdata=\"008800000F0000000000\"/> \r\n            </wmmediatype>\r\n            </streamconfig>\r\n    </profile> \r\n";
+	const WCHAR profWinXPAV[] = L"<profile version=\"589824\" \r\n             storageformat=\"1\" \r\n             name=\"ARLVidXP\" \r\n             description=\"Streams: 1 audio 1 video\"> \r\n                   <streamconfig majortype=\"{73646976-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"1\" \r\n                   streamname=\"Video1\" \r\n                   inputname=\"\" \r\n                   bitrate=\"100000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n                     <videomediaprops maxkeyframespacing=\"80000000\" \r\n                                     quality=\"100\"/> \r\n             <wmmediatype subtype=\"{33564D57-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"0\" \r\n                   btemporalcompression=\"1\" \r\n                   lsamplesize=\"0\"> \r\n       <videoinfoheader dwbitrate=\"100000\" \r\n                        dwbiterrorrate=\"0\" \r\n                        avgtimeperframe=\"555555\"> \r\n        <rcsource left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n        <rctarget left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n            <bitmapinfoheader biwidth=\"854\" \r\n                              biheight=\"480\" \r\n                              biplanes=\"1\" \r\n                              bibitcount=\"24\" \r\n                              bicompression=\"WMV3\" \r\n                              bisizeimage=\"0\" \r\n                              bixpelspermeter=\"0\" \r\n                              biypelspermeter=\"0\" \r\n                              biclrused=\"0\" \r\n                              biclrimportant=\"0\"/> \r\n       </videoinfoheader>\r\n            </wmmediatype>\r\n            </streamconfig>\r\n                   <streamconfig majortype=\"{73647561-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"2\" \r\n                   streamname=\"Audio2\" \r\n                   inputname=\"\" \r\n                   bitrate=\"64024\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n> \r\n             <wmmediatype subtype=\"{00000161-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"1\" \r\n                   btemporalcompression=\"0\" \r\n                   lsamplesize=\"0\"> \r\n           <waveformatex wFormatTag=\"353\" \r\n                         nChannels=\"2\" \r\n                         nSamplesPerSec=\"48000\" \r\n                         nAvgBytesPerSec=\"12000\" \r\n                         nBlockAlign=\"4096\" \r\n                         wBitsPerSample=\"16\" \r\n                         codecdata=\"008800000F0000000000\"/> \r\n            </wmmediatype>\r\n            </streamconfig>\r\n    </profile> \r\n";
 
-	const WCHAR profWinXPV[] = L"<profile version=\"589824\" \r\n             storageformat=\"1\" \r\n             name=\"RBXVidXP\" \r\n             description=\"Streams: 1 video\"> \r\n                   <streamconfig majortype=\"{73646976-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"1\" \r\n                   streamname=\"Video1\" \r\n                   inputname=\"\" \r\n                   bitrate=\"100000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n                     <videomediaprops maxkeyframespacing=\"80000000\" \r\n                                     quality=\"100\"/> \r\n             <wmmediatype subtype=\"{33564D57-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"0\" \r\n                   btemporalcompression=\"1\" \r\n                   lsamplesize=\"0\"> \r\n       <videoinfoheader dwbitrate=\"100000\" \r\n                        dwbiterrorrate=\"0\" \r\n                        avgtimeperframe=\"555555\"> \r\n        <rcsource left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n        <rctarget left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n            <bitmapinfoheader biwidth=\"854\" \r\n                              biheight=\"480\" \r\n                              biplanes=\"1\" \r\n                              bibitcount=\"24\" \r\n                              bicompression=\"WMV3\" \r\n                              bisizeimage=\"0\" \r\n                              bixpelspermeter=\"0\" \r\n                              biypelspermeter=\"0\" \r\n                              biclrused=\"0\" \r\n                              biclrimportant=\"0\"/> \r\n       </videoinfoheader>\r\n            </wmmediatype>\r\n            </streamconfig>\r\n            </profile> \r\n";
+	const WCHAR profWinXPV[] = L"<profile version=\"589824\" \r\n             storageformat=\"1\" \r\n             name=\"ARLVidXP\" \r\n             description=\"Streams: 1 video\"> \r\n                   <streamconfig majortype=\"{73646976-0000-0010-8000-00AA00389B71}\" \r\n                   streamnumber=\"1\" \r\n                   streamname=\"Video1\" \r\n                   inputname=\"\" \r\n                   bitrate=\"100000\" \r\n                   bufferwindow=\"3000\" \r\n                   reliabletransport=\"0\" \r\n                   decodercomplexity=\"\" \r\n                   rfc1766langid=\"en-us\" \r\n > \r\n                     <videomediaprops maxkeyframespacing=\"80000000\" \r\n                                     quality=\"100\"/> \r\n             <wmmediatype subtype=\"{33564D57-0000-0010-8000-00AA00389B71}\"  \r\n                   bfixedsizesamples=\"0\" \r\n                   btemporalcompression=\"1\" \r\n                   lsamplesize=\"0\"> \r\n       <videoinfoheader dwbitrate=\"100000\" \r\n                        dwbiterrorrate=\"0\" \r\n                        avgtimeperframe=\"555555\"> \r\n        <rcsource left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n        <rctarget left=\"0\" \r\n                  top=\"0\" \r\n                  right=\"854\" \r\n                  bottom=\"480\"/> \r\n            <bitmapinfoheader biwidth=\"854\" \r\n                              biheight=\"480\" \r\n                              biplanes=\"1\" \r\n                              bibitcount=\"24\" \r\n                              bicompression=\"WMV3\" \r\n                              bisizeimage=\"0\" \r\n                              bixpelspermeter=\"0\" \r\n                              biypelspermeter=\"0\" \r\n                              biclrused=\"0\" \r\n                              biclrimportant=\"0\"/> \r\n       </videoinfoheader>\r\n            </wmmediatype>\r\n            </streamconfig>\r\n            </profile> \r\n";
 
 	HRESULT DSVideoCaptureEngine::BuildCaptureGraph(int cx, int cy, bool forceNoAudio)
 	{
@@ -1280,7 +1280,7 @@ Error:
 		SYSTEMTIME time;
 		::GetLocalTime(&time);
 
-        boost::filesystem::path folder = RBX::FileSystem::getUserDirectory(true, RBX::DirVideo);
+        boost::filesystem::path folder = ARL::FileSystem::getUserDirectory(true, ARL::DirVideo);
 
         wchar_t name[MAX_PATH];
 		int iLen = _snwprintf_s(name, _MAX_PATH-1, _MAX_PATH-1, L"%s-%d%02d%02d-%02d%02d%02d%01d%s.%s", 

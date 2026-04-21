@@ -3,7 +3,7 @@
 #include "V8World/Mesh.h"
 #include "util/Math.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace POLY {
 /*
@@ -446,7 +446,7 @@ void Mesh::makePrism(const Vector3_2Ints& params, Vector3& cofm)
 {
 	int sides = params.int1;
 	Vector3 size = params.vectPart;
-	RBXASSERT(sides < 21);
+	ARLASSERT(sides < 21);
 
 	// no assert for this case since it happens safely during initialization
 	if( sides < 3 )
@@ -518,7 +518,7 @@ void Mesh::makePyramid(const Vector3_2Ints& params, Vector3& cofm )
 {
 	int sides = params.int1;
 	Vector3 size = params.vectPart;
-	RBXASSERT(sides < 21);
+	ARLASSERT(sides < 21);
 
 	// no assert for this case since it happens safely during initialization
 	if( sides < 3 )
@@ -594,7 +594,7 @@ void Mesh::makeParallelRamp( const Vector3& size, Vector3& cofm )
 	float y = 0.5f * size.y;
 	float z = 0.5f * size.z;
 
-	//float connectionThickness = RBX::PartInstance::brickHeight();
+	//float connectionThickness = ARL::PartInstance::brickHeight();
 	// Move away from 1.2 form factor
 	float connectionThickness = 1.0f;
 
@@ -628,7 +628,7 @@ void Mesh::makeRightAngleRamp( const Vector3& size, Vector3& cofm )
 	float y = 0.5f * size.y;
 	float z = 0.5f * size.z;
 
-	//float connectionThickness = RBX::PartInstance::brickHeight();
+	//float connectionThickness = ARL::PartInstance::brickHeight();
 	// Move away from 1.2 form factor
 	float connectionThickness = 1.0f;
 
@@ -800,10 +800,10 @@ Edge* Mesh::findOrMakeEdge(size_t v0, size_t v1)
 	Vertex* vert0 = &vertices[v0];
 	Vertex* vert1 = &vertices[v1];
 	if (Edge* found = vert0->findEdge(vert1)) {
-		RBXASSERT(found->getVertex(NULL, 0) == vert1);		// should be backwards - this is second face
-		RBXASSERT(found->getVertex(NULL, 1) == vert0);
-		RBXASSERT(found->getForward());
-		RBXASSERT(!found->getBackward());
+		ARLASSERT(found->getVertex(NULL, 0) == vert1);		// should be backwards - this is second face
+		ARLASSERT(found->getVertex(NULL, 1) == vert0);
+		ARLASSERT(found->getForward());
+		ARLASSERT(!found->getBackward());
 		return found;
 	}
 	else {
@@ -837,8 +837,8 @@ bool Mesh::pointInMesh(const Vector3& point) const
 
 const Face* Mesh::findFaceIntersection(const Vector3& inside, const Vector3& outside) const
 {
-	RBXASSERT(pointInMesh(inside));
-	RBXASSERT(!pointInMesh(outside));
+	ARLASSERT(pointInMesh(inside));
+	ARLASSERT(!pointInMesh(outside));
 	
 	RbxRay ray = RbxRay::fromOriginAndDirection(inside, (outside-inside).direction());
 
@@ -850,15 +850,15 @@ const Face* Mesh::findFaceIntersection(const Vector3& inside, const Vector3& out
 			return face;
 		}
 	}
-	RBXASSERT(0);
+	ARLASSERT(0);
 
 	return NULL;
 }
 
 void Mesh::findFaceIntersections(const Vector3& p0, const Vector3& p1, const Face* &f0, const Face* &f1) const
 {
-	RBXASSERT(!pointInMesh(p0));
-	RBXASSERT(!pointInMesh(p1));
+	ARLASSERT(!pointInMesh(p0));
+	ARLASSERT(!pointInMesh(p1));
 	f0 = NULL;
 	f1 = NULL;
 	Line line = Line::fromTwoPoints(p0, p1);
@@ -937,7 +937,7 @@ bool Mesh::hitTest(const RbxRay& ray, Vector3& hitPoint, Vector3& surfaceNormal)
 		if (rayIntersectsFace(ray, face, tempHit)) {
 			intersects++;
 			float tempDistance = (tempHit - ray.origin()).squaredMagnitude();
-			RBXASSERT(tempDistance >= 0.0f);
+			ARLASSERT(tempDistance >= 0.0f);
 			if (tempDistance < distance) {
 				hitPoint = tempHit;
 				distance = tempDistance;
@@ -1017,8 +1017,8 @@ int Face::findInternalExtrusionIntersection(const Vector3& p0, const Vector3& p1
 
 int Face::getInternalExtrusionIntersection(const Vector3& pBelowInside, const Vector3& pBelowOutside) const
 {
-	RBXASSERT(pointInInternalExtrusion(pBelowInside));
-	RBXASSERT(!pointInInternalExtrusion(pBelowOutside));
+	ARLASSERT(pointInInternalExtrusion(pBelowInside));
+	ARLASSERT(!pointInInternalExtrusion(pBelowOutside));
 
 	for (size_t i = 0; i < numEdges(); ++i) {
 		if (lineCrossesExtrusionSide(pBelowInside, pBelowOutside, i)) {
@@ -1031,8 +1031,8 @@ int Face::getInternalExtrusionIntersection(const Vector3& pBelowInside, const Ve
 
 void Face::findInternalExtrusionIntersections(const Vector3& p0, const Vector3& p1, int& side0, int& side1) const
 {
-	RBXASSERT(!pointInInternalExtrusion(p0));
-	RBXASSERT(!pointInInternalExtrusion(p1));
+	ARLASSERT(!pointInInternalExtrusion(p0));
+	ARLASSERT(!pointInInternalExtrusion(p1));
 
 	side0 = -1;
 	side1 = -1;
@@ -1045,7 +1045,7 @@ void Face::findInternalExtrusionIntersections(const Vector3& p0, const Vector3& 
 				side0 = i;
 			}
 			else {
-				//RBXASSERT(side1 == -1);
+				//ARLASSERT(side1 == -1);
 				side1 = i;
 			}
 		}
@@ -1158,7 +1158,7 @@ Edge* Vertex::findEdge(const Vertex* other)
 {
 	for (size_t i = 0; i < edges.size(); ++i) {
 		Edge* e = edges[i];
-		RBXASSERT(e->contains(this));
+		ARLASSERT(e->contains(this));
 		if (e->contains(other)) {
 			return e;
 		}
@@ -1173,7 +1173,7 @@ const Edge* Vertex::recoverEdge(const Vertex* v0, const Vertex* v1) {
 			return edge;
 		}
 	}
-	RBXASSERT(0);
+	ARLASSERT(0);
 	return NULL;
 }
 
@@ -1202,4 +1202,4 @@ bool Edge::pointInVaronoi(const Vector3& point) const
 
 } // namespace POLY
 
-} // namespace RBX
+} // namespace ARL

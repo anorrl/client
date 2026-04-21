@@ -8,7 +8,7 @@
 #include "Util/SoundService.h"
 #include "SelectState.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sAnchorTool = "Anchor";
 const char* const sLockTool = "Lock";

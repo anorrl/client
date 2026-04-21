@@ -7,7 +7,7 @@
 #include "Tool/GroupDragTool.h"
 #include "Tool/LuaDragTool.h"
 
-namespace RBX {
+namespace ARL {
 
 
 shared_ptr<MouseCommand> DragTool::onMouseDown(PartInstance* hitPart,
@@ -17,7 +17,7 @@ shared_ptr<MouseCommand> DragTool::onMouseDown(PartInstance* hitPart,
 									Workspace* workspace,
 									shared_ptr<Instance> selectIfNoDrag)
 {
-	RBXASSERT(hitPart);
+	ARLASSERT(hitPart);
 
 	PartArray partArray;
 	DragUtilities::instancesToParts(dragInstances, partArray);
@@ -32,7 +32,7 @@ shared_ptr<MouseCommand> DragTool::onMouseDown(PartInstance* hitPart,
 #else
 	if (partArray.size() == 1)
 	{
-		RBXASSERT(partArray[0].lock().get() == hitPart);
+		ARLASSERT(partArray[0].lock().get() == hitPart);
 
 		shared_ptr<MouseCommand> partDragTool = Creatable<MouseCommand>::create<PartDragTool>(hitPart,
 														hitWorld,

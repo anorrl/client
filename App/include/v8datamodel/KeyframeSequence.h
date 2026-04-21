@@ -5,7 +5,7 @@
 #include "V8DataModel/Keyframe.h"
 #include "V8DataModel/IAnimatableJoint.h"
 
-namespace RBX {
+namespace ARL {
 	extern const char *const sKeyframeSequence;
 	class AnimationTrackState;
 	class JointInstance;

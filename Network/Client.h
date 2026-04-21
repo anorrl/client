@@ -6,7 +6,7 @@
 #include "Util/SystemAddress.h"
 
 
-namespace RBX { 
+namespace ARL { 
 
 	namespace Network {
 
@@ -45,11 +45,11 @@ namespace RBX {
 			/*override*/ RakNet::PluginReceiveResult OnReceive(RakNet::Packet *packet);
 			/*override*/ void OnFailedConnectionAttempt(RakNet::Packet *packet, RakNet::PI2_FailedConnectionAttemptReason failedConnectionAttemptReason);
 			
-			static Client* findClient(const RBX::Instance* context, bool testInDatamodel = true);
-			static bool clientIsPresent(const RBX::Instance* context, bool testInDatamodel = true);
-			static const RBX::SystemAddress findLocalSimulatorAddress(const RBX::Instance* context);			// if Client == clientAddress, else == NULL;
-			static bool physicsOutBandwidthExceeded(const RBX::Instance* context);
-			static double getNetworkBufferHealth(const RBX::Instance* context);
+			static Client* findClient(const ARL::Instance* context, bool testInDatamodel = true);
+			static bool clientIsPresent(const ARL::Instance* context, bool testInDatamodel = true);
+			static const ARL::SystemAddress findLocalSimulatorAddress(const ARL::Instance* context);			// if Client == clientAddress, else == NULL;
+			static bool physicsOutBandwidthExceeded(const ARL::Instance* context);
+			static double getNetworkBufferHealth(const ARL::Instance* context);
 
 		protected:
 			virtual void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);

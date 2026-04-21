@@ -10,13 +10,13 @@
 #include <sstream>
 #include <fstream>
 
-namespace RBX {
+namespace ARL {
 
 	class Log;
 
 	// Returns a Log instance. Multithreaded apps should return a different
 	// instance for each thread, so that Scope objects don't interact with each other
-	class RBXInterface ILogProvider
+	class ARLInterface ILogProvider
 	{
 	public:
 		virtual Log* provideLog() = 0;
@@ -58,7 +58,7 @@ namespace RBX {
 		static ILogProvider* provider;
 		static inline std::ofstream& currentStream()
 		{
-			RBXASSERT(provider->provideLog()!=NULL);
+			ARLASSERT(provider->provideLog()!=NULL);
 			return provider->provideLog()->stream;
 		}
 

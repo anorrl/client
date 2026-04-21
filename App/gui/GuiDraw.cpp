@@ -12,18 +12,18 @@
 #include "GfxBase/Adorn.h"
 #include "v8datamodel/contentprovider.h"
 
-namespace RBX {
+namespace ARL {
 
 /////////////////////////////////////////////////////////////
 //
 // GuiDrawImage
 //
 
-void GuiDrawImage::tryCreateTextureProxy(Adorn *adorn, const std::string& contentString, const std::string& context, RBX::TextureProxyBaseRef& textureRef, bool& isWaiting)
+void GuiDrawImage::tryCreateTextureProxy(Adorn *adorn, const std::string& contentString, const std::string& context, ARL::TextureProxyBaseRef& textureRef, bool& isWaiting)
 {
 	ContentId content(contentString);
 
-	if ( (content.isAsset() && !RBX::ContentProvider::findAsset(content).empty()) || !content.isAsset())
+	if ( (content.isAsset() && !ARL::ContentProvider::findAsset(content).empty()) || !content.isAsset())
 	{
 		textureRef = adorn->createTextureProxy(content, isWaiting, false, context);
 	}
@@ -146,14 +146,14 @@ Vector2 GuiDrawImage::getImageSize() const
 {
 	if (size.isZero() && normal)
 	{
-		RBX::Vector2 sz = normal->getOriginalSize();
+		ARL::Vector2 sz = normal->getOriginalSize();
 		size.x = sz.x;
 		size.y = sz.y;
 	}
 	return size;
 }
 
-void GuiDrawImage::draw(Adorn* adorn, const RBX::TextureProxyBaseRef& texture, const Rect& rect, const Vector2& texul, const Vector2& texbr, const Color4& color,
+void GuiDrawImage::draw(Adorn* adorn, const ARL::TextureProxyBaseRef& texture, const Rect& rect, const Vector2& texul, const Vector2& texbr, const Color4& color,
     const Rect& clipRect, const Color4& behind, const Color4& inFront)
 {
 	Rect2D rect2D = rect.toRect2D();
@@ -167,7 +167,7 @@ void GuiDrawImage::draw(Adorn* adorn, const RBX::TextureProxyBaseRef& texture, c
 			adorn->setTexture(0, TextureProxyBaseRef());
 		}
 		else if (normal) {		// backup - use the normal texture
-			RBX::Rect2D intersectRect = clipRect2D.intersect(rect2D);
+			ARL::Rect2D intersectRect = clipRect2D.intersect(rect2D);
 			adorn->rect2d(intersectRect, texul, texbr, behind);
 			draw(adorn, normal, rect, texul, texbr, color, clipRect, Color4::clear(), Color4::clear());
 			adorn->rect2d(intersectRect, texul, texbr, inFront);
@@ -175,7 +175,7 @@ void GuiDrawImage::draw(Adorn* adorn, const RBX::TextureProxyBaseRef& texture, c
 	}
 }
 
-void GuiDrawImage::draw(Adorn* adorn, const RBX::TextureProxyBaseRef& texture, const Rect& rect, const Vector2& texul, const Vector2& texbr, const Color4& color,
+void GuiDrawImage::draw(Adorn* adorn, const ARL::TextureProxyBaseRef& texture, const Rect& rect, const Vector2& texul, const Vector2& texbr, const Color4& color,
     const Rotation2D& rotation, const Color4& behind, const Color4& inFront)
 {
 	Rect2D rect2D = rect.toRect2D();

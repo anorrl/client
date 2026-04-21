@@ -10,7 +10,7 @@
 #include "Util/SoundWorld.h"
 #include "SelectState.h"
 
-namespace RBX {
+namespace ARL {
 
 	
 //////////////////////////////////////////////////////////////////////////////

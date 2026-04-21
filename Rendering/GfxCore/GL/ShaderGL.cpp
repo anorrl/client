@@ -10,7 +10,7 @@
 
 LOGGROUP(Graphics)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -65,7 +65,7 @@ static void dumpInfoLog(unsigned int id, GetParameter getParameter, GetLog getLo
 static unsigned int compileShader(const std::string& source, GLenum type)
 {
     unsigned int id = glCreateShader(type);
-    RBXASSERT(id);
+    ARLASSERT(id);
     
     int length = source.length();
     const char* data = source.c_str();
@@ -132,7 +132,7 @@ static void applyAttribs(unsigned int id, unsigned int attribMask)
         if (attribMask & (1 << attr))
         {
             const char* name = VertexLayoutGL::getShaderAttributeName(attr);
-            RBXASSERT(name);
+            ARLASSERT(name);
             glBindAttribLocation(id, attr, name);
         }
 }
@@ -336,7 +336,7 @@ ShaderProgramGL::ShaderProgramGL(Device* device, const shared_ptr<VertexShader>&
     , samplerMask(0)
 {
 	id = glCreateProgram();
-	RBXASSERT(id);
+	ARLASSERT(id);
 
 	glAttachShader(id, static_cast<VertexShaderGL*>(vertexShader.get())->getId());
 	glAttachShader(id, static_cast<FragmentShaderGL*>(fragmentShader.get())->getId());
@@ -382,7 +382,7 @@ ShaderProgramGL::ShaderProgramGL(Device* device, const shared_ptr<VertexShader>&
     // Populate world matrix information
     if (const Uniform* uniform = findUniform(ctab, "WorldMatrix"))
 	{
-		RBXASSERT(uniform->type == Uniform::Type_Float4x4);
+		ARLASSERT(uniform->type == Uniform::Type_Float4x4);
 
 		uniformWorldMatrix = uniform->location;
 		maxWorldTransforms = 1;
@@ -392,8 +392,8 @@ ShaderProgramGL::ShaderProgramGL(Device* device, const shared_ptr<VertexShader>&
 
     if (const Uniform* uniform = findUniform(ctab, "WorldMatrixArray"))
 	{
-		RBXASSERT(uniform->type == Uniform::Type_Float4);
-        RBXASSERT(uniform->size % 3 == 0);
+		ARLASSERT(uniform->type == Uniform::Type_Float4);
+        ARLASSERT(uniform->size % 3 == 0);
 
 		uniformWorldMatrixArray = uniform->location;
 		maxWorldTransforms = uniform->size / 3;
@@ -505,7 +505,7 @@ void ShaderProgramGL::setWorldTransforms4x3(const float* data, size_t matrixCoun
 
 	if (uniformWorldMatrixArray >= 0)
 	{
-		RBXASSERT(matrixCount <= maxWorldTransforms);
+		ARLASSERT(matrixCount <= maxWorldTransforms);
 
 		glUniform4fv(uniformWorldMatrixArray, matrixCount * 3, data);
 	}
@@ -516,34 +516,34 @@ void ShaderProgramGL::setConstant(int handle, const float* data, size_t vectorCo
     if (handle < 0)
         return;
 
-    RBXASSERT(static_cast<size_t>(handle) < uniforms.size());
+    ARLASSERT(static_cast<size_t>(handle) < uniforms.size());
 
 	const Uniform& u = uniforms[handle].second;
 
     switch (u.type)
     {
     case Uniform::Type_Float:
-        RBXASSERT(vectorCount == 1);
+        ARLASSERT(vectorCount == 1);
         glUniform1fv(u.location, 1, data);
         break;
 
     case Uniform::Type_Float2:
-        RBXASSERT(vectorCount == 1);
+        ARLASSERT(vectorCount == 1);
         glUniform2fv(u.location, 1, data);
         break;
 
     case Uniform::Type_Float3:
-        RBXASSERT(vectorCount == 1);
+        ARLASSERT(vectorCount == 1);
         glUniform3fv(u.location, 1, data);
         break;
 
     case Uniform::Type_Float4:
-		RBXASSERT(vectorCount > 0 && vectorCount <= u.size);
+		ARLASSERT(vectorCount > 0 && vectorCount <= u.size);
         glUniform4fv(u.location, vectorCount, data);
         break;
 
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
     }
 }
 

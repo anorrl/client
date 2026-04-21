@@ -4,7 +4,7 @@
 
 #include "Util/ScopedSingleton.h"
 
-namespace RBX {
+namespace ARL {
 	
 	class WordList
 	{

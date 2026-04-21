@@ -5,7 +5,7 @@
 #include <vector>
 #include <boost/unordered_map.hpp>
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 // Associative container for mapping SpatialRegion::Id to a value type.
 // ValueType should implement no-arg constructor and assignment operator.

@@ -7,7 +7,7 @@
 #include "Util/TextureId.h"
 #include "rbx/signal.h"
 
-namespace RBX {
+namespace ARL {
 
 class MouseCommand;
 class PartInstance;
@@ -51,7 +51,7 @@ public:
 
 	virtual NormalId getTargetSurface() const;
 	
-	virtual RBX::RbxRay getUnitRay() const;
+	virtual ARL::RbxRay getUnitRay() const;
 
 	void setCommand(MouseCommand* value);
 	void setWorkspace(Workspace* workspace);

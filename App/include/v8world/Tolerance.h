@@ -6,7 +6,7 @@
 #include "V8Kernel/ContactConnector.h"
 
 
-namespace RBX {
+namespace ARL {
 	
 	class Tolerance 
 	{

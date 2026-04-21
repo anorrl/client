@@ -8,7 +8,7 @@
 #include "rbx/boost.hpp"
 #include "rbx/Debug.h"
 
-namespace RBX
+namespace ARL
 {
 	// generic encryption functions
 	std::string sha1(const std::string& source);
@@ -56,13 +56,13 @@ namespace RBX
 		// For quick-accessing a value (temporary. Do not keep reference)
 		const Class& operator*() const
 		{
-			RBXASSERT(object.get() != 0);
+			ARLASSERT(object.get() != 0);
 			return *object;
 		}
 		// For quick-accessing a value (temporary. Do not keep reference)
 		const Class* operator->() const
 		{
-			RBXASSERT(object.get() != 0);
+			ARLASSERT(object.get() != 0);
 			return object.get();
 		}
 		// For accessing an imutable value (as during an algorithm)

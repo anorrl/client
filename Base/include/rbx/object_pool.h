@@ -4,7 +4,7 @@
 #include "boost/pool/object_pool.hpp"
 
 
-namespace RBX {
+namespace ARL {
 
 // T must have a non-throwing destructor
 template <typename T, typename UserAllocator>
@@ -85,5 +85,5 @@ class object_pool: public boost::object_pool<T, UserAllocator>
 
 };
 
-} // RBX
+} // ARL
 

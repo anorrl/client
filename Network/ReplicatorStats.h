@@ -4,7 +4,7 @@
 #include "Item.h"
 #include "v8datamodel/Stats.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 struct ReplicatorStats {

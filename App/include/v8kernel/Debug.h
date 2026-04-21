@@ -4,10 +4,10 @@
 
 // Engine assertions often cause the game to stop running.
 // Until we can fix these, turn them off.
-//#define RBX_DEBUGENGINE
+//#define ARL_DEBUGENGINE
 
-#ifdef RBX_DEBUGENGINE
-#define RBX_ENGINE_ASSERT(expr) RBXASSERT(expr)
+#ifdef ARL_DEBUGENGINE
+#define ARL_ENGINE_ASSERT(expr) ARLASSERT(expr)
 #else
-#define RBX_ENGINE_ASSERT(expr) ((void)0)
+#define ARL_ENGINE_ASSERT(expr) ((void)0)
 #endif

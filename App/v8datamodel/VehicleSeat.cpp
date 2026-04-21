@@ -22,7 +22,7 @@
 DYNAMIC_FASTFLAGVARIABLE(SmootherVehicleSeatControlSystem, false)
 FASTFLAG(UseInGameTopBar)
 
-namespace RBX {
+namespace ARL {
 
 REFLECTION_BEGIN();
 static const Reflection::PropDescriptor<VehicleSeat, bool> propDisabled("Disabled", "Control", &VehicleSeat::getDisabled, &VehicleSeat::setDisabled);
@@ -51,8 +51,8 @@ VehicleSeat::VehicleSeat()
 {
 	setName(sVehicleSeat);
 	setDisabled(false);
-	RBXASSERT(Edge::getPrimitive(0) == NULL);
-	RBXASSERT(Edge::getPrimitive(1) == NULL);
+	ARLASSERT(Edge::getPrimitive(0) == NULL);
+	ARLASSERT(Edge::getPrimitive(1) == NULL);
 
 	createSeatWeldSignal.connect(boost::bind(static_cast<void (VehicleSeat::*)(shared_ptr<Instance>)>(&VehicleSeat::createSeatWeldInternal), this, _1));
 	destroySeatWeldSignal.connect(boost::bind(&VehicleSeat::findAndDestroySeatWeldInternal, this));
@@ -61,9 +61,9 @@ VehicleSeat::VehicleSeat()
 
 VehicleSeat::~VehicleSeat() 
 {
-	RBXASSERT(world == NULL);
-	RBXASSERT(Edge::getPrimitive(0) == NULL);
-	RBXASSERT(Edge::getPrimitive(1) == NULL);
+	ARLASSERT(world == NULL);
+	ARLASSERT(Edge::getPrimitive(0) == NULL);
+	ARLASSERT(Edge::getPrimitive(1) == NULL);
 }
 
 bool VehicleSeat::shouldRender2d() const
@@ -87,7 +87,7 @@ void VehicleSeat::render2d(Adorn* adorn)
 	float speed = getPartPrimitive()->getPV().velocity.linear.magnitude();
 	float speedDraw = std::min(speed, 100.0f) * 10;
 	Rect speedo = Rect::fromCenterSize(center, Vector2(speedDraw, 20));
-	adorn->rect2d(speedo.toRect2D(), Color3::blue());	// note RBX color
+	adorn->rect2d(speedo.toRect2D(), Color3::blue());	// note ARL color
 
 	std::string speedText = "Speed: " + StringConverter<int>::convertToString(static_cast<int>(speed));
 	adorn->drawFont2D(
@@ -180,7 +180,7 @@ void VehicleSeat::onAncestorChanged(const AncestorChanged& event)
 	if (newWorld != world) 
 	{
 		if (world) {
-			RBXASSERT(newWorld == NULL);
+			ARLASSERT(newWorld == NULL);
 			world->removeJoint(this);
 			setPrimitive(0, NULL);
 			setPrimitive(1, NULL);

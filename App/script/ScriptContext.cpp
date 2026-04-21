@@ -80,18 +80,18 @@ DYNAMIC_FASTINTVARIABLE(LuaGcMaxKb, 100)
 
 DYNAMIC_FASTFLAGVARIABLE(LockViolationScriptCrash, false)
 
-namespace RBX
+namespace ARL
 {
 	const char* const sScriptContext = "ScriptContext";
 	const char *const sRuntimeScriptService = "RuntimeScriptService";
 }
 
-using namespace RBX;
-using namespace RBX::Lua;
+using namespace ARL;
+using namespace ARL::Lua;
 using namespace boost::posix_time;
 
 REFLECTION_BEGIN();
-static Reflection::EventDesc<ScriptContext, void(shared_ptr<Instance>, std::string, shared_ptr<Instance>)> event_camelCaseViolation(&ScriptContext::camelCaseViolation, "CamelCaseViolation", "object", "member", "script", RBX::Security::RobloxScript);
+static Reflection::EventDesc<ScriptContext, void(shared_ptr<Instance>, std::string, shared_ptr<Instance>)> event_camelCaseViolation(&ScriptContext::camelCaseViolation, "CamelCaseViolation", "object", "member", "script", ARL::Security::RobloxScript);
 REFLECTION_END();
 const char* const kModuleFailedOnLoadMessage = "Requested module experienced an error while loading";
 const char* const kModuleDidNotReturnOneValue = "Module code did not return exactly one value";
@@ -186,7 +186,7 @@ static int illegal(lua_State *L)
 
 void Lua::protect_metatable(lua_State* thread, int index)
 {
-	RBXASSERT_BALLANCED_LUA_STACK(thread);
+	ARLASSERT_BALLANCED_LUA_STACK(thread);
 
 	lua_pushstring(thread, "The metatable is locked");
 	lua_setfield(thread, index-1, "__metatable");
@@ -194,13 +194,13 @@ void Lua::protect_metatable(lua_State* thread, int index)
 
 static void loadLibraryProtected(lua_State* L, lua_CFunction func)
 {
-	RBXASSERT_BALLANCED_LUA_STACK(L);
+	ARLASSERT_BALLANCED_LUA_STACK(L);
     
     int count = func(L);
     
     // Since we only protect one table, we expect one result
     // Unfortunately, luaopen_base also leaves _G on the stack (why???)
-    RBXASSERT(count == (func == luaopen_base) ? 2 : 1);
+    ARLASSERT(count == (func == luaopen_base) ? 2 : 1);
     
     lua_setreadonly(L, -1, true);
     
@@ -229,7 +229,7 @@ struct LuaProfiler
             int line = getline(cl.l.p, 0);
             bool string = (strchr(file, '\n') != 0);
 
-            return RBX::format("%s(%d)", string ? "<string>" : file, line);
+            return ARL::format("%s(%d)", string ? "<string>" : file, line);
         }
         else
         {
@@ -281,7 +281,7 @@ struct LuaProfiler
                          "")
                         : "";
 
-                res = RBX::format("LUACALL%s(%d): %s%s", file ? file : "?", line, type, name ? name : "?");
+                res = ARL::format("LUACALL%s(%d): %s%s", file ? file : "?", line, type, name ? name : "?");
             }
 
             return res.c_str();
@@ -307,7 +307,7 @@ struct LuaProfiler
 
     LuaProfiler(lua_State* L, int nargs)
     {
-        RBXASSERT(instance == NULL);
+        ARLASSERT(instance == NULL);
         instance = this;
 
         std::string startPos = getResumePosition(L, nargs);
@@ -327,7 +327,7 @@ struct LuaProfiler
             {
                 int status = lua_getinfo(L, "Sln", &entry);
                 assert(status);
-                RBX_UNUSED(status);
+                ARL_UNUSED(status);
 
                 stack.push_back(stringCache.getCall(entry.name, entry.namewhat, entry.source, entry.currentline));
                 depth++;
@@ -342,7 +342,7 @@ struct LuaProfiler
     {
         FLog::FastLogS(FLog::LuaProfiler, "LUAEND", NULL);
 
-        RBXASSERT(instance == this);
+        ARLASSERT(instance == this);
         instance = NULL;
     }
 };
@@ -373,7 +373,7 @@ Reflection::BoundFuncDesc<ScriptContext, void(bool)> func_CollectScriptStats(&Sc
 Reflection::EventDesc<ScriptContext, void(std::string, std::string, shared_ptr<Instance>)> event_Error(&ScriptContext::errorSignal, "Error", "message", "stackTrace", "script", Security::None);
 REFLECTION_END();
 
-namespace RBX
+namespace ARL
 {
 	class GcJob : public DataModelJob
 	{
@@ -475,7 +475,7 @@ static int panic(lua_State *L)
 		FASTLOG1(FLog::Error, "Lua panic: callstack logged to %p", &callstack);
 	}
 
-	RBXCRASH();
+	ARLCRASH();
 	return 0;
 }
 
@@ -507,7 +507,7 @@ void ScriptContext::hook(lua_State *L, lua_Debug *ar)
         } break;
 
     default:
-        RBXASSERT(false);
+        ARLASSERT(false);
     }
 }
 
@@ -520,47 +520,47 @@ void ScriptContext::onHook(lua_State *L, lua_Debug *ar)
 }
 
 
-void RBX::registerScriptDescriptors()
+void ARL::registerScriptDescriptors()
 {
-	RBX::Reflection::Type::singleton<int>();
-	RBX::Reflection::Type::singleton<bool>();
-	RBX::Reflection::Type::singleton<float>();
-	RBX::Reflection::Type::singleton<double>();
-	RBX::Reflection::Type::singleton<std::string>();
-	RBX::Reflection::Type::singleton<Lua::WeakFunctionRef>();
-	RBX::Reflection::Type::singleton<shared_ptr<GenericFunction> >();
-	RBX::Reflection::Type::singleton<shared_ptr<GenericAsyncFunction> >();
-	RBX::Reflection::Type::singleton< shared_ptr<Instance> >();
-	RBX::Reflection::Type::singleton<G3D::Vector3>();
-	RBX::Reflection::Type::singleton<G3D::Vector2>();
-    RBX::Reflection::Type::singleton<G3D::Rect2D>();
-	RBX::Reflection::Type::singleton<PhysicalProperties>();
-	RBX::Reflection::Type::singleton<RBX::RbxRay>();
-	RBX::Reflection::Type::singleton<G3D::CoordinateFrame>();
-	RBX::Reflection::Type::singleton<G3D::Color3>();
-	RBX::Reflection::Type::singleton<BrickColor>();
+	ARL::Reflection::Type::singleton<int>();
+	ARL::Reflection::Type::singleton<bool>();
+	ARL::Reflection::Type::singleton<float>();
+	ARL::Reflection::Type::singleton<double>();
+	ARL::Reflection::Type::singleton<std::string>();
+	ARL::Reflection::Type::singleton<Lua::WeakFunctionRef>();
+	ARL::Reflection::Type::singleton<shared_ptr<GenericFunction> >();
+	ARL::Reflection::Type::singleton<shared_ptr<GenericAsyncFunction> >();
+	ARL::Reflection::Type::singleton< shared_ptr<Instance> >();
+	ARL::Reflection::Type::singleton<G3D::Vector3>();
+	ARL::Reflection::Type::singleton<G3D::Vector2>();
+    ARL::Reflection::Type::singleton<G3D::Rect2D>();
+	ARL::Reflection::Type::singleton<PhysicalProperties>();
+	ARL::Reflection::Type::singleton<ARL::RbxRay>();
+	ARL::Reflection::Type::singleton<G3D::CoordinateFrame>();
+	ARL::Reflection::Type::singleton<G3D::Color3>();
+	ARL::Reflection::Type::singleton<BrickColor>();
 }
 
 
 int ScriptContext::crash(lua_State *L)
 {
-	RBX::Security::Context::current().requirePermission(RBX::Security::LocalUser, "crash");
+	ARL::Security::Context::current().requirePermission(ARL::Security::LocalUser, "crash");
 
-	RBXCRASH("User-generated crash");
+	ARLCRASH("User-generated crash");
 
 	return 0;
 }
 
-int getGlobalStateIndex(RBX::Security::Identities identity)
+int getGlobalStateIndex(ARL::Security::Identities identity)
 {
     // transform identity into a particular VM. this can improve security by not mixing user scripts with ROBLOX scripts (we've
     // had problems with people circumnavigating the permission levels in the past).
     // for now, we just use two VM's. as our needs change, we may add more. each VM has a performance cost so we don't want
     // more than we need.
     int vm_index = Security::VM_Default;
-    if (RBX::Security::Context::isInRole(identity, RBX::Security::RobloxScript))
+    if (ARL::Security::Context::isInRole(identity, ARL::Security::RobloxScript))
         vm_index = Security::VM_RobloxScriptPlus;
-#if defined(RBX_STUDIO_BUILD)
+#if defined(ARL_STUDIO_BUILD)
 	else if (Security::Context::isInRole(identity, Security::Plugin))
 		vm_index = Security::VM_StudioPlugin;
 #endif
@@ -568,10 +568,10 @@ int getGlobalStateIndex(RBX::Security::Identities identity)
 	return vm_index;
 }
 
-lua_State* ScriptContext::getGlobalState( RBX::Security::Identities identity )
+lua_State* ScriptContext::getGlobalState( ARL::Security::Identities identity )
 {
 	int vm_index = getGlobalStateIndex(identity);
-	RBXASSERT(globalStates[vm_index].state);
+	ARLASSERT(globalStates[vm_index].state);
 	return globalStates[vm_index].state;
 }
 
@@ -616,7 +616,7 @@ bool ScriptContext::openState(size_t idx)
 	}
 
 	if (!allocator)
-		allocator.reset(new RBX::LuaAllocator(FLog::UseLuaMemoryPool != 0));
+		allocator.reset(new ARL::LuaAllocator(FLog::UseLuaMemoryPool != 0));
 
 	lua_State* globalState = lua_newstate(LuaAllocator::alloc, allocator.get());
 	if (globalState==NULL)
@@ -626,25 +626,25 @@ bool ScriptContext::openState(size_t idx)
 
 	lua_atpanic(globalState, &panic);
 
-	lua_gc(globalState, LUA_GCSETSTEPMUL, RBX::LuaSettings::singleton().gcStepMul);
-	lua_gc(globalState, LUA_GCSETPAUSE, RBX::LuaSettings::singleton().gcPause);
+	lua_gc(globalState, LUA_GCSETSTEPMUL, ARL::LuaSettings::singleton().gcStepMul);
+	lua_gc(globalState, LUA_GCSETPAUSE, ARL::LuaSettings::singleton().gcPause);
 
 	RobloxExtraSpace::get(globalState)->setContext(this);
 
 	{
-		RBXASSERT_BALLANCED_LUA_STACK(globalState);
+		ARLASSERT_BALLANCED_LUA_STACK(globalState);
 		// TODO: Security: We have a custom version of Lua that hides the I/O and OS functions of the base library.
 
         loadLibraryProtected(globalState, luaopen_base);
         loadLibraryProtected(globalState, luaopen_string);
         
 		{
-			RBXASSERT_BALLANCED_LUA_STACK(globalState);
+			ARLASSERT_BALLANCED_LUA_STACK(globalState);
 			// Protect the metatable for strings
 			lua_pushliteral(globalState, "");  /* dummy string */
 			int i = lua_getmetatable(globalState, -1);
-			RBXASSERT(i==1);
-            RBX_UNUSED(i);
+			ARLASSERT(i==1);
+            ARL_UNUSED(i);
 			Lua::protect_metatable(globalState, -1);
 			lua_pop(globalState, 2);
 		}
@@ -666,7 +666,7 @@ bool ScriptContext::openState(size_t idx)
 	}
 
 	{
-		RBXASSERT_BALLANCED_LUA_STACK(globalState);
+		ARLASSERT_BALLANCED_LUA_STACK(globalState);
 		LibraryBridge::registerClass(globalState);
 		Enums::registerClass(globalState);
 		Enum::registerClass(globalState);
@@ -705,7 +705,7 @@ bool ScriptContext::openState(size_t idx)
     }
 
 	{
-		RBXASSERT_BALLANCED_LUA_STACK(globalState);
+		ARLASSERT_BALLANCED_LUA_STACK(globalState);
 		LibraryBridge::registerClassLibrary(globalState);
 		Enums::registerClassLibrary(globalState);
 		Enum::registerClassLibrary(globalState);
@@ -741,7 +741,7 @@ bool ScriptContext::openState(size_t idx)
     }
 
 	{
-		RBXASSERT_BALLANCED_LUA_STACK(globalState);
+		ARLASSERT_BALLANCED_LUA_STACK(globalState);
 
 		WeakThreadRef::Node::create(globalState);
 
@@ -966,10 +966,10 @@ void ScriptContext::closeStates(bool resettingSimulation)
 
 		this->yieldEvent.reset();
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Exception thrown while cleaning up Lua: %s", e.what());
-		RBXASSERT(false);	// we should NEVER get an exception in here
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Exception thrown while cleaning up Lua: %s", e.what());
+		ARLASSERT(false);	// we should NEVER get an exception in here
 	}
 
 	if (gcJob)
@@ -1022,8 +1022,8 @@ void ScriptContext::closeState(lua_State* globalState)
 	}
 	catch (std::exception& e)
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Exception thrown while erasing Lua refs: %s", e.what());
-		RBXASSERT(false);	// we should NEVER get an exception in here
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Exception thrown while erasing Lua refs: %s", e.what());
+		ARLASSERT(false);	// we should NEVER get an exception in here
 	}
 
 	dumpThreadRefCounts();
@@ -1052,7 +1052,7 @@ ScriptContext::ScriptContext()
 :scriptsDisabled(false)
 ,preventNewConnection(false)
 ,robloxPlace(false)
-,nextPendingScripts(RBX::Time::now<Time::Fast>())
+,nextPendingScripts(ARL::Time::now<Time::Fast>())
 ,timedout(false)
 ,startScriptReentrancy(0)
 ,endTimoutThread(false)
@@ -1202,7 +1202,7 @@ void ScriptContext::setTimeout(double seconds)
 		FASTLOG1(FLog::ScriptContext, "Set lua time out: %d", (int)seconds);
 		timoutTime = Time::now<Time::Fast>() + timoutSpan;
 		if (!timeoutThread)
-			timeoutThread.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&ScriptContext::onCheckTimeout, shared_from(this)), "ScriptContext Timeout")));
+			timeoutThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&ScriptContext::onCheckTimeout, shared_from(this)), "ScriptContext Timeout")));
 		else
 			checkTimeout.Set();
 	}
@@ -1249,7 +1249,7 @@ void ScriptContext::onCheckTimeout()
 void ScriptContext::sandboxThread(lua_State* thread)
 // Give the thread its own globals (so that the trustKey is hidden from others)
 {
-	RBXASSERT_BALLANCED_LUA_STACK(thread);
+	ARLASSERT_BALLANCED_LUA_STACK(thread);
 
 	//thread is an independent thread, but its globals
 	//table is still the same as LA's globals table,
@@ -1273,14 +1273,14 @@ void ScriptContext::sandboxThread(lua_State* thread)
 }
 
 
-void ScriptContext::setThreadIdentityAndSandbox(lua_State* thread, RBX::Security::Identities identity, shared_ptr<BaseScript> script)
+void ScriptContext::setThreadIdentityAndSandbox(lua_State* thread, ARL::Security::Identities identity, shared_ptr<BaseScript> script)
 {
 	sandboxThread(thread);
 
 	RobloxExtraSpace::get(thread)->identity = identity;
 	RobloxExtraSpace::get(thread)->script = script;
 
-	RBXASSERT(getThreadIdentity(thread)==identity);
+	ARLASSERT(getThreadIdentity(thread)==identity);
 }
 
 size_t ScriptContext::getThreadCount() const {
@@ -1291,9 +1291,9 @@ size_t ScriptContext::getThreadCount() const {
 	return count;
 }
 
-RBX::Security::Identities ScriptContext::getThreadIdentity(lua_State* thread)
+ARL::Security::Identities ScriptContext::getThreadIdentity(lua_State* thread)
 {
-	return thread ? RobloxExtraSpace::get(thread)->identity : RBX::Security::Anonymous;
+	return thread ? RobloxExtraSpace::get(thread)->identity : ARL::Security::Anonymous;
 }
 
 ScriptContext& ScriptContext::getContext(lua_State* thread)
@@ -1317,7 +1317,7 @@ static size_t pushNoArguments(lua_State* thread)
 	return 0;
 }
 
-void ScriptContext::executeInNewThread(RBX::Security::Identities identity, const ProtectedString& script, const char* name)
+void ScriptContext::executeInNewThread(ARL::Security::Identities identity, const ProtectedString& script, const char* name)
 {
 	executeInNewThread(
 		identity, 
@@ -1359,7 +1359,7 @@ Reflection::Tuple ScriptContext::callInNewThread(Lua::WeakFunctionRef& function,
 }
 
 std::auto_ptr<Reflection::Tuple> ScriptContext::executeInNewThread(
-		RBX::Security::Identities identity, const ProtectedString& script,
+		ARL::Security::Identities identity, const ProtectedString& script,
 		const char* name, const Reflection::Tuple& arguments)
 {
 	VMProtectBeginMutation("1");
@@ -1378,7 +1378,7 @@ std::auto_ptr<Reflection::Tuple> ScriptContext::executeInNewThread(
 }
 
 void ScriptContext::executeInNewThreadWithExtraGlobals(
-	RBX::Security::Identities identity, const ProtectedString& script,
+	ARL::Security::Identities identity, const ProtectedString& script,
 	const char* name, const std::map<std::string, shared_ptr<Instance> >& extraGlobals)
 {
 	VMProtectBeginMutation("2");
@@ -1404,7 +1404,7 @@ Lua::Continuations::Continuations(const Scripts::Continuations& eh)
 
 void Lua::Continuations::onSuccessHandler(lua_State* thread, Scripts::SuccessHandler handler)
 {
-	RBXASSERT(!handler.empty());
+	ARLASSERT(!handler.empty());
 
 	shared_ptr<Reflection::Tuple> args = Lua::LuaArguments::getValues(thread);
 	handler(args);
@@ -1412,7 +1412,7 @@ void Lua::Continuations::onSuccessHandler(lua_State* thread, Scripts::SuccessHan
 
 void Lua::Continuations::onErrorHandler(lua_State* thread, Scripts::ErrorHandler handler)
 {
-	RBXASSERT(!handler.empty());
+	ARLASSERT(!handler.empty());
 
 	const char* error = lua_tostring(thread, -1);	
 	if (!error || strlen(error)==0)
@@ -1424,7 +1424,7 @@ void Lua::Continuations::onErrorHandler(lua_State* thread, Scripts::ErrorHandler
 	handler(error, callStack.c_str(), source, line);
 }
 
-void ScriptContext::executeInNewThread(RBX::Security::Identities identity, const ProtectedString& script, const char* name,
+void ScriptContext::executeInNewThread(ARL::Security::Identities identity, const ProtectedString& script, const char* name,
 	boost::function1<size_t, lua_State*> pushArguments, 
 	boost::function2<void, lua_State*, size_t> readImmediateResults, 
 	Scripts::Continuations continuations,
@@ -1433,7 +1433,7 @@ void ScriptContext::executeInNewThread(RBX::Security::Identities identity, const
     unsigned int modkey)
 {
 	
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD)
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
     VMProtectBeginMutation("3");
 	// check xxhash integrity
 	static const char* kXHIntData = STRING_BY_ID(ExecScriptNewThread);
@@ -1449,7 +1449,7 @@ void ScriptContext::executeInNewThread(RBX::Security::Identities identity, const
 		HATE_XXHASH_BROKEN);
 	XXH32_feed(hashState, kXHIntData + 15, strlen(kXHIntData + 15)); // prevStreamed != 0
 	// need to assert that total length % 16 != 0 (that is the last branch in XXH32_feed)
-	//RBXASSERT_SLOW(strlen(kXHIntData) % 16 != 0);
+	//ARLASSERT_SLOW(strlen(kXHIntData) % 16 != 0);
 	DataModel::get(this)->addHackFlag((XXH32_result(hashState) != kGolden) *
 		HATE_XXHASH_BROKEN); 
 #endif
@@ -1457,9 +1457,9 @@ void ScriptContext::executeInNewThread(RBX::Security::Identities identity, const
 	WeakThreadRef thread;
 	lua_State* owner;
 
-    const bool isCmdLine = (identity==RBX::Security::CmdLine_);
+    const bool isCmdLine = (identity==ARL::Security::CmdLine_);
     const bool clSandboxEmpty = (commandLineSandbox.empty());
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD)
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
     VMProtectEnd();
 #endif
 
@@ -1467,13 +1467,13 @@ void ScriptContext::executeInNewThread(RBX::Security::Identities identity, const
 	{
 		if (clSandboxEmpty)
 		{
-			lua_State* globalState = getGlobalState(RBX::Security::CmdLine_);
-			RBXASSERT_BALLANCED_LUA_STACK(globalState);
-		    initializeLuaStateSandbox(commandLineSandbox, globalState, RBX::Security::CmdLine_);
+			lua_State* globalState = getGlobalState(ARL::Security::CmdLine_);
+			ARLASSERT_BALLANCED_LUA_STACK(globalState);
+		    initializeLuaStateSandbox(commandLineSandbox, globalState, ARL::Security::CmdLine_);
 			lua_pop(globalState, 1);
 		}
 		ThreadRef safeCommandlineSandbox = commandLineSandbox.lock();
-		RBXASSERT(safeCommandlineSandbox);
+		ARLASSERT(safeCommandlineSandbox);
 			
 		owner = safeCommandlineSandbox;
 		thread = lua_newthread(owner);
@@ -1520,12 +1520,12 @@ void ScriptContext::executeInNewThread(RBX::Security::Identities identity, const
 			throw std::runtime_error(err);
 		}
 
-		RBXASSERT(continuations.empty());
+		ARLASSERT(continuations.empty());
 		RobloxExtraSpace::get(safeThread)->continuations.reset(new Lua::Continuations(continuations));
 
 		// Check for somebody using CheatEngine to inject a direct call.
 		// They probably haven't used a scoped_write_request
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
         VMProtectBeginMutation("4");
 		if (DataModel* dataModel = DataModel::get(this))
 		{
@@ -1560,7 +1560,7 @@ void ScriptContext::resume(ThreadRef thread, boost::function1<size_t, lua_State*
 			{
 				readResults(thread, returnCount);
 			}
-			catch (RBX::base_exception&)
+			catch (ARL::base_exception&)
 			{
 				// Clean up the stack
 				lua_pop(thread, returnCount);
@@ -1592,7 +1592,7 @@ int ScriptContext::spawn(lua_State *thread)
 	//Keep a live reference to the thread so it doesn't get away from us
 	ThreadRef threadLock(thread);
 
-	RBXASSERT_BALLANCED_LUA_STACK(thread);
+	ARLASSERT_BALLANCED_LUA_STACK(thread);
 
 	if  (lua_gettop(thread)<1)
 		throw std::runtime_error("Spawn function requires 1 argument");
@@ -1603,7 +1603,7 @@ int ScriptContext::spawn(lua_State *thread)
 		Lua::LuaArguments::get(thread, 1, varResult, false);
 		if (!varResult.isType<Lua::WeakFunctionRef>())
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Attempt to call spawn failed: Passed value is not a function");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Attempt to call spawn failed: Passed value is not a function");
 			ScriptContext::printCallStack(thread);
 		}
 	}
@@ -1611,7 +1611,7 @@ int ScriptContext::spawn(lua_State *thread)
 	// Create a callback thread
 	WeakThreadRef functor(::lua_newthread(thread));
 	ThreadRef safeFunctor = functor.lock();
-	RBXASSERT(safeFunctor);
+	ARLASSERT(safeFunctor);
 
 	// Push the callable argument onto the stac
 	// NOTE: This could be a function *or* perhaps a table with a "call" metamethod
@@ -1633,17 +1633,17 @@ int ScriptContext::spawn(lua_State *thread)
 
 static void cleanTimeout(LUA_NUMBER& timeout)
 {
-	if (timeout < RBX::LuaSettings::singleton().defaultWaitTime)
-		timeout = RBX::LuaSettings::singleton().defaultWaitTime;
+	if (timeout < ARL::LuaSettings::singleton().defaultWaitTime)
+		timeout = ARL::LuaSettings::singleton().defaultWaitTime;
 	else if (Math::isNanInf(timeout))
-		timeout = RBX::LuaSettings::singleton().defaultWaitTime;
+		timeout = ARL::LuaSettings::singleton().defaultWaitTime;
 }
 
 int ScriptContext::delay(lua_State *thread)
 {
 	ThreadRef threadLock(thread);
 
-	RBXASSERT_BALLANCED_LUA_STACK(thread);
+	ARLASSERT_BALLANCED_LUA_STACK(thread);
 
 	if  (lua_gettop(thread)<2)
 		throw std::runtime_error("delay function requires 2 arguments");
@@ -1654,7 +1654,7 @@ int ScriptContext::delay(lua_State *thread)
 		Lua::LuaArguments::get(thread, 2, varResult, false);
 		if (!varResult.isType<Lua::WeakFunctionRef>())
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Attempt to call delay failed: Passed value is not a function");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Attempt to call delay failed: Passed value is not a function");
 			ScriptContext::printCallStack(thread);
 		}
 	}
@@ -1666,7 +1666,7 @@ int ScriptContext::delay(lua_State *thread)
 	// Create a callback thread
 	WeakThreadRef functor(::lua_newthread(thread));
 	ThreadRef safeFunctor = functor.lock();
-	RBXASSERT(safeFunctor);
+	ARLASSERT(safeFunctor);
 
 	// Push the callable argument onto the stack
 	// NOTE: This could be a function *or* perhaps a table with an "call" metamethod
@@ -1744,7 +1744,7 @@ int ScriptContext::ypcall(lua_State *thread)
 	// Create a callback thread
 	WeakThreadRef functor(::lua_newthread(thread));
 	ThreadRef safeFunctor = functor.lock();
-	RBXASSERT(safeFunctor);
+	ARLASSERT(safeFunctor);
 
 	// Push the callable argument onto the stack
 	// NOTE: This could be a function *or* perhaps a table with an "call" metamethod
@@ -1780,7 +1780,7 @@ int ScriptContext::ypcall(lua_State *thread)
 
 	case ScriptContext::Success:
 		{
-			RBXASSERT(top == lua_gettop(thread));
+			ARLASSERT(top == lua_gettop(thread));
 
 			lua_pushboolean(thread, true);
 			const int nargs = lua_gettop(safeFunctor);
@@ -1810,7 +1810,7 @@ int ScriptContext::ypcall(lua_State *thread)
 			continuations.success = boost::bind(&ScriptContext::on_ypcall_success, &sc, WeakThreadRef(thread), _1);
 			continuations.error = boost::bind(&ScriptContext::on_ypcall_failure, &sc, WeakThreadRef(thread), _1);
 
-			RBXASSERT(RobloxExtraSpace::get(safeFunctor)->continuations.get() == NULL);
+			ARLASSERT(RobloxExtraSpace::get(safeFunctor)->continuations.get() == NULL);
 			RobloxExtraSpace::get(safeFunctor)->continuations.reset(new Lua::Continuations(continuations));
 
 			//Capture the yield
@@ -1825,7 +1825,7 @@ int ScriptContext::ypcall(lua_State *thread)
 
 int ScriptContext::settings(lua_State *thread)
 {
-	RBX::Security::Context::current().requirePermission(RBX::Security::Plugin, "settings()");
+	ARL::Security::Context::current().requirePermission(ARL::Security::Plugin, "settings()");
 
 	ObjectBridge::push(thread, GlobalAdvancedSettings::singleton());
 	return 1;
@@ -1833,7 +1833,7 @@ int ScriptContext::settings(lua_State *thread)
 
 int ScriptContext::usersettings(lua_State *thread)
 {
-	RBX::Security::Context::current().requirePermission(RBX::Security::None, "UserSettings()");
+	ARL::Security::Context::current().requirePermission(ARL::Security::None, "UserSettings()");
 
 	ObjectBridge::push(thread, GlobalBasicSettings::singleton());
 	return 1;
@@ -1842,7 +1842,7 @@ int ScriptContext::usersettings(lua_State *thread)
 
 int ScriptContext::pluginmanager(lua_State *thread)
 {
-	RBX::Security::Context::current().requirePermission(RBX::Security::Plugin, "PluginManager()");
+	ARL::Security::Context::current().requirePermission(ARL::Security::Plugin, "PluginManager()");
 
 	ObjectBridge::push(thread, PluginManager::singleton());
 	return 1;
@@ -1850,9 +1850,9 @@ int ScriptContext::pluginmanager(lua_State *thread)
 
 int ScriptContext::debuggermanager(lua_State *thread)
 {
-	RBX::Security::Context::current().requirePermission(RBX::Security::Plugin, "DebuggerManager()");
+	ARL::Security::Context::current().requirePermission(ARL::Security::Plugin, "DebuggerManager()");
 
-	ObjectBridge::push(thread, shared_from(&RBX::Scripting::DebuggerManager::singleton()));
+	ObjectBridge::push(thread, shared_from(&ARL::Scripting::DebuggerManager::singleton()));
 	return 1;
 }
 
@@ -1933,7 +1933,7 @@ int ScriptContext::loadLibrary(lua_State *L)
 
     // Libraries can't use yielding in the definition so it must be immediately available
 	results = Lua::LibraryBridge::find(L, libraryName);
-    RBXASSERT(results > 0);
+    ARLASSERT(results > 0);
 
 	return results;
 }
@@ -2098,7 +2098,7 @@ void ScriptContext::reloadModuleScriptInternal(lua_State* globalState, shared_pt
     if (!loaded)
     {
         std::string err = Lua::safe_lua_tostring(reloadThread, -1);
-        throw RBX::runtime_error("syntax error: %s", err.c_str());
+        throw ARL::runtime_error("syntax error: %s", err.c_str());
     }
     
 	// Push params.
@@ -2111,7 +2111,7 @@ void ScriptContext::reloadModuleScriptInternal(lua_State* globalState, shared_pt
     {
         // Because we're using the global state to spawn a thread, we no longer need to handle
         // yield capturing.
-        RBXASSERT(RobloxExtraSpace::get(reloadThread)->continuations == NULL);
+        ARLASSERT(RobloxExtraSpace::get(reloadThread)->continuations == NULL);
         Lua::Continuations continuations;
         continuations.success = boost::bind(&ScriptContext::reloadModuleScriptSuccessContinuation, moduleScript, _1, oldResultIndex);
         continuations.error = boost::bind(&ScriptContext::reloadModuleScriptErrorContinuation,
@@ -2122,13 +2122,13 @@ void ScriptContext::reloadModuleScriptInternal(lua_State* globalState, shared_pt
     else if (reloadResult != 0)
     {
         const char* message = lua_tostring(reloadThread, -1);
-        throw RBX::runtime_error("runtime error: %s", message);
+        throw ARL::runtime_error("runtime error: %s", message);
     }
    
     // Unrefs the new state created by the reloadThread.
     vmState.reassignResultRegistryIndex(oldResultIndex);
 
-    RBXASSERT(moduleScript->getReloadRequested() == false);
+    ARLASSERT(moduleScript->getReloadRequested() == false);
     moduleScript->setReloadRequested(false);
 }
 
@@ -2150,8 +2150,8 @@ static shared_ptr<ModuleScript> getLoadedModuleFromModelOrNull(shared_ptr<Instan
 void ScriptContext::moduleContentLoaded(AsyncHttpQueue::RequestResult result, shared_ptr<Instances> instances,
 	ScriptContext& sc, Security::Identities identity, lua_State* globalState, AssetModuleInfo* info)
 {
-	RBXASSERT(result != AsyncHttpQueue::Waiting);
-	RBXASSERT(info->state == AssetModuleInfo::Fetching);
+	ARLASSERT(result != AsyncHttpQueue::Waiting);
+	ARLASSERT(info->state == AssetModuleInfo::Fetching);
 
 	shared_ptr<ModuleScript> foundModuleScript;
 
@@ -2213,7 +2213,7 @@ void ScriptContext::moduleContentLinkedSourcesResolved(shared_ptr<Instances> ins
 			resumeThreadsWithValue(yieldedImporters, vmState.getResultRegistryIndex());
 			break;
 		default:
-			RBXASSERT(false);
+			ARLASSERT(false);
 	}	
 }
 
@@ -2262,7 +2262,7 @@ void ScriptContext::startRunningModuleScript(Security::Identities identity, lua_
 	// we are about to execute module script code, emit starting signal
 	moduleScript->starting(thread);
 
-	RBXASSERT(lua_gettop(thread) == 1);
+	ARLASSERT(lua_gettop(thread) == 1);
 	int luaResumeState = resumeImpl(thread, 0);
 	bool returnedOneResult = lua_gettop(thread) == 1;
 
@@ -2275,7 +2275,7 @@ void ScriptContext::startRunningModuleScript(Security::Identities identity, lua_
 	}
 	else if (luaResumeState == Yield)
 	{
-		RBXASSERT(RobloxExtraSpace::get(thread)->continuations == NULL);
+		ARLASSERT(RobloxExtraSpace::get(thread)->continuations == NULL);
 		Lua::Continuations continuations;
 		continuations.success = boost::bind(&requireModuleScriptSuccessContinuation, moduleScript, _1);
 		continuations.error = boost::bind(&ScriptContext::requireModuleScriptErrorContinuation,
@@ -2342,7 +2342,7 @@ int ScriptContext::requireModuleScriptFromInstance(lua_State* L, shared_ptr<Modu
 		getContext(L).startRunningModuleScript(Security::Context::current().identity, globalState, moduleScript);
 		state = vmState.getCurrentState();
 	}
-	RBXASSERT(state != ModuleScript::NotRunYet);
+	ARLASSERT(state != ModuleScript::NotRunYet);
 
 	if (state == ModuleScript::CompletedSuccess)
 	{
@@ -2358,7 +2358,7 @@ int ScriptContext::requireModuleScriptFromInstance(lua_State* L, shared_ptr<Modu
 	{
 		vmState.addYieldedImporter(WeakThreadRef(L));
 
-		RBXASSERT(RobloxExtraSpace::get(L)->yieldCaptured == false);
+		ARLASSERT(RobloxExtraSpace::get(L)->yieldCaptured == false);
 		RobloxExtraSpace::get(L)->yieldCaptured = true;
 		return lua_yield(L, 0);
 	}
@@ -2377,7 +2377,7 @@ int ScriptContext::requireModuleScriptFromAssetId(lua_State* L, int assetId)
 	if (info.state == AssetModuleInfo::NotFetchedYet)
 	{
 		info.state = AssetModuleInfo::Fetching;
-		RBXASSERT(info.yieldedImporters.empty());
+		ARLASSERT(info.yieldedImporters.empty());
 		info.yieldedImporters.push_back(WeakThreadRef(L));
 
 		ContentProvider* contentProvider = ServiceProvider::find<ContentProvider>(&getContext(L));
@@ -2385,11 +2385,11 @@ int ScriptContext::requireModuleScriptFromAssetId(lua_State* L, int assetId)
 		if (DFFlag::LogPrivateModuleRequires)
 		{
 			DataModel* dm = DataModel::get(contentProvider);
-			contentId = ContentId(RBX::format("%s/asset/?id=%d&modulePlaceId=%d", ::trim_trailing_slashes(contentProvider->getBaseUrl()).c_str(), assetId, dm->getPlaceID()));
+			contentId = ContentId(ARL::format("%s/asset/?id=%d&modulePlaceId=%d", ::trim_trailing_slashes(contentProvider->getBaseUrl()).c_str(), assetId, dm->getPlaceID()));
 		}
 		else
 		{
-			contentId = ContentId(RBX::format("rbxassetid://%d", assetId));
+			contentId = ContentId(ARL::format("rbxassetid://%d", assetId));
 		}
 
 		contentProvider->loadContent(
@@ -2398,7 +2398,7 @@ int ScriptContext::requireModuleScriptFromAssetId(lua_State* L, int assetId)
 				Security::Context::current().identity, getGlobalState(L), &loadedAssetModules[assetId]),
 			AsyncHttpQueue::AsyncWrite);
 
-		RBXASSERT(RobloxExtraSpace::get(L)->yieldCaptured == false);
+		ARLASSERT(RobloxExtraSpace::get(L)->yieldCaptured == false);
 		RobloxExtraSpace::get(L)->yieldCaptured = true;
 		return lua_yield(L, 0);
 	}
@@ -2406,7 +2406,7 @@ int ScriptContext::requireModuleScriptFromAssetId(lua_State* L, int assetId)
 	{
 		info.yieldedImporters.push_back(WeakThreadRef(L));
 
-		RBXASSERT(RobloxExtraSpace::get(L)->yieldCaptured == false);
+		ARLASSERT(RobloxExtraSpace::get(L)->yieldCaptured == false);
 		RobloxExtraSpace::get(L)->yieldCaptured = true;
 		return lua_yield(L, 0);
 	}
@@ -2416,12 +2416,12 @@ int ScriptContext::requireModuleScriptFromAssetId(lua_State* L, int assetId)
 	}
 	else if (info.state == AssetModuleInfo::Fetched)
 	{
-		RBXASSERT(info.module != NULL);
+		ARLASSERT(info.module != NULL);
 		return requireModuleScriptFromInstance(L, info.module);
 	}
 	else
 	{
-		RBXASSERT(false);
+		ARLASSERT(false);
 		throw runtime_error("Unknown error with remote module loading asset id %d", assetId);
 	}
 }
@@ -2434,14 +2434,14 @@ int ScriptContext::notImplemented(lua_State *L)
 // Slightly more secure version of Lua's loadfile implementation
 int ScriptContext::loadfile(lua_State *L)
 {
-	RBX::Security::Context::current().requirePermission(RBX::Security::LocalUser, "loadfile");
+	ARL::Security::Context::current().requirePermission(ARL::Security::LocalUser, "loadfile");
 
 	ContentId contentId(throwable_lua_tostring(L, -1)); /* get file name */
 	
 	if (contentId.isNull())
-		throw RBX::runtime_error("Unable to load %s", contentId.c_str());
+		throw ARL::runtime_error("Unable to load %s", contentId.c_str());
 
-	if(!RBX::Network::isTrustedContent(contentId.c_str()))
+	if(!ARL::Network::isTrustedContent(contentId.c_str()))
 		throw std::runtime_error("invalid request 5");
 
 	Http request(contentId.toString());
@@ -2508,7 +2508,7 @@ int ScriptContext::version(lua_State *L)
 
 int ScriptContext::stats(lua_State *L)
 {
-	ObjectBridge::push(L, shared_from(RBX::ServiceProvider::create<RBX::Stats::StatsService>(&ScriptContext::getContext(L))));
+	ObjectBridge::push(L, shared_from(ARL::ServiceProvider::create<ARL::Stats::StatsService>(&ScriptContext::getContext(L))));
 	return 1;
 }
 
@@ -2542,7 +2542,7 @@ int ScriptContext::print(lua_State *L)
 }
 
 // Adapted from luaB_print
-int ScriptContext::doPrint(lua_State *L, const RBX::MessageType& messageType)
+int ScriptContext::doPrint(lua_State *L, const ARL::MessageType& messageType)
 {
 	std::string message;
 
@@ -2579,13 +2579,13 @@ void ScriptContext::onHeartbeat(const Heartbeat& heartbeat)
 	if (timedout.swap(0) == 1)
 		--timedoutCount;
 
-	if (RBX::Time::now<Time::Fast>() >= nextPendingScripts)
+	if (ARL::Time::now<Time::Fast>() >= nextPendingScripts)
 	{
-		RBXASSERT(!kCLuaResumeStackSize.get() || (*kCLuaResumeStackSize) == 0);
+		ARLASSERT(!kCLuaResumeStackSize.get() || (*kCLuaResumeStackSize) == 0);
 		// Try starting pending scripts, because some of them might be postponed for the ScriptId to download...
 		startPendingScripts();
-		nextPendingScripts = RBX::Time::now<Time::Fast>() + RBX::Time::Interval(1);
-		RBXASSERT(!kCLuaResumeStackSize.get() || (*kCLuaResumeStackSize) == 0);
+		nextPendingScripts = ARL::Time::now<Time::Fast>() + ARL::Time::Interval(1);
+		ARLASSERT(!kCLuaResumeStackSize.get() || (*kCLuaResumeStackSize) == 0);
 	}
 
 	FASTLOG(FLog::ScriptContext, "Script context heartbeat finish");
@@ -2596,7 +2596,7 @@ void ScriptContext::resumeWaitingScripts(const Time expirationTime)
 	FASTLOG(FLog::ScriptContext, "ScriptContext::resumeWaitingScripts start");
 
 	bool throttling = false;
-	RBXASSERT(!kCLuaResumeStackSize.get() || (*kCLuaResumeStackSize) == 0);
+	ARLASSERT(!kCLuaResumeStackSize.get() || (*kCLuaResumeStackSize) == 0);
 
 	{
 		WaitingThread wt;
@@ -2606,7 +2606,7 @@ void ScriptContext::resumeWaitingScripts(const Time expirationTime)
 		{
 			resumeWithArgs(wt.thread, wt.arguments);
 			resumedThreads.sample();
-			if (RBX::Time::nowFast() > expirationTime)
+			if (ARL::Time::nowFast() > expirationTime)
 			{
 				throttling = true;
 				break;
@@ -2619,7 +2619,7 @@ void ScriptContext::resumeWaitingScripts(const Time expirationTime)
 
 	throttlingThreads.sample(throttling);
 
-	RBXASSERT(!kCLuaResumeStackSize.get() || (*kCLuaResumeStackSize) == 0);
+	ARLASSERT(!kCLuaResumeStackSize.get() || (*kCLuaResumeStackSize) == 0);
 	FASTLOG(FLog::ScriptContext, "ScriptContext::resumeWaitingScripts finish");
 }
 
@@ -2632,7 +2632,7 @@ void ScriptContext::stepGc()
 	for (GlobalStates::iterator iter = globalStates.begin(); iter != globalStates.end(); ++iter)
 		if (iter->state)
 		{
-			RBXPROFILER_SCOPE("Lua", "GC");
+			ARLPROFILER_SCOPE("Lua", "GC");
 
 			int gcCountPre = lua_gc(iter->state, LUA_GCCOUNT, 0);
 			int gcAlloc = std::max(0, gcCountPre - iter->gcCount);
@@ -2647,8 +2647,8 @@ void ScriptContext::stepGc()
 
 			iter->gcCount = gcCountPost;
 
-			RBXPROFILER_LABELF("Lua", "Allocated %d Kb (total %d Kb)", gcAlloc, gcCountPre);
-			RBXPROFILER_LABELF("Lua", "Freed %d Kb (requested %d Kb)", gcCountPre - gcCountPost, gcRequest);
+			ARLPROFILER_LABELF("Lua", "Allocated %d Kb (total %d Kb)", gcAlloc, gcCountPre);
+			ARLPROFILER_LABELF("Lua", "Freed %d Kb (requested %d Kb)", gcCountPre - gcCountPost, gcRequest);
 		}
 
 	// sample gc time
@@ -2674,7 +2674,7 @@ void ScriptContext::startPendingScripts()
 	std::vector<ScriptStart> copy;
 	std::swap(pendingScripts, copy);
 
-	RBX::Timer<RBX::Time::Fast> timer;
+	ARL::Timer<ARL::Time::Fast> timer;
 	timer.reset();
 
 	for (unsigned int i = 0; i < copy.size(); i++)
@@ -2785,7 +2785,7 @@ bool ScriptContext::scriptShouldRun(BaseScript* script)
 
 void ScriptContext::setAdminScriptPath(const std::string& newPath)
 {
-    RBX::BaseScript::adminScriptsPath = newPath;
+    ARL::BaseScript::adminScriptsPath = newPath;
 }
 
 void ScriptContext::addStarterScript(int assetId)
@@ -2794,7 +2794,7 @@ void ScriptContext::addStarterScript(int assetId)
     if (assetId == 124885177)
         return addCoreScriptLocal("CoreScripts/BuildToolsScripts/PersonalServerScript", shared_from(this));
 
-    throw RBX::runtime_error("AddStarterScript disabled (asset %d)", assetId);
+    throw ARL::runtime_error("AddStarterScript disabled (asset %d)", assetId);
 }
 
 void ScriptContext::addCoreScriptLocal(std::string name, shared_ptr<Instance> parent)
@@ -2818,7 +2818,7 @@ void ScriptContext::addCoreScript(int assetId, shared_ptr<Instance> parent, std:
     if (assetId == 59431535)
         return addCoreScriptLocal("CoreScripts/BuildToolsScripts/BuildToolsScript", shared_from(this));
 
-    throw RBX::runtime_error("AddCoreScript disabled (asset %d)", assetId);
+    throw ARL::runtime_error("AddCoreScript disabled (asset %d)", assetId);
 }
 
 void ScriptContext::addScript(weak_ptr<BaseScript> script, ScriptStartOptions startOptions)
@@ -2826,7 +2826,7 @@ void ScriptContext::addScript(weak_ptr<BaseScript> script, ScriptStartOptions st
 	if (shared_ptr<BaseScript> locked = script.lock())
 	{
 		bool ok = scripts.insert(locked.get()).second;
-		RBXASSERT(ok);
+		ARLASSERT(ok);
 
 		FASTLOGS(FLog::ScriptContextAdd, "ScriptContext::addScript -- %s", locked->getName().c_str());
 
@@ -2877,7 +2877,7 @@ void ScriptContext::removeScript(weak_ptr<BaseScript> script)
 	if (shared_ptr<BaseScript> locked = script.lock())
 	{
 		int num = scripts.erase(locked.get());
-		RBXASSERT(num == 1);
+		ARLASSERT(num == 1);
 
 		FASTLOGS(FLog::ScriptContextRemove, "RemoveScript %s", locked->getName().c_str());
 
@@ -2925,7 +2925,7 @@ std::string ScriptContext::extractCallStack(lua_State* thread, shared_ptr<BaseSc
 
 void ScriptContext::printCallStack(lua_State* thread, std::string * output, bool dontPrint)
 {
-	if (!RBX::DebugSettings::singleton().getStackTracingEnabled())
+	if (!ARL::DebugSettings::singleton().getStackTracingEnabled())
 		return;
 
 	std::stringstream stream;
@@ -2948,18 +2948,18 @@ void ScriptContext::printCallStack(lua_State* thread, std::string * output, bool
 					if (level==1)
 					{
 						if (!dontPrint)
-							RBX::StandardOut::singleton()->printf(MESSAGE_INFO, "Stack Begin");
+							ARL::StandardOut::singleton()->printf(MESSAGE_INFO, "Stack Begin");
 
 						if(output)
 							stream << "Stack Begin";
 					}
 					if (ar.name)
-						messageLine = RBX::format("Script '%s', Line %d - %s %s", source, ar.currentline, ar.namewhat, ar.name);
+						messageLine = ARL::format("Script '%s', Line %d - %s %s", source, ar.currentline, ar.namewhat, ar.name);
 					else
-						messageLine = RBX::format("Script '%s', Line %d", source, ar.currentline);
+						messageLine = ARL::format("Script '%s', Line %d", source, ar.currentline);
 
 					if (!dontPrint)
-						RBX::StandardOut::singleton()->printf(MESSAGE_INFO, "%s", messageLine.c_str());
+						ARL::StandardOut::singleton()->printf(MESSAGE_INFO, "%s", messageLine.c_str());
 
 					if(output)
 						stream << messageLine << std::endl;
@@ -2969,7 +2969,7 @@ void ScriptContext::printCallStack(lua_State* thread, std::string * output, bool
 		if (moreStack && level<maxLevel)
 		{
 			if (!dontPrint)
-				RBX::StandardOut::singleton()->printf(MESSAGE_INFO, "Stack End");
+				ARL::StandardOut::singleton()->printf(MESSAGE_INFO, "Stack End");
 
 			if(output)
 				stream << "Stack End";
@@ -3020,7 +3020,7 @@ void ScriptContext::reportError(lua_State* thread)
 		int line;
 		// fire ScriptContext.Error signal for any listening lua code
 		std::string callStackString = extractCallStack(thread, source, line);
-		RBXASSERT(scriptPtr == source);
+		ARLASSERT(scriptPtr == source);
 		errorSignal(errorMessage, callStackString, scriptPtr);
 	}
 
@@ -3032,7 +3032,7 @@ void ScriptContext::reportError(lua_State* thread)
 }
 
 ScriptContext::ScriptImpersonator::ScriptImpersonator(lua_State *thread)
-:RBX::Security::Impersonator(getThreadIdentity(thread))
+:ARL::Security::Impersonator(getThreadIdentity(thread))
 {
 }
 
@@ -3076,8 +3076,8 @@ ScriptContext::Result ScriptContext::resume(ThreadRef thread, int narg)
 			return Error;
 		}
 
-		RBXPROFILER_SCOPE("Lua", "$Script");
-		RBXPROFILER_LABEL("Lua", script ? script->getName().c_str() : "Unknown");
+		ARLPROFILER_SCOPE("Lua", "$Script");
+		ARLPROFILER_LABEL("Lua", script ? script->getName().c_str() : "Unknown");
 
 		if(scriptStats && script){
 			scriptStats->scriptResumeStarted(script->requestHash());
@@ -3119,7 +3119,7 @@ ScriptContext::Result ScriptContext::resume(ThreadRef thread, int narg)
 					{
 						(continuations->success)(thread);
 					}
-					catch (const RBX::base_exception& e)
+					catch (const ARL::base_exception& e)
 					{
 						lua_pushstring(thread, e.what());
 						if (continuations->error)
@@ -3156,8 +3156,8 @@ ScriptContext::Result ScriptContext::resume(ThreadRef thread, int narg)
 void ScriptContext::startScript(ScriptStart scriptStart)
 {
 	shared_ptr<BaseScript> script = scriptStart.script;
-	RBXASSERT(script->getRootAncestor() == getRootAncestor());
-	RBXASSERT(scripts.find(script.get()) != scripts.end());
+	ARLASSERT(script->getRootAncestor() == getRootAncestor());
+	ARLASSERT(scripts.find(script.get()) != scripts.end());
 
 	if (scriptsDisabled && Instance::fastDynamicCast<CoreScript>(script.get()) == NULL)
 	{
@@ -3181,28 +3181,28 @@ void ScriptContext::startScript(ScriptStart scriptStart)
 	startScriptReentrancy++;
 
 	FASTLOG1(FLog::ScriptContext, "Running script %p", script.get());
-	if (RBX::LuaSettings::singleton().areScriptStartsReported)
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Running Script \"%s\"", script->getFullName().c_str());
+	if (ARL::LuaSettings::singleton().areScriptStartsReported)
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Running Script \"%s\"", script->getFullName().c_str());
 
 	try
 	{
-		RBX::Security::Identities identity;
+		ARL::Security::Identities identity;
 
 		if (script->isA<CoreScript>())
-			identity = RBX::Security::RobloxGameScript_;
-		else if (scriptStart.options.identity != RBX::Security::GameScript_)
+			identity = ARL::Security::RobloxGameScript_;
+		else if (scriptStart.options.identity != ARL::Security::GameScript_)
 			identity = scriptStart.options.identity;
 		else if (robloxPlace)
-			identity = RBX::Security::GameScriptInRobloxPlace_;
+			identity = ARL::Security::GameScriptInRobloxPlace_;
 		else
-			identity = RBX::Security::GameScript_;
+			identity = ARL::Security::GameScript_;
 		
 		lua_State* globalState = getGlobalState(identity);
-		RBXASSERT_BALLANCED_LUA_STACK(globalState);
+		ARLASSERT_BALLANCED_LUA_STACK(globalState);
 
 		lua_State* thread = lua_newthread(globalState);
 		if (thread==NULL)
-			throw RBX::runtime_error("Unable to create a new thread for %s", script->getName().c_str());
+			throw ARL::runtime_error("Unable to create a new thread for %s", script->getName().c_str());
 
 		bool profile = false;
 		if (FLog::LuaProfiler)
@@ -3221,7 +3221,7 @@ void ScriptContext::startScript(ScriptStart scriptStart)
 		setThreadIdentityAndSandbox(thread, identity, script);
 
 		// Associate a WeakThreadRef::Node with the BaseScript's thread.
-		RBXASSERT(!script->threadNode);
+		ARLASSERT(!script->threadNode);
 		script->threadNode = WeakThreadRef::Node::create(thread);
 
 		const std::string& hash = script->requestHash();
@@ -3233,8 +3233,8 @@ void ScriptContext::startScript(ScriptStart scriptStart)
 
 		{
 			ThreadRef safeThread(thread);
-			RBXASSERT_BALLANCED_LUA_STACK(thread);
-			RBXASSERT(lua_gettop(thread)==0);
+			ARLASSERT_BALLANCED_LUA_STACK(thread);
+			ARLASSERT(lua_gettop(thread)==0);
 
 			// declare "script" global
 			ObjectBridge::push(thread, script);
@@ -3259,7 +3259,7 @@ void ScriptContext::startScript(ScriptStart scriptStart)
 				{
 					// TODO: Don't we need to clean up the Lua stack? Alternately, do the filtering
 					// at the beginning of the function, before we've touched Lua
-					std::string message = RBX::format("%s(%d) - %s", script->getFullName().c_str(), e.lineNumber, e.what());
+					std::string message = ARL::format("%s(%d) - %s", script->getFullName().c_str(), e.lineNumber, e.what());
 					throw std::runtime_error(message);
 				}
 			}
@@ -3288,7 +3288,7 @@ void ScriptContext::startScript(ScriptStart scriptStart)
 			lua_resetstack(thread, 0);
 		}
 	}
-	catch (RBX::base_exception&)
+	catch (ARL::base_exception&)
 	{
 		startScriptReentrancy--;
 		throw;
@@ -3308,7 +3308,7 @@ StackBalanceCheck::~StackBalanceCheck()
 	if (!cancelled)
 	{
 		int newTop = lua_gettop(thread);
-		RBXASSERT(newTop==oldTop);
+		ARLASSERT(newTop==oldTop);
 	}
 }
 #endif
@@ -3317,7 +3317,7 @@ void ScriptContext::initializeLuaStateSandbox(Lua::WeakThreadRef& threadRef, lua
 {
     threadRef = lua_newthread(parentState);
     ThreadRef safeThread = threadRef.lock();
-	RBXASSERT(safeThread);
+	ARLASSERT(safeThread);
 
 	setThreadIdentityAndSandbox(safeThread, identity, shared_ptr<BaseScript>());
 }
@@ -3325,7 +3325,7 @@ void ScriptContext::initializeLuaStateSandbox(Lua::WeakThreadRef& threadRef, lua
 Reflection::Variant ScriptContext::evaluateStudioCommandItem(const char* itemToEvaluate, shared_ptr<LuaSourceContainer> script)
 {
     if (commandLineSandbox.empty())
-        initializeLuaStateSandbox(commandLineSandbox, getGlobalState(RBX::Security::CmdLine_), RBX::Security::CmdLine_);
+        initializeLuaStateSandbox(commandLineSandbox, getGlobalState(ARL::Security::CmdLine_), ARL::Security::CmdLine_);
 
     ThreadRef safeCommandlineSandbox = commandLineSandbox.lock();
 
@@ -3339,15 +3339,15 @@ Reflection::Variant ScriptContext::evaluateStudioCommandItem(const char* itemToE
 		lua_setglobal(L, "script");
 	}
 
-	RBX::Reflection::Variant result = Reflection::Variant();
+	ARL::Reflection::Variant result = Reflection::Variant();
 
 	try
 	{
-		result = RBX::Scripting::DebuggerManager::readWatchValue(itemToEvaluate, 0, L);
+		result = ARL::Scripting::DebuggerManager::readWatchValue(itemToEvaluate, 0, L);
 	}
 	catch (std::runtime_error const& e)
 	{
-		RBX::Log::current()->writeEntry(RBX::Log::Information, RBX::format("IntelleSenseException: %s", e.what()).c_str());
+		ARL::Log::current()->writeEntry(ARL::Log::Information, ARL::format("IntelleSenseException: %s", e.what()).c_str());
 	}
 
 	if (script)
@@ -3424,11 +3424,11 @@ void RuntimeScriptService::onRunState(RunState state)
 
 void RuntimeScriptService::runScript(BaseScript* script) 
 {
-	RBXASSERT(runningScripts.find(weak_from(script)) == runningScripts.end());
+	ARLASSERT(runningScripts.find(weak_from(script)) == runningScripts.end());
 
 	ScriptContext* scriptContext = ServiceProvider::create<ScriptContext>(this);
 
-	RBXASSERT(!scriptContext->hasScript(script));
+	ARLASSERT(!scriptContext->hasScript(script));
 
 	if (script->fastDynamicCast<CoreScript>())
 		scriptContext->addScript(weak_from(script));	// start and forget. CoreScripts are not runtime scripts
@@ -3458,26 +3458,26 @@ void RuntimeScriptService::releaseScript(BaseScript* script)
 	// be started in onServiceProvider, just like they are stopped.
 	if (script->fastDynamicCast<CoreScript>())
 	{
-		RBXASSERT(pendingScripts.find(weakPtr) == pendingScripts.end());
-		RBXASSERT(runningScripts.find(weakPtr) == runningScripts.end());
-		RBXASSERT(!scriptContext->hasScript(script));
+		ARLASSERT(pendingScripts.find(weakPtr) == pendingScripts.end());
+		ARLASSERT(runningScripts.find(weakPtr) == runningScripts.end());
+		ARLASSERT(!scriptContext->hasScript(script));
 		return;
 	}
 
 	int num = pendingScripts.erase(weakPtr);
-	RBXASSERT(num <= 1);
+	ARLASSERT(num <= 1);
 
 	if (num == 0) 
 	{
-		RBXASSERT(runningScripts.find(weakPtr) != runningScripts.end());
+		ARLASSERT(runningScripts.find(weakPtr) != runningScripts.end());
 		runningScripts.erase(weakPtr);
 
-		RBXASSERT(scriptContext->hasScript(script));
+		ARLASSERT(scriptContext->hasScript(script));
 		scriptContext->removeScript(weakPtr);	
 	}
 	else 
 	{
-		RBXASSERT(!scriptContext->hasScript(script));
+		ARLASSERT(!scriptContext->hasScript(script));
 	}
 }
 
@@ -3495,11 +3495,11 @@ void ScriptContext::validateThreadAccess(lua_State* L)
     if (DFFlag::LockViolationScriptCrash)
     {
         if (!DataModel::currentThreadHasWriteLock(context))
-            RBXCRASH();
+            ARLCRASH();
     }
     else
     {
-        RBXASSERT(DataModel::currentThreadHasWriteLock(context));
+        ARLASSERT(DataModel::currentThreadHasWriteLock(context));
     }
 }
 

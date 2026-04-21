@@ -2,7 +2,7 @@
 
 #include "v8datamodel/ScriptService.h"
 
-namespace RBX
+namespace ARL
 {
 	const char* const sScriptService = "ScriptService";
 }

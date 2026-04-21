@@ -24,16 +24,16 @@
 DYNAMIC_FASTFLAGVARIABLE(LogFileSystem, false)
 DYNAMIC_FASTFLAGVARIABLE(FileSystemGetCacheDirectoryLikeAndroid, false)
 
-using namespace RBX;
+using namespace ARL;
 
 #ifdef __ANDROID__
-namespace RBX
+namespace ARL
 {
 namespace JNI
 {
 std::string fileSystemCacheDir; // Set in JNIRobloxSettings.cpp
 } // namespace JNI
-} // namespace RBX
+} // namespace ARL
 #endif // #ifdef __ANDROID__
 
 namespace
@@ -51,7 +51,7 @@ void logFileError(const void* caller, const char* operation, bool isError, bool 
 
         if (doThrow)
         {
-            throw RBX::runtime_error("%s(%p): %s", operation, caller, ec.message().c_str());
+            throw ARL::runtime_error("%s(%p): %s", operation, caller, ec.message().c_str());
         }
         else
         {
@@ -67,7 +67,7 @@ void logFileError(const void* caller, const char* operation, bool isError, bool 
 boost::filesystem::path getBaseCacheDirectory(bool create)
 {
 #ifdef __ANDROID__
-    RBXASSERT(!JNI::fileSystemCacheDir.empty());
+    ARLASSERT(!JNI::fileSystemCacheDir.empty());
     return JNI::fileSystemCacheDir;
 #else
     static rbx::atomic<int> caching;
@@ -80,7 +80,7 @@ boost::filesystem::path getBaseCacheDirectory(bool create)
 
     boost::filesystem::path path = boost::filesystem::temp_directory_path();
 
-#ifndef RBX_PLATFORM_IOS
+#ifndef ARL_PLATFORM_IOS
     path /= "ANORRL";
 #endif
 
@@ -114,7 +114,7 @@ boost::filesystem::path getBaseCacheDirectory(bool create)
 }
 } // namespace
 
-namespace RBX
+namespace ARL
 {
 
 boost::filesystem::path FileSystem::getCacheDirectory(bool create, const char* subDirectory)
@@ -138,7 +138,7 @@ boost::filesystem::path FileSystem::getCacheDirectory(bool create, const char* s
                 if (!boost::filesystem::create_directories(path, ec) && ec.value())
                 {
                     StandardOut::singleton()->printf(MESSAGE_ERROR, "FileSystem unable to create %s, %s", path.c_str(), ec.message().c_str());
-                    throw RBX::runtime_error("FileSystem unable to create %s, %s", path.c_str(), ec.message().c_str());
+                    throw ARL::runtime_error("FileSystem unable to create %s, %s", path.c_str(), ec.message().c_str());
                 }
             }
             else
@@ -164,12 +164,12 @@ boost::filesystem::path FileSystem::getCacheDirectory(bool create, const char* s
 
         if (!boost::filesystem::exists(path))
         {
-            throw RBX::runtime_error("Path does not exist: %s", path.c_str());
+            throw ARL::runtime_error("Path does not exist: %s", path.c_str());
         }
 
         if (!boost::filesystem::is_directory(path))
         {
-            throw RBX::runtime_error("Path is not a directory: %s", path.c_str());
+            throw ARL::runtime_error("Path is not a directory: %s", path.c_str());
         }
 #ifndef __ANDROID__
     } // if (!DFFlag::FileSystemGetCacheDirectoryLikeAndroid)
@@ -181,7 +181,7 @@ boost::filesystem::path FileSystem::getCacheDirectory(bool create, const char* s
 boost::filesystem::path FileSystem::getTempFilePath()
 {
     std::string guid;
-    Guid::generateRBXGUID(guid);
+    Guid::generateARLGUID(guid);
     return getCacheDirectory(true, "fs_tmp") / guid;
 }
 
@@ -204,4 +204,4 @@ void FileSystem::clearCacheDirectory(const char* subDirectory)
     }
 }
 
-} // namespace RBX
+} // namespace ARL

@@ -10,7 +10,7 @@
 #include "v8datamodel/TouchInputService.h"
 #include "v8datamodel/UserInputService.h"
 
-namespace RBX
+namespace ARL
 {
 
 const char *const sTouchInputService = "TouchInputService";
@@ -32,7 +32,7 @@ void TouchInputService::onServiceProvider(ServiceProvider* oldSp, ServiceProvide
     
     if (newSp)
     {
-        if (UserInputService* inputService = RBX::ServiceProvider::find<UserInputService>(newSp))
+        if (UserInputService* inputService = ARL::ServiceProvider::find<UserInputService>(newSp))
         {
             updateInputConnection = inputService->updateInputSignal.connect(boost::bind(&TouchInputService::processTouchBuffer, this));
         }
@@ -43,7 +43,7 @@ void TouchInputService::addTouchToBuffer(void* touch, Vector3 rbxLocation, Input
 {
     boost::mutex::scoped_lock mutex(touchBufferMutex);
 
-    if (newState == RBX::InputObject::INPUT_STATE_BEGIN)
+    if (newState == ARL::InputObject::INPUT_STATE_BEGIN)
     {
         touchCount++;
         int newTouchCount = touchCount;
@@ -56,13 +56,13 @@ void TouchInputService::addTouchToBuffer(void* touch, Vector3 rbxLocation, Input
         if (touchToCountMap.find(touch) == touchToCountMap.end())
         {
             // we have an unaccounted for touch wtf
-            RBXASSERT(false);
+            ARLASSERT(false);
             return;
         }
         
         touchBufferMap[touchToCountMap[touch]].push_back(TouchInfo(rbxLocation, newState));
         
-        if (newState == RBX::InputObject::INPUT_STATE_END)
+        if (newState == ARL::InputObject::INPUT_STATE_END)
         {
             touchToCountMap.erase(touch);
         }
@@ -71,7 +71,7 @@ void TouchInputService::addTouchToBuffer(void* touch, Vector3 rbxLocation, Input
     
 void TouchInputService::processTouchBuffer()
 {
-    UserInputService* userInputService = RBX::ServiceProvider::find<UserInputService>(this);
+    UserInputService* userInputService = ARL::ServiceProvider::find<UserInputService>(this);
     if (!userInputService)
         return;
     
@@ -91,7 +91,7 @@ void TouchInputService::processTouchBuffer()
         shared_ptr<InputObject> currentInputObj = shared_ptr<InputObject>();
         if (touchIdToInputObjectMap.find(touchId) == touchIdToInputObjectMap.end())
         {
-            currentInputObj = RBX::Creatable<RBX::Instance>::create<RBX::InputObject>(RBX::InputObject::TYPE_TOUCH, RBX::InputObject::INPUT_STATE_NONE, RBX::Vector3(0,0,0), RBX::Vector3(0,0,0), RBX::DataModel::get(this));
+            currentInputObj = ARL::Creatable<ARL::Instance>::create<ARL::InputObject>(ARL::InputObject::TYPE_TOUCH, ARL::InputObject::INPUT_STATE_NONE, ARL::Vector3(0,0,0), ARL::Vector3(0,0,0), ARL::DataModel::get(this));
             touchIdToInputObjectMap[touchId] = currentInputObj;
         }
         else
@@ -101,18 +101,18 @@ void TouchInputService::processTouchBuffer()
         
         for (std::vector<TouchInfo>::iterator touchIter = touches.begin(); touchIter != touches.end(); ++touchIter)
         {
-            RBX::InputObject::UserInputState inputState = (*touchIter).second;
+            ARL::InputObject::UserInputState inputState = (*touchIter).second;
             currentInputObj->setInputState(inputState);
             Vector3 newPos = (*touchIter).first;
             Vector3 newDelta = newPos - currentInputObj->getRawPosition();
             
-            if (inputState == RBX::InputObject::INPUT_STATE_CHANGE && newDelta == Vector3::zero())
+            if (inputState == ARL::InputObject::INPUT_STATE_CHANGE && newDelta == Vector3::zero())
             {
                 // this is an unnecessary touch, do nothing with it
             }
             else
             {
-                if (inputState != RBX::InputObject::INPUT_STATE_BEGIN)
+                if (inputState != ARL::InputObject::INPUT_STATE_BEGIN)
                 {
                     currentInputObj->setDelta(newDelta);
                 }
@@ -120,8 +120,8 @@ void TouchInputService::processTouchBuffer()
                 
                 userInputService->dangerousFireInputEvent(currentInputObj, countToTouchMap[touchId]);
                 
-                if (currentInputObj->getUserInputState() == RBX::InputObject::INPUT_STATE_END ||
-                    currentInputObj->getUserInputState() == RBX::InputObject::INPUT_STATE_CANCEL)
+                if (currentInputObj->getUserInputState() == ARL::InputObject::INPUT_STATE_END ||
+                    currentInputObj->getUserInputState() == ARL::InputObject::INPUT_STATE_CANCEL)
                 {
                     // this touch is done now, clean up references to it
                     boost::mutex::scoped_lock mutex(touchBufferMutex);
@@ -136,4 +136,4 @@ void TouchInputService::processTouchBuffer()
     
     
 
-} // namespace RBX
+} // namespace ARL

@@ -4,11 +4,11 @@
 #include "V8DataModel/specialmesh.h"
 #include "V8DataModel/PartInstance.h"
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sSpecialShape = "SpecialMesh";
+const char* const ARL::sSpecialShape = "SpecialMesh";
 
-namespace RBX {
+namespace ARL {
 namespace Reflection {
 template<>
 EnumDesc<SpecialShape::MeshType>::EnumDesc()
@@ -28,7 +28,7 @@ EnumDesc<SpecialShape::MeshType>::EnumDesc()
 	addPair(SpecialShape::FILE_MESH, "FileMesh");
 }
 }//namespace Reflection
-}//namespace RBX
+}//namespace ARL
 
 REFLECTION_BEGIN();
 static Reflection::EnumPropDescriptor<SpecialShape, SpecialShape::MeshType> desc_meshType("MeshType", category_Data, &SpecialShape::getMeshType, &SpecialShape::setMeshType);

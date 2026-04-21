@@ -36,7 +36,7 @@ FASTFLAGVARIABLE(CSGPhysicsLevelOfDetailEnabled, false)
 FASTFLAGVARIABLE(CSGUnionsSizeShouldNeverBe000, false)
 DYNAMIC_FASTFLAGVARIABLE(TeamCreateRaiseChangedOperationForAssetId, true)
 
-namespace RBX
+namespace ARL
 {
 bool PartOperation::renderCollisionData = false;
 using namespace Reflection;
@@ -81,7 +81,7 @@ void PartOperation::onServiceProvider(ServiceProvider* oldProvider, ServiceProvi
 	}
 }
 
-const BinaryString PartOperation::peekChildData(RBX::Instance* context)
+const BinaryString PartOperation::peekChildData(ARL::Instance* context)
 {
     if (FFlag::StudioCSGAssets)
     {
@@ -91,8 +91,8 @@ const BinaryString PartOperation::peekChildData(RBX::Instance* context)
         }
     }
 
-    RBX::CSGDictionaryService* dictionaryService = ServiceProvider::find<CSGDictionaryService>(context ? context : this);
-	RBX::NonReplicatedCSGDictionaryService* nrDictionaryService = ServiceProvider::create<NonReplicatedCSGDictionaryService>(context ? context : this);
+    ARL::CSGDictionaryService* dictionaryService = ServiceProvider::find<CSGDictionaryService>(context ? context : this);
+	ARL::NonReplicatedCSGDictionaryService* nrDictionaryService = ServiceProvider::create<NonReplicatedCSGDictionaryService>(context ? context : this);
 
 	if (FlyweightService::isHashKey(childData.value()))
 	{
@@ -106,7 +106,7 @@ const BinaryString PartOperation::peekChildData(RBX::Instance* context)
 	return childData;
 }
 
-const BinaryString& PartOperation::getChildDataBlocking(RBX::Instance* context) const
+const BinaryString& PartOperation::getChildDataBlocking(ARL::Instance* context) const
 {
   if (FFlag::StudioCSGAssets)
   {
@@ -185,7 +185,7 @@ shared_ptr<CSGMesh> PartOperation::getMesh()
             }
         }
         
-		CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(RBX::DataModel::get(this));
+		CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(this));
 		BinaryString meshString = dictionaryService->peekAtData(meshData);
 
         if (meshString.value() == "")
@@ -215,7 +215,7 @@ shared_ptr<CSGMesh> PartOperation::getRenderMesh()
 
     if (!cachedMesh)
     {
-        CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(RBX::DataModel::get(this));
+        CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(this));
         BinaryString meshString = dictionaryService->peekAtData(meshData);
 
         if (meshString.value() == "")
@@ -304,7 +304,7 @@ void PartOperation::setCollisionFidelity(CollisionFidelity value)
 		RunService* rs = ServiceProvider::find<RunService>(this);
 		if (rs && (rs->getRunState() == RS_RUNNING || rs->getRunState() == RS_PAUSED))
 		{
-			RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "Cannot change SolidModel CollisionFidelity during Run-Time");
+			ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "Cannot change SolidModel CollisionFidelity during Run-Time");
 		}
 	}
 }
@@ -351,7 +351,7 @@ Vector3 PartOperation::uiToXmlSize(const Vector3& uiSize) const
         return PartInstance::uiToXmlSize(uiSize);
 	else if (FFlag::CSGUnionsSizeShouldNeverBe000 && uiSize.isZero())
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Cannot set SolidModel size to Vector3(0, 0, 0)");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Cannot set SolidModel size to Vector3(0, 0, 0)");
 		return getConstPartPrimitive()->getSize();
 	}
 
@@ -383,7 +383,7 @@ bool PartOperation::createPhysicsData(const CSGMesh* mData)
 {
 	if (FFlag::CSGPhysicsLevelOfDetailEnabled)
 	{
-		CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(RBX::DataModel::get(this));
+		CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(this));
 
 		if (!mData)
 			return false;
@@ -461,7 +461,7 @@ bool PartOperation::createPhysicsData(const CSGMesh* mData)
 
 		if (primitiveMesh)
 		{
-			CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(RBX::DataModel::get(this));
+			CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(this));
 
 			if (!mData)
 				return false;
@@ -521,7 +521,7 @@ void PartOperation::trySetPhysicsData()
 	TriangleMesh* primitiveMesh = rbx_static_cast<TriangleMesh*>(getPrimitive(this)->getGeometry());
 	if (!primitiveMesh->getCompound())
 	{
-		CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(RBX::DataModel::get(this));
+		CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(this));
 		if (dictionaryService)
 		{
 			// Calculate shrunken scale
@@ -562,8 +562,8 @@ bool PartOperation::checkDecompExists()
 
 void visitDescendentsSetPhysics(shared_ptr<Instance> descendant, PartOperation* sourceOperation)
 {
-	CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(RBX::DataModel::get(sourceOperation));
-	if(PartOperation* iteratedPartOp = RBX::Instance::fastDynamicCast<PartOperation>(descendant.get()))
+	CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(sourceOperation));
+	if(PartOperation* iteratedPartOp = ARL::Instance::fastDynamicCast<PartOperation>(descendant.get()))
 	{
 		bool haveSameGeometry;
 		/// StudioCSGAssets flag introduces some new conditions that we cannot meet with the old check. If these are enabled we must have a new condition that checks.
@@ -603,7 +603,7 @@ void visitDescendentsSetPhysics(shared_ptr<Instance> descendant, PartOperation* 
 
 void PartOperation::processOutOfDateData()
 {
-	if(RBX::DataModel::get(this)->isStudio())
+	if(ARL::DataModel::get(this)->isStudio())
 	{
 		// Three return calls to safeguard against corrupted/empty CSG mesh data.
 		if (!getMesh().get())
@@ -614,7 +614,7 @@ void PartOperation::processOutOfDateData()
 
 		if (createPhysicsData(getMesh().get()))
 		{
-			RBX::DataModel::get(this)->visitDescendants(boost::bind(&visitDescendentsSetPhysics, _1, this));
+			ARL::DataModel::get(this)->visitDescendants(boost::bind(&visitDescendentsSetPhysics, _1, this));
 		}
 		else
 		{
@@ -635,7 +635,7 @@ void PartOperation::setBulletCollisionObject()
 
 std::string PartOperation::getNonKeyPhysicsData() const
 {
-	CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(RBX::DataModel::get(this));
+	CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(this));
 	if (dictionaryService)
 		return dictionaryService->peekAtData(getPhysicsData()).value();
 	else 
@@ -644,7 +644,7 @@ std::string PartOperation::getNonKeyPhysicsData() const
 
 std::string PartOperation::generateHashKey(const std::string& dataString) const
 {
-	CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(RBX::DataModel::get(this));
+	CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(this));
 	if (dictionaryService)
 		return FlyweightService::createHashKey(dataString);
 	else
@@ -654,7 +654,7 @@ std::string PartOperation::generateHashKey(const std::string& dataString) const
 
 void PartOperation::setBulletObjectsScale(const Vector3& newBoundingBoxSize)
 {
-	CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(RBX::DataModel::get(this));
+	CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(this));
 	if (dictionaryService && checkDecompExists())
 	{
 		TriangleMesh* primitiveMesh = rbx_static_cast<TriangleMesh*>(getPrimitive(this)->getGeometry());

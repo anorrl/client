@@ -3,7 +3,7 @@
 #include "Util/ProgramMemoryChecker.h"
 
 
-namespace RBX
+namespace ARL
 {
 using namespace Hasher;
 // I'm very sorry for this.  I have no idea how to find the location of an int

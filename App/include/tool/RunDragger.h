@@ -15,7 +15,7 @@
 
 
 
-namespace RBX {
+namespace ARL {
 	class Primitive;
 	class PartInstance;
 	class Workspace;

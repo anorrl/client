@@ -29,7 +29,7 @@ namespace G3D
 	}
 }
 
-namespace RBX {
+namespace ARL {
 
 const float kEpsilon = 1e-3;
 
@@ -115,7 +115,7 @@ pi	__________________  0rads
 
 int getQuadrant(double angle)
 {
-	RBXASSERT((angle >= -Math::pi()) && (angle <= Math::pi()));
+	ARLASSERT((angle >= -Math::pi()) && (angle <= Math::pi()));
 	if (angle > Math::piHalf()) {
 		return 2;
 	}
@@ -144,8 +144,8 @@ float Math::averageRotationClose(float aRot, float bRot)		// computes average aR
 
 float Math::clampRotationClose(float rot, float limitLo, float limitHi)
 {
-	RBXASSERT(G3D::fuzzyGe(limitLo, -Math::pif()) && G3D::fuzzyLe(limitLo, Math::pif()));
-	RBXASSERT(G3D::fuzzyGe(limitHi, -Math::pif()) && G3D::fuzzyLe(limitHi, Math::pif()));
+	ARLASSERT(G3D::fuzzyGe(limitLo, -Math::pif()) && G3D::fuzzyLe(limitLo, Math::pif()));
+	ARLASSERT(G3D::fuzzyGe(limitHi, -Math::pif()) && G3D::fuzzyLe(limitHi, Math::pif()));
 	rot = radWrap(rot);
 	if ( limitLo <= limitHi )
 	{
@@ -180,7 +180,7 @@ float Math::clampRotationClose(float rot, float limitLo, float limitHi)
 
 double Math::advanceWoundRotation(double currentRotationWound, double newRotationNotWound)
 {
-	RBXASSERT((newRotationNotWound >= -pi()) && (newRotationNotWound <= pi()));
+	ARLASSERT((newRotationNotWound >= -pi()) && (newRotationNotWound <= pi()));
 
 	double windings = windingPart(currentRotationWound);
 	double extra = radWrap(currentRotationWound);
@@ -198,7 +198,7 @@ double Math::advanceWoundRotation(double currentRotationWound, double newRotatio
 
 	double answer = windings * twoPi() + newRotationNotWound;
 
-	RBXASSERT(fabs(answer - currentRotationWound) < 0.5);
+	ARLASSERT(fabs(answer - currentRotationWound) < 0.5);
 
 	return answer;
 }
@@ -228,8 +228,8 @@ void Math::lerpArray(const G3D::Array<float>& before,
 					G3D::Array<float>& answer,
 					float alpha)
 {
-	RBXASSERT(before.size() == after.size());
-	RBXASSERT(before.size() == answer.size());
+	ARLASSERT(before.size() == after.size());
+	ARLASSERT(before.size() == answer.size());
 	for (int i = 0; i < before.size(); ++i)
 	{
 		answer[i] = G3D::lerp(before[i], after[i], alpha);
@@ -382,14 +382,14 @@ float segSizeRadians()
 
 unsigned char rotationToByteBase(float angle)
 {
-	RBXASSERT(angle <= (Math::pif()+0.0001f));
-	RBXASSERT(angle >= -(Math::pif()+0.0001f));
+	ARLASSERT(angle <= (Math::pif()+0.0001f));
+	ARLASSERT(angle >= -(Math::pif()+0.0001f));
 
 	float fAngle = (angle + Math::pif()) / segSizeRadians();
 
 	int iAngle = Math::iRound(fAngle);
-	RBXASSERT(iAngle >= -1);
-	RBXASSERT(iAngle <= 256);
+	ARLASSERT(iAngle >= -1);
+	ARLASSERT(iAngle <= 256);
 
 	iAngle = std::max(0, iAngle);
 	iAngle = std::min(255, iAngle);
@@ -414,7 +414,7 @@ unsigned char Math::rotationToByte(float angle)
 #ifdef _DEBUG
 	float repeat = rotationFromByteBase(answer);
 	float delta = fabs(repeat - wrapped);
-	RBXASSERT(delta <= segSizeRadians());
+	ARLASSERT(delta <= segSizeRadians());
 #endif
 
 	return answer;
@@ -427,7 +427,7 @@ float Math::rotationFromByte(unsigned char byteAngle)
 
 #ifdef _DEBUG
 	unsigned char repeat = rotationToByteBase(answer);
-	RBXASSERT(repeat == byteAngle);
+	ARLASSERT(repeat == byteAngle);
 #endif
 
 	return answer;
@@ -606,7 +606,7 @@ bool Math::isAxisAligned(const Matrix3& matrix)
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			float t = matrix[i][j];
-			RBXASSERT_VERY_FAST(0.0f == -0.0f);
+			ARLASSERT_VERY_FAST(0.0f == -0.0f);
 			if ((t == 1.0f) || (t == -1.0f)) {
 				x[i] += 1;
 				y[j] += 1;
@@ -636,18 +636,18 @@ bool legalOrientId(int orientId)
 
 int Math::getOrientId(const Matrix3& matrix)
 {
-	RBXASSERT_VERY_FAST(isAxisAligned(matrix));
+	ARLASSERT_VERY_FAST(isAxisAligned(matrix));
 	
 	int xNormal = Vector3ToNormalId(matrix.column(0));
 	int yNormal = Vector3ToNormalId(matrix.column(1));
 	int answer = (6 * xNormal) + yNormal;
-	RBXASSERT_VERY_FAST(legalOrientId(answer));
+	ARLASSERT_VERY_FAST(legalOrientId(answer));
 	return answer;
 }
 
 void Math::idToMatrix3(int orientId, Matrix3& matrix)
 {
-	RBXASSERT_VERY_FAST(legalOrientId(orientId));
+	ARLASSERT_VERY_FAST(legalOrientId(orientId));
 	// TODO: Optimization: Do a table lookup
 	NormalId xNormal = intToNormalId(orientId / 6);
 	NormalId yNormal = intToNormalId(orientId % 6);
@@ -658,7 +658,7 @@ void Math::idToMatrix3(int orientId, Matrix3& matrix)
 	matrix.setColumn(1, vY);
 	matrix.setColumn(2, vZ);
 
-	RBXASSERT_VERY_FAST(isAxisAligned(matrix));
+	ARLASSERT_VERY_FAST(isAxisAligned(matrix));
 }
 
 
@@ -783,17 +783,17 @@ Matrix3 Math::snapToAxes(const Matrix3& align)
 	answer.setColumn(aThird, thirdV);
 
 #ifdef _DEBUG
-	RBXASSERT(isOrthonormal(answer));
+	ARLASSERT(isOrthonormal(answer));
 
 	for (int i = 0; i < 3; ++i) {
 		Vector3 newV = answer.column(i);
 		Vector3 orgV = align.column(i);
 		float dot = newV.dot(orgV);
 		if (i == aBest) {
-			RBXASSERT(dot > 0.65);
+			ARLASSERT(dot > 0.65);
 		}
 		else {
-			RBXASSERT(dot > 0.2);
+			ARLASSERT(dot > 0.2);
 		}
 	}
 #endif
@@ -831,10 +831,10 @@ Vector3 Math::safeDirection(const Vector3& v)
     if (fMagnitude > 1e-12f) {
 		float fInvMagnitude = 1.0f / fMagnitude;
 		Vector3 answer = Vector3(v.x * fInvMagnitude, v.y * fInvMagnitude, v.z * fInvMagnitude);
-		RBXASSERT(answer.magnitude() < 1.01f);
+		ARLASSERT(answer.magnitude() < 1.01f);
 		return answer;
     } else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return Vector3::unitX();
     }
 }
@@ -850,8 +850,8 @@ Vector3 Math::iRoundVector3(const Vector3& point)
 // return 0..pi
 float Math::angle(const Vector3& v0, const Vector3& v1)
 {
-	RBXASSERT_FISHING(v0.isUnit());
-	RBXASSERT_FISHING(v1.isUnit());
+	ARLASSERT_FISHING(v0.isUnit());
+	ARLASSERT_FISHING(v1.isUnit());
 
 	const float dot = v0.dot(v1);
 
@@ -867,8 +867,8 @@ float Math::angle(const Vector3& v0, const Vector3& v1)
 
 float Math::elevationAngle(const Vector3& look)
 {
-	RBXASSERT_VERY_FAST(look.y >= -1.0f);
-	RBXASSERT_VERY_FAST(look.y <= 1.0f);
+	ARLASSERT_VERY_FAST(look.y >= -1.0f);
+	ARLASSERT_VERY_FAST(look.y <= 1.0f);
 
 	const float answer = (look.y >= 1.0) 
 							? piHalff() 
@@ -882,7 +882,7 @@ float Math::elevationAngle(const Vector3& look)
 
 float Math::smallAngle(const Vector3& v0, const Vector3& v1)
 {
-	RBXASSERT_VERY_FAST(angle(v0, v1) < (Math::pif() * 0.10));
+	ARLASSERT_VERY_FAST(angle(v0, v1) < (Math::pif() * 0.10));
 
 	return v0.cross(v1).magnitude();
 }
@@ -890,8 +890,8 @@ float Math::smallAngle(const Vector3& v0, const Vector3& v1)
 
 bool fuzzyColinear(const Vector3& v0, const Vector3& v1, float radTolerance)
 {
-	RBXASSERT_VERY_FAST(Math::fuzzyEq(v0.magnitude(), 1.0f, 1e-4f));		// lower tolerance
-	RBXASSERT_VERY_FAST(Math::fuzzyEq(v1.magnitude(), 1.0f, 1e-4f));		// lower tolerance
+	ARLASSERT_VERY_FAST(Math::fuzzyEq(v0.magnitude(), 1.0f, 1e-4f));		// lower tolerance
+	ARLASSERT_VERY_FAST(Math::fuzzyEq(v1.magnitude(), 1.0f, 1e-4f));		// lower tolerance
 
 	return (v0.cross(v1).magnitude() < radTolerance);
 }
@@ -923,7 +923,7 @@ bool Math::orthonormalizeIfNecessary(Matrix3& m)
 {
 	if (!isOrthonormal(m)) {
 		m.orthonormalize();
-		RBXASSERT_IF_VALIDATING(isOrthonormal(m));
+		ARLASSERT_IF_VALIDATING(isOrthonormal(m));
 		return true;
 	}
 	else {
@@ -1055,7 +1055,7 @@ Matrix3 Math::alignAxesClosest(const Matrix3& align, const Matrix3& target)
 	answer.setColumn(tSecond, secondV);
 	answer.setColumn(tThird, thirdV);
 
-	RBXASSERT_VERY_FAST(isOrthonormal(answer));
+	ARLASSERT_VERY_FAST(isOrthonormal(answer));
 
 	return answer;
 }
@@ -1147,8 +1147,8 @@ Vector3 Math::sortVector3(const Vector3& v)
 	if (ans.z < ans.y) {
 		std::swap(ans.z, ans.y);
 	}
-	RBXASSERT_VERY_FAST(ans.z >= ans.y);
-	RBXASSERT_VERY_FAST(ans.y >= ans.x);
+	ARLASSERT_VERY_FAST(ans.z >= ans.y);
+	ARLASSERT_VERY_FAST(ans.y >= ans.x);
 	return ans;
 }
 
@@ -1191,8 +1191,8 @@ void Math::setHeadingElevation(CoordinateFrame& c, float heading, float elevatio
 }
 
 
-Vector3 Math::closestPointOnRay(const RBX::RbxRay& pointOnRay, 
-								const RBX::RbxRay& otherRay)
+Vector3 Math::closestPointOnRay(const ARL::RbxRay& pointOnRay, 
+								const ARL::RbxRay& otherRay)
 {
 	Vector3 pa = pointOnRay.origin();
 	Vector3 pPlane = otherRay.origin();
@@ -1221,7 +1221,7 @@ void Math::rotateMatrixAboutX90(Matrix3& matrix, int times)
 {
 	static const Matrix3 x90(1,0,0,	0,0,-1,		0,1,0);
 
-	RBXASSERT((times <4) && (times >= 0));
+	ARLASSERT((times <4) && (times >= 0));
 	for (int i = 0; i < times; ++i) {
 		matrix = x90 * matrix;
 //		Matrix3 answer(matrix);
@@ -1235,7 +1235,7 @@ void Math::rotateMatrixAboutY90(Matrix3& matrix, int times)
 {
 	static const Matrix3 y90(0,0,1,	0,1,0,	-1,0,0);
 
-	RBXASSERT((times <4) && (times >= 0));
+	ARLASSERT((times <4) && (times >= 0));
 	for (int i = 0; i < times; ++i) {
 		matrix = y90 * matrix;
 	}
@@ -1300,7 +1300,7 @@ const Matrix3 Math::matrixTiltQuadrant(int quadrant)
 	// 3:  tilt around the z axis negatively
 	case (3):	return matrixTiltNegativeZ();
 
-	default:	RBXASSERT(0);	
+	default:	ARLASSERT(0);	
 				return Matrix3::identity();
 	}
 }
@@ -1310,7 +1310,7 @@ const Matrix3 Math::matrixTiltQuadrant(int quadrant)
 int Math::radiansToQuadrant(float radians)
 {
 	radians += (float)(G3D::pi() * 2.25);		// extra wrap plus one eight turn;
-	RBXASSERT(radians >= 0.0);
+	ARLASSERT(radians >= 0.0);
 	int quadrant = G3D::iFloor(4.0 * radians / G3D::twoPi());
 	return quadrant % 4;
 }
@@ -1319,7 +1319,7 @@ int Math::radiansToQuadrant(float radians)
 int Math::radiansToOctant(float radians)
 {
 	radians += (float)(G3D::pi() * 2.125);		// extra wrap plus one sixteenth turn;
-	RBXASSERT(radians >= 0.0);
+	ARLASSERT(radians >= 0.0);
 	int octant = G3D::iFloor(8.0 * radians / G3D::twoPi());
 	return octant % 8;
 }
@@ -1332,11 +1332,11 @@ int Math::toYAxisQuadrant(const CoordinateFrame& c)
 	return radiansToQuadrant(angle);
 }
 
-bool Math::intersectRayConvexPolygon(const RBX::RbxRay& ray,  const std::vector<Vector3>& poly, Vector3& hit, bool oneSided)
+bool Math::intersectRayConvexPolygon(const ARL::RbxRay& ray,  const std::vector<Vector3>& poly, Vector3& hit, bool oneSided)
 {
     if( poly.size() < 3 )
     {
-        RBXASSERT(0);
+        ARLASSERT(0);
         return false;
     }
     
@@ -1371,7 +1371,7 @@ std::vector<Vector3> Math::spatialPolygonIntersection(const std::vector<Vector3>
 
     if( polyA.size() < 3 || polyB.size() < 3 )
     {
-        RBXASSERT(0);
+        ARLASSERT(0);
         return result;
     }
     
@@ -1438,7 +1438,7 @@ std::vector<Vector3> Math::spatialPolygonIntersection(const std::vector<Vector3>
     return result;
 }
 
-bool Math::intersectRayPlane(const RBX::RbxRay& ray, const G3D::Plane& plane, G3D::Vector3& hit)
+bool Math::intersectRayPlane(const ARL::RbxRay& ray, const G3D::Plane& plane, G3D::Vector3& hit)
 {
 	float dotProd = ray.direction().dot(plane.normal());
 	bool onPositiveSide = plane.halfSpaceContains(ray.origin());
@@ -1448,7 +1448,7 @@ bool Math::intersectRayPlane(const RBX::RbxRay& ray, const G3D::Plane& plane, G3
 	{
 		Line line = Line::fromPointAndDirection(ray.origin(), ray.direction());
 		hit = line.intersection(plane);
-		RBXASSERT(hit != Vector3::inf());
+		ARLASSERT(hit != Vector3::inf());
 		return true;
 	}
 	else {
@@ -1458,13 +1458,13 @@ bool Math::intersectRayPlane(const RBX::RbxRay& ray, const G3D::Plane& plane, G3
 }
 
 
-bool intersectLinePlaneOld(const RBX::RbxRay& ray, const G3D::Plane& plane, G3D::Vector3& hit)
+bool intersectLinePlaneOld(const ARL::RbxRay& ray, const G3D::Plane& plane, G3D::Vector3& hit)
 {
 	if (Math::intersectRayPlane(ray, plane, hit)) {
 		return true;
 	}
 
-	RBX::RbxRay oppositeRay = RBX::RbxRay::fromOriginAndDirection(ray.origin(), -ray.direction());
+	ARL::RbxRay oppositeRay = ARL::RbxRay::fromOriginAndDirection(ray.origin(), -ray.direction());
 	if (Math::intersectRayPlane(oppositeRay, plane, hit)) {
 		return true;
 	}
@@ -1480,10 +1480,10 @@ bool Math::intersectLinePlane(const Line& line, const Plane& plane, Vector3& hit
 	bool answer = (hit != Vector3::inf());
 
 #ifdef _DEBUG
-	RbxRay tempRay = RBX::RbxRay::fromOriginAndDirection(line.point(), line.direction());
+	RbxRay tempRay = ARL::RbxRay::fromOriginAndDirection(line.point(), line.direction());
 	Vector3 tempHit;
 	intersectLinePlaneOld(tempRay, plane, tempHit);
-	RBXASSERT(tempHit.fuzzyEq(hit));
+	ARLASSERT(tempHit.fuzzyEq(hit));
 #endif
 
 	return answer;
@@ -1549,7 +1549,7 @@ const Matrix3& Math::getAxisRotationMatrix(int face)
 		case (3):	return Matrix3::identity();
 		case (4):	return y_neg;
 		case (5):	return z_neg;
-		default:	RBXASSERT(0); return Matrix3::identity();
+		default:	ARLASSERT(0); return Matrix3::identity();
 	}
 }
 

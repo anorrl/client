@@ -24,7 +24,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
 
 #define FONT_PADDING 1.0f
 
-	namespace RBX
+	namespace ARL
 {
 	namespace Graphics
 	{
@@ -84,7 +84,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
                 memset(&errorSizeData, 0, sizeof(errorSizeData));
 
 				FT_Error error = FT_Init_FreeType( &library );
-				RBXASSERT(error == FT_Err_Ok);
+				ARLASSERT(error == FT_Err_Ok);
                 if (!library)
                 {
                     FASTLOG(FLog::Graphics, "ERROR: Cannot init free type library");
@@ -103,7 +103,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
                 dataBuffer = data.str();
 
 				error = FT_New_Memory_Face(library, (const unsigned char*)dataBuffer.c_str(), dataBuffer.size(), 0, &face);
-                RBXASSERT(error == FT_Err_Ok);
+                ARLASSERT(error == FT_Err_Ok);
                 if (!face)
                 {
                     FASTLOG(FLog::Graphics, "ERROR: Cannot create font face from memory");
@@ -189,14 +189,14 @@ FASTINTVARIABLE(FontSizePadding, 1)
             {
                 FT_Size_RequestRec_ request = {FT_SIZE_REQUEST_TYPE_REAL_DIM, 0,  (size + FInt::FontSizePadding) * 64, 0, 0};
                 FT_Error error = FT_Request_Size(face, &request);
-                RBXASSERT(error == FT_Err_Ok);
+                ARLASSERT(error == FT_Err_Ok);
                 if (error)
                     return false;        
 
                 unsigned glyph_index = FT_Get_Char_Index(face, character);
 
                 error = FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT);
-                RBXASSERT(error == FT_Err_Ok);
+                ARLASSERT(error == FT_Err_Ok);
                 if (error)
                     return false;
 
@@ -255,7 +255,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
                     if (face->glyph->format != FT_GLYPH_FORMAT_BITMAP)
                     {
                         FT_Error error = FT_Render_Glyph( face->glyph, FT_RENDER_MODE_NORMAL );
-                        RBXASSERT(error == FT_Err_Ok);
+                        ARLASSERT(error == FT_Err_Ok);
                         if (error)
                             return errorTexRegion;
                     }
@@ -292,7 +292,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
             TextureAtlas* textureAtlas;
 		};
 
-		TypesetterDynamic::TypesetterDynamic(TextureAtlas* textureAtlas, RBX::Graphics::TextureManager* textureManager, const std::string& fontPath, float legacyHeightScale, unsigned fontId, bool retina)
+		TypesetterDynamic::TypesetterDynamic(TextureAtlas* textureAtlas, ARL::Graphics::TextureManager* textureManager, const std::string& fontPath, float legacyHeightScale, unsigned fontId, bool retina)
 			: legacyHeightScale(legacyHeightScale)
 			, retinaScale(retina ? 2 : 1)
         {
@@ -318,7 +318,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
 				{
 					adorn->rect2d(glyphRect, uvtl, uvbr, color, Rotation2D());
 				}
-				else if (clippedRect != RBX::Rect2D::xywh(0,0,0,0))
+				else if (clippedRect != ARL::Rect2D::xywh(0,0,0,0))
 				{
 					adorn->rect2d(glyphRect, uvtl, uvbr, color, clippingRect);
 				}
@@ -365,16 +365,16 @@ FASTINTVARIABLE(FontSizePadding, 1)
 			return ch == '\1';
 		}
 
-		static const RBX::Vector2 kBorderOffsets[] =
+		static const ARL::Vector2 kBorderOffsets[] =
 		{
-			RBX::Vector2(-1, -1),
-			RBX::Vector2(+1, -1),
-			RBX::Vector2(-1, +1),
-			RBX::Vector2(+1, +1),
-			RBX::Vector2(0, 0),
+			ARL::Vector2(-1, -1),
+			ARL::Vector2(+1, -1),
+			ARL::Vector2(-1, +1),
+			ARL::Vector2(+1, +1),
+			ARL::Vector2(0, 0),
 		};
 
-        void TypesetterDynamic::loadResources(RBX::Graphics::TextureManager* textureManager, RBX::Graphics::TextureAtlas* glyphAtlas)
+        void TypesetterDynamic::loadResources(ARL::Graphics::TextureManager* textureManager, ARL::Graphics::TextureAtlas* glyphAtlas)
         {
             glyphProvider->setAtlas(glyphAtlas);
         }
@@ -397,7 +397,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
         }
 
         void TypesetterDynamic::render(Adorn* adorn, 
-            const Color4& color, const Color4& outline, float alpha, RBX::Text::XAlign xalign, std::vector<GlyphLine>& lines, float scale, 
+            const Color4& color, const Color4& outline, float alpha, ARL::Text::XAlign xalign, std::vector<GlyphLine>& lines, float scale, 
             unsigned measureSize, unsigned renderSize, unsigned ascender,
             float startx, float starty, float height, 
             const Rect2D& clippingRect, const Rotation2D& rotation) const
@@ -405,7 +405,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
             shared_ptr<Texture> texture = glyphProvider->getTexture();
             if (!texture)
                 return;
-            bool useClipping = (clippingRect != RBX::Rect2D::xyxy(-1,-1,-1,-1));
+            bool useClipping = (clippingRect != ARL::Rect2D::xyxy(-1,-1,-1,-1));
             Vector2 uvOffset = Vector2(FONT_PADDING / texture->getWidth(), FONT_PADDING / texture->getHeight());
 
             unsigned previousChar = 0;
@@ -468,7 +468,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
 
         Vector2 TypesetterDynamic::drawImpl(Adorn* adorn, const std::vector<unsigned>& stringUnicode,
             const Vector2& position, float size, const Color4& color, const Color4& outline,
-            RBX::Text::XAlign xalign, RBX::Text::YAlign yalign, const Vector2& availableSpace,
+            ARL::Text::XAlign xalign, ARL::Text::YAlign yalign, const Vector2& availableSpace,
             const Rect2D& clippingRect, const Rotation2D& rotation) const
         {
             bool useAvailableSpace = availableSpace.x != 0;
@@ -505,7 +505,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
         }
 
 		Vector2 TypesetterDynamic::drawScaledImpl(Adorn* adorn, const std::vector<unsigned>& stringUnicode, const Vector2& position,
-			const Color4& color, const Color4& outline, RBX::Text::XAlign xalign, RBX::Text::YAlign yalign,
+			const Color4& color, const Color4& outline, ARL::Text::XAlign xalign, ARL::Text::YAlign yalign,
 			const Vector2& availableSpace, const Rect2D& clippingRect, const Rotation2D& rotation) const
 		{
 
@@ -557,7 +557,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
 
 		Vector2 TypesetterDynamic::draw(Adorn* adorn, const std::string& s,
 			const Vector2& position, float size, bool autoScale, const Color4& color, const Color4& outline,
-			RBX::Text::XAlign xalign, RBX::Text::YAlign yalign, const Vector2& availableSpace,
+			ARL::Text::XAlign xalign, ARL::Text::YAlign yalign, const Vector2& availableSpace,
 			const Rect2D& clippingRect, const Rotation2D& rotation) const
 		{
 			bool useAvailableSpace = availableSpace.x != 0;
@@ -571,9 +571,9 @@ FASTINTVARIABLE(FontSizePadding, 1)
 			return drawImpl(adorn, stringUnicode, position, size, color, outline, xalign, yalign, availableSpace, clippingRect, rotation);
 		}
 
-		int TypesetterDynamic::getCursorPositionInText(const std::string& s, const RBX::Vector2& position, float size,
-			RBX::Text::XAlign xalign, RBX::Text::YAlign yalign, const RBX::Vector2& availableSpace, const Rotation2D& rotation,
-			RBX::Vector2 cursorPos) const
+		int TypesetterDynamic::getCursorPositionInText(const std::string& s, const ARL::Vector2& position, float size,
+			ARL::Text::XAlign xalign, ARL::Text::YAlign yalign, const ARL::Vector2& availableSpace, const Rotation2D& rotation,
+			ARL::Vector2 cursorPos) const
 		{
             std::vector<unsigned> stringUnicode;
             decodeUTF8(s, &stringUnicode);

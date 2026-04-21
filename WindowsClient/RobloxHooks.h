@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RBX
+namespace ARL
 {
     typedef BOOLEAN (NTAPI *RtlDispatchExceptionPfn)(PEXCEPTION_RECORD exRec, PCONTEXT ctx);
     // extern RtlDispatchExceptionPfn vehHookContinue; // moved to App because this needs to be checked.

@@ -28,9 +28,9 @@ DYNAMIC_FASTFLAGVARIABLE(UserInputViewportSizeFixWindows, true)
 
 FASTFLAG(UserAllCamerasInLua)
 
-#define RBX_DI_BUFFER_SIZE 2048
+#define ARL_DI_BUFFER_SIZE 2048
 
-namespace RBX {
+namespace ARL {
 
 class RobloxCritSecLoc
 {
@@ -43,10 +43,10 @@ public:
 		, lock(cs.diSection)
 	{
 // should compile away the string manipulations
-#ifdef __RBX_NOT_RELEASE
+#ifdef __ARL_NOT_RELEASE
 		// Show THESE ASSERTS TO David/Erik - they imply multiple entry points
 		// to User Input Object - trying to track down
-		RBXASSERT(robloxCriticalSection.callers == 0);
+		ARLASSERT(robloxCriticalSection.callers == 0);
 		robloxCriticalSection.callers++;
 		robloxCriticalSection.olderCaller = robloxCriticalSection.recentCaller;
 		robloxCriticalSection.recentCaller = location;
@@ -56,8 +56,8 @@ public:
 	~RobloxCritSecLoc()
 	{
 // should compile away the string manipulations
-#ifdef __RBX_NOT_RELEASE
-		RBXASSERT(robloxCriticalSection.callers == 1);
+#ifdef __ARL_NOT_RELEASE
+		ARLASSERT(robloxCriticalSection.callers == 1);
 		robloxCriticalSection.callers--;
 		robloxCriticalSection.recentCaller = "";
 		robloxCriticalSection.olderCaller = "";
@@ -65,7 +65,7 @@ public:
 	}
 };
 
-UserInput::UserInput(HWND wnd, shared_ptr<RBX::Game> game, View* view)
+UserInput::UserInput(HWND wnd, shared_ptr<ARL::Game> game, View* view)
 	: externallyForcedKeyDown(0)
 	, isMouseCaptured(false)
 	, isMouseAcquired(false)
@@ -122,7 +122,7 @@ UserInput::UserInput(HWND wnd, shared_ptr<RBX::Game> game, View* view)
 	layout = GetKeyboardLayout(0);
 }
 
-void UserInput::setGame(shared_ptr<RBX::Game> game)
+void UserInput::setGame(shared_ptr<ARL::Game> game)
 {
 	this->game = game;
 
@@ -138,9 +138,9 @@ UserInput::~UserInput()
 {
 	sdlGameController.reset();
 
-	RBXASSERT(diMousePtr);
-	RBXASSERT(diKeyboardPtr);
-	RBXASSERT(diPtr);
+	ARLASSERT(diMousePtr);
+	ARLASSERT(diKeyboardPtr);
+	ARLASSERT(diPtr);
 
 	if (diMousePtr)
 	{
@@ -164,7 +164,7 @@ void getDiProp(DIPROPDWORD& dipdw)
 	dipdw.diph.dwHeaderSize = sizeof(DIPROPHEADER);
 	dipdw.diph.dwObj        = 0;
 	dipdw.diph.dwHow        = DIPH_DEVICE;
-	dipdw.dwData            = RBX_DI_BUFFER_SIZE; // Arbitrary buffer size
+	dipdw.dwData            = ARL_DI_BUFFER_SIZE; // Arbitrary buffer size
 }
 
 void UserInput::createMouse()
@@ -265,7 +265,7 @@ void UserInput::acquireMouseInternal()
 
 void UserInput::acquireMouseInternalBase(const Vector2& pos)
 {
-	RBXASSERT(!isMouseAcquired);
+	ARLASSERT(!isMouseAcquired);
 
 	if (diMousePtr)
 	{
@@ -299,7 +299,7 @@ void UserInput::acquireMouseInternalBase(const Vector2& pos)
 
 void UserInput::unAcquireMouse()
 {
-	RBXASSERT(isMouseAcquired);
+	ARLASSERT(isMouseAcquired);
 
 	HRESULT hr = diMousePtr->Unacquire();
 	if (hr != DI_OK)
@@ -340,7 +340,7 @@ void UserInput::updateKeyboard()
 
 void UserInput::acquireKeyboard()
 {
-	RBXASSERT(!isKeyboardAcquired);
+	ARLASSERT(!isKeyboardAcquired);
 
 	diKeyboardPtr->Unacquire();		// for good measure
 
@@ -471,10 +471,10 @@ bool UserInput::readBufferedData(LPDIDEVICEOBJECTDATA didod,
 
 void UserInput::readBufferedKeyboardData()
 {
-	RBXASSERT(isKeyboardAcquired);
+	ARLASSERT(isKeyboardAcquired);
 
-	DIDEVICEOBJECTDATA didod[RBX_DI_BUFFER_SIZE];  // Receives buffered data
-	DWORD              dwElements = RBX_DI_BUFFER_SIZE;
+	DIDEVICEOBJECTDATA didod[ARL_DI_BUFFER_SIZE];  // Receives buffered data
+	DWORD              dwElements = ARL_DI_BUFFER_SIZE;
 
 	if (!readBufferedData(didod, dwElements, diKeyboardPtr))
 	{
@@ -508,7 +508,7 @@ void UserInput::readBufferedKeyboardData()
 			// controls will still receive keyboard input.
 			switch (vKey) {
 				case VK_F4:
-					if (modCode & (RBX::KMOD_LALT | RBX::KMOD_RALT)) {
+					if (modCode & (ARL::KMOD_LALT | ARL::KMOD_RALT)) {
 						PostMessage(wnd, WM_CLOSE, 0, 0);
 						continue;
 					}
@@ -534,9 +534,9 @@ void UserInput::readBufferedKeyboardData()
 				else
 					DXINPUT_TRACE("\n");
 
-				DWORD modKeys = modCode & (RBX::KMOD_LCTRL | RBX::KMOD_RCTRL) ? FCONTROL : 0;
-				modKeys |= modCode & (RBX::KMOD_LALT | RBX::KMOD_RALT) ? FALT : 0;
-				modKeys |= modCode & (RBX::KMOD_LSHIFT | RBX::KMOD_RSHIFT) ? FSHIFT : 0;
+				DWORD modKeys = modCode & (ARL::KMOD_LCTRL | ARL::KMOD_RCTRL) ? FCONTROL : 0;
+				modKeys |= modCode & (ARL::KMOD_LALT | ARL::KMOD_RALT) ? FALT : 0;
+				modKeys |= modCode & (ARL::KMOD_LSHIFT | ARL::KMOD_RSHIFT) ? FSHIFT : 0;
 
 				for (size_t i = 0; i<accelerators.size(); ++i)
 				{
@@ -572,14 +572,14 @@ void UserInput::readBufferedKeyboardData()
 		if (result == 1)
 			key = asciiKey & 0xff;
 
-		if( RBX::UserInputService* userInputService = RBX::ServiceProvider::find<RBX::UserInputService>(game->getDataModel().get()) )
+		if( ARL::UserInputService* userInputService = ARL::ServiceProvider::find<ARL::UserInputService>(game->getDataModel().get()) )
 		{
 			userInputService->setKeyState(keyCode, modCode, key, down);
 		}
 
 		InputObject::UserInputState eventState = down ? InputObject::INPUT_STATE_BEGIN : InputObject::INPUT_STATE_END;
 
-		shared_ptr<RBX::InputObject> keyInput = RBX::Creatable<RBX::Instance>::create<RBX::InputObject>(InputObject::TYPE_KEYBOARD, eventState, keyCode, modCode, key, game->getDataModel().get());
+		shared_ptr<ARL::InputObject> keyInput = ARL::Creatable<ARL::Instance>::create<ARL::InputObject>(InputObject::TYPE_KEYBOARD, eventState, keyCode, modCode, key, game->getDataModel().get());
 		sendEvent(keyInput);
 	}
 }
@@ -599,10 +599,10 @@ void UserInput::processMouseButtonEvent(DIDEVICEOBJECTDATA mouseData, MouseButto
 	case MBUTTON_LEFT:
 		DXINPUT_TRACE("wnd.PostMessage(WM_CALL_SETFOCUS)\n");
 		::PostMessage(wnd, WM_CALL_SETFOCUS, 0, 0);
-		sendMouseEvent( RBX::InputObject::TYPE_MOUSEBUTTON1, 
+		sendMouseEvent( ARL::InputObject::TYPE_MOUSEBUTTON1, 
 						(int)mouseData.dwData==0x80 
-							? RBX::InputObject::INPUT_STATE_BEGIN 
-							: RBX::InputObject::INPUT_STATE_END,
+							? ARL::InputObject::INPUT_STATE_BEGIN 
+							: ARL::InputObject::INPUT_STATE_END,
 						Vector3(getCursorPositionInternal(),0), Vector3(0,0,0));
 
 		leftMouseUp = ((int)mouseData.dwData != 0x80);
@@ -612,10 +612,10 @@ void UserInput::processMouseButtonEvent(DIDEVICEOBJECTDATA mouseData, MouseButto
 	case MBUTTON_RIGHT:
 		DXINPUT_TRACE("wnd.PostMessage(WM_CALL_SETFOCUS)\n");
 		::PostMessage(wnd, WM_CALL_SETFOCUS, 0, 0);
-		sendMouseEvent( RBX::InputObject::TYPE_MOUSEBUTTON2, 
+		sendMouseEvent( ARL::InputObject::TYPE_MOUSEBUTTON2, 
 						(int)mouseData.dwData==0x80 
-							? RBX::InputObject::INPUT_STATE_BEGIN 
-							: RBX::InputObject::INPUT_STATE_END,
+							? ARL::InputObject::INPUT_STATE_BEGIN 
+							: ARL::InputObject::INPUT_STATE_END,
 						Vector3(getCursorPositionInternal(),0), Vector3(0,0,0) );
 
 		rightMouseDown = ((int)mouseData.dwData == 0x80);
@@ -623,10 +623,10 @@ void UserInput::processMouseButtonEvent(DIDEVICEOBJECTDATA mouseData, MouseButto
 	case MBUTTON_MIDDLE:
 		DXINPUT_TRACE("wnd.PostMessage(WM_CALL_SETFOCUS)\n");
 		::PostMessage(wnd, WM_CALL_SETFOCUS, 0, 0);
-		sendMouseEvent( RBX::InputObject::TYPE_MOUSEBUTTON3, 
+		sendMouseEvent( ARL::InputObject::TYPE_MOUSEBUTTON3, 
 						(int)mouseData.dwData==0x80 
-							? RBX::InputObject::INPUT_STATE_BEGIN 
-							: RBX::InputObject::INPUT_STATE_END,
+							? ARL::InputObject::INPUT_STATE_BEGIN 
+							: ARL::InputObject::INPUT_STATE_END,
 						Vector3(getCursorPositionInternal(),0), Vector3(0,0,0) );
 		break;
 	default:
@@ -636,10 +636,10 @@ void UserInput::processMouseButtonEvent(DIDEVICEOBJECTDATA mouseData, MouseButto
 
 void UserInput::readBufferedMouseData()
 {
-	RBXASSERT(isMouseAcquired);
+	ARLASSERT(isMouseAcquired);
 
-	DIDEVICEOBJECTDATA didod[RBX_DI_BUFFER_SIZE];  // Receives buffered data
-	DWORD              dwElements = RBX_DI_BUFFER_SIZE;
+	DIDEVICEOBJECTDATA didod[ARL_DI_BUFFER_SIZE];  // Receives buffered data
+	DWORD              dwElements = ARL_DI_BUFFER_SIZE;
 
 	if (!readBufferedData(didod, dwElements, diMousePtr))
 	{
@@ -673,7 +673,7 @@ void UserInput::readBufferedMouseData()
 		case DIMOFS_Y:
 			{
 				mouseDelta = UserInputUtil::didodToVector2(didod[i]);
-				previousCursorPosFraction += mouseDelta * RBX::GameBasicSettings::singleton().getMouseSensitivity();
+				previousCursorPosFraction += mouseDelta * ARL::GameBasicSettings::singleton().getMouseSensitivity();
 				mouseDelta.x = (int) previousCursorPosFraction.x;
 				mouseDelta.y = (int) previousCursorPosFraction.y;
 				previousCursorPosFraction -= mouseDelta;
@@ -704,7 +704,7 @@ void UserInput::readBufferedMouseData()
 	postProcessUserInput(cursorMoved, leftMouseUp, wrapMouseDelta, mouseDelta);
 }
 
-void UserInput::postProcessUserInput(bool cursorMoved, bool leftMouseUp, RBX::Vector2 wrapMouseDelta, RBX::Vector2 mouseDelta)
+void UserInput::postProcessUserInput(bool cursorMoved, bool leftMouseUp, ARL::Vector2 wrapMouseDelta, ARL::Vector2 mouseDelta)
 {
 	UserInputService* userInputService = ServiceProvider::find<UserInputService>(game->getDataModel().get());
 
@@ -727,7 +727,7 @@ void UserInput::postProcessUserInput(bool cursorMoved, bool leftMouseUp, RBX::Ve
 
 	if (wrapMouseDelta != Vector2::zero())
 	{
-        if (RBX::Workspace* workspace = game->getDataModel()->getWorkspace())
+        if (ARL::Workspace* workspace = game->getDataModel()->getWorkspace())
         {
             if (Camera* camera = workspace->getCamera())
             {
@@ -766,10 +766,10 @@ void UserInput::sendMouseEvent(InputObject::UserInputType mouseEventType,
 {
 	FASTLOG1(FLog::UserInputProfile, "Processing mouse event from the queue, event: %u", mouseEventType);
 
-	shared_ptr<RBX::InputObject> mouseEventObject;
+	shared_ptr<ARL::InputObject> mouseEventObject;
 	if( inputObjectMap.find(mouseEventType) == inputObjectMap.end() )
 	{
-		mouseEventObject = RBX::Creatable<RBX::Instance>::create<RBX::InputObject>(mouseEventType, mouseEventState, position, delta, game->getDataModel().get());
+		mouseEventObject = ARL::Creatable<ARL::Instance>::create<ARL::InputObject>(mouseEventType, mouseEventState, position, delta, game->getDataModel().get());
 		inputObjectMap[mouseEventType] = mouseEventObject;
 	}
 	else
@@ -786,7 +786,7 @@ void UserInput::sendMouseEvent(InputObject::UserInputType mouseEventType,
 
 void UserInput::sendEvent(shared_ptr<InputObject> event)
 {
-	if( RBX::UserInputService* userInputService = RBX::ServiceProvider::find<RBX::UserInputService>(game->getDataModel().get()) )
+	if( ARL::UserInputService* userInputService = ARL::ServiceProvider::find<ARL::UserInputService>(game->getDataModel().get()) )
 		userInputService->fireInputEvent(event, NULL);
 }
 
@@ -804,7 +804,7 @@ G3D::Rect2D UserInput::getWindowRect() const
 	}
 	else 
 	{
-		RBX::Camera* cam = game->getDataModel().get()->getWorkspace()->getCamera();
+		ARL::Camera* cam = game->getDataModel().get()->getWorkspace()->getCamera();
 		return Rect2D::xywh(0.0f, 0.0f, cam->getViewportWidth(), cam->getViewportHeight());
 	}
 }
@@ -835,13 +835,13 @@ bool UserInput::movementKeysDown()
 
 G3D::Vector2 UserInput::getGameCursorPositionInternal()
 {
-	RBXASSERT(isMouseAcquired);
+	ARLASSERT(isMouseAcquired);
 	return getWindowRect().center() + wrapMousePosition;
 }
 
 G3D::Vector2 UserInput::getGameCursorPositionExpandedInternal()
 {
-	RBXASSERT(isMouseAcquired);
+	ARLASSERT(isMouseAcquired);
 	return getWindowRect().center() + Math::expandVector2(wrapMousePosition, 10);
 }
 
@@ -858,7 +858,7 @@ void UserInput::onMouseInside()
 
 	if(UserInputService* userInputService = ServiceProvider::find<UserInputService>(game->getDataModel().get()))
 	{
-		if (userInputService->getMouseWrapMode() == RBX::UserInputService::WRAP_NONEANDCENTER)
+		if (userInputService->getMouseWrapMode() == ARL::UserInputService::WRAP_NONEANDCENTER)
 		{
 			centerCursor();
 		}
@@ -872,7 +872,7 @@ void UserInput::onMouseInside()
 	if (!isMouseCaptured)
 		acquireMouseInternal();
 	else
-		RBXASSERT(isMouseAcquired); // isMouseCaptured should imply isMouseAquired.
+		ARLASSERT(isMouseAcquired); // isMouseCaptured should imply isMouseAquired.
 }
 
 void UserInput::onMouseLeave()
@@ -893,7 +893,7 @@ void UserInput::onMouseLeave()
 
 G3D::Vector2 UserInput::getWindowsCursorPositionInternal()
 {
-	RBXASSERT(!isMouseAcquired);
+	ARLASSERT(!isMouseAcquired);
 
 	POINT p;
 	GetCursorPos(&p);
@@ -928,7 +928,7 @@ bool UserInput::keyDown(KeyCode code) const
 	return keyDownInternal(code);
 }
 
-void UserInput::setKeyState(RBX::KeyCode code, RBX::ModCode modCode, char modifiedKey, bool isDown)
+void UserInput::setKeyState(ARL::KeyCode code, ARL::ModCode modCode, char modifiedKey, bool isDown)
 {
 	RobloxCritSecLoc lock(diSection, "setKeyState");
 	externallyForcedKeyDown = isDown ? code : 0;
@@ -960,7 +960,7 @@ void UserInput::processInput()
 
 void UserInput::doWrapMouse(const G3D::Vector2& delta, G3D::Vector2& wrapMouseDelta)
 {
-	RBXASSERT(isMouseAcquired);
+	ARLASSERT(isMouseAcquired);
 
 	UserInputService* userInputService = ServiceProvider::find<UserInputService>(game->getDataModel().get());
 
@@ -968,7 +968,7 @@ void UserInput::doWrapMouse(const G3D::Vector2& delta, G3D::Vector2& wrapMouseDe
 	{
 	case UserInputService::WRAP_NONEANDCENTER: // intentional fall thru
 			centerCursor();
-	case RBX::UserInputService::WRAP_NONE: // intentional fall thru
+	case ARL::UserInputService::WRAP_NONE: // intentional fall thru
 	case UserInputService::WRAP_CENTER:
             UserInputUtil::wrapMouseCenter(delta,
 				wrapMouseDelta,
@@ -1047,4 +1047,4 @@ void UserInput::doDiagnostics()
 	}
 }
 
-}  // namespace RBX
+}  // namespace ARL

@@ -18,10 +18,10 @@
 LOGVARIABLE(LuaBridge, 0)
 DYNAMIC_FASTFLAGVARIABLE(UseSubmitTaskWhenFiringSignalsOnSettings, true)
 
-namespace RBX { namespace Lua {
+namespace ARL { namespace Lua {
 
 template<>
-const char* Bridge<EventInstance>::className("RBXScriptSignal"); 		
+const char* Bridge<EventInstance>::className("ARLScriptSignal"); 		
 
 template<>
 int Bridge<EventInstance>::on_index(const EventInstance& object, const char* name, lua_State *L)
@@ -36,7 +36,7 @@ int Bridge<EventInstance>::on_index(const EventInstance& object, const char* nam
 	// TODO: Remove this when we remove it from any Roblox scripts.
 	if (strcmp(name, "connectFirst")==0 || strcmp(name, "ConnectFirst") == 0)
 	{
-		RBX::Security::Context::current().requirePermission(RBX::Security::LocalUser, "connectFirst");
+		ARL::Security::Context::current().requirePermission(ARL::Security::LocalUser, "connectFirst");
 		StandardOut::singleton()->print(MESSAGE_WARNING, "connectFirst is deprecated");
 		lua_pushcfunction(L, EventBridge::connect);
 		return 1;
@@ -45,7 +45,7 @@ int Bridge<EventInstance>::on_index(const EventInstance& object, const char* nam
 	// TODO: Remove this when we remove it from any Roblox scripts.
 	if (strcmp(name, "connectLast")==0 || strcmp(name, "ConnectLast") == 0)
 	{
-		RBX::Security::Context::current().requirePermission(RBX::Security::LocalUser, "connectLast");
+		ARL::Security::Context::current().requirePermission(ARL::Security::LocalUser, "connectLast");
 		StandardOut::singleton()->print(MESSAGE_WARNING, "connectLast is deprecated");
 		lua_pushcfunction(L, EventBridge::connect);
 		return 1;
@@ -59,16 +59,16 @@ int Bridge<EventInstance>::on_index(const EventInstance& object, const char* nam
 	}
 
 	if (strcmp(name, "disconnect")==0)
-		throw RBX::runtime_error("Event:disconnect() has been deprecated. Use connection object returned by connect()");
+		throw ARL::runtime_error("Event:disconnect() has been deprecated. Use connection object returned by connect()");
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
 void Bridge<EventInstance>::on_newindex(EventInstance& object, const char* name, lua_State *L)
 {
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 // This Slot is used when a script calls "connect" on a Signal
@@ -132,7 +132,7 @@ public:
 	void doEventFire(const Reflection::EventArguments& arguments)
 	{
 		bool reentrant = executionDepth>0;
-		RBX::ScopedAssign<int> assign(executionDepth, executionDepth+1);
+		ARL::ScopedAssign<int> assign(executionDepth, executionDepth+1);
 
 		if (executionDepth>6)
 		{
@@ -166,7 +166,7 @@ public:
 				slotThread = cachedSlotThread.lock();
 
 			{
-				RBXASSERT_BALLANCED_LUA_STACK(functionThread);				//oldTop
+				ARLASSERT_BALLANCED_LUA_STACK(functionThread);				//oldTop
 
 				bool createdThread;
 				if (slotThread)
@@ -177,14 +177,14 @@ public:
 
 					slotThread = lua_newthread(functionThread);
 
-					RBXASSERT(lua_isthread(functionThread, -1));
+					ARLASSERT(lua_isthread(functionThread, -1));
 
 					if (!slotThread)
 						throw std::runtime_error("Unable to create a new event handler thread");
 					createdThread = true;
 
 					// Pop slotThread from the parent's stack
-					RBXASSERT(lua_isthread(functionThread, -1));					// slotThread
+					ARLASSERT(lua_isthread(functionThread, -1));					// slotThread
 					lua_pop(functionThread, 1);										// [empty]
 				}
 				                                               //createdThread ? (slotThread) : [empty]
@@ -219,7 +219,7 @@ public:
 				if (function.empty())
 				{
 					// The thread that hosts our function has (or is being) terminated
-					RBXASSERT(cachedSlotThread.empty());
+					ARLASSERT(cachedSlotThread.empty());
 					disconnect();					
 					return;
 				}
@@ -232,14 +232,14 @@ public:
 							cachedSlotThread = WeakThreadRef(slotThread);
 				}
 			}
-			RBXASSERT(slotThread);
+			ARLASSERT(slotThread);
 			// balance the slot stack
 			lua_resetstack(slotThread, 0);
 		}
 		else
 		{
 			// The thread that hosts our function has (or is being) terminated
-			RBXASSERT(cachedSlotThread.empty());
+			ARLASSERT(cachedSlotThread.empty());
 			disconnect();
 			return;
 		}
@@ -327,21 +327,21 @@ int EventBridge::connect(lua_State *L)
 	shared_ptr<Reflection::DescribedBase> source = ei.source.lock();
 	if (source && ei.descriptor->isScriptable() && !space->context()->shouldPreventNewConnections())
 	{
-		if (ei.descriptor->security!=RBX::Security::None)
-			RBX::Security::Context::current().requirePermission(ei.descriptor->security, ei.descriptor->name.c_str());
+		if (ei.descriptor->security!=ARL::Security::None)
+			ARL::Security::Context::current().requirePermission(ei.descriptor->security, ei.descriptor->name.c_str());
 
 		Reflection::Variant varResult;
 		Lua::LuaArguments::get(L, 2, varResult, false);
 		if (!varResult.isType<Lua::WeakFunctionRef>())
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Attempt to connect failed: Passed value is not a function");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Attempt to connect failed: Passed value is not a function");
 			ScriptContext::printCallStack(L);
 		}
 
 		bool useSubmitTask = DFFlag::UseSubmitTaskWhenFiringSignalsOnSettings && source->useSubmitTaskForLuaListeners();
 
-		shared_ptr< RBX::Reflection::TGenericSlotWrapper<FunctionScriptSlot> > wrapper(
-			rbx::make_shared< RBX::Reflection::TGenericSlotWrapper<FunctionScriptSlot> >(FunctionScriptSlot(ei.descriptor, L, 2, useSubmitTask))
+		shared_ptr< ARL::Reflection::TGenericSlotWrapper<FunctionScriptSlot> > wrapper(
+			rbx::make_shared< ARL::Reflection::TGenericSlotWrapper<FunctionScriptSlot> >(FunctionScriptSlot(ei.descriptor, L, 2, useSubmitTask))
 		);
 		if (useSubmitTask)
 		{
@@ -359,20 +359,20 @@ int EventBridge::connect(lua_State *L)
 int EventBridge::wait(lua_State *L) 
 {
 	{
-		RBXASSERT_BALLANCED_LUA_STACK(L);
+		ARLASSERT_BALLANCED_LUA_STACK(L);
 		
 		EventInstance& ei(getObject(L, 1));
 
 		shared_ptr<Reflection::DescribedBase> source = ei.source.lock();
 		if (source && ei.descriptor->isScriptable())
 		{
-			if (ei.descriptor->security!=RBX::Security::None)
-				RBX::Security::Context::current().requirePermission(ei.descriptor->security, ei.descriptor->name.c_str());
+			if (ei.descriptor->security!=ARL::Security::None)
+				ARL::Security::Context::current().requirePermission(ei.descriptor->security, ei.descriptor->name.c_str());
 
 			bool useSubmitTask = DFFlag::UseSubmitTaskWhenFiringSignalsOnSettings && source->useSubmitTaskForLuaListeners();
 
-			shared_ptr<RBX::Reflection::TGenericSlotWrapper<WaitScriptSlot> > wrapper(
-				rbx::make_shared< RBX::Reflection::TGenericSlotWrapper<WaitScriptSlot> >(WaitScriptSlot(L, useSubmitTask))
+			shared_ptr<ARL::Reflection::TGenericSlotWrapper<WaitScriptSlot> > wrapper(
+				rbx::make_shared< ARL::Reflection::TGenericSlotWrapper<WaitScriptSlot> >(WaitScriptSlot(L, useSubmitTask))
 			);
 			if (useSubmitTask)
 			{
@@ -381,7 +381,7 @@ int EventBridge::wait(lua_State *L)
 			wrapper->slot.assignConnection(ei.descriptor->connectGeneric(source.get(), wrapper));
 		}
 
-		RBXASSERT(!RobloxExtraSpace::get(L)->yieldCaptured);
+		ARLASSERT(!RobloxExtraSpace::get(L)->yieldCaptured);
 		RobloxExtraSpace::get(L)->yieldCaptured = true;
 	}
 
@@ -389,7 +389,7 @@ int EventBridge::wait(lua_State *L)
 }
 
 template<>
-const char* Bridge< rbx::signals::connection >::className("RBXScriptConnection"); 		
+const char* Bridge< rbx::signals::connection >::className("ARLScriptConnection"); 		
 
 template<>
 int Bridge< rbx::signals::connection >::on_index(const rbx::signals::connection& object, const char* name, lua_State *L)
@@ -409,13 +409,13 @@ int Bridge< rbx::signals::connection >::on_index(const rbx::signals::connection&
 	}
 
 	// Failure
-	throw RBX::runtime_error("%s is not a valid member", name);
+	throw ARL::runtime_error("%s is not a valid member", name);
 }
 
 template<>
 void Bridge< rbx::signals::connection >::on_newindex(rbx::signals::connection& object, const char* name, lua_State *L)
 {
-	throw RBX::runtime_error("%s cannot be assigned to", name);
+	throw ARL::runtime_error("%s cannot be assigned to", name);
 }
 
 int SignalConnectionBridge::disconnect(lua_State *L) {

@@ -8,7 +8,7 @@
 
 #define HANG_DETECTION 0
 
-namespace RBX
+namespace ARL
 {
 	namespace Tasks
 	{
@@ -27,18 +27,18 @@ namespace RBX
 		CyclicExecutiveJobPriority_Render
 	};
 
-	class RBXBaseClass TaskScheduler::Job 
+	class ARLBaseClass TaskScheduler::Job 
 		: boost::noncopyable
 		, public boost::enable_shared_from_this<Job>
-		, RBX::Diagnostics::Countable<Job>
+		, ARL::Diagnostics::Countable<Job>
 		, public TaskScheduler::SleepingHook
 		, public TaskScheduler::WaitingHook
 	{
 		friend class TaskScheduler;
 		boost::weak_ptr<Thread> lastThreadUsed;	// attempt to re-use a thread for thread affinity
 
-		RBX::mutex coordinatorMutex;
-		std::vector<boost::shared_ptr<RBX::Tasks::Coordinator> > coordinators;
+		ARL::mutex coordinatorMutex;
+		std::vector<boost::shared_ptr<ARL::Tasks::Coordinator> > coordinators;
 		boost::shared_ptr<TaskScheduler::Arbiter> const sharedArbiter;
 		boost::weak_ptr<TaskScheduler::Arbiter> const weakArbiter;
 		TaskScheduler::Arbiter* const baldArbiter;
@@ -107,7 +107,7 @@ namespace RBX
 		{
 			shared_ptr<Arbiter> ar(getArbiter());
 			if (ar)
-				return RBX::format("%s:%s", ar->arbiterName().c_str(), name.c_str());
+				return ARL::format("%s:%s", ar->arbiterName().c_str(), name.c_str());
 			else
 				return name;
 		}

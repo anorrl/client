@@ -10,7 +10,7 @@
 
 #include <rbx/signal.h>
 
-namespace RBX {
+namespace ARL {
 // Singleton for tracking events across Studio using Google Analytics
 // to process the data. Events are sent using the Measurement Protocol:
 // https://developers.google.com/analytics/devguides/collection/protocol/v1

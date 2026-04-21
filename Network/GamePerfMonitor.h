@@ -4,7 +4,7 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/thread/thread.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	class DataModel;
 	class Instance;

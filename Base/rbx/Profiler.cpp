@@ -4,7 +4,7 @@
 
 FASTFLAGVARIABLE(OnScreenProfiler, false)
 
-#ifdef RBXPROFILER
+#ifdef ARLPROFILER
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4244 4995 4996)
@@ -91,10 +91,10 @@ static void MicroProfileDebugPrintf(const char* format, ...)
 #define MICROPROFILE_PRINTF(...) MicroProfileDebugPrintf(__VA_ARGS__)
 #endif
 
-#define MP_ASSERT(e) RBXASSERT(e)
+#define MP_ASSERT(e) ARLASSERT(e)
 #define MICROPROFILE_WEBSERVER 0
 
-#ifdef RBX_PLATFORM_DURANGO
+#ifdef ARL_PLATFORM_DURANGO
 #define MICROPROFILE_WEBSERVER_PORT 4600
 #define MICROPROFILE_CONTEXT_SWITCH_TRACE 0
 #define getenv(name) NULL
@@ -102,12 +102,12 @@ static void MicroProfileDebugPrintf(const char* format, ...)
 
 #if defined(_WIN32)
 #define MICROPROFILE_GPU_TIMERS_D3D11 1
-#elif defined(__APPLE__) && !defined(RBX_PLATFORM_IOS)
+#elif defined(__APPLE__) && !defined(ARL_PLATFORM_IOS)
 #include <OpenGL/gl3.h>
 #define MICROPROFILE_GPU_TIMERS_GL 0
 #endif
 
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 #include <d3d11_x.h>
 #endif
 
@@ -129,7 +129,7 @@ struct InputState
 	bool mouseButton[4];
 };
 
-RBX::Profiler::Renderer* gProfileRenderer = 0;
+ARL::Profiler::Renderer* gProfileRenderer = 0;
 
 InputState gInputState;
 
@@ -173,7 +173,7 @@ void MicroProfileDrawLine2D(uint32_t nVertices, float* pVertices, uint32_t nColo
 	gProfileRenderer->drawLine(nVertices, const_cast<const float*>(pVertices), nColor);
 }
 
-namespace RBX
+namespace ARL
 {
 	namespace Profiler
 	{
@@ -392,7 +392,7 @@ namespace RBX
 	}
 }
 #else
-namespace RBX
+namespace ARL
 {
 	namespace Profiler
 	{

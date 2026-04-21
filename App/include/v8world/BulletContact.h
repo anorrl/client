@@ -11,7 +11,7 @@
 
 class btPersistentManifold;
 
-namespace RBX {
+namespace ARL {
 
 class BulletConnector: public ContactConnector, public Allocator<BulletConnector>
 {

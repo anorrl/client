@@ -10,7 +10,7 @@
 #include <malloc.h>
 #endif
 
-namespace RBX
+namespace ARL
 {
 
 //
@@ -76,28 +76,28 @@ ArrayBase< T >::ArrayBase( const ArrayBase< T >& a ): mData( a.mData ), mSize( a
 template< class T >
 inline T& ArrayBase< T >::operator[]( size_t i )
 {
-    RBXASSERT_VERY_FAST( i < mSize );
+    ARLASSERT_VERY_FAST( i < mSize );
     return mData[ i ];
 }
 
 template< class T >
 inline const T& ArrayBase< T >::operator[]( size_t i ) const
 {
-    RBXASSERT_VERY_FAST( i < mSize );
+    ARLASSERT_VERY_FAST( i < mSize );
     return mData[ i ];
 }
 
 template< class T >
 inline T& ArrayBase< T >::at( size_t i )
 {
-    RBXASSERT_VERY_FAST( i < mSize );
+    ARLASSERT_VERY_FAST( i < mSize );
     return mData[ i ];
 }
 
 template< class T >
 inline const T& ArrayBase< T >::at( size_t i ) const
 {
-    RBXASSERT_VERY_FAST( i < mSize );
+    ARLASSERT_VERY_FAST( i < mSize );
     return mData[ i ];
 }
 
@@ -110,28 +110,28 @@ inline size_t ArrayBase< T >::size() const
 template< class T >
 inline T& ArrayBase< T >::front()
 {
-    RBXASSERT_VERY_FAST( mSize > 0 );
+    ARLASSERT_VERY_FAST( mSize > 0 );
     return mData[ 0 ];
 }
 
 template< class T >
 inline const T& ArrayBase< T >::front() const
 {
-    RBXASSERT_VERY_FAST( mSize > 0 );
+    ARLASSERT_VERY_FAST( mSize > 0 );
     return mData[ 0 ];
 }
 
 template< class T >
 inline T& ArrayBase< T >::back()
 {
-    RBXASSERT_VERY_FAST( mSize > 0 );
+    ARLASSERT_VERY_FAST( mSize > 0 );
     return mData[ mSize - 1 ];
 }
 
 template< class T >
 inline const T& ArrayBase< T >::back() const
 {
-    RBXASSERT_VERY_FAST( mSize > 0 );
+    ARLASSERT_VERY_FAST( mSize > 0 );
     return mData[ mSize - 1 ];
 }
 
@@ -637,7 +637,7 @@ inline void ArrayDynamic<T>::push_back( const T& _a )
 template< class T >
 inline void ArrayDynamic<T>::pop_back( )
 {
-    RBXASSERT_VERY_FAST( Base::mSize > 0 );
+    ARLASSERT_VERY_FAST( Base::mSize > 0 );
     Base::mSize--;
     if( mNoInit )
     {
@@ -648,7 +648,7 @@ inline void ArrayDynamic<T>::pop_back( )
 template< class T >
 void ArrayDynamic<T>::insert( size_t i, const T& val )
 {
-    RBXASSERT_VERY_FAST( i <= Base::mSize );
+    ARLASSERT_VERY_FAST( i <= Base::mSize );
     if( i == Base::mSize )
     {
         push_back( val );
@@ -673,8 +673,8 @@ void ArrayDynamic<T>::insert( size_t i, const T& val )
 template< class T >
 inline T* ArrayDynamic<T>::insert( const T* it, const T& val )
 {
-    RBXASSERT_VERY_FAST( Base::begin() <= it );
-    RBXASSERT_VERY_FAST( Base::end() >= it );
+    ARLASSERT_VERY_FAST( Base::begin() <= it );
+    ARLASSERT_VERY_FAST( Base::end() >= it );
     size_t index = it - Base::begin();
     insert( index, val );
     return Base::begin() + index;
@@ -684,8 +684,8 @@ template< class T >
 template< class InputType >
 void ArrayDynamic<T>::insert_count( T* it, InputType first, size_t count )
 {
-    RBXASSERT_VERY_FAST( Base::begin() <= it );
-    RBXASSERT_VERY_FAST( Base::end() >= it );
+    ARLASSERT_VERY_FAST( Base::begin() <= it );
+    ARLASSERT_VERY_FAST( Base::end() >= it );
     size_t index = it - Base::begin();
     if( mCapacity < Base::mSize + count )
     {

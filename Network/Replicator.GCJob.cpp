@@ -31,8 +31,8 @@ FASTINTVARIABLE(StreamOutCompressionIdListLengthThreshold, 250);
 DYNAMIC_FASTINTVARIABLE(JoinDataCompressionLevel, 1)
 DYNAMIC_FASTINTVARIABLE(JoinDataBonus, 0)
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 namespace {
     bool compRegionDistance(const RegionsMap::iterator a, const RegionsMap::iterator b)
@@ -129,7 +129,7 @@ ClientReplicator::GCJob::GCJob(Replicator& replicator)
         renderingDistance = &workspace->renderingDistance;
 	}
 
-	RBXASSERT(spatialHash);
+	ARLASSERT(spatialHash);
 	if (spatialHash) {
 		spatialHash->registerCoarseMovementCallback(this);
 	}
@@ -197,9 +197,9 @@ TaskScheduler::StepResult ClientReplicator::GCJob::stepDataModelJob(const Stats&
 				}
 
     ClientReplicator* clientRep = replicator->fastDynamicCast<ClientReplicator>();
-    RBXASSERT(clientRep);
+    ARLASSERT(clientRep);
     clientRep->updateMemoryStats();
-    if (!playerIsDead && (clientRep->getMemoryLevel() <= RBX::MemoryStats::MEMORYLEVEL_ALL_CRITICAL_LOW))
+    if (!playerIsDead && (clientRep->getMemoryLevel() <= ARL::MemoryStats::MEMORYLEVEL_ALL_CRITICAL_LOW))
     {
         // Memory level too low, force GC
         tryGC = true;
@@ -207,10 +207,10 @@ TaskScheduler::StepResult ClientReplicator::GCJob::stepDataModelJob(const Stats&
     }
 
     // sample the rendering region distance
-    RBXASSERT(renderingDistance);
+    ARLASSERT(renderingDistance);
     if (renderingDistance)
     {
-        RBXASSERT((*renderingDistance) / StreamRegion::Id::streamGridCellSizeInStuds() < 32767.f);
+        ARLASSERT((*renderingDistance) / StreamRegion::Id::streamGridCellSizeInStuds() < 32767.f);
         float oldRenderingRegionDistance = renderingRegionDistance;
         short newRenderingRegionDistance = (short)((*renderingDistance) / StreamRegion::Id::streamGridCellSizeInStuds()) + 1;
         // smoothing the variance by weight averaging the final value
@@ -301,7 +301,7 @@ TaskScheduler::StepResult ClientReplicator::GCJob::stepDataModelJob(const Stats&
                     if (regionDistance < gcRegionDistance)
                     {
                         gcRegionDistance = regionDistance - 1;
-                        RBXASSERT(gcRegionDistance > 0);
+                        ARLASSERT(gcRegionDistance > 0);
                     }
 
 			        // remove region from containers
@@ -324,7 +324,7 @@ TaskScheduler::StepResult ClientReplicator::GCJob::stepDataModelJob(const Stats&
                         {
                             // if we are in forced GC mode, we only break if memory is above critical level
                             clientRep->updateMemoryStats();
-                            if (clientRep->getMemoryLevel() >= RBX::MemoryStats::MEMORYLEVEL_LIMITED)
+                            if (clientRep->getMemoryLevel() >= ARL::MemoryStats::MEMORYLEVEL_LIMITED)
                             {
                                 break;
                             }
@@ -352,7 +352,7 @@ TaskScheduler::StepResult ClientReplicator::GCJob::stepDataModelJob(const Stats&
                         {
                             if (partInstance)
                             {
-                                RBX::ScopedAssign<Instance*> assign(clientRep->removingInstance, partInstance.get());
+                                ARL::ScopedAssign<Instance*> assign(clientRep->removingInstance, partInstance.get());
                                 partInstance->setParent(NULL);
                             }
                         }
@@ -436,7 +436,7 @@ void ClientReplicator::GCJob::gcRegion(const StreamRegion::Id& regionId, RegionR
 }
 
 void ClientReplicator::GCJob::gcPartInstance(PartInstance* part, RegionRemovalItem* removeItem) {
-	RBXASSERT_SLOW(!replicator->isInstanceAChildOfClientsCharacterModel(part));
+	ARLASSERT_SLOW(!replicator->isInstanceAChildOfClientsCharacterModel(part));
 
     pendingRemovalPartInstances.push_back(shared_from(part));
 

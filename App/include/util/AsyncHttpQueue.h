@@ -18,7 +18,7 @@
 
 LOGGROUP(HttpQueue)
 
-namespace RBX {
+namespace ARL {
 	class DataModel;
 	class HttpQueueStatsItem;
 
@@ -81,7 +81,7 @@ protected:
 		float priority;
 		std::string expectedType;	// used in header
 		boost::shared_ptr<Http> http; // keep a handle so we can cancel.
-		RBX::Time startTime; // the time when this request was issued
+		ARL::Time startTime; // the time when this request was issued
 		bool operator==(const std::string& url) const { return this->url==url; }
 	};
 
@@ -92,7 +92,7 @@ protected:
 	struct FailedUrl
   	{
 		std::string url;
-		RBX::Time expiration;
+		ARL::Time expiration;
 		FailedUrl(const char* url);
 		bool expired() const;
 	};

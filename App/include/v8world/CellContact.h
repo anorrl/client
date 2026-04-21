@@ -7,7 +7,7 @@
 #include "Voxel/Util.h"
 #include "Util/Vector3int32.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PolyConnector;
 
@@ -47,7 +47,7 @@ namespace RBX {
 	class CellMeshContact: public CellContact
 	{
 	public:
-		typedef RBX::FixedArray<PolyConnector*, CONTACT_ARRAY_SIZE> ConnectorArray;		// TODO - should only ever need 8
+		typedef ARL::FixedArray<PolyConnector*, CONTACT_ARRAY_SIZE> ConnectorArray;		// TODO - should only ever need 8
 
     protected:
         POLY::Mesh* cellMesh;
@@ -83,6 +83,6 @@ namespace RBX {
 
         POLY::Mesh* getCellMesh(void) {return cellMesh;}
 
-		bool cellFaceIsInterior(const Vector3int16& mainCellLoc, RBX::Voxel::FaceDirection faceDir);
+		bool cellFaceIsInterior(const Vector3int16& mainCellLoc, ARL::Voxel::FaceDirection faceDir);
 	};
 } // namespace

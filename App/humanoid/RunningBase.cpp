@@ -26,7 +26,7 @@ DYNAMIC_FASTFLAGVARIABLE(HumanoidFeetIsPlastic, false);
 DYNAMIC_FASTFLAGVARIABLE(FixSlowLadderClimb, false);
 DYNAMIC_FASTFLAG(UseTerrainCustomPhysicalProperties)
 
-namespace RBX {
+namespace ARL {
 namespace HUMAN {
 
 const float kAltitudeP = 30000.0f;					// units: 1/sec^2      force = kAltitudeP * mass * position
@@ -60,7 +60,7 @@ RunningBase::RunningBase(Humanoid* humanoid, StateType priorState)
 		}
 	}
 
-	RBXASSERT(!humanoid->getTorsoSlow() || humanoid->getTorsoSlow()->getPartPrimitive()->getEngineType() == Primitive::DYNAMICS_ENGINE);
+	ARLASSERT(!humanoid->getTorsoSlow() || humanoid->getTorsoSlow()->getPartPrimitive()->getEngineType() == Primitive::DYNAMICS_ENGINE);
 }
 
 RunningBase::RunningBase(Humanoid* humanoid, StateType priorState, const float kP, const float kD)
@@ -71,7 +71,7 @@ RunningBase::RunningBase(Humanoid* humanoid, StateType priorState, const float k
 
 	fireMovementSignal(getHumanoid()->runningSignal, getRelativeMovementVelocity().xz().length() );
 
-	RBXASSERT(!humanoid->getTorsoSlow() || humanoid->getTorsoSlow()->getPartPrimitive()->getEngineType() == Primitive::DYNAMICS_ENGINE);
+	ARLASSERT(!humanoid->getTorsoSlow() || humanoid->getTorsoSlow()->getPartPrimitive()->getEngineType() == Primitive::DYNAMICS_ENGINE);
 }
 
 void RunningBase::onComputeForceImpl()
@@ -144,7 +144,7 @@ void RunningBase::onComputeForceImpl()
 	// Maintain height above the floor
 	if (floor && desiredAltitude < std::numeric_limits<float>::infinity())
 	{
-		RBXASSERT(floor->getAssembly()->getAssemblyPrimitive()->getBody() != root);
+		ARLASSERT(floor->getAssembly()->getAssemblyPrimitive()->getBody() != root);
 		float yAccelDesired = (kAltitudeP * (desiredAltitude - torsoBody->getPos().y)) - (kAltitudeD * (root->getVelocity().linear.y - floorVelocity.linear.y));
 		if (yAccelDesired > 0.0)	{		// If yAccelDesired <= 0.0 then just free-fall
 			const float currentAccelY = root->getBranchForce().y / root->getBranchMass();
@@ -390,4 +390,4 @@ void RunningBase::onCFrameChangedFromReflection()
 
 
 } // namespace HUMAN
-} // namespace RBX
+} // namespace ARL

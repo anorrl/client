@@ -28,7 +28,7 @@
 	
 */
 
-namespace RBX {
+namespace ARL {
 
 // TEMP COMMENT: verify merging...
 	class Workspace;
@@ -47,4 +47,4 @@ namespace RBX {
 // TEMP COMMENT: Verifying merge...
 	};
 
-} // namespace RBX
+} // namespace ARL

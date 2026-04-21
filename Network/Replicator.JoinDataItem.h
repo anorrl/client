@@ -20,7 +20,7 @@ DYNAMIC_FASTINT(JoinDataCompressionLevel)
 
 DYNAMIC_FASTINT(JoinDataBonus)
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 class DeserializedJoinDataItem : public DeserializedItem
 {

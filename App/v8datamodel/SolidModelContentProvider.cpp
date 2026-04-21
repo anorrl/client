@@ -10,11 +10,11 @@
 #include "V8DataModel/ContentProvider.h"
 #include "V8Xml/SerializerBinary.h"
 
-namespace RBX {
+namespace ARL {
 
 	const char* const sSolidModelContentProvider = "SolidModelContentProvider";
 	SolidModelContentProvider::SolidModelContentProvider()
-		:DescribedNonCreatable<SolidModelContentProvider, CacheableContentProvider, sSolidModelContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL>(CACHE_ENFORCE_MEMORY_SIZE, 1024 * 1024 * 32)
+		:DescribedNonCreatable<SolidModelContentProvider, CacheableContentProvider, sSolidModelContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL>(CACHE_ENFORCE_MEMORY_SIZE, 1024 * 1024 * 32)
 	{
 		setName(sSolidModelContentProvider);
 	}
@@ -24,13 +24,13 @@ namespace RBX {
 		if(data){
 			boost::shared_ptr<CacheableContentProvider::CachedItem> solidModel(new CacheableContentProvider::CachedItem());
 
-            RBX::Instances instances;
+            ARL::Instances instances;
             std::stringstream ss(*data);
             SerializerBinary::deserialize(ss, instances);
 
             if (instances.size() > 0)
             {
-                if (shared_ptr<RBX::PartOperationAsset> partOperationAsset = RBX::Instance::fastSharedDynamicCast<RBX::PartOperationAsset>(instances.front()))
+                if (shared_ptr<ARL::PartOperationAsset> partOperationAsset = ARL::Instance::fastSharedDynamicCast<ARL::PartOperationAsset>(instances.front()))
                 {
                     const BinaryString& meshString = partOperationAsset->getMeshData();
                     shared_ptr<CSGMesh> csgmesh(CSGMeshFactory::singleton()->createMesh());
@@ -41,7 +41,7 @@ namespace RBX {
             }
             else
             {
-                RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "SolidModelContentProvider failed to process %s because 'could not fetch'", id.c_str());
+                ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "SolidModelContentProvider failed to process %s because 'could not fetch'", id.c_str());
                 markContentFailed(id);
                 return TaskScheduler::Stepped;
             }
@@ -54,7 +54,7 @@ namespace RBX {
 		}
 		else
         {
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "SolidModelContentProvider failed to process %s because 'could not fetch'", id.c_str());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "SolidModelContentProvider failed to process %s because 'could not fetch'", id.c_str());
 		}
 		markContentFailed(id);
 		return TaskScheduler::Stepped;
@@ -64,7 +64,7 @@ namespace RBX {
 	{
 		if (solidModel->data)
 		{
-			boost::shared_ptr<RBX::PartOperationAsset> partOperationAsset = boost::static_pointer_cast<RBX::PartOperationAsset>(solidModel->data);
+			boost::shared_ptr<ARL::PartOperationAsset> partOperationAsset = boost::static_pointer_cast<ARL::PartOperationAsset>(solidModel->data);
             boost::shared_ptr<CSGMesh> meshData = partOperationAsset->getRenderMesh();
             lruCache->insert(id, solidModel, meshData->getIndices().size() * sizeof(unsigned int) + meshData->getVertices().size() * sizeof(CSGVertex));
 		}

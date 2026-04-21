@@ -4,17 +4,17 @@
 #include "G3D/Vector3.h"
 #include "V8Tree/Instance.h"
 
-namespace RBX 
+namespace ARL 
 {
 	class CellID
 	{
 	private:
 		bool isNil;
-		RBX::Vector3 location;
+		ARL::Vector3 location;
 		shared_ptr<Instance> terrainPart;
 	public:
 		CellID();
-		CellID( bool isNil, const RBX::Vector3& location, shared_ptr<Instance> terrainPart )
+		CellID( bool isNil, const ARL::Vector3& location, shared_ptr<Instance> terrainPart )
 			:isNil(isNil)
 			,location(location)
 			,terrainPart(terrainPart)
@@ -38,7 +38,7 @@ namespace RBX
 		void setIsNil( bool newIsNil ) { isNil = newIsNil; }
 		
 		G3D::Vector3 getLocation() const { return location; }
-		void setLocation( RBX::Vector3 newLocation ) { location = newLocation; }
+		void setLocation( ARL::Vector3 newLocation ) { location = newLocation; }
 
 		shared_ptr<Instance> getTerrainPart() const { return terrainPart; }
 		void setTerrainPart( shared_ptr<Instance> newTerrainPart ) { terrainPart = newTerrainPart; }

@@ -11,7 +11,7 @@
 #include "util/BinaryString.h"
 #include "StreamingUtil.h"
 
-namespace RBX
+namespace ARL
 {
 
 	namespace Network
@@ -57,8 +57,8 @@ namespace RBX
 
 				// The item already exists in the dictionary. Simply send the ID
 				unsigned char id = iter->second;
-				RBXASSERT ((id & 0x80) == 0);
-				RBXASSERT ((id & 0x7F) < DICTIONARY_SIZE);
+				ARLASSERT ((id & 0x80) == 0);
+				ARLASSERT ((id & 0x7F) < DICTIONARY_SIZE);
 
 				stream.Write(id);
 				return true;
@@ -110,11 +110,11 @@ namespace RBX
 		};
 
 		template<>
-		class SenderDictionary<const RBX::Name*>
+		class SenderDictionary<const ARL::Name*>
 		{
-			typedef boost::unordered_map<const RBX::Name*, unsigned char> Dictionary;
+			typedef boost::unordered_map<const ARL::Name*, unsigned char> Dictionary;
 			Dictionary dictionary;					// item --> id
-			RBX::Name* items[DICTIONARY_SIZE];		// id --> item
+			ARL::Name* items[DICTIONARY_SIZE];		// id --> item
 			int nextIndex;
 			static bool isDefaultValue(const std::string& value)
 			{
@@ -123,12 +123,12 @@ namespace RBX
 		public:
 			SenderDictionary():nextIndex(1) {
 			}
-			bool canSend(const RBX::Name* value)
+			bool canSend(const ARL::Name* value)
 			{
 				Dictionary::const_iterator iter = dictionary.find(value);
 				return (iter!=dictionary.end());
 			}
-			bool trySend(RakNet::BitStream& stream, const RBX::Name* value)
+			bool trySend(RakNet::BitStream& stream, const ARL::Name* value)
 			{
 				if (isDefaultValue(value->toString()))
 				{
@@ -144,14 +144,14 @@ namespace RBX
 
 				// The item already exists in the dictionary. Simply send the ID
 				unsigned char id = iter->second;
-				RBXASSERT ((id & 0x80) == 0);
-				RBXASSERT ((id & 0x7F) < DICTIONARY_SIZE);
+				ARLASSERT ((id & 0x80) == 0);
+				ARLASSERT ((id & 0x7F) < DICTIONARY_SIZE);
 
 				stream.Write(id);
 				return true;
 			}
 
-			void send(RakNet::BitStream& stream, const RBX::Name* value);
+			void send(RakNet::BitStream& stream, const ARL::Name* value);
 
 			void sendEmptyItem(RakNet::BitStream& stream)
 			{
@@ -290,13 +290,13 @@ namespace RBX
 		public:
 			void serializeString(const std::string& value, RakNet::BitStream &bitStream);
 			void serializeString(const Reflection::ConstProperty& property, RakNet::BitStream &bitStream);
-			void send(RakNet::BitStream& stream, const RBX::Name& value) {
+			void send(RakNet::BitStream& stream, const ARL::Name& value) {
 				SenderDictionary<std::string>::send(stream, value.toString());
 			}
 			void send(RakNet::BitStream& stream, const char* value) {
 				SenderDictionary<std::string>::send(stream, std::string(value));
 			}
-			bool trySend(RakNet::BitStream& stream, const RBX::Name& value) {
+			bool trySend(RakNet::BitStream& stream, const ARL::Name& value) {
 				return SenderDictionary<std::string>::trySend(stream, value.toString());
 			}
 			bool trySend(RakNet::BitStream& stream, const char* value) {
@@ -304,10 +304,10 @@ namespace RBX
 			}
 			void deserializeString(std::string& value, RakNet::BitStream &bitStream);
 			void deserializeString(Reflection::Property& property, RakNet::BitStream &bitStream);
-			void receive(RakNet::BitStream& stream, const RBX::Name*& value) {
+			void receive(RakNet::BitStream& stream, const ARL::Name*& value) {
 				std::string s;
 				ReceiverDictionary<std::string>::receive(stream, s);
-				value = &RBX::Name::declare(s.c_str());
+				value = &ARL::Name::declare(s.c_str());
 			}
 		};
 
@@ -321,13 +321,13 @@ namespace RBX
 			SharedStringProtectedDictionary(bool protection);
 			void serializeString(const std::string& value, RakNet::BitStream &bitStream);
 			void serializeString(const Reflection::ConstProperty& property, RakNet::BitStream &bitStream);
-			void send(RakNet::BitStream& stream, const RBX::Name& value) {
+			void send(RakNet::BitStream& stream, const ARL::Name& value) {
 				SenderDictionary<std::string>::send(stream, value.toString());
 			}
 			void send(RakNet::BitStream& stream, const char* value) {
 				SenderDictionary<std::string>::send(stream, std::string(value));
 			}
-			bool trySend(RakNet::BitStream& stream, const RBX::Name& value) {
+			bool trySend(RakNet::BitStream& stream, const ARL::Name& value) {
 				return SenderDictionary<std::string>::trySend(stream, value.toString());
 			}
 			bool trySend(RakNet::BitStream& stream, const char* value) {
@@ -335,12 +335,12 @@ namespace RBX
 			}
 			bool deserializeString(std::string& value, RakNet::BitStream &bitStream);
 			bool deserializeString(Reflection::Property& property, RakNet::BitStream &bitStream);
-			void receive(RakNet::BitStream& stream, const RBX::Name*& value) {
+			void receive(RakNet::BitStream& stream, const ARL::Name*& value) {
 				std::string s;
 				ReceiverStringDictionary::receive(stream, s);
-				// TODO: If there's a bug, then this could grow the RBX::Name database in
+				// TODO: If there's a bug, then this could grow the ARL::Name database in
 				// and unbounded fashion. Use lookup() instead
-				value = &RBX::Name::declare(s.c_str());
+				value = &ARL::Name::declare(s.c_str());
 			}
 		};
 

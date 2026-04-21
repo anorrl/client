@@ -7,7 +7,7 @@
 #include "AppDraw/HandleType.h"
 #include "Util/NormalId.h"
 
-namespace RBX {
+namespace ARL {
 
 	class MegaDragger;
 	class Extents;
@@ -52,4 +52,4 @@ namespace RBX {
 
 
 
-} // namespace RBX
+} // namespace ARL

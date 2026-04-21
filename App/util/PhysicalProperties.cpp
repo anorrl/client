@@ -2,7 +2,7 @@
 
 #include "util/PhysicalProperties.h"
 
-namespace RBX {
+namespace ARL {
 
 size_t PhysicalProperties::hashCode() const
 {

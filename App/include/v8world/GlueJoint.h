@@ -5,7 +5,7 @@
 #include "V8World/MultiJoint.h"
 #include <vector>
 
-namespace RBX {
+namespace ARL {
     class Constraint;
 	class GlueJoint : public MultiJoint
 	{
@@ -43,12 +43,12 @@ namespace RBX {
 			const Face& faceInJointSpace);
 
 		const Vector3& getFacePoint(int i) const {			// in joint space (common to both P0 and P1)
-			RBXASSERT(i >= 0 && i < 4);
+			ARLASSERT(i >= 0 && i < 4);
 			return faceInJointSpace[i];
 		}
 
 		void setFacePoint(int i, const Vector3& value) {		// in joint space
-			RBXASSERT(i >= 0 && i < 4);
+			ARLASSERT(i >= 0 && i < 4);
 			faceInJointSpace[i] = value;
 		}
 

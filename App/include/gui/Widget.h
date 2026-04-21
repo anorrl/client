@@ -7,7 +7,7 @@
 #include "V8DataModel/GuiCore.h"
 #include "v8datamodel/InputObject.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Widget : public GuiItem
 	{

@@ -15,7 +15,7 @@
 
 FASTFLAGVARIABLE(UseFixedTransparencyNonCollidableBehaviour, true)
 
-namespace RBX {
+namespace ARL {
 
 ///////////////////////////////////////////////////////////////////////////////////
 //
@@ -26,7 +26,7 @@ FilterInvisibleNonColliding::FilterInvisibleNonColliding()
 
 }
 
-HitTestFilter::Result FilterInvisibleNonColliding::filterResult(const RBX::Primitive *testMe) const
+HitTestFilter::Result FilterInvisibleNonColliding::filterResult(const ARL::Primitive *testMe) const
 {
 	const PartInstance* testPart = PartInstance::fromConstPrimitive(testMe);
 	if (FFlag::UseFixedTransparencyNonCollidableBehaviour)
@@ -97,7 +97,7 @@ FilterDescendents::FilterDescendents(shared_ptr<Instance> i)
 	inst = i;
 }
 
-HitTestFilter::Result FilterDescendents::filterResult(const RBX::Primitive *testMe) const
+HitTestFilter::Result FilterDescendents::filterResult(const ARL::Primitive *testMe) const
 {
 	if (inst) 
 	{
@@ -115,7 +115,7 @@ FilterDescendentsList::FilterDescendentsList(const Instances* i)
 	instances = i;
 }
 
-HitTestFilter::Result FilterDescendentsList::filterResult(const RBX::Primitive *testMe) const
+HitTestFilter::Result FilterDescendentsList::filterResult(const ARL::Primitive *testMe) const
 {
 	if (instances) 
 	{
@@ -136,7 +136,7 @@ FilterCharacterOcclusion::FilterCharacterOcclusion(float headHeight)
 {
 }
 
-HitTestFilter::Result FilterCharacterOcclusion::filterResult(const RBX::Primitive *testMe) const
+HitTestFilter::Result FilterCharacterOcclusion::filterResult(const ARL::Primitive *testMe) const
 {
 	const PartInstance* testPart = PartInstance::fromConstPrimitive(testMe);
 
@@ -160,7 +160,7 @@ HitTestFilter::Result FilterCharacterOcclusion::filterResult(const RBX::Primitiv
 	return HitTestFilter::INCLUDE_PRIM;
 }
 
-HitTestFilter::Result FilterHumanoidParts::filterResult(const RBX::Primitive* testMe) const
+HitTestFilter::Result FilterHumanoidParts::filterResult(const ARL::Primitive* testMe) const
 {
 	const PartInstance* testPart = PartInstance::fromConstPrimitive(testMe);
 
@@ -173,7 +173,7 @@ FilterHumanoidNameOcclusion::FilterHumanoidNameOcclusion(shared_ptr<Humanoid> i)
 	inst = i;
 }
 
-HitTestFilter::Result FilterHumanoidNameOcclusion::filterResult(const RBX::Primitive* testMe) const
+HitTestFilter::Result FilterHumanoidNameOcclusion::filterResult(const ARL::Primitive* testMe) const
 {
 	const PartInstance* testPart = PartInstance::fromConstPrimitive(testMe);
 	const Humanoid *pHumanoid = Humanoid::constHumanoidFromDescendant(testPart);

@@ -38,7 +38,7 @@ namespace
 	}
 }
 
-namespace RBX
+namespace ARL
 {
 	LegacyContentTable::LegacyContentTable()
 	{
@@ -576,7 +576,7 @@ namespace RBX
             AddEntryProd("rbxasset://textures/woodplanks/normal.dds", "161854225");
             AddEntryProd("rbxasset://textures/woodplanks/normaldetail.dds", "161854226");
             AddEntryProd("rbxasset://textures/woodplanks/specular.dds", "161854228");
-        #elif defined(RBX_PLATFORM_IOS)
+        #elif defined(ARL_PLATFORM_IOS)
             // Note: the assets that are actually used on iOS are loaded from local files
             // We don't have on-disk cache so loading them off CDN would mean poor user experience.
             AddEntryProd("rbxasset://textures/aluminum/diffuse.pvr", "153470177");

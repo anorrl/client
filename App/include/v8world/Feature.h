@@ -5,13 +5,13 @@
 #include "Util/G3DCore.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Primitive;
 
 	namespace GEO {
 
-	class RBXBaseClass Feature
+	class ARLBaseClass Feature
 	{
 	private:
 		Primitive*		primitive;

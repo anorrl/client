@@ -2,7 +2,7 @@
 
 #include "Util/G3DCore.h"
 
-namespace RBX {
+namespace ARL {
 
 	// ToDo - templatize this
 	class floatERA {

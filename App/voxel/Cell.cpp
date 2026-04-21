@@ -2,7 +2,7 @@
 
 #include "Voxel/Cell.h"
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 static Cell constructEmptyRepresentation() {
 	Cell v;
@@ -20,7 +20,7 @@ static Cell constructWaterOnWedge() {
 const Cell Constants::kUniqueEmptyCellRepresentation = constructEmptyRepresentation();
 const Cell Constants::kWaterOnWedgeCell = constructWaterOnWedge();
 
-std::ostream& operator<<(std::ostream& os, const RBX::Voxel::Cell& v) {
+std::ostream& operator<<(std::ostream& os, const ARL::Voxel::Cell& v) {
 	return os << (Cell::asUnsignedCharForDeprecatedUses(v));
 }
 

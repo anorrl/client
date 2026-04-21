@@ -3,7 +3,7 @@
 #include "V8Tree/Service.h"
 #include "V8Tree/Instance.h"
 
-namespace RBX {
+namespace ARL {
 	class PartInstance;
 
 	extern const char *const sChatService ;

@@ -11,7 +11,7 @@
 
 DYNAMIC_FASTINT(ActionStationDebounceTime)
 
-namespace RBX {
+namespace ARL {
 
 
 template<class Base>
@@ -41,8 +41,8 @@ class ActionStation : public Base
 	public:
 		ActionStation() : sleepTime(Time::now<Time::Fast>() - Time::Interval(4.0)), debounceTime(Time::now<Time::Fast>())
 		{
-			RBXASSERT(this->sleepTimeUp());
-			RBXASSERT(this->getPartPrimitive());
+			ARLASSERT(this->sleepTimeUp());
+			ARLASSERT(this->getPartPrimitive());
 			this->getPartPrimitive()->setSizeMultiplier(Primitive::SEAT_SIZE);
 		}
 

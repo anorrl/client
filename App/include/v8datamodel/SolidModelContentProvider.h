@@ -3,13 +3,13 @@
 
 #include "v8datamodel/CacheableContentProvider.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sSolidModelContentProvider;
 	class SolidModelContentProvider
-		: public DescribedNonCreatable<SolidModelContentProvider, CacheableContentProvider, sSolidModelContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL>
+		: public DescribedNonCreatable<SolidModelContentProvider, CacheableContentProvider, sSolidModelContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL>
 	{
-		typedef DescribedNonCreatable<SolidModelContentProvider, CacheableContentProvider, sSolidModelContentProvider, RBX::Reflection::ClassDescriptor::RUNTIME_LOCAL> Super;
+		typedef DescribedNonCreatable<SolidModelContentProvider, CacheableContentProvider, sSolidModelContentProvider, ARL::Reflection::ClassDescriptor::RUNTIME_LOCAL> Super;
 
 	public:
 		SolidModelContentProvider();
@@ -22,4 +22,4 @@ namespace RBX {
 	};
 
 
-} // namespace RBX
+} // namespace ARL

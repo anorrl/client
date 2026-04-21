@@ -4,7 +4,7 @@
 #include "G3D/Vector3.h"
 #include "G3D/CoordinateFrame.h"
 
-namespace RBX {
+namespace ARL {
 	class Extents;
 
 	class Region3 {

@@ -10,7 +10,7 @@
 
 #include "boost/functional/hash/hash.hpp"
 
-namespace RBX {
+namespace ARL {
 		
 
 Motor6DJoint::Motor6DJoint()
@@ -41,7 +41,7 @@ int Motor6DJoint::getParentId() const
 	const Body* b1 = getConstPrimitive(1)->getConstBody();
 
 	int parentId = (b1->getConstParent() == b0) ? 0 : 1;
-	RBXASSERT((parentId == 0) || (b0->getConstParent() == b1));
+	ARLASSERT((parentId == 0) || (b0->getConstParent() == b1));
 
 	return parentId;
 }
@@ -49,7 +49,7 @@ int Motor6DJoint::getParentId() const
 
 void Motor6DJoint::setJointOffsetCFrame(const Vector3 offset, const Vector3 axisAngle)
 {
-	RBXASSERT(link);
+	ARLASSERT(link);
 
 	Vector3 axis = axisAngle;
 	float angle = axis.unitize();
@@ -135,7 +135,7 @@ CoordinateFrame Motor6DJoint::getMeInOther(Primitive* me)
 		return p1InP0;
 	}
 	else {
-		RBXASSERT(me == getPrimitive(0));
+		ARLASSERT(me == getPrimitive(0));
 		return p1InP0.inverse();
 	}
 }
@@ -146,7 +146,7 @@ bool Motor6DJoint::setCurrentOffsetAngle(const Vector3 offset, const Vector3 axi
 		currentOffset = offset;
 		currentAxisAngle = axisAngle;
 
-//		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "angle: %f", currentAxisAngle.z);
+//		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "angle: %f", currentAxisAngle.z);
 		if (World* world = this->findWorld()) {
 			
 			setJointOffsetCFrame(currentOffset, axisAngle);

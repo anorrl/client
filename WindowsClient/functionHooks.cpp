@@ -44,7 +44,7 @@ DWORD getLongJmpArg(void* src, void* dst)
 }
 }
 
-namespace RBX 
+namespace ARL 
 {
 
 // Windows API functions often have a "hotpatch" prolog.  Basically either

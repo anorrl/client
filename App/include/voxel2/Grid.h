@@ -3,7 +3,7 @@
 #include "util/Vector3int32.h"
 #include <vector>
 
-namespace RBX { namespace Voxel2 {
+namespace ARL { namespace Voxel2 {
 
     class Cell
     {
@@ -34,7 +34,7 @@ namespace RBX { namespace Voxel2 {
         
         Cell(unsigned char material, unsigned char occupancy)
         {
-			RBXASSERT_VERY_FAST(material <= Material_Max && occupancy <= Occupancy_Max);
+			ARLASSERT_VERY_FAST(material <= Material_Max && occupancy <= Occupancy_Max);
 
             // make sure occupancy is always 0 for Air material (0)
             this->material = material;
@@ -59,7 +59,7 @@ namespace RBX { namespace Voxel2 {
         : begin_(begin)
         , end_(end)
         {
-            RBXASSERT_VERY_FAST(begin.x <= end.x && begin.y <= end.y && begin.z <= end.z);
+            ARLASSERT_VERY_FAST(begin.x <= end.x && begin.y <= end.y && begin.z <= end.z);
         }
         
         Region(const Vector3int32& begin, unsigned int size)
@@ -110,27 +110,27 @@ namespace RBX { namespace Voxel2 {
         
         const Cell& get(int x, int y, int z) const
         {
-			RBXASSERT_VERY_FAST(static_cast<unsigned>(x) < static_cast<unsigned>(sizeX) && static_cast<unsigned>(y) < static_cast<unsigned>(sizeY) && static_cast<unsigned>(z) < static_cast<unsigned>(sizeZ));
+			ARLASSERT_VERY_FAST(static_cast<unsigned>(x) < static_cast<unsigned>(sizeX) && static_cast<unsigned>(y) < static_cast<unsigned>(sizeY) && static_cast<unsigned>(z) < static_cast<unsigned>(sizeZ));
             return data.get() ? data[x + sizeX * z + sliceXZ * y] : emptyCell;
         }
 
         void set(int x, int y, int z, const Cell& cell)
         {
-			RBXASSERT_VERY_FAST(static_cast<unsigned>(x) < static_cast<unsigned>(sizeX) && static_cast<unsigned>(y) < static_cast<unsigned>(sizeY) && static_cast<unsigned>(z) < static_cast<unsigned>(sizeZ));
+			ARLASSERT_VERY_FAST(static_cast<unsigned>(x) < static_cast<unsigned>(sizeX) && static_cast<unsigned>(y) < static_cast<unsigned>(sizeY) && static_cast<unsigned>(z) < static_cast<unsigned>(sizeZ));
             if (!data) allocate();
             data[x + sizeX * z + sliceXZ * y] = cell;
         }
 
         const Cell* readRow(int x, int y, int z) const
         {
-			RBXASSERT_VERY_FAST(static_cast<unsigned>(x) < static_cast<unsigned>(sizeX) && static_cast<unsigned>(y) < static_cast<unsigned>(sizeY) && static_cast<unsigned>(z) < static_cast<unsigned>(sizeZ));
-			RBXASSERT_VERY_FAST(data.get());
+			ARLASSERT_VERY_FAST(static_cast<unsigned>(x) < static_cast<unsigned>(sizeX) && static_cast<unsigned>(y) < static_cast<unsigned>(sizeY) && static_cast<unsigned>(z) < static_cast<unsigned>(sizeZ));
+			ARLASSERT_VERY_FAST(data.get());
             return &data[x + sizeX * z + sliceXZ * y];
         }
 
         Cell* writeRow(int x, int y, int z)
         {
-			RBXASSERT_VERY_FAST(static_cast<unsigned>(x) < static_cast<unsigned>(sizeX) && static_cast<unsigned>(y) < static_cast<unsigned>(sizeY) && static_cast<unsigned>(z) < static_cast<unsigned>(sizeZ));
+			ARLASSERT_VERY_FAST(static_cast<unsigned>(x) < static_cast<unsigned>(sizeX) && static_cast<unsigned>(y) < static_cast<unsigned>(sizeY) && static_cast<unsigned>(z) < static_cast<unsigned>(sizeZ));
             if (!data) allocate();
             return &data[x + sizeX * z + sliceXZ * y];
         }

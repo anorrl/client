@@ -6,7 +6,7 @@
 #include "Util/ConcurrencyValidator.h"
 #include "Util/BiMultiMap.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Edge;
 	class Joint;
@@ -16,7 +16,7 @@ namespace RBX {
 		ConcurrencyValidator concurrencyValidator;
 		class GroundStage*		getGroundStage();
 
-		typedef RBX::BiMultiMap<Primitive*, Joint*> JointMap;	// find incomplete Joints by primitive
+		typedef ARL::BiMultiMap<Primitive*, Joint*> JointMap;	// find incomplete Joints by primitive
 		JointMap				jointMap;						// is identical to the primitive fields stored in the fields
 		std::set<Joint*>		incompleteJoints;
 		std::set<Primitive*>	primitivesHere;

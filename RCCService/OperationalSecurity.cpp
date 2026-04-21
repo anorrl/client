@@ -20,17 +20,17 @@ namespace
     {
         _asm
         {
-            RBX_NOP6;
-            RBX_NOP6;
-            RBX_NOP6;
-            RBX_NOP6;
-            RBX_NOP6;
-            RBX_NOP6;
-            RBX_NOP6;
-            RBX_NOP6;
-            RBX_NOP6;
-            RBX_NOP6;
-            RBX_NOP3; // 4 bytes
+            ARL_NOP6;
+            ARL_NOP6;
+            ARL_NOP6;
+            ARL_NOP6;
+            ARL_NOP6;
+            ARL_NOP6;
+            ARL_NOP6;
+            ARL_NOP6;
+            ARL_NOP6;
+            ARL_NOP6;
+            ARL_NOP3; // 4 bytes
         }
         rccBigFunc<N-1>();
     }
@@ -112,9 +112,9 @@ namespace
             && (dataAddr - luaBase < luaSize) // data is in .lua
             && (codeAddr - luaBase >= luaSize)) // code is not in .lua
         {
-            RBX::Analytics::InfluxDb::Points analyticsPoints;
-            analyticsPoints.addPoint("code", RBX::format("0x%08X", codeAddr-rccBaseAddress).c_str());
-            analyticsPoints.addPoint("data", RBX::format("0x%08X", dataAddr-rccBaseAddress).c_str());
+            ARL::Analytics::InfluxDb::Points analyticsPoints;
+            analyticsPoints.addPoint("code", ARL::format("0x%08X", codeAddr-rccBaseAddress).c_str());
+            analyticsPoints.addPoint("data", ARL::format("0x%08X", dataAddr-rccBaseAddress).c_str());
             analyticsPoints.report("RccReflectionAv", FInt::US30484p2, true); // add fflag
             if (!FFlag::US30484p1)
             {
@@ -127,7 +127,7 @@ namespace
 
 }
 
-namespace RBX
+namespace ARL
 {
     extern bool gCrashIsSpecial;
     extern std::string specialCrashType;

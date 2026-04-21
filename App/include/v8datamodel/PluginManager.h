@@ -12,7 +12,7 @@
 
 LOGGROUP(Plugins);
 
-namespace RBX {
+namespace ARL {
     class PluginManager;
 	class Toolbar;
 
@@ -105,7 +105,7 @@ namespace RBX {
 
 		void setAssetId(int assetId);
 
-		void openScriptDoc(shared_ptr<RBX::Instance> script, int lineNumber);
+		void openScriptDoc(shared_ptr<ARL::Instance> script, int lineNumber);
 		void openWikiPage(std::string url);
 
         shared_ptr<Instance> csgUnion( shared_ptr<const Instances> instances );
@@ -185,7 +185,7 @@ namespace RBX {
 		void exportPlace(std::string filePath);
 		void exportSelection(std::string filePath);
 
-		virtual void fireDragEnterEvent(DataModel* dataModel, shared_ptr<const RBX::Instances> instances, Vector2 location);
+		virtual void fireDragEnterEvent(DataModel* dataModel, shared_ptr<const ARL::Instances> instances, Vector2 location);
 	};
 };
 		

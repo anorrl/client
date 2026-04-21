@@ -14,7 +14,7 @@
 FASTFLAGVARIABLE(PGSGlueJoint, false)
 DYNAMIC_FASTFLAG(OrthonormalizeJointCoords)
 
-namespace RBX {
+namespace ARL {
 
 GlueJoint::GlueJoint()
 	: MultiJoint(4)
@@ -194,7 +194,7 @@ void ManualGlueJoint::computeIntersectingSurfacePoints(void)
 	const Primitive* p1 = getPrimitive(1);
 	int s0 = getSurface0();
 	int s1 = getSurface1();
-	RBXASSERT(s0 != -1 && s1 != -1);
+	ARLASSERT(s0 != -1 && s1 != -1);
 
 	// Must have valid parts and surfaces
 	if(p0 && p1 && (s0 != -1) && (s1 != -1))

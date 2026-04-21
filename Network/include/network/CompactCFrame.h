@@ -2,7 +2,7 @@
 
 #include "Util/Math.h"
 
-namespace RBX
+namespace ARL
 {
 	class CompactCFrame
 	{
@@ -18,8 +18,8 @@ namespace RBX
 			: translation(cframe.translation)
 		{ 
 			cframe.rotation.toAxisAngle(rotationaxis, rotationangle);
-			RBXASSERT(!Math::hasNanOrInf(rotationaxis));
-			RBXASSERT(!Math::isNanInf(rotationangle));
+			ARLASSERT(!Math::hasNanOrInf(rotationaxis));
+			ARLASSERT(!Math::isNanInf(rotationangle));
 		}
 
 		CompactCFrame(const Vector3& translation, const Vector3& axisAngle)
@@ -27,16 +27,16 @@ namespace RBX
 			, rotationaxis(axisAngle)
 		{ 
 			rotationangle = rotationaxis.unitize();
-			RBXASSERT(!Math::hasNanOrInf(rotationaxis));
-			RBXASSERT(!Math::isNanInf(rotationangle));
+			ARLASSERT(!Math::hasNanOrInf(rotationaxis));
+			ARLASSERT(!Math::isNanInf(rotationangle));
 		}
 
 		CompactCFrame(const Vector3& translation, const Vector3& axis, float angle)
 			: translation(translation)
 		{
 			setAxisAngle(axis, angle);
-			RBXASSERT(!Math::hasNanOrInf(rotationaxis));
-			RBXASSERT(!Math::isNanInf(rotationangle));
+			ARLASSERT(!Math::hasNanOrInf(rotationaxis));
+			ARLASSERT(!Math::isNanInf(rotationangle));
 		}
 
 		void setAxisAngle(const Vector3& axis, float angle)
@@ -57,7 +57,7 @@ namespace RBX
 		CoordinateFrame getCFrame() const
 		{
 			CoordinateFrame answer(Matrix3::fromAxisAngleFast(rotationaxis, rotationangle), translation);
-			RBXASSERT(!Math::hasNanOrInf(answer));
+			ARLASSERT(!Math::hasNanOrInf(answer));
 			return answer;
 		}
 

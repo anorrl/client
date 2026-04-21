@@ -4,7 +4,7 @@
 
 #include "rbx/DenseHash.h"
 
-namespace RBX
+namespace ARL
 {
     struct MeshVertexHasher
     {
@@ -160,7 +160,7 @@ namespace RBX
             ++data;
         
         if (*data != terminator)
-            throw RBX::runtime_error("Error reading mesh data: expected %c", terminator);
+            throw ARL::runtime_error("Error reading mesh data: expected %c", terminator);
         
         return data + 1;
     }
@@ -171,7 +171,7 @@ namespace RBX
         double value = atofFast(data, &end);
         
         if (*end != terminator)
-            throw RBX::runtime_error("Error reading mesh data: expected %c", terminator);
+            throw ARL::runtime_error("Error reading mesh data: expected %c", terminator);
 
         *output = value;
         
@@ -235,7 +235,7 @@ namespace RBX
     static void readData(const std::string& data, size_t& offset, void* buffer, size_t size)
     {
         if (offset + size > data.size())
-            throw RBX::runtime_error("Error reading mesh data: offset is out of bounds while reading %d bytes", (int)size);
+            throw ARL::runtime_error("Error reading mesh data: offset is out of bounds while reading %d bytes", (int)size);
 
         memcpy(buffer, data.data() + offset, size);
         offset += size;
@@ -291,7 +291,7 @@ namespace RBX
 	}
 }
 
-namespace RBX
+namespace ARL
 {
     shared_ptr<FileMeshData> ReadFileMesh(const std::string& data)
     {

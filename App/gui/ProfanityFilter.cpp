@@ -10,7 +10,7 @@
 #include "Util/SafeToLower.h"
 #include "StringConv.h"
 
-namespace RBX {
+namespace ARL {
 
 
 void WordList::decrypt(std::string& str)
@@ -77,7 +77,7 @@ ProfanityFilter::~ProfanityFilter()
 bool ProfanityFilter::ContainsProfanity(const std::string& str)
 {
 	shared_ptr<ProfanityFilter> instance = getInstance();
-	RBXASSERT(instance->getInitCount() <= 1); // if you hit this, you are using the ScopedSingleton improperly. Save a shared_ptr on a long-lived instance.
+	ARLASSERT(instance->getInitCount() <= 1); // if you hit this, you are using the ScopedSingleton improperly. Save a shared_ptr on a long-lived instance.
 	return instance->ContainsProfanityWorker(str);
 }
 

@@ -15,7 +15,7 @@
 #include "V8DataModel/ContentProvider.h"
 #include "Gui/ProfanityFilter.h"
 
-namespace RBX {
+namespace ARL {
 
 const char *const sBackpackItem = "BackpackItem";
 
@@ -76,7 +76,7 @@ StarterGear::StarterGear()
 
 bool StarterGear::askSetParent(const Instance* instance) const
 {
-	return false /*(Instance::fastDynamicCast<RBX::Network::Player>(instance) != NULL)*/;
+	return false /*(Instance::fastDynamicCast<ARL::Network::Player>(instance) != NULL)*/;
 }
 
 bool StarterGear::askAddChild(const Instance* instance) const
@@ -104,7 +104,7 @@ int BackpackItem::getBinId() const
 		return parent->findChildIndex(this);
 	}
 	else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return -1;
 	}
 }
@@ -181,7 +181,7 @@ void HopperBin::onAncestorChanged(const AncestorChanged& event)
 		if(Workspace::serverIsPresent(this)){
 			if(!replicationInitialized){
 				//We're server, so replicate from our SHIM to the real event
-				RBXASSERT(!selectedConnectionShim.connected());
+				ARLASSERT(!selectedConnectionShim.connected());
 				selectedConnectionShim = replicatedSelectedSignal.connect(boost::bind(&HopperBin::selectedConnectionShimFunction,this));
 				
 				replicationInitialized = true;
@@ -190,7 +190,7 @@ void HopperBin::onAncestorChanged(const AncestorChanged& event)
 		else{
 			if(!replicationInitialized){
 				//We're client, so replicate from the real event to our SHIM
-				RBXASSERT(!selectedConnectionShim.connected());
+				ARLASSERT(!selectedConnectionShim.connected());
 				selectedConnectionShim = selectedSignal.connect(boost::bind(&HopperBin::reverseSelectedConnectionShimFunction,this, _1));
 
 				replicationInitialized = true;
@@ -217,7 +217,7 @@ void HopperBin::dataChanged(const Reflection::PropertyDescriptor& prop)
 
 void HopperBin::onSelectCommand()
 {
-	RBXASSERT(binType != SCRIPT_BIN);
+	ARLASSERT(binType != SCRIPT_BIN);
 	
 	DataModel* dataModel = rbx_static_cast<DataModel*>(getRootAncestor());
 
@@ -225,7 +225,7 @@ void HopperBin::onSelectCommand()
 
 	Verb* verb = dataModel->getVerb(command);
 
-	RBXASSERT(verb);
+	ARLASSERT(verb);
 
 	if (verb && verb->isEnabled()) 
 	{
@@ -235,7 +235,7 @@ void HopperBin::onSelectCommand()
 		}
 		else
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 		}
 	}
 }
@@ -356,7 +356,7 @@ LegacyHopperService::LegacyHopperService()
 // Check - all children should be given to the StarterPackService before deletion
 LegacyHopperService::~LegacyHopperService()
 {
-	RBXASSERT(this->numChildren() == 0);
+	ARLASSERT(this->numChildren() == 0);
 }
 
 // Assumes that children will be read and hooked up before the onServiceProvider call is made
@@ -367,7 +367,7 @@ void LegacyHopperService::onServiceProvider(ServiceProvider* oldProvider, Servic
 	if (newProvider)
 	{
 		StarterPackService* starterPack = ServiceProvider::find<StarterPackService>(newProvider);
-		RBXASSERT(starterPack);
+		ARLASSERT(starterPack);
 
 		while (numChildren() > 0)
 		{

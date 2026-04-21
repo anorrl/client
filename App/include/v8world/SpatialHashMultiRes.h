@@ -10,7 +10,7 @@
 #include <boost/unordered_set.hpp>
 #include <boost/pool/pool.hpp>
 
-namespace RBX {
+namespace ARL {
 
 
 
@@ -40,7 +40,7 @@ namespace RBX {
 		Vector3int32 gridId;
 		
 		int getLevel() {
-			RBXASSERT(level >= -1);
+			ARLASSERT(level >= -1);
 			return level; 
 		}
 	};
@@ -93,9 +93,9 @@ namespace RBX {
 		static void makeVisitOrder(int* offsets, const Vector3& visitDir);
 
 		static const Extents safeExtents(const Extents& e) {
-			RBXASSERT(Extents(e.min(), e.max()) == e);
+			ARLASSERT(Extents(e.min(), e.max()) == e);
 			if (e.isNanInf()) {
-				RBXASSERT(0);
+				ARLASSERT(0);
 				return Extents::zero();
 			}
 			else {
@@ -276,8 +276,8 @@ namespace RBX {
 			}
 
 			~TreeNode() {
-				RBXASSERT(refByPrimitives == 0);
-				RBXASSERT(next == NULL);
+				ARLASSERT(refByPrimitives == 0);
+				ARLASSERT(next == NULL);
 				next = NULL;
 			}
 
@@ -295,7 +295,7 @@ namespace RBX {
 
 			Primitive*			primitive;			// primitive associated with this node
 			SpatialNode*		nextHashLink;		// next node for this hash
-	#ifdef _RBX_DEBUGGING_SPATIAL_HASH
+	#ifdef _ARL_DEBUGGING_SPATIAL_HASH
 			SpatialNode*		nextPrimitiveLink;	// next node for this primitive
 			SpatialNode*		prevPrimitiveLink;	// prior node for this primitive
 	#endif
@@ -307,7 +307,7 @@ namespace RBX {
 				, nextHashLink(0)
 				, primitive(NULL)
 				, treeNode(NULL)
-			#ifdef _RBX_DEBUGGING_SPATIAL_HASH
+			#ifdef _ARL_DEBUGGING_SPATIAL_HASH
 				, nextPrimitiveLink(0)
 				, prevPrimitiveLink(0)
 			#endif
@@ -401,7 +401,7 @@ namespace RBX {
 
 		static const Extents calcNewExtents(Primitive* p);
 
-		void visitPrimitivesInSpaceWorker(TreeNode* tn, int level, int hashId, const RBX::Vector3int32& gridId, int* visitOrder, IntersectResult intersectResult, SpaceFilter* filter, const Vector3& visitDir);
+		void visitPrimitivesInSpaceWorker(TreeNode* tn, int level, int hashId, const ARL::Vector3int32& gridId, int* visitOrder, IntersectResult intersectResult, SpaceFilter* filter, const Vector3& visitDir);
 
 		template <typename Set> void getPrimitivesOverlappingRec(const Extents* extents, Set& answer, int level, int hash, const Vector3int32& gridCoord);
 

@@ -2,7 +2,7 @@
 
 #pragma once
 
-namespace RBX
+namespace ARL
 {
 	typedef enum SoundType {	NO_SOUND = 0,
 								BOING_SOUND,

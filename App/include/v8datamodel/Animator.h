@@ -6,7 +6,7 @@
 
 #include "V8DataModel/KeyframeSequence.h" //for Animation::Priority, CachedPose
 
-namespace RBX {
+namespace ARL {
 
 	class AnimatableRootJoint;
 	class AnimationTrackState;
@@ -22,7 +22,7 @@ namespace RBX {
 	private:
 		typedef DescribedCreatable<Animator, Instance, sAnimator> Super;
 
-		RBX::Time serverLockTimer;
+		ARL::Time serverLockTimer;
 
 		Instance* getRootInstance();
 		void setupClumpChangedListener(Instance* rootInstance);

@@ -7,7 +7,7 @@
 #include "V8Kernel/ContactParams.h"
 #include "V8World/Mesh.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Poly;
 	class PolyCellContact;

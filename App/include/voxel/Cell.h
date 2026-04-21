@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Defines voxels at the cellular and sub-cellular level
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 enum CellMaterial
 {
@@ -193,7 +193,7 @@ bool Cell::isEmpty() const {
 	return (*this) == Constants::kUniqueEmptyCellRepresentation;
 }
 
-std::ostream& operator<<(std::ostream& os, const RBX::Voxel::Cell& v);
+std::ostream& operator<<(std::ostream& os, const ARL::Voxel::Cell& v);
 
 const int kXZ_CHUNK_SIZE = 32;
 const int kY_CHUNK_SIZE = 16;

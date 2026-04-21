@@ -32,7 +32,7 @@
     #define HKEY_PERFORMANCE_NLSTEXT    (( HKEY ) ((LONG)0x80000060) )
 #endif
 
-namespace RBX {
+namespace ARL {
 
 // static helpers
 static HKEY getKeyFromString(const char* str, size_t length);
@@ -50,7 +50,7 @@ bool RegistryUtil::keyExists(const std::string& key) {
         return false;
     }
 
-    RBXASSERT(key.size() > (pos + 1));
+    ARLASSERT(key.size() > (pos + 1));
     HKEY openKey;
     INT32 result = RegOpenKeyEx(hkey, (key.c_str() + pos + 1), 0, KEY_READ, &openKey);
 
@@ -75,7 +75,7 @@ bool RegistryUtil::read32bitNumber(const std::string& key, INT32& valueData) {
         return false;
     }
 
-    RBXASSERT(key.size() > (pos + 1));
+    ARLASSERT(key.size() > (pos + 1));
 
     size_t valuePos = key.rfind('\\');
     
@@ -90,7 +90,7 @@ bool RegistryUtil::read32bitNumber(const std::string& key, INT32& valueData) {
             UINT32 dataSize = sizeof(INT32);
             result = RegQueryValueEx(openKey, value.c_str(), NULL, NULL, reinterpret_cast<LPBYTE>(&valueData), reinterpret_cast<LPDWORD>(&dataSize));
 
-            RBXASSERT(result == ERROR_SUCCESS && "Could not read registry key value.");
+            ARLASSERT(result == ERROR_SUCCESS && "Could not read registry key value.");
 
             RegCloseKey(openKey);
             return (result == ERROR_SUCCESS);
@@ -111,7 +111,7 @@ bool RegistryUtil::readBinaryData(const std::string& key, BYTE* valueData, UINT3
         return false;
     }
 
-    RBXASSERT(key.size() > (pos + 1));
+    ARLASSERT(key.size() > (pos + 1));
 
     size_t valuePos = key.rfind('\\');
     
@@ -130,7 +130,7 @@ bool RegistryUtil::readBinaryData(const std::string& key, BYTE* valueData, UINT3
                 result = RegQueryValueEx(openKey, value.c_str(), NULL, NULL, valueData, reinterpret_cast<LPDWORD>(&dataSize));
             }
 
-            RBXASSERT(result == ERROR_SUCCESS && "Could not read registry key value.");
+            ARLASSERT(result == ERROR_SUCCESS && "Could not read registry key value.");
 
             RegCloseKey(openKey);
             return (result == ERROR_SUCCESS);
@@ -152,7 +152,7 @@ bool RegistryUtil::readString(const std::string& key, std::string& valueData) {
         return false;
     }
 
-    RBXASSERT(key.size() > (pos + 1));
+    ARLASSERT(key.size() > (pos + 1));
 
     size_t valuePos = key.rfind('\\');
     
@@ -180,7 +180,7 @@ bool RegistryUtil::readString(const std::string& key, std::string& valueData) {
 
 				delete[] tmpStr;
             }
-            //RBXASSERT(result == ERROR_SUCCESS && "Could not read registry key value.");
+            //ARLASSERT(result == ERROR_SUCCESS && "Could not read registry key value.");
 
             RegCloseKey(openKey);
             return (result == ERROR_SUCCESS);
@@ -203,7 +203,7 @@ bool RegistryUtil::write32bitNumber(const std::string& key, INT32 valueData) {
         return false;
     }
 
-    RBXASSERT(key.size() > (pos + 1));
+    ARLASSERT(key.size() > (pos + 1));
 
     size_t valuePos = key.rfind('\\');
     
@@ -217,7 +217,7 @@ bool RegistryUtil::write32bitNumber(const std::string& key, INT32 valueData) {
         if ( result == ERROR_SUCCESS ) {
             result = RegSetValueEx(openKey, value.c_str(), NULL, REG_DWORD, reinterpret_cast<const BYTE*>(&valueData), sizeof(INT32));
 
-            RBXASSERT(result == ERROR_SUCCESS && "Could not write registry key value.");
+            ARLASSERT(result == ERROR_SUCCESS && "Could not write registry key value.");
 
             RegCloseKey(openKey);
             return (result == ERROR_SUCCESS);
@@ -227,7 +227,7 @@ bool RegistryUtil::write32bitNumber(const std::string& key, INT32 valueData) {
 }
 
 bool RegistryUtil::writeBinaryData(const std::string& key, const BYTE* valueData, UINT32 dataSize) {
-    RBXASSERT(valueData);
+    ARLASSERT(valueData);
 
     size_t pos = key.find('\\', 0);
     if ( pos == std::string::npos ) {
@@ -240,7 +240,7 @@ bool RegistryUtil::writeBinaryData(const std::string& key, const BYTE* valueData
         return false;
     }
 
-    RBXASSERT(key.size() > (pos + 1));
+    ARLASSERT(key.size() > (pos + 1));
 
     size_t valuePos = key.rfind('\\');
     
@@ -257,7 +257,7 @@ bool RegistryUtil::writeBinaryData(const std::string& key, const BYTE* valueData
                 result = RegSetValueEx(openKey, value.c_str(), NULL, REG_BINARY, reinterpret_cast<const BYTE*>(valueData), dataSize);
             }
 
-            RBXASSERT(result == ERROR_SUCCESS && "Could not write registry key value.");
+            ARLASSERT(result == ERROR_SUCCESS && "Could not write registry key value.");
 
             RegCloseKey(openKey);
             return (result == ERROR_SUCCESS);
@@ -279,7 +279,7 @@ bool RegistryUtil::writeString(const std::string& key, const std::string& valueD
         return false;
     }
 
-    RBXASSERT(key.size() > (pos + 1));
+    ARLASSERT(key.size() > (pos + 1));
 
     size_t valuePos = key.rfind('\\');
     
@@ -292,7 +292,7 @@ bool RegistryUtil::writeString(const std::string& key, const std::string& valueD
 
         if ( result == ERROR_SUCCESS ) {
             result = RegSetValueEx(openKey, value.c_str(), NULL, REG_SZ, reinterpret_cast<const BYTE*>(valueData.c_str()), (valueData.size() + 1));                
-            RBXASSERT(result == ERROR_SUCCESS && "Could not write registry key value.");
+            ARLASSERT(result == ERROR_SUCCESS && "Could not write registry key value.");
 
             RegCloseKey(openKey);
             return (result == ERROR_SUCCESS);
@@ -305,7 +305,7 @@ bool RegistryUtil::writeString(const std::string& key, const std::string& valueD
 
 // static helpers
 static HKEY getKeyFromString(const char* str, UINT32 length) {
-    RBXASSERT(str);
+    ARLASSERT(str);
 
     if (str) {
         if ( strncmp(str, "HKEY_CLASSES_ROOT", length) == 0 ) {

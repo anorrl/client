@@ -5,7 +5,7 @@
 #include "g3d/Vector2.h"
 #include <string>
 
-namespace RBX {
+namespace ARL {
 	typedef boost::shared_ptr<class TextureProxyBase> TextureProxyBaseRef;
 
 class TextureProxyBase : public boost::enable_shared_from_this<TextureProxyBase> 

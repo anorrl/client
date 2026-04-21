@@ -11,23 +11,23 @@
 #include <vector>
 
 // Note - Interlock Incs, Decs are turned off on count because of possible performance issues
-// TODO: Benchmark RBX_ALLOCATOR_COUNTS
+// TODO: Benchmark ARL_ALLOCATOR_COUNTS
 #ifdef _DEBUG
-#define RBX_ALLOCATOR_COUNTS
-#define RBX_POOL_ALLOCATION_STATS
+#define ARL_ALLOCATOR_COUNTS
+#define ARL_POOL_ALLOCATION_STATS
 #endif
 
 // TODO: Benchmark:
 #ifndef _DEBUG
 // Note: Using this option makes it harder to find memory leaks
-#define RBX_ALLOCATOR_SINGLETON_POOL
+#define ARL_ALLOCATOR_SINGLETON_POOL
 #endif
 
 // TODO: Benchmark:
-//#define RBX_MEMORY_SCALABLE_MALLOC
+//#define ARL_MEMORY_SCALABLE_MALLOC
 
-namespace RBX {
-#ifdef RBX_POOL_ALLOCATION_STATS
+namespace ARL {
+#ifdef ARL_POOL_ALLOCATION_STATS
     extern std::vector<size_t*> poolAllocationList;
 #endif
     typedef bool (*releaseFunc)();
@@ -38,7 +38,7 @@ namespace RBX {
     {
         if (size > *availableSize)
         {
-#ifdef RBX_POOL_ALLOCATION_STATS
+#ifdef ARL_POOL_ALLOCATION_STATS
             (*allocatedSize)+=(size);
 #endif
         }
@@ -68,7 +68,7 @@ namespace RBX {
 	template<class T>
 	class Allocator 
 	{
-#ifdef RBX_ALLOCATOR_COUNTS
+#ifdef ARL_ALLOCATOR_COUNTS
 		static rbx::atomic<int> count;
 #endif
 	public:
@@ -80,7 +80,7 @@ namespace RBX {
         {
             if (!initialized)
             {
-#ifdef RBX_POOL_ALLOCATION_STATS
+#ifdef ARL_POOL_ALLOCATION_STATS
                 poolAllocationList.push_back(&allocatedSize);
 #endif
                 poolAvailabilityList.push_back(&availableSize);
@@ -90,7 +90,7 @@ namespace RBX {
             }
         }
 
-#ifdef RBX_ALLOCATOR_SINGLETON_POOL
+#ifdef ARL_ALLOCATOR_SINGLETON_POOL
 		// TODO: Benchmark this allocator vs. other kinds
 		void* operator new(size_t nSize) {
 			assert(nSize==sizeof(T));
@@ -98,10 +98,10 @@ namespace RBX {
 			if (!result)
 			{
 				if (roblox_allocator::crashOnAllocationFailure)
-					RBXCRASH();	// We want a nice fat crash here so that the process quits and we can log it
+					ARLCRASH();	// We want a nice fat crash here so that the process quits and we can log it
 				throw std::bad_alloc();
 			}
-#ifdef RBX_ALLOCATOR_COUNTS
+#ifdef ARL_ALLOCATOR_COUNTS
 			count++;
 #endif
             addToPool(&allocatedSize, &availableSize, nSize);
@@ -121,7 +121,7 @@ namespace RBX {
 
         static bool releaseMemory()
 		{
-#ifdef RBX_POOL_ALLOCATION_STATS
+#ifdef ARL_POOL_ALLOCATION_STATS
             allocatedSize -= availableSize;
 #endif
             availableSize = 0;
@@ -131,7 +131,7 @@ namespace RBX {
         static bool purgeMemory()
         {
             // Be very careful when calling this as this is singleton pool purge
-#ifdef RBX_POOL_ALLOCATION_STATS
+#ifdef ARL_POOL_ALLOCATION_STATS
             allocatedSize = 0;
 #endif
             availableSize = 0;
@@ -140,7 +140,7 @@ namespace RBX {
 
 		void operator delete(void* p) {
 			boost::singleton_pool<T, sizeof(T), boost::default_user_allocator_malloc_free>::free(p);
-#ifdef RBX_ALLOCATOR_COUNTS
+#ifdef ARL_ALLOCATOR_COUNTS
 			count--;
 #endif
             removeFromPool(&availableSize, sizeof(T));
@@ -154,10 +154,10 @@ namespace RBX {
 			if (!result)
 			{
 				if (roblox_allocator::crashOnAllocationFailure)
-					RBXCRASH();	// We want a nice fat crash here so that the process quits and we can log it
+					ARLCRASH();	// We want a nice fat crash here so that the process quits and we can log it
 				throw std::bad_alloc();
 			}
-#ifdef RBX_ALLOCATOR_COUNTS
+#ifdef ARL_ALLOCATOR_COUNTS
 			count++;
 #endif
 			return result;
@@ -165,7 +165,7 @@ namespace RBX {
 
 		void operator delete(void* p) {
 			roblox_allocator::free((char*)p);
-#ifdef RBX_ALLOCATOR_COUNTS
+#ifdef ARL_ALLOCATOR_COUNTS
 			count--;
 #endif
 		}
@@ -195,7 +195,7 @@ namespace RBX {
 #endif
 //////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef RBX_ALLOCATOR_COUNTS
+#ifdef ARL_ALLOCATOR_COUNTS
 		static long getCount()		{return count; }
 		static long getHeapSize()	{return sizeof(T) * count; }
 #endif
@@ -208,7 +208,7 @@ namespace RBX {
     template<class T>
     bool Allocator<T>::initialized = false;
 
-#ifdef RBX_ALLOCATOR_COUNTS
+#ifdef ARL_ALLOCATOR_COUNTS
 	template<class T>
 	rbx::atomic<int> Allocator<T>::count;
 #endif
@@ -228,7 +228,7 @@ namespace RBX {
 		public:
 			void* operator new(size_t size, AutoMemPool* pool) 
 			{
-				RBXASSERT(((size_t)pool->getRequestedSize()) == size + sizeof(AutoMemPool*));
+				ARLASSERT(((size_t)pool->getRequestedSize()) == size + sizeof(AutoMemPool*));
 
 				void* mem = pool->malloc();
 				*(AutoMemPool**)mem = &(*pool);	// store the pool at start of memory block
@@ -261,7 +261,7 @@ namespace RBX {
 
 		inline void free(void* p)
 		{
-			RBXASSERT(pool->is_from(p));
+			ARLASSERT(pool->is_from(p));
 			pool->free(p);
 		}
 

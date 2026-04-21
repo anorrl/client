@@ -32,7 +32,7 @@ LOGVARIABLE(TerrainCellListener, 0)
 FASTINTVARIABLE(SmoothTerrainMaxLuaRegion, 4*1024*1024)
 FASTINTVARIABLE(SmoothTerrainMaxCppRegion, 64*1024*1024)
 
-namespace RBX
+namespace ARL
 {
 using namespace Voxel;
 
@@ -44,7 +44,7 @@ static const ContentId kSmoothTerrainMaterials("rbxasset://terrain/materials.jso
 namespace Reflection
 {
 	template<> Reflection::EnumDesc<CellMaterial>::EnumDesc()
-		:RBX::Reflection::EnumDescriptor("CellMaterial")
+		:ARL::Reflection::EnumDescriptor("CellMaterial")
 	{
 		addPair(CELL_MATERIAL_Deprecated_Empty, "Empty");
 		addPair(CELL_MATERIAL_Grass, "Grass");
@@ -72,7 +72,7 @@ namespace Reflection
 	}
 
 	template<> Reflection::EnumDesc<CellBlock>::EnumDesc()
-		:RBX::Reflection::EnumDescriptor("CellBlock")
+		:ARL::Reflection::EnumDescriptor("CellBlock")
 	{
 		addPair(CELL_BLOCK_Solid, "Solid" );
 		addPair(CELL_BLOCK_VerticalWedge, "VerticalWedge" );
@@ -87,7 +87,7 @@ namespace Reflection
 	}
 
 	template<> Reflection::EnumDesc<CellOrientation>::EnumDesc()
-		:RBX::Reflection::EnumDescriptor("CellOrientation")
+		:ARL::Reflection::EnumDescriptor("CellOrientation")
 	{
 		addPair(CELL_ORIENTATION_NegZ, "NegZ");
 		addPair(CELL_ORIENTATION_X, "X");
@@ -101,7 +101,7 @@ namespace Reflection
 	}
 
 	template<> Reflection::EnumDesc<WaterCellForce>::EnumDesc()
-		:RBX::Reflection::EnumDescriptor("WaterForce")
+		:ARL::Reflection::EnumDescriptor("WaterForce")
 	{
 		addPair(WATER_CELL_FORCE_None, "None");
 		addPair(WATER_CELL_FORCE_Small, "Small");
@@ -116,7 +116,7 @@ namespace Reflection
 	}
 
 	template<> Reflection::EnumDesc<WaterCellDirection>::EnumDesc()
-		:RBX::Reflection::EnumDescriptor("WaterDirection")
+		:ARL::Reflection::EnumDescriptor("WaterDirection")
 	{
 		addPair(WATER_CELL_DIRECTION_NegX, "NegX");
 		addPair(WATER_CELL_DIRECTION_X, "X");
@@ -133,27 +133,27 @@ namespace Reflection
 }
 
 template<>
-bool RBX::StringConverter<CellMaterial>::convertToValue(const std::string& text, CellMaterial& value)
+bool ARL::StringConverter<CellMaterial>::convertToValue(const std::string& text, CellMaterial& value)
 {
 	return Reflection::EnumDesc<CellMaterial>::singleton().convertToValue(text.c_str(),value);
 }
 template<>
-bool RBX::StringConverter<CellBlock>::convertToValue(const std::string& text, CellBlock& value)
+bool ARL::StringConverter<CellBlock>::convertToValue(const std::string& text, CellBlock& value)
 {
 	return Reflection::EnumDesc<CellBlock>::singleton().convertToValue(text.c_str(),value);
 }
 template<>
-bool RBX::StringConverter<CellOrientation>::convertToValue(const std::string& text, CellOrientation& value)
+bool ARL::StringConverter<CellOrientation>::convertToValue(const std::string& text, CellOrientation& value)
 {
 	return Reflection::EnumDesc<CellOrientation>::singleton().convertToValue(text.c_str(),value);
 }
 template<>
-bool RBX::StringConverter<WaterCellForce>::convertToValue(const std::string& text, WaterCellForce& value)
+bool ARL::StringConverter<WaterCellForce>::convertToValue(const std::string& text, WaterCellForce& value)
 {
 	return Reflection::EnumDesc<WaterCellForce>::singleton().convertToValue(text.c_str(),value);
 }
 template<>
-bool RBX::StringConverter<WaterCellDirection>::convertToValue(const std::string& text, WaterCellDirection& value)
+bool ARL::StringConverter<WaterCellDirection>::convertToValue(const std::string& text, WaterCellDirection& value)
 {
 	return Reflection::EnumDesc<WaterCellDirection>::singleton().convertToValue(text.c_str(),value);
 }
@@ -283,7 +283,7 @@ bool MegaClusterInstance::resize(NormalId normalId, int deltaAmount) {
 
 shared_ptr<const Instances> MegaClusterInstance::getTouchingParts()
 {
-	throw RBX::runtime_error("GetTouchingParts is not a valid member of Terrain");
+	throw ARL::runtime_error("GetTouchingParts is not a valid member of Terrain");
 }
 
 MegaClusterInstance::MegaClusterInstance()
@@ -359,7 +359,7 @@ void MegaClusterInstance::verifySetParent(const Instance* instance) const
 	const Workspace* workspace = instance != NULL ?
 		instance->fastDynamicCast<Workspace>() : NULL;
 	if( instance != NULL && ((workspace == NULL) || (workspace->getTerrain() != NULL)) ){
-		throw RBX::runtime_error("Unable to change Terrain's parent. Workspace already has Terrain");
+		throw ARL::runtime_error("Unable to change Terrain's parent. Workspace already has Terrain");
 	}
 
 	if (instance)
@@ -778,7 +778,7 @@ Surface MegaClusterInstance::getSurface(const RbxRay& gridRay, int& surfaceId)
 
 template<class Stream> void writeCountValue(Stream& s, unsigned count)
 {
-	RBXASSERT(count <= 0xffff);
+	ARLASSERT(count <= 0xffff);
 
 	if(count < 255)
 	{
@@ -840,7 +840,7 @@ template <class Stream> void MegaClusterInstance::decodeChunkDataFromStreamV1_De
 
 		count = readCountValue(encodedData);
 
-		RBXASSERT(count > 0);
+		ARLASSERT(count > 0);
 
 		for( unsigned i = 0; i < count; ++i )
 		{
@@ -879,7 +879,7 @@ template <class Stream> void MegaClusterInstance::decodeChunkDataFromStream(Voxe
 		encodedData >> value;
 
 		count = std::min(readCountValue(encodedData), static_cast<unsigned>(cells.size() - totalCells));
-		RBXASSERT(count > 0);
+		ARLASSERT(count > 0);
 		
 		memset(&cells[totalCells], value, count);
 		
@@ -897,7 +897,7 @@ template <class Stream> void MegaClusterInstance::decodeChunkDataFromStream(Voxe
 		encodedData >> value;
 
 		count = std::min(readCountValue(encodedData), static_cast<unsigned>(materials.size() - totalMaterials));
-		RBXASSERT(count > 0);
+		ARLASSERT(count > 0);
 		
 		memset(&materials[totalMaterials], value, count);
 		
@@ -962,7 +962,7 @@ template<class Stream> void MegaClusterInstance::encodeChunkDataIntoStream( cons
 	}
 
 	// encode the final value/count pair
-	RBXASSERT( count > 0 );
+	ARLASSERT( count > 0 );
 	
 	s << value;
 	writeCountValue(s, count);
@@ -988,7 +988,7 @@ template<class Stream> void MegaClusterInstance::encodeChunkDataIntoStream( cons
 	}
 
 	// encode the final value/count pair
-	RBXASSERT(count > 0);
+	ARLASSERT(count > 0);
 
 	s << value;
 	writeCountValue(s, count);
@@ -1602,14 +1602,14 @@ void MegaClusterInstance::reloadMaterialTable()
 
 Voxel::Grid* MegaClusterInstance::getVoxelGrid()
 {
-    RBXASSERT(voxelGrid);
+    ARLASSERT(voxelGrid);
 
 	return voxelGrid.get();
 }
 
 Voxel2::Grid* MegaClusterInstance::getSmoothGrid()
 {
-    RBXASSERT(smoothGrid);
+    ARLASSERT(smoothGrid);
 
 	return smoothGrid.get();
 }
@@ -1685,8 +1685,8 @@ void MegaClusterInstance::convertToSmooth()
 
 void MegaClusterInstance::initializeGridMega()
 {
-    RBXASSERT(!getParent());
-    RBXASSERT(!voxelGrid && !smoothGrid);
+    ARLASSERT(!getParent());
+    ARLASSERT(!voxelGrid && !smoothGrid);
 
 	voxelGrid.reset(new Voxel::Grid());
 	getPartPrimitive()->setGeometryType(Geometry::GEOMETRY_MEGACLUSTER);
@@ -1696,8 +1696,8 @@ void MegaClusterInstance::initializeGridMega()
 
 void MegaClusterInstance::initializeGridSmooth()
 {
-    RBXASSERT(!getParent());
-    RBXASSERT(!voxelGrid && !smoothGrid);
+    ARLASSERT(!getParent());
+    ARLASSERT(!voxelGrid && !smoothGrid);
 
 	smoothGrid.reset(new Voxel2::Grid());
 	getPartPrimitive()->setGeometryType(Geometry::GEOMETRY_SMOOTHCLUSTER);
@@ -1905,10 +1905,10 @@ int MegaClusterInstance::writeVoxels(lua_State* L)
 	FixedSizeCache<void*, unsigned char, 8> materialCache(NULL);
 
 	if (!isArray(L, 4, box.getSizeX()))
-		throw RBX::runtime_error("Bad argument materials to 'WriteVoxels' (%dx%dx%d array expected)", box.getSizeX(), box.getSizeY(), box.getSizeZ());
+		throw ARL::runtime_error("Bad argument materials to 'WriteVoxels' (%dx%dx%d array expected)", box.getSizeX(), box.getSizeY(), box.getSizeZ());
 
 	if (!isArray(L, 5, box.getSizeX()))
-		throw RBX::runtime_error("Bad argument occupancy to 'WriteVoxels' (%dx%dx%d array expected)", box.getSizeX(), box.getSizeY(), box.getSizeZ());
+		throw ARL::runtime_error("Bad argument occupancy to 'WriteVoxels' (%dx%dx%d array expected)", box.getSizeX(), box.getSizeY(), box.getSizeZ());
 
 	for (int x = 0; x < box.getSizeX(); ++x)
 	{
@@ -1916,10 +1916,10 @@ int MegaClusterInstance::writeVoxels(lua_State* L)
 		lua_rawgeti(L, 5, x + 1); // occX
 
 		if (!isArray(L, -2, box.getSizeY()))
-			throw RBX::runtime_error("Bad argument materials[%d] to 'WriteVoxels' (%dx%d array expected)", x + 1, box.getSizeY(), box.getSizeZ());
+			throw ARL::runtime_error("Bad argument materials[%d] to 'WriteVoxels' (%dx%d array expected)", x + 1, box.getSizeY(), box.getSizeZ());
 
 		if (!isArray(L, -1, box.getSizeY()))
-			throw RBX::runtime_error("Bad argument occupancy[%d] to 'WriteVoxels' (%dx%d array expected)", x + 1, box.getSizeY(), box.getSizeZ());
+			throw ARL::runtime_error("Bad argument occupancy[%d] to 'WriteVoxels' (%dx%d array expected)", x + 1, box.getSizeY(), box.getSizeZ());
 
 		for (int y = 0; y < box.getSizeY(); ++y)
 		{
@@ -1927,10 +1927,10 @@ int MegaClusterInstance::writeVoxels(lua_State* L)
 			lua_rawgeti(L, -2, y + 1); // occY
 
 			if (!isArray(L, -2, box.getSizeZ()))
-				throw RBX::runtime_error("Bad argument materials[%d][%d] to 'WriteVoxels' (%d-element array expected)", x + 1, y + 1, box.getSizeZ());
+				throw ARL::runtime_error("Bad argument materials[%d][%d] to 'WriteVoxels' (%d-element array expected)", x + 1, y + 1, box.getSizeZ());
 
 			if (!isArray(L, -1, box.getSizeZ()))
-				throw RBX::runtime_error("Bad argument occupancy[%d][%d] to 'WriteVoxels' (%d-element array expected)", x + 1, y + 1, box.getSizeZ());
+				throw ARL::runtime_error("Bad argument occupancy[%d][%d] to 'WriteVoxels' (%d-element array expected)", x + 1, y + 1, box.getSizeZ());
 
 			for (int z = 0; z < box.getSizeZ(); ++z)
 			{

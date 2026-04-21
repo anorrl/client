@@ -2,7 +2,7 @@
 
 #include "V8DataModel/LocalWorkspace.h"
 
-namespace RBX
+namespace ARL
 {
 
 const char* const sLocalWorkspace = "LocalWorkspace";

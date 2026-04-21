@@ -5,7 +5,7 @@
 #include "util/ProtectedString.h"
 #include "util/SystemAddress.h"
 
-namespace RBX { namespace Reflection {
+namespace ARL { namespace Reflection {
 
 std::size_t hash_value(const ConstProperty& prop)
 {
@@ -54,7 +54,7 @@ EnumDescriptor::EnumDescriptor(const char* typeName)
 {
 	{
 		std::vector<const EnumDescriptor*>::iterator iter = std::lower_bound(allEnums().begin(), allEnums().end(), this, compareDescriptorName);
-		RBXASSERT(iter == allEnums().end() || *iter != this);
+		ARLASSERT(iter == allEnums().end() || *iter != this);
 		allEnums().insert(iter, this);
 	}
 
@@ -64,7 +64,7 @@ EnumDescriptor::EnumDescriptor(const char* typeName)
 
 EnumDescriptor::~EnumDescriptor()
 {
-	RBXASSERT(std::find(allEnums().begin(), allEnums().end(), this) != allEnums().end());
+	ARLASSERT(std::find(allEnums().begin(), allEnums().end(), this) != allEnums().end());
 	allEnums().erase(std::find(allEnums().begin(), allEnums().end(), this));
 	count--;
 }
@@ -95,8 +95,8 @@ PropertyDescriptor::PropertyDescriptor(ClassDescriptor& classDescriptor, const T
     ,bIsEditable(1)
 	,bIsEnum(isEnum)
 {
-	RBXASSERT(!type.tag.empty());
-	RBXASSERT(!type.name.empty());
+	ARLASSERT(!type.tag.empty());
+	ARLASSERT(!type.name.empty());
 
 	// TODO: This could be moved up into MemberDescriptor if it were templated...
 	classDescriptor.MemberDescriptorContainer<PropertyDescriptor>::declare(this);

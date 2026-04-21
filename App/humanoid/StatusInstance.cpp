@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Humanoid/StatusInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sStatusInstance = "Status";
 

@@ -16,7 +16,7 @@
 
 DYNAMIC_FASTINT(PhysicsCompressionSizeFilter)
 
-namespace RBX
+namespace ARL
 {
 	namespace Network
 	{
@@ -195,9 +195,9 @@ namespace RBX
             void deserializeEnumIndex(const Reflection::EnumDescriptor* desc, size_t& index, RakNet::BitStream &bitStream, size_t enumSizeMSB = 0);
 
 		protected:
-			typedef SharedDictionary<RBX::Guid::Scope> SharedGuidDictionary;
-			SharedGuidDictionary scopeNames;		// Used for RBX::Guid
-            RBX::Guid::Scope serverScope;
+			typedef SharedDictionary<ARL::Guid::Scope> SharedGuidDictionary;
+			SharedGuidDictionary scopeNames;		// Used for ARL::Guid
+            ARL::Guid::Scope serverScope;
 			boost::intrusive_ptr<GuidItem<Instance>::Registry> guidRegistry;
 			// A RefProperty that is waiting for an object to be streamed in
 			struct WaitItem
@@ -206,7 +206,7 @@ namespace RBX
 				boost::shared_ptr<Instance> instance;
 			};
 			// Map of unknown ID to WaitItem
-			typedef std::map<RBX::Guid::Data, std::vector<WaitItem> > WaitItemMap;
+			typedef std::map<ARL::Guid::Data, std::vector<WaitItem> > WaitItemMap;
 			WaitItemMap waitItems;
 			boost::mutex waitItemsMutex;
 
@@ -215,31 +215,31 @@ namespace RBX
 			struct Id
 			{
 				bool valid;
-				RBX::Guid::Data id;
+				ARL::Guid::Data id;
 			};
 			IdSerializer();
 			Id extractId(const Instance* instance);
 			void sendId(RakNet::BitStream& stream, const Id& id);
 			void serializeId(RakNet::BitStream& stream, const Instance* instance);
-			void serializeId(RakNet::BitStream& stream, const RBX::Guid::Data& id);
+			void serializeId(RakNet::BitStream& stream, const ARL::Guid::Data& id);
 			void serializeIdWithoutDictionary(RakNet::BitStream& stream, const Instance* instance);
-			void serializeIdWithoutDictionary(RakNet::BitStream& stream, const RBX::Guid::Data& id);
+			void serializeIdWithoutDictionary(RakNet::BitStream& stream, const ARL::Guid::Data& id);
 			bool trySerializeId(RakNet::BitStream& stream, const Instance* instance);
 			bool canSerializeId(const Instance* instance);
-			void deserializeId(RakNet::BitStream& stream, RBX::Guid::Data& id);
-			void deserializeIdWithoutDictionary(RakNet::BitStream& stream, RBX::Guid::Data& id);
-			void resolvePendingReferences(Instance* instance, RBX::Guid::Data id);
+			void deserializeId(RakNet::BitStream& stream, ARL::Guid::Data& id);
+			void deserializeIdWithoutDictionary(RakNet::BitStream& stream, ARL::Guid::Data& id);
+			void resolvePendingReferences(Instance* instance, ARL::Guid::Data id);
 
 			void serializeInstanceRef(const Instance* instance, RakNet::BitStream& bitStream);
 
-			bool deserializeInstanceRef(RakNet::BitStream& stream, shared_ptr<Instance>& instance, RBX::Guid::Data& id);		// returns false if it couldn't find the Instance
+			bool deserializeInstanceRef(RakNet::BitStream& stream, shared_ptr<Instance>& instance, ARL::Guid::Data& id);		// returns false if it couldn't find the Instance
 			bool deserializeInstanceRef(RakNet::BitStream& stream, shared_ptr<Instance>& instance) {
-				RBX::Guid::Data dummy;
+				ARL::Guid::Data dummy;
 				return deserializeInstanceRef(stream, instance, dummy);
 			}
 			size_t numWaitingRefs() const { return waitItems.size(); }
 			void addPendingRef(const Reflection::RefPropertyDescriptor* desc,
-				boost::shared_ptr<Instance> instance, RBX::Guid::Data id);
+				boost::shared_ptr<Instance> instance, ARL::Guid::Data id);
 		protected:
 
 			void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
@@ -297,9 +297,9 @@ namespace RBX
 		void deserialize<UDim2>(Reflection::Property& property, RakNet::BitStream &bitStream);
 
 		template<>
-		void serialize<RBX::RbxRay>(const Reflection::ConstProperty& property, RakNet::BitStream &bitStream);
+		void serialize<ARL::RbxRay>(const Reflection::ConstProperty& property, RakNet::BitStream &bitStream);
 		template<>
-		void deserialize<RBX::RbxRay>(Reflection::Property& property, RakNet::BitStream &bitStream);
+		void deserialize<ARL::RbxRay>(Reflection::Property& property, RakNet::BitStream &bitStream);
 
 		template<>
 		void serialize<Faces>(const Reflection::ConstProperty& property, RakNet::BitStream &bitStream);
@@ -318,8 +318,8 @@ namespace RBX
 		void serializeStringProperty(const Reflection::ConstProperty& property, RakNet::BitStream &bitStream);
 		void deserializeStringProperty(Reflection::Property& property, RakNet::BitStream &bitStream);
 
-		void serializeGuidScope(RakNet::BitStream& stream, const RBX::Guid::Scope& value, bool canDisableCompression);
-		void deserializeGuidScope(RakNet::BitStream& stream, RBX::Guid::Scope& value, bool canDisableCompression);
+		void serializeGuidScope(RakNet::BitStream& stream, const ARL::Guid::Scope& value, bool canDisableCompression);
+		void deserializeGuidScope(RakNet::BitStream& stream, ARL::Guid::Scope& value, bool canDisableCompression);
 
 		void serializeEnumProperty(const Reflection::ConstProperty& property, RakNet::BitStream &bitStream, size_t enumSizeMSB = 0);
 		void deserializeEnumProperty(Reflection::Property& property, RakNet::BitStream &bitStream, size_t enumSizeMSB = 0);

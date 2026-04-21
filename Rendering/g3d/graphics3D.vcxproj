@@ -132,7 +132,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>include;.;..\..\Log\include;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\include\zlib;ijg;include\png;include\zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;BOOST_THREAD_BUILD_LIB;WIN32;ZLIB_WINAPI;_DEBUG;_LIB;G3D_BUILDING_LIBRARY_DLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;BOOST_THREAD_BUILD_LIB;WIN32;ZLIB_WINAPI;_DEBUG;_LIB;G3D_BUILDING_LIBRARY_DLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -196,7 +196,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>include;.;..\..\Log\include;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\include\zlib;ijg;include\png;include\zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;BOOST_THREAD_BUILD_LIB;WIN32;ZLIB_WINAPI;NDEBUG;_LIB;G3D_BUILDING_LIBRARY_DLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;BOOST_THREAD_BUILD_LIB;WIN32;ZLIB_WINAPI;NDEBUG;_LIB;G3D_BUILDING_LIBRARY_DLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>

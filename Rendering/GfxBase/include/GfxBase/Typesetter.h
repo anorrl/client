@@ -4,7 +4,7 @@
 #include "Util/Rotation2D.h"
 #include "GfxBase/Type.h"
 
-namespace  RBX {
+namespace  ARL {
 	class Adorn;
 
 	namespace  Graphics {
@@ -26,8 +26,8 @@ namespace  RBX {
             bool                autoScale,
 			const Color4&       color,
 			const Color4&       outline,
-			RBX::Text::XAlign   xalign  = RBX::Text::XALIGN_LEFT,
-			RBX::Text::YAlign   yalign  = RBX::Text::YALIGN_TOP,
+			ARL::Text::XAlign   xalign  = ARL::Text::XALIGN_LEFT,
+			ARL::Text::YAlign   yalign  = ARL::Text::YALIGN_TOP,
 			const Vector2&		availableSpace = Vector2::zero(),
 			const Rect2D&		clippingRect = Rect2D::xyxy(-1,-1,-1,-1),
 			const Rotation2D&   rotation = Rotation2D()) const = 0;
@@ -35,13 +35,13 @@ namespace  RBX {
 
 		virtual int getCursorPositionInText(
 			const std::string&      s,
-			const RBX::Vector2&     pos2D,
+			const ARL::Vector2&     pos2D,
 			float                   size,
-			RBX::Text::XAlign       xalign,
-			RBX::Text::YAlign       yalign,
-			const RBX::Vector2&		availableSpace,
+			ARL::Text::XAlign       xalign,
+			ARL::Text::YAlign       yalign,
+			const ARL::Vector2&		availableSpace,
 			const Rotation2D&       rotation,
-			RBX::Vector2			cursorPos) const = 0;
+			ARL::Vector2			cursorPos) const = 0;
 
 
 		/**
@@ -54,7 +54,7 @@ namespace  RBX {
 			bool* textFits = NULL
 			) const = 0;
 
-        virtual void loadResources(RBX::Graphics::TextureManager* textureManager, RBX::Graphics::TextureAtlas* glyphAtlas) = 0;
+        virtual void loadResources(ARL::Graphics::TextureManager* textureManager, ARL::Graphics::TextureAtlas* glyphAtlas) = 0;
 		virtual void releaseResources() = 0;
 		virtual const shared_ptr<Graphics::Texture>& getTexture() const = 0;
 

@@ -5,7 +5,7 @@
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/Seat.h"
 
-namespace RBX {
+namespace ARL {
 
 class RotateJoint;
 class RotateVJoint;

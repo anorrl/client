@@ -14,14 +14,14 @@
 
 class LogManager
 {
-	RBX::Log* log;
+	ARL::Log* log;
 	static bool logsEnabled;
 protected:
 	const DWORD threadID;
 	std::string name;
 	static class MainLogManager* mainLogManager;
 public:
-	RBX::Log* getLog();
+	ARL::Log* getLog();
 
 	static MainLogManager* getMainLogManager();
 #ifdef _MFC_VER
@@ -59,19 +59,19 @@ protected:
 };
 
 class MainLogManager
-	: public RBX::ILogProvider
+	: public ARL::ILogProvider
 	, public LogManager
 {
 	boost::scoped_ptr<RobloxCrashReporter> crashReporter;
-	std::vector<RBX::Log*> fastLogChannels;
-	static RBX::mutex fastLogChannelsLock;
+	std::vector<ARL::Log*> fastLogChannels;
+	static ARL::mutex fastLogChannelsLock;
 	const char* crashExtention;
 	const char* crashEventExtention;
 public:
 	MainLogManager(LPCTSTR productName, const char* crashExtention, const char* crashEventExtention);	// used for main thread
 	~MainLogManager();
 
-	RBX::Log* provideLog();
+	ARL::Log* provideLog();
 	virtual std::string getLogFileName();
 	std::string getFastLogFileName(FLog::Channel channelId);
 	std::string MakeLogFileName(const char* postfix);

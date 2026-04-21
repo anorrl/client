@@ -2,7 +2,7 @@
 
 #include "Network/api.h"
 
-namespace RBX {
+namespace ARL {
 
 template<int WindowSize=4>
 struct VarInt {
@@ -11,7 +11,7 @@ struct VarInt {
 
 	template<class OutputStream>
 	static void encode(OutputStream& out, unsigned int count) {
-		RBXASSERT(WindowSize < 8);
+		ARLASSERT(WindowSize < 8);
 
 		do {
 			unsigned char data = count & kDataMask;
@@ -25,7 +25,7 @@ struct VarInt {
 
 	template<class InputStream>
 	static void decode(InputStream& in, unsigned int* out) {
-		RBXASSERT(WindowSize < 8);
+		ARLASSERT(WindowSize < 8);
 
 		unsigned int count = 0;
 		(*out) = 0;

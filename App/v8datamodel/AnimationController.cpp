@@ -10,7 +10,7 @@
 #include "V8Kernel/Constants.h"
 #include "Network/Players.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sAnimationController = "AnimationController";
 
@@ -49,7 +49,7 @@ Animator* AnimationController::getAnimator()
 {
 	if(!animator)
 	{
-		animator = shared_ptr<Animator>(Creatable<Instance>::create<RBX::Animator>(this));
+		animator = shared_ptr<Animator>(Creatable<Instance>::create<ARL::Animator>(this));
         if (getParent() && getParent()->getClassNameStr() == "Model")
             animator->setParent(this);
 	}

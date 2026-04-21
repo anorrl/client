@@ -5,7 +5,7 @@
 #include "reflection/enumconverter.h"
 
 
-namespace RBX 
+namespace ARL 
 {
 	namespace Reflection
 	{
@@ -77,4 +77,4 @@ namespace RBX
 
 
 
-} // namespace RBX
+} // namespace ARL

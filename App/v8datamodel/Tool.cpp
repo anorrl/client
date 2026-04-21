@@ -24,9 +24,9 @@ LOGGROUP(UserInputProfile)
 
 FASTFLAG(StudioDE6194FixEnabled)
 
-namespace RBX {
+namespace ARL {
 
-using namespace RBX::Network;
+using namespace ARL::Network;
 
 const char* const sTool = "Tool";
 
@@ -103,11 +103,11 @@ Tool::Tool()
 
 Tool::~Tool()
 {
-	RBXASSERT(!handleTouched.connected());
-	RBXASSERT(!characterChildAdded.connected());
-	RBXASSERT(!characterChildRemoved.connected());
-	RBXASSERT(!torsoChildAdded.connected());
-	RBXASSERT(!torsoChildRemoved.connected());
+	ARLASSERT(!handleTouched.connected());
+	ARLASSERT(!characterChildAdded.connected());
+	ARLASSERT(!characterChildRemoved.connected());
+	ARLASSERT(!torsoChildAdded.connected());
+	ARLASSERT(!torsoChildRemoved.connected());
 }
 
 void Tool::render3dSelect(Adorn* adorn, SelectState selectState)
@@ -228,7 +228,7 @@ void Tool::setBackendToolState(int value)
 			unequippedSignal();
 			if (currentMouse)
 			{
-				currentMouse->setIcon(RBX::TextureId());
+				currentMouse->setIcon(ARL::TextureId());
 			}
 			onUnequipped();
 		}
@@ -255,7 +255,7 @@ void Tool::connectTouchEvent()
 	else
 	{
 		FASTLOG2(FLog::TouchedSignal, "Disconnecting handle Touched since we don't have part. Tool: %p, connection: %p", this, &handleTouched);
-//		RBXASSERT(0);					// only call if >= the HAS_HANDLE state
+//		ARLASSERT(0);					// only call if >= the HAS_HANDLE state
 		handleTouched.disconnect();		// just to be safe
 	}
 }
@@ -265,7 +265,7 @@ void Tool::rebuildBackendState()
 	ToolState desiredState = computeDesiredState();
 
 	const ServiceProvider* serviceProvider = ServiceProvider::findServiceProvider(this);
-	RBXASSERT(serviceProvider);
+	ARLASSERT(serviceProvider);
 	
 	setDesiredState(desiredState, serviceProvider);
 }
@@ -323,10 +323,10 @@ Tool::ToolState Tool::computeDesiredState(Instance* testParent)
 
 void Tool::setDesiredState(ToolState desiredState, const ServiceProvider* serviceProvider)
 {
-#ifdef RBXASSERTENABLED
+#ifdef ARLASSERTENABLED
 	int numToolsInCharacter;
 #endif
-	RBXASSERT((numToolsInCharacter = getNumToolsInCharacter()) || 1);
+	ARLASSERT((numToolsInCharacter = getNumToolsInCharacter()) || 1);
 
 	// short cut
 	if (desiredState == EQUIPPED && backendToolState ==  NOTHING)
@@ -366,7 +366,7 @@ void Tool::setDesiredState(ToolState desiredState, const ServiceProvider* servic
 				case IN_CHARACTER:			downFrom_InCharacter(); break;
 				case IN_WORKSPACE:			downFrom_InWorkspace();	break;
 				case HAS_HANDLE:			downFrom_HasHandle();	break;
-				case NOTHING:				RBXASSERT(0);	break;
+				case NOTHING:				ARLASSERT(0);	break;
 				}
 
 				currentState = static_cast<ToolState>(currentState - 1);
@@ -377,13 +377,13 @@ void Tool::setDesiredState(ToolState desiredState, const ServiceProvider* servic
 		setBackendToolState(currentState);
 	}
 
-	RBXASSERT(numToolsInCharacter == getNumToolsInCharacter());
+	ARLASSERT(numToolsInCharacter == getNumToolsInCharacter());
 }
 
 void Tool::fromNothingToEquipped(bool isBackend)
 {
 	// No need to call upTo_HasHandle, because we don't need handle touch events when the tool is equipped
-	RBXASSERT(!handleTouched.connected());
+	ARLASSERT(!handleTouched.connected());
 
 	setBackendToolState(EQUIPPED);
 
@@ -399,7 +399,7 @@ void Tool::fromNothingToEquipped(bool isBackend)
 
 void Tool::fromEquippedToNothing()
 {
-	RBXASSERT(!handleTouched.connected());
+	ARLASSERT(!handleTouched.connected());
 
 	downFrom_Equipped(false);	// specify false here to indicate we don't need handle touch events
 	downFrom_HasTorso();
@@ -423,7 +423,7 @@ void Tool::downFrom_HasHandle()
 
 void Tool::upTo_InWorkspace()
 {
-	RBXASSERT(ServiceProvider::findServiceProvider(this));
+	ARLASSERT(ServiceProvider::findServiceProvider(this));
 }
 
 void Tool::downFrom_InWorkspace()
@@ -432,7 +432,7 @@ void Tool::downFrom_InWorkspace()
 
 void Tool::upTo_InCharacter()
 {
-	RBXASSERT(Humanoid::modelIsCharacter(getParent()));
+	ARLASSERT(Humanoid::modelIsCharacter(getParent()));
 
 	if (getParent())
 	{
@@ -455,9 +455,9 @@ void Tool::downFrom_InCharacter()
 void Tool::upTo_HasTorso()
 {
 	Humanoid* humanoid = Humanoid::modelIsCharacter(getParent());
-	RBXASSERT(humanoid);
+	ARLASSERT(humanoid);
 	PartInstance* torso = humanoid->getTorsoSlow();
-	RBXASSERT(torso);
+	ARLASSERT(torso);
 	torsoChildAdded = torso->onDemandWrite()->childAddedSignal.connect(boost::bind(&Tool::onEvent_AddedBackend, shared_from(this), _1));
 	torsoChildRemoved = torso->onDemandWrite()->childRemovedSignal.connect(boost::bind(&Tool::onEvent_RemovedBackend, shared_from(this), _1));
 }
@@ -572,7 +572,7 @@ void Tool::onEvent_AddedBackend(shared_ptr<Instance> child)
 {
 	if (child.get() != this)	// tool parent changed is handled in ancestor stuff, because this might not be hooked up
 	{
-		RBXASSERT(ServiceProvider::findServiceProvider(this));
+		ARLASSERT(ServiceProvider::findServiceProvider(this));
 		rebuildBackendState();
 	}
 }
@@ -587,7 +587,7 @@ void Tool::onEvent_RemovedBackend(shared_ptr<Instance> child)
 		{
 			if (child.get() == weld.get())
 			{
-				RBXASSERT(backendToolState >= EQUIPPED);
+				ARLASSERT(backendToolState >= EQUIPPED);
 				setDesiredState(HAS_TORSO, ServiceProvider::findServiceProvider(this));	// force down, nuke the weld
 			}
 			rebuildBackendState();
@@ -617,7 +617,7 @@ void Tool::onEvent_AddedToArmBackend(shared_ptr<Instance> child, Instance *handl
 	shared_ptr<Weld> w = Instance::fastSharedDynamicCast<Weld>(child);
 	if (w && w->getName() == "RightGrip" && w->getPart1() == handle)
 	{
-		RBXASSERT(!weld);
+		ARLASSERT(!weld);
 		weld = w;
 
 		armChildAdded.disconnect();
@@ -628,7 +628,7 @@ void Tool::onEvent_AddedToArmBackend(shared_ptr<Instance> child, Instance *handl
 void Tool::onEvent_HandleTouched(shared_ptr<Instance> other)
 {
 	// this is probably going off because you are trying to JOIN a game in distributed physics mode with no server found
-	RBXASSERT(Network::Players::backendProcessing(this));			
+	ARLASSERT(Network::Players::backendProcessing(this));			
 	
 	if ((backendToolState == IN_WORKSPACE) && other)
 	{
@@ -641,7 +641,7 @@ void Tool::onEvent_HandleTouched(shared_ptr<Instance> other)
 				if (p && canBePickedUpByPlayer(p)) {
 					moveAllToolsToBackpack(p);
 					setParent(touchingCharacter);
-					RBXASSERT(backendToolState == EQUIPPED);
+					ARLASSERT(backendToolState == EQUIPPED);
 
 					// Move any other tool to the backpack, should the player 
 					// have more than one equipped at the same time.
@@ -744,11 +744,11 @@ int Tool::getNumToolsInCharacter()
 	
 void Tool::onAncestorChanged(const AncestorChanged& event)
 {
-#ifdef RBXASSERTENABLED
+#ifdef ARLASSERTENABLED
 	int numToolsInCharacter;
 #endif
 
-	RBXASSERT((numToolsInCharacter = getNumToolsInCharacter()) || 1);
+	ARLASSERT((numToolsInCharacter = getNumToolsInCharacter()) || 1);
 
 	const ServiceProvider* oldProvider = ServiceProvider::findServiceProvider(event.oldParent);
 	const ServiceProvider* newProvider = ServiceProvider::findServiceProvider(event.newParent);
@@ -774,7 +774,7 @@ void Tool::onAncestorChanged(const AncestorChanged& event)
 		bool frontendProcessing = Network::Players::frontendProcessing(newProvider);
 		bool backendProcessing = Network::Players::backendProcessing(newProvider);
 
-		RBXASSERT(ServiceProvider::findServiceProvider(this) == newProvider);
+		ARLASSERT(ServiceProvider::findServiceProvider(this) == newProvider);
 
 		if (backendProcessing)
 		{
@@ -818,7 +818,7 @@ void Tool::onAncestorChanged(const AncestorChanged& event)
 	}
 
 	// Checking to make sure that we don't have setParent byproducts here
-	RBXASSERT(numToolsInCharacter == getNumToolsInCharacter());
+	ARLASSERT(numToolsInCharacter == getNumToolsInCharacter());
 }
 
 
@@ -858,7 +858,7 @@ shared_ptr<Mouse> Tool::onEquipping()
     
 void Tool::setMousePositionForInputType()
 {
-    if (RBX::UserInputService* inputService = RBX::ServiceProvider::find<RBX::UserInputService>(this))
+    if (ARL::UserInputService* inputService = ARL::ServiceProvider::find<ARL::UserInputService>(this))
     {
         if (inputService->getGamepadEnabled() )
         {
@@ -876,7 +876,7 @@ void Tool::setMousePositionForInputType()
         else if (inputService->getTouchEnabled())
         {
             UserInputService::InputObjectVector currentTouches = inputService->getCurrentTouches();
-            RBX::StandardOut::singleton()->printf(MESSAGE_INFO, "current num of touches is %lu",currentTouches.size());
+            ARL::StandardOut::singleton()->printf(MESSAGE_INFO, "current num of touches is %lu",currentTouches.size());
             if (currentTouches.size() > 0)
             {
                 Vector2 avgTouchPosition = Vector2::zero();
@@ -888,8 +888,8 @@ void Tool::setMousePositionForInputType()
                 }
                 avgTouchPosition = avgTouchPosition/numOfTouches;
 
-                shared_ptr<InputObject> fakeMouseActivatePosition = RBX::Creatable<RBX::Instance>::create<RBX::InputObject>(InputObject::TYPE_MOUSEMOVEMENT, InputObject::INPUT_STATE_CHANGE,
-                                                                        Vector3(avgTouchPosition.x,avgTouchPosition.y,0), Vector3::zero(), RBX::DataModel::get(this));
+                shared_ptr<InputObject> fakeMouseActivatePosition = ARL::Creatable<ARL::Instance>::create<ARL::InputObject>(InputObject::TYPE_MOUSEMOVEMENT, InputObject::INPUT_STATE_CHANGE,
+                                                                        Vector3(avgTouchPosition.x,avgTouchPosition.y,0), Vector3::zero(), ARL::DataModel::get(this));
                 
                 if (currentMouse)
                 {
@@ -924,7 +924,7 @@ void Tool::luaActivate()
 	}
 	else
 	{
-		RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "Tool:Activate() called from script when tool is not equipped. Tool will not be activated.");
+		ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "Tool:Activate() called from script when tool is not equipped. Tool will not be activated.");
 	}
 }
 
@@ -936,21 +936,21 @@ void Tool::activate(bool manuallyActivated)
     }
     
 	FASTLOG(FLog::UserInputProfile, "Tool::activate");
-	RBXASSERT(Network::Players::frontendProcessing(this));
+	ARLASSERT(Network::Players::frontendProcessing(this));
 	event_Activated.fireAndReplicateEvent(this);
 }
 
 
 void Tool::deactivate()
 {
-	RBXASSERT(Network::Players::frontendProcessing(this));
+	ARLASSERT(Network::Players::frontendProcessing(this));
 	event_Deactivated.fireAndReplicateEvent(this);
 }
 
 // Local Event - must be from outside
 void Tool::onLocalClicked()
 {
-	RBXASSERT(Network::Players::frontendProcessing(this));
+	ARLASSERT(Network::Players::frontendProcessing(this));
 
 	if (Player* player = Players::findLocalPlayer(this))
 	{
@@ -958,7 +958,7 @@ void Tool::onLocalClicked()
 		{
 			if (this->getParent() == player->getPlayerBackpack())
 			{
-				RBXASSERT(player);
+				ARLASSERT(player);
 				moveAllToolsToBackpack(player);
 				setParent(player->getCharacter());
 			}
@@ -970,12 +970,12 @@ void Tool::onLocalClicked()
 	}
 
 	// Confirm I'm not starting with a bad parent/child relationship - i.e., >1 tool in a character
-	RBXASSERT(this->getNumToolsInCharacter() < 2);
+	ARLASSERT(this->getNumToolsInCharacter() < 2);
 }
 
 void Tool::onLocalOtherClicked()
 {
-	RBXASSERT(Network::Players::frontendProcessing(this));
+	ARLASSERT(Network::Players::frontendProcessing(this));
 
 	if (Player* player = Players::findLocalPlayer(this))
 	{
@@ -1026,7 +1026,7 @@ void Tool::setGrip(const CoordinateFrame& value)
 		if (weld != NULL)
 		{
 			// all this does not occur client side
-			RBXASSERT(Network::Players::backendProcessing(this));
+			ARLASSERT(Network::Players::backendProcessing(this));
 			weld->setC1(grip);
 		}
 	}

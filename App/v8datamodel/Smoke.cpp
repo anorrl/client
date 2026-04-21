@@ -5,7 +5,7 @@
 #include "V8DataModel/Workspace.h"
 #include "V8DataModel/PartInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sSmoke = "Smoke";
 

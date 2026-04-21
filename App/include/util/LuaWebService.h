@@ -2,7 +2,7 @@
 #include "V8Tree/Service.h"
 #include "Util/AsyncHttpCache.h"
 
-namespace RBX {
+namespace ARL {
     extern const char* const sPages;
     
 	class Pages :

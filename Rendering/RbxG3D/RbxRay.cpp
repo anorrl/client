@@ -14,7 +14,7 @@
 #include "RbxG3D/RbxRay.h"
 #include "G3D/CollisionDetection.h"
 
-namespace RBX {
+namespace ARL {
 
 
 RbxRay RbxRay::refract(

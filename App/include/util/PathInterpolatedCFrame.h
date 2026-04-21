@@ -7,7 +7,7 @@
 #include "Util/Velocity.h"
 #include "rbx/RunningAverage.h"
 
-namespace RBX {
+namespace ARL {
 
 	#define NUM_MAX_HISTORY 8
 	#define NUM_BUFFER_NODES 2

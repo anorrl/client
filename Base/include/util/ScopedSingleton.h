@@ -6,7 +6,7 @@
 #include "rbx/Debug.h"
 #include "rbx/threadsafe.h"
 
-namespace RBX
+namespace ARL
 {
 	template<class T>
 	class ScopedSingleton

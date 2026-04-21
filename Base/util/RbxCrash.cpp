@@ -9,12 +9,12 @@
 
 #include "rbx/Debug.h"
 
-void RBXCRASH()
+void ARLCRASH()
 {
-	RBX::Debugable::doCrash();
+	ARL::Debugable::doCrash();
 }
 
-void RBXCRASH(const char* message)
+void ARLCRASH(const char* message)
 {
-	RBX::Debugable::doCrash(message);
+	ARL::Debugable::doCrash(message);
 }

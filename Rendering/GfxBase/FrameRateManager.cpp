@@ -20,7 +20,7 @@ FASTFLAGVARIABLE(DebugSSAOForce, false)
 FASTINTVARIABLE(FRMRecomputeDistanceFrameDelay, 100)
 FASTINTVARIABLE(RenderGBufferMinQLvl, 20) // 14 for later
 
-namespace RBX {
+namespace ARL {
 
 /////////////////////////////////////////////////////////////////////////////
 // Tweakable section
@@ -47,7 +47,7 @@ static const int SettleDelay = 20; // Number of milliseconds that we consider le
 //  you're going to be backed off to previous level
 //  ... with StepLevel increased by FastBackoffStepLevelIncrement
 
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
 static const double FastBackoffMaxFrameLen = 40;	// 25 FPS
 #else
 static const double FastBackoffMaxFrameLen = 60;	// 16.6 FPS
@@ -168,19 +168,19 @@ FrameRateManager::FrameRateManager(void) :
 	mRecomputeDistanceDelay(FInt::FRMRecomputeDistanceFrameDelay),
 	mAggressivePerformance(false)
 {
-	RBXASSERT(CRenderSettings::QualityLevelMax == ARRAYSIZE(kLockstepTable30FPS)); // If that fails, you probably added another quality level without syncing it with RenderSettings
-	RBXASSERT(CRenderSettings::QualityLevelMax == ARRAYSIZE(kLockstepTable60FPS)); // If that fails, you probably added another quality level without syncing it with RenderSettings
+	ARLASSERT(CRenderSettings::QualityLevelMax == ARRAYSIZE(kLockstepTable30FPS)); // If that fails, you probably added another quality level without syncing it with RenderSettings
+	ARLASSERT(CRenderSettings::QualityLevelMax == ARRAYSIZE(kLockstepTable60FPS)); // If that fails, you probably added another quality level without syncing it with RenderSettings
 	
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
 	LockstepTable = kLockstepTable30FPS;
 #else
 	LockstepTable = kLockstepTable60FPS;
 #endif
 
-	RBXASSERT(LockStepDelayDown <= LockStepDelayUp);
+	ARLASSERT(LockStepDelayDown <= LockStepDelayUp);
 
 	// We need to have enough frames for averaging before we can step down again
-	RBXASSERT(AveragingFrames + VarianceFrames <= LockStepDelayDown);
+	ARLASSERT(AveragingFrames + VarianceFrames <= LockStepDelayDown);
 
     for (unsigned i = 0; i < CRenderSettings::QualityLevelMax; ++i)
         mQualityCount[i] = 0;
@@ -240,7 +240,7 @@ void FrameRateManager::SendQualityLevelStats()
     {
         // Because we are reporting using timing function, we want one quality level to be 1sec (it accepts ms)
         int reportValue = (int)(avgQuality * 1000.0f); 
-        RBX::RobloxGoogleAnalytics::trackUserTiming(GA_CATEGORY_GAME, "GraphicsQualityLevel", reportValue, SystemUtil::osPlatform().c_str());
+        ARL::RobloxGoogleAnalytics::trackUserTiming(GA_CATEGORY_GAME, "GraphicsQualityLevel", reportValue, SystemUtil::osPlatform().c_str());
     }
 }
 
@@ -400,14 +400,14 @@ void FrameRateManager::UpdateStats(double frameTime, double renderTime, double p
 
 float FrameRateManager::GetTargetFrameTimeForNextLevel() const
 {
-    RBXASSERT(mCurrentQualityLevel < (CRenderSettings::QualityLevelMax-1));
+    ARLASSERT(mCurrentQualityLevel < (CRenderSettings::QualityLevelMax-1));
 
     return GetTargetFrameTime(mCurrentQualityLevel+1);
 }
 
 float FrameRateManager::GetTargetRenderTimeForNextLevel() const
 {
-    RBXASSERT(mCurrentQualityLevel < (CRenderSettings::QualityLevelMax-1));
+    ARLASSERT(mCurrentQualityLevel < (CRenderSettings::QualityLevelMax-1));
 
     return GetTargetFrameTime(mCurrentQualityLevel+1)*MultiCoreRenderBottleneckFraction - LockstepTable[mCurrentQualityLevel+1].StepHill;
 }
@@ -425,9 +425,9 @@ void FrameRateManager::AdjustQuality(double frameTime, double renderTime, bool a
 	if(mQualityDelayUp > 0)
 		mQualityDelayUp--;
 
-    RBX::WindowAverage<double, double>::Stats frameStats = frameTimeAverage.getStats();
-	RBX::WindowAverage<double, double>::Stats renderStats = renderTimeAverage.getStats();
-    RBX::WindowAverage<double, double>::Stats prepareStats = prepareTimeAverage.getStats();
+    ARL::WindowAverage<double, double>::Stats frameStats = frameTimeAverage.getStats();
+	ARL::WindowAverage<double, double>::Stats renderStats = renderTimeAverage.getStats();
+    ARL::WindowAverage<double, double>::Stats prepareStats = prepareTimeAverage.getStats();
 
     frameTimeVarianceAverage.sample(frameStats.average);
 
@@ -438,7 +438,7 @@ void FrameRateManager::AdjustQuality(double frameTime, double renderTime, bool a
 
 	FASTLOG3F(FLog::FRM, "FRM status. Frame time average: %f, Delay up %f, Delay down %f", frameStats.average, (float)mQualityDelayUp, (float)mQualityDelayDown);
     
-	RBX::WindowAverage<double, double>::Stats fastBackoffStats = fastBackoffAverage.getStats();
+	ARL::WindowAverage<double, double>::Stats fastBackoffStats = fastBackoffAverage.getStats();
     fastBackoffStats.average -= bonusTime;
 
 	if(fastBackoffStats.average > FastBackoffMaxFrameLen &&
@@ -456,13 +456,13 @@ void FrameRateManager::AdjustQuality(double frameTime, double renderTime, bool a
 	if(mQualityDelayDown > 0 && mQualityDelayUp > 0)
 		return;
 
-	RBX::WindowAverage<double, double>::Stats frameAverageStats = frameTimeVarianceAverage.getStats();
+	ARL::WindowAverage<double, double>::Stats frameAverageStats = frameTimeVarianceAverage.getStats();
 
 	if(frameAverageStats.variance > VarianceLimit)
 		return;
  
 	bool bRenderLimited = renderStats.average > frameStats.average * RenderFraction;
-	if (RBX::TaskScheduler::singleton().getThreadCount() > 1)
+	if (ARL::TaskScheduler::singleton().getThreadCount() > 1)
 		bRenderLimited = renderStats.average > frameStats.average * MultiCoreRenderBottleneckFraction;
 
 	// Check for going down:
@@ -476,7 +476,7 @@ void FrameRateManager::AdjustQuality(double frameTime, double renderTime, bool a
 	{
 		bool renderingHasRoom = renderStats.average < GetTargetRenderTimeForNextLevel();
 
-		if (RBX::TaskScheduler::singleton().getThreadCount() > 1)
+		if (ARL::TaskScheduler::singleton().getThreadCount() > 1)
 		{
 			renderingHasRoom = (renderStats.average < GetTargetRenderTimeForNextLevel()) && 
 				prepareStats.average < GetTargetFrameTime(mCurrentQualityLevel+1)*MultiCorePrepareFraction;
@@ -519,7 +519,7 @@ void FrameRateManager::StepQuality(bool stepUp, bool isBackOff)
 			// If we're stepping down from higher level immediately, bump the step (within the allowed range, of course)
 			if(!stepUp)
 			{
-				RBXASSERT(mCurrentQualityLevel < (CRenderSettings::QualityLevelMax-1));
+				ARLASSERT(mCurrentQualityLevel < (CRenderSettings::QualityLevelMax-1));
 				int previousLevel = mCurrentQualityLevel+1;
 
 				double StepHillAdd = isBackOff ? 0.1 : 1;
@@ -723,7 +723,7 @@ double FrameRateManager::GetParticleThrottleFactor()
 
 bool FrameRateManager::getGBufferSetting()
 {
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
     return false;
 #else
     return FFlag::DebugSSAOForce || (isSSAOSupported() && GetQualityLevel() >= FInt::RenderGBufferMinQLvl);

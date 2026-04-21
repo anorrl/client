@@ -10,7 +10,7 @@
 #include "AppDraw/DrawAdorn.h"
 #include "Util/HitTest.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const  sHandlesBase = "HandlesBase";
 
@@ -49,9 +49,9 @@ bool HandlesBase::getDistanceFromHandle(const shared_ptr<InputObject>& inputObje
 		if(!workspace) return false;
 
 		Vector3 worldNormal = Math::getWorldNormal(localNormalId, part->getLocation());
-		RbxRay axisRay = RBX::RbxRay::fromOriginAndDirection(hitPointWorld, worldNormal);
+		RbxRay axisRay = ARL::RbxRay::fromOriginAndDirection(hitPointWorld, worldNormal);
 		RbxRay gridRay = MouseCommand::getUnitMouseRay(inputObject,workspace);
-		Vector3 closePoint = RBX::Math::closestPointOnRay(axisRay, gridRay);
+		Vector3 closePoint = ARL::Math::closestPointOnRay(axisRay, gridRay);
 		Vector3 handleToCurrent = closePoint - hitPointWorld;
 		distance = axisRay.direction().dot(handleToCurrent);
 		return true;
@@ -156,7 +156,7 @@ void HandlesBase::render3dAdorn(Adorn* adorn)
     }
 
 	if(part){
-		RBX::DrawAdorn::handles3d(
+		ARL::DrawAdorn::handles3d(
 			part->getPartSizeXml(),
 			part->getCoordinateFrame(),
 			adorn, 

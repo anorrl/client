@@ -6,12 +6,12 @@
 #include "Util/Velocity.h"
 #include "V8DataModel/Camera.h"
 
-namespace RBX {
+namespace ARL {
 
 	class ContactManager;
 	class Camera;
 
-	class RBXInterface ICharacterSubject : public CameraSubject
+	class ARLInterface ICharacterSubject : public CameraSubject
 	{
 	public:
 		ICharacterSubject();
@@ -23,8 +23,8 @@ namespace RBX {
 		int getControlMode() const;
 		int getCustomCameraMode() const;
 
-		RBX::Camera::CameraMode getCameraMode() const { return cameraMode; };
-		void setCameraMode (RBX::Camera::CameraMode value);
+		ARL::Camera::CameraMode getCameraMode() const { return cameraMode; };
+		void setCameraMode (ARL::Camera::CameraMode value);
 
 		float getMinDistance() const { return minDistance; } 
 		void setMinDistance(float value);
@@ -64,10 +64,10 @@ namespace RBX {
 
 		bool cameraTransitioning;
 
-		RBX::Camera::CameraMode cameraMode;
+		ARL::Camera::CameraMode cameraMode;
 
 		float minDistance;
 		float maxDistance;
 	};
 
-}	// namespace RBX
+}	// namespace ARL

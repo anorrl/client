@@ -4,7 +4,7 @@
 #include "G3D/Vector3int16.h"
 #include "G3DCore.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Region3int16 {
 	private:

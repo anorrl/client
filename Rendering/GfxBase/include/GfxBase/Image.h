@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 
-namespace RBX {
+namespace ARL {
 
 class Image
 {

@@ -15,7 +15,7 @@
 
 FASTFLAGVARIABLE(NotificationServiceEnabledForEveryone, false);
 
-namespace RBX
+namespace ARL
 {
 	const char* const sNotificationService = "NotificationService";
     
@@ -49,7 +49,7 @@ namespace RBX
             retVal = false;
         }
         
-        if (RBX::UserInputService* inputService = RBX::ServiceProvider::find<RBX::UserInputService>(this))
+        if (ARL::UserInputService* inputService = ARL::ServiceProvider::find<ARL::UserInputService>(this))
         {
             if (!inputService->getTouchEnabled())
             {
@@ -94,6 +94,6 @@ namespace RBX
             errorFunction("Notification Service Not Available");
     }
 
-}// namespace RBX
+}// namespace ARL
 
 

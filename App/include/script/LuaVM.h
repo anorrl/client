@@ -1,22 +1,22 @@
 #pragma once
 
-#if (defined(_WIN32) || (defined(__APPLE__) && !defined(RBX_PLATFORM_IOS))) && !defined(RBX_STUDIO_BUILD)
-#define RBX_SECURE_DOUBLE
+#if (defined(_WIN32) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS))) && !defined(ARL_STUDIO_BUILD)
+#define ARL_SECURE_DOUBLE
 #endif
 
 #ifdef _WIN32
-#define RBX_ALIGN(s) _declspec(align(s)) 
+#define ARL_ALIGN(s) _declspec(align(s)) 
 #else
-#define RBX_ALIGN(s) __attribute__((__aligned__(s))) 
+#define ARL_ALIGN(s) __attribute__((__aligned__(s))) 
 #endif
 
 #include <boost/unordered_map.hpp>
 #include <string>
-#if defined(RBX_SECURE_DOUBLE)
+#if defined(ARL_SECURE_DOUBLE)
 #include <emmintrin.h>
 #endif
 
-#ifndef RBX_STUDIO_BUILD
+#ifndef ARL_STUDIO_BUILD
 #define LUAVM_SECURE
 #endif
 
@@ -98,7 +98,7 @@ typedef unsigned int (*RbxOpEncoder)(unsigned int i, int pc, unsigned key);
 // Utility class
 struct lua_State;
 
-namespace RBX
+namespace ARL
 {
     class ProtectedString;
 }
@@ -121,7 +121,7 @@ namespace LuaVM
 
     std::string compileLegacy(const std::string& source);
 
-    int load(lua_State* L, const RBX::ProtectedString& source, const char* chunkname, unsigned int modkey = 1);
+    int load(lua_State* L, const ARL::ProtectedString& source, const char* chunkname, unsigned int modkey = 1);
     
     unsigned int getKey();
 
@@ -152,7 +152,7 @@ namespace LuaVM
 }
 
 
-#if defined(RBX_SECURE_DOUBLE)
+#if defined(ARL_SECURE_DOUBLE)
 // Note that users who can find a value can still change magnitude or sign easily.
 
 // sse2+ only
@@ -161,7 +161,7 @@ class LuaSecureDouble
 private:
     double storage;
 public:
-    static RBX_ALIGN(16) int luaXorMask[4];
+    static ARL_ALIGN(16) int luaXorMask[4];
 
     operator const double() const
     {

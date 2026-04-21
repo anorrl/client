@@ -31,14 +31,14 @@
 #include "util/MovementHistory.h"
 #include "util/VarInt.h"
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 DYNAMIC_FASTFLAG(HumanoidFloorPVUpdateSignal)
 DYNAMIC_FASTINTVARIABLE(DebugMovementPathNumTotalWayPoint, 1000)
 DYNAMIC_FASTFLAG(SimpleHermiteSplineInterpolate)
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 	namespace PathBasedMovementDebug
 	{
 		NodeDebugInfo FirstNode = {Color3::blue(), 13, false};
@@ -99,7 +99,7 @@ void logItem(MechanismItem& item, RakNet::Time timeStamp)
 }
 */
 
-void PhysicsReceiver::receiveMechanismCFrames(RakNet::BitStream& bitStream, RakNet::Time timeStamp, const RBX::RemoteTime& sendTime)
+void PhysicsReceiver::receiveMechanismCFrames(RakNet::BitStream& bitStream, RakNet::Time timeStamp, const ARL::RemoteTime& sendTime)
 {
     NETPROFILE_START("receiveMechanismCFrames", &bitStream);
     int bitStart = bitStream.GetReadOffset();
@@ -110,7 +110,7 @@ void PhysicsReceiver::receiveMechanismCFrames(RakNet::BitStream& bitStream, RakN
 		{
 			if (part->raknetTime > timeStamp) {
 				if (replicator->settings().printPhysicsErrors) {
-					RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "Physics-in old packet");
+					ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "Physics-in old packet");
 				}
 				part.reset();
 			}
@@ -162,7 +162,7 @@ void PhysicsReceiver::receiveMechanism(RakNet::BitStream& bitStream, PartInstanc
 	{
 		shared_ptr<PartInstance> part;
 		bool ok = receivePart(part, bitStream);
-		RBXASSERT(ok);
+		ARLASSERT(ok);
 
 		readAssembly(bitStream, part.get(), item, false);
 
@@ -250,7 +250,7 @@ void PhysicsReceiver::readMovementHistory(RakNet::BitStream& bitStream, RemoteTi
                         assemblyItem.pv.position.translation = nodeCFrame.translation;
                         if (rootPart)
                         {
-                            RBXASSERT(numNode > 1); // we should have at least two nodes: a baseline node and a path node
+                            ARLASSERT(numNode > 1); // we should have at least two nodes: a baseline node and a path node
                             rootPart->setLastCFrame(nodeCFrame);
                             isBaselineNode = true;
                             //addVectorAdorn(cf.translation, nodeCFrame.translation, Color3::purple());
@@ -302,7 +302,7 @@ void PhysicsReceiver::readMovementHistory(RakNet::BitStream& bitStream, RemoteTi
                     else
                     {
                         if (replicator->settings().printPhysicsErrors) {
-                            RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "Discard old node *****");
+                            ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "Discard old node *****");
 
 							addWayPointAdorn(timedCf.cf.translation, PathBasedMovementDebug::OldNode);
                         }
@@ -370,7 +370,7 @@ void PhysicsReceiver::readAssembly(RakNet::BitStream& bitstream, PartInstance* r
 
 	if (rootPart)
 	{
-		RBXASSERT(rootPart->getPartPrimitive()->getAssembly());
+		ARLASSERT(rootPart->getPartPrimitive()->getAssembly());
 
 		Primitive* primitive = rootPart->getPartPrimitive();
 		Joint* toParent = rbx_static_cast<Joint*>(primitive->getEdgeToParent());
@@ -405,7 +405,7 @@ bool PhysicsReceiver::deserializeTouch(RakNet::BitStream& bitstream, const RakNe
 
 	shared_ptr<PartInstance> part2;
 	bool ok = receivePart(part2, bitstream);
-	RBXASSERT(ok);
+	ARLASSERT(ok);
 
 	bool touched;
 	bitstream >> touched;
@@ -417,14 +417,14 @@ bool PhysicsReceiver::deserializeTouch(RakNet::BitStream& bitstream, const RakNe
 
 	if (replicator->settings().printTouches) {
 		if (touched) {
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 				"Replication: Touch:%s->%s << %s", 
 				part1->getName().c_str(), 
 				part2->getName().c_str(), 
 				RakNetAddressToString(replicator->remotePlayerId).c_str() 
 				);
 		} else {
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 				"Replication: Untouch:%s->%s << %s", 
 				part1->getName().c_str(), 
 				part2->getName().c_str(), 
@@ -548,7 +548,7 @@ void PhysicsReceiver::readMotorAngles(RakNet::BitStream& bitStream, AssemblyItem
 	bitStream >> compactNum;
 
 	if (compactNum>50 && replicator->settings().printPhysicsErrors)
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Physics-in has %d motors", compactNum);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Physics-in has %d motors", compactNum);
 
 	const int numMotors = compactNum;
 	item.motorAngles.resize(numMotors);		// i.e. - fast clear, no allocation
@@ -570,9 +570,9 @@ void PhysicsReceiver::readCompactCFrame(RakNet::BitStream& bitStream, CompactCFr
 		unsigned char byteAngle;
 		bitStream >> byteAngle;
 		cFrame = CompactCFrame(Vector3::zero(), Vector3::unitZ(), Math::rotationFromByte(byteAngle));
-		RBXASSERT(!Math::isNanInfVector3(cFrame.getAxis()));
-		RBXASSERT(!Math::isNanInf(cFrame.getAngle()));
-		RBXASSERT(!Math::isNanInfVector3(cFrame.translation));
+		ARLASSERT(!Math::isNanInfVector3(cFrame.getAxis()));
+		ARLASSERT(!Math::isNanInf(cFrame.getAngle()));
+		ARLASSERT(!Math::isNanInfVector3(cFrame.translation));
 	}
 	else
 	{
@@ -598,17 +598,17 @@ void PhysicsReceiver::readCompactCFrame(RakNet::BitStream& bitStream, CompactCFr
 		}
 		else
 		{
-			cFrame.setAxisAngle(RBX::Vector3::unitX(), 0);
+			cFrame.setAxisAngle(ARL::Vector3::unitX(), 0);
 		}
 
-		RBXASSERT(!Math::isNanInfVector3(cFrame.getAxis()));
-		RBXASSERT(!Math::isNanInf(cFrame.getAngle()));
-		RBXASSERT(!Math::isNanInfVector3(cFrame.translation));
+		ARLASSERT(!Math::isNanInfVector3(cFrame.getAxis()));
+		ARLASSERT(!Math::isNanInf(cFrame.getAngle()));
+		ARLASSERT(!Math::isNanInfVector3(cFrame.translation));
 	}
     NETPROFILE_END("readCompactCFrame", &bitStream);
 }
 
-void PhysicsReceiver::setPhysics(const MechanismItem& item, const RBX::RemoteTime& remoteSendTime, const RakNet::TimeMS lagInMs, int numNodesInHistory)
+void PhysicsReceiver::setPhysics(const MechanismItem& item, const ARL::RemoteTime& remoteSendTime, const RakNet::TimeMS lagInMs, int numNodesInHistory)
 {
 	bool hasVelocity = item.hasVelocity;
 	Time::Interval lag(static_cast<double>(lagInMs) / 1000.0f);
@@ -624,19 +624,19 @@ void PhysicsReceiver::setPhysics(const MechanismItem& item, const RBX::RemoteTim
 			if (this->replicator->filterPhysics(part) == Reject)
 			{
 				if (replicator->settings().printPhysicsFilters)
-					RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "filterPhysics %s", part->getName().c_str());
+					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "filterPhysics %s", part->getName().c_str());
 				continue;
 			}
 
 			Primitive* primitive = part->getPartPrimitive();
 
 			// Show david this assert and then destroy - validating the case where we received this history item in the past, and the primitive is no longer in world
-			RBXASSERT(primitive->getWorld());
+			ARLASSERT(primitive->getWorld());
 
 			if (!Assembly::isAssemblyRootPrimitive(primitive))
 			{
 				if (replicator->settings().printPhysicsFilters)
-					RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "!isAssemblyRootPrimitive %s", part->getName().c_str());
+					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "!isAssemblyRootPrimitive %s", part->getName().c_str());
 				continue;
 			}
 
@@ -644,7 +644,7 @@ void PhysicsReceiver::setPhysics(const MechanismItem& item, const RBX::RemoteTim
 			if (a->computeIsGrounded())
 			{
 				if (replicator->settings().printPhysicsFilters)
-					RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "computeIsGrounded %s", part->getName().c_str());
+					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "computeIsGrounded %s", part->getName().c_str());
 				continue;
 			}
 			
@@ -688,8 +688,8 @@ void PhysicsReceiver::setPhysics(const MechanismItem& item, const RBX::RemoteTim
 					}
 
 					CoordinateFrame oldPosition;
-					RBX::Velocity previousLinearVelocity;
-					RBX::Time lastUpdateTime;
+					ARL::Velocity previousLinearVelocity;
+					ARL::Time lastUpdateTime;
 					
 					if (DFFlag::HumanoidFloorPVUpdateSignal)
 					{
@@ -713,8 +713,8 @@ void PhysicsReceiver::setPhysics(const MechanismItem& item, const RBX::RemoteTim
 			{
     			part->addInterpolationSample(assemblyItem.pv.position, assemblyItem.pv.velocity, remoteSendTime, now, 0.f, numNodesInHistory);
 				CoordinateFrame oldPosition;
-				RBX::Velocity previousLinearVelocity;
-				RBX::Time lastUpdateTime;
+				ARL::Velocity previousLinearVelocity;
+				ARL::Time lastUpdateTime;
 				if (DFFlag::HumanoidFloorPVUpdateSignal)
 				{
 					oldPosition = part->getCoordinateFrame();
@@ -757,7 +757,7 @@ void PhysicsReceiver::addWayPointAdorn(const Vector3& p, const PathBasedMovement
 	}
 }
 
-void PhysicsReceiver::addVectorAdorn(const Vector3& start, const Vector3& end, const RBX::Color4& c)
+void PhysicsReceiver::addVectorAdorn(const Vector3& start, const Vector3& end, const ARL::Color4& c)
 {
     if (Workspace::showPartMovementPath)
     {
@@ -804,7 +804,7 @@ bool PhysicsReceiver::receiveRootPart(shared_ptr<PartInstance>& part, RakNet::Bi
 bool PhysicsReceiver::receivePart(shared_ptr<PartInstance>& part, RakNet::BitStream& inBitstream)
 {
 	shared_ptr<Instance> instance;
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 	if (replicator->deserializeInstanceRef(inBitstream, instance, id))
 	{
 		if (instance==NULL) {
@@ -815,7 +815,7 @@ bool PhysicsReceiver::receivePart(shared_ptr<PartInstance>& part, RakNet::BitStr
 	else
 	{
 		if (replicator->settings().printPhysicsErrors) {
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING,
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING,
 				"Physics-in of unidentified %s", id.readableString().c_str());
 		}
 	}
@@ -825,7 +825,7 @@ bool PhysicsReceiver::receivePart(shared_ptr<PartInstance>& part, RakNet::BitStr
 		if (!PartInstance::nonNullInWorkspace(part))
 		{
 			if (replicator->settings().printPhysicsErrors) {
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO,
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO,
 					"Physics-in of part not in workspace %s", id.readableString().c_str());
 			}
 			part.reset();

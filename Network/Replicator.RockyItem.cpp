@@ -7,7 +7,7 @@
 #include "v8datamodel/DataModel.h"
 #include <boost/bind.hpp>
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 Replicator::RockyItem::RockyItem(Replicator* replicator, MccReport& report)
@@ -24,7 +24,7 @@ bool Replicator::RockyItem::write(RakNet::BitStream& bitStream) {
 	return true;
 }
 
-#ifndef RBX_STUDIO_BUILD
+#ifndef ARL_STUDIO_BUILD
 Replicator::NetPmcResponseItem::NetPmcResponseItem(Replicator* replicator, uint32_t response, uint64_t correct, uint8_t idx)
     : Item(*replicator)
     , response(response)
@@ -60,7 +60,7 @@ bool Replicator::RockyDbgItem::write(RakNet::BitStream& bitStream)
 }
 #endif
 
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
 Replicator::NetPmcChallengeItem::NetPmcChallengeItem(Replicator* replicator, uint8_t idx)
     : Item(*replicator)
     , idx(idx) { }
@@ -70,7 +70,7 @@ bool Replicator::NetPmcChallengeItem::write(RakNet::BitStream& bitStream)
 	writeItemType(bitStream, ItemTypeRocky);
     bitStream << static_cast<unsigned char>(RockeyNetPmcChallenge);
     bitStream << idx;
-    const RBX::Security::NetPmcChallenge& key = RBX::Security::netPmcKeys[idx]; 
+    const ARL::Security::NetPmcChallenge& key = ARL::Security::netPmcKeys[idx]; 
     bitStream << key.base;
     bitStream << key.size;    
     bitStream << key.seed; 
@@ -82,7 +82,7 @@ bool Replicator::NetPmcChallengeItem::write(RakNet::BitStream& bitStream)
 
 void DeserializedRockyItem::process(Replicator& replicator) 
 {
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD)
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
 	ClientReplicator* rep = rbx_static_cast<ClientReplicator*>(&replicator);
     DataModel::get(rep)->submitTask(
         boost::bind(&ClientReplicator::doNetPmcCheck, shared_from(rep), idx, challenge), DataModelJob::Write);

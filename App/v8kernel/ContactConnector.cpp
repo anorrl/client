@@ -7,7 +7,7 @@
 
 FASTFLAGVARIABLE( BallBlockNarrowphaseFixEnabled, false )
 
-namespace RBX {
+namespace ARL {
 	
 int ContactConnector::inContactHit = 0;
 int ContactConnector::outOfContactHit = 0;
@@ -64,7 +64,7 @@ bool ContactConnector::getReordedSimBody(SimBody*& simBody0, SimBody*& simBody1,
 	simBody1 = geoPair.body1->getRootSimBody();
 	bodyNotInKernel = geoPair.body0;
 
-	RBXASSERT(simBody0 && simBody1);
+	ARLASSERT(simBody0 && simBody1);
 
 	if (!simBody0->isInKernel())
 	{
@@ -101,7 +101,7 @@ bool ContactConnector::getSimBodyAndContactVelocity(SimBody*& simBody0, SimBody*
 		return false;
 	}
 
-	RBXASSERT(simBody0 || simBody1);
+	ARLASSERT(simBody0 || simBody1);
 	inContactHit++;
 
 	Vector3 deltaV = -simBody0->getPV().linearVelocityAtPoint(params.position);
@@ -119,7 +119,7 @@ bool ContactConnector::getSimBodyAndContactVelocity(SimBody*& simBody0, SimBody*
 
 void ContactConnector::computeForce(bool throttling) 
 {
-	RBXASSERT(!throttling || !canThrottle());
+	ARLASSERT(!throttling || !canThrottle());
 
 	updateContactPoint();
 	const PairParams& params = getContactPoint();
@@ -160,7 +160,7 @@ void ContactConnector::computeForce(bool throttling)
 		// force to bodies
 		geoPair.body0->accumulateForce(-force, params.position);
 		geoPair.body1->accumulateForce(force, params.position);
-		RBXASSERT(fabs(force.x) < Math::inf());
+		ARLASSERT(fabs(force.x) < Math::inf());
 	}
 	else {
 		outOfContactHit++;
@@ -195,7 +195,7 @@ static float SYM_CONTACT_MAX_NORMAL_VEL = 60.0f;
 
 bool ContactConnector::computeImpulse(float& residualVelocity) 
 {
-	RBXASSERT(geoPair.body0->getRootSimBody()->isInKernel() || geoPair.body1->getRootSimBody()->isInKernel());
+	ARLASSERT(geoPair.body0->getRootSimBody()->isInKernel() || geoPair.body1->getRootSimBody()->isInKernel());
 
 	// params.normal points from contact point of body0 to outside body0
 	// params.length points from contact point of body0 to outside body0
@@ -274,7 +274,7 @@ bool ContactConnector::computeImpulse(float& residualVelocity)
 		deltaVelPerUnitImpulse += Math::fromDiagonal(Vector3(inverseMass, inverseMass, inverseMass));
 
 		bool revertable = deltaVelPerUnitImpulse.inverse(impulsePerUnitDeltaVel, 1e-20);
-		RBXASSERT(revertable);
+		ARLASSERT(revertable);
 	}
 
 	float desiredDeltaVelocity = -normalVel;	// Cancel the entrance relative velocity
@@ -292,10 +292,10 @@ bool ContactConnector::computeImpulse(float& residualVelocity)
 			// Cancel the velocity entering this frame and the velocity just accumulated in this frame
 			// Rebound only the velocity entering this frame
 			float entranceVelocity = normalVel + velocityThisFrame;
-			RBXASSERT(entranceVelocity <= 0.0f);
+			ARLASSERT(entranceVelocity <= 0.0f);
 			// only rebounce the entrance velocity
 			reboundVelocity = -contactParams.kNeg / contactParams.kSpring * entranceVelocity;
-			RBXASSERT(reboundVelocity >= 0.0f);
+			ARLASSERT(reboundVelocity >= 0.0f);
 		}
 
 		float penetrationBias = std::max(0.0f, -params.length - overlapGoal() * 2.0f) / Constants::freeFallDt() * PENETRATION_BIAS_WEIGHT;

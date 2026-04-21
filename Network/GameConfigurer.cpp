@@ -66,7 +66,7 @@ FASTFLAGVARIABLE(ClientABTestingEnabled, true)
 
 DYNAMIC_FASTFLAG(UseR15Character)
 
-using namespace RBX;
+using namespace ARL;
 
 void GameConfigurer::parseArgs(const std::string& args)
 {
@@ -76,7 +76,7 @@ void GameConfigurer::parseArgs(const std::string& args)
 
 int GameConfigurer::getParamInt(const std::string& key)
 {
-	RBX::Reflection::ValueTable::const_iterator iter = parameters->find(key);
+	ARL::Reflection::ValueTable::const_iterator iter = parameters->find(key);
 	if (iter != parameters->end())
 		return iter->second.get<int>();
 
@@ -85,7 +85,7 @@ int GameConfigurer::getParamInt(const std::string& key)
 
 std::string GameConfigurer::getParamString(const std::string& key)
 {
-	RBX::Reflection::ValueTable::const_iterator iter = parameters->find(key);
+	ARL::Reflection::ValueTable::const_iterator iter = parameters->find(key);
 	if (iter != parameters->end())
 		return iter->second.get<std::string>();
 
@@ -94,7 +94,7 @@ std::string GameConfigurer::getParamString(const std::string& key)
 
 bool GameConfigurer::getParamBool(const std::string& key)
 {
-	RBX::Reflection::ValueTable::const_iterator iter = parameters->find(key);
+	ARL::Reflection::ValueTable::const_iterator iter = parameters->find(key);
 	if (iter != parameters->end())
 		return iter->second.get<bool>();
 
@@ -110,7 +110,7 @@ void GameConfigurer::registerPlay(const std::string& key, int userId, int placeI
 	{
 		if (cs->GetValue(key).empty())
 		{
-			std::string value = RBX::format("{{ \"userId\" : %d, \"placeId\" : %d, \"os\" : \"%s\" }}", userId, placeId, DebugSettings::singleton().osPlatform().c_str());
+			std::string value = ARL::format("{{ \"userId\" : %d, \"placeId\" : %d, \"os\" : \"%s\" }}", userId, placeId, DebugSettings::singleton().osPlatform().c_str());
 			cs->SetValue(key, value);
 		}
 	}
@@ -198,17 +198,17 @@ void PlayerConfigurer::showErrorWindow(const std::string& message, const std::st
 		}
 
 		// log error to GA
-		RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "JoinFailurePlace", RBX::format("%s_%d", errorType.c_str(), getParamInt("PlaceId")).c_str());
-		RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "JoinFailureIP", RBX::format("%s_%s", errorType.c_str(), getParamString("MachineAddress").c_str()).c_str());
-		RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "JoinFailureVendor", RBX::format("%s_%d", errorType.c_str(), getParamInt("VendorId")).c_str());
-		RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "JoinFailureDataCenter", RBX::format("%s_%d", errorType.c_str(), getParamInt("DataCenterId")).c_str());
+		RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "JoinFailurePlace", ARL::format("%s_%d", errorType.c_str(), getParamInt("PlaceId")).c_str());
+		RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "JoinFailureIP", ARL::format("%s_%s", errorType.c_str(), getParamString("MachineAddress").c_str()).c_str());
+		RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "JoinFailureVendor", ARL::format("%s_%d", errorType.c_str(), getParamInt("VendorId")).c_str());
+		RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "JoinFailureDataCenter", ARL::format("%s_%d", errorType.c_str(), getParamInt("DataCenterId")).c_str());
 		RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "GameJoin", "Failure");
 
 		try
 		{
 			Analytics::EphemeralCounter::reportCounter("JoinFailure-"+errorType, 1);
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
 			StandardOut::singleton()->printf(MESSAGE_ERROR, "http failed in showErrorWindow: %s", e.what());	
 		}
@@ -223,7 +223,7 @@ void PlayerConfigurer::showErrorWindow(const std::string& message, const std::st
 		{
 			Analytics::EphemeralCounter::reportCounter("GameDisconnect-"+errorType, 1);
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
 			StandardOut::singleton()->printf(MESSAGE_ERROR, "http failed in showErrorWindow: %s", e.what());	
 		}
@@ -247,7 +247,7 @@ void PlayerConfigurer::reportError(const std::string& error, const std::string& 
 	StandardOut::singleton()->printf(MESSAGE_INFO, "***ERROR*** %s %s", error.c_str(), msg.c_str());
 	if (!testing)
 	{
-		RBX::Visit* visit = dataModel->create<RBX::Visit>();
+		ARL::Visit* visit = dataModel->create<ARL::Visit>();
 		visit->setUploadUrl(""); 
 	}
 
@@ -255,7 +255,7 @@ void PlayerConfigurer::reportError(const std::string& error, const std::string& 
 	client->disconnect();
 
 	if (TimerService* timer = dataModel->create<TimerService>()) {
-		std::string errorMsg = RBX::format("Error: %s", error.c_str());
+		std::string errorMsg = ARL::format("Error: %s", error.c_str());
 		timer->delay(boost::bind(&PlayerConfigurer::showErrorWindow, this, errorMsg, msg, "Other"), 4.0);
 	}
 }
@@ -266,7 +266,7 @@ void PlayerConfigurer::reportCounter(const std::string& counterNamesCSV, bool bl
 	{
 		Analytics::EphemeralCounter::reportCountersCSV(counterNamesCSV, blocking);
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		StandardOut::singleton()->printf(MESSAGE_INFO, "reportCounter failed: %s", e.what());
 	}
@@ -294,12 +294,12 @@ void PlayerConfigurer::reportDuration(const std::string& category, const std::st
 	{
         // need to keep this until JoinRate.ashx no longer needs to track iOS join success
         // web uses this data for mobile sort to remove games from the sort that don't work on the specific device
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
         
         std::string url;
         if (FFlag::UseBuildGenericGameUrl)
         {
-            url = RBX::format(BuildGenericGameUrl(getParamString("BaseUrl"),FString::MobileJoinRateFormatUrl).c_str(),
+            url = ARL::format(BuildGenericGameUrl(getParamString("BaseUrl"),FString::MobileJoinRateFormatUrl).c_str(),
                 getParamInt("VendorId"),
                 getParamInt("UserId"),
                 getParamInt("PlaceId"),
@@ -311,7 +311,7 @@ void PlayerConfigurer::reportDuration(const std::string& category, const std::st
         }
         else
         {
-            url = RBX::format("%sGame/JoinRate.ashx?st=%d&i=%d&p=%d&c=%s&r=%s&d=%d&b=%d&platform=%s",
+            url = ARL::format("%sGame/JoinRate.ashx?st=%d&i=%d&p=%d&c=%s&r=%s&d=%d&b=%d&platform=%s",
                 getParamString("BaseUrl").c_str(),
                 getParamInt("VendorId"),
                 getParamInt("UserId"),
@@ -332,14 +332,14 @@ void PlayerConfigurer::reportDuration(const std::string& category, const std::st
 
 		if (DFInt::JoinInfluxHundredthsPercentage > 0)
 		{
-			RBX::Analytics::InfluxDb::Points durationAnalyticsPoint;
+			ARL::Analytics::InfluxDb::Points durationAnalyticsPoint;
 			durationAnalyticsPoint.addPoint("Category", category.c_str());
 			durationAnalyticsPoint.addPoint("Result", result.c_str());
 			durationAnalyticsPoint.addPoint("Duration", duration);
 			durationAnalyticsPoint.report("GameDuration", DFInt::JoinInfluxHundredthsPercentage);
 		}
 
-		std::string dataCenterId = RBX::format("%d", getParamInt("DataCenterId"));
+		std::string dataCenterId = ARL::format("%d", getParamInt("DataCenterId"));
 
 		// for kick rate by data center
 		if (category == "GameDuration" && result == "Kick")
@@ -352,7 +352,7 @@ void PlayerConfigurer::reportDuration(const std::string& category, const std::st
 			analyticsPoints.addPoint(category+"BytesReceived", bytesReceived);
 		}
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		StandardOut::singleton()->printf(MESSAGE_INFO, "reportDuration failed: %s", e.what());
     }
@@ -369,7 +369,7 @@ void PlayerConfigurer::requestCharacter(shared_ptr<Network::Replicator> replicat
 		loadResolved = true;
 		double duration = G3D::System::time() - startTime;
 		reportDuration("GameLoad", "Success", duration, false);
-		analyticsPoints.addPoint("GameLoad", RBX::Time::nowFastSec());
+		analyticsPoints.addPoint("GameLoad", ARL::Time::nowFastSec());
 	}
 
 	try
@@ -378,7 +378,7 @@ void PlayerConfigurer::requestCharacter(shared_ptr<Network::Replicator> replicat
 		dataModel->setUiMessage("Waiting for character");
 		waitingForCharacter = true;
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		reportError(e.what(), "W4C");
 	}
@@ -466,14 +466,14 @@ void PlayerConfigurer::onDisconnection(const std::string& peer, bool lostConnect
 
 	try 
 	{
-		std::string url = RBX::format("%s&disconnect=true", getParamString("PingUrl").c_str());
-#if defined(RBX_PLATFORM_DURANGO)
+		std::string url = ARL::format("%s&disconnect=true", getParamString("PingUrl").c_str());
+#if defined(ARL_PLATFORM_DURANGO)
         HttpAsync::get(url);
 #else
 		dataModel->httpGet(url, true);
 #endif
 	}
-	catch (RBX::base_exception&)
+	catch (ARL::base_exception&)
 	{
 		// don't care
 	}
@@ -483,7 +483,7 @@ void PlayerConfigurer::onConnectionAccepted(std::string url, shared_ptr<Instance
 {
 	connectResolved = true;
 	reportDuration("GameConnect", "Success", G3D::System::time() - startTime, false);
-	analyticsPoints.addPoint("Connect", RBX::Time::nowFastSec());
+	analyticsPoints.addPoint("Connect", ARL::Time::nowFastSec());
 
 	shared_ptr<bool> waitingForMarker(new bool(true));
 
@@ -491,7 +491,7 @@ void PlayerConfigurer::onConnectionAccepted(std::string url, shared_ptr<Instance
 	{
 		if (!testing)
 		{
-			RBX::Visit* visit = dataModel->create<RBX::Visit>();
+			ARL::Visit* visit = dataModel->create<ARL::Visit>();
 			visit->setPing(getParamString("PingUrl"), getParamInt("PingInterval"));
 		}
 
@@ -507,9 +507,9 @@ void PlayerConfigurer::onConnectionAccepted(std::string url, shared_ptr<Instance
 
 		connections.push_back(rep->gameLoadedSignal.connect(boost::bind(&PlayerConfigurer::onGameLoaded, this, waitingForMarker)));
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
-		StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "onConnectionAccepted failed: %s", e.what());
+		StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "onConnectionAccepted failed: %s", e.what());
 		reportError(e.what(), "ConnectionAccepted");
 	}
 
@@ -519,8 +519,8 @@ void PlayerConfigurer::onConnectionAccepted(std::string url, shared_ptr<Instance
 void PlayerConfigurer::onConnectionFailed(const std::string& remoteAddress, int errorCode, const std::string& errorMsg)
 {
 	connectionFailed = true;
-	std::string msg = RBX::format("Failed to connect to the Game. (ID = %d: %s)", errorCode, errorMsg.c_str());
-	std::string errorType = RBX::format("ID%d", errorCode);
+	std::string msg = ARL::format("Failed to connect to the Game. (ID = %d: %s)", errorCode, errorMsg.c_str());
+	std::string errorType = ARL::format("ID%d", errorCode);
 	showErrorWindow(msg, errorType, "Other");
 }
 
@@ -531,7 +531,7 @@ void PlayerConfigurer::onConnectionRejected()
 
 void PlayerConfigurer::onReceivedGlobals()
 {
-	analyticsPoints.addPoint("ReceivedGlobals", RBX::Time::nowFastSec());
+	analyticsPoints.addPoint("ReceivedGlobals", ARL::Time::nowFastSec());
 }
 
 void PlayerConfigurer::onGameLoaded(boost::shared_ptr<bool> isWaiting)
@@ -543,7 +543,7 @@ void PlayerConfigurer::onGameLoaded(boost::shared_ptr<bool> isWaiting)
 		loadResolved = true;
 		double duration = G3D::System::time() - startTime;
 		reportDuration("GameLoad", "Success", duration, false);
-		analyticsPoints.addPoint("GameLoad", RBX::Time::nowFastSec());
+		analyticsPoints.addPoint("GameLoad", ARL::Time::nowFastSec());
 	}
 
 	try
@@ -551,7 +551,7 @@ void PlayerConfigurer::onGameLoaded(boost::shared_ptr<bool> isWaiting)
 		dataModel->setUiMessage("Waiting for character");
 		waitingForCharacter = true;
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		reportError(e.what(), "W4C");
 	}
@@ -561,7 +561,7 @@ void PlayerConfigurer::onPlayerIdled(double time)
 {
 	if (time > 1200)
 	{
-		showErrorWindow(RBX::format("You were disconnected for being idle %d minutes", (int)(time/60)), "Idle", "Idle");
+		showErrorWindow(ARL::format("You were disconnected for being idle %d minutes", (int)(time/60)), "Idle", "Idle");
 			
 		if (Network::Client* client = dataModel->find<Network::Client>())
 			client->disconnect();
@@ -576,10 +576,10 @@ void PlayerConfigurer::setMessage(const std::string& msg)
 		dataModel->setUiMessage("Teleporting...");
 }
 
-void PlayerConfigurer::configure(RBX::Security::Identities identity, DataModel* dm, const std::string& args, int lm, const char* vrDevice)
+void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* dm, const std::string& args, int lm, const char* vrDevice)
 {
 	startTime = G3D::System::time();
-	analyticsPoints.addPoint("Start", RBX::Time::nowFastSec());
+	analyticsPoints.addPoint("Start", ARL::Time::nowFastSec());
 
 	dataModel = dm;
 	launchMode = lm;
@@ -589,17 +589,17 @@ void PlayerConfigurer::configure(RBX::Security::Identities identity, DataModel* 
     // https://api.gametest1.robloxlabs.com/users/get-experiment-enrollments  
     // https://api.gametest1.robloxlabs.com/users/get-studio-experiment-enrollments
 
-    std::string baseUrl = RBX::ContentProvider::getUnsecureApiBaseUrl(GetBaseURL());
+    std::string baseUrl = ARL::ContentProvider::getUnsecureApiBaseUrl(GetBaseURL());
 
     // begin fetching now
-    RBX::HttpFuture abTest1, abTest2;
+    ARL::HttpFuture abTest1, abTest2;
     if (FFlag::ClientABTestingEnabled)
     {
         abTest1 = FetchABTestDataAsync(baseUrl + "users/get-experiment-enrollments");
         abTest2 = FetchABTestDataAsync(baseUrl + "users/get-studio-experiment-enrollments");
     }
 
-	RBX::Security::Impersonator impersonate(identity);
+	ARL::Security::Impersonator impersonate(identity);
 
 	parseArgs(args);
 
@@ -690,7 +690,7 @@ void PlayerConfigurer::configure(RBX::Security::Identities identity, DataModel* 
 		{
 			player->setName(getParamString("UserName"));
 		}
-		catch (RBX::base_exception&)
+		catch (ARL::base_exception&)
 		{
 			// don't care, happens when called from studio cmd bar
 		}
@@ -700,11 +700,11 @@ void PlayerConfigurer::configure(RBX::Security::Identities identity, DataModel* 
 		
 		if (!testing)
 		{
-			RBX::Visit* visit = dataModel->create<RBX::Visit>();
+			ARL::Visit* visit = dataModel->create<ARL::Visit>();
 			visit->setUploadUrl(""); 
 		}
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		reportError(e.what(), "CreatePlayer");
 	}
@@ -756,7 +756,7 @@ void PlayerConfigurer::onPlayerChanged(const Reflection::PropertyDescriptor* pro
 		{
 			joinResolved = true;
 			reportDuration("GameJoin", "Success", G3D::System::time() - startTime, false);
-			analyticsPoints.addPoint("GameJoin", RBX::Time::nowFastSec());
+			analyticsPoints.addPoint("GameJoin", ARL::Time::nowFastSec());
 
 			std::string successCounterByOsAndLaunchType = "GameJoinSuccess_" + DebugSettings::singleton().osPlatform();
 			if (launchMode == SharedLauncher::Play)
@@ -848,7 +848,7 @@ bool StudioConfigurer::findModulesAndLoad(const std::string& baseModulePath, con
                 //load module
                 if (!filePath.empty())
                 {
-                    ProtectedString source = RBX::CoreScript::fetchSource("/Modules/" + filePath).get();
+                    ProtectedString source = ARL::CoreScript::fetchSource("/Modules/" + filePath).get();
                     if (!source.empty())
                     {
                         coreModules[filePath] = source;
@@ -862,29 +862,29 @@ bool StudioConfigurer::findModulesAndLoad(const std::string& baseModulePath, con
 
 void StudioConfigurer::loadCoreModules()
 {	
-	RBX::CoreGuiService* coreGuiService = RBX::ServiceProvider::find<RBX::CoreGuiService>(dataModel);
+	ARL::CoreGuiService* coreGuiService = ARL::ServiceProvider::find<ARL::CoreGuiService>(dataModel);
 
 	if (!coreGuiService)
 	{
 		return;
 	}
 
-	shared_ptr<RBX::ScreenGui> robloxScreenGui = coreGuiService->getRobloxScreenGui();
+	shared_ptr<ARL::ScreenGui> robloxScreenGui = coreGuiService->getRobloxScreenGui();
 	if (!robloxScreenGui)
 	{
 		return;
 	}
 
-	shared_ptr<RBX::Folder> moduleScriptFolder = RBX::Creatable<Instance>::create<RBX::Folder>();
+	shared_ptr<ARL::Folder> moduleScriptFolder = ARL::Creatable<Instance>::create<ARL::Folder>();
 	moduleScriptFolder->setName("Modules");
 	moduleScriptFolder->setRobloxLocked(true);
-	moduleScriptFolder->setParent(RBX::Instance::fastDynamicCast<RBX::Instance>(robloxScreenGui.get()));
+	moduleScriptFolder->setParent(ARL::Instance::fastDynamicCast<ARL::Instance>(robloxScreenGui.get()));
 	
 	boost::unordered_map<std::string, ProtectedString> coreModules;
 
 	if (LuaVM::canCompileScripts())
 	{
-		const std::string path = RBX::BaseScript::hasCoreScriptReplacements() ? RBX::BaseScript::adminScriptsPath + "/Modules" :
+		const std::string path = ARL::BaseScript::hasCoreScriptReplacements() ? ARL::BaseScript::adminScriptsPath + "/Modules" :
 																				ContentProvider::assetFolder() + "scripts/Modules";
 
 		boost::filesystem::path filePath(path);
@@ -900,16 +900,16 @@ void StudioConfigurer::loadCoreModules()
 		boost::unordered_map<std::string, std::string> byteCodeModules = LuaVM::getBytecodeCoreModules();
 		for (boost::unordered_map<std::string, std::string>::iterator iter = byteCodeModules.begin(); iter != byteCodeModules.end(); ++iter)
 		{
-			coreModules[RBX::rot13((*iter).first)] = ProtectedString::fromBytecode((*iter).second);
+			coreModules[ARL::rot13((*iter).first)] = ProtectedString::fromBytecode((*iter).second);
 		}
 	}
 
 	for (boost::unordered_map<std::string, ProtectedString>::iterator iter = coreModules.begin(); iter != coreModules.end(); ++iter)
 	{
-		shared_ptr<ModuleScript> moduleScript = RBX::Creatable<Instance>::create<ModuleScript>();
+		shared_ptr<ModuleScript> moduleScript = ARL::Creatable<Instance>::create<ModuleScript>();
 		
 		std::string name = (*iter).first;
-		shared_ptr<RBX::Folder> lastFolder = moduleScriptFolder;
+		shared_ptr<ARL::Folder> lastFolder = moduleScriptFolder;
 
 		boost::filesystem::path namePath(name);
 		if (namePath.has_parent_path())
@@ -931,14 +931,14 @@ void StudioConfigurer::loadCoreModules()
 
 				if (Instance* findFolder = moduleScriptFolder->findFirstChildByNameRecursive(token))
 				{
-					if (RBX::Folder* folderInstance = Instance::fastDynamicCast<RBX::Folder>(findFolder))
+					if (ARL::Folder* folderInstance = Instance::fastDynamicCast<ARL::Folder>(findFolder))
 					{
 						lastFolder = shared_from(folderInstance);
 					}
 				}
 				else
 				{
-					shared_ptr<RBX::Folder> newFolder = RBX::Creatable<Instance>::create<RBX::Folder>();
+					shared_ptr<ARL::Folder> newFolder = ARL::Creatable<Instance>::create<ARL::Folder>();
 					newFolder->setName(token);
 					newFolder->setRobloxLocked(true);
 					if (level == 0)
@@ -963,7 +963,7 @@ void StudioConfigurer::loadCoreModules()
 	}
 }
 
-void StudioConfigurer::configure(RBX::Security::Identities identity, DataModel* dm, const std::string& args, int launchMode, const char* vrDevice)
+void StudioConfigurer::configure(ARL::Security::Identities identity, DataModel* dm, const std::string& args, int launchMode, const char* vrDevice)
 {
 	dataModel = dm;
 	parseArgs(args);
@@ -981,7 +981,7 @@ void StudioConfigurer::configure(RBX::Security::Identities identity, DataModel* 
 	if (Network::Players::frontendProcessing(dataModel))
 		loadCoreModules();
 
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 	if (ScriptContext* scriptContext = dataModel->create<ScriptContext>())
 	{
         if(starterScript.empty()) 
@@ -991,7 +991,7 @@ void StudioConfigurer::configure(RBX::Security::Identities identity, DataModel* 
 	}
 #endif
 
-#if defined(RBX_STUDIO_BUILD) && ENABLE_XBOX_STUDIO_BUILD
+#if defined(ARL_STUDIO_BUILD) && ENABLE_XBOX_STUDIO_BUILD
     if (ScriptContext* scriptContext = dataModel->create<ScriptContext>())
     {
         starterScript = "XStarterScript";

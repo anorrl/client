@@ -5,7 +5,7 @@
 #include "V8World/IWorldStage.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class Primitive;
 

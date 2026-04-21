@@ -13,7 +13,7 @@ LOGGROUP(GfxClustersFull)
 
 FASTFLAGVARIABLE(CheckSleepOptimization, false)
 
-namespace RBX {
+namespace ARL {
 
 #define MAX_STEPS_TO_SLEEP 30
 
@@ -25,12 +25,12 @@ IMoving::IMoving()
 
 IMoving::~IMoving()
 {
-    RBXASSERT(!iMovingManager);
+    ARLASSERT(!iMovingManager);
 }
 
 void IMoving::makeMoving()
 {
-	RBXASSERT(stepsToSleep > 0);
+	ARLASSERT(stepsToSleep > 0);
 	onSleepingChanged(false);
 	if (iMovingManager) {
 		iMovingManager->moved(this);
@@ -52,7 +52,7 @@ void IMoving::setMovingManager(IMovingManager* _iMovingManager)
 
 bool IMoving::checkSleep()
 {
-	RBXASSERT(stepsToSleep > 0);
+	ARLASSERT(stepsToSleep > 0);
     
 	if (!FFlag::CheckSleepOptimization && isInContinousMotion())
         return false;
@@ -69,7 +69,7 @@ bool IMoving::checkSleep()
 	}
 	else
 	{
-		RBXASSERT(stepsToSleep == 1);
+		ARLASSERT(stepsToSleep == 1);
 		stepsToSleep = 0;
 		onSleepingChanged(true);			// can aggregate now - going to sleep
         clearMovementHistory();
@@ -178,8 +178,8 @@ IMovingManager::IMovingManager()
 
 IMovingManager::~IMovingManager() 
 {
-	RBXASSERT(current == moving.end());
-	RBXASSERT(moving.empty());
+	ARLASSERT(current == moving.end());
+	ARLASSERT(moving.empty());
 }
 
 void IMovingManager::remove(IMoving* iMoving)
@@ -200,7 +200,7 @@ void IMovingManager::onMovingHeartbeat()		// put parts to sleep here if not movi
     if(moving.size() > 0)
         FASTLOG(FLog::GfxClusters, "Moving heartbeat!");
     
-	RBXASSERT(current == moving.end());
+	ARLASSERT(current == moving.end());
 	current = moving.begin();
 	while (current != moving.end()) 
 	{
@@ -214,7 +214,7 @@ void IMovingManager::onMovingHeartbeat()		// put parts to sleep here if not movi
 
 void IMovingManager::updateHistory()
 {
-    RBXASSERT(current == moving.end());
+    ARLASSERT(current == moving.end());
     current = moving.begin();
     Time timeStamp = Time::nowFast();
     while (current != moving.end()) 

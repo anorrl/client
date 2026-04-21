@@ -3,7 +3,7 @@
 #include "FastLog.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	// Wrapper around values that allows it to be used like
 	// a normal reference to the type (i.e. T& instead of T*).

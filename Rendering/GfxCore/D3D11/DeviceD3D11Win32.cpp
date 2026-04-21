@@ -1,4 +1,4 @@
-#if !defined(RBX_PLATFORM_DURANGO) && !defined(RBX_PLATFORM_UWP)
+#if !defined(ARL_PLATFORM_DURANGO) && !defined(ARL_PLATFORM_UWP)
 #include "DeviceD3D11.h"
 
 #include "ShaderD3D11.h"
@@ -9,7 +9,7 @@ FASTFLAG(DebugD3D11DebugMode)
 
 FASTFLAG(RenderVR)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -76,7 +76,7 @@ namespace Graphics
             D3D11_SDK_VERSION, &sd, &swapChain11, &device11, &featureLevelOut, &deviceContext);
         
         if (FAILED(hr))
-            throw RBX::runtime_error("Unable to create D3D device: %x", hr);
+            throw ARL::runtime_error("Unable to create D3D device: %x", hr);
 
         shaderProfile = featureLevelOut == D3D_FEATURE_LEVEL_11_0 ? shaderProfile_DX11 : shaderProfile_DX11_level_9_3;
 
@@ -95,7 +95,7 @@ namespace Graphics
     void DeviceD3D11::resizeSwapchain()
     {
         HRESULT hr = swapChain11->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
     }
 
     std::pair<unsigned int, unsigned int> DeviceD3D11::getFramebufferSize()

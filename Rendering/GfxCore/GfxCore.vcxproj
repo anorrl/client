@@ -155,7 +155,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\glew;.\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\ClientShared;..\..\Base\include;..\G3D\include;..\..\Log\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;GLEW_STATIC;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;GLEW_STATIC;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -176,7 +176,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>.\glew;.\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\ClientShared;..\..\Base\include;..\G3D\include;$(CONTRIB_PATH)\SDK\Include;..\..\Log\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_LIB;_RELEASE;RBX_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_LIB;_RELEASE;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -197,7 +197,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>.\glew;.\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\ClientShared;..\..\Base\include;..\G3D\include;..\..\Log\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;GLEW_STATIC;WIN32;NDEBUG;_LIB;_RELEASE;RBX_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;GLEW_STATIC;WIN32;NDEBUG;_LIB;_RELEASE;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -237,7 +237,7 @@
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>.\glew;.\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\ClientShared;..\..\Base\include;..\G3D\include;..\..\Log\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;_NOOPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;_NOOPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>

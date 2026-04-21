@@ -14,7 +14,7 @@
 
 LOGGROUP(Graphics)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -24,7 +24,7 @@ namespace Graphics
 
     static TypeD3DCompile loadShaderCompiler()
     {
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
         HMODULE d3dCompiler = ShaderProgramD3D11::loadShaderCompilerDLL();
 
         return d3dCompiler ? (TypeD3DCompile)GetProcAddress(d3dCompiler, "D3DCompile") : NULL;
@@ -35,7 +35,7 @@ namespace Graphics
 
     static TypeD3DPreprocess loadShaderPreprocessor()
     {
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
         HMODULE d3dCompiler = ShaderProgramD3D11::loadShaderCompilerDLL();
 
         return d3dCompiler ? (TypeD3DPreprocess)GetProcAddress(d3dCompiler, "D3DPreprocess") : NULL;
@@ -46,7 +46,7 @@ namespace Graphics
 
     static TypeD3DReflect loadShaderReflector()
     {
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
         HMODULE d3dCompiler = ShaderProgramD3D11::loadShaderCompilerDLL();
 
         return d3dCompiler ? (TypeD3DReflect)GetProcAddress(d3dCompiler, "D3DReflect") : NULL;
@@ -58,13 +58,13 @@ namespace Graphics
     static void extractCbuffers(Device* device, const std::vector<char>& bytecode, std::vector<shared_ptr<CBufferD3D11>>& cbuffers, unsigned globalSize, unsigned int* outSamplerMask)
     {
         TypeD3DReflect D3DReflect = loadShaderReflector();
-        RBXASSERT(D3DReflect);
+        ARLASSERT(D3DReflect);
 
         cbuffers.clear();
 
         ID3D11ShaderReflection* shaderReflection11 = NULL;
         HRESULT hr = D3DReflect(bytecode.data(), bytecode.size(), IID_ID3D11ShaderReflection, (void**) &shaderReflection11);
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
 
         D3D11_SHADER_DESC shaderDesc;
         shaderReflection11->GetDesc( &shaderDesc );
@@ -74,7 +74,7 @@ namespace Graphics
         {
             D3D11_SHADER_INPUT_BIND_DESC desc;
             HRESULT hr =shaderReflection11->GetResourceBindingDesc (i, &desc);
-            RBXASSERT(SUCCEEDED(hr));
+            ARLASSERT(SUCCEEDED(hr));
            
             if(desc.Type == D3D_SIT_TEXTURE)
             {
@@ -173,7 +173,7 @@ namespace Graphics
 
         ID3D11VertexShader* vertexShader = NULL;
         HRESULT hr = device11->CreateVertexShader( bytecode.data(), bytecode.size(), NULL, &vertexShader);
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
 
         return vertexShader;
     }
@@ -189,14 +189,14 @@ namespace Graphics
 
         ID3D11PixelShader* pixelShader = NULL;
         HRESULT hr = device11->CreatePixelShader(bytecode.data(), bytecode.size(), NULL, &pixelShader);
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
 
         return pixelShader;
     }
 
     const UniformD3D11& CBufferD3D11::getUniform(int id) const
     {
-        RBXASSERT(id >= 0 && id < (int)uniforms.size());
+        ARLASSERT(id >= 0 && id < (int)uniforms.size());
         return uniforms[id];
     }
 
@@ -224,14 +224,14 @@ namespace Graphics
         cbDesc.StructureByteStride = 0;
 
         HRESULT hr = device11->CreateBuffer(&cbDesc, NULL, &object);
-        RBXASSERT(SUCCEEDED(hr));
+        ARLASSERT(SUCCEEDED(hr));
     }
 
     void CBufferD3D11::updateUniform(int uniformId, const float* uniformData, unsigned vectorCount)
 {
         size_t uniformSize = vectorCount * sizeof(float) * 4; // our vectors are always float4
-        RBXASSERT(uniformId >= 0 && uniformId < (int)uniforms.size());
-        RBXASSERT(uniforms[uniformId].size >= uniformSize);
+        ARLASSERT(uniformId >= 0 && uniformId < (int)uniforms.size());
+        ARLASSERT(uniforms[uniformId].size >= uniformSize);
 
         if (dirty || memcmp(&data[uniforms[uniformId].offset], uniformData, uniformSize) != 0)
         {
@@ -326,7 +326,7 @@ namespace Graphics
             ID3D11Device* device11 = static_cast<DeviceD3D11*>(device)->getDevice11();
 
             HRESULT hr = device11->CreateInputLayout(vertexLayout->getElements11(), vertexLayout->getElementsCount(), bytecode.data(), bytecode.size(), &inputLayout11);
-            RBXASSERT(SUCCEEDED(hr));
+            ARLASSERT(SUCCEEDED(hr));
 
             vertexLayout->registerShader(shared_from_this());
             inputLayoutMap[vertexLayout] = inputLayout11;
@@ -398,7 +398,7 @@ namespace Graphics
     static void verifyShaderSignatures(const VertexShaderD3D11* vs, const FragmentShaderD3D11* fs)
     {
         TypeD3DReflect D3DReflect = loadShaderReflector();
-        RBXASSERT(D3DReflect);
+        ARLASSERT(D3DReflect);
 
         ID3D11ShaderReflection* reflectionVS11 = NULL;
         ID3D11ShaderReflection* reflectionFS11 = NULL;
@@ -411,7 +411,7 @@ namespace Graphics
         reflectionVS11->GetDesc(&shaderDescVS);
         reflectionFS11->GetDesc(&shaderDescFS);
 
-        RBXASSERT(shaderDescVS.OutputParameters >= shaderDescFS.InputParameters);
+        ARLASSERT(shaderDescVS.OutputParameters >= shaderDescFS.InputParameters);
 
         // we have to find matching signature from FS in VS
         for (unsigned fsId = 0; fsId < shaderDescFS.InputParameters; ++fsId)
@@ -436,7 +436,7 @@ namespace Graphics
                     break;
                 }           
             }
-            RBXASSERT(found);
+            ARLASSERT(found);
         }
 
         ReleaseCheck(reflectionVS11);
@@ -446,7 +446,7 @@ namespace Graphics
     ShaderProgramD3D11::ShaderProgramD3D11(Device* device, const shared_ptr<VertexShader>& vertexShader, const shared_ptr<FragmentShader>& fragmentShader)
         : ShaderProgram(device, vertexShader, fragmentShader)
     {
-#ifdef __RBX_NOT_RELEASE
+#ifdef __ARL_NOT_RELEASE
        verifyShaderSignatures(static_cast<VertexShaderD3D11*>(vertexShader.get()), static_cast<FragmentShaderD3D11*>(fragmentShader.get()));
 #endif
     }
@@ -472,7 +472,7 @@ namespace Graphics
 
             if (pParentData)
             {
-                RBXASSERT(paths.count(pParentData));
+                ARLASSERT(paths.count(pParentData));
 
                 path = paths[pParentData];
 
@@ -504,7 +504,7 @@ namespace Graphics
 
         virtual HRESULT STDMETHODCALLTYPE Close(LPCVOID pData)
         {
-            RBXASSERT(paths.count(pData));
+            ARLASSERT(paths.count(pData));
             paths.erase(pData);
             delete[] static_cast<const char*>(pData);
 
@@ -527,7 +527,7 @@ namespace Graphics
                 ShaderProgram::dumpToFLog(log.c_str(), FLog::Graphics);
             }
 
-            RBXASSERT(buffer->GetBufferSize() % sizeof(T) == 0);
+            ARLASSERT(buffer->GetBufferSize() % sizeof(T) == 0);
             std::vector<T> result(static_cast<T*>(buffer->GetBufferPointer()), static_cast<T*>(buffer->GetBufferPointer()) + buffer->GetBufferSize() / sizeof(T));
 
             buffer->Release();
@@ -543,13 +543,13 @@ namespace Graphics
             throw std::runtime_error(log.c_str());
         }
         else
-            throw RBX::runtime_error("Unknown error %x", hr);
+            throw ARL::runtime_error("Unknown error %x", hr);
     }
 
     std::string ShaderProgramD3D11::createShaderSource(const std::string& path, const std::string& defines, const DeviceD3D11* device11, boost::function<std::string (const std::string&)> fileCallback)
     {
         TypeD3DPreprocess D3DPreprocess = loadShaderPreprocessor();
-        RBXASSERT(D3DPreprocess);
+        ARLASSERT(D3DPreprocess);
 
         // split define string into strings
         std::vector<std::string> defineStrings;
@@ -653,7 +653,7 @@ namespace Graphics
     std::vector<char> ShaderProgramD3D11::createShaderBytecode(const std::string& source, const std::string& target, const DeviceD3D11* device11, const std::string& entrypoint)
     {
         TypeD3DCompile D3DCompile = loadShaderCompiler();
-        RBXASSERT(D3DCompile);
+        ARLASSERT(D3DCompile);
 
         unsigned int flags = D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
 
@@ -670,7 +670,7 @@ namespace Graphics
         return consumeData<char>(hr, bytecode, messages);
     }
 
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
     HMODULE ShaderProgramD3D11::loadShaderCompilerDLL()
     {
         static HMODULE compiler;
@@ -702,7 +702,7 @@ namespace Graphics
         int vs = static_cast<VertexShaderD3D11*>(vertexShader.get())->findUniform(name);
         int fs = static_cast<FragmentShaderD3D11*>(fragmentShader.get())->findUniform(name);
 
-        RBXASSERT(vs >= -1 && fs >= -1);
+        ARLASSERT(vs >= -1 && fs >= -1);
 
          if (vs < 0 && fs < 0)
             return -1;

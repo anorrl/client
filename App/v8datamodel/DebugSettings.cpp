@@ -28,12 +28,12 @@
 #include <sys/resource.h>
 #endif
 
-const char *const RBX::sDebugSettings = "DebugSettings";
-const char *const RBX::sTaskSchedulerSettings = "TaskScheduler";
+const char *const ARL::sDebugSettings = "DebugSettings";
+const char *const ARL::sTaskSchedulerSettings = "TaskScheduler";
 
-using namespace RBX;
+using namespace ARL;
 
-namespace RBX {
+namespace ARL {
 namespace Reflection {
 template<>
 EnumDesc<TaskScheduler::ThreadPoolConfig>::EnumDesc()
@@ -102,7 +102,7 @@ EnumDesc<Time::SampleMethod>::EnumDesc()
 	addPair(Time::Precise,"Precise");
 }
 }//namespace Reflection
-}//namespace RBX
+}//namespace ARL
 
 std::string DebugSettings::robloxVersion = "?";
 std::string DebugSettings::robloxProductName = "?";
@@ -208,16 +208,16 @@ DebugSettings::DebugSettings()
 
 int DebugSettings::getBlockMeshMapCount() const
 {
-	return RBX::Block::BlockMeshPool::getSize();
+	return ARL::Block::BlockMeshPool::getSize();
 }
 
 int DebugSettings::getLuaRamLimit() const
 {
-	return RBX::LuaAllocator::heapLimit;
+	return ARL::LuaAllocator::heapLimit;
 }
 void DebugSettings::setLuaRamLimit(int value)
 {
-	RBX::LuaAllocator::heapLimit = value;
+	ARL::LuaAllocator::heapLimit = value;
 }
 
 class DummyArbiter : public TaskScheduler::Arbiter
@@ -241,7 +241,7 @@ public:
 	const bool exclusive;
 	const double fps;
 	DummyJob(bool exclusive, double fps)
-		:Job(RBX::format("DummyJob%s %gfps", exclusive ? "Exclusive" : "", fps).c_str(), dummyArbiter)
+		:Job(ARL::format("DummyJob%s %gfps", exclusive ? "Exclusive" : "", fps).c_str(), dummyArbiter)
 		,exclusive(exclusive)
 		,fps(fps)
 	  {}
@@ -368,7 +368,7 @@ double DebugSettings::getRobloxResponce() const
 	{
 		return 0;
 	}
-	RBX::mutex::scoped_lock lock(*Http::getRobloxResponceLock());
+	ARL::mutex::scoped_lock lock(*Http::getRobloxResponceLock());
 	return Http::robloxResponce.getStats().average;
 }
 
@@ -378,7 +378,7 @@ double DebugSettings::getCdnRespoce() const
 	{
 		return 0;
 	}
-	RBX::mutex::scoped_lock lock(*Http::getCdnResponceLock());
+	ARL::mutex::scoped_lock lock(*Http::getCdnResponceLock());
 	return Http::cdnResponce.getStats().average;
 }
 
@@ -395,7 +395,7 @@ shared_ptr<const Reflection::Tuple> DebugSettings::resetCdnFailureCounts()
 	{
 		if (Http::getRobloxResponceLock())
 		{
-			RBX::mutex::scoped_lock lock(*Http::getRobloxResponceLock());
+			ARL::mutex::scoped_lock lock(*Http::getRobloxResponceLock());
 			result->values[6] = Http::robloxResponce.getStats().average;
 			Http::robloxResponce.clear();
 		}
@@ -408,7 +408,7 @@ shared_ptr<const Reflection::Tuple> DebugSettings::resetCdnFailureCounts()
 	{
 		if (Http::getCdnResponceLock())
 		{
-			RBX::mutex::scoped_lock lock(*Http::getCdnResponceLock());
+			ARL::mutex::scoped_lock lock(*Http::getCdnResponceLock());
 			result->values[7] = Http::cdnResponce.getStats().average;
 			Http::cdnResponce.clear();
 		}
@@ -514,9 +514,9 @@ bool DebugSettings::osIs64Bit() const
 
 std::string DebugSettings::systemProductName() const
 {
-#if defined( _WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined( _WIN32) && !defined(ARL_PLATFORM_DURANGO)
  	std::string name;
-	bool b = RBX::RegistryUtil::readString("HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\SystemProductName", name);
+	bool b = ARL::RegistryUtil::readString("HKEY_LOCAL_MACHINE\\HARDWARE\\DESCRIPTION\\System\\BIOS\\SystemProductName", name);
 	if (b)
 		return name;
 	else
@@ -562,7 +562,7 @@ std::string DebugSettings::resolution() const
 
 double DebugSettings::processCores() const
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 //TODO
 	return -1;
 #elif defined(_WIN32)
@@ -586,7 +586,7 @@ double DebugSettings::processCores() const
 
 double DebugSettings::getElapsedTime() const
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 	// TODO: CPU performance tools available with May XDK update
 	return -1;
 #elif defined(_WIN32)
@@ -600,7 +600,7 @@ double DebugSettings::getElapsedTime() const
 
 int DebugSettings::totalProcessorTime() const
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 	// TODO: CPU performance tools available with May XDK update
 	return -1;
 #elif defined(_WIN32)
@@ -617,7 +617,7 @@ int DebugSettings::totalProcessorTime() const
 
 int DebugSettings::processorTime() const
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 	// TODO: CPU performance tools available with May XDK update
 	return -1;
 #elif defined(_WIN32)
@@ -632,7 +632,7 @@ int DebugSettings::processorTime() const
 
 int DebugSettings::privateBytes() const
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 	// TODO: CPU performance tools available with May XDK update
 	return -1;
 #elif defined(_WIN32)
@@ -649,7 +649,7 @@ int DebugSettings::privateBytes() const
 
 int DebugSettings::privateWorkingSetBytes() const
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 	// TODO: CPU performance tools available with May XDK update
 	return -1;
 #elif defined(_WIN32)
@@ -666,7 +666,7 @@ int DebugSettings::privateWorkingSetBytes() const
 
 int DebugSettings::GetVirtualBytes() const
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 	// TODO: CPU performance tools available with May XDK update
 	return -1;
 #elif defined(_WIN32)
@@ -683,7 +683,7 @@ int DebugSettings::GetVirtualBytes() const
 
 int DebugSettings::GetPageFileBytes() const
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 	// TODO: CPU performance tools available with May XDK update
 	return -1;
 #elif defined(_WIN32)
@@ -698,7 +698,7 @@ int DebugSettings::GetPageFileBytes() const
 
 int DebugSettings::GetPageFaultsPerSecond() const
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 	// TODO: CPU performance tools available with May XDK update
 	return -1;
 #elif defined(_WIN32)

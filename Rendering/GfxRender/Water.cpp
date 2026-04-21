@@ -17,14 +17,14 @@
 
 #include "Voxel2/Grid.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
 
 static const double kAnimLength = 2.f;
 
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
 static const char* kTextureExt = "pvr";
 #elif defined(__ANDROID__)
 static const char* kTextureExt = "pvr";
@@ -349,7 +349,7 @@ const shared_ptr<Material>& Water::getSmoothMaterial()
 
 const TextureRef& Water::getNormalMap(unsigned int frame)
 {
-    RBXASSERT(frame < ARRAYSIZE(normalMaps));
+    ARLASSERT(frame < ARRAYSIZE(normalMaps));
 
 	if (!normalMaps[frame].getTexture())
 	{

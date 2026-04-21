@@ -41,13 +41,13 @@ FASTFLAGVARIABLE(LuaBasedBubbleChat, false)
 
 using namespace G3D;
 
-namespace RBX {
+namespace ARL {
 
 static GuiBuilder::Display gDebugDisplay = GuiBuilder::DISPLAY_NONE;
 
 static boost::filesystem::path GetCustomStatsFilename()
 {
-	return RBX::FileSystem::getUserDirectory(false, RBX::DirExe, "ClientSettings") / "StatDisplaySettings.json";
+	return ARL::FileSystem::getUserDirectory(false, ARL::DirExe, "ClientSettings") / "StatDisplaySettings.json";
 }
 
 class CustomStatsGuiJSON : public SimpleJSON
@@ -114,7 +114,7 @@ void GuiBuilder::setDebugDisplay(Display display)
 
 Verb* GuiBuilder::getWhitelistVerb(const std::string& name)
 {
-    RBXASSERT(workspace);
+    ARLASSERT(workspace);
     Verb* answer = workspace->getWhitelistVerb(name);
     return answer;
 }
@@ -131,7 +131,7 @@ void GuiBuilder::buildSimpleStatsOutput(shared_ptr<Instance> instance, std::stri
 				itemName+=" ";
 			}
 		}
-		(*output) += RBX::format("\n%s: %.2f", itemName.c_str(), item->getValue());
+		(*output) += ARL::format("\n%s: %.2f", itemName.c_str(), item->getValue());
 	}
 }
 
@@ -150,7 +150,7 @@ void GuiBuilder::buildNetworkStatsOutput(shared_ptr<Instance> instance, std::str
         float numPacket = item->getValue();
         float avgSize = item->findFirstChildByName("Size")->fastDynamicCast<Stats::Item>()->getValue();
         float kBps = numPacket * avgSize / 1000.f;
-        (*output) += RBX::format("\n%s: %.2f, %.2fB, %.2f", itemName.c_str(), kBps, avgSize, numPacket);
+        (*output) += ARL::format("\n%s: %.2f, %.2fB, %.2f", itemName.c_str(), kBps, avgSize, numPacket);
     }
 }
     
@@ -227,7 +227,7 @@ void GuiBuilder::togglePhysicsStats()
 	if (statsMenu!=NULL)
 	{
 		statsMenu->setVisible(!statsMenu->isVisible());
-		RBX::Profiling::setEnabled(statsMenu->isVisible());
+		ARL::Profiling::setEnabled(statsMenu->isVisible());
 	}
 }
     
@@ -280,7 +280,7 @@ void GuiBuilder::buildGui(
 	if (gDebugDisplay == DISPLAY_FPS)
 	{
         TopMenuBar* fps = Instance::fastDynamicCast<TopMenuBar>(dataModel->getGuiRoot()->findFirstChildByName("FPS"));
-        RBXASSERT(fps != NULL);
+        ARLASSERT(fps != NULL);
 		if (fps)
         {
             fps->setVisible(true);
@@ -290,30 +290,30 @@ void GuiBuilder::buildGui(
     if (gDebugDisplay == DISPLAY_PHYSICS || gDebugDisplay == DISPLAY_PHYSICS_AND_OWNER)
 	{
         TopMenuBar* physicsStats = Instance::fastDynamicCast<TopMenuBar>(dataModel->getGuiRoot()->findFirstChildByName("PhysicsStats"));
-        RBXASSERT(physicsStats != NULL);
+        ARLASSERT(physicsStats != NULL);
 		if (physicsStats)
         {
             physicsStats->setVisible(true);
         }
 		TopMenuBar* physicsStats2 = Instance::fastDynamicCast<TopMenuBar>(dataModel->getGuiRoot()->findFirstChildByName("PhysicsStats2"));
-		RBXASSERT(physicsStats2 != NULL);
+		ARLASSERT(physicsStats2 != NULL);
 		if (physicsStats2)
 		{
 			physicsStats2->setVisible(true);
-			RBX::Profiling::setEnabled(physicsStats2->isVisible());
+			ARL::Profiling::setEnabled(physicsStats2->isVisible());
 		}
 	}
     
     if (gDebugDisplay == DISPLAY_PHYSICS_AND_OWNER)
     {
-        RBX::PhysicsSettings &ps = RBX::PhysicsSettings::singleton();
+        ARL::PhysicsSettings &ps = ARL::PhysicsSettings::singleton();
         ps.setShowEPhysicsOwners(!ps.getShowEPhysicsOwners());
     }
     
     if (gDebugDisplay == DISPLAY_SUMMARY)
     {
         TopMenuBar* summaryStats = Instance::fastDynamicCast<TopMenuBar>(dataModel->getGuiRoot()->findFirstChildByName("SummaryStats"));
-        RBXASSERT(summaryStats != NULL);
+        ARLASSERT(summaryStats != NULL);
 		if (summaryStats)
         {
             summaryStats->setVisible(true);
@@ -323,7 +323,7 @@ void GuiBuilder::buildGui(
     if (gDebugDisplay == DISPLAY_RENDER)
 	{
         TopMenuBar* renderStats = Instance::fastDynamicCast<TopMenuBar>(dataModel->getGuiRoot()->findFirstChildByName("RenderStats"));
-        RBXASSERT(renderStats != NULL);
+        ARLASSERT(renderStats != NULL);
 		if (renderStats)
         {
             renderStats->setVisible(true);
@@ -597,7 +597,7 @@ shared_ptr<TopMenuBar> GuiBuilder::buildStatsHud1()
 
 	for (size_t i = 0; i < hudArray->numChildren(); ++i) {
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setFontSize(12);
 		item->setFontColor(G3D::Color3::purple());
 		item->setBorderColor(G3D::Color4::clear());
@@ -653,7 +653,7 @@ shared_ptr<TopMenuBar> GuiBuilder::buildRenderStats()
 
 	for (size_t i = 0; i < hudArray->numChildren(); ++i) {
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setFontSize(12);
 		item->setFontColor(G3D::Color3::purple());
 		item->setBorderColor(G3D::Color4::clear());
@@ -708,7 +708,7 @@ shared_ptr<TopMenuBar> GuiBuilder::buildNetworkStats()
 
 	for (size_t i = 0; i < hudArray->numChildren(); ++i) {
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setFontSize(12);
 		item->setFontColor(G3D::Color3::purple());
 		item->setBorderColor(G3D::Color4::clear());
@@ -735,7 +735,7 @@ shared_ptr<TopMenuBar> GuiBuilder::buildFPS()
 
 	for (size_t i = 0; i < hudArray->numChildren(); ++i) {
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setFontSize(24);
 		item->setFontColor(G3D::Color3::purple());
 		item->setBorderColor(G3D::Color4::clear());
@@ -848,7 +848,7 @@ shared_ptr<TopMenuBar> GuiBuilder::buildNetworkStats2(bool init)
 
 	for (size_t i = 0; i < hudArray->numChildren(); ++i) {
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setFontSize(12);
 		item->setFontColor(G3D::Color3::purple());
 		item->setBorderColor(G3D::Color4::clear());
@@ -898,7 +898,7 @@ shared_ptr<TopMenuBar> GuiBuilder::buildStatsHud2()
 
 	for (size_t i = 0; i < hudArray->numChildren(); ++i) {
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setFontSize(12);
 		item->setFontColor(G3D::Color3::purple());
 		item->setBorderColor(G3D::Color4::clear());
@@ -948,7 +948,7 @@ shared_ptr<TopMenuBar> GuiBuilder::buildPhysicsStats()
 
 	for (size_t i = 0; i < hudArray->numChildren(); ++i) {
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setFontSize(12);
 		item->setFontColor(G3D::Color3::purple());
 		item->setBorderColor(G3D::Color4::clear());
@@ -993,7 +993,7 @@ void GuiBuilder::updatePerformanceBasedStat(shared_ptr<TextDisplay> item, float 
 // modifying the colour property of the text
 // modifying the font size property of the text
 // modifying the visibility of the text
-void GuiBuilder::updateSummaryStats(RBX::TopMenuBar* hudArray)
+void GuiBuilder::updateSummaryStats(ARL::TopMenuBar* hudArray)
 {
     // parameters for adjusting the displayed stats
     const float startSlowRendering = 15.f;
@@ -1035,7 +1035,7 @@ void GuiBuilder::updateSummaryStats(RBX::TopMenuBar* hudArray)
 		NetworkStat_Start = PhysicsStat_End,
 		NetworkStat_End = NetworkStat_Start + 11
 	};
-	RBXASSERT(NetworkStat_End == hudArray->numChildren());
+	ARLASSERT(NetworkStat_End == hudArray->numChildren());
     
     float totalFps = dataModel->getMetricValue("Effective FPS");
     float renderFps = dataModel->getMetricValue("Render FPS");
@@ -1124,7 +1124,7 @@ void GuiBuilder::updateSummaryStats(RBX::TopMenuBar* hudArray)
 	// hide all of the bottleneck specific stats
 	for (size_t i = DefaultStat_Count; i < hudArray->numChildren(); ++i) {
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setVisible(false);
 	}
     
@@ -1132,7 +1132,7 @@ void GuiBuilder::updateSummaryStats(RBX::TopMenuBar* hudArray)
     {
 		for (size_t i = RenderStat_Start; i < RenderStat_End; ++i) {
 			shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-			RBXASSERT(item);
+			ARLASSERT(item);
 			item->setVisible(true);
 		}
     }
@@ -1141,7 +1141,7 @@ void GuiBuilder::updateSummaryStats(RBX::TopMenuBar* hudArray)
     {
 		for (size_t i = PhysicsStat_Start; i < PhysicsStat_End; ++i) {
 			shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-			RBXASSERT(item);
+			ARLASSERT(item);
 			item->setVisible(true);
 		}
     }
@@ -1150,7 +1150,7 @@ void GuiBuilder::updateSummaryStats(RBX::TopMenuBar* hudArray)
     {
 		for (size_t i = NetworkStat_Start; i < NetworkStat_End; ++i) {
 			shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-			RBXASSERT(item);
+			ARLASSERT(item);
 			item->setVisible(true);
 		}
     }
@@ -1213,7 +1213,7 @@ shared_ptr<TopMenuBar> GuiBuilder::buildSummaryStats()
 	for (size_t i = 0; i < hudArray->numChildren(); ++i) 
 	{
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setFontSize(12);
 		item->setFontColor(G3D::Color3::purple());
 		item->setBorderColor(G3D::Color4::clear());
@@ -1266,7 +1266,7 @@ shared_ptr<TopMenuBar> GuiBuilder::buildCustomStats()
 	for (size_t i = 0; i < hudArray->numChildren(); ++i) 
 	{
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setFontSize(12);
 		item->setFontColor(G3D::Color3::purple());
 		item->setBorderColor(G3D::Color4::clear());
@@ -1307,7 +1307,7 @@ shared_ptr<TopMenuBar> GuiBuilder::buildPhysicsStats2()
 
 	for (size_t i = 0; i < hudArray->numChildren(); ++i) {
 		shared_ptr<TextDisplay> item = shared_from_dynamic_cast<TextDisplay>(hudArray->getChild(i));
-		RBXASSERT(item);
+		ARLASSERT(item);
 		item->setFontSize(12);
 		item->setFontColor(G3D::Color3::purple());
 		item->setBorderColor(G3D::Color4::clear());

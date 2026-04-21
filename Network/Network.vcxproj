@@ -84,7 +84,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9B9EB5C6-15D1-4765-BCC7-8A42F2C9F6CC}</ProjectGuid>
-    <RootNamespace>RBX</RootNamespace>
+    <RootNamespace>ARL</RootNamespace>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccProvider>SAK</SccProvider>
@@ -395,7 +395,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;.\raknet\source;..\TBB_4_1\include;..\fmod\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;RBX_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;ARL_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -418,7 +418,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;..\fmod\xbox\include;.\raknet\source;..\TBB_4_1\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;RBX_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;ARL_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -442,7 +442,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;.\raknet\source;..\TBB_4_1\include;..\fmod\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;RBX_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;ARL_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -465,7 +465,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;..\fmod\xbox\include;.\raknet\source;..\TBB_4_1\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;RBX_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;ARL_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -516,7 +516,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;..\fmod\xbox\include;.\raknet\source;..\TBB_4_1\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;_WIN32_WINNT=0x0602;WIN32;_WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;_WIN32_WINNT=0x0602;WIN32;_WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
@@ -542,7 +542,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;.\raknet\source;..\TBB_4_1\include;..\fmod\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;RBX_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;ARL_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -567,7 +567,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;..\fmod\xbox\include;.\raknet\source;..\TBB_4_1\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;RBX_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;ARL_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -593,7 +593,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;.\raknet\source;..\TBB_4_1\include;..\fmod\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;RBX_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;ARL_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -618,7 +618,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;..\fmod\xbox\include;.\raknet\source;..\TBB_4_1\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;RBX_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;ARL_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -644,7 +644,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;.\raknet\source;..\TBB_4_1\include;..\fmod\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;RBX_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -669,7 +669,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;..\fmod\xbox\include;.\raknet\source;..\TBB_4_1\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;RBX_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -718,7 +718,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;..\fmod\xbox\include;.\raknet\source;..\TBB_4_1\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;_WIN32_WINNT=0x0602;WIN32;NDEBUG;_LIB;_NOOPT;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;_WIN32_WINNT=0x0602;WIN32;NDEBUG;_LIB;_NOOPT;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -744,7 +744,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;.\raknet\source;..\TBB_4_1\include;..\fmod\include;..\Rendering\g3d\include;..\fmod\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_NOOPT;_CRT_SECURE_NO_WARNINGS;RBX_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_NOOPT;_CRT_SECURE_NO_WARNINGS;ARL_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -769,7 +769,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;..\fmod\xbox\include;.\raknet\source;..\TBB_4_1\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_NOOPT;_CRT_SECURE_NO_WARNINGS;RBX_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_NOOPT;_CRT_SECURE_NO_WARNINGS;ARL_RCC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -795,7 +795,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;.\raknet\source;..\TBB_4_1\include;..\fmod\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\SDL\SDL2-2.0.3\include;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_NOOPT;_CRT_SECURE_NO_WARNINGS;RBX_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_NOOPT;_CRT_SECURE_NO_WARNINGS;ARL_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -820,7 +820,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;$(CONTRIB_PATH)\boost_1_56_0\include;.;.\include;..\Base\include;.\include\network;..\App\lua-5.1.4\src;..\App\include;..\fmod\xbox\include;.\raknet\source;..\TBB_4_1\include;..\Rendering\g3d\include;..\Rendering\g3d\include\zlib;..\Rendering\g3d\png;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Log\include;..\ClientShared;..\App.BulletPhysics;$(CONTRIB_PATH)\VMProtectWin_2.13;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_NOOPT;_CRT_SECURE_NO_WARNINGS;RBX_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_LIB;_NOOPT;_CRT_SECURE_NO_WARNINGS;ARL_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>

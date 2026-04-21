@@ -8,7 +8,7 @@
 FASTINTVARIABLE(SuperClusterFastClusterSize, 1000);
 
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

@@ -2,7 +2,7 @@
 
 #include "V8World/RigidJoint.h"
 
-namespace RBX {
+namespace ARL {
 	
 	class WeldJoint : public RigidJoint
 	{

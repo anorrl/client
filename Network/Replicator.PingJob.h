@@ -6,7 +6,7 @@
 #include "VMProtectSDK.h"
 
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 // Regularly sends pings through the data pipe to measure total data round-trip time
 class Replicator::PingJob : public ReplicatorJob
@@ -17,7 +17,7 @@ public:
 	PingJob(Replicator& replicator)
 		:ReplicatorJob("Replicator DataPing", replicator, DataModelJob::DataIn) 
 	{
-		RBXASSERT(getArbiter());
+		ARLASSERT(getArbiter());
 
 		cyclicExecutive = true;
 	}
@@ -37,7 +37,7 @@ private:
 	{
 		VMProtectBeginMutation("20");
 		if(replicator){
-#ifdef RBX_RCC_SECURITY
+#ifdef ARL_RCC_SECURITY
             // cvx: this might be moved to a better location.
             replicator->sendNetPmcChallenge();
 #endif

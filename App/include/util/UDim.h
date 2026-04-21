@@ -4,7 +4,7 @@
 
 #include "Util/G3DCore.h"
 
-namespace RBX {
+namespace ARL {
 
 	// A utility class for holding a "Universal Dimensions", containing both a
 	// relative 'scale' and an absolute 'offset'
@@ -103,4 +103,4 @@ namespace RBX {
 		}
 	};
 
-}  // namespace RBX
+}  // namespace ARL

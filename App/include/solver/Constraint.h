@@ -8,7 +8,7 @@
 
 #include "simd/simd.h"
 
-namespace RBX
+namespace ARL
 {
 
 class PGSSolver;
@@ -22,59 +22,59 @@ class ConstraintVariables
 public:
     void serialize( DebugSerializer&  s ) const;
 
-    static RBX_SIMD_INLINE void setReaction( ConstraintVariables* _vars, const Vector3& _r )
+    static ARL_SIMD_INLINE void setReaction( ConstraintVariables* _vars, const Vector3& _r )
     {
         _vars[0].reaction = _r.x;
         _vars[1].reaction = _r.y;
         _vars[2].reaction = _r.z;
     }
 
-    static RBX_SIMD_INLINE void setReaction( ConstraintVariables* _vars, float x, float y )
+    static ARL_SIMD_INLINE void setReaction( ConstraintVariables* _vars, float x, float y )
     {
         _vars[0].reaction = x;
         _vars[1].reaction = y;
     }
 
-    static RBX_SIMD_INLINE void setImpulse( ConstraintVariables* _vars, const Vector3& _i )
+    static ARL_SIMD_INLINE void setImpulse( ConstraintVariables* _vars, const Vector3& _i )
     {
         _vars[0].impulse = _i.x;
         _vars[1].impulse = _i.y;
         _vars[2].impulse = _i.z;
     }
 
-    static RBX_SIMD_INLINE void setImpulse( ConstraintVariables* _vars, float x, float y )
+    static ARL_SIMD_INLINE void setImpulse( ConstraintVariables* _vars, float x, float y )
     {
         _vars[0].impulse = x;
         _vars[1].impulse = y;
     }
 
-    static RBX_SIMD_INLINE void setMinImpulses( ConstraintVariables* _vars, const Vector3& _min )
+    static ARL_SIMD_INLINE void setMinImpulses( ConstraintVariables* _vars, const Vector3& _min )
     {
         _vars[0].minImpulseValue = _min.x;
         _vars[1].minImpulseValue = _min.y;
         _vars[2].minImpulseValue = _min.z;
     }
 
-    static RBX_SIMD_INLINE void setMinImpulses( ConstraintVariables* _vars, float x, float y )
+    static ARL_SIMD_INLINE void setMinImpulses( ConstraintVariables* _vars, float x, float y )
     {
         _vars[0].minImpulseValue = x;
         _vars[1].minImpulseValue = y;
     }
 
-    static RBX_SIMD_INLINE void setMaxImpulses( ConstraintVariables* _vars, const Vector3& _max )
+    static ARL_SIMD_INLINE void setMaxImpulses( ConstraintVariables* _vars, const Vector3& _max )
     {
         _vars[0].maxImpulseValue = _max.x;
         _vars[1].maxImpulseValue = _max.y;
         _vars[2].maxImpulseValue = _max.z;
     }
 
-    static RBX_SIMD_INLINE void setMaxImpulses( ConstraintVariables* _vars, float x, float y )
+    static ARL_SIMD_INLINE void setMaxImpulses( ConstraintVariables* _vars, float x, float y )
     {
         _vars[0].maxImpulseValue = x;
         _vars[1].maxImpulseValue = y;
     }
 
-    static RBX_SIMD_INLINE void gatherComponents( simd::v4f& _impulses, simd::v4f& _reactions, simd::v4f& _min, simd::v4f& _max, const ConstraintVariables& _vars0 )
+    static ARL_SIMD_INLINE void gatherComponents( simd::v4f& _impulses, simd::v4f& _reactions, simd::v4f& _min, simd::v4f& _max, const ConstraintVariables& _vars0 )
     {
         _min = simd::splat< 0 >( simd::v4f( _vars0.v ) );
         _max = simd::splat< 1 >( simd::v4f( _vars0.v ) );
@@ -82,17 +82,17 @@ public:
         _impulses = simd::splat< 3 >( simd::v4f( _vars0.v ) );
     }
 
-    static RBX_SIMD_INLINE void gatherComponents( simd::v4f& _impulses, simd::v4f& _reactions, simd::v4f& _min, simd::v4f& _max, const ConstraintVariables& _vars0, const ConstraintVariables& _vars1 )
+    static ARL_SIMD_INLINE void gatherComponents( simd::v4f& _impulses, simd::v4f& _reactions, simd::v4f& _min, simd::v4f& _max, const ConstraintVariables& _vars0, const ConstraintVariables& _vars1 )
     {
         transpose2x4( _min, _max, _reactions, _impulses, simd::v4f(_vars0.v), simd::v4f(_vars1.v) );
     }
 
-    static RBX_SIMD_INLINE void gatherComponents( simd::v4f& _impulses, simd::v4f& _reactions, simd::v4f& _min, simd::v4f& _max, const ConstraintVariables& _vars0, const ConstraintVariables& _vars1, const ConstraintVariables& _vars2 )
+    static ARL_SIMD_INLINE void gatherComponents( simd::v4f& _impulses, simd::v4f& _reactions, simd::v4f& _min, simd::v4f& _max, const ConstraintVariables& _vars0, const ConstraintVariables& _vars1, const ConstraintVariables& _vars2 )
     {
         transpose3x4( _min, _max, _reactions, _impulses, (simd::v4f)_vars0.v, (simd::v4f)_vars1.v, (simd::v4f)_vars2.v );
     }
 
-    static RBX_SIMD_INLINE void gatherComponents( simd::v4f& _impulses, simd::v4f& _reactions, simd::v4f& _min, simd::v4f& _max, const ConstraintVariables& _vars0, const ConstraintVariables& _vars1, const ConstraintVariables& _vars2, const ConstraintVariables& _vars3 )
+    static ARL_SIMD_INLINE void gatherComponents( simd::v4f& _impulses, simd::v4f& _reactions, simd::v4f& _min, simd::v4f& _max, const ConstraintVariables& _vars0, const ConstraintVariables& _vars1, const ConstraintVariables& _vars2, const ConstraintVariables& _vars3 )
     {
         transpose( _min, _max, _reactions, _impulses, (simd::v4f)_vars0.v, (simd::v4f)_vars1.v, (simd::v4f)_vars2.v, (simd::v4f)_vars3.v );
     }
@@ -333,29 +333,29 @@ private:
 //
 inline Constraint::Constraint( Types _type, Body* _bodyA, Body* _bodyB, uint8_t _dimensions ): type( _type ), dimensions( _dimensions ), bodyA( _bodyA ), bodyB( _bodyB ), uid( 0 ), broken( false )
 {
-    RBXASSERT( _bodyA != NULL );
+    ARLASSERT( _bodyA != NULL );
     cacheData = new ConstraintCache[ dimensions ];
 }
 
-#ifdef __RBX_NOT_RELEASE
+#ifdef __ARL_NOT_RELEASE
 static inline void checkConstraintVariables( const ConstraintVariables& _vars )
 {
-    RBXASSERT( !RBX::Math::isNanInf( _vars.impulse ) );
-    RBXASSERT( !RBX::Math::isNanInf( _vars.reaction ) );
-    RBXASSERT( !RBX::Math::isNan( _vars.minImpulseValue ) );
-    RBXASSERT( !RBX::Math::isNan( _vars.maxImpulseValue ) );
+    ARLASSERT( !ARL::Math::isNanInf( _vars.impulse ) );
+    ARLASSERT( !ARL::Math::isNanInf( _vars.reaction ) );
+    ARLASSERT( !ARL::Math::isNan( _vars.minImpulseValue ) );
+    ARLASSERT( !ARL::Math::isNan( _vars.maxImpulseValue ) );
 }
 
 static inline void checkJacobian( const ConstraintJacobianPair& _j )
 {
-    RBXASSERT( !RBX::Math::isNanInfVector3( _j.a.lin ) );
-    RBXASSERT( !RBX::Math::isNanInfVector3( _j.b.lin ) );
-    RBXASSERT( !RBX::Math::isNanInfVector3( _j.a.ang ) );
-    RBXASSERT( !RBX::Math::isNanInfVector3( _j.b.ang ) );
+    ARLASSERT( !ARL::Math::isNanInfVector3( _j.a.lin ) );
+    ARLASSERT( !ARL::Math::isNanInfVector3( _j.b.lin ) );
+    ARLASSERT( !ARL::Math::isNanInfVector3( _j.a.ang ) );
+    ARLASSERT( !ARL::Math::isNanInfVector3( _j.b.ang ) );
 }
 #endif
 
-RBX_SIMD_INLINE void Constraint::restoreCacheAndBuildEquation( 
+ARL_SIMD_INLINE void Constraint::restoreCacheAndBuildEquation( 
     ConstraintJacobianPair* __restrict _jacobian, 
     ConstraintVariables* __restrict _varsVel, 
     ConstraintVariables* __restrict _varsPos, 
@@ -392,7 +392,7 @@ RBX_SIMD_INLINE void Constraint::restoreCacheAndBuildEquation(
     buildEquation( _jacobian, _useBlock, _varsVel, _varsPos, _bodyA, _bodyB, _solverConfig, _dt );
 
     // Run some sanity checks
-#ifdef __RBX_NOT_RELEASE
+#ifdef __ARL_NOT_RELEASE
     for( unsigned i = 0; i < dimensions; i++ )
     {
         checkConstraintVariables( _varsVel[ i ] );
@@ -402,7 +402,7 @@ RBX_SIMD_INLINE void Constraint::restoreCacheAndBuildEquation(
 #endif
 }
 
-RBX_SIMD_INLINE void Constraint::updateBrokenState(
+ARL_SIMD_INLINE void Constraint::updateBrokenState(
     const ConstraintVariables* _velocityStage, 
     const ConstraintVariables* _positionStage, 
     const SolverConfig& _config ) 

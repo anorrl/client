@@ -6,14 +6,14 @@
 #include "rbx/Debug.h"
 #include "Util/G3DCore.h"
 
-namespace RBX {
+namespace ARL {
 
 	class World;
 	class Edge;
 	class Contact;
 	class Primitive;
 
-	class RBXBaseClass IWorldStage : public IStage {
+	class ARLBaseClass IWorldStage : public IStage {
 	private:
 		World* world;
 
@@ -41,7 +41,7 @@ namespace RBX {
 		virtual void onEdgeRemoving(Edge* e);
 
 		virtual int getMetric(MetricType metricType) {
-			RBXASSERT(getDownstreamWS());
+			ARLASSERT(getDownstreamWS());
 			return getDownstreamWS()->getMetric(metricType);
 		}
 	};

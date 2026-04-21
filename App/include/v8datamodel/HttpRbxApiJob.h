@@ -5,7 +5,7 @@
 
 DYNAMIC_FASTINTVARIABLE(HttpRbxApiJobFrequencyInSeconds, 1);
 
-namespace RBX {
+namespace ARL {
 
 
 class HttpRbxApiJob : public DataModelJob
@@ -50,4 +50,4 @@ public:
 	}
 };
 
-} // namespace RBX
+} // namespace ARL

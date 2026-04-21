@@ -7,7 +7,7 @@
 #include "V8World/Joint.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 #pragma warning(push)
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list
@@ -47,20 +47,20 @@ void CleanStage::onPrimitiveRemoving(Primitive* p)
 
 void CleanStage::onJointPrimitiveNulling(Joint* j, Primitive* nulling)
 {
-	RBXASSERT(j);
+	ARLASSERT(j);
 
 	if (j->downstreamOfStage(this)) {
-		RBXASSERT(primitivesAreOk(j));
+		ARLASSERT(primitivesAreOk(j));
 		getJointStage()->onEdgeRemoving(j);
 	}
 	else if (j->inStage(this)) {
-		RBXASSERT(!primitivesAreOk(j));
+		ARLASSERT(!primitivesAreOk(j));
 	}
 }
 
 void CleanStage::onJointPrimitiveSet(Joint* j, Primitive* p)
 {
-	RBXASSERT(!j->downstreamOfStage(this));
+	ARLASSERT(!j->downstreamOfStage(this));
 
 	if (primitivesAreOk(j))	{
 		getJointStage()->onEdgeAdded(j);
@@ -80,11 +80,11 @@ void CleanStage::onEdgeAdded(Edge* e)
 void CleanStage::onEdgeRemoving(Edge* e)
 {
 	if (e->downstreamOfStage(this)) {
-		RBXASSERT(primitivesAreOk(e));
+		ARLASSERT(primitivesAreOk(e));
 		getJointStage()->onEdgeRemoving(e);
 	}
 	else {
-		RBXASSERT(!primitivesAreOk(e));
+		ARLASSERT(!primitivesAreOk(e));
 	}
 
 	e->removeFromPipeline(this);

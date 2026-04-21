@@ -3,7 +3,7 @@
 
 SYNCHRONIZED_FASTFLAGVARIABLE(NetworkAlignJoinData, true) // 223
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 DeserializedJoinDataItem::DeserializedJoinDataItem() : numInstances(0)
@@ -54,13 +54,13 @@ bool Replicator::JoinDataItem::writeInstance(const Instance* instance, RakNet::B
 		return false;
 	}
 
-	DescriptorSender<RBX::Reflection::ClassDescriptor>::IdContainer idContainer = replicator.classDictionary.getId(&instance->getDescriptor());
+	DescriptorSender<ARL::Reflection::ClassDescriptor>::IdContainer idContainer = replicator.classDictionary.getId(&instance->getDescriptor());
 
 	// Write GUID
 	replicator.serializeIdWithoutDictionary(bitStream, instance);
 
 	if (replicator.settings().printInstances)
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,				// remote player always on right
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,				// remote player always on right
 		"Replication NewInstance::write: %s:%s:%s >> %s", 
 		instance->getClassName().c_str(), 
 		instance->getGuid().readableString().c_str(),
@@ -125,7 +125,7 @@ size_t Replicator::JoinDataItem::writeInstances(RakNet::BitStream& bitStream)
 				instanceWritten = true;
 
 				if (replicator.settings().printInstances)
-					RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,				// remote player always on right
+					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,				// remote player always on right
 					"Replication NewInstance::write from cache: %s:%s:%s >> %s, %d bits", 
 					instance->getClassName().c_str(), 
 					instance->getGuid().readableString().c_str(),
@@ -178,7 +178,7 @@ size_t Replicator::JoinDataItem::writeInstances(RakNet::BitStream& bitStream)
 
 void Replicator::JoinDataItem::addInstance(shared_ptr<const Instance> instance)
 {
-	RBX::mutex::scoped_lock lock(replicator.pendingInstancesMutex);
+	ARL::mutex::scoped_lock lock(replicator.pendingInstancesMutex);
 	replicator.pendingNewInstances.insert(instance.get());
 
 	instances.push_back(instance);
@@ -191,7 +191,7 @@ void Replicator::JoinDataItem::addInstance(shared_ptr<const Instance> instance)
 
 bool Replicator::JoinDataItem::write(RakNet::BitStream& bitStream) 
 {
-	RBXASSERT(sendBytesPerStep > 0);
+	ARLASSERT(sendBytesPerStep > 0);
 
 	Timer<Time::Fast> writeTimer;
 	++timesWriteCalled;

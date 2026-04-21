@@ -8,11 +8,11 @@
 //#define LOVE_ALL_ACCESS
 
 #include "Security/RandomConstant.h"
-#define LINE_RAND4 ((RBX_BUILDSEED&0x3FFFF)*__LINE__)
+#define LINE_RAND4 ((ARL_BUILDSEED&0x3FFFF)*__LINE__)
 
 // This line is different due to an unexplained VS2012 issue in debug.
 // __LINE__ appears to fail to evaluate to a constant in some cases.
-#define LINE_RAND1 (((RBX_BUILDSEED&0xFF)*(__COUNTER__+1))&0xFC)
+#define LINE_RAND1 (((ARL_BUILDSEED&0xFF)*(__COUNTER__+1))&0xFC)
 
 // HATE_FLAGS:  these are the original flags used for reporting detected exploits.
 
@@ -116,11 +116,11 @@ static const unsigned int kGf2DecodeLut[32] = {
 #define MCC_VMP_IDX 1
 #define MCC_TEXT_IDX  0
 
-namespace RBX
+namespace ARL
 {
 namespace Security
 {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 // This generates an "or" operation in a way that is closer to what a compiler would
 // generate.
 template<unsigned int key> __forceinline void setHackFlagVs(unsigned int& y, const unsigned int x)
@@ -184,7 +184,7 @@ template<unsigned int key> inline unsigned int getHackFlag(const unsigned int& f
 
 // In order to spread these hackflags out in the linking phase, I'm placing these in
 // a wide variety of places in .data .  Sadly, this means they can't be an array.
-namespace RBX 
+namespace ARL 
 { 
 namespace Security
 {

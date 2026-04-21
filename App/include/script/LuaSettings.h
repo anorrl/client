@@ -2,7 +2,7 @@
 
 #include "V8DataModel/GlobalSettings.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char *const sLuaSettings;
 	class LuaSettings

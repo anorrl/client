@@ -4,7 +4,7 @@
 
 #include "V8Tree/Instance.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PartInstance;
 	class TouchDebouncer;

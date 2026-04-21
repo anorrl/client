@@ -11,7 +11,7 @@ namespace RakNet {
 	class BitStream;
 }
 
-namespace RBX {
+namespace ARL {
 	
 	class MegaClusterInstance;
 	

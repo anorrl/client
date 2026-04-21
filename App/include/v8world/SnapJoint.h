@@ -2,7 +2,7 @@
 
 #include "V8World/RigidJoint.h"
 
-namespace RBX {
+namespace ARL {
 	
 	class SnapJoint : public RigidJoint
 	{

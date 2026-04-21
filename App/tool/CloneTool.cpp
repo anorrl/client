@@ -7,7 +7,7 @@
 #include "V8DataModel/Workspace.h"
 #include "Util/SoundService.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sCloneTool = "Clone";
 

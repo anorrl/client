@@ -14,9 +14,9 @@
 #include "V8World/Joint.h"
 #include "V8World/RigidJoint.h"
 
-namespace RBX {
+namespace ARL {
 
-using namespace RBX::Network;
+using namespace ARL::Network;
 
 const char* const sFlagStand = "FlagStand";
 
@@ -122,7 +122,7 @@ void FlagStand::onEvent_standTouched(shared_ptr<Instance> other)
 
 void FlagStand::affixFlag(Flag *flag) 
 {	
-	RBXASSERT(Network::Players::backendProcessing(this));
+	ARLASSERT(Network::Players::backendProcessing(this));
 
 	if (!getJoinedFlag())
 	{
@@ -141,7 +141,7 @@ void FlagStand::affixFlag(Flag *flag)
 		}
 		else
 		{
-			RBXASSERT_FISHING(0);
+			ARLASSERT_FISHING(0);
 		}
 	}
 }
@@ -149,7 +149,7 @@ void FlagStand::affixFlag(Flag *flag)
 
 Flag *FlagStand::getJoinedFlag()
 {
-	RBXASSERT(Network::Players::backendProcessing(this));
+	ARLASSERT(Network::Players::backendProcessing(this));
 
 	// Return true iff the flag stand prim is directly jointed to an object of type Flag
 	Primitive *stand_prim = this->getPartPrimitive();

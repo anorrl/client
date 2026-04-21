@@ -16,7 +16,7 @@
 #define CONTACT_ARRAY_SIZE 40
 #define BULLET_CONTACT_ARRAY_SIZE 40
 
-namespace RBX {
+namespace ARL {
 
 	class Kernel;
 	class CollisionStage;
@@ -29,7 +29,7 @@ namespace RBX {
 	class Block;
     class BlockBlockContactData; 
 
-	class RBXBaseClass Contact : public Edge
+	class ARLBaseClass Contact : public Edge
 	{
 	private:
 		typedef Edge Super;
@@ -53,7 +53,7 @@ namespace RBX {
 		}
 
 		/*override*/ void removeFromKernel() {
-			RBXASSERT(getKernel());
+			ARLASSERT(getKernel());
 			deleteAllConnectors();
 			Super::removeFromKernel();
 		}
@@ -153,7 +153,7 @@ namespace RBX {
 			, ballBallConnector(NULL)
 		{}
 
-		~BallBallContact() {RBXASSERT(!ballBallConnector);}
+		~BallBallContact() {ARLASSERT(!ballBallConnector);}
 
         void generateDataForMovingAssemblyStage(void); /*override*/
 	};
@@ -192,7 +192,7 @@ namespace RBX {
 			, ballBlockConnector(NULL)
 		{}
 
-		~BallBlockContact() {RBXASSERT(!ballBlockConnector);}
+		~BallBlockContact() {ARLASSERT(!ballBlockConnector);}
 
         void generateDataForMovingAssemblyStage(void); /*override*/
 	};
@@ -210,7 +210,7 @@ namespace RBX {
 		static int featureMatches;
 		static int featureMisses;
 
-        typedef RBX::FixedArray<GeoPairConnector*, 8> ConnectorArray;
+        typedef ARL::FixedArray<GeoPairConnector*, 8> ConnectorArray;
 
         friend class BlockBlockContactData;
         BlockBlockContactData* myData;
@@ -304,8 +304,8 @@ namespace RBX {
 		int				feature[2];	// -1 no feature, 0..5 plane, 6..8 edge Normal, 
 		int				bPlane;
 		int				bOther;
-		RBX::NormalId	planeID;
-		RBX::NormalId	otherPlaneID;
+		ARL::NormalId	planeID;
+		ARL::NormalId	otherPlaneID;
 
         BlockBlockContact* myOwner;
 

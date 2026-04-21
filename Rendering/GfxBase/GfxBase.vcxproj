@@ -204,7 +204,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\TBB_4_1\include;..\SDL-1.2.6\include;..\G3D\png;..\g3d\include;.\include;..\..\Base\include;..\g3d\include\zlib;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\app\include;..\App\include;..\GfxBase\include;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Sync</ExceptionHandling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -228,7 +228,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;..\..\TBB_4_1\include;..\SDL-1.2.6\include;..\G3D\png;..\g3d\include;.\include;..\..\Base\include;..\g3d\include\zlib;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\app\include;..\App\include;..\GfxBase\include;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;RBX_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -251,7 +251,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;..\G3D\png;..\g3d\include;.\include;..\..\Base\include;..\g3d\include\zlib;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\app\include;..\App\include;..\GfxBase\include;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32;NDEBUG;_LIB;RBX_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32;NDEBUG;_LIB;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -275,7 +275,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;..\..\TBB_4_1\include;..\SDL-1.2.6\include;..\G3D\png;..\g3d\include;.\include;..\..\Base\include;..\g3d\include\zlib;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\app\include;..\App\include;..\GfxBase\include;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;RBX_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -299,7 +299,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <AdditionalIncludeDirectories>..\..\TBB_4_1\include;..\SDL-1.2.6\include;..\G3D\png;..\g3d\include;.\include;..\..\Base\include;..\g3d\include\zlib;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\app\include;..\App\include;..\GfxBase\include;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32;NDEBUG;_LIB;RBX_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32;NDEBUG;_LIB;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -339,7 +339,7 @@
       <AdditionalOptions>/D "_SECURE_SCL=0" %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2\include;..\SDL-1.2.6\include;..\G3D\png;..\g3d\include;.\include;..\..\Base\include;..\g3d\include\zlib;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\app\include;..\App\include;..\GfxBase\include;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32;_LIB;_CRASH_RBXASSERT;__NEW_GRAPHICS__;NDEBUG;_NOOPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32;_LIB;_CRASH_RBXASSERT;__NEW_GRAPHICS__;NDEBUG;_NOOPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>

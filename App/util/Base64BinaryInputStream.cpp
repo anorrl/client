@@ -3,7 +3,7 @@
 
 #include "Rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 unsigned char Base64BinaryInputStream::decode(unsigned char charFromString) {
 	if (charFromString >= 'A' && charFromString <= 'Z') {
@@ -21,7 +21,7 @@ unsigned char Base64BinaryInputStream::decode(unsigned char charFromString) {
 	if (charFromString == '/') {
 		return 63;
 	}
-	RBXASSERT(false);
+	ARLASSERT(false);
 	return 0;
 }
 
@@ -29,8 +29,8 @@ Base64BinaryInputStream::Base64BinaryInputStream(const char* source) :
 	source(source), buffer(0), readableBitsInBuffer(0) {}
 
 void Base64BinaryInputStream::ReadBits(unsigned char* output, size_t numBitsToRead) {
-	RBXASSERT(numBitsToRead <= 8);
-    RBXASSERT(numBitsToRead >= 1);
+	ARLASSERT(numBitsToRead <= 8);
+    ARLASSERT(numBitsToRead >= 1);
 
 	while (numBitsToRead > readableBitsInBuffer) {
 		boost::uint16_t nextValue = decode(*source);
@@ -43,7 +43,7 @@ void Base64BinaryInputStream::ReadBits(unsigned char* output, size_t numBitsToRe
 		readableBitsInBuffer += 6;
 	}
 
-	RBXASSERT(numBitsToRead <= readableBitsInBuffer);
+	ARLASSERT(numBitsToRead <= readableBitsInBuffer);
 
 	unsigned char tmp = buffer >> (16 - numBitsToRead);
 	(*output) = tmp;

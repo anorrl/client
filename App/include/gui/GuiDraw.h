@@ -9,7 +9,7 @@
 #include "GfxBase/Adorn.h"
 #include "rbx/signal.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Adorn;
 
@@ -30,29 +30,29 @@ namespace RBX {
 	private:
 		TextureId currentTexture;
 		TextureId loadingTexture;
-		RBX::TextureProxyBaseRef disable;
-		RBX::TextureProxyBaseRef normal;
-		RBX::TextureProxyBaseRef hover;
-		RBX::TextureProxyBaseRef down;
-		RBX::TextureProxyBaseRef selected;
-		RBX::TextureProxyBaseRef selectedHover;
-		RBX::TextureProxyBaseRef selectedDown;
+		ARL::TextureProxyBaseRef disable;
+		ARL::TextureProxyBaseRef normal;
+		ARL::TextureProxyBaseRef hover;
+		ARL::TextureProxyBaseRef down;
+		ARL::TextureProxyBaseRef selected;
+		ARL::TextureProxyBaseRef selectedHover;
+		ARL::TextureProxyBaseRef selectedDown;
 		mutable Vector2 size;
 		rbx::signals::scoped_connection unbindResourceSignalHint;
 
 		void OnUnbindResourceSignalHint();
 
-		void draw(Adorn* adorn, const RBX::TextureProxyBaseRef& texture, const Rect& rect, const Vector2& texul, const Vector2& texbr, const Color4& color,
+		void draw(Adorn* adorn, const ARL::TextureProxyBaseRef& texture, const Rect& rect, const Vector2& texul, const Vector2& texbr, const Color4& color,
 			const Rect& clipRect, const Color4& behind, const Color4& inFront);
 
-		void draw(Adorn* adorn, const RBX::TextureProxyBaseRef& texture, const Rect& rect, const Vector2& texul, const Vector2& texbr, const Color4& color,
+		void draw(Adorn* adorn, const ARL::TextureProxyBaseRef& texture, const Rect& rect, const Vector2& texul, const Vector2& texbr, const Color4& color,
             const Rotation2D& rotation, const Color4& behind, const Color4& inFront);
 
         template <typename Modifier>
 		void render2dImpl(Adorn* adorn, bool enabled, const Rect& rect, const Vector2& texul, const Vector2& texbr, const Color4& color,
 			const Modifier& modifier, Gui::WidgetState state, bool isSelected);
 
-		void tryCreateTextureProxy(Adorn *adorn, const std::string& contentString, const std::string& context, RBX::TextureProxyBaseRef& textureRef, bool& isWaiting);
+		void tryCreateTextureProxy(Adorn *adorn, const std::string& contentString, const std::string& context, ARL::TextureProxyBaseRef& textureRef, bool& isWaiting);
 	public:
 		GuiDrawImage() : size(Vector2(0,0)) {}
 		GuiDrawImage(Adorn *adorn, const std::string& textureName, unsigned imageState) {setImageFromName(adorn, textureName, imageState);}

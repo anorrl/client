@@ -63,8 +63,8 @@ DYNAMIC_FASTFLAGVARIABLE(HttpZeroLatencyCaching, false) // Never kill this flag,
 DYNAMIC_FASTFLAGVARIABLE(CleanMutexHttp, true)
 DYNAMIC_FASTFLAGVARIABLE(SSLErrorLogAll, false)
 
-using namespace RBX;
-using namespace RBX::HttpPlatformImpl;
+using namespace ARL;
+using namespace ARL::HttpPlatformImpl;
 
 namespace
 {
@@ -97,20 +97,20 @@ print_cookies(const char* tag, CURL *curl)
   struct curl_slist *nc;
   int i;
 
-  StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "print_cookies() from:%s Curl cookies:\n", tag);
+  StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "print_cookies() from:%s Curl cookies:\n", tag);
   res = curl_easy_getinfo(curl, CURLINFO_COOKIELIST, &cookies);
   if (res != CURLE_OK) {
-    StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "print_cookies() Curl curl_easy_getinfo failed\n");
+    StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "print_cookies() Curl curl_easy_getinfo failed\n");
     return;
   }
   nc = cookies, i = 1;
   while (nc) {
-    StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "print_cookies() [%d]: %s\n", i, nc->data);
+    StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "print_cookies() [%d]: %s\n", i, nc->data);
     nc = nc->next;
     i++;
   }
   if (i == 1) {
-    StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "print_cookies() (none)\n");
+    StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "print_cookies() (none)\n");
   }
   curl_slist_free_all(cookies);
 }
@@ -287,7 +287,7 @@ void addHeader(curl_slist*& headers, const char* header)
     headers = curl_slist_append(headers, header);
     if (NULL == headers)
     {
-        throw RBX::runtime_error("Error adding header %s", header);
+        throw ARL::runtime_error("Error adding header %s", header);
     }
 }
 
@@ -584,7 +584,7 @@ public:
         }
 
         curl = curl_easy_init();
-        RBXASSERT(curl);
+        ARLASSERT(curl);
         if (NULL == curl)
         {
             throw runtime_error("Error initializing CURL handle.");
@@ -655,7 +655,7 @@ public:
         // http://curl.haxx.se/mail/lib-2010-12/0345.html
         logCurlError("CURLOPT_NOSIGNAL", curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1));
 
-        RBXASSERT(initialized ? Http::CookieSharingUndefined != cookieSharingPolicy : Http::CookieSharingUndefined == cookieSharingPolicy);
+        ARLASSERT(initialized ? Http::CookieSharingUndefined != cookieSharingPolicy : Http::CookieSharingUndefined == cookieSharingPolicy);
         if (cookieSharingPolicy & Http::CookieSharingMultipleProcessesRead)
         {
             // Load cookies from the cookie jar.
@@ -768,7 +768,7 @@ public:
             {
                 int e1 = e.error();
                 int e2 = e.zlib_error_code();
-                throw RBX::runtime_error("Upload GZip error %d, ZLib error %d, \"%s\"", e1, e2, url.c_str());
+                throw ARL::runtime_error("Upload GZip error %d, ZLib error %d, \"%s\"", e1, e2, url.c_str());
             }
 
             addHeader(curlHeaders, "Content-Encoding: gzip");
@@ -805,7 +805,7 @@ public:
         )
     {
         FASTLOG(DFLog::HttpTrace, "Setting up CURL headers.");
-        RBXASSERT(!curlHeaders);
+        ARLASSERT(!curlHeaders);
 
         if (contentType.size())
         {
@@ -838,7 +838,7 @@ public:
 
     void updateCsrfToken(const char* token)
     {
-        RBXASSERT(curlHeaders);
+        ARLASSERT(curlHeaders);
 
         Http::setLastCsrfToken(token); // set the global CSRF token
         lastUsedCsrfToken = token;
@@ -868,7 +868,7 @@ public:
                 if (!dupdata)
                 {
                     char* errmsg = strerror(errno);
-                    throw RBX::runtime_error("CurlHandle(%p), strdup failure: %s", this, errmsg);
+                    throw ARL::runtime_error("CurlHandle(%p), strdup failure: %s", this, errmsg);
                 }
 
                 if (DFLog::HttpTrace)
@@ -1137,7 +1137,7 @@ void debugCallback(CURL* curl, curl_infotype infotype, char* dataNonTerminated, 
 }
 } // namespace
 
-namespace RBX
+namespace ARL
 {
 namespace HttpPlatformImpl
 {
@@ -1147,7 +1147,7 @@ namespace HttpPlatformImpl
 
 void init(Http::CookieSharingPolicy cookieSharingPolicy)
 {
-    RBXASSERT(!initialized);
+    ARLASSERT(!initialized);
     if (!initialized)
     {
 		static boost::scoped_ptr<ThreadPool> tp(new ThreadPool(kNumberThreadPoolThreads));
@@ -1218,7 +1218,7 @@ void setCookiesForDomain(const std::string& domain, const std::string& cookies)
         }
         else
         {
-#ifndef RBX_STUDIO_BUILD
+#ifndef ARL_STUDIO_BUILD
             std::string::size_type pos = trimmedDomain.find_first_of(".");
             if (pos != std::string::npos)
             {
@@ -1230,7 +1230,7 @@ void setCookiesForDomain(const std::string& domain, const std::string& cookies)
         FASTLOGS(DFLog::HttpTrace, "Setting cookies for domain: %s", trimmedDomain.c_str());
         
         boost::shared_ptr<CURL> curl(curl_easy_init(), CurlDeleter());
-        RBXASSERT(curl);
+        ARLASSERT(curl);
         if (NULL == curl)
         {
             throw runtime_error("Error initializing CURL handle.");
@@ -1267,7 +1267,7 @@ void setCookiesForDomain(const std::string& domain, const std::string& cookies)
 void getCookiesForDomain(const std::string& domain, std::string& cookies)
 {
   boost::shared_ptr<CURL> curl(curl_easy_init(), CurlDeleter());
-  RBXASSERT(curl);
+  ARLASSERT(curl);
   if (NULL == curl)
   {
       throw runtime_error("Error initializing CURL handle.");
@@ -1311,7 +1311,7 @@ void updateCachedData(shared_ptr<CurlHandle> curlHandle)
 	{
 		curlHandle->perform(response, true);
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		// Basically we do a retry of a Get request at the HTTP level if the exception are thrown
 		// But this is different and is not important, as no one is waiting for this data
@@ -1333,13 +1333,13 @@ void perform(HttpOptions& options, std::string& response)
     {
         curlHandle->setupPostData(*options.postData, options.compressedPostData);
     }
-#ifndef RBX_STUDIO_BUILD
+#ifndef ARL_STUDIO_BUILD
 	else
 	{
 		if (DFFlag::HttpZeroLatencyCaching && HttpCache::PolicyFinalRedirect == options.cachePolicy && curlHandle->getOldCachedData(response))
 		{
 			// We got the old cached data, create a boost thread to update the cache data & then return the old response
-			threadPool->schedule(boost::bind(&RBX::HttpPlatformImpl::updateCachedData, curlHandle));
+			threadPool->schedule(boost::bind(&ARL::HttpPlatformImpl::updateCachedData, curlHandle));
 			return;
 		}
 	}
@@ -1348,7 +1348,7 @@ void perform(HttpOptions& options, std::string& response)
     long statusCode = 0;
     do
     {
-#ifdef RBX_STUDIO_BUILD
+#ifdef ARL_STUDIO_BUILD
 		statusCode = curlHandle->perform(response, false);
 #else
 		statusCode = curlHandle->perform(response, DFFlag::HttpZeroLatencyCaching);
@@ -1359,8 +1359,8 @@ void perform(HttpOptions& options, std::string& response)
 	if ( statusCode < 200 || statusCode > 299 || statusCode == 202 )
     {
         FASTLOG2(DFLog::HttpTrace, "CurlHandle(%p) error status: %d", curlHandle.get(), statusCode);
-        throw RBX::http_status_error(statusCode, curlHandle->getResponseCodeReason());
+        throw ARL::http_status_error(statusCode, curlHandle->getResponseCodeReason());
     }
 }
 } // namespace HttpPlatformImpl
-} // namespace RBX
+} // namespace ARL

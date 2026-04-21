@@ -5,7 +5,7 @@
 #include "standardout.h"
 #include "FastLog.h"
 
-namespace RBX {
+namespace ARL {
 
 // Utility functions for determining used/free/total memory.
 namespace MemoryStats {
@@ -31,4 +31,4 @@ void releaseAllPoolMemory();
 MemoryLevel slowCheckMemoryLevel(memsize_t extraMemoryUsed);
 
 } // namespace MemoryStats
-} // namespace RBX
+} // namespace ARL

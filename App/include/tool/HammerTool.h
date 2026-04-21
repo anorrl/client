@@ -4,7 +4,7 @@
 
 #include "V8DataModel/MouseCommand.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sHammerTool;
 	class HammerTool : public Named<MouseCommand, sHammerTool>
@@ -24,4 +24,4 @@ namespace RBX {
 		/*override*/ shared_ptr<MouseCommand> isSticky() const {return Creatable<MouseCommand>::create<HammerTool>(workspace);}
 	};
 
-} // namespace RBX
+} // namespace ARL

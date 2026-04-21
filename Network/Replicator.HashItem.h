@@ -4,7 +4,7 @@
 #include "Replicator.h"
 #include "Util/ProgramMemoryChecker.h"
 
-namespace RBX {
+namespace ARL {
     namespace Network {
 
         class Replicator::HashItem : public Item

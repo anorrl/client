@@ -21,7 +21,7 @@
 
 FASTINTVARIABLE(SmoothTerrainPhysicsCacheSize, 16*1024*1024)
 
-namespace RBX {
+namespace ARL {
 
 struct ChunkMeshShapeData
 {
@@ -118,12 +118,12 @@ public:
         localAabbMin = btVector3(aabbMin.x, aabbMin.y, aabbMin.z);
         localAabbMax = btVector3(aabbMax.x, aabbMax.y, aabbMax.z);
 
-        RBXPROFILER_COUNTER_ADD("memory/terrain/physics", getMemorySize());
+        ARLPROFILER_COUNTER_ADD("memory/terrain/physics", getMemorySize());
     }
     
     ~ChunkMeshShape()
     {
-        RBXPROFILER_COUNTER_SUB("memory/terrain/physics", getMemorySize());
+        ARLPROFILER_COUNTER_SUB("memory/terrain/physics", getMemorySize());
     }
 
     void castRay(KDTree::RayResult& result, const Vector3& raySource, const Vector3& rayTarget, bool ignoreWater)
@@ -141,7 +141,7 @@ public:
 
 	void getAabb(const btTransform& t, btVector3& aabbMin, btVector3& aabbMax) const override
     {
-        RBXCRASH();
+        ARLCRASH();
     }
 
 	PartMaterial getTriangleMaterial(unsigned int triangleIndex, const Vector3& localHitPoint)
@@ -157,7 +157,7 @@ public:
 
     void setLocalScaling(const btVector3& scaling) override
     {
-        RBXCRASH();
+        ARLCRASH();
     }
 
 	const btVector3& getLocalScaling() const override
@@ -249,9 +249,9 @@ struct SmoothClusterGeometry::ChunkMesh
 
 	void generateShape(MegaClusterInstance* mci)
     {
-		RBXPROFILER_SCOPE("Physics", "generateShape");
+		ARLPROFILER_SCOPE("Physics", "generateShape");
 
-        RBXASSERT(state == State_Dummy);
+        ARLASSERT(state == State_Dummy);
 		state = State_Ready;
 
         Voxel2::Grid* grid = mci->getSmoothGrid();
@@ -275,7 +275,7 @@ struct SmoothClusterGeometry::ChunkMesh
 
     void updateTree()
 	{
-		RBXASSERT(state == State_Ready);
+		ARLASSERT(state == State_Ready);
 
         if (shape)
 		{
@@ -414,7 +414,7 @@ bool SmoothClusterGeometry::hitTestTerrain(const RbxRay& rayInMe, Vector3& local
 	if (castRay(rayInMe, localHitPoint, normal, material,  MC_SEARCH_RAY_MAX, /* ignoreWater= */ true))
 	{
 		surfId = Math::getClosestObjectNormalId(normal, Matrix3::identity());
-		RBXASSERT(surfId != NORM_UNDEFINED);
+		ARLASSERT(surfId != NORM_UNDEFINED);
 
 		surfCf.rotation = Math::getWellFormedRotForZVector(normal);
         surfCf.translation = Math::toGrid(localHitPoint, Voxel::kCELL_SIZE);
@@ -664,7 +664,7 @@ void SmoothClusterGeometry::garbageCollectIncremental()
 				// Prevent overflow during subtracting since unused memory is an approximate measurement
 				gcUnusedMemory = std::max(gcUnusedMemory, memorySize) - memorySize;
 
-				RBXASSERT(mesh->state == ChunkMesh::State_Ready);
+				ARLASSERT(mesh->state == ChunkMesh::State_Ready);
 				mesh->state = ChunkMesh::State_Dummy;
 				mesh->shape.reset();
 			}
@@ -694,7 +694,7 @@ void SmoothClusterGeometry::garbageCollectIncremental()
 shared_ptr<btCollisionShape> SmoothClusterGeometry::getBulletChunkShape(const Vector3int32& id)
 {
 	ChunkMap::iterator it = bulletChunks.find(id);
-    RBXASSERT(it != bulletChunks.end());
+    ARLASSERT(it != bulletChunks.end());
 
 	if (it == bulletChunks.end())
 		return shared_ptr<btCollisionShape>();
@@ -716,4 +716,4 @@ PartMaterial SmoothClusterGeometry::getTriangleMaterial(btCollisionShape* collis
 	return chunkShape->getTriangleMaterial(triangleIndex, localHitPoint);
 }
 
-} // namespace RBX
+} // namespace ARL

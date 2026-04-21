@@ -10,7 +10,7 @@
 #include "Util/NormalID.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Block : public Poly {
 	friend class TriangleMesh;
@@ -113,7 +113,7 @@ namespace RBX {
 			else {
 				int ccwEdge = edgeId - 12;		// convert to regular..
 				NormalId faceId = (NormalId) (ccwEdge / 4);
-				RBXASSERT(validNormalId(faceId));
+				ARLASSERT(validNormalId(faceId));
 				int vertId = ccwEdge+1 % 4;		// one higher - add
 				return &vertices[ Block::BLOCK_FACE_TO_VERTEX[faceId][vertId] ];
 			}

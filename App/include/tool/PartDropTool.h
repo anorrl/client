@@ -6,7 +6,7 @@
 #include "Tool/ICancelableTool.h"
 #include <boost/shared_ptr.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sPartDropTool;
 	class PartDropTool 
@@ -41,4 +41,4 @@ namespace RBX {
 		Vector3 hitLocal;
 	};
 
-} // namespace RBX
+} // namespace ARL

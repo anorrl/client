@@ -25,7 +25,7 @@ DYNAMIC_FASTFLAGVARIABLE(SetCoreSendNotifications, false)
 DYNAMIC_FASTFLAGVARIABLE(SetCoreMoveChat, false)
 DYNAMIC_FASTFLAGVARIABLE(SetCoreDisableChatBar, false)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sBasePlayerGui = "BasePlayerGui";
 
@@ -40,7 +40,7 @@ BasePlayerGui::BasePlayerGui()
 	, adornableCollector(new IAdornableCollector())
 	, mouseWasOverGui(false)
 {
-	defaultSelectionImage = RBX::Creatable<Instance>::create<ImageLabel>();
+	defaultSelectionImage = ARL::Creatable<Instance>::create<ImageLabel>();
 	defaultSelectionImage->setImage( TextureId("rbxasset://textures/ui/SelectionBox.png") );
 	defaultSelectionImage->setBackgroundTransparency(1);
 	defaultSelectionImage->setSliceCenter(Rect2D::xyxy(19,19,43,43));
@@ -195,7 +195,7 @@ bool BasePlayerGui::isCloserGuiObject(const Rect2D& currentRect, const Vector2& 
 	bool isIntersecting = !getClosestGuiPoints(currentRect, guiObjectRect, beginTestPoint, endTestPoint);
 	if (!isIntersecting && minIntersectDist == START_PROJECTION_DISTANCE)
 	{
-		const float maxAngle =  RBX::Math::piHalff()/4.0f;
+		const float maxAngle =  ARL::Math::piHalff()/4.0f;
 		float newAngle = getAngleBetween(beginTestPoint, endTestPoint, inputDirection);
 
 		if (!boost::math::isfinite(newAngle) || newAngle > maxAngle)
@@ -230,7 +230,7 @@ bool BasePlayerGui::isCloserGuiObject(const Rect2D& currentRect, const Vector2& 
 	}
 	else if (isIntersecting) // rects are intersecting, just compare center points
 	{
-		const float maxAngle =  RBX::Math::piHalff()/4.0f;
+		const float maxAngle =  ARL::Math::piHalff()/4.0f;
 		const Vector2 beginPoint = currentRect.center();
 		const Vector2 endPoint = guiObjectRect.center();
 
@@ -364,7 +364,7 @@ GuiObject* BasePlayerGui::checkForDefaultGuiSelection(const Vector2& direction, 
 
 GuiObject* BasePlayerGui::selectNewGuiObject(const Vector2& direction)
 {
-	GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this);
+	GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this);
 	if (!guiService)
 	{
 		return NULL;
@@ -419,7 +419,7 @@ GuiObject* BasePlayerGui::selectNewGuiObject(const Vector2& direction)
 
 bool BasePlayerGui::scriptShouldRun(BaseScript* script)
 {
-	RBXASSERT(isAncestorOf(script));
+	ARLASSERT(isAncestorOf(script));
 
 	bool answer = false;
 
@@ -427,7 +427,7 @@ bool BasePlayerGui::scriptShouldRun(BaseScript* script)
 	{
 		{
 			//Either we're in the old mode (LocalScripts run on Client), or this script is elligible to be run ClientSide
-			RBX::Network::Player* localPlayer = Network::Players::findLocalPlayer(this);
+			ARL::Network::Player* localPlayer = Network::Players::findLocalPlayer(this);
 			answer = (localPlayer && (getParent() == localPlayer));
 			if(answer){
 				script->setLocalPlayer(shared_from(localPlayer));
@@ -479,7 +479,7 @@ void BasePlayerGui::append3dSortedAdorn(std::vector<AdornableDepth>& sortedAdorn
 
 void BasePlayerGui::tryRenderSelectionFrame(Adorn* adorn)
 {
-	if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+	if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 	{
 		if (GuiObject* selectedGuiObject = guiService->getSelectedGuiObject())
 		{
@@ -570,12 +570,12 @@ GuiResponse BasePlayerGui::process(const shared_ptr<InputObject>& event)
 	return answer;
 }
     
-GuiResponse BasePlayerGui::processGestureOnChild(GuiBase2d* guiBase, const UserInputService::Gesture gesture, shared_ptr<const RBX::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args)
+GuiResponse BasePlayerGui::processGestureOnChild(GuiBase2d* guiBase, const UserInputService::Gesture gesture, shared_ptr<const ARL::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args)
 {
     return guiBase->processGesture(gesture, touchPositions, args);
 }
     
-GuiResponse BasePlayerGui::processGesture(const UserInputService::Gesture gesture, shared_ptr<const RBX::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args)
+GuiResponse BasePlayerGui::processGesture(const UserInputService::Gesture gesture, shared_ptr<const ARL::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args)
 {
     GuiResponse answer = GuiResponse::notSunk();
     
@@ -624,7 +624,7 @@ void PlayerGui::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider*
 		{
 			if (DataModel::get(newProvider)->getCreatorID() == TeleportService::getPreviousCreatorId() && DataModel::get(newProvider)->getCreatorType() == TeleportService::getPreviousCreatorType())
 			{
-				if (RBX::ScreenGui* loadingGui = Instance::fastDynamicCast<RBX::ScreenGui>(TeleportService::getCustomTeleportLoadingGui().get()))
+				if (ARL::ScreenGui* loadingGui = Instance::fastDynamicCast<ARL::ScreenGui>(TeleportService::getCustomTeleportLoadingGui().get()))
 				{
 					loadingGui->setParent(this);
 				}
@@ -637,7 +637,7 @@ void PlayerGui::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider*
 
 bool PlayerGui::askSetParent(const Instance* parent) const
 {
-	return Instance::fastDynamicCast<RBX::Network::Player>(parent)!=NULL;
+	return Instance::fastDynamicCast<ARL::Network::Player>(parent)!=NULL;
 }
 bool PlayerGui::askForbidParent(const Instance* parent) const
 {
@@ -646,14 +646,14 @@ bool PlayerGui::askForbidParent(const Instance* parent) const
 
 void PlayerGui::setTopbarTransparency(float transparency)
 {
-    if(RBX::Network::Players::frontendProcessing(this))
+    if(ARL::Network::Players::frontendProcessing(this))
     {
         if (G3D::isFinite(transparency))
         {
             float newTransparency = transparency;
             if (newTransparency != transparency)
             {
-                RBX::StandardOut::singleton()->printf(MESSAGE_WARNING, "PlayerGui:SetTopbarTransparency - Attempted to set to %f, but only 0 or 1.0 are valid; setting to %f.", transparency, newTransparency);
+                ARL::StandardOut::singleton()->printf(MESSAGE_WARNING, "PlayerGui:SetTopbarTransparency - Attempted to set to %f, but only 0 or 1.0 are valid; setting to %f.", transparency, newTransparency);
             }
             if (topbarTransparency != newTransparency)
             {
@@ -670,7 +670,7 @@ void PlayerGui::setTopbarTransparency(float transparency)
 
 float PlayerGui::getTopbarTransparency(void)
 {
-    if(!RBX::Network::Players::frontendProcessing(this))
+    if(!ARL::Network::Players::frontendProcessing(this))
     {
         throw std::runtime_error("PlayerGui:GetTopbarTransparency should only be accessed from a local script.");
     }
@@ -739,7 +739,7 @@ StarterGuiService::StarterGuiService()
 
 void StarterGuiService::setCoreGuiEnabled(CoreGuiType type, bool enabled)
 {
-	if(!RBX::Network::Players::frontendProcessing(this))
+	if(!ARL::Network::Players::frontendProcessing(this))
 		StandardOut::singleton()->print(MESSAGE_WARNING, "StarterGui:SetCoreGuiEnabled called from server script.  Did you mean to use a local script?");
 
 	// setting the all state resets all keys to the all state
@@ -775,7 +775,7 @@ void StarterGuiService::setCoreGuiEnabled(CoreGuiType type, bool enabled)
 
 bool StarterGuiService::getCoreGuiEnabled(CoreGuiType type)
 {
-	if(!RBX::Network::Players::frontendProcessing(this))
+	if(!ARL::Network::Players::frontendProcessing(this))
 		StandardOut::singleton()->print(MESSAGE_WARNING, "StarterGui:GetCoreGuiEnabled called from server script.  Did you mean to use a local script?");
 
 	return coreGuiEnabledState[type];
@@ -807,7 +807,7 @@ void StarterGuiService::setCore(std::string parameterName, Reflection::Variant v
 					args.values.push_back(value);
 					sc->callInNewThread(setFunction, args);
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					StandardOut::singleton()->printf(MESSAGE_ERROR, "SetCore: Unexpected error while invoking callback: %s", e.what());
 				}
@@ -816,7 +816,7 @@ void StarterGuiService::setCore(std::string parameterName, Reflection::Variant v
 	}
 	else
 	{
-		throw RBX::runtime_error("SetCore: %s has not been registered by the CoreScripts", parameterName.c_str());
+		throw ARL::runtime_error("SetCore: %s has not been registered by the CoreScripts", parameterName.c_str());
 	}
 }
 
@@ -836,9 +836,9 @@ void StarterGuiService::getCore(std::string parameterName,  boost::function<void
 				{
 					result = sc->callInNewThread(getFunction, args);
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
-					errorFunction(RBX::format("GetCore: Unexpected error while invoking callback: %s", e.what()));
+					errorFunction(ARL::format("GetCore: Unexpected error while invoking callback: %s", e.what()));
 				}
 				if (result.values.size() > 0)
 				{
@@ -846,14 +846,14 @@ void StarterGuiService::getCore(std::string parameterName,  boost::function<void
 				}
 				else
 				{
-					errorFunction(RBX::format("GetCore: CoreScript function %s did not return a result", parameterName.c_str()));
+					errorFunction(ARL::format("GetCore: CoreScript function %s did not return a result", parameterName.c_str()));
 				}
 			}
 		}
 	}
 	else
 	{
-		errorFunction(RBX::format("GetCore: %s has not been registered by the CoreScripts", parameterName.c_str()));
+		errorFunction(ARL::format("GetCore: %s has not been registered by the CoreScripts", parameterName.c_str()));
 	}
 }
 
@@ -921,25 +921,25 @@ int CoreGuiService::getGuiVersion() const
 }
 void CoreGuiService::createRobloxScreenGui()
 {
-	screenGui = Creatable<RBX::Instance>::create<ScreenGui>();
+	screenGui = Creatable<ARL::Instance>::create<ScreenGui>();
 	screenGui->setName("RobloxGui");
 	screenGui->setRobloxLocked(true);
 	screenGui->setParent(this);
 }
 
-shared_ptr<RBX::ScreenGui> CoreGuiService::getRobloxScreenGui()
+shared_ptr<ARL::ScreenGui> CoreGuiService::getRobloxScreenGui()
 {
     if (!screenGui)
     {
         createRobloxScreenGui();
     }
     
-    if ( RBX::ScreenGui* theScreenGui = Instance::fastDynamicCast<RBX::ScreenGui>(screenGui.get()) )
+    if ( ARL::ScreenGui* theScreenGui = Instance::fastDynamicCast<ARL::ScreenGui>(screenGui.get()) )
     {
         return shared_from(theScreenGui);
     }
     
-    return shared_ptr<RBX::ScreenGui>();
+    return shared_ptr<ARL::ScreenGui>();
 }
 
 void CoreGuiService::onDescendantAdded(Instance* instance)
@@ -952,13 +952,13 @@ void CoreGuiService::onDescendantAdded(Instance* instance)
 	Super::onDescendantAdded(instance);
 }
 
-void CoreGuiService::addChild(RBX::Instance* instance)
+void CoreGuiService::addChild(ARL::Instance* instance)
 {
 	if(instance)
 		instance->setParent(screenGui.get());
 }
 
-void CoreGuiService::removeChild(RBX::Instance* instance)
+void CoreGuiService::removeChild(ARL::Instance* instance)
 {
 	if(screenGui->getChildren())
 	{
@@ -1010,7 +1010,7 @@ void CoreGuiService::setGuiVisibility(bool visible)
 	{
 		Instances::const_iterator end = screenGui->getChildren()->end();
 		for (Instances::const_iterator iter = screenGui->getChildren()->begin(); iter != end; ++iter)
-			if(RBX::GuiObject* obj = Instance::fastDynamicCast<GuiObject>(iter->get()))
+			if(ARL::GuiObject* obj = Instance::fastDynamicCast<GuiObject>(iter->get()))
 				obj->setVisible(visible);
 	}
 }
@@ -1022,17 +1022,17 @@ void CoreGuiService::displayOnScreenMessage(int slot, const std::string &message
 
 	clearOnScreenMessage(slot);
 
-	Rect2D rect = screenGui->fastDynamicCast<RBX::GuiBase2d>()->getRect2D();
+	Rect2D rect = screenGui->fastDynamicCast<ARL::GuiBase2d>()->getRect2D();
 
-	onScreenMessages[slot] = Creatable<RBX::Instance>::create<TextLabel>();
+	onScreenMessages[slot] = Creatable<ARL::Instance>::create<TextLabel>();
 
-	RBX::Frame* bottomRightControl = Instance::fastDynamicCast<RBX::Frame>(screenGui->findFirstChildByName2("BottomRightControl",true).get());
+	ARL::Frame* bottomRightControl = Instance::fastDynamicCast<ARL::Frame>(screenGui->findFirstChildByName2("BottomRightControl",true).get());
 	if(bottomRightControl)
 		onScreenMessages[slot]->setParent(bottomRightControl);
 	else
 		onScreenMessages[slot]->setParent(screenGui.get());
 
-	if (RBX::TextLabel *textLabel = Instance::fastDynamicCast<RBX::TextLabel>(onScreenMessages[slot].get()))
+	if (ARL::TextLabel *textLabel = Instance::fastDynamicCast<ARL::TextLabel>(onScreenMessages[slot].get()))
 	{
 		textLabel->setFontSize(ON_SCREEN_MESSAGE_FONT_SIZE);
 		textLabel->setTextColor3(Color3::white());
@@ -1041,14 +1041,14 @@ void CoreGuiService::displayOnScreenMessage(int slot, const std::string &message
 		if(bottomRightControl)
 		{
 			onScreenMessages[slot]->setParent(bottomRightControl);
-			textLabel->setSize(RBX::UDim2(0,textLabel->getTextBounds().x,1,0));
-			textLabel->setPosition(RBX::UDim2(1, -textLabel->getTextBounds().x, -1.05 + (-slot - 0.5), 0));
+			textLabel->setSize(ARL::UDim2(0,textLabel->getTextBounds().x,1,0));
+			textLabel->setPosition(ARL::UDim2(1, -textLabel->getTextBounds().x, -1.05 + (-slot - 0.5), 0));
 		}
 		else
 		{
 			onScreenMessages[slot]->setParent(screenGui.get());
-			textLabel->setSize(RBX::UDim2(0,300,0,30));
-			textLabel->setPosition(RBX::UDim2(1, (int)rect.x1() - ON_SCREEN_MESSAGE_DISTANCE_TO_RIGHT,
+			textLabel->setSize(ARL::UDim2(0,300,0,30));
+			textLabel->setPosition(ARL::UDim2(1, (int)rect.x1() - ON_SCREEN_MESSAGE_DISTANCE_TO_RIGHT,
 												0, (int)rect.y1() - ON_SCREEN_MESSAGE_DISTANCE_TO_BOTTOM - ON_SCREEN_MESSAGE_DISTANCE_BETWEEN_SLOTS * slot));
 		}
 
@@ -1059,8 +1059,8 @@ void CoreGuiService::displayOnScreenMessage(int slot, const std::string &message
 
 	if (duration != 0)
 	{
-		RBX::Security::Impersonator impersonate(RBX::Security::LocalGUI_);
-		RBX::DebrisService *ds = RBX::ServiceProvider::find<RBX::DebrisService>(this);
+		ARL::Security::Impersonator impersonate(ARL::Security::LocalGUI_);
+		ARL::DebrisService *ds = ARL::ServiceProvider::find<ARL::DebrisService>(this);
 		ds->addItem(onScreenMessages[slot], duration);
 	}
 }
@@ -1071,8 +1071,8 @@ void CoreGuiService::clearOnScreenMessage(int slot)
 		return;
 
 	if(shared_ptr<Instance> instance = onScreenMessages[slot]){
-		RBX::Security::Impersonator impersonate(RBX::Security::LocalGUI_);
-		RBX::DebrisService *ds = RBX::ServiceProvider::find<RBX::DebrisService>(this);
+		ARL::Security::Impersonator impersonate(ARL::Security::LocalGUI_);
+		ARL::DebrisService *ds = ARL::ServiceProvider::find<ARL::DebrisService>(this);
 		ds->addItem(instance, 0);
 	}
 }

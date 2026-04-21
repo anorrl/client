@@ -7,14 +7,14 @@
 #include "rbx/Boost.hpp"
 #include "rbx/rbxTime.h"
 
-namespace RBX {
+namespace ARL {
 
 	class IMovingManager;
     class MovementHistory;
     class Velocity;
     class Primitive;
 
-	class RBXBaseClass IMoving
+	class ARLBaseClass IMoving
 	{
 		friend class IMovingManager;
 
@@ -70,7 +70,7 @@ namespace RBX {
         const Time& getLastUpdateTime() const;
 	};
 
-	class RBXBaseClass IMovingManager 
+	class ARLBaseClass IMovingManager 
 	{
 		friend class IMoving;
 	private:

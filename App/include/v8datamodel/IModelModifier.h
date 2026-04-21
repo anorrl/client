@@ -4,9 +4,9 @@
 
 #include "rbx/Declarations.h"
 
-namespace RBX {
+namespace ARL {
 
-	class RBXInterface IModelModifier
+	class ARLInterface IModelModifier
 	{
 	public:
 		IModelModifier() {}

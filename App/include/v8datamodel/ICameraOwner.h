@@ -2,14 +2,14 @@
 
 #pragma once
 
-namespace RBX {
+namespace ARL {
 
 // assumed to be descended from Instance when used...
 // RootInstance is descended from this
 class Camera;
 class ModelInstance;
 
-class RBXBaseClass ICameraOwner
+class ARLBaseClass ICameraOwner
 {
 public:
 	ICameraOwner() {}
@@ -21,4 +21,4 @@ public:
 	virtual const ModelInstance* getCameraOwnerModel() const = 0;
 };
 
-}  // namespace RBX
+}  // namespace ARL

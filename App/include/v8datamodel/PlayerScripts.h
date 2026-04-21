@@ -10,7 +10,7 @@
 #include "Script/IScriptFilter.h"
 #include "Gui/GuiEvent.h"
 
-namespace RBX {
+namespace ARL {
 	class StarterPlayerScripts;
 
 	extern const char *const sPlayerScripts;
@@ -68,7 +68,7 @@ namespace RBX {
 
 		void requestDefaultScripts();
 		void requestDefaultScriptsServer(shared_ptr<Instance> player);
-		void defaultScriptsSend(weak_ptr<RBX::Network::Player> p);
+		void defaultScriptsSend(weak_ptr<ARL::Network::Player> p);
 		void defaultScriptsReceived(int confirm);
 
 		rbx::remote_signal<void(shared_ptr<Instance>)> requestDefaultScriptsSignal;

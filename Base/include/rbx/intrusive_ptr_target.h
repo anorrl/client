@@ -71,7 +71,7 @@ namespace rbx
 #pragma pack(push)
 #pragma pack(8)	// Packing is useful if Count is short or byte
 	template<class T, typename Count = int, Count maxRefs = 0 >
-	class RBXBaseClass quick_intrusive_ptr_target
+	class ARLBaseClass quick_intrusive_ptr_target
 	{
 	private:
 		rbx::atomic<Count> refs;
@@ -84,7 +84,7 @@ namespace rbx
 
 	
 	template<class T, typename Count = int, Count maxStrong = 0, Count maxWeak = maxStrong >
-	class RBXBaseClass intrusive_ptr_target
+	class ARLBaseClass intrusive_ptr_target
 	{
 	private:
 		// The "counts" struct is placed in memory at the head of the object
@@ -122,8 +122,8 @@ namespace rbx
 			counts* c = fetch(reinterpret_cast<T*>(p));
 			// operator delete should only be called if this object
 			// never got touched by the intrusive_ptr functions
-			RBXASSERT(c->strong == 0);
-			RBXASSERT(c->weak == 1);
+			ARLASSERT(c->strong == 0);
+			ARLASSERT(c->weak == 1);
 			::free(c);
 		}
 
@@ -152,7 +152,7 @@ namespace boost
 	template<class T, typename Count, Count maxRefs>
 	void intrusive_ptr_release(const rbx::quick_intrusive_ptr_target<T, Count, maxRefs>* p)
 	{
-		RBXASSERT(p->refs > 0);
+		ARLASSERT(p->refs > 0);
 		if (--(const_cast<rbx::quick_intrusive_ptr_target<T, Count, maxRefs>*>(p)->refs) == 0)
 			delete static_cast<const T*>(p);
 	} 
@@ -173,7 +173,7 @@ namespace boost
 		else
 		{
 			c->strong++;
-			RBXASSERT(c->strong < std::numeric_limits<Count>::max() - 10);
+			ARLASSERT(c->strong < std::numeric_limits<Count>::max() - 10);
 		}
 	}
 
@@ -203,7 +203,7 @@ namespace boost
 	{
 		typename rbx::intrusive_ptr_target<T, Count, maxStrong, maxWeak>::counts* c = rbx::intrusive_ptr_target<T, Count, maxStrong, maxWeak>::fetch(static_cast<const T*>(p));
 
-		RBXASSERT(c->strong > 0);
+		ARLASSERT(c->strong > 0);
 
 		if (maxWeak > 0)
 		{
@@ -213,7 +213,7 @@ namespace boost
 		else
 		{
 			++(c->weak);
-			RBXASSERT(c->weak < std::numeric_limits<Count>::max() - 10);
+			ARLASSERT(c->weak < std::numeric_limits<Count>::max() - 10);
 		}
 	}
 
@@ -248,7 +248,7 @@ namespace boost
         
 		if (--(c->weak) == 0)
 		{
-			RBXASSERT(c->strong == 0);
+			ARLASSERT(c->strong == 0);
 			// placement delete the counts and reclaim composite object memory
             c->Counts::~counts();
 

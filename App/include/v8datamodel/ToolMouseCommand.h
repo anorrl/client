@@ -4,7 +4,7 @@
 
 #include "V8DataModel/ScriptMouseCommand.h"
 
-namespace RBX {
+namespace ARL {
 
 // A generic mouse command associated with a Tool - fires events to Tool for activation, etc.
 

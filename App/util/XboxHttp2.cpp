@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 
 #include "Util/Http.h"
 
@@ -76,7 +76,7 @@ public:
         evt = CreateEventA(0,TRUE,0,0);
         cacheValid = false;
 
-        timeStart    = RBX::Time::nowFastSec();
+        timeStart    = ARL::Time::nowFastSec();
         timeRedirect = 0;
         timeHeaders  = -1;
         timeData     = -1;
@@ -144,7 +144,7 @@ public:
     virtual HRESULT __stdcall OnRedirect( IXMLHTTPRequest2 *pXHR, const WCHAR *pwszRedirectUrl) override
     {
         redir = pwszRedirectUrl;
-        timeRedirect = RBX::Time::nowFastSec() - timeStart;
+        timeRedirect = ARL::Time::nowFastSec() - timeStart;
         if(kForceHttpAssets) return S_OK; // don't spam
 
         if( kReportHttpRedirects && wcsncmp(pwszRedirectUrl, L"http://", 7) == 0 )
@@ -153,14 +153,14 @@ public:
         }
         
         std::string redirect = ws2s(pwszRedirectUrl);
-        RBX::HttpPlatformImpl::Cache::CacheResult cacheResult = RBX::HttpPlatformImpl::Cache::CacheResult::open(url.c_str(), redirect.c_str());
+        ARL::HttpPlatformImpl::Cache::CacheResult cacheResult = ARL::HttpPlatformImpl::Cache::CacheResult::open(url.c_str(), redirect.c_str());
 
         if (cacheResult.isValid())
         {
-            timeData = RBX::Time::nowFastSec() - timeStart;
+            timeData = ARL::Time::nowFastSec() - timeStart;
             response.clear();
             response = cacheResult.getResponseBody().toString();
-            timeDone = timeData = RBX::Time::nowFastSec() - timeStart;
+            timeDone = timeData = ARL::Time::nowFastSec() - timeStart;
             cacheValid = true;
 
             pXHR->Abort();
@@ -173,7 +173,7 @@ public:
     virtual HRESULT __stdcall OnHeadersAvailable( IXMLHTTPRequest2 *pXHR, DWORD dwStatus, const WCHAR *pwszStatus) override
     {
         status = dwStatus;
-        timeHeaders = RBX::Time::nowFastSec() - timeStart;
+        timeHeaders = ARL::Time::nowFastSec() - timeStart;
         return S_OK;
     }
 
@@ -189,7 +189,7 @@ public:
         HRESULT hr;
         ULONG rd;
 
-        timeData = RBX::Time::nowFastSec() - timeStart;
+        timeData = ARL::Time::nowFastSec() - timeStart;
 
         response.clear();
 
@@ -203,7 +203,7 @@ public:
         while(rd == kChunkSize );
         response.resize( bytes );
 
-        timeDone = timeData = RBX::Time::nowFastSec() - timeStart;
+        timeDone = timeData = ARL::Time::nowFastSec() - timeStart;
 
         SetEvent(evt);
         return S_OK;
@@ -259,7 +259,7 @@ public:
 
     virtual HRESULT __stdcall Write( const void *pv, ULONG cb, ULONG *pcbWritten ) override
     {
-        RBXASSERT(false);
+        ARLASSERT(false);
         return E_NOTIMPL;
     }
 };
@@ -268,10 +268,10 @@ static void addHeader( IXMLHTTPRequest2* request, const std::wstring& header, co
 {
     HRESULT hr = request->SetRequestHeader( header.c_str(), value.c_str() );
     if( FAILED(hr) )
-        throw RBX::runtime_error( "http failed to add header '%S' : '%S' (0x%x) [%s]", header.c_str(), value.c_str(), hr, theUrl.c_str());
+        throw ARL::runtime_error( "http failed to add header '%S' : '%S' (0x%x) [%s]", header.c_str(), value.c_str(), hr, theUrl.c_str());
 }
 
-namespace RBX
+namespace ARL
 {
     void Http::httpGetPostXbox(bool isPost, std::istream& data, const std::string& contentType, bool compressData, const HttpAux::AdditionalHeaders& additionalHeaders, bool externalRequest, HttpCache::Policy cachePolicy, std::string& response)
     {
@@ -280,10 +280,10 @@ namespace RBX
         intrusive_ptr< Callback > callback;
         intrusive_ptr< IXMLHTTPRequest2 > request;
 
-        RBXPROFILER_SCOPE("Http", __FUNCTION__);
-        RBXPROFILER_LABEL("Http", theUrl.c_str());
+        ARLPROFILER_SCOPE("Http", __FUNCTION__);
+        ARLPROFILER_LABEL("Http", theUrl.c_str());
 
-        RBX::Timer<RBX::Time::Precise> timer;
+        ARL::Timer<ARL::Time::Precise> timer;
         
         static const std::wstring userAgentHeader   = L"User-Agent";
         static const std::wstring userAgentValue    = s2ws(Http::rbxUserAgent) + L" ROBLOX Xbox App 1.0.0";
@@ -297,22 +297,22 @@ namespace RBX
             theUrl.replace(0,5, "http");
 
         if (theUrl.size()==0)
-            throw RBX::runtime_error("http empty url");
+            throw ARL::runtime_error("http empty url");
 
         if (!Http::trustCheck(theUrl.c_str(), externalRequest))
-            throw RBX::runtime_error("http trust check failed for %s", theUrl.c_str());
+            throw ARL::runtime_error("http trust check failed for %s", theUrl.c_str());
 
         if(0) dprintf("http %s %s\n", (isPost?"POST":"GET"), theUrl.c_str());
 
         hr = ::CoCreateInstance( __uuidof(FreeThreadedXMLHTTP60), 0, CLSCTX_SERVER, __uuidof(IXMLHTTPRequest2), (void**)&request );
         if(FAILED(hr) || !request)
-            throw RBX::runtime_error("http is not available at the moment (0x%x) [%s]", hr, theUrl.c_str());
+            throw ARL::runtime_error("http is not available at the moment (0x%x) [%s]", hr, theUrl.c_str());
 
         callback = boost::intrusive_ptr< Callback >( new Callback(theUrl), false );
 
         hr = request->Open( (isPost ? L"POST" : L"GET"), s2ws(theUrl).c_str(), callback.get(), 0, 0, 0, 0 );
         if (FAILED(hr))
-            throw RBX::runtime_error("http could not open connection (0x%x) [%s]", hr, theUrl.c_str());
+            throw ARL::runtime_error("http could not open connection (0x%x) [%s]", hr, theUrl.c_str());
 
         addHeader( request.get(), userAgentHeader, userAgentValue, theUrl );
 
@@ -333,7 +333,7 @@ namespace RBX
             }
         }
 
-#ifdef RBX_XBOX_SITETEST1
+#ifdef ARL_XBOX_SITETEST1
         // fun with snicker doodles (sitetest1 auth)
         __int64 sysTime;
         GetSystemTimeAsFileTime( (FILETIME*)&sysTime);
@@ -359,7 +359,7 @@ namespace RBX
             // GET
             hr = request->Send( 0, 0 );
             if( FAILED(hr) )
-                throw RBX::runtime_error("http failed to send (0x%x) [%s]", hr, theUrl.c_str() );
+                throw ARL::runtime_error("http failed to send (0x%x) [%s]", hr, theUrl.c_str() );
         }
         else
         {
@@ -370,7 +370,7 @@ namespace RBX
 
             hr = request->Send( new Stream(data), size );
             if( FAILED(hr) )
-                RBX::runtime_error("http send failed (0x%x) [%s]", hr, theUrl.c_str() );
+                ARL::runtime_error("http send failed (0x%x) [%s]", hr, theUrl.c_str() );
         }
 
         // get the results
@@ -380,12 +380,12 @@ namespace RBX
         {
             // timeout
             request->Abort();
-            throw RBX::runtime_error( "http TIMEOUT [%s]", theUrl.c_str() );
+            throw ARL::runtime_error( "http TIMEOUT [%s]", theUrl.c_str() );
         }
         
         hr = callback->getHresult();
         if (FAILED(hr))
-            throw RBX::runtime_error( "http error hr=0x%x [%s]", hr, theUrl.c_str() );
+            throw ARL::runtime_error( "http error hr=0x%x [%s]", hr, theUrl.c_str() );
 
         statusCode = callback->getStatus();
         callback->getResponse(response);
@@ -444,14 +444,14 @@ namespace RBX
 
 
 // stubs for studio-related things
-namespace RBX{ namespace HttpPlatformImpl {
+namespace ARL{ namespace HttpPlatformImpl {
 
-void init(Http::CookieSharingPolicy cookieSharingPolicy) { RBXASSERT(0); }
-void setCookiesForDomain(const std::string& domain, const std::string& cookies) { RBXASSERT(0); }
-void getCookiesForDomain(const std::string& domain, std::string& cookies) { RBXASSERT(0); }
-boost::filesystem::path getRobloxCookieJarPath() { RBXASSERT(0); return ""; }
-void setProxy(const std::string& host, long port) { RBXASSERT(0); }
-void perform(HttpOptions& options, std::string& response) { RBXASSERT(0); }
+void init(Http::CookieSharingPolicy cookieSharingPolicy) { ARLASSERT(0); }
+void setCookiesForDomain(const std::string& domain, const std::string& cookies) { ARLASSERT(0); }
+void getCookiesForDomain(const std::string& domain, std::string& cookies) { ARLASSERT(0); }
+boost::filesystem::path getRobloxCookieJarPath() { ARLASSERT(0); return ""; }
+void setProxy(const std::string& host, long port) { ARLASSERT(0); }
+void perform(HttpOptions& options, std::string& response) { ARLASSERT(0); }
 
 }}
 

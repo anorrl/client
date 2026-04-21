@@ -11,7 +11,7 @@
 #include "V8World/ContactManager.h"
 #include "V8World/World.h"
 
-namespace RBX {
+namespace ARL {
 
 Vector3 MouseCommand::ignoreVector3;
 bool MouseCommand::advArrowToolEnabled = false;//should be false by default
@@ -30,7 +30,7 @@ MouseCommand::~MouseCommand()
 
 Instance* MouseCommand::getTopSelectable3d(PartInstance* part) const
 {
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	// do not allow selection of a part that is not selectable
 	if( !part->isSelectable3d() ) return NULL;
@@ -60,7 +60,7 @@ TextureId MouseCommand::getCursorId() const
 
 void MouseCommand::capture() 
 {
-	RBXASSERT(!workspace->getCurrentMouseCommand()->captured());
+	ARLASSERT(!workspace->getCurrentMouseCommand()->captured());
 	capturedMouse = true;
 }
 
@@ -83,7 +83,7 @@ Surface MouseCommand::getSurface(Workspace* workspace, const shared_ptr<InputObj
 								   int& surfaceId)
 {
 	if ((part = getPart(workspace, inputObject, filter))) {
-		RBX::RbxRay gridRay = getUnitMouseRay(inputObject, workspace);
+		ARL::RbxRay gridRay = getUnitMouseRay(inputObject, workspace);
 		return part->getSurface(gridRay, surfaceId);
 	}
 	return Surface();
@@ -104,7 +104,7 @@ RbxRay MouseCommand::getUnitMouseRay(const shared_ptr<InputObject>& inputObject,
 
 RbxRay MouseCommand::getSearchRay(const RbxRay& unitRay)
 {
-	RBXASSERT(unitRay.direction().isUnit());
+	ARLASSERT(unitRay.direction().isUnit());
 
 	return RbxRay::fromOriginAndDirection(unitRay.origin(), unitRay.direction() * maxSearch());
 }

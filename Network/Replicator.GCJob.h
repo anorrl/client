@@ -8,7 +8,7 @@
 #include <vector>
 
 
-namespace RBX {
+namespace ARL {
 
 namespace Network {
 	
@@ -52,8 +52,8 @@ namespace Network {
         short maxRegionDistance;
         StreamRegion::Id centerRegion;
 
-        RBX::Timer<RBX::Time::Fast> maxRegionExpansionTimer;
-        RBX::Timer<RBX::Time::Fast> renderingDistanceUpdateTimer;
+        ARL::Timer<ARL::Time::Fast> maxRegionExpansionTimer;
+        ARL::Timer<ARL::Time::Fast> renderingDistanceUpdateTimer;
 
         std::vector<shared_ptr<PartInstance> > pendingRemovalPartInstances;
 

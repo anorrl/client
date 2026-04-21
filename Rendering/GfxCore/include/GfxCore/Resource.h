@@ -3,7 +3,7 @@
 #include "rbx/boost.hpp"
 #include "rbx/Debug.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

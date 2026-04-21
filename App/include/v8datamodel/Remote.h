@@ -5,7 +5,7 @@
 #include "v8tree/Instance.h"
 #include "util/SystemAddress.h"
 
-namespace RBX {
+namespace ARL {
 
     bool isPlayerValid(Instance* instance, const SystemAddress& address);
 
@@ -60,7 +60,7 @@ namespace RBX {
 			{
 				std::string name = instance ? instance->getFullName() : "unknown instance";
 
-                RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Remote event invocation queue exhausted for %s; did you forget to implement %s?", name.c_str(), eventName);
+                ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Remote event invocation queue exhausted for %s; did you forget to implement %s?", name.c_str(), eventName);
 			}
 		}
 
@@ -162,4 +162,4 @@ namespace RBX {
 		LatchedSignal<rbx::remote_signal, void(shared_ptr<const Reflection::Tuple>)> onClientEvent;
 	};
 
-}	// namespace RBX
+}	// namespace ARL

@@ -6,7 +6,7 @@
 
 #include <boost/circular_buffer.hpp>
 
-namespace RBX
+namespace ARL
 {
 
     namespace Network

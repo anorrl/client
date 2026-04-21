@@ -36,9 +36,9 @@ DYNAMIC_FASTINTVARIABLE(PathfindingVerticalChunkClamp, 1);
 DYNAMIC_FASTINTVARIABLE(PathfindingSmoothIterations, 5);
 DYNAMIC_FASTINTVARIABLE(PathfindingAverageWindow, 7);
 
-RBX_REGISTER_ENUM(Path::PathStatus);
+ARL_REGISTER_ENUM(Path::PathStatus);
 
-namespace RBX {
+namespace ARL {
 	const char* const sPathfindingService = "PathfindingService";
 
 	const float PATHFINDING_FALL_COST = 1.0f;
@@ -67,7 +67,7 @@ namespace RBX {
 	namespace Reflection
 	{
 		template<> Reflection::EnumDesc<Path::PathStatus>::EnumDesc()
-			:RBX::Reflection::EnumDescriptor("PathStatus")
+			:ARL::Reflection::EnumDescriptor("PathStatus")
 		{
 			addPair(Path::Success, "Success");
 			addPair(Path::ClosestNoPath, "ClosestNoPath");
@@ -122,7 +122,7 @@ namespace RBX {
 		case 3: return Vector3int16(1,0,1);
 
 		default:
-			RBXASSERT(false);
+			ARLASSERT(false);
 			return Vector3int16(0,0,0);
 		}
 	}
@@ -137,7 +137,7 @@ namespace RBX {
 		case 3: return Vector3int16(0,0,1);
 
 		default:
-			RBXASSERT(false);
+			ARLASSERT(false);
 			return Vector3int16(0,0,0);
 		}
 	}
@@ -198,7 +198,7 @@ namespace RBX {
 		else
 		{
 			std::pair<NodesByPos::iterator, bool> result = nodesByPos.insert(NodesByPos::value_type(node.pos, node));
-			RBXASSERT(result.second);
+			ARLASSERT(result.second);
 			it = result.first;
 		}
 
@@ -212,7 +212,7 @@ namespace RBX {
 		OpenNodesByWeight::iterator itWeight = openNodesByWeight.insert(std::make_pair(distance, it));
 		it->second.itWeight = itWeight;
 
-		RBXASSERT_SLOW(checkOpenNodesCounts());
+		ARLASSERT_SLOW(checkOpenNodesCounts());
 
 		if(rawDistance < closestDistance)
 		{
@@ -226,12 +226,12 @@ namespace RBX {
 	Vector3 getPoint(const std::vector<Vector3>& points, int index, int size)
 	{
 		if (index < 0) {
-			RBXASSERT((-index) < size);
+			ARLASSERT((-index) < size);
 			// Inverse around point zero, so result = point_0 + (point_0 - point_i) = 2*point_0 - point_i
 			return 2*points[0] - points[-index];
 		} else if (index >= size) 
 		{
-			RBXASSERT((2*(size-1) - index) >= 0);
+			ARLASSERT((2*(size-1) - index) >= 0);
 			// Inverse around last point (size-1), index is inversed the same way
 			return 2*points[size-1] - points[2*(size-1) - index];
 		}
@@ -342,12 +342,12 @@ namespace RBX {
 
 	PathfindingService::Node PathfindingService::PathfindingState::popTopOpenNode()
 	{
-		RBXASSERT(openNodesByWeight.size() != 0);
+		ARLASSERT(openNodesByWeight.size() != 0);
 
 		OpenNodesByWeight::iterator top = openNodesByWeight.begin();
 		Node* result = &(top->second->second);
 
-		RBXASSERT(result->closed == false);
+		ARLASSERT(result->closed == false);
 
 		FASTLOG1F(FLog::PathfindingDetail, "---- Popping top open node, weight: %f", top->first);
 		FASTLOG3(FLog::PathfindingDetail,  "Popping top open node, coordinate: %i %i %i", result->pos.x, result->pos.y, result->pos.z);
@@ -357,7 +357,7 @@ namespace RBX {
 
 		result->closed = true;
 
-		RBXASSERT_SLOW(checkOpenNodesCounts());
+		ARLASSERT_SLOW(checkOpenNodesCounts());
 
 		return *result;
 	}
@@ -468,7 +468,7 @@ namespace RBX {
 	
 	int PathfindingService::countOrComputeDirtyChunks(const Vector3int16& startCell, const Vector3int16& finishCell, float maxDistance, bool compute)
 	{
-        RBXPROFILER_SCOPE("Voxel", "countOrComputeDirtyChunks");
+        ARLPROFILER_SCOPE("Voxel", "countOrComputeDirtyChunks");
         
 		int minPathDistance = manhattanDistance(startCell, finishCell);
 
@@ -533,7 +533,7 @@ namespace RBX {
 
 	void PathfindingService::computePath(CreatePathRequest& request)
 	{
-        RBXPROFILER_SCOPE("Voxel", "computePath");
+        ARLPROFILER_SCOPE("Voxel", "computePath");
 
 		Vector3int16 startCell = request.startCell;
 		Vector3int16 finishCell = request.finishCell;
@@ -659,7 +659,7 @@ namespace RBX {
 			}
 
 			FASTLOG3(FLog::PathfindingDetail, "Adding closed node at %i %i %i", node.pos.x, node.pos.y, node.pos.z);
-			RBXASSERT(node.closed);
+			ARLASSERT(node.closed);
 		}
 
 		std::vector<Vector3> pathPoints;
@@ -681,7 +681,7 @@ namespace RBX {
 		{
 			pathPoints.push_back(Vector3(parentCell)+Vector3(0.5f,0.5f,0.5f));
 			NodesByPos::iterator itOpen = state.nodesByPos.find(parentCell);
-			RBXASSERT(itOpen != state.nodesByPos.end());
+			ARLASSERT(itOpen != state.nodesByPos.end());
 			parentCell = itOpen->second.parent;
 
 			FASTLOG3(FLog::PathfindingDetail, "Steping back to %i %i %i", parentCell.x, parentCell.y, parentCell.z);
@@ -723,7 +723,7 @@ namespace RBX {
 			static boost::once_flag flag = BOOST_ONCE_INIT;
 			DataModel* dm = DataModel::get(this);
 			boost::call_once(flag, boost::bind(&RobloxGoogleAnalytics::trackEvent,GA_CATEGORY_GAME, "PathfindingService", 
-				RBX::StringConverter<int>::convertToString(dm->getPlaceID()).c_str(), 0,false));
+				ARL::StringConverter<int>::convertToString(dm->getPlaceID()).c_str(), 0,false));
 		}
 
 		
@@ -840,14 +840,14 @@ namespace RBX {
 
 		do 
 		{
-            RBXPROFILER_SCOPE("Voxel", "executeRequest");
+            ARLPROFILER_SCOPE("Voxel", "executeRequest");
 
 			shared_ptr<PathfindingRequest> request;
 			throttledRequests.pop_front(&request);
 			FASTLOG3(FLog::PathfindingDetail, "Popped request, start cell: %i %i %i", request->startCell.x, request->startCell.y, request->startCell.z);
 			FASTLOG3(FLog::PathfindingDetail, "Popped request, finish cell: %i %i %i", request->finishCell.x, request->finishCell.y, request->finishCell.z);
 
-            RBXPROFILER_LABELF("Voxel", "(%d %d %d) -> (%d %d %d)", request->startCell.x, request->startCell.y, request->startCell.z, request->finishCell.x, request->finishCell.y, request->finishCell.z);
+            ARLPROFILER_LABELF("Voxel", "(%d %d %d) -> (%d %d %d)", request->startCell.x, request->startCell.y, request->startCell.z, request->finishCell.x, request->finishCell.y, request->finishCell.z);
 
 			FASTLOG(FLog::PathfindingPerf, "Started computing occupancy");
 
@@ -872,9 +872,9 @@ namespace RBX {
 		ExtentsInt32 voxelCellCoords = extents.shiftLeft(level + 1);
 
 		Vector3int32 voxelShift = Vector3int32(5,4,5);
-		RBXASSERT((1 << voxelShift.x) == kVoxelChunkSizeXZ);
-		RBXASSERT((1 << voxelShift.y) == kVoxelChunkSizeY);
-		RBXASSERT((1 << voxelShift.z) == kVoxelChunkSizeXZ);
+		ARLASSERT((1 << voxelShift.x) == kVoxelChunkSizeXZ);
+		ARLASSERT((1 << voxelShift.y) == kVoxelChunkSizeY);
+		ARLASSERT((1 << voxelShift.z) == kVoxelChunkSizeXZ);
 
 		ExtentsInt32 voxelChunkCoords = voxelCellCoords.shiftRight(voxelShift);
 		return voxelChunkCoords;

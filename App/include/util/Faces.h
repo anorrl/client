@@ -4,7 +4,7 @@
 
 #include "Util/NormalId.h"
 
-namespace RBX {
+namespace ARL {
 	
 	//A utility class for holding a set of "Faces" associated with an object (top, bottom, left, right, front, back)
 	class Faces

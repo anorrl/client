@@ -23,9 +23,9 @@
 #include "v8datamodel/FastLogSettings.h"
 #include "GfxBase/ViewBase.h"
 
-using namespace RBX;
+using namespace ARL;
 
-struct ThumbnailRenderSettings : public RBX::CRenderSettings
+struct ThumbnailRenderSettings : public ARL::CRenderSettings
 {
 	ThumbnailRenderSettings()
 	{
@@ -48,11 +48,11 @@ struct ThumbnailRenderRequest
     std::string* strOutput;
 	std::string* errorOutput;
 	
-	RBX::CEvent* doneEvent;
+	ARL::CEvent* doneEvent;
 };
 
 static rbx::safe_queue<ThumbnailRenderRequest> gThumbRenderQueue;
-static RBX::CEvent gThumbRenderQueueNotEmpty(/* manualReset= */ false);
+static ARL::CEvent gThumbRenderQueueNotEmpty(/* manualReset= */ false);
 
 static boost::scoped_ptr<boost::thread> gThumbRenderThread;
 static boost::once_flag gThumbRenderThreadInit = BOOST_ONCE_INIT;
@@ -61,7 +61,7 @@ static void thumbRenderWorker()
 {
 	// Create a dummy 1x1 window that holds the GL context and Ogre state alive
 	DummyWindow dummyWindow(1, 1);
-	boost::scoped_ptr<RBX::ViewBase> dummyView;
+	boost::scoped_ptr<ARL::ViewBase> dummyView;
 	ThumbnailRenderSettings dummySettings;
 
 	OSContext dummyContext;
@@ -80,7 +80,7 @@ static void thumbRenderWorker()
 		ThumbnailRenderRequest request;
 		while (gThumbRenderQueue.pop_if_present(request))
 		{
-			RBXASSERT(request.generator && request.strOutput && request.errorOutput && request.doneEvent);
+			ARLASSERT(request.generator && request.strOutput && request.errorOutput && request.doneEvent);
 
 			try
 			{
@@ -111,7 +111,7 @@ static void thumbRenderWorker()
 
 static void thumbRenderInit()
 {
-	RBXASSERT(!gThumbRenderThread);
+	ARLASSERT(!gThumbRenderThread);
 	
 	gThumbRenderThread.reset(new boost::thread(thumbRenderWorker));
 }
@@ -119,9 +119,9 @@ static void thumbRenderInit()
 const char* const sThumbnailGenerator = "ThumbnailGenerator";
 
 REFLECTION_BEGIN();
-static RBX::Reflection::BoundFuncDesc<ThumbnailGenerator, shared_ptr<const RBX::Reflection::Tuple>(std::string, int, int, bool, bool)> clickFunction(&ThumbnailGenerator::click, "Click", "fileType", "width", "height", "hideSky", "crop", false, RBX::Security::LocalUser);
-static RBX::Reflection::BoundFuncDesc<ThumbnailGenerator, shared_ptr<const RBX::Reflection::Tuple>(std::string, std::string, int, int)> clickTextureFunction(&ThumbnailGenerator::clickTexture, "ClickTexture", "textureId", "fileType", "width", "height", RBX::Security::LocalUser);
-RBX::Reflection::BoundProp<int>			  prop_HeadColor("GraphicsMode", "Settings", &ThumbnailGenerator::graphicsMode);
+static ARL::Reflection::BoundFuncDesc<ThumbnailGenerator, shared_ptr<const ARL::Reflection::Tuple>(std::string, int, int, bool, bool)> clickFunction(&ThumbnailGenerator::click, "Click", "fileType", "width", "height", "hideSky", "crop", false, ARL::Security::LocalUser);
+static ARL::Reflection::BoundFuncDesc<ThumbnailGenerator, shared_ptr<const ARL::Reflection::Tuple>(std::string, std::string, int, int)> clickTextureFunction(&ThumbnailGenerator::clickTexture, "ClickTexture", "textureId", "fileType", "width", "height", ARL::Security::LocalUser);
+ARL::Reflection::BoundProp<int>			  prop_HeadColor("GraphicsMode", "Settings", &ThumbnailGenerator::graphicsMode);
 REFLECTION_END();
 
 volatile long ThumbnailGenerator::totalCount = 0;
@@ -138,19 +138,19 @@ ThumbnailGenerator::~ThumbnailGenerator(void)
 
 void ThumbnailGenerator::configureCaches()
 {
-	if(RBX::ContentProvider* contentProvider = RBX::ServiceProvider::create<RBX::ContentProvider>(this)){
+	if(ARL::ContentProvider* contentProvider = ARL::ServiceProvider::create<ARL::ContentProvider>(this)){
 		contentProvider->setCacheSize(INT_MAX);
 	}
-	if(RBX::TextureContentProvider* textureContentProvider = RBX::ServiceProvider::create<RBX::TextureContentProvider>(this)){
+	if(ARL::TextureContentProvider* textureContentProvider = ARL::ServiceProvider::create<ARL::TextureContentProvider>(this)){
 		textureContentProvider->setCacheSize(INT_MAX);
 		textureContentProvider->setImmediateMode();
 	}
-	if(RBX::MeshContentProvider* meshContentProvider = RBX::ServiceProvider::create<RBX::MeshContentProvider>(this)){
+	if(ARL::MeshContentProvider* meshContentProvider = ARL::ServiceProvider::create<ARL::MeshContentProvider>(this)){
 		meshContentProvider->setCacheSize(INT_MAX);
 		meshContentProvider->setImmediateMode();
 	}
 
-	if(RBX::SolidModelContentProvider* solidModelContentProvider = RBX::ServiceProvider::create<RBX::SolidModelContentProvider>(this)){
+	if(ARL::SolidModelContentProvider* solidModelContentProvider = ARL::ServiceProvider::create<ARL::SolidModelContentProvider>(this)){
 		solidModelContentProvider->setCacheSize(INT_MAX);
 		solidModelContentProvider->setImmediateMode();
 	}
@@ -158,17 +158,17 @@ void ThumbnailGenerator::configureCaches()
 
 void ReadAccessKey();
 
-shared_ptr<const RBX::Reflection::Tuple> ThumbnailGenerator::clickTexture(std::string textureId, std::string fileType, int cx, int cy)
+shared_ptr<const ARL::Reflection::Tuple> ThumbnailGenerator::clickTexture(std::string textureId, std::string fileType, int cx, int cy)
 {
 	::InterlockedIncrement(&totalCount);
 	try
 	{
 		ReadAccessKey();
 
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ThumbnailGenerator::clickTexture(%s, %s, %d, %d)", textureId.c_str(), fileType.c_str(), cx, cy);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ThumbnailGenerator::clickTexture(%s, %s, %d, %d)", textureId.c_str(), fileType.c_str(), cx, cy);
 
 		configureCaches();
-		RBX::ContentProvider* contentProvider = RBX::ServiceProvider::create<RBX::ContentProvider>(this);
+		ARL::ContentProvider* contentProvider = ARL::ServiceProvider::create<ARL::ContentProvider>(this);
 
 		G3D::BinaryOutput binaryOutput;
 		binaryOutput.setEndian(G3D::G3D_LITTLE_ENDIAN);
@@ -178,7 +178,7 @@ shared_ptr<const RBX::Reflection::Tuple> ThumbnailGenerator::clickTexture(std::s
 		G3D::GImage image;
 
         {
-            boost::shared_ptr<const std::string> content = contentProvider->getContentString(RBX::ContentId(textureId));
+            boost::shared_ptr<const std::string> content = contentProvider->getContentString(ARL::ContentId(textureId));
 
             G3D::BinaryInput binaryInput(reinterpret_cast<const unsigned char*>(content->data()), content->size(), G3D::G3D_LITTLE_ENDIAN, false, false);
 
@@ -210,9 +210,9 @@ shared_ptr<const RBX::Reflection::Tuple> ThumbnailGenerator::clickTexture(std::s
 		std::string strOut;
         base64<char>::encode((const char*)binaryOutput.getCArray(), binaryOutput.length(), strOut, base64<>::noline());
 
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "ThumbnailGenerator::clickTexture() success");
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "ThumbnailGenerator::clickTexture() success");
 
-		shared_ptr<RBX::Reflection::Tuple> tuble(new RBX::Reflection::Tuple(2));
+		shared_ptr<ARL::Reflection::Tuple> tuble(new ARL::Reflection::Tuple(2));
 		tuble->values[0] = strOut;
 		tuble->values[1] = contentProvider->getRequestedUrls();
 
@@ -220,30 +220,30 @@ shared_ptr<const RBX::Reflection::Tuple> ThumbnailGenerator::clickTexture(std::s
 	}
 	catch (std::exception& exp)
 	{
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, exp);
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, exp);
 		throw;
 	}
 	catch (const G3D::GImage::Error& e)
 	{
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, e.reason);
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e.reason);
 		throw std::runtime_error(e.reason);
 	}
 };
 
-shared_ptr<const RBX::Reflection::Tuple> ThumbnailGenerator::click(std::string fileType, int cx, int cy, bool hideSky, bool crop)
+shared_ptr<const ARL::Reflection::Tuple> ThumbnailGenerator::click(std::string fileType, int cx, int cy, bool hideSky, bool crop)
 {
 	::InterlockedIncrement(&totalCount);
 	try
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "ThumbnailGenerator::click(%s, %d, %d, %s)", fileType.c_str(), cx, cy, hideSky ? "true" : "false");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "ThumbnailGenerator::click(%s, %d, %d, %s)", fileType.c_str(), cx, cy, hideSky ? "true" : "false");
 
-		RBX::Time startTime = RBX::Time::now<Time::Fast>();
+		ARL::Time startTime = ARL::Time::now<Time::Fast>();
 
 		ReadAccessKey();
 
         std::string strOutput;
 		
-		RBX::ContentProvider* contentProvider = RBX::ServiceProvider::create<RBX::ContentProvider>(this);
+		ARL::ContentProvider* contentProvider = ARL::ServiceProvider::create<ARL::ContentProvider>(this);
 		configureCaches();
 
         {
@@ -252,7 +252,7 @@ shared_ptr<const RBX::Reflection::Tuple> ThumbnailGenerator::click(std::string f
             // 1. The window that's created in a thread dies, and DC dies with it - we need to keep the main window alive
             // 2. Mesa GL context is bound to a thread that created it; if a new thread is created, graphics can't reuse old GL context.
             std::string errorOutput;
-            RBX::CEvent doneEvent(/* manualReset= */ true);
+            ARL::CEvent doneEvent(/* manualReset= */ true);
             
             ThumbnailRenderRequest request = {this, fileType, cx, cy, hideSky, crop, &strOutput, &errorOutput, &doneEvent};
             
@@ -270,17 +270,17 @@ shared_ptr<const RBX::Reflection::Tuple> ThumbnailGenerator::click(std::string f
             }
         }
 
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "ThumbnailGenerator::click() success");
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "ThumbnailGenerator::click() success");
 
 		// log thumbnail generation time
 		// TODO: log asset/place id
 		shared_ptr<Reflection::ValueTable> entry(new Reflection::ValueTable());
-		(*entry)["Time"] = (RBX::Time::now<Time::Fast>() - startTime).seconds();
+		(*entry)["Time"] = (ARL::Time::now<Time::Fast>() - startTime).seconds();
 
-		RBX::Stats::StatsService* stats = RBX::ServiceProvider::create<RBX::Stats::StatsService>(this);
+		ARL::Stats::StatsService* stats = ARL::ServiceProvider::create<ARL::Stats::StatsService>(this);
 		stats->report("Thumbnail", entry);
 
-        shared_ptr<RBX::Reflection::Tuple> tuble(new RBX::Reflection::Tuple(2));
+        shared_ptr<ARL::Reflection::Tuple> tuble(new ARL::Reflection::Tuple(2));
         tuble->values[0] = strOutput;
         tuble->values[1] = contentProvider->getRequestedUrls();
 
@@ -288,17 +288,17 @@ shared_ptr<const RBX::Reflection::Tuple> ThumbnailGenerator::click(std::string f
 	}
 	catch (std::exception& exp)
 	{
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, exp);
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, exp);
 		throw;
 	}
 }
 
-void ThumbnailGenerator::exportScene(RBX::ViewBase* view, std::string* outStr)
+void ThumbnailGenerator::exportScene(ARL::ViewBase* view, std::string* outStr)
 {
-    RBX::Workspace* w = RBX::ServiceProvider::find<RBX::Workspace>(this);
+    ARL::Workspace* w = ARL::ServiceProvider::find<ARL::Workspace>(this);
     // just fill it with a bunch of dummies
     bool allowDolly = w->setImageServerView(false);
-    RBX::DataModel* dataModel = boost::polymorphic_downcast<RBX::DataModel*>(getParent());
+    ARL::DataModel* dataModel = boost::polymorphic_downcast<ARL::DataModel*>(getParent());
     view->bindWorkspace(shared_from(dataModel));
     view->exportSceneThumbJSON(ExporterSaveType_Everything, ExporterFormat_Obj, true, *outStr);
     view->bindWorkspace(shared_ptr<DataModel>());
@@ -313,7 +313,7 @@ void ThumbnailGenerator::renderThumb(ViewBase* view, void* windowHandle, std::st
 	// TODO: put this code into an API to Lighting???
 	if (hideSky)
 	{
-		RBX::Lighting* lighting = RBX::ServiceProvider::create<RBX::Lighting>(this);
+		ARL::Lighting* lighting = ARL::ServiceProvider::create<ARL::Lighting>(this);
 		lighting->suppressSky(true);
 		if (format==G3D::GImage::PNG)
 		{
@@ -325,7 +325,7 @@ void ThumbnailGenerator::renderThumb(ViewBase* view, void* windowHandle, std::st
 	}
 
 	// TODO: put this code into an API to Camera
-	RBX::Workspace* w = RBX::ServiceProvider::find<RBX::Workspace>(this);
+	ARL::Workspace* w = ARL::ServiceProvider::find<ARL::Workspace>(this);
 
 	// Camera Adjustments:
 	// use camera named "ThumbnailCamera" else:
@@ -337,7 +337,7 @@ void ThumbnailGenerator::renderThumb(ViewBase* view, void* windowHandle, std::st
 	ThumbnailRenderSettings defaultsettings;
 
 	{
-		RBX::DataModel* dataModel = boost::polymorphic_downcast<RBX::DataModel*>(getParent());
+		ARL::DataModel* dataModel = boost::polymorphic_downcast<ARL::DataModel*>(getParent());
 		G3D::GImage image(cx, cy, 4);
 
         view->bindWorkspace(shared_from(dataModel));
@@ -361,7 +361,7 @@ void ThumbnailGenerator::renderThumb(ViewBase* view, void* windowHandle, std::st
 		
 		if (hideSky)
 		{
-			RBX::Workspace* w = RBX::ServiceProvider::find<RBX::Workspace>(this);
+			ARL::Workspace* w = ARL::ServiceProvider::find<ARL::Workspace>(this);
 			// Hack to avoid double-toggle
 			w->setImageServerView(false);
 		}

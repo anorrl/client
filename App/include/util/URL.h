@@ -9,7 +9,7 @@
 // NOTE: After removal of this fast flag, remove the HTW3C.h file and all libwww references everywhere
 DYNAMIC_FASTFLAG(UseNewUrlClass);
 
-namespace RBX
+namespace ARL
 {
 
 /* A class for parsing and assembling URLs with focus mostly on HTTP-specific subset of RFC3986.

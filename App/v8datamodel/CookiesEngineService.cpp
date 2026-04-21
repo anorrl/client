@@ -4,7 +4,7 @@
 #include "CookiesEngine.h"
 #include "format_string.h"
 
-namespace RBX
+namespace ARL
 {
 	const char* const sCookiesService = "CookiesService";
 

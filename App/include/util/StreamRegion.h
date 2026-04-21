@@ -7,7 +7,7 @@
 #include "Util/Extents.h"
 #include "Voxel/Util.h"
 
-namespace RBX {
+namespace ARL {
 
 	// Utilities for working with sub-sections of global coordinate space called
 	// StreamRegions. The sub-sections are of a fixed, globally defined size and
@@ -219,7 +219,7 @@ namespace RBX {
 			
 			typedef ContactManagerSpatialHash::CoarseMovementCallback::UpdateInfo UpdateInfo;
 
-			RBXASSERT_SLOW(info.updateType == UpdateInfo::UPDATE_TYPE_Change ||
+			ARLASSERT_SLOW(info.updateType == UpdateInfo::UPDATE_TYPE_Change ||
 				info.updateType == UpdateInfo::UPDATE_TYPE_Insert);
 
 			(*newExtents) = regionExtentsFromContactManagerLevelAndExtents(
@@ -236,4 +236,4 @@ namespace RBX {
 		}
 	} // StreamRegion
 
-} // RBX
+} // ARL

@@ -5,7 +5,7 @@
 
 #include "GfxCore/Device.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

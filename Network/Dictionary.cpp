@@ -6,7 +6,7 @@
 #include "util/RobloxGoogleAnalytics.h"
 #include <boost/functional/hash/hash.hpp>
 
-namespace RBX { 
+namespace ARL { 
 	
 using namespace Reflection;
 
@@ -24,7 +24,7 @@ bool SenderDictionary<BinaryString>::isDefaultValue(const BinaryString& value)
 	return value.value().empty();
 }
 
-void SenderDictionary<const RBX::Name*>::send(RakNet::BitStream& stream, const RBX::Name* value)
+void SenderDictionary<const ARL::Name*>::send(RakNet::BitStream& stream, const ARL::Name* value)
 {
 	if (isDefaultValue(value->toString()))
 	{
@@ -47,7 +47,7 @@ void SenderDictionary<const RBX::Name*>::send(RakNet::BitStream& stream, const R
 		dictionary.erase(items[nextIndex]);
 
 		// Put the new entry into the item table
-		items[nextIndex] = const_cast<RBX::Name*>(value);
+		items[nextIndex] = const_cast<ARL::Name*>(value);
 
 		// Send the id with 0x80 bit set to indicate this is a new item
 		unsigned char id = nextIndex | 0x80;
@@ -93,7 +93,7 @@ bool ReceiverStringDictionary::get(unsigned char id, std::string& value)
 	value = dictionary[id];
 
 	if(protection){
-		RBXASSERT(hashTable.get());
+		ARLASSERT(hashTable.get());
 		boost::hash<std::string> stringHash;
 		if(stringHash(std::string("a") + value + std::string("s")) != hashTable.get()[id]){
 			//Someone has been messing with our content... death to the infidels

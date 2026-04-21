@@ -3,7 +3,7 @@
 #include "V8DataModel/GameSettings.h"
 #include "V8DataModel/GameBasicSettings.h"
 
-namespace RBX {
+namespace ARL {
 	namespace Reflection {
 		template<>
 		EnumDesc<GameSettings::VideoQuality>::EnumDesc()
@@ -27,10 +27,10 @@ namespace RBX {
 			addPair(GameSettings::ALWAYS, "Always");
 		}
 	}//namespace Reflection
-}//namespace RBX
+}//namespace ARL
 
-using namespace RBX;
-const char *const RBX::sGameSettings = "GameSettings";
+using namespace ARL;
+const char *const ARL::sGameSettings = "GameSettings";
 
 REFLECTION_BEGIN();
 Reflection::BoundProp<int> prop_ChatHistory("ChatHistory", "Online", &GameSettings::chatHistory);
@@ -44,7 +44,7 @@ Reflection::BoundProp<int> prop_MaxCollisionSounds("MaxCollisionSounds", "Sound"
 Reflection::BoundProp<int> prop_bubbleChatMaxBubbles("BubbleChatMaxBubbles", "Online", &GameSettings::bubbleChatMaxBubbles);
 Reflection::BoundProp<float> prop_bubbleChatLifetime("BubbleChatLifetime", "Online", &GameSettings::bubbleChatLifetime);
 
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 Reflection::BoundProp<float> prop_overscanPX("OverscanPX", category_Video, &GameSettings::overscanPX);
 Reflection::BoundProp<float> prop_overscanPY("OverscanPY", category_Video, &GameSettings::overscanPY);
 #endif

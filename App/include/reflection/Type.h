@@ -10,7 +10,7 @@
 #include <list>
 
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
@@ -63,7 +63,7 @@ namespace RBX
 			{
                 *isOutdated = false;
                 *isReplicable = true;
-				RBXASSERT(!this->tag.empty());
+				ARLASSERT(!this->tag.empty());
 				addToAllTypes();
 			}
 			template<class T>
@@ -74,7 +74,7 @@ namespace RBX
 				,isFloat(boost::is_float<T>::value)
 				,isEnum(false)
 			{
-				RBXASSERT(!this->tag.empty());
+				ARLASSERT(!this->tag.empty());
 				addToAllTypes();
 			}
 
@@ -85,15 +85,15 @@ namespace RBX
 				,isFloat(isFloat)
 				,isEnum(isEnum)
 			{
-				RBXASSERT(!this->tag.empty());
+				ARLASSERT(!this->tag.empty());
 				addToAllTypes();
 			}
 		};
 
-		std::ostream& operator<<(std::ostream& os, const RBX::Reflection::Type& type);
+		std::ostream& operator<<(std::ostream& os, const ARL::Reflection::Type& type);
 
 		// Handy macro for registering a type
-#define RBX_REGISTER_TYPE(mType)		template<> RBX::Reflection::TypeRegistrar<mType> RBX::Reflection::TypeRegistrar<mType>::registrar(0)
+#define ARL_REGISTER_TYPE(mType)		template<> ARL::Reflection::TypeRegistrar<mType> ARL::Reflection::TypeRegistrar<mType>::registrar(0)
 
 		// This class is designed to prevent clients of the library
 		// from forgetting to initialize their class descriptors
@@ -277,9 +277,9 @@ namespace RBX
 			struct Item {
 				friend class SignatureDescriptor;
 			public:
-				Item(const RBX::Name* name, const Type* type, const Variant& defaultValue);
-				Item(const RBX::Name* name, const Type* type);
-				const RBX::Name* name;
+				Item(const ARL::Name* name, const Type* type, const Variant& defaultValue);
+				Item(const ARL::Name* name, const Type* type);
+				const ARL::Name* name;
 				const Type* type;
 				const Variant defaultValue;
 				bool hasDefaultValue() const
@@ -293,14 +293,14 @@ namespace RBX
 			const Type* resultType;
 			Arguments arguments;
 
-			void addArgument(const RBX::Name& name, const Type& type);
-			void addArgument(const RBX::Name& name, const Type& type, const Variant& defaultValue);
+			void addArgument(const ARL::Name& name, const Type& type);
+			void addArgument(const ARL::Name& name, const Type& type, const Variant& defaultValue);
 
 			SignatureDescriptor();
 		};
 
 		template<class ValueType>
-		ValueType& RBX::Reflection::Variant::genericConvert()
+		ValueType& ARL::Reflection::Variant::genericConvert()
 		{
 			ValueType* id = tryCast<ValueType>();
 			if (id!=NULL)
@@ -317,7 +317,7 @@ namespace RBX
 				}
 			}
 
-			throw RBX::runtime_error("Unable to cast %s to %s", _type->tag.c_str(), Type::singleton<ValueType>().tag.c_str() );
+			throw ARL::runtime_error("Unable to cast %s to %s", _type->tag.c_str(), Type::singleton<ValueType>().tag.c_str() );
 		}	
 	}
 }

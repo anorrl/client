@@ -21,7 +21,7 @@
 
 FASTFLAG(UserAllCamerasInLua)
 
-namespace RBX {
+namespace ARL {
 
 const float ICharacterSubject::maxMouseLockOffset = 1.5f;
 
@@ -29,20 +29,20 @@ ICharacterSubject::ICharacterSubject()
 : requestedDistance(10.0f)
 , mouseLockOffset(maxMouseLockOffset)
 , cameraTransitioning(false)
-, cameraMode(RBX::Camera::CAMERAMODE_CLASSIC)
+, cameraMode(ARL::Camera::CAMERAMODE_CLASSIC)
 , minDistance(0.0f)
-, maxDistance(RBX::Camera::distanceMaxCharacter())
+, maxDistance(ARL::Camera::distanceMaxCharacter())
 {
 }
 
 int ICharacterSubject::getControlMode() const
 {
-	return RBX::GameBasicSettings::singleton().getControlMode();
+	return ARL::GameBasicSettings::singleton().getControlMode();
 }
 
 int ICharacterSubject::getCustomCameraMode() const
 {
-	return RBX::GameBasicSettings::singleton().getCameraModeWithDefault();
+	return ARL::GameBasicSettings::singleton().getCameraModeWithDefault();
 }
 
 bool ICharacterSubject::isFirstPerson() const	
@@ -57,7 +57,7 @@ bool ICharacterSubject::isDistanceFirstPerson(float distance) const
 
 void ICharacterSubject::stepRotationalVelocity(Vector3& cameraLocation, Vector3& focusLocation)
 {
-	if (RBX::GameBasicSettings::singleton().getRotationType() == RBX::GameBasicSettings::ROTATION_TYPE_CAMERA_RELATIVE)
+	if (ARL::GameBasicSettings::singleton().getRotationType() == ARL::GameBasicSettings::ROTATION_TYPE_CAMERA_RELATIVE)
 	{
 		setFirstPersonRotationalVelocity(focusLocation - cameraLocation, true);
 	}
@@ -69,7 +69,7 @@ void ICharacterSubject::onCameraHeartbeat(const Vector3& cameraLocation, const V
     {
         return;
     }
-	RBX::GameBasicSettings& settings(RBX::GameBasicSettings::singleton());
+	ARL::GameBasicSettings& settings(ARL::GameBasicSettings::singleton());
 
 	tellCameraNear((focusPoint - cameraLocation).magnitude());
 
@@ -98,10 +98,10 @@ void ICharacterSubject::onCameraHeartbeat(const Vector3& cameraLocation, const V
 	}
 }
 
-void ICharacterSubject::setCameraMode(RBX::Camera::CameraMode value)
+void ICharacterSubject::setCameraMode(ARL::Camera::CameraMode value)
 {
 	if(value != cameraMode)
-		if(value == RBX::Camera::CAMERAMODE_CLASSIC)
+		if(value == ARL::Camera::CAMERAMODE_CLASSIC)
 			requestedDistance = 11.0f;
 
 	cameraMode = value;
@@ -135,4 +135,4 @@ void ICharacterSubject::setMaxDistance(float value)
 	}
 }
 
-} // namespace RBX
+} // namespace ARL

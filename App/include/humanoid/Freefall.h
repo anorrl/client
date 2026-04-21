@@ -4,7 +4,7 @@
 
 #include "Humanoid/Balancing.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace HUMAN {
 

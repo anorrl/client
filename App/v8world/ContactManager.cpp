@@ -46,7 +46,7 @@ DYNAMIC_FASTFLAGVARIABLE(ContactManagerOptimizedQueryExtents, false)
 
 #define LARGE_TERRAIN_CONTACT_VOLUME (4 * 4 * 4)
 
-namespace RBX {
+namespace ARL {
 
 Vector3 ContactManager::dummySurfaceNormal;
 PartMaterial ContactManager::dummySurfaceMaterial;
@@ -77,9 +77,9 @@ void ContactManager::doStats()			// spit out hash stats
 	spatialHash->doStats();
 }
 
-bool ContactManager::intersectingMySimulation(Primitive* check, RBX::SystemAddress myLocalAddress, float overlapIgnored)
+bool ContactManager::intersectingMySimulation(Primitive* check, ARL::SystemAddress myLocalAddress, float overlapIgnored)
 {
-	RBXASSERT_FISHING(check->getNetworkOwner() != myLocalAddress);
+	ARLASSERT_FISHING(check->getNetworkOwner() != myLocalAddress);
 
 	if (Assembly* assembly = check->getAssembly()) {
 		Contact* c = check->getFirstContact();
@@ -172,7 +172,7 @@ shared_ptr<const Instances> ContactManager::getPartCollisions(Primitive* check)
 		{
 			PartInstance* partInstance = PartInstance::fromPrimitive(other);
 
-			if (RBX::Instance::fastDynamicCast<MegaClusterInstance>(partInstance))
+			if (ARL::Instance::fastDynamicCast<MegaClusterInstance>(partInstance))
 			{
 				shared_ptr<Instance> instance = shared_from(static_cast<Instance*>(partInstance));
 				if (c->computeIsCollidingUi(2E-4))
@@ -261,7 +261,7 @@ Primitive* ContactManager::getSlowHit(	const G3D::Array<Primitive*>& primitives,
 										float maxDistance,
 										bool& stopped) const
 {
-	RBXASSERT(unitRay.direction().isUnit());
+	ARLASSERT(unitRay.direction().isUnit());
 
 	Primitive* bestPrimitive = NULL;
 	float bestOffset = maxDistance;
@@ -272,7 +272,7 @@ Primitive* ContactManager::getSlowHit(	const G3D::Array<Primitive*>& primitives,
 	{
 		Primitive* p = primitives[i];
 		if (!p->getBody()) {
-			RBXCRASH("getSlowHit with deleted primitive");
+			ARLCRASH("getSlowHit with deleted primitive");
 		}
 
 		bool dontIgnore = ignorePrim.find(p) == ignorePrim.end();
@@ -322,7 +322,7 @@ Primitive* ContactManager::getSlowHit(	const G3D::Array<Primitive*>& primitives,
 							}
 						default:
 							{
-								RBXASSERT(0);
+								ARLASSERT(0);
 								break;
 							}
 						}
@@ -381,7 +381,7 @@ Primitive* ContactManager::getFastHit(	const RbxRay& worldRay,
                                         Vector3& surfaceNormal,
                                         PartMaterial& surfaceMaterial) const
 {
-	RBXPROFILER_SCOPE("Physics", "getFastHit");
+	ARLPROFILER_SCOPE("Physics", "getFastHit");
 
 	// don't do raycast if incoming ray does not have good (i.e. finite)
 	// floating point values in it.
@@ -394,13 +394,13 @@ Primitive* ContactManager::getFastHit(	const RbxRay& worldRay,
 		}
 	}
 
-	RBXASSERT(worldRay.direction().magnitude() < 5000.0f);
+	ARLASSERT(worldRay.direction().magnitude() < 5000.0f);
 
 	G3D::Array<Primitive*> primitives;
 	Vector3int32 grid = SpatialHashStatic::realToHashGrid(0, worldRay.origin());
 
 	float maxDistance = worldRay.direction().magnitude();
-	RBXASSERT(maxDistance < 5000.0f);
+	ARLASSERT(maxDistance < 5000.0f);
 	maxDistance = std::min(5000.0f, maxDistance);
 	const RbxRay unitRay = worldRay.unit();
 
@@ -531,7 +531,7 @@ Vector3 ContactManager::findUpNearestLocationWithSpaceNeeded(const float maxSear
 					// Should not be touching any other primitives or terrain at "local".
 					if (intersectingOthersChecks < FInt::IntersectingOthersCallsAllowedOnSpawn) {
 						intersectingOthersChecks++;
-						boost::shared_ptr<RBX::PartInstance> tempPart;
+						boost::shared_ptr<ARL::PartInstance> tempPart;
 						tempPart = Creatable<Instance>::create<PartInstance>();
 						CoordinateFrame frame(localCenter);
 						tempPart->setCoordinateFrame(frame);
@@ -580,7 +580,7 @@ Vector3 ContactManager::findUpNearestLocationWithSpaceNeeded(const float maxSear
 
 Contact* ContactManager::createContact(	Primitive* p0, Primitive* p1)
 {
-	RBXASSERT(!p0->getGeometry()->isTerrain() && !p1->getGeometry()->isTerrain());
+	ARLASSERT(!p0->getGeometry()->isTerrain() && !p1->getGeometry()->isTerrain());
 
 	// Skip Contact creation (for narrow phase) if either primitive is set to not collide 
 	// AND neither primitive is reporting touches
@@ -621,7 +621,7 @@ Contact* ContactManager::createContact(	Primitive* p0, Primitive* p1)
 					return new BallPolyContact(p0, p1);
 
 				default:
-					RBXASSERT(0); return NULL;
+					ARLASSERT(0); return NULL;
 				}
 			}
 		case (Geometry::COLLIDE_BLOCK):					// ball, block, poly
@@ -635,7 +635,7 @@ Contact* ContactManager::createContact(	Primitive* p0, Primitive* p1)
 					return new PolyPolyContact(p0, p1);
 
 				default:
-					RBXASSERT(0); return NULL;
+					ARLASSERT(0); return NULL;
 				}
 			}
 		case (Geometry::COLLIDE_POLY):
@@ -643,15 +643,15 @@ Contact* ContactManager::createContact(	Primitive* p0, Primitive* p1)
 				return new PolyPolyContact(p0, p1);
 			}
         default:
-            RBXASSERT(0);
+            ARLASSERT(0);
 	}
-	RBXCRASH("ContactManager::createContact"); 
+	ARLCRASH("ContactManager::createContact"); 
 	return NULL;
 }
 
 void ContactManager::onNewPair(Primitive* p0, Primitive* p1)
 {
-	RBXASSERT_VERY_FAST(Primitive::getContact(p0, p1) == NULL);
+	ARLASSERT_VERY_FAST(Primitive::getContact(p0, p1) == NULL);
 	const Assembly* a0 = Assembly::getConstPrimitiveAssembly(p0);
 	const Assembly* a1 = Assembly::getConstPrimitiveAssembly(p1);
 	if (a0 == a1)
@@ -669,7 +669,7 @@ void ContactManager::onNewPair(Primitive* p0, Primitive* p1)
 	if (c)
 	{
 		world->insertContact(c);
-		RBXASSERT_VERY_FAST(Primitive::getContact(p0, p1) != NULL);
+		ARLASSERT_VERY_FAST(Primitive::getContact(p0, p1) != NULL);
 	}
 }
 
@@ -691,7 +691,7 @@ void ContactManager::releasePair(Primitive* p0, Primitive* p1)
         {
 	        Contact* c = Primitive::getContact(p0, p1);
 
-			RBXASSERT_VERY_FAST(c);
+			ARLASSERT_VERY_FAST(c);
 
 	        if (c)
             {
@@ -699,10 +699,10 @@ void ContactManager::releasePair(Primitive* p0, Primitive* p1)
 	        }
 	        else 
             {
-		        RBXASSERT(0);			// this should never happen - something amiss in adding/removing contacts from Spatial Hash stage
+		        ARLASSERT(0);			// this should never happen - something amiss in adding/removing contacts from Spatial Hash stage
 	        }
         }
-        RBXASSERT_VERY_FAST(Primitive::getContact(p0, p1) == NULL);		// should be clear now
+        ARLASSERT_VERY_FAST(Primitive::getContact(p0, p1) == NULL);		// should be clear now
     }
 }
 
@@ -710,7 +710,7 @@ void ContactManager::onPrimitiveAdded(Primitive* p)
 {
     if (p->getGeometry()->isTerrain())
 	{
-        RBXASSERT(!myMegaClusterPrim);
+        ARLASSERT(!myMegaClusterPrim);
         myMegaClusterPrim = p;
 
 		if (p->getGeometryType() == Geometry::GEOMETRY_SMOOTHCLUSTER)
@@ -747,7 +747,7 @@ void ContactManager::onPrimitiveRemoved(Primitive* p)
             getVoxelGrid()->disconnectListener(this);
 		}
 
-        RBXASSERT(myMegaClusterPrim);
+        ARLASSERT(myMegaClusterPrim);
 		myMegaClusterPrim = NULL;
 	}
 
@@ -829,7 +829,7 @@ Primitive* ContactManager::getHitLegacy(const RbxRay& originDirection,
 										const float& maxSearchDepth,
 										bool ignoreWater) const
 {
-	RBXASSERT(originDirection.direction().isUnit());
+	ARLASSERT(originDirection.direction().isUnit());
 	RbxRay worldRay = RbxRay::fromOriginAndDirection(originDirection.origin(), originDirection.direction());
 	worldRay.direction() *= maxSearchDepth;
 
@@ -955,7 +955,7 @@ bool ContactManager::checkMegaClusterSmallTerrainContact(Primitive* otherPrim, c
 {
     bool touchingTerrain = false;
 
-    RBXASSERT(extentSize.x * extentSize.y * extentSize.z <= LARGE_TERRAIN_CONTACT_VOLUME);
+    ARLASSERT(extentSize.x * extentSize.y * extentSize.z <= LARGE_TERRAIN_CONTACT_VOLUME);
 
     bool cellMap[LARGE_TERRAIN_CONTACT_VOLUME];
     memset(cellMap, 0, LARGE_TERRAIN_CONTACT_VOLUME);
@@ -1132,7 +1132,7 @@ static bool isAnyChunkTouchingWater(const std::vector<TerrainPartitionSmooth::Ch
 
 void ContactManager::checkSmoothClusterContact(Primitive* otherPrim, bool cellChanged)
 {
-	RBXASSERT(myMegaClusterPrim && getSmoothGrid());
+	ARLASSERT(myMegaClusterPrim && getSmoothGrid());
 
 	if (!getSmoothGrid()->isAllocated())
 		return;
@@ -1163,7 +1163,7 @@ void ContactManager::checkSmoothClusterContact(Primitive* otherPrim, bool cellCh
 		{
             Contact* contact = otherPrim->getContact(i);
             Contact::ContactType contactType = contact->getContactType();
-			RBXASSERT(contactType == Contact::Contact_Cell || contactType == Contact::Contact_Buoyancy);
+			ARLASSERT(contactType == Contact::Contact_Cell || contactType == Contact::Contact_Buoyancy);
 
 			if (contactType == Contact::Contact_Cell)
 			{
@@ -1310,7 +1310,7 @@ void ContactManager::applyDeferredSmoothClusterChanges()
 
 void ContactManager::applyDeferredTerrainChanges()
 {
-	RBXPROFILER_SCOPE("Physics", "applyDeferredTerrainChanges");
+	ARLPROFILER_SCOPE("Physics", "applyDeferredTerrainChanges");
 
 	if (myMegaClusterPrim)
 	{

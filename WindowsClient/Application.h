@@ -18,7 +18,7 @@ class CProcessPerfCounter;
 class DumpErrorUploader;
 class RbxWebView;
 
-namespace RBX {
+namespace ARL {
 
 // more forward declarations
 class Game;
@@ -48,7 +48,7 @@ class Application {
 		USER_LEFT,
 	};
 
-	RBX::Analytics::InfluxDb::Points analyticsPoints;
+	ARL::Analytics::InfluxDb::Points analyticsPoints;
 
 public:
 	Application();
@@ -207,4 +207,4 @@ private:
 
 };
 
-}  // namespace RBX
+}  // namespace ARL

@@ -30,8 +30,8 @@
 #include "v8world/DistributedPhysics.h"
 #include "V8World/Mechanism.h"
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 DYNAMIC_FASTINT(PhysicsCompressionSizeFilter)
 
@@ -76,7 +76,7 @@ void TopNErrorsPhysicsSender::step()
 	{
 		physicsService = shared_from(ServiceProvider::find<PhysicsService>(&replicator));
 
-		RBXASSERT(physicsService);		// datamodel should always create this
+		ARLASSERT(physicsService);		// datamodel should always create this
 
 		// Get all current assemblies
 		std::for_each(physicsService->begin(), physicsService->end(), boost::bind(&TopNErrorsPhysicsSender::addNugget, this, _1));
@@ -118,7 +118,7 @@ void TopNErrorsPhysicsSender::step()
 			{
 				// remove part from sender if it's no longer in physics service, it's not moving
 				NuggetMap::iterator mapIter = nuggetMap.find(nugget->part);	// need to do find() here because boost unordered_map invalidates iterators during insert
-				RBXASSERT(mapIter != nuggetMap.end());
+				ARLASSERT(mapIter != nuggetMap.end());
 
 				nuggetMap.erase(mapIter);
 				iter = nuggetList.erase(iter);
@@ -137,7 +137,7 @@ void TopNErrorsPhysicsSender::step()
 				else
 				{
 					NuggetMap::iterator mapIter = nuggetMap.find(nugget->part);	// need to do find() here because boost unordered_map invalidates iterators during insert
-					RBXASSERT(mapIter != nuggetMap.end());
+					ARLASSERT(mapIter != nuggetMap.end());
 
 					nuggetMap.erase(mapIter);
 					iter = nuggetList.erase(iter);
@@ -210,7 +210,7 @@ int TopNErrorsPhysicsSender::sendPacket(int maxPackets, PacketPriority packetPri
 			if (!SFFlag::getPhysicsPacketSendWorldStepTimestamp() && DFFlag::PhysicsSenderUseOwnerTimestamp && nugget->part->computeNetworkOwnerIsSomeoneElse())
 			{
 				// retrieve the original packet send time of the part
-				RBXASSERT(timestamp >= nugget->part->raknetTime);
+				ARLASSERT(timestamp >= nugget->part->raknetTime);
 				if (nugget->part->raknetTime)
 					timestamp = nugget->part->raknetTime;
 			}
@@ -231,7 +231,7 @@ int TopNErrorsPhysicsSender::sendPacket(int maxPackets, PacketPriority packetPri
 				else
 				{
 					float timeOffsetDueToPhysics = 0.0f;
-					Workspace* w = ServiceProvider::find<RBX::Workspace>(&replicator);
+					Workspace* w = ServiceProvider::find<ARL::Workspace>(&replicator);
 					if (w)
 					{
 						timeOffsetDueToPhysics = w->getWorld()->getUpdateExpectedStepDelta();		
@@ -250,7 +250,7 @@ int TopNErrorsPhysicsSender::sendPacket(int maxPackets, PacketPriority packetPri
 		{
 			// remove part from sender if it's no longer in physics service, it's not moving
 			NuggetMap::iterator mapIter = nuggetMap.find(nugget->part);	// need to do find() here because boost unordered_map invalidates iterators during insert
-			RBXASSERT(mapIter != nuggetMap.end());
+			ARLASSERT(mapIter != nuggetMap.end());
 
 			nuggetMap.erase(mapIter);
 			iter = nuggetList.erase(iter);
@@ -266,12 +266,12 @@ int TopNErrorsPhysicsSender::sendPacket(int maxPackets, PacketPriority packetPri
 		}
 		else
 		{
-			RBXASSERT(nugget->part->getConstPartPrimitive()->getConstAssembly());
+			ARLASSERT(nugget->part->getConstPartPrimitive()->getConstAssembly());
 
 			if( !DFFlag::PhysicsSenderSleepingUpdate )
 			{
 				nugget->onSent(currentStepTimestamp, sentCFrame, accumulatedError);
-				RBXASSERT((*iter)->lastSent == sentCFrame);
+				ARLASSERT((*iter)->lastSent == sentCFrame);
 
 				++iter;
 			}
@@ -280,7 +280,7 @@ int TopNErrorsPhysicsSender::sendPacket(int maxPackets, PacketPriority packetPri
 				if(nugget->notInService)
 				{
 					NuggetMap::iterator mapIter = nuggetMap.find(nugget->part);	// need to do find() here because boost unordered_map invalidates iterators during insert
-					RBXASSERT(mapIter != nuggetMap.end());
+					ARLASSERT(mapIter != nuggetMap.end());
 					
 					nuggetMap.erase(mapIter);
 					iter = nuggetList.erase(iter);
@@ -290,7 +290,7 @@ int TopNErrorsPhysicsSender::sendPacket(int maxPackets, PacketPriority packetPri
 				else
 				{
 					nugget->onSent(currentStepTimestamp, sentCFrame, accumulatedError);
-					RBXASSERT((*iter)->lastSent == sentCFrame);
+					ARLASSERT((*iter)->lastSent == sentCFrame);
 
 					++iter;
 				}
@@ -346,7 +346,7 @@ int TopNErrorsPhysicsSender::sendPacket(int maxPackets, PacketPriority packetPri
 void TopNErrorsPhysicsSender::onAddingAssembly(shared_ptr<Instance> assembly)
 {
 	shared_ptr<PartInstance> part = Instance::fastSharedDynamicCast<PartInstance>(assembly);
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	newMovingAssemblies.push_back(part);
 }
@@ -375,7 +375,7 @@ void TopNErrorsPhysicsSender::addNugget2(shared_ptr<PartInstance> part)
 void TopNErrorsPhysicsSender::removeNugget(shared_ptr<const PartInstance> part)
 {
 	NuggetMap::iterator iter = nuggetMap.find(part);
-	RBXASSERT(iter != nuggetMap.end());
+	ARLASSERT(iter != nuggetMap.end());
 
 	for (NuggetList::iterator i = nuggetList.begin(); i != nuggetList.end(); i++)
 	{
@@ -392,7 +392,7 @@ void TopNErrorsPhysicsSender::removeNugget(shared_ptr<const PartInstance> part)
 void TopNErrorsPhysicsSender::onRemovedAssembly(shared_ptr<Instance> assembly)
 {
 	shared_ptr<const PartInstance> part = Instance::fastSharedDynamicCast<PartInstance>(assembly);
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	removeNugget(part);
 }
@@ -435,10 +435,10 @@ void TopNErrorsPhysicsSender::writeAssembly(RakNet::BitStream& bitStream, const 
 					{
 						static boost::once_flag flag = BOOST_ONCE_INIT;
 						boost::call_once(flag, boost::bind(&Analytics::GoogleAnalytics::trackEventWithoutThrottling, "Error", "PhysicsSenderCacheMiss", 
-							RBX::Http::placeID.c_str(), 0, false));
+							ARL::Http::placeID.c_str(), 0, false));
 					}
 
-					RBXASSERT(0);
+					ARLASSERT(0);
 				}
 			}
 		}
@@ -484,7 +484,7 @@ void TopNErrorsPhysicsSender::Nugget::computeError(const CoordinateFrame& focus,
 	if ((stepId % 20) == 0)
 	{
 		const Assembly* assembly = part->getConstPartPrimitive()->getConstAssembly();
-		RBXASSERT(assembly);
+		ARLASSERT(assembly);
 
 		radius = assembly->getLastComputedRadius();
 		
@@ -698,7 +698,7 @@ bool TopNErrorsPhysicsSender::isSleepingRootPrimitive(const PartInstance* part)
 	}
 
 	// The ServerReplicator applies additional restrictions.
-	// Search for:  RBXASSERT(getConstMechanismRootMovingPart(part) == part)
+	// Search for:  ARLASSERT(getConstMechanismRootMovingPart(part) == part)
 
 	const Primitive* p = Mechanism::getConstRootMovingPrimitive(part->getConstPartPrimitive());
 	return PartInstance::fromConstPrimitive(p) == part;

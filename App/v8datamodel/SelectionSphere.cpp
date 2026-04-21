@@ -6,7 +6,7 @@
 #include "AppDraw/DrawAdorn.h"
 #include "AppDraw/Draw.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sSelectionSphere = "SelectionSphere";
 

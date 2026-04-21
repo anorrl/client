@@ -8,7 +8,7 @@
 #include "Util/Math.h"
 
 
-namespace RBX {
+namespace ARL {
 
 void RightAngleRampPoly::buildMesh()
 {
@@ -78,4 +78,4 @@ size_t RightAngleRampPoly::getFaceFromLegacyNormalId( const NormalId nId ) const
 	return faceId;
 }
 
-} // namespace RBX
+} // namespace ARL

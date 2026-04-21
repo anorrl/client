@@ -3,7 +3,7 @@
 #include "V8Tree/Instance.h"
 #include "V8DataModel/Effect.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sLight;
 	class Light : public DescribedNonCreatable<Light, Instance, sLight>
@@ -72,7 +72,7 @@ namespace RBX
         void setAngle(float angle);
         
 		NormalId getFace() const { return face; }
-		void setFace(RBX::NormalId value);
+		void setFace(ARL::NormalId value);
 
 		static Reflection::PropDescriptor<SpotLight, float> prop_Range;
 		static Reflection::PropDescriptor<SpotLight, float> prop_Angle;
@@ -98,7 +98,7 @@ namespace RBX
         void setAngle(float angle);
         
 		NormalId getFace() const { return face; }
-		void setFace(RBX::NormalId value);
+		void setFace(ARL::NormalId value);
 
 		static Reflection::PropDescriptor<SurfaceLight, float> prop_Range;
 		static Reflection::PropDescriptor<SurfaceLight, float> prop_Angle;
@@ -110,4 +110,4 @@ namespace RBX
         NormalId face;
 	};
 
-}	// namespace RBX
+}	// namespace ARL

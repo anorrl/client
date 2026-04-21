@@ -5,7 +5,7 @@
 #include "Util/Rect.h"
 #include "V8DataModel/GuiLayerCollector.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sScreenGui;
 	
@@ -40,7 +40,7 @@ namespace RBX {
 		// 
 		// GuiTarget
 		/*override*/ GuiResponse process(const shared_ptr<InputObject>& event);
-        /*override*/ GuiResponse processGesture(const UserInputService::Gesture gesture, shared_ptr<const RBX::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args);
+        /*override*/ GuiResponse processGesture(const UserInputService::Gesture gesture, shared_ptr<const ARL::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args);
         
         ////////////////////////////////////////////////////////////////////////////////////
         //
@@ -50,7 +50,7 @@ namespace RBX {
 		const Rect2D& getViewport() const { return bufferedViewport; }
 
 		bool hasModalDialog();
-		void onModalButtonChanged(const RBX::Reflection::PropertyDescriptor* desc, RBX::GuiButton* guiButton);
+		void onModalButtonChanged(const ARL::Reflection::PropertyDescriptor* desc, ARL::GuiButton* guiButton);
 
 		/*override*/ bool canProcessMeAndDescendants() const;
         
@@ -66,8 +66,8 @@ namespace RBX {
 	private:
 		bool isAncestorRenderableGui() const;
 
-		bool removeModalButton(RBX::GuiButton* guiButton);
-		bool insertModalButton(RBX::GuiButton* guiButton);
+		bool removeModalButton(ARL::GuiButton* guiButton);
+		bool insertModalButton(ARL::GuiButton* guiButton);
 
 		Rect2D bufferedViewport;		// grab on render (const - don't take action), resize on process;
 		bool renderable;

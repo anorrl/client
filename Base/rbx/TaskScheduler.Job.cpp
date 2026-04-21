@@ -4,18 +4,18 @@
 #include "rbx/Log.h"
 #include "FastLog.h"
 
-using namespace RBX;
+using namespace ARL;
 
 LOGGROUP(TaskSchedulerSteps)
 
 #if HANG_DETECTION
 #include <../../App/include/util/standardout.h>
 #define STEPTIME_SAMPLE_INTEVAL 60.0
-double RBX::TaskScheduler::Job::stepTimeThreshold = 0.0;
+double ARL::TaskScheduler::Job::stepTimeThreshold = 0.0;
 #endif
 
 TaskScheduler::Job::SleepAdjustMethod TaskScheduler::Job::sleepAdjustMethod(AverageInterval);
-double RBX::TaskScheduler::Job::throttledSleepTime = 0.01;
+double ARL::TaskScheduler::Job::throttledSleepTime = 0.01;
 
 double TaskScheduler::Job::averageDutyCycle() const 
 { 
@@ -51,20 +51,20 @@ double TaskScheduler::Job::averageError() const
 }
 
 
-void TaskScheduler::Job::removeCoordinator(class boost::shared_ptr<class RBX::Tasks::Coordinator> coordinator)
+void TaskScheduler::Job::removeCoordinator(class boost::shared_ptr<class ARL::Tasks::Coordinator> coordinator)
 {
 	coordinator->onRemoved(this);
 	{
-		RBX::mutex::scoped_lock lock(coordinatorMutex);
+		ARL::mutex::scoped_lock lock(coordinatorMutex);
 		coordinators.erase(std::find(coordinators.begin(), coordinators.end(), coordinator));
 	}
 }
 
 
-void TaskScheduler::Job::addCoordinator(class boost::shared_ptr<class RBX::Tasks::Coordinator> coordinator)
+void TaskScheduler::Job::addCoordinator(class boost::shared_ptr<class ARL::Tasks::Coordinator> coordinator)
 {
 	{
-		RBX::mutex::scoped_lock lock(coordinatorMutex);
+		ARL::mutex::scoped_lock lock(coordinatorMutex);
 		coordinators.push_back(coordinator);
 	}
 	coordinator->onAdded(this);
@@ -75,7 +75,7 @@ bool TaskScheduler::Job::isDisabled()
 	if (coordinators.size()==0)
 		return false;
 
-	RBX::mutex::scoped_lock lock(coordinatorMutex);
+	ARL::mutex::scoped_lock lock(coordinatorMutex);
 	// TODO: Write more efficiently without boost bind
 	return std::find_if(
 		coordinators.begin(), 
@@ -85,7 +85,7 @@ bool TaskScheduler::Job::isDisabled()
 } 
 
 const double lerpJob = 0.05;
-extern RBX::Time::Interval maxDutyCycleWindow;
+extern ARL::Time::Interval maxDutyCycleWindow;
 
 TaskScheduler::Job::Job(const char* name, shared_ptr<TaskScheduler::Arbiter> arbiter, Time::Interval stepBudget)
 	:name(name)
@@ -111,8 +111,8 @@ TaskScheduler::Job::Job(const char* name, shared_ptr<TaskScheduler::Arbiter> arb
 
 TaskScheduler::Job::~Job()
 {
-	RBXASSERT(!TaskScheduler::SleepingHook::is_linked());
-	RBXASSERT(!TaskScheduler::WaitingHook::is_linked());
+	ARLASSERT(!TaskScheduler::SleepingHook::is_linked());
+	ARLASSERT(!TaskScheduler::WaitingHook::is_linked());
 	while (coordinators.size()>0)
 	{
 		coordinators.back()->onRemoved(this);
@@ -133,7 +133,7 @@ TaskScheduler::Job::Error TaskScheduler::Job::computeStandardError(const Stats& 
 TaskScheduler::Job::Error TaskScheduler::Job::computeStandardErrorCyclicExecutiveSleeping(const Stats& stats, double desiredHz) 
 {
 	TaskScheduler::Job::Error error = computeStandardError(stats, desiredHz);
-	if(RBX::TaskScheduler::singleton().isCyclicExecutive() && cyclicExecutive)
+	if(ARL::TaskScheduler::singleton().isCyclicExecutive() && cyclicExecutive)
 	{
 		// Waking up at error >= 1.0 means that a task always runs late.  In practice
 		// there is always scheduling jitter, however in the spirit of minimally
@@ -149,8 +149,8 @@ TaskScheduler::Job::Error TaskScheduler::Job::computeStandardErrorCyclicExecutiv
 
 Time::Interval TaskScheduler::Job::computeStandardSleepTime(const Stats& stats, double desiredHz) 
 {
-//	bool schedulerIsCyclicExecutive = RBX::TaskScheduler::singleton().isCyclicExecutive();
-//	RBXASSERT( !schedulerIsCyclicExecutive || cyclicExecutive || desiredHz <= 5 );
+//	bool schedulerIsCyclicExecutive = ARL::TaskScheduler::singleton().isCyclicExecutive();
+//	ARLASSERT( !schedulerIsCyclicExecutive || cyclicExecutive || desiredHz <= 5 );
 
 	shared_ptr<Arbiter> ar(getArbiter());
 	Time::Interval minTime = ar && ar->isThrottled() ? Time::Interval(throttledSleepTime) : Time::Interval::zero();
@@ -209,7 +209,7 @@ void TaskScheduler::Job::updateError(const Time& now)
 {
 	Job::Stats stats(*this, now);
 	currentError = error(stats);
-	RBXASSERT(currentError.error < std::numeric_limits<double>::max());
+	ARLASSERT(currentError.error < std::numeric_limits<double>::max());
 	if (currentError.error>0)
 		runningAverageError.sample(currentError.error);
 }
@@ -219,7 +219,7 @@ void TaskScheduler::Job::notifyCoordinatorsPreStep()
 {
 	if (coordinators.size()>0)
 	{
-		RBX::mutex::scoped_lock lock(coordinatorMutex);
+		ARL::mutex::scoped_lock lock(coordinatorMutex);
 		std::for_each(
 			coordinators.begin(), 
 			coordinators.end(), 
@@ -263,10 +263,10 @@ void TaskScheduler::Job::postStep(StepResult result)
 		StandardOut::singleton()->printf(MESSAGE_WARNING, "TaskScheduler::Job: %s step time over threshold", name.c_str());
 		
 		// send to log
-		if (RBX::Log::current() && ((Time::now<Time::Fast>() - stepTimeSampleTime).seconds() > STEPTIME_SAMPLE_INTEVAL))
+		if (ARL::Log::current() && ((Time::now<Time::Fast>() - stepTimeSampleTime).seconds() > STEPTIME_SAMPLE_INTEVAL))
 		{
 			std::string msg = "TaskScheduler::Job: " + name + " step time over threshold.";
-			RBX::Log::current()->writeEntry(RBX::Log::Error, msg.c_str());
+			ARL::Log::current()->writeEntry(ARL::Log::Error, msg.c_str());
 
 			stepTimeSampleTime = Time::now<Time::Fast>();
 		}
@@ -291,7 +291,7 @@ void TaskScheduler::Job::notifyCoordinatorsPostStep()
 {
 	if (coordinators.size()>0)
 	{
-		RBX::mutex::scoped_lock lock(coordinatorMutex);
+		ARL::mutex::scoped_lock lock(coordinatorMutex);
 		std::for_each(
 			coordinators.begin(), 
 			coordinators.end(), 

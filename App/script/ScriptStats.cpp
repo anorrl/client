@@ -2,7 +2,7 @@
 #include "Script/ScriptStats.h"
 #include "Script/ScriptEvent.h"
 
-namespace RBX
+namespace ARL
 {
 	ScriptStats::ScriptStats()
 	{}
@@ -49,8 +49,8 @@ namespace RBX
 
 	void ScriptStats::scriptResumeStopped(const std::string& scriptHash)
 	{
-		RBXASSERT(!scriptStack.empty());
-		RBXASSERT(scriptStack.top() == scriptHash);
+		ARLASSERT(!scriptStack.empty());
+		ARLASSERT(scriptStack.top() == scriptHash);
 		stopCollection(scriptHash);
 		scriptStack.pop();
 		if(!scriptStack.empty()){

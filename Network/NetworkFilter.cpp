@@ -13,7 +13,7 @@
 #include "v8datamodel/StarterPlayerService.h"
 #include "Network/Players.h"
 
-namespace RBX {
+namespace ARL {
 	namespace Reflection {
 		template<>
 		EnumDesc<Network::FilterResult>::EnumDesc()
@@ -38,7 +38,7 @@ namespace RBX {
 	}
 }
 
-using namespace RBX;
+using namespace ARL;
 using namespace Reflection;
 using namespace Network;
 
@@ -68,7 +68,7 @@ static bool filterInside(Instance* parent, FilterResult& result)
 }
 
 
-bool RBX::Network::NetworkFilter::filterChangedProperty( Instance* instance, const Reflection::PropertyDescriptor& desc, FilterResult& result )
+bool ARL::Network::NetworkFilter::filterChangedProperty( Instance* instance, const Reflection::PropertyDescriptor& desc, FilterResult& result )
 {
 	// if desc==Instance::propParent, then filterParent will be called, so those rules apply, too
 
@@ -122,7 +122,7 @@ bool RBX::Network::NetworkFilter::filterChangedProperty( Instance* instance, con
 	return false;
 }
 
-bool RBX::Network::NetworkFilter::filterNew( Instance* instance, Instance* parent, FilterResult& result )
+bool ARL::Network::NetworkFilter::filterNew( Instance* instance, Instance* parent, FilterResult& result )
 {
 	if (filterParent(instance, parent, result))
 		return true;
@@ -130,7 +130,7 @@ bool RBX::Network::NetworkFilter::filterNew( Instance* instance, Instance* paren
 	return false;
 }
 
-bool RBX::Network::NetworkFilter::filterDelete( Instance* instance, FilterResult& result )
+bool ARL::Network::NetworkFilter::filterDelete( Instance* instance, FilterResult& result )
 {
 	if (filterParent(instance, NULL, result))
 		return true;
@@ -138,7 +138,7 @@ bool RBX::Network::NetworkFilter::filterDelete( Instance* instance, FilterResult
 	return false;
 }
 
-bool RBX::Network::NetworkFilter::filterParent( Instance* instance, Instance* parent, FilterResult& result )
+bool ARL::Network::NetworkFilter::filterParent( Instance* instance, Instance* parent, FilterResult& result )
 {
 	if (Player* player = Instance::fastDynamicCast<Player>(instance))
 	{
@@ -182,7 +182,7 @@ bool RBX::Network::NetworkFilter::filterParent( Instance* instance, Instance* pa
 	return false;
 }
 
-bool RBX::Network::NetworkFilter::filterEvent( Instance* instance, const Reflection::EventDescriptor& desc, FilterResult& result )
+bool ARL::Network::NetworkFilter::filterEvent( Instance* instance, const Reflection::EventDescriptor& desc, FilterResult& result )
 {
 	return false;
 }
@@ -259,7 +259,7 @@ bool isOrUnderAncestor(const Instance* instance, const Instance* newParent, cons
 	if (oldParent != newParent)
 	{
 		// only server code should enter here
-		RBXASSERT(Players::backendProcessing(instance));
+		ARLASSERT(Players::backendProcessing(instance));
 
 		if (!oldParent)
 			return false;
@@ -271,7 +271,7 @@ bool isOrUnderAncestor(const Instance* instance, const Instance* newParent, cons
 	else if (newParent == ancestor || newParent->isDescendantOf(ancestor))
 	{
 		// only client should enter here
-		RBXASSERT(Players::frontendProcessing(instance));
+		ARLASSERT(Players::frontendProcessing(instance));
 		return true;
 	}
 
@@ -282,8 +282,8 @@ FilterResult StrictNetworkFilter::filterParent(Instance* instance, Instance* new
 {
 	FilterResult result = Reject;
 
-	RBX::Weld* weld = NULL;
-	weld = Instance::fastDynamicCast<RBX::Weld>(instance);
+	ARL::Weld* weld = NULL;
+	weld = Instance::fastDynamicCast<ARL::Weld>(instance);
 
 	if (instance == instanceBeingRemovedFromLocalPlayer)
 	{
@@ -291,11 +291,11 @@ FilterResult StrictNetworkFilter::filterParent(Instance* instance, Instance* new
 		result = Accept;
 	}
 	else if (newParent && 
-		(instance->fastDynamicCast<RBX::Tool>() 
+		(instance->fastDynamicCast<ARL::Tool>() 
 		|| weld
-		|| instance->fastDynamicCast<RBX::Accoutrement>()
-		|| instance->fastDynamicCast<RBX::Seat>()
-		|| instance->fastDynamicCast<RBX::SkateboardPlatform>())) // Only accept reparenting of tools, hats, and seats
+		|| instance->fastDynamicCast<ARL::Accoutrement>()
+		|| instance->fastDynamicCast<ARL::Seat>()
+		|| instance->fastDynamicCast<ARL::SkateboardPlatform>())) // Only accept reparenting of tools, hats, and seats
 	{
 		if (Player* player = replicator->findTargetPlayer())
 		{
@@ -373,7 +373,7 @@ FilterResult StrictNetworkFilter::filterNew(const Instance* instance, const Inst
 			{
 				if (instance->getParent()) // Client, parent should already be set
 				{
-					RBXASSERT(Players::frontendProcessing(instance));
+					ARLASSERT(Players::frontendProcessing(instance));
 					return isOrUnderAncestor(instance, parent, playerModel) ? Accept : Reject;
 				}
 				else
@@ -381,7 +381,7 @@ FilterResult StrictNetworkFilter::filterNew(const Instance* instance, const Inst
 					if (parent)
 					{
 						// Server, parent haven't been set yet
-						RBXASSERT(Players::backendProcessing(parent));
+						ARLASSERT(Players::backendProcessing(parent));
 
 						if (parent->isDescendantOf(playerModel))
 							return Accept;

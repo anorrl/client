@@ -4,8 +4,8 @@
 #include "reflection/YieldFunction.h"
 #include "reflection/object.h"
 
-using namespace RBX;
-using namespace RBX::Reflection;
+using namespace ARL;
+using namespace ARL::Reflection;
 
 FunctionDescriptor::FunctionDescriptor(ClassDescriptor& classDescriptor, const char* name, Security::Permissions security, Attributes attributes)
 	:MemberDescriptor(classDescriptor, name, "Function", attributes, security)

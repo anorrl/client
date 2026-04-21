@@ -7,7 +7,7 @@
 #include "GfxBase/IAdornable.h"
 #include "AppDraw/HandleType.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sHandlesBase;
 
@@ -19,7 +19,7 @@ namespace RBX
 	public:
 		HandlesBase(const char* name);
 
-		virtual RBX::HandleType getHandleType() const { return RBX::HANDLE_RESIZE; }
+		virtual ARL::HandleType getHandleType() const { return ARL::HANDLE_RESIZE; }
 
 		////////////////////////////////////////////////////////////////////////////////////
 		// 

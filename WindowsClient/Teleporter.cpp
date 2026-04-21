@@ -6,7 +6,7 @@
 #include "util/Statistics.h"
 #include "v8datamodel/TeleportService.h"
 
-namespace RBX {
+namespace ARL {
 
 static boost::thread releaseGameThread;
 
@@ -26,4 +26,4 @@ void Teleporter::doTeleport(const std::string& url, const std::string& ticket,
 	marshaller->Submit(boost::bind(&Application::Teleport, app, url, ticket, script));
 }
 
-}  // namespace RBX
+}  // namespace ARL

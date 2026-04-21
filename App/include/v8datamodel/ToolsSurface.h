@@ -11,7 +11,7 @@
 #include "v8datamodel/Surface.h"
 
 
-namespace RBX {
+namespace ARL {
 
 
 	class SurfaceTool : public MouseCommand
@@ -44,7 +44,7 @@ namespace RBX {
 	{
 	private:
 		shared_ptr<Decal> decal;
-		RBX::InsertMode insertMode;
+		ARL::InsertMode insertMode;
 		bool parentIsPart;
 		/*override*/ const std::string getCursorName() const	{return "ArrowCursorDecalDrag";}
 		/*override*/ void doAction(Surface* surface) {}
@@ -52,7 +52,7 @@ namespace RBX {
 		/*override*/ shared_ptr<MouseCommand> onMouseUp(const shared_ptr<InputObject>& inputObject);
 		/*override*/ shared_ptr<MouseCommand> onKeyDown(const shared_ptr<InputObject>& inputObject);
 	public:
-		DecalTool(Workspace* workspace, Decal *decal, RBX::InsertMode insertMode);
+		DecalTool(Workspace* workspace, Decal *decal, ARL::InsertMode insertMode);
 		/*override*/ //MouseCommand* isSticky() const {return new DecalTool(workspace);}
 		
 		/*override*/ virtual shared_ptr<MouseCommand> onCancelOperation();
@@ -182,4 +182,4 @@ namespace RBX {
 		/*override*/ shared_ptr<MouseCommand> isSticky() const {return Creatable<MouseCommand>::create<SmoothNoOutlinesTool>(workspace);}
 	};
 
-} // namespace RBX
+} // namespace ARL

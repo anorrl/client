@@ -21,9 +21,9 @@
 #include "GfxBase/AdornBillboarder.h"
 #include "FastLog.h"
 
-namespace RBX {
+namespace ARL {
 
-using RBX::Network::Players;
+using ARL::Network::Players;
 
 const char* PlayerChatLine::ROBLOXNAME = "(ROBLOX)";
 const char* ChatLine::ELIPSES = "...";
@@ -280,7 +280,7 @@ void ChatOutput::removeOldest()
 bool ChatOutput::removeExpired()
 {
 	bool bRemovedSomething = false;
-	int maxBubblesPerPlayer = std::min(RBX::GameSettings::singleton().bubbleChatMaxBubbles, MaxChatBubblesPerPlayer);
+	int maxBubblesPerPlayer = std::min(ARL::GameSettings::singleton().bubbleChatMaxBubbles, MaxChatBubblesPerPlayer);
 
 	if (!fifo.empty())
 	{
@@ -408,7 +408,7 @@ void ChatOutput::onPlayerChatMessage(const Network::ChatMessage& event)
 		return;
 	}
 
-	while (fifo.size() > (size_t)RBX::GameSettings::singleton().chatScrollLength) 
+	while (fifo.size() > (size_t)ARL::GameSettings::singleton().chatScrollLength) 
 	{
 		removeOldest();
 	}
@@ -687,11 +687,11 @@ void ChatOutput::render2d_bubbleStyle(Adorn* adorn, bool playerBubbleChat)
 				}
 				else
 				{
-					RBXASSERT(0);
+					ARLASSERT(0);
 				}
 				break;
 			case ChatLine::GAME_MESSAGE:
-				RBXASSERT(0);
+				ARLASSERT(0);
 				break;
 			case ChatLine::BOT_CHAT:
 				extentsOffset = Vector3(0,1,0);
@@ -751,7 +751,7 @@ void ChatOutput::render2d_bubbleStyle(Adorn* adorn, bool playerBubbleChat)
 		}
 		else
 		{
-			RBX::Frustum frustum(workspace->getCamera()->frustum());
+			ARL::Frustum frustum(workspace->getCamera()->frustum());
 			it->second.isVisible = frustum.containsPoint(headCFrame.translation);
 			it->second.isMoving = !head->getVelocity().linear.isZero();
 			if(shared_ptr<BillboardGui> billboardGui = it->second.billboardGui.lock())

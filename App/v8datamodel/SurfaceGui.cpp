@@ -17,15 +17,15 @@ FASTFLAGVARIABLE(GUIZFighterGPU, true)
 
 static void sendSurfaceGuiStats()
 {
-	RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SurfaceGui");
+	ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SurfaceGui");
 }
 
 static void sendSurfaceGUINonTextUsage()
 {
-	RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME,"SurfaceGuiNonText");
+	ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME,"SurfaceGuiNonText");
 }
 
-namespace RBX {
+namespace ARL {
 	int SurfaceGui::s_numInstances = 0;
 	const char* const sAdornmentSurfaceGui = "SurfaceGui";
 
@@ -142,16 +142,16 @@ namespace RBX {
 	// see class def for explanation
 	bool SurfaceGui::isYetAnotherSpecialCase()
 	{ 
-		return !!Network::Players::findLocalPlayer(this) && this->isDescendantOf( RBX::ServiceProvider::find<RBX::StarterGuiService>(this) ); 
+		return !!Network::Players::findLocalPlayer(this) && this->isDescendantOf( ARL::ServiceProvider::find<ARL::StarterGuiService>(this) ); 
 	}
 
 	void SurfaceGui::unProcess()
 	{
-		shared_ptr<InputObject> mouseMoveEvent = Creatable<Instance>::create<InputObject>(InputObject::TYPE_MOUSEMOVEMENT, InputObject::INPUT_STATE_CANCEL,RBX::DataModel::get(this));
+		shared_ptr<InputObject> mouseMoveEvent = Creatable<Instance>::create<InputObject>(InputObject::TYPE_MOUSEMOVEMENT, InputObject::INPUT_STATE_CANCEL,ARL::DataModel::get(this));
 		mouseMoveEvent->setPosition(Vector3(-1e4,-1e4,-1e4));
 		Super::process(mouseMoveEvent);
 
-		shared_ptr<InputObject> focusEndEvent = Creatable<Instance>::create<InputObject>(InputObject::TYPE_FOCUS, InputObject::INPUT_STATE_CANCEL,RBX::DataModel::get(this));
+		shared_ptr<InputObject> focusEndEvent = Creatable<Instance>::create<InputObject>(InputObject::TYPE_FOCUS, InputObject::INPUT_STATE_CANCEL,ARL::DataModel::get(this));
 		focusEndEvent->setPosition(Vector3(-1e4,-1e4,-1e4));;
 		Super::process(focusEndEvent);
 	}
@@ -182,7 +182,7 @@ namespace RBX {
 		if(!enabled || !active)
 			return GuiResponse::notSunk();
 
-        if( RBX::ModelInstance* character = Network::Players::findLocalCharacter(this) )
+        if( ARL::ModelInstance* character = Network::Players::findLocalCharacter(this) )
         {
             Vector3 loc = character->getLocation().translation;
             if( !ignoreMaxDistance && (loc - point3d).length() >= toolPunchThroughDistance )

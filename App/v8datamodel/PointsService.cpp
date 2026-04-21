@@ -22,7 +22,7 @@ DYNAMIC_FASTINTVARIABLE(PointBalanceCacheInvalidateTimeMs, 1000)
 DYNAMIC_FASTINTVARIABLE(MaxAwardPointsHttpCallsPerMinute, 60)
 DYNAMIC_FASTINTVARIABLE(SecondsPerBatchAwardPointsCall, 10)
 
-namespace RBX
+namespace ARL
 {
 	const char* const sPointsService = "PointsService";
 
@@ -80,9 +80,9 @@ namespace RBX
 		}
 	}
 
-	void PointsService::startAwardPointsBatching(weak_ptr<RBX::DataModel> weakDm)
+	void PointsService::startAwardPointsBatching(weak_ptr<ARL::DataModel> weakDm)
 	{
-		if (shared_ptr<RBX::DataModel> dm = weakDm.lock())
+		if (shared_ptr<ARL::DataModel> dm = weakDm.lock())
 		{
 			if (PointsService* pointsService = ServiceProvider::find<PointsService>(dm.get()) )
 			{
@@ -136,10 +136,10 @@ namespace RBX
 	{
 		if (shared_ptr<DataModel> dm = weakDm.lock())
 		{
-			RBX::PointsService* pointsService = ServiceProvider::find<RBX::PointsService>(dm.get());
+			ARL::PointsService* pointsService = ServiceProvider::find<ARL::PointsService>(dm.get());
 			if (!pointsService)
 			{
-				errorFunction( RBX::format("%s failed because PointsService is unavailable.",methodName->c_str()) );
+				errorFunction( ARL::format("%s failed because PointsService is unavailable.",methodName->c_str()) );
 				return;
 			}
 
@@ -148,7 +148,7 @@ namespace RBX
 				shared_ptr<const Reflection::ValueTable> responseTable(rbx::make_shared<const Reflection::ValueTable>());
 				if(!WebParser::parseJSONTable(response,responseTable))
 				{
-					errorFunction( RBX::format("%s failed because could not parse JSON response",methodName->c_str()) );
+					errorFunction( ARL::format("%s failed because could not parse JSON response",methodName->c_str()) );
 					return;
 				}
 
@@ -162,7 +162,7 @@ namespace RBX
 					}
 					catch (base_exception &e)
 					{
-						errorFunction( RBX::format("%s failed because %s",methodName->c_str(),e.what()) );
+						errorFunction( ARL::format("%s failed because %s",methodName->c_str(),e.what()) );
 						return;
 					}
 
@@ -171,19 +171,19 @@ namespace RBX
 				}
 				else
 				{
-					errorFunction( RBX::format("%s failed because JSON table is empty or null.",methodName->c_str()) );
+					errorFunction( ARL::format("%s failed because JSON table is empty or null.",methodName->c_str()) );
 					return;
 				}
 			}
 			else
 			{
-				errorFunction( RBX::format("%s failed because no valid response or exception.", methodName->c_str()) );
+				errorFunction( ARL::format("%s failed because no valid response or exception.", methodName->c_str()) );
 				return;
 			}
 		}
 		else
 		{
-			errorFunction( RBX::format("%s failed because could not lock datamodel in response.", methodName->c_str()) );
+			errorFunction( ARL::format("%s failed because could not lock datamodel in response.", methodName->c_str()) );
 			return;
 		}
 	}
@@ -191,11 +191,11 @@ namespace RBX
 	{
 		if (!error.empty())
 		{
-			errorFunction( RBX::format("%s failed because %s", methodName->c_str(), error.c_str()) );
+			errorFunction( ARL::format("%s failed because %s", methodName->c_str(), error.c_str()) );
 		}
 		else
 		{
-			errorFunction( RBX::format("%s failed because no valid response or exception.", methodName->c_str()) );
+			errorFunction( ARL::format("%s failed because no valid response or exception.", methodName->c_str()) );
 		}
 	}
 
@@ -209,29 +209,29 @@ namespace RBX
 
 		if (!Network::Players::backendProcessing(this))
 		{
-			errorFunction( RBX::format("%s failed because not called from server script.",methodName->c_str()) );
+			errorFunction( ARL::format("%s failed because not called from server script.",methodName->c_str()) );
 			return;
 		}
 
 		if (userId <= 0 )
 		{
-			errorFunction( RBX::format("%s failed because userId <= 0, please supply a positive userId.",methodName->c_str()) );
+			errorFunction( ARL::format("%s failed because userId <= 0, please supply a positive userId.",methodName->c_str()) );
 			return;
 		}
 
 		DataModel* dm = DataModel::get(this);
 		if (!dm)
 		{
-			errorFunction( RBX::format("%s failed because of null datamodel.",methodName->c_str()) );
+			errorFunction( ARL::format("%s failed because of null datamodel.",methodName->c_str()) );
 			return;
 		}
 
-		std::string parameters = RBX::format("?userId=%d",userId);
+		std::string parameters = ARL::format("?userId=%d",userId);
 		std::string apiBaseUrl = ServiceProvider::create<ContentProvider>(this)->getUnsecureApiBaseUrl();
 
 		if (placeId > 0)
 		{
-			parameters += RBX::format("&placeId=%d",placeId);
+			parameters += ARL::format("&placeId=%d",placeId);
 		}
 
 		try
@@ -242,16 +242,16 @@ namespace RBX
 			getPointBalanceHttp.setAuthDomain(apiBaseUrl);
 #endif
 
-			if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+			if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 			{
-				apiService->getAsync( getPointBalanceHttp, RBX::PRIORITY_DEFAULT,
+				apiService->getAsync( getPointBalanceHttp, ARL::PRIORITY_DEFAULT,
 					boost::bind(&GetHelperSuccess, weak_from(dm), methodName, keyToReturn, _1, resumeFunction, errorFunction),
 					boost::bind(&GetHelperError, weak_from(dm), methodName, _1, errorFunction) );
 			}
 		}
 		catch (base_exception &e)
 		{
-			errorFunction( RBX::format("%s failed because %s", methodName->c_str(), e.what()) );
+			errorFunction( ARL::format("%s failed because %s", methodName->c_str(), e.what()) );
 		}
 	}
 
@@ -262,7 +262,7 @@ namespace RBX
 		DataModel* dm = DataModel::get(this);
 		if (!dm)
 		{
-			errorFunction( RBX::format("%s failed because of null datamodel.",methodName->c_str()) );
+			errorFunction( ARL::format("%s failed because of null datamodel.",methodName->c_str()) );
 			return;
 		}
 
@@ -312,12 +312,12 @@ namespace RBX
 	{
 		if (shared_ptr<DataModel> dm = weakDm.lock())
 		{
-			RBX::PointsService* pointsService = NULL;
+			ARL::PointsService* pointsService = NULL;
 			{
-				pointsService = ServiceProvider::find<RBX::PointsService>(dm.get());
+				pointsService = ServiceProvider::find<ARL::PointsService>(dm.get());
 				if (!pointsService)
 				{
-					RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Processing PointsService:AwardPoints response and could not find PointsService, userId = %i",userId);
+					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Processing PointsService:AwardPoints response and could not find PointsService, userId = %i",userId);
 					return;
 				}
 			}
@@ -352,7 +352,7 @@ namespace RBX
 							}
 							catch(base_exception &e)
 							{
-								fireErrorFunctions(yieldingFunctions, RBX::format("Processing PointsService:AwardPoints response, but failed because %s. userId = %i",e.what(), userId).c_str());
+								fireErrorFunctions(yieldingFunctions, ARL::format("Processing PointsService:AwardPoints response, but failed because %s. userId = %i",e.what(), userId).c_str());
 								return;
 							}
 
@@ -372,38 +372,38 @@ namespace RBX
 						}
 						else
 						{
-							fireErrorFunctions(yieldingFunctions, RBX::format("Processing PointsService:AwardPoints response, but not successful award. userId = %i", userId).c_str());
+							fireErrorFunctions(yieldingFunctions, ARL::format("Processing PointsService:AwardPoints response, but not successful award. userId = %i", userId).c_str());
 							return;
 						}
 					}
 					else
 					{
-						fireErrorFunctions(yieldingFunctions, RBX::format("Processing PointsService:AwardPoints response, but JSON table is empty. userId = %i",userId).c_str());
+						fireErrorFunctions(yieldingFunctions, ARL::format("Processing PointsService:AwardPoints response, but JSON table is empty. userId = %i",userId).c_str());
 						return;
 					}
 				}
 				else
 				{
-					fireErrorFunctions(yieldingFunctions, RBX::format("Processing PointsService:AwardPoints response, but JSON table is null. userId = %i",userId).c_str());
+					fireErrorFunctions(yieldingFunctions, ARL::format("Processing PointsService:AwardPoints response, but JSON table is null. userId = %i",userId).c_str());
 					return;
 				}
 			}
 			else
 			{
-				fireErrorFunctions(yieldingFunctions, RBX::format("Processing PointsService:AwardPoints response, but response has length of 0. userId = %i",userId).c_str());
+				fireErrorFunctions(yieldingFunctions, ARL::format("Processing PointsService:AwardPoints response, but response has length of 0. userId = %i",userId).c_str());
 				return;
 			}
 		}
 		else
 		{
-			fireErrorFunctions(yieldingFunctions, RBX::format("Processing PointsService:AwardPoints but could not get lock on datamodel. userId = %i",userId).c_str());
+			fireErrorFunctions(yieldingFunctions, ARL::format("Processing PointsService:AwardPoints but could not get lock on datamodel. userId = %i",userId).c_str());
 			return;
 		}
 	}
 
 	static void processAwardPointsResponseBatchError(weak_ptr<DataModel> weakDm, int userId, PointsService::AwardPointYieldFunctions yieldingFunctions, std::string error)
 	{
-		fireErrorFunctions(yieldingFunctions, RBX::format("Processing PointsService:AwardPoints error: %s. userId = %i", error.c_str(), userId).c_str());
+		fireErrorFunctions(yieldingFunctions, ARL::format("Processing PointsService:AwardPoints error: %s. userId = %i", error.c_str(), userId).c_str());
 	}
 
 	void PointsService::firePointsAwardedSignal(int userId, int amount, int userBalanceInUniverse, int userBalance)
@@ -429,7 +429,7 @@ namespace RBX
 				if (isAtAwardPointsLimit())
 				{
 					batchNextAwardCalls = true;
-					fireErrorFunctions(iter->second.second, RBX::format("%s failed because the max number of calls per minute has been exceeded. Don't call this more than %i times per minute per user.", AWARD_POINTS_METHOD_NAME, DFInt::MaxAwardPointsHttpCallsPerMinute).c_str());
+					fireErrorFunctions(iter->second.second, ARL::format("%s failed because the max number of calls per minute has been exceeded. Don't call this more than %i times per minute per user.", AWARD_POINTS_METHOD_NAME, DFInt::MaxAwardPointsHttpCallsPerMinute).c_str());
 					continue;
 				}
 
@@ -440,18 +440,18 @@ namespace RBX
 					const int userId = iter->first;
 					const int amount = iter->second.first;
 
-					if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+					if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 					{
-						const std::string formattedPath = RBX::format(("points/award-points" + parameters).c_str(),dm->getPlaceID(),userId,amount);
+						const std::string formattedPath = ARL::format(("points/award-points" + parameters).c_str(),dm->getPlaceID(),userId,amount);
 
-						apiService->postAsync( formattedPath.c_str(), postData, false, RBX::PRIORITY_DEFAULT, HttpService::TEXT_PLAIN,
+						apiService->postAsync( formattedPath.c_str(), postData, false, ARL::PRIORITY_DEFAULT, HttpService::TEXT_PLAIN,
 							boost::bind(&processAwardPointsResponseBatchSuccess, weak_from(dm), userId, iter->second.second, _1),
 							boost::bind(&processAwardPointsResponseBatchError, weak_from(dm), userId, iter->second.second, _1) );
 					}
 				}
 				catch (base_exception &e)
 				{
-					fireErrorFunctions(iter->second.second, RBX::format("%s failed because %s",e.what(), AWARD_POINTS_METHOD_NAME).c_str());
+					fireErrorFunctions(iter->second.second, ARL::format("%s failed because %s",e.what(), AWARD_POINTS_METHOD_NAME).c_str());
 					return batchNextAwardCalls;
 				}
 			}
@@ -471,26 +471,26 @@ namespace RBX
 
 		if (!Network::Players::backendProcessing(this))
 		{
-			errorFunction( RBX::format("%s failed because not called from server script.", AWARD_POINTS_METHOD_NAME) );
+			errorFunction( ARL::format("%s failed because not called from server script.", AWARD_POINTS_METHOD_NAME) );
 			return;
 		}
 
 		if (userId <= 0 )
 		{
-			errorFunction( RBX::format("%s failed because userId <= 0, please supply a positive userId.", AWARD_POINTS_METHOD_NAME) );
+			errorFunction( ARL::format("%s failed because userId <= 0, please supply a positive userId.", AWARD_POINTS_METHOD_NAME) );
 			return;
 		}
 
 		if (amount == 0)
 		{
-			errorFunction( RBX::format("%s failed because trying to award zero points, please supply a non-zero amount.", AWARD_POINTS_METHOD_NAME) );
+			errorFunction( ARL::format("%s failed because trying to award zero points, please supply a non-zero amount.", AWARD_POINTS_METHOD_NAME) );
 			return;
 		}
 
 		DataModel* dm = DataModel::get(this);
 		if (!dm)
 		{
-			errorFunction( RBX::format("%s failed because of null datamodel.", AWARD_POINTS_METHOD_NAME) );
+			errorFunction( ARL::format("%s failed because of null datamodel.", AWARD_POINTS_METHOD_NAME) );
 			return;
 		}
 

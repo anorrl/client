@@ -16,7 +16,7 @@
 
 #include "boost/scoped_ptr.hpp"
 
-using namespace RBX;
+using namespace ARL;
 
 FASTFLAGVARIABLE(GoogleAnalyticsTrackingEnabled, false)
 DYNAMIC_LOGVARIABLE(GoogleAnalyticsTracking, 0)
@@ -74,7 +74,7 @@ namespace
 
 		std::string fullUrl = isGet ? format("%s?%s", url.c_str(), params.c_str()) : url;
 
-		RBX::Http http(fullUrl);
+		ARL::Http http(fullUrl);
         http.recordStatistics = false;
 		http.doNotUseCachedResponse = true;
 		try
@@ -84,7 +84,7 @@ namespace
 			else
 				http.post(sparams, Http::kContentTypeDefaultUnspecified, true, response, true);
 		}
-		catch (const RBX::base_exception &ex)
+		catch (const ARL::base_exception &ex)
 		{
 			FASTLOGS(DFLog::GoogleAnalyticsTracking, "Exception in httpHandler: %s", ex.what());
 		}
@@ -97,9 +97,9 @@ namespace
 			return false;
 		}
 
-		RBXASSERT(threadPool);
-		RBXASSERT(googleAccountPropertyID.length() > 0);
-		RBXASSERT(googleClientID.length() > 0);
+		ARLASSERT(threadPool);
+		ARLASSERT(googleAccountPropertyID.length() > 0);
+		ARLASSERT(googleClientID.length() > 0);
 		return true;
 	}
 
@@ -112,7 +112,7 @@ namespace
         else
         {
             bool didSchedule = threadPool->schedule(boost::bind(&httpHandler, url, params.str(), isGet));
-            RBXASSERT(didSchedule);
+            ARLASSERT(didSchedule);
             if (!didSchedule)
             {
                 FASTLOGS(DFLog::GoogleAnalyticsTracking, "Google Analytics task was not scheduled in the threadpool: %s", params.str().c_str());
@@ -121,7 +121,7 @@ namespace
 	}
 }
 
-namespace RBX
+namespace ARL
 {
 namespace RobloxGoogleAnalytics
 {
@@ -137,7 +137,7 @@ namespace RobloxGoogleAnalytics
     {
 		if (DFFlag::UseNewAnalyticsApi)
 		{
-			RBX::Analytics::GoogleAnalytics::lotteryInit(accountPropertyID, lotteryThreshold, productName ? productName : "", robloxAnalyticsLottery, sessionKey);
+			ARL::Analytics::GoogleAnalytics::lotteryInit(accountPropertyID, lotteryThreshold, productName ? productName : "", robloxAnalyticsLottery, sessionKey);
 			return;
 		}
 
@@ -165,7 +165,7 @@ namespace RobloxGoogleAnalytics
 
 	std::string generateClientID()
 	{
-		RBX::Guid guid;
+		ARL::Guid guid;
 		std::string clientGUID;
 		guid.generateStandardGUID(clientGUID);
 
@@ -181,13 +181,13 @@ namespace RobloxGoogleAnalytics
 	{
 		if (DFFlag::UseNewAnalyticsApi)
 		{
-			RBX::Analytics::GoogleAnalytics::init(accountPropertyID, productName ? productName : "");
+			ARL::Analytics::GoogleAnalytics::init(accountPropertyID, productName ? productName : "");
 			return;
 		}
 
 		if(atteptedToUseBeforeInit)
 		{
-			RBXASSERT(false); // Did you try to send events before analytics is initialized? Set breakpoints to trackEvent* to find out.
+			ARLASSERT(false); // Did you try to send events before analytics is initialized? Set breakpoints to trackEvent* to find out.
 		}
 
 		if (initialized)
@@ -199,7 +199,7 @@ namespace RobloxGoogleAnalytics
 		robloxProductName = productName;
 
 		googleAccountPropertyID = accountPropertyID;
-		RBXASSERT(googleAccountPropertyID.length() > 0);
+		ARLASSERT(googleAccountPropertyID.length() > 0);
 
 		std::string clientId = GameBasicSettings::singleton().getGoogleAnalyticsClientId();
 		if (clientId.length() == 0)
@@ -210,7 +210,7 @@ namespace RobloxGoogleAnalytics
 		}
 
 		googleClientID = clientId;
-		RBXASSERT(googleClientID.length() > 0);
+		ARLASSERT(googleClientID.length() > 0);
 
 		static boost::scoped_ptr<ThreadPool> tp(new ThreadPool(kNumberThreadPoolThreads, BaseThreadPool::NoAction, maxThreadScheduleSize));
 		threadPool = tp.get();
@@ -231,14 +231,14 @@ namespace RobloxGoogleAnalytics
 	const std::string& getSessionId()
 	{
 		if (DFFlag::UseNewAnalyticsApi)
-			return RBX::Analytics::GoogleAnalytics::getSessionId();
+			return ARL::Analytics::GoogleAnalytics::getSessionId();
 		return googleClientID;
 	}
 
 	bool getCanUseAnalytics()
 	{
 		if (DFFlag::UseNewAnalyticsApi)
-			return RBX::Analytics::GoogleAnalytics::getCanUse();
+			return ARL::Analytics::GoogleAnalytics::getCanUse();
 		else
 			return canUseGA || canUserRobloxEvents;
 	}
@@ -246,7 +246,7 @@ namespace RobloxGoogleAnalytics
 	void setCanUseAnalytics()
 	{
 		if (DFFlag::UseNewAnalyticsApi)
-			RBX::Analytics::GoogleAnalytics::setCanUse();
+			ARL::Analytics::GoogleAnalytics::setCanUse();
 		else
 		{
 			canUseGA = true;
@@ -279,7 +279,7 @@ namespace RobloxGoogleAnalytics
     {
 		if (DFFlag::UseNewAnalyticsApi)
 		{
-			RBX::Analytics::GoogleAnalytics::sendEventRoblox(category, action, label, value, sync);
+			ARL::Analytics::GoogleAnalytics::sendEventRoblox(category, action, label, value, sync);
 			return;
 		}
 
@@ -296,7 +296,7 @@ namespace RobloxGoogleAnalytics
 				<< "&value=" << value
 				<< experimentString;
 
-			postOrGet(RBX::format("%s%s/e.png",DFString::RobloxAnalyticsURL.c_str(), robloxProductName), params, sync, true);
+			postOrGet(ARL::format("%s%s/e.png",DFString::RobloxAnalyticsURL.c_str(), robloxProductName), params, sync, true);
 		}
 	}
 
@@ -308,7 +308,7 @@ namespace RobloxGoogleAnalytics
 	{
 		if (DFFlag::UseNewAnalyticsApi)
 		{
-			RBX::Analytics::GoogleAnalytics::trackEvent(category, action, label, value, sync);
+			ARL::Analytics::GoogleAnalytics::trackEvent(category, action, label, value, sync);
 			return;
 		}
 
@@ -339,7 +339,7 @@ namespace RobloxGoogleAnalytics
 	{
 		if (DFFlag::UseNewAnalyticsApi)
 		{
-			RBX::Analytics::GoogleAnalytics::trackEventWithoutThrottling(category, action, label, value, sync);
+			ARL::Analytics::GoogleAnalytics::trackEventWithoutThrottling(category, action, label, value, sync);
 			return;
 		}
 
@@ -363,7 +363,7 @@ namespace RobloxGoogleAnalytics
 	{
 		if (DFFlag::UseNewAnalyticsApi)
 		{
-			RBX::Analytics::GoogleAnalytics::trackUserTiming(category, variable, milliseconds, label, sync);
+			ARL::Analytics::GoogleAnalytics::trackUserTiming(category, variable, milliseconds, label, sync);
 			return;
 		}
 
@@ -398,4 +398,4 @@ namespace RobloxGoogleAnalytics
 	}
     
 } // RobloxGoogleAnalytics
-} // RBX
+} // ARL

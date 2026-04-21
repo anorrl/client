@@ -6,7 +6,7 @@
 #include "AppDraw/HandleType.h"
 #include "Util/NormalId.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sResizeTool;
 
@@ -52,4 +52,4 @@ namespace RBX {
 		  /*override*/ shared_ptr<MouseCommand> isSticky() const {return Creatable<MouseCommand>::create<ResizeTool>(workspace);}
 	};
 
-} // namespace RBX
+} // namespace ARL

@@ -12,7 +12,7 @@
 
 DYNAMIC_FASTFLAG(UseAssetTypeHeader)
 
-namespace RBX
+namespace ARL
 {
     namespace HttpCache
     {
@@ -79,7 +79,7 @@ namespace RBX
 		static const std::string kPlayerCountHeaderKey;
 		static const std::string kAccessHeaderKey;
 		static const std::string kAssetTypeKey;
-        static const std::string kRBXAuthenticationNegotiation;
+        static const std::string kARLAuthenticationNegotiation;
 		static const std::string kContentTypeDefaultUnspecified;
 		static const std::string kContentTypeUrlEncoded;
 		static const std::string kContentTypeApplicationJson;
@@ -102,8 +102,8 @@ namespace RBX
 
         API instanceApi;
 
-		static RBX::mutex *robloxResponceLock;
-		static RBX::mutex *cdnResponceLock;
+		static ARL::mutex *robloxResponceLock;
+		static ARL::mutex *cdnResponceLock;
 		static std::string lastCsrfToken;
 		static boost::mutex lastCsrfTokenMutex;
 
@@ -132,8 +132,8 @@ namespace RBX
 		static WindowAverage<double, double> robloxResponce;
 		static WindowAverage<double, double> cdnResponce;
 
-		static RBX::mutex *getRobloxResponceLock();
-		static RBX::mutex *getCdnResponceLock();
+		static ARL::mutex *getRobloxResponceLock();
+		static ARL::mutex *getCdnResponceLock();
 
         std::string url;
 		Http():instanceApi(defaultApi),url("") { init(); }
@@ -150,7 +150,7 @@ namespace RBX
         void setAuthDomain(std::string domain)
         {
             authDomainUrl = domain;
-            additionalHeaders[kRBXAuthenticationNegotiation] = domain;
+            additionalHeaders[kARLAuthenticationNegotiation] = domain;
         }
 		void setExpectedAssetType(const std::string& type)
 		{
@@ -189,11 +189,11 @@ namespace RBX
 		// urlDecode is only tested to work on strings produced from urlEncode
 		static std::string urlDecode(const std::string& fragment);
 
-		void applyAdditionalHeaders(RBX::HttpAux::AdditionalHeaders& outHeaders);
+		void applyAdditionalHeaders(ARL::HttpAux::AdditionalHeaders& outHeaders);
 
 	private:
         void httpGetPost(bool isPost, std::istream& dataStream, const std::string& contentType, bool compressData, const HttpAux::AdditionalHeaders& additionalHeaders, bool allowExternal, std::string& response, bool forceNativeHttp = false);
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 		void httpGetPostXbox(bool isPost, std::istream& dataStream, const std::string& contentType, bool compressData, const HttpAux::AdditionalHeaders& additionalHeaders, bool allowExternal, HttpCache::Policy cachePolicy, std::string& response);
 #elif defined(_WIN32)
         void httpGetPostWinInet(bool isPost, std::istream& dataStream, const std::string& contentType, bool compressData, const HttpAux::AdditionalHeaders& additionalHeaders, bool allowExternal, std::string& response);
@@ -215,7 +215,7 @@ namespace RBX
 
 		static void ThrowIfFailure(bool success, const char* url, const char* message);	
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 		static void ThrowLastError(int error, const char* url, const char* message);
 #endif
 

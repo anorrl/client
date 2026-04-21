@@ -32,9 +32,9 @@
 
 
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include <atlutil.h>
-#endif // defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#endif // defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 
 LOGGROUP(Http)
 DYNAMIC_FASTINT(ExternalHttpRequestSizeLimitKB)
@@ -46,7 +46,7 @@ DYNAMIC_FASTINTVARIABLE(HttpDataSendDefaultTimeoutMillis, 60000)
 DYNAMIC_LOGVARIABLE(HttpTrace, 0)
 DYNAMIC_FASTINTVARIABLE(HttpSendStatsEveryXSeconds, 60)
 DYNAMIC_FASTINTVARIABLE(HttpGAFailureReportPercent, 1)
-DYNAMIC_FASTINTVARIABLE(HttpRBXEventFailureReportHundredthsPercent, 0)
+DYNAMIC_FASTINTVARIABLE(HttpARLEventFailureReportHundredthsPercent, 0)
 DYNAMIC_FASTFLAGVARIABLE(DebugHttpAsyncCallsForStatsReporting, true)
 DYNAMIC_FASTINT(HttpInfluxHundredthsPercentage)
 DYNAMIC_FASTFLAG(UseNewAnalyticsApi)
@@ -54,13 +54,13 @@ DYNAMIC_FASTSTRING(HttpInfluxURL)
 
 DYNAMIC_FASTFLAGVARIABLE(UseAssetTypeHeader, false)
 
-using namespace RBX;
+using namespace ARL;
 
 #ifdef __APPLE__
 extern "C" {
     int rbx_trustCheckBrowser(const char* url)
     {
-        return RBX::Http::trustCheckBrowser(url) ? 1 : 0;
+        return ARL::Http::trustCheckBrowser(url) ? 1 : 0;
     }
 }
 
@@ -71,7 +71,7 @@ int rbx_isMoneySite(const char* url);
 
 namespace
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 static bool useCurlHttpImpl = false;
 #else
 static bool useCurlHttpImpl = true;
@@ -83,7 +83,7 @@ static ThreadPool* threadPool;
 static bool inline sendHttpFailureToEvents()
 {
     static const int r = rand() % 10000;
-    return r < DFInt::HttpRBXEventFailureReportHundredthsPercent;
+    return r < DFInt::HttpARLEventFailureReportHundredthsPercent;
 }
 
 static bool inline sendHttpFailureToGA()
@@ -275,7 +275,7 @@ class HTTPStatistics
     {
         if (DFFlag::UseNewUrlClass)
         {
-            RBX::Url parsed = RBX::Url::fromString(url);
+            ARL::Url parsed = ARL::Url::fromString(url);
             if (parsed.pathEquals(DataStore::urlApiPath()))
             {
                 return ServiceCategoryDataStore;
@@ -331,7 +331,7 @@ class HTTPStatistics
 				return;
 		}
 
-        RBX::Analytics::InfluxDb::Points points;
+        ARL::Analytics::InfluxDb::Points points;
         points.addPoint("DelayMillis", delay);
         points.addPoint("IsSuccess", true);
         points.addPoint("ServiceType", serviceToString(url));
@@ -368,7 +368,7 @@ public:
 HTTPStatistics HTTPStatistics::httpStatistics;
 } // namespace
 
-namespace RBX
+namespace ARL
 {
 static const int kWindowSize = 256;
 std::string Http::accessKey;
@@ -376,9 +376,9 @@ std::string Http::gameSessionID;
 std::string Http::gameID;
 std::string Http::placeID;
 std::string Http::requester = "Client";
-#if defined (__APPLE__) && !defined(RBX_PLATFORM_IOS)
+#if defined (__APPLE__) && !defined(ARL_PLATFORM_IOS)
 std::string Http::rbxUserAgent = "Roblox/Darwin";
-#elif defined(RBX_PLATFORM_DURANGO)
+#elif defined(ARL_PLATFORM_DURANGO)
 std::string Http::rbxUserAgent = "Roblox/XboxOne";
 #elif defined (_WIN32)
 std::string Http::rbxUserAgent = "Roblox/WinInet";
@@ -406,8 +406,8 @@ rbx::atomic<int> Http::robloxFailureCount = 0;
 WindowAverage<double, double> Http::robloxResponce(kWindowSize);
 WindowAverage<double, double> Http::cdnResponce(kWindowSize);
 
-RBX::mutex *Http::robloxResponceLock = NULL;
-RBX::mutex *Http::cdnResponceLock = NULL;
+ARL::mutex *Http::robloxResponceLock = NULL;
+ARL::mutex *Http::cdnResponceLock = NULL;
 
 Http::MutexGuard Http::lockGuard;
 
@@ -449,20 +449,20 @@ void Http::httpGetPostImpl(bool isPost, std::istream& data, const std::string& c
 
         if (headers.end() == headers.find(kPlayerCountHeaderKey))
     	{
-            headers[kPlayerCountHeaderKey] = RBX::format("%d", Http::playerCount);
+            headers[kPlayerCountHeaderKey] = ARL::format("%d", Http::playerCount);
     	}
     }
 
     // call Mac specific http implementation
-    RBX::Cocoa::httpGetPostCocoa(url, authDomainUrl, isPost, data, contentType, compressData, headers, externalRequest, response, useDefaultTimeouts, responseTimeoutMillis);
+    ARL::Cocoa::httpGetPostCocoa(url, authDomainUrl, isPost, data, contentType, compressData, headers, externalRequest, response, useDefaultTimeouts, responseTimeoutMillis);
 }
 #endif // ifdef __APPLE__
-} // RBX
+} // ARL
 
 Http::MutexGuard::MutexGuard()
 {
-    robloxResponceLock = new RBX::mutex();
-    cdnResponceLock = new RBX::mutex();
+    robloxResponceLock = new ARL::mutex();
+    cdnResponceLock = new ARL::mutex();
 }
 
 Http::MutexGuard::~MutexGuard()
@@ -474,24 +474,24 @@ Http::MutexGuard::~MutexGuard()
     cdnResponceLock = NULL;
 }
 
-RBX::mutex *Http::getRobloxResponceLock()
+ARL::mutex *Http::getRobloxResponceLock()
 {
     return robloxResponceLock;
 }
 
-RBX::mutex *Http::getCdnResponceLock()
+ARL::mutex *Http::getCdnResponceLock()
 {
     return cdnResponceLock;
 }
 
 http_status_error::http_status_error(int statusCode)
-    : std::runtime_error(RBX::format("HTTP %d", statusCode))
+    : std::runtime_error(ARL::format("HTTP %d", statusCode))
     , statusCode(statusCode)
 {
 }
 
 http_status_error::http_status_error(int statusCode, const std::string& message)
-    : std::runtime_error(RBX::format("HTTP %d (%s)", statusCode, message.c_str()))
+    : std::runtime_error(ARL::format("HTTP %d (%s)", statusCode, message.c_str()))
     , statusCode(statusCode)
 {
 }
@@ -554,7 +554,7 @@ void Http::SetUseCurl(bool value)
 void Http::setCookiesForDomain(const std::string& domain, const std::string& cookies)
 {
     HttpPlatformImpl::setCookiesForDomain(domain, cookies);
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 	if (!useCurlHttpImpl && Http::defaultApi == WinInet)
 	{
 		setCookiesForDomainWinInet(domain, cookies);
@@ -575,15 +575,15 @@ void Http::ThrowIfFailure(bool success, const char* url, const char* message)
 {
     if (!success)
     {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
         ThrowLastError(GetLastError(), url, message);
 #else
-        throw RBX::runtime_error("%s: %s", url, message);
+        throw ARL::runtime_error("%s: %s", url, message);
 #endif
     }
 }
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 void Http::ThrowLastError(int err, const char* url, const char* message)
 {
     TCHAR buffer[256];
@@ -593,14 +593,14 @@ void Http::ThrowLastError(int err, const char* url, const char* message)
             MAKELANGID(LANG_NEUTRAL, SUBLANG_SYS_DEFAULT),
             buffer, 256, NULL) == 0
         )
-        throw RBX::runtime_error("%s: %s, err=0x%X", url, message, err);
+        throw ARL::runtime_error("%s: %s, err=0x%X", url, message, err);
     else
-        throw RBX::runtime_error("%s: %s, %s", url, message, buffer);
+        throw ARL::runtime_error("%s: %s, %s", url, message, buffer);
 }
 #endif // ifdef _WIN32
 
 
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 void dprintf( const char* fmt, ... );
 #endif
 
@@ -610,11 +610,11 @@ void Http::httpGetPost(bool isPost, std::istream& dataStream,
 					   bool externalRequest, std::string& response,
 					   bool forceNativeHttp)
 {
-    RBX::Timer<RBX::Time::Fast> httpTimer;
+    ARL::Timer<ARL::Time::Fast> httpTimer;
 #ifdef __APPLE__
 	if (!useCurlHttpImpl || forceNativeHttp)
     {
-        RBXASSERT(isPost == !contentType.empty());
+        ARLASSERT(isPost == !contentType.empty());
         try
         {
             // instanceApi is irrelevant on a Mac, there is only one style NSUrl
@@ -624,7 +624,7 @@ void Http::httpGetPost(bool isPost, std::istream& dataStream,
                 HTTPStatistics::success(httpTimer.delta().msec(), url.c_str(), response.size());
             }
         }
-        catch (const RBX::http_status_error& e)
+        catch (const ARL::http_status_error& e)
         {
             if (recordStatistics)
             {
@@ -644,7 +644,7 @@ void Http::httpGetPost(bool isPost, std::istream& dataStream,
     }
 #endif // ifdef __APPLE__
     
-    RBXASSERT(isPost == !contentType.empty());
+    ARLASSERT(isPost == !contentType.empty());
 
 	ThrowIfFailure(trustCheck(url.c_str(), externalRequest), "Trust check failed");
 
@@ -652,13 +652,13 @@ void Http::httpGetPost(bool isPost, std::istream& dataStream,
     {
         if (isPost)
         {
-            RBXASSERT(0 == dataStream.tellg());
+            ARLASSERT(0 == dataStream.tellg());
             dataStream.seekg(0, std::ios::end);
             size_t length = dataStream.tellg();
             dataStream.seekg(0, std::ios::beg);
             if ((length / 1024) >= static_cast<size_t>(DFInt::ExternalHttpRequestSizeLimitKB))
             {
-                throw RBX::runtime_error("Post data too large. Limit: %d KB. Post size: %d KB",
+                throw ARL::runtime_error("Post data too large. Limit: %d KB. Post size: %d KB",
                                          DFInt::ExternalHttpRequestSizeLimitKB, static_cast<int>(length / 1024));
             }
         }
@@ -701,7 +701,7 @@ void Http::httpGetPost(bool isPost, std::istream& dataStream,
         }
     }
 
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 	if (!useCurlHttpImpl || forceNativeHttp)
 	{
         if (url.find("http://") == 0) // starts with http?
@@ -717,7 +717,7 @@ void Http::httpGetPost(bool isPost, std::istream& dataStream,
 				HTTPStatistics::success(httpTimer.delta().msec(), url.c_str(), response.size());
 			}
 		}
-		catch (const RBX::http_status_error& e)
+		catch (const ARL::http_status_error& e)
 		{
 			if (recordStatistics)
 			{
@@ -749,14 +749,14 @@ void Http::httpGetPost(bool isPost, std::istream& dataStream,
                 httpGetPostWinHttp(isPost, dataStream, contentType, compressData, headers, externalRequest, response);
                 break;
             default:
-                RBXASSERT(false);
+                ARLASSERT(false);
             }
             if (recordStatistics)
             {
                 HTTPStatistics::success(httpTimer.delta().msec(), url.c_str(), response.size());
             }
         }
-        catch (const RBX::http_status_error& e)
+        catch (const ARL::http_status_error& e)
         {
             if (recordStatistics)
             {
@@ -791,7 +791,7 @@ void Http::httpGetPost(bool isPost, std::istream& dataStream,
             HTTPStatistics::success(httpTimer.delta().msec(), url.c_str(), response.size());
         }
     }
-    catch (const RBX::http_status_error& e)
+    catch (const ARL::http_status_error& e)
     {
 		bool didMakeNativeRequest = doHttpGetPostWithNativeFallbackForReporting(isPost, dataStream, contentType, compressData, additionalHeaders,
 				externalRequest, response);
@@ -826,7 +826,7 @@ static void doGet(Http http, bool externalRequest,
     {
         http.get(response, externalRequest);
     }
-    catch (RBX::base_exception& ex)
+    catch (ARL::base_exception& ex)
     {
         handler(0, &ex);
         return;
@@ -878,7 +878,7 @@ static void doPostStream(std::string url, boost::shared_ptr<std::istream> input,
         http.recordStatistics = recordStatistics;
 		http.post(*input, contentType, compress, response, externalRequest);
 	}
-	catch (RBX::base_exception &ex)
+	catch (ARL::base_exception &ex)
 	{
 		handler(0, &ex);
 		return;
@@ -926,7 +926,7 @@ void Http::get(std::string& response, bool externalRequest)
         if (!alternateUrl.empty())
             ++cdnSuccessCount;
     }
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
     {
         if (shouldRetry)
         {
@@ -938,7 +938,7 @@ void Http::get(std::string& response, bool externalRequest)
             {
                 ++cdnFailureCount;
                 lastCdnFailureTimeSpan = elapsed;
-                RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING,
+                ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING,
                                                       "httpGet %s failed. Trying alternate %s. Error: %s.  Elapsed time: %g",
                                                       url.c_str(), alternateUrl.c_str(), e.what(), elapsed);
                 try
@@ -946,7 +946,7 @@ void Http::get(std::string& response, bool externalRequest)
                     httpGetPost(false, dummy, "", false, additionalHeaders, externalRequest, response);
                     ++alternateCdnSuccessCount;
                 }
-				catch (RBX::base_exception&)
+				catch (ARL::base_exception&)
                 {
                     ++alternateCdnFailureCount;
                     throw;
@@ -954,7 +954,7 @@ void Http::get(std::string& response, bool externalRequest)
             }
             else
             {
-                RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING,
+                ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING,
                                                       "httpGet %s failed. Trying again. Error: %s.  Elapsed time: %g",
                                                       url.c_str(), e.what(), elapsed);
 
@@ -971,7 +971,7 @@ void Http::get(std::string& response, bool externalRequest)
 
 bool Http::isScript(const char* url)
 {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
     if (!useCurlHttpImpl)
     {
         CUrl crack;
@@ -1013,7 +1013,7 @@ bool Http::isMoneySite(const char* url)
     }
 #endif // ifdef __APPLE__
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
     if (!useCurlHttpImpl)
     {
         CUrl crack;
@@ -1043,7 +1043,7 @@ bool Http::isMoneySite(const char* url)
 
     if (DFFlag::UseNewUrlClass)
     {
-        RBX::Url parsed = RBX::Url::fromString(url);
+        ARL::Url parsed = ARL::Url::fromString(url);
 
         return parsed.hasHttpScheme() &&
             (parsed.isSubdomainOf("paypal.com") || parsed.isSubdomainOf("rixty.com"));
@@ -1079,7 +1079,7 @@ bool Http::isStrictlyRobloxSite(const char* url)
 {
     if (DFFlag::UseNewUrlClass)
     {
-        RBX::Url parsed = RBX::Url::fromString(url);
+        ARL::Url parsed = ARL::Url::fromString(url);
     
         return parsed.isSubdomainOf("lambda.cam") || parsed.isSubdomainOf("robloxlabs.com");
     }
@@ -1102,7 +1102,7 @@ bool Http::isRobloxSite(const char* url)
     }
 #endif // ifdef __APPLE__
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
     if (!useCurlHttpImpl)
     {
         CUrl crack;
@@ -1151,7 +1151,7 @@ bool Http::isRobloxSite(const char* url)
     
     if (DFFlag::UseNewUrlClass)
     {
-        RBX::Url parsed = RBX::Url::fromString(url);
+        ARL::Url parsed = ARL::Url::fromString(url);
         if (!parsed.hasHttpScheme())
         {
             return false;
@@ -1225,7 +1225,7 @@ bool Http::trustCheckBrowser(const char* url)
 
 bool Http::isExternalRequest(const char* url)
 {
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
     if (!useCurlHttpImpl)
     {
         std::string urlLower = url;
@@ -1249,7 +1249,7 @@ bool Http::isExternalRequest(const char* url)
 
     if (DFFlag::UseNewUrlClass)
     {
-        RBX::Url parsed = RBX::Url::fromString(url);
+        ARL::Url parsed = ARL::Url::fromString(url);
         if (!parsed.hasHttpScheme())
         {
             return false;
@@ -1302,7 +1302,7 @@ bool Http::trustCheck(const char* url, bool externalRequest)
         return true;
     }
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
     if (!useCurlHttpImpl)
     {
         CUrl crack;
@@ -1348,7 +1348,7 @@ bool Http::trustCheck(const char* url, bool externalRequest)
     {
         if (DFFlag::UseNewUrlClass)
         {
-		    RBX::Url parsed = RBX::Url::fromString(url);
+		    ARL::Url parsed = ARL::Url::fromString(url);
 		
 		    if (parsed.hasHttpScheme())
 		    {
@@ -1418,9 +1418,9 @@ bool Http::doHttpGetPostWithNativeFallbackForReporting(bool isPost, std::istream
 #endif
 
 	std::string googleAnalyticsBaseURL = RobloxGoogleAnalytics::kGoogleAnalyticsBaseURL;
-	std::string counterMultiUrl = GetCountersMultiIncrementUrl(::GetBaseURL(), RBX::Stats::countersApiKey);
-	std::string counterSingleUrl = GetCountersUrl(::GetBaseURL(), RBX::Stats::countersApiKey);
-	std::string statsURL = RBX::format("%sgame/report-stats", ::GetBaseURL().c_str());
+	std::string counterMultiUrl = GetCountersMultiIncrementUrl(::GetBaseURL(), ARL::Stats::countersApiKey);
+	std::string counterSingleUrl = GetCountersUrl(::GetBaseURL(), ARL::Stats::countersApiKey);
+	std::string statsURL = ARL::format("%sgame/report-stats", ::GetBaseURL().c_str());
 	std::string inFluxBaseURL = DFString::HttpInfluxURL;
 	
 
@@ -1437,9 +1437,9 @@ bool Http::doHttpGetPostWithNativeFallbackForReporting(bool isPost, std::istream
 	return false;
 }
 
-void Http::applyAdditionalHeaders(RBX::HttpAux::AdditionalHeaders& outHeaders)
+void Http::applyAdditionalHeaders(ARL::HttpAux::AdditionalHeaders& outHeaders)
 {
-	for (RBX::HttpAux::AdditionalHeaders::const_iterator itr = outHeaders.begin(); itr != outHeaders.end(); ++itr)
+	for (ARL::HttpAux::AdditionalHeaders::const_iterator itr = outHeaders.begin(); itr != outHeaders.end(); ++itr)
 	{
 		this->additionalHeaders[itr->first] = itr->second;
 	}

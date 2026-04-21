@@ -4,7 +4,7 @@
 
 #include "Humanoid/Flying.h"
 
-namespace RBX {
+namespace ARL {
 	namespace HUMAN {
 
 	extern const char* const sJumping;

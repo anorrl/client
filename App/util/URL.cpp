@@ -98,7 +98,7 @@ const char* RFC3986::findFirstCharNotInClass(const char* begin, const char* end,
     
 } // unnamed namespace
 
-namespace RBX
+namespace ARL
 {
 
 Url Url::fromString(const char* str)
@@ -222,7 +222,7 @@ void Url::normalize()
             while (*(--p) != '/');
             
             const size_t complen = compend - p;
-            RBXASSERT(complen > 0);
+            ARLASSERT(complen > 0);
             
             bool skip = false;
             // skip "//"
@@ -262,7 +262,7 @@ void Url::normalize()
             // cut out any existing range to skip
             else if (skipstart)
             {
-                RBXASSERT(skipend);
+                ARLASSERT(skipend);
                 const size_t skiplen = skipend - skipstart;
                 const size_t taillen = end - skipend;
                 std::memmove(skipstart, skipend, taillen);
@@ -274,7 +274,7 @@ void Url::normalize()
         // skip any left range
         if (skipstart)
         {
-            RBXASSERT(skipend);
+            ARLASSERT(skipend);
             const size_t skiplen = skipend - skipstart;
             const size_t taillen = end - skipend;
             std::memmove(skipstart, skipend, taillen);

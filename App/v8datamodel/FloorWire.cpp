@@ -16,7 +16,7 @@
 #include "V8World/ContactManager.h"
 #include "V8World/World.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sFloorWire = "FloorWire";
 const float FloorWire::kMinDistanceFromBlocks = 0.2f;

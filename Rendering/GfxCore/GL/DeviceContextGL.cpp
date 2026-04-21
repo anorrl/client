@@ -9,7 +9,7 @@
 
 FASTFLAGVARIABLE(GraphicsGLUseDiscard, false)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -99,14 +99,14 @@ void DeviceContextGL::invalidateCachedTexture(Texture* texture)
 
 void DeviceContextGL::invalidateCachedTextureStage(unsigned int stage)
 {
-    RBXASSERT(stage < ARRAYSIZE(cachedTextures));
+    ARLASSERT(stage < ARRAYSIZE(cachedTextures));
 	cachedTextures[stage] = NULL;
 }
 
 void DeviceContextGL::defineGlobalConstants(size_t dataSize)
 {
-	RBXASSERT(globalData.empty());
-    RBXASSERT(dataSize > 0);
+	ARLASSERT(globalData.empty());
+    ARLASSERT(dataSize > 0);
 
 	globalData.resize(dataSize);
 }
@@ -118,7 +118,7 @@ void DeviceContextGL::setDefaultAnisotropy(unsigned int value)
 
 void DeviceContextGL::updateGlobalConstants(const void* data, size_t dataSize)
 {
-    RBXASSERT(dataSize == globalData.size());
+    ARLASSERT(dataSize == globalData.size());
 
     memcpy(&globalData[0], data, dataSize);
     globalDataVersion++;
@@ -141,7 +141,7 @@ void DeviceContextGL::bindFramebuffer(Framebuffer* buffer)
 	else if (glDrawBuffers)
 	{
         GLenum buffers[16];
-		RBXASSERT(drawBuffers < ARRAYSIZE(buffers));
+		ARLASSERT(drawBuffers < ARRAYSIZE(buffers));
 
 		for (unsigned int i = 0; i < drawBuffers; ++i)
 			buffers[i] = GL_COLOR_ATTACHMENT0 + i;
@@ -182,14 +182,14 @@ void DeviceContextGL::clearFramebuffer(unsigned int mask, const float color[4], 
 		glClearStencil(stencil);
 	}
 
-    RBXASSERT(maskGl);
+    ARLASSERT(maskGl);
 	glClear(maskGl);
 }
 
 void DeviceContextGL::copyFramebuffer(Framebuffer* buffer, Texture* texture)
 {
-	RBXASSERT(texture->getType() == Texture::Type_2D);
-	RBXASSERT(buffer->getWidth() == texture->getWidth() && buffer->getHeight() == texture->getHeight());
+	ARLASSERT(texture->getType() == Texture::Type_2D);
+	ARLASSERT(buffer->getWidth() == texture->getWidth() && buffer->getHeight() == texture->getHeight());
 
 	invalidateCachedTextureStage(0);
 
@@ -214,9 +214,9 @@ void DeviceContextGL::copyFramebuffer(Framebuffer* buffer, Texture* texture)
 
 void DeviceContextGL::resolveFramebuffer(Framebuffer* msaaBuffer, Framebuffer* buffer, unsigned int mask)
 {
-	RBXASSERT(msaaBuffer->getSamples() > 1);
-	RBXASSERT(buffer->getSamples() == 1);
-	RBXASSERT(msaaBuffer->getWidth() == buffer->getWidth() && msaaBuffer->getHeight() == buffer->getHeight());
+	ARLASSERT(msaaBuffer->getSamples() > 1);
+	ARLASSERT(buffer->getSamples() == 1);
+	ARLASSERT(msaaBuffer->getWidth() == buffer->getWidth() && msaaBuffer->getHeight() == buffer->getHeight());
 
     GLint oldfb = 0;
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldfb);
@@ -307,8 +307,8 @@ void DeviceContextGL::bindTexture(unsigned int stage, Texture* texture, const Sa
 		? SamplerState(state.getFilter(), state.getAddress(), defaultAnisotropy)
 		: state;
 
-	RBXASSERT(stage < device->getCaps().maxTextureUnits);
-    RBXASSERT(stage < ARRAYSIZE(cachedTextures));
+	ARLASSERT(stage < device->getCaps().maxTextureUnits);
+    ARLASSERT(stage < ARRAYSIZE(cachedTextures));
 
 	static_cast<TextureGL*>(texture)->bind(stage, realState, &cachedTextures[stage]);
 }
@@ -407,7 +407,7 @@ void DeviceContextGL::setDepthState(const DepthState& state)
             break;
 
         default:
-            RBXASSERT(false);
+            ARLASSERT(false);
 		}
 	}
 }
@@ -423,7 +423,7 @@ void DeviceContextGL::drawImpl(Geometry* geometry, Geometry::Primitive primitive
 
 void DeviceContextGL::pushDebugMarkerGroup(const char* text)
 {
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
     if (device->getCapsGL().extDebugMarkers)
     {
         glPushGroupMarkerEXT(0, text);
@@ -440,7 +440,7 @@ void DeviceContextGL::pushDebugMarkerGroup(const char* text)
 
 void DeviceContextGL::popDebugMarkerGroup()
 {
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
     if (device->getCapsGL().extDebugMarkers)
     {
         glPopGroupMarkerEXT();
@@ -457,7 +457,7 @@ void DeviceContextGL::popDebugMarkerGroup()
 
 void DeviceContextGL::setDebugMarker(const char* text)
 {
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
     if (device->getCapsGL().extDebugMarkers)
     {
         glInsertEventMarkerEXT(0, text);

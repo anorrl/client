@@ -25,7 +25,7 @@
 #include "TargetConditionals.h"
 #endif
 
-#if (defined(RBX_PLATFORM_IOS) && !TARGET_IPHONE_SIMULATOR) || defined(__ANDROID__)
+#if (defined(ARL_PLATFORM_IOS) && !TARGET_IPHONE_SIMULATOR) || defined(__ANDROID__)
 #include <arm_neon.h>
 #endif
 
@@ -33,11 +33,11 @@ LOGVARIABLE(Voxelizer, 0);
 
 FASTINTVARIABLE(CSGVoxelizerFadeRadius, 300);
 
-#if defined(_WIN32) || (defined(__APPLE__) && !defined(RBX_PLATFORM_IOS))
+#if defined(_WIN32) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS))
 #define SIMD_SSE2
 #endif
 
-#if (defined(RBX_PLATFORM_IOS) && !TARGET_IPHONE_SIMULATOR) || defined(__ANDROID__)
+#if (defined(ARL_PLATFORM_IOS) && !TARGET_IPHONE_SIMULATOR) || defined(__ANDROID__)
 #define SIMD_NEON
 #endif
 
@@ -69,13 +69,13 @@ inline unsigned char min255(int v)
 	return v | ((255 - v) >> 31);
 }
 
-inline bool isPartFixed(RBX::PartInstance* part)
+inline bool isPartFixed(ARL::PartInstance* part)
 {
 	return part->getPartPrimitive()->getAnchoredProperty() || part->getPartPrimitive()->computeIsGrounded();
 }
 
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 	Extents OccupancyChunk::getChunkExtents() const
 	{
@@ -809,7 +809,7 @@ namespace RBX { namespace Voxel {
 		DenseHashSet<Primitive*> result(NULL);
 
         {
-            RBXPROFILER_SCOPE("Voxel", "getPrimitivesOverlapping");
+            ARLPROFILER_SCOPE("Voxel", "getPrimitivesOverlapping");
 
     		contactManager->getPrimitivesOverlapping(chunkExtents, result);
         }
@@ -818,7 +818,7 @@ namespace RBX { namespace Voxel {
 
 		if (terrain)
 		{
-            RBXPROFILER_SCOPE("Voxel", "occupancyFillTerrain");
+            ARLPROFILER_SCOPE("Voxel", "occupancyFillTerrain");
 
 			if (terrain->isSmooth())
 			{
@@ -834,7 +834,7 @@ namespace RBX { namespace Voxel {
 		{
 			PartInstance* part = PartInstance::fromPrimitive(*it);
 
-			if (part->getCookie() & RBX::PartCookie::IS_HUMANOID_PART)
+			if (part->getCookie() & ARL::PartCookie::IS_HUMANOID_PART)
 				continue;
 
 			if (nonFixedPartsEnabled || isPartFixed(part))
@@ -978,8 +978,8 @@ namespace RBX { namespace Voxel {
 			int y = it.getCurrentLocation().y - chunkOffsetTerrain.y;
 			int z = it.getCurrentLocation().z - chunkOffsetTerrain.z;
 
-			RBXASSERT(it.getLineSize() == kVoxelChunkSizeXZ);
-			RBXASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
+			ARLASSERT(it.getLineSize() == kVoxelChunkSizeXZ);
+			ARLASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
 
 			const Cell* terrainVoxelRow = it.getLineCells();
 
@@ -1036,8 +1036,8 @@ namespace RBX { namespace Voxel {
 			int y = it.getCurrentLocation().y - chunkOffsetTerrain.y;
 			int z = it.getCurrentLocation().z - chunkOffsetTerrain.z;
 
-			RBXASSERT(it.getLineSize() == kVoxelChunkSizeXZ);
-			RBXASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
+			ARLASSERT(it.getLineSize() == kVoxelChunkSizeXZ);
+			ARLASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
 
 			const Cell* terrainVoxelRow = it.getLineCells();
 
@@ -1094,8 +1094,8 @@ namespace RBX { namespace Voxel {
 			int y = it.getCurrentLocation().y - chunkOffsetTerrain.y;
 			int z = it.getCurrentLocation().z - chunkOffsetTerrain.z;
 
-			RBXASSERT(it.getLineSize() == kVoxelChunkSizeXZ);
-			RBXASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
+			ARLASSERT(it.getLineSize() == kVoxelChunkSizeXZ);
+			ARLASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
 
 			const Cell* terrainVoxelRow = it.getLineCells();
 
@@ -1142,8 +1142,8 @@ namespace RBX { namespace Voxel {
 		for (int y = 0; y < kVoxelChunkSizeY; ++y)
             for (int z = 0; z < kVoxelChunkSizeXZ; ++z)
             {
-				RBXASSERT(box.getSizeX() == kVoxelChunkSizeXZ);
-                RBXASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
+				ARLASSERT(box.getSizeX() == kVoxelChunkSizeXZ);
+                ARLASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
 
                 const Voxel2::Cell* terrainVoxelRow = box.readRow(0, y, z);
 
@@ -1181,8 +1181,8 @@ namespace RBX { namespace Voxel {
 		for (int y = 0; y < kVoxelChunkSizeY; ++y)
             for (int z = 0; z < kVoxelChunkSizeXZ; ++z)
             {
-				RBXASSERT(box.getSizeX() == kVoxelChunkSizeXZ);
-                RBXASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
+				ARLASSERT(box.getSizeX() == kVoxelChunkSizeXZ);
+                ARLASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
 
                 const Voxel2::Cell* terrainVoxelRow = box.readRow(0, y, z);
 
@@ -1228,8 +1228,8 @@ namespace RBX { namespace Voxel {
 		for (int y = 0; y < kVoxelChunkSizeY; ++y)
             for (int z = 0; z < kVoxelChunkSizeXZ; ++z)
             {
-				RBXASSERT(box.getSizeX() == kVoxelChunkSizeXZ);
-                RBXASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
+				ARLASSERT(box.getSizeX() == kVoxelChunkSizeXZ);
+                ARLASSERT(isInsideChunkLocal(Vector3int32(0, y, z)));
 
                 const Voxel2::Cell* terrainVoxelRow = box.readRow(0, y, z);
 

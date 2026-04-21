@@ -4,7 +4,7 @@
 
 // A simple hash function from Robert Sedgwicks Algorithms in C book. 
 
-namespace RBX {
+namespace ARL {
 
 	class Hash {
 	public:

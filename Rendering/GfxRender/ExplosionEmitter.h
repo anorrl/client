@@ -4,13 +4,13 @@
 
 #include "RenderNode.h"
 
-namespace RBX
+namespace ARL
 {
     class PartInstance;
     class Instance;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -25,7 +25,7 @@ public:
     ExplosionEmitter(VisualEngine* visualEngine);
     ~ExplosionEmitter();
 
-    void bind(const shared_ptr<RBX::PartInstance>& part, const shared_ptr<RBX::Instance>& instance);
+    void bind(const shared_ptr<ARL::PartInstance>& part, const shared_ptr<ARL::Instance>& instance);
     
     // GfxBinding overrides
     virtual void invalidateEntity();
@@ -39,14 +39,14 @@ public:
 
 private:
     void onCombinedSignalEx(Instance::CombinedSignalType type, const Instance::ICombinedSignalData* data);
-    void onPropertyChangedEx(const RBX::Reflection::PropertyDescriptor* descriptor);
+    void onPropertyChangedEx(const ARL::Reflection::PropertyDescriptor* descriptor);
     void onAncestorChangedEx();
     void onSleepingChangedEx(bool sleeping);
 
     void applySettings();
     
-    shared_ptr<RBX::PartInstance> part;
-    shared_ptr<RBX::Instance> effect;
+    shared_ptr<ARL::PartInstance> part;
+    shared_ptr<ARL::Instance> effect;
     CoordinateFrame transform;
     Extents localBox;
     bool dirty;

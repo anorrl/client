@@ -8,7 +8,7 @@
 #include "Util/ContentID.h"
 #include <boost/shared_ptr.hpp>
 
-namespace RBX {
+namespace ARL {
 
 extern const char* const sPartOperationAsset;
 class PartOperationAsset : public DescribedCreatable<PartOperationAsset, Instance, sPartOperationAsset>

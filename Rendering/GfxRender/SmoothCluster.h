@@ -12,9 +12,9 @@
 
 #include "voxel2/GridListener.h"
 
-namespace RBX { namespace Voxel2 { class MaterialTable; class Grid; class Region; } }
+namespace ARL { namespace Voxel2 { class MaterialTable; class Grid; class Region; } }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

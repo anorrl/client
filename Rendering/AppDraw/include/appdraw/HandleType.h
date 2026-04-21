@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-namespace RBX {
+namespace ARL {
 
 	enum HandleType {	HANDLE_RESIZE = 0,
 					HANDLE_MOVE,

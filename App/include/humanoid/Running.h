@@ -4,7 +4,7 @@
 
 #include "Humanoid/RunningBase.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Body;
 
@@ -62,5 +62,5 @@ namespace RBX {
 	};
 
 	} // namespace HUMAN
-}	// namespace RBX
+}	// namespace ARL
 

@@ -3,7 +3,7 @@
 #include "Util/TextureId.h"
 #include "Util/G3DCore.h"
 
-namespace RBX
+namespace ARL
 {
 	class PartInstance;
 	class Humanoid;
@@ -14,7 +14,7 @@ namespace RBX
 		class HumanoidIdentifier
 		{
 		public:
-			explicit HumanoidIdentifier(RBX::Humanoid* humanoid);
+			explicit HumanoidIdentifier(ARL::Humanoid* humanoid);
 
 			Humanoid* humanoid;
 
@@ -37,13 +37,13 @@ namespace RBX
 			CharacterMesh* rightArmMesh;
 			CharacterMesh* torsoMesh;
 
-			bool isBodyPart(RBX::PartInstance* part) const;
-			bool isBodyPartComposited(RBX::PartInstance* part) const;
-			bool isPartComposited(RBX::PartInstance* part) const;
-			bool isPartHead(RBX::PartInstance* part) const;
+			bool isBodyPart(ARL::PartInstance* part) const;
+			bool isBodyPartComposited(ARL::PartInstance* part) const;
+			bool isPartComposited(ARL::PartInstance* part) const;
+			bool isPartHead(ARL::PartInstance* part) const;
 
 			// helper
-			CharacterMesh* getRelevantMesh(RBX::PartInstance* bodyPart) const;
+			CharacterMesh* getRelevantMesh(ARL::PartInstance* bodyPart) const;
 
             enum BodyPartType
             {
@@ -55,7 +55,7 @@ namespace RBX
                 PartType_Count
             };
 
-            BodyPartType getBodyPartType(RBX::PartInstance* bodyPart) const;
-            Vector3 getBodyPartScale(RBX::PartInstance* bodyPart) const;
+            BodyPartType getBodyPartType(ARL::PartInstance* bodyPart) const;
+            Vector3 getBodyPartScale(ARL::PartInstance* bodyPart) const;
 		};
 }

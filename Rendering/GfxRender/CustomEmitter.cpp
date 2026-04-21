@@ -17,7 +17,7 @@
 #define M_PI       3.14159265358979323846
 #endif
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -103,18 +103,18 @@ void CustomEmitter::onAncestorChangedEx()
     {
         unbind();
         
-        RBX::PartInstance* parent = RBX::Instance::fastDynamicCast<RBX::PartInstance>(effectCopy->getParent());
-        shared_ptr<RBX::PartInstance> part = shared_from(parent);
+        ARL::PartInstance* parent = ARL::Instance::fastDynamicCast<ARL::PartInstance>(effectCopy->getParent());
+        shared_ptr<ARL::PartInstance> part = shared_from(parent);
             
         bind(part, effectCopy);
     }
 }
 
-void CustomEmitter::bind(const shared_ptr<RBX::PartInstance>& part, const shared_ptr<RBX::Instance>& instance)
+void CustomEmitter::bind(const shared_ptr<ARL::PartInstance>& part, const shared_ptr<ARL::Instance>& instance)
 {
-    RBXASSERT(!this->part && !this->effect);
+    ARLASSERT(!this->part && !this->effect);
     this->part = part;
-    this->effect = shared_from(instance->fastDynamicCast<RBX::CustomParticleEmitter>());
+    this->effect = shared_from(instance->fastDynamicCast<ARL::CustomParticleEmitter>());
 
     //
 
@@ -246,22 +246,22 @@ void CustomEmitter::applyAllSettings()
 		Vector2 sphericalDirection;
 		switch(effect->getEmissionDirection())
 		{
-		case RBX::NORM_Y:
+		case ARL::NORM_Y:
 			sphericalDirection = Vector2(M_PI / 2, M_PI / 2);
 			break;
-		case RBX::NORM_Y_NEG:
+		case ARL::NORM_Y_NEG:
 			sphericalDirection = Vector2(-M_PI / 2, M_PI / 2);
 			break;
-		case RBX::NORM_X:
+		case ARL::NORM_X:
 			sphericalDirection = Vector2(0, M_PI / 2);
 			break;
-		case RBX::NORM_X_NEG:
+		case ARL::NORM_X_NEG:
 			sphericalDirection = Vector2(0, -M_PI / 2);
 			break;
-		case RBX::NORM_Z_NEG:
+		case ARL::NORM_Z_NEG:
 			sphericalDirection = Vector2(0, M_PI);
 			break;
-		case RBX::NORM_Z:
+		case ARL::NORM_Z:
 			sphericalDirection = Vector2(0, 0);
 			break;
 		default:
@@ -300,7 +300,7 @@ void CustomEmitter::applyAllSettings()
     }
 }
 
-void CustomEmitter::onPropertyChangedEx(const RBX::Reflection::PropertyDescriptor* p)
+void CustomEmitter::onPropertyChangedEx(const ARL::Reflection::PropertyDescriptor* p)
 {
     if (p == &CustomParticleEmitter::prop_texture)
     {

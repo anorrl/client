@@ -8,7 +8,7 @@
 class btConvexHullShape;
 struct btDbvt;
 
-namespace RBX {
+namespace ARL {
 
 	namespace Voxel2 { class Grid; }
 

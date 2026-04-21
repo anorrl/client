@@ -5,17 +5,17 @@
 #include "Util/Extents.h"
 #include "rbx/Debug.h"
 
-//#define _RBX_DEBUGGING_SPATIAL_HASH 
+//#define _ARL_DEBUGGING_SPATIAL_HASH 
 
-#ifdef _RBX_DEBUGGING_SPATIAL_HASH
-	#define RBXASSERT_SPATIAL_HASH(expr) RBXASSERT(expr)
+#ifdef _ARL_DEBUGGING_SPATIAL_HASH
+	#define ARLASSERT_SPATIAL_HASH(expr) ARLASSERT(expr)
 	const bool assertingSpatialHash = true;
 #else
-	#define RBXASSERT_SPATIAL_HASH(expr) ((void)0)
+	#define ARLASSERT_SPATIAL_HASH(expr) ((void)0)
 	const bool assertingSpatialHash = false;
 #endif
 
-namespace RBX {
+namespace ARL {
 
 	/** use the SpatialHash with classes that contain these members:
 	 * basic Primitive must implement:
@@ -26,7 +26,7 @@ namespace RBX {
 		ExtentsInt32			oldSpatialExtents;
 		int						spatialNodeLevel;
 
-#ifdef _RBX_DEBUGGING_SPATIAL_HASH
+#ifdef _ARL_DEBUGGING_SPATIAL_HASH
 		void*					spatialNodes;		
 		int                     spatialNodeCount;
 #endif
@@ -34,7 +34,7 @@ namespace RBX {
 	public:
 		BasicSpatialHashPrimitive()
 			: spatialNodeLevel(-1)
-#ifdef _RBX_DEBUGGING_SPATIAL_HASH
+#ifdef _ARL_DEBUGGING_SPATIAL_HASH
 			, spatialNodes(0)
 			, spatialNodeCount(0)
 #endif
@@ -42,9 +42,9 @@ namespace RBX {
 
 		~BasicSpatialHashPrimitive()
 		{
-			RBXASSERT(spatialNodeLevel == -1);	//
-			RBXASSERT_SPATIAL_HASH(spatialNodes == NULL);
-			RBXASSERT_SPATIAL_HASH(spatialNodeCount == 0);
+			ARLASSERT(spatialNodeLevel == -1);	//
+			ARLASSERT_SPATIAL_HASH(spatialNodes == NULL);
+			ARLASSERT_SPATIAL_HASH(spatialNodeCount == 0);
 			spatialNodeLevel = -2;
 		}
 
@@ -52,7 +52,7 @@ namespace RBX {
 
 		// The remaining functions are used by the SpatialHash<> implementation
         int getSpatialNodeLevel() const {
-			RBXASSERT(spatialNodeLevel >= -1);
+			ARLASSERT(spatialNodeLevel >= -1);
 			return spatialNodeLevel;
 		}
 		void setSpatialNodeLevel(int value)						{spatialNodeLevel = value;}

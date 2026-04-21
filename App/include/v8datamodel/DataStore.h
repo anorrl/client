@@ -10,7 +10,7 @@
 #include "signal.h"
 #include <deque>
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sGlobalDataStore;
 

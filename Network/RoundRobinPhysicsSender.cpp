@@ -24,8 +24,8 @@
 
 #include "raknet/Source/RakNetStatistics.h"
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 SYNCHRONIZED_FASTFLAG(PhysicsPacketSendWorldStepTimestamp)
 
@@ -42,7 +42,7 @@ RoundRobinPhysicsSender::RoundRobinPhysicsSender(Replicator& replicator)
 
 void RoundRobinPhysicsSender::sendPhysicsData(RakNet::BitStream& bitStream, const Assembly* assembly)
 {
-	RBXASSERT(assembly);
+	ARLASSERT(assembly);
 
 	if (assembly)
 	{
@@ -205,7 +205,7 @@ public:
 		if (SFFlag::getPhysicsPacketSendWorldStepTimestamp())
 		{
 			float timeOffsetDueToPhysics = 0.0f;
-			Workspace* w = ServiceProvider::find<RBX::Workspace>(&sender.replicator);
+			Workspace* w = ServiceProvider::find<ARL::Workspace>(&sender.replicator);
 			if (w)
 			{
 				timeOffsetDueToPhysics = w->getWorld()->getUpdateExpectedStepDelta();		
@@ -256,7 +256,7 @@ void RoundRobinPhysicsSender::step()
 			else if (bufferHealth >= 0.9)
 			{
 				// buffer health is good, push more data
-				Workspace* w = ServiceProvider::find<RBX::Workspace>(&replicator);
+				Workspace* w = ServiceProvider::find<ARL::Workspace>(&replicator);
 				if (w)
 				{
 					if ((itemsPerPacket.value() * sendPacketsPerStep) < w->getWorld()->getSendPhysics()->getNumSimJobs())
@@ -278,7 +278,7 @@ int RoundRobinPhysicsSender::sendPacket(int maxPackets, PacketPriority packetPri
 	JobSender jobSender(*this, replicator.rakPeer.get());
 
 	// TODO: Check timer and feed these gradually?
-	Workspace* w = ServiceProvider::find<RBX::Workspace>(&replicator);
+	Workspace* w = ServiceProvider::find<ARL::Workspace>(&replicator);
 	if (w)
 	{
 		const SimJob* characterSimJob = findTargetPlayerCharacterSimJob();

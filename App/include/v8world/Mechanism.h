@@ -7,7 +7,7 @@
 #include "boost/utility.hpp"
 #include "Assembly.h"
 
-namespace RBX {
+namespace ARL {
 	class Primitive;
 
 	class Mechanism 
@@ -65,7 +65,7 @@ namespace RBX {
         template<class Func>
         inline void visitPrimitives(Func func) {
             Assembly *root = getRootAssembly();
-            RBXASSERT(root);
+            ARLASSERT(root);
             visitPrimitivesImpl(func, root);
         }
 	};

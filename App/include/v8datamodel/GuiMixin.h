@@ -7,7 +7,7 @@
 #include "Util/ContentFilter.h"
 #include "V8DataModel/GuiObject.h"
 
-namespace RBX
+namespace ARL
 {
 	class GuiImageMixin
 	{
@@ -80,7 +80,7 @@ namespace RBX
 				Rect2D imageRect = Rect2D::xywh(value, imageRectSize);																				\
 				if (sliceCenter != Rect2D::xywh(0,0,0,0) && !imageRect.contains(offsetSliceCenter))													\
 				{																																	\
-					RBX::StandardOut::singleton()->printf(MESSAGE_WARNING,"SliceCenter ((%f,%f), (%f,%f)) is outside the bounds of imageOffset ((%f,%f), (%f,%f)).", offsetSliceCenter.x0(),offsetSliceCenter.y0(),offsetSliceCenter.x1(), offsetSliceCenter.y1(), imageRect.x0(),imageRect.y0(),imageRect.x1(), imageRect.y1()); \
+					ARL::StandardOut::singleton()->printf(MESSAGE_WARNING,"SliceCenter ((%f,%f), (%f,%f)) is outside the bounds of imageOffset ((%f,%f), (%f,%f)).", offsetSliceCenter.x0(),offsetSliceCenter.y0(),offsetSliceCenter.x1(), offsetSliceCenter.y1(), imageRect.x0(),imageRect.y0(),imageRect.x1(), imageRect.y1()); \
 				}																																	\
 				imageRectOffset = value;					\
 				raisePropertyChanged(prop_ImageRectOffset);	\
@@ -93,7 +93,7 @@ namespace RBX
 				Rect2D imageRect = Rect2D::xywh(imageRectOffset, value);																				\
 				if (sliceCenter != Rect2D::xywh(0,0,0,0) && !imageRect.contains(offsetSliceCenter))													\
 				{																																	\
-					RBX::StandardOut::singleton()->printf(MESSAGE_WARNING,"SliceCenter ((%f,%f), (%f,%f)) is outside the bounds of imageOffset ((%f,%f), (%f,%f))", offsetSliceCenter.x0(),offsetSliceCenter.y0(),offsetSliceCenter.x1(), offsetSliceCenter.y1(), imageRect.x0(),imageRect.y0(),imageRect.x1(), imageRect.y1()); \
+					ARL::StandardOut::singleton()->printf(MESSAGE_WARNING,"SliceCenter ((%f,%f), (%f,%f)) is outside the bounds of imageOffset ((%f,%f), (%f,%f))", offsetSliceCenter.x0(),offsetSliceCenter.y0(),offsetSliceCenter.x1(), offsetSliceCenter.y1(), imageRect.x0(),imageRect.y0(),imageRect.x1(), imageRect.y1()); \
 					return;																															\
 				}																																	\
 				imageRectSize = value;						\
@@ -124,7 +124,7 @@ namespace RBX
 				Rect2D imageRect = Rect2D::xywh(imageRectOffset, imageRectSize);																	\
 				if (imageRect != Rect2D::xywh(0,0,0,0) && !imageRect.contains(offsetSliceCenter))													\
 				{																																	\
-					RBX::StandardOut::singleton()->printf(MESSAGE_WARNING,"SliceCenter ((%f,%f), (%f,%f)) is outside the bounds of imageOffset ((%f,%f), (%f,%f))", offsetSliceCenter.x0(),offsetSliceCenter.y0(),offsetSliceCenter.x1(), offsetSliceCenter.y1(), imageRect.x0(),imageRect.y0(),imageRect.x1(), imageRect.y1()); \
+					ARL::StandardOut::singleton()->printf(MESSAGE_WARNING,"SliceCenter ((%f,%f), (%f,%f)) is outside the bounds of imageOffset ((%f,%f), (%f,%f))", offsetSliceCenter.x0(),offsetSliceCenter.y0(),offsetSliceCenter.x1(), offsetSliceCenter.y1(), imageRect.x0(),imageRect.y0(),imageRect.x1(), imageRect.y1()); \
 				}																																	\
 				sliceCenter = value;						\
 				raisePropertyChanged(prop_SliceCenter);		\
@@ -197,5 +197,5 @@ namespace RBX
 		}
 
 
-}	// namespace RBX												
+}	// namespace ARL												
 	

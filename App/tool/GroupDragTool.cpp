@@ -10,7 +10,7 @@
 #include "V8DataModel/InputObject.h"
 #include "v8datamodel/changehistory.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sGroupDragTool = "GroupDragTool";
 
@@ -22,7 +22,7 @@ GroupDragTool::GroupDragTool(	PartInstance* mousePart,
 	, dragging(false)
 {
 	FASTLOG1(FLog::MouseCommandLifetime, "GroupDragTool created: %p", this);
-	RBXASSERT(mousePart);
+	ARLASSERT(mousePart);
 	megaDragger.reset(new MegaDragger(	mousePart, 
 										partArray, 
 										workspace));
@@ -38,7 +38,7 @@ shared_ptr<MouseCommand> GroupDragTool::onMouseDown(const shared_ptr<InputObject
 
 void GroupDragTool::onMouseMove(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 
 	if (!dragging) {
 		if ((inputObject->get2DPosition() - downPoint).length() > 4) {
@@ -55,7 +55,7 @@ void GroupDragTool::onMouseMove(const shared_ptr<InputObject>& inputObject)
 
 void GroupDragTool::onMouseIdle(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(captured());
+	ARLASSERT(captured());
 
 	Vector3 hit;
 
@@ -86,7 +86,7 @@ void GroupDragTool::onMouseIdle(const shared_ptr<InputObject>& inputObject)
 
 shared_ptr<MouseCommand> GroupDragTool::onMouseUp(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 
 	if (dragging) {
 		megaDragger->finishDragging();
@@ -119,7 +119,7 @@ shared_ptr<MouseCommand> GroupDragTool::onKeyDown(const shared_ptr<InputObject>&
 		return shared_from(this);
 	}
 	else {
-		RBXASSERT(0);		// when did this happen
+		ARLASSERT(0);		// when did this happen
 		return shared_ptr<MouseCommand>();
 	}
 }
@@ -128,7 +128,7 @@ shared_ptr<MouseCommand> GroupDragTool::onKeyDown(const shared_ptr<InputObject>&
 GroupDragTool::~GroupDragTool()
 {
 	if (dragging) {
-		RBXASSERT(0);		// shouldn't ever get here....
+		ARLASSERT(0);		// shouldn't ever get here....
 	}
 	FASTLOG1(FLog::MouseCommandLifetime, "GroupDragTool destroyed: %p", this);
 }

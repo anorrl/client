@@ -2,7 +2,7 @@
 
 #include "v8datamodel/TeleportCallback.h"
 
-namespace RBX {
+namespace ARL {
 
 class Application;
 class FunctionMarshaller;
@@ -23,4 +23,4 @@ public:
     virtual bool isTeleportEnabled() const { return true; }
 };
 
-}  // namespace RBX
+}  // namespace ARL

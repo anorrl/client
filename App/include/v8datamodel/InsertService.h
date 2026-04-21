@@ -7,7 +7,7 @@
 #include "boost/thread.hpp"
 #include <boost/unordered_set.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sInsertService;
 	class InsertService

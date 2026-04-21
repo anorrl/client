@@ -10,7 +10,7 @@
 
 #include "V8Tree/Service.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sHapticService;
 
@@ -30,7 +30,7 @@ namespace RBX
 
 	private:
 		typedef boost::unordered_map<VibrationMotor, bool> VibrationEnabledMap;
-		typedef boost::unordered_map<VibrationMotor, shared_ptr<const RBX::Reflection::Tuple> > VibrationStateMap;
+		typedef boost::unordered_map<VibrationMotor, shared_ptr<const ARL::Reflection::Tuple> > VibrationStateMap;
 
 		typedef boost::unordered_map<InputObject::UserInputType, VibrationStateMap > InputVibrationMap;
 		typedef boost::unordered_map<InputObject::UserInputType, VibrationEnabledMap > InputVibrationEnabledMap;
@@ -41,7 +41,7 @@ namespace RBX
 	public:
 		HapticService();
 
-		rbx::signal<void(InputObject::UserInputType, VibrationMotor, shared_ptr<const RBX::Reflection::Tuple>)> setVibrationMotorSignal;
+		rbx::signal<void(InputObject::UserInputType, VibrationMotor, shared_ptr<const ARL::Reflection::Tuple>)> setVibrationMotorSignal;
 		rbx::signal<void(InputObject::UserInputType)> setEnabledVibrationMotorsSignal;
 
 		void setEnabledVibrationMotors(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor, bool isEnabled);
@@ -49,7 +49,7 @@ namespace RBX
 		bool isVibrationSupported(InputObject::UserInputType inputType);
 		bool isMotorSupported(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor);
 
-		void setMotor(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor, shared_ptr<const RBX::Reflection::Tuple> args);
-		shared_ptr<const RBX::Reflection::Tuple> getMotor(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor);
+		void setMotor(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor, shared_ptr<const ARL::Reflection::Tuple> args);
+		shared_ptr<const ARL::Reflection::Tuple> getMotor(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor);
 	};
 }

@@ -5,7 +5,7 @@
 #include "Util/Rect.h"
 #include "Util/G3DCore.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Layout 
 	{

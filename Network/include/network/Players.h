@@ -22,7 +22,7 @@ namespace RakNet {
 	struct SystemAddress;
 }
 
-namespace RBX { 
+namespace ARL { 
 	class PartInstance;
 	class ModelInstance;
 	class Region2;
@@ -339,7 +339,7 @@ namespace Network {
 		shared_ptr<Instance> getPlayerInstanceByID(int userID);
 		shared_ptr<Player> getPlayerByID(int userID);
 
-		static Player* getPlayerFromCharacter(RBX::Instance* character);
+		static Player* getPlayerFromCharacter(ARL::Instance* character);
 
 		void buildClientRegion(Region2& clientRegion);
 
@@ -350,27 +350,27 @@ namespace Network {
 		// STATICS
 		//
 		// If Client == Client Network Address;  If Server == NetworkOwner::Server()
-		static RBX::SystemAddress findLocalSimulatorAddress(const RBX::Instance* context);
+		static ARL::SystemAddress findLocalSimulatorAddress(const ARL::Instance* context);
 
-		static ModelInstance* findLocalCharacter(RBX::Instance* context);
-		static const ModelInstance* findConstLocalCharacter(const RBX::Instance* context);
+		static ModelInstance* findLocalCharacter(ARL::Instance* context);
+		static const ModelInstance* findConstLocalCharacter(const ARL::Instance* context);
 
-		static Player* findLocalPlayer(RBX::Instance* context);
-		static const Player* findConstLocalPlayer(const RBX::Instance* context);
+		static Player* findLocalPlayer(ARL::Instance* context);
+		static const Player* findConstLocalPlayer(const ARL::Instance* context);
 
-		static shared_ptr<Player> findAncestorPlayer(const RBX::Instance* context);
+		static shared_ptr<Player> findAncestorPlayer(const ARL::Instance* context);
         
-        static shared_ptr<Player> findPlayerWithAddress(const RBX::SystemAddress& playerAddres, const RBX::Instance* context);
+        static shared_ptr<Player> findPlayerWithAddress(const ARL::SystemAddress& playerAddres, const ARL::Instance* context);
 
-		static bool clientIsPresent(const RBX::Instance* context, bool testInDatamodel = true);
+		static bool clientIsPresent(const ARL::Instance* context, bool testInDatamodel = true);
 
-		static bool serverIsPresent(const RBX::Instance* context, bool testInDatamodel = true);
+		static bool serverIsPresent(const ARL::Instance* context, bool testInDatamodel = true);
 
-		static bool frontendProcessing(const RBX::Instance* context, bool testInDatamodel = true);
+		static bool frontendProcessing(const ARL::Instance* context, bool testInDatamodel = true);
 
-		static bool backendProcessing(const RBX::Instance* context, bool testInDatamodel = true);
+		static bool backendProcessing(const ARL::Instance* context, bool testInDatamodel = true);
 
-		static int getPlayerCount(const RBX::Instance* context);
+		static int getPlayerCount(const ARL::Instance* context);
 
 		// TODO: Remove this some day!
 		static bool getDistributedPhysicsEnabled();
@@ -389,14 +389,14 @@ namespace Network {
 		//
 		// typedef enum {GAME_SERVER, DPHYS_GAME_SERVER, CLIENT, DPHYS_CLIENT, WATCH_ONLINE, VISIT_SOLO, EDIT} GameMode;
 		
-		static RBX::Network::GameMode getGameMode(const RBX::Instance* context)
+		static ARL::Network::GameMode getGameMode(const ARL::Instance* context)
 		{
 			bool client = clientIsPresent(context);
 			bool server = serverIsPresent(context);
 			bool localPlayer = (findConstLocalPlayer(context) != NULL);
 			bool dPhysics = getDistributedPhysicsEnabled();
 
-			RBXASSERT(!(server && (client || localPlayer)));
+			ARLASSERT(!(server && (client || localPlayer)));
 
 			if (server)						{return dPhysics ? DPHYS_GAME_SERVER : GAME_SERVER;}
 			if (client && localPlayer)		{return dPhysics ? DPHYS_CLIENT : CLIENT;}
@@ -405,14 +405,14 @@ namespace Network {
 			else							{return EDIT;}
 		}
 
-		static RBX::Network::GameMode getGameMode(const RBX::Instance* context, const int placeID)
+		static ARL::Network::GameMode getGameMode(const ARL::Instance* context, const int placeID)
 		{
 			bool client = clientIsPresent(context);
 			bool server = serverIsPresent(context);
 			bool localPlayer = ( findConstLocalPlayer(context) != NULL);
 			bool dPhysics = getDistributedPhysicsEnabled();
 
-			RBXASSERT(!(server && (client || localPlayer)));;
+			ARLASSERT(!(server && (client || localPlayer)));;
 
 			if (placeID <= 0)							{return LOCAL_PLAY;}
 			if (server)									{return dPhysics ? DPHYS_GAME_SERVER : GAME_SERVER;}
@@ -422,7 +422,7 @@ namespace Network {
 			else										{return EDIT;}
 		}
 
-		static bool isCloudEdit(const RBX::Instance* context);
+		static bool isCloudEdit(const ARL::Instance* context);
 
 		void onRemoteSysStats(int userId, const std::string& stat, const std::string& message, bool desireKick = true);
 		bool hashMatches(const std::string& hash);
@@ -441,7 +441,7 @@ namespace Network {
 		/*override*/ void onChildAdded(Instance* child);
 		/*override*/ void onChildRemoving(Instance* child);
 		/*override*/ void onDescendantRemoving(const shared_ptr<Instance>& instance);
-		/*override*/ void processRemoteEvent(const Reflection::EventDescriptor& descriptor, const Reflection::EventArguments& args, const RBX::SystemAddress& source);
+		/*override*/ void processRemoteEvent(const Reflection::EventDescriptor& descriptor, const Reflection::EventArguments& args, const ARL::SystemAddress& source);
 
 	private:
 		void reportScriptSecurityError(int userId, std::string hash, std::string error, std::string stack);

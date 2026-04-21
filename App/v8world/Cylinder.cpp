@@ -10,7 +10,7 @@
 DYNAMIC_FASTFLAGVARIABLE(CylinderSurfaceNormalHitFix, false)
 
 
-namespace RBX {
+namespace ARL {
 
 Cylinder::Cylinder()
     : realLength(0)
@@ -214,7 +214,7 @@ bool Cylinder::hitTest(const RbxRay& rayInMe, Vector3& localHitPoint, Vector3& s
 void Cylinder::setSize(const G3D::Vector3& _size)
 {
     Super::setSize(_size);
-    RBXASSERT(getSize() == _size);
+    ARLASSERT(getSize() == _size);
 
     realLength = _size.x;
     realWidth = std::min(_size.y, _size.z);
@@ -302,4 +302,4 @@ Vector3 Cylinder::getSurfaceNormalInBody(const size_t surfaceId) const
     return Math::getWorldNormal(static_cast<NormalId>(surfaceId), Matrix3::identity());
 }
 
-} // namespace RBX
+} // namespace ARL

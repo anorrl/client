@@ -15,7 +15,7 @@
 
 
 
-namespace RBX
+namespace ARL
 {
 	const char* const sFunctionalTest = "FunctionalTest";
 	const char* const sTestService = "TestService";
@@ -38,7 +38,7 @@ FunctionalTest::Result& Variant::convert<FunctionalTest::Result>(void)
 }
 
 template<>
-bool RBX::StringConverter<FunctionalTest::Result>::convertToValue(const std::string& text, FunctionalTest::Result& value)
+bool ARL::StringConverter<FunctionalTest::Result>::convertToValue(const std::string& text, FunctionalTest::Result& value)
 {
 	return Reflection::EnumDesc<FunctionalTest::Result>::singleton().convertToValue(text.c_str(),value);
 }
@@ -68,7 +68,7 @@ Reflection::BoundProp<bool> prop_AutoStart("AutoRuns", "Physics", &TestService::
 Reflection::BoundProp<int> prop_NumberOfPlayers("NumberOfPlayers", "Settings", &TestService::numberOfPlayers);
 Reflection::BoundProp<double> prop_SimulateLag("SimulateSecondsLag", "Settings", &TestService::lagSimulation);
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 Reflection::BoundProp<float> prop_PhysicsSendRate("PhysicsSendRate", "Settings", &TestService::physicsSendRate);
 #endif
 
@@ -87,7 +87,7 @@ static Reflection::BoundFuncDesc<TestService, void(std::string, shared_ptr<Insta
 static Reflection::BoundFuncDesc<TestService, void()> func_Done(&TestService::done, "Done", Security::None);
 
 // DoCommand calls getVerb instead of getWhitelistVerb, and thus is an easy exploit.
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 static Reflection::BoundFuncDesc<TestService, shared_ptr<const Reflection::ValueArray>()> func_GetCommandNames(&TestService::getCommandNames, "GetCommandNames", Security::LocalUser);
 static Reflection::BoundFuncDesc<TestService, void(std::string)> func_DoCommand(&TestService::doCommand, "DoCommand", "name", Security::LocalUser);
 static Reflection::BoundFuncDesc<TestService, bool(std::string)> func_IsCommandEnabled(&TestService::isCommandEnabled, "IsCommandEnabled", "name", Security::LocalUser);
@@ -117,7 +117,7 @@ TestService::TestService()
 {
 	setName(sTestService);
 
-	RBX::NetworkSettings &ns = RBX::NetworkSettings::singleton();
+	ARL::NetworkSettings &ns = ARL::NetworkSettings::singleton();
 	physicsSendRate = ns.getPhysicsSendRate();
 }
 
@@ -132,14 +132,14 @@ void TestService::message( std::string text, shared_ptr<Instance> source, int li
 	if (onMessage)
 		onMessage(text, source, line);
 	else
-		output(RBX::MESSAGE_INFO, source, line, text);
+		output(ARL::MESSAGE_INFO, source, line, text);
 }
 
 void TestService::onRemoteResult( std::string text, shared_ptr<Instance> source, int line )
 {
 	if (!isAClient())
 	{
-		RBXASSERT(numberOfPlayers > 0);
+		ARLASSERT(numberOfPlayers > 0);
 		onMessage(text, source, line);
 	}
 }
@@ -149,7 +149,7 @@ void TestService::checkpoint( std::string text, shared_ptr<Instance> source, int
 	if (onCheckpoint)
 		onCheckpoint(text, source, line);
 	else
-		output(RBX::MESSAGE_INFO, source, line, "checkpoint " + text);
+		output(ARL::MESSAGE_INFO, source, line, "checkpoint " + text);
 }
 
 void TestService::warn( bool condition, std::string description, shared_ptr<Instance> source, int line )
@@ -160,7 +160,7 @@ void TestService::warn( bool condition, std::string description, shared_ptr<Inst
 	if (onWarn)
 		onWarn(condition, description, source, line);
 	else if (!condition)
-		output(RBX::MESSAGE_WARNING, source, line, description);
+		output(ARL::MESSAGE_WARNING, source, line, description);
 }
 
 void TestService::check( bool condition, std::string description, shared_ptr<Instance> source, int line )
@@ -174,7 +174,7 @@ void TestService::check( bool condition, std::string description, shared_ptr<Ins
 	if (onCheck)
 		onCheck(condition, description, source, line);
 	else if (!condition)
-		output(RBX::MESSAGE_ERROR, source, line, description);
+		output(ARL::MESSAGE_ERROR, source, line, description);
 }
 
 void TestService::onRemoteConditionalResult( bool condition, std::string description, shared_ptr<Instance> source, int line )
@@ -193,7 +193,7 @@ void TestService::error( std::string description, shared_ptr<Instance> source, i
 	if (onCheck)
 		onCheck(false, description, source, line);
 	else
-		output(RBX::MESSAGE_ERROR, source, line, description);
+		output(ARL::MESSAGE_ERROR, source, line, description);
 }
 
 void TestService::require2( bool condition, std::string description, shared_ptr<Instance> source, int line )
@@ -204,7 +204,7 @@ void TestService::require2( bool condition, std::string description, shared_ptr<
 	if (onCheck)
 		onCheck(condition, description, source, line);
 	else if (!condition)
-		output(RBX::MESSAGE_ERROR, source, line, "fatal " + description);
+		output(ARL::MESSAGE_ERROR, source, line, "fatal " + description);
 
 	if (!condition)
 		done();
@@ -217,7 +217,7 @@ void TestService::fail( std::string description, shared_ptr<Instance> source, in
 	if (onCheck)
 		onCheck(false, description, source, line);
 	else
-		output(RBX::MESSAGE_ERROR, source, line, "fatal " + description);
+		output(ARL::MESSAGE_ERROR, source, line, "fatal " + description);
 
 	done();
 }
@@ -232,9 +232,9 @@ void TestService::done()
 	if (onDone)
 		onDone();
 	else if (testCount == 0)
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "TestService: Doesn't include any assertions");
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "TestService: Doesn't include any assertions");
 	else
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "TestService: Run completed, tests: %u, warns: %u, errors: %u", testCount, warnCount, errorCount);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "TestService: Run completed, tests: %u, warns: %u, errors: %u", testCount, warnCount, errorCount);
 
 	stop();
 }
@@ -250,7 +250,7 @@ void TestService::stillWaiting(int runCount, double timeout)
 	if (onStillWaiting)
 		onStillWaiting(timeout);
 	else
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "TestService: Waiting a total of %g seconds for the test to end", timeout);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "TestService: Waiting a total of %g seconds for the test to end", timeout);
 }
 
 void TestService::onTimeout(int runCount, double timeout)
@@ -267,9 +267,9 @@ void TestService::onTimeout(int runCount, double timeout)
 	incrementError();
 
 	if (onCheck)
-		onCheck(false, RBX::format("Tests failed to complete in %g seconds", timeout), shared_ptr<Instance>(), 0);
+		onCheck(false, ARL::format("Tests failed to complete in %g seconds", timeout), shared_ptr<Instance>(), 0);
 	else
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "TestService: Tests failed to complete in %g seconds", timeout);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "TestService: Tests failed to complete in %g seconds", timeout);
 
 	if (onDone)
 		onDone();
@@ -376,7 +376,7 @@ void TestService::startScript( shared_ptr<Instance> instance )
 {
 	if (shared_ptr<Script> script = shared_dynamic_cast<Script>(instance))
 	{
-		RBX::ScriptContext* scriptContext = RBX::ServiceProvider::create<RBX::ScriptContext>(this);
+		ARL::ScriptContext* scriptContext = ARL::ServiceProvider::create<ARL::ScriptContext>(this);
 		if (!scriptContext)
 			throw std::runtime_error("Unable to start test script");
 
@@ -384,7 +384,7 @@ void TestService::startScript( shared_ptr<Instance> instance )
 		options.continuations.successHandler = boost::bind(&TestService::onScriptEnded, shared_from(this), runCount);
 		options.continuations.errorHandler = boost::bind(&TestService::onScriptFailed, shared_from(this), runCount, _1, _2, _3, _4);
 		// elevate the identity of this script to the current caller's identity:
-		options.identity = RBX::Security::Context::current().identity;
+		options.identity = ARL::Security::Context::current().identity;
 		options.filter = boost::bind(&TestService::filterScript, this, _1);
 
 		scriptContext->addScript(script, options);
@@ -395,7 +395,7 @@ void TestService::stopScript( shared_ptr<Instance> instance )
 {
 	if (shared_ptr<Script> script = shared_dynamic_cast<Script>(instance))
 	{
-		RBX::ScriptContext* scriptContext = RBX::ServiceProvider::create<RBX::ScriptContext>(this);
+		ARL::ScriptContext* scriptContext = ARL::ServiceProvider::create<ARL::ScriptContext>(this);
 		if (!scriptContext)
 			throw std::runtime_error("Unable to stop test script");
 
@@ -428,13 +428,13 @@ bool TestService::askForbidChild( const Instance* instance ) const
 
 void TestService::setConfiguration()
 {
-	RBX::PhysicsSettings &ps = RBX::PhysicsSettings::singleton();
+	ARL::PhysicsSettings &ps = ARL::PhysicsSettings::singleton();
 	oldSettings.eThrottle = ps.getEThrottle();
 	oldSettings.allowSleep = ps.getAllowSleep();
 	oldSettings.throttleAt30Fps = ps.getThrottleAt30Fps();
 	oldSettings.wasLogAsserts = FLog::Asserts;
 	
-	RBX::NetworkSettings &ns = RBX::NetworkSettings::singleton();
+	ARL::NetworkSettings &ns = ARL::NetworkSettings::singleton();
 	ns.setPhysicsSendRate(physicsSendRate);
 
 	if (isPerformanceTest())
@@ -455,7 +455,7 @@ void TestService::restoreConfiguration()
 {
 	FLog::Asserts = oldSettings.wasLogAsserts;
 
-	RBX::PhysicsSettings &ps = RBX::PhysicsSettings::singleton();
+	ARL::PhysicsSettings &ps = ARL::PhysicsSettings::singleton();
 	ps.setEThrottle( oldSettings.eThrottle );
 	ps.setAllowSleep( oldSettings.allowSleep );
 	ps.setThrottleAt30Fps( oldSettings.throttleAt30Fps );
@@ -512,78 +512,78 @@ public:
 private:
 	void processLine(int lineNumber, const std::string& line)
 	{
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_CHECK_EQUAL", "Check", "==", "!="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_CHECK_EQUAL", "Check", "==", "!="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_CHECK_NE", "Check", "~=", "=="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_CHECK_NE", "Check", "~=", "=="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_CHECK_GE", "Check", ">=", "<"))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_CHECK_GE", "Check", ">=", "<"))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_CHECK_LE", "Check", "<=", ">"))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_CHECK_LE", "Check", "<=", ">"))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_CHECK_GT", "Check", ">", "<="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_CHECK_GT", "Check", ">", "<="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_CHECK_LT", "Check", "<", ">="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_CHECK_LT", "Check", "<", ">="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_WARN_EQUAL", "Warn", "==", "!="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_WARN_EQUAL", "Warn", "==", "!="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_WARN_NE", "Warn", "!=", "=="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_WARN_NE", "Warn", "!=", "=="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_WARN_GE", "Warn", ">=", "<"))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_WARN_GE", "Warn", ">=", "<"))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_WARN_LE", "Warn", "<=", ">"))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_WARN_LE", "Warn", "<=", ">"))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_WARN_GT", "Warn", ">", "<="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_WARN_GT", "Warn", ">", "<="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_WARN_LT", "Warn", "<", ">="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_WARN_LT", "Warn", "<", ">="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_REQUIRE_EQUAL", "Require", "==", "!="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_REQUIRE_EQUAL", "Require", "==", "!="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_REQUIRE_NE", "Require", "!=", "=="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_REQUIRE_NE", "Require", "!=", "=="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_REQUIRE_GE", "Require", ">=", "<"))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_REQUIRE_GE", "Require", ">=", "<"))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_REQUIRE_LE", "Require", "<=", ">"))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_REQUIRE_LE", "Require", "<=", ">"))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_REQUIRE_GT", "Require", ">", "<="))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_REQUIRE_GT", "Require", ">", "<="))
 			return;
-		if (doRBX_Test_Equality(lineNumber, line, "RBX_REQUIRE_LT", "Require", "<", ">="))
-			return;
-
-		if (doRBX_SimpleSubstitution(lineNumber, line, "RBX_WARN_MESSAGE", "Warn"))
-			return;
-		if (doRBX_SimpleSubstitution(lineNumber, line, "RBX_CHECK_MESSAGE", "Check"))
-			return;
-		if (doRBX_SimpleSubstitution(lineNumber, line, "RBX_REQUIRE_MESSAGE", "Require"))
+		if (doARL_Test_Equality(lineNumber, line, "ARL_REQUIRE_LT", "Require", "<", ">="))
 			return;
 
-		if (doRBX_Test_Throw(lineNumber, line, "RBX_WARN_THROW", "Warn"))
+		if (doARL_SimpleSubstitution(lineNumber, line, "ARL_WARN_MESSAGE", "Warn"))
 			return;
-		if (doRBX_Test_Throw(lineNumber, line, "RBX_CHECK_THROW", "Check"))
+		if (doARL_SimpleSubstitution(lineNumber, line, "ARL_CHECK_MESSAGE", "Check"))
 			return;
-		if (doRBX_Test_Throw(lineNumber, line, "RBX_REQUIRE_THROW", "Require"))
-			return;
-
-		if (doRBX_Test_NoThrow(lineNumber, line, "RBX_WARN_NO_THROW", "Warn"))
-			return;
-		if (doRBX_Test_NoThrow(lineNumber, line, "RBX_CHECK_NO_THROW", "Check"))
-			return;
-		if (doRBX_Test_NoThrow(lineNumber, line, "RBX_REQUIRE_NO_THROW", "Require"))
+		if (doARL_SimpleSubstitution(lineNumber, line, "ARL_REQUIRE_MESSAGE", "Require"))
 			return;
 
-		if (doRBX_Test(lineNumber, line, "RBX_WARN", "Warn"))
+		if (doARL_Test_Throw(lineNumber, line, "ARL_WARN_THROW", "Warn"))
 			return;
-		if (doRBX_Test(lineNumber, line, "RBX_CHECK", "Check"))
+		if (doARL_Test_Throw(lineNumber, line, "ARL_CHECK_THROW", "Check"))
 			return;
-		if (doRBX_Test(lineNumber, line, "RBX_REQUIRE", "Require"))
+		if (doARL_Test_Throw(lineNumber, line, "ARL_REQUIRE_THROW", "Require"))
 			return;
 
-		if (doRBX_SimpleSubstitution(lineNumber, line, "RBX_ERROR", "Error"))
+		if (doARL_Test_NoThrow(lineNumber, line, "ARL_WARN_NO_THROW", "Warn"))
 			return;
-		if (doRBX_SimpleSubstitution(lineNumber, line, "RBX_FAIL", "Fail"))
+		if (doARL_Test_NoThrow(lineNumber, line, "ARL_CHECK_NO_THROW", "Check"))
 			return;
-		if (doRBX_SimpleSubstitution(lineNumber, line, "RBX_MESSAGE", "Message"))
+		if (doARL_Test_NoThrow(lineNumber, line, "ARL_REQUIRE_NO_THROW", "Require"))
 			return;
-		if (doRBX_SimpleSubstitution(lineNumber, line, "RBX_CHECKPOINT", "Checkpoint"))
+
+		if (doARL_Test(lineNumber, line, "ARL_WARN", "Warn"))
+			return;
+		if (doARL_Test(lineNumber, line, "ARL_CHECK", "Check"))
+			return;
+		if (doARL_Test(lineNumber, line, "ARL_REQUIRE", "Require"))
+			return;
+
+		if (doARL_SimpleSubstitution(lineNumber, line, "ARL_ERROR", "Error"))
+			return;
+		if (doARL_SimpleSubstitution(lineNumber, line, "ARL_FAIL", "Fail"))
+			return;
+		if (doARL_SimpleSubstitution(lineNumber, line, "ARL_MESSAGE", "Message"))
+			return;
+		if (doARL_SimpleSubstitution(lineNumber, line, "ARL_CHECKPOINT", "Checkpoint"))
 			return;
 
 		result << line;
@@ -596,13 +596,13 @@ private:
 		args->push_back(arg);
 	}
 
-	bool doRBX_Test_Equality(int lineNumber, const std::string& line, const char* macro, const char* f, const char* equality, const char* notEquality)
+	bool doARL_Test_Equality(int lineNumber, const std::string& line, const char* macro, const char* f, const char* equality, const char* notEquality)
 	{
 		int i = line.find(macro);
 		if (i < 0)
 			return false;
 
-		// RBX_CHECK_EQUAL(a, b) ===> if a == b then Game:GetService('TestService'):Check(true, [==[a == b]==]) else Game:GetService('TestService'):Check(false,[==[test a == b failed [1 != 2]]==]) end
+		// ARL_CHECK_EQUAL(a, b) ===> if a == b then Game:GetService('TestService'):Check(true, [==[a == b]==]) else Game:GetService('TestService'):Check(false,[==[test a == b failed [1 != 2]]==]) end
 
 		using namespace std;
 		string::const_iterator start = line.begin() + i + strlen(macro);
@@ -614,14 +614,14 @@ private:
 		vector<string> args;
 		string::const_iterator stop = Lua::ArgumentParser::parseBracket(start, line.end(), boost::bind(&appendArg, &args, _1, _2));
 		if (args.size() != 2)
-			throw RBX::runtime_error("Expected 2 arguments but got %d", (int)args.size());
+			throw ARL::runtime_error("Expected 2 arguments but got %d", (int)args.size());
 
 		// start points to (
 		// stop points after )
-		RBXASSERT(*start == '(');
-		RBXASSERT(*(stop-1) == ')');
+		ARLASSERT(*start == '(');
+		ARLASSERT(*(stop-1) == ')');
 
-		// First write everything before RBX_CHECK
+		// First write everything before ARL_CHECK
 		result << line.substr(0, i);
 
 		// Now substitute the function call
@@ -641,13 +641,13 @@ private:
 		return true;
 	}
 
-	bool doRBX_Test(int lineNumber, const std::string& line, const char* macro, const char* f)
+	bool doARL_Test(int lineNumber, const std::string& line, const char* macro, const char* f)
 	{
 		int i = line.find(macro);
 		if (i < 0)
 			return false;
 
-		// RBX_CHECK(a) ===> Game:GetService('TestService'):Check(a,[==[test failed: a]==])
+		// ARL_CHECK(a) ===> Game:GetService('TestService'):Check(a,[==[test failed: a]==])
 
 		using namespace std;
 		string::const_iterator start = line.begin() + i + strlen(macro);
@@ -660,10 +660,10 @@ private:
 
 		// start points to (
 		// stop points after )
-		RBXASSERT(*start == '(');
-		RBXASSERT(*(stop-1) == ')');
+		ARLASSERT(*start == '(');
+		ARLASSERT(*(stop-1) == ')');
 
-		// First write everything before RBX_CHECK
+		// First write everything before ARL_CHECK
 		result << line.substr(0, i);
 
 		// Now substitute the function call
@@ -683,13 +683,13 @@ private:
 		return true;
 	}
 
-	bool doRBX_Test_Throw(int lineNumber, const std::string& line, const char* macro, const char* f)
+	bool doARL_Test_Throw(int lineNumber, const std::string& line, const char* macro, const char* f)
 	{
 		int i = line.find(macro);
 		if (i < 0)
 			return false;
 
-		// RBX_CHECK_THROW(a) ===> Game:GetService('TestService'):Check(ypcall(function() a end) == false, 'Exception expected in ' .. [==[a]==])
+		// ARL_CHECK_THROW(a) ===> Game:GetService('TestService'):Check(ypcall(function() a end) == false, 'Exception expected in ' .. [==[a]==])
 
 		using namespace std;
 		string::const_iterator start = line.begin() + i + strlen(macro);
@@ -702,10 +702,10 @@ private:
 
 		// start points to (
 		// stop points after )
-		RBXASSERT(*start == '(');
-		RBXASSERT(*(stop-1) == ')');
+		ARLASSERT(*start == '(');
+		ARLASSERT(*(stop-1) == ')');
 
-		// First write everything before RBX_CHECK_THROW
+		// First write everything before ARL_CHECK_THROW
 		result << line.substr(0, i);
 
 		// Now substitute the function call
@@ -726,13 +726,13 @@ private:
 	}
 
 
-	bool doRBX_Test_NoThrow(int lineNumber, const std::string& line, const char* macro, const char* f)
+	bool doARL_Test_NoThrow(int lineNumber, const std::string& line, const char* macro, const char* f)
 	{
 		int i = line.find(macro);
 		if (i < 0)
 			return false;
 
-		// RBX_CHECK_NO_THROW(a) ===> Game:GetService('TestService'):Check(ypcall(function() a end) == true, 'Exception thrown by ' .. [==[a]==])
+		// ARL_CHECK_NO_THROW(a) ===> Game:GetService('TestService'):Check(ypcall(function() a end) == true, 'Exception thrown by ' .. [==[a]==])
 
 		using namespace std;
 		string::const_iterator start = line.begin() + i + strlen(macro);
@@ -745,10 +745,10 @@ private:
 
 		// start points to (
 		// stop points after )
-		RBXASSERT(*start == '(');
-		RBXASSERT(*(stop-1) == ')');
+		ARLASSERT(*start == '(');
+		ARLASSERT(*(stop-1) == ')');
 
-		// First write everything before RBX_CHECK_THROW
+		// First write everything before ARL_CHECK_THROW
 		result << line.substr(0, i);
 
 		// Now substitute the function call
@@ -768,13 +768,13 @@ private:
 		return true;
 	}
 
-	bool doRBX_SimpleSubstitution(int lineNumber, const std::string& line, const char* macro, const char* f)
+	bool doARL_SimpleSubstitution(int lineNumber, const std::string& line, const char* macro, const char* f)
 	{
 		int i = line.find(macro);
 		if (i < 0)
 			return false;
 
-		// RBX_CHECK(a) ===> Game:GetService('TestService'):Check(a,[==[a]==])
+		// ARL_CHECK(a) ===> Game:GetService('TestService'):Check(a,[==[a]==])
 
 		using namespace std;
 		string::const_iterator start = line.begin() + i + strlen(macro);
@@ -787,10 +787,10 @@ private:
 
 		// start points to (
 		// stop points after )
-		RBXASSERT(*start == '(');
-		RBXASSERT(*(stop-1) == ')');
+		ARLASSERT(*start == '(');
+		ARLASSERT(*(stop-1) == ')');
 
-		// First write everything before RBX_CHECK
+		// First write everything before ARL_CHECK
 		result << line.substr(0, i);
 
 		// Now substitute the function call
@@ -818,9 +818,9 @@ std::string TestService::filterScript( const std::string& source )
 void TestService::output( MessageType type, shared_ptr<Instance> source, int line, const std::string& message)
 {
 	if (source)
-		RBX::StandardOut::singleton()->printf(type, "TestService.%s(%d): %s", source->getName().c_str(), line, message.c_str());
+		ARL::StandardOut::singleton()->printf(type, "TestService.%s(%d): %s", source->getName().c_str(), line, message.c_str());
 	else
-		RBX::StandardOut::singleton()->printf(type, "TestService: %s", message.c_str());
+		ARL::StandardOut::singleton()->printf(type, "TestService: %s", message.c_str());
 }
 
 bool TestService::isPerformanceTest() const
@@ -832,7 +832,7 @@ bool TestService::isPerformanceTest() const
 	return false;
 }
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 void TestService::doCommand( std::string name )
 {
 	getVerb(name)->doIt(DataModel::get(this));
@@ -855,7 +855,7 @@ Verb* TestService::getVerb( std::string name )
 		throw std::runtime_error("Invalid operation");
 	Verb* verb = dm->getVerb(name);
 	if (!verb)
-		throw RBX::runtime_error("Verb %s does not exist", name.c_str());
+		throw ARL::runtime_error("Verb %s does not exist", name.c_str());
 	return verb;
 }
 #endif
@@ -881,7 +881,7 @@ static void addName(Reflection::ValueArray* array, const Name* name)
 	array->push_back(name->str);
 }
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 shared_ptr<const Reflection::ValueArray> TestService::getCommandNames()
 {
 	DataModel* dm = DataModel::get(this);

@@ -30,7 +30,7 @@
 
 LOGVARIABLE(RenderFastCluster, 0)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -44,7 +44,7 @@ const unsigned int kFastClusterBatchGroupMaxVertices = 65535;
 class FastClusterMeshGenerator
 {
 public:
-    FastClusterMeshGenerator(VisualEngine* visualEngine, RBX::Humanoid* humanoid, unsigned int maxBones, bool isFW)
+    FastClusterMeshGenerator(VisualEngine* visualEngine, ARL::Humanoid* humanoid, unsigned int maxBones, bool isFW)
         : visualEngine(visualEngine)
         , humanoidIdentifier(humanoid)
         , maxBonesPerBatch(0)
@@ -73,7 +73,7 @@ public:
         return humanoidIdentifier;
     }
     
-    void addBone(RBX::PartInstance* root)
+    void addBone(ARL::PartInstance* root)
     {
         Bone bone;
         bone.root = root;
@@ -83,9 +83,9 @@ public:
         bones.push_back(bone);
     }
     
-    void addInstance(size_t boneIndex, RBX::PartInstance* part, RBX::Decal* decal, unsigned int materialFlags, RenderQueue::Id renderQueue, RBX::AsyncResult* asyncResult)
+    void addInstance(size_t boneIndex, ARL::PartInstance* part, ARL::Decal* decal, unsigned int materialFlags, RenderQueue::Id renderQueue, ARL::AsyncResult* asyncResult)
     {
-        RBXASSERT(boneIndex < bones.size());
+        ARLASSERT(boneIndex < bones.size());
         
         const HumanoidIdentifier* hi = humanoidIdentifier.humanoid ? &humanoidIdentifier : NULL;
         
@@ -112,7 +112,7 @@ public:
         }
         else
         {
-            RBXASSERT(mg.materialResultFlags == material.flags);
+            ARLASSERT(mg.materialResultFlags == material.flags);
         }
         
         // force a batch break on transparent objects so that transparency sorting works
@@ -153,7 +153,7 @@ public:
         // add new bone if needed
         if (batch.bones.empty() || batch.bones.back() != boneIndex)
         {
-            RBXASSERT(batch.bones.size() < maxBonesPerBatch);
+            ARLASSERT(batch.bones.size() < maxBonesPerBatch);
             
             batch.bones.push_back(boneIndex);
         }
@@ -293,9 +293,9 @@ public:
         
         if (sharedVertexData && sharedIndexData)
         {
-            RBXASSERT(sharedVertexOffset == sharedVertexCount && sharedIndexOffset == sharedIndexCount);
+            ARLASSERT(sharedVertexOffset == sharedVertexCount && sharedIndexOffset == sharedIndexCount);
 
-			RBXPROFILER_SCOPE("Render", "upload");
+			ARLPROFILER_SCOPE("Render", "upload");
             
             sharedGeometry.vertexBuffer->unlock();
             sharedGeometry.indexBuffer->unlock();
@@ -309,7 +309,7 @@ public:
         return bones.size();
     }
     
-    RBX::PartInstance* getBoneRoot(unsigned int i)
+    ARL::PartInstance* getBoneRoot(unsigned int i)
     {
         return bones[i].root;
     }
@@ -324,8 +324,8 @@ public:
 private:
     struct BatchInstance
     {
-        RBX::PartInstance* part;
-        RBX::Decal* decal;
+        ARL::PartInstance* part;
+        ARL::Decal* decal;
         unsigned int localBoneIndex;
         G3D::Vector4 uvOffsetScale;
         GeometryGenerator::Resources resources;
@@ -353,9 +353,9 @@ private:
     
     struct Bone
     {
-        RBX::PartInstance* root;
-        RBX::Vector3 boundsMin;
-        RBX::Vector3 boundsMax;
+        ARL::PartInstance* root;
+        ARL::Vector3 boundsMin;
+        ARL::Vector3 boundsMax;
     };
     
     typedef std::map<std::pair<Material*, RenderQueue::Id>, MaterialGroup> MaterialGroupMap;
@@ -369,7 +369,7 @@ private:
     MaterialGroupMap materialGroups;
     std::vector<Bone> bones;
 
-    RBX::PartInstance* getLastPart(const MaterialGroup& mg)
+    ARL::PartInstance* getLastPart(const MaterialGroup& mg)
     {
         if (mg.batches.empty())
             return NULL;
@@ -413,7 +413,7 @@ private:
             elements.push_back(VertexLayout::Element(0, offsetof(GeometryGenerator::Vertex, edgeDistances), VertexLayout::Format_Float4, VertexLayout::Semantic_Texture, 3));
 
             p = visualEngine->getDevice()->createVertexLayout(elements);
-            RBXASSERT(p);
+            ARLASSERT(p);
         }
         
         return p;
@@ -465,7 +465,7 @@ private:
     
     Extents generateBatchGeometry(const MaterialGroup& mg, const Batch& batch, GeometryGenerator::Vertex* vbptr, unsigned short* ibptr, unsigned int vertexOffset, std::vector<unsigned int>& instanceVertexCount, bool isFW)
     {
-		RBXPROFILER_SCOPE("Render", "generateBatchGeometry");
+		ARLPROFILER_SCOPE("Render", "generateBatchGeometry");
 
         instanceVertexCount.reserve(batch.instances.size());
         
@@ -493,7 +493,7 @@ private:
 
             if (generator.areBoundsValid())
             {
-                RBX::AABox partBounds = generator.getBounds();
+                ARL::AABox partBounds = generator.getBounds();
                 
                 bone.boundsMin = bone.boundsMin.min(partBounds.low());
                 bone.boundsMax = bone.boundsMax.max(partBounds.high());
@@ -507,7 +507,7 @@ private:
 			for (unsigned int i = vertexOffset; i < generator.getVertexCount(); ++i)
 				vbptr[i].uv = vbptr[i].uvStuds;
         
-        RBXASSERT(generator.getVertexCount() == batch.counter.getVertexCount() + vertexOffset && generator.getIndexCount() == batch.counter.getIndexCount());
+        ARLASSERT(generator.getVertexCount() == batch.counter.getVertexCount() + vertexOffset && generator.getIndexCount() == batch.counter.getIndexCount());
         
         return getBounds(boundsMin, boundsMax);
     }
@@ -587,7 +587,7 @@ unsigned int FastClusterEntity::getWorldTransforms4x3(float* buffer, unsigned in
 {
     if (useCache(cacheKey, this)) return 0;
 
-    RBXASSERT(bones.size() <= maxTransforms);
+    ARLASSERT(bones.size() <= maxTransforms);
 
     FastCluster* cluster = static_cast<FastCluster*>(node);
     
@@ -643,7 +643,7 @@ void FastClusterEntity::updateRenderQueue(RenderQueue& queue, const RenderCamera
 float FastClusterEntity::getViewDepth(const RenderCamera& camera) const
 {
     // getViewDepth should only be used for transparency sorting; then there should only be one bone
-    RBXASSERT(bones.size() == 1);
+    ARLASSERT(bones.size() == 1);
         
     const CoordinateFrame& transform = static_cast<FastCluster*>(node)->getTransform(bones[0]);
 
@@ -658,7 +658,7 @@ FastClusterBinding::FastClusterBinding(FastCluster* cluster, const shared_ptr<Pa
 {
     bindProperties(part);
     
-    RBXASSERT(part->getGfxPart() == NULL);
+    ARLASSERT(part->getGfxPart() == NULL);
     part->setGfxPart(cluster);
     
     FASTLOG4(FLog::RenderFastCluster, "FastCluster[%p]: bound part %p to binding %p (%d connections)", cluster, part.get(), this, connections.size());
@@ -713,7 +713,7 @@ void FastClusterBinding::unbind()
 {
     FASTLOG4(FLog::RenderFastCluster, "FastCluster[%p]: unbind part %p from binding %p (%d connections)", cluster, partInstance.get(), this, connections.size());
     
-    RBXASSERT(partInstance->getGfxPart() == cluster || partInstance->getGfxPart() == NULL);
+    ARLASSERT(partInstance->getGfxPart() == cluster || partInstance->getGfxPart() == NULL);
     GfxBinding::unbind();
 }
 
@@ -815,13 +815,13 @@ void FastCluster::checkCluster()
                 if(selfInvalidate == false)
                 {
                     bool result = sceneUpdater->checkAddSeenFastClusters(newspIndex);
-                    RBXASSERT(result);
+                    ARLASSERT(result);
                     priorityInvalidateEntity();
                 }
 
                 if(!sceneUpdater->checkAddSeenFastClusters(spIndex))
                 {
-                    RBXASSERT(selfInvalidate == true); // Should never fail on first added cluster
+                    ARLASSERT(selfInvalidate == true); // Should never fail on first added cluster
                     queueClusterCheck();
                     break;
                 }
@@ -927,7 +927,7 @@ void FastCluster::updateEntity(bool assetsUpdated)
         return;
     }
     
-    RBX::Timer<RBX::Time::Precise> timer;
+    ARL::Timer<ARL::Time::Precise> timer;
 
     // cluster is dirty at this point if updateEntity is a reaction to invalidateEntity, but it may not be dirty if
     // scene updater decides to update the cluster after a requested asset is ready.
@@ -978,7 +978,7 @@ void FastCluster::updateEntity(bool assetsUpdated)
     lightDirty = false;
 
     // we should not do invalidateEntity from updateEntity - this results in excessive invalidations
-    RBXASSERT(!dirty);
+    ARLASSERT(!dirty);
     
     FASTLOG5(FLog::RenderFastCluster, "FastCluster[%p]: updated geometry for %d parts in %d usec (%d entities, %d vertices)", this, parts.size(), (int)(timer.delta().msec() * 1000), entities.size(), totalVertexCount);
 }
@@ -999,7 +999,7 @@ void FastCluster::updateClumpGrouping()
 
 unsigned int FastCluster::updateGeometry(AsyncResult* asyncResult)
 {
-	RBXPROFILER_SCOPE("Render", "updateGeometry");
+	ARLPROFILER_SCOPE("Render", "updateGeometry");
 
     FastClusterMeshGenerator generator(getVisualEngine(), humanoid, parts.size(), fw);
     
@@ -1010,7 +1010,7 @@ unsigned int FastCluster::updateGeometry(AsyncResult* asyncResult)
         generator.addBone(NULL);
     
     // generate geometry for parts
-    RBX::Clump* lastClump = NULL;
+    ARL::Clump* lastClump = NULL;
     
     for (size_t parti = 0; parti < parts.size(); ++parti)
     {
@@ -1101,7 +1101,7 @@ void FastCluster::updateCoordinateFrame(bool recalcLocalBounds)
     
     bool bonesChanged = false;
 
-	RBX::Time now = RBX::Time::nowFast();
+	ARL::Time now = ARL::Time::nowFast();
 
     for (size_t i = 0; i < bones.size(); ++i)
     {

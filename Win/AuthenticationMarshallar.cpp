@@ -38,7 +38,7 @@ std::string AuthenticationMarshallar::Authenticate(const char* url, const char* 
 		// Post our ticket back to Roblox to suggest a re-authentication
 		std::string result;
 		{
-			RBX::Http http(buildUrl(url, ticket).c_str());
+			ARL::Http http(buildUrl(url, ticket).c_str());
             http.setAuthDomain(domain);
 			http.get(result);
 		}
@@ -53,9 +53,9 @@ std::string AuthenticationMarshallar::Authenticate(const char* url, const char* 
 	}
 }
 
-RBX::HttpFuture AuthenticationMarshallar::AuthenticateAsync(const char* url, const char* ticket)
+ARL::HttpFuture AuthenticationMarshallar::AuthenticateAsync(const char* url, const char* ticket)
 {
-    RBX::HttpOptions options;
-	options.addHeader(RBX::Http::kRBXAuthenticationNegotiation, domain);
-	return RBX::HttpAsync::get(buildUrl(url, ticket), options);
+    ARL::HttpOptions options;
+	options.addHeader(ARL::Http::kARLAuthenticationNegotiation, domain);
+	return ARL::HttpAsync::get(buildUrl(url, ticket), options);
 }

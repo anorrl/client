@@ -24,13 +24,13 @@ DYNAMIC_FASTFLAG(PhysicsSenderUseOwnerTimestamp)
 DYNAMIC_FASTFLAG(CleanUpInterpolationTimestamps)
 SYNCHRONIZED_FASTFLAG(PhysicsPacketSendWorldStepTimestamp)
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 void DirectPhysicsReceiver::receivePacket(RakNet::BitStream& inBitstream, RakNet::Time timeStamp, ReplicatorStats::PhysicsReceiverStats* _stats)
 {
 	RakNet::Time interpolationTimestamp;
-	RBX::RemoteTime remoteSendTime;
+	ARL::RemoteTime remoteSendTime;
 	if (SFFlag::getPhysicsPacketSendWorldStepTimestamp())
 	{
 		inBitstream >> interpolationTimestamp;
@@ -45,7 +45,7 @@ void DirectPhysicsReceiver::receivePacket(RakNet::BitStream& inBitstream, RakNet
 
 	RakNet::Time now = RakNet::GetTime(); 	
 
-	//RBXASSERT(now >= timeStamp); // Defect filed: DE6810
+	//ARLASSERT(now >= timeStamp); // Defect filed: DE6810
 	if (!SFFlag::getPhysicsPacketSendWorldStepTimestamp() && DFFlag::PhysicsSenderUseOwnerTimestamp && timeStamp > now)
 	{
 		timeStamp = now;
@@ -53,7 +53,7 @@ void DirectPhysicsReceiver::receivePacket(RakNet::BitStream& inBitstream, RakNet
 	
 	RakNet::Time deltaTime = SFFlag::getPhysicsPacketSendWorldStepTimestamp() ? now - interpolationTimestamp : now - timeStamp;//
 
-	// local RBX time when the packet was sent
+	// local ARL time when the packet was sent
 	Time localTime = replicator->raknetTimeToRbxTime(timeStamp);
 
 	while (true)
@@ -93,7 +93,7 @@ void DirectPhysicsReceiver::receivePacket(RakNet::BitStream& inBitstream, RakNet
             {
                 // old packet, discard
                 if (replicator->settings().printPhysicsErrors) {
-                    RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "Discard old packet");
+                    ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "Discard old packet");
                 }
                 part.reset();
             }
@@ -103,7 +103,7 @@ void DirectPhysicsReceiver::receivePacket(RakNet::BitStream& inBitstream, RakNet
                 RakNet::Time& partTime = part->raknetTime;
                 if (partTime > (SFFlag::getPhysicsPacketSendWorldStepTimestamp() ? interpolationTimestamp : timeStamp) ) {
                     if (replicator->settings().printPhysicsErrors) {
-                        RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "Physics-in old packet");
+                        ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "Physics-in old packet");
                     }
                     part.reset();
                 }

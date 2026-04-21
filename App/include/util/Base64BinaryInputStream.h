@@ -2,7 +2,7 @@
 
 #include "boost/cstdint.hpp"
 
-namespace RBX {
+namespace ARL {
 
 struct Base64BinaryInputStream {
 private:

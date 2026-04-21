@@ -1,5 +1,5 @@
-#ifndef RBXG3D_FRUSTUM_H
-#define RBXG3D_FRUSTUM_H
+#ifndef ARLG3D_FRUSTUM_H
+#define ARLG3D_FRUSTUM_H
 
 #include "G3D/Plane.h"
 #include "G3D/Vector3.h"
@@ -9,7 +9,7 @@ namespace G3D
 	class CoordinateFrame;
 }
 
-namespace RBX {
+namespace ARL {
 
 class Extents;
 
@@ -42,11 +42,11 @@ public:
 	bool containsPoint(const G3D::Vector3& point) const;
 	bool intersectsSphere(const G3D::Vector3& center, float radius) const;
 
-	bool containsAABB(const RBX::Extents& aabb) const;
-    bool intersectsAABB(const RBX::Extents& aabb, const G3D::CoordinateFrame& extentsFrame) const;
-	bool containsAABB(const RBX::Extents& aabb, const G3D::CoordinateFrame& extentsFrame) const;
+	bool containsAABB(const ARL::Extents& aabb) const;
+    bool intersectsAABB(const ARL::Extents& aabb, const G3D::CoordinateFrame& extentsFrame) const;
+	bool containsAABB(const ARL::Extents& aabb, const G3D::CoordinateFrame& extentsFrame) const;
 };
 
-}	// namespace RBX
+}	// namespace ARL
 
 #endif

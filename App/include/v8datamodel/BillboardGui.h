@@ -7,7 +7,7 @@
 #include "V8DataModel/ModelInstance.h"
 #include "V8DataModel/PartInstance.h"
 
-namespace RBX {
+namespace ARL {
 	class PartInstance;
 	class ViewportBillboarder;
 

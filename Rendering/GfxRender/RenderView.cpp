@@ -16,7 +16,7 @@
 #include "V8DataModel/RenderHooksService.h"
 #include "V8DataModel/Stats.h"
 #include "v8datamodel/DataModel.h"
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 #   include "v8datamodel/PlatformService.h"
 #endif
 #include "v8world/World.h"
@@ -46,7 +46,7 @@
 #include "MaterialGenerator.h"
 #include "GeometryGenerator.h"
 
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
 #include "ObjectExporter.h"
 #endif
 #include "TextureAtlas.h"
@@ -74,7 +74,7 @@
 
 #include "GfxBase/AdornBillboarder.h"
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include <mmsystem.h>
 #endif
 
@@ -133,7 +133,7 @@ extern "C"
 #endif
 
 
-namespace RBX
+namespace ARL
 {
 
 void RenderView_InitModule()
@@ -163,13 +163,13 @@ void RenderView_ShutdownModule()
 
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
 double busyWaitLoop(double ms);
 
-class FrameRateManagerStatsItem : public RBX::Stats::Item
+class FrameRateManagerStatsItem : public ARL::Stats::Item
 {
 	int qualityLevel;
 	bool autoQuality;
@@ -189,7 +189,7 @@ public:
 
 	static shared_ptr<FrameRateManagerStatsItem> create()
 	{
-		shared_ptr<FrameRateManagerStatsItem> result = RBX::Creatable<RBX::Instance>::create<FrameRateManagerStatsItem>();
+		shared_ptr<FrameRateManagerStatsItem> result = ARL::Creatable<ARL::Instance>::create<FrameRateManagerStatsItem>();
 
 		result->createBoundChildItem("QualityLevel", result->qualityLevel);
 		result->createBoundChildItem("AutoQuality", result->autoQuality);
@@ -202,7 +202,7 @@ public:
 
 	void updateData(FrameRateManager* frm)
 	{
-		RBX::FrameRateManager::Metrics metrics = frm->GetMetrics();
+		ARL::FrameRateManager::Metrics metrics = frm->GetMetrics();
 
 		qualityLevel = metrics.QualityLevel;
 		autoQuality = metrics.AutoQuality;
@@ -273,7 +273,7 @@ RenderView::RenderView(CRenderSettings::GraphicsMode graphicsMode, OSContext* co
 {
 	FASTLOG1(FLog::ViewRbxInit, "RenderView created - %p", this);
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 	timeBeginPeriod(1);
 #endif
 
@@ -289,7 +289,7 @@ RenderView::RenderView(CRenderSettings::GraphicsMode graphicsMode, OSContext* co
     }
 
     if (!translatioFound)
-        throw RBX::runtime_error("Not supported graphics mode");
+        throw ARL::runtime_error("Not supported graphics mode");
     
     const DeviceCaps& caps = device->getCaps();
 
@@ -314,7 +314,7 @@ void RenderView::initResources()
 	FASTLOG(FLog::ViewRbxInit, "RenderView::initResources finish");
 }
 
-void RenderView::bindWorkspace(boost::shared_ptr<RBX::DataModel> dataModel)
+void RenderView::bindWorkspace(boost::shared_ptr<ARL::DataModel> dataModel)
 {
 	if (this->dataModel == dataModel)
 		return;
@@ -370,7 +370,7 @@ void RenderView::bindWorkspace(boost::shared_ptr<RBX::DataModel> dataModel)
         {
 			frm->StartCapturingMetrics();
 
-            RBX::Stats::StatsService* stats = RBX::ServiceProvider::create<RBX::Stats::StatsService>(this->dataModel.get());
+            ARL::Stats::StatsService* stats = ARL::ServiceProvider::create<ARL::Stats::StatsService>(this->dataModel.get());
 
             frameRateManagerStatsItem = FrameRateManagerStatsItem::create();
             frameRateManagerStatsItem->setName("FrameRateManager");
@@ -383,7 +383,7 @@ void RenderView::bindWorkspace(boost::shared_ptr<RBX::DataModel> dataModel)
             this->dataModel->setInitialScreenSize(computeCanvasSize(visualEngine->getDevice()));
         }
 
-		RBX::RenderHooksService* service = RBX::ServiceProvider::find<RBX::RenderHooksService>(dataModel.get());
+		ARL::RenderHooksService* service = ARL::ServiceProvider::find<ARL::RenderHooksService>(dataModel.get());
 		service->setRenderHooks(this);
 
 		service->reloadShadersSignal.connect(boost::bind(&RenderView::reloadShaders, this));
@@ -398,11 +398,11 @@ void RenderView::bindWorkspace(boost::shared_ptr<RBX::DataModel> dataModel)
 
 RenderView::~RenderView(void)
 {	
-	bindWorkspace(boost::shared_ptr<RBX::DataModel>());
+	bindWorkspace(boost::shared_ptr<ARL::DataModel>());
 
     sendFeatureLevelStats();
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 	timeEndPeriod(1);
 #endif
 	FASTLOG(FLog::ViewRbxInit, "RenderView destroyed");
@@ -413,7 +413,7 @@ void RenderView::sendFeatureLevelStats()
     if (visualEngine.get() && visualEngine.get()->getDevice())
     {
         std::string osAndFeatureLvl = SystemUtil::osPlatform() + " " + visualEngine.get()->getDevice()->getFeatureLevel();
-        RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "GraphicsFeatureLevel", osAndFeatureLvl.c_str());
+        ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "GraphicsFeatureLevel", osAndFeatureLvl.c_str());
     }
 }
 
@@ -426,7 +426,7 @@ FrameRateManager* RenderView::getFrameRateManager()
 	return visualEngine->getFrameRateManager();
 }
 
-RBX::Instance* RenderView::getWorkspace() 
+ARL::Instance* RenderView::getWorkspace() 
 {
 	return dataModel->getWorkspace(); 
 }	
@@ -452,7 +452,7 @@ void RenderView::updateFog()
 {
 	static const float TAU = 0.04f; // dampening factor as in:   exp( -x * TAU )
 
-	RBX::Lighting* lighting = ServiceProvider::create<RBX::Lighting>(dataModel.get());
+	ARL::Lighting* lighting = ServiceProvider::create<ARL::Lighting>(dataModel.get());
 
 	if (FFlag::RenderFixFog)
 	{
@@ -541,7 +541,7 @@ void RenderView::updateVR()
 	if (!FFlag::RenderVR)
 		return;
 
-	RBXPROFILER_SCOPE("Render", "updateVR");
+	ARLPROFILER_SCOPE("Render", "updateVR");
 
     if (DeviceVR* vr = visualEngine->getDevice()->getVR())
 	{
@@ -566,7 +566,7 @@ void RenderView::updateVR()
 		// Setup interaction between DataModel and game
 		if (UserInputService* uis = ServiceProvider::find<UserInputService>(dataModel.get()))
 		{
-            RBXPROFILER_SCOPE("Render", "DM");
+            ARLPROFILER_SCOPE("Render", "DM");
 
 			uis->setVREnabled(true);
 
@@ -666,13 +666,13 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 			
 		if (!stats) return "unknown pass";
 			
-		return RBX::format("%d (%df %dv %dp %ds)",
+		return ARL::format("%d (%df %dv %dp %ds)",
 			stats->batches, stats->faces, stats->vertices, stats->passChanges, stats->stateChanges);
 	}
 
 	if (name == "RenderStatsResolution")
 	{
-		return RBX::format("%u x %u", visualEngine->getViewWidth(), visualEngine->getViewHeight());
+		return ARL::format("%u x %u", visualEngine->getViewWidth(), visualEngine->getViewHeight());
 	}
 
     if (name == "RenderStatsTimeTotal")
@@ -684,7 +684,7 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 		double performAve = performAverage.getStats().average;
 		double presentAve = presentAverage.getStats().average;
 
-        return RBX::format("%.1f ms (prepare %.1f, perform %.1f, present %.1f, bonus %.1f)",
+        return ARL::format("%.1f ms (prepare %.1f, perform %.1f, present %.1f, bonus %.1f)",
             totalWork,
             prepareAve,
             performAve,
@@ -704,7 +704,7 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 
 		double frameTime = frm->GetFrameTimeAverage();
 
-		return RBX::format("%.1f ms (work %.1f, marshal %.1f, idle %.1f)",
+		return ARL::format("%.1f ms (work %.1f, marshal %.1f, idle %.1f)",
 			frameTime,
             workAve,
             workAve > totalWork ? 0.0 : totalWork - workAve,
@@ -713,10 +713,10 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 	
 	if (name == "RenderStatsGeometryGen")
 	{
-		RBX::RenderStats* stats = visualEngine->getRenderStats();
+		ARL::RenderStats* stats = visualEngine->getRenderStats();
 		SceneUpdater* su = visualEngine->getSceneUpdater();
 
-		return RBX::format("fast %dc %dp mega %dc queue %dc",
+		return ARL::format("fast %dc %dp mega %dc queue %dc",
 			stats->lastFrameFast.clusters, stats->lastFrameFast.parts,
 			stats->lastFrameMegaClusterChunks,
 			int(su->getUpdateQueueSize()));
@@ -724,9 +724,9 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 	
 	if (name == "RenderStatsClusters")
 	{
-		RBX::RenderStats* stats = visualEngine->getRenderStats();
+		ARL::RenderStats* stats = visualEngine->getRenderStats();
 
-		return RBX::format("fw %dc %dp; dyn %dc %dp; hum %dc %dp",
+		return ARL::format("fw %dc %dp; dyn %dc %dp; hum %dc %dp",
 			stats->clusterFastFW.clusters, stats->clusterFastFW.parts,
 			stats->clusterFast.clusters, stats->clusterFast.parts,
 			stats->clusterFastHumanoid.clusters, stats->clusterFastHumanoid.parts);
@@ -736,7 +736,7 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 	{
 		FrameRateManager* frm = visualEngine->getFrameRateManager();
 		
-		return RBX::format("level %d (auto %s)",
+		return ARL::format("level %d (auto %s)",
 			frm->GetQualityLevel(), visualEngine->getSettings()->getQualityLevel() == CRenderSettings::QualityAuto ? "on" : "off");
 	}
 
@@ -744,21 +744,21 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 	{
 		FrameRateManager* frm = visualEngine->getFrameRateManager();
 		
-		return RBX::format("%d (target %d)", (int)frm->GetVisibleBlockCounter(), (int)frm->GetVisibleBlockTarget());
+		return ARL::format("%d (target %d)", (int)frm->GetVisibleBlockCounter(), (int)frm->GetVisibleBlockTarget());
 	}
 
 	if (name == "RenderStatsFRMDistance")
 	{
 		FrameRateManager* frm = visualEngine->getFrameRateManager();
 
-		return RBX::format("render %d view %d (...%d)", (int)sqrt(frm->GetRenderCullSqDistance()), (int)sqrt(frm->GetViewCullSqDistance()), frm->GetRecomputeDistanceDelay());
+		return ARL::format("render %d view %d (...%d)", (int)sqrt(frm->GetRenderCullSqDistance()), (int)sqrt(frm->GetViewCullSqDistance()), frm->GetRecomputeDistanceDelay());
 	}
 
 	if (name == "RenderStatsFRMAdjust")
 	{
 		FrameRateManager* frm = visualEngine->getFrameRateManager();
 		
-		return RBX::format("up %d down %d backoff %d backoff avg %d", frm->GetQualityDelayUp(), frm->GetQualityDelayDown(), frm->GetBackoffCounter(), (int)frm->GetBackoffAverage());
+		return ARL::format("up %d down %d backoff %d backoff avg %d", frm->GetQualityDelayUp(), frm->GetQualityDelayDown(), frm->GetBackoffCounter(), (int)frm->GetBackoffAverage());
 	}
 
 	if (name == "RenderStatsFRMTargetTime")
@@ -766,9 +766,9 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 		FrameRateManager* frm = visualEngine->getFrameRateManager();
 
         if (frm->GetQualityLevel() > 0 && frm->GetQualityLevel() < CRenderSettings::QualityLevelMax-1)
-            return RBX::format("frame %.1f render %1.f throttle %u", frm->GetTargetFrameTimeForNextLevel(), frm->GetTargetRenderTimeForNextLevel(), frm->getPhysicsThrottling());
+            return ARL::format("frame %.1f render %1.f throttle %u", frm->GetTargetFrameTimeForNextLevel(), frm->GetTargetRenderTimeForNextLevel(), frm->getPhysicsThrottling());
         else
-            return RBX::format("frame n/a render n/a throttle %u", frm->getPhysicsThrottling());
+            return ARL::format("frame n/a render n/a throttle %u", frm->getPhysicsThrottling());
 	}
 
 	if (name == "RenderStatsTC")
@@ -778,7 +778,7 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 		const TextureCompositorConfiguration& config = tc->getConfiguration();
 		const TextureCompositorStats& stats = tc->getStatistics();
 		
-		return RBX::format("%dM hq %d (%dM) lq %d (%dM) cache %d (%dM)",
+		return ARL::format("%dM hq %d (%dM) lq %d (%dM) cache %d (%dM)",
 			config.budget / 1048576,
 			stats.liveHQCount, stats.liveHQSize / 1048576,
 			stats.liveLQCount, stats.liveLQSize / 1048576,
@@ -789,7 +789,7 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 	{
 		const TextureManagerStats& stats = visualEngine->getTextureManager()->getStatistics();
 
-		return RBX::format("queued %d live %d (%dM) cache %d (%dM)",
+		return ARL::format("queued %d live %d (%dM) cache %d (%dM)",
 			stats.queuedCount,
 			stats.liveCount, stats.liveSize / 1048576,
 			stats.orphanedCount, stats.orphanedSize / 1048576);
@@ -798,23 +798,23 @@ std::string RenderView::getRenderStatsMetric(const std::string& name)
 	if (name == "RenderStatsLightGrid")
 	{
 		SceneUpdater* su = visualEngine->getSceneUpdater();
-		const RBX::WindowAverage<double,double>::Stats& stats = su->getLightingTimeStats();
+		const ARL::WindowAverage<double,double>::Stats& stats = su->getLightingTimeStats();
 		
 		if (su->isLightingActive())
-			return RBX::format("%d (occupancy %d, oldest: %d), %.1f ms (std: %.1f)", su->getLastLightingUpdates(), su->getLastOccupancyUpdates(), su->getLightOldestAge(), stats.average, sqrt(stats.variance));
+			return ARL::format("%d (occupancy %d, oldest: %d), %.1f ms (std: %.1f)", su->getLastLightingUpdates(), su->getLastOccupancyUpdates(), su->getLightOldestAge(), stats.average, sqrt(stats.variance));
 		else
 			return "inactive";
 	}
 	
 	if (name == "RenderStatsGPU")
 	{
-		return RBX::format("%.1f ms (present: %.1f ms) %s", gpuAverage.getStats().average, presentAverage.getStats().average, visualEngine->getDevice()->getAPIName().c_str());
+		return ARL::format("%.1f ms (present: %.1f ms) %s", gpuAverage.getStats().average, presentAverage.getStats().average, visualEngine->getDevice()->getAPIName().c_str());
 	}
 	
 	return "";
 }
 
-void RenderView::captureMetrics(RBX::RenderMetrics& metrics)
+void RenderView::captureMetrics(ARL::RenderMetrics& metrics)
 {
 	FrameRateManager* frm = visualEngine->getFrameRateManager();
 
@@ -872,7 +872,7 @@ void RenderView::renderPrepare(IMetric* metric)
 
 void RenderView::renderPrepareImpl(IMetric* metric, bool updateViewport)
 {
-	RBXPROFILER_SCOPE("Render", "Prepare");
+	ARLPROFILER_SCOPE("Render", "Prepare");
     
 	Timer<Time::Precise> timer;
 
@@ -918,13 +918,13 @@ void RenderView::renderPrepareImpl(IMetric* metric, bool updateViewport)
     dataModel->getWorkspace()->getWorld()->setFRMThrottle(frm->getPhysicsThrottling());
 
     Lighting* lighting = ServiceProvider::find<Lighting>(dataModel.get());
-    RBXASSERT(lighting);
+    ARLASSERT(lighting);
 
     updateFog();
     visualEngine->getSceneManager()->trackLightingTimeOfDay( lighting->getGameTime() );
 
     Workspace* workspace = dataModel->getWorkspace();
-    RBX::Camera* cameraobj = workspace->getCamera();
+    ARL::Camera* cameraobj = workspace->getCamera();
 
 	Vector3 poi;
 
@@ -991,8 +991,8 @@ void RenderView::renderPrepareImpl(IMetric* metric, bool updateViewport)
 
     visualEngine->getTextureCompositor()->update(poi);
     
-#if defined(RBX_PLATFORM_DURANGO)
-    if(RBX::PlatformService* platformService = ServiceProvider::find<PlatformService>(dataModel.get()))
+#if defined(ARL_PLATFORM_DURANGO)
+    if(ARL::PlatformService* platformService = ServiceProvider::find<PlatformService>(dataModel.get()))
     {
         presetPostProcess(platformService);
     }
@@ -1021,7 +1021,7 @@ void RenderView::renderPrepareImpl(IMetric* metric, bool updateViewport)
 
 void RenderView::drawRecordingFrame(DeviceContext* context)
 {
-    RBXASSERT(videoFrameVertexStreamer);
+    ARLASSERT(videoFrameVertexStreamer);
 
     Framebuffer* fb = visualEngine->getDevice()->getMainFramebuffer();
 
@@ -1044,7 +1044,7 @@ void RenderView::drawRecordingFrame(DeviceContext* context)
 
 void RenderView::drawVRWindow(DeviceContext* context)
 {
-	RBXPROFILER_SCOPE("GPU", "Window");
+	ARLPROFILER_SCOPE("GPU", "Window");
 
 	DeviceVR* vr = visualEngine->getDevice()->getVR();
     Framebuffer* mainFramebuffer = visualEngine->getDevice()->getMainFramebuffer();
@@ -1379,7 +1379,7 @@ void RenderView::drawProfiler(DeviceContext* context)
 	if (!profilerRenderer)
 		profilerRenderer.reset(new ProfilerRenderer(visualEngine.get()));
 
-    RBXPROFILER_SCOPE("GPU", "Profiler");
+    ARLPROFILER_SCOPE("GPU", "Profiler");
 
     Framebuffer* fb = visualEngine->getDevice()->getMainFramebuffer();
 
@@ -1399,7 +1399,7 @@ void RenderView::renderPerform(double timeJobStart)
 
 void RenderView::renderPerformImpl(double timeJobStart, Framebuffer* mainFramebuffer)
 {
-	RBXPROFILER_SCOPE("Render", "Perform");
+	ARLPROFILER_SCOPE("Render", "Perform");
 
     if( !this->dataModel )
         return;
@@ -1434,7 +1434,7 @@ void RenderView::renderPerformImpl(double timeJobStart, Framebuffer* mainFramebu
 
 		if (DeviceVR* vr = visualEngine->getDevice()->getVR())
 		{
-			RBXPROFILER_SCOPE("GPU", "Scene");
+			ARLPROFILER_SCOPE("GPU", "Scene");
 
 			DeviceVR::State vrState = vr->getState();
 
@@ -1447,7 +1447,7 @@ void RenderView::renderPerformImpl(double timeJobStart, Framebuffer* mainFramebu
 
 			for (int eye = 0; eye < 2; ++eye)
 			{
-				RBXPROFILER_SCOPE("GPU", "Eye");
+				ARLPROFILER_SCOPE("GPU", "Eye");
 
 				Framebuffer* eyeFB = vr->getEyeFramebuffer(eye);
 
@@ -1478,7 +1478,7 @@ void RenderView::renderPerformImpl(double timeJobStart, Framebuffer* mainFramebu
             {
                 if (dataModel)
                 {
-                    dataModel->submitTask(boost::bind(&RBX::DataModel::ScreenshotReadyTask, weak_ptr<RBX::DataModel>(dataModel), screenshotFilename), RBX::DataModelJob::Write);
+                    dataModel->submitTask(boost::bind(&ARL::DataModel::ScreenshotReadyTask, weak_ptr<ARL::DataModel>(dataModel), screenshotFilename), ARL::DataModelJob::Write);
                 }
             }
         }
@@ -1496,7 +1496,7 @@ void RenderView::renderPerformImpl(double timeJobStart, Framebuffer* mainFramebu
 
 		drawProfiler(context);
 
-		RBXPROFILER_SCOPE("Render", "Present");
+		ARLPROFILER_SCOPE("Render", "Present");
 
 		visualEngine->getDevice()->endFrame();
 
@@ -1520,7 +1520,7 @@ void RenderView::buildGui(bool buildInGameGui)
 
 RenderStats & RenderView::getRenderStats() { return *visualEngine->getRenderStats(); }
 
-void RenderView::presetLighting(RBX::Lighting* l, const RBX::Color3& extraAmbient, float skylightFactor)
+void RenderView::presetLighting(ARL::Lighting* l, const ARL::Color3& extraAmbient, float skylightFactor)
 {
 	outlinesEnabled = l->getOutlines();
 
@@ -1554,16 +1554,16 @@ void RenderView::presetLighting(RBX::Lighting* l, const RBX::Color3& extraAmbien
 	smgr->setLighting(ambientColor, sunDirection, keyLightColor.min(Color3::white()), fillLightColor.min(Color3::white()));
 }
 
-void RenderView::presetPostProcess(RBX::PlatformService* platformService)
+void RenderView::presetPostProcess(ARL::PlatformService* platformService)
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
     SceneManager *smgr = visualEngine->getSceneManager();
 
     smgr->setPostProcess(platformService->brightness, platformService->contrast, platformService->grayscaleLevel, platformService->blurIntensity, platformService->tintColor);
 #endif
 }
 
-static void waitForContent(RBX::ContentProvider* contentProvider)
+static void waitForContent(ARL::ContentProvider* contentProvider)
 {
 	boost::xtime expirationTime;
 	boost::xtime_get(&expirationTime, boost::TIME_UTC_);
@@ -1576,7 +1576,7 @@ static void waitForContent(RBX::ContentProvider* contentProvider)
 		boost::xtime_get(&xt, boost::TIME_UTC_);
 
 		if(xtime_cmp(xt, expirationTime) == 1)
-			throw RBX::runtime_error("Timeout while waiting for content - 120 seconds");
+			throw ARL::runtime_error("Timeout while waiting for content - 120 seconds");
 
         boost::this_thread::sleep(boost::posix_time::milliseconds(20));
 	}
@@ -1643,8 +1643,8 @@ void RenderView::prepareSceneGraph()
     // wait for all networked resources to load.
     // do this outside scoped lock because this is the IO/network bound task.
 
-    RBX::ContentProvider* contentProvider = visualEngine->getContentProvider();
-    RBX::MeshContentProvider* meshContentProvider = visualEngine->getMeshContentProvider();
+    ARL::ContentProvider* contentProvider = visualEngine->getContentProvider();
+    ARL::MeshContentProvider* meshContentProvider = visualEngine->getMeshContentProvider();
     bool allContentLoaded = false;
 
     do
@@ -1653,7 +1653,7 @@ void RenderView::prepareSceneGraph()
 
         waitForContent(contentProvider);
 
-        RBX::ServiceProvider::find<RBX::Workspace>(dataModel.get())->assemble();
+        ARL::ServiceProvider::find<ARL::Workspace>(dataModel.get())->assemble();
 
 		renderPrepareImpl(NULL, /* updateViewport= */ false);
 
@@ -1732,7 +1732,7 @@ void RenderView::renderThumb(unsigned char* data, int width, int height, bool cr
 //
 bool RenderView::saveScreenshotToFile(std::string& /*output*/ filename)
 {
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
     // TODO: implement screenshot for durango
 #else
 	Framebuffer* framebuffer = visualEngine->getDevice()->getMainFramebuffer();
@@ -1755,7 +1755,7 @@ bool RenderView::saveScreenshotToFile(std::string& /*output*/ filename)
             << std::setw(3) << std::setfill('0') << ((clock() * 1000 / CLOCKS_PER_SEC) % 1000);
         name << ".png";
 
-        boost::filesystem::path path = FileSystem::getUserDirectory(true, RBX::DirPicture) / name.str();
+        boost::filesystem::path path = FileSystem::getUserDirectory(true, ARL::DirPicture) / name.str();
 
         G3D::GImage image(framebuffer->getWidth(), framebuffer->getHeight(), 4);
 		framebuffer->download(image.byte(), image.width() * image.height() * 4);
@@ -1789,7 +1789,7 @@ void RenderView::immediateAssetReload(const std::string& filePath)
 
 bool RenderView::exportSceneThumbJSON(ExporterSaveType saveType, ExporterFormat format, bool encodeBase64, std::string& strOut)
 {
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
     FASTLOG(FLog::ThumbnailRender, "Rendering thumbnail: populating scene graph, trigger resource load");
     prepareSceneGraph();
 
@@ -1801,7 +1801,7 @@ bool RenderView::exportSceneThumbJSON(ExporterSaveType saveType, ExporterFormat 
 
 bool RenderView::exportScene(const std::string& filePath, ExporterSaveType saveType, ExporterFormat format)
 {
-#if !defined(RBX_PLATFORM_DURANGO)
+#if !defined(ARL_PLATFORM_DURANGO)
     return ObjectExporter::exportToFile(filePath, saveType, format, dataModel.get(), visualEngine.get());
 #else
     return false;
@@ -1825,12 +1825,12 @@ void RenderView::garbageCollect()
 	visualEngine->getTextureCompositor()->garbageCollectFull();
     visualEngine->getTextureManager()->garbageCollectFull();
 
-	if (RBX::ContentProvider* contentProvider = visualEngine->getContentProvider())
+	if (ARL::ContentProvider* contentProvider = visualEngine->getContentProvider())
     {
         contentProvider->clearContent();
     }
     
-	if (RBX::MeshContentProvider* meshContentProvider = visualEngine->getMeshContentProvider())
+	if (ARL::MeshContentProvider* meshContentProvider = visualEngine->getMeshContentProvider())
     {
         meshContentProvider->clearContent();
     }

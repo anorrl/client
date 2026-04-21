@@ -61,7 +61,7 @@ namespace
 }
 
 
-namespace RBX
+namespace ARL
 {
     static boost::once_flag legacyContentTableFlag = BOOST_ONCE_INIT;
 	static scoped_ptr<LegacyContentTable> legacyContentTable;
@@ -116,7 +116,7 @@ namespace RBX
 		}
 		else if (isNamedAsset())
 		{
-			RBXASSERT(!baseUrl.empty());
+			ARLASSERT(!baseUrl.empty());
 			if (!baseUrl.empty())
 			{
 				std::stringstream ss;
@@ -127,7 +127,7 @@ namespace RBX
 				}
 				ss << "asset/"
 					<< "?universeId=" << universeId
-					<< "&" << kNamedUniverseAssetAssetNameParam << RBX::Http::urlEncode(id.substr(strlen(kNamedUniverseAssetBase)))
+					<< "&" << kNamedUniverseAssetAssetNameParam << ARL::Http::urlEncode(id.substr(strlen(kNamedUniverseAssetBase)))
 					<< "&skipSigningScripts=1";
 
 				id = ss.str();
@@ -171,7 +171,7 @@ namespace RBX
         
         if (DFFlag::UseNewUrlClass)
         {
-            const RBX::Url parsed = RBX::Url::fromString(url.get());
+            const ARL::Url parsed = ARL::Url::fromString(url.get());
 
             // As of 2016-02-09 ContentId::id strings may have following forms:
             // - http://host/path?query -- a valid HTTP URL
@@ -197,7 +197,7 @@ namespace RBX
 
             static const std::string testsite_domain = "robloxlabs.com";
 
-            const RBX::Url baseUrlParsed = RBX::Url::fromString(baseUrl);
+            const ARL::Url baseUrlParsed = ARL::Url::fromString(baseUrl);
 
             for (int i = 0; i < pathCount; i++)
             {
@@ -242,7 +242,7 @@ namespace RBX
                         }
                     }
 
-                    id = RBX::Url::fromComponents(scheme, host, path, parsed.query(), parsed.fragment()).asString();
+                    id = ARL::Url::fromComponents(scheme, host, path, parsed.query(), parsed.fragment()).asString();
 
                     return true;
                 }

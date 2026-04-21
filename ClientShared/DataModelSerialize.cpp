@@ -19,7 +19,7 @@ DYNAMIC_FASTINTVARIABLE(HttpSendExtendedTimeoutMillis, 600000)
 DYNAMIC_FASTINTVARIABLE(HttpConnectExtendedTimeoutMillis, 600000)
 DYNAMIC_FASTINTVARIABLE(HttpDataSendExtendedTimeoutMillis, 600000)
 
-namespace RBX {
+namespace ARL {
 
 shared_ptr<std::stringstream> DataModel::serializeDataModel(const Instance::SaveFilter saveFilter)
 {
@@ -54,7 +54,7 @@ static void HandleAsyncSaveResult(std::string *response, std::exception *excepti
 
 void DataModel::internalSaveAsync(ContentId contentId, boost::function<void(bool)> resumeFunction)
 {
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 	std::string assetId = contentId.toString().substr(contentId.toString().find("assetid=") + std::string("assetid=").length());
 
 	try
@@ -79,7 +79,7 @@ void DataModel::internalSaveAsync(ContentId contentId, boost::function<void(bool
 
 void DataModel::internalSave(ContentId contentId)
 {
-	RBXASSERT(isInitialized);    //  Show to David or Erik - threading issue
+	ARLASSERT(isInitialized);    //  Show to David or Erik - threading issue
 	std::string assetId = contentId.toString().substr(contentId.toString().find("assetid=") + std::string("assetid=").length());
 	time_t startTime = time(NULL);
 	ReportStatisticWithMessage(GetBaseURL(),"SaveLevel Begin","","assetId",assetId.c_str());
@@ -183,7 +183,7 @@ bool DataModel::uploadPlace(const std::string& uploadUrl, const SaveFilter saveF
 	try
 	{
 
-		if( !RBX::Http::isRobloxSite(uploadUrl.c_str()) )
+		if( !ARL::Http::isRobloxSite(uploadUrl.c_str()) )
 			return uploadPlaceReturn(false, "Url is invalid", resumeFunction, errorFunction);
 
 		// serialize the datamodel
@@ -230,4 +230,4 @@ bool DataModel::uploadPlace(const std::string& uploadUrl, const SaveFilter saveF
 	}
 }
 
-} // namespace RBX
+} // namespace ARL

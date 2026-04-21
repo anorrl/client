@@ -3,7 +3,7 @@
 //
 // Implementation file for Region.iterator
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 namespace VoxelIteratorConstants {
 	const Vector3int16 kFaceDirectionToLocationOffset[6] =
@@ -92,7 +92,7 @@ CellMaterial Region<InternalStorageType>::iterator::getMaterialAtCurrentLocation
 template<class InternalStorageType>
 const Cell& Region<InternalStorageType>::iterator::getNeighborCell(
 		FaceDirection direction) const {
-	RBXASSERT_SLOW(owningRegion.contains(currentLocation + 
+	ARLASSERT_SLOW(owningRegion.contains(currentLocation + 
 		kFaceDirectionToLocationOffset[direction]));
 	return currentCell[
 		InternalStorageType::kFaceDirectionToPointerOffset[direction]];
@@ -101,7 +101,7 @@ const Cell& Region<InternalStorageType>::iterator::getNeighborCell(
 template<class InternalStorageType>
 const Cell& Region<InternalStorageType>::iterator::getNeighborCell(
 	FaceDirection direction1, FaceDirection direction2) const {
-		RBXASSERT_SLOW(owningRegion.contains(currentLocation + 
+		ARLASSERT_SLOW(owningRegion.contains(currentLocation + 
 			kFaceDirectionToLocationOffset[direction1] + kFaceDirectionToLocationOffset[direction2]));
 		return currentCell[
 			InternalStorageType::kFaceDirectionToPointerOffset[direction1] + InternalStorageType::kFaceDirectionToPointerOffset[direction2]];
@@ -110,7 +110,7 @@ const Cell& Region<InternalStorageType>::iterator::getNeighborCell(
 template<class InternalStorageType>
 CellMaterial Region<InternalStorageType>::iterator::getNeighborMaterial(
 		FaceDirection direction) const {
-	RBXASSERT_SLOW(owningRegion.contains(currentLocation + 
+	ARLASSERT_SLOW(owningRegion.contains(currentLocation + 
 		kFaceDirectionToLocationOffset[direction]));
 	const int offset(InternalStorageType::kFaceDirectionToPointerOffset[direction]);
 	return (CellMaterial)readMaterial(&owningRegion.internalStorage->getConstMaterial()[0],
@@ -120,7 +120,7 @@ CellMaterial Region<InternalStorageType>::iterator::getNeighborMaterial(
 template<class InternalStorageType>
 CellMaterial Region<InternalStorageType>::iterator::getNeighborMaterial(
 	FaceDirection direction1, FaceDirection direction2) const {
-		RBXASSERT_SLOW(owningRegion.contains(currentLocation + 
+		ARLASSERT_SLOW(owningRegion.contains(currentLocation + 
 			kFaceDirectionToLocationOffset[direction1] + kFaceDirectionToLocationOffset[direction2));
 		const int offset(InternalStorageType::kFaceDirectionToPointerOffset[direction1] + InternalStorageType::kFaceDirectionToPointerOffset[direction2]);
 		return (CellMaterial)readMaterial(&owningRegion.internalStorage->getConstMaterial()[0],
@@ -131,7 +131,7 @@ CellMaterial Region<InternalStorageType>::iterator::getNeighborMaterial(
 template<class InternalStorageType>
 const Cell& Region<InternalStorageType>::iterator::getArbitraryNeighborCell(
 		const Vector3int16& neighborOffsets) const {
-	RBXASSERT_SLOW(owningRegion.contains(currentLocation + neighborOffsets));
+	ARLASSERT_SLOW(owningRegion.contains(currentLocation + neighborOffsets));
 	return currentCell[
 		InternalStorageType::voxelCoordOffsetToIndexOffset(neighborOffsets)];
 }
@@ -139,7 +139,7 @@ const Cell& Region<InternalStorageType>::iterator::getArbitraryNeighborCell(
 template<class InternalStorageType>
 bool Region<InternalStorageType>::iterator::hasWaterAtNeighbor(
 		const FaceDirection& direction) const {
-	RBXASSERT_SLOW(owningRegion.contains(currentLocation + 
+	ARLASSERT_SLOW(owningRegion.contains(currentLocation + 
 		kFaceDirectionToLocationOffset[direction]));
 	return owningRegion.hasWaterAtSkipAllEmptyCheck(
 		currentCell[InternalStorageType::kFaceDirectionToPointerOffset[direction]],

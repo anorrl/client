@@ -8,13 +8,13 @@
 #include "Util/Math.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class Point;
 	class Body;
 	class Kernel;
 
-	class RBXBaseClass Connector
+	class ARLBaseClass Connector
 	{
 		friend class KernelData;
 		friend class Kernel;

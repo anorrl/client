@@ -2,9 +2,9 @@
 
 #include "v8kernel/ContactConnector.h"
 
-namespace RBX {
+namespace ARL {
 
-	class BuoyancyConnector : public RBX::ContactConnector
+	class BuoyancyConnector : public ARL::ContactConnector
 	{
 	private:
 		Vector3 position;	// force application point in object space

@@ -2,7 +2,7 @@
 
 #include "Util/Velocity.h"
 
-namespace RBX {
+namespace ARL {
 
 	class PV
 	{
@@ -105,4 +105,4 @@ namespace RBX {
 
 	};
 
-} // namespace RBX
+} // namespace ARL

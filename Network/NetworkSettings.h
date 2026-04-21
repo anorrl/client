@@ -5,7 +5,7 @@
 #include "rbx/TaskScheduler.h"
 #include "Util/ObscureValue.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sNetworkSettings;
 	class NetworkSettings
@@ -106,7 +106,7 @@ namespace RBX
         void setShowPartMovementPath(bool value);
         int getTotalNumMovementWayPoint() const {return totalNumMovementWayPoint; }
         void setTotalNumMovementWayPoint(int value);
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
         int getTaskSchedulerFindJobFPS() const {return TaskScheduler::findJobFPS; }
         void setTaskSchedulerFindJobFPS(int value) {TaskScheduler::findJobFPS = value;}
         bool getTaskSchedulerUpdateJobPriorityOnWake() const {return TaskScheduler::updateJobPriorityOnWake; }

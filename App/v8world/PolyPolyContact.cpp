@@ -8,7 +8,7 @@
 #include "V8World/Primitive.h"
 
 
-namespace RBX {
+namespace ARL {
 
 using namespace POLY;
 
@@ -203,7 +203,7 @@ float FaceFacePair::test()
 //void FaceFacePair::computeVertices(FixedArray<Vector3, 8>& verticesInObject, const CoordinateFrame& otherInMe)
 void FaceFacePair::computeVertices(FixedArray<Vector3, CONTACT_ARRAY_SIZE>& verticesInObject, const CoordinateFrame& otherInMe)
 {
-	RBXASSERT(verticesInObject.size() == 0);
+	ARLASSERT(verticesInObject.size() == 0);
 	const Mesh* mesh = otherPoly()->getMesh();
 
 	for (size_t i = 0; i < mesh->numVertices(); ++i) {
@@ -473,7 +473,7 @@ void FaceFacePair::vertexInside(Primitive* pFace,
 															planeFace->getId(),
 															inside->getId()			);			
 
-	RBXASSERT(!Math::isNanInf(answer->computeOverlap()));
+	ARLASSERT(!Math::isNanInf(answer->computeOverlap()));
 	newConnectors.push_back(answer);
 }
 
@@ -490,7 +490,7 @@ FaceEdgeConnector* FaceFacePair::newFaceEdgeConnector(size_t mainFaceEdgeId, con
 														penetratingEdge->computeLine(),
 														mainFaceEdgeId,
 														penetratingEdge->getId()			);		
-	RBXASSERT(!Math::isNanInf(answer->computeOverlap()));
+	ARLASSERT(!Math::isNanInf(answer->computeOverlap()));
 	return answer;
 }	
 
@@ -596,7 +596,7 @@ void EdgeEdgePair::loadConnectors(ConnectorArray& newConnectors)
 		newConnectors.push_back(newEdgeEdgeConnector());
 	}
 	else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 	}
 }
 
@@ -610,7 +610,7 @@ EdgeEdgeConnector* EdgeEdgePair::newEdgeEdgeConnector()
 														bestEdge1->computeLine(),
 														bestEdge0->getId(),
 														bestEdge1->getId()			);		
-	RBXASSERT(answer->computeOverlap());
+	ARLASSERT(answer->computeOverlap());
 	return answer;
 }	
 

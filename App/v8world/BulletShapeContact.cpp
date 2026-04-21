@@ -12,7 +12,7 @@
 #include "BulletCollision/CollisionShapes/btConvexInternalShape.h"
 
 
-namespace RBX {
+namespace ARL {
 
 BulletShapeContact::BulletShapeContact(Primitive* p0, Primitive* p1, World* contactWorld) : Contact(p0, p1)
 		, bulletManifold(NULL)
@@ -30,7 +30,7 @@ BulletShapeContact::~BulletShapeContact()
 		bulletNPAlgorithm->~btCollisionAlgorithm();
 		world->getBulletCollisionDispatcher()->freeCollisionAlgorithm(bulletNPAlgorithm);
 	}
-	RBXASSERT(polyConnectors.size() == 0);
+	ARLASSERT(polyConnectors.size() == 0);
 }
 
 ContactConnector* BulletShapeContact::getConnector(int i)	
@@ -49,7 +49,7 @@ void BulletShapeContact::deleteConnectors(BulletConnectorArray& deleteConnectors
 	removeAllConnectorsFromKernel();
 
 	for (size_t i = 0; i < deleteConnectors.size(); ++i) {
-		RBXASSERT(!deleteConnectors[i]->isInKernel());
+		ARLASSERT(!deleteConnectors[i]->isInKernel());
 		delete deleteConnectors[i];
 	}
 
@@ -153,7 +153,7 @@ void BulletShapeContact::updateClosestFeatures()
 float BulletShapeContact::worstFeatureOverlap()
 {
 	float worstOverlap = -FLT_MAX;		// i.e. not overlapping
-	RBXASSERT(polyConnectors.size() > 0);
+	ARLASSERT(polyConnectors.size() > 0);
 	for (size_t i = 0; i < polyConnectors.size(); ++i) {				// may not have any overlapping features!
 		float overlap = polyConnectors[i]->computeOverlap();				// computeLength returns negative
 		worstOverlap = std::max(worstOverlap, overlap);
@@ -234,7 +234,7 @@ void BulletShapeContact::findClosestFeatures(BulletConnectorArray& newConnectors
 			float dis = manifoldArray[i]->getContactPoint(j).getDistance();
 			if (valid && dis < 0.0f)
 			{
-				RBXASSERT(totalNumConnectors < BULLET_CONTACT_ARRAY_SIZE);
+				ARLASSERT(totalNumConnectors < BULLET_CONTACT_ARRAY_SIZE);
 				if (totalNumConnectors < BULLET_CONTACT_ARRAY_SIZE)
 				{
 					BulletShapeConnector* cylConn = newBulletShapeConnector(getPrimitive(0)->getGeometry()->getBulletCollisionObject(),
@@ -273,7 +273,7 @@ void BulletShapeContact::computeManifoldsWithBulletNarrowPhase(btManifoldArray& 
 		colObj1->getCollisionShape()->getShapeType() == GIMPACT_SHAPE_PROXYTYPE)
 	{
 		//GImpact collision algorithm should only yield 1 Manifold
-		RBXASSERT(manifoldArray.size() <= 1);
+		ARLASSERT(manifoldArray.size() <= 1);
 		if (manifoldArray.size())
 		{
 			manifoldArray[0]->refreshContactPoints(colObj0->getWorldTransform(), colObj1->getWorldTransform());

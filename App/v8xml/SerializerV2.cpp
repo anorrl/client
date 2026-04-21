@@ -22,13 +22,13 @@
 using std::string;
 using std::vector;
 
-using namespace RBX;
+using namespace ARL;
 
 // An implementation of IReferenceBinder
-class ArchiveBinder : public RBX::MergeBinder
+class ArchiveBinder : public ARL::MergeBinder
 {
 private:
-	typedef RBX::MergeBinder Super;
+	typedef ARL::MergeBinder Super;
 	// A map of temporary IDs to Referents
 	std::map<std::string, InstanceHandle> idMap;
 
@@ -45,8 +45,8 @@ public:
 		if (!Super::processID(valueID, source)) {
 			std::string s;
 			bool foundString = valueID->getValue(s);
-			RBXASSERT(foundString);
-//			RBXASSERT(idMap.find(s)==idMap.end());		// This is in BugHost for Erik - implies we are writing references multiple times
+			ARLASSERT(foundString);
+//			ARLASSERT(idMap.find(s)==idMap.end());		// This is in BugHost for Erik - implies we are writing references multiple times
 														// See this file to make the assert pop:
 														// game.Workspace:insertContent("http://roblox.com/asset/?id=2286288")
 
@@ -70,12 +70,12 @@ public:
 	{
 		std::string s;
 		bool foundString = binding.valueIDREF->getValue(s);
-		RBXASSERT(foundString);
+		ARLASSERT(foundString);
 
 		// The following 3 cases should have been handled during the processIDREF phase
-		RBXASSERT (value_IDREF_nil!=s);
-		RBXASSERT (value_IDREF_null!=s);
-		RBXASSERT (s!="");
+		ARLASSERT (value_IDREF_nil!=s);
+		ARLASSERT (value_IDREF_null!=s);
+		ARLASSERT (s!="");
 
 		// Find the InstanceHandle belonging to the requested ID
 		std::map<std::string, InstanceHandle>::iterator iter = idMap.find(s);
@@ -105,7 +105,7 @@ public:
 	}
 };
 
-void SerializerV2::load(std::istream& stream, RBX::DataModel* dataModel)
+void SerializerV2::load(std::istream& stream, ARL::DataModel* dataModel)
 {
 	// See file format spec in CWorkspace::Save()
 	char header[8];
@@ -127,7 +127,7 @@ void SerializerV2::load(std::istream& stream, RBX::DataModel* dataModel)
     }
 }
 
-void SerializerV2::loadInstances(std::istream& stream, RBX::Instances& result)
+void SerializerV2::loadInstances(std::istream& stream, ARL::Instances& result)
 {
 	char header[8];
 	if (!stream.read(header, 8).good())
@@ -148,11 +148,11 @@ void SerializerV2::loadInstances(std::istream& stream, RBX::Instances& result)
         std::auto_ptr<XmlElement> root(machine.parse());
 
         ArchiveBinder binder;
-        loadInstancesXML(root.get(), result, binder, RBX::SerializationCreator);
+        loadInstancesXML(root.get(), result, binder, ARL::SerializationCreator);
     }
 }
 
-void SerializerV2::loadXML(std::istream& stream, RBX::DataModel* dataModel)
+void SerializerV2::loadXML(std::istream& stream, ARL::DataModel* dataModel)
 {
 	TextXmlParser machine(stream.rdbuf());
 	std::auto_ptr<XmlElement> root(machine.parse());
@@ -191,10 +191,10 @@ void SerializerV2::loadXML(std::istream& stream, RBX::DataModel* dataModel)
 
 shared_ptr<Instance> SerializerV2::loadInstanceXML(const XmlElement* itemElement, IReferenceBinder& binder, CreatorRole creatorRole)
 {
-	const RBX::Name* className = NULL;
+	const ARL::Name* className = NULL;
 	if (itemElement->findAttributeValue(tag_class, className))
 	{
-		shared_ptr<Instance> instance = Creatable<Instance>::createByName(*className, RBX::SerializationCreator);
+		shared_ptr<Instance> instance = Creatable<Instance>::createByName(*className, ARL::SerializationCreator);
 		if (instance)
 		{
 			instance->read(itemElement, binder, creatorRole);
@@ -209,7 +209,7 @@ shared_ptr<Instance> SerializerV2::loadInstanceXML(const XmlElement* itemElement
 void SerializerV2::loadInstancesFromText(const XmlElement* root, Instances& result)
 {
 	ArchiveBinder binder;
-	loadInstancesXML(root, result, binder, RBX::SerializationCreator);
+	loadInstancesXML(root, result, binder, ARL::SerializationCreator);
 }
 
 void SerializerV2::loadInstancesXML(const XmlElement* root, Instances& result, IReferenceBinder& binder, CreatorRole creatorRole)
@@ -232,7 +232,7 @@ void SerializerV2::loadInstancesXML(const XmlElement* root, Instances& result, I
 			}
 			binder.resolveRefs();
 			// TODO: ASSERT
-			//RBXASSERT(resolvedBindings);
+			//ARLASSERT(resolvedBindings);
 		}
 	}
 };

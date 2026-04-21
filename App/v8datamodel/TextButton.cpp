@@ -4,7 +4,7 @@
 #include "Util/Rect.h"
 #include "Network/Players.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sGuiTextButton = "TextButton";
 

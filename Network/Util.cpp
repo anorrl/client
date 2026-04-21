@@ -3,12 +3,12 @@
 
 #include <boost/static_assert.hpp>
 
-namespace RBX { 
+namespace ARL { 
 namespace Network {
 
-	const RBX::SystemAddress RakNetToRbxAddress(const RakNet::SystemAddress& raknetAddress) 
+	const ARL::SystemAddress RakNetToRbxAddress(const RakNet::SystemAddress& raknetAddress) 
 	{
-		return RBX::SystemAddress(raknetAddress.GetBinaryAddress(), raknetAddress.GetPort());
+		return ARL::SystemAddress(raknetAddress.GetBinaryAddress(), raknetAddress.GetPort());
 	}
 
 	std::string RakNetAddressToString(const RakNet::SystemAddress& raknetAddress, bool writePort, char portDelineator)

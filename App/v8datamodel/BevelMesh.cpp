@@ -3,14 +3,14 @@
 
 #include "V8DataModel/BevelMesh.h"
 
-using namespace RBX;
+using namespace ARL;
 
-const char* const RBX::sBevelMesh = "BevelMesh";
+const char* const ARL::sBevelMesh = "BevelMesh";
 
 REFLECTION_BEGIN();
-static Reflection::PropDescriptor<BevelMesh, float> desc_bevel("Bevel", category_Data, &BevelMesh::getBevel, &BevelMesh::setBevel, RBX::Reflection::PropertyDescriptor::STREAMING);
-static Reflection::PropDescriptor<BevelMesh, float> desc_roundness("Bevel Roundness", category_Data, &BevelMesh::getRoundness, &BevelMesh::setRoundness, RBX::Reflection::PropertyDescriptor::STREAMING);
-static Reflection::PropDescriptor<BevelMesh, float> desc_bulge("Bulge", category_Data, &BevelMesh::getBulge, &BevelMesh::setBulge, RBX::Reflection::PropertyDescriptor::STREAMING);
+static Reflection::PropDescriptor<BevelMesh, float> desc_bevel("Bevel", category_Data, &BevelMesh::getBevel, &BevelMesh::setBevel, ARL::Reflection::PropertyDescriptor::STREAMING);
+static Reflection::PropDescriptor<BevelMesh, float> desc_roundness("Bevel Roundness", category_Data, &BevelMesh::getRoundness, &BevelMesh::setRoundness, ARL::Reflection::PropertyDescriptor::STREAMING);
+static Reflection::PropDescriptor<BevelMesh, float> desc_bulge("Bulge", category_Data, &BevelMesh::getBulge, &BevelMesh::setBulge, ARL::Reflection::PropertyDescriptor::STREAMING);
 REFLECTION_END();
 
 BevelMesh::BevelMesh()

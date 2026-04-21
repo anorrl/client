@@ -11,7 +11,7 @@
 
 DYNAMIC_LOGGROUP(NetworkJoin)
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 DeserializedTagItem::DeserializedTagItem()
 {
@@ -39,7 +39,7 @@ bool Replicator::TagItem::write(RakNet::BitStream& bitStream)
 
 	bitStream << id;
 	if (replicator.settings().printInstances) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 			"Replication: Sending tag %d to %s", 
 			id,
 			RakNetAddressToString(replicator.remotePlayerId).c_str()
@@ -58,7 +58,7 @@ shared_ptr<DeserializedItem> Replicator::TagItem::read(Replicator& replicator, R
 	inBitstream >> deserializedData->id;
 
 	if (replicator.settings().printInstances) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,
 			"Received tag %d from %s", deserializedData->id,
 			RakNetAddressToString(replicator.remotePlayerId).c_str());
 		}

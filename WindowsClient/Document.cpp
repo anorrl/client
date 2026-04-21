@@ -25,7 +25,7 @@
 
 LOGGROUP(PlayerShutdownLuaTimeoutSeconds)
 
-namespace RBX {
+namespace ARL {
 
 Document::Document() : marshaller(NULL)
 {
@@ -96,7 +96,7 @@ void Document::Shutdown()
 
 
 
-void Document::configureDataModelServices(bool useChat, RBX::DataModel* dataModel)
+void Document::configureDataModelServices(bool useChat, ARL::DataModel* dataModel)
 {
 	if(!dataModel)
 		return;
@@ -115,7 +115,7 @@ void Document::configureDataModelServices(bool useChat, RBX::DataModel* dataMode
 void Document::Initialize(HWND hWnd, bool useChat)
 {
 	marshaller = FunctionMarshaller::GetWindow();
-	game.reset(new RBX::SecurePlayerGame(NULL, GetBaseURL().c_str()));
+	game.reset(new ARL::SecurePlayerGame(NULL, GetBaseURL().c_str()));
 
 	configureDataModelServices(useChat, game->getDataModel().get());
 
@@ -135,9 +135,9 @@ void Document::gameIsLoaded()
 // Executes the 'script' as part of the game initialization.
 void Document::executeScript(HttpFuture& scriptResult, const SharedLauncher::LaunchMode launchMode, const char* vrDevice) const
 {
-	shared_ptr<RBX::DataModel> dataModel = game->getDataModel();
+	shared_ptr<ARL::DataModel> dataModel = game->getDataModel();
 
-#if !defined(LOVE_ALL_ACCESS) && !defined(_NOOPT) && !defined(_DEBUG) && !defined(RBX_STUDIO_BUILD)
+#if !defined(LOVE_ALL_ACCESS) && !defined(_NOOPT) && !defined(_DEBUG) && !defined(ARL_STUDIO_BUILD)
 	dataModel->addHackFlag(HATE_DEBUGGER *
 		VMProtectIsDebuggerPresent(true /*check for kernel debuggers too*/));
 #endif
@@ -151,7 +151,7 @@ void Document::executeScript(HttpFuture& scriptResult, const SharedLauncher::Lau
     }
 	catch(const std::exception& e)
 	{
-		std::string err = RBX::format("Exception occured in Document::executeScript: %s", e.what());
+		std::string err = ARL::format("Exception occured in Document::executeScript: %s", e.what());
 		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, err.c_str());
 
 		if (GuiService*gs = dataModel->create<GuiService>())
@@ -160,7 +160,7 @@ void Document::executeScript(HttpFuture& scriptResult, const SharedLauncher::Lau
 		return;
 	}
 
-#if !defined(LOVE_ALL_ACCESS) && !defined(_NOOPT) && !defined(_DEBUG) && !defined(RBX_STUDIO_BUILD)
+#if !defined(LOVE_ALL_ACCESS) && !defined(_NOOPT) && !defined(_DEBUG) && !defined(ARL_STUDIO_BUILD)
 	dataModel->addHackFlag(HATE_DEBUGGER *
 		VMProtectIsDebuggerPresent(true /*check for kernel debuggers too*/));
 #endif
@@ -172,13 +172,13 @@ void Document::executeScript(HttpFuture& scriptResult, const SharedLauncher::Lau
 	}
 	catch(std::bad_alloc& e)
 	{
-		std::string err = RBX::format("Exception occured in Document::executeScript: %s", e.what());
+		std::string err = ARL::format("Exception occured in Document::executeScript: %s", e.what());
 		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, err.c_str());
 		throw;
 	}
 	catch(std::exception& e)
 	{
-		std::string err = RBX::format("Exception occured in Document::executeScript: %s", e.what());
+		std::string err = ARL::format("Exception occured in Document::executeScript: %s", e.what());
 		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, err.c_str());
 		return;
 	}
@@ -220,4 +220,4 @@ std::string Document::GetSEOStr() const
 	return std::string(defaultImageInfo);
 }
 
-}  // namespace RBX
+}  // namespace ARL

@@ -171,7 +171,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\ClientBase;..\Win;..\Base\include;..\Network;..\Network\include;include;$(CONTRIB_PATH)\boost_1_56_0\include;..\Log\include;..\Rendering\g3d\include;.\sgCore;..\App\include;..\Rendering\RbxG3D\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32;_DEBUG;_LIB;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010100;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32;_DEBUG;_LIB;_WIN32_WINNT=0x0501;NTDDI_VERSION=0x05010100;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -223,7 +223,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>..\ClientBase;..\Win;..\Base\include;..\Network;..\Network\include;include;$(CONTRIB_PATH)\boost_1_56_0\include;..\Log\include;..\Rendering\g3d\include;.\sgCore;..\App\include;..\Rendering\RbxG3D\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32;NDEBUG;_LIB;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32;NDEBUG;_LIB;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
@@ -275,7 +275,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>..\ClientBase;..\Win;..\Base\include;..\Network;..\Network\include;include;$(CONTRIB_PATH)\boost_1_56_0\include;..\Log\include;..\Rendering\g3d\include;.\sgCore;..\App\include;..\Rendering\RbxG3D\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>RBX_PLATFORM_DURANGO;WIN32; NDEBUG; _LIB; _RELEASE; _NOOPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ARL_PLATFORM_DURANGO;WIN32; NDEBUG; _LIB; _RELEASE; _NOOPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>

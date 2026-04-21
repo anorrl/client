@@ -10,7 +10,7 @@ DYNAMIC_FASTINTVARIABLE(MaxContentProviderRunsAccumulated, 20)
 
 LOGGROUP(NetworkStepsMultipliers)
 
-namespace RBX
+namespace ARL
 {
 ContentProviderJob::ContentProviderJob(shared_ptr<DataModel> dataModel, const char* name,
 									   boost::function<TaskScheduler::StepResult(std::string,shared_ptr<const std::string>)> processFunc,
@@ -63,9 +63,9 @@ void ContentProviderJob::addTask(const std::string& id,
 			break;
 		}
 	}
-	catch(RBX::base_exception& e)
+	catch(ARL::base_exception& e)
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "%s failed to load %s because %s", name.c_str(), id.c_str(), e.what());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "%s failed to load %s because %s", name.c_str(), id.c_str(), e.what());
 		errorFunc(id);
 	}
 }
@@ -88,10 +88,10 @@ TaskScheduler::StepResult ContentProviderJob::processTask(const ContentProviderT
 		if(processFunc(task.id, task.data) == TaskScheduler::Done)
 			return TaskScheduler::Done;
 	}
-	catch(RBX::base_exception& e)
+	catch(ARL::base_exception& e)
 	{
 		errorFunc(task.id);
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "%s failed to process %s because %s", name.c_str(), task.id.c_str(), e.what());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "%s failed to process %s because %s", name.c_str(), task.id.c_str(), e.what());
 	}
 	return TaskScheduler::Stepped;
 }
@@ -111,7 +111,7 @@ TaskScheduler::StepResult ContentProviderJob::stepDataModelJob(const Stats& stat
 		{
 			if (!aborted && tasks.pop_if_present(task)) 
 			{
-                RBXPROFILER_SCOPE("Content", "processTask");
+                ARLPROFILER_SCOPE("Content", "processTask");
                 
 				processTask(task);
 			}
@@ -134,7 +134,7 @@ TaskScheduler::StepResult ContentProviderJob::stepDataModelJob(const Stats& stat
 
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

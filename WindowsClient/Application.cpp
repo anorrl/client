@@ -74,7 +74,7 @@ DYNAMIC_FASTFLAGVARIABLE(WindowsInferredCrashReporting, false)
 FASTFLAG(PlaceLauncherUsePOST)
 
 
-namespace RBX {
+namespace ARL {
 
 Application::Application()
 	: logManager("ANORRL", ".Client.dmp", ".Client.crashevent")
@@ -154,7 +154,7 @@ void Application::logsCleanUpHelper()
 
 		WIN32_FIND_DATA findFileData;  
 		HANDLE handle = INVALID_HANDLE_VALUE;
-		handle = FindFirstFile((folders[i] + "RBX*.log").c_str(), &findFileData);
+		handle = FindFirstFile((folders[i] + "ARL*.log").c_str(), &findFileData);
 		if (handle != INVALID_HANDLE_VALUE)
 		{
 			do
@@ -186,7 +186,7 @@ void Application::logsCleanUpHelper()
 
 static HttpFuture fetchJoinScriptAsync(const std::string& url)
 {
-	if (ContentProvider::isUrl(url) && RBX::Network::isTrustedContent(url.c_str()))
+	if (ContentProvider::isUrl(url) && ARL::Network::isTrustedContent(url.c_str()))
 	{
 		return HttpAsync::getWithRetries(url, 5);
 	}
@@ -206,7 +206,7 @@ static std::string readStringValue(shared_ptr<const Reflection::ValueTable> json
     }
     else
     {
-        throw std::runtime_error(RBX::format("Unexpected string result for %s", name.c_str()));
+        throw std::runtime_error(ARL::format("Unexpected string result for %s", name.c_str()));
     }
 }
 
@@ -219,7 +219,7 @@ static int readIntValue(shared_ptr<const Reflection::ValueTable> jsonResult, std
     }
     else
     {
-        throw std::runtime_error(RBX::format("Unexpected int result for %s", name.c_str()));
+        throw std::runtime_error(ARL::format("Unexpected int result for %s", name.c_str()));
     }
 }
 
@@ -231,11 +231,11 @@ Application::RequestPlaceInfoResult Application::requestPlaceInfo(const std::str
         if (FFlag::PlaceLauncherUsePOST)
         {
             std::istringstream input("");
-            RBX::Http(url).post(input, RBX::Http::kContentTypeDefaultUnspecified, false, response);
+            ARL::Http(url).post(input, ARL::Http::kContentTypeDefaultUnspecified, false, response);
         }
         else
         {
-            RBX::Http(url).get(response);
+            ARL::Http(url).get(response);
         }
 
 		std::stringstream jsonStream;
@@ -264,7 +264,7 @@ Application::RequestPlaceInfoResult Application::requestPlaceInfo(const std::str
 			}
 		}
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		StandardOut::singleton()->printf(MESSAGE_ERROR, "Exception when requesting place info: %s. ", e.what());
 	}
@@ -274,7 +274,7 @@ Application::RequestPlaceInfoResult Application::requestPlaceInfo(const std::str
 
 bool Application::requestPlaceInfo(int placeId, std::string& authenticationUrl, std::string& ticket, std::string& scriptUrl) const
 {
-	std::string url = RBX::format("%sGame/PlaceLauncher.ashx?request=RequestGame&placeId=%d&isPartyLeader=false&gender=&isTeleport=true",
+	std::string url = ARL::format("%sGame/PlaceLauncher.ashx?request=RequestGame&placeId=%d&isPartyLeader=false&gender=&isTeleport=true",
 		GetBaseURL().c_str(), placeId);
 
 	int retries = FInt::RequestPlaceInfoRetryCount;
@@ -295,16 +295,16 @@ bool Application::requestPlaceInfo(int placeId, std::string& authenticationUrl, 
 void Application::InferredCrashReportingThreadImpl()
 {
 	int crash = 0;
-	if (RBX::RegistryUtil::read32bitNumber("HKEY_CURRENT_USER\\Software\\GraceRBLX\\ANORRL\\InferredCrash", crash)) 
+	if (ARL::RegistryUtil::read32bitNumber("HKEY_CURRENT_USER\\Software\\GraceRBLX\\ANORRL\\InferredCrash", crash)) 
 	{
 		// We did not had a clean exit last time, report a crash
-		RBX::Analytics::InfluxDb::Points points;
+		ARL::Analytics::InfluxDb::Points points;
 		points.addPoint("Session" , crash ? "Crash" : "Success" );
 		points.report("Windows-RobloxPlayer-SessionReport-Inferred", FInt::InferredCrashReportingHundredthsPercentage);
-		RBX::Analytics::EphemeralCounter::reportCounter(crash ? "Windows-ROBLOXPlayer-Session-Inferred-Crash" : "Windows-ROBLOXPlayer-Session-Inferred-Success", 1, true);
+		ARL::Analytics::EphemeralCounter::reportCounter(crash ? "Windows-ROBLOXPlayer-Session-Inferred-Crash" : "Windows-ROBLOXPlayer-Session-Inferred-Success", 1, true);
 	}
 	
-	RBX::RegistryUtil::write32bitNumber("HKEY_CURRENT_USER\\Software\\GraceRBLX\\ANORRL\\InferredCrash", 1);
+	ARL::RegistryUtil::write32bitNumber("HKEY_CURRENT_USER\\Software\\GraceRBLX\\ANORRL\\InferredCrash", 1);
 }
 
 void Application::LaunchPlaceThreadImpl(const std::string& placeLauncherUrl)
@@ -314,9 +314,9 @@ void Application::LaunchPlaceThreadImpl(const std::string& placeLauncherUrl)
 	std::string joinScriptUrl;
 	Time startTime = Time::nowFast();
 
-	if (boost::shared_ptr<RBX::Game> game = currentDocument->getGame())
+	if (boost::shared_ptr<ARL::Game> game = currentDocument->getGame())
 	{
-		if (boost::shared_ptr<RBX::DataModel> datamodel = game->getDataModel())
+		if (boost::shared_ptr<ARL::DataModel> datamodel = game->getDataModel())
 		{
 			const std::string reportCategory = "PlaceLauncherDuration";
 
@@ -409,8 +409,8 @@ HttpFuture Application::renewLoginAsync(const std::string& authenticationUrl, co
 
 HttpFuture Application::loginAsync(const std::string& userName, const std::string& passWord) const
 {
-	std::string loginUrl = RBX::format("%slogin/v1", GetBaseURL().c_str());
-	std::string postData = RBX::format("{\"username\":\"%s\", \"password\":\"%s\"}", userName.c_str(), passWord.c_str());
+	std::string loginUrl = ARL::format("%slogin/v1", GetBaseURL().c_str());
+	std::string postData = ARL::format("{\"username\":\"%s\", \"password\":\"%s\"}", userName.c_str(), passWord.c_str());
 
 	boost::replace_all(loginUrl, "http", "https");
 	//boost::replace_all(loginUrl, "www", "api");
@@ -474,7 +474,7 @@ void Application::OnGetMinMaxInfo(MINMAXINFO* lpMMI) {
 
 void Application::shareHwnd(HWND hWnd)
 {
-	const char *mainWndStorageName = "RBXMAINWND-4DAAC10B-9C9A-4471-9218-07310329FD0D";
+	const char *mainWndStorageName = "ARLMAINWND-4DAAC10B-9C9A-4471-9218-07310329FD0D";
 
 	mapFileForWnd = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(hWnd), mainWndStorageName);
 	if (mapFileForWnd != NULL) 
@@ -517,9 +517,9 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 		if (id != GEOID_NOT_AVAILABLE)
 			GetGeoInfo(id, GEO_FRIENDLYNAME,  buffer, 256, 0);
 
-		RBX::Analytics::setReporter("PC Player");
-		RBX::Analytics::setLocation((id != GEOID_NOT_AVAILABLE) ? buffer : "");
-		RBX::Analytics::setAppVersion(vi.GetFileVersionAsDotString());
+		ARL::Analytics::setReporter("PC Player");
+		ARL::Analytics::setLocation((id != GEOID_NOT_AVAILABLE) ? buffer : "");
+		ARL::Analytics::setAppVersion(vi.GetFileVersionAsDotString());
 	}
 
 	initializeLogger();
@@ -534,7 +534,7 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 		
 	if(DFFlag::WindowsInferredCrashReporting)
 	{
-		reportingThread.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&Application::InferredCrashReportingThreadImpl, this), "Inferred CrashReporting Thread")));
+		reportingThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&Application::InferredCrashReportingThreadImpl, this), "Inferred CrashReporting Thread")));
 	}
 
 	analyticsPoints.addPoint("BaseInit", Time::nowFastSec());
@@ -595,12 +595,12 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 	bool cheatEngine = vmProtectedDetectCheatEngineIcon();
 
     // Check for Sandboxie.
-    bool sandboxie = RBX::isSandboxie();
+    bool sandboxie = ARL::isSandboxie();
 
     // Do the initial hash
-    RBX::pmcHash.nonce = 0;
+    ARL::pmcHash.nonce = 0;
     initialProgramHash = ProgramMemoryChecker().getLastCompletedHash();
-    RBX::pmcHash.nonce = initialProgramHash;
+    ARL::pmcHash.nonce = initialProgramHash;
 
     LuaSecureDouble::initDouble();
 
@@ -620,13 +620,13 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 	FLog::ResetSynchronizedVariablesState();
 
 	{
-		bool useCurl = rand() % 100 < RBX::ClientAppSettings::singleton().GetValueHttpUseCurlPercentageWinClient();
+		bool useCurl = rand() % 100 < ARL::ClientAppSettings::singleton().GetValueHttpUseCurlPercentageWinClient();
 		FASTLOG1(FLog::Network, "Using CURL = %d", useCurl);
 		
 		//Earlier renewLoginAsync request happened with curl, now if curl is disabled we need to renew the WinInet session
 		if (!useCurl)
 		{
-			RBX::Http::SetUseCurl(false);
+			ARL::Http::SetUseCurl(false);
 			authenticationResult = renewLoginAsync(authenticationUrl, authenticationTicket);
 		}
 
@@ -635,17 +635,17 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 
 	// Read global settings (shared between studio and player)
 	if (!FFlag::DebugUseDefaultGlobalSettings)
-		RBX::GlobalAdvancedSettings::singleton()->loadState("");
+		ARL::GlobalAdvancedSettings::singleton()->loadState("");
 
 	{
-		RBX::Security::Impersonator impersonate(RBX::Security::RobloxGameScript_);
-		RBX::GlobalBasicSettings::singleton()->loadState(globalBasicSettingsPath);
+		ARL::Security::Impersonator impersonate(ARL::Security::RobloxGameScript_);
+		ARL::GlobalBasicSettings::singleton()->loadState(globalBasicSettingsPath);
 	}
 
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
     hookApi();
-    RBX::vehHookLocationHv = reinterpret_cast<uintptr_t>(vehHookLocation);
-    RBX::vehStubLocationHv = reinterpret_cast<uintptr_t>(&RtlDispatchExceptionHook);
+    ARL::vehHookLocationHv = reinterpret_cast<uintptr_t>(vehHookLocation);
+    ARL::vehStubLocationHv = reinterpret_cast<uintptr_t>(&RtlDispatchExceptionHook);
     setupCeLogWatcher();
 #endif
 
@@ -653,14 +653,14 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 
 #if defined(LOVE_ALL_ACCESS) || defined(_DEBUG) || defined(_NOOPT)
     StandardOut::singleton()->printf(MESSAGE_ERROR, "Cheat engine%s detected.", cheatEngine ? "" : " not");
-#else if !defined(RBX_STUDIO_BUILD)
+#else if !defined(ARL_STUDIO_BUILD)
     DataModel::sendStats |= HATE_CHEATENGINE_OLD * cheatEngine;
     if (cheatEngine)
     {
-        RBX::Tokens::sendStatsToken.addFlagSafe(HATE_CHEATENGINE_OLD);
+        ARL::Tokens::sendStatsToken.addFlagSafe(HATE_CHEATENGINE_OLD);
     }
 #endif // LOVE_ALL_ACCESS || _DEBUG || NoOpt
-#if !defined(LOVE_ALL_ACCESS) && !defined(RBX_STUDIO_BUILD) && !defined(_DEBUG) && !defined(_NOOPT)
+#if !defined(LOVE_ALL_ACCESS) && !defined(ARL_STUDIO_BUILD) && !defined(_DEBUG) && !defined(_NOOPT)
     DataModel::sendStats |= HATE_INVALID_ENVIRONMENT * sandboxie;
 #endif
 
@@ -679,22 +679,22 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 	// initialize the TaskScheduler
 	TaskScheduler::singleton().setThreadCount(TaskSchedulerSettings::singleton().getThreadPoolConfig());
 
-	if (RBX::ClientAppSettings::singleton().GetValueGoogleAnalyticsInitFix())
+	if (ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsInitFix())
 	{
-		RBX::Analytics::GoogleAnalytics::lotteryInit(RBX::ClientAppSettings::singleton().GetValueGoogleAnalyticsAccountPropertyIDPlayer(),
-			RBX::ClientAppSettings::singleton().GetValueGoogleAnalyticsLoadPlayer());
+		ARL::Analytics::GoogleAnalytics::lotteryInit(ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsAccountPropertyIDPlayer(),
+			ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsLoadPlayer());
 	}
 	else
 	{
 		int lottery = rand() % 100;
 		FASTLOG1(DFLog::GoogleAnalyticsTracking, "Google analytics lottery number = %d", lottery);
 		// initialize google analytics
-		if (FFlag::GoogleAnalyticsTrackingEnabled && (lottery < RBX::ClientAppSettings::singleton().GetValueGoogleAnalyticsLoadPlayer()))
+		if (FFlag::GoogleAnalyticsTrackingEnabled && (lottery < ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsLoadPlayer()))
 		{
-			RBX::RobloxGoogleAnalytics::setCanUseAnalytics();
+			ARL::RobloxGoogleAnalytics::setCanUseAnalytics();
 
-			RBX::RobloxGoogleAnalytics::init(RBX::ClientAppSettings::singleton().GetValueGoogleAnalyticsAccountPropertyIDPlayer(),
-				RBX::ClientAppSettings::singleton().GetValueGoogleAnalyticsThreadPoolMaxScheduleSize());
+			ARL::RobloxGoogleAnalytics::init(ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsAccountPropertyIDPlayer(),
+				ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsThreadPoolMaxScheduleSize());
 		}
 	}
 
@@ -705,7 +705,7 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 	TCHAR strProfile[MAX_PATH];
 	::GetProfileString("Settings", "lastGFXMode", "", strProfile, MAX_PATH);
 
-	RBX::postMachineConfiguration(GetBaseURL().c_str(), atoi(strProfile));
+	ARL::postMachineConfiguration(GetBaseURL().c_str(), atoi(strProfile));
 
 	RobloxGoogleAnalytics::trackUserTiming(GA_CATEGORY_GAME, GA_CLIENT_START, Time::nowFast().timestampSeconds() * 1000, "Post machine info");
 
@@ -716,7 +716,7 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
     {
         std::stringstream msg;
         msg << std::hex << sizeDiff;
-        RBX::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "VmpInfo", msg.str().c_str());    
+        ARL::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "VmpInfo", msg.str().c_str());    
     }
 
 	if (!scriptIsPlaceLauncher)
@@ -735,7 +735,7 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 		authenticationResult.wait();
 
 		Stats::reportGameStatus("AcquiringGame");
-		launchPlaceThread.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&Application::LaunchPlaceThreadImpl, this, scriptUrl), "Launch Place Thread")));
+		launchPlaceThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&Application::LaunchPlaceThreadImpl, this, scriptUrl), "Launch Place Thread")));
 		analyticsPoints.addPoint("PlaceLauncherThreadStarted", Time::nowFastSec());
 	}
 
@@ -771,8 +771,8 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 	if (startBootstrapperValidationThread)
 		validateBootstrapperVersionThread.reset(new boost::thread(boost::bind(&Application::validateBootstrapperVersion, this)));
 
-	RBX::DiscordHandler::Initialise("1456740539390230609");
-	RBX::DiscordHandler::SetDetails("", "Playing a game");
+	ARL::DiscordHandler::Initialise("1456740539390230609");
+	ARL::DiscordHandler::SetDetails("", "Playing a game");
 
 	return true;
 }
@@ -930,9 +930,9 @@ void Application::Shutdown()
         currentDocument.reset();
     }
 
-	RBX::GlobalBasicSettings::singleton()->saveState();
+	ARL::GlobalBasicSettings::singleton()->saveState();
 	// DE7393 - Do not save GlobalAdvancedSettings, it should be saved only from Studio
-	//RBX::GlobalAdvancedSettings::singleton()->saveState();
+	//ARL::GlobalAdvancedSettings::singleton()->saveState();
 	Game::globalExit();
 
 	// TODO: This is where we would join with the game release thread to make 
@@ -943,7 +943,7 @@ void Application::Shutdown()
 		FunctionMarshaller::ReleaseWindow(marshaller);
 	}
 
-	RBX::RegistryUtil::write32bitNumber("HKEY_CURRENT_USER\\Software\\GraceRBLX\\ANORRL\\InferredCrash", 0);
+	ARL::RegistryUtil::write32bitNumber("HKEY_CURRENT_USER\\Software\\GraceRBLX\\ANORRL\\InferredCrash", 0);
 
 }
 
@@ -996,7 +996,7 @@ bool Application::ParseArguments(const char* argv)
 		{
 			std::string fileName = vm["API"].as<std::string>();
 			std::ofstream stream(fileName.c_str());
-			RBX::Reflection::Metadata::writeEverything(stream);
+			ARL::Reflection::Metadata::writeEverything(stream);
 			return false;
 		}
 		if (vm.count("dmp") > 0)
@@ -1057,7 +1057,7 @@ bool Application::ParseArguments(const char* argv)
                 && (atoiKey % 0x89ABCDEF) == (0x0BADC0DE % 0x89ABCDEF) )
             {
                 protectVmpSections();
-                RBX::Security::patchMain();
+                ARL::Security::patchMain();
                 return false; 
             }
             else if ((atoiKey % 0x01234567) == (0x00A11BAD % 0x01234567) 
@@ -1076,7 +1076,7 @@ bool Application::ParseArguments(const char* argv)
 	}
 	catch(const std::exception& e)
 	{
-		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, RBX::format("Command-line args: %s", argv).c_str());
+		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, ARL::format("Command-line args: %s", argv).c_str());
 		handleError(e);
 		return false;
 	}
@@ -1107,12 +1107,12 @@ void Application::initializeLogger()
 // Inform client to tell server to disconnect game if we are not a signed
 void Application::setWindowFrame()
 {
-#if !defined(LOVE_ALL_ACCESS) && !defined(_DEBUG) && !defined(_NOOPT) && !defined(RBX_STUDIO_BUILD)
+#if !defined(LOVE_ALL_ACCESS) && !defined(_DEBUG) && !defined(_NOOPT) && !defined(ARL_STUDIO_BUILD)
 	/*if (!::VerifyCryptSignature(utf8_decode(moduleFilename)))
 	{
 		// bugus message for security reasons
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, "Important !Loading shader files");
-		RBX::DataModel::sendStats |= HATE_SIGNATURE;
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, "Important !Loading shader files");
+		ARL::DataModel::sendStats |= HATE_SIGNATURE;
 	}*/
 #endif
 }
@@ -1152,11 +1152,11 @@ void Application::uploadCrashData(bool userRequested)
 
 	std::string dmpHandlerUrl = GetDmpUrl(::GetBaseURL(), true);
 	if (logManager.hasCrashLogs(".dmp"))
-		switch (RBX::DebugSettings::singleton().getErrorReporting())
+		switch (ARL::DebugSettings::singleton().getErrorReporting())
 	{
-		case RBX::DebugSettings::DontReport:
+		case ARL::DebugSettings::DontReport:
 			break;
-		case RBX::DebugSettings::Prompt: 
+		case ARL::DebugSettings::Prompt: 
 			{
 				const int MAX_LOADSTRING = 400;
 				TCHAR message[MAX_LOADSTRING];
@@ -1167,7 +1167,7 @@ void Application::uploadCrashData(bool userRequested)
 					logManager.gatherCrashLogs();
 				break;
 			}			
-		case RBX::DebugSettings::Report:
+		case ARL::DebugSettings::Report:
 			dumpErrorUploader->Upload(dmpHandlerUrl);
 			break;
 	}
@@ -1196,7 +1196,7 @@ void Application::waitForNewPlayerProcess(HWND hWnd)
 	// the process
 	if (!event) {
 		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, 
-			RBX::format("Cannot create event to secure single process, GetLastError returned %d", 
+			ARL::format("Cannot create event to secure single process, GetLastError returned %d", 
 			GetLastError()).c_str());
 		return;
 	}
@@ -1206,7 +1206,7 @@ void Application::waitForNewPlayerProcess(HWND hWnd)
 	HANDLE mutex = CreateMutexA(NULL, TRUE, kPreventMultipleRobloxPlayersMutexName);
 	if (NULL == mutex) {
 		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, 
-			RBX::format("Failure creating named (preventing multiple simultaneous processes), "
+			ARL::format("Failure creating named (preventing multiple simultaneous processes), "
 			"GetLastError returned %d", GetLastError()).c_str());
 	}
 
@@ -1228,7 +1228,7 @@ void Application::waitForNewPlayerProcess(HWND hWnd)
 
 	if (WAIT_FAILED == waitResult) {
 		LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, 
-			RBX::format("Failure waiting on named event (preventing multiple simultaneous processes), "
+			ARL::format("Failure waiting on named event (preventing multiple simultaneous processes), "
 			"GetLastError returned %d", GetLastError()).c_str());
 	}
 
@@ -1252,13 +1252,13 @@ void Application::waitForShowWindow(int delay)
 
 		if (waitHandle != NULL) {
 			LogManager::ReportEvent(EVENTLOG_INFORMATION_TYPE, 
-				RBX::format("Waiting for event before showing window: %s", waitEventName.c_str()).c_str());
+				ARL::format("Waiting for event before showing window: %s", waitEventName.c_str()).c_str());
 
-			weak_ptr<RBX::Soundscape::SoundService> weakSoundService;
+			weak_ptr<ARL::Soundscape::SoundService> weakSoundService;
 
-			if (boost::shared_ptr<RBX::Game> game = currentDocument->getGame())
+			if (boost::shared_ptr<ARL::Game> game = currentDocument->getGame())
 			{
-				if (RBX::Soundscape::SoundService* soundService = ServiceProvider::create<RBX::Soundscape::SoundService>(game->getDataModel().get()))
+				if (ARL::Soundscape::SoundService* soundService = ServiceProvider::create<ARL::Soundscape::SoundService>(game->getDataModel().get()))
 				{
 					weakSoundService = weak_from(soundService);
 					soundService->muteAllChannels(true);
@@ -1284,14 +1284,14 @@ void Application::waitForShowWindow(int delay)
 					"Waiting for show window (video preroll) is done and wait result is = 0x%X", waitResult);
 			}
 
-			if (shared_ptr<RBX::Soundscape::SoundService> soundService = weakSoundService.lock())
+			if (shared_ptr<ARL::Soundscape::SoundService> soundService = weakSoundService.lock())
 			{
-				RBX::DataModel::LegacyLock lock(RBX::DataModel::get(soundService.get()), DataModelJob::Write);
+				ARL::DataModel::LegacyLock lock(ARL::DataModel::get(soundService.get()), DataModelJob::Write);
 				soundService->muteAllChannels(false);
 			}
 		} else {
 			LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, 
-				RBX::format("Cannot create listening event (for video preroll): %s error: %d", 
+				ARL::format("Cannot create listening event (for video preroll): %s error: %d", 
 				waitEventName.c_str(), GetLastError()).c_str());
 		}
 	}
@@ -1311,7 +1311,7 @@ void Application::waitForShowWindow(int delay)
 
 void Application::validateBootstrapperVersion()
 {
-	boost::filesystem::path dir = RBX::FileSystem::getUserDirectory(false, RBX::DirExe);
+	boost::filesystem::path dir = ARL::FileSystem::getUserDirectory(false, ARL::DirExe);
 	boost::filesystem::path launcherName = "ANORRLPlayerLauncher.exe";
 	boost::filesystem::path launcherPath = dir / launcherName;
 
@@ -1351,7 +1351,7 @@ void Application::validateBootstrapperVersion()
 
 			if (version.length() > 0)
 			{
-				std::string downloadUrl = RBX::format("%s%s-%s", installHost.c_str(), version.c_str(), launcherName.c_str());
+				std::string downloadUrl = ARL::format("%s%s-%s", installHost.c_str(), version.c_str(), launcherName.c_str());
 				Http http(downloadUrl);
 				std::string file;
 				http.get(file);
@@ -1390,7 +1390,7 @@ void Application::validateBootstrapperVersion()
 			StandardOut::singleton()->printf(MESSAGE_INFO, "validateBootstrapperVersion File Error: %s (%d)", e.what(), e.code().value());
 			RobloxGoogleAnalytics::trackEventWithoutThrottling(GA_CATEGORY_ERROR, "ValidateBootstrapperVersion File Error", e.what());
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
 			StandardOut::singleton()->printf(MESSAGE_INFO, "validateBootstrapperVersion Error: %s", e.what());
 			RobloxGoogleAnalytics::trackEventWithoutThrottling(GA_CATEGORY_ERROR, "ValidateBootstrapperVersion Error", e.what());
@@ -1441,8 +1441,8 @@ void Application::Teleport(const std::string& authenticationUrl,
 	if (FFlag::ReloadSettingsOnTeleport)
 	{
 		// remove invalid children from settings()
-		RBX::GlobalAdvancedSettings::singleton()->removeInvalidChildren();
-		RBX::GlobalBasicSettings::singleton()->removeInvalidChildren();
+		ARL::GlobalAdvancedSettings::singleton()->removeInvalidChildren();
+		ARL::GlobalBasicSettings::singleton()->removeInvalidChildren();
 	}
 
 	{
@@ -1466,7 +1466,7 @@ void Application::InitializeNewGame(HWND hWnd)
     mainView.reset(new View(hWnd));
     mainView->Start(currentDocument->getGame());
 
-    if (boost::shared_ptr<RBX::DataModel> datamodel = currentDocument->getGame()->getDataModel())
+    if (boost::shared_ptr<ARL::DataModel> datamodel = currentDocument->getGame()->getDataModel())
     {
         // Connect our handlers to webview requests from the DM
         if (GuiService* guiService = datamodel->find<GuiService>())
@@ -1490,7 +1490,7 @@ void Application::StartNewGame(HWND hWnd, HttpFuture& scriptResult, bool isTelep
 
     if (isTeleport)
     {
-        RBXASSERT(mainView); // must not kill the view!
+        ARLASSERT(mainView); // must not kill the view!
     }
     else
     {
@@ -1499,7 +1499,7 @@ void Application::StartNewGame(HWND hWnd, HttpFuture& scriptResult, bool isTelep
 
     mainView->Start(currentDocument->getGame());
 
-	if (boost::shared_ptr<RBX::DataModel> datamodel = currentDocument->getGame()->getDataModel())
+	if (boost::shared_ptr<ARL::DataModel> datamodel = currentDocument->getGame()->getDataModel())
 	{
 		currentDocument->startedSignal.connect(boost::bind(&Application::onDocumentStarted, this, _1));
 		datamodel->submitTask(boost::bind(&Document::Start, currentDocument.get(), scriptResult, launchMode, isTeleport, getVRDeviceName()), DataModelJob::Write);
@@ -1526,11 +1526,11 @@ void Application::StartNewGame(HWND hWnd, HttpFuture& scriptResult, bool isTelep
 
 void Application::initVerbs()
 {
-    RBXASSERT(currentDocument);
+    ARLASSERT(currentDocument);
 
     DataModel* dm = currentDocument->getGame()->getDataModel().get();
     leaveGameVerb.reset(new LeaveGameVerb(*mainView, dm));
-    RBX::ViewBase* gfx = mainView->GetGfxView();
+    ARL::ViewBase* gfx = mainView->GetGfxView();
     recordToggleVerb.reset(new RecordToggleVerb(*currentDocument, mainView.get(), currentDocument->getGame().get()));
     screenshotVerb.reset(new ScreenshotVerb(*currentDocument, gfx, currentDocument->getGame().get()));
     toggleFullscreenVerb.reset(new ToggleFullscreenVerb(*mainView, dm, recordToggleVerb->GetVideoControl()));
@@ -1596,4 +1596,4 @@ const char* Application::getVRDeviceName()
 	return mainView ? mainView->GetGfxView()->getVRDeviceName() : 0;
 }
 
-}  // namespace RBX
+}  // namespace ARL

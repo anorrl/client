@@ -20,7 +20,7 @@ FASTINTVARIABLE(RenderTextureManagerBudget, 0)
 FASTINTVARIABLE(RenderTextureManagerBudgetFor4k, 0)
 DYNAMIC_FASTFLAG(ImageFailedToLoadContext)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -41,7 +41,7 @@ static void logError(const ContentId& id, const std::string& context, const char
 	}
 	else 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Image failed to load: %s: %s", id.c_str(), error);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Image failed to load: %s: %s", id.c_str(), error);
 	}
 }
 
@@ -125,7 +125,7 @@ struct TextureRefUniquePredicate
 
 void TextureManager::TextureData::removeUnusedExternalRefs()
 {
-	RBXASSERT(object.isUnique());
+	ARLASSERT(object.isUnique());
 
 	external.erase(std::remove_if(external.begin(), external.end(), TextureRefUniquePredicate()), external.end());
 }
@@ -175,7 +175,7 @@ TextureManager::TextureManager(VisualEngine* visualEngine)
 	fallbackTextures[Fallback_BlackTransparent] = createSingleColorTexture(0, 0, 0, 0);
 
     // Normal maps use BC3N encoding on all platforms except iOS
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
     fallbackTextures[Fallback_NormalMap] = createSingleColorTexture(128, 128, 255, 0);
 #else
     fallbackTextures[Fallback_NormalMap] = createSingleColorTexture(255, 128, 0, 128);
@@ -197,7 +197,7 @@ TextureManager::~TextureManager()
 
 void TextureManager::processPendingRequests()
 {
-    RBXPROFILER_SCOPE("Render", "TextureManager::processPendingRequests");
+    ARLPROFILER_SCOPE("Render", "TextureManager::processPendingRequests");
 
 	unsigned int maxRequests = visualEngine->getSettings()->getEagerBulkExecution() ? ~0u : kTextureManagerRequestsPerFrame;
 
@@ -206,7 +206,7 @@ void TextureManager::processPendingRequests()
 
 	while (pendingImages->pop_if_present(li))
 	{
-		RBXASSERT(outstandingRequests > 0);
+		ARLASSERT(outstandingRequests > 0);
 		outstandingRequests--;
 
         Textures::iterator it = textures.find(li.id);
@@ -214,8 +214,8 @@ void TextureManager::processPendingRequests()
 
         TextureData& data = it->second;
 
-        // RBXASSERT(!data.orphaned); TODO: Why not to load orphaned textures? It makes sense for reloading... except, waiting for the texture to be actually used again, which is better
-		RBXASSERT(data.object.getStatus() == TextureRef::Status_Waiting);
+        // ARLASSERT(!data.orphaned); TODO: Why not to load orphaned textures? It makes sense for reloading... except, waiting for the texture to be actually used again, which is better
+		ARLASSERT(data.object.getStatus() == TextureRef::Status_Waiting);
 
 		if (Image* image = li.image.get())
 		{
@@ -238,7 +238,7 @@ void TextureManager::processPendingRequests()
 				liveCount++;
 				liveSize += getTextureSize(texture);
             }
-            catch (const RBX::base_exception& e)
+            catch (const ARL::base_exception& e)
             {
                 logError(li.id, li.context, e.what());
 
@@ -284,7 +284,7 @@ void TextureManager::cancelPendingRequests()
 
 void TextureManager::garbageCollectIncremental()
 {
-    RBXPROFILER_SCOPE("Render", "TextureManager::garbageCollectIncremental");
+    ARLPROFILER_SCOPE("Render", "TextureManager::garbageCollectIncremental");
 
     // To catch up with allocation rate we need to visit the number of allocated elements since last run plus a small constant
 	size_t visitCount = std::min(textures.size(), std::max(textures.size(), gcSizeLast) - gcSizeLast + 8);
@@ -362,7 +362,7 @@ TextureRef TextureManager::load(const ContentId& id, Fallback fallback,  const s
     data.id = id;
 	data.object = result ? TextureRef::future(fallbackTextures[fallback]) : TextureRef(fallbackTextures[fallback], TextureRef::Status_Failed);
 
-	RBXASSERT(!data.orphaned);
+	ARLASSERT(!data.orphaned);
 
 	return data.addExternalRef(fallbackTextures[fallback]);
 }
@@ -410,15 +410,15 @@ bool TextureManager::loadAsync(const ContentId& id, const std::string& context)
 			}
 			else
 			{
-                throw RBX::runtime_error("Fetching remote assets is not available");
+                throw ARL::runtime_error("Fetching remote assets is not available");
 			}
         }
         else
         {
-			throw RBX::runtime_error("Unexpected URL");
+			throw ARL::runtime_error("Unexpected URL");
 		}
 	}
-	catch (const RBX::base_exception& e)
+	catch (const ARL::base_exception& e)
 	{
 		logError(id, context, e.what());
 
@@ -445,7 +445,7 @@ void TextureManager::orphanUnusedTextures(size_t visitCount)
 
             size_t textureSize = getTextureSize(data.object.getTexture());
 
-            RBXASSERT(liveCount > 0 && liveSize >= textureSize);
+            ARLASSERT(liveCount > 0 && liveSize >= textureSize);
             liveCount--;
             liveSize -= textureSize;
 
@@ -463,7 +463,7 @@ void TextureManager::collectOrphanedTextures(unsigned int maxOrphanedSize)
 {
 	while (orphanedSize > maxOrphanedSize)
 	{
-		RBXASSERT(orphanedHead && orphanedTail);
+		ARLASSERT(orphanedHead && orphanedTail);
 
         // Remove element from the beginning of the orphaned list
 		TextureData* data = orphanedHead;
@@ -472,7 +472,7 @@ void TextureManager::collectOrphanedTextures(unsigned int maxOrphanedSize)
 
         // Remove texture from cache
 		Textures::iterator it = textures.find(data->id);
-        RBXASSERT(it != textures.end());
+        ARLASSERT(it != textures.end());
 
         textures.erase(it);
 	}
@@ -480,13 +480,13 @@ void TextureManager::collectOrphanedTextures(unsigned int maxOrphanedSize)
 
 void TextureManager::addToOrphanedTail(TextureData* data)
 {
-	RBXASSERT(!data->orphaned && !data->orphanedPrev && !data->orphanedNext);
+	ARLASSERT(!data->orphaned && !data->orphanedPrev && !data->orphanedNext);
 
 	data->orphaned = true;
 
     if (orphanedHead)
     {
-        RBXASSERT(orphanedTail);
+        ARLASSERT(orphanedTail);
 
         data->orphanedPrev = orphanedTail;
         orphanedTail->orphanedNext = data;
@@ -494,7 +494,7 @@ void TextureManager::addToOrphanedTail(TextureData* data)
     }
     else
     {
-        RBXASSERT(!orphanedTail);
+        ARLASSERT(!orphanedTail);
 
         orphanedHead = data;
         orphanedTail = data;
@@ -503,14 +503,14 @@ void TextureManager::addToOrphanedTail(TextureData* data)
 
 void TextureManager::removeFromOrphaned(TextureData* data)
 {
-	RBXASSERT(data->orphaned);
-	RBXASSERT(data->object.getStatus() == TextureRef::Status_Loaded);
+	ARLASSERT(data->orphaned);
+	ARLASSERT(data->object.getStatus() == TextureRef::Status_Loaded);
 	
 	if (data->orphanedPrev)
 		data->orphanedPrev->orphanedNext = data->orphanedNext;
 	else
 	{
-		RBXASSERT(orphanedHead == data);
+		ARLASSERT(orphanedHead == data);
 		orphanedHead = data->orphanedNext;
 	}
 
@@ -518,7 +518,7 @@ void TextureManager::removeFromOrphaned(TextureData* data)
 		data->orphanedNext->orphanedPrev = data->orphanedPrev;
 	else
 	{
-		RBXASSERT(orphanedTail == data);
+		ARLASSERT(orphanedTail == data);
 		orphanedTail = data->orphanedPrev;
 	}
 
@@ -529,7 +529,7 @@ void TextureManager::removeFromOrphaned(TextureData* data)
 	// Update stats
 	size_t textureSize = getTextureSize(data->object.getTexture());
 
-	RBXASSERT(orphanedCount > 0 && orphanedSize >= textureSize);
+	ARLASSERT(orphanedCount > 0 && orphanedSize >= textureSize);
 	orphanedCount--;
 	orphanedSize -= textureSize;
 }
@@ -537,7 +537,7 @@ void TextureManager::removeFromOrphaned(TextureData* data)
 shared_ptr<Texture> TextureManager::createSingleColorTexture(unsigned char r, unsigned char g, unsigned char b, unsigned char a, bool cube)
 {
 	shared_ptr<Texture> result = visualEngine->getDevice()->createTexture(cube ? Texture::Type_Cube : Texture::Type_2D, Texture::Format_RGBA8, 1, 1, 1, 1, Texture::Usage_Static);
-    RBXASSERT(result);
+    ARLASSERT(result);
 
     unsigned char data[] = {r, g, b, a};
 
@@ -665,7 +665,7 @@ void TextureManager::loadImage(const shared_ptr<rbx::safe_queue<LoadedImage> >& 
 	{
 		loadImageError(pendingImages, id, e.what(), context);
 	}
-    catch (const RBX::base_exception& e)
+    catch (const ARL::base_exception& e)
 	{
 		loadImageError(pendingImages, id, e.what(), context);
 	}

@@ -8,7 +8,7 @@
 #include "V8DataModel/Camera.h"
 #include <boost/unordered_map.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	class UserInputBase;
 	class VehicleSeat;

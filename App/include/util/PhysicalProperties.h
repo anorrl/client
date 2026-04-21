@@ -2,7 +2,7 @@
 #include <boost/functional/hash.hpp>
 #include "Util/Math.h"
 
-namespace RBX {
+namespace ARL {
 
 enum PhysicalPropertiesMode
 {
@@ -114,4 +114,4 @@ public:
 
 size_t hash_value(const PhysicalProperties& properties);
 
-}; //Namespace RBX
+}; //Namespace ARL

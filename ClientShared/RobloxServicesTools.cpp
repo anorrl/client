@@ -6,7 +6,7 @@
 #include <sstream>
 
 
-#ifdef RBX_PLATFORM_DURANGO
+#ifdef ARL_PLATFORM_DURANGO
 #define DEFAULT_URL_SCHEMA "https"
 #else
 #define DEFAULT_URL_SCHEMA "http"

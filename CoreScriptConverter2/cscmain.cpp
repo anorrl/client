@@ -288,8 +288,8 @@ int main(int argc, char** argv)
             std::string bytecode = LuaVM::compileCore(source);
 
             string encname = fd.name;
-            string arrayName = RBX::format( "a%04u", j);
-            encname = RBX::rot13(encname);
+            string arrayName = ARL::format( "a%04u", j);
+            encname = ARL::rot13(encname);
 
             printBuffer(arrays, arrayName, bytecode);
 

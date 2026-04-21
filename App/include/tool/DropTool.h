@@ -11,7 +11,7 @@
 	
 */
 
-namespace RBX {
+namespace ARL {
 
 	class Workspace;
 	class PartInstance;
@@ -28,4 +28,4 @@ namespace RBX {
 
 	};
 
-} // namespace RBX
+} // namespace ARL

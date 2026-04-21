@@ -11,12 +11,12 @@
 
 LOGGROUP(Verbs)
 
-namespace RBX {
+namespace ARL {
 
 class Name;
 class VerbContainer;
 
-class RBXInterface IDataState
+class ARLInterface IDataState
 {
 public:
 	// Sets the document's "dirty" bit
@@ -24,7 +24,7 @@ public:
 	virtual bool isDirty() const = 0;
 };
 
-class RBXBaseClass Verb
+class ARLBaseClass Verb
 {
 	const Name& name;
 protected:
@@ -49,10 +49,10 @@ public:
 
     static inline void doItWithChecks(Verb* const verb, IDataState* dataState)
     {
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
         if (verb->getVerbSecurity())
         {
-            RBX::Security::setHackFlagVs<LINE_RAND1>(RBX::Security::hackFlag9, HATE_VERB_SNATCH);
+            ARL::Security::setHackFlagVs<LINE_RAND1>(ARL::Security::hackFlag9, HATE_VERB_SNATCH);
         }
         else
 #endif
@@ -161,4 +161,4 @@ public:
 	}
 };
 
-}  // namespace RBX
+}  // namespace ARL

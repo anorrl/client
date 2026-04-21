@@ -4,7 +4,7 @@
 #include "g3d/BinaryInput.h"
 #include "g3d/GImage.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -23,10 +23,10 @@ public:
 private:
     static void downscaleFast2x2(unsigned char* target, const unsigned char* source, unsigned int sourceWidth, unsigned int sourceHeight)
     {
-        RBXASSERT(sourceWidth > 1 && sourceWidth % 2 == 0);
-        RBXASSERT(sourceHeight > 1 && sourceHeight % 2 == 0);
-        RBXASSERT(reinterpret_cast<uintptr_t>(target) % sizeof(T) == 0);
-        RBXASSERT(reinterpret_cast<uintptr_t>(source) % sizeof(T) == 0);
+        ARLASSERT(sourceWidth > 1 && sourceWidth % 2 == 0);
+        ARLASSERT(sourceHeight > 1 && sourceHeight % 2 == 0);
+        ARLASSERT(reinterpret_cast<uintptr_t>(target) % sizeof(T) == 0);
+        ARLASSERT(reinterpret_cast<uintptr_t>(source) % sizeof(T) == 0);
         
         const T* srcData = reinterpret_cast<const T*>(source);
         T* dstData = reinterpret_cast<T*>(target);
@@ -198,7 +198,7 @@ static void readData(std::istream& in, void* data, unsigned int size)
     in.read(static_cast<char*>(data), size);
 
     if (in.gcount() != size)
-        throw RBX::runtime_error("Unexpected end of file while reading %d bytes", size);
+        throw ARL::runtime_error("Unexpected end of file while reading %d bytes", size);
 }
 
 static void writeData(std::ostream& out, const void* data, unsigned int size)
@@ -227,7 +227,7 @@ static Texture::Type getTypeDDS(const DDS_HEADER& header)
 	if (header.dwCaps2 & DDSCAPS2_VOLUME)
 	{
 		if (header.dwDepth == 0)
-			throw RBX::runtime_error("Invalid DDS header: depth is zero");
+			throw ARL::runtime_error("Invalid DDS header: depth is zero");
 
 		return Texture::Type_3D;
 	}
@@ -236,7 +236,7 @@ static Texture::Type getTypeDDS(const DDS_HEADER& header)
 		if ((header.dwCaps2 & DDSCAPS2_CUBEMAP_FACES) == DDSCAPS2_CUBEMAP_FACES)
 			return Texture::Type_Cube;
 		else
-			throw RBX::runtime_error("Unsupported DDS: not all cubemap faces are present");
+			throw ARL::runtime_error("Unsupported DDS: not all cubemap faces are present");
 	}
 	else
 		return Texture::Type_2D;
@@ -255,7 +255,7 @@ static Texture::Format getFormatDDS(const DDS_HEADER& header)
 		else if (f.dwRGBBitCount == 32)
 			return Texture::Format_RGBA8;
 		else
-			throw RBX::runtime_error("Unsupported DDS: custom non-compressed %d-bit format", f.dwRGBBitCount);
+			throw ARL::runtime_error("Unsupported DDS: custom non-compressed %d-bit format", f.dwRGBBitCount);
 	}
 	else
 	{
@@ -268,9 +268,9 @@ static Texture::Format getFormatDDS(const DDS_HEADER& header)
 		else if (f.dwFourCC == DDS_FOURCC_DXT5)
 			return Texture::Format_BC3;
 		else if (f.dwFourCC == DDS_FOURCC_DX10)
-			throw RBX::runtime_error("Unsupported DDS: DX10 FourCC");
+			throw ARL::runtime_error("Unsupported DDS: DX10 FourCC");
 		else
-			throw RBX::runtime_error("Unsupported DDS: unknown FourCC %d", f.dwFourCC);
+			throw ARL::runtime_error("Unsupported DDS: unknown FourCC %d", f.dwFourCC);
 	}
 }
 
@@ -468,7 +468,7 @@ static void decodeDXTBlock(unsigned char* target, const unsigned char* source, T
         break;
 
 	default:
-        RBXASSERT(false);
+        ARLASSERT(false);
 	}
 }
 
@@ -533,10 +533,10 @@ static Image::LoadResult loadFromDDS(std::istream& in, unsigned int maxTextureSi
     readData(in, &header, sizeof(header));
 
     if (magic != DDS_MAGIC)
-		throw RBX::runtime_error("Invalid DDS header");
+		throw ARL::runtime_error("Invalid DDS header");
 
 	if (header.dwWidth == 0 || header.dwHeight == 0)
-		throw RBX::runtime_error("Invalid DDS header: width/height is zero");
+		throw ARL::runtime_error("Invalid DDS header: width/height is zero");
 
 	Texture::Type type = getTypeDDS(header);
 
@@ -549,12 +549,12 @@ static Image::LoadResult loadFromDDS(std::istream& in, unsigned int maxTextureSi
 	unsigned int mipLevels = header.dwMipMapCount == 0 ? 1 : adjustMipLevels(header.dwMipMapCount, maxMipLevels, (flags & Image::Load_ForceFullMipChain) != 0);
 
 	if ((flags & Image::Load_RoundToPOT) && !(G3D::isPow2(header.dwWidth) && G3D::isPow2(header.dwHeight) && G3D::isPow2(depth)))
-		throw RBX::runtime_error("Unsupported DDS: non-power-of-two image needs to be resized");
+		throw ARL::runtime_error("Unsupported DDS: non-power-of-two image needs to be resized");
 
 	unsigned int skipMips = getMipCountToSkip(header.dwWidth, header.dwHeight, depth, maxTextureSize);
 
     if (skipMips >= mipLevels)
-		throw RBX::runtime_error("Unsupported DDS: %d out of %d mipmap levels need to be skipped", skipMips, mipLevels);
+		throw ARL::runtime_error("Unsupported DDS: %d out of %d mipmap levels need to be skipped", skipMips, mipLevels);
 
 	shared_ptr<Image> image(new Image(type, format, Texture::getMipSide(header.dwWidth, skipMips), Texture::getMipSide(header.dwHeight, skipMips), Texture::getMipSide(depth, skipMips), mipLevels - skipMips));
 
@@ -584,7 +584,7 @@ static Image::LoadResult loadFromDDS(std::istream& in, unsigned int maxTextureSi
 
                     if (format == Texture::Format_RGBA8)
                     {
-                        RBXASSERT(header.ddspf.dwRGBBitCount == 32);
+                        ARLASSERT(header.ddspf.dwRGBBitCount == 32);
 
                         bool sourceBGR = (header.ddspf.dwBBitMask == 0xff);
                         bool targetBGR = (flags & Image::Load_OutputBGR) != 0;
@@ -624,7 +624,7 @@ static Texture::Format getFormatPVR(const PVRTCTexHeader2& header)
     else if (format == kPVRTextureFlagTypeRGBA)
         return Texture::Format_RGBA8;
     else
-		throw RBX::runtime_error("Unsupported PVR: unknown format %d", format);
+		throw ARL::runtime_error("Unsupported PVR: unknown format %d", format);
 }
 
 static Image::LoadResult loadFromPVR(std::istream& in, unsigned int maxTextureSize, unsigned int flags)
@@ -633,13 +633,13 @@ static Image::LoadResult loadFromPVR(std::istream& in, unsigned int maxTextureSi
 	readData(in, &header, sizeof(header));
 
 	if (header.pvrTag != 0x21525650)
-		throw RBX::runtime_error("Invalid PVR header");
+		throw ARL::runtime_error("Invalid PVR header");
 
 	if (header.width == 0 || header.height == 0)
-		throw RBX::runtime_error("Invalid PVR header: width/height is zero");
+		throw ARL::runtime_error("Invalid PVR header: width/height is zero");
 
 	if ((flags & Image::Load_RoundToPOT) && !(G3D::isPow2(header.width) && G3D::isPow2(header.height)))
-		throw RBX::runtime_error("Unsupported PVR: non-power-of-two image needs to be resized");
+		throw ARL::runtime_error("Unsupported PVR: non-power-of-two image needs to be resized");
 
 	Texture::Format format = getFormatPVR(header);
 
@@ -649,7 +649,7 @@ static Image::LoadResult loadFromPVR(std::istream& in, unsigned int maxTextureSi
 	unsigned int skipMips = getMipCountToSkip(header.width, header.height, 1, maxTextureSize);
 
     if (skipMips >= mipLevels)
-		throw RBX::runtime_error("Unsupported PVR: %d out of %d mipmap levels need to be skipped", skipMips, mipLevels);
+		throw ARL::runtime_error("Unsupported PVR: %d out of %d mipmap levels need to be skipped", skipMips, mipLevels);
 
 	shared_ptr<Image> image(new Image(Texture::Type_2D, format, Texture::getMipSide(header.width, skipMips), Texture::getMipSide(header.height, skipMips), 1, mipLevels - skipMips));
 
@@ -682,7 +682,7 @@ static void decodeImage(G3D::GImage& image, G3D::GImage::Format format, std::ist
     in.seekg(0);
 
 	if (in.fail() || pos < 0)
-		throw RBX::runtime_error("Input stream is not seekable");
+		throw ARL::runtime_error("Input stream is not seekable");
 
     unsigned int length = static_cast<unsigned int>(pos);
 
@@ -716,14 +716,14 @@ static Texture::Format getFormatAndConvertImage(G3D::GImage& gimage)
     case 2:
     case 3:
 		gimage.convertToRGBA();
-		RBXASSERT(gimage.channels() == 4);
+		ARLASSERT(gimage.channels() == 4);
 		return Texture::Format_RGBA8;
 
 	case 4:
 		return Texture::Format_RGBA8;
 
 	default:
-		throw RBX::runtime_error("Unsupported image: can't decode image with %d channels", gimage.channels()); 
+		throw ARL::runtime_error("Unsupported image: can't decode image with %d channels", gimage.channels()); 
 	}
 }
 
@@ -744,7 +744,7 @@ static void scaleImage(unsigned char* target, unsigned int targetWidth, unsigned
         break;
 
 	default:
-		throw RBX::runtime_error("Unsupported image: can't scale image with format %d", format);
+		throw ARL::runtime_error("Unsupported image: can't scale image with format %d", format);
 	}
 }
 
@@ -773,7 +773,7 @@ static Image::LoadResult loadGeneric(std::istream& in, G3D::GImage::Format gform
 	decodeImage(gimage, gformat, in);
 
 	if (gimage.width() <= 0 || gimage.height() <= 0)
-		throw RBX::runtime_error("Invalid image: width/height is zero");
+		throw ARL::runtime_error("Invalid image: width/height is zero");
 
 	bool hasAlpha = hasTransparentPixels(gimage);
 	Texture::Format format = getFormatAndConvertImage(gimage);
@@ -832,9 +832,9 @@ Image::Image(Texture::Type type, Texture::Format format, unsigned int width, uns
     , depth(depth)
     , mipLevels(mipLevels)
 {
-    RBXASSERT(width > 0 && height > 0 && depth > 0);
-	RBXASSERT(mipLevels > 0 && mipLevels <= Texture::getMaxMipCount(width, height, depth));
-	RBXASSERT(type == Texture::Type_3D || depth == 1);
+    ARLASSERT(width > 0 && height > 0 && depth > 0);
+	ARLASSERT(mipLevels > 0 && mipLevels <= Texture::getMaxMipCount(width, height, depth));
+	ARLASSERT(type == Texture::Type_3D || depth == 1);
 
 	unsigned int faces = (type == Texture::Type_Cube) ? 6 : 1;
 
@@ -869,8 +869,8 @@ const unsigned char* Image::getMipData(unsigned int index, unsigned int level) c
 {
 	unsigned int faces = (type == Texture::Type_Cube) ? 6 : 1;
 
-    RBXASSERT(index < faces);
-    RBXASSERT(level < mipLevels);
+    ARLASSERT(index < faces);
+    ARLASSERT(level < mipLevels);
 
 	return data.get() + mipOffsets[index * mipLevels + level];
 }
@@ -947,7 +947,7 @@ static void setFormatDDS(DDS_PIXELFORMAT& pf, Texture::Format format)
         break;
 
 	default:
-        RBXASSERT(false);
+        ARLASSERT(false);
 	}
 }
 

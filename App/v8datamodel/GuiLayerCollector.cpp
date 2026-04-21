@@ -11,7 +11,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(FixClippedScrollingFrameNavigation, true)
 
-namespace RBX {
+namespace ARL {
 	const char* const sLayerCollector = "LayerCollector";
 
 	static bool isAllGuiQueuesHaveCorrectNumberOfLayers( std::vector<  std::vector<shared_ptr<GuiBase> > > vectors[])
@@ -33,7 +33,7 @@ namespace RBX {
 	{
 		FASTLOG1(FLog::GuiTargetLifetime, "GuiLayerCollector created: %p", this);
 
-		RBXASSERT(GuiBase::minZIndex() == 0);
+		ARLASSERT(GuiBase::minZIndex() == 0);
 		for (int queueIdx = 0; queueIdx < GUIQUEUE_COUNT; ++queueIdx)
 		{
 			// ignoring zIdx on purpose, just need to push maxZIndex items onto each queue
@@ -55,7 +55,7 @@ namespace RBX {
         Super::onDescendantAdded(instance);
         
 		rebuildGuiVector = true;
-		if (GuiBase* gb = RBX::Instance::fastDynamicCast<GuiBase>(instance))
+		if (GuiBase* gb = ARL::Instance::fastDynamicCast<GuiBase>(instance))
 		{
 			shared_ptr<GuiBase> sharedGb = shared_from(gb);
 			propertyConnections[instance] = instance->propertyChangedSignal.connect(boost::bind(&GuiLayerCollector::descendantPropertyChanged,this,sharedGb, _1));
@@ -83,7 +83,7 @@ namespace RBX {
 	}
 
     // Only render GuiBase objects that are below a PlayerGui
-	void GuiLayerCollector::LoadZ(const shared_ptr<RBX::Instance>& instance, GuiLayers guiVectors[])
+	void GuiLayerCollector::LoadZ(const shared_ptr<ARL::Instance>& instance, GuiLayers guiVectors[])
 	{
 		if (GuiBase* gb = instance->fastDynamicCast<GuiBase>())
 		{
@@ -92,8 +92,8 @@ namespace RBX {
 				const int z = gb->getZIndex();
 				const int queue = gb->getGuiQueue();
                 
-				RBXASSERT(queue < GUIQUEUE_COUNT);
-				RBXASSERT(z <= GuiBase::maxZIndex());
+				ARLASSERT(queue < GUIQUEUE_COUNT);
+				ARLASSERT(z <= GuiBase::maxZIndex());
                 
 				if (queue < GUIQUEUE_COUNT && (size_t)z < guiVectors[queue].size())
 				{
@@ -125,7 +125,7 @@ namespace RBX {
 	{
 		rebuildGuiVector = false;
 
-		RBXASSERT(isAllGuiQueuesHaveCorrectNumberOfLayers(mGuiVectors));
+		ARLASSERT(isAllGuiQueuesHaveCorrectNumberOfLayers(mGuiVectors));
 		for (int queue = 0; queue < GUIQUEUE_COUNT; ++queue)
 		{
 			for (int z = 0; z <= GuiBase::maxZIndex(); ++z)
@@ -158,7 +158,7 @@ namespace RBX {
 			loadZVectors();
 		}
 
-		RBXASSERT(isAllGuiQueuesHaveCorrectNumberOfLayers(mGuiVectors));
+		ARLASSERT(isAllGuiQueuesHaveCorrectNumberOfLayers(mGuiVectors));
 
 		const Rect2D& viewport = adorn->getViewport();
 
@@ -212,7 +212,7 @@ namespace RBX {
 		}
 	}
     
-    GuiResponse GuiLayerCollector::doProcessGesture(const boost::shared_ptr<GuiBase>& guiBase, const UserInputService::Gesture& gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args)
+    GuiResponse GuiLayerCollector::doProcessGesture(const boost::shared_ptr<GuiBase>& guiBase, const UserInputService::Gesture& gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args)
     {
         if (guiBase)
             return guiBase->processGesture(gesture, touchPositions, args);
@@ -222,7 +222,7 @@ namespace RBX {
     
     
     // todo: some copy/paste code here, but can't do boost::bind for performance
-    GuiResponse GuiLayerCollector::processGesture(const UserInputService::Gesture& gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args)
+    GuiResponse GuiLayerCollector::processGesture(const UserInputService::Gesture& gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args)
     {
         if ( gesture == UserInputService::GESTURE_NONE || !args)
             return GuiResponse::notSunk();
@@ -234,7 +234,7 @@ namespace RBX {
         
 		// do in reverse order - top, last first
         
-		RBXASSERT(isAllGuiQueuesHaveCorrectNumberOfLayers(mGuiVectors));
+		ARLASSERT(isAllGuiQueuesHaveCorrectNumberOfLayers(mGuiVectors));
         
 		// loop over z-index then loop over queues within the current index
 		for (int z = GuiBase::maxZIndex(); z >= 0; --z)
@@ -262,7 +262,7 @@ namespace RBX {
 	void GuiLayerCollector::getGuiObjectsForSelection(std::vector<GuiObject*>& guiObjects)
 	{
 		shared_ptr<GuiObject> selectedObject = shared_ptr<GuiObject>();
-		if (GuiService* guiService = RBX::ServiceProvider::find<GuiService>(this))
+		if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 		{
 			selectedObject = shared_from(guiService->getSelectedGuiObject());
 		}
@@ -272,7 +272,7 @@ namespace RBX {
 			loadZVectors();
 		}
 
-		RBXASSERT(isAllGuiQueuesHaveCorrectNumberOfLayers(mGuiVectors));
+		ARLASSERT(isAllGuiQueuesHaveCorrectNumberOfLayers(mGuiVectors));
 
 		ScrollingFrame* myAncestorScrollingFrame;
 		if (selectedObject)
@@ -354,7 +354,7 @@ namespace RBX {
 	{
 		if (event->isMouseUpEvent())
 		{
-			if(UserInputService* inputService = RBX::ServiceProvider::find<UserInputService>(this))
+			if(UserInputService* inputService = ARL::ServiceProvider::find<UserInputService>(this))
 			{
 				if (event->getUserInputType() == event->TYPE_MOUSEBUTTON1)
 				{
@@ -396,7 +396,7 @@ namespace RBX {
 		Instance* mouseOverGuiBase = NULL;
 		int maxZIndex = -1;
         
-        RBXASSERT(isAllGuiQueuesHaveCorrectNumberOfLayers(mGuiVectors));
+        ARLASSERT(isAllGuiQueuesHaveCorrectNumberOfLayers(mGuiVectors));
 
         // loop over z-index then loop over queues within the current index
         for (int z = GuiBase::maxZIndex(); z >= 0; --z) 

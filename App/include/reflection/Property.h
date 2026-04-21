@@ -8,7 +8,7 @@
 #include "V8Xml/Reference.h"	// TODO: Reflection namespace should not know about V8Tree
 #include "boost/cast.hpp"
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
@@ -21,7 +21,7 @@ namespace RBX
 		} Mutability;
 
 		// Base that describes a Property
-		class RBXBaseClass PropertyDescriptor : public MemberDescriptor
+		class ARLBaseClass PropertyDescriptor : public MemberDescriptor
 		{
 		private:
 			unsigned bIsPublic : 1;
@@ -97,17 +97,17 @@ namespace RBX
 			virtual bool isWriteOnly() const = 0;
 			inline bool canXmlRead() const 
 			{ 
-				RBXASSERT(bCanXmlRead == 0 || !isReadOnly()); 
+				ARLASSERT(bCanXmlRead == 0 || !isReadOnly()); 
 				return bCanXmlRead != 0; 
 			}
 			inline bool canXmlWrite() const 
 			{ 
-				RBXASSERT(bCanXmlWrite == 0 || !isWriteOnly()); 
+				ARLASSERT(bCanXmlWrite == 0 || !isWriteOnly()); 
 				return bCanXmlWrite != 0; 
 			}
 			inline bool canReplicate() const 
 			{ 
-				RBXASSERT(bCanReplicate == 0 || (!isReadOnly() && !isWriteOnly())); 
+				ARLASSERT(bCanReplicate == 0 || (!isReadOnly() && !isWriteOnly())); 
 				return bCanReplicate != 0; 
 			}
 			inline bool alwaysClone() const
@@ -154,10 +154,10 @@ namespace RBX
 			// Xml streaming interface
 		public:
 			XmlElement* write(const DescribedBase* instance, bool ignoreWriteProtection = false) const;
-			virtual void read(DescribedBase* instance, const XmlElement* element, RBX::IReferenceBinder& binder) const;
+			virtual void read(DescribedBase* instance, const XmlElement* element, ARL::IReferenceBinder& binder) const;
 		private:
 			virtual void writeValue(const DescribedBase* instance, XmlElement* element) const = 0;
-			virtual void readValue(DescribedBase* instance, const XmlElement* element, RBX::IReferenceBinder& binder) const = 0;
+			virtual void readValue(DescribedBase* instance, const XmlElement* element, ARL::IReferenceBinder& binder) const = 0;
 			//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\/
 		
 		};
@@ -170,7 +170,7 @@ namespace RBX
 			typedef PropertyDescriptor Super;
 
 		public:
-			class RBXInterface GetSet
+			class ARLInterface GetSet
 			{
 			public:
 				virtual bool isReadOnly() const = 0;
@@ -263,7 +263,7 @@ namespace RBX
 			inline ConstProperty(const PropertyDescriptor& descriptor, const DescribedBase* instance)
 				:descriptor(&descriptor),instance(instance)
 			{
-				RBXASSERT(!instance || descriptor.isMemberOf(instance));
+				ARLASSERT(!instance || descriptor.isMemberOf(instance));
 			}
 
 			inline ConstProperty(const ConstProperty& other)
@@ -285,7 +285,7 @@ namespace RBX
 				return (this->descriptor == other.descriptor) && (this->instance == other.instance);
 			}
 
-			inline const RBX::Name& getName() const { 
+			inline const ARL::Name& getName() const { 
 				return descriptor->name; 
 			}
 
@@ -297,7 +297,7 @@ namespace RBX
 			template<typename V>
 			inline V getValue() const
 			{
-				RBXASSERT(isValueType<V>());
+				ARLASSERT(isValueType<V>());
 				return static_cast<const TypedPropertyDescriptor<V>*>(descriptor)->getValue(instance);
 			}
 
@@ -349,7 +349,7 @@ namespace RBX
 			template<typename V>
 			inline void setValue(const V& value)
 			{
-				RBXASSERT(isValueType<V>());
+				ARLASSERT(isValueType<V>());
 				static_cast<const TypedPropertyDescriptor<V>*>(descriptor)->setValue(const_cast<DescribedBase*>(instance), value);
 			}
 
@@ -358,7 +358,7 @@ namespace RBX
 				return descriptor->setStringValue(const_cast<DescribedBase*>(instance), text);
 			}
 
-			inline void read(const XmlElement* element, RBX::IReferenceBinder& binder)
+			inline void read(const XmlElement* element, ARL::IReferenceBinder& binder)
 			{
 				descriptor->read(const_cast<DescribedBase*>(instance), element, binder);
 			}
@@ -369,7 +369,7 @@ namespace RBX
 
 		// Interface
 		// maps enums to an index (Used by UIs like a property grid)
-		class RBXInterface EnumPropertyDescriptor : public PropertyDescriptor {
+		class ARLInterface EnumPropertyDescriptor : public PropertyDescriptor {
 		public:
 			const EnumDescriptor& enumDescriptor;
 			virtual size_t getIndexValue(const DescribedBase* instance) const = 0;
@@ -391,7 +391,7 @@ namespace RBX
 			{}
 		};
 
-		class RBXBaseClass RefPropertyDescriptor : public PropertyDescriptor {
+		class ARLBaseClass RefPropertyDescriptor : public PropertyDescriptor {
 
 		private:
 			typedef PropertyDescriptor Super;
@@ -421,7 +421,7 @@ namespace RBX
 
             static bool isRefPropertyDescriptor(const Reflection::Type& type)
             {
-                static const RBX::Name& name = RBX::Name::lookup("Object");
+                static const ARL::Name& name = ARL::Name::lookup("Object");
                 return (type.name == name);
             }
 
@@ -429,7 +429,7 @@ namespace RBX
 			{
 				// See RefType in reflection.h
 				bool result = isRefPropertyDescriptor(descriptor.type);
-				RBXASSERT(result == (0 != dynamic_cast<const Reflection::RefPropertyDescriptor*>(&descriptor)));
+				ARLASSERT(result == (0 != dynamic_cast<const Reflection::RefPropertyDescriptor*>(&descriptor)));
 				return result;
 			}
 		};

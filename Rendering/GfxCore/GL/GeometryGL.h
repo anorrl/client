@@ -2,7 +2,7 @@
 
 #include "GfxCore/Geometry.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

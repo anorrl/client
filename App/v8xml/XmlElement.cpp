@@ -14,10 +14,10 @@ using std::string;
 using std::vector;
 using namespace G3D;
 
-using namespace RBX;
+using namespace ARL;
 
-const RBX::Name& value_IDREF_null = Name::declare("null");
-const RBX::Name& value_IDREF_nil = Name::declare("nil");
+const ARL::Name& value_IDREF_null = Name::declare("null");
+const ARL::Name& value_IDREF_nil = Name::declare("nil");
 
 const XmlTag& name_xsinil = Name::declare("xsi:nil");
 const XmlTag& name_xsitype = Name::declare("xsi:type");
@@ -149,7 +149,7 @@ void XmlNameValuePair::clearValue() const {
 	valueType = NONE;
 }
 
-bool XmlNameValuePair::isValueEqual(const RBX::Name* value) const {
+bool XmlNameValuePair::isValueEqual(const ARL::Name* value) const {
 	switch (valueType) {
 	case STRING:
 		return *value==*stringValue;
@@ -160,14 +160,14 @@ bool XmlNameValuePair::isValueEqual(const RBX::Name* value) const {
 	}
 }
 
-bool XmlNameValuePair::getValue(const RBX::Name*& value) const
+bool XmlNameValuePair::getValue(const ARL::Name*& value) const
 {
 	if (valueType==NAME) {
 		value = nameValue;
 		return true;
 	}
 	if (valueType==STRING) {
-		value = &RBX::Name::declare(stringValue->c_str());
+		value = &ARL::Name::declare(stringValue->c_str());
 		clearValue();
 		nameValue = value;
 		valueType = NAME;
@@ -219,20 +219,20 @@ bool XmlNameValuePair::isValueType<double>() const
 }
 
 template<>
-bool XmlNameValuePair::isValueType<const RBX::Name*>() const
+bool XmlNameValuePair::isValueType<const ARL::Name*>() const
 {
 	return valueType==NAME;
 }
 
 template<>
-bool XmlNameValuePair::isValueType<RBX::InstanceHandle>() const
+bool XmlNameValuePair::isValueType<ARL::InstanceHandle>() const
 {
 	return valueType==HANDLE;
 }
 
 
 
-bool XmlNameValuePair::getValue(RBX::ContentId& value) const
+bool XmlNameValuePair::getValue(ARL::ContentId& value) const
 {
 	if (valueType==CONTENTID) {
 		value = *contentIdValue;
@@ -328,7 +328,7 @@ bool XmlNameValuePair::getValue(float& value) const
 	}
 
 	if (valueType==STRING) {
-		if (RBX::StringConverter<float>::convertToValue(*stringValue, value)) {
+		if (ARL::StringConverter<float>::convertToValue(*stringValue, value)) {
 			clearValue();
 			floatValue = value;
 			valueType = FLOAT;
@@ -336,7 +336,7 @@ bool XmlNameValuePair::getValue(float& value) const
 		}
 	}
 
-	RBXASSERT(valueType!=DOUBLE);	// No provision (yet) for converting from double back to float
+	ARLASSERT(valueType!=DOUBLE);	// No provision (yet) for converting from double back to float
 
 	return false;
 }
@@ -357,7 +357,7 @@ bool XmlNameValuePair::getValue(double& value) const
 	}
 
 	if (valueType==STRING) {
-		if (RBX::StringConverter<double>::convertToValue(*stringValue, value)) {
+		if (ARL::StringConverter<double>::convertToValue(*stringValue, value)) {
 			clearValue();
 			doubleValue = value;
 			valueType = DOUBLE;
@@ -368,20 +368,20 @@ bool XmlNameValuePair::getValue(double& value) const
 	return false;
 }
 
-bool XmlNameValuePair::getValue(RBX::InstanceHandle &value) const {
+bool XmlNameValuePair::getValue(ARL::InstanceHandle &value) const {
 	
 	if (valueType==NAME && *nameValue==value_IDREF_null) {
 		clearValue();
-		handleValue = new RBX::InstanceHandle(NULL);
+		handleValue = new ARL::InstanceHandle(NULL);
 		valueType = HANDLE;
 	} else if (valueType==STRING && value_IDREF_null==*stringValue) {
 		clearValue();
-		handleValue = new RBX::InstanceHandle(NULL);
+		handleValue = new ARL::InstanceHandle(NULL);
 		valueType = HANDLE;
 	} else if (valueType==STRING && *stringValue=="") {
 		// legacy files didn't use the "null" keyword
 		clearValue();
-		handleValue = new RBX::InstanceHandle(NULL);
+		handleValue = new ARL::InstanceHandle(NULL);
 		valueType = HANDLE;
 	}
 
@@ -400,27 +400,27 @@ std::string XmlNameValuePair::toString(XmlWriter* writer) const
 	{
 	case BOOL:
 		{
-			 return RBX::StringConverter<bool>::convertToString(boolValue);
+			 return ARL::StringConverter<bool>::convertToString(boolValue);
 		};
 
 	case INT:
 		{
-			 return RBX::StringConverter<int>::convertToString(intValue);
+			 return ARL::StringConverter<int>::convertToString(intValue);
 		};
 
 	case UINT:
 		{
-			 return RBX::StringConverter<unsigned int>::convertToString(uintValue);
+			 return ARL::StringConverter<unsigned int>::convertToString(uintValue);
 		};
 
 	case FLOAT:
 		{
-			 return RBX::StringConverter<float>::convertToString(floatValue);
+			 return ARL::StringConverter<float>::convertToString(floatValue);
 		};
 
 	case DOUBLE:
 		{
-			 return RBX::StringConverter<double>::convertToString(doubleValue);
+			 return ARL::StringConverter<double>::convertToString(doubleValue);
 		};
 
 	case NAME:
@@ -436,13 +436,13 @@ std::string XmlNameValuePair::toString(XmlWriter* writer) const
 			if (lastId == NULL || !writer->isValidId(*lastId, *handleValue))
 			{
 				std::string newId;
-				Guid::generateRBXGUID(newId);
-				RBXASSERT(writer->isValidId(newId, *handleValue));
+				Guid::generateARLGUID(newId);
+				ARLASSERT(writer->isValidId(newId, *handleValue));
 
 				// set the id back into the object in case we serialize again before loading
 				base->setXmlId(newId);
 				lastId = base->getXmlId();
-				RBXASSERT(lastId != NULL);
+				ARLASSERT(lastId != NULL);
 			}
 				
 			writer->recordId(*lastId, *handleValue);
@@ -459,7 +459,7 @@ std::string XmlNameValuePair::toString(XmlWriter* writer) const
 		return "";
 
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 		return "";
 	}
 }

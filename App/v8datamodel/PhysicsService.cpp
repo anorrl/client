@@ -9,15 +9,15 @@
 #include "Network/Players.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 const char *const sPhysicsService = "PhysicsService";
 
 PhysicsService::~PhysicsService()
 {
-	RBXASSERT(parts.empty());
-	RBXASSERT(!assemblyPhysicsOnConnection.connected());
-	RBXASSERT(!assemblyPhysicsOffConnection.connected());
+	ARLASSERT(parts.empty());
+	ARLASSERT(!assemblyPhysicsOnConnection.connected());
+	ARLASSERT(!assemblyPhysicsOffConnection.connected());
 }
 
 
@@ -54,10 +54,10 @@ void PhysicsService::onAssemblyPhysicsOn(Primitive* primitive)
 {
 	WriteValidator writeValidator(concurrencyValidator);
 
-	RBXASSERT(primitive->getWorld());		// confirm the Part is in Workspace / primitive is in World
+	ARLASSERT(primitive->getWorld());		// confirm the Part is in Workspace / primitive is in World
 	PartInstance* part = PartInstance::fromPrimitive(primitive);
 
-	RBXASSERT(Assembly::isAssemblyRootPrimitive(part->getPartPrimitive()));
+	ARLASSERT(Assembly::isAssemblyRootPrimitive(part->getPartPrimitive()));
 
 	// force update assembly radius so farther usage is not dirty
 	primitive->getAssembly()->computeMaxRadius();
@@ -65,7 +65,7 @@ void PhysicsService::onAssemblyPhysicsOn(Primitive* primitive)
 	shared_ptr<PartInstance> sharedPart = shared_from<PartInstance>(part);
 	assemblyAddingSignal(sharedPart);
 
-	RBXASSERT(!part->PhysicsServiceHook::is_linked());
+	ARLASSERT(!part->PhysicsServiceHook::is_linked());
 	parts.insert(*part);
 
 	if (!iAmServer)
@@ -84,12 +84,12 @@ void PhysicsService::onAssemblyPhysicsOff(Primitive* primitive)
 {
 	WriteValidator writeValidator(concurrencyValidator);
 
-	RBXASSERT(primitive->getWorld());		// confirm the Part is in Workspace / primitive is in World
+	ARLASSERT(primitive->getWorld());		// confirm the Part is in Workspace / primitive is in World
 	PartInstance* part = PartInstance::fromPrimitive(primitive);
 
-	RBXASSERT(Assembly::isAssemblyRootPrimitive(part->getPartPrimitive()));
+	ARLASSERT(Assembly::isAssemblyRootPrimitive(part->getPartPrimitive()));
 
-	RBXASSERT(part->PhysicsServiceHook::is_linked());
+	ARLASSERT(part->PhysicsServiceHook::is_linked());
 	parts.remove_element(*part);
 
 	assemblyRemovedSignal(shared_from<PartInstance>(part));
@@ -130,4 +130,4 @@ void PhysicsService::onPlayersChanged(Instance::CombinedSignalType type, const I
 	}
 }
 
-} // namespace RBX
+} // namespace ARL

@@ -18,7 +18,7 @@ DYNAMIC_FASTFLAGVARIABLE(AnimationAllowProdUrls, true);
 DYNAMIC_FASTFLAGVARIABLE(DontUseInsertServiceOnAnimLoad, false)
 DYNAMIC_FASTFLAGVARIABLE(AnimationFailedToLoadContext, false)
 
-namespace RBX
+namespace ARL
 {
 
 const char* const sKeyframeSequenceProvider = "KeyframeSequenceProvider";
@@ -41,11 +41,11 @@ KeyframeSequenceProvider::KeyframeSequenceProvider()
 ContentId KeyframeSequenceProvider::registerActiveKeyframeSequence(shared_ptr<Instance> instance)
 {
 	if(Network::Players::clientIsPresent(this, false) || Network::Players::serverIsPresent(this, false)){
-		throw RBX::runtime_error("Usage error: RegisterActiveKeyframeSequence can only be used in Solo mode.");
+		throw ARL::runtime_error("Usage error: RegisterActiveKeyframeSequence can only be used in Solo mode.");
 	}
 
 	if(shared_ptr<KeyframeSequence> keyframeSequence = Instance::fastSharedDynamicCast<KeyframeSequence>(instance)){
-		std::string id = RBX::format("active://%d", activeKeyframeId++);
+		std::string id = ARL::format("active://%d", activeKeyframeId++);
 		activeKeyframeTable[id] = keyframeSequence;
 		return ContentId(id);
 	}
@@ -60,7 +60,7 @@ static bool itIsInScope(Instance*)
 ContentId KeyframeSequenceProvider::registerKeyframeSequence(shared_ptr<Instance> keyframeSequence)
 {
 	if((Network::Players::clientIsPresent(this, false) && !Network::Players::isCloudEdit(this)) || Network::Players::serverIsPresent(this, false)){
-		throw RBX::runtime_error("Usage error: RegisterKeyframeSequence can only be used in Solo mode.");
+		throw ARL::runtime_error("Usage error: RegisterKeyframeSequence can only be used in Solo mode.");
 	}
 
 	std::stringstream stream;
@@ -77,10 +77,10 @@ shared_ptr<Instance> KeyframeSequenceProvider::getKeyframeSequenceByIdLua(int as
 {
 	if(assetId <= 0)
 	{
-		throw RBX::runtime_error("GetKeyframeSequenceById assetId is not a positive number!");
+		throw ARL::runtime_error("GetKeyframeSequenceById assetId is not a positive number!");
 	}
 
-	std::string parameters =  RBX::format("asset/?id=%d", assetId);
+	std::string parameters =  ARL::format("asset/?id=%d", assetId);
 	std::string url = ServiceProvider::create<ContentProvider>(this)->getBaseUrl() + parameters;
 
 	shared_ptr<KeyframeSequence> result = privateGetKeyframeSequence(ContentId::fromUrl(url), true, false, "KeyframeSequenceProvider:GetKeyframeSequenceById()");
@@ -111,7 +111,7 @@ shared_ptr<const KeyframeSequence> KeyframeSequenceProvider::getKeyframeSequence
 //Operates with a DataModel::write task
 static void CopyKeyframeSequenceData(boost::weak_ptr<KeyframeSequence> weakKeyframeSequence, boost::shared_ptr<KeyframeSequence> keyframeSequenceData)
 {
-    RBXPROFILER_SCOPE("Animation", "copyKeyframeSequence");
+    ARLPROFILER_SCOPE("Animation", "copyKeyframeSequence");
     
 	if(boost::shared_ptr<KeyframeSequence> keyframeSequence = weakKeyframeSequence.lock()){
 		keyframeSequence->copyKeyframeSequence(keyframeSequenceData.get());
@@ -150,7 +150,7 @@ static void loadDataFromInsertService(boost::shared_ptr<Instance> ist,
 	}
 	else if (DFFlag::AnimationFailedToLoadContext)
 	{
-		RBX::StandardOut::singleton()->printf(MESSAGE_ERROR, "Animation failed to load : %s", context.c_str());
+		ARL::StandardOut::singleton()->printf(MESSAGE_ERROR, "Animation failed to load : %s", context.c_str());
 	}
     // Note: this cleanup isn't guaranteed to always work, if the client shuts down
     // before it can tell the server that the animation can be cleaned up, the server
@@ -165,7 +165,7 @@ static void loadDataFromInsertService(boost::shared_ptr<Instance> ist,
         {
             // This callback was called from insert service when an asset loaded. How
             // can the insert service not exist?
-            RBXASSERT(false);
+            ARLASSERT(false);
         }
     }
 }
@@ -184,7 +184,7 @@ static void KeyframeLoaderHelper(AsyncHttpQueue::RequestResult result, std::istr
 	}
 	else if (result == AsyncHttpQueue::Failed && DFFlag::AnimationFailedToLoadContext)
 	{
-		RBX::StandardOut::singleton()->printf(MESSAGE_ERROR, "Animation failed to load : %s", context.c_str());
+		ARL::StandardOut::singleton()->printf(MESSAGE_ERROR, "Animation failed to load : %s", context.c_str());
 	}
 }
 
@@ -204,7 +204,7 @@ static void doNothingErrorHandler(std::string err, const std::string context)
 {
 	if (DFFlag::AnimationFailedToLoadContext)
 	{
-		RBX::StandardOut::singleton()->printf(MESSAGE_ERROR, "Animation failed to load : %s", context.c_str());		
+		ARL::StandardOut::singleton()->printf(MESSAGE_ERROR, "Animation failed to load : %s", context.c_str());		
 	}
 }
 
@@ -236,7 +236,7 @@ shared_ptr<KeyframeSequence> KeyframeSequenceProvider::privateGetKeyframeSequenc
 		if(activeKeyframeTable.find(animationId.toString()) != activeKeyframeTable.end()){
 			return activeKeyframeTable[animationId.toString()];
 		}
-		throw std::runtime_error(RBX::format("Unknown 'active' animation: '%s'", animationId.c_str()));
+		throw std::runtime_error(ARL::format("Unknown 'active' animation: '%s'", animationId.c_str()));
 	}
 
 	shared_ptr<KeyframeSequence> keyframeSequence;
@@ -268,7 +268,7 @@ shared_ptr<KeyframeSequence> KeyframeSequenceProvider::privateGetKeyframeSequenc
 
 	if (!DFFlag::DontUseInsertServiceOnAnimLoad && !blocking && (assetId.isHttp() || assetId.isAsset()))
 	{
-		RBXASSERT(!blocking);
+		ARLASSERT(!blocking);
 		int assetId = -1;
 		bool parsedAssetIdFromString = false;
 		try
@@ -300,7 +300,7 @@ shared_ptr<KeyframeSequence> KeyframeSequenceProvider::privateGetKeyframeSequenc
 
 void KeyframeSequenceProvider::JSONHttpHelper(const std::string* response, const std::exception* exception, boost::function<void(shared_ptr<const Reflection::ValueTable>)> resumeFunction, boost::function<void(std::string)> errorFunction)
 {
-    RBX::DataModel::LegacyLock dmLock( RBX::DataModel::get(this), RBX::DataModelJob::Write);
+    ARL::DataModel::LegacyLock dmLock( ARL::DataModel::get(this), ARL::DataModelJob::Write);
     
     if(response && !exception)
     {
@@ -315,14 +315,14 @@ void KeyframeSequenceProvider::JSONHttpHelper(const std::string* response, const
         }
         catch(base_exception &e)
         {
-            errorFunction( RBX::format("App:JSONHttpHelper error parsing web response: %s",e.what()) );
+            errorFunction( ARL::format("App:JSONHttpHelper error parsing web response: %s",e.what()) );
             return;
         }
         
         resumeFunction(valueTable);
     }
     else if(exception)
-        errorFunction( RBX::format("App:JSONHttpHelper had an issue because %s",exception->what()) );
+        errorFunction( ARL::format("App:JSONHttpHelper had an issue because %s",exception->what()) );
     else
         resumeFunction(shared_ptr<Reflection::ValueTable>());
 }
@@ -341,9 +341,9 @@ void KeyframeSequenceProvider::getAnimations(int userId, int page, boost::functi
 		return;
 	}
 
-	std::string parameters =  RBX::format("ownership/assets?page=%d&userID=%d&assetTypeId=24",page,userId);
+	std::string parameters =  ARL::format("ownership/assets?page=%d&userID=%d&assetTypeId=24",page,userId);
 
-	RBX::Http getAnimationsHttp( (ServiceProvider::create<ContentProvider>(this)->getApiBaseUrl() + parameters).c_str() );
+	ARL::Http getAnimationsHttp( (ServiceProvider::create<ContentProvider>(this)->getApiBaseUrl() + parameters).c_str() );
 #ifndef _WIN32
 	getAnimationsHttp.setAuthDomain(ServiceProvider::create<ContentProvider>(this)->getApiBaseUrl().c_str());
 #endif

@@ -9,12 +9,12 @@
 
 #include <boost/thread/xtime.hpp>
 
-namespace RBX {
+namespace ARL {
 	const char* const sVisit = "Visit";
 }
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 REFLECTION_BEGIN();
 // Still used
@@ -45,12 +45,12 @@ worker_thread::work_result Visit::ping(std::string url, int interval)
 	{
 		//StandardOut::singleton()->printf(MESSAGE_INFO, "Visit::ping %s", url.c_str());
 		std::string response;
-		RBX::Http(url).get(response);
+		ARL::Http(url).get(response);
 	}
-	catch (RBX::base_exception& /*exp*/)
+	catch (ARL::base_exception& /*exp*/)
 	{
 		//TODO: This is the kind of message that should only go to the output view for Roblox employees. We should hide it from general users
-		//std::string message = RBX::format("ping %s failed: %s", url.c_str(), exp.what());
+		//std::string message = ARL::format("ping %s failed: %s", url.c_str(), exp.what());
 		//StandardOut::singleton()->printf(MESSAGE_WARNING, message.c_str());
 	}
 
@@ -60,7 +60,7 @@ worker_thread::work_result Visit::ping(std::string url, int interval)
 	xt.sec += interval;
 	boost::thread::sleep(xt);
 
-	return RBX::worker_thread::more;
+	return ARL::worker_thread::more;
 }
 
 void Visit::setPing(std::string url, int interval)

@@ -17,7 +17,7 @@
 
 LOGGROUP(Graphics)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -53,7 +53,7 @@ static std::string loadShaderFile(const std::string& folder, const std::string& 
     std::ifstream file(utf8_decode(folder + "/" + path).c_str(), std::ios::in | std::ios::binary);
 
     if (!file)
-		throw RBX::runtime_error("Error opening file %s", path.c_str());
+		throw ARL::runtime_error("Error opening file %s", path.c_str());
 
     std::ostringstream data;
 	data << file.rdbuf();
@@ -65,8 +65,8 @@ static PackData readPack(const std::string& folder, const std::string& path)
 {
 	std::string data = loadShaderFile(folder, path);
 
-	if (data.compare(0, 4, "RBXS") != 0)
-		throw RBX::runtime_error("Error: shader pack %s is corrupted", path.c_str());
+	if (data.compare(0, 4, "ARLS") != 0)
+		throw ARL::runtime_error("Error: shader pack %s is corrupted", path.c_str());
 
     PackData result;
 	result.data.assign(data.begin(), data.end());
@@ -79,7 +79,7 @@ static std::string getPackName(const std::string& language)
     if (language == "hlsl")
         return "d3d9";
 	else if (language == "hlsl11")
-#ifdef RBX_PLATFORM_DURANGO
+#ifdef ARL_PLATFORM_DURANGO
         return "d3d11_durango";
 #else
         return "d3d11";
@@ -157,9 +157,9 @@ void ShaderManager::loadShaders(const std::string& folder, const std::string& la
 	root.Parse<kParseDefaultFlags>(shaderDb.c_str());
 
     if (root.HasParseError())
-		throw RBX::runtime_error("Failed to load shader.json: %s", root.GetParseError());
+		throw ARL::runtime_error("Failed to load shader.json: %s", root.GetParseError());
 
-	RBXASSERT(root.IsArray());
+	ARLASSERT(root.IsArray());
 
     for (Value::ValueIterator it = root.Begin(); it != root.End(); ++it)
 	{
@@ -202,7 +202,7 @@ void ShaderManager::loadShaders(const std::string& folder, const std::string& la
 			else
 			{
                 if (!entry)
-					throw RBX::runtime_error("Error: failed to find shader %s in pack", name.GetString());
+					throw ARL::runtime_error("Error: failed to find shader %s in pack", name.GetString());
 
 				shaderBytecode.assign(shaderPack.data.begin() + entry->offset, shaderPack.data.begin() + entry->offset + entry->size);
 			}
@@ -238,7 +238,7 @@ void ShaderManager::loadShaders(const std::string& folder, const std::string& la
 				}
 			}
 		}
-		catch (const RBX::base_exception& e)
+		catch (const ARL::base_exception& e)
 		{
 			FASTLOGS(FLog::Graphics, "Error: failed to create shader %s", name.GetString());
 			ShaderProgram::dumpToFLog(e.what(), FLog::Graphics);
@@ -318,7 +318,7 @@ shared_ptr<ShaderProgram> ShaderManager::createProgram(const std::string& name, 
 
         return result;
 	}
-	catch (const RBX::base_exception& e)
+	catch (const ARL::base_exception& e)
 	{
         FASTLOGS(FLog::Graphics, "Error: failed to link shader program %s", vsName + "/" + fsName);
         ShaderProgram::dumpToFLog(e.what(), FLog::Graphics);

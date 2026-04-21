@@ -14,7 +14,7 @@ static pthread_key_t tsd_key;
 static long markTlsIndex = 0;
 static bool profilingEnabled = false;
 
-void RBX::Profiling::init(bool enabled)
+void ARL::Profiling::init(bool enabled)
 {
 	profilingEnabled = enabled;
 #ifdef _WIN32
@@ -32,23 +32,23 @@ void RBX::Profiling::init(bool enabled)
 #endif
 }
 
-void RBX::Profiling::setEnabled(bool enabled)
+void ARL::Profiling::setEnabled(bool enabled)
 {
 	profilingEnabled = enabled;
 #ifdef _WIN32
 	// This is only valid in windows. For mac, the markTlsIndex
 	// is always 0 unless profiling is init()ed inside the context
 	// of a Mark.
-	RBXASSERT(markTlsIndex);
+	ARLASSERT(markTlsIndex);
 #endif
 }
 
-bool RBX::Profiling::isEnabled()
+bool ARL::Profiling::isEnabled()
 {
 	return profilingEnabled ||  DebugSettings::singleton().enableProfiling;
 }
 
-using namespace RBX;
+using namespace ARL;
 using namespace Profiling;
 
 
@@ -83,7 +83,7 @@ void CodeProfiler::log(bool frameTick, double wallTimeElapsed)
 {
 	// TODO: Do we need to modify our tick code to be monotonically increasing???
 	// Sometimes the wall time can be slightly < 0!
-	//RBXASSERT(wallTimeElapsed>=-0.001);
+	//ARLASSERT(wallTimeElapsed>=-0.001);
 	Time time = Time::now<Time::Benchmark>();
 	Time::Interval sampleTimeElapsed = time - lastSampleTime;
 	if (sampleTimeElapsed >= bucketTimeSpan)
@@ -120,7 +120,7 @@ Bucket Profiler::getWindow(double window) const
 	for (size_t i=0; i<count; ++i)
 	{
 		int index = (firstBucket-i) % buckets.size();
-		RBXASSERT(index>=0);
+		ARLASSERT(index>=0);
 		result += buckets[index];
 		if (result.sampleTimeElapsed>=window)
 			break;
@@ -143,7 +143,7 @@ Bucket Profiler::getFrames(int frames) const
 	for (size_t i=0; i<count; ++i)
 	{
 		int index = (firstBucket-i) % buckets.size();
-		RBXASSERT(index>=0);
+		ARLASSERT(index>=0);
 		result += buckets[index];
 	}
 
@@ -277,6 +277,6 @@ void BucketProfile::removeValue(int v)
 {	
 	unsigned bucket = findBucket(v);
 	data[bucket]--;
-	RBXASSERT(data[bucket] >= 0);
+	ARLASSERT(data[bucket] >= 0);
 }
 

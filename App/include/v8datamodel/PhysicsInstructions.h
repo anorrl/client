@@ -4,7 +4,7 @@
 
 #include "Util/Average.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Workspace;
 
@@ -24,8 +24,8 @@ namespace RBX {
 		double throttleTimer;
 		double throttleAdjustTime;
 
-		void changeSimulationRadius(RBX::Network::Player* dPhysPlayer, float change);
-		void changeMaxSimulationRadius(RBX::Network::Player* dPhysPlayer, float change);
+		void changeSimulationRadius(ARL::Network::Player* dPhysPlayer, float change);
+		void changeMaxSimulationRadius(ARL::Network::Player* dPhysPlayer, float change);
 
 	public:
 		double requestedDutyPercent;
@@ -34,9 +34,9 @@ namespace RBX {
 
 		PhysicsInstructions();
 
-		void setThrottles(RBX::Network::Player* dPhysPlayer, Workspace* workspace, double dt, double dutyDt);
-		void setCyclicThrottles(RBX::Network::Player* dPhysPlayer, Workspace* workspace, double cyclicDt, double dt, double dutyDt);
-		void setThrottlesBase( RBX::Network::Player* dPhysPlayer, Workspace* workspace, bool realTimePerfOK, bool dutyPerfOK, double avgDutyPercent, double dt); 
+		void setThrottles(ARL::Network::Player* dPhysPlayer, Workspace* workspace, double dt, double dutyDt);
+		void setCyclicThrottles(ARL::Network::Player* dPhysPlayer, Workspace* workspace, double cyclicDt, double dt, double dutyDt);
+		void setThrottlesBase( ARL::Network::Player* dPhysPlayer, Workspace* workspace, bool realTimePerfOK, bool dutyPerfOK, double avgDutyPercent, double dt); 
 
 		static double visitSoloDutyPercent()			{return 0.50;}
 		static double regularServerDutyPercent()		{return 0.25;}

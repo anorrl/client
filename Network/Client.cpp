@@ -38,16 +38,16 @@ FASTFLAG(DebugProtocolSynchronization)
 #include <arpa/inet.h>
 #endif
 
-const char* const RBX::Network::sClient = "NetworkClient";
+const char* const ARL::Network::sClient = "NetworkClient";
 
-namespace RBX
+namespace ARL
 {
 	extern const char *const sHopper;
     class Instance;
 }
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 using namespace RakNet;
 
 REFLECTION_BEGIN();
@@ -55,7 +55,7 @@ Reflection::BoundProp<std::string> Client::prop_Ticket("Ticket", "Authentication
 static Reflection::BoundFuncDesc<Client, shared_ptr<Instance>(int, std::string, int, int, int)> f_connect(&Client::playerConnect, "PlayerConnect", "userId", "server", "serverPort", "clientPort", 0, "threadSleepTime", 30, Security::Plugin);
 static Reflection::BoundFuncDesc<Client, void(int)> f_disconnect(&Client::disconnect, "Disconnect", "blockDuration", 3000, Security::LocalUser);
 static Reflection::BoundFuncDesc<Client, void(std::string)> func_setGameSessionID(&Client::setGameSessionID, "SetGameSessionID", "gameSessionID", Security::Roblox);
-static Reflection::EventDesc<Client, void(std::string, shared_ptr<RBX::Instance>)> event_ConnectionAccepted(&Client::connectionAcceptedSignal, "ConnectionAccepted", "peer", "replicator");
+static Reflection::EventDesc<Client, void(std::string, shared_ptr<ARL::Instance>)> event_ConnectionAccepted(&Client::connectionAcceptedSignal, "ConnectionAccepted", "peer", "replicator");
 static Reflection::EventDesc<Client, void(std::string)> event_ConnectionRejected(&Client::connectionRejectedSignal, "ConnectionRejected", "peer");
 static Reflection::EventDesc<Client, void(std::string, int, std::string)> event_ConnectionFailed(&Client::connectionFailedSignal, "ConnectionFailed", "peer", "code", "reason");
 REFLECTION_END();
@@ -63,7 +63,7 @@ REFLECTION_END();
 Client::Client()
 	: userId(-1), networkSettings(&NetworkSettings::singleton()), isCloudEditClient(false)
 {
-	RBX::Security::Context::current().requirePermission(RBX::Security::Plugin, "create a NetworkClient");
+	ARL::Security::Context::current().requirePermission(ARL::Security::Plugin, "create a NetworkClient");
 	setName(sClient);
 
 	FASTLOG(FLog::Network, "NetworkClient:Create");
@@ -74,19 +74,19 @@ Client::~Client(void)
 	FASTLOG(FLog::Network, "NetworkClient:Remove");
 }
 
-Client* Client::findClient(const RBX::Instance* context, bool testInDatamodel)
+Client* Client::findClient(const ARL::Instance* context, bool testInDatamodel)
 {
 	const ServiceProvider* serviceProvider = ServiceProvider::findServiceProvider(context);
-	RBXASSERT(!testInDatamodel || serviceProvider!=NULL);
+	ARLASSERT(!testInDatamodel || serviceProvider!=NULL);
 	return ServiceProvider::find<Client>(serviceProvider);
 }
 
-bool Client::clientIsPresent(const RBX::Instance* context, bool testInDatamodel)
+bool Client::clientIsPresent(const ARL::Instance* context, bool testInDatamodel)
 {
 	return findClient(context, testInDatamodel) != NULL;
 }
 
-bool Client::physicsOutBandwidthExceeded(const RBX::Instance* context)
+bool Client::physicsOutBandwidthExceeded(const ARL::Instance* context)
 {
 	if (Client* client = Client::findClient(context))
 	{
@@ -98,7 +98,7 @@ bool Client::physicsOutBandwidthExceeded(const RBX::Instance* context)
 	return true;
 }
 
-double Client::getNetworkBufferHealth(const RBX::Instance* context)
+double Client::getNetworkBufferHealth(const ARL::Instance* context)
 {
 	if (Client* client = Client::findClient(context))
 	{
@@ -107,7 +107,7 @@ double Client::getNetworkBufferHealth(const RBX::Instance* context)
 	return 0.0f;
 }
 
-const RBX::SystemAddress Client::findLocalSimulatorAddress(const RBX::Instance* context)
+const ARL::SystemAddress Client::findLocalSimulatorAddress(const ARL::Instance* context)
 {
 	if (Client* client = Client::findClient(context, false)) {
 		if (ClientReplicator* clientRep = client->findFirstChildOfType<ClientReplicator>()) {
@@ -124,7 +124,7 @@ shared_ptr<Instance> Client::playerConnect(int userId, std::string server, int s
 	this->userId = userId;
 	Players* players = ServiceProvider::create<Players>(this);
 	if(!players)
-		throw RBX::runtime_error("Cannot get players");
+		throw ARL::runtime_error("Cannot get players");
 
 	shared_ptr<Instance> player = players->createLocalPlayer(userId, TeleportService::getPreviousPlaceId() > 0);
 
@@ -138,11 +138,11 @@ shared_ptr<Instance> Client::playerConnect(int userId, std::string server, int s
     {
 		if (clientPort==0)
         {
-			throw RBX::runtime_error("Failed to start network client");
+			throw ARL::runtime_error("Failed to start network client");
         }
 		else
         {
-			throw RBX::runtime_error("Failed to start network client on port %d", clientPort);
+			throw ARL::runtime_error("Failed to start network client on port %d", clientPort);
         }
     }
 
@@ -162,7 +162,7 @@ shared_ptr<Instance> Client::playerConnect(int userId, std::string server, int s
 		{
 			if (!lansubnet)
 			{
-				RBX::Security::Context::current().requirePermission(RBX::Security::Roblox, " connect to an extranet game");
+				ARL::Security::Context::current().requirePermission(ARL::Security::Roblox, " connect to an extranet game");
 			}
 		}
 	}
@@ -175,7 +175,7 @@ shared_ptr<Instance> Client::playerConnect(int userId, std::string server, int s
 	RakNet::ConnectionAttemptResult connectRes = rakPeer->rawPeer()->Connect(server.c_str(), serverPort, Network::versionB.c_str(), Network::versionB.size());
 	if (connectRes != RakNet::CONNECTION_ATTEMPT_STARTED)
     {
-		throw RBX::runtime_error("Failed to connect to server, id %d", connectRes);
+		throw ARL::runtime_error("Failed to connect to server, id %d", connectRes);
     }
 	FASTLOG1F(DFLog::NetworkJoin, "playerConnect connecting to server @ %f s", Time::nowFastSec());
 
@@ -187,7 +187,7 @@ shared_ptr<Instance> Client::playerConnect(int userId, std::string server, int s
 
 	FASTLOG2(FLog::Network, "Connecting to server, IP(inet_addr): %u Port: %u", inet_addr(server.c_str()), serverPort);
 
-	RBX::RbxDbgInfo::SetServerIP(server.c_str());
+	ARL::RbxDbgInfo::SetServerIP(server.c_str());
 
 	return player;
 }
@@ -244,7 +244,7 @@ void Client::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* ne
 	if (newProvider)
 	{
 		//We're in multiplayer mode, so burn out the studio tools
-		if(RBX::DataModel* dataModel = RBX::DataModel::get(this)){
+		if(ARL::DataModel* dataModel = ARL::DataModel::get(this)){
 			if(dataModel->lockVerb.get())
 				dataModel->lockVerb->doIt(NULL);
 		}
@@ -277,7 +277,7 @@ void Client::sendTicket()
 	bitStream << userId;
     serializeStringCompressed(ticket, bitStream);
 
-	serializeStringCompressed(RBX::DataModel::hash, bitStream);
+	serializeStringCompressed(ARL::DataModel::hash, bitStream);
 
 	bitStream << protocolVersion;
 
@@ -290,7 +290,7 @@ void Client::sendTicket()
 
     serializeStringCompressed(Http::gameSessionID, bitStream);
 
-    unsigned int reportedGoldHash = RBX::Security::rbxGoldHash;
+    unsigned int reportedGoldHash = ARL::Security::rbxGoldHash;
 
     bitStream << reportedGoldHash;
 
@@ -312,7 +312,7 @@ std::string rakIdToString(int id)
 	case ID_SECURITYKEY_MISMATCH:
 		return "Version not compatible with server. Please uninstall and try again.";
 	default:
-		return RBX::format("Network error %d", id);
+		return ARL::format("Network error %d", id);
 	}
 }
 
@@ -324,7 +324,7 @@ void Client::OnFailedConnectionAttempt(RakNet::Packet *packet, RakNet::PI2_Faile
 }
 
 // Cheat Engine StealthEdit Plugin helper. Name obscured for security.
-#if !defined(RBX_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
 static void programMemoryPermissionsHackChecker(weak_ptr<DataModel> weakDataModel) {
 	static const unsigned int kSleepBetweenStealthEditChecksMillis = 2 * 1000;
 	VMProtectBeginMutation("24");
@@ -335,7 +335,7 @@ static void programMemoryPermissionsHackChecker(weak_ptr<DataModel> weakDataMode
 		//FASTLOG(FLog::US14116, "Starting stealth check");
 		if (ProgramMemoryChecker::areMemoryPagePermissionsSetupForHacking()) {
 			//FASTLOG(FLog::US14116, "Caught stealthedit!");
-            RBX::Security::setHackFlagVmp<LINE_RAND4>(RBX::Security::hackFlag7, HATE_CATCH_EXECUTABLE_ACCESS_VIOLATION);
+            ARL::Security::setHackFlagVmp<LINE_RAND4>(ARL::Security::hackFlag7, HATE_CATCH_EXECUTABLE_ACCESS_VIOLATION);
 		}
 		//FASTLOG1(FLog::US14116, "Sleeping stealth for %ums", kSleepBetweenStealthEditChecksMillis);
 		boost::this_thread::sleep(boost::posix_time::milliseconds(kSleepBetweenStealthEditChecksMillis));
@@ -380,7 +380,7 @@ void Client::HandleConnection(RakNet::Packet *packet)
 
         proxy->setAndLockParent(this);
 
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD) && !defined(RBX_PLATFORM_DURANGO) 
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD) && !defined(ARL_PLATFORM_DURANGO) 
         VMProtectBeginMutation("25");
 		{
             weak_ptr<DataModel> weakDataModel = weak_from(DataModel::get(this));
@@ -397,9 +397,9 @@ void Client::HandleConnection(RakNet::Packet *packet)
 
         connectionAcceptedSignal(RakNetAddressToString(packet->systemAddress), proxy);
     }
-    catch (RBX::base_exception& e)
+    catch (ARL::base_exception& e)
     {
-        RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Error in ID_CONNECTION_REQUEST_ACCEPTED: %s", e.what());
+        ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Error in ID_CONNECTION_REQUEST_ACCEPTED: %s", e.what());
         if (proxy)
         {
             // Disconnect
@@ -441,7 +441,7 @@ RakNet::PluginReceiveResult Client::OnReceive(RakNet::Packet *packet)
 	
 	case ID_DISCONNECTION_NOTIFICATION:
 	case ID_CONNECTION_LOST:
-		RBXASSERT(packet->systemAddress==serverId);
+		ARLASSERT(packet->systemAddress==serverId);
 		serverId = UNASSIGNED_SYSTEM_ADDRESS;
 		return RR_CONTINUE_PROCESSING;
 

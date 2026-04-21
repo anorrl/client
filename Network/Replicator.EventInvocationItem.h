@@ -5,7 +5,7 @@
 
 #include "Reflection/Event.h"
 
-namespace RBX {
+namespace ARL {
 namespace Network {
 
 class DeserializedEventInvocationItem : public DeserializedItem

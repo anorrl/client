@@ -14,7 +14,7 @@
 
 #include <cmath>
 
-namespace RBX
+namespace ARL
 {
 
 	template<typename ValueType = double, typename AverageType = double>
@@ -541,12 +541,12 @@ namespace RBX
 			time.sample(elapsedTime.seconds());
 		}
 
-		RBX::Time startSample() const
+		ARL::Time startSample() const
 		{
 			return Time::now<sampleMethod>();
 		}
 
-		void stopSample(RBX::Time start)
+		void stopSample(ARL::Time start)
 		{
 			sample(Time::now<sampleMethod>() - start);
 		}
@@ -713,15 +713,15 @@ namespace RBX
         rbx::atomic<int> currentTime;
         rbx::atomic<int> currentValue;
         rbx::atomic<int> totalValue;
-		RBX::Time startTime;
-		RBX::Time lastSampleTime;
+		ARL::Time startTime;
+		ARL::Time lastSampleTime;
 
 	public:
 		ActivityMeter()
 			:currentTime(-1)
 			,currentValue(0)
 			,totalValue(0)
-			,startTime(RBX::Time::now<Time::Fast>())
+			,startTime(ARL::Time::now<Time::Fast>())
 		{
 			for (size_t i=0; i<buckets.size(); ++i)
 				buckets[i] = 0;
@@ -747,7 +747,7 @@ namespace RBX
 
 		void updateBuckets()
 		{
-			RBX::Time now = Time::now<Time::Fast>();
+			ARL::Time now = Time::now<Time::Fast>();
 			if (lastSampleTime == now)
 				return;
 
@@ -782,14 +782,14 @@ namespace RBX
 		boost::array<char, bucketCount> buckets; 
         rbx::atomic<int> currentTime;
         rbx::atomic<int> totalValue;
-		RBX::Time startTime;
-		RBX::Time lastSampleTime;
+		ARL::Time startTime;
+		ARL::Time lastSampleTime;
 
 	public:
 		InvocationMeter()
 			:currentTime(-1)
 			,totalValue(0)
-			,startTime(RBX::Time::now<Time::Fast>())
+			,startTime(ARL::Time::now<Time::Fast>())
 		{
 			for (size_t i=0; i<buckets.size(); ++i)
 				buckets[i] = 0;
@@ -808,14 +808,14 @@ namespace RBX
 
 		void updateBuckets(bool increment)
 		{
-			RBX::Time now = Time::now<Time::Fast>();
+			ARL::Time now = Time::now<Time::Fast>();
 			if (lastSampleTime == now)
 				return;
 
 			lastSampleTime = now;
 			unsigned long newTime = ((unsigned long)(bucketCount * (lastSampleTime - startTime).seconds()));
 			unsigned long oldTime = currentTime.swap(newTime);
-//			RBXASSERT(oldTime <= newTime);
+//			ARLASSERT(oldTime <= newTime);
 //			if (oldTime != newTime)
 			if (oldTime < newTime)		// changed per Erik 11/18/09
 

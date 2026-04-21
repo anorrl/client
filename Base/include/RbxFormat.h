@@ -1,5 +1,5 @@
-#ifndef RBXFORMAT_H
-#define RBXFORMAT_H
+#ifndef ARLFORMAT_H
+#define ARLFORMAT_H
 
 #include <string>
 #include <stdio.h>
@@ -34,16 +34,16 @@
 #endif // ifndef _WIN32
 
 #if defined(__GNUC__)
-#define RBX_PRINTF_ATTR(string_index, first_to_check) __attribute__((format(printf, string_index, first_to_check)))
+#define ARL_PRINTF_ATTR(string_index, first_to_check) __attribute__((format(printf, string_index, first_to_check)))
 #else
-#define RBX_PRINTF_ATTR(string_index, first_to_check)
+#define ARL_PRINTF_ATTR(string_index, first_to_check)
 #endif
 
-namespace RBX {
+namespace ARL {
 	// Convenience function:
-	std::runtime_error runtime_error(const char* fmt, ...) RBX_PRINTF_ATTR(1, 2);
+	std::runtime_error runtime_error(const char* fmt, ...) ARL_PRINTF_ATTR(1, 2);
 
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
 	typedef std::runtime_error base_exception;
 	
 	class physics_receiver_exception : public base_exception
@@ -98,7 +98,7 @@ namespace RBX {
 
 std::string format(
     const char*                 fmt
-    ...) RBX_PRINTF_ATTR(1, 2);
+    ...) ARL_PRINTF_ATTR(1, 2);
 /**
   Like format, but can be called with the argument list from a ... function.
  */

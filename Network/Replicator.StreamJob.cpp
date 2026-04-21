@@ -11,8 +11,8 @@
 #include "Players.h"
 #include "Humanoid/Humanoid.h"
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 LOGVARIABLE(NetworkStreaming, 0)
 DYNAMIC_LOGGROUP(PartStreamingRequests)
@@ -110,15 +110,15 @@ void Replicator::StreamJob::StreamRegionIterator::updateWorldExtents()
 			regionRadius = 0;
 		}
 
-		RBXASSERT(worldMinRegion != worldMaxRegion);
+		ARLASSERT(worldMinRegion != worldMaxRegion);
 	}
 	else
-		RBXASSERT(false);
+		ARLASSERT(false);
 }
 
 bool Replicator::StreamJob::StreamRegionIterator::getNextRegion(StreamRegion::Id &regionId)
 {
-	RBXASSERT(worldMinRegion != worldMaxRegion);
+	ARLASSERT(worldMinRegion != worldMaxRegion);
 
 	Vector3int32 current = currentRegion.value();
 
@@ -254,7 +254,7 @@ Replicator::StreamJob::StreamJob(Replicator& replicator)
 		regionIterator.updateWorldExtents();
 	}
 
-	RBXASSERT(spatialHash);
+	ARLASSERT(spatialHash);
 	if (spatialHash) {
 		spatialHash->registerCoarseMovementCallback(this);
 	}
@@ -283,7 +283,7 @@ void Replicator::StreamJob::unregisterCoarsePrimitiveCallback()
 
 void Replicator::StreamJob::updateClientQuota(int diff, short maxRegionRadius) {
 	numClientInstanceQuota += diff;
-    RBXASSERT(numClientInstanceQuota>=0);
+    ARLASSERT(numClientInstanceQuota>=0);
     if (numClientInstanceQuota == 0)
     {
         clearPendingItems();
@@ -293,7 +293,7 @@ void Replicator::StreamJob::updateClientQuota(int diff, short maxRegionRadius) {
     FASTLOG2(DFLog::PartStreamingRequests, "Received new client instance quota: %d, max region radius: %d", numClientInstanceQuota, maxRegionRadius);
     if (replicator->settings().printStreamInstanceQuota)
     {
-        StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Received new client instance quota: %d, max region radius: %d", numClientInstanceQuota, maxRegionRadius);
+        StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Received new client instance quota: %d, max region radius: %d", numClientInstanceQuota, maxRegionRadius);
     }
 }
 
@@ -440,7 +440,7 @@ bool Replicator::StreamJob::isAreaInStreamedRadius(const Vector3& center, float 
 
 void Replicator::StreamJob::setupListeners(Player* player)
 {
-	RBXASSERT(player == replicator->findTargetPlayer());
+	ARLASSERT(player == replicator->findTargetPlayer());
 	// listen to spawn signal (when player die and respawn), this is used to pre-compute spawn location and reset streaming starting point
 	playerSpawningConnection = player->nextSpawnLocationChangedSignal.connect(boost::bind(&StreamJob::setStreamCenterAndSentMinRegions, this, _1, true));
     playerCharacterAddedConnection = player->characterAddedSignal.connect(boost::bind(&StreamJob::onPlayerCharacterAdd, this, _1));
@@ -549,10 +549,10 @@ TaskScheduler::StepResult Replicator::StreamJob::stepDataModelJob(const Stats& s
             if (replicator->replicatorStats.dataPacketsReceived.value() < Time::Interval(1.f)) // if the client becomes idle / busy for more than a second, we stop collecting new instances
             {
                 int numberToCollect = numClientInstanceQuota / (1.f / stats.timespanSinceLastStep.seconds()); // distribute the collection of one second content to each steps
-                RBXASSERT(numberToCollect>=0);
+                ARLASSERT(numberToCollect>=0);
 			    if (numCollectedInstances < numberToCollect) 
 			    {
-				    RBXASSERT(Workspace::findWorkspace(replicator.get()));
+				    ARLASSERT(Workspace::findWorkspace(replicator.get()));
                     regionIterator.updateWorldExtents();
 
 					Time t = Time::now<Time::Fast>() + Time::Interval((0.25 * streamJobConsecutiveRuns) / dataSendRate);	
@@ -561,7 +561,7 @@ TaskScheduler::StepResult Replicator::StreamJob::stepDataModelJob(const Stats& s
 						    break;
 				    }
 #ifdef NETWORK_DEBUG
-                    //StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "collect %d instances (%d), interrupted because %s", numCollectedInstances, numberToCollect, Time::now<Time::Fast>() > t ? "timeout":"all collected");
+                    //StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "collect %d instances (%d), interrupted because %s", numCollectedInstances, numberToCollect, Time::now<Time::Fast>() > t ? "timeout":"all collected");
 #endif
 			    }
             }
@@ -588,11 +588,11 @@ TaskScheduler::StepResult Replicator::StreamJob::stepDataModelJob(const Stats& s
 
             sendPackets(numPacketsPerStep * streamJobConsecutiveRuns);
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
 			replicator->requestDisconnect(DisconnectReason_SendPacketError);
 			const char* what = e.what();
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Network Data stream: %s", what ? what : "empty error string");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Network Data stream: %s", what ? what : "empty error string");
 			return TaskScheduler::Done;
 		}
 		return TaskScheduler::Stepped;
@@ -600,7 +600,7 @@ TaskScheduler::StepResult Replicator::StreamJob::stepDataModelJob(const Stats& s
 	return TaskScheduler::Done;
 }
 
-namespace RBX {
+namespace ARL {
 namespace Network {
     
 template<>
@@ -616,7 +616,7 @@ Replicator::StreamJob::StreamDataItem* Replicator::StreamJob::iteratorToItem(Pen
 }
 
 } // namespace Network
-} // namespace RBX
+} // namespace ARL
 
 
 template <class Container>
@@ -732,7 +732,7 @@ void Replicator::StreamJob::clearPendingItems()
 		iter = pendingStreamItems.erase(iter);
 	}
 
-	RBXASSERT(pendingStreamItems.size() == 0);
+	ARLASSERT(pendingStreamItems.size() == 0);
 	numCollectedInstances = 0;
 }
 
@@ -853,9 +853,9 @@ void Replicator::StreamJob::onPlayerTorsoChanged(const Reflection::PropertyDescr
     if (*desc == PartInstance::prop_CFrame)
     {
         Player* player = replicator->findTargetPlayer();
-        RBXASSERT(player);
+        ARLASSERT(player);
         shared_ptr<ModelInstance> character = player->getSharedCharacter();
-        RBXASSERT(character);
+        ARLASSERT(character);
 
         if (PartInstance* torso = Instance::fastDynamicCast<PartInstance>(character->findFirstChildByName("Torso")))
 		{
@@ -874,7 +874,7 @@ bool Replicator::StreamJob::setStreamCenterAndSentMinRegions(const Vector3& worl
 
 	if (regionIterator.resetCenter(worldPos, forceSet))
 	{
-		RBXASSERT (numClientInstanceQuota >= 0);
+		ARLASSERT (numClientInstanceQuota >= 0);
 		
 		clearPendingItems();
 

@@ -23,7 +23,7 @@
 
 class XmlElement;
 
-namespace RBX {
+namespace ARL {
 
 class Fonts;
 class GuiRoot;
@@ -44,11 +44,11 @@ class GuiObject;
 
 extern const char *const sDataModel;
 
-static inline void robloxScriptModifiedCheck(RBX::Security::Permissions perm)
+static inline void robloxScriptModifiedCheck(ARL::Security::Permissions perm)
 {
-#ifndef RBX_STUDIO_BUILD
-    RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript);
-    if (perm != RBX::Security::RobloxScript)
+#ifndef ARL_STUDIO_BUILD
+    ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript);
+    if (perm != ARL::Security::RobloxScript)
     {
         throw std::runtime_error("");
     }
@@ -119,7 +119,7 @@ public:
 	void postCreate();
 		
 	static rbx::atomic<int> count;
-	std::auto_ptr<RBX::Verb> lockVerb;
+	std::auto_ptr<ARL::Verb> lockVerb;
 
 	rbx::signal<void()> screenshotSignal;
 	rbx::signal<void(const std::string &)> screenshotReadySignal;
@@ -148,7 +148,7 @@ public:
 
 	bool isGearTypeAllowed(GearType gearType);
 
-	static void setLoaderFunction(boost::function<void(RBX::DataModel*)> loader) { loaderFunc = loader; }
+	static void setLoaderFunction(boost::function<void(ARL::DataModel*)> loader) { loaderFunc = loader; }
 	
 	void loadPlugins();
 	
@@ -166,7 +166,7 @@ public:
 	MouseStats mouseStats;
 
 	bool getSharedSuppressNavKeys() const { return (game ? game->getSuppressNavKeys() : suppressNavKeys); } 
-	void setGame(RBX::Game* newGame) { game = newGame; }
+	void setGame(ARL::Game* newGame) { game = newGame; }
 
     bool getIsShuttingDown() { return isShuttingDown; }
     void setIsShuttingDown(bool value) { isShuttingDown = value; }
@@ -228,7 +228,7 @@ private:
 
 	bool                                renderGuisActive;
 
-	RBX::Game*							game;
+	ARL::Game*							game;
 
 	Time                                dataModelInitTime;
     
@@ -240,7 +240,7 @@ private:
 	bool updatePhysicsInstructions(Network::GameMode gameMode);
 	bool onlyJobsLeftForThisArbiterAreGenericJobs();
 
-	static boost::function<void(RBX::DataModel*)> loaderFunc;
+	static boost::function<void(ARL::DataModel*)> loaderFunc;
 
 	bool								areCoreScriptsLoaded;
 
@@ -355,7 +355,7 @@ public:
 
 	void clearContents(bool resettingSimulation);
     
-    void setInitialScreenSize(RBX::Vector2 newScreenSize);
+    void setInitialScreenSize(ARL::Vector2 newScreenSize);
 
 	// submits a task to be executed in a thread-safe manner
 	typedef boost::function<void(DataModel*)> Task;
@@ -463,12 +463,12 @@ public:
 	};
 
 	// Please call these to construct and release a datamodel
-	static shared_ptr<DataModel> createDataModel(bool startHeartbeat, RBX::Verb* lockVerb, bool shouldShowLoadingScreen);
+	static shared_ptr<DataModel> createDataModel(bool startHeartbeat, ARL::Verb* lockVerb, bool shouldShowLoadingScreen);
     
 	static void closeDataModel(shared_ptr<DataModel> dataModel);
     
 	~DataModel();
-	DataModel(RBX::Verb* lockVerb);
+	DataModel(ARL::Verb* lockVerb);
 	static DataModel* get(Instance* context) ;
 	static const DataModel* get(const Instance* context) ;
 
@@ -489,7 +489,7 @@ public:
     };
 
     void save(ContentId contentId);
-	static bool canSave(const RBX::Instance* instance);
+	static bool canSave(const ARL::Instance* instance);
 
 	bool getRemoteBuildMode();
 	void setRemoteBuildMode(bool remoteBuildMode);
@@ -513,19 +513,19 @@ public:
 
 	void close();
 
-#if defined(RBX_STUDIO_BUILD) || defined(RBX_RCC_SECURITY) || defined(RBX_TEST_BUILD)
+#if defined(ARL_STUDIO_BUILD) || defined(ARL_RCC_SECURITY) || defined(ARL_TEST_BUILD)
 	shared_ptr<const Instances> fetchAsset(ContentId contentId);
 #endif
 
 	void raiseClose();
 
-	static void TakeScreenshotTask(weak_ptr<RBX::DataModel> weakDataModel);
-	static void ScreenshotReadyTask(weak_ptr<RBX::DataModel> weakDataModel, const std::string &filename);
+	static void TakeScreenshotTask(weak_ptr<ARL::DataModel> weakDataModel);
+	static void ScreenshotReadyTask(weak_ptr<ARL::DataModel> weakDataModel, const std::string &filename);
 
 	// true: finished, false: started
-	static void ScreenshotUploadTask(weak_ptr<RBX::DataModel> weakDataModel, bool finished);
+	static void ScreenshotUploadTask(weak_ptr<ARL::DataModel> weakDataModel, bool finished);
 
-	static void ShowMessage(weak_ptr<RBX::DataModel> weakDataModel, int slot, const std::string &message, double duration);
+	static void ShowMessage(weak_ptr<ARL::DataModel> weakDataModel, int slot, const std::string &message, double duration);
 
 	void setScreenshotSEOInfo(std::string str);
 	void setVideoSEOInfo(std::string str);
@@ -672,9 +672,9 @@ private:
 	GuiResponse processGuiTarget(const shared_ptr<InputObject>& event);
 
 	typedef boost::array<shared_ptr<GenericJob>, DataModelJob::TaskTypeMax> GenericJobs;
-	RBX::mutex genericJobsLock;
+	ARL::mutex genericJobsLock;
 	GenericJobs genericJobs;
-	RBX::mutex debugLock;
+	ARL::mutex debugLock;
 	shared_ptr<GenericJob> tryGetGenericJob(DataModelJob::TaskType type);
 	shared_ptr<GenericJob> getGenericJob(DataModelJob::TaskType type);
 

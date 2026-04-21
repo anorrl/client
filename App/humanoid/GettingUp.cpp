@@ -6,7 +6,7 @@
 #include "V8World/World.h"
 
 
-namespace RBX {
+namespace ARL {
 namespace HUMAN {
 
 const char* const sGettingUp = "GettingUp";

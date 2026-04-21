@@ -10,7 +10,7 @@ struct ID3D11View;
 struct ID3D11Texture2D;
 struct ID3D11Device;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

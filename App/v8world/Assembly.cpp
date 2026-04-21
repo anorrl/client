@@ -14,7 +14,7 @@
 #include "util/standardout.h"
 #include "V8DataModel/JointInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 
 Assembly::Assembly()
@@ -36,10 +36,10 @@ Assembly::Assembly()
 
 Assembly::~Assembly()
 {
-	RBXASSERT(history == NULL);
-	RBXASSERT(state == Sim::ANCHORED);
-	RBXASSERT(simJob == NULL);
-	RBXASSERT(recursiveDepth == -1);
+	ARLASSERT(history == NULL);
+	ARLASSERT(state == Sim::ANCHORED);
+	ARLASSERT(simJob == NULL);
+	ARLASSERT(recursiveDepth == -1);
 }
 /*
 		void reset(Sim::AssemblyState newState);		// resets state, sleep count, running average
@@ -50,14 +50,14 @@ Assembly::~Assembly()
 
 void Assembly::reset(Sim::AssemblyState newState)
 {
-	RBXASSERT(state != newState);
+	ARLASSERT(state != newState);
 
 	Sim::AssemblyState oldState = state;
 
 	state = newState;
 
 	if (oldState != Sim::ANCHORED) {
-		RBXASSERT(history);
+		ARLASSERT(history);
 
 		if( newState != Sim::ANCHORED)
 		{
@@ -71,7 +71,7 @@ void Assembly::reset(Sim::AssemblyState newState)
 	}
 
 	if (newState != Sim::ANCHORED) {
-		RBXASSERT(!history);
+		ARLASSERT(!history);
 		history = new AssemblyHistory(*this);		// 30 samples for the averageStateBuffer
 	}
 }
@@ -104,7 +104,7 @@ void Assembly::wakeUp()
 
 Sim::AssemblyState Assembly::getAssemblyState() const
 {
-	RBXASSERT((state == Sim::ANCHORED) || (getCurrentStage()->getStageType() >= IStage::HUMANOID_STAGE));
+	ARLASSERT((state == Sim::ANCHORED) || (getCurrentStage()->getStageType() >= IStage::HUMANOID_STAGE));
 
 	return state;
 }
@@ -112,23 +112,23 @@ Sim::AssemblyState Assembly::getAssemblyState() const
 Primitive* Assembly::getAssemblyPrimitive()	
 {
 	Primitive* answer = getTypedLower<Clump>()->getTypedLower<Primitive>();
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
 const Primitive* Assembly::getConstAssemblyPrimitive() const
 {
 	const Primitive* answer = getConstTypedLower<Clump>()->getConstTypedLower<Primitive>();
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
 Assembly* Assembly::getPrimitiveAssemblyFast(Primitive* p)
 {
 	IndexedMesh* clump = p->getComputedUpper();
-	RBXASSERT(clump);
+	ARLASSERT(clump);
 	Assembly* answer = static_cast<Assembly*>(clump->getComputedUpper());
-	RBXASSERT_IF_VALIDATING(!answer || dynamic_cast<Assembly*>(answer));
+	ARLASSERT_IF_VALIDATING(!answer || dynamic_cast<Assembly*>(answer));
 	return answer;
 }
 
@@ -137,7 +137,7 @@ Assembly* Assembly::getPrimitiveAssembly(Primitive* p)
 {
 	if (IndexedMesh* clump = p->getComputedUpper()) {
 		Assembly* answer = static_cast<Assembly*>(clump->getComputedUpper());
-		RBXASSERT_IF_VALIDATING(!answer || dynamic_cast<Assembly*>(answer));
+		ARLASSERT_IF_VALIDATING(!answer || dynamic_cast<Assembly*>(answer));
 		return answer;
 	}
 	return NULL;
@@ -147,7 +147,7 @@ const Assembly* Assembly::getConstPrimitiveAssembly(const Primitive* p)
 {
 	if (const IndexedMesh* clump = p->getConstComputedUpper()) {
 		const Assembly* answer = static_cast<const Assembly*>(clump->getConstComputedUpper());
-		RBXASSERT_IF_VALIDATING(!answer || dynamic_cast<const Assembly*>(answer));
+		ARLASSERT_IF_VALIDATING(!answer || dynamic_cast<const Assembly*>(answer));
 		return answer;
 	}
 	return NULL;
@@ -161,14 +161,14 @@ void Assembly::onLowersChanged()
 Clump* Assembly::getAssemblyClump() 
 {
 	Clump* answer = getTypedLower<Clump>();
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
 const Clump* Assembly::getConstAssemblyClump() const
 {
 	const Clump* answer = getConstTypedLower<Clump>();
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
@@ -222,9 +222,9 @@ void Assembly::setPhysics(const G3D::Array<CompactCFrame>& motorAngles, const PV
 			{
 				MotorJoint* m1d = rbx_static_cast<MotorJoint*>(assemblyMotors[i]);
 				// TODO: Put this assertion back in and debug http://roblox.onjira.com/browse/CLIENT-250
-				//RBXASSERT(G3D::fuzzyEq(fabs(motorAngles[i].getAxis().z), 1.0f));
+				//ARLASSERT(G3D::fuzzyEq(fabs(motorAngles[i].getAxis().z), 1.0f));
 
-				RBXASSERT(motorAngles[i].translation.isZero());
+				ARLASSERT(motorAngles[i].translation.isZero());
 				float newAngle = motorAngles[i].getAngle() * motorAngles[i].getAxis().z;
 				anglesUpdated = anglesUpdated || (newAngle != m1d->getCurrentAngle());
 				m1d->setCurrentAngle( newAngle );
@@ -239,7 +239,7 @@ void Assembly::setPhysics(const G3D::Array<CompactCFrame>& motorAngles, const PV
 		}
 		//if(assemblyMotors.size() >= 4)
 		//{
-		//	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "motors: %f,%f,%f,%f", motorAngles[0].rotationangle,  motorAngles[1].rotationangle,  motorAngles[2].rotationangle,  motorAngles[3].rotationangle);
+		//	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "motors: %f,%f,%f,%f", motorAngles[0].rotationangle,  motorAngles[1].rotationangle,  motorAngles[2].rotationangle,  motorAngles[3].rotationangle);
 		//}
 
 		// prevent duplicate traversal of the assembly when the angles change and the pv changes
@@ -264,7 +264,7 @@ bool Assembly::isAssemblyRootPrimitive(const Primitive* p)
 		}
 	}
 
-	RBXASSERT(!answer || (getConstPrimitiveAssembly(p)->getConstTypedLower<Clump>()->getConstTypedLower<Primitive>() == p));
+	ARLASSERT(!answer || (getConstPrimitiveAssembly(p)->getConstTypedLower<Clump>()->getConstTypedLower<Primitive>() == p));
 	return answer;
 }
 
@@ -272,7 +272,7 @@ Assembly* Assembly::otherAssembly(Edge* edge)
 {
 	Assembly* a0 = edge->getPrimitive(0)->getAssembly();
 	Assembly* a1 = edge->getPrimitive(1)->getAssembly();
-	RBXASSERT(a0 != a1);
+	ARLASSERT(a0 != a1);
 	return (a0 == this) ? a1 : a0;
 }
 
@@ -281,7 +281,7 @@ const Assembly* Assembly::otherConstAssembly(const Edge* edge) const
 {
 	const Assembly* a0 = edge->getConstPrimitive(0)->getConstAssembly();
 	const Assembly* a1 = edge->getConstPrimitive(1)->getConstAssembly();
-	RBXASSERT(a0 != a1);
+	ARLASSERT(a0 != a1);
 	return (a0 == this) ? a1 : a0;
 }
 
@@ -321,7 +321,7 @@ void Assembly::getConstAssemblyMotors(G3D::Array<const Joint*>& motors, bool non
 
 void Assembly::gatherPrimitiveExternalEdges(Primitive* p)
 {
-	RBXASSERT(p->getAssembly() == this);
+	ARLASSERT(p->getAssembly() == this);
 
 	Edge* e = p->getFirstEdge();
 
@@ -341,7 +341,7 @@ void Assembly::gatherPrimitiveExternalEdges(Primitive* p)
 
 const G3D::Array<Edge*>& Assembly::getAssemblyEdges()
 {
-	RBXASSERT(this->getCurrentStage()->getStageType() >= IStage::TREE_STAGE);
+	ARLASSERT(this->getCurrentStage()->getStageType() >= IStage::TREE_STAGE);
 
 	assemblyExternalEdges.fastClear();
 
@@ -400,16 +400,16 @@ void notifyAssemblyPrimitiveMoved(Primitive* p, bool resetContacts)
 
 	if (resetContacts)
 	{
-#ifdef RBXASSERTENABLED
+#ifdef ARLASSERTENABLED
 		int temp = p->getNumContacts();
 #endif
 		
 		for (int i = 0; i < p->getNumContacts(); ++i)
 		{
-			RBXASSERT(p->getContact(i));
+			ARLASSERT(p->getContact(i));
 			p->getContact(i)->primitiveMovedExternally();
 		}
-		RBXASSERT(temp == p->getNumContacts());
+		ARLASSERT(temp == p->getNumContacts());
 	}
 }
 

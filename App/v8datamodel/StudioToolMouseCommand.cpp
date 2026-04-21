@@ -9,7 +9,7 @@
 
 #include "util/standardout.h"
 
-namespace RBX {
+namespace ARL {
 
 const char *const sStudioToolMouseCommand = "StudioToolMouseCommand";
 
@@ -23,7 +23,7 @@ StudioToolMouseCommand::~StudioToolMouseCommand()
 {
 	if(toolUnequipped.connected()){
 		tool->unequip();
-		RBXASSERT(!toolUnequipped.connected());
+		ARLASSERT(!toolUnequipped.connected());
 	}
 }
 

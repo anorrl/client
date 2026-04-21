@@ -23,8 +23,8 @@
 
 #include "Streaming.h"
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 
 
@@ -61,7 +61,7 @@ void ErrorCompPhysicsSender::step()
 	{
 		physicsService = shared_from(ServiceProvider::find<PhysicsService>(&replicator));
 
-		RBXASSERT(physicsService);		// datamodel should always create this
+		ARLASSERT(physicsService);		// datamodel should always create this
 
 		// Get all current assemblies
 		std::for_each(physicsService->begin(), physicsService->end(), boost::bind(&ErrorCompPhysicsSender::addNugget, this, _1));
@@ -98,7 +98,7 @@ void ErrorCompPhysicsSender::step()
 
 			Nugget* nugget = &(**iter);
 
-			RBXASSERT(nugget->errorStepId <= stepId);
+			ARLASSERT(nugget->errorStepId <= stepId);
 
 			// remove nugget if part is not in physics service sender list, it's not moving.
 			if (!nugget->part->PhysicsServiceHook::is_linked())
@@ -186,15 +186,15 @@ int ErrorCompPhysicsSender::sendPacket(int maxPackets, PacketPriority packetPrio
 				nuggetUpdateList.splice(nuggetUpdateList.begin(), nuggetUpdateList, nugget.updateListIter);
 				nugget.updateListIter = nuggetUpdateList.begin();
 
-				RBXASSERT((*iter).lastSent == nugget.part->getCoordinateFrame());
-				RBXASSERT((*iter).biggestSize == Nugget::minSize());
-				RBXASSERT((*iter).errorStepId == 0);
+				ARLASSERT((*iter).lastSent == nugget.part->getCoordinateFrame());
+				ARLASSERT((*iter).biggestSize == Nugget::minSize());
+				ARLASSERT((*iter).errorStepId == 0);
 				++iter;
 
 
 			}
 			else {	
-				RBXASSERT(0);
+				ARLASSERT(0);
 			}
 		}
 
@@ -237,7 +237,7 @@ int ErrorCompPhysicsSender::sendPacket(int maxPackets, PacketPriority packetPrio
 void ErrorCompPhysicsSender::onAddingAssembly(shared_ptr<Instance> assembly)
 {
 	shared_ptr<PartInstance> part = Instance::fastSharedDynamicCast<PartInstance>(assembly);
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	newMovingAssemblies.push_back(part);
 }
@@ -268,7 +268,7 @@ void ErrorCompPhysicsSender::addNugget2(shared_ptr<PartInstance> part)
 void ErrorCompPhysicsSender::removeNugget(shared_ptr<const PartInstance> part)
 {
 	NuggetMap::iterator iter = nuggetMap.find(part);
-	RBXASSERT(iter != nuggetMap.end());
+	ARLASSERT(iter != nuggetMap.end());
 
 	nuggetSendList.erase(*iter->second.updateListIter);
 	nuggetUpdateList.erase(iter->second.updateListIter);
@@ -278,7 +278,7 @@ void ErrorCompPhysicsSender::removeNugget(shared_ptr<const PartInstance> part)
 void ErrorCompPhysicsSender::onRemovedAssembly(shared_ptr<Instance> assembly)
 {
 	shared_ptr<const PartInstance> part = Instance::fastSharedDynamicCast<PartInstance>(assembly);
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	removeNugget(part);
 }
@@ -309,7 +309,7 @@ void ErrorCompPhysicsSender::writeAssembly(RakNet::BitStream& bitStream, const A
 			{
 				// this item should be in the cache
 				StandardOut::singleton()->print(MESSAGE_INFO, "cache update failed");
-				RBXASSERT(0);
+				ARLASSERT(0);
 			}
 		}
 	}
@@ -349,12 +349,12 @@ void ErrorCompPhysicsSender::Nugget::onSent(Nugget& nugget)
 
 void ErrorCompPhysicsSender::Nugget::computeError(const CoordinateFrame& focus, const ModelInstance* focusModel, int stepId)
 {
-	RBXASSERT(part->getConstPartPrimitive()->getConstAssembly());
+	ARLASSERT(part->getConstPartPrimitive()->getConstAssembly());
 
 	if ((stepId % 20) == 0)
 	{
 		const Assembly* assembly = part->getConstPartPrimitive()->getConstAssembly();
-		RBXASSERT(assembly);
+		ARLASSERT(assembly);
 
 		radius = assembly->getLastComputedRadius();
 	}

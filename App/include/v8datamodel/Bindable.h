@@ -4,7 +4,7 @@
 
 #include "v8tree/Instance.h"
 
-namespace RBX {
+namespace ARL {
 
 	// Summary: A simple class that exposes a configurable function. 
 	// Usage: It allows scripts to expose their functions
@@ -63,4 +63,4 @@ namespace RBX {
 	};
 
 
-}	// namespace RBX
+}	// namespace ARL

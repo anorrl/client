@@ -2,7 +2,7 @@
 
 #include "voxel2/Grid.h"
 
-namespace RBX { namespace Voxel2 {
+namespace ARL { namespace Voxel2 {
 
 template <typename BitStream> class BitSerializer
 {
@@ -196,7 +196,7 @@ private:
 
 	void decodeChunkData(Box& box, BitStream& stream)
 	{
-		RBXASSERT(box.isEmpty());
+		ARLASSERT(box.isEmpty());
 
         bool empty;
         stream >> empty;
@@ -222,7 +222,7 @@ private:
             unsigned int count = temp + 1;
 
             if (offset + count > cells.size())
-				throw RBX::runtime_error("Error while decoding data: chunk overflow at %u cells", offset + count);
+				throw ARL::runtime_error("Error while decoding data: chunk overflow at %u cells", offset + count);
 
             // deserialize material/occupancy
 			unsigned char material = Cell::Material_Air;

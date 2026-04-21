@@ -5,7 +5,7 @@
 #include "V8DataModel/Hopper.h"
 #include "Script/IScriptFilter.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char *const sBackpack;
 	class Backpack 

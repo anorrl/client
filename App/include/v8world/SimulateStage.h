@@ -9,7 +9,7 @@
 #include "boost/intrusive/list.hpp"
 #include <boost/unordered_map.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	class SimulateStage	: public IWorldStage
 	{

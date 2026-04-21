@@ -10,7 +10,7 @@
 
 DYNAMIC_FASTFLAG(InfluxDb09Enabled)
 
-namespace RBX {
+namespace ARL {
 
 namespace Analytics {
 
@@ -165,7 +165,7 @@ namespace InfluxDb {
 
 		void setUserIdOverride(const int id)
 		{
-			userIdOverride = RBX::format("%d", id);
+			userIdOverride = ARL::format("%d", id);
 		}
 
 		void addPoint(const std::string& name, const rapidjson::Value& value, bool override = false)
@@ -200,4 +200,4 @@ namespace InfluxDb {
 
 } // namespace Analytics
 
-} // namespace RBX
+} // namespace ARL

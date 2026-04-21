@@ -5,7 +5,7 @@
 #include "Util/G3DCore.h"
 #include "Util/Memory.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Body;
 

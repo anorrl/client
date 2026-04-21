@@ -21,7 +21,7 @@ FASTFLAGVARIABLE(DebugScriptAnalyzer, false)
 
 FASTINTVARIABLE(ScriptAnalyzerIgnoreWarnings, 0)
 
-namespace RBX
+namespace ARL
 {
 	using namespace ScriptAnalyzer;
 
@@ -90,32 +90,32 @@ namespace RBX
     }
 }
 
-void* operator new(size_t size, RBX::ScriptParser::Allocator& alloc)
+void* operator new(size_t size, ARL::ScriptParser::Allocator& alloc)
 {
     return alloc.allocate(size);
 }
 
-void* operator new[](size_t size, RBX::ScriptParser::Allocator& alloc)
+void* operator new[](size_t size, ARL::ScriptParser::Allocator& alloc)
 {
     return alloc.allocate(size);
 }
 
-void operator delete(void*, RBX::ScriptParser::Allocator& alloc)
+void operator delete(void*, ARL::ScriptParser::Allocator& alloc)
 {
 }
 
-void operator delete[](void*, RBX::ScriptParser::Allocator& alloc)
+void operator delete[](void*, ARL::ScriptParser::Allocator& alloc)
 {
 }
 
-namespace RBX
+namespace ARL
 {
     namespace ScriptParser
     {
         class Error: public std::exception
         {
         public:
-            Error(const Location& location, const char* format, ...) RBX_PRINTF_ATTR(3, 4)
+            Error(const Location& location, const char* format, ...) ARL_PRINTF_ATTR(3, 4)
                 : location(location)
             {
                 va_list args;
@@ -221,7 +221,7 @@ namespace RBX
                 , location(location)
                 , data(data)
             {
-                RBXASSERT(type == String || type == Number);
+                ARLASSERT(type == String || type == Number);
             }
 
             Lexeme(const Location& location, Type type, const char* name)
@@ -229,7 +229,7 @@ namespace RBX
                 , location(location)
                 , name(name)
             {
-                RBXASSERT(type == Name);
+                ARLASSERT(type == Name);
             }
             
             std::string toString() const
@@ -330,7 +330,7 @@ namespace RBX
             {
                 AstNameTable::Entry entry = { AstName(name), type };
                 
-                RBXASSERT(!data.contains(name));
+                ARLASSERT(!data.contains(name));
                 data[name] = entry;
 
                 return entry.value;
@@ -519,7 +519,7 @@ namespace RBX
             {
                 char start = peekch();
 
-                RBXASSERT(start == '[' || start == ']');
+                ARLASSERT(start == '[' || start == ']');
                 consume();
 
                 int count = 0;
@@ -538,7 +538,7 @@ namespace RBX
                 data.clear();
 
                 // skip (second) [
-                RBXASSERT(peekch() == '[');
+                ARLASSERT(peekch() == '[');
                 consume();
 
                 // skip first newline
@@ -553,7 +553,7 @@ namespace RBX
                     {
                         if (skipLongSeparator() == sep)
                         {
-                            RBXASSERT(peekch() == ']');
+                            ARLASSERT(peekch() == ']');
                             consume(); // skip (second) ]
 
                             data.assign(buffer + startOffset, buffer + offset - sep - 2);
@@ -622,7 +622,7 @@ namespace RBX
                 Position start = position();
                 
                 char delimiter = peekch();
-                RBXASSERT(delimiter == '\'' || delimiter == '"');
+                ARLASSERT(delimiter == '\'' || delimiter == '"');
                 consume();
                 
                 data.clear();
@@ -652,7 +652,7 @@ namespace RBX
             
             void readNumber(std::string& data, unsigned int startOffset)
             {
-                RBXASSERT(isDigit(peekch()));
+                ARLASSERT(isDigit(peekch()));
 
                 // This function does not do the number parsing - it only skips a number-like pattern.
                 // It uses the same logic as Lua stock lexer; the resulting string is later converted
@@ -1589,7 +1589,7 @@ namespace RBX
             
             ~TempVector()
             {
-                RBXASSERT(storage.size() >= offset);
+                ARLASSERT(storage.size() >= offset);
                 storage.erase(storage.begin() + offset, storage.end());
             }
             
@@ -2781,7 +2781,7 @@ namespace RBX
             std::vector<AstLocal*> scratchLocal;
         };
         
-		RBX_PRINTF_ATTR(4, 5) void emitWarning(ScriptAnalyzer::Result& result, ScriptAnalyzer::WarningCode code, const Location& location, const char* format, ...)
+		ARL_PRINTF_ATTR(4, 5) void emitWarning(ScriptAnalyzer::Result& result, ScriptAnalyzer::WarningCode code, const Location& location, const char* format, ...)
 		{
             if (FInt::ScriptAnalyzerIgnoreWarnings & (1 << code))
                 return;
@@ -2835,7 +2835,7 @@ namespace RBX
                         {
                             Lua::LuaArguments::get(L, -1, value, true);
                         }
-                        catch (RBX::base_exception&)
+                        catch (ARL::base_exception&)
                         {
                             // swallow the exception - mainly happens if you have tables with non-string keys in the environment
                         }
@@ -3941,10 +3941,10 @@ namespace RBX
     
     static Lua::ThreadRef createScriptThread(ScriptContext* sc, shared_ptr<Instance> script)
     {
-        Security::Identities identity = RBX::Security::GameScript_;
+        Security::Identities identity = ARL::Security::GameScript_;
             
         lua_State* globalState = sc->getGlobalState(identity);
-        RBXASSERT_BALLANCED_LUA_STACK(globalState);
+        ARLASSERT_BALLANCED_LUA_STACK(globalState);
 
         Lua::ThreadRef thread = lua_newthread(globalState);
 
@@ -3952,8 +3952,8 @@ namespace RBX
         Lua::ScopedPopper popper(globalState, 1);
 
         {
-            RBXASSERT_BALLANCED_LUA_STACK(thread);
-            RBXASSERT(lua_gettop(thread)==0);
+            ARLASSERT_BALLANCED_LUA_STACK(thread);
+            ARLASSERT(lua_gettop(thread)==0);
 
             // declare "script" global
             Lua::ObjectBridge::push(thread, script);
@@ -3985,7 +3985,7 @@ namespace RBX
         {
             if (!dm) return ScriptAnalyzer::Result();
 
-            RBXASSERT(dm->currentThreadHasWriteLock());
+            ARLASSERT(dm->currentThreadHasWriteLock());
 
             ScriptContext* sc = ServiceProvider::create<ScriptContext>(dm);
 
@@ -4049,7 +4049,7 @@ namespace RBX
             
             return result;
         }
-        catch (RBX::base_exception& e)
+        catch (ARL::base_exception& e)
         {
             StandardOut::singleton()->printf(MESSAGE_ERROR, "ScriptAnalyzer: unexpected error %s while parsing %s", e.what(), script ? script->getFullName().c_str() : "unknown script");
 

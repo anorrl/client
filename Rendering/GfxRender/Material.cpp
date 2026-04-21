@@ -3,7 +3,7 @@
 
 #include "GfxCore/Device.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -16,7 +16,7 @@ Technique::Technique(const shared_ptr<ShaderProgram>& program, unsigned int lodI
 	, blendState(BlendState::Mode_None)
     , program(program)
 {
-    RBXASSERT(program);
+    ARLASSERT(program);
 }
 
 void Technique::setRasterizerState(const RasterizerState& state)
@@ -101,7 +101,7 @@ void Technique::apply(DeviceContext* context) const
 	}
 
     // Verify that we set all samplers that the shader expected
-	RBXASSERT((samplerMask & mask) == samplerMask);
+	ARLASSERT((samplerMask & mask) == samplerMask);
 }
 
 const TextureRef& Technique::getTexture(unsigned int stage) const
@@ -121,7 +121,7 @@ Material::Material()
 
 void Material::addTechnique(const Technique& technique)
 {
-	RBXASSERT(techniques.empty() || (techniques.back().getPass() == technique.getPass() && techniques.back().getLodIndex() < technique.getLodIndex()) || techniques.back().getPass() < technique.getPass());
+	ARLASSERT(techniques.empty() || (techniques.back().getPass() == technique.getPass() && techniques.back().getLodIndex() < technique.getLodIndex()) || techniques.back().getPass() < technique.getPass());
 
 	techniques.push_back(technique);
 }

@@ -22,7 +22,7 @@ FASTFLAGVARIABLE(StudioUseDraggerGrid, true)
 	//Deprecate FormFactor
 DYNAMIC_FASTFLAG(FormFactorDeprecated)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sMoveResizeJoinTool = "MoveResizeJoin";
 
@@ -73,7 +73,7 @@ void MoveResizeJoinTool::render3dAdorn(Adorn* adorn)
 	for (it = selection->begin(); it != selection->end(); ++it) {
 		if (PartInstance* part = Instance::fastDynamicCast<PartInstance>(it->get())) {
 
-			RBX::DrawAdorn::handles3d(
+			ARL::DrawAdorn::handles3d(
 				part->getPartSizeXml(),
 				part->getCoordinateFrame(),
 				adorn, 
@@ -270,7 +270,7 @@ void MoveResizeJoinTool::render2d(Adorn* adorn)
 
 void MoveResizeJoinTool::onMouseHover(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(!captured());
+	ARLASSERT(!captured());
 
 	findTargetPV(inputObject);
 	overHandle = (!targetPV.expired());
@@ -315,7 +315,7 @@ shared_ptr<MouseCommand> MoveResizeJoinTool::onMouseDown(const shared_ptr<InputO
 		origPartPosition = part->getCoordinateFrame();
 		origPartSize = part->getPartSizeUi();
 		// if collision checks are turned off then, make part transparent
-		if (!RBX::AdvArrowTool::advCollisionCheckMode)
+		if (!ARL::AdvArrowTool::advCollisionCheckMode)
 		{
 			if (DFFlag::RestoreTransparencyOnToolChange)
 				AdvArrowToolBase::savePartTransparency(part);
@@ -399,7 +399,7 @@ void MoveResizeJoinTool::onMouseMove(const shared_ptr<InputObject>& inputObject)
 		Vector3 worldNormal = Math::getWorldNormal(localNormalId, targetPV.lock()->getLocation());
 		RbxRay axisRay = RbxRay::fromOriginAndDirection(hitPointGrid, worldNormal);
 		RbxRay gridRay = getUnitMouseRay(inputObject);
-		Vector3 closePoint = RBX::Math::closestPointOnRay(axisRay, gridRay);
+		Vector3 closePoint = ARL::Math::closestPointOnRay(axisRay, gridRay);
 		Vector3 handleToCurrent = closePoint - hitPointGrid;
 		float distanceAlongAxis = axisRay.direction().dot(handleToCurrent);
 
@@ -419,7 +419,7 @@ shared_ptr<MouseCommand> MoveResizeJoinTool::onMouseUp(const shared_ptr<InputObj
 	shared_ptr<PartInstance> part = shared_polymorphic_downcast<PartInstance>(targetPV.lock());
 	if( part )
 	{
-		if (!RBX::AdvArrowTool::advCollisionCheckMode && !DFFlag::RestoreTransparencyOnToolChange)
+		if (!ARL::AdvArrowTool::advCollisionCheckMode && !DFFlag::RestoreTransparencyOnToolChange)
 			part->setTransparency(origPartTransparency);
         // resize is done.  Let physics take effect again.
 		part->setDragging(false);
@@ -448,13 +448,13 @@ shared_ptr<MouseCommand> MoveResizeJoinTool::onMouseUp(const shared_ptr<InputObj
 void MoveResizeJoinTool::capturedDrag(float axisDelta)
 {
 	if (targetPV.expired()) {
-		RBXASSERT(0);	// should be caught higher up
+		ARLASSERT(0);	// should be caught higher up
 	}
 	else {
 		// Debug version confirms the dynamic_cast of targetInstance
 		shared_ptr<PartInstance> part = shared_polymorphic_downcast<PartInstance>(targetPV.lock());
 
-		resizeFloat(part, localNormalId, axisDelta, RBX::AdvArrowTool::advCollisionCheckMode);
+		resizeFloat(part, localNormalId, axisDelta, ARL::AdvArrowTool::advCollisionCheckMode);
 	}
 }
 
@@ -484,7 +484,7 @@ bool MoveResizeJoinTool::advResizeImpl(shared_ptr<PartInstance> part, NormalId l
 	}
 	else
     {
-		RBXASSERT(part->getFormFactor() == PartInstance::SYMETRIC);
+		ARLASSERT(part->getFormFactor() == PartInstance::SYMETRIC);
 		deltaSizeUi = amount * Vector3(originalSizeXml.x / originalSizeXml.y, 1, originalSizeXml.z / originalSizeXml.y);
 	}
 
@@ -585,18 +585,18 @@ bool MoveResizeJoinTool::advResizeImpl(shared_ptr<PartInstance> part, NormalId l
 	return true;
 }
 
-void MoveResizeJoinTool::setSelection(shared_ptr<RBX::Instance> oldSelection, shared_ptr<RBX::Instance> newSelection)
+void MoveResizeJoinTool::setSelection(shared_ptr<ARL::Instance> oldSelection, shared_ptr<ARL::Instance> newSelection)
 {
-	if (shared_ptr<RBX::PVInstance> partInstance = RBX::Instance::fastSharedDynamicCast<RBX::PVInstance>(oldSelection))
+	if (shared_ptr<ARL::PVInstance> partInstance = ARL::Instance::fastSharedDynamicCast<ARL::PVInstance>(oldSelection))
 	{
 		if (partInstance == scalingPart.lock())
 		{
-			if (shared_ptr<RBX::PVInstance> pvInstance = RBX::Instance::fastSharedDynamicCast<RBX::PVInstance>((newSelection)))
+			if (shared_ptr<ARL::PVInstance> pvInstance = ARL::Instance::fastSharedDynamicCast<ARL::PVInstance>((newSelection)))
 			{
 				scalingPart = pvInstance;
-				if (DFFlag::RestoreTransparencyOnToolChange && !RBX::AdvArrowTool::advCollisionCheckMode)
+				if (DFFlag::RestoreTransparencyOnToolChange && !ARL::AdvArrowTool::advCollisionCheckMode)
 				{
-					shared_ptr<PartInstance> selectedPart = RBX::Instance::fastSharedDynamicCast<RBX::PartInstance>(newSelection);
+					shared_ptr<PartInstance> selectedPart = ARL::Instance::fastSharedDynamicCast<ARL::PartInstance>(newSelection);
 					AdvArrowToolBase::savePartTransparency(selectedPart);
 				}
 			}

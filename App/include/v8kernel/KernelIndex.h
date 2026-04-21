@@ -4,7 +4,7 @@
 
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 	class KernelIndex {
 	protected:
@@ -19,7 +19,7 @@ namespace RBX {
 		{}
 
 		~KernelIndex() {
-			RBXASSERT(!indexInKernel());
+			ARLASSERT(!indexInKernel());
 		}
 	};
 

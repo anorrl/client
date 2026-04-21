@@ -4,7 +4,7 @@
 #include "Util/NormalId.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Extents;
 
@@ -18,7 +18,7 @@ namespace RBX {
 		{}
 
 		Vector3 getAxis(int i) const	{
-			RBXASSERT((i == 0) || (i==1));
+			ARLASSERT((i == 0) || (i==1));
 			return i == 0 ? getU() : getV();
 		}
 
@@ -73,4 +73,4 @@ namespace RBX {
 
 		static bool overlapWithinPlanes(const Face& f0, const Face& f1, float tolerance);
 	};
-} // namespace RBX
+} // namespace ARL

@@ -14,7 +14,7 @@
 */
 
 
-namespace RBX {
+namespace ARL {
 
 	class Joint;
 	class GlueJoint;
@@ -95,7 +95,7 @@ namespace RBX {
 
 		/*override*/ void setName(const std::string& value);
 
-		/*override*/ XmlElement* writeXml(const boost::function<bool(Instance*)>& isInScope, RBX::CreatorRole creatorRole);
+		/*override*/ XmlElement* writeXml(const boost::function<bool(Instance*)>& isInScope, ARL::CreatorRole creatorRole);
 
 	};
 

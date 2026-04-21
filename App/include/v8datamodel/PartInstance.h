@@ -27,7 +27,7 @@
 
 LOGGROUP(TouchedSignal)
 
-namespace RBX {
+namespace ARL {
 
 class PartAttribute;
 class World;
@@ -41,7 +41,7 @@ class Humanoid;
 class Workspace;
 struct RootPrimitiveOwnershipData;
 
-typedef RBX::Intrusive::Set< class PartInstance, class PhysicsService >::Hook PhysicsServiceHook;
+typedef ARL::Intrusive::Set< class PartInstance, class PhysicsService >::Hook PhysicsServiceHook;
 
 extern const char* const sPart;
 class PartInstance 
@@ -104,8 +104,8 @@ public:
 	// util for below functions
 	static bool partIsLegacyCustomPhysProperties(const PartInstance* part);
 	// conversion functions for insert and dataModel load
-	static void convertToNewPhysicalPropRecursive(RBX::Instance* instance);
-	static bool instanceOrChildrenContainsNewCustomPhysics(RBX::Instance* instance);
+	static void convertToNewPhysicalPropRecursive(ARL::Instance* instance);
+	static bool instanceOrChildrenContainsNewCustomPhysics(ARL::Instance* instance);
 
 
 	// Used to - judiciously - extend data into PartInstance
@@ -143,17 +143,17 @@ protected:
 	void safeMove();			// call PVInstance::safeMove
 
 public:
-	rbx::remote_signal<void(RBX::SystemAddress)>* getOrCreateNetworkOwnerChangedSignal(bool create);
+	rbx::remote_signal<void(ARL::SystemAddress)>* getOrCreateNetworkOwnerChangedSignal(bool create);
 
 	//helper function
 	static void printNetAPIDisabledMessage();
 
 	// Networking - streaming, no UI
-	static const Reflection::PropDescriptor<PartInstance, RBX::SystemAddress> prop_NetworkOwner;
+	static const Reflection::PropDescriptor<PartInstance, ARL::SystemAddress> prop_NetworkOwner;
 	static const Reflection::PropDescriptor<PartInstance, bool> prop_NetworkIsSleeping;
 	
-    static const Reflection::PropDescriptor<PartInstance, RBX::SystemAddress> prop_ConfirmedNetworkOwner;
-    static const Reflection::PropDescriptor<PartInstance, RBX::SystemAddress> prop_TransitionalNetworkOwner;
+    static const Reflection::PropDescriptor<PartInstance, ARL::SystemAddress> prop_ConfirmedNetworkOwner;
+    static const Reflection::PropDescriptor<PartInstance, ARL::SystemAddress> prop_TransitionalNetworkOwner;
 	
 	// debug - HIDDEN_SCRIPTING
 	static const Reflection::PropDescriptor<PartInstance, float> prop_ReceiveAge;
@@ -264,7 +264,7 @@ public:
 		rbx::signal<void(shared_ptr<Instance>)> localSimulationTouchedSignal;
         rbx::signal<void(bool)> buoyancyChangedSignal;
 
-        rbx::signal<void(PartInstance* , CoordinateFrame&, RBX::Velocity&, float&)> onPositionUpdatedByNetworkSignal;
+        rbx::signal<void(PartInstance* , CoordinateFrame&, ARL::Velocity&, float&)> onPositionUpdatedByNetworkSignal;
 
 		bool isCurrentlyStreamRemovingPart;
 		std::vector< weak_ptr<SurfaceGui> > surfaceGuiCookies;
@@ -454,9 +454,9 @@ public:
 	///////////////////////////////////////////////////////////////////////
 	// Data stored in the PartInstance
 	//
-	const RBX::SystemAddress getNetworkOwner() const;
-	void setNetworkOwner(const RBX::SystemAddress value);
-	void setNetworkOwnerNotifyIfServer(const RBX::SystemAddress value, bool ownershipBecomingManual);
+	const ARL::SystemAddress getNetworkOwner() const;
+	void setNetworkOwner(const ARL::SystemAddress value);
+	void setNetworkOwnerNotifyIfServer(const ARL::SystemAddress value, bool ownershipBecomingManual);
 	void setNetworkOwnershipRuleIfServer(NetworkOwnership value);
 	shared_ptr<Instance> getNetworkOwnerScript();
     void setNetworkOwnerScript(const shared_ptr<Instance> playerInstance);
@@ -464,9 +464,9 @@ public:
 	void setNetworkOwnershipAuto();
 	shared_ptr<const Reflection::Tuple> canSetNetworkOwnershipScript();
 	bool canSetNetworkOwnership(Primitive*& rootPrimitive, std::string& statusMessage);
-	void setNetworkOwnerAndNotify(const RBX::SystemAddress value);
-	void notifyNetworkOwnerChanged(const RBX::SystemAddress oldOwner);
-#ifdef RBX_TEST_BUILD
+	void setNetworkOwnerAndNotify(const ARL::SystemAddress value);
+	void notifyNetworkOwnerChanged(const ARL::SystemAddress oldOwner);
+#ifdef ARL_TEST_BUILD
 	rbx::signal<void(float, float)> ownershipChangeSignal;
 #endif
 
@@ -513,7 +513,7 @@ public:
 
 	static bool isPlayerCharacterPart(PartInstance* part);
 
-	static void checkConsistentOwnerAndRuleResetRoots(RBX::SystemAddress& consistentAddress, bool& hasConsistentOwner, bool& hasConsistentManualOwnershipRule, std::vector<Primitive*>& primRoots);
+	static void checkConsistentOwnerAndRuleResetRoots(ARL::SystemAddress& consistentAddress, bool& hasConsistentOwner, bool& hasConsistentManualOwnershipRule, std::vector<Primitive*>& primRoots);
 
 	// version of PartInstance used by Draw.cpp
 	Part getPart();
@@ -594,8 +594,8 @@ public:
 	/*override*/ bool hitTestImpl(const RbxRay& worldRay, Vector3& worldHitPoint);
 	/*override*/ Extents computeExtentsWorld() const;
 
-	bool containedByFrustum(const RBX::Frustum& frustum) const;
-    bool intersectFrustum(const RBX::Frustum& frustum) const;
+	bool containedByFrustum(const ARL::Frustum& frustum) const;
+    bool intersectFrustum(const ARL::Frustum& frustum) const;
 	
 private:
 	void removeTouchTransmitter();

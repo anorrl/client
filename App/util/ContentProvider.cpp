@@ -17,7 +17,7 @@
 #include "StringConv.h"
 #include "RobloxServicesTools.h"
 
-#if defined(_WIN32) && !defined(RBX_PLATFORM_DURANGO)
+#if defined(_WIN32) && !defined(ARL_PLATFORM_DURANGO)
 #include "ATLPath.h"
 #include "FastLog.h"
 #endif
@@ -41,7 +41,7 @@
 #define BOOST_FILESYSTEM_NO_DEPRECATED
 #include "boost/filesystem.hpp"
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 #include "Util/Statistics.h"
 #endif
 
@@ -63,7 +63,7 @@ DYNAMIC_FASTFLAG(UrlReconstructToAssetGame)
 using namespace boost::posix_time;
 
 #ifdef _WIN32
-#define APPLOG(message) do { if (appLog != NULL) {RBX::mutex::scoped_lock lock(*appLogLock); appLog->writeEntry(RBX::Log::Information, message); } } while(0)
+#define APPLOG(message) do { if (appLog != NULL) {ARL::mutex::scoped_lock lock(*appLogLock); appLog->writeEntry(ARL::Log::Information, message); } } while(0)
 #else
 #define APPLOG(message) {}
 #endif
@@ -72,7 +72,7 @@ namespace {
     inline std::string pathToString(const fs::path &path)
     {
 #ifdef _WIN32
-		return RBX::utf8_encode(path.wstring());
+		return ARL::utf8_encode(path.wstring());
 #else
         return path.string();
 #endif
@@ -81,20 +81,20 @@ namespace {
 	inline fs::path stringToPath(const std::string& str)
 	{
 #ifdef _WIN32
-		return RBX::utf8_decode(str.c_str());
+		return ARL::utf8_decode(str.c_str());
 #else
         return fs::path(str);
 #endif
 	}
 }
 
-namespace RBX {
+namespace ARL {
 	extern void ThrowLastError(const char* message);
 
 	const char* const sContentProvider = "ContentProvider";
 
 	Log *ContentProvider::appLog = NULL;
-	RBX::mutex *ContentProvider::appLogLock = NULL;
+	ARL::mutex *ContentProvider::appLogLock = NULL;
     boost::mutex ContentProvider::preloadContentBlockingMutex;
 
 	float ContentProvider::PRIORITY_MFC = 0;
@@ -241,7 +241,7 @@ namespace RBX {
 
 	ContentProvider::~ContentProvider()
 	{
-			RBX::FileSystem::clearCacheDirectory("ContentProvider");
+			ARL::FileSystem::clearCacheDirectory("ContentProvider");
 		}
 
 	void ContentProvider::verifyRequestedScriptSignature(const ProtectedString& source, const std::string& assetId, bool required)
@@ -275,7 +275,7 @@ namespace RBX {
 				throw std::runtime_error("");
 			}
 		}
-		catch (RBX::base_exception&)
+		catch (ARL::base_exception&)
 		{
 			//Intentionally strip out the exception call stack location
 			throw std::runtime_error("");
@@ -318,7 +318,7 @@ namespace RBX {
                 throw std::runtime_error("");
             }
 		}
-		catch (RBX::base_exception&)
+		catch (ARL::base_exception&)
 		{
 			//Intentionally strip out the exceptions
 			throw std::runtime_error("");
@@ -339,11 +339,11 @@ namespace RBX {
 		return std::string(assetFolder() + filePath);
 	}
 
-	bool ContentProvider::hasContent(const RBX::ContentId& id) {
+	bool ContentProvider::hasContent(const ARL::ContentId& id) {
 		return isContentLoaded(id);
 	}
 
-	bool ContentProvider::isUrlBad(RBX::ContentId id) {
+	bool ContentProvider::isUrlBad(ARL::ContentId id) {
 		id.convertAssetId(baseUrl, DataModel::get(this)->getUniverseId());
 		id.convertToLegacyContent(baseUrl);
 		return contentCache->isUrlBad(id.toString());
@@ -377,7 +377,7 @@ namespace RBX {
 	}
 
 	static void parseString(
-		const RBX::ContentId& id, 
+		const ARL::ContentId& id, 
 		AsyncHttpQueue::RequestResult result, 
 		std::istream* stream, 
 		boost::function<void (AsyncHttpQueue::RequestResult, shared_ptr<const std::string>, shared_ptr<std::exception>)> callback, 
@@ -397,7 +397,7 @@ namespace RBX {
 			}
 			catch(std::runtime_error e)
 			{
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Content failed to load for %s because %s", id.c_str(), e.what());
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Content failed to load for %s because %s", id.c_str(), e.what());
 				result = AsyncHttpQueue::Failed;
 			}
 		}
@@ -406,7 +406,7 @@ namespace RBX {
 	}
 
 	static void parseContent(
-		const RBX::ContentId& id, 
+		const ARL::ContentId& id, 
 		AsyncHttpQueue::RequestResult result, 
 		std::istream* stream, 
 		boost::function<void (AsyncHttpQueue::RequestResult, shared_ptr<Instances>, shared_ptr<std::exception>)> callback, 
@@ -425,7 +425,7 @@ namespace RBX {
 			}
 			catch(std::runtime_error e)
 			{
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Content failed to parse for %s because %s", id.c_str(), e.what());
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Content failed to parse for %s because %s", id.c_str(), e.what());
 				result = AsyncHttpQueue::Failed;
 			}
 		}
@@ -433,7 +433,7 @@ namespace RBX {
 		callback(result, instances, requestError);
 	}
 
-	void ContentProvider::preloadContentWithCallback(RBX::ContentId id, float priority, boost::function<void (AsyncHttpQueue::RequestResult)> callback, AsyncHttpQueue::ResultJob jobType, const std::string& expectedType)
+	void ContentProvider::preloadContentWithCallback(ARL::ContentId id, float priority, boost::function<void (AsyncHttpQueue::RequestResult)> callback, AsyncHttpQueue::ResultJob jobType, const std::string& expectedType)
 	{
 		getContent(id, priority, boost::bind(&returnResponse, _1, callback), jobType, expectedType);
 	}
@@ -442,11 +442,11 @@ namespace RBX {
 	{
 		if (results != AsyncHttpQueue::Succeeded)
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "ContentProvider:Preload() failed for %s", id.c_str());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "ContentProvider:Preload() failed for %s", id.c_str());
 		}
 	}
 
-	void ContentProvider::preloadContent(RBX::ContentId id)
+	void ContentProvider::preloadContent(ARL::ContentId id)
 	{
 		if (DFFlag::ImageFailedToLoadContext) 
 		{
@@ -470,7 +470,7 @@ namespace RBX {
 		{
 			if (DFFlag::ImageFailedToLoadContext) 
 			{
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "ContentProvider:PreloadAsync() failed for %s", id.c_str());
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "ContentProvider:PreloadAsync() failed for %s", id.c_str());
 			}
 			pRequest->failed++;
 		}
@@ -491,7 +491,7 @@ namespace RBX {
 			for (size_t i = 0; i < pList->size(); i++)
 			{
 				Reflection::Variant v = (*pList)[i];
-				ContentId id = v.get<RBX::ContentId>();
+				ContentId id = v.get<ARL::ContentId>();
 
 				if (!id.isNull() && !id.isAssetId() && !id.isHttp())
 				{
@@ -504,7 +504,7 @@ namespace RBX {
 			for (size_t i = 0; i < pList->size(); i++)
 			{
 				Reflection::Variant v = (*pList)[i];
-				ContentId id = v.get<RBX::ContentId>();
+				ContentId id = v.get<ARL::ContentId>();
 				AsyncHttpQueue::RequestCallback callback =  boost::bind(&ContentProvider::preloadContentBlockingListHelper, this, _1, resumeFunction, errorFunction, pRequest, id);
 				AsyncHttpQueue::RequestResult requestResult = privateLoadContent(id, AsyncHttpRequest, INT_MAX, NULL, &callback);
 				if (requestResult != AsyncHttpQueue::Waiting)
@@ -529,7 +529,7 @@ namespace RBX {
 	}
 
 	void ContentProvider::loadContent(
-		const RBX::ContentId& id,
+		const ARL::ContentId& id,
 		float priority, 
 		boost::function<void (AsyncHttpQueue::RequestResult, shared_ptr<Instances>, shared_ptr<std::exception>)> callback, 
 		AsyncHttpQueue::ResultJob jobType)
@@ -538,7 +538,7 @@ namespace RBX {
 	}
 
 	void ContentProvider::loadContentString(
-		const RBX::ContentId& id, 
+		const ARL::ContentId& id, 
 		float priority, 
 		boost::function<void (AsyncHttpQueue::RequestResult, shared_ptr<const std::string>, shared_ptr<std::exception>)> callback, 
 		AsyncHttpQueue::ResultJob jobType)
@@ -554,14 +554,14 @@ namespace RBX {
 	}
 
 	void ContentProvider::getContent(
-		const RBX::ContentId& id, 
+		const ARL::ContentId& id, 
 		float priority, 
 		AsyncHttpQueue::RequestCallback callback, 
 		AsyncHttpQueue::ResultJob jobType, 
 		const std::string &expectedType)
 	{
 		ContentId activeId = id;
-		RBXASSERT(this!=NULL);
+		ARLASSERT(this!=NULL);
 
 		CachedContent item;
 
@@ -584,7 +584,7 @@ namespace RBX {
 		}
 	}
 
-	shared_ptr<const std::string> ContentProvider::getContentString(RBX::ContentId id)
+	shared_ptr<const std::string> ContentProvider::getContentString(ARL::ContentId id)
 	{
 		APPLOG("ContentProvider::getContentString");
 
@@ -593,21 +593,21 @@ namespace RBX {
 		{
 			CachedContent item;
 			if (!blockingLoadContent(id, &item))
-				throw RBX::runtime_error("Unable to load %s", id.c_str());
+				throw ARL::runtime_error("Unable to load %s", id.c_str());
 
 			result = requestContentString(id, ContentProvider::PRIORITY_SCRIPT);
 			if (!result)
-				throw RBX::runtime_error("Unable to retrieve cache of %s", id.c_str());
+				throw ARL::runtime_error("Unable to retrieve cache of %s", id.c_str());
 		}
-		RBXASSERT(result);
+		ARLASSERT(result);
 		return result;
 	}
 
-	shared_ptr<const std::string> ContentProvider::requestContentString(const RBX::ContentId& id, float priority)
+	shared_ptr<const std::string> ContentProvider::requestContentString(const ARL::ContentId& id, float priority)
 	{
-		RBXASSERT(this!=NULL);
+		ARLASSERT(this!=NULL);
 		APPLOG("ContentProvider::requestContentString - enter");
-		RBX::ContentId activeId = id;
+		ARL::ContentId activeId = id;
 
 		CachedContent item;
 		if (AsyncHttpQueue::Succeeded != privateLoadContent(activeId, AsyncHttpRequest, priority, &item, NULL))
@@ -644,7 +644,7 @@ namespace RBX {
 
 	bool ContentProvider::blockingLoadContent(ContentId id, CachedContent* result, const std::string& expectedType)
 	{
-		APPLOG(RBX::format("ContentProvider::requestContentString %s", id.c_str()).c_str());
+		APPLOG(ARL::format("ContentProvider::requestContentString %s", id.c_str()).c_str());
 		return privateLoadContent(id, SyncHttpRequest, -1, result, NULL, AsyncHttpQueue::AsyncInline, expectedType) == AsyncHttpQueue::Succeeded;
 	}
 	bool ContentProvider::isContentLoaded(ContentId id)
@@ -652,7 +652,7 @@ namespace RBX {
 		return privateLoadContent(id, NoHttpRequest, -1, NULL, NULL) == AsyncHttpQueue::Succeeded;
 	}
 
-	AsyncHttpQueue::RequestResult ContentProvider::privateLoadContent(RBX::ContentId& id, RequestType httpRequestType, float priority, CachedContent* result, AsyncHttpQueue::RequestCallback* callback, AsyncHttpQueue::ResultJob jobType, const std::string& expectedType)
+	AsyncHttpQueue::RequestResult ContentProvider::privateLoadContent(ARL::ContentId& id, RequestType httpRequestType, float priority, CachedContent* result, AsyncHttpQueue::RequestCallback* callback, AsyncHttpQueue::ResultJob jobType, const std::string& expectedType)
 	{
 		APPLOG("ContentProvider::privateLoadContent");
 
@@ -695,7 +695,7 @@ namespace RBX {
                 return contentCache->findCacheItem(id.toString(), result)  ? AsyncHttpQueue::Succeeded : AsyncHttpQueue::Waiting;
 			}
 
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
 			if (id.isFile())
 			{
 				const std::string cfilename = id.toString().substr(7);
@@ -713,11 +713,11 @@ namespace RBX {
 					struct stat buffer;
 					// Try once to find the path.  If it fails, try once more with the
 					// parent directory.  The logic for this is that RobloxStudio
-					// will look for scripts relative to the RBXL, but RobloxTest
+					// will look for scripts relative to the ARLL, but RobloxTest
 					// will look for scripts relative to the ProjectDir for RobloxTest,
-					// which is one higher than the RBXL.  So, in the case of
+					// which is one higher than the ARLL.  So, in the case of
 					// RobloxStudio, we forcefully push one directory higher if the file
-					// wasn't found next to the RBXL.
+					// wasn't found next to the ARLL.
 					if (-1 == stat(path.string().c_str(), &buffer))
 					{
 						path = root / ".." / cfilename;
@@ -821,11 +821,11 @@ namespace RBX {
 		Serializer().loadInstances(stream, instances);
 	}
 
-	std::string ContentProvider::getFile(RBX::ContentId ticket)
+	std::string ContentProvider::getFile(ARL::ContentId ticket)
 	{
 		CachedContent item;
 		if (!blockingLoadContent(ticket, &item) || !registerFile(ticket, &item))
-			throw RBX::runtime_error("Unable to load %s", ticket.c_str());
+			throw ARL::runtime_error("Unable to load %s", ticket.c_str());
 
 		return *item.filename;
 	}
@@ -838,19 +838,19 @@ namespace RBX {
 #include <sstream>
 #include "Util/MD5Hasher.h"
 
-namespace RBX
+namespace ARL
 {
 	static fs::path getCachePath(const char* subFolder, bool createPath)
 	{
 		// Returns something like "C:\Documents and Settings\All Users\Application Data\Roblox\Cache"
         if (createPath)
         {
-            static const fs::path path = RBX::FileSystem::getCacheDirectory(true, subFolder);
+            static const fs::path path = ARL::FileSystem::getCacheDirectory(true, subFolder);
             return path;
         }
         else
         {
-            static const fs::path path = RBX::FileSystem::getCacheDirectory(false, subFolder);
+            static const fs::path path = ARL::FileSystem::getCacheDirectory(false, subFolder);
             return path;
         }	
 	}
@@ -887,14 +887,14 @@ namespace RBX
 		return path;
 	}
 
-	RBX::ContentId ContentProvider::registerContent(std::istream& content)
+	ARL::ContentId ContentProvider::registerContent(std::istream& content)
 	{
-		RBX::ContentId contentId;
+		ARL::ContentId contentId;
 		{
 			// Get the hash
 			boost::scoped_ptr<MD5Hasher> hasher(MD5Hasher::create());
 			hasher->addData(content);
-			contentId = RBX::ContentId(hasher->toString());
+			contentId = ARL::ContentId(hasher->toString());
 		}
 
 		// Get/Create the local cache folder
@@ -938,9 +938,9 @@ namespace RBX
         return true;
     }
 
-	std::string ContentProvider::findAsset(RBX::ContentId contentId)
+	std::string ContentProvider::findAsset(ARL::ContentId contentId)
 	{
-		RBXASSERT(contentId.isAsset() || contentId.isAppContent());
+		ARLASSERT(contentId.isAsset() || contentId.isAppContent());
 		const char* pathName = contentId.c_str();
 
         bool isPlatformAsset = true;
@@ -957,7 +957,7 @@ namespace RBX
 			pathName += 9;
 			if ( strcmp(pathName, "xbox/localgamerpic") == 0 )
 			{
-				filePath = RBX::FileSystem::getUserDirectory(true, DirAppData, "");
+				filePath = ARL::FileSystem::getUserDirectory(true, DirAppData, "");
 				filePath /= "gamerpic.png";
 			}
 		}
@@ -984,7 +984,7 @@ namespace RBX
 		return "";                               
 	}
 
-	std::string ContentProvider::findHashFile(RBX::ContentId contentId)
+	std::string ContentProvider::findHashFile(ARL::ContentId contentId)
 	{
 		// TODO: Confirm that this is a valid "hash" ID
 
@@ -1011,21 +1011,21 @@ namespace RBX
 	{
         if (!assetFolderAlreadyInit)
 		{
-            if (RBX::Log::current())
-                RBX::Log::current()->writeEntry(Log::Information, RBX::format("setAssetFolder %s", sPath).c_str());
+            if (ARL::Log::current())
+                ARL::Log::current()->writeEntry(Log::Information, ARL::format("setAssetFolder %s", sPath).c_str());
 
 			fs::path path = fs::system_complete( stringToPath(sPath) );
 
             if (!fs::exists(path))
-                throw RBX::runtime_error("The path '%s' does not exist", path.string().c_str());
+                throw ARL::runtime_error("The path '%s' does not exist", path.string().c_str());
             if (!is_directory(path))
-                throw RBX::runtime_error("'%s' is not a directory", path.string().c_str());
+                throw ARL::runtime_error("'%s' is not a directory", path.string().c_str());
 
             appendSlashIfRequired(path);
 
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
             fs::path platformAssetFolderModifier = "../PlatformContent/durango/";
-#elif defined(RBX_PLATFORM_IOS)
+#elif defined(ARL_PLATFORM_IOS)
             fs::path platformAssetFolderModifier = "../ios/";
 #elif defined(__APPLE__) || defined(_WIN32)
             fs::path platformAssetFolderModifier = "../PlatformContent/pc/";
@@ -1047,13 +1047,13 @@ namespace RBX
         }
 	}
 
-	std::auto_ptr<std::istream> ContentProvider::getContent(const RBX::ContentId& ticket, const std::string& expectedType)
+	std::auto_ptr<std::istream> ContentProvider::getContent(const ARL::ContentId& ticket, const std::string& expectedType)
 	{
 		APPLOG("ContentProvider::getContent - ticket");
 
 		CachedContent item;
 		if (!blockingLoadContent(ticket, &item, expectedType))
-			throw RBX::runtime_error("Unable to load %s", ticket.c_str());
+			throw ARL::runtime_error("Unable to load %s", ticket.c_str());
 		
 		if (item.data)
 		{

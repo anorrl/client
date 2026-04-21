@@ -11,7 +11,7 @@
 #include "v8datamodel/NumberRange.h"
 
 
-namespace RBX
+namespace ARL
 {
     extern const char* const sParticleEmitter;
     class CustomParticleEmitter : public DescribedCreatable<CustomParticleEmitter, Instance, sParticleEmitter>, public Effect

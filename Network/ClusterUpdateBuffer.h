@@ -8,7 +8,7 @@
 #include "util/ClusterCellIterator.h"
 #include "boost/unordered_map.hpp"
 
-namespace RBX { 
+namespace ARL { 
 
 // these constants visible for testing
 const int kXZ_CHUNK_SIZE_AS_BITSHIFT = 5;

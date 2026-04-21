@@ -6,7 +6,7 @@
 #include "Util/Extents.h"
 #include "Util/Face.h"
 
-namespace RBX {
+namespace ARL {
 	
 	class Kernel;
 	class Channel;

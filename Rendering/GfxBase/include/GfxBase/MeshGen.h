@@ -1,7 +1,7 @@
 #pragma once
 #include "util/G3DCore.h"
 
-namespace RBX { 
+namespace ARL { 
 
 	class I3DLinearFunc
 	{

@@ -10,7 +10,7 @@
 
 #include "GfxCore/Resource.h"
 
-namespace RBX
+namespace ARL
 {
 	class AsyncResult;
 	class MeshId;
@@ -19,7 +19,7 @@ namespace RBX
 	class PartInstance;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

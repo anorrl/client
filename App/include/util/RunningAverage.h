@@ -6,7 +6,7 @@
 #include "Util/Quaternion.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class RunningAverageState
 	{

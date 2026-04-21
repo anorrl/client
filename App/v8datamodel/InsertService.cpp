@@ -41,7 +41,7 @@ FASTFLAG(UseBuildGenericGameUrl)
 FASTFLAGVARIABLE(AllowInsertFreeModels, false)
 FASTFLAGVARIABLE(InsertUnderFolder, true) // defaults true as we could potentially have (minor) data loss if set false
 
-namespace RBX
+namespace ARL
 {
 const char* const sInsertService = "InsertService";
 
@@ -164,7 +164,7 @@ void InsertService::dispatchRequest(const std::string& url, boost::function<void
 		{
 			luaWebService->asyncRequest(url, LUA_WEB_SERVICE_STANDARD_PRIORITY, resumeFunction, errorFunction);
 		}
-		catch(RBX::base_exception&)
+		catch(ARL::base_exception&)
 		{
 			errorFunction("Error during dispatch");
 		}
@@ -329,7 +329,7 @@ void InsertService::getLatestAssetVersionSuccess(std::string result, boost::func
 
 void InsertService::getLatestAssetVersionError(std::string error, boost::function<void(std::string)> errorFunction)
 {
-	errorFunction( RBX::format("InsertService getLatestAssetVersion : Request Failed because %s", error.c_str()) );
+	errorFunction( ARL::format("InsertService getLatestAssetVersion : Request Failed because %s", error.c_str()) );
 }
 
 void InsertService::getLatestAssetVersion(int id, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction)
@@ -339,11 +339,11 @@ void InsertService::getLatestAssetVersion(int id, boost::function<void(int)> res
 		errorFunction("GetLastestAssetVersionAsync() is currently disabled");
 		return;
 	}
-	if (RBX::HttpRbxApiService* apiService = RBX::ServiceProvider::find<RBX::HttpRbxApiService>(this))
+	if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::find<ARL::HttpRbxApiService>(this))
 	{
 		if (DataModel* dm = DataModel::get(this)) 
 		{
-			apiService->getAsync(RBX::format(DFString::AssetVersionsUrl.c_str(), id, dm->getPlaceID()), true, RBX::PRIORITY_DEFAULT,
+			apiService->getAsync(ARL::format(DFString::AssetVersionsUrl.c_str(), id, dm->getPlaceID()), true, ARL::PRIORITY_DEFAULT,
 				boost::bind(&InsertService::getLatestAssetVersionSuccess, this, _1, resumeFunction, errorFunction),
 				boost::bind(&InsertService::getLatestAssetVersionError, this, _1, errorFunction) );
 		}
@@ -354,7 +354,7 @@ void InsertService::privateLoadAsset(int id, bool isAssetVersion, boost::functio
 {
 	std::stringstream key;
 	int userId = -1;
-	if (RBX::Network::Player* localPlayer = Network::Players::findLocalPlayer(this))
+	if (ARL::Network::Player* localPlayer = Network::Players::findLocalPlayer(this))
 	{
 		//If we are in a multiplary environment, prepend our "userId" to uniquely identify the request
 		userId = localPlayer->getUserID();
@@ -410,7 +410,7 @@ void InsertService::insert(shared_ptr<Instance> instance)
 			
 		// make sure we aren't trying to manipulate a robloxlocked object under the wrong permission
 		if (instance->getRobloxLocked())
-			RBX::Security::Context::current().requirePermission(RBX::Security::Plugin, "Roblox locked in InsertService:Insert()");
+			ARL::Security::Context::current().requirePermission(ARL::Security::Plugin, "Roblox locked in InsertService:Insert()");
 
 		Instances instances;
 		instances.push_back(instance);
@@ -422,8 +422,8 @@ void InsertService::insert(shared_ptr<Instance> instance)
 
 void InsertService::internalDelete(shared_ptr<Instance> instance)
 {
-    RBXASSERT(instance);
-    RBXASSERT(instance->isDescendantOf(this));
+    ARLASSERT(instance);
+    ARLASSERT(instance->isDescendantOf(this));
     if (!instance || (!instance->isDescendantOf(this)))
     {
         return;
@@ -451,7 +451,7 @@ void InsertService::backendInsertReady(std::string key, shared_ptr<Instance> pse
 				pseudoRoot->setParent(this);
 			}
 		}
-		catch(RBX::base_exception&)
+		catch(ARL::base_exception&)
 		{
 			pseudoRoot = Creatable<Instance>::create<ModelInstance>();
 			if (FFlag::InsertUnderFolder) {
@@ -469,7 +469,7 @@ void InsertService::backendInsertReady(std::string key, shared_ptr<Instance> pse
 			DataModel* dm = DataModel::get(this);
 			if (dm != NULL)
 			{
-				RBX::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "InsertServiceException", "PlaceID", dm->getPlaceID());
+				ARL::Analytics::GoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "InsertServiceException", "PlaceID", dm->getPlaceID());
 			}
 		}
 		if (DFFlag::InfluxSendInsertRequestFail)
@@ -477,12 +477,12 @@ void InsertService::backendInsertReady(std::string key, shared_ptr<Instance> pse
 			DataModel* dm = DataModel::get(this);
 			if (dm != NULL)
 			{
-				boost::unordered_set<RBX::Analytics::InfluxDb::Point> points;
+				boost::unordered_set<ARL::Analytics::InfluxDb::Point> points;
 				rapidjson::Value placeIDNode;
 				placeIDNode.SetInt(dm->getPlaceID());
-				RBX::Analytics::InfluxDb::Point point("PlaceID",placeIDNode);
+				ARL::Analytics::InfluxDb::Point point("PlaceID",placeIDNode);
 				points.insert(point);
-				RBX::Analytics::InfluxDb::reportPointsV2("InsertServiceFailure", points, 0);
+				ARL::Analytics::InfluxDb::reportPointsV2("InsertServiceFailure", points, 0);
 			}
 		}
 
@@ -587,7 +587,7 @@ void InsertService::remoteInsertItemsLoaded(
 		if (dm && dm->getWorkspace()->getUsingNewPhysicalProperties())
 		{		
 			for (size_t i = 0; i < instances->size(); ++i)
-				RBX::PartInstance::convertToNewPhysicalPropRecursive((*instances)[i].get());
+				ARL::PartInstance::convertToNewPhysicalPropRecursive((*instances)[i].get());
 		}
 	}
 
@@ -604,7 +604,7 @@ void InsertService::populateExtraInsertUrlParams(std::stringstream& url, bool cl
     // if we allow free model insert, we don't require that a model is taken before inserting it if it's free
     // omitting the serverplaceid parameter will disable the model-must-be-taken check on the server
     if (!FFlag::AllowInsertFreeModels || !allowInsertFreeModels || clientInsert) {
-        RBX::DataModel* dataModel = DataModel::get(this);
+        ARL::DataModel* dataModel = DataModel::get(this);
         url << "&serverplaceid=";
         url << dataModel->getPlaceIDOrZeroInStudio();
     }
@@ -667,7 +667,7 @@ void InsertService::safeInsert(
 	}
 	else
 	{
-		RBXASSERT(0);
+		ARLASSERT(0);
 	}
 	newUrl << id;
 

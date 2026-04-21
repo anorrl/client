@@ -3,31 +3,31 @@
 #include "rbx/CEvent.h"
 
 #ifndef _WIN32
-	const int RBX::CEvent::cWAIT_OBJECT_0;
-	const int RBX::CEvent::cWAIT_TIMEOUT;
-	const int RBX::CEvent::cINFINITE;
+	const int ARL::CEvent::cWAIT_OBJECT_0;
+	const int ARL::CEvent::cWAIT_TIMEOUT;
+	const int ARL::CEvent::cINFINITE;
 #endif
 
 
-void RBX::CEvent::Wait()
+void ARL::CEvent::Wait()
 {
 	WaitForSingleObject(*this, cINFINITE);
 }
 
-bool RBX::CEvent::Wait(int milliseconds)
+bool ARL::CEvent::Wait(int milliseconds)
 {
 	return WaitForSingleObject(*this, milliseconds) == cWAIT_OBJECT_0;
 }
 
-#ifdef RBX_CEVENT_BOOST
+#ifdef ARL_CEVENT_BOOST
 
-RBX::CEvent::~CEvent() throw()
+ARL::CEvent::~CEvent() throw()
 {
 }
 
-RBX::CEvent::CEvent(bool bManualReset ):isSet(false),manualReset(bManualReset) {}
+ARL::CEvent::CEvent(bool bManualReset ):isSet(false),manualReset(bManualReset) {}
 
-void RBX::CEvent::Set() throw()
+void ARL::CEvent::Set() throw()
 {
 	boost::unique_lock<boost::mutex> lock(mut);
 	if (manualReset)
@@ -42,7 +42,7 @@ void RBX::CEvent::Set() throw()
 	}
 }
 
-int RBX::CEvent::WaitForSingleObject(CEvent& event, int milliseconds)
+int ARL::CEvent::WaitForSingleObject(CEvent& event, int milliseconds)
 {
 	if (milliseconds == cINFINITE)
 	{
@@ -72,22 +72,22 @@ static void WINAPI RbxThrowLastWin32()
 {
 	DWORD dwError = ::GetLastError();
 	HRESULT hr = HRESULT_FROM_WIN32( dwError );
-	throw RBX::runtime_error("HRESULT = 0x%.8X", hr); 
+	throw ARL::runtime_error("HRESULT = 0x%.8X", hr); 
 }
 
 
-RBX::CEvent::~CEvent() throw()
+ARL::CEvent::~CEvent() throw()
 {
 	if( m_h != NULL )
 	{
 		BOOL result = ::CloseHandle( m_h );
-		RBXASSERT(result != 0);
+		ARLASSERT(result != 0);
 		m_h = NULL;
 	}
 }
 
 
-RBX::CEvent::CEvent(bool bManualReset )
+ARL::CEvent::CEvent(bool bManualReset )
 :m_h( NULL )
 {
 	m_h = ::CreateEvent( NULL, bManualReset ? TRUE : FALSE, FALSE, NULL );
@@ -97,13 +97,13 @@ RBX::CEvent::CEvent(bool bManualReset )
 
 
 
-void RBX::CEvent::Set() throw()
+void ARL::CEvent::Set() throw()
 {
 	if (m_h && !::SetEvent(m_h))
 		RbxThrowLastWin32();
 }
 
-int RBX::CEvent::WaitForSingleObject(CEvent& event, int milliseconds)
+int ARL::CEvent::WaitForSingleObject(CEvent& event, int milliseconds)
 {
 	return ::WaitForSingleObject(event.m_h, milliseconds);
 }

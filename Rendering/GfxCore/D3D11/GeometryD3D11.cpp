@@ -7,7 +7,7 @@
 
 LOGGROUP(Graphics)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -116,19 +116,19 @@ namespace Graphics
 
         HRESULT hr = device11->CreateBuffer( &bd, NULL, &object );
         if (FAILED(hr))
-            throw RBX::runtime_error("Couldn't create geometry buffer: %x", hr);
+            throw ARL::runtime_error("Couldn't create geometry buffer: %x", hr);
     }
 
     template <typename Base> GeometryBufferD3D11<Base>::~GeometryBufferD3D11()
     {
-        RBXASSERT(!locked);
+        ARLASSERT(!locked);
 
         ReleaseCheck(object);
     }
 
     template <typename Base> void* GeometryBufferD3D11<Base>::lock(GeometryBuffer::LockMode mode)
     {
-        RBXASSERT(!locked);
+        ARLASSERT(!locked);
 
         if (usage == Usage::Usage_Static)
         {
@@ -150,13 +150,13 @@ namespace Graphics
             locked = resource.pData;
         }
 
-        RBXASSERT(locked);
+        ARLASSERT(locked);
         return locked;
     }
 
     template <typename Base> void GeometryBufferD3D11<Base>::unlock()
     {
-        RBXASSERT(locked);
+        ARLASSERT(locked);
 
         if (usage == Usage::Usage_Static)
         {
@@ -202,7 +202,7 @@ namespace Graphics
         : GeometryBufferD3D11<IndexBuffer>(device, elementSize, elementCount, usage)
     {
         if (elementSize != 2 && elementSize != 4)
-            throw RBX::runtime_error("Invalid element size: %d", (int)elementSize);
+            throw ARL::runtime_error("Invalid element size: %d", (int)elementSize);
 
         create(D3D11_BIND_INDEX_BUFFER);
     }
@@ -223,7 +223,7 @@ namespace Graphics
 
     void GeometryD3D11::draw(Geometry::Primitive primitive, unsigned int offset, unsigned int count, unsigned int indexRangeBegin, unsigned int indexRangeEnd, VertexLayoutD3D11** layoutCache, GeometryD3D11** geometryCache, ShaderProgramD3D11** programCache)
     {
-        RBXASSERT(*programCache);
+        ARLASSERT(*programCache);
 
         ID3D11Device* device11 = static_cast<DeviceD3D11*>(device)->getDevice11();
         ID3D11DeviceContext* context11 = static_cast<DeviceD3D11*>(device)->getImmediateContext11();

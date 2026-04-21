@@ -30,27 +30,27 @@ don't bother with all that vtable stuff, thank you.
 
 // Decoration to indicate a class is to be treated as an "Interface"
 // The class should contain pure virtual functions and maybe a little
-// trivial code. Otherwise, use RBXBaseClass.
+// trivial code. Otherwise, use ARLBaseClass.
 // !!! You can't define a virtual destructor for a class of this type
-#define RBXInterface	__declspec(novtable)
+#define ARLInterface	__declspec(novtable)
 
 // Decoration to indicate a class should not be instantiated directly
 // !!! You can't define a virtual destructor for a class of this type
-#define RBXBaseClass	__declspec(novtable)
+#define ARLBaseClass	__declspec(novtable)
 
 /****
 Note:
 
-C++ doesn't have a strict "Interface" type.  RBXInterface should be used
+C++ doesn't have a strict "Interface" type.  ARLInterface should be used
 for classes that declare only pure virtual functions and maybe a constructor
-and/or a field.  Classes that define non-trivial code should use RBXBaseClass instead.
+and/or a field.  Classes that define non-trivial code should use ARLBaseClass instead.
 
 ***/
 
 #else
 
-#define RBXInterface 
-#define RBXBaseClass 
+#define ARLInterface 
+#define ARLBaseClass 
 
 #endif
 

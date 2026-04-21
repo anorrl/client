@@ -4,7 +4,7 @@
 
 #include "simd/simd.h"
 
-namespace RBX
+namespace ARL
 {
 
 namespace simd
@@ -12,43 +12,43 @@ namespace simd
 
 namespace details
 {
-    RBX_SIMD_INLINE v4f inverseEstimate0Precision( )
+    ARL_SIMD_INLINE v4f inverseEstimate0Precision( )
     {
         return splat( 3e-04f );
     }
 
-    RBX_SIMD_INLINE v4f inverseEstimate1Precision( )
+    ARL_SIMD_INLINE v4f inverseEstimate1Precision( )
     {
         return splat( 2e-07f );
     }
     
-    RBX_SIMD_INLINE v4f inverseSqrtEstimate0Precision( )
+    ARL_SIMD_INLINE v4f inverseSqrtEstimate0Precision( )
     {
         return splat( 3.3e-05f );
     }
 
-    RBX_SIMD_INLINE v4f inverseSqrtEstimate1Precision( )
+    ARL_SIMD_INLINE v4f inverseSqrtEstimate1Precision( )
     {
         return splat( 3e-07f );
     }
 }
 
-RBX_SIMD_INLINE v4f sumAcross2( v4fArg a, v4fArg b, v4fArg c )
+ARL_SIMD_INLINE v4f sumAcross2( v4fArg a, v4fArg b, v4fArg c )
 {
     return sumAcross2( a, b, c, c );
 }
 
-RBX_SIMD_INLINE v4f sumAcross3( v4fArg a, v4fArg b, v4fArg c )
+ARL_SIMD_INLINE v4f sumAcross3( v4fArg a, v4fArg b, v4fArg c )
 {
     return sumAcross3( a, b, c, c );
 }
 
-RBX_SIMD_INLINE v4f sumAcross4( v4fArg a, v4fArg b, v4fArg c )
+ARL_SIMD_INLINE v4f sumAcross4( v4fArg a, v4fArg b, v4fArg c )
 {
     return sumAcross4( a, b, c, c );
 }
 
-RBX_SIMD_INLINE v4f sumAcross2( v4fArg a, v4fArg b, v4fArg c, v4fArg d )
+ARL_SIMD_INLINE v4f sumAcross2( v4fArg a, v4fArg b, v4fArg c, v4fArg d )
 {
     v4f a0c0a1c1 = zipLow( a, c );
     v4f b0d0b1d1 = zipLow( b, d );
@@ -58,7 +58,7 @@ RBX_SIMD_INLINE v4f sumAcross2( v4fArg a, v4fArg b, v4fArg c, v4fArg d )
     return sum;
 }
 
-RBX_SIMD_INLINE v4f sumAcross3( v4fArg a, v4fArg b, v4fArg c, v4fArg d )
+ARL_SIMD_INLINE v4f sumAcross3( v4fArg a, v4fArg b, v4fArg c, v4fArg d )
 {
     v4f a0c0a1c1, a2c2xxxx;
     zip( a0c0a1c1, a2c2xxxx, a, c );
@@ -72,7 +72,7 @@ RBX_SIMD_INLINE v4f sumAcross3( v4fArg a, v4fArg b, v4fArg c, v4fArg d )
     return sum;
 }
 
-RBX_SIMD_INLINE v4f sumAcross4( v4fArg a, v4fArg b, v4fArg c, v4fArg d )
+ARL_SIMD_INLINE v4f sumAcross4( v4fArg a, v4fArg b, v4fArg c, v4fArg d )
 {
     v4f a0c0a1c1, a2c2a3c3;
     zip( a0c0a1c1, a2c2a3c3, a, c );
@@ -88,7 +88,7 @@ RBX_SIMD_INLINE v4f sumAcross4( v4fArg a, v4fArg b, v4fArg c, v4fArg d )
 }
 
 template< class T >
-RBX_SIMD_INLINE void transpose( T& a, T& b, T& c, T& d, const T& x, const T& y, const T& z, const T& w )
+ARL_SIMD_INLINE void transpose( T& a, T& b, T& c, T& d, const T& x, const T& y, const T& z, const T& w )
 {
     T x0z0x1z1, x2z2x3z3;
     zip( x0z0x1z1, x2z2x3z3, x, z );
@@ -100,20 +100,20 @@ RBX_SIMD_INLINE void transpose( T& a, T& b, T& c, T& d, const T& x, const T& y, 
 }
 
 template< class T >
-RBX_SIMD_INLINE void transpose4x3( T& x, T& y, T& z, const T& a, const T& b, const T& c, const T& d )
+ARL_SIMD_INLINE void transpose4x3( T& x, T& y, T& z, const T& a, const T& b, const T& c, const T& d )
 {
     T dummy;
     transpose( x, y, z, dummy, a, b, c, d );
 }
 
 template< class T >
-RBX_SIMD_INLINE void transpose3x4( T& a, T& b, T& c, T& d, const T& x, const T& y, const T& z )
+ARL_SIMD_INLINE void transpose3x4( T& a, T& b, T& c, T& d, const T& x, const T& y, const T& z )
 {
     transpose(a, b, c, d, x, y, z, z);
 }
 
 template< class T >
-RBX_SIMD_INLINE void transpose4x2( T& x, T& y, const T& a, const T& b, const T& c, const T& d )
+ARL_SIMD_INLINE void transpose4x2( T& x, T& y, const T& a, const T& b, const T& c, const T& d )
 {
     T t0 = zipLow( a, c );
     T t1 = zipLow( b, d );
@@ -121,7 +121,7 @@ RBX_SIMD_INLINE void transpose4x2( T& x, T& y, const T& a, const T& b, const T& 
 }
 
 template< class T >
-RBX_SIMD_INLINE void transpose2x4( T& a, T& b, T& c, T& d, const T& x, const T& y )
+ARL_SIMD_INLINE void transpose2x4( T& a, T& b, T& c, T& d, const T& x, const T& y )
 {
     zip( a, c, x, y );
     b = moveHighLow( a, a );
@@ -129,7 +129,7 @@ RBX_SIMD_INLINE void transpose2x4( T& a, T& b, T& c, T& d, const T& x, const T& 
 }
 
 template< class T >
-RBX_SIMD_INLINE T gatherX( const T& a, const T& b, const T& c, const T& d )
+ARL_SIMD_INLINE T gatherX( const T& a, const T& b, const T& c, const T& d )
 {
     T t0 = zipLow( a, c );
     T t1 = zipLow( b, d );
@@ -137,14 +137,14 @@ RBX_SIMD_INLINE T gatherX( const T& a, const T& b, const T& c, const T& d )
 }
 
 template< class T >
-RBX_SIMD_INLINE T gatherX( const T& a, const T& b, const T& c )
+ARL_SIMD_INLINE T gatherX( const T& a, const T& b, const T& c )
 {
     T t0 = zipLow( a, c );
     return zipLow( t0, b );
 }
 
 template< class T >
-RBX_SIMD_INLINE T gatherX( const T& a, const T& b )
+ARL_SIMD_INLINE T gatherX( const T& a, const T& b )
 {
     return zipLow( a, b );
 }

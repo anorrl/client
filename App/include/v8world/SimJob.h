@@ -8,7 +8,7 @@
 #include <vector>
 #include "boost/intrusive/list.hpp"
 
-namespace RBX {
+namespace ARL {
 
 	class Primitive;
 	class Assembly;

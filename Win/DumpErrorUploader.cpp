@@ -18,7 +18,7 @@
 
 namespace io = boost::iostreams;
 
-boost::scoped_ptr<RBX::Http> DumpErrorUploader::crashEventRequest;
+boost::scoped_ptr<ARL::Http> DumpErrorUploader::crashEventRequest;
 std::istringstream DumpErrorUploader::crashEventData("Crash happened!");
 std::string DumpErrorUploader::crashEventResponse;
 std::string DumpErrorUploader::crashCounterNamePrefix;
@@ -29,7 +29,7 @@ DYNAMIC_FASTFLAGVARIABLE(ExtendedCrashInfluxReporting, false)
 DumpErrorUploader::DumpErrorUploader(bool backgroundUpload, const std::string& crashCounterNamePrefix)
 {
 	if (backgroundUpload)
-		thread.reset(new RBX::worker_thread(boost::bind(&DumpErrorUploader::run, _data), "ErrorUploader"));
+		thread.reset(new ARL::worker_thread(boost::bind(&DumpErrorUploader::run, _data), "ErrorUploader"));
 
 	this->crashCounterNamePrefix = crashCounterNamePrefix;
 }
@@ -39,9 +39,9 @@ void DumpErrorUploader::InitCrashEvent(const std::string& url, const std::string
 	// Setup a HTTP object for crashEvent
 	if(!crashEventRequest)
 	{
-		std::string finalUrl = url + "?filename=" + RBX::Http::urlEncode(crashEventFileName);
-		RBX::Log::current()->writeEntry(RBX::Log::Information, RBX::format("Initializing CrashEvent request, url: %s", finalUrl.c_str()).c_str());
-		crashEventRequest.reset(new RBX::Http(finalUrl));
+		std::string finalUrl = url + "?filename=" + ARL::Http::urlEncode(crashEventFileName);
+		ARL::Log::current()->writeEntry(ARL::Log::Information, ARL::format("Initializing CrashEvent request, url: %s", finalUrl.c_str()).c_str());
+		crashEventRequest.reset(new ARL::Http(finalUrl));
 		crashEventResponse.reserve(MAX_PATH);
 	}
 }
@@ -58,13 +58,13 @@ void DumpErrorUploader::Upload(const std::string& url)
 
     if (hMutex == NULL) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "CreateMutex error: %d\n", GetLastError() );
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "CreateMutex error: %d\n", GetLastError() );
 	}
     else 
 	{
         if ( GetLastError() == ERROR_ALREADY_EXISTS ) 
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "RobloxCrashDumpUploaderMutex already exists. Not uploading logs.");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "RobloxCrashDumpUploaderMutex already exists. Not uploading logs.");
 			return;
 		}
 	}
@@ -85,13 +85,13 @@ void DumpErrorUploader::Upload(const std::string& url)
 	}
 	else
 	{
-		while (run(_data)!=RBX::worker_thread::done) 
+		while (run(_data)!=ARL::worker_thread::done) 
 		{}
 	}
 }
 
 int LogFilter(unsigned int code, struct _EXCEPTION_POINTERS *ep) {
-	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Exception code: %u", code);
+	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Exception code: %u", code);
 
 	return EXCEPTION_EXECUTE_HANDLER;
 }
@@ -102,18 +102,18 @@ void DumpErrorUploader::UploadCrashEventFile(struct _EXCEPTION_POINTERS *excInfo
 	{
 		if(crashEventRequest)
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Crash Event post");
-			crashEventRequest->post(crashEventData, RBX::Http::kContentTypeDefaultUnspecified, true, crashEventResponse);
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Crash Event posted, response: %s", crashEventResponse.c_str());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Crash Event post");
+			crashEventRequest->post(crashEventData, ARL::Http::kContentTypeDefaultUnspecified, true, crashEventResponse);
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Crash Event posted, response: %s", crashEventResponse.c_str());
 
-			RBX::Analytics::EphemeralCounter::reportCounter(crashCounterNamePrefix+"CrashEvent", 1, true);
+			ARL::Analytics::EphemeralCounter::reportCounter(crashCounterNamePrefix+"CrashEvent", 1, true);
 
-			RBX::Analytics::InfluxDb::Points points;
+			ARL::Analytics::InfluxDb::Points points;
 			if (DFFlag::ExtendedCrashInfluxReporting)
 			{
 				points.addPoint("SessionReport", "AppStatusCrash");
-				points.addPoint("PlayTime", RBX::Time::nowFastSec());
-				points.addPoint("UsedMemoryKB", RBX::MemoryStats::usedMemoryBytes());
+				points.addPoint("PlayTime", ARL::Time::nowFastSec());
+				points.addPoint("UsedMemoryKB", ARL::MemoryStats::usedMemoryBytes());
 
 				MainLogManager::GameState gamestate = MainLogManager::getMainLogManager()->getGameState();
 				std::string gameStateString = gamestate == MainLogManager::UN_INITIALIZED ? "uninitialized" : (gamestate == MainLogManager::IN_GAME ? "inGame" : "leaveGame");
@@ -142,15 +142,15 @@ void DumpErrorUploader::UploadCrashEventFile(struct _EXCEPTION_POINTERS *excInfo
 	}
     catch (const std::exception& e)
     {
-        RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Exception during upload crash event: %s", e.what());
+        ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Exception during upload crash event: %s", e.what());
     }
 	catch(...)
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Exception during upload crash event");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Exception during upload crash event");
 	}
 }
 
-RBX::worker_thread::work_result DumpErrorUploader::run(shared_ptr<data> _data)
+ARL::worker_thread::work_result DumpErrorUploader::run(shared_ptr<data> _data)
 {
 	std::string file;
 	{
@@ -166,10 +166,10 @@ RBX::worker_thread::work_result DumpErrorUploader::run(shared_ptr<data> _data)
 			if (_data->dmpFileCount > 0)
 			{
 				// report number of dmps uploaded
-				RBX::Analytics::EphemeralCounter::reportCounter(crashCounterNamePrefix+"Crash", _data->dmpFileCount, true);
+				ARL::Analytics::EphemeralCounter::reportCounter(crashCounterNamePrefix+"Crash", _data->dmpFileCount, true);
 			}
 
-			return RBX::worker_thread::done;
+			return ARL::worker_thread::done;
 		}
 		file = _data->files.front();
 	}
@@ -186,17 +186,17 @@ RBX::worker_thread::work_result DumpErrorUploader::run(shared_ptr<data> _data)
 		// TODO: put the filename in the header rather than the query string??
 		std::string url = _data->url;
 		url += "?filename=";
-		url += RBX::Http::urlEncode(file);
+		url += ARL::Http::urlEncode(file);
 
 		if (isDmpFile && _data->dmpFileCount>3)
 		{
 			std::stringstream data("Too many dmp files");
 			std::string response;
-			RBX::Http(url).post(data, RBX::Http::kContentTypeDefaultUnspecified, true, response);
+			ARL::Http(url).post(data, ARL::Http::kContentTypeDefaultUnspecified, true, response);
 		}
 		else if (!isFullDmp)
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Uploading %s\n", file.c_str() );
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Uploading %s\n", file.c_str() );
 			std::fstream data(file.c_str(), std::ios_base::in | std::ios_base::binary);
 			std::streamoff begin = data.tellg();
 			data.seekg (0, std::ios::end);
@@ -205,14 +205,14 @@ RBX::worker_thread::work_result DumpErrorUploader::run(shared_ptr<data> _data)
 			{
 				data.seekg (0, std::ios::beg);
 				std::string response;
-				RBX::Http(url).post(data, RBX::Http::kContentTypeDefaultUnspecified, true, response);
+				ARL::Http(url).post(data, ARL::Http::kContentTypeDefaultUnspecified, true, response);
 			}
 			else
 			{
 				// Some dmp files are empty. Post it anyway so that we can report it
 				std::stringstream data("Empty!!!");
 				std::string response;
-				RBX::Http(url).post(data, RBX::Http::kContentTypeDefaultUnspecified, true, response);
+				ARL::Http(url).post(data, ARL::Http::kContentTypeDefaultUnspecified, true, response);
 			}
 		}
 
@@ -223,12 +223,12 @@ RBX::worker_thread::work_result DumpErrorUploader::run(shared_ptr<data> _data)
 	}
 	catch (std::exception& e)
 	{
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, e);
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e);
 	}
 
 	{
 		boost::recursive_mutex::scoped_lock lock(_data->sync);
 		_data->files.pop();
 	}
-	return RBX::worker_thread::more;
+	return ARL::worker_thread::more;
 }

@@ -9,7 +9,7 @@
 #include "GfxBase/Type.h"
 #include "GfxBase/Adorn.h"
 
-namespace RBX {
+namespace ARL {
 
 
 extern const char* const sGuiItem;
@@ -28,7 +28,7 @@ private:
 	/*override*/ bool askAddChild(const Instance* instance) const {
 		return Instance::fastDynamicCast<GuiItem>(instance)!=0;
 	}
-	/*override*/ const RBX::Name& getClassName() const	{return RBX::Name::getNullName(); }
+	/*override*/ const ARL::Name& getClassName() const	{return ARL::Name::getNullName(); }
 
 protected:
 	GuiItem* getFocus() {return focus.get();}
@@ -61,12 +61,12 @@ protected:
 
 	// standard virtual overrides....
 	virtual Vector2 getPosition(Canvas canvas) const {
-		RBXASSERT(getGuiParent());
+		ARLASSERT(getGuiParent());
 		return getGuiParent()->getChildPosition(this, canvas);
 	}
 
 	virtual Vector2 getChildPosition(const GuiItem* child, Canvas canvas) const {		// This should always be override if ever used
-		RBXASSERT(0);
+		ARLASSERT(0);
 		return Vector2::zero();
 	}
 
@@ -106,7 +106,7 @@ public:
 extern const char* const sGuiRoot;
 
 class GuiRoot : 
-	public Reflection::Described<GuiRoot, sGuiRoot, GuiItem, Reflection::ClassDescriptor::INTERNAL_LOCAL, RBX::Security::LocalUser> 
+	public Reflection::Described<GuiRoot, sGuiRoot, GuiItem, Reflection::ClassDescriptor::INTERNAL_LOCAL, ARL::Security::LocalUser> 
 {
 public:
 	GuiRoot();
@@ -118,7 +118,7 @@ public:
 	// GuiItem
 	/*override*/ Vector2 getSize(Canvas canvas) const {
 		// shouldn't be called - implies item doesn't know it's top level
-		RBXASSERT(false);
+		ARLASSERT(false);
 		return canvas.size;
 	}
 

@@ -9,7 +9,7 @@
 #include "v8datamodel/CylinderMesh.h"
 #include "Humanoid/Humanoid.h"
 
-namespace RBX {
+namespace ARL {
 	class PartInstance;
 
 	class PartCookie
@@ -25,7 +25,7 @@ namespace RBX {
 			HAS_DECALS_Z_NEG = 1 << 5
 		};
 
-		static unsigned int compute(RBX::PartInstance* part);
+		static unsigned int compute(ARL::PartInstance* part);
 	};
 
 	// Return the special shape for the part - i.e. the LAST child of type DataModelMesh

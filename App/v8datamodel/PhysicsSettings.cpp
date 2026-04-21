@@ -13,19 +13,19 @@
 #include "Util/RunStateOwner.h"
 #include "V8datamodel/FastLogSettings.h"
 
-const char *const RBX::sPhysicsSettings = "PhysicsSettings";
+const char *const ARL::sPhysicsSettings = "PhysicsSettings";
 
 // Don't show tree in release mode - has ROBLOX specific secrets as to how we do assembly
 
 #ifdef _DEBUG
-	#define __RBX_SECRET_DEBUGGING
+	#define __ARL_SECRET_DEBUGGING
 #endif
 
 #ifdef _NOOPT
-	#define __RBX_SECRET_DEBUGGING
+	#define __ARL_SECRET_DEBUGGING
 #endif
 
-using namespace RBX;
+using namespace ARL;
 
 REFLECTION_BEGIN();
 static Reflection::PropDescriptor<PhysicsSettings, bool> prop_ShowAnchoredParts("AreAnchorsShown", "Display", &PhysicsSettings::getShowAnchoredParts, &PhysicsSettings::setShowAnchoredParts);
@@ -52,7 +52,7 @@ static Reflection::PropDescriptor<PhysicsSettings, double> prop_ThrottleAdjustTi
 static Reflection::PropDescriptor<PhysicsSettings, bool> prop_RenderDecompositionData("ShowDecompositionGeometry", "Display", &PhysicsSettings::getRenderDecompositionData, &PhysicsSettings::setRenderDecompositionData);
 static Reflection::PropDescriptor<PhysicsSettings, bool> prop_PhysicsAnalyzerEnabled("PhysicsAnalyzerEnabled", category_Data, &PhysicsSettings::getPhysicsAnalyzerState, NULL, Reflection::PropertyDescriptor::UI, Security::Plugin);
 
-#if defined(RBX_TEST_BUILD) || RBX_PLATFORM_IOS
+#if defined(ARL_TEST_BUILD) || ARL_PLATFORM_IOS
 static Reflection::PropDescriptor<PhysicsSettings, bool> prop_ThrottleAt30Fps("Is30FpsThrottleEnabled", "Performance", &PhysicsSettings::getThrottleAt30Fps, &PhysicsSettings::setThrottleAt30Fps);
 #endif
 REFLECTION_END();
@@ -167,7 +167,7 @@ void PhysicsSettings::setPhysicsAnalyzerState( bool enabled )
 }
 
 
-#ifdef __RBX_SECRET_DEBUGGING
+#ifdef __ARL_SECRET_DEBUGGING
 
     REFLECTION_BEGIN();
 	static Reflection::PropDescriptor<PhysicsSettings, bool> prop_HighlightSleepParts("AreSleepPartsHighlighted", "Secret Display", &PhysicsSettings::getHighlightSleepParts, &PhysicsSettings::setHighlightSleepParts);

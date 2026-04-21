@@ -15,7 +15,7 @@
 
 using boost::shared_ptr;
 
-namespace RBX {
+namespace ARL {
 
 	class ContentId
 	{

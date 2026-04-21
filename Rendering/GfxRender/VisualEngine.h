@@ -10,7 +10,7 @@
 #include "RbxG3D/Frustum.h"
 #include "RenderCamera.h"
 
-namespace RBX
+namespace ARL
 {
 	class ContentProvider;
 	class MeshContentProvider;
@@ -25,7 +25,7 @@ namespace RBX
 	class Typesetter;
 }
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -140,15 +140,15 @@ private:
     scoped_ptr<FrameRateManager> frameRateManager;
 	scoped_ptr<EmitterShared> emitterShared;
 
-    RBX::CRenderSettings* settings;
+    ARL::CRenderSettings* settings;
 
-    RBX::MeshContentProvider* meshContentProvider;
-    RBX::ContentProvider* contentProvider;
-    RBX::Lighting* lighting;
+    ARL::MeshContentProvider* meshContentProvider;
+    ARL::ContentProvider* contentProvider;
+    ARL::Lighting* lighting;
 
     scoped_ptr<RenderCaps> renderCaps;
 
-    scoped_ptr<RBX::RenderStats> renderStats;
+    scoped_ptr<ARL::RenderStats> renderStats;
 
     scoped_ptr<LightGrid> lightGrid;
     scoped_ptr<Water> water;

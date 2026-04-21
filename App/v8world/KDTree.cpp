@@ -6,7 +6,7 @@
 
 DYNAMIC_FASTINTVARIABLE(SmoothTerrainPhysicsRayAabbSlop, 0)
 
-namespace RBX {
+namespace ARL {
 
 struct RayNode
 {
@@ -136,7 +136,7 @@ static void queryAABBStackless(const KDTree* tree, btTriangleCallback* callback,
             int axis = node.branch.axis;
             unsigned int childIndex = node.branch.childIndex;
 
-            RBXASSERT(bufferOffset + 2 <= tree->depth);
+            ARLASSERT(bufferOffset + 2 <= tree->depth);
 
             if (node.branch.splits[1] <= aabbMax[axis])
                 buffer[bufferOffset++] = childIndex + 1;
@@ -222,7 +222,7 @@ static void queryRayStackless(const KDTree* tree, KDTree::RayResult& result, con
             int axis = node.branch.axis;
             unsigned int childIndex = node.branch.childIndex;
 
-            RBXASSERT(bufferOffset + 2 <= tree->depth);
+            ARLASSERT(bufferOffset + 2 <= tree->depth);
 
             float sa = raySource[axis];
             float da = rayDir[axis];

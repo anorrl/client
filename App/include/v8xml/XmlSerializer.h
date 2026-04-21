@@ -9,24 +9,24 @@
 
 #include "V8Xml/XmlElement.h"
 
-namespace RBX
+namespace ARL
 {
 	class ContentProvider;
 }
-class RBXBaseClass XmlWriter : public boost::noncopyable {
+class ARLBaseClass XmlWriter : public boost::noncopyable {
 
 protected:
-	std::map<RBX::InstanceHandle, int> handles;
-	typedef boost::unordered_map<std::string, RBX::InstanceHandle> IdValidationMap;
+	std::map<ARL::InstanceHandle, int> handles;
+	typedef boost::unordered_map<std::string, ARL::InstanceHandle> IdValidationMap;
 	IdValidationMap idValidationMap;
 	std::ostream& stream;
 	XmlWriter(std::ostream& stream);
 public:
 	virtual void serialize(const XmlElement* xmlNode) = 0;
 
-	int getHandleIndex(RBX::InstanceHandle h) {
+	int getHandleIndex(ARL::InstanceHandle h) {
 		int i;
-		std::map<RBX::InstanceHandle, int>::iterator iter = handles.find(h);
+		std::map<ARL::InstanceHandle, int>::iterator iter = handles.find(h);
 		if (iter==handles.end()) {
 			i = static_cast<int>(handles.size());	// TODO:  Should this be size_t getHandleIndex?
 			handles[h] = i;
@@ -36,15 +36,15 @@ public:
 		return i;
 	}
 
-	bool isValidId(const std::string& id, const RBX::InstanceHandle& h) const
+	bool isValidId(const std::string& id, const ARL::InstanceHandle& h) const
 	{
 		IdValidationMap::const_iterator itr = idValidationMap.find(id);
 		return itr == idValidationMap.end() || (itr->second.getTarget() == h.getTarget());
 	}
 
-	void recordId(const std::string& id, const RBX::InstanceHandle& h)
+	void recordId(const std::string& id, const ARL::InstanceHandle& h)
 	{
-		RBXASSERT(isValidId(id, h));
+		ARLASSERT(isValidId(id, h));
 		idValidationMap[id] = h;
 	}
 };

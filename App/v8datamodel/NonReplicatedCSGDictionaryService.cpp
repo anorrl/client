@@ -12,7 +12,7 @@ FASTFLAGVARIABLE(IgnoreBlankDataOnStore, true)
 
 FASTFLAG(StudioCSGAssets)
 
-namespace RBX
+namespace ARL
 {
 	const char *const sNonReplicatedCSGDictionaryService = "NonReplicatedCSGDictionaryService";
 
@@ -21,7 +21,7 @@ namespace RBX
 		setName("NonReplicatedCSGDictionaryService");
 	}
 	
-	void NonReplicatedCSGDictionaryService::reparentChildData(shared_ptr<RBX::Instance> childInstance)
+	void NonReplicatedCSGDictionaryService::reparentChildData(shared_ptr<ARL::Instance> childInstance)
 	{
 		if (!isChildData(childInstance))
 			return;
@@ -29,7 +29,7 @@ namespace RBX
 		CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(DataModel::get(this));
 		childInstance->setParent(dictionaryService);
 
-		if (shared_ptr<RBX::BinaryStringValue> bStrValue = RBX::Instance::fastSharedDynamicCast<RBX::BinaryStringValue>(childInstance))
+		if (shared_ptr<ARL::BinaryStringValue> bStrValue = ARL::Instance::fastSharedDynamicCast<ARL::BinaryStringValue>(childInstance))
 		{
 			std::string key = createHashKey(bStrValue->getValue().value());
 			instanceMap.erase(key);
@@ -74,30 +74,30 @@ namespace RBX
 	void NonReplicatedCSGDictionaryService::storeAllDescendants(shared_ptr<Instance> instance)
 	{
 		if (instance->getChildren())
-			for (RBX::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
+			for (ARL::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
 				storeAllDescendants(*iter);
 
-		if (shared_ptr<PartOperation> childOperation = RBX::Instance::fastSharedDynamicCast<PartOperation>(instance))
+		if (shared_ptr<PartOperation> childOperation = ARL::Instance::fastSharedDynamicCast<PartOperation>(instance))
 			storeData(*childOperation);
 	}
 
 	void NonReplicatedCSGDictionaryService::retrieveAllDescendants(shared_ptr<Instance> instance)
 	{
 		if (instance->getChildren())
-			for (RBX::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
+			for (ARL::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
 				retrieveAllDescendants(*iter);
 
-		if (shared_ptr<PartOperation> childOperation = RBX::Instance::fastSharedDynamicCast<PartOperation>(instance))
+		if (shared_ptr<PartOperation> childOperation = ARL::Instance::fastSharedDynamicCast<PartOperation>(instance))
 			retrieveData(*childOperation);
 	}
 
-	void NonReplicatedCSGDictionaryService::refreshRefCountUnderInstance(RBX::Instance* instance)
+	void NonReplicatedCSGDictionaryService::refreshRefCountUnderInstance(ARL::Instance* instance)
 	{
-		if (RBX::PartOperation* partOperation = RBX::Instance::fastDynamicCast<RBX::PartOperation>(instance))
+		if (ARL::PartOperation* partOperation = ARL::Instance::fastDynamicCast<ARL::PartOperation>(instance))
 			storeData(*partOperation, true);
 
 		if (instance->getChildren())
-			for (RBX::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
+			for (ARL::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
 				refreshRefCountUnderInstance(iter->get());
 	}
 }

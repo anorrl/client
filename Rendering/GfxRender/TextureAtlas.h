@@ -2,7 +2,7 @@
 #include "TextureRef.h"
 #include "GfxCore/Texture.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

@@ -6,9 +6,9 @@
 #include "Util/IndexArray.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
-	class RBXBaseClass IndexedTree
+	class ARLBaseClass IndexedTree
 	{
 	private:
 		IndexedTree*				parent;
@@ -75,7 +75,7 @@ namespace RBX {
 		template<class Type>
 		Type* getOneBelowRoot() {
 			IndexedTree* above = parent;
-			RBXASSERT(above != NULL);
+			ARLASSERT(above != NULL);
 			IndexedTree* answer = this;
 			while (above->parent) {
 				answer = above;

@@ -13,7 +13,7 @@
 #include "btBulletCollisionCommon.h"
 
 
-namespace RBX {
+namespace ARL {
 
 	class BulletShapeConnector :	public PolyConnector, 
 									public Allocator<BulletShapeConnector>
@@ -108,4 +108,4 @@ namespace RBX {
 		}
 	};
 
-} // namespace RBX
+} // namespace ARL

@@ -11,7 +11,7 @@
 #include "V8DataModel/Workspace.h"
 #include "V8DataModel/DebrisService.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const  sSpawnLocation = "SpawnLocation";
 
@@ -46,7 +46,7 @@ void SpawnLocation::setTeamColor(BrickColor color) {
 void SpawnLocation::onEvent_spawnerTouched(shared_ptr<Instance> other)
 {
 	if (Network::Players::backendProcessing(this) && other) {
-		RBXASSERT(allowTeamChangeOnTouch);
+		ARLASSERT(allowTeamChangeOnTouch);
 		if (Instance* touchingCharacter = other->getParent()) {
 			if (Humanoid::modelIsCharacter(touchingCharacter)) {
 				if (Network::Player *p = Network::Players::getPlayerFromCharacter(touchingCharacter)) {
@@ -86,7 +86,7 @@ void SpawnLocation::onAncestorChanged(const AncestorChanged& event)
 	if (ss) 
 	{
 		ss->UnregisterSpawner(this);
-		if (isDescendantOf(RBX::ServiceProvider::find<RBX::Workspace>(this)) )
+		if (isDescendantOf(ARL::ServiceProvider::find<ARL::Workspace>(this)) )
 		{
 			ss->RegisterSpawner(this);
 		}
@@ -101,10 +101,10 @@ void SpawnLocation::onServiceProvider(ServiceProvider* oldProvider, ServiceProvi
 	if (newProvider)
 	{
 		SpawnerService *ss = ServiceProvider::create<SpawnerService>(newProvider);
-		RBXASSERT(ss);
+		ARLASSERT(ss);
 
 		// entering
-		if (isDescendantOf(RBX::ServiceProvider::find<RBX::Workspace>(newProvider)) )
+		if (isDescendantOf(ARL::ServiceProvider::find<ARL::Workspace>(newProvider)) )
 		{
 			ss->RegisterSpawner(this);
 		}
@@ -115,7 +115,7 @@ void SpawnLocation::onServiceProvider(ServiceProvider* oldProvider, ServiceProvi
 		// leaving
 
 		SpawnerService *ss = ServiceProvider::find<SpawnerService>(oldProvider);
-		RBXASSERT(ss);
+		ARLASSERT(ss);
 		ss->UnregisterSpawner(this);
 	}
 
@@ -169,7 +169,7 @@ SpawnLocation* SpawnerService::GetSpawnLocation(Network::Player *p, std::string 
 	{
 		if  (preferedSpawnName.empty() && (spawn->neutral || p->getTeamColor() == spawn->getTeamColor()))
 		{
-			if (RBX::Workspace* pWorkspace = RBX::Workspace::findWorkspace(this))
+			if (ARL::Workspace* pWorkspace = ARL::Workspace::findWorkspace(this))
 			{
 				if (spawn->isDescendantOf(pWorkspace) && spawn->getEnabled())
 					return spawn;
@@ -241,7 +241,7 @@ bool SpawnerService::SpawnPlayer(shared_ptr<ModelInstance> model, Network::Playe
 
 void SpawnerService::SpawnPlayer(Workspace* workspace, shared_ptr<ModelInstance> model, CoordinateFrame location, int forceFieldDuration)
 {
-	RBXASSERT(workspace);
+	ARLASSERT(workspace);
 	if (!workspace)		// should only be called when Player is in Datamodel
 		return;
 
@@ -256,7 +256,7 @@ void SpawnerService::SpawnPlayer(Workspace* workspace, shared_ptr<ModelInstance>
 
 		// hook it into the debris service so it expires
 		DebrisService *ds = ServiceProvider::create<DebrisService>(workspace);
-		RBXASSERT(ds);
+		ARLASSERT(ds);
 		ds->addItem(f, forceFieldDuration);
 	}
 

@@ -41,7 +41,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(PersistenceCurlCookies, false)
 
-namespace RBX {
+namespace ARL {
 
 	static boost::shared_ptr<ProfanityFilter> s_profanityFilter;
 
@@ -69,29 +69,29 @@ namespace RBX {
 
 	void Game::globalInit(bool isStudio)
 	{
-		RBX::Http::CookieSharingPolicy cookieSharingPolicy;
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
-        cookieSharingPolicy = RBX::Http::CookieSharingSingleProcessMultipleThreads;
-#elif defined(RBX_PLATFORM_DURANGO)
-		cookieSharingPolicy = RBX::Http::CookieSharingSingleProcessMultipleThreads;
+		ARL::Http::CookieSharingPolicy cookieSharingPolicy;
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
+        cookieSharingPolicy = ARL::Http::CookieSharingSingleProcessMultipleThreads;
+#elif defined(ARL_PLATFORM_DURANGO)
+		cookieSharingPolicy = ARL::Http::CookieSharingSingleProcessMultipleThreads;
 #elif defined(_WIN32) || defined(__APPLE__)
 	if (DFFlag::PersistenceCurlCookies)
 	{
-        cookieSharingPolicy = RBX::Http::CookieSharingMultipleProcessesWrite;
+        cookieSharingPolicy = ARL::Http::CookieSharingMultipleProcessesWrite;
         if (isStudio)
         {
-            cookieSharingPolicy |= RBX::Http::CookieSharingMultipleProcessesRead;
+            cookieSharingPolicy |= ARL::Http::CookieSharingMultipleProcessesRead;
         }
 	}
 	else
-		cookieSharingPolicy = RBX::Http::CookieSharingSingleProcessMultipleThreads;
+		cookieSharingPolicy = ARL::Http::CookieSharingSingleProcessMultipleThreads;
 
 
 #else
 #error Unsupported platform.
 #endif
 
-#if defined(RBX_PLATFORM_DURANGO)
+#if defined(ARL_PLATFORM_DURANGO)
 		Http::init(Http::XboxHttp, cookieSharingPolicy);
 #elif defined(_WIN32)
 		Http::init(Http::WinInet, cookieSharingPolicy);
@@ -161,7 +161,7 @@ namespace RBX {
 					break;
 			}
 		}
-		RBX::GameBasicSettings::singleton().recordSettingsInGA(touchEnabled);
+		ARL::GameBasicSettings::singleton().recordSettingsInGA(touchEnabled);
     }
 
 	Game::Game(Verb* lockVerb, const char* baseUrl, bool shouldShowLoadingScreen) :
@@ -243,9 +243,9 @@ namespace RBX {
 		return suppress;
 	}
 
-	void Game::configurePlayer(RBX::Security::Identities identity, const std::string& params, int launchMode, const char* vrDevice)
+	void Game::configurePlayer(ARL::Security::Identities identity, const std::string& params, int launchMode, const char* vrDevice)
 	{
 		gameConfigurer.reset(new PlayerConfigurer());
 		gameConfigurer->configure(identity, dataModel.get(), params, launchMode, vrDevice);
 	}
-}  // namespace RBX
+}  // namespace ARL

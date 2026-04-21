@@ -3,7 +3,7 @@
 #include <sstream>
 
 // used for the old parser
-#ifndef RBX_BOOTSTRAPPER_MAC
+#ifndef ARL_BOOTSTRAPPER_MAC
 #include "boost/algorithm/string.hpp"
 #endif
 
@@ -74,7 +74,7 @@ static bool needTrimSymbol(char c)
 	return (c == ValueEnclosure[0]) || c==LineBreak || c==' ' || c == '\t' || c=='\n' || c=='\r';
 }
 
-#ifdef RBX_BOOTSTRAPPER_MAC
+#ifdef ARL_BOOTSTRAPPER_MAC
 static void trim_str_left(std::string &s)
 {
     std::string::iterator iter = s.begin();

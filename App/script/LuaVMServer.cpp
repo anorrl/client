@@ -32,7 +32,7 @@ static long long multiplicativeInverse(long long a, long long n)
         newr = curr - q * newr;
     }
     
-    RBXASSERT(r == 1);
+    ARLASSERT(r == 1);
     
     return (t < 0) ? t + n : t;
 }
@@ -62,7 +62,7 @@ static std::pair<unsigned int, unsigned int> createLuaKeyPair()
     unsigned int encode = 1;
     do
     {
-        RBX::Guid::generateStandardGUID(guid);
+        ARL::Guid::generateStandardGUID(guid);
         encode = boost::hash_value(guid) * 2 + 1;
     } while (encode == 1);
     
@@ -71,7 +71,7 @@ static std::pair<unsigned int, unsigned int> createLuaKeyPair()
     // encode * u + 2^32 * v = 1
     unsigned int decode = multiplicativeInverse(encode, 1ll << 32);
     
-    RBXASSERT(encode * decode == 1);
+    ARLASSERT(encode * decode == 1);
 
     return std::make_pair(encode, decode);
 }
@@ -118,7 +118,7 @@ namespace LuaVM
         return result;
     }
 
-    int load(lua_State* L, const RBX::ProtectedString& source, const char* chunkname, unsigned int modkey)
+    int load(lua_State* L, const ARL::ProtectedString& source, const char* chunkname, unsigned int modkey)
     {
         const std::string& code = source.getSource();
             

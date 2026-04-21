@@ -6,7 +6,7 @@
 #include "V8DataModel/ModelInstance.h"
 #include "V8DataModel/Value.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sConfiguration = "Configuration";
 

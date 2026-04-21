@@ -3,7 +3,7 @@
 #include "v8tree/Verb.h"
 #include "rbx/CEvent.h"
 
-namespace RBX {
+namespace ARL {
 
 class Game;
 class View;
@@ -25,7 +25,7 @@ public:
 };
 
 // Request to take screenshot of current game
-class ScreenshotVerb : public RBX::Verb
+class ScreenshotVerb : public ARL::Verb
 {
 	Game* game;
 	ViewBase* view;
@@ -91,7 +91,7 @@ public:
 };
 
 // Request to toggle fullscreen
-class ToggleFullscreenVerb : public RBX::Verb
+class ToggleFullscreenVerb : public ARL::Verb
 {
 
 private:
@@ -103,8 +103,8 @@ public:
 	ToggleFullscreenVerb(View& view, VerbContainer* container, VideoControl* videoControl);
 	virtual bool isChecked() const;
 	virtual bool isEnabled() const;
-	virtual void doIt(RBX::IDataState* dataState);
+	virtual void doIt(ARL::IDataState* dataState);
 };
 
 
-}  // namespace RBX
+}  // namespace ARL

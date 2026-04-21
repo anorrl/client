@@ -4,7 +4,7 @@
 
 #include "util/object.h"
 
-namespace RBX {
+namespace ARL {
 
     class Instance;
 	class TextDisplay;

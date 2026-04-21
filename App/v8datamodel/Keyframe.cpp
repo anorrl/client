@@ -5,7 +5,7 @@
 #include "V8DataModel/Keyframe.h"
 #include "V8DataModel/Workspace.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sKeyframe = "Keyframe";
 

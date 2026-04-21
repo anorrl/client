@@ -955,7 +955,7 @@ void RakPeer::Shutdown( unsigned int blockDuration, unsigned char orderingChanne
 	endThreads = true;
 
 	// BEGIN ROBLOX CHANGES
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
     // Ignore SIGPIPE, causing operations on closed sockets to return error codes instead
 	signal(SIGPIPE, SIG_IGN);
 #endif
@@ -1052,7 +1052,7 @@ void RakPeer::Shutdown( unsigned int blockDuration, unsigned char orderingChanne
 	ResetSendReceipt();
     
     // BEGIN ROBLOX CHANGES
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
     // If we set SIGPIPE to SIG_IGN above, reset to default behavior
 	signal(SIGPIPE, SIG_DFL);
 #endif

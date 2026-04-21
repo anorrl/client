@@ -10,15 +10,15 @@
 #include "V8World/MegaClusterPoly.h"
 #include "V8DataModel/MegaCluster.h"
 
-namespace RBX {
+namespace ARL {
 using namespace Voxel;
 
 
 BallCellContact::BallCellContact(Primitive* p0, Primitive* p1, const Vector3int16& cell)
 	: CellMeshContact(p0, p1, Vector3int32(cell))
 {
-	RBXASSERT(rbx_static_cast<Ball*>(p1->getGeometry()));
-	RBXASSERT(rbx_static_cast<MegaClusterPoly*>(p0->getGeometry()));
+	ARLASSERT(rbx_static_cast<Ball*>(p1->getGeometry()));
+	ARLASSERT(rbx_static_cast<MegaClusterPoly*>(p0->getGeometry()));
 
     cellMesh = new POLY::Mesh;
 
@@ -72,7 +72,7 @@ void BallCellContact::findClosestFeatures(ConnectorArray& newConnectors)
     const POLY::Face* face = getFarthestPlane(planeToCenter, ballInCell);
     if (!face) 
     {
-	    RBXASSERT(0);
+	    ARLASSERT(0);
 	    return;
     }
 
@@ -136,7 +136,7 @@ const POLY::Face* BallCellContact::getFarthestPlane(float& planeToCenter, const 
 			planeToCenter = distance;
 		}
 	}
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
@@ -153,7 +153,7 @@ const POLY::Edge* BallCellContact::getClosestEdge(const POLY::Face* face, float&
 			edgeToCenter = static_cast<float>(distance);
 		}
 	}
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
@@ -186,13 +186,13 @@ const POLY::Vertex* BallCellContact::getClosestVertex(const POLY::Edge* edge, fl
 			vertexToCenter = distance;
 		}
 	}
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
 BallPlaneConnector* BallCellContact::newBallPlaneConnector(const POLY::Face* face)
 {
-    RBXASSERT(contactParams);
+    ARLASSERT(contactParams);
     if(contactParams)
     {
 	    return new BallPlaneConnector(	getPrimitive(1)->getBody(),
@@ -209,7 +209,7 @@ BallPlaneConnector* BallCellContact::newBallPlaneConnector(const POLY::Face* fac
 
 BallEdgeConnector* BallCellContact::newBallEdgeConnector(const POLY::Edge* edge)
 {
-    RBXASSERT(contactParams);
+    ARLASSERT(contactParams);
     if(contactParams)
     {
 	    return new BallEdgeConnector(	getPrimitive(1)->getBody(),
@@ -228,7 +228,7 @@ BallEdgeConnector* BallCellContact::newBallEdgeConnector(const POLY::Edge* edge)
 
 BallVertexConnector* BallCellContact::newBallVertexConnector(const POLY::Vertex* vertex)
 {
-    RBXASSERT(contactParams);
+    ARLASSERT(contactParams);
     if(contactParams)
     {
 	    return new BallVertexConnector(	getPrimitive(1)->getBody(),

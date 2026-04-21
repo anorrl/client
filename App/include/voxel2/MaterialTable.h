@@ -1,6 +1,6 @@
 #pragma once
 
-namespace RBX { namespace Voxel2 {
+namespace ARL { namespace Voxel2 {
 
     class MaterialTable
     {

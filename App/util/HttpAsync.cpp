@@ -3,7 +3,7 @@
 
 #include "Util/Http.h"
 
-namespace RBX
+namespace ARL
 {
     static const int kInitialRetryDelayMs = 200;
 
@@ -11,7 +11,7 @@ namespace RBX
 
     static void responseHandler(std::string* result, std::exception* error, shared_ptr<HttpPromise> promise)
 	{
-        RBXASSERT(result || error);
+        ARLASSERT(result || error);
 
         if (result)
 			promise->set_value(*result);
@@ -21,7 +21,7 @@ namespace RBX
 
     static void responseHandlerRetry(std::string* result, std::exception* error, shared_ptr<HttpPromise> promise, int retryCount, int retrySleep, bool externalRequest, Http http)
 	{
-        RBXASSERT(result || error);
+        ARLASSERT(result || error);
 
         if (result)
 		{

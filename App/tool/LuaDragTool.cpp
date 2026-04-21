@@ -6,7 +6,7 @@
 #include "V8DataModel/Workspace.h"
 #include "V8DataModel/ChangeHistory.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sLuaDragTool = "LuaDragTool";
 
@@ -51,21 +51,21 @@ shared_ptr<MouseCommand> LuaDragTool::onMouseDown(const shared_ptr<InputObject>&
 
 void LuaDragTool::onMouseMove(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 	luaDragger->mouseMove(MouseCommand::getUnitMouseRay(inputObject, workspace));
 }
 
 
 void LuaDragTool::onMouseIdle(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 	luaDragger->mouseMove(MouseCommand::getUnitMouseRay(inputObject, workspace));
 }
 
 
 shared_ptr<MouseCommand> LuaDragTool::onMouseUp(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(this->captured());
+	ARLASSERT(this->captured());
 	luaDragger->mouseUp();
 	if (!luaDragger->didDrag() && selectIfNoDrag.lock()) {
 		ServiceClient< Selection > selection(workspace);
@@ -106,7 +106,7 @@ shared_ptr<MouseCommand> LuaDragTool::onKeyDown(const shared_ptr<InputObject>& i
 		return shared_from(this);
 	}
 	else {
-		RBXASSERT(0);		// when did this happen
+		ARLASSERT(0);		// when did this happen
 		return shared_ptr<MouseCommand>();
 	}
 }

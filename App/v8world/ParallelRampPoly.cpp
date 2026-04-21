@@ -8,7 +8,7 @@
 #include "Util/Math.h"
 
 
-namespace RBX {
+namespace ARL {
 
 void ParallelRampPoly::buildMesh()
 {
@@ -49,4 +49,4 @@ Vector3 ParallelRampPoly::getCofmOffset( void ) const
     return aParallelRampMesh->GetLocalCofMFromMesh();
 }
 
-} // namespace RBX
+} // namespace ARL

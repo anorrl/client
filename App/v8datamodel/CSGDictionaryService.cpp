@@ -18,7 +18,7 @@ const size_t minKeySize = 4;
 
 } 
 
-namespace RBX
+namespace ARL
 {
 	const char *const sCSGDictionaryService = "CSGDictionaryService";
 
@@ -32,15 +32,15 @@ namespace RBX
 		if (numChildren() <= 0)
 			return;
 
-		std::vector<shared_ptr<RBX::Instance> > children;
+		std::vector<shared_ptr<ARL::Instance> > children;
 
 		children.insert(children.begin(), getChildren()->begin(), getChildren()->end());
 
-		for (std::vector<shared_ptr<RBX::Instance> >::const_iterator iter = children.begin(); iter != children.end(); ++iter)
+		for (std::vector<shared_ptr<ARL::Instance> >::const_iterator iter = children.begin(); iter != children.end(); ++iter)
 			reparentChildData(*iter);
 	}
 
-	void CSGDictionaryService::reparentChildData(shared_ptr<RBX::Instance> childInstance)
+	void CSGDictionaryService::reparentChildData(shared_ptr<ARL::Instance> childInstance)
 	{
 		if (!isChildData(childInstance))
 			return;
@@ -48,7 +48,7 @@ namespace RBX
 		NonReplicatedCSGDictionaryService* nrDictionaryService = ServiceProvider::create<NonReplicatedCSGDictionaryService>(DataModel::get(this));
 		childInstance->setParent(nrDictionaryService);
 
-		if (shared_ptr<RBX::BinaryStringValue> bStrValue = RBX::Instance::fastSharedDynamicCast<RBX::BinaryStringValue>(childInstance))
+		if (shared_ptr<ARL::BinaryStringValue> bStrValue = ARL::Instance::fastSharedDynamicCast<ARL::BinaryStringValue>(childInstance))
 		{
 			std::string key = createHashKey(bStrValue->getValue().value());
 			instanceMap.erase(key);
@@ -90,34 +90,34 @@ namespace RBX
 	void CSGDictionaryService::storeAllDescendants(shared_ptr<Instance> instance)
 	{
 		if (instance->getChildren())
-			for (RBX::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
+			for (ARL::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
 				storeAllDescendants(*iter);
 
-		if (shared_ptr<PartOperation> childOperation = RBX::Instance::fastSharedDynamicCast<PartOperation>(instance))
+		if (shared_ptr<PartOperation> childOperation = ARL::Instance::fastSharedDynamicCast<PartOperation>(instance))
 			storeData(*childOperation);
 	}
 
 	void CSGDictionaryService::retrieveAllDescendants(shared_ptr<Instance> instance)
 	{
 		if (instance->getChildren())
-			for (RBX::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
+			for (ARL::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
 				retrieveAllDescendants(*iter);
 
-		if (shared_ptr<PartOperation> childOperation = RBX::Instance::fastSharedDynamicCast<PartOperation>(instance))
+		if (shared_ptr<PartOperation> childOperation = ARL::Instance::fastSharedDynamicCast<PartOperation>(instance))
 			retrieveData(*childOperation);
 	}
 
-	void CSGDictionaryService::refreshRefCountUnderInstance(RBX::Instance* instance)
+	void CSGDictionaryService::refreshRefCountUnderInstance(ARL::Instance* instance)
 	{
-		if (RBX::PartOperation* partOperation = RBX::Instance::fastDynamicCast<RBX::PartOperation>(instance))
+		if (ARL::PartOperation* partOperation = ARL::Instance::fastDynamicCast<ARL::PartOperation>(instance))
 			storeData(*partOperation, true);
 
 		if (instance->getChildren())
-			for (RBX::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
+			for (ARL::Instances::const_iterator iter = instance->getChildren()->begin(); iter != instance->getChildren()->end(); ++iter)
 				refreshRefCountUnderInstance(iter->get());
 	}
 
-    boost::shared_ptr<CSGMesh> CSGDictionaryService::insertMesh(const std::string key, const RBX::BinaryString& meshData)
+    boost::shared_ptr<CSGMesh> CSGDictionaryService::insertMesh(const std::string key, const ARL::BinaryString& meshData)
     {
         shared_ptr<CSGMesh> mesh = shared_ptr<CSGMesh>(CSGMeshFactory::singleton()->createMesh());
         mesh->fromBinaryString(meshData.value());
@@ -165,7 +165,7 @@ namespace RBX
 				}
 				else if (instanceMap.count(key))
 				{
-					if (shared_ptr<RBX::BinaryStringValue> meshData = instanceMap.at(key).ref.lock())
+					if (shared_ptr<ARL::BinaryStringValue> meshData = instanceMap.at(key).ref.lock())
 						return insertMesh(key, meshData->getValue());
 				}
 			}

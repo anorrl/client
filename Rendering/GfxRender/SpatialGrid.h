@@ -7,7 +7,7 @@
 #include "v8world/Primitive.h"
 #include "Util.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -89,7 +89,7 @@ namespace Graphics
 			return (it != mMap.end()) ? &it->second : NULL;
 		}
 		
-		SpatialGridIndex getIndexUnsafe(RBX::PartInstance* part, unsigned short flags) const
+		SpatialGridIndex getIndexUnsafe(ARL::PartInstance* part, unsigned short flags) const
 		{
 			Primitive* prim = part->getPartPrimitive();
 			

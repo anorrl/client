@@ -7,9 +7,9 @@
 #include "Util/RobloxGoogleAnalytics.h"
 #include "v8datamodel/contentprovider.h"
 
-const char* const RBX::sSky = "Sky";
+const char* const ARL::sSky = "Sky";
 
-using namespace RBX;
+using namespace ARL;
 
 Reflection::PropDescriptor<Sky, TextureId> Sky::prop_SkyUp("SkyboxUp", category_Appearance, &Sky::getSkyboxUp, &Sky::setSkyboxUp);
 Reflection::PropDescriptor<Sky, TextureId> Sky::prop_SkyLf("SkyboxLf", category_Appearance, &Sky::getSkyboxLf, &Sky::setSkyboxLf);
@@ -25,7 +25,7 @@ static void sendSkyBoxStats(const TextureId& texId)
 {
     std::string idStr = texId.getAssetId();
     if (!idStr.empty())
-        RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SkyBox", texId.getAssetId().c_str());
+        ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "SkyBox", texId.getAssetId().c_str());
 }
 
 Sky::Sky()

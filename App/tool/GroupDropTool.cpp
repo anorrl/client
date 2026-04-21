@@ -13,7 +13,7 @@
 #include "SelectState.h"
 
 
-namespace RBX {
+namespace ARL {
 
 const char* const sGroupDropTool = "GroupDropTool";
 
@@ -39,7 +39,7 @@ GroupDropTool::GroupDropTool(	PartInstance* mousePart,
 
 /*override*/ shared_ptr<MouseCommand> GroupDropTool::onMouseDown(const shared_ptr<InputObject>& inputObject)
 {
-	RBXASSERT(0);
+	ARLASSERT(0);
 	return shared_from(this);
 }
 

@@ -9,7 +9,7 @@
 
 #include <boost/filesystem.hpp>
 
-namespace RBX
+namespace ARL
 {
 namespace HttpPlatformImpl
 {
@@ -20,14 +20,14 @@ boost::filesystem::path cacheFilePath(const char* url);
 
 struct Header
 {
-#define RBX_CACHE_FILE_MAGIC            0x52425848 // RBXH
-#define RBX_CACHE_FILE_VERSION          0x1
-#define RBX_CACHE_URL_MAX_LENGTH        1024U
+#define ARL_CACHE_FILE_MAGIC            0x52425848 // ARLH
+#define ARL_CACHE_FILE_VERSION          0x1
+#define ARL_CACHE_URL_MAX_LENGTH        1024U
 
     const uint32_t magic;
     const uint32_t version;
     const uint32_t urlBytes;
-    const uint8_t  url[RBX_CACHE_URL_MAX_LENGTH]; // not null-terminated
+    const uint8_t  url[ARL_CACHE_URL_MAX_LENGTH]; // not null-terminated
     const uint32_t responseCode;
     const uint32_t responseHeadersSize;
     const uint32_t responseHeadersHash;
@@ -49,7 +49,7 @@ public:
     Data(const char* data, const size_t bytes) :
         underlying(reinterpret_cast<const uint8_t*>(data)), bytes(bytes)
     {
-        RBXASSERT(sizeof(char) == sizeof(uint8_t));
+        ARLASSERT(sizeof(char) == sizeof(uint8_t));
     }
 
     uint8_t operator[](size_t index) const
@@ -102,7 +102,7 @@ public:
     explicit CacheResult( shared_ptr<CacheEntry> entry, size_t size) 
         :  cacheEntry(entry), cacheSize(size)
     {
-        RBXASSERT(size);
+        ARLASSERT(size);
     }
 
     bool isValid() const
@@ -204,4 +204,4 @@ boost::filesystem::path getRobloxCookieJarPath();
 void setProxy(const std::string& host, long port = 0);
 void perform(HttpOptions& options, std::string& response);
 } // namespace HttpPlatformImpl
-} // namespace RBX
+} // namespace ARL

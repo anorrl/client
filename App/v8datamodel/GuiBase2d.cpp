@@ -3,7 +3,7 @@
 #include "V8DataModel/Folder.h"
 #include "V8DataModel/GuiBase2d.h"
 
-namespace RBX{
+namespace ARL{
 
 const char* const  sGuiBase2d = "GuiBase2d";
 
@@ -26,9 +26,9 @@ bool GuiBase2d::recalculateAbsolutePlacement(const Rect2D& viewport)
 	return result;
 }
 
-void GuiBase2d::RecursiveRenderChildren(shared_ptr<RBX::Instance> instance, Adorn* adorn)
+void GuiBase2d::RecursiveRenderChildren(shared_ptr<ARL::Instance> instance, Adorn* adorn)
 {
-	if(RBX::GuiBase2d* guiBase = Instance::fastDynamicCast<RBX::GuiBase2d>(instance.get())){
+	if(ARL::GuiBase2d* guiBase = Instance::fastDynamicCast<ARL::GuiBase2d>(instance.get())){
 		guiBase->recursiveRender2d(adorn);
 	}
 }
@@ -40,11 +40,11 @@ void GuiBase2d::recursiveRender2d(Adorn* adorn)
 	visitChildren(boost::bind(&GuiBase2d::RecursiveRenderChildren, _1, adorn));		
 }
 
-static void ResizeChildren(shared_ptr<RBX::Instance> instance, const Rect2D& viewport, bool force)
+static void ResizeChildren(shared_ptr<ARL::Instance> instance, const Rect2D& viewport, bool force)
 {
-	if(RBX::GuiBase2d* guiBase = Instance::fastDynamicCast<RBX::GuiBase2d>(instance.get())){
+	if(ARL::GuiBase2d* guiBase = Instance::fastDynamicCast<ARL::GuiBase2d>(instance.get())){
 		guiBase->handleResize(viewport, force);
-	} else if (RBX::Folder* f = Instance::fastDynamicCast<RBX::Folder>(instance.get())) {
+	} else if (ARL::Folder* f = Instance::fastDynamicCast<ARL::Folder>(instance.get())) {
 		f->visitChildren(boost::bind(&ResizeChildren, _1, viewport, force));
 	}
 }

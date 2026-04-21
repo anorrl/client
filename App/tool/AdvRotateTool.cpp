@@ -8,7 +8,7 @@
 #include "Util/HitTest.h"
 #include "AppDraw/HitTest.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sAdvRotateTool    = "AdvRotate";
 static const int  OffStudBoxes      = 2;
@@ -28,7 +28,7 @@ void AdvRotateTool::render2d(Adorn* adorn)
 
 	if (!dragging)
     {
-		RBX::DrawAdorn::handles2d(extents.size(),
+		ARL::DrawAdorn::handles2d(extents.size(),
             coordFrame,
             *(workspace->getConstCamera()),
             adorn,
@@ -37,13 +37,13 @@ void AdvRotateTool::render2d(Adorn* adorn)
         
         if (isLocal)
         {
-            RBX::DrawAdorn::partInfoText2D(
+            ARL::DrawAdorn::partInfoText2D(
                 extents.size(),
                 coordFrame,
                 *(workspace->getConstCamera()),
                 adorn,
                 "L",
-                RBX::DrawAdorn::cornflowerblue);
+                ARL::DrawAdorn::cornflowerblue);
         }
     }
 
@@ -131,7 +131,7 @@ int AdvRotateTool::getNormalMask() const
 
 bool AdvRotateTool::getOverHandle(const shared_ptr<InputObject>& inputObject, Vector3& hitPointWorld, NormalId& normalId) const
 {
-	RBXASSERT(!captured());
+	ARLASSERT(!captured());
 
 	Extents         extents;
     CoordinateFrame coordFrame;

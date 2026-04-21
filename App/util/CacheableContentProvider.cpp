@@ -2,7 +2,7 @@
 #include "v8datamodel/CacheableContentProvider.h"
 #include "V8DataModel/DataModel.h"
 
-namespace RBX {
+namespace ARL {
 
 	const char* const sCacheableContentProvider = "CacheableContentProvider";
 	CacheableContentProvider::CacheableContentProvider(CacheSizeEnforceMethod enforceMethod, unsigned long size)

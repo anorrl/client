@@ -2,7 +2,7 @@
 
 #include "Voxel/Cell.h"
 
-namespace RBX {
+namespace ARL {
 
 namespace Voxel {
 

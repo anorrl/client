@@ -7,7 +7,7 @@
 #include "Util/Http.h"
 #include "util/standardout.h"
 
-namespace RBX {
+namespace ARL {
 
 	const char *const sBadgeService = "BadgeService";
 
@@ -100,13 +100,13 @@ namespace RBX {
 	BadgeService::HotUserHasBadge::HotUserHasBadge(int userId, int badgeId, int cooldownTime)
 		:userId(userId)
 		,badgeId(badgeId)
-		,expiration(RBX::Time::now<Time::Fast>() + Time::Interval(cooldownTime))
+		,expiration(ARL::Time::now<Time::Fast>() + Time::Interval(cooldownTime))
 	{
 	}
 
 	bool BadgeService::HotUserHasBadge::expired() const
 	{
-		return RBX::Time::now<Time::Fast>() >= expiration;
+		return ARL::Time::now<Time::Fast>() >= expiration;
 	}
 
 	
@@ -163,7 +163,7 @@ namespace RBX {
 		}
 
 		//Make the request and send it out
-		Http http(RBX::format(hasBadgeUrl.c_str(), userId, badgeId));
+		Http http(ARL::format(hasBadgeUrl.c_str(), userId, badgeId));
 		http.get(boost::bind(&BadgeService::hasBadgeResultHelper, weak_from(this), userId, badgeId, _1, _2, resumeFunction, errorFunction));
 	}
 
@@ -239,7 +239,7 @@ namespace RBX {
 		}
 
 		//Make the request and send it out
-		Http http(RBX::format(isBadgeDisabledUrl.c_str(), badgeId, placeId));
+		Http http(ARL::format(isBadgeDisabledUrl.c_str(), badgeId, placeId));
 		http.get(boost::bind(&BadgeService::isDiabledResultHelper, weak_from(this), badgeId, _1, _2, resumeFunction, errorFunction));
 	}
 
@@ -313,7 +313,7 @@ namespace RBX {
 
 
 		//Make the request and send it out
-		Http http(RBX::format(isBadgeLegalUrl.c_str(), badgeId, placeId));
+		Http http(ARL::format(isBadgeLegalUrl.c_str(), badgeId, placeId));
 		http.get(boost::bind(&BadgeService::isLegalResultHelper, weak_from(this), badgeId, _1, _2, resumeFunction, errorFunction));
 	}
 
@@ -356,7 +356,7 @@ namespace RBX {
 				badgeAwardCache[userId].insert(badgeId);
 			}
 			
-			RBX::DataModel* dataModel = (RBX::DataModel*)this->getParent();
+			ARL::DataModel* dataModel = (ARL::DataModel*)this->getParent();
 			if (dataModel)
 			{
 				dataModel->submitTask(boost::bind(fireBadgeAwarded, shared_from(this), *response, userId, badgeId), DataModelJob::Write);
@@ -376,7 +376,7 @@ namespace RBX {
 		}
 
 		Network::Players* players = ServiceProvider::find<Network::Players>(this);
-		RBXASSERT(players);
+		ARLASSERT(players);
 
 		if (!players->getPlayerByID(userId))
 		{
@@ -401,7 +401,7 @@ namespace RBX {
 		}
 
 		//Make the request and send it out
-		Http http(RBX::format(awardBadgeUrl.c_str(), userId, badgeId, placeId));
+		Http http(ARL::format(awardBadgeUrl.c_str(), userId, badgeId, placeId));
 
 		// switch get to post to fix exploit in badge service
 		//http.get(boost::bind(&BadgeService::awardBadgeResultHelper, weak_from(this), userId, badgeId, _1, _2, resumeFunction, errorFunction));

@@ -7,12 +7,12 @@
 #include "Util.h"
 
 #ifdef NETWORK_PROFILER
-#define NETPROFILE_LOG(typeStr, packetPtr) RBX::Network::NetworkProfiler::singleton()->logPacket(typeStr, packetPtr)
-#define NETPROFILE_START(dataBlobNameStr, bitStreamPtr) RBX::Network::NetworkProfiler::singleton()->startProfiling(dataBlobNameStr, bitStreamPtr)
-#define NETPROFILE_END(dataBlobNameStr, bitStreamPtr) RBX::Network::NetworkProfiler::singleton()->endProfiling(dataBlobNameStr, bitStreamPtr)
-#define CPUPROFILER_START(tag) RBX::Network::NetworkProfiler::singleton()->startCpuProfiling(tag);
-#define CPUPROFILER_STEP(tag) RBX::Network::NetworkProfiler::singleton()->stepCpuProfiling(tag);
-#define CPUPROFILER_OUTPUT() RBX::Network::NetworkProfiler::singleton()->outputCpuProfiling();
+#define NETPROFILE_LOG(typeStr, packetPtr) ARL::Network::NetworkProfiler::singleton()->logPacket(typeStr, packetPtr)
+#define NETPROFILE_START(dataBlobNameStr, bitStreamPtr) ARL::Network::NetworkProfiler::singleton()->startProfiling(dataBlobNameStr, bitStreamPtr)
+#define NETPROFILE_END(dataBlobNameStr, bitStreamPtr) ARL::Network::NetworkProfiler::singleton()->endProfiling(dataBlobNameStr, bitStreamPtr)
+#define CPUPROFILER_START(tag) ARL::Network::NetworkProfiler::singleton()->startCpuProfiling(tag);
+#define CPUPROFILER_STEP(tag) ARL::Network::NetworkProfiler::singleton()->stepCpuProfiling(tag);
+#define CPUPROFILER_OUTPUT() ARL::Network::NetworkProfiler::singleton()->outputCpuProfiling();
 #else
 #define NETPROFILE_LOG(typeStr, packetPtr)
 #define NETPROFILE_START(dataBlobNameStr, bitStreamPtr)
@@ -24,7 +24,7 @@
 
 #ifdef NETWORK_PROFILER
 
-namespace RBX
+namespace ARL
 {
 namespace Network
 {
@@ -63,7 +63,7 @@ public:
     {
         int currentStep;
         int numSample;
-        RBX::Timer<RBX::Time::Precise> timer;
+        ARL::Timer<ARL::Time::Precise> timer;
 
     public:
         double stepDelta[256]; // maximum 256 steps
@@ -74,8 +74,8 @@ public:
         inline void newSample() { timer.reset(); numSample++; currentStep = 0; }
         inline void step()
         {
-            RBXASSERT(numSample>0);
-            RBXASSERT(currentStep < 256);
+            ARLASSERT(numSample>0);
+            ARLASSERT(currentStep < 256);
             stepDelta[currentStep] = (stepDelta[currentStep] * (numSample-1) + timer.delta().seconds())/numSample;
             currentStep++;
         }
@@ -112,7 +112,7 @@ private:
 	std::vector<DataBlobInfo> dataBlobStack; // use vector to make use of its iterator
 	std::size_t deepestLayer;
 	bool connected;
-	RBX::Timer<RBX::Time::Fast> profilerTimer;
+	ARL::Timer<ARL::Time::Fast> profilerTimer;
 	NetworkSettings* networkSettings;
 
 	// functions

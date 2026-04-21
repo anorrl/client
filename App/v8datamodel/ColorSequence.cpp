@@ -5,7 +5,7 @@
 using G3D::clamp;
 using G3D::lerp;
 
-namespace RBX{ 
+namespace ARL{ 
 
 static inline Color3 clamp( Color3 v )
 {
@@ -43,7 +43,7 @@ ColorSequence::ColorSequence(const std::vector<Key>& keys, bool exceptions)
 
 ColorSequence::ColorSequence(const ColorSequence& r)
 {
-    RBXASSERT(validate(r.m_data, false));
+    ARLASSERT(validate(r.m_data, false));
 
     m_data = r.m_data;
     for (unsigned j=0, e=m_data.size(); j<e; ++j )
@@ -57,9 +57,9 @@ ColorSequence::ColorSequence(const ColorSequence& r)
 void ColorSequence::resample( G3D::Vector3* min, G3D::Vector3* max, int numPoints) const
 {
     // invariant violation: this should not happen under any circumstances:
-    RBXASSERT( m_data.size() >= 2 );
-    RBXASSERT( m_data.front().time == 0.0f ); // yup, straight equal 
-    RBXASSERT( m_data.back().time == 1.0f ); // ditto
+    ARLASSERT( m_data.size() >= 2 );
+    ARLASSERT( m_data.front().time == 0.0f ); // yup, straight equal 
+    ARLASSERT( m_data.back().time == 1.0f ); // ditto
 
     int src = 0;
     float t = 0, dt = 1.0f/(numPoints-1.0f) - 1e-5f;
@@ -70,7 +70,7 @@ void ColorSequence::resample( G3D::Vector3* min, G3D::Vector3* max, int numPoint
     for( int j=1; j<numPoints; ++j )
     {
         t += dt;
-        RBXASSERT( data[src].time <= data[src+1].time ); // invariant violation
+        ARLASSERT( data[src].time <= data[src+1].time ); // invariant violation
         while( m_data[src+1].time < t )
 			src++; // find the next key
 
@@ -93,35 +93,35 @@ bool ColorSequence::validate(const std::vector<Key>& keys, bool exc)
 {
     if (keys.size()<2)
     {
-        if(exc) throw RBX::runtime_error("ColorSequence: requires at least 2 keypoints"); else return false;
+        if(exc) throw ARL::runtime_error("ColorSequence: requires at least 2 keypoints"); else return false;
     }
     
     if (keys.size()>kMaxSize)
     {
-        if (exc) throw RBX::runtime_error("NumberSequence: max number of keypoints exceeded."); else return false;
+        if (exc) throw ARL::runtime_error("NumberSequence: max number of keypoints exceeded."); else return false;
     }
     
     for (unsigned j=0; j<keys.size(); ++j)
     {
         if (j < keys.size()-1 && keys[j].time >= keys[j+1].time)
         {
-            if(exc) throw RBX::runtime_error("ColorSequence: all keypoints must be ordered by time"); else return false;
+            if(exc) throw ARL::runtime_error("ColorSequence: all keypoints must be ordered by time"); else return false;
         }
         
         if (keys[j].value.min()<0 || keys[j].value.max()>1)
         {
-            if(exc) throw RBX::runtime_error("ColorSequence: color value out of range"); else return false;
+            if(exc) throw ARL::runtime_error("ColorSequence: color value out of range"); else return false;
         }
     }
 
     if (fabsf(keys.front().time) > 1e-4f)
     {
-        if(exc) throw RBX::runtime_error("ColorSequence must start at time=0.0"); else return false;
+        if(exc) throw ARL::runtime_error("ColorSequence must start at time=0.0"); else return false;
     }
     
     if (fabsf(keys.back().time - 1.0f) > 1e-4f)
     {
-        if(exc) throw RBX::runtime_error("ColorSequence must end at time=1.0"); else return false;
+        if(exc) throw ARL::runtime_error("ColorSequence must end at time=1.0"); else return false;
     }
     return true;
 }
@@ -253,4 +253,4 @@ template<> std::string StringConverter<ColorSequenceKeypoint>::convertToString(c
 
 
 
-} // ns RBX
+} // ns ARL

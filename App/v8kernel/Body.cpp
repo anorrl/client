@@ -12,7 +12,7 @@
 
 #include "btBulletCollisionCommon.h"
 
-namespace RBX {
+namespace ARL {
 
 Body* Body::worldBody;
 
@@ -38,10 +38,10 @@ Body::Body()
 
 Body::~Body() 
 {
-	RBXASSERT(connectorUseCount == 0);
-	RBXASSERT(!link);
-	RBXASSERT(simBody);
-	RBXASSERT(leafBodyIndex == -1);
+	ARLASSERT(connectorUseCount == 0);
+	ARLASSERT(!link);
+	ARLASSERT(simBody);
+	ARLASSERT(leafBodyIndex == -1);
 
 	if( cofm )
 	{
@@ -51,8 +51,8 @@ Body::~Body()
 	delete simBody;
 	simBody = NULL;
 
-	RBXASSERT(!cofm);
-	RBXASSERT(root == this);
+	ARLASSERT(!cofm);
+	ARLASSERT(root == this);
 }
 
 unsigned int Body::getNextStateIndex()
@@ -79,8 +79,8 @@ Body* Body::getWorldBody()
 
 bool Body::validateParentCofmDirty()
 {
-	RBXASSERT(cofm);
-	RBXASSERT(cofm->getIsDirty());
+	ARLASSERT(cofm);
+	ARLASSERT(cofm->getIsDirty());
 	
 	if (getParent()) {
 		getParent()->validateParentCofmDirty();
@@ -95,17 +95,17 @@ void Body::makeCofmDirty()
 {
 	if (cofm && cofm->getIsDirty()) 
 	{
-		RBXASSERT(this->validateParentCofmDirty());
-		RBXASSERT(this->getRootSimBody()->getDirty());
+		ARLASSERT(this->validateParentCofmDirty());
+		ARLASSERT(this->getRootSimBody()->getDirty());
 	}
 	else 
 	{
 		if (getParent()) {
-			RBXASSERT(!simBody);
+			ARLASSERT(!simBody);
 			getParent()->makeCofmDirty();
 		}
 		else {
-			RBXASSERT(root == this);
+			ARLASSERT(root == this);
 			if (simBody) {
 				simBody->makeDirty();
 			}
@@ -113,17 +113,17 @@ void Body::makeCofmDirty()
 
 		if (cofm) {
 			cofm->makeDirty();
-			RBXASSERT( (numChildren() > 0) || (cofmOffset != Vector3::zero()) );
+			ARLASSERT( (numChildren() > 0) || (cofmOffset != Vector3::zero()) );
 		}
 		else {
-			RBXASSERT(numChildren() == 0);
+			ARLASSERT(numChildren() == 0);
 		}
 	}
 }
 
 void Body::resetRoot(Body* newRoot)
 {
-	RBXASSERT(newRoot == calcRoot());
+	ARLASSERT(newRoot == calcRoot());
 	root = newRoot;
 	for (int i = 0; i < numChildren(); ++i) {
 		getChild(i)->resetRoot(newRoot);
@@ -133,7 +133,7 @@ void Body::resetRoot(Body* newRoot)
 
 void Body::onParentChanging()
 {
-	RBXASSERT_VERY_FAST(!getParent() || (!(getParent()->getConstRootSimBody()->isInKernel())));	// confirm not happening to bodies in kernel
+	ARLASSERT_VERY_FAST(!getParent() || (!(getParent()->getConstRootSimBody()->isInKernel())));	// confirm not happening to bodies in kernel
 
 	if (link) {
 		link->setBody(NULL);						// link must always set parent first, then 
@@ -141,12 +141,12 @@ void Body::onParentChanging()
 	}
 
 	if (getParent()) {
-		RBXASSERT(root == getParent()->getRoot());		// I keep my pvIndex, as do my children
-		RBXASSERT(!simBody);		
+		ARLASSERT(root == getParent()->getRoot());		// I keep my pvIndex, as do my children
+		ARLASSERT(!simBody);		
 	}
 	else {
-		RBXASSERT(root = this);
-		RBXASSERT(simBody);
+		ARLASSERT(root = this);
+		ARLASSERT(simBody);
 		delete simBody;
 		simBody = NULL;
 	}
@@ -155,7 +155,7 @@ void Body::onParentChanging()
 void Body::onParentChanged(IndexedTree* oldParent)
 {
 	 // confirm not happening to bodies in kernel
-	RBXASSERT_VERY_FAST(!getParent() || (!(getParent()->getConstRootSimBody()->isInKernel())));
+	ARLASSERT_VERY_FAST(!getParent() || (!(getParent()->getConstRootSimBody()->isInKernel())));
 
 	if (getParent()) {
 		;
@@ -185,7 +185,7 @@ void Body::refreshCofm()
 	if (needsCofm) {
 		if (!cofm) {
 			cofm = new Cofm(this);
-			RBXASSERT(cofm->getIsDirty());
+			ARLASSERT(cofm->getIsDirty());
 		}
 	}
 	else {		// doesn't need Cofm
@@ -209,7 +209,7 @@ void Body::setCofmOffset(const Vector3& _centerOfMassInBody)
 
 void Body::updatePV()
 {
-	RBXASSERT((getParent() != NULL) != (getRoot() == this));
+	ARLASSERT((getParent() != NULL) != (getRoot() == this));
 
 	if (!getParent() || (stateIndex == getRoot()->getStateIndex())) {
 		;
@@ -218,26 +218,26 @@ void Body::updatePV()
 		getParent()->getPvUnsafe();	// do this first - prevent infinite recursion
 		PV::pvAtLocalCoord(getParent()->getPvUnsafe(), getMeInParent(), pv);
 	
-		RBXASSERT(stateIndex != getRoot()->getStateIndex());		// concurrency check
+		ARLASSERT(stateIndex != getRoot()->getStateIndex());		// concurrency check
 		stateIndex = getRoot()->getStateIndex();
 	
-		RBXASSERT_SLOW(Math::isOrthonormal(pv.position.rotation));
-		RBXASSERT_SLOW(!Math::isNanInfDenormVector3(pv.position.translation)); // - asserting all the time - John
+		ARLASSERT_SLOW(Math::isOrthonormal(pv.position.rotation));
+		ARLASSERT_SLOW(!Math::isNanInfDenormVector3(pv.position.translation)); // - asserting all the time - John
 	}
 }
 
 void Body::onChildAdded(IndexedTree* child)
 {
 	if (!cofm) {
-		RBXASSERT(numChildren() == 1);
+		ARLASSERT(numChildren() == 1);
 		refreshCofm();
-		RBXASSERT(cofm);
+		ARLASSERT(cofm);
 	}		// no need to make dirty - adding anyways
 }
 
 void Body::onChildRemoved(IndexedTree* child)
 {
-	RBXASSERT(cofm);
+	ARLASSERT(cofm);
 	if (numChildren() == 0) {
 		refreshCofm();
 	}
@@ -249,12 +249,12 @@ void Body::onChildRemoved(IndexedTree* child)
 //
 void Body::setMeInParent(const CoordinateFrame& _meInParent)
 {
-	RBXASSERT_FISHING(Math::longestVector3Component(_meInParent.translation) < 1e6);
+	ARLASSERT_FISHING(Math::longestVector3Component(_meInParent.translation) < 1e6);
 
-	RBXASSERT_FISHING(Math::isOrthonormal(_meInParent.rotation));
+	ARLASSERT_FISHING(Math::isOrthonormal(_meInParent.rotation));
 
 	if (link) {
-		RBXASSERT(0);
+		ARLASSERT(0);
 		link->setBody(NULL);
 		link = NULL;
 	}
@@ -265,13 +265,13 @@ void Body::setMeInParent(const CoordinateFrame& _meInParent)
 		makeStateDirty();
 	}
 	else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 	}
 }
 
 void Body::setMeInParent(Link* _link)
 {
-	RBXASSERT(_link);
+	ARLASSERT(_link);
 
 	if (link && (link != _link)) {
 		link->setBody(NULL);
@@ -284,7 +284,7 @@ void Body::setMeInParent(Link* _link)
 		makeStateDirty();
 	}
 	else {
-		RBXASSERT(0);
+		ARLASSERT(0);
 	}
 }
 
@@ -293,7 +293,7 @@ void Body::setPv(const PV& _pv, const BodyPvSetter& bpv)
 {
 	if (getParent()) 
 	{
-		RBXASSERT(0);	// bad news here - this object has a parent, so setting it's position should only be done
+		ARLASSERT(0);	// bad news here - this object has a parent, so setting it's position should only be done
 						// by changing the parent's position, or meInParent
 	}
 	else 
@@ -305,12 +305,12 @@ void Body::setPv(const PV& _pv, const BodyPvSetter& bpv)
 		advanceStateIndex();	// I'm the root
 	}
 
-//RBXASSERT(Math::longestVector3Component(pv.position.translation) < 1e6);
-	RBXASSERT_FISHING(Math::isOrthonormal(pv.position.rotation));
-	RBXASSERT_SLOW(!Math::isNanInfDenormVector3(pv.position.translation));
-//	RBXASSERT(!Math::isNanInfDenormMatrix3(pv.position.rotation)); -- This was asserting all the time. I had to comment out - John
-	RBXASSERT_SLOW(!Math::isNanInfDenormVector3(pv.velocity.linear));
-	RBXASSERT_SLOW(!Math::isNanInfDenormVector3(pv.velocity.rotational));
+//ARLASSERT(Math::longestVector3Component(pv.position.translation) < 1e6);
+	ARLASSERT_FISHING(Math::isOrthonormal(pv.position.rotation));
+	ARLASSERT_SLOW(!Math::isNanInfDenormVector3(pv.position.translation));
+//	ARLASSERT(!Math::isNanInfDenormMatrix3(pv.position.rotation)); -- This was asserting all the time. I had to comment out - John
+	ARLASSERT_SLOW(!Math::isNanInfDenormVector3(pv.velocity.linear));
+	ARLASSERT_SLOW(!Math::isNanInfDenormVector3(pv.velocity.rotational));
 }
 
 void Body::setCoordinateFrame(const CoordinateFrame& worldCoord, const BodyPvSetter& bpv)
@@ -376,8 +376,8 @@ Matrix3 Body::getBranchIWorldAtPoint(const Vector3& point)
 
 const Vector3& Body::getBranchCofmOffset() 
 {
-	RBXASSERT(simBody);
-	RBXASSERT((numChildren() > 0) || !getCofm() || getCofm()->getCofmInBody() == cofmOffset);
+	ARLASSERT(simBody);
+	ARLASSERT((numChildren() > 0) || !getCofm() || getCofm()->getCofmInBody() == cofmOffset);
 
 	return getCofm() ? getCofm()->getCofmInBody() : cofmOffset;
 }

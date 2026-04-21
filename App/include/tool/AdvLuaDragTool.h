@@ -8,7 +8,7 @@
 #include "Util/Math.h"
 #include <boost/shared_ptr.hpp>
 
-namespace RBX {
+namespace ARL {
 
 	class PartInstance;
 	
@@ -48,4 +48,4 @@ namespace RBX {
 		~AdvLuaDragTool();
 	};
 
-} // namespace RBX
+} // namespace ARL

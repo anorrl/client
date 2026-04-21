@@ -10,7 +10,7 @@
 
 #include "util/standardout.h"
 
-namespace RBX {
+namespace ARL {
 
 // TODO: Refactor: It is a little ugly to have to implement these 6 functions for each "ContentID" derived class
 //  Potentially we can template this a little. Maybe define a templated ContentIDPropDescriptor or something.
@@ -30,14 +30,14 @@ bool StringConverter<AnimationId>::convertToValue(const std::string& text, Anima
 namespace Reflection {
 
 template<>
-const Type& Type::getSingleton<RBX::AnimationId>()
+const Type& Type::getSingleton<ARL::AnimationId>()
 {
 	return Type::singleton<ContentId>();
 }
 
 
 template<>
-void TypedPropertyDescriptor<RBX::AnimationId>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+void TypedPropertyDescriptor<ARL::AnimationId>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
 	{
@@ -48,7 +48,7 @@ void TypedPropertyDescriptor<RBX::AnimationId>::readValue(DescribedBase* instanc
 }
 
 template<>
-void TypedPropertyDescriptor<RBX::AnimationId>::writeValue(const DescribedBase* instance, XmlElement* element) const
+void TypedPropertyDescriptor<ARL::AnimationId>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	element->setValue(ContentId(getValue(instance)));
 }
@@ -56,36 +56,36 @@ void TypedPropertyDescriptor<RBX::AnimationId>::writeValue(const DescribedBase* 
 
 
 template<>
-RBX::AnimationId& Variant::convert<AnimationId>(void)
+ARL::AnimationId& Variant::convert<AnimationId>(void)
 {
 	if (_type->isType<std::string>())
 	{
-		value = RBX::AnimationId(cast<std::string>());
+		value = ARL::AnimationId(cast<std::string>());
 		_type = &Type::singleton<AnimationId>();
 	}
-	return genericConvert<RBX::AnimationId>();
+	return genericConvert<ARL::AnimationId>();
 }
 
 template<>
-int TypedPropertyDescriptor<RBX::AnimationId>::getDataSize(const DescribedBase* instance) const 
+int TypedPropertyDescriptor<ARL::AnimationId>::getDataSize(const DescribedBase* instance) const 
 {
-    return sizeof(RBX::AnimationId) + getValue(instance).toString().size();
+    return sizeof(ARL::AnimationId) + getValue(instance).toString().size();
 }
 
 template<>
-bool TypedPropertyDescriptor<RBX::AnimationId>::hasStringValue() const {
+bool TypedPropertyDescriptor<ARL::AnimationId>::hasStringValue() const {
 	return true;
 }
 
 template<>
-std::string TypedPropertyDescriptor<RBX::AnimationId>::getStringValue(const DescribedBase* instance) const{
-	return StringConverter<RBX::AnimationId>::convertToString(getValue(instance));
+std::string TypedPropertyDescriptor<ARL::AnimationId>::getStringValue(const DescribedBase* instance) const{
+	return StringConverter<ARL::AnimationId>::convertToString(getValue(instance));
 }
 
 template<>
-bool TypedPropertyDescriptor<RBX::AnimationId>::setStringValue(DescribedBase* instance, const std::string& text) const {
-	RBX::AnimationId value;
-	if (StringConverter<RBX::AnimationId>::convertToValue(text, value))
+bool TypedPropertyDescriptor<ARL::AnimationId>::setStringValue(DescribedBase* instance, const std::string& text) const {
+	ARL::AnimationId value;
+	if (StringConverter<ARL::AnimationId>::convertToValue(text, value))
 	{
 		setValue(instance, value);
 		return true;
@@ -95,4 +95,4 @@ bool TypedPropertyDescriptor<RBX::AnimationId>::setStringValue(DescribedBase* in
 }
 
 } // namespace Reflection
-} // namespace RBX 
+} // namespace ARL 

@@ -6,7 +6,7 @@
 
 LOGGROUP(GuiTargetLifetime)
 
-namespace RBX {
+namespace ARL {
 
 	class GuiResponse
 	{
@@ -46,7 +46,7 @@ namespace RBX {
 		bool wasSunk()		{return (response == SUNK);}
 		bool wasSunkAndFinished()
 		{
-			RBXASSERT(!((finished == FINISHED) && !wasSunk()));
+			ARLASSERT(!((finished == FINISHED) && !wasSunk()));
 			return (finished == FINISHED);
 		}
 

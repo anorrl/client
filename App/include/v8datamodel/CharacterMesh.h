@@ -4,7 +4,7 @@
 #include "Util/MeshId.h"
 #include "CharacterAppearance.h"
 
-namespace RBX {
+namespace ARL {
 
 	class Humanoid;
 

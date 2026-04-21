@@ -5,7 +5,7 @@
 #include "V8Kernel/Body.h"
 
 
-namespace RBX {
+namespace ARL {
 
 // This is private - only created by the kernel
 Point::Point(Body* _body) : 
@@ -46,5 +46,5 @@ void Point::setWorldPos(const Vector3& _worldPos)
 }
 		
 
-} // namespace RBX
+} // namespace ARL
 

@@ -2,7 +2,7 @@
 
 #include "Voxel/Water.h"
 
-namespace RBX { namespace Voxel { namespace Water {
+namespace ARL { namespace Voxel { namespace Water {
 
 const RelevantNeighbors kRelevantNeighbors[MAX_CELL_ORIENTATIONS] = {
 	RelevantNeighbors(CELL_ORIENTATION_NegZ),

@@ -13,7 +13,7 @@
 LOGVARIABLE(DXVideoMemory, 4)
 
 
-namespace RBX
+namespace ARL
 {
 namespace SystemUtil
 {
@@ -22,7 +22,7 @@ namespace SystemUtil
         OSVERSIONINFO osvi = {0};
         osvi.dwOSVersionInfoSize=sizeof(osvi);
         GetVersionEx (&osvi);
-        return RBX::format("%d.%d.%d.%d", osvi.dwOSVersionInfoSize, osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.dwBuildNumber);
+        return ARL::format("%d.%d.%d.%d", osvi.dwOSVersionInfoSize, osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.dwBuildNumber);
 	}
 
     bool isCPU64Bit()

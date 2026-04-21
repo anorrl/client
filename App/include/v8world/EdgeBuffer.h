@@ -6,13 +6,13 @@
 #include "V8World/Assembly.h"
 #include "Util/BiMultiMap.h"
 
-namespace RBX {
+namespace ARL {
 	class Assembly;
 
 	class EdgeBuffer : public IWorldStage {
 	private:
 		// DEBUG ONLY
-		typedef RBX::BiMultiMap<Assembly*, Edge*> AssemblyEdgeMap;	// find incomplete Joints by primitive
+		typedef ARL::BiMultiMap<Assembly*, Edge*> AssemblyEdgeMap;	// find incomplete Joints by primitive
 		AssemblyEdgeMap assemblyEdges;
 
 		bool debugPushEdgeToDownstream(Edge* e);

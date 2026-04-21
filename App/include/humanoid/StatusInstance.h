@@ -4,7 +4,7 @@
 
 #include "V8DataModel/ModelInstance.h"
 
-namespace RBX {
+namespace ARL {
 
 	extern const char* const sStatusInstance;
 	class StatusInstance 

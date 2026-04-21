@@ -13,7 +13,7 @@
 
 #define NKEYSTATES 512
 
-namespace RBX
+namespace ARL
 {
     class Humanoid;
     class Camera;
@@ -76,7 +76,7 @@ namespace RBX
 	private:
 		struct KeyboardData
 		{
-			RBX::KeyCode keyCode;
+			ARL::KeyCode keyCode;
 			ModCode modCode;
 			char modifiedKey;
 			bool isDown;
@@ -85,15 +85,15 @@ namespace RBX
         typedef DescribedCreatable<UserInputService, Instance, sUserInputService, Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
         
         typedef std::vector< std::pair<shared_ptr<InputObject>, void*> > EventsVector;
-        typedef std::vector< std::pair<UserInputService::Gesture, std::pair<shared_ptr<RBX::Reflection::ValueArray>,shared_ptr<const Reflection::Tuple> > > > GestureEventsVector;
+        typedef std::vector< std::pair<UserInputService::Gesture, std::pair<shared_ptr<ARL::Reflection::ValueArray>,shared_ptr<const Reflection::Tuple> > > > GestureEventsVector;
         
         typedef std::vector< std::pair<shared_ptr<std::string>, bool> > TextBoxEventsVector;
         
 		// for touch input debugging
         static bool DrawTouchEvents;
-        static RBX::Color3 DrawTouchColor;
-        static RBX::Color3 DrawMoveColor;
-        shared_ptr<RBX::Frame> drawTouchFrame;
+        static ARL::Color3 DrawTouchColor;
+        static ARL::Color3 DrawMoveColor;
+        shared_ptr<ARL::Frame> drawTouchFrame;
 		shared_ptr<Instance> currentTextBox;
         
         bool touchEnabled;
@@ -115,11 +115,11 @@ namespace RBX
 
 		std::vector<TextureId> mouseIconStack;
 
-		shared_ptr<RBX::InputObject> mouseEventObject;
+		shared_ptr<ARL::InputObject> mouseEventObject;
 
         float maxWalkDelta;
-        RBX::Vector2 walkDirection;
-        RBX::Vector2 lastWalkDirection;
+        ARL::Vector2 walkDirection;
+        ARL::Vector2 lastWalkDirection;
         
         boost::mutex GestureEventsMutex;
         boost::mutex ToolEventsMutex;
@@ -139,10 +139,10 @@ namespace RBX
         
         TextBoxEventsVector textboxFinishedVector;
         
-        RBX::Vector2 cameraPanDelta;
+        ARL::Vector2 cameraPanDelta;
         float cameraZoom;
-		RBX::Vector2 cameraMouseTrack;
-		RBX::Vector2 cameraMouseWrap;
+		ARL::Vector2 cameraMouseTrack;
+		ARL::Vector2 cameraMouseWrap;
         
         bool fireJumpRequestEvent;
 
@@ -174,8 +174,8 @@ namespace RBX
 
 
 		// Keyboard Stuff
-		boost::unordered_map<RBX::KeyCode, shared_ptr<InputObject> > newKeyState;
-		std::vector<std::pair<RBX::KeyCode, RBX::ModCode> > modPairs;
+		boost::unordered_map<ARL::KeyCode, shared_ptr<InputObject> > newKeyState;
+		std::vector<std::pair<ARL::KeyCode, ARL::ModCode> > modPairs;
 		bool capsLocked;
 
 		int studioCamFlySteps;
@@ -191,10 +191,10 @@ namespace RBX
         void processTextboxInternal();
 		void processKeyboardEvents();
 
-		RBX::ModCode getCurrentModKey();
+		ARL::ModCode getCurrentModKey();
 
 		void clearKeyStateInternal();
-		void setKeyStateInternal(RBX::KeyCode keyCode, ModCode modCode, char modifiedKey, bool isDown);
+		void setKeyStateInternal(ARL::KeyCode keyCode, ModCode modCode, char modifiedKey, bool isDown);
         
         void fireLegacyMouseEvent(const shared_ptr<InputObject>& inputObject, void* nativeInputObject, bool fireImmediately = false);
         
@@ -207,7 +207,7 @@ namespace RBX
         void eraseInputPairFromInputVector(const std::pair<shared_ptr<InputObject>, void*>& eventPair, EventsVector& vectorToCheck);
         
         void processGestures();
-        void fireGestureEvent(const UserInputService::Gesture gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args, const bool wasSunk = false);
+        void fireGestureEvent(const UserInputService::Gesture gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args, const bool wasSunk = false);
         
         void processInputObjects();
 
@@ -280,7 +280,7 @@ namespace RBX
         // Signals
         // IF THESE ARE BEING CALLED DIRECTLY FROM OUTSIDE DATAMODEL, STOP THAT!
         // could cause a deadlock, please submit a task to datamodel and call the signal
-        rbx::signal<void(bool, void*, const shared_ptr<RBX::InputObject>&)> processedMouseEvent;
+        rbx::signal<void(bool, void*, const shared_ptr<ARL::InputObject>&)> processedMouseEvent;
         rbx::signal<void(shared_ptr<Instance>, bool)> processedEventSignal;
         
         // touch gesture event signals
@@ -289,7 +289,7 @@ namespace RBX
         rbx::signal<void(SwipeDirection, int, bool)> swipeGestureEvent;
         rbx::signal<void(shared_ptr<const Reflection::ValueArray>, InputObject::UserInputState, bool)> longPressGestureEvent;
         rbx::signal<void(shared_ptr<const Reflection::ValueArray>, float, float, InputObject::UserInputState, bool)> rotateGestureEvent;
-        rbx::signal<void(shared_ptr<const Reflection::ValueArray>, RBX::Vector2, RBX::Vector2, InputObject::UserInputState, bool)> panGestureEvent;
+        rbx::signal<void(shared_ptr<const Reflection::ValueArray>, ARL::Vector2, ARL::Vector2, InputObject::UserInputState, bool)> panGestureEvent;
         
         // low level touch event signals
         rbx::signal<void(shared_ptr<Instance>, bool)> touchStartedEvent;
@@ -331,8 +331,8 @@ namespace RBX
         rbx::signal<void(std::string)> motionEventListeningStarted;
         
         // Text Events
-        rbx::signal<void(shared_ptr<RBX::Instance>)> textBoxGainFocus;
-        rbx::signal<void(shared_ptr<RBX::Instance>)> textBoxReleaseFocus;
+        rbx::signal<void(shared_ptr<ARL::Instance>)> textBoxGainFocus;
+        rbx::signal<void(shared_ptr<ARL::Instance>)> textBoxReleaseFocus;
         rbx::signal<void(const char*, bool, const shared_ptr<InputObject>&)> textBoxFinishedEditing;
 
 		rbx::signals::connection textboxFocusBeganConnection;
@@ -361,9 +361,9 @@ namespace RBX
         shared_ptr<const Reflection::Tuple> getRotation();
         shared_ptr<Instance> getGravity();
         
-        void fireAccelerationEvent(const RBX::Vector3& newAcceleration);
-        void fireRotationEvent(const RBX::Vector3& newRotation, const RBX::Vector4& quaternion);
-        void fireGravityEvent(const RBX::Vector3& newGravity);
+        void fireAccelerationEvent(const ARL::Vector3& newAcceleration);
+        void fireRotationEvent(const ARL::Vector3& newRotation, const ARL::Vector4& quaternion);
+        void fireGravityEvent(const ARL::Vector3& newGravity);
 
         // take a lock on this whenever editing InputObjects stored in UserInputService
         static boost::mutex InputEventsMutex;
@@ -398,10 +398,10 @@ namespace RBX
 		weak_ptr<GuiObject> getLastDownGuiObject(InputObject::UserInputType type);
 		
         // Keyboard Functions
-		static char getModifiedKey(RBX::KeyCode key, RBX::ModCode mod);
+		static char getModifiedKey(ARL::KeyCode key, ARL::ModCode mod);
 
-		void setKeyState(RBX::KeyCode keyCode, ModCode m, char key, bool isDown);
-		bool isKeyDown(RBX::KeyCode keyCode);
+		void setKeyState(ARL::KeyCode keyCode, ModCode m, char key, bool isDown);
+		bool isKeyDown(ARL::KeyCode keyCode);
 		bool isCapsLocked();
 		void resetKeyState();
 		shared_ptr<const Reflection::ValueArray> getKeyboardState();
@@ -422,7 +422,7 @@ namespace RBX
 
 		void setSupportedGamepadKeyCodes(InputObject::UserInputType gamepadType, shared_ptr<const Reflection::ValueArray> newSupportedGamepadKeyCodes);
 		shared_ptr<const Reflection::ValueArray> getSupportedGamepadKeyCodes(InputObject::UserInputType gamepadType);
-		bool gamepadSupports(InputObject::UserInputType gamepadType, RBX::KeyCode keyCode);
+		bool gamepadSupports(InputObject::UserInputType gamepadType, ARL::KeyCode keyCode);
 		shared_ptr<const Reflection::ValueArray> getGamepadState(InputObject::UserInputType gamepadType);
 
 		shared_ptr<const Reflection::ValueArray> getNavigationGamepads();
@@ -436,7 +436,7 @@ namespace RBX
         void dangerousFireInputEvent(const shared_ptr<InputObject>& inputObject, void* nativeInputObject);
         // Takes a lock on datamodel, and will update input on render stepped
 		void fireInputEvent(const shared_ptr<InputObject>& inputObject, void* nativeInputObject, bool processed = false);
-        void addGestureEventToProcess(const UserInputService::Gesture gesture, shared_ptr<RBX::Reflection::ValueArray>& touchPositions, shared_ptr<Reflection::Tuple>& args);
+        void addGestureEventToProcess(const UserInputService::Gesture gesture, shared_ptr<ARL::Reflection::ValueArray>& touchPositions, shared_ptr<Reflection::Tuple>& args);
         
         // Interaction styles
         bool getTouchEnabled() const;
@@ -482,28 +482,28 @@ namespace RBX
         
         // text functions
         std::string getPasteText();
-        std::vector<RBX::ModCode> getCommandModCodes(); // returns control for windows, command for os x, etc.
+        std::vector<ARL::ModCode> getCommandModCodes(); // returns control for windows, command for os x, etc.
         
         // local character manipulations
         void jumpLocalCharacterLua();
         void moveLocalCharacterLua(Vector2 walkDir, float maxWalkDelta);
-        void moveLocalCharacter(RBX::Vector2 movementVector, float maxMovementDelta);
+        void moveLocalCharacter(ARL::Vector2 movementVector, float maxMovementDelta);
         void jumpLocalCharacter(bool jumpValue);
         void jumpOnceLocalCharacter(bool jumpValue);
 
         // camera manipulations
-        void rotateCameraLua(RBX::Vector2 mouseDelta);
-        void rotateCamera(RBX::Vector2 mouseDelta);
-		void wrapCamera(RBX::Vector2 mouseWrap);
+        void rotateCameraLua(ARL::Vector2 mouseDelta);
+        void rotateCamera(ARL::Vector2 mouseDelta);
+		void wrapCamera(ARL::Vector2 mouseWrap);
         
         void zoomCameraLua(float zoom);
         void zoomCamera(float zoom);
 
-		void mouseTrackCamera(RBX::Vector2 mouseDelta);
+		void mouseTrackCamera(ARL::Vector2 mouseDelta);
         
         // raw input mechanisms
-        void sendMouseEvent(const shared_ptr<RBX::InputObject>& event, void* nativeEventObject);
-        void processToolEvent(const shared_ptr<RBX::InputObject>& event);
+        void sendMouseEvent(const shared_ptr<ARL::InputObject>& event, void* nativeEventObject);
+        void processToolEvent(const shared_ptr<ARL::InputObject>& event);
         void sendJumpRequestEvent();
 
         

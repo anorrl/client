@@ -8,7 +8,7 @@
 struct IDirect3DVertexShader9;
 struct IDirect3DPixelShader9;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

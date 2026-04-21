@@ -3,7 +3,7 @@
 #include "V8DataModel/GameBasicSettings.h"
 #include "Util/RobloxGoogleAnalytics.h"
 
-using namespace RBX;
+using namespace ARL;
 
 REFLECTION_BEGIN();
 static const Reflection::EnumPropDescriptor<GameBasicSettings, GameBasicSettings::ControlMode> prop_controlMode("ControlMode", category_Control, &GameBasicSettings::getControlMode, &GameBasicSettings::setControlMode);
@@ -50,7 +50,7 @@ static const Reflection::PropDescriptor<GameBasicSettings, bool> prop_usedHideHu
 
 REFLECTION_END();
 
-namespace RBX {
+namespace ARL {
 	namespace Reflection {
 
 		template <>
@@ -140,7 +140,7 @@ namespace RBX {
 	}
 }
 
-const char *const RBX::sGameBasicSettings = "UserGameSettings";
+const char *const ARL::sGameBasicSettings = "UserGameSettings";
 GameBasicSettings::GameBasicSettings()
 	:controlMode(CONTROL_CLASSIC)
 	,renderQualitySetting(QUALITY_AUTO)
@@ -176,11 +176,11 @@ GameBasicSettings::GameBasicSettings()
 void GameBasicSettings::setControlMode(ControlMode setting)
 {
 	try {
-		RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set camera control mode");
+		ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set camera control mode");
 	} 
-	catch (RBX::base_exception& e) 
+	catch (ARL::base_exception& e) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set ControlMode");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set ControlMode");
 		throw e;
 	}
 
@@ -194,7 +194,7 @@ void GameBasicSettings::setControlMode(ControlMode setting)
 GameBasicSettings::CameraMode GameBasicSettings::getCameraModeWithDefault() const
 {
 	if (cameraMode == GameBasicSettings::CAMERA_MODE_DEFAULT) {
-#if defined(RBX_PLATFORM_IOS) || defined(__ANDROID__)
+#if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
 		return GameBasicSettings::CAMERA_MODE_FOLLOW;
 #else
 		return GameBasicSettings::CAMERA_MODE_CLASSIC;
@@ -253,11 +253,11 @@ void GameBasicSettings::setCameraMode(CameraMode setting)
 void GameBasicSettings::setTouchCameraMovementMode(TouchCameraMovementMode setting)
 {
 	try {
-		RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set camera movement mode for touch devices");
+		ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set camera movement mode for touch devices");
 	} 
-	catch (RBX::base_exception& e) 
+	catch (ARL::base_exception& e) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set TouchCameraMovementMode");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set TouchCameraMovementMode");
 		throw e;
 	}
 
@@ -295,11 +295,11 @@ void GameBasicSettings::setTouchCameraMovementModeModified(bool value)
 void GameBasicSettings::setComputerCameraMovementMode(ComputerCameraMovementMode setting)
 {
 	try {
-		RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set camera movement mode for computer devices");
+		ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set camera movement mode for computer devices");
 	} 
-	catch (RBX::base_exception& e) 
+	catch (ARL::base_exception& e) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set ComputerCameraMovementMode");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set ComputerCameraMovementMode");
 		throw e;
 	}
 
@@ -337,11 +337,11 @@ void GameBasicSettings::setComputerCameraMovementModeModified(bool value)
 void GameBasicSettings::setTouchMovementMode(TouchMovementMode setting)
 {
 	try {
-		RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set character movement mode for touch devices");
+		ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set character movement mode for touch devices");
 	} 
-	catch (RBX::base_exception& e) 
+	catch (ARL::base_exception& e) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set TouchMovementMode");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set TouchMovementMode");
 		throw e;
 	}
 
@@ -385,11 +385,11 @@ void GameBasicSettings::setTouchMovementModeModified(bool value)
 void GameBasicSettings::setComputerMovementMode(ComputerMovementMode setting)
 {
 	try {
-		RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set character movement mode for computer devices");
+		ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set character movement mode for computer devices");
 	} 
-	catch (RBX::base_exception& e) 
+	catch (ARL::base_exception& e) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set ComputerMovementMode");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set ComputerMovementMode");
 		throw e;
 	}
 
@@ -424,7 +424,7 @@ void GameBasicSettings::setComputerMovementModeModified(bool value)
 	}
 }
 
-RBX::GameBasicSettings::RotationType GameBasicSettings::getRotationType() const
+ARL::GameBasicSettings::RotationType GameBasicSettings::getRotationType() const
 {
 	return rotationType;
 }
@@ -441,11 +441,11 @@ void GameBasicSettings::setRotationType(RotationType setting)
 void GameBasicSettings::setRenderQuality(RenderQualitySetting value)
 {
 	try {
-		RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set render quality level");
+		ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set render quality level");
 	} 
-	catch (RBX::base_exception& e) 
+	catch (ARL::base_exception& e) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set SavedQualityLevel");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set SavedQualityLevel");
 		throw e;
 	}
 
@@ -539,11 +539,11 @@ void GameBasicSettings::setAllTutorialsDisabled(bool value)
 void GameBasicSettings::setMasterVolume(float value)
 {
 	try {
-		RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set master sound volume");
+		ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set master sound volume");
 	} 
-	catch (RBX::base_exception& e) 
+	catch (ARL::base_exception& e) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set MasterVolume");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set MasterVolume");
 		throw e;
 	}
 
@@ -564,11 +564,11 @@ float GameBasicSettings::getMouseSensitivity() const
 void GameBasicSettings::setMouseSensitivity(float value)
 {
 	try {
-		RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set mouse sensitivity");
+		ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set mouse sensitivity");
 	} 
-	catch (RBX::base_exception& e) 
+	catch (ARL::base_exception& e) 
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set MouseSensitivity");
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set MouseSensitivity");
 		throw e;
 	}
 
@@ -604,14 +604,14 @@ void GameBasicSettings::reset()
 
 /*override*/ void GameBasicSettings::verifySetParent(const Instance* instance) const
 {
-	if (RBX::Security::Context::current().identity != RBX::Security::Anonymous) 
+	if (ARL::Security::Context::current().identity != ARL::Security::Anonymous) 
 	{
 		try {
-			RBX::Security::Context::current().requirePermission(RBX::Security::RobloxScript, "set GameSettings parent");
+			ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set GameSettings parent");
 		} 
-		catch (RBX::base_exception& e) 
+		catch (ARL::base_exception& e) 
 		{
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Insufficient permissions to set GameSettings parent");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set GameSettings parent");
 			throw e;
 		}
 	}
@@ -702,7 +702,7 @@ void GameBasicSettings::recordSettingsInGA(bool touchEnabled) const
 }
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

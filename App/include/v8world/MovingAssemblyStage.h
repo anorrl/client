@@ -7,7 +7,7 @@
 #include "v8world/Assembly.h"
 
 
-namespace RBX {
+namespace ARL {
 	class Assembly;
 
 	class MovingAssemblyStage : public IWorldStage 

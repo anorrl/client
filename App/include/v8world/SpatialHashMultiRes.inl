@@ -7,7 +7,7 @@
 
 #include <vector>
 
-namespace RBX {
+namespace ARL {
 
 float SpatialHashStatic::hashGridSize(int level)	{return (float)(cellMinSize << level);}
 float SpatialHashStatic::hashGridRecip(int level)	{return 1.0f / SpatialHashStatic::hashGridSize(level);}
@@ -22,7 +22,7 @@ Vector3int32 SpatialHashStatic::realToHashGrid(int level, const Vector3& realPoi
 
 ExtentsInt32 SpatialHashStatic::scaleExtents(int smallLevel, int bigLevel, const ExtentsInt32& smallExtents)
 {
-	RBXASSERT_SLOW(smallLevel < bigLevel);
+	ARLASSERT_SLOW(smallLevel < bigLevel);
 	int delta = bigLevel - smallLevel;
 	return smallExtents.shiftRight(delta);
 }
@@ -33,8 +33,8 @@ Extents SpatialHashStatic::hashGridToRealExtents(int level, const Vector3int32& 
 					hashGridToReal(level, hashGrid + Vector3int32::one())
 					);
 
-	RBXASSERT_VERY_FAST(Math::isIntegerVector3(answer.min()));
-	RBXASSERT_VERY_FAST(Math::isIntegerVector3(answer.max()));
+	ARLASSERT_VERY_FAST(Math::isIntegerVector3(answer.min()));
+	ARLASSERT_VERY_FAST(Math::isIntegerVector3(answer.max()));
 
 	return answer;
 }
@@ -83,9 +83,9 @@ SHP SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::~SpatialHash()
 SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::cleanup() 
 {
 	// nb: make all checks match with fastClear as well.
-	RBXASSERT_SPATIAL_HASH(validateTallyTreeNodes());
-	RBXASSERT_SPATIAL_HASH(validateNoNodesOut());
-	RBXASSERT(nodesOut == 0);
+	ARLASSERT_SPATIAL_HASH(validateTallyTreeNodes());
+	ARLASSERT_SPATIAL_HASH(validateNoNodesOut());
+	ARLASSERT(nodesOut == 0);
 }
 
 SHP const Extents SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::calcNewExtents(Primitive* p) 
@@ -109,7 +109,7 @@ SHP typename SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::Spatia
 			answer->treeNode = createTreeNode(level, hash, grid);
 		answer->treeNode->refByPrimitives++;
 
-		RBXASSERT(level == answer->treeNode->level);
+		ARLASSERT(level == answer->treeNode->level);
 	}
 
 	return answer;
@@ -122,8 +122,8 @@ SHP typename SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::TreeNo
 {
 	TreeNode * tn = hashTables[level][hash].treeNodes;
 	while (tn) {
-		RBXASSERT(tn->hashId == hash);
-		RBXASSERT(tn->level == level);
+		ARLASSERT(tn->hashId == hash);
+		ARLASSERT(tn->level == level);
 		if (tn->gridId == gridCoord) {
 			return tn;
 		}
@@ -146,7 +146,7 @@ SHP typename SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::TreeNo
 	tn->hashId = hash;
 	tn->gridId = gridCoord;
 
-	RBXASSERT_SPATIAL_HASH(validateTreeNodeNotHere(tn, level, hash));
+	ARLASSERT_SPATIAL_HASH(validateTreeNodeNotHere(tn, level, hash));
 
 	tn->next = hashTables[level][hash].treeNodes;
 	hashTables[level][hash].treeNodes = tn;
@@ -199,13 +199,13 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::insertNode
 										const Vector3int32& grid, 
 										int hash)
 {
-	RBXASSERT(node->level == p->getSpatialNodeLevel());
+	ARLASSERT(node->level == p->getSpatialNodeLevel());
 
 	node->primitive = p;
 	node->gridId = grid;
 	node->hashId = hash;
 	
-	RBXASSERT_SPATIAL_HASH(validateInsertNodeToPrimitive(node, p, grid, hash));
+	ARLASSERT_SPATIAL_HASH(validateInsertNodeToPrimitive(node, p, grid, hash));
 }
 
 
@@ -228,8 +228,8 @@ SHP typename SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::Spatia
 {
 	const int l = p->getSpatialNodeLevel();
 
-	RBXASSERT_SPATIAL_HASH(static_cast<SpatialNode*>(p->spatialNodes)->getLevel() == l);
-	RBXASSERT(SpatialHashStatic::numBuckets(l) == hashTables[l].size());
+	ARLASSERT_SPATIAL_HASH(static_cast<SpatialNode*>(p->spatialNodes)->getLevel() == l);
+	ARLASSERT(SpatialHashStatic::numBuckets(l) == hashTables[l].size());
 
 	int hash = SpatialHashStatic::getHash(l, grid);
 	SpatialNode* node = hashTables[l][hash].nodes;
@@ -250,8 +250,8 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::oldExtents
 {
 	const int myLevel = me->getSpatialNodeLevel();
 	const int otherLevel = other->getSpatialNodeLevel();
-	RBXASSERT(myLevel >= 0);
-	RBXASSERT(otherLevel >= 0);
+	ARLASSERT(myLevel >= 0);
+	ARLASSERT(otherLevel >= 0);
 
 	bool answer = false;
 
@@ -269,7 +269,7 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::oldExtents
 
 SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::findOtherNodesInLevel0Cell(SpatialNode* destroy)
 {
-	RBXASSERT(destroy->getLevel() == 0);
+	ARLASSERT(destroy->getLevel() == 0);
 	Vector3int32 g = destroy->gridId;
 	int hash = destroy->hashId;
 
@@ -279,7 +279,7 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::findOtherN
 		{
 #ifdef _DEBUG
 			Primitive* other = node_sameHash->primitive;
-			RBXASSERT(other != destroy->primitive);
+			ARLASSERT(other != destroy->primitive);
 #endif
 			return true;
 		}
@@ -291,9 +291,9 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::findOtherN
 
 SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::destroyNode(SpatialNode* destroy)
 {
-	RBXASSERT_SPATIAL_HASH(validateTallyTreeNodes());
-	RBXASSERT_SPATIAL_HASH(validateRemoveNodeFromPrimitive(destroy));
-	RBXASSERT_SPATIAL_HASH(destroy->getLevel() == destroy->primitive->getSpatialNodeLevel());
+	ARLASSERT_SPATIAL_HASH(validateTallyTreeNodes());
+	ARLASSERT_SPATIAL_HASH(validateRemoveNodeFromPrimitive(destroy));
+	ARLASSERT_SPATIAL_HASH(destroy->getLevel() == destroy->primitive->getSpatialNodeLevel());
 
 	// This is insignificant for timing
 	removeNodeFromHash(destroy);
@@ -301,7 +301,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::destroyNod
 	// for all lower level nodes
 	if (destroy->getLevel() > 0) 
 	{
-		RBXASSERT(destroy->treeNode);
+		ARLASSERT(destroy->treeNode);
 		retireTreeNode(destroy->treeNode);
 	} 
 	else 
@@ -314,14 +314,14 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::destroyNod
 	returnNode(destroy);
 	nodesOut--;
 
-	RBXASSERT_SPATIAL_HASH(validateTallyTreeNodes());
+	ARLASSERT_SPATIAL_HASH(validateTallyTreeNodes());
 }
 
 
 SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::removeTreeNodeChild(int childLevel, Vector3int32 &childGridCoord)
 {
 	int childHash;
-	RBXASSERT((childHash = SpatialHashStatic::getHash(childLevel, childGridCoord), 1));
+	ARLASSERT((childHash = SpatialHashStatic::getHash(childLevel, childGridCoord), 1));
 
 	for (int l=childLevel+1; l < MAX_LEVELS; l++) {
 		Vector3int32 g;
@@ -329,10 +329,10 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::removeTree
 		int hash = SpatialHashStatic::getHash(l, g);
 
 		TreeNode *tn = findTreeNode(l, hash, g);
-		RBXASSERT(tn);
+		ARLASSERT(tn);
 		int offset = ((childGridCoord.x>>(l-childLevel-1)) & 1)+
 			(((childGridCoord.y>>(l-childLevel-1)) & 1)<<1) + (((childGridCoord.z>>(l-childLevel-1)) & 1) << 2);
-		RBXASSERT(tn->children[offset] == childHash);
+		ARLASSERT(tn->children[offset] == childHash);
 		// remove child
 		tn->removeChild(offset);
 
@@ -375,7 +375,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addContact
 			g.x = baseGrid.x + (i & 1);
 			g.y = baseGrid.y + ((i & 2)>>1);
 			g.z = baseGrid.z + ((i & 4)>>2);
-			RBXASSERT(tn->level - 1 >= 0);
+			ARLASSERT(tn->level - 1 >= 0);
 			SpatialNode *tryNode = hashTables[ tn->level - 1 ][ children[i] ].nodes;
 			while (tryNode) {
 				Primitive* other = tryNode->primitive;
@@ -386,7 +386,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addContact
 					}
 				}
 				else {
-					RBXASSERT(g != tryNode->gridId);
+					ARLASSERT(g != tryNode->gridId);
 				}
 				tryNode = tryNode->nextHashLink;
 			}
@@ -394,7 +394,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addContact
 			//recursive
 			if (tn->level > 1) {
 				TreeNode *c = findTreeNode(tn->level - 1, children[i], g);
-				RBXASSERT(c);
+				ARLASSERT(c);
 				addContactFromChildren(c, p);
 			}
 		}
@@ -403,14 +403,14 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addContact
 
 SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addNode(Primitive* p, const Vector3int32& grid, bool addContact)
 {
-	RBXASSERT(p->getSpatialNodeLevel() != -1);
+	ARLASSERT(p->getSpatialNodeLevel() != -1);
 
 	int level = p->getSpatialNodeLevel();
 
 	int hash = SpatialHashStatic::getHash(level, grid);
 
-	RBXASSERT_SPATIAL_HASH(validateTallyTreeNodes());
-	RBXASSERT_VERY_FAST(!hashHasPrimitive(level, p, hash, grid));
+	ARLASSERT_SPATIAL_HASH(validateTallyTreeNodes());
+	ARLASSERT_VERY_FAST(!hashHasPrimitive(level, p, hash, grid));
 
 	nodesOut++;
 	SpatialNode* addedNode = newNode(level, hash, grid);
@@ -418,7 +418,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addNode(Pr
 #ifdef _DEBUG
 	if (level > 0) {
 		TreeNode *tn_save = addedNode->treeNode;
-		RBXASSERT(addedNode->getLevel() == tn_save->level);
+		ARLASSERT(addedNode->getLevel() == tn_save->level);
 	}
 #endif
 
@@ -448,7 +448,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addNode(Pr
 		if (Primitive::hasGetFirstContact && addContact)
 		{
 			while (tryNode) {
-				RBXASSERT( l < MAX_LEVELS);
+				ARLASSERT( l < MAX_LEVELS);
 
 				numNodes++;
 				Primitive* other = tryNode->primitive;
@@ -459,7 +459,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addNode(Pr
 					}
 				}
 				else {
-					RBXASSERT(g != tryNode->gridId);
+					ARLASSERT(g != tryNode->gridId);
 				}
 				tryNode = tryNode->nextHashLink;
 			}
@@ -472,9 +472,9 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addNode(Pr
 				tn = createTreeNode(l, hash, g);
 			int offset = ((grid.x>>(l-level-1)) & 1)+
 				(((grid.y>>(l-level-1)) & 1)<<1) + (((grid.z>>(l-level-1)) & 1) << 2);
-			RBXASSERT(0<=offset && offset<=7 && prevHash >= 0);
+			ARLASSERT(0<=offset && offset<=7 && prevHash >= 0);
 			// establish child "pointer"
-			RBXASSERT(!tn->hasChild(offset) || tn->children[offset]==prevHash);
+			ARLASSERT(!tn->hasChild(offset) || tn->children[offset]==prevHash);
 			
 			if (tn->hasChild(offset))
 				needHiearchyUpdate = false; // this and upper levels tree-nodes has already been set
@@ -483,7 +483,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addNode(Pr
 
 			if (level > 0)
 			{
-				RBXASSERT(addedNode->treeNode && addedNode->getLevel() == addedNode->treeNode->level);
+				ARLASSERT(addedNode->treeNode && addedNode->getLevel() == addedNode->treeNode->level);
 			}
 		}
 
@@ -493,13 +493,13 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::addNode(Pr
 
 	// add contacts from children
 	if (Primitive::hasGetFirstContact && addContact && addedNode->getLevel() > 0) {
-		RBXASSERT(addedNode && addedNode->treeNode->level == addedNode->getLevel());
+		ARLASSERT(addedNode && addedNode->treeNode->level == addedNode->getLevel());
 		addContactFromChildren(addedNode->treeNode, p);
 	}
 
 	maxBucket = std::max(maxBucket, numNodes);
 
-	RBXASSERT_SPATIAL_HASH(validateTallyTreeNodes());
+	ARLASSERT_SPATIAL_HASH(validateTallyTreeNodes());
 }
 
 
@@ -527,7 +527,7 @@ SHP int SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::computeLeve
 /*
 SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::computeMinMax(const Primitive* p, const Extents& extents, Vector3int32& min, Vector3int32& max)
 {
-	RBXASSERT(p->getSpatialNodeLevel() != -1);
+	ARLASSERT(p->getSpatialNodeLevel() != -1);
 	computeMinMax(p->getSpatialNodeLevel(), extents, min, max);
 }
 */
@@ -557,9 +557,9 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::primitiveA
 {
 	WriteValidator writeValidator(concurrencyValidator);
 
-	RBXASSERT_SPATIAL_HASH(validateContacts(p));
-	RBXASSERT_SPATIAL_HASH(p->spatialNodes == NULL);
-	RBXASSERT(p->getSpatialNodeLevel() == -1);
+	ARLASSERT_SPATIAL_HASH(validateContacts(p));
+	ARLASSERT_SPATIAL_HASH(p->spatialNodes == NULL);
+	ARLASSERT(p->getSpatialNodeLevel() == -1);
 
 	Extents newExtentsFloat = calcNewExtents(p);
 	int level = computeLevel(p, newExtentsFloat);
@@ -573,8 +573,8 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::primitiveA
 
 	changeMinMax(p, &newExtents, NULL, &newExtents, addContact);
 
-	RBXASSERT(p->getSpatialNodeLevel() == level);
-	RBXASSERT_SPATIAL_HASH(validateContacts(p));
+	ARLASSERT(p->getSpatialNodeLevel() == level);
+	ARLASSERT_SPATIAL_HASH(validateContacts(p));
 }
 
 
@@ -598,7 +598,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::changeMinM
 		}										// big counts around 0,0,0
 		else if (inOld && !inNew) {
 			SpatialNode* destroyMe = findNode(p, v);
-			RBXASSERT(destroyMe);
+			ARLASSERT(destroyMe);
 			destroyNode(destroyMe);
 		}
 	}
@@ -629,7 +629,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::fastClear(
 			{
 				TreeNode *nodeToFree = tn;
 				tn = nodeToFree->next;
-				RBXASSERT((fastClearTreeNode(nodeToFree), true)); // only run this if asserts are on.
+				ARLASSERT((fastClearTreeNode(nodeToFree), true)); // only run this if asserts are on.
                 delete nodeToFree;
 			};
 		}
@@ -658,7 +658,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::checkAndRe
             if( contactManager->primitiveIsExcludedFromSpatialHash(other) )
                     continue;
 			bool overlap = oldExtentsOverlap(p, other);
-			RBXASSERT_SPATIAL_HASH(overlap == validateNodesOverlap(p, other));
+			ARLASSERT_SPATIAL_HASH(overlap == validateNodesOverlap(p, other));
 			if (!overlap) {
 				outOfContact.append(other);
 			}
@@ -672,9 +672,9 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::primitiveE
 {
 	WriteValidator writeValidator(concurrencyValidator);
 
-	RBXASSERT_SPATIAL_HASH(validateContacts(p));
-	RBXASSERT_SPATIAL_HASH(p->spatialNodes != NULL);
-	RBXASSERT(p->getSpatialNodeLevel() != -1);
+	ARLASSERT_SPATIAL_HASH(validateContacts(p));
+	ARLASSERT_SPATIAL_HASH(p->spatialNodes != NULL);
+	ARLASSERT(p->getSpatialNodeLevel() != -1);
 
 	Vector3int32 newMin, newMax;
 
@@ -697,13 +697,13 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::primitiveE
 	}
 	else {
 		changeMinMax(p, &oldBox, &oldBox, NULL);
-		RBXASSERT_SPATIAL_HASH(p->spatialNodeCount == 0);
+		ARLASSERT_SPATIAL_HASH(p->spatialNodeCount == 0);
 		changeMinMax(p, &newBox, NULL, &newBox);
 	}
 
 	checkAndReleaseContacts(p);
 
-	RBXASSERT_SPATIAL_HASH(validateContacts(p));
+	ARLASSERT_SPATIAL_HASH(validateContacts(p));
 }
 
 SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::onPrimitiveRemoved(Primitive* p) {
@@ -713,13 +713,13 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::onPrimitiv
 SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::primitiveRemoved(Primitive* p)
 {
 	WriteValidator writeValidator(concurrencyValidator);
-	RBXASSERT_SPATIAL_HASH(validateContacts(p));
-	RBXASSERT(p->getSpatialNodeLevel() != -1 || contactManager->primitiveIsExcludedFromSpatialHash(p));
+	ARLASSERT_SPATIAL_HASH(validateContacts(p));
+	ARLASSERT(p->getSpatialNodeLevel() != -1 || contactManager->primitiveIsExcludedFromSpatialHash(p));
 
 	changeMinMax(p, &p->getOldSpatialExtents(), &p->getOldSpatialExtents(), NULL);
 	p->setSpatialNodeLevel(-1); 
 	p->setOldSpatialExtents(ExtentsInt32::empty());
-	RBXASSERT_SPATIAL_HASH(p->spatialNodeCount == 0);
+	ARLASSERT_SPATIAL_HASH(p->spatialNodeCount == 0);
 	
 	if (Primitive::hasGetFirstContact )
 	{
@@ -732,7 +732,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::primitiveR
 			contactManager->releasePair(p, outOfContact[i]);
 	}
 
-	RBXASSERT_SPATIAL_HASH(validateContacts(p));
+	ARLASSERT_SPATIAL_HASH(validateContacts(p));
 }
 
 // Note -use FastFuzzyExtents when not in the middle of a simulation step
@@ -785,9 +785,9 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::onPrimitiv
 	if( contactManager->primitiveIsExcludedFromSpatialHash(p) )
 		return;
 
-	RBXASSERT_SPATIAL_HASH(validateContacts(p));
-	RBXASSERT_SPATIAL_HASH(p->spatialNodes != NULL);
-	RBXASSERT(p->getSpatialNodeLevel() != -1);
+	ARLASSERT_SPATIAL_HASH(validateContacts(p));
+	ARLASSERT_SPATIAL_HASH(p->spatialNodes != NULL);
+	ARLASSERT(p->getSpatialNodeLevel() != -1);
 
 	WriteValidator writeValidator(concurrencyValidator);
 
@@ -820,7 +820,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::onPrimitiv
 					}
 
 					while (tryNode) {
-						RBXASSERT( l < MAX_LEVELS);
+						ARLASSERT( l < MAX_LEVELS);
 
 						Primitive* other = tryNode->primitive;
 						if ((other != p) && (tryNode->gridId == g)) {
@@ -835,7 +835,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::onPrimitiv
 
 				// add contacts from children
 				if (thisNode->getLevel() > 0) {
-					RBXASSERT(thisNode && thisNode->treeNode->level == thisNode->getLevel());
+					ARLASSERT(thisNode && thisNode->treeNode->level == thisNode->getLevel());
 					addContactFromChildren(thisNode->treeNode, p);
 				}
 			}
@@ -851,7 +851,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getPrimiti
 {
 	ReadOnlyValidator readOnlyValidator(concurrencyValidator);
 
-	RBXASSERT(answer.size() == 0);
+	ARLASSERT(answer.size() == 0);
 
 
 	Vector3int32 min, max;
@@ -886,7 +886,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getPrimiti
 			}
 		}
 	}
-	RBXASSERT(foundThisGrid.size() < 200);
+	ARLASSERT(foundThisGrid.size() < 200);
 }
 
 // same as above function, but we use a set of all primitives to-be-ignored for use with an ancestor check
@@ -897,7 +897,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getPrimiti
 {
 	ReadOnlyValidator readOnlyValidator(concurrencyValidator);
 
-	RBXASSERT(answer.size() == 0);
+	ARLASSERT(answer.size() == 0);
 
 
 	Vector3int32 min, max;
@@ -935,7 +935,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getPrimiti
 			}
 		}
 	}
-	RBXASSERT(foundThisGrid.size() < 200);
+	ARLASSERT(foundThisGrid.size() < 200);
 }
 
 SHP template <typename Set> void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getPrimitivesOverlapping(const Extents& extents, Set& answer)
@@ -1067,7 +1067,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getPrimiti
 
 	while (node) {
 		if (node->gridId == grid) {
-			RBXASSERT_IF_VALIDATING(!found.contains(node->primitive));
+			ARLASSERT_IF_VALIDATING(!found.contains(node->primitive));
 			found.append(node->primitive);
 		}
 		node = node->nextHashLink;
@@ -1077,7 +1077,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getPrimiti
 // find primitives at all levels--the input grid coord is for level 0
 SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getPrimitivesInGrid(const Vector3int32& grid, G3D::Array<Primitive*>& found)
 {
-	RBXASSERT(found.size() == 0);
+	ARLASSERT(found.size() == 0);
 
 	Vector3int32 g = grid;
 
@@ -1094,7 +1094,7 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getNextGri
 {
 	ReadOnlyValidator readOnlyValidator(concurrencyValidator);
 
-	RBXASSERT_VERY_FAST(unitRay.direction().isUnit());
+	ARLASSERT_VERY_FAST(unitRay.direction().isUnit());
 
 	int low[3], high[3];
 	for (int i = 0; i < 3; ++i) {
@@ -1168,7 +1168,7 @@ SHP typename SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::TreeNo
 
 SHP typename SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::TreeNode* SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getChild(TreeNode* parent, int octant)
 {
-	RBXASSERT(parent->hasChild(octant));
+	ARLASSERT(parent->hasChild(octant));
 	if(parent->level > 0)
 	{
 		return findTreeNode(parent->level-1, parent->children[octant], getChildGrid(parent->gridId, octant));
@@ -1185,7 +1185,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::getPrimiti
 
 	while (node) {
 		if (node->gridId == tn->gridId) {
-			RBXASSERT_IF_VALIDATING(!primitives.contains(node->primitive));
+			ARLASSERT_IF_VALIDATING(!primitives.contains(node->primitive));
 			primitives.append(node->primitive);
 		}
 		node = node->nextHashLink;
@@ -1259,7 +1259,7 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::visitPrimi
 		NodeBase* node = nodeinfo.node; 
 		int level = node->level;
 		int hashId = node->hashId;
-		const RBX::Vector3int32& gridId = node->gridId;
+		const ARL::Vector3int32& gridId = node->gridId;
 
 		// check the children
 		if(nodeinfo.action == aRecurseTreeNode)
@@ -1293,10 +1293,10 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::visitPrimi
 				if(childLevel > 0)
 				{
 					childTreeNode = findTreeNode(childLevel, childHashId, childGridId);
-					RBXASSERT(childTreeNode);
-					RBXASSERT(childTreeNode->gridId == childGridId);
-					RBXASSERT(childTreeNode->level == childLevel);
-					RBXASSERT(tn->children[childoffset] == childTreeNode->hashId);
+					ARLASSERT(childTreeNode);
+					ARLASSERT(childTreeNode->gridId == childGridId);
+					ARLASSERT(childTreeNode->level == childLevel);
+					ARLASSERT(tn->children[childoffset] == childTreeNode->hashId);
 
 					// we have childTreeNode;
 					nodestovisit.push(NodeInfo(childTreeNode, aRecurseTreeNode, childIntersect, filter->Distance(childExtents)));
@@ -1356,9 +1356,9 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::visitPrimi
 	
 }
 
-SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::visitPrimitivesInSpaceWorker(TreeNode* tn, int level, int hashId, const RBX::Vector3int32& gridId, int* visitOrder, IntersectResult intersectResult, SpaceFilter* filter, const Vector3& visitDir)
+SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::visitPrimitivesInSpaceWorker(TreeNode* tn, int level, int hashId, const ARL::Vector3int32& gridId, int* visitOrder, IntersectResult intersectResult, SpaceFilter* filter, const Vector3& visitDir)
 {
-	RBXASSERT(intersectResult == irFull || intersectResult == irPartial);
+	ARLASSERT(intersectResult == irFull || intersectResult == irPartial);
 
 	// check the children
 	if(tn)
@@ -1389,10 +1389,10 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::visitPrimi
 			if(childLevel > 0)
 			{
 				childTreeNode = findTreeNode(childLevel, childHashId, childGridId);
-				RBXASSERT(childTreeNode);
-				RBXASSERT(childTreeNode->gridId == childGridId);
-				RBXASSERT(childTreeNode->level == childLevel);
-				RBXASSERT(tn->children[childoffset] == childTreeNode->hashId);
+				ARLASSERT(childTreeNode);
+				ARLASSERT(childTreeNode->gridId == childGridId);
+				ARLASSERT(childTreeNode->level == childLevel);
+				ARLASSERT(tn->children[childoffset] == childTreeNode->hashId);
 
 			}
 
@@ -1420,16 +1420,16 @@ SHP void SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::visitPrimi
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 //
-//  Debugging - all of these should RBXASSERT(assertingSpatialHash)
+//  Debugging - all of these should ARLASSERT(assertingSpatialHash)
 //
 SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateInsertNodeToPrimitive(SpatialNode* node, 
 																									Primitive* p, 
 																									const Vector3int32& grid, 
 																									int hash)
 {
-	RBXASSERT(assertingSpatialHash);
+	ARLASSERT(assertingSpatialHash);
 
-#ifdef _RBX_DEBUGGING_SPATIAL_HASH
+#ifdef _ARL_DEBUGGING_SPATIAL_HASH
 	// Primitive P's linked list of nodes
 	SpatialNode* oldFirst = static_cast<SpatialNode*>(p->spatialNodes);
 	p->spatialNodes = node;
@@ -1446,9 +1446,9 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateIn
 
 SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateRemoveNodeFromPrimitive(SpatialNode* node)
 {
-	RBXASSERT(assertingSpatialHash);
+	ARLASSERT(assertingSpatialHash);
 
-#ifdef _RBX_DEBUGGING_SPATIAL_HASH
+#ifdef _ARL_DEBUGGING_SPATIAL_HASH
 	SpatialNode* prev = node->prevPrimitiveLink;
 	SpatialNode* next = node->nextPrimitiveLink;
 
@@ -1470,9 +1470,9 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateRe
 
 SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateNodesOverlap(Primitive* me, Primitive* other)
 {
-	RBXASSERT(assertingSpatialHash);
+	ARLASSERT(assertingSpatialHash);
 
-#ifdef _RBX_DEBUGGING_SPATIAL_HASH
+#ifdef _ARL_DEBUGGING_SPATIAL_HASH
 
 	SpatialNode* myNode = static_cast<SpatialNode*>(me->spatialNodes);
 	SpatialNode* otherNode = static_cast<SpatialNode*>(other->spatialNodes);
@@ -1533,7 +1533,7 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateNo
 
 SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateTallyTreeNodes()
 {
-	RBXASSERT(assertingSpatialHash);
+	ARLASSERT(assertingSpatialHash);
 
 	int numTreeNodesInUse=0, numTreeNodesInPool=0;
 	for (int level = 0; level < MAX_LEVELS; level ++) {
@@ -1541,7 +1541,7 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateTa
 			TreeNode *tn = hashTables[level][hashId].treeNodes;
 			while (tn) {
 				numTreeNodesInUse ++;
-				RBXASSERT(tn->childMask || tn->refByPrimitives);
+				ARLASSERT(tn->childMask || tn->refByPrimitives);
 				tn = tn->next;
 			}
 		}
@@ -1552,11 +1552,11 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateTa
 
 SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateTreeNodeNotHere(TreeNode* tn, int level, int hash) 
 {
-	RBXASSERT(assertingSpatialHash);
+	ARLASSERT(assertingSpatialHash);
 
 	TreeNode *p = hashTables[level][hash].treeNodes;
 	while (p) {
-		RBXASSERT(p != tn);
+		ARLASSERT(p != tn);
 		p = p->next;
 	}
 	return true;
@@ -1564,14 +1564,14 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateTr
 
 SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateNoNodesOut() 
 {
-	RBXASSERT(assertingSpatialHash);
+	ARLASSERT(assertingSpatialHash);
 
 	for (int l=0; l < MAX_LEVELS; l++) 
 	{
-		RBXASSERT(hashTables[l].size() == SpatialHashStatic::numBuckets(l));
+		ARLASSERT(hashTables[l].size() == SpatialHashStatic::numBuckets(l));
 		for (size_t i = 0; i < SpatialHashStatic::numBuckets(l); ++i) 
 		{
-			RBXASSERT(hashTables[l][i].nodes == NULL);
+			ARLASSERT(hashTables[l][i].nodes == NULL);
 		}
 	}
 	return true;
@@ -1579,9 +1579,9 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateNo
 
 SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateContacts(Primitive* p)
 {
-	RBXASSERT(assertingSpatialHash);
+	ARLASSERT(assertingSpatialHash);
 
-#ifdef _RBX_DEBUGGING_SPATIAL_HASH
+#ifdef _ARL_DEBUGGING_SPATIAL_HASH
 
 	__if_exists(Primitive::getFirstContact)
 	{
@@ -1590,8 +1590,8 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateCo
 		// 1. For each contact, confirm there is a hash collision
 		while (c) {
 			Primitive* other = c->otherPrimitive(p);
-			RBXASSERT_SPATIAL_HASH(validateNodesOverlap(p, other));
-			RBXASSERT_SPATIAL_HASH(validateNodesOverlap(p, other));
+			ARLASSERT_SPATIAL_HASH(validateNodesOverlap(p, other));
+			ARLASSERT_SPATIAL_HASH(validateNodesOverlap(p, other));
 			c = p->getNextContact(c);
 		}
 
@@ -1601,7 +1601,7 @@ SHP bool SpatialHash<Primitive, Contact, ContactManager, MAX_LEVELS>::validateCo
 			SpatialNode* hashNode = hashTables[myNode->getLevel()][myNode->hashId].nodes;
 			while (hashNode) {
 				if ((hashNode->primitive != p) && (hashNode->gridId == myNode->gridId)) {
-					RBXASSERT_SPATIAL_HASH(Primitive::getContact(p, hashNode->primitive));
+					ARLASSERT_SPATIAL_HASH(Primitive::getContact(p, hashNode->primitive));
 				}
 				hashNode = hashNode->nextHashLink;
 			}
@@ -1679,7 +1679,7 @@ size_t computeNumGrids(SpatialNode* node)
 	int u3 = num_list3.size();
 	int u4 = num_list4.size();
 
-	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Random Hash distribution 1: %d   2: %d   3: %d   4: %d", u1, u2, u3, u4);
+	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Random Hash distribution 1: %d   2: %d   3: %d   4: %d", u1, u2, u3, u4);
 */
 
 	std::vector<size_t> counts(numBuckets(), 0);
@@ -1694,27 +1694,27 @@ size_t computeNumGrids(SpatialNode* node)
 	sort(counts.begin(), counts.end());
 	sort(differentGrids.begin(), differentGrids.end());
 
-	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "CURRENT HASH DISTRIBUTION");
+	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "CURRENT HASH DISTRIBUTION");
 	size_t numSlots = 100;
 	for (size_t i = 0; i < numSlots; ++i)
 	{
 		size_t index = ( (i + 1) * numBuckets() / numSlots ) - 1;
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Slot: %d      Count: %d", i, counts[index]);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Slot: %d      Count: %d", i, counts[index]);
 	}
 
 
-	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "TOP HASH DISTRIBUTION");
+	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "TOP HASH DISTRIBUTION");
 	for (size_t i = 0; i < numSlots; ++i)
 	{
 		size_t index = numBuckets() - 1 - i;
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Slot: %d      Count: %d", i, counts[index]);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Slot: %d      Count: %d", i, counts[index]);
 	}
 
-	RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "TOP GRID COLLISIONS DISTRIBUTION");
+	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "TOP GRID COLLISIONS DISTRIBUTION");
 	for (size_t i = 0; i < numSlots; ++i)
 	{
 		size_t index = numBuckets() - 1 - i;
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Slot: %d      Count: %d", i, differentGrids[index]);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Slot: %d      Count: %d", i, differentGrids[index]);
 	}
 #endif
 }

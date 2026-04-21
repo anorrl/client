@@ -29,7 +29,7 @@ White			RGB: 255, 255, 255
 
 
 
-namespace RBX {
+namespace ARL {
 
 const G3D::Color3& Color::getColorByIndex(int i)
 {

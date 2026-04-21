@@ -4,11 +4,11 @@
 
 #include "V8DataModel/MouseCommand.h"
 
-namespace RBX {
+namespace ARL {
 
 class Mouse;
 
-// A command to interface the generic, scriptable HopperBin to the RBX command architecture
+// A command to interface the generic, scriptable HopperBin to the ARL command architecture
 class ScriptMouseCommand : public MouseCommand
 {
 private:

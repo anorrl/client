@@ -6,7 +6,7 @@
 #include "Util/BrickColor.h"
 #include "GuiBase.h"
 
-namespace RBX {
+namespace ARL {
 	extern const char* const sGuiBase3d;
 
 	//A base class for "adornment" instances (3D objects that adorn Instances)

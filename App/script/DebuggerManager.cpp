@@ -18,7 +18,7 @@
 FASTFLAGVARIABLE(LuaDebugger, false)
 FASTFLAGVARIABLE(LuaDebuggerBreakOnError, false)
 
-namespace RBX 
+namespace ARL 
 {
 	namespace Scripting 
 	{
@@ -91,7 +91,7 @@ namespace RBX
 				if (readyForLine)
 					return ar->event == LUA_HOOKLINE;
 
-				RBXASSERT(depth >= 0);
+				ARLASSERT(depth >= 0);
 
 				if (strcmp(ar->what, "C") != 0)
 				{
@@ -101,7 +101,7 @@ namespace RBX
 						depth++;
 				}
 
-				RBXASSERT(depth >= -1);
+				ARLASSERT(depth >= -1);
 				readyForLine = depth == -1;
 				return false;
 			}
@@ -136,7 +136,7 @@ namespace RBX
 					// We stepped out, so all we are waiting for is the next line
 						return ar->event == LUA_HOOKLINE;
 
-				RBXASSERT(depth >= 0);
+				ARLASSERT(depth >= 0);
 
 				//if (strcmp(ar->what, "C") != 0)
 				{
@@ -146,14 +146,14 @@ namespace RBX
 						depth++;
 				}
 
-				RBXASSERT(depth >= -1);
+				ARLASSERT(depth >= -1);
 				return false;
 			}
 		};
 	}
 }
 
-using namespace RBX;
+using namespace ARL;
 using namespace Scripting;
 
 REFLECTION_BEGIN();
@@ -241,7 +241,7 @@ DebuggerManager::~DebuggerManager(void)
 {
 }
 
-void DebuggerManager::setDataModel(RBX::DataModel *pDataModel)
+void DebuggerManager::setDataModel(ARL::DataModel *pDataModel)
 {	
 	if (pDataModel == dataModel)
 		return;
@@ -263,7 +263,7 @@ void DebuggerManager::setDataModel(RBX::DataModel *pDataModel)
 		descendantAddedSignalConnection = dataModel->getOrCreateDescendantAddedSignal()->connect(boost::bind(&DebuggerManager::addUnaddedDebuggerForAddedDescendant, this, _1));
 }
 
-RBX::DataModel* DebuggerManager::getDataModel()
+ARL::DataModel* DebuggerManager::getDataModel()
 {	return dataModel; }
 
 void DebuggerManager::reset()
@@ -376,7 +376,7 @@ void DebuggerManager::addDebugger(shared_ptr<ScriptDebugger> debugger)
 		return;
 
 	// check if debugger already added
-	RBX::Instance* script = debugger->getScript();
+	ARL::Instance* script = debugger->getScript();
 	if (debuggers.find(script) != debuggers.end())
 		return;
 
@@ -388,15 +388,15 @@ void DebuggerManager::addDebugger(shared_ptr<ScriptDebugger> debugger)
 		unaddedDebuggers[script] = debugger;
 }
 
-void DebuggerManager::addUnaddedDebuggerForAddedDescendant(shared_ptr<RBX::Instance> instance)
+void DebuggerManager::addUnaddedDebuggerForAddedDescendant(shared_ptr<ARL::Instance> instance)
 {
-	if (instance && (instance->isA<RBX::Script>() || instance->isA<RBX::ModuleScript>()))
+	if (instance && (instance->isA<ARL::Script>() || instance->isA<ARL::ModuleScript>()))
 	{
 		// check if we've an unadded debugger for the added instance
 		UnaddedDebuggers::iterator iter = unaddedDebuggers.find(instance.get());
 		if (iter != unaddedDebuggers.end())
 		{
-			RBXASSERT(debuggers.find(instance.get()) == debuggers.end());
+			ARLASSERT(debuggers.find(instance.get()) == debuggers.end());
 			(iter->second)->setParent(this);
 			unaddedDebuggers.erase(iter);
 		}
@@ -450,7 +450,7 @@ void DebuggerManager::addScriptDebugger(Instance* instance)
 	{
 		if (debugger->getScript() != 0)
 		{
-			RBXASSERT(debuggers.find(debugger->getScript()) == debuggers.end());
+			ARLASSERT(debuggers.find(debugger->getScript()) == debuggers.end());
 			debuggers[debugger->getScript()] = debugger;
 			debuggerAdded(shared_from(debugger));
 		}
@@ -494,7 +494,7 @@ void DebuggerManager::resume()
 	while (!errorThreads.empty())
 	{
 		Lua::WeakThreadRef weakref = *(errorThreads.begin());
-		if (RBX::Lua::ThreadRef thread = weakref.lock())
+		if (ARL::Lua::ThreadRef thread = weakref.lock())
 		{
 			ScriptDebugger* debugger = findDebugger(thread);
 			if (debugger && debugger->hasError())
@@ -513,7 +513,7 @@ void DebuggerManager::resume()
 		while (!pausedThreads.empty())
 		{
 			Lua::WeakThreadRef weakref = *(pausedThreads.begin());
-			if (RBX::Lua::ThreadRef thread = weakref.lock())
+			if (ARL::Lua::ThreadRef thread = weakref.lock())
 			{
 				ScriptDebugger* debugger = findDebugger(thread);
 				if (debugger)
@@ -653,7 +653,7 @@ void DebuggerManager::onHook(lua_State* L, lua_Debug *ar)
 			return;
 		// if a threads gets paused during resume then it must be pushed on the top of the list else push it in back	
 		resuming ? resumingPausedThreads.push_back(L) : pausedThreads.push_back(L);
-		//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "paused debugger = %d", L);
+		//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "paused debugger = %d", L);
 	}
 }
 
@@ -670,7 +670,7 @@ ScriptDebugger::ScriptDebugger( Instance& script )
 ,currentThreadID(0)
 ,rootThreadResumed(false)
 {
-	setName(RBX::format("%sDebugger", script.getName().c_str()));
+	setName(ARL::format("%sDebugger", script.getName().c_str()));
 	setScript(&script);
 }
 
@@ -724,7 +724,7 @@ Reflection::Variant ScriptDebugger::getWatchValue_Reflection( shared_ptr<Instanc
 
 static int setIndexInfo(lua_State * L)
 {
-	RBX::StandardOut::singleton()->print(RBX::MESSAGE_INFO, "setIndexInfo");
+	ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "setIndexInfo");
 	return 0;
 }
 
@@ -897,14 +897,14 @@ static void setEvalThreadEnvironment(lua_State * parentThread, lua_State* evalTh
 
 Reflection::Variant DebuggerManager::readWatchValue(std::string expression, int stackDepth, lua_State* L)
 {
-	RBXASSERT_BALLANCED_LUA_STACK(L);
+	ARLASSERT_BALLANCED_LUA_STACK(L);
 
 	lua_State* evalThread = lua_newthread(L);
 	lua_sethook(evalThread, NULL, 0, 0);	// Prevent re-entrancy
 
 	Lua::ScopedPopper pop(L, 1);
 
-	RBXASSERT_BALLANCED_LUA_STACK2(evalThread);
+	ARLASSERT_BALLANCED_LUA_STACK2(evalThread);
 
 	const std::string code = "return " + expression;
 	bool loaded;
@@ -914,7 +914,7 @@ Reflection::Variant DebuggerManager::readWatchValue(std::string expression, int 
 	if (!loaded)
 	{
 		std::string err = Lua::safe_lua_tostring(evalThread, -1);
-		throw RBX::runtime_error("syntax error: %s", err.c_str());
+		throw ARL::runtime_error("syntax error: %s", err.c_str());
 	}
 
 	// set new function environment for evaluation thread so we can access locals/upvalues/environment of the original context
@@ -923,7 +923,7 @@ Reflection::Variant DebuggerManager::readWatchValue(std::string expression, int 
 	if (lua_pcall(evalThread, 0, 1, 0))
 	{
 		//const char* message = lua_tostring(evalThread, -1);
-		//throw RBX::runtime_error("runtime error: %s", message);
+		//throw ARL::runtime_error("runtime error: %s", message);
 		return std::string("*** Value not found ***");
 	}
 
@@ -934,7 +934,7 @@ Reflection::Variant DebuggerManager::readWatchValue(std::string expression, int 
 	}
 	catch (std::runtime_error const& exp)
 	{
-		return std::string(RBX::format("*** %s ***", exp.what()));
+		return std::string(ARL::format("*** %s ***", exp.what()));
 	}
 
 	return result;
@@ -983,21 +983,21 @@ Reflection::Variant ScriptDebugger::getKeyValue(std::string key, int stackFrame)
 template<class R>
 void ScriptDebugger::withPausedThreadHook( lua_State* L, lua_Debug *ar, boost::function<R(lua_State* L, lua_Debug *ar)> f, R& r, shared_ptr<std::string>& error)
 {
-	RBXASSERT(ar->event == LUA_HOOKLINE);
-	RBXASSERT(currentLine == ar->currentline);
+	ARLASSERT(ar->event == LUA_HOOKLINE);
+	ARLASSERT(currentLine == ar->currentline);
 
 	try
 	{
 		r = f(L, ar);
 	}
-	catch (RBX::base_exception& ex)
+	catch (ARL::base_exception& ex)
 	{
 		error = rbx::make_shared<std::string>(ex.what());
 	}
 
-	RBXASSERT(pausedThread.lock() == L);
+	ARLASSERT(pausedThread.lock() == L);
 	//pausedThread = L;
-	RBXASSERT(!RobloxExtraSpace::get(L)->yieldCaptured);
+	ARLASSERT(!RobloxExtraSpace::get(L)->yieldCaptured);
 	RobloxExtraSpace::get(L)->yieldCaptured = true;
 	lua_yield(L, 0);
 }
@@ -1021,13 +1021,13 @@ R ScriptDebugger::withPausedThread( boost::function<R(lua_State* L, lua_Debug *a
 
 		R r;
 		shared_ptr<std::string> error;
-		RBXASSERT(!hookFunction);
+		ARLASSERT(!hookFunction);
 		hookFunction = boost::bind(&ScriptDebugger::withPausedThreadHook<R>, this, _1, _2, f, boost::ref(r), boost::ref(error));
 		try
 		{
 			if (Lua::ThreadRef thread = pausedThread.lock())
 			{
-				RBXASSERT_BALLANCED_LUA_STACK(thread);
+				ARLASSERT_BALLANCED_LUA_STACK(thread);
 				ScriptContext::getContext(thread).resume(thread, 0);
 			}
 		}
@@ -1071,9 +1071,9 @@ void ScriptDebugger::debuggerBreak( lua_State* L, lua_Debug *ar )
 		break;
 	}
 
-	RBXASSERT(currentLine > 0);
+	ARLASSERT(currentLine > 0);
 
-	//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Encountered breakpoint: %s line %d", ar->short_src, currentLine);
+	//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Encountered breakpoint: %s line %d", ar->short_src, currentLine);
 
 	pausedThread = L;
 	currentThreadID = reinterpret_cast<uintptr_t>(L);
@@ -1092,13 +1092,13 @@ void ScriptDebugger::debuggerBreak( lua_State* L, lua_Debug *ar )
 	if (pausedThread.empty())
 	{
 		// If pausedThread was reset during encounteredBreak, then don't yield. We're done.
-		//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Resuming: %s line %d", ar->short_src, ar->currentline);
+		//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Resuming: %s line %d", ar->short_src, ar->currentline);
 		resuming();
 		currentLine = 0;
 	}
 	else
 	{
-		RBXASSERT(!RobloxExtraSpace::get(L)->yieldCaptured);
+		ARLASSERT(!RobloxExtraSpace::get(L)->yieldCaptured);
 		RobloxExtraSpace::get(L)->yieldCaptured = true;
 		lua_yield(L, 0);
 	}
@@ -1122,7 +1122,7 @@ shared_ptr<Reflection::ValueMap> ScriptDebugger::readLocals(int stackIndex, lua_
 		throw std::runtime_error("stackIndex out of range");
 
 	shared_ptr<Reflection::ValueMap> locals = rbx::make_shared<Reflection::ValueMap>();
-	RBXASSERT_BALLANCED_LUA_STACK(L);
+	ARLASSERT_BALLANCED_LUA_STACK(L);
 	int n = 1;
 	while (const char* name = lua_getlocal(L, &ar, n++))
 	{
@@ -1140,7 +1140,7 @@ shared_ptr<Reflection::ValueMap> ScriptDebugger::readLocals(int stackIndex, lua_
 
 shared_ptr<Reflection::ValueMap> ScriptDebugger::readGlobals(lua_State* L)
 {
-	RBXASSERT_BALLANCED_LUA_STACK(L);
+	ARLASSERT_BALLANCED_LUA_STACK(L);
 
 #if 0
 	lua_Debug ar;
@@ -1165,7 +1165,7 @@ shared_ptr<Reflection::ValueMap> ScriptDebugger::readGlobals(lua_State* L)
 		if (lua_isstring(L, -2))
 		{
 			const char* name = lua_tostring(L, -2);
-			RBXASSERT(result->find(name) == result->end());
+			ARLASSERT(result->find(name) == result->end());
 			
 			Reflection::Variant value;
 			Lua::LuaArguments::get(L, -1, value, false);
@@ -1189,9 +1189,9 @@ shared_ptr<Reflection::ValueMap> ScriptDebugger::readUpvalues(int stackIndex, lu
 
 	shared_ptr<Reflection::ValueMap> arguments = rbx::make_shared<Reflection::ValueMap>();
 
-	RBXASSERT_BALLANCED_LUA_STACK(L);
+	ARLASSERT_BALLANCED_LUA_STACK(L);
 	int result = lua_getinfo(L, "fu", &ar);	
-	RBXASSERT(result);
+	ARLASSERT(result);
 	// stack contains current function
 
 	int n = 1;
@@ -1201,7 +1201,7 @@ shared_ptr<Reflection::ValueMap> ScriptDebugger::readUpvalues(int stackIndex, lu
 		{
 			Reflection::Variant value;
 			Lua::LuaArguments::get(L, -1, value, false);
-			RBXASSERT(arguments->find(name) == arguments->end());
+			ARLASSERT(arguments->find(name) == arguments->end());
 			(*arguments)[name] = value;
 		}
 		lua_pop(L, 1); // pop value
@@ -1252,7 +1252,7 @@ std::vector<ScriptDebugger::FunctionInfo> ScriptDebugger::readStack(lua_State* L
 		if (lua_getstack(L, frame, &ar) == 0)
 			break;
 		int r = lua_getinfo(L, "nSlf", &ar);
-		RBXASSERT(r);
+		ARLASSERT(r);
 		FunctionInfo fi;
 		fi.frame = frame;
 		fi.currentline = ar.currentline;
@@ -1285,7 +1285,7 @@ bool ScriptDebugger::onLineHook( lua_State* L, lua_Debug *ar )
 	{
 		// Step over the current line. This prevents an infinite loop of breaks
 		lua_getinfo(L, "S", ar);
-		//RBX::StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Resuming: %s line %d", ar->short_src, ar->currentline);
+		//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Resuming: %s line %d", ar->short_src, ar->currentline);
 		currentLine = 0;
 		return false;
 	}
@@ -1294,7 +1294,7 @@ bool ScriptDebugger::onLineHook( lua_State* L, lua_Debug *ar )
 	if (hasDifferentScriptInstances(L))
 	{
 		lua_getinfo(L, "f", ar);
-		RBX::Instance* scriptInstance = getScriptForLuaState(L);
+		ARL::Instance* scriptInstance = getScriptForLuaState(L);
 		if (scriptInstance)
 		{
 			if (ScriptDebugger* debugger = gDebuggerManager->findDebugger(scriptInstance))
@@ -1323,10 +1323,10 @@ bool ScriptDebugger::shouldBreak(DebuggerBreakpoint* bp, lua_State* L)
 	if (bp->getCondition().empty())
 		return true;
 
-	RBXASSERT_BALLANCED_LUA_STACK(L);
+	ARLASSERT_BALLANCED_LUA_STACK(L);
 
 	lua_State* evalThread = lua_newthread(L);
-	RBXASSERT_BALLANCED_LUA_STACK2(evalThread);
+	ARLASSERT_BALLANCED_LUA_STACK2(evalThread);
 
 	std::string condition = "return " + bp->getCondition();
 	bool conditionFailedToLoad;
@@ -1334,7 +1334,7 @@ bool ScriptDebugger::shouldBreak(DebuggerBreakpoint* bp, lua_State* L)
 	if (conditionFailedToLoad)
 	{
 		std::string err = Lua::safe_lua_tostring(evalThread, -1);
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Breakpoint %d condition syntax error: %s", bp->getLine(), err.c_str());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Breakpoint %d condition syntax error: %s", bp->getLine(), err.c_str());
 		lua_pop(evalThread, 1);		// pop the message
 		lua_pop(L, 1);
 		return false;
@@ -1343,7 +1343,7 @@ bool ScriptDebugger::shouldBreak(DebuggerBreakpoint* bp, lua_State* L)
 	if (lua_pcall(evalThread, 0, 1, 0))
 	{
 		const char* message = lua_tostring(evalThread, -1);
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Breakpoint %d condition runtime error: %s", bp->getLine(), message);
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Breakpoint %d condition runtime error: %s", bp->getLine(), message);
 		lua_pop(evalThread, 1);
 		lua_pop(L, 1);
 		return false;
@@ -1432,7 +1432,7 @@ void ScriptDebugger::onChildAdded( Instance* child )
 {
 	if (DebuggerBreakpoint* breakpoint = Instance::fastDynamicCast<DebuggerBreakpoint>(child))
 	{
-		RBXASSERT(breakpoint->getLine() > 0);
+		ARLASSERT(breakpoint->getLine() > 0);
 		breakpoints[breakpoint->getLine()] = breakpoint;
 		breakpointAdded(shared_from(breakpoint));
 	}
@@ -1473,7 +1473,7 @@ void ScriptDebugger::setScript( Script* value )
 	if (script.get() == value)
 		return;
 
-	RBXASSERT(!script);	// Changing the script is not supported. DebuggerManager doesn't track changes like this
+	ARLASSERT(!script);	// Changing the script is not supported. DebuggerManager doesn't track changes like this
 
 	// check if we can get rootThread from threadNode
 	// NOTE: if script has been executed by the time this function is called then we will not have any root thread
@@ -1503,7 +1503,7 @@ void ScriptDebugger::setScript(ModuleScript* value)
 	if (script.get() == value)
 		return;
 
-	RBXASSERT(!script);	// Changing the script is not supported. DebuggerManager doesn't track changes like this
+	ARLASSERT(!script);	// Changing the script is not supported. DebuggerManager doesn't track changes like this
 
 	scriptParentChangedConnection.disconnect();
 
@@ -1518,10 +1518,10 @@ void ScriptDebugger::onScriptStarting( lua_State* L )
 	if (!FFlag::LuaDebugger)
 		return;
 
-	DebuggerManager& debuggerManager = RBX::Scripting::DebuggerManager::singleton();
+	DebuggerManager& debuggerManager = ARL::Scripting::DebuggerManager::singleton();
 	if (!debuggerManager.getEnabled())
 	{
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Can't debug script %s because debugging is disabled", script->getName().c_str());
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Can't debug script %s because debugging is disabled", script->getName().c_str());
 		return;
 	}
 
@@ -1555,7 +1555,7 @@ void ScriptDebugger::onScriptStopped()
 	pausedThreads.clear();
 }
 
-void ScriptDebugger::onScriptParentChanged(shared_ptr<RBX::Instance> newParent)
+void ScriptDebugger::onScriptParentChanged(shared_ptr<ARL::Instance> newParent)
 {
 	if (!newParent)
 	{
@@ -1573,11 +1573,11 @@ void ScriptDebugger::onScriptParentChanged(shared_ptr<RBX::Instance> newParent)
 	}
 }
 
-void ScriptDebugger::onScriptCloned(shared_ptr<RBX::Instance> clonedScript)
+void ScriptDebugger::onScriptCloned(shared_ptr<ARL::Instance> clonedScript)
 {
 	boost::shared_ptr<ScriptDebugger> clonedDebugger = createClone(clonedScript);
 	if (clonedDebugger)
-		RBX::Scripting::DebuggerManager::singleton().addDebugger(clonedDebugger);
+		ARL::Scripting::DebuggerManager::singleton().addDebugger(clonedDebugger);
 }
 
 bool ScriptDebugger::isPaused() const
@@ -1603,7 +1603,7 @@ ScriptContext::Result ScriptDebugger::resumeThread(lua_State* thread, bool evalL
 		return result;
 	}
 
-	RBXASSERT_BALLANCED_LUA_STACK(thread);
+	ARLASSERT_BALLANCED_LUA_STACK(thread);
 	pausedThread.reset();
 	pausedThreads.erase(reinterpret_cast<uintptr_t>(thread));
 
@@ -1674,7 +1674,7 @@ static bool doSetLocal(std::string valueName, const Reflection::Variant& value, 
 	if (lua_getstack(L, stackIndex, &ar) == 0)
 		throw std::runtime_error("stackIndex out of range");
 
-	RBXASSERT_BALLANCED_LUA_STACK(L);
+	ARLASSERT_BALLANCED_LUA_STACK(L);
 	int n = 1;
 	bool foundIt = false;
 	while (const char* name = lua_getlocal(L, &ar, n))
@@ -1682,11 +1682,11 @@ static bool doSetLocal(std::string valueName, const Reflection::Variant& value, 
 		lua_pop(L, 1); // pop value
 		if (valueName == name)
 		{
-			RBXASSERT_BALLANCED_LUA_STACK(L);
+			ARLASSERT_BALLANCED_LUA_STACK(L);
 			int count = Lua::LuaArguments::push(value, L);
-            RBXASSERT(count > 0);
+            ARLASSERT(count > 0);
 			const char* name2 = lua_setlocal(L, &ar, n);
-			RBXASSERT(strcmp(name, name2) == 0);
+			ARLASSERT(strcmp(name, name2) == 0);
 			lua_pop(L, count-1);
 			foundIt = true;
 			break;
@@ -1700,7 +1700,7 @@ static bool doSetLocal(std::string valueName, const Reflection::Variant& value, 
 void ScriptDebugger::setLocal( std::string name, Reflection::Variant value, int stackFrame)
 {
 	if (!withPausedThread<bool>(boost::bind(&doSetLocal, name, boost::cref(value), stackFrame, _1)))
-		throw std::runtime_error(RBX::format("Bad local %s", name.c_str()));
+		throw std::runtime_error(ARL::format("Bad local %s", name.c_str()));
 }
 
 static bool doSetUpvalue(std::string valueName, const Reflection::Variant& value, int stackIndex, lua_State* L)
@@ -1709,9 +1709,9 @@ static bool doSetUpvalue(std::string valueName, const Reflection::Variant& value
 	if (lua_getstack(L, stackIndex, &ar) == 0)
 		throw std::runtime_error("stackIndex out of range");
 
-	RBXASSERT_BALLANCED_LUA_STACK(L);
+	ARLASSERT_BALLANCED_LUA_STACK(L);
 	int result = lua_getinfo(L, "fu", &ar);	
-	RBXASSERT(result);
+	ARLASSERT(result);
 	// stack contains current function
 
 	bool foundIt = false;
@@ -1721,13 +1721,13 @@ static bool doSetUpvalue(std::string valueName, const Reflection::Variant& value
 		lua_pop(L, 1); // pop value
 		if (valueName == name)
 		{
-			RBXASSERT_BALLANCED_LUA_STACK(L);
+			ARLASSERT_BALLANCED_LUA_STACK(L);
 			int count = Lua::LuaArguments::push(value, L);
-            RBXASSERT(count > 0);
+            ARLASSERT(count > 0);
             lua_pop(L, count-1); // We only want 1 value on the stack (strip out tuples)
 
 			const char* name2 = lua_setupvalue(L, -2, n);
-			RBXASSERT(strcmp(name, name2) == 0);
+			ARLASSERT(strcmp(name, name2) == 0);
 			foundIt = true;
 			break;
 		}
@@ -1742,13 +1742,13 @@ static bool doSetUpvalue(std::string valueName, const Reflection::Variant& value
 void ScriptDebugger::setUpvalue( std::string name, Reflection::Variant value, int stackFrame)
 {
 	if (!withPausedThread<bool>(boost::bind(&doSetUpvalue, name, boost::cref(value), stackFrame, _1)))
-		throw std::runtime_error(RBX::format("Bad upvalue %s", name.c_str()));
+		throw std::runtime_error(ARL::format("Bad upvalue %s", name.c_str()));
 }
 
 
 static bool doSetGlobal(std::string valueName, const Reflection::Variant& value, lua_State* L)
 {
-	RBXASSERT_BALLANCED_LUA_STACK(L);
+	ARLASSERT_BALLANCED_LUA_STACK(L);
 
 	int count = Lua::LuaArguments::push(value, L);
 	if (count == 0)
@@ -1761,7 +1761,7 @@ static bool doSetGlobal(std::string valueName, const Reflection::Variant& value,
 void ScriptDebugger::setGlobal( std::string name, Reflection::Variant value)
 {
 	if (!withPausedThread<bool>(boost::bind(&doSetGlobal, name, boost::cref(value), _1)))
-		throw std::runtime_error(RBX::format("Bad global %s", name.c_str()));
+		throw std::runtime_error(ARL::format("Bad global %s", name.c_str()));
 }
 
 
@@ -1820,9 +1820,9 @@ void ScriptDebugger::stepOver()
 }
 
 // Can only be called after lua_getinfo with "f" included in the parameters.
-RBX::Instance* ScriptDebugger::getScriptForLuaState(lua_State* L)
+ARL::Instance* ScriptDebugger::getScriptForLuaState(lua_State* L)
 {
-	RBXASSERT(lua_isnil(L, -1) || lua_isfunction(L, -1));
+	ARLASSERT(lua_isnil(L, -1) || lua_isfunction(L, -1));
 	if (lua_isnil(L, -1) || lua_iscfunction(L, -1))
 	{
 		return NULL;
@@ -1836,8 +1836,8 @@ RBX::Instance* ScriptDebugger::getScriptForLuaState(lua_State* L)
 
 	Reflection::Variant varResult;
 	Lua::LuaArguments::get(L, -1, varResult, false);
-	if (varResult.isType<boost::shared_ptr<RBX::Instance> >())
-		return varResult.get<boost::shared_ptr<RBX::Instance> >().get();
+	if (varResult.isType<boost::shared_ptr<ARL::Instance> >())
+		return varResult.get<boost::shared_ptr<ARL::Instance> >().get();
 
 	return NULL;
 }
@@ -1863,7 +1863,7 @@ bool ScriptDebugger::hasDifferentScriptInstances(lua_State* L)
 	return (globalRawScriptPtr != prevRawScriptPtr);
 }
 
-static std::string getHashString(RBX::Instance* pInstance)
+static std::string getHashString(ARL::Instance* pInstance)
 {
 	if (Script* scriptPtr = Instance::fastDynamicCast<Script>(pInstance))
 		return scriptPtr->requestHash();
@@ -1909,8 +1909,8 @@ std::string ScriptDebugger::getScriptPath() const
 	if (!script)
 		return "";
 
-	const RBX::Instance* pParent = script->getParent();
-	const RBX::Instance* pChild = script.get();
+	const ARL::Instance* pParent = script->getParent();
+	const ARL::Instance* pChild = script.get();
 
 	std::vector<int> childIndices;
 	while (pParent)
@@ -1936,8 +1936,8 @@ std::string ScriptDebugger::getScriptPath() const
 
 void ScriptDebugger::setScriptPath(std::string scriptPath)
 {
-	RBX::Instance* pParent = RBX::DataModel::get(RBX::Scripting::DebuggerManager::singleton().getDataModel());
-	RBX::Instance* pChild = NULL;
+	ARL::Instance* pParent = ARL::DataModel::get(ARL::Scripting::DebuggerManager::singleton().getDataModel());
+	ARL::Instance* pChild = NULL;
 
 	std::string childPath(scriptPath), savedHashString;
 
@@ -1995,7 +1995,7 @@ void ScriptDebugger::setLuaHook(ScriptDebugger* scriptDebugger, int hookMask, lu
 			}
 			else
 			{
-				shared_ptr<RBX::ModuleScript> pModuleScript = RBX::Instance::fastSharedDynamicCast<RBX::ModuleScript>(scriptDebugger->script);
+				shared_ptr<ARL::ModuleScript> pModuleScript = ARL::Instance::fastSharedDynamicCast<ARL::ModuleScript>(scriptDebugger->script);
 				if (pModuleScript)
 					lua_sethook(L, DebuggerManager::hook, hookMask, ScriptContext::hookCount);
 			}
@@ -2025,7 +2025,7 @@ void ScriptDebugger::updateHook()
 	if (pExtraSpace)
 	{
 		int hookMask = LUA_MASKLINE | LUA_MASKCALL | LUA_MASKRET | LUA_MASKCOUNT;
-		if (RBX::Scripting::DebuggerManager::singleton().getBreakOnErrorMode() == BreakOnErrorMode_AllExceptions)
+		if (ARL::Scripting::DebuggerManager::singleton().getBreakOnErrorMode() == BreakOnErrorMode_AllExceptions)
 			hookMask = LUA_MASKLINE | LUA_MASKCALL | LUA_MASKRET | LUA_MASKCOUNT | LUA_MASKERROR;
 		pExtraSpace->forEachThread(boost::bind(&ScriptDebugger::setLuaHook, this, hookMask, _1));
 	}
@@ -2040,7 +2040,7 @@ void ScriptDebugger::handleError(lua_State* thread)
 	errorThread = thread;
 
 	// get error message and read stack information
-	std::string errorMessage = RBX::Lua::safe_lua_tostring(thread, -1);
+	std::string errorMessage = ARL::Lua::safe_lua_tostring(thread, -1);
 	Stack stack = readStack(thread);
 	
 	// cleanup stack (for a C function currentline can be -1, so we cannot break there)
@@ -2117,22 +2117,22 @@ boost::shared_ptr<ScriptDebugger> ScriptDebugger::createClone(boost::shared_ptr<
 
 	// now it's children
 	const Scripting::ScriptDebugger::Breakpoints& breakpoints = getBreakpoints();
-	for (RBX::Scripting::ScriptDebugger::Breakpoints::const_iterator iter = breakpoints.begin(); iter != breakpoints.end(); ++iter)
+	for (ARL::Scripting::ScriptDebugger::Breakpoints::const_iterator iter = breakpoints.begin(); iter != breakpoints.end(); ++iter)
 	{
 		if (iter->second)
 		{
-			shared_ptr<Instance> breakpoint = iter->second->clone(RBX::EngineCreator);
+			shared_ptr<Instance> breakpoint = iter->second->clone(ARL::EngineCreator);
 			if (breakpoint)
 				breakpoint->setParent(clonedDebugger.get());
 		}
 	}
 
 	const Scripting::ScriptDebugger::Watches& watches = getWatches();
-	for (RBX::Scripting::ScriptDebugger::Watches::const_iterator iter = watches.begin(); iter != watches.end(); ++iter)
+	for (ARL::Scripting::ScriptDebugger::Watches::const_iterator iter = watches.begin(); iter != watches.end(); ++iter)
 	{
 		if (*iter)
 		{
-			shared_ptr<Instance> watch = (*iter)->clone(RBX::EngineCreator);
+			shared_ptr<Instance> watch = (*iter)->clone(ARL::EngineCreator);
 			if (watch)
 				watch->setParent(clonedDebugger.get());
 		}
@@ -2154,8 +2154,8 @@ DebuggerBreakpoint::DebuggerBreakpoint( int line )
 :enabled(true)
 ,line(line)
 {
-	RBXASSERT(line > 0);
-	setName(RBX::format("Breakpoint%d", line));
+	ARLASSERT(line > 0);
+	setName(ARL::format("Breakpoint%d", line));
 }
 
 DebuggerBreakpoint::~DebuggerBreakpoint(void)
@@ -2187,7 +2187,7 @@ void DebuggerWatch::verifySetParent( const Instance* newParent ) const
 void DebuggerWatch::checkExpressionSyntax()
 {
 	Lua::ScopedState L;
-	RBXASSERT_BALLANCED_LUA_STACK(L);
+	ARLASSERT_BALLANCED_LUA_STACK(L);
 
 	const std::string code = "return " + expression;
 	bool error;
@@ -2196,6 +2196,6 @@ void DebuggerWatch::checkExpressionSyntax()
 	if (error)
 	{
 		std::string err = Lua::safe_lua_tostring(L, -1);
-		throw RBX::runtime_error("syntax error: %s", err.c_str());
+		throw ARL::runtime_error("syntax error: %s", err.c_str());
 	}
 }

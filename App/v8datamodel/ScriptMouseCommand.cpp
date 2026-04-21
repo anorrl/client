@@ -8,7 +8,7 @@
 #include "Network/Player.h"
 
 
-namespace RBX {
+namespace ARL {
 
 ScriptMouseCommand::ScriptMouseCommand(Workspace* workspace)
 	:MouseCommand(workspace)

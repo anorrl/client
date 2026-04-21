@@ -9,9 +9,9 @@
 
 #include "rbx/Profiler.h"
 
-using namespace RBX;
+using namespace ARL;
 
-namespace RBX
+namespace ARL
 {
 	namespace Reflection
 	{
@@ -34,16 +34,16 @@ DataModelJob::DataModelJob(const char* name, TaskType taskType, bool isPerPlayer
 ,isPerPlayer(isPerPlayer)
 ,profilingToken(0)
 {
-	RBXASSERT(arbiter);
+	ARLASSERT(arbiter);
 
-#ifdef RBXPROFILER
+#ifdef ARLPROFILER
 	profilingToken = Profiler::getToken("Jobs", name);
 #endif
 }
 
 TaskScheduler::StepResult DataModelJob::step(const Stats& stats)
 {
-#ifdef RBXPROFILER
+#ifdef ARLPROFILER
 	Profiler::Scope profilingScope(profilingToken);
 #endif
 

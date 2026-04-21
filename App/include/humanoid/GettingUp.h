@@ -6,7 +6,7 @@
 #include "Humanoid/Balancing.h"
 #include "Util/Name.h"
 
-namespace RBX {
+namespace ARL {
 	
 	namespace HUMAN {
 

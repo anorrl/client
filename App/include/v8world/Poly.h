@@ -3,7 +3,7 @@
 #include "V8World/Geometry.h"
 #include "V8World/Mesh.h"
 
-namespace RBX {
+namespace ARL {
 
 	namespace POLY {
 		class Mesh;

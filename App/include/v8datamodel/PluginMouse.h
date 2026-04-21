@@ -13,7 +13,7 @@
 #include "V8DataModel/MouseCommand.h"
 
 
-namespace RBX {
+namespace ARL {
 
 class PartInstance;
 class PVInstance;
@@ -28,7 +28,7 @@ public:
 	PluginMouse();
 	~PluginMouse();
 
-	void fireDragEnterEvent(shared_ptr<const RBX::Instances> instances, shared_ptr<InputObject> input);
+	void fireDragEnterEvent(shared_ptr<const ARL::Instances> instances, shared_ptr<InputObject> input);
 
 	rbx::signal<void(shared_ptr<const Instances>)> dragEnterEventSignal;
 };

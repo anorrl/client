@@ -16,7 +16,7 @@ namespace FMOD
 	class DSP;
 }
 
-namespace RBX 
+namespace ARL 
 {
 	namespace Soundscape
 	{
@@ -44,7 +44,7 @@ namespace RBX
 			Sound(shared_ptr<FMOD::System>& system, SoundId id, bool is3D):fmod_sound(0),system(system),id(id),is3D(is3D),refCount(0),isStreaming(false) {}
 			~Sound() { release(); }
 			FMOD::Sound* get() {return fmod_sound;}
-			FMOD::Sound* tryLoad(const RBX::Instance* context);
+			FMOD::Sound* tryLoad(const ARL::Instance* context);
 			void detatch() { fmod_sound = 0; }
 			void release();
 
@@ -55,4 +55,4 @@ namespace RBX
 			bool getIsStreaming() const { return isStreaming; }
 		};
 	} // namespace Soundscape
-} // namespace RBX
+} // namespace ARL

@@ -11,7 +11,7 @@
 #include "Script/IScriptFilter.h"
 #include "Gui/GuiEvent.h"
 
-namespace RBX {
+namespace ARL {
     
     class GuiBase2d;
     class GuiObject;
@@ -71,7 +71,7 @@ namespace RBX {
 		// GuiTarget
 		/*override*/ GuiResponse process(const shared_ptr<InputObject>& event);
         
-        GuiResponse processGesture(const UserInputService::Gesture gesture, shared_ptr<const RBX::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args);
+        GuiResponse processGesture(const UserInputService::Gesture gesture, shared_ptr<const ARL::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args);
 
 		////////////////////////////////////////////////////////////////////////////////////
 		// 
@@ -98,7 +98,7 @@ namespace RBX {
 		boost::shared_ptr<IAdornableCollector> adornableCollector;		
 		shared_ptr<GuiObject> selectionImageObject;
         
-        GuiResponse processGestureOnChild(GuiBase2d* guiBase, const UserInputService::Gesture gesture, shared_ptr<const RBX::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args);
+        GuiResponse processGestureOnChild(GuiBase2d* guiBase, const UserInputService::Gesture gesture, shared_ptr<const ARL::Reflection::ValueArray> touchPositions, shared_ptr<const Reflection::Tuple> args);
 	};
 
 	extern const char *const sPlayerGui;
@@ -227,7 +227,7 @@ namespace RBX {
 
 		int getGuiVersion() const;
         
-        shared_ptr<RBX::ScreenGui> getRobloxScreenGui();
+        shared_ptr<ARL::ScreenGui> getRobloxScreenGui();
 
 		////////////////////////////////////////////////////////////////////////////////////
 		//
@@ -241,9 +241,9 @@ namespace RBX {
 		/*override*/ bool scriptShouldRun(BaseScript* script) { return false; }
 		/*override*/ void setSelectionImageObject(GuiObject* value);
 	private:
-		shared_ptr<RBX::Instance> screenGui;
+		shared_ptr<ARL::Instance> screenGui;
 
-		RBX::Instances onScreenMessages;
+		ARL::Instances onScreenMessages;
 	};
 }
 

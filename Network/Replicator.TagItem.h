@@ -3,7 +3,7 @@
 #include "Item.h"
 #include "Replicator.h"
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 class DeserializedTagItem : public DeserializedItem
 {

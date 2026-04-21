@@ -5,7 +5,7 @@
 
 struct lua_State;
 
-namespace RBX
+namespace ARL
 {
 	class BaseScript;
 

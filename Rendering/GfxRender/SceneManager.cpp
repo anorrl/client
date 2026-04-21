@@ -35,7 +35,7 @@ FASTFLAG(RenderVR)
 
 FASTFLAG(RenderUIAs3DInVR)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -84,20 +84,20 @@ static void renderObjects(DeviceContext* context, RenderQueueGroup& group, Rende
 	if (group.size() == 0)
 		return;
 
-	RBXPROFILER_SCOPE("Render", "$Pass");
-	RBXPROFILER_LABELF("Render", "%s (%d)", dbgname, int(group.size()));
+	ARLPROFILER_SCOPE("Render", "$Pass");
+	ARLPROFILER_LABELF("Render", "%s (%d)", dbgname, int(group.size()));
 
-	RBXPROFILER_SCOPE("GPU", "$Pass");
-	RBXPROFILER_LABELF("GPU", "%s (%d)", dbgname, int(group.size()));
+	ARLPROFILER_SCOPE("GPU", "$Pass");
+	ARLPROFILER_LABELF("GPU", "%s (%d)", dbgname, int(group.size()));
 
 	{
-		RBXPROFILER_SCOPE("Render", "sort");
+		ARLPROFILER_SCOPE("Render", "sort");
 
 		group.sort(sortMode);
 	}
 
 	{
-		RBXPROFILER_SCOPE("Render", "draw");
+		ARLPROFILER_SCOPE("Render", "draw");
 
 		renderObjectsImpl(context, group, stats, dbgname);
 	}
@@ -155,7 +155,7 @@ public:
 				{
 					data.reset(createData(widthOver4, heightOver4));
 				}
-				catch (const RBX::base_exception&)
+				catch (const ARL::base_exception&)
 				{
 					blurError = true;
 					data.reset();
@@ -169,8 +169,8 @@ public:
 		if (!data) return;
 
 		PIX_SCOPE(context, "GlowComputeBlur");
-        RBXPROFILER_SCOPE("Render", "glowCompute");
-		RBXPROFILER_SCOPE("GPU", "glowCompute");
+        ARLPROFILER_SCOPE("Render", "glowCompute");
+		ARLPROFILER_SCOPE("GPU", "glowCompute");
 
         context->bindFramebuffer(data->quarterFB[0].get());
 
@@ -188,8 +188,8 @@ public:
 		if (!data) return;
 
 		PIX_SCOPE(context, "ApplyBlur");
-        RBXPROFILER_SCOPE("Render", "glowApply");
-		RBXPROFILER_SCOPE("GPU", "glowApply");
+        ARLPROFILER_SCOPE("Render", "glowApply");
+		ARLPROFILER_SCOPE("GPU", "glowApply");
 
         if (ShaderProgram* program = ScreenSpaceEffect::renderFullscreenBegin(context, visualEngine, "PassThroughVS", "GlowApplyFS", BlendState::Mode_PremultipliedAlphaBlend, target->getWidth(), target->getHeight()))
         {
@@ -264,7 +264,7 @@ public:
                 {
                     data.reset(createData(width, height));
                 }
-                catch (const RBX::base_exception&)
+                catch (const ARL::base_exception&)
                 {
                     blurError = true;
                     data.reset();
@@ -362,7 +362,7 @@ public:
                 {
                     data.reset(createData(width, height));
                 }
-                catch (const RBX::base_exception&)
+                catch (const ARL::base_exception&)
                 {
                     error = true;
                     data.reset();
@@ -375,8 +375,8 @@ public:
     {
         if (!data) return;
 
-        RBXPROFILER_SCOPE("Render", "imgProcRender");
-        RBXPROFILER_SCOPE("GPU", "imgProcRender");
+        ARLPROFILER_SCOPE("Render", "imgProcRender");
+        ARLPROFILER_SCOPE("GPU", "imgProcRender");
 
         context->copyFramebuffer( target, data->intermediateTex.get() );
 
@@ -568,7 +568,7 @@ SceneManager::SceneManager(VisualEngine* visualEngine)
 
 	try
 	{
-	#if !defined(RBX_PLATFORM_IOS) && !defined(__ANDROID__)
+	#if !defined(ARL_PLATFORM_IOS) && !defined(__ANDROID__)
 		shadowMapTexelSize = 0.2f;
 		
 		shadowMaps[0].reset(new ShadowMap(visualEngine, Texture::Format_RGBA8, 256));
@@ -581,7 +581,7 @@ SceneManager::SceneManager(VisualEngine* visualEngine)
 		shadowMaps[1].reset(new ShadowMap(visualEngine, Texture::Format_RGBA8, 256));
 	#endif
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		FASTLOGS(FLog::Graphics, "Error creating shadow maps: %s", e.what());
 	}
@@ -611,8 +611,8 @@ void SceneManager::computeMinimumSqDistance(const RenderCamera& camera)
 
 void SceneManager::renderScene(DeviceContext* context, Framebuffer* mainFramebuffer, const RenderCamera& camera, unsigned int viewWidth, unsigned int viewHeight)
 {
-	RBXPROFILER_SCOPE("GPU", "Scene");
-	RBXPROFILER_SCOPE("Render", "Scene");
+	ARLPROFILER_SCOPE("GPU", "Scene");
+	ARLPROFILER_SCOPE("Render", "Scene");
 
 	renderBegin(context, camera, viewWidth, viewHeight);
 	renderView(context, mainFramebuffer, camera, viewWidth, viewHeight);
@@ -667,7 +667,7 @@ void SceneManager::renderBegin(DeviceContext* context, const RenderCamera& camer
 	spatialHashedScene->queryFrustumOrdered(renderNodes, camera, pointOfInterest, frm);
 
     {
-        RBXPROFILER_SCOPE("Render", "updateRenderQueue");
+        ARLPROFILER_SCOPE("Render", "updateRenderQueue");
 
         for (CullableSceneNode* node: renderNodes)
             node->updateRenderQueue(*renderQueue, camera, RenderQueue::Pass_Default);
@@ -720,8 +720,8 @@ void SceneManager::renderView(DeviceContext* context, Framebuffer* mainFramebuff
 
     if (gbuffer)
 	{
-		RBXPROFILER_SCOPE("Render", "Clear");
-		RBXPROFILER_SCOPE("GPU", "Clear");
+		ARLPROFILER_SCOPE("Render", "Clear");
+		ARLPROFILER_SCOPE("GPU", "Clear");
 
 		const float clearDepthColor[] = {1, 1, 1, 1};
 
@@ -736,16 +736,16 @@ void SceneManager::renderView(DeviceContext* context, Framebuffer* mainFramebuff
 	}
     else if (msaa)
     {
-		RBXPROFILER_SCOPE("Render", "Clear");
-		RBXPROFILER_SCOPE("GPU", "Clear");
+		ARLPROFILER_SCOPE("Render", "Clear");
+		ARLPROFILER_SCOPE("GPU", "Clear");
 
         context->bindFramebuffer(msaa->getFramebuffer());
         context->clearFramebuffer(DeviceContext::Buffer_Color | DeviceContext::Buffer_Depth | DeviceContext::Buffer_Stencil, &clearColor.r, 1.f, 0);
     }
 	else
 	{
-		RBXPROFILER_SCOPE("Render", "Clear");
-		RBXPROFILER_SCOPE("GPU", "Clear");
+		ARLPROFILER_SCOPE("Render", "Clear");
+		ARLPROFILER_SCOPE("GPU", "Clear");
 
 		context->bindFramebuffer(mainFramebuffer);
         context->clearFramebuffer(DeviceContext::Buffer_Color | DeviceContext::Buffer_Depth | DeviceContext::Buffer_Stencil, &clearColor.r, 1.f, 0);
@@ -799,8 +799,8 @@ void SceneManager::renderView(DeviceContext* context, Framebuffer* mainFramebuff
 
 	if (FFlag::GlowEnabled && glow->valid() && gbuffer && renderQueue->getFeatures() & RenderQueue::Features_Glow)
 	{
-        RBXPROFILER_SCOPE("Render", "Glow");
-		RBXPROFILER_SCOPE("GPU", "Glow");
+        ARLPROFILER_SCOPE("Render", "Glow");
+		ARLPROFILER_SCOPE("GPU", "Glow");
 
         glow->computeBlur(context, gbuffer->mainColor.get());
         context->bindFramebuffer(gbuffer->mainFB.get());
@@ -827,8 +827,8 @@ void SceneManager::renderView(DeviceContext* context, Framebuffer* mainFramebuff
 	visualEngine->getAdorn()->render(context, stats->pass3DAdorns);
 
 	{
-		RBXPROFILER_SCOPE("Render", "UI");
-		RBXPROFILER_SCOPE("GPU", "UI");
+		ARLPROFILER_SCOPE("Render", "UI");
+		ARLPROFILER_SCOPE("GPU", "UI");
 
 		visualEngine->getVertexStreamer()->render3D(context, camera, stats->passUI);
 
@@ -841,8 +841,8 @@ void SceneManager::renderView(DeviceContext* context, Framebuffer* mainFramebuff
 
 	if (msaa)
 	{
-		RBXPROFILER_SCOPE("Render", "MSAA");
-		RBXPROFILER_SCOPE("GPU", "MSAA");
+		ARLPROFILER_SCOPE("Render", "MSAA");
+		ARLPROFILER_SCOPE("GPU", "MSAA");
 
 		msaa->renderResolve(context);
 
@@ -852,8 +852,8 @@ void SceneManager::renderView(DeviceContext* context, Framebuffer* mainFramebuff
 	}
 
     {
-		RBXPROFILER_SCOPE("Render", "UI");
-		RBXPROFILER_SCOPE("GPU", "UI");
+		ARLPROFILER_SCOPE("Render", "UI");
+		ARLPROFILER_SCOPE("GPU", "UI");
 
 		if (!FFlag::RenderUIAs3DInVR && visualEngine->getDevice()->getVR())
 			visualEngine->getVertexStreamer()->render2DVR(context, viewWidth, viewHeight, stats->passUI);
@@ -985,7 +985,7 @@ void SceneManager::updateMSAA(unsigned width, unsigned height)
 			msaa.reset();
 	}
 	}
-	catch (RBX::base_exception& e)
+	catch (ARL::base_exception& e)
 	{
 		FASTLOGS(FLog::Graphics, "Error initializing MSAA: %s", e.what());
 
@@ -1035,7 +1035,7 @@ void SceneManager::updateGBuffer(unsigned width, unsigned height)
 
             gbuffer->gbufferFB = device->createFramebuffer(gbufferTextures, mainDepth);
         }
-        catch (RBX::base_exception& e)
+        catch (ARL::base_exception& e)
         {
 			FASTLOGS(FLog::Graphics, "Error initializing GBuffer: %s", e.what());
 
@@ -1047,10 +1047,10 @@ void SceneManager::updateGBuffer(unsigned width, unsigned height)
 
 void SceneManager::resolveGBuffer(DeviceContext* context, Texture* texture)
 {
-    RBXASSERT(gbuffer);
+    ARLASSERT(gbuffer);
     PIX_SCOPE(context, "resolveGBuffer");
-    RBXPROFILER_SCOPE("Render", "resolveGBuffer");
-    RBXPROFILER_SCOPE("GPU", "resolveGBuffer");
+    ARLPROFILER_SCOPE("Render", "resolveGBuffer");
+    ARLPROFILER_SCOPE("GPU", "resolveGBuffer");
 
     float width = texture->getWidth();
     float height = texture->getHeight();
@@ -1076,8 +1076,8 @@ void SceneManager::resolveGBuffer(DeviceContext* context, Texture* texture)
 
 void SceneManager::renderShadowMap(DeviceContext* context, ShadowMap* shadowMap)
 {
-    RBXPROFILER_SCOPE("Render", "renderShadowMap");
-    RBXPROFILER_SCOPE("GPU", "ShadowMap");
+    ARLPROFILER_SCOPE("Render", "renderShadowMap");
+    ARLPROFILER_SCOPE("GPU", "ShadowMap");
 
 	int shadowMapSize = shadowMap->getTexture()->getWidth();
     float shadowRadius = shadowMapSize * shadowMapTexelSize / 2.f;
@@ -1090,7 +1090,7 @@ void SceneManager::renderShadowMap(DeviceContext* context, ShadowMap* shadowMap)
     spatialHashedScene->querySphere(renderNodes, shadowCenter, std::max(shadowRadius, shadowDepthRadius), CullableSceneNode::Flags_ShadowCaster);
     
     {
-        RBXPROFILER_SCOPE("Render", "updateRenderQueue");
+        ARLPROFILER_SCOPE("Render", "updateRenderQueue");
 
         shadowRenderQueue->clear();
 
@@ -1160,8 +1160,8 @@ RenderCamera SceneManager::getShadowCamera(const Vector3& center, int shadowMapS
 
 void SceneManager::blurShadowMap(DeviceContext *context, ShadowMap *shadowMap)
 {
-    RBXPROFILER_SCOPE("Render", "Blur");
-    RBXPROFILER_SCOPE("GPU", "Blur");
+    ARLPROFILER_SCOPE("Render", "Blur");
+    ARLPROFILER_SCOPE("GPU", "Blur");
     
 	int shadowMapSize = shadowMap->getTexture()->getWidth();
 

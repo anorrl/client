@@ -38,7 +38,7 @@ using boost::weak_ptr;
 //#define SwitchToThread() {struct timespec req = {0, 1}; nanosleep(&req, NULL);}
 #endif
 
-namespace RBX
+namespace ARL
 {
 	// TODO: Does boost have a nicer way of doing this?
 	template<class T>

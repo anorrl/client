@@ -14,7 +14,7 @@ FASTFLAG(RemoveInterpolationReciever)
 
 #define STATS_ITEM_VERSION 2
 
-namespace RBX { namespace Network {
+namespace ARL { namespace Network {
 
 class DeserializedStatsItem : public DeserializedItem
 {
@@ -93,7 +93,7 @@ public:
 };
 
 
-class Replicator::Stats : public RBX::Stats::Item
+class Replicator::Stats : public ARL::Stats::Item
 {
 	Stats::Item* incomingPacketQueue;
 	Stats::Item* waitingRefs;

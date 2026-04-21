@@ -10,7 +10,7 @@
 #include "AppDraw/DrawAdorn.h"
 #include "Util/HitTest.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sHandles = "Handles";
 
@@ -120,7 +120,7 @@ GuiResponse Handles::process(const shared_ptr<InputObject>& event)
 			}
 			case InputObject::TYPE_MOUSEBUTTON1:
 			{
-				RBXASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
+				ARLASSERT(event->isLeftMouseDownEvent() || event->isLeftMouseUpEvent());
 				if (event->isLeftMouseDownEvent())
 				{
 					Vector3 hitPointWorld;
@@ -153,7 +153,7 @@ GuiResponse Handles::process(const shared_ptr<InputObject>& event)
 	return GuiResponse::notSunk();
 }
 
-RBX::HandleType Handles::getHandleType() const 
+ARL::HandleType Handles::getHandleType() const 
 {
 	switch(visualStyle){
 		case RESIZE_HANDLES:	return HANDLE_RESIZE;

@@ -11,7 +11,7 @@
 #include "SceneManager.h"
 #include "rbx/Profiler.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -41,10 +41,10 @@ namespace Graphics
 
     void ScreenSpaceEffect::renderBlur(DeviceContext* context, VisualEngine* visualEngine, Framebuffer* fb, Framebuffer* intermediateFB, Texture* texture, Texture* intermediate, float strength)
     {
-        RBXASSERT(texture->getWidth() == intermediate->getWidth() && texture->getHeight() == intermediate->getHeight() && texture->getFormat() == intermediate->getFormat());
+        ARLASSERT(texture->getWidth() == intermediate->getWidth() && texture->getHeight() == intermediate->getHeight() && texture->getFormat() == intermediate->getFormat());
 
-        RBXPROFILER_SCOPE("Render", "blurRender");
-        RBXPROFILER_SCOPE("GPU", "blurRender");
+        ARLPROFILER_SCOPE("Render", "blurRender");
+        ARLPROFILER_SCOPE("GPU", "blurRender");
 
         // find optimal shader
         const char blurSamples[] = { 3, 5, 7 };

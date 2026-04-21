@@ -6,7 +6,7 @@ struct IDirect3DVertexDeclaration9;
 struct IDirect3DVertexBuffer9;
 struct IDirect3DIndexBuffer9;
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

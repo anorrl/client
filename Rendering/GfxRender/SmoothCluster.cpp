@@ -26,12 +26,12 @@
 
 #include "rbx/Profiler.h"
 
-using namespace RBX::Voxel;
+using namespace ARL::Voxel;
 
 FASTFLAGVARIABLE(SmoothTerrainRenderLOD, false)
 FASTFLAGVARIABLE(DebugSmoothTerrainRenderFixedLOD, false)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -74,7 +74,7 @@ public:
 			return 1;
 		}
 
-		RBXASSERT(constantTable->size() <= maxTransforms * 3 * 4);
+		ARLASSERT(constantTable->size() <= maxTransforms * 3 * 4);
 		
 		memcpy(buffer, &(*constantTable)[0], constantTable->size() * sizeof(float));
 		memcpy(buffer, &unpackInfo, 4 * sizeof(float));
@@ -91,10 +91,10 @@ SmoothClusterBase::SmoothClusterBase(VisualEngine* visualEngine, const boost::sh
     : visualEngine(visualEngine)
     , grid(NULL)
 {
-    RBXASSERT(part->getPartType() == MEGACLUSTER_PART);
+    ARLASSERT(part->getPartType() == MEGACLUSTER_PART);
     partInstance = part;
 
-    RBXASSERT(partInstance->getGfxPart() == NULL);
+    ARLASSERT(partInstance->getGfxPart() == NULL);
     partInstance->setGfxPart(this);
 
     MegaClusterInstance* mci = boost::polymorphic_downcast<MegaClusterInstance*>(part.get());
@@ -161,7 +161,7 @@ std::pair<RenderEntity*, RenderEntity*> SmoothClusterBase::uploadGeometry(Render
     size_t vertexSize, const void* vertices, size_t vertexCount,
     const std::vector<unsigned int>& solidIndices, const std::vector<unsigned int>& waterIndices)
 {
-	RBXPROFILER_SCOPE("Render", "uploadGeometry");
+	ARLPROFILER_SCOPE("Render", "uploadGeometry");
 
 	using namespace Voxel2::Mesher;
 
@@ -216,13 +216,13 @@ const shared_ptr<VertexLayout>& SmoothClusterBase::getVertexLayout()
 		elements.push_back(VertexLayout::Element(0, offsetof(GraphicsVertexPacked, material1), VertexLayout::Format_UByte4, VertexLayout::Semantic_Texture, 1));
 
         vertexLayout = visualEngine->getDevice()->createVertexLayout(elements);
-        RBXASSERT(vertexLayout);
+        ARLASSERT(vertexLayout);
     }
     
     return vertexLayout;
 }
 
-#ifdef RBX_PLATFORM_IOS
+#ifdef ARL_PLATFORM_IOS
 static const std::string kTextureExtension = ".pvr";
 #elif defined(__ANDROID__)
 static const std::string kTextureExtension = ".pvr";
@@ -421,7 +421,7 @@ void SmoothClusterChunked::markDirty(const SpatialRegion::Id& pos)
 
 void SmoothClusterChunked::updateChunk(const SpatialRegion::Id& pos, bool isWaterChunk)
 {
-	RBXPROFILER_SCOPE("Render", "updateChunk");
+	ARLPROFILER_SCOPE("Render", "updateChunk");
 
     ChunkData& chunk = chunks.insert(pos);
     
@@ -684,14 +684,14 @@ void SmoothClusterLOD::markDirty(const ChunkId& id)
 
 SmoothClusterLOD::ChunkId SmoothClusterLOD::getParentChunk(const ChunkId& id)
 {
-	RBXASSERT(id.second + 1 < kChunkLevels);
+	ARLASSERT(id.second + 1 < kChunkLevels);
 
 	return ChunkId(id.first >> 1, id.second + 1);
 }
 
 SmoothClusterLOD::ChunkId SmoothClusterLOD::getChildChunk(const ChunkId& id, int x, int y, int z)
 {
-	RBXASSERT(id.second > 0);
+	ARLASSERT(id.second > 0);
 
 	return ChunkId((id.first << 1) + Vector3int32(x, y, z), id.second - 1);
 }

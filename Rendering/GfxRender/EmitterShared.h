@@ -2,7 +2,7 @@
 
 #include "rbx/Boost.hpp"
 
-namespace RBX{namespace Graphics{
+namespace ARL{namespace Graphics{
 typedef char dumyy4350583408;
 
 class VisualEngine;

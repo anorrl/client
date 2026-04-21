@@ -6,7 +6,7 @@
 
 #include "GfxBase/Adorn.h"
 
-namespace RBX {
+namespace ARL {
 
 	class UnifiedImageWidget : public UnifiedWidget 
 	{

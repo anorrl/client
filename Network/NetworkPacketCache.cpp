@@ -15,11 +15,11 @@ LOGGROUP(NetworkCache)
 DYNAMIC_FASTFLAGVARIABLE(DebugLogStaleInstanceCacheEntry, false)
 
 
-const char* const RBX::Network::sPhysicsPacketCache = "PhysicsPacketCache";
-const char* const RBX::Network::sInstancePacketCache = "InstancePacketCache";
+const char* const ARL::Network::sPhysicsPacketCache = "PhysicsPacketCache";
+const char* const ARL::Network::sInstancePacketCache = "InstancePacketCache";
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
 PhysicsPacketCache::PhysicsPacketCache()
 {
@@ -38,7 +38,7 @@ void PhysicsPacketCache::insert(const Assembly* key)
 	boost::unique_lock<boost::shared_mutex> lock(sharedMutex);
 	
 	std::pair<StreamCacheMap::iterator, bool> res = streamCache.insert(std::make_pair(key, InnerMap()));
-	RBXASSERT(res.second);
+	ARLASSERT(res.second);
 
 	// create cache entry for child assemblies
 	key->visitConstDescendentAssemblies(boost::bind(&PhysicsPacketCache::insertChildAssembly, this, _1));
@@ -46,15 +46,15 @@ void PhysicsPacketCache::insert(const Assembly* key)
 
 void PhysicsPacketCache::insertChildAssembly(const Assembly* assembly)
 {
-	RBXASSERT(assembly);
+	ARLASSERT(assembly);
 
 	std::pair<StreamCacheMap::iterator, bool> res = streamCache.insert(std::make_pair(assembly, InnerMap()));
-	RBXASSERT(res.second);
+	ARLASSERT(res.second);
 }
 
 void PhysicsPacketCache::remove(const Assembly* key)
 {
-	RBXASSERT(key);
+	ARLASSERT(key);
 
 	boost::unique_lock<boost::shared_mutex> lock(sharedMutex);
 
@@ -66,7 +66,7 @@ void PhysicsPacketCache::remove(const Assembly* key)
 
 void PhysicsPacketCache::removeChildAssembly(const Assembly* assembly)
 {
-	RBXASSERT(assembly);
+	ARLASSERT(assembly);
 
 	streamCache.erase(assembly);
 }
@@ -88,12 +88,12 @@ bool PhysicsPacketCache::fetchIfUpToDate(const Assembly* key, unsigned char inde
 
 		CachedBitStream* cachedItem = innerIter->second.get();
 
-		RBXASSERT(key->getConstAssemblyPrimitive()->getWorld());
+		ARLASSERT(key->getConstAssemblyPrimitive()->getWorld());
 
 		int id = cachedItem->lastStepId;
 		if ((id > 0) && (id == key->getConstAssemblyPrimitive()->getWorld()->getWorldStepId()))
 		{
-			RBXASSERT(cachedItem->bitStream);
+			ARLASSERT(cachedItem->bitStream);
 
 			outBitStream.WriteBits(cachedItem->bitStream->GetData(), cachedItem->dataBitStartOffset, (RakNet::BitSize_t)cachedItem->totalNumBits);
 
@@ -123,7 +123,7 @@ bool PhysicsPacketCache::update(const Assembly* key, unsigned char index, RakNet
 		}
 		
 		InnerMap::iterator innerIter = i.first;
-		RBXASSERT(innerIter != innerMap.end());
+		ARLASSERT(innerIter != innerMap.end());
 
 		CachedBitStream* cachedItem = innerIter->second.get();
 
@@ -148,7 +148,7 @@ bool PhysicsPacketCache::update(const Assembly* key, unsigned char index, RakNet
 		cachedItem->bitStream->Write((const char*) bitStream.GetData()+startByte, numBytes);
 		cachedItem->dataBitStartOffset = startReadBitPos - (startByte << 3);
 
-		RBXASSERT(key->getConstAssemblyPrimitive()->getWorld());
+		ARLASSERT(key->getConstAssemblyPrimitive()->getWorld());
 		cachedItem->lastStepId = key->getConstAssemblyPrimitive()->getWorld()->getWorldStepId();
 
 		return true;
@@ -170,7 +170,7 @@ void PhysicsPacketCache::onServiceProvider(ServiceProvider* oldProvider, Service
 	if (newProvider)
 	{
 		boost::shared_ptr<PhysicsService> physicsService = shared_from(ServiceProvider::find<PhysicsService>(newProvider));
-		RBXASSERT(physicsService);
+		ARLASSERT(physicsService);
 
 		// Get all current assemblies
 		std::for_each(physicsService->begin(), physicsService->end(), boost::bind(&PhysicsPacketCache::addPart, this, _1));
@@ -186,7 +186,7 @@ void PhysicsPacketCache::onServiceProvider(ServiceProvider* oldProvider, Service
 void PhysicsPacketCache::onAddingAssembly(shared_ptr<Instance> assembly)
 {
 	shared_ptr<PartInstance> part = Instance::fastSharedDynamicCast<PartInstance>(assembly);
-	RBXASSERT(part);
+	ARLASSERT(part);
 
 	const Assembly* partAssembly = part->getConstPartPrimitive()->getConstAssembly();
 
@@ -196,7 +196,7 @@ void PhysicsPacketCache::onAddingAssembly(shared_ptr<Instance> assembly)
 void PhysicsPacketCache::onRemovedAssembly(shared_ptr<Instance> assembly)
 {	
 	shared_ptr<PartInstance> part = Instance::fastSharedDynamicCast<PartInstance>(assembly);
-	RBXASSERT(part);
+	ARLASSERT(part);
 	
 	const Assembly* partAssembly = part->getConstPartPrimitive()->getConstAssembly();
 

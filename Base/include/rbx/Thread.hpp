@@ -6,7 +6,7 @@
 #include <boost/bind.hpp>
 #include <boost/scoped_ptr.hpp>
 
-namespace RBX
+namespace ARL
 {
 	// Returns a function that executes threadfunc with a given name
 	boost::function0<void> thread_wrapper(const boost::function0<void>& threadfunc, const char* name);

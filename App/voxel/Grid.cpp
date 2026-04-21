@@ -9,7 +9,7 @@
 
 #include <boost/unordered_map.hpp>
 
-namespace RBX { namespace Voxel {
+namespace ARL { namespace Voxel {
 
 Grid::Grid() : chunkMap(), countOfNonEmptyCells(0) {}
 
@@ -36,7 +36,7 @@ void Grid::fillLocalAreaInfo(const Vector3int16& globalCoord,
 	SpatialRegion::Id mainChunkId = SpatialRegion::regionContainingVoxel(globalCoord);
 	const Chunk* mainChunkPtr = chunkMap.find(mainChunkId);
 	if (mainChunkPtr == NULL) {
-		RBXASSERT(false);
+		ARLASSERT(false);
 		return;
 	}
 	
@@ -137,7 +137,7 @@ void Grid::setCell(const Vector3int16& location, Cell newCell, CellMaterial inpu
 Grid::Region Grid::getRegion(
 		const Vector3int16& minCoord, const Vector3int16& maxCoord) const {
 	SpatialRegion::Id minId = SpatialRegion::regionContainingVoxel(minCoord);
-	RBXASSERT(minId == SpatialRegion::regionContainingVoxel(maxCoord));
+	ARLASSERT(minId == SpatialRegion::regionContainingVoxel(maxCoord));
 
 	return Region(chunkMap.find(minId), minCoord, maxCoord);
 }
@@ -179,7 +179,7 @@ void Grid::connectListener(CellChangeListener* listener) {
     if (std::find(cellChangeListeners.begin(), cellChangeListeners.end(), listener) == cellChangeListeners.end()) {
         cellChangeListeners.push_back(listener);
     } else {
-        RBXASSERT(false);
+        ARLASSERT(false);
     }
 }
 
@@ -189,7 +189,7 @@ void Grid::disconnectListener(CellChangeListener* listener) {
     if (itr != cellChangeListeners.end()) {
         cellChangeListeners.erase(itr);	
     } else {
-        RBXASSERT(false);
+        ARLASSERT(false);
     }
 }
 

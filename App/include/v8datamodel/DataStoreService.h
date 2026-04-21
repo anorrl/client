@@ -4,7 +4,7 @@
 #include "V8Tree/Service.h"
 #include "util/DoubleEndedVector.h"
 
-namespace RBX {
+namespace ARL {
 	class DataStore;
 	class DataStoreJob;
 

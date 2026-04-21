@@ -8,7 +8,7 @@
 #define CLIENT_APP_SETTINGS_STRING  "ClientAppSettings"
 #define CLIENT_SETTINGS_API_KEY     "D6925E56-BFB9-4908-AAA2-A5B1EC4B2D79"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sFastLogSettings;
 	GlobalAdvancedSettings::Item& FastLogSettingsInstance();
@@ -21,7 +21,7 @@ namespace RBX
 		virtual bool DefaultHandler(const std::string& valueName, const std::string& valueData);
 	};
 
-	class ClientAppSettings : public RBX::FastLogJSON
+	class ClientAppSettings : public ARL::FastLogJSON
 	{
 	private:
 		static ClientAppSettings m_ClientAppSettings;

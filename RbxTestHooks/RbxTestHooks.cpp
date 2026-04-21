@@ -5,7 +5,7 @@
 #include "comutil.h"
 
 #include "RbxTestHooks.h"
-using namespace RBX;
+using namespace ARL;
 
 HRESULT IWorkspaceTestHooks_ExecScript(IWorkspaceTestHooks *p, BSTR script, VARIANT arg1, VARIANT arg2, VARIANT arg3, VARIANT arg4, SAFEARRAY** result)
 {

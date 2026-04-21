@@ -17,7 +17,7 @@ FASTFLAG(StudioDE6194FixEnabled)
 
 DYNAMIC_FASTFLAGVARIABLE(CacheModelExtents, false)
 
-namespace RBX {
+namespace ARL {
 
 bool ModelInstance::showModelCoordinateFrames = false;
 G3D::Color4 ModelInstance::sPrimaryPartSelectColor = G3D::Color3::gray();
@@ -27,7 +27,7 @@ float ModelInstance::sPrimaryPartLineThickness = 0.04;
 const char* const sModel = "Model";
 
 // Declare some dictionary entries
-static const RBX::Name& partName = RBX::Name::declare(sModel);
+static const ARL::Name& partName = ARL::Name::declare(sModel);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -87,7 +87,7 @@ void ModelInstance::hackPhysicalCharacter()
 void ModelInstance::setName(const std::string& value)
 {
 	if(lockedName){
-		RBX::Security::Context::current().requirePermission(RBX::Security::WritePlayer, "set a Character's name");
+		ARL::Security::Context::current().requirePermission(ARL::Security::WritePlayer, "set a Character's name");
 	}
 	Super::setName(value);
 }
@@ -232,7 +232,7 @@ void ModelInstance::onChildAdded(Instance* child)
 {
 	if (dynamic_cast<IModelModifier*>(child))
 	{
-		RBXASSERT_IF_VALIDATING(std::find(modelModifiers.begin(), modelModifiers.end(), child) == modelModifiers.end());
+		ARLASSERT_IF_VALIDATING(std::find(modelModifiers.begin(), modelModifiers.end(), child) == modelModifiers.end());
 		modelModifiers.push_back(child);
 	}
 
@@ -245,7 +245,7 @@ void ModelInstance::onChildRemoving(Instance* child)
 	if (dynamic_cast<IModelModifier*>(child))
 	{
 		std::vector<Instance*>::iterator it = std::find(modelModifiers.begin(), modelModifiers.end(), child);
-		RBXASSERT(it != modelModifiers.end());
+		ARLASSERT(it != modelModifiers.end());
 		modelModifiers.erase(it);
 	}
 
@@ -298,7 +298,7 @@ PartInstance* ModelInstance::getPrimaryPart()
 	// Clean up here bad primaryPart set by user on the case of legacy read
 	if (primaryPartSetByUser.lock().get()) {
 		if (!primaryPartSetByUser.lock()->isDescendantOf(this)) {
-			RBXASSERT(0);					// just want to see this happening
+			ARLASSERT(0);					// just want to see this happening
 			primaryPartSetByUser.reset();
 		}
 	}
@@ -308,7 +308,7 @@ PartInstance* ModelInstance::getPrimaryPart()
 		return primaryPartSetByUser.lock().get();
 	}
 	else if (computedPrimaryPart) {
-		RBXASSERT(computedPrimaryPart->isDescendantOf(this));
+		ARLASSERT(computedPrimaryPart->isDescendantOf(this));
 		return computedPrimaryPart;
 	}
 	else {
@@ -318,7 +318,7 @@ PartInstance* ModelInstance::getPrimaryPart()
 }
 
 
-void VisitModelDescendants(shared_ptr<RBX::Instance> instance, PartInstance** biggestPart, float* biggestSize)
+void VisitModelDescendants(shared_ptr<ARL::Instance> instance, PartInstance** biggestPart, float* biggestSize)
 {
 	if (PartInstance* descendantPart = Instance::fastDynamicCast<PartInstance>(instance.get())) {
 		float descendantBiggest = descendantPart->getPartPrimitive()->getExtentsWorld().areaXZ();
@@ -331,7 +331,7 @@ void VisitModelDescendants(shared_ptr<RBX::Instance> instance, PartInstance** bi
 
 void ModelInstance::computePrimaryPart()
 {
-	RBXASSERT(computedPrimaryPart == NULL);
+	ARLASSERT(computedPrimaryPart == NULL);
 	computedPrimaryPart = NULL;
 	float biggest = -1.0;
 
@@ -377,7 +377,7 @@ void ModelInstance::setFrontAndTop(const Vector3& front)
 	}
 
 	if (primaryPartSetByUser.lock().get()) {
-		RBXASSERT(primaryPartSetByUser.lock()->isDescendantOf(this));
+		ARLASSERT(primaryPartSetByUser.lock()->isDescendantOf(this));
 		CoordinateFrame base;
 		base.lookAt(front);
 		modelInPrimary = CoordinateFrame(
@@ -413,7 +413,7 @@ bool ModelInstance::isSelectable3d()
 }
 
 // TODO: return closest part within the model?...
-bool ModelInstance::hitTestImpl(const class RBX::RbxRay& worldRay, Vector3& worldHitPoint)
+bool ModelInstance::hitTestImpl(const class ARL::RbxRay& worldRay, Vector3& worldHitPoint)
 {
 	for (size_t i = 0; i < numChildren(); i++) 
 	{
@@ -441,7 +441,7 @@ void ModelInstance::render3dAdorn(Adorn* adorn)
 
 
 
-static void testFrustumParts(shared_ptr<Instance> descendant, const RBX::Frustum& frustum, bool& isContained)
+static void testFrustumParts(shared_ptr<Instance> descendant, const ARL::Frustum& frustum, bool& isContained)
 {
 	if (isContained) {																// Only test if we have a chance!
 		if (PartInstance* part = Instance::fastDynamicCast<PartInstance>(descendant.get())) {
@@ -451,7 +451,7 @@ static void testFrustumParts(shared_ptr<Instance> descendant, const RBX::Frustum
 }
 
 
-bool ModelInstance::containedByFrustum(const RBX::Frustum& frustum) const
+bool ModelInstance::containedByFrustum(const ARL::Frustum& frustum) const
 {
 	bool isContained = true;
 	this->visitDescendants(boost::bind(&testFrustumParts, _1, boost::ref(frustum), boost::ref(isContained)));
@@ -626,8 +626,8 @@ void ModelInstance::render3dSelect(Adorn* adorn, SelectState selectState)
 
 	Part part = computePart();
 
-	if (selectState == RBX::SELECT_NORMAL && getPrimaryPartSetByUser())
-        RBX::Draw::selectionBox(getPrimaryPartSetByUser()->getPart(), adorn, primaryPartSelectColor(), primaryPartLineThickness());
+	if (selectState == ARL::SELECT_NORMAL && getPrimaryPartSetByUser())
+        ARL::Draw::selectionBox(getPrimaryPartSetByUser()->getPart(), adorn, primaryPartSelectColor(), primaryPartLineThickness());
 
 	Draw::selectionBox(
 		part, 

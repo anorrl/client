@@ -12,7 +12,7 @@
 #include "Gui/GuiDraw.h"
 #include "Script/ThreadRef.h"
 
-namespace RBX
+namespace ARL
 {
 	class GuiDrawImage;
 	class TweenService;
@@ -103,7 +103,7 @@ namespace RBX
 		bool descendantOfBillboardGui();
 
 		void fireGenericInputEvent(const shared_ptr<InputObject>& event);
-        void fireGestureEvent(const UserInputService::Gesture& gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args);
+        void fireGestureEvent(const UserInputService::Gesture& gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args);
 
 		scoped_ptr<Tweens> tweens;
 
@@ -163,7 +163,7 @@ namespace RBX
 			case TextService::SIZE_60: return 60;
 			case TextService::SIZE_96: return 96;
 			default:
-				RBXASSERT(0);
+				ARLASSERT(0);
 				return 0;
 			}
 		}
@@ -216,9 +216,9 @@ namespace RBX
 
 		GuiObject* firstAncestorClipping();
 
-		void handleDrag(RBX::Vector2 mousePosition);
+		void handleDrag(ARL::Vector2 mousePosition);
 		void handleDragging(const shared_ptr<InputObject>& event);
-		void handleDragBegin(RBX::Vector2 mousePosition);
+		void handleDragBegin(ARL::Vector2 mousePosition);
 
 		Gui::WidgetState getGuiState() const { return guiState; }
 		void setGuiState(Gui::WidgetState state) { guiState = state; }
@@ -266,12 +266,12 @@ namespace RBX
 		rbx::signal<void(shared_ptr<Instance>)> inputEndedEvent;
         
         // touch gesture event signals
-        rbx::signal<void(shared_ptr<const RBX::Reflection::ValueArray>)> tapGestureEvent;
-        rbx::signal<void(shared_ptr<const RBX::Reflection::ValueArray>,float, float, InputObject::UserInputState)> pinchGestureEvent;
+        rbx::signal<void(shared_ptr<const ARL::Reflection::ValueArray>)> tapGestureEvent;
+        rbx::signal<void(shared_ptr<const ARL::Reflection::ValueArray>,float, float, InputObject::UserInputState)> pinchGestureEvent;
         rbx::signal<void(UserInputService::SwipeDirection, int)> swipeGestureEvent;
-        rbx::signal<void(shared_ptr<const RBX::Reflection::ValueArray>, InputObject::UserInputState)> longPressGestureEvent;
-        rbx::signal<void(shared_ptr<const RBX::Reflection::ValueArray>, float, float, InputObject::UserInputState)> rotateGestureEvent;
-        rbx::signal<void(shared_ptr<const RBX::Reflection::ValueArray>, Vector2, Vector2, InputObject::UserInputState)> panGestureEvent;
+        rbx::signal<void(shared_ptr<const ARL::Reflection::ValueArray>, InputObject::UserInputState)> longPressGestureEvent;
+        rbx::signal<void(shared_ptr<const ARL::Reflection::ValueArray>, float, float, InputObject::UserInputState)> rotateGestureEvent;
+        rbx::signal<void(shared_ptr<const ARL::Reflection::ValueArray>, Vector2, Vector2, InputObject::UserInputState)> panGestureEvent;
 
 		rbx::remote_signal<void(int, int)>  mouseEnterSignal;
 		rbx::remote_signal<void(int, int)>  mouseLeaveSignal;
@@ -320,7 +320,7 @@ namespace RBX
 		// 
 		// GuiBase
 		/*override*/ GuiResponse process(const shared_ptr<InputObject>& event);
-        /*override*/ GuiResponse processGesture(const UserInputService::Gesture& gesture, const shared_ptr<const RBX::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args);
+        /*override*/ GuiResponse processGesture(const UserInputService::Gesture& gesture, const shared_ptr<const ARL::Reflection::ValueArray>& touchPositions, const shared_ptr<const Reflection::Tuple>& args);
 
 		virtual GuiResponse preProcess(const shared_ptr<InputObject>& event) { return GuiResponse::notSunk(); };
 

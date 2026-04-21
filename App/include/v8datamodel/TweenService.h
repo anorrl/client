@@ -8,7 +8,7 @@
 #include "util/SteppedInstance.h"
 #include "v8datamodel/GuiObject.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sTweenService;
 	class TweenService

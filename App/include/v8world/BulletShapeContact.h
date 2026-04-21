@@ -11,13 +11,13 @@
 class btPersistentManifold;
 class bulletNPAlgorithm;
 class btConvexHullShape;
-namespace RBX {
+namespace ARL {
 	class PolyConnector;
 	class BulletShapeConnector;
 	class BulletShapeContact : public Contact 
 	{
 	public:
-		typedef RBX::FixedArray<BulletShapeConnector*, BULLET_CONTACT_ARRAY_SIZE> BulletConnectorArray;
+		typedef ARL::FixedArray<BulletShapeConnector*, BULLET_CONTACT_ARRAY_SIZE> BulletConnectorArray;
 
 	private:
 		btPersistentManifold* bulletManifold;

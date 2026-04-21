@@ -17,7 +17,7 @@ namespace boost
 }
 
 
-namespace RBX { 
+namespace ARL { 
 	
 	class DataModel;
 	class Instance;
@@ -49,7 +49,7 @@ namespace RBX {
 
 	public:
 		
-		virtual void configure(RBX::Security::Identities identity, DataModel* dm, const std::string& args, int launchMode = -1, const char* vrDevice = 0) = 0;
+		virtual void configure(ARL::Security::Identities identity, DataModel* dm, const std::string& args, int launchMode = -1, const char* vrDevice = 0) = 0;
 	};
 
 	class PlayerConfigurer : public GameConfigurer
@@ -67,7 +67,7 @@ namespace RBX {
 		bool waitingForCharacter;
 		int launchMode;
 
-		RBX::Analytics::InfluxDb::Points analyticsPoints;
+		ARL::Analytics::InfluxDb::Points analyticsPoints;
 		boost::shared_ptr<GamePerfMonitor> gamePerfMonitor;
 
 		rbx::signals::scoped_connection playerChangedConnection;
@@ -100,7 +100,7 @@ namespace RBX {
 		PlayerConfigurer();
 		~PlayerConfigurer();
 
-		/*override*/ void configure(RBX::Security::Identities identity, DataModel* dm, const std::string& args, int launchMode = -1, const char* vrDevice = 0);
+		/*override*/ void configure(ARL::Security::Identities identity, DataModel* dm, const std::string& args, int launchMode = -1, const char* vrDevice = 0);
 
 	};
 
@@ -114,7 +114,7 @@ namespace RBX {
 		~StudioConfigurer() {}
 
 		std::string starterScript;
-		/*override*/ void configure(RBX::Security::Identities identity, DataModel* dm, const std::string& args, int launchMode = -1, const char* vrDevice = 0);
+		/*override*/ void configure(ARL::Security::Identities identity, DataModel* dm, const std::string& args, int launchMode = -1, const char* vrDevice = 0);
 
 	};
 

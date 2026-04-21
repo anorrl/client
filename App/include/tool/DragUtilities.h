@@ -7,7 +7,7 @@
 #include "Util/Extents.h"
 #include "Tool/Dragger.h"
 
-namespace RBX {
+namespace ARL {
 	class Instance;
 	class PartInstance;
 	class Primitive;

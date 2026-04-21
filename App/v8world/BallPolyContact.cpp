@@ -9,14 +9,14 @@
 #include "V8World/Primitive.h"
 
 
-namespace RBX {
+namespace ARL {
 
 
 BallPolyContact::BallPolyContact(Primitive* p0, Primitive* p1)
 	: PolyContact(p0, p1)
 {
-	RBXASSERT(rbx_static_cast<Ball*>(p0->getGeometry()));
-	RBXASSERT(rbx_static_cast<Poly*>(p1->getGeometry()));
+	ARLASSERT(rbx_static_cast<Ball*>(p0->getGeometry()));
+	ARLASSERT(rbx_static_cast<Poly*>(p1->getGeometry()));
 }
 
 
@@ -33,7 +33,7 @@ void BallPolyContact::findClosestFeatures(ConnectorArray& newConnectors)
     const POLY::Face* face = getFarthestPlane(planeToCenter, ballInPoly);
     if (!face) 
     {
-	    RBXASSERT(0);
+	    ARLASSERT(0);
 	    return;
     }
 
@@ -97,7 +97,7 @@ const POLY::Face* BallPolyContact::getFarthestPlane(float& planeToCenter, const 
 			planeToCenter = distance;
 		}
 	}
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
@@ -114,7 +114,7 @@ const POLY::Edge* BallPolyContact::getClosestEdge(const POLY::Face* face, float&
 			edgeToCenter = static_cast<float>(distance);
 		}
 	}
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 
@@ -148,7 +148,7 @@ const POLY::Vertex* BallPolyContact::getClosestVertex(const POLY::Edge* edge, fl
 			vertexToCenter = distance;
 		}
 	}
-	RBXASSERT(answer);
+	ARLASSERT(answer);
 	return answer;
 }
 

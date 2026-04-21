@@ -6,7 +6,7 @@
 #include "V8DataModel/ActionStation.h"
 #include "Network/Players.h"
 
-namespace RBX {
+namespace ARL {
 
 class Humanoid;
 class Motor6D;
@@ -31,7 +31,7 @@ class PlatformImpl : public ActionStation<Base>
 						&&	Workspace::contextInWorkspace(torso)
 						&&	Workspace::contextInWorkspace(this)) 
 					{
-						RBXASSERT(h->getTorsoSlow()->getPartPrimitive()->getAssembly() != this->getPartPrimitive()->getAssembly());
+						ARLASSERT(h->getTorsoSlow()->getPartPrimitive()->getAssembly() != this->getPartPrimitive()->getAssembly());
 						if(this->getCoordinateFrame().rotation.column(1).y > 0.7f)			// must be within 45 degrees of upright to mount
 						{
 							createPlatformMotor6D(h);
@@ -68,10 +68,10 @@ class PlatformImpl : public ActionStation<Base>
 
 			PartInstance *pTorsoPart = NULL; 
 			pTorsoPart = h->getVisibleTorsoSlow();
-			RBXASSERT(pTorsoPart); // we just checked for this
+			ARLASSERT(pTorsoPart); // we just checked for this
 
 			CoordinateFrame originalPlatformCoord = this->getCoordinateFrame();
-			RBXASSERT(this->getCoordinateFrame() == this->getPartPrimitive()->getCoordinateFrame());
+			ARLASSERT(this->getCoordinateFrame() == this->getPartPrimitive()->getCoordinateFrame());
 
 			CoordinateFrame platformCoord;
 			platformCoord.lookAt(Vector3(0,-1,0), Vector3(0,0,-1));
@@ -86,7 +86,7 @@ class PlatformImpl : public ActionStation<Base>
 			if (!torsoAssembly)
 				return;
 
-			RBXASSERT(torsoAssembly != this->getPartPrimitive()->getAssembly());
+			ARLASSERT(torsoAssembly != this->getPartPrimitive()->getAssembly());
 			Primitive* root = torsoAssembly->getAssemblyPrimitive();
 
 			root->setVelocity(Velocity::zero());

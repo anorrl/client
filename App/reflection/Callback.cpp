@@ -3,8 +3,8 @@
 #include "reflection/Callback.h"
 #include "reflection/object.h"
 
-using namespace RBX;
-using namespace RBX::Reflection;
+using namespace ARL;
+using namespace ARL::Reflection;
 
 CallbackDescriptor::CallbackDescriptor(ClassDescriptor& classDescriptor, const char* name, Attributes attributes, Security::Permissions security, bool async)
 	: MemberDescriptor(classDescriptor, name, NULL, attributes, security)
@@ -43,7 +43,7 @@ void AsyncCallbackDescriptor::callGenericImpl(shared_ptr<AsyncCallbackDescriptor
     {
         (*function)(args, resumeFunction, errorFunction);
     }
-    catch (const RBX::base_exception& e)
+    catch (const ARL::base_exception& e)
     {
         errorFunction(e.what());
     }

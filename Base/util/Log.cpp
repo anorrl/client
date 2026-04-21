@@ -11,7 +11,7 @@
 #include "boost/date_time/gregorian/gregorian.hpp"
 #include "boost/date_time/gregorian/greg_year.hpp"
 
-using namespace RBX;
+using namespace ARL;
 
 #include "rbx/rbxTime.h"
 

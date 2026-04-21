@@ -5,7 +5,7 @@
 
 #include "rbx/Debug.h"
 
-namespace RBX
+namespace ARL
 {
     // Internal implementation of DenseHashSet and DenseHashMap
     namespace detail
@@ -37,7 +37,7 @@ namespace RBX
             DenseHashTable(const Key& empty_key, size_t buckets = 0): data(buckets, Item(empty_key)), count(0), empty_key(empty_key)
             {
                 // buckets has to be power-of-two or zero
-                RBXASSERT((buckets & (buckets - 1)) == 0);
+                ARLASSERT((buckets & (buckets - 1)) == 0);
             }
 
             void clear()
@@ -49,7 +49,7 @@ namespace RBX
             Item* insert(const Key& key)
             {
                 // It is invalid to insert empty_key into the table since it acts as a "entry does not exist" marker
-                RBXASSERT(!eq(key, empty_key));
+                ARLASSERT(!eq(key, empty_key));
 
                 if (count >= data.size() * 3 / 4)
                 {
@@ -82,7 +82,7 @@ namespace RBX
                 }
 
                 // Hash table is full - this should not happen
-                RBXASSERT(false);
+                ARLASSERT(false);
                 return NULL;
             }
 
@@ -111,7 +111,7 @@ namespace RBX
                 }
 
                 // Hash table is full - this should not happen
-                RBXASSERT(false);
+                ARLASSERT(false);
                 return NULL;
             }
 
@@ -217,7 +217,7 @@ namespace RBX
                     if (!eq(data[i].key, empty_key))
                         *newtable.insert(data[i].key) = data[i];
 
-                RBXASSERT(count == newtable.count);
+                ARLASSERT(count == newtable.count);
                 data.swap(newtable.data);
             }
         };

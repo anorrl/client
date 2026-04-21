@@ -17,7 +17,7 @@
 
 DYNAMIC_FASTFLAGVARIABLE(SphericalSparklesEmission, false)
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {
@@ -54,7 +54,7 @@ void ParticleEmitter::updateCoordinateFrame(bool recalcLocalBounds)
 {
     CoordinateFrame frame = part ? part->calcRenderingCoordinateFrame() : CoordinateFrame();
 
-    if (RBX::Explosion* expl = Instance::fastDynamicCast<RBX::Explosion>(effect.get()))
+    if (ARL::Explosion* expl = Instance::fastDynamicCast<ARL::Explosion>(effect.get()))
     {
         frame.rotation = Matrix3::identity();
         frame.translation = expl->getPosition();
@@ -103,7 +103,7 @@ void ParticleEmitter::onCombinedSignalEx(Instance::CombinedSignalType type, cons
     }
 }
 
-void ParticleEmitter::onPropertyChangedEx(const RBX::Reflection::PropertyDescriptor* descriptor)
+void ParticleEmitter::onPropertyChangedEx(const ARL::Reflection::PropertyDescriptor* descriptor)
 {
     invalidateEntity();
 }
@@ -122,17 +122,17 @@ void ParticleEmitter::onAncestorChangedEx()
     {
         unbind();
         
-        RBX::PartInstance* parent = RBX::Instance::fastDynamicCast<RBX::PartInstance>(effectCopy->getParent());
-        shared_ptr<RBX::PartInstance> part = shared_from(parent);
+        ARL::PartInstance* parent = ARL::Instance::fastDynamicCast<ARL::PartInstance>(effectCopy->getParent());
+        shared_ptr<ARL::PartInstance> part = shared_from(parent);
             
         bind(part, effectCopy);
     }
 }
 
-void ParticleEmitter::bind(const shared_ptr<RBX::PartInstance>& part, const shared_ptr<RBX::Instance>& instance)
+void ParticleEmitter::bind(const shared_ptr<ARL::PartInstance>& part, const shared_ptr<ARL::Instance>& instance)
 {
-    RBXASSERT(!this->part && !this->effect);
-    RBXASSERT(instance);
+    ARLASSERT(!this->part && !this->effect);
+    ARLASSERT(instance);
     
     this->part = part;
     this->effect = instance;
@@ -217,7 +217,7 @@ void ParticleEmitter::applySettings()
     secondaryOffset = CoordinateFrame();
     tertiaryOffset  = CoordinateFrame();
 
-    if (RBX::Sparkles* spk = effect->fastDynamicCast<RBX::Sparkles>())
+    if (ARL::Sparkles* spk = effect->fastDynamicCast<ARL::Sparkles>())
     {
         enabled = spk->getEnabled();
         Vector4 c = Color4(spk->getColor());
@@ -309,7 +309,7 @@ void ParticleEmitter::applySettings()
 
         tertiary.reset();
     }
-    else if (RBX::Smoke* smk = effect->fastDynamicCast<RBX::Smoke>())
+    else if (ARL::Smoke* smk = effect->fastDynamicCast<ARL::Smoke>())
     {
         enabled = smk->getEnabled();
 
@@ -355,7 +355,7 @@ void ParticleEmitter::applySettings()
 
         tertiary.reset();
     }
-    else if (RBX::Fire* fire = effect->fastDynamicCast<RBX::Fire>())
+    else if (ARL::Fire* fire = effect->fastDynamicCast<ARL::Fire>())
     {
         float size = fire->getClampedSize() / 3.5;
         float boxsize = size / 8;
@@ -444,7 +444,7 @@ void ParticleEmitter::applySettings()
 
         tertiary.reset();
     }
-    else if (effect->isA<RBX::ForceField>())
+    else if (effect->isA<ARL::ForceField>())
 {
         enabled = true;
         if (enabled && !emitter)
@@ -555,7 +555,7 @@ void ParticleEmitter::applySettings()
 
         }
     }
-    else if (RBX::Explosion* expl = effect->fastDynamicCast<RBX::Explosion>())
+    else if (ARL::Explosion* expl = effect->fastDynamicCast<ARL::Explosion>())
     {
         enabled = true;
 

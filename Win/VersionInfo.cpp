@@ -23,9 +23,9 @@ All rights reserved.
 
 //////////////// Implementation //////////////////////////////////////
 
-using RBX::SysPathString;
-using RBX::utf8_decode;
-using RBX::utf8_encode;
+using ARL::SysPathString;
+using ARL::utf8_decode;
+using ARL::utf8_encode;
 
 CVersionInfo::CVersionInfo()
 {

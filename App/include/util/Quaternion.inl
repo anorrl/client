@@ -3,7 +3,7 @@
  
  */
 
-namespace RBX {
+namespace ARL {
 
 inline Quaternion& Quaternion::operator+= (const Quaternion& rkQuaternion) {
     x += rkQuaternion.x;

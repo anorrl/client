@@ -10,7 +10,7 @@
 
 class XmlElement;
 
-namespace RBX {
+namespace ARL {
 
 	class PartInstance;
 	class IReferenceBinder;

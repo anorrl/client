@@ -8,10 +8,10 @@
 
 static void sendLightingObjectsStats()
 {
-	RBX::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "LightingObjects");
+	ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "LightingObjects");
 }
 
-namespace RBX {
+namespace ARL {
 
 const char* const sLight = "Light";
 const char* const sPointLight = "PointLight";

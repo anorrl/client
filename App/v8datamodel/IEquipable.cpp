@@ -8,7 +8,7 @@
 #include "rbx/Debug.h"
 
 
-namespace RBX {
+namespace ARL {
 
 IEquipable::IEquipable()
 {
@@ -16,7 +16,7 @@ IEquipable::IEquipable()
 
 IEquipable::~IEquipable()
 {
-	RBXASSERT(!weld);
+	ARLASSERT(!weld);
 }
 
 void IEquipable::buildWeld(PartInstance* humanoidPart, 
@@ -33,7 +33,7 @@ void IEquipable::buildWeld(PartInstance* humanoidPart,
 
 	// Build the weld
 	if (weld.get()) {
-		RBXASSERT_FISHING(0);
+		ARLASSERT_FISHING(0);
 		weld->setParent(NULL);
 		weld.reset();
 	}

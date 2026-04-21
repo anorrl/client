@@ -9,7 +9,7 @@
 #include "Util/Math.h"
 #include "rbx/Debug.h"
 
-namespace RBX {
+namespace ARL {
 
 Cofm::Cofm(Body* body) 
 : body(body)
@@ -25,7 +25,7 @@ void Cofm::updateIfDirty()
  			cofmInBody = body->getCofmOffset();
  			moment = body->getIBodyAtPoint(cofmInBody);
 			
-			RBXASSERT(Math::fuzzyEq(moment,
+			ARLASSERT(Math::fuzzyEq(moment,
 						Math::momentToObjectSpace(body->getIWorldAtPoint(body->getCoordinateFrame().pointToWorldSpace(cofmInBody)),
 							body->getCoordinateFrame().rotation),
 						moment.l1Norm() * 0.01));
@@ -50,7 +50,7 @@ void Cofm::updateIfDirty()
 			moment = Math::momentToObjectSpace(iWorldSum, body->getCoordinateFrame().rotation);
 		}
 
-		RBXASSERT(dirty);		// concurrency issues?
+		ARLASSERT(dirty);		// concurrency issues?
 		dirty = false;
 	}
 }

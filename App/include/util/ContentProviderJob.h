@@ -4,7 +4,7 @@
 #include "v8datamodel/DataModelJob.h"
 #include "rbx/threadsafe.h"
 
-namespace RBX
+namespace ARL
 {
 	class DataModel;
 

@@ -4,7 +4,7 @@
 
 #include "DataModelMesh.h"
 
-namespace RBX
+namespace ARL
 {
 	extern const char* const sBevelMesh;
 	class BevelMesh

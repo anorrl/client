@@ -17,7 +17,7 @@
 FASTFLAGVARIABLE( PGSSteppingMotorFix, false )
 DYNAMIC_FASTFLAG(OrthonormalizeJointCoords)
 
-namespace RBX {
+namespace ARL {
 
 RotateJoint::RotateJoint()
 	: MultiJoint(2)
@@ -114,7 +114,7 @@ RotateJoint* RotateJoint::surfaceTypeToJoint(
 		}
 		else
 		{
-			RBXASSERT(0);
+			ARLASSERT(0);
 			return NULL;
 		}
 	}
@@ -230,7 +230,7 @@ RotateJoint* RotateJoint::canBuildJoint(
 
 void RotateJoint::removeFromKernel()
 {
-	RBXASSERT(getKernel());
+	ARLASSERT(getKernel());
 
 	if( getKernel()->getUsingPGSSolver() )
     {
@@ -320,7 +320,7 @@ DynamicRotateJoint::DynamicRotateJoint(
 
 DynamicRotateJoint::~DynamicRotateJoint()
 {
-	RBXASSERT(!rotateConnector);
+	ARLASSERT(!rotateConnector);
 }
 
 
@@ -337,7 +337,7 @@ void DynamicRotateJoint::putInKernel(Kernel* _kernel)
 
     if( !getKernel()->getUsingPGSSolver() )
     {
-        RBXASSERT(!rotateConnector);
+        ARLASSERT(!rotateConnector);
 
         rotateConnector = new RotateConnector(	getAxlePrim()->getBody(),
             getHolePrim()->getBody(), 
@@ -358,11 +358,11 @@ void DynamicRotateJoint::putInKernel(Kernel* _kernel)
 
 void DynamicRotateJoint::removeFromKernel()
 {
-	RBXASSERT(getKernel());
+	ARLASSERT(getKernel());
 
     if( !getKernel()->getUsingPGSSolver() )
     {
-        RBXASSERT(rotateConnector);
+        ARLASSERT(rotateConnector);
         getKernel()->removeConnector(rotateConnector);
         delete rotateConnector;
         rotateConnector = NULL;
@@ -398,7 +398,7 @@ float DynamicRotateJoint::getTorqueArmLength()
 
 float DynamicRotateJoint::getChannelValue(double distributedGameTime) 
 {
-	RBXASSERT(getAxlePrim());
+	ARLASSERT(getAxlePrim());
 
 	NormalId normalId = getNormalId(0);		// surface of the axle Primitive
 	const SurfaceData& surfaceData = getAxlePrim()->getSurfaceData(normalId);

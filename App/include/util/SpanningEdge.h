@@ -4,7 +4,7 @@
 
 #include "Util/IndexedTree.h"
 
-namespace RBX {
+namespace ARL {
 
 	class SpanningNode;
 	class SpanningTree;
@@ -47,7 +47,7 @@ namespace RBX {
 		virtual const SpanningNode* getConstNode(int i) const = 0;
 
 		SpanningNode* otherNode(int i) {
-			RBXASSERT_VERY_FAST((i == 0) || (i == 1));
+			ARLASSERT_VERY_FAST((i == 0) || (i == 1));
 			return getNode((i + 1) % 2);
 		}
 

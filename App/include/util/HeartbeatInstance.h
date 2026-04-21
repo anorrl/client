@@ -13,7 +13,7 @@
 //	}
 //
 
-namespace RBX {
+namespace ARL {
 	class Heartbeat;
 	class ServiceProvider;
 
@@ -32,4 +32,4 @@ namespace RBX {
 		HeartbeatInstance()				{}
 		virtual ~HeartbeatInstance()	{}
 	};
-}	// namespace RBX
+}	// namespace ARL

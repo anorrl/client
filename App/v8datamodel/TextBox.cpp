@@ -19,7 +19,7 @@ DYNAMIC_FASTFLAGVARIABLE(TextBoxIsFocusedEnabled, false)
 
 //todo: when SDL is on, remove all repeat key junk
 
-namespace RBX
+namespace ARL
 {
 
     REFLECTION_BEGIN();
@@ -82,7 +82,7 @@ namespace RBX
 		{
 			bufferedText = getText();
 
-            if( RBX::UserInputService* userInputService = RBX::ServiceProvider::create<RBX::UserInputService>(newProvider) )
+            if( ARL::UserInputService* userInputService = ARL::ServiceProvider::create<ARL::UserInputService>(newProvider) )
                 textBoxFinishedEditingConnection = userInputService->textBoxFinishedEditing.connect(bind(&TextBox::externalReleaseFocus,this,_1,_2, _3));
 		}
 	}
@@ -189,7 +189,7 @@ namespace RBX
 
 		if ( event->isTouchEvent() && mouseIsOver(event->get2DPosition()) && getActive() )
 		{
-			if( RBX::ScrollingFrame* scrollFrame = findFirstAncestorOfType<RBX::ScrollingFrame>())
+			if( ARL::ScrollingFrame* scrollFrame = findFirstAncestorOfType<ARL::ScrollingFrame>())
 			{
 				bool processedInput = scrollFrame->processInputFromDescendant(event);
 				shouldFocusFromInput = !scrollFrame->isTouchScrolling();
@@ -225,7 +225,7 @@ namespace RBX
 	}
 
     
-	int TextBox::getCursorPos(RBX::Vector2 mousePos)
+	int TextBox::getCursorPos(ARL::Vector2 mousePos)
 	{
 		int pos = getPosInString(mousePos);
 		if(pos < 0) // cursor did not click on any text, lets determine to put at end or beginning of text field
@@ -282,7 +282,7 @@ namespace RBX
 
 		focusGainedSignal();
         
-        if( RBX::UserInputService* userInputService = RBX::ServiceProvider::create<RBX::UserInputService>(this) )
+        if( ARL::UserInputService* userInputService = ARL::ServiceProvider::create<ARL::UserInputService>(this) )
             userInputService->textBoxGainFocus(shared_from(this));
 	}
     
@@ -300,7 +300,7 @@ namespace RBX
 		
 		shouldCaptureFocus = true;
         
-		gainFocus(shared_ptr<RBX::InputObject>());
+		gainFocus(shared_ptr<ARL::InputObject>());
 	}
 
 
@@ -374,7 +374,7 @@ namespace RBX
     void TextBox::setFocusLost(bool enterPressed, const shared_ptr<InputObject>& inputThatCausedFocusLoss)
     {
         focusLostSignal(enterPressed, inputThatCausedFocusLoss);
-        if( RBX::UserInputService* userInputService = RBX::ServiceProvider::create<RBX::UserInputService>(this) )
+        if( ARL::UserInputService* userInputService = ARL::ServiceProvider::create<ARL::UserInputService>(this) )
             userInputService->textBoxReleaseFocus(shared_from(this));
     }
     
@@ -486,7 +486,7 @@ namespace RBX
 			if(repeatKeyState.state == RepeatKeyState::STATE_NONE)
 			{
 				std::string pasteText = "";
-				if(RBX::UserInputService* inputService = RBX::ServiceProvider::find<RBX::UserInputService>(this))
+				if(ARL::UserInputService* inputService = ARL::ServiceProvider::find<ARL::UserInputService>(this))
 					pasteText = inputService->getPasteText();
 
 				if( (pasteText.length() > 0) && (cursorPos >= 0) && (unsigned(cursorPos) <= bufferedText.length()) )
@@ -502,7 +502,7 @@ namespace RBX
 			setText(bufferedText);
 	}
 
-	void TextBox::keyUp(RepeatKeyState::KeyType keyType, RBX::KeyCode keyCode, char key)
+	void TextBox::keyUp(RepeatKeyState::KeyType keyType, ARL::KeyCode keyCode, char key)
 	{
 		if( repeatKeyState.state == RepeatKeyState::STATE_DEPRESSED || (repeatKeyState.state == RepeatKeyState::STATE_REPEATING && !UserInputService::IsUsingNewKeyboardEvents()) )
 			if(keyType == repeatKeyState.keyType && keyCode == repeatKeyState.keyCode) //if last key pressed was ours, stop it from repeating further
@@ -517,7 +517,7 @@ namespace RBX
 		}
 	}
 
-	void TextBox::keyDown(RepeatKeyState::KeyType keyType, RBX::KeyCode keyCode, char key)
+	void TextBox::keyDown(RepeatKeyState::KeyType keyType, ARL::KeyCode keyCode, char key)
 	{
 		if(repeatKeyState.state == RepeatKeyState::STATE_NONE || repeatKeyState.state == RepeatKeyState::STATE_DEPRESSED)
 		{
@@ -538,7 +538,7 @@ namespace RBX
 	}
 	GuiResponse TextBox::processTextInputEvent(const shared_ptr<InputObject>& event)
 	{
-		RBXASSERT(event->isTextInputEvent());
+		ARLASSERT(event->isTextInputEvent());
 
 		textInput(RepeatKeyState::TYPE_CHARACTER, event->getInputText());
 
@@ -546,7 +546,7 @@ namespace RBX
 	}
 	GuiResponse TextBox::processKeyEvent(const shared_ptr<InputObject>& event)
 	{
-		RBXASSERT(event->isKeyEvent());
+		ARLASSERT(event->isKeyEvent());
 
 		if(shouldCaptureFocus)
 		{
@@ -584,8 +584,8 @@ namespace RBX
 					keyDown(RepeatKeyState::TYPE_DELETE, event->getKeyCode(), '\0');
 				else if (event->isBackspaceKey())
                 {
-                    RBX::UserInputService* inputService = RBX::ServiceProvider::find<RBX::UserInputService>(this);
-                    RBXASSERT(inputService);
+                    ARL::UserInputService* inputService = ARL::ServiceProvider::find<ARL::UserInputService>(this);
+                    ARLASSERT(inputService);
 					keyDown(RepeatKeyState::TYPE_BACKSPACE, event->getKeyCode(), inputService->isCtrlDown() ? '\1' : '\0');
                 }
 				else if (event->isTextCharacterKey())
@@ -633,12 +633,12 @@ namespace RBX
         
     bool TextBox::isPasteCommand(const shared_ptr<InputObject>& event)
     {
-        if(event->getKeyCode() == RBX::SDLK_v)
+        if(event->getKeyCode() == ARL::SDLK_v)
         {
-            if(RBX::UserInputService* inputService = RBX::ServiceProvider::find<RBX::UserInputService>(this))
+            if(ARL::UserInputService* inputService = ARL::ServiceProvider::find<ARL::UserInputService>(this))
             {
-                std::vector<RBX::ModCode> modCodes = inputService->getCommandModCodes();
-                for(std::vector<RBX::ModCode>::iterator it = modCodes.begin(); it != modCodes.end(); ++it)
+                std::vector<ARL::ModCode> modCodes = inputService->getCommandModCodes();
+                for(std::vector<ARL::ModCode>::iterator it = modCodes.begin(); it != modCodes.end(); ++it)
                 {
                     if(DFFlag::PasteWithCapsLockOn ? event->mod & *(it) : event->mod == *(it))
                         return true;
@@ -651,7 +651,7 @@ namespace RBX
     
 	std::string TextBox::getTextWithCursor()
 	{
-		RBXASSERT(cursorPos >= 0);
+		ARLASSERT(cursorPos >= 0);
         
 		// make sure we are in range
 		cursorPos = std::min<int>(std::max<int>(0, cursorPos), bufferedText.length());
@@ -664,7 +664,7 @@ namespace RBX
 	}
 	std::string TextBox::getTextWithBlankCursor()
 	{
-		RBXASSERT(cursorPos >= 0);
+		ARLASSERT(cursorPos >= 0);
         
 		// make sure we are in range
 		cursorPos = std::min<int>(std::max<int>(0, cursorPos), bufferedText.length());

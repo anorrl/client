@@ -5,7 +5,7 @@
 #include "util/MemoryStats.h"
 #include "v8datamodel/Workspace.h"
 
-namespace RBX
+namespace ARL
 {
 	const char* const sNetworkSettings = "NetworkSettings";
 
@@ -114,7 +114,7 @@ namespace RBX
 	static Reflection::PropDescriptor<NetworkSettings, bool> prop_RenderRegions("RenderStreamedRegions", category_Appearance, &NetworkSettings::getRenderStreamedRegions, &NetworkSettings::setRenderStreamedRegions);
     static Reflection::PropDescriptor<NetworkSettings, bool> prop_ShowPartMovementPath("ShowPartMovementWayPoint", category_Appearance, &NetworkSettings::getShowPartMovementPath, &NetworkSettings::setShowPartMovementPath);
     static Reflection::PropDescriptor<NetworkSettings, int> prop_TotalNumMovementWayPoint("TotalNumMovementWayPoint", category_Appearance, &NetworkSettings::getTotalNumMovementWayPoint, &NetworkSettings::setTotalNumMovementWayPoint);
-#ifdef RBX_TEST_BUILD
+#ifdef ARL_TEST_BUILD
     static Reflection::PropDescriptor<NetworkSettings, int> prop_TaskSchedulerFindJobFPS("TaskSchedulerFindJobFPS", category_Appearance, &NetworkSettings::getTaskSchedulerFindJobFPS, &NetworkSettings::setTaskSchedulerFindJobFPS);
     static Reflection::PropDescriptor<NetworkSettings, bool> prop_TaskSchedulerUpdateJobPriorityOnWake("TaskSchedulerUpdateJobPriorityOnWake", category_Appearance, &NetworkSettings::getTaskSchedulerUpdateJobPriorityOnWake, &NetworkSettings::setTaskSchedulerUpdateJobPriorityOnWake);
 #endif

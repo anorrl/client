@@ -15,7 +15,7 @@
 
 DYNAMIC_FASTFLAG(NetworkOwnershipRuleReplicates);
 
-namespace RBX
+namespace ARL
 {
     const char *const sJointsService = "JointsService";
 
@@ -151,8 +151,8 @@ void JointsService::onDescendantAdded(Instance* instance)
 
 void JointsService::onPostInsertJoint(Joint* joint, Primitive* unGroundedPrim, std::vector<Primitive*>& combiRoots)
 {
-	RBXASSERT(joint);
-	RBX::SystemAddress consistentAddress;
+	ARLASSERT(joint);
+	ARL::SystemAddress consistentAddress;
 	bool hasConsistentOwner;
 	bool hasConsistentManualOwnershipRule;
 	PartInstance::checkConsistentOwnerAndRuleResetRoots(consistentAddress, hasConsistentOwner, hasConsistentManualOwnershipRule, combiRoots);
@@ -161,7 +161,7 @@ void JointsService::onPostInsertJoint(Joint* joint, Primitive* unGroundedPrim, s
 		if (!unGroundedPrim)
 		{
 			// At this point prim0 and prim1 should be part of same mechanism;
-			RBXASSERT(joint->getPrimitive(0) && joint->getPrimitive(1) 
+			ARLASSERT(joint->getPrimitive(0) && joint->getPrimitive(1) 
 						? joint->getPrimitive(0)->getMechRoot() == joint->getPrimitive(1)->getMechRoot() 
 						: false);
 			if (Primitive* prim = joint->getPrimitive(0) ? joint->getPrimitive(0) : joint->getPrimitive(1))
@@ -177,7 +177,7 @@ void JointsService::onPostInsertJoint(Joint* joint, Primitive* unGroundedPrim, s
 					else
 					{
 						rootPart->setNetworkOwner(consistentAddress);
-						if ((RBX::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates)
+						if ((ARL::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates)
 							&& hasConsistentManualOwnershipRule)
 						{
 							rootPart->setNetworkOwnershipRule(NetworkOwnership_Manual);
@@ -206,7 +206,7 @@ void JointsService::onPostInsertJoint(Joint* joint, Primitive* unGroundedPrim, s
 							}
 							else
 							{
-								if ((RBX::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
+								if ((ARL::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
 									&& hasConsistentManualOwnershipRule)
 								{
 										movingRootPart->setNetworkOwnershipRule(NetworkOwnership_Manual);
@@ -239,7 +239,7 @@ void JointsService::onPostRemoveJoint(Joint* joint, std::vector<Primitive*>& pri
 		{
 			// If we got this far, this was a simple case where a non-grounded mechanism split into two non grounded parts
 			// After we set owners we need to stop early
-			RBXASSERT(prim1Roots.size() == 0);
+			ARLASSERT(prim1Roots.size() == 0);
 			for (int i = 0; i < 2; i++)
 			{
 				Primitive* rootMovingPrim = (i == 0) ? rootMovingPrim0 : rootMovingPrim1;
@@ -254,7 +254,7 @@ void JointsService::onPostRemoveJoint(Joint* joint, std::vector<Primitive*>& pri
 					else
 					{
 						rootMovingPart->setNetworkOwner(prim0Roots[0]->getNetworkOwner());
-						if ((RBX::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
+						if ((ARL::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
 							&& (prim0Roots[0]->getNetworkOwnershipRuleInternal() == NetworkOwnership_Manual))
 						{
 							rootMovingPart->setNetworkOwnershipRule(NetworkOwnership_Manual);					
@@ -273,7 +273,7 @@ void JointsService::onPostRemoveJoint(Joint* joint, std::vector<Primitive*>& pri
 
 	for (int i = 0; i < 2; i++)
 	{
-		RBX::SystemAddress addressToPass;
+		ARL::SystemAddress addressToPass;
 		bool hasConsistentAddress;
 		bool hasConsistentOwnership;
 		std::vector<Primitive*>& primRoots = (i == 0) ? prim0Roots : prim1Roots;
@@ -293,7 +293,7 @@ void JointsService::onPostRemoveJoint(Joint* joint, std::vector<Primitive*>& pri
 				else
 				{
 					rootPrimPart->setNetworkOwner(addressToPass);
-					if ((RBX::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
+					if ((ARL::Network::Players::serverIsPresent(this) || DFFlag::NetworkOwnershipRuleReplicates) 
 						&& hasConsistentOwnership)
 					{
 						rootPrimPart->setNetworkOwnershipRule(NetworkOwnership_Manual);
@@ -310,8 +310,8 @@ void JointsService::onAutoJoin(Joint* joint)
 	// onAutoDestroy might be called as a result of setParent(NULL), so concurrencyValidator will think there's threading issue 
 	//WriteValidator validator(concurrencyValidator);
 
-	RBXASSERT(joint);
-	RBXASSERT(!joint->getJointOwner());
+	ARLASSERT(joint);
+	ARLASSERT(!joint->getJointOwner());
 
 	boost::shared_ptr<JointInstance> ji;
 	switch (joint->getJointType()) 
@@ -328,7 +328,7 @@ void JointsService::onAutoJoin(Joint* joint)
 
 		case Joint::ROTATE_V_JOINT:	ji = Creatable<Instance>::create<RotateV>(joint);	break;
 
-		default:	RBXASSERT(0);
+		default:	ARLASSERT(0);
 	}
 	ji->setParent(this);
 }
@@ -341,10 +341,10 @@ void JointsService::onAutoDestroy(Joint* joint)
 	// Disabling ConcurrencyValidator:
 	// onAutoDestroy might be called as a result of setParent(NULL) below, so concurrencyValidator will think there's threading issue 
 	//WriteValidator validator(concurrencyValidator);
-	RBXASSERT(joint);
+	ARLASSERT(joint);
 
 	IJointOwner* jointOwner = joint->getJointOwner();
-	RBXASSERT(jointOwner);
+	ARLASSERT(jointOwner);
 
 	if (jointOwner)
 	{

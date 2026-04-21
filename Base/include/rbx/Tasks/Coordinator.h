@@ -4,7 +4,7 @@
 #include "rbx/TaskScheduler.h"
 #include <map>
 
-namespace RBX
+namespace ARL
 {
 	namespace Tasks
 	{
@@ -12,7 +12,7 @@ namespace RBX
 		// Generally a Coordinator will affect execution order but not
 		// affect parallelism. It may be more efficient to enforce resource
 		// locks by specializing the TaskScheduler. See the DataModel scheduler.
-		class RBXBaseClass Coordinator
+		class ARLBaseClass Coordinator
 		{
 		public:
 			// These functions must be written in a thread-safe manner
@@ -44,7 +44,7 @@ namespace RBX
 		{
 			unsigned int counter;
 			unsigned int remainingTasks;
-			RBX::mutex mutex;
+			ARL::mutex mutex;
 			std::map<TaskScheduler::Job*, unsigned int> jobs;
 
 			void releaseBarrier();
@@ -60,7 +60,7 @@ namespace RBX
 		{
 		private:
 			unsigned int nextJobIndex;
-			RBX::mutex mutex;
+			ARL::mutex mutex;
 			std::vector<TaskScheduler::Job*> jobs;
 		protected:
 			void advance();

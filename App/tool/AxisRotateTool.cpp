@@ -4,7 +4,7 @@
 #include "Tool/AxisRotateTool.h"
 
 
-namespace RBX {
+namespace ARL {
 
 const char* const sAxisRotateTool = "AxisRotate";
 

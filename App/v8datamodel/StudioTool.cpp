@@ -8,7 +8,7 @@
 #include "V8DataModel/Workspace.h"
 #include "Network/Players.h"
 
-namespace RBX
+namespace ARL
 {
 
 const char *const sStudioTool = "StudioTool";

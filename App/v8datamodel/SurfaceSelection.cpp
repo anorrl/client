@@ -6,7 +6,7 @@
 #include "AppDraw/DrawAdorn.h"
 #include "AppDraw/Draw.h"
 
-namespace RBX {
+namespace ARL {
 
 const char* const sSurfaceSelection = "SurfaceSelection";
 
@@ -30,7 +30,7 @@ void SurfaceSelection::setSurface(NormalId value)
 void SurfaceSelection::render3dAdorn(Adorn* adorn)
 {
 	if(getVisible()){
-		if(shared_ptr<RBX::PartInstance> partInstance = adornee.lock()){
+		if(shared_ptr<ARL::PartInstance> partInstance = adornee.lock()){
 			DrawAdorn::partSurface(partInstance->getPart(), surfaceId, adorn, color);
 		}
 	}
@@ -39,7 +39,7 @@ void SurfaceSelection::render3dAdorn(Adorn* adorn)
 }
 
 // Randomized Locations for hackflags
-namespace RBX 
+namespace ARL 
 { 
     namespace Security
     {

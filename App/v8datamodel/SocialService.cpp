@@ -7,7 +7,7 @@
 FASTFLAGVARIABLE(EnableLuaFollowers, true)
 DYNAMIC_FASTFLAGVARIABLE(UserServerFollowers, false)
 
-namespace RBX
+namespace ARL
 {
 const char* const sSocialService = "SocialService";
 
@@ -98,7 +98,7 @@ void SocialService::dispatchRequest(const std::string& url, boost::function<void
 		{
 			luaWebService->asyncRequest(url, LUA_WEB_SERVICE_STANDARD_PRIORITY, resumeFunction, errorFunction);
 		}
-		catch(RBX::base_exception&)
+		catch(ARL::base_exception&)
 		{
 			errorFunction("Error during dispatch");
 		}
@@ -115,7 +115,7 @@ void SocialService::getRankInGroup(int playerId, int groupId, boost::function<vo
 		errorFunction("No groupRankUrl set");
 	else
 	{
-		std::string url(RBX::format(groupRankUrl.c_str(), playerId, groupId));
+		std::string url(ARL::format(groupRankUrl.c_str(), playerId, groupId));
 		dispatchRequest(url, resumeFunction, errorFunction);
 	}
 }
@@ -126,7 +126,7 @@ void SocialService::getRoleInGroup(int playerId, int groupId, boost::function<vo
 		errorFunction("No groupRoleUrl set");
 	else
 	{
-		std::string url(RBX::format(groupRoleUrl.c_str(), playerId, groupId));
+		std::string url(ARL::format(groupRoleUrl.c_str(), playerId, groupId));
 		dispatchRequest(url, resumeFunction, errorFunction);
 	}
 }
@@ -137,7 +137,7 @@ void SocialService::isFriendsWith(int playerId, int userId, boost::function<void
 		errorFunction("No friendUrl set");
 	else
 	{
-		std::string url(RBX::format(friendUrl.c_str(), playerId, userId));
+		std::string url(ARL::format(friendUrl.c_str(), playerId, userId));
 	    dispatchRequest(url, resumeFunction, errorFunction);
 	}
 }
@@ -147,7 +147,7 @@ void SocialService::isBestFriendsWith(int playerId, int userId, boost::function<
 		errorFunction("No bestFriendUrl set");
 	else
 	{
-		std::string url(RBX::format(bestFriendUrl.c_str(), playerId, userId));
+		std::string url(ARL::format(bestFriendUrl.c_str(), playerId, userId));
 	    dispatchRequest(url, resumeFunction, errorFunction);
 	}
 }
@@ -157,7 +157,7 @@ void SocialService::isInGroup(int playerId, int groupId, boost::function<void(bo
 		errorFunction("No groupUrl set");
 	else
 	{
-		std::string url(RBX::format(groupUrl.c_str(), playerId, groupId));
+		std::string url(ARL::format(groupUrl.c_str(), playerId, groupId));
 	    dispatchRequest(url, resumeFunction, errorFunction);
 	}
 }
@@ -168,7 +168,7 @@ void SocialService::getListOfStuff(int playerId, StuffType category, int page, b
 	}
 	else
 	{
-		std::string url(RBX::format(stuffUrl.c_str(), playerId, page, category));
+		std::string url(ARL::format(stuffUrl.c_str(), playerId, page, category));
 	    dispatchRequest(url, resumeFunction, errorFunction);
 	}
 }
@@ -180,7 +180,7 @@ void SocialService::getPackageContents(int assetId, boost::function<void(shared_
 	}
 	else
 	{
-		std::string url(RBX::format(packageContentsUrl.c_str(), assetId));
+		std::string url(ARL::format(packageContentsUrl.c_str(), assetId));
 	    dispatchRequest(url, resumeFunction, errorFunction);
 	}
 }

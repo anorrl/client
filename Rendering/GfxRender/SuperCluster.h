@@ -2,7 +2,7 @@
 
 #include "FastCluster.h"
 
-namespace RBX
+namespace ARL
 {
 namespace Graphics
 {

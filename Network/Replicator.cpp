@@ -155,7 +155,7 @@ DYNAMIC_FASTFLAGVARIABLE(ExplicitlyAssignDefaultPropVal, false)
 FASTFLAGVARIABLE(FilterSinglePass, false)
 FASTFLAGVARIABLE(FilterDoublePass, false)
 
-namespace RBX {
+namespace ARL {
 	namespace Network {
 
 const unsigned short CLUSTER_END_TOKEN = 0xffff;
@@ -192,18 +192,18 @@ static Reflection::PropDescriptor<Replicator, int> prop_port("Port", category_Da
 static Reflection::PropDescriptor<Replicator, std::string> prop_ip("MachineAddress", category_Data, &Replicator::getIpAddress, NULL, Reflection::PropertyDescriptor::UI, Security::Roblox);
 REFLECTION_END();
 
-RBX::Time Replicator::remoteRaknetTimeToLocalRbxTime(const RemoteTime& time)
+ARL::Time Replicator::remoteRaknetTimeToLocalRbxTime(const RemoteTime& time)
 {
 	return time - Time::Interval(rakTimeOffset);
 }
 
-RBX::Time Replicator::raknetTimeToRbxTime(const RakNet::Time& time)
+ARL::Time Replicator::raknetTimeToRbxTime(const RakNet::Time& time)
 {
-	RBX::RemoteTime t((double)time / 1000.0f);
+	ARL::RemoteTime t((double)time / 1000.0f);
 	return t - Time::Interval(rakTimeOffset);
 }
 
-RakNet::Time Replicator::rbxTimeToRakNetTime(const RBX::Time& time)
+RakNet::Time Replicator::rbxTimeToRakNetTime(const ARL::Time& time)
 {
 	return (RakNet::Time)(time + Time::Interval(rakTimeOffset)).timestampSeconds();
 }
@@ -220,10 +220,10 @@ bool Replicator::isPropertyCacheable(const Reflection::Type& type)
 
 	// ******** Enum type should always be cacheable! See ClientReplicator::ProcessOutdatedProperties ******** //
     if (type.isType<std::string>() || 
-        type.isType<RBX::ProtectedString>() || 
-        type.isType<RBX::BinaryString>() ||
-        type.isType<RBX::SystemAddress>() ||
-		type.isType<RBX::ContentId>() ||
+        type.isType<ARL::ProtectedString>() || 
+        type.isType<ARL::BinaryString>() ||
+        type.isType<ARL::SystemAddress>() ||
+		type.isType<ARL::ContentId>() ||
         isRef)
     {
         return false;
@@ -238,7 +238,7 @@ bool Replicator::isPropertyCacheable(const Reflection::Type* type, bool isEnum)
     if (isEnum)
         return true;
     
-    RBXASSERT(type);
+    ARLASSERT(type);
     return isPropertyCacheable(*type);
 }
 
@@ -246,8 +246,8 @@ void Replicator::writeProperties(const Instance* instance, RakNet::BitStream& ou
 {
     // if you make changes here, make sure ClientReplicator::writeProperties() also has it
  
-    RBX::Reflection::ConstPropertyIterator iter = instance->properties_begin();
-    RBX::Reflection::ConstPropertyIterator end = instance->properties_end();
+    ARL::Reflection::ConstPropertyIterator iter = instance->properties_begin();
+    ARL::Reflection::ConstPropertyIterator end = instance->properties_end();
     while (iter!=end)
     {
         Reflection::ConstProperty property = *iter;
@@ -278,7 +278,7 @@ void Replicator::writePropertiesInternal(const Instance* instance, const Reflect
 				serializePropertyValue(property, outBitstream, useDictionary);
 		
 				if (settings().printBits) {
-					RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,
+					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,
 						"   write %s %s, 1 bit", 
 						descriptor.type.name.c_str(),
 						descriptor.name.c_str());
@@ -289,7 +289,7 @@ void Replicator::writePropertiesInternal(const Instance* instance, const Reflect
 				outBitstream << true;
 
 				if (settings().printBits) {
-					RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,
+					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,
 						"   write %s %s, 1 bit", 
 						descriptor.type.name.c_str(),
 						descriptor.name.c_str());
@@ -303,7 +303,7 @@ void Replicator::writePropertiesInternal(const Instance* instance, const Reflect
 				serializePropertyValue(property, outBitstream, useDictionary);
 
 				if (settings().printBits) {
-					RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,
+					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,
 						"   write %s %s, %d bit", 
 						descriptor.type.name.c_str(),
 						descriptor.name.c_str(),
@@ -434,17 +434,17 @@ void Replicator::createPhysicsReceiver(NetworkSettings::PhysicsReceiveMethod met
 {
 	if(FFlag::RemoveInterpolationReciever)
 	{
-		RBXASSERT(false);
+		ARLASSERT(false);
 	}
 	else
 	{			
 
-		RBXASSERT(!physicsReceiver);
+		ARLASSERT(!physicsReceiver);
 		switch (method)
 		{
 		case NetworkSettings::Interpolation:
 			{
-	//			RBXASSERT(!settings().distributedPhysicsEnabled);
+	//			ARLASSERT(!settings().distributedPhysicsEnabled);
 				physicsReceiver.reset(new InterpolatingPhysicsReceiver(this, isServer));
 				break;
 			}
@@ -469,9 +469,9 @@ void Replicator::clearIncomingPackets()
 
 Replicator::~Replicator()
 {
-	RBXASSERT(replicationContainers.size()==0);
+	ARLASSERT(replicationContainers.size()==0);
 
-	RBXASSERT(!rakPeer);
+	ARLASSERT(!rakPeer);
 
 	FASTLOG1(FLog::Network, "Replicator destroyed: %p", this);
 }
@@ -488,7 +488,7 @@ bool Replicator::isTopContainer(const Instance* instance)
 void Replicator::addTopReplicationContainer(Instance* instance, bool replicateProperties, bool replicateChildren,
 											boost::function<void (shared_ptr<Instance>)> replicationMethodFunc)
 {
-	RBXASSERT(instance);
+	ARLASSERT(instance);
 
 	topReplicationContainersMap.insert(
 		std::make_pair<const Reflection::ClassDescriptor*, TopReplConts::iterator>(&instance->getDescriptor(), topReplicationContainers.insert(topReplicationContainers.end(), instance)));
@@ -655,7 +655,7 @@ TaskScheduler::Job::Error Replicator::SendClusterJob::error(const Stats& stats)
 					multiplier /= maxBytesSend;
 				}
 				// assert we aren't multiplying by more than if the entire cluster is queued
-				RBXASSERT(multiplier <= std::max(1, (int)deltas));
+				ARLASSERT(multiplier <= std::max(1, (int)deltas));
 				result.error *= multiplier;
 			}
 		}
@@ -782,30 +782,30 @@ void Replicator::addTopReplicationContainers(ServiceProvider* newProvider)
 	// this should always be added first, as this is the first container we receive over the wire
 	addTopReplicationContainer(ServiceProvider::create<ReplicatedFirst>(newProvider), false, isCloudEdit(), replicationMethodFunc);
 	
-	addTopReplicationContainer(ServiceProvider::create<RBX::Lighting>(newProvider), true, true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::Soundscape::SoundService>(newProvider), true, false, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::StarterPackService>(newProvider), false, true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::StarterGuiService>(newProvider), isCloudEdit(), true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::StarterPlayerService>(newProvider), isCloudEdit(), true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::Lighting>(newProvider), true, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::Soundscape::SoundService>(newProvider), true, false, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::StarterPackService>(newProvider), false, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::StarterGuiService>(newProvider), isCloudEdit(), true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::StarterPlayerService>(newProvider), isCloudEdit(), true, replicationMethodFunc);
 
-	addTopReplicationContainer(ServiceProvider::create<RBX::CSGDictionaryService>(newProvider), false, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::CSGDictionaryService>(newProvider), false, true, replicationMethodFunc);
 
 	FASTLOG1F(DFLog::NetworkJoin, "addTopReplicationContainer for Workspace called @ %f s", Time::nowFastSec());
-	addTopReplicationContainer(ServiceProvider::find<RBX::Workspace>(newProvider), true, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::find<ARL::Workspace>(newProvider), true, true, replicationMethodFunc);
 	FASTLOG1F(DFLog::NetworkJoin, "addTopReplicationContainer for Workspace ended @ %f s", Time::nowFastSec());
 	FASTLOG2(DFLog::NetworkJoin, "addTopReplicationContainers JoinDataItem(0x%p) size %d", joinDataItem, joinDataItem ? joinDataItem->size() : 0);
 
-	addTopReplicationContainer(ServiceProvider::create<RBX::JointsService>(newProvider), false, true, replicationMethodFunc);
-	addTopReplicationContainer(players = ServiceProvider::create<RBX::Network::Players>(newProvider), true, true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::Teams>(newProvider), false, true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::InsertService>(newProvider), true, true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::ChatService>(newProvider), true, true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::FriendService>(newProvider), true, true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::MarketplaceService>(newProvider), true, true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::BadgeService>(newProvider), true, false, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::ReplicatedStorage>(newProvider), true, true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::RobloxReplicatedStorage>(newProvider), true, true, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<RBX::TestService>(newProvider), true, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::JointsService>(newProvider), false, true, replicationMethodFunc);
+	addTopReplicationContainer(players = ServiceProvider::create<ARL::Network::Players>(newProvider), true, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::Teams>(newProvider), false, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::InsertService>(newProvider), true, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::ChatService>(newProvider), true, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::FriendService>(newProvider), true, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::MarketplaceService>(newProvider), true, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::BadgeService>(newProvider), true, false, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::ReplicatedStorage>(newProvider), true, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::RobloxReplicatedStorage>(newProvider), true, true, replicationMethodFunc);
+	addTopReplicationContainer(ServiceProvider::create<ARL::TestService>(newProvider), true, true, replicationMethodFunc);
 	addTopReplicationContainer(ServiceProvider::create<LogService>(newProvider), true, false, replicationMethodFunc);
 	addTopReplicationContainer(ServiceProvider::create<PointsService>(newProvider), true, false, replicationMethodFunc);
 	addTopReplicationContainer(ServiceProvider::create<AdService>(newProvider), true, false, replicationMethodFunc);
@@ -825,9 +825,9 @@ bool Replicator::canReplicateInstance(Instance* instance, int replicationProtoco
 {
 	FASTLOG2(FLog::Network, "Replicator:canReplicateInstance - start, instance is %s, replicationProtocolVersion = %i",instance->getName().c_str(),replicationProtocolVersion);
 
-	if(Instance::fastDynamicCast<RBX::ReplicatedFirst>(instance))
+	if(Instance::fastDynamicCast<ARL::ReplicatedFirst>(instance))
 		return (replicationProtocolVersion >= 25);
-	if (Instance::fastDynamicCast<RBX::AdService>(instance))
+	if (Instance::fastDynamicCast<ARL::AdService>(instance))
 		return (replicationProtocolVersion >= 26);
 
 	return true;
@@ -837,7 +837,7 @@ void Replicator::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider
 {
 	if (deserializePacketsThread)
 	{
-		RBXASSERT(deserializePacketsThreadEnabled);
+		ARLASSERT(deserializePacketsThreadEnabled);
 		deserializePacketsThreadEnabled = false;
 		packetReceivedEvent.Set();
 		deserializePacketsThread->join();
@@ -897,10 +897,10 @@ void Replicator::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider
 	Super::onServiceProvider(oldProvider, newProvider);
 
 	// Destroys the exiting stats items if created
-	updateStatsItem(ServiceProvider::find<RBX::Stats::StatsService>(newProvider));
+	updateStatsItem(ServiceProvider::find<ARL::Stats::StatsService>(newProvider));
 
 	if(oldProvider) {
-		RBX::DataModel* oldDM = static_cast<RBX::DataModel*>(oldProvider);
+		ARL::DataModel* oldDM = static_cast<ARL::DataModel*>(oldProvider);
 		oldDM->setNetworkMetric(NULL);
 	}
 
@@ -933,7 +933,7 @@ void Replicator::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider
 
 		addTopReplicationContainers(newProvider);
 
-		RBX::DataModel* newDM = static_cast<RBX::DataModel*>(newProvider);
+		ARL::DataModel* newDM = static_cast<ARL::DataModel*>(newProvider);
 		newDM->setNetworkMetric(this);
 
 		Players *players = ServiceProvider::find<Players>(newProvider);
@@ -1016,7 +1016,7 @@ void Replicator::createPhysicsSender(NetworkSettings::PhysicsSendMethod physicsS
 {
 	if(FFlag::RemoveUnusedPhysicsSenders)
 	{
-		RBXASSERT(false);
+		ARLASSERT(false);
 		// this method should be removed when the flag (RemoveUnusedPhysicsSenders) is accepted and removed
 	}
 	else
@@ -1041,7 +1041,7 @@ void Replicator::createPhysicsSender(NetworkSettings::PhysicsSendMethod physicsS
 	}
 }
 
-double Replicator::incomingPacketsCountHeadWaitTimeSec(const RBX::Time& timeNow)
+double Replicator::incomingPacketsCountHeadWaitTimeSec(const ARL::Time& timeNow)
 {
 	if (deserializePacketsThread)
 		return deserializedPackets.head_waittime_sec(timeNow);
@@ -1057,7 +1057,7 @@ size_t Replicator::incomingPacketsCount() const
 	return incomingPackets.size();
 };
 
-void Replicator::updateStatsItem(RBX::Stats::StatsService* stats)
+void Replicator::updateStatsItem(ARL::Stats::StatsService* stats)
 {
 	if (statsItem!=NULL)
 	{
@@ -1163,37 +1163,37 @@ SharedBinaryStringDictionary& Replicator::getSharedPropertyBinaryDictionary(cons
 }
 
 template<>
-bool SenderDictionary<RBX::SystemAddress>::isDefaultValue(const RBX::SystemAddress& value)
+bool SenderDictionary<ARL::SystemAddress>::isDefaultValue(const ARL::SystemAddress& value)
 {
 	return value.empty();
 }
 
 template<>
-void ReceiverDictionary<RBX::SystemAddress>::setDefault(RBX::SystemAddress& value)
+void ReceiverDictionary<ARL::SystemAddress>::setDefault(ARL::SystemAddress& value)
 {
 	value.clear();
 }
 
 template<>
-bool SenderDictionary<RBX::ContentId>::isDefaultValue(const RBX::ContentId& value)
+bool SenderDictionary<ARL::ContentId>::isDefaultValue(const ARL::ContentId& value)
 {
 	return value.isNull();
 }
 
 template<>
-void ReceiverDictionary<RBX::ContentId>::setDefault(RBX::ContentId& value)
+void ReceiverDictionary<ARL::ContentId>::setDefault(ARL::ContentId& value)
 {
 	value.clear();
 }
 
 template<>
-bool SenderDictionary<RBX::Guid::Scope>::isDefaultValue(const RBX::Guid::Scope& value)
+bool SenderDictionary<ARL::Guid::Scope>::isDefaultValue(const ARL::Guid::Scope& value)
 {
 	return value.isNull();
 }
 
 template<>
-void ReceiverDictionary<RBX::Guid::Scope>::setDefault(RBX::Guid::Scope& value)
+void ReceiverDictionary<ARL::Guid::Scope>::setDefault(ARL::Guid::Scope& value)
 {
 	value.setNull();
 }
@@ -1209,7 +1209,7 @@ void Replicator::serializeEventInvocation(const Reflection::EventInvocation& eve
 		typeIter != signatureDescriptor.arguments.end(); 
 		++typeIter, ++valueIter)
 	{
-		RBXASSERT(valueIter != eventInvocation.args.end());
+		ARLASSERT(valueIter != eventInvocation.args.end());
 
 		if ((*typeIter->type) == Reflection::Type::singleton<std::string>())
 		{
@@ -1217,7 +1217,7 @@ void Replicator::serializeEventInvocation(const Reflection::EventInvocation& eve
 		}	
 		else {
             if (!serializeValue((*typeIter->type), (*valueIter), outBitStream)) {
-                RBXASSERT(false);
+                ARLASSERT(false);
             }
 		}
 	}
@@ -1266,9 +1266,9 @@ bool Replicator::serializeValue(const Reflection::Type& type, const Reflection::
 	{
 		serializeGeneric<UDim2>(value, outBitStream);
 	}
-	else if (type==Reflection::Type::singleton<RBX::RbxRay>())
+	else if (type==Reflection::Type::singleton<ARL::RbxRay>())
 	{
-		serializeGeneric<RBX::RbxRay>(value, outBitStream);
+		serializeGeneric<ARL::RbxRay>(value, outBitStream);
 	}
 	else if (type==Reflection::Type::singleton<Faces>())
 	{
@@ -1306,38 +1306,38 @@ bool Replicator::serializeValue(const Reflection::Type& type, const Reflection::
 	{
 		serializeGeneric<G3D::CoordinateFrame>(value, outBitStream);
 	}
-	else if (type==Reflection::Type::singleton<RBX::Region3>())
+	else if (type==Reflection::Type::singleton<ARL::Region3>())
 	{
         Region3 data = value.cast<Region3>();
 
 		outBitStream << data.minPos();
         outBitStream << data.maxPos();
 	}
-	else if (type==Reflection::Type::singleton<RBX::Region3int16>())
+	else if (type==Reflection::Type::singleton<ARL::Region3int16>())
 	{
         Region3int16 data = value.cast<Region3int16>();
 
 		outBitStream << data.getMinPos();
         outBitStream << data.getMaxPos();
 	}
-	else if (type==Reflection::Type::singleton<RBX::SystemAddress>())
+	else if (type==Reflection::Type::singleton<ARL::SystemAddress>())
 	{
-		systemAddressDictionary.send(outBitStream, value.cast<RBX::SystemAddress>());
+		systemAddressDictionary.send(outBitStream, value.cast<ARL::SystemAddress>());
 	}
-	else if (type==Reflection::Type::singleton<RBX::ContentId>())
+	else if (type==Reflection::Type::singleton<ARL::ContentId>())
 	{
-		contentIdDictionary.send(outBitStream, value.cast<RBX::ContentId>());
+		contentIdDictionary.send(outBitStream, value.cast<ARL::ContentId>());
 	}
-	else if (type==Reflection::Type::singleton<shared_ptr<RBX::Instance> >())
+	else if (type==Reflection::Type::singleton<shared_ptr<ARL::Instance> >())
 	{
-		serializeInstanceRef(value.cast<shared_ptr<RBX::Instance > >().get(), outBitStream);
+		serializeInstanceRef(value.cast<shared_ptr<ARL::Instance > >().get(), outBitStream);
 	}
 	else if (const Reflection::EnumDescriptor* enumDesc = Reflection::EnumDescriptor::lookupDescriptor(type)){
 		serializeEnum(enumDesc, value, outBitStream);
 	}
-	else if (type==Reflection::Type::singleton<shared_ptr<const RBX::Reflection::Tuple> >())
+	else if (type==Reflection::Type::singleton<shared_ptr<const ARL::Reflection::Tuple> >())
 	{
-        const RBX::Reflection::Tuple* data = value.cast<shared_ptr<const RBX::Reflection::Tuple> >().get();
+        const ARL::Reflection::Tuple* data = value.cast<shared_ptr<const ARL::Reflection::Tuple> >().get();
 
         int size = data ? data->values.size() : 0;
         outBitStream << size;
@@ -1345,9 +1345,9 @@ bool Replicator::serializeValue(const Reflection::Type& type, const Reflection::
         for (int i = 0; i < size; ++i)
             serializeVariant(data->values[i], outBitStream);
 	}
-	else if (type==Reflection::Type::singleton<shared_ptr<const RBX::Reflection::ValueArray> >())
+	else if (type==Reflection::Type::singleton<shared_ptr<const ARL::Reflection::ValueArray> >())
 	{
-        const RBX::Reflection::ValueArray* data = value.cast<shared_ptr<const RBX::Reflection::ValueArray> >().get();
+        const ARL::Reflection::ValueArray* data = value.cast<shared_ptr<const ARL::Reflection::ValueArray> >().get();
 
         int size = data->size();
         outBitStream << size;
@@ -1355,27 +1355,27 @@ bool Replicator::serializeValue(const Reflection::Type& type, const Reflection::
         for (int i = 0; i < size; ++i)
             serializeVariant((*data)[i], outBitStream);
 	}
-	else if (type==Reflection::Type::singleton<shared_ptr<const RBX::Reflection::ValueTable> >())
+	else if (type==Reflection::Type::singleton<shared_ptr<const ARL::Reflection::ValueTable> >())
 	{
-        const RBX::Reflection::ValueTable* data = value.cast<shared_ptr<const RBX::Reflection::ValueTable> >().get();
+        const ARL::Reflection::ValueTable* data = value.cast<shared_ptr<const ARL::Reflection::ValueTable> >().get();
 
         int size = data->size();
         outBitStream << size;
 
-        for (RBX::Reflection::ValueTable::const_iterator it = data->begin(); it != data->end(); ++it)
+        for (ARL::Reflection::ValueTable::const_iterator it = data->begin(); it != data->end(); ++it)
         {
             outBitStream << it->first;
             serializeVariant(it->second, outBitStream);
         }
 	}
-	else if (type==Reflection::Type::singleton<shared_ptr<const RBX::Reflection::ValueMap> >())
+	else if (type==Reflection::Type::singleton<shared_ptr<const ARL::Reflection::ValueMap> >())
 	{
-        const RBX::Reflection::ValueMap* data = value.cast<shared_ptr<const RBX::Reflection::ValueMap> >().get();
+        const ARL::Reflection::ValueMap* data = value.cast<shared_ptr<const ARL::Reflection::ValueMap> >().get();
 
         int size = data->size();
         outBitStream << size;
 
-        for (RBX::Reflection::ValueMap::const_iterator it = data->begin(); it != data->end(); ++it)
+        for (ARL::Reflection::ValueMap::const_iterator it = data->begin(); it != data->end(); ++it)
         {
             outBitStream << it->first;
             serializeVariant(it->second, outBitStream);
@@ -1425,7 +1425,7 @@ void Replicator::serializeVariant(const Reflection::Variant& value, RakNet::BitS
 
 void Replicator::serializePropertyValue(const Reflection::ConstProperty& property, RakNet::BitStream& outBitStream, bool useDictionary)
 {
-	if (property.getDescriptor().type==Reflection::Type::singleton<RBX::ProtectedString>())
+	if (property.getDescriptor().type==Reflection::Type::singleton<ARL::ProtectedString>())
 	{
         const ProtectedString& value = property.getValue<ProtectedString>();
         std::string valueString = encodeProtectedString(value, static_cast<const Instance*>(property.getInstance()), property.getDescriptor());
@@ -1480,9 +1480,9 @@ void Replicator::serializePropertyValue(const Reflection::ConstProperty& propert
 	{
 		serialize<UDim2>(property, outBitStream);
 	}
-	else if (property.getDescriptor().type==Reflection::Type::singleton<RBX::RbxRay>())
+	else if (property.getDescriptor().type==Reflection::Type::singleton<ARL::RbxRay>())
 	{
-		serialize<RBX::RbxRay>(property, outBitStream);
+		serialize<ARL::RbxRay>(property, outBitStream);
 	}
 	else if (property.getDescriptor().type==Reflection::Type::singleton<Faces>())
 	{
@@ -1537,7 +1537,7 @@ void Replicator::serializePropertyValue(const Reflection::ConstProperty& propert
 	else if (Reflection::RefPropertyDescriptor::isRefPropertyDescriptor(property.getDescriptor()))
 	{
 		const Reflection::RefPropertyDescriptor* desc = boost::polymorphic_downcast<const Reflection::RefPropertyDescriptor*>(&property.getDescriptor());
-		RBX::Instance* instance = boost::polymorphic_downcast<Instance*>(desc->getRefValue(property.getInstance()));
+		ARL::Instance* instance = boost::polymorphic_downcast<Instance*>(desc->getRefValue(property.getInstance()));
 
 		if (useDictionary)
 		{
@@ -1548,19 +1548,19 @@ void Replicator::serializePropertyValue(const Reflection::ConstProperty& propert
 			serializeIdWithoutDictionary(outBitStream, instance);
 		}
 	}
-	else if (property.getDescriptor().type==Reflection::Type::singleton<RBX::ContentId>())
+	else if (property.getDescriptor().type==Reflection::Type::singleton<ARL::ContentId>())
 	{
 		if (useDictionary)
-			contentIdDictionary.send(outBitStream, property.getValue<RBX::ContentId>());
+			contentIdDictionary.send(outBitStream, property.getValue<ARL::ContentId>());
 		else
-			serialize<RBX::ContentId>(property, outBitStream);
+			serialize<ARL::ContentId>(property, outBitStream);
 	}
-	else if (property.getDescriptor().type==Reflection::Type::singleton<RBX::SystemAddress>())
+	else if (property.getDescriptor().type==Reflection::Type::singleton<ARL::SystemAddress>())
 	{
 		if (useDictionary)
-			systemAddressDictionary.send(outBitStream, property.getValue<RBX::SystemAddress>());
+			systemAddressDictionary.send(outBitStream, property.getValue<ARL::SystemAddress>());
 		else
-			outBitStream << property.getValue<RBX::SystemAddress>();
+			outBitStream << property.getValue<ARL::SystemAddress>();
 	}
     else if (property.getDescriptor().type == Reflection::Type::singleton<NumberSequence>())
     {
@@ -1593,7 +1593,7 @@ void Replicator::serializePropertyValue(const Reflection::ConstProperty& propert
 	else {
 		// TODO:  This used to throw an assert - did this for now so 
 		// we don't forget
-		RBXASSERT(false);
+		ARLASSERT(false);
 	}
 }
 
@@ -1603,7 +1603,7 @@ void Replicator::deserializeEventInvocation(RakNet::BitStream& inBitStream, Refl
 	inBitStream >> numEntries;
 
 	const Reflection::SignatureDescriptor& signature = eventInvocation.event.getDescriptor()->getSignature();
-	RBXASSERT(signature.arguments.size() == numEntries);
+	ARLASSERT(signature.arguments.size() == numEntries);
 
 	eventInvocation.args.clear();
 	for (Reflection::SignatureDescriptor::Arguments::const_iterator iter = signature.arguments.begin(); iter != signature.arguments.end(); ++iter)
@@ -1617,10 +1617,10 @@ void Replicator::deserializeEventInvocation(RakNet::BitStream& inBitStream, Refl
 			getSharedEventDictionary(*eventInvocation.event.getDescriptor()).deserializeString(value, inBitStream);
 			argument = value;
 		}
-		else if (!resolveRefTypes && type==Reflection::Type::singleton<shared_ptr<RBX::Instance> >())
+		else if (!resolveRefTypes && type==Reflection::Type::singleton<shared_ptr<ARL::Instance> >())
 		{
 			// only store the guid id if not resolving reference types, we'll resolve it later when it's used
-			RBX::Guid::Data id;
+			ARL::Guid::Data id;
 			deserializeId(inBitStream, id);
 			argument = id;
 		}
@@ -1628,7 +1628,7 @@ void Replicator::deserializeEventInvocation(RakNet::BitStream& inBitStream, Refl
         {
 			if (!deserializeValue(inBitStream, type, argument))
             {
-                RBXASSERT(false);
+                ARLASSERT(false);
             }
 		}
 		eventInvocation.args.push_back(argument);
@@ -1661,8 +1661,8 @@ bool Replicator::deserializeValue(RakNet::BitStream& inBitStream, const Reflecti
 		deserializeGeneric<UDim>(value, inBitStream);
 	else if (type==Reflection::Type::singleton<UDim2>())
 		deserializeGeneric<UDim2>(value, inBitStream);
-	else if (type==Reflection::Type::singleton<RBX::RbxRay>())
-		deserializeGeneric<RBX::RbxRay>(value, inBitStream);
+	else if (type==Reflection::Type::singleton<ARL::RbxRay>())
+		deserializeGeneric<ARL::RbxRay>(value, inBitStream);
 	else if (type==Reflection::Type::singleton<Faces>())
 		deserializeGeneric<Faces>(value, inBitStream);
 	else if (type==Reflection::Type::singleton<Axes>())
@@ -1704,27 +1704,27 @@ bool Replicator::deserializeValue(RakNet::BitStream& inBitStream, const Reflecti
 		    deserializeEnum(enumDesc, value, inBitStream);
         }
     }
-	else if (type==Reflection::Type::singleton<RBX::ContentId>())
+	else if (type==Reflection::Type::singleton<ARL::ContentId>())
 	{
-		RBX::ContentId valueContentId;
+		ARL::ContentId valueContentId;
 		contentIdDictionary.receive(inBitStream, valueContentId);
 		value = valueContentId;
 	}
-	else if (type==Reflection::Type::singleton<shared_ptr<RBX::Instance> >())
+	else if (type==Reflection::Type::singleton<shared_ptr<ARL::Instance> >())
 	{
         shared_ptr<Instance> instance;
 		deserializeInstanceRef(inBitStream, instance);
 		value = instance;
 	}
-	else if (type==Reflection::Type::singleton<RBX::SystemAddress>())
+	else if (type==Reflection::Type::singleton<ARL::SystemAddress>())
 	{
-		RBX::SystemAddress valueAddress;
+		ARL::SystemAddress valueAddress;
 		systemAddressDictionary.receive(inBitStream, valueAddress);
 		value=valueAddress;
 	}
-	else if (type==Reflection::Type::singleton<shared_ptr<const RBX::Reflection::Tuple> >())
+	else if (type==Reflection::Type::singleton<shared_ptr<const ARL::Reflection::Tuple> >())
 	{
-        shared_ptr<RBX::Reflection::Tuple> data(new RBX::Reflection::Tuple());
+        shared_ptr<ARL::Reflection::Tuple> data(new ARL::Reflection::Tuple());
 
         int size;
         inBitStream >> size;
@@ -1739,9 +1739,9 @@ bool Replicator::deserializeValue(RakNet::BitStream& inBitStream, const Reflecti
         
         value = shared_ptr<const Reflection::Tuple>(data);
 	}
-	else if (type==Reflection::Type::singleton<shared_ptr<const RBX::Reflection::ValueArray> >())
+	else if (type==Reflection::Type::singleton<shared_ptr<const ARL::Reflection::ValueArray> >())
 	{
-        shared_ptr<RBX::Reflection::ValueArray> data(new RBX::Reflection::ValueArray());
+        shared_ptr<ARL::Reflection::ValueArray> data(new ARL::Reflection::ValueArray());
 
         int size;
         inBitStream >> size;
@@ -1756,9 +1756,9 @@ bool Replicator::deserializeValue(RakNet::BitStream& inBitStream, const Reflecti
         
         value = shared_ptr<const Reflection::ValueArray>(data);
 	}
-	else if (type==Reflection::Type::singleton<shared_ptr<const RBX::Reflection::ValueTable> >())
+	else if (type==Reflection::Type::singleton<shared_ptr<const ARL::Reflection::ValueTable> >())
 	{
-        shared_ptr<RBX::Reflection::ValueTable> data(new RBX::Reflection::ValueTable());
+        shared_ptr<ARL::Reflection::ValueTable> data(new ARL::Reflection::ValueTable());
 
         int size;
         inBitStream >> size;
@@ -1776,9 +1776,9 @@ bool Replicator::deserializeValue(RakNet::BitStream& inBitStream, const Reflecti
         
         value = shared_ptr<const Reflection::ValueTable>(data);
 	}
-	else if (type==Reflection::Type::singleton<shared_ptr<const RBX::Reflection::ValueMap> >())
+	else if (type==Reflection::Type::singleton<shared_ptr<const ARL::Reflection::ValueMap> >())
 	{
-        shared_ptr<RBX::Reflection::ValueMap> data(new RBX::Reflection::ValueMap());
+        shared_ptr<ARL::Reflection::ValueMap> data(new ARL::Reflection::ValueMap());
 
         int size;
         inBitStream >> size;
@@ -1837,14 +1837,14 @@ void Replicator::deserializeVariant(RakNet::BitStream& inBitStream, Reflection::
     const Reflection::Type* type;
     typeDictionary.receive(inBitStream, type, false); // type is primitive description, never get outdated
 
-    RBXASSERT(type);
+    ARLASSERT(type);
     deserializeValue(inBitStream, *type, value);
 }
 
-void Replicator::RemoteCheatHelper2(weak_ptr<RBX::DataModel> weakDataModel)
+void Replicator::RemoteCheatHelper2(weak_ptr<ARL::DataModel> weakDataModel)
 {
-	if(shared_ptr<RBX::DataModel> dataModel = weakDataModel.lock()){
-		if(RBX::Network::Player* player = Network::Players::findLocalPlayer(dataModel.get())){
+	if(shared_ptr<ARL::DataModel> dataModel = weakDataModel.lock()){
+		if(ARL::Network::Player* player = Network::Players::findLocalPlayer(dataModel.get())){
 			player->reportStat("rocky");
 		}
 	}
@@ -1861,11 +1861,11 @@ void Replicator::deserializePropertyValue(RakNet::BitStream& inBitStream, Reflec
 	ScopedAssign<const Reflection::Property*> assign;
 	if (preventBounceBack)
 	{
-		RBXASSERT(deserializingProperty==NULL);
+		ARLASSERT(deserializingProperty==NULL);
 		assign.assign(deserializingProperty, &property);
 	}
 
-	if (property.getDescriptor().type==Reflection::Type::singleton<RBX::ProtectedString>())
+	if (property.getDescriptor().type==Reflection::Type::singleton<ARL::ProtectedString>())
 	{
         BinaryString valueString;
 
@@ -1945,8 +1945,8 @@ void Replicator::deserializePropertyValue(RakNet::BitStream& inBitStream, Reflec
 		outValue ? deserializeGeneric<UDim>(*outValue, inBitStream) : deserialize<UDim>(property, inBitStream);
 	else if (property.getDescriptor().type==Reflection::Type::singleton<UDim2>())
 		outValue ? deserializeGeneric<UDim2>(*outValue, inBitStream) : deserialize<UDim2>(property, inBitStream);
-	else if (property.getDescriptor().type==Reflection::Type::singleton<RBX::RbxRay>())
-		outValue ? deserializeGeneric<RBX::RbxRay>(*outValue, inBitStream) : deserialize<RBX::RbxRay>(property, inBitStream);
+	else if (property.getDescriptor().type==Reflection::Type::singleton<ARL::RbxRay>())
+		outValue ? deserializeGeneric<ARL::RbxRay>(*outValue, inBitStream) : deserialize<ARL::RbxRay>(property, inBitStream);
 	else if (property.getDescriptor().type==Reflection::Type::singleton<Faces>())
 		outValue ? deserializeGeneric<Faces>(*outValue, inBitStream) : deserialize<Faces>(property, inBitStream);
 	else if (property.getDescriptor().type==Reflection::Type::singleton<Axes>())
@@ -2002,7 +2002,7 @@ void Replicator::deserializePropertyValue(RakNet::BitStream& inBitStream, Reflec
     }
 	else if (Reflection::RefPropertyDescriptor::isRefPropertyDescriptor(property.getDescriptor()))
 	{
-		RBX::Guid::Data id;
+		ARL::Guid::Data id;
 
 		if (useDictionary)
 		{
@@ -2018,11 +2018,11 @@ void Replicator::deserializePropertyValue(RakNet::BitStream& inBitStream, Reflec
 		else
 			*outValue = id;
 	}
-	else if (property.getDescriptor().type==Reflection::Type::singleton<RBX::ContentId>())
+	else if (property.getDescriptor().type==Reflection::Type::singleton<ARL::ContentId>())
 	{
 		if (useDictionary)
 		{
-			RBX::ContentId value;
+			ARL::ContentId value;
 			contentIdDictionary.receive(inBitStream, value);
 
 			if (!outValue)
@@ -2034,11 +2034,11 @@ void Replicator::deserializePropertyValue(RakNet::BitStream& inBitStream, Reflec
 				*outValue = value;
 		}
 		else
-			outValue ? deserializeGeneric<RBX::ContentId>(*outValue, inBitStream) : deserialize<RBX::ContentId>(property, inBitStream);
+			outValue ? deserializeGeneric<ARL::ContentId>(*outValue, inBitStream) : deserialize<ARL::ContentId>(property, inBitStream);
 	}
-	else if (property.getDescriptor().type==Reflection::Type::singleton<RBX::SystemAddress>())
+	else if (property.getDescriptor().type==Reflection::Type::singleton<ARL::SystemAddress>())
 	{
-		RBX::SystemAddress value;
+		ARL::SystemAddress value;
 		if (useDictionary)
 			systemAddressDictionary.receive(inBitStream, value);
 		else
@@ -2082,7 +2082,7 @@ void Replicator::deserializePropertyValue(RakNet::BitStream& inBitStream, Reflec
 		outValue ? deserializeGeneric<PhysicalProperties>(*outValue, inBitStream) : deserialize<PhysicalProperties>(property, inBitStream);
 	}
 	else
-		RBXASSERT(false);
+		ARLASSERT(false);
 }
 
 void Replicator::setRefValue(WaitItem& wi, Instance* instance)
@@ -2095,7 +2095,7 @@ void Replicator::setRefValue(WaitItem& wi, Instance* instance)
 
 void Replicator::writeChangedProperty(const Instance* instance, const Reflection::PropertyDescriptor& desc, RakNet::BitStream& outBitStream)
 {
-    DescriptorSender<RBX::Reflection::PropertyDescriptor>::IdContainer idContainer = propDictionary.getId(&desc);
+    DescriptorSender<ARL::Reflection::PropertyDescriptor>::IdContainer idContainer = propDictionary.getId(&desc);
     if (idContainer.outdated)
         return;
 
@@ -2115,7 +2115,7 @@ void Replicator::writeChangedProperty(const Instance* instance, const Reflection
 	serializePropertyValue(Reflection::ConstProperty(desc, instance), outBitStream, true/*useDictionary*/);
 
 	if (settings().printProperties) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 			"Replication prop: %s:%s.%s >> %s, bytes: %d", 
 			instance->getClassName().c_str(), 
 			instance->getGuid().readableString().c_str(), 
@@ -2135,7 +2135,7 @@ void Replicator::writeChangedRefProperty(const Instance* instance,
 	const Reflection::RefPropertyDescriptor& desc, const Guid::Data& newRefGuid,
 	RakNet::BitStream& outBitStream)
 {
-    DescriptorSender<RBX::Reflection::PropertyDescriptor>::IdContainer idContainer = propDictionary.getId(&desc);
+    DescriptorSender<ARL::Reflection::PropertyDescriptor>::IdContainer idContainer = propDictionary.getId(&desc);
     if (idContainer.outdated)
         return;
 
@@ -2162,7 +2162,7 @@ void Replicator::writeChangedRefProperty(const Instance* instance,
 	}
 
 	if (settings().printProperties) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 			"Replication ref prop: %s:%s.%s >> %s, bytes: %d", 
 			instance->getClassName().c_str(), 
 			instance->getGuid().readableString().c_str(), 
@@ -2183,8 +2183,8 @@ bool Replicator::wantReplicate(const Instance* source) const
 	switch(source->getDescriptor().getReplicationLevel())
 	{
 		case Reflection::PLAYER_REPLICATE:
-			if(const RBX::Network::Player* player = Instance::fastDynamicCast<RBX::Network::Player>(source->getParent())){
-				if (const RBX::Network::Player* targetPlayer = findTargetPlayer()) {
+			if(const ARL::Network::Player* player = Instance::fastDynamicCast<ARL::Network::Player>(source->getParent())){
+				if (const ARL::Network::Player* targetPlayer = findTargetPlayer()) {
 					return player->getUserID() == targetPlayer->getUserID();
 				}
 			}
@@ -2199,7 +2199,7 @@ bool Replicator::wantReplicate(const Instance* source) const
 void Replicator::onChildAdded(shared_ptr<Instance> child,
 							  boost::function<void (shared_ptr<Instance>)> replicationMethodFunc)
 {
-	RBXASSERT(child.get()!=removingInstance);
+	ARLASSERT(child.get()!=removingInstance);
 
 	if (!wantReplicate(child.get()))
 		return;
@@ -2308,7 +2308,7 @@ Replicator::ReplicationData& Replicator::addReplicationData(shared_ptr<Instance>
 	MegaClusterInstance* cluster = Instance::fastDynamicCast<MegaClusterInstance>(instance.get());
 	if (cluster)
     {
-		RBXASSERT(megaClusterInstance == NULL);
+		ARLASSERT(megaClusterInstance == NULL);
 
 		FASTLOG2(FLog::MegaClusterNetworkInit, "Adding MegaCluster replication data :%p, listenToChanges: %u", instance.get(), listenToChanges);
 
@@ -2326,7 +2326,7 @@ Replicator::ReplicationData& Replicator::addReplicationData(shared_ptr<Instance>
 		{
 			if (cluster->isSmooth())
 			{
-                RBXASSERT(oneQuarterClusterPacketCache);
+                ARLASSERT(oneQuarterClusterPacketCache);
                 oneQuarterClusterPacketCache->setupListener(cluster);
 
                 if (!streamingEnabled)
@@ -2399,7 +2399,7 @@ Replicator::ReplicationData& Replicator::addReplicationData(shared_ptr<Instance>
 	{
 		// Old replication data
 		ReplicationData& oldData = newOrOldData;
-		RBXASSERT(oldData.instance == instance);
+		ARLASSERT(oldData.instance == instance);
 
 		oldData.replicateChildren = replicateChildren;
 		oldData.listenToChanges = listenToChanges;
@@ -2415,7 +2415,7 @@ Replicator::ReplicationData& Replicator::addReplicationData(shared_ptr<Instance>
 
 bool Replicator::removeFromPendingNewInstances(const Instance* instance)
 {
-	RBX::mutex::scoped_lock lock(pendingInstancesMutex);
+	ARL::mutex::scoped_lock lock(pendingInstancesMutex);
 	
 	if (megaClusterInstance && instance == megaClusterInstance
 		&& !clusterReplicationData.readyToSendChunks)
@@ -2430,11 +2430,11 @@ bool Replicator::removeFromPendingNewInstances(const Instance* instance)
 bool Replicator::isSerializePending(const Instance* instance) const
 {
 	// We put a lock on pendingNewInstances because isSerializePending can be called by PhysicsOut code
-	RBX::mutex::scoped_lock lock(pendingInstancesMutex);
+	ARL::mutex::scoped_lock lock(pendingInstancesMutex);
 	return pendingNewInstances.find(instance) != pendingNewInstances.end();
 }
 
-bool Replicator::isPropertyChangedPending(const RBX::Reflection::ConstProperty& property) const
+bool Replicator::isPropertyChangedPending(const ARL::Reflection::ConstProperty& property) const
 {
 	if (pendingChangedPropertyItems.find(property) != pendingChangedPropertyItems.end())
 		return true;
@@ -2463,7 +2463,7 @@ void Replicator::onParentChanged(shared_ptr<Instance> instance)
 		FASTLOG1(FLog::ReplicationDataLifetime, "Parent changed to NULL on instance %p", instance.get());
 		// Deletion is much more complicated...
 		bool removedIt = disconnectReplicationData(instance);
-		RBXASSERT(removedIt);
+		ARLASSERT(removedIt);
 
 		pendingItems.push_back(new (deleteInstancePool.get()) DeleteInstanceItem(this, instance));
 	}
@@ -2595,20 +2595,20 @@ void Replicator::onPropertyChanged(Instance* instance, const Reflection::Propert
 			// preserve head time
 			pendingItems.begin()->timestamp = headTime;
 
-			pendingChangedPropertyItems.insert(RBX::Reflection::ConstProperty(*descriptor, instance));
+			pendingChangedPropertyItems.insert(ARL::Reflection::ConstProperty(*descriptor, instance));
 		}
 		else
 		{
 			pendingItems.push_back(new (changePropertyPool.get()) ChangePropertyItem(this, shared_from(instance), *descriptor));
-			pendingChangedPropertyItems.insert(RBX::Reflection::ConstProperty(*descriptor, instance));
+			pendingChangedPropertyItems.insert(ARL::Reflection::ConstProperty(*descriptor, instance));
 		}
 	}
-#if defined(_WIN32) && !defined(RBX_STUDIO_BUILD)
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
     // This should check pretty far back into the call stack.
     if (FFlag::FilterSinglePass)
     {
         // kick if fail
-        if(uint32_t callChecks = detectDllByExceptionChainStack<4>(&instance, (RBX::Security::kAllowVmpAll | RBX::Security::kCheckReturnAddr)))
+        if(uint32_t callChecks = detectDllByExceptionChainStack<4>(&instance, (ARL::Security::kAllowVmpAll | ARL::Security::kCheckReturnAddr)))
         {
             pendingItems.push_front(new (pingPool.get()) PingItem(this, 0, callChecks));
 
@@ -2653,10 +2653,10 @@ bool Replicator::remoteDeleteOnDisconnect(const Instance* instance) const
 
 void Replicator::logPacketError(RakNet::Packet* packet, const std::string& type, const std::string& message)
 {
-	std::string errorMessage = RBX::format("Error while processing packet: %s (packet id: %d, packet length: %d)", message.c_str(), packet->data[0], packet->length);
+	std::string errorMessage = ARL::format("Error while processing packet: %s (packet id: %d, packet length: %d)", message.c_str(), packet->data[0], packet->length);
 
-	RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, "Error while processing packet.");
-	RBX::StandardOut::singleton()->print(RBX::MESSAGE_SENSITIVE, errorMessage.c_str());
+	ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, "Error while processing packet.");
+	ARL::StandardOut::singleton()->print(ARL::MESSAGE_SENSITIVE, errorMessage.c_str());
 
 	Analytics::InfluxDb::Points p;
 	p.addPoint("Type", type.c_str());
@@ -2668,17 +2668,17 @@ void Replicator::logPacketError(RakNet::Packet* packet, const std::string& type,
 
 void Replicator::processDeserializedPacket(const DeserializedPacket& deserializedPacket)
 {
-	RBX::Security::Impersonator impersonate(RBX::Security::Replicator_);
+	ARL::Security::Impersonator impersonate(ARL::Security::Replicator_);
 
 	if (!deserializedPacket.deserializedItems.empty())
 	{
-        RBXPROFILER_SCOPE("Network", "processDeserializedPacket");
-        RBXPROFILER_LABELF("Network", "ID %d (%d bytes)", deserializedPacket.rawPacket->data[0], deserializedPacket.rawPacket->length);
-        RBXPROFILER_LABELF("Network", "%d items", int(deserializedPacket.deserializedItems.size()));
+        ARLPROFILER_SCOPE("Network", "processDeserializedPacket");
+        ARLPROFILER_LABELF("Network", "ID %d (%d bytes)", deserializedPacket.rawPacket->data[0], deserializedPacket.rawPacket->length);
+        ARLPROFILER_LABELF("Network", "%d items", int(deserializedPacket.deserializedItems.size()));
         
 		for (auto item: deserializedPacket.deserializedItems)
 		{
-			RBXASSERT(item);
+			ARLASSERT(item);
 			item->process(*this);
 		}
 	}
@@ -2747,20 +2747,20 @@ bool Replicator::processNextIncomingPacket()
 			requestDisconnectWithSignal(DisconnectReason_ReceivePacketError);
 			return false;
 		}
-		catch (RBX::physics_receiver_exception& e)
+		catch (ARL::physics_receiver_exception& e)
 		{
 			// ignore physics exceptions and just discard packet, since they are "unreliable" anyways
 			FASTLOGS(FLog::Network,"Error while processing physics packet: %s", e.what());
 			printf("(ignored) %s (Packet size: %d, packet type: %d)\n", e.what(), packet->bitSize, packet->data[0]); // for unit test
 		}
-		catch (RBX::network_stream_exception& e)
+		catch (ARL::network_stream_exception& e)
 		{
 			logPacketError(packet, "Stream", e.what());
 			rakPeer->DeallocatePacket(packet);
 			requestDisconnectWithSignal(DisconnectReason_ReceivePacketStreamError);
 			return false;
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
 			logPacketError(packet, "Other", e.what());
 			rakPeer->DeallocatePacket(packet);
@@ -2839,7 +2839,7 @@ int Replicator::sendItems(ItemSender& sender, ItemQueue& itemQueue)
 			break;
 		}
 
-		replicatorStats.dataTimeInQueue.sample((RBX::Time::now<RBX::Time::Fast>() - item->timestamp).msec());
+		replicatorStats.dataTimeInQueue.sample((ARL::Time::now<ARL::Time::Fast>() - item->timestamp).msec());
 		numSent++;
 	}
 
@@ -2984,7 +2984,7 @@ bool Replicator::sendClusterPacket()
 		return false;
 
 	int maxBytesSend = getAdjustedMtuSize();
-	RBXASSERT(maxBytesSend > 0);
+	ARLASSERT(maxBytesSend > 0);
 
 	shared_ptr<RakNet::BitStream> bitStream(new RakNet::BitStream());
 	*bitStream << (unsigned char) ID_CLUSTER;
@@ -3039,7 +3039,7 @@ bool Replicator::sendClusterPacket()
 
         // Updates
         unsigned int maxBytesSend = getAdjustedMtuSize();
-        RBXASSERT(maxBytesSend > 0);
+        ARLASSERT(maxBytesSend > 0);
 
 		while (bitStream->GetNumberOfBytesUsed() < maxBytesSend && clusterData.updateBufferSmooth.size() > 0)
 		{
@@ -3066,7 +3066,7 @@ bool Replicator::sendClusterPacket()
         if (!streamJob)
         {
             int maxBytesSend = getAdjustedMtuSize();
-            RBXASSERT(maxBytesSend > 0);
+            ARLASSERT(maxBytesSend > 0);
 
             if (clusterPacketCache)
             {
@@ -3139,18 +3139,18 @@ bool Replicator::sendClusterPacket()
 }
 
 
-const Instance* Replicator::getDefault(const RBX::Name& className)
+const Instance* Replicator::getDefault(const ARL::Name& className)
 {
 	// We could make defaultObjects static if we made it safe for multi-threading
 	// It is mildly faster (and easier to code) the way it is
 	DefaultObjects::iterator iter = defaultObjects.find(&className);
 	if (iter==defaultObjects.end())
 	{
-		RBX::Security::Impersonator impersonate(RBX::Security::Replicator_);
+		ARL::Security::Impersonator impersonate(ARL::Security::Replicator_);
 
-		shared_ptr<Instance> instance = Creatable<Instance>::createByName(className, RBX::ReplicationCreator);
+		shared_ptr<Instance> instance = Creatable<Instance>::createByName(className, ARL::ReplicationCreator);
 		if (!instance && strcmp(className.c_str(), "Workspace"))
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_WARNING, "Replication: Can't create default object of type %s", className.c_str());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_WARNING, "Replication: Can't create default object of type %s", className.c_str());
 		defaultObjects[&className] = instance;
 		return instance.get();
 	}
@@ -3172,7 +3172,7 @@ struct String_sink : public boost::iostreams::sink
 void Replicator::compressBitStream(const RakNet::BitStream& inUncompressedBitStream, RakNet::BitStream& outCompressedBitStream, uint8_t compressRatio)
 {
 #ifdef NETWORK_DEBUG
-    RBX::Timer<RBX::Time::Precise> timer;
+    ARL::Timer<ARL::Time::Precise> timer;
 #endif
 
     // compress the data
@@ -3193,7 +3193,7 @@ void Replicator::compressBitStream(const RakNet::BitStream& inUncompressedBitStr
 
 void Replicator::decompressBitStream(RakNet::BitStream& inCompressedBitStream, RakNet::BitStream& outUncompressedBitStream)
 {
-    RBXPROFILER_SCOPE("Network", "decompressBitStream");
+    ARLPROFILER_SCOPE("Network", "decompressBitStream");
     
     unsigned int len;
     inCompressedBitStream >> len;
@@ -3215,14 +3215,14 @@ void Replicator::decompressBitStream(RakNet::BitStream& inCompressedBitStream, R
 
     outUncompressedBitStream.Write(decompressedData.c_str(), decompressedData.length());
     
-    RBXPROFILER_LABELF("Network", "%d bytes -> %d bytes", int(inCompressedBitStream.GetNumberOfBytesUsed()), int(outUncompressedBitStream.GetNumberOfBytesUsed()));
+    ARLPROFILER_LABELF("Network", "%d bytes -> %d bytes", int(inCompressedBitStream.GetNumberOfBytesUsed()), int(outUncompressedBitStream.GetNumberOfBytesUsed()));
 }
 
 void Replicator::readPropertiesFromValueArray(const std::vector<PropValuePair>& propValueArray, Instance* instance)
 {
 	for (std::vector<PropValuePair>::const_iterator iter = propValueArray.begin(); iter != propValueArray.end(); iter++)
 	{
-		RBXASSERT(!iter->value.isVoid());
+		ARLASSERT(!iter->value.isVoid());
 
 		const Reflection::PropertyDescriptor& descriptor = *iter->descriptor;
 
@@ -3238,16 +3238,16 @@ void Replicator::readPropertiesFromValueArray(const std::vector<PropValuePair>& 
 		else if (descriptor.bIsEnum)
 		{
 			const Reflection::EnumDescriptor* enumDesc = Reflection::EnumDescriptor::lookupDescriptor(descriptor.type);
-			RBXASSERT(enumDesc);
+			ARLASSERT(enumDesc);
 			const Reflection::EnumDescriptor::Item* item = enumDesc->lookup(iter->value);
-			RBXASSERT(item);
+			ARLASSERT(item);
 
 			const Reflection::EnumPropertyDescriptor& enumPropDesc = static_cast<const Reflection::EnumPropertyDescriptor&>(descriptor);
 			enumPropDesc.setEnumItem(instance, *item);				
 		}
-		else if (descriptor.type == Reflection::Type::singleton<RBX::ContentId>())
+		else if (descriptor.type == Reflection::Type::singleton<ARL::ContentId>())
 		{
-			RBX::ContentId value = iter->value.get<RBX::ContentId>();
+			ARL::ContentId value = iter->value.get<ARL::ContentId>();
 			descriptor.setStringValue(instance, value.toString());
 		}
 		else
@@ -3264,8 +3264,8 @@ void Replicator::readProperties(RakNet::BitStream& inBitstream, Instance* instan
 
     bool cacheable = (cacheType != PropertyCacheType_NonCacheable);
 
-	RBX::Reflection::PropertyIterator iter = instance->properties_begin();
-	RBX::Reflection::PropertyIterator end = instance->properties_end();
+	ARL::Reflection::PropertyIterator iter = instance->properties_begin();
+	ARL::Reflection::PropertyIterator end = instance->properties_end();
 	while (iter!=end)
 	{
 		Reflection::Property property = *iter;
@@ -3318,7 +3318,7 @@ void Replicator::readPropertiesInternal(Reflection::Property& property, RakNet::
 			deserializeGeneric<bool>(*outValue, inBitstream);
 
 		if (settings().printBits) {
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 			"   read %s %s, 1 bit", 
 			descriptor.type.name.c_str(),
 			descriptor.name.c_str()
@@ -3339,7 +3339,7 @@ void Replicator::readPropertiesInternal(Reflection::Property& property, RakNet::
 			}
 
 			if (settings().printBits) {
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 				"   read %s %s, 1 bit (default)", 
 				descriptor.type.name.c_str(),
 				descriptor.name.c_str()
@@ -3353,7 +3353,7 @@ void Replicator::readPropertiesInternal(Reflection::Property& property, RakNet::
 			deserializePropertyValue(inBitstream, property, useDictionary, preventBounceBack, outValue);
 
 			if (settings().printBits) {
-				RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 				"   read %s %s, %d bits", 
 				descriptor.type.name.c_str(),
 				descriptor.name.c_str(),
@@ -3375,7 +3375,7 @@ void Replicator::readInstanceNew(RakNet::BitStream& inBitstream, bool isJoinData
 {
 	int start = inBitstream.GetReadOffset();
 
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 	if (!isJoinData)
 		deserializeId(inBitstream, id);
 	else
@@ -3391,7 +3391,7 @@ void Replicator::readInstanceNew(RakNet::BitStream& inBitstream, bool isJoinData
     }
 
 	if (settings().printInstances) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 			"Replication: %s:%s << %s",								// note: remote player always on the left
 			classDescriptor->name.c_str(), 
 			id.readableString().c_str(), 
@@ -3405,30 +3405,30 @@ void Replicator::readInstanceNew(RakNet::BitStream& inBitstream, bool isJoinData
 	{
 		// We got back an object we've already seen
 		if (!instance)
-			throw RBX::runtime_error("readInstanceNew got a null object (guid %s)", id.readableString(32).c_str());
+			throw ARL::runtime_error("readInstanceNew got a null object (guid %s)", id.readableString(32).c_str());
 
 		if (instance->getDescriptor()!=*classDescriptor)
 		{
-			std::string message = RBX::format("Replication: Bad re-binding %s-%s << %s, %s-%s", 
+			std::string message = ARL::format("Replication: Bad re-binding %s-%s << %s, %s-%s", 
 				classDescriptor->name.c_str(), 
 				id.readableString().c_str(), 
 				RakNetAddressToString(remotePlayerId).c_str(), 
 				instance->getClassName().c_str(), 
 				id.readableString().c_str());
 
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, "%s", message.c_str());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "%s", message.c_str());
 
-			throw RBX::runtime_error("%s", message.c_str());
+			throw ARL::runtime_error("%s", message.c_str());
 		}
 	}
 	else
 	{
 		// TODO: Is this the most efficient way to create by ClassDescriptor???
-		instance = Creatable<Instance>::createByName(classDescriptor->name, RBX::ReplicationCreator);
+		instance = Creatable<Instance>::createByName(classDescriptor->name, ARL::ReplicationCreator);
 		if (!instance)
 		{
 			std::string message = format("Replication: Can't create object of type %s", classDescriptor->name.c_str());
-			RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, message);
+			ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, message);
 			throw std::runtime_error(message);
 		}
 
@@ -3450,10 +3450,10 @@ void Replicator::readInstanceNew(RakNet::BitStream& inBitstream, bool isJoinData
 		// Dummy read ownership flag
 		bool deleteOnDisconnect;
 		inBitstream >> deleteOnDisconnect;
-		RBXASSERT(!deleteOnDisconnect);
+		ARLASSERT(!deleteOnDisconnect);
 	}
 
-	RBX::Guid::Data parentId;
+	ARL::Guid::Data parentId;
 	if (!isJoinData)
 	{
         readProperties(inBitstream, instance.get(), PropertyCacheType_NonCacheable, true);
@@ -3491,16 +3491,16 @@ void Replicator::readInstanceNew(RakNet::BitStream& inBitstream, bool isJoinData
 	}
 	else if (!reject)
 	{
-		RBXASSERT(data);
- 		RBXASSERT(!data->listenToChanges);
+		ARLASSERT(data);
+ 		ARLASSERT(!data->listenToChanges);
 		data->listenToChanges = true;
-		RBXASSERT(Name::lookup("Terrain") == classDescriptor->name ||
+		ARLASSERT(Name::lookup("Terrain") == classDescriptor->name ||
 			data->connection.connected());
 		
 		// no ReplicatedFirst members are allowed to replicate anything once received!
 		if (!isCloudEdit())
 		{
-			ReplicatedFirst* replicatedFirst = RBX::ServiceProvider::find<ReplicatedFirst>(parent.get());
+			ReplicatedFirst* replicatedFirst = ARL::ServiceProvider::find<ReplicatedFirst>(parent.get());
 			if (parent.get() == replicatedFirst || parent->isDescendantOf(replicatedFirst))
 			{
 				closeReplicationItem(*data);
@@ -3541,11 +3541,11 @@ void Replicator::readInstanceNew(RakNet::BitStream& inBitstream, bool isJoinData
 
 void Replicator::readInstanceNewItem(DeserializedNewInstanceItem* item, bool isJoinData)
 {
-	RBXASSERT(item->instance);
+	ARLASSERT(item->instance);
 	if (!item->instance)
 	{
 		std::string message = "Replication: deserialized item contain null object " + item->id.readableString();
-		RBX::StandardOut::singleton()->print(RBX::MESSAGE_ERROR, message.c_str());
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, message.c_str());
 		throw std::runtime_error(message);
 	}
 	
@@ -3590,15 +3590,15 @@ void Replicator::readInstanceNewItem(DeserializedNewInstanceItem* item, bool isJ
 	}
 	else if (!reject)
 	{
-		RBXASSERT(data);
-		RBXASSERT(!data->listenToChanges);
+		ARLASSERT(data);
+		ARLASSERT(!data->listenToChanges);
 		data->listenToChanges = true;
-		RBXASSERT(data->connection.connected());
+		ARLASSERT(data->connection.connected());
 
 		if (!isCloudEdit())
 		{
 			// no ReplicatedFirst members are allowed to replicate anything once received!
-			ReplicatedFirst* replicatedFirst = RBX::ServiceProvider::find<ReplicatedFirst>(parent.get());
+			ReplicatedFirst* replicatedFirst = ARL::ServiceProvider::find<ReplicatedFirst>(parent.get());
 			if (parent.get() == replicatedFirst || parent->isDescendantOf(replicatedFirst))
 			{
 				closeReplicationItem(*data);
@@ -3636,7 +3636,7 @@ void Replicator::receiveCluster(RakNet::BitStream& inBitstream, Instance* instan
 {
 	if(instance == NULL)
 		return;
-	RBXASSERT(instance == megaClusterInstance);
+	ARLASSERT(instance == megaClusterInstance);
 	if (instance != megaClusterInstance) {
 		return;
 	}
@@ -3738,7 +3738,7 @@ void Replicator::receiveCluster(RakNet::BitStream& inBitstream, Instance* instan
             else
             {
                 // chunkId != CLUSTER_DATA_TOKEN
-                RBXASSERT(false);
+                ARLASSERT(false);
                 throw std::runtime_error("should only send updates in same format for chunk and delta");
             }
         }
@@ -3747,7 +3747,7 @@ void Replicator::receiveCluster(RakNet::BitStream& inBitstream, Instance* instan
 
 void Replicator::deserializeData(RakNet::BitStream& inBitstream, std::vector<shared_ptr<DeserializedItem> >& items)
 {
-	RBX::Security::Impersonator impersonate(RBX::Security::Replicator_);
+	ARL::Security::Impersonator impersonate(ARL::Security::Replicator_);
 
 	while (true)
 	{
@@ -3765,7 +3765,7 @@ void Replicator::deserializeData(RakNet::BitStream& inBitstream, std::vector<sha
 
 void Replicator::receiveData(RakNet::BitStream& inBitstream)
 {
-	RBX::Security::Impersonator impersonate(RBX::Security::Replicator_);
+	ARL::Security::Impersonator impersonate(ARL::Security::Replicator_);
 	
 	FASTLOG2(FLog::NetworkReadItem, "receiveData bitstream %p, read offset %d", inBitstream.GetData(), inBitstream.GetReadOffset());
 
@@ -3825,7 +3825,7 @@ shared_ptr<DeserializedItem> Replicator::deserializeItem(RakNet::BitStream& inBi
 		NETPROFILE_END("readJoinData", &inBitstream);
 		break;
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 		throw std::runtime_error("");
 	}
 
@@ -3882,7 +3882,7 @@ void Replicator::readItem(RakNet::BitStream& inBitstream, Item::ItemType itemTyp
 		NETPROFILE_END("readJoinData", &inBitstream);
 		break;
 	default:
-		RBXASSERT(false);
+		ARLASSERT(false);
 		throw std::runtime_error("");
 	}
 }
@@ -3891,7 +3891,7 @@ void Replicator::readItem(RakNet::BitStream& inBitstream, Item::ItemType itemTyp
 void Replicator::sendDataPing()
 {
 	RakNet::Time timeStamp = RakNet::GetTimeMS();
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
     if (!enableHashCheckBypass && !DFFlag::US25317p1 && 
         (timeStamp - replicatorStats.lastReceivedHashTime) > 120000)
     {
@@ -3940,7 +3940,7 @@ void Replicator::readDataPing(RakNet::BitStream& inBitstream)
     if (canUseProtocolVersion(34))
     {
 	    inBitstream >> extraStats;
-#if defined(RBX_RCC_SECURITY)
+#if defined(ARL_RCC_SECURITY)
         if (timeStamp & 0x20) // change things up occaasionally
         {
             extraStats = ~extraStats;
@@ -3995,7 +3995,7 @@ void Replicator::readMarker(RakNet::BitStream& inBitstream)
 void Replicator::processMarker(int id)
 {
 	if (settings().printInstances) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,
 			"Received marker %d from %s", id,
 			RakNetAddressToString(remotePlayerId).c_str());
 	}
@@ -4004,12 +4004,12 @@ void Replicator::processMarker(int id)
 
 	if (incomingMarkers.size() > 0)
 	{
-		RBXASSERT(id==incomingMarkers.front()->id);
+		ARLASSERT(id==incomingMarkers.front()->id);
 		incomingMarkers.front()->fireReturned();
 		incomingMarkers.pop();
 	}
 	else
-		RBXASSERT(0);
+		ARLASSERT(0);
 }
 
 FilterResult Replicator::filterPhysics(PartInstance* instance)
@@ -4040,7 +4040,7 @@ void Replicator::readChangedProperty(RakNet::BitStream& inBitstream)
 {
     int start = inBitstream.GetReadOffset();
 	shared_ptr<Instance> instance;
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 	deserializeInstanceRef(inBitstream, instance, id);
 
     // Read the property name
@@ -4052,7 +4052,7 @@ void Replicator::readChangedProperty(RakNet::BitStream& inBitstream)
     }
 
 	if (!propertyDescriptor)
-		throw RBX::runtime_error("Replicator readChangedProperty NULL descriptor");
+		throw ARL::runtime_error("Replicator readChangedProperty NULL descriptor");
 
 	if (instance)
     {
@@ -4066,7 +4066,7 @@ void Replicator::readChangedProperty(RakNet::BitStream& inBitstream)
         }
 		else if (instance && !instance->getDescriptor().isA(propertyDescriptor->owner))
 		{
-			throw RBX::runtime_error("Replication: Bad re-binding prop %s-%s << %s",
+			throw ARL::runtime_error("Replication: Bad re-binding prop %s-%s << %s",
 				instance->getClassName().c_str(),
 				propertyDescriptor->name.c_str(), 
 				RakNetAddressToString(remotePlayerId).c_str());
@@ -4082,7 +4082,7 @@ void Replicator::readChangedProperty(RakNet::BitStream& inBitstream)
 	readChangedProperty(inBitstream, Reflection::Property(*propertyDescriptor, instance.get()));
 
 	if (settings().printProperties) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 			"Replication: %s-%s.%s << %s, bytes: %d",							// remote player always on right side 
 			instance ? instance->getClassName().c_str() : "?", 
 			id.readableString().c_str(), 
@@ -4099,7 +4099,7 @@ void Replicator::readChangedProperty(RakNet::BitStream& inBitstream)
 
 void Replicator::processChangedParentProperty(Guid::Data parentId, Reflection::Property prop)
 {
-	RBXASSERT(prop.getDescriptor() == Instance::propParent);
+	ARLASSERT(prop.getDescriptor() == Instance::propParent);
 
 	Instance* instance = static_cast<Instance*>(prop.getInstance());
 
@@ -4116,7 +4116,7 @@ void Replicator::processChangedParentProperty(Guid::Data parentId, Reflection::P
 	// We're counting on the parent having been replicated first. If not, then 
 	// our job is much more complicated. We'd have to defer the whole filterReceivedParent
 	// logic until the parent reference is resolved.
-	RBXASSERT(recognizedId);
+	ARLASSERT(recognizedId);
 
 	if (instance)
 	{
@@ -4153,16 +4153,16 @@ void Replicator::readChangedPropertyItem(DeserializedChangePropertyItem* item, R
 		else if (descriptor.bIsEnum)
 		{
 			const Reflection::EnumDescriptor* enumDesc = Reflection::EnumDescriptor::lookupDescriptor(descriptor.type);
-			RBXASSERT(enumDesc);
+			ARLASSERT(enumDesc);
 			const Reflection::EnumDescriptor::Item* enumDescItem = enumDesc->lookup(item->value);
-			RBXASSERT(enumDescItem);
+			ARLASSERT(enumDescItem);
 
 			const Reflection::EnumPropertyDescriptor& enumPropDesc = static_cast<const Reflection::EnumPropertyDescriptor&>(descriptor);
 			enumPropDesc.setEnumItem(prop.getInstance(), *enumDescItem);				
 		}
-		else if (descriptor.type == Reflection::Type::singleton<RBX::ContentId>())
+		else if (descriptor.type == Reflection::Type::singleton<ARL::ContentId>())
 		{
-			RBX::ContentId value = item->value.get<RBX::ContentId>();
+			ARL::ContentId value = item->value.get<ARL::ContentId>();
 			descriptor.setStringValue(prop.getInstance(), value.toString());
 		}
 		else
@@ -4178,7 +4178,7 @@ void Replicator::readChangedProperty(RakNet::BitStream& bitStream, Reflection::P
     // if you make changes, please also take care of Replicator::skipChangedProperty
 	if (prop.getDescriptor() == Instance::propParent)
 	{
-		RBX::Guid::Data parentId;
+		ARL::Guid::Data parentId;
 		deserializeId(bitStream, parentId);
 		processChangedParentProperty(parentId, prop);
 	}
@@ -4228,7 +4228,7 @@ void Replicator::readEventInvocationItem(DeserializedEventInvocationItem* item)
 void Replicator::readEventInvocation(RakNet::BitStream& inBitstream)
 {
 	shared_ptr<Instance> instance;
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 	deserializeInstanceRef(inBitstream, instance, id);
 
 	// Read the property name
@@ -4241,7 +4241,7 @@ void Replicator::readEventInvocation(RakNet::BitStream& inBitstream)
     }
 
 	if (settings().printEvents)
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 			"Replication: %s-%s.%s << %s",							// remote player always on right side 
 			instance ? instance->getClassName().c_str() : "?", 
 			id.readableString().c_str(), 
@@ -4255,7 +4255,7 @@ void Replicator::readEventInvocation(RakNet::BitStream& inBitstream)
 	}
 	else if (instance && !instance->getDescriptor().isA(eventDescriptor->owner))
 	{
-		throw RBX::runtime_error("Replication: Bad re-binding event %s-%s << %s",
+		throw ARL::runtime_error("Replication: Bad re-binding event %s-%s << %s",
 			instance->getClassName().c_str(),
 			eventDescriptor->name.c_str(), 
 			RakNetAddressToString(remotePlayerId).c_str());
@@ -4331,12 +4331,12 @@ void Replicator::deleteInstanceById(Guid::Data id)
 	shared_ptr<Instance> instance;
 	if (guidRegistry->lookupByGuid(id, instance))
 	{
-		RBXASSERT(instance);
+		ARLASSERT(instance);
 
 		bool rejected = !isLegalDeleteInstance(instance.get());
 
 		if (settings().printInstances) {
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE, 
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, 
 				"Replication: ~%s:%s << %s", 
 				instance ? instance->getClassName().c_str() : "NULL", 
 				id.readableString().c_str(),
@@ -4350,8 +4350,8 @@ void Replicator::deleteInstanceById(Guid::Data id)
 				removeFromPendingNewInstances(instance.get());
 
 				FASTLOG1(FLog::NetworkInstances, "Replicating unparenting instance %p", instance.get());
-				RBXASSERT(removingInstance==NULL);
-				RBX::ScopedAssign<Instance*> assign(removingInstance, instance.get());
+				ARLASSERT(removingInstance==NULL);
+				ARL::ScopedAssign<Instance*> assign(removingInstance, instance.get());
 				instance->setParent(NULL);
 
 			}
@@ -4359,7 +4359,7 @@ void Replicator::deleteInstanceById(Guid::Data id)
 	else
 	{
 		if (settings().printInstances) {
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,
 				"Replication ~??? << %s",
 				RakNetAddressToString(remotePlayerId).c_str());
 		}
@@ -4377,7 +4377,7 @@ void Replicator::readInstanceDeleteItem(DeserializedDeleteInstanceItem* item)
 void Replicator::readInstanceDelete(RakNet::BitStream& inBitstream)
 {
     int start = inBitstream.GetReadOffset();
-	RBX::Guid::Data id;
+	ARL::Guid::Data id;
 
 	deserializeId(inBitstream, id);
 	deleteInstanceById(id);
@@ -4418,7 +4418,7 @@ void Replicator::processPacket(Packet *packet)
             inBitstream >> usingOneQuarterIterator;
 
             shared_ptr<Instance> instance;
-	        RBX::Guid::Data id;
+	        ARL::Guid::Data id;
 	        deserializeInstanceRef(inBitstream, instance, id);
 
 		    receiveCluster(inBitstream, instance.get(), usingOneQuarterIterator);
@@ -4442,7 +4442,7 @@ void Replicator::processPacket(Packet *packet)
 				NETPROFILE_END("timeStamp", &inBitstream);
 				unsigned char id;
 				inBitstream >> id;
-				RBXASSERT (id==ID_PHYSICS);
+				ARLASSERT (id==ID_PHYSICS);
 				
 				try
 				{
@@ -4455,10 +4455,10 @@ void Replicator::processPacket(Packet *packet)
 					physicsReceiver->receivePacket(inBitstream, timeStamp, stats);
 					NETPROFILE_END("receivePacket", &inBitstream);
 				}
-				catch (RBX::base_exception& e)
+				catch (ARL::base_exception& e)
 				{
 					// convert to physics exception
-					throw RBX::physics_receiver_exception(e.what());
+					throw ARL::physics_receiver_exception(e.what());
 				}
 
 				replicatorStats.physicsPacketsReceived.sample();
@@ -4468,9 +4468,9 @@ void Replicator::processPacket(Packet *packet)
 			else
 			{
 #ifdef NETWORK_DEBUG
-                StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Received physics packet before PhysicsReceiver is created.");
+                StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Received physics packet before PhysicsReceiver is created.");
 #endif
-				//RBXCRASH();			// we crash here because if not in distributed physics mode, there should be no physicsReceiver on the server side
+				//ARLCRASH();			// we crash here because if not in distributed physics mode, there should be no physicsReceiver on the server side
 			}
 		}
 		break;
@@ -4491,14 +4491,14 @@ void Replicator::processPacket(Packet *packet)
 			}
 			else
 			{
-				//RBXCRASH();			// we crash here because if not in distributed physics mode, there should be no physicsReceiver on the server side
+				//ARLCRASH();			// we crash here because if not in distributed physics mode, there should be no physicsReceiver on the server side
 			}
 		}
 		break;
 	case ID_TEACH_DESCRIPTOR_DICTIONARIES:
 		{
 #ifdef NETWORK_DEBUG
-            StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Syncing dictionaries..");
+            StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Syncing dictionaries..");
 #endif
 			NETPROFILE_START("ID_TEACH_DESCRIPTOR_DICTIONARIES", &inBitstream);
 
@@ -4510,7 +4510,7 @@ void Replicator::processPacket(Packet *packet)
 
 			NETPROFILE_END("ID_TEACH_DESCRIPTOR_DICTIONARIES", &inBitstream);
 #ifdef NETWORK_DEBUG
-            StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "Dictionaries and SFFlags synced.");
+            StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Dictionaries and SFFlags synced.");
 #endif
 		}
 		break;
@@ -4539,7 +4539,7 @@ void Replicator::teachDictionaries(const Replicator* rep, RakNet::BitStream& bit
 void Replicator::sendDictionaries()
 {
 #ifdef NETWORK_DEBUG
-    StandardOut::singleton()->printf(RBX::MESSAGE_INFO, "sendDictionaries");
+    StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "sendDictionaries");
 #endif
     RakNet::BitStream bitStream;
     bitStream << (unsigned char) ID_TEACH_DESCRIPTOR_DICTIONARIES;
@@ -4569,7 +4569,7 @@ void Replicator::enableDeserializePacketThread()
 	deserializePacketsThreadEnabled = true;
 
 	// start packet deserialize thread
-	deserializePacketsThread.reset(new boost::thread(RBX::thread_wrapper(boost::bind(&Replicator::deserializePacketsThreadImpl, shared_from(this)), "Deserialize Packets Thread")));
+	deserializePacketsThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&Replicator::deserializePacketsThreadImpl, shared_from(this)), "Deserialize Packets Thread")));
 
 	// transfer packets to the list used in the deserialize thread
 	Packet* packet;
@@ -4596,8 +4596,8 @@ void Replicator::deserializePacketsThreadImpl()
 			Packet* receivedPacket = packetsToDeserailze.front();
 			packetsToDeserailze.pop_front();
             
-            RBXPROFILER_SCOPE("Network", "deserializePacket");
-            RBXPROFILER_LABELF("Network", "ID %d (%d bytes)", receivedPacket->data[0], receivedPacket->length);
+            ARLPROFILER_SCOPE("Network", "deserializePacket");
+            ARLPROFILER_LABELF("Network", "ID %d (%d bytes)", receivedPacket->data[0], receivedPacket->length);
 
 			addToDeserializedPacketsList = true;
 			deserialized = false;
@@ -4631,14 +4631,14 @@ void Replicator::deserializePacketsThreadImpl()
 				requestDisconnectWithSignal(DisconnectReason_ReceivePacketError);
 				break;
 			}
-			catch (RBX::network_stream_exception& e)
+			catch (ARL::network_stream_exception& e)
 			{
 				logPacketError(deserializedPacket.rawPacket, "Stream", e.what());
 				rakPeer->DeallocatePacket(deserializedPacket.rawPacket);
 				requestDisconnectWithSignal(DisconnectReason_ReceivePacketStreamError);
 				break;
 			}
-			catch (RBX::base_exception& e)
+			catch (ARL::base_exception& e)
 			{
 				logPacketError(deserializedPacket.rawPacket, "Other", e.what());
 				rakPeer->DeallocatePacket(deserializedPacket.rawPacket);
@@ -4783,7 +4783,7 @@ PluginReceiveResult Replicator::OnReceive(Packet *packet)
 				case Players::PLAYERS_STOP_PROCESSING:
 					return RR_STOP_PROCESSING;
 				default:
-					RBXASSERT(false);
+					ARLASSERT(false);
 				case Players::PLAYERS_STOP_PROCESSING_AND_DEALLOCATE:
 					return RR_STOP_PROCESSING_AND_DEALLOCATE;
 				};
@@ -4794,16 +4794,16 @@ PluginReceiveResult Replicator::OnReceive(Packet *packet)
 				case Players::PLAYERS_STOP_PROCESSING:
 					return RR_STOP_PROCESSING;
 				default:
-					RBXASSERT(false);
+					ARLASSERT(false);
 				case Players::PLAYERS_STOP_PROCESSING_AND_DEALLOCATE:
 					return RR_STOP_PROCESSING_AND_DEALLOCATE;
 				};
 			}
 		}
-		catch (RBX::base_exception& e)
+		catch (ARL::base_exception& e)
 		{
 			const char* what = e.what();
-			RBX::StandardOut::singleton()->printf(RBX::MESSAGE_ERROR, "Replicator::OnReceive packet %d: %s", (unsigned char) packet->data[0], what ? what : "empty error string");
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Replicator::OnReceive packet %d: %s", (unsigned char) packet->data[0], what ? what : "empty error string");
 			FASTLOGS(FLog::Network, "Error on Replicator::OnReceive: %s", what);
 
 			requestDisconnectWithSignal(DisconnectReason_ReceivePacketError);
@@ -4836,7 +4836,7 @@ void Replicator::OnInternalPacket(InternalPacket *internalPacket, unsigned frame
 
 			if (internalPacket->splitPacketCount > (uint32_t)DFInt::RakNetMaxSplitPacketCount)
 			{
-				RBXASSERT(internalPacket->splitPacketCount < (uint32_t)DFInt::RakNetMaxSplitPacketCount);
+				ARLASSERT(internalPacket->splitPacketCount < (uint32_t)DFInt::RakNetMaxSplitPacketCount);
 				std::stringstream label;
 				label << (unsigned int)internalPacket->data[0];
 				RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_GAME, "NetworkPacketSplitCountOverThreshold", label.str().c_str());
@@ -4897,7 +4897,7 @@ shared_ptr<Instance> Replicator::sendMarker()
 	FASTLOG1(FLog::Network, "Replicator:SendMarker id(%d)", id);
 
 	if (settings().printInstances) {
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_SENSITIVE,
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE,
 			"Replicator: Requesting Marker %d of %s",
 			id, RakNetAddressToString(remotePlayerId).c_str());
 	}
@@ -4912,13 +4912,13 @@ shared_ptr<Instance> Replicator::sendMarker()
 
 size_t Replicator::getAdjustedMtuSize() const
 {
-	RBXASSERT(settings().getReplicationMtuAdjust() <= 0);
+	ARLASSERT(settings().getReplicationMtuAdjust() <= 0);
 	return std::max(0, replicatorStats.peerStats.mtuSize +
 		settings().getReplicationMtuAdjust());
 }
 
 size_t Replicator::getPhysicsMtuSize() const {
-	RBXASSERT(settings().getPhysicsMtuAdjust() <= 0);
+	ARLASSERT(settings().getPhysicsMtuAdjust() <= 0);
 	return std::max(0, replicatorStats.peerStats.mtuSize +
 		settings().getPhysicsMtuAdjust());
 }
@@ -4972,7 +4972,7 @@ double Replicator::getMetricValue(const std::string& metric) const
 	return 0.0;
 }
 
-void Replicator::assignRef(Reflection::Property& property, RBX::Guid::Data id)
+void Replicator::assignRef(Reflection::Property& property, ARL::Guid::Data id)
 {
 	Instance* baldReferencer = rbx_static_cast<Instance*>(property.getInstance());
 
@@ -4984,7 +4984,7 @@ void Replicator::assignRef(Reflection::Property& property, RBX::Guid::Data id)
 	const Reflection::RefPropertyDescriptor* desc = 
 		static_cast<const Reflection::RefPropertyDescriptor*>(&property.getDescriptor());
 
-	RBXASSERT(*desc != Instance::propParent);
+	ARLASSERT(*desc != Instance::propParent);
 
 	shared_ptr<Instance> instance;
 	if (guidRegistry->lookupByGuid(id, instance))
@@ -5006,7 +5006,7 @@ void Replicator::assignParent(Instance* instance, Instance* parent)
 	// since we decode items on a separate thread, the instance may already be destroyed by the time we reparent it
 	if (instance->getIsParentLocked())
 	{
-		RBXASSERT(instance->getParent() == NULL);
+		ARLASSERT(instance->getParent() == NULL);
 		return;
 	}
 
@@ -5020,7 +5020,7 @@ void Replicator::assignDefaultPropertyValue(Reflection::Property& property, bool
 	ScopedAssign<const Reflection::Property*> assign;
 	if (preventBounceBack)
 	{
-		RBXASSERT(deserializingProperty == NULL);
+		ARLASSERT(deserializingProperty == NULL);
 		assign.assign(deserializingProperty, &property);
 	}
 
@@ -5035,7 +5035,7 @@ void Replicator::assignDefaultPropertyValue(Reflection::Property& property, bool
 			if (Reflection::RefPropertyDescriptor::isRefPropertyDescriptor(descriptor))
 			{
 				const Reflection::RefPropertyDescriptor* desc = boost::polymorphic_downcast<const Reflection::RefPropertyDescriptor*>(&descriptor);
-				RBX::Instance* refInstance = boost::polymorphic_downcast<Instance*>(desc->getRefValue(defaultInstance));
+				ARL::Instance* refInstance = boost::polymorphic_downcast<Instance*>(desc->getRefValue(defaultInstance));
 
 				Guid::Data data;
 				if (refInstance)

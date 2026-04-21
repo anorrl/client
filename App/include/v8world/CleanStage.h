@@ -5,7 +5,7 @@
 #include "V8World/IWorldStage.h"
 #include <map>
 
-namespace RBX {
+namespace ARL {
 
 	class Joint;
 	class Primitive;

@@ -9,10 +9,10 @@
 
 DYNAMIC_LOGGROUP(WebChatFiltering)
 
-using namespace RBX;
-using namespace RBX::Network;
+using namespace ARL;
+using namespace ARL::Network;
 
-const char* const RBX::Network::sChatFilter = "ChatFilter";
+const char* const ARL::Network::sChatFilter = "ChatFilter";
 
 bool ChatFilter::filterMessageBase(shared_ptr<Player> sourcePlayer, shared_ptr<Instance> receiver,
 		const std::string& message,

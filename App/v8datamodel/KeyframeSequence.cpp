@@ -10,7 +10,7 @@
 DYNAMIC_FASTFLAGVARIABLE(AnimationEasingStylesEnabled, false)
 DYNAMIC_FASTFLAGVARIABLE(CachedPoseInitialized, false)
 
-namespace RBX {
+namespace ARL {
 
 const char* const sKeyframeSequence = "KeyframeSequence";
 
@@ -28,7 +28,7 @@ const std::string IAnimatableJoint::sROOT = std::string("__Root");
 
 namespace Reflection {
 template<>
-EnumDesc<RBX::KeyframeSequence::Priority>::EnumDesc()
+EnumDesc<ARL::KeyframeSequence::Priority>::EnumDesc()
 :EnumDescriptor("AnimationPriority")
 {
 	addPair(KeyframeSequence::IDLE, "Idle");
@@ -383,7 +383,7 @@ Vector3 lerpAxisAngle(const Vector3& r0, const Vector3& r1, float w0, float w1)
 	{
 		float l0 = r0.length();
 		float l1 = r1.length();
-		RBXASSERT(l0 <= Math::pif()+0.01 && l1 <= Math::pif()+0.01);
+		ARLASSERT(l0 <= Math::pif()+0.01 && l1 <= Math::pif()+0.01);
 		if (!(l0 < l1))
 		{
 			float lenofr1onr0 = - dot / l0;
@@ -622,4 +622,4 @@ void KeyframeSequence::verifySetAncestor(const Instance* const newParent, const 
 	Super::verifySetAncestor(newParent, instanceGettingNewParent);
 }
 
-} // RBX
+} // ARL

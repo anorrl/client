@@ -9,7 +9,7 @@
 #include "V8World/ContactManager.h"
 #include "V8World/World.h"
 
-namespace RBX {
+namespace ARL {
 
 ContactManager* CameraSubject::getContactManager()
 {

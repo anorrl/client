@@ -35,7 +35,7 @@
 */
 
 
-namespace RBX {
+namespace ARL {
 
 	class IndexedMesh : public IndexedTree
 	{
