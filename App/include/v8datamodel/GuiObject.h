@@ -340,6 +340,7 @@ namespace ARL
 
 		UDim2 size;
 		UDim2 position;
+		//UDim2 anchor;
 
         RotationAngle rotation;
         Rotation2D absoluteRotation;

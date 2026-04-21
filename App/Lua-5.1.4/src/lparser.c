@@ -40,6 +40,7 @@
 typedef struct BlockCnt {
   struct BlockCnt *previous;  /* chain */
   int breaklist;  /* list of jumps out of this loop */
+  int continuelist;  /* list of jumps to the loop's test */
   lu_byte nactvar;  /* # active locals outside the breakable structure */
   lu_byte upval;  /* true if some variable in the block is an upvalue */
   lu_byte isbreakable;  /* true if `block' is a loop */
@@ -284,6 +285,7 @@ static void enterlevel (LexState *ls) {
 
 static void enterblock (FuncState *fs, BlockCnt *bl, lu_byte isbreakable) {
   bl->breaklist = NO_JUMP;
+  bl->continuelist = NO_JUMP;
   bl->isbreakable = isbreakable;
   bl->nactvar = fs->nactvar;
   bl->upval = 0;
@@ -964,7 +966,7 @@ static void assignment (LexState *ls, struct LHS_assign *lh, int nvars) {
   }
   else {  /* assignment -> `=' explist1 */
     int nexps;
-    checknext(ls, '=');
+	luaX_next(ls); /* consume `=' token. */
     nexps = explist1(ls, &e);
     if (nexps != nvars) {
       adjust_assign(ls, nvars, nexps, &e);
@@ -979,6 +981,37 @@ static void assignment (LexState *ls, struct LHS_assign *lh, int nvars) {
   }
   init_exp(&e, VNONRELOC, ls->fs->freereg-1);  /* default assignment */
   luaK_storevar(ls->fs, &lh->v, &e);
+}
+
+static BinOpr getcompopr(int op) {
+	switch (op) {
+	case TK_ADD_EQ: return OPR_ADD_EQ;
+	case TK_SUB_EQ: return OPR_SUB_EQ;
+	case TK_MUL_EQ: return OPR_MUL_EQ;
+	case TK_DIV_EQ: return OPR_DIV_EQ;
+	case TK_MOD_EQ: return OPR_MOD_EQ;
+	case TK_POW_EQ: return OPR_POW_EQ;
+	default: return OPR_NOBINOPR;
+	}
+}
+
+
+static void compound(LexState *ls, struct LHS_assign *lh) {
+	expdesc rh;
+	int nexps;
+	BinOpr op;
+
+	check_condition(ls, VLOCAL <= lh->v.k && lh->v.k <= VINDEXED,
+		"syntax error");
+	/* parse Compound operation. */
+	op = getcompopr(ls->t.token);
+	luaX_next(ls);
+
+	/* parse right-hand expression */
+	nexps = explist1(ls, &rh);
+	check_condition(ls, nexps == 1, "syntax error");
+
+	luaK_posfix(ls->fs, op, &(lh->v), &rh);
 }
 
 
@@ -1007,6 +1040,21 @@ static void breakstat (LexState *ls) {
   luaK_concat(fs, &bl->breaklist, luaK_jump(fs));
 }
 
+static void continuestat(LexState *ls) {
+	FuncState *fs = ls->fs;
+	BlockCnt *bl = fs->bl;
+	int upval = 0;
+	while (bl && !bl->isbreakable) {
+		upval |= bl->upval;
+		bl = bl->previous;
+	}
+	if (!bl)
+		luaX_syntaxerror(ls, "no loop to continue");
+	if (upval)
+		luaK_codeABC(fs, OP_CLOSE, bl->nactvar, 0, 0);
+	luaK_concat(fs, &bl->continuelist, luaK_jump(fs));
+}
+
 
 static void whilestat (LexState *ls, int line) {
   /* whilestat -> WHILE cond DO block END */
@@ -1021,6 +1069,7 @@ static void whilestat (LexState *ls, int line) {
   checknext(ls, TK_DO);
   block(ls);
   luaK_patchlist(fs, luaK_jump(fs), whileinit);
+  luaK_patchlist(fs, bl.continuelist, whileinit);
   check_match(ls, TK_END, TK_WHILE, line);
   leaveblock(fs);
   luaK_patchtohere(fs, condexit);  /* false conditions finish the loop */
@@ -1037,6 +1086,7 @@ static void repeatstat (LexState *ls, int line) {
   enterblock(fs, &bl2, 0);  /* scope block */
   luaX_next(ls);  /* skip REPEAT */
   chunk(ls);
+  luaK_patchtohere(fs, bl1.continuelist);
   check_match(ls, TK_UNTIL, TK_REPEAT, line);
   condexit = cond(ls);  /* read condition (inside scope block) */
   if (!bl2.upval) {  /* no upvalues? */
@@ -1242,15 +1292,33 @@ static void funcstat (LexState *ls, int line) {
 
 
 static void exprstat (LexState *ls) {
-  /* stat -> func | assignment */
+  /* stat -> func | compound | assignment */
   FuncState *fs = ls->fs;
   struct LHS_assign v;
   primaryexp(ls, &v.v);
   if (v.v.k == VCALL)  /* stat -> func */
     SETARG_C(getcode(fs, &v.v), 1);  /* call statement uses no results */
-  else {  /* stat -> assignment */
+  else {  /* stat -> compound | assignment */
     v.prev = NULL;
-    assignment(ls, &v, 1);
+	switch (ls->t.token) {
+	case TK_ADD_EQ:
+	case TK_SUB_EQ:
+	case TK_MUL_EQ:
+	case TK_DIV_EQ:
+	case TK_MOD_EQ:
+	case TK_POW_EQ:
+		compound(ls, &v);
+		break;
+	case ',':
+	case '=':
+		assignment(ls, &v, 1);
+		break;
+	default:
+		luaX_syntaxerror(ls,
+			luaO_pushfstring(ls->L,
+				"'+=','-=','*=', '/=', '%=', '^=', '=' expected"));
+		break;
+	}
   }
 }
 
@@ -1335,6 +1403,11 @@ static int statement (LexState *ls) {
       breakstat(ls);
       return 1;  /* must be last statement */
     }
+	case TK_CONTINUE: {  /* stat -> continuestat */
+		luaX_next(ls);  /* skip CONTINUE */
+		continuestat(ls);
+		return 1;	  /* must be last statement */
+	}
     default: {
       exprstat(ls);
       return 0;  /* to avoid warnings */

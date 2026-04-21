@@ -45,7 +45,11 @@ void luaT_init (lua_State *L) {
     "__add", "__sub", "__mul", "__div", "__mod", "__pow", "__unm"),
     
     LUAVM_SHUFFLE5(LUAVM_SHUFFLE_COMMA,
-     "__len", "__lt", "__le", "__concat", "__call")
+     "__len", "__lt", "__le", "__concat", "__call"),
+
+	LUAVM_SHUFFLE6(LUAVM_SHUFFLE_COMMA,
+	 "__add_eq", "__sub_eq", "__mul_eq", "__div_eq", "__mod_eq", "__pow_eq"
+	)
   };
     
   int i;

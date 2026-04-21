@@ -53,6 +53,12 @@ const char *const luaP_opnames[NUM_OPCODES+1] = { /* ORDER OP */
   "CLOSE",
   "CLOSURE",
   "VARARG",
+  "ADD_EQ",
+  "SUB_EQ",
+  "MUL_EQ",
+  "DIV_EQ",
+  "MOD_EQ",
+  "POW_EQ",
   NULL
 };
 #endif
@@ -108,5 +114,14 @@ LUAVM_SHUFFLE9(LUAVM_SHUFFLE_COMMA
     
 LUAVM_SHUFFLE2(LUAVM_SHUFFLE_COMMA
  ,opmode(0, 1, OpArgU, OpArgN, iABx)		/* OP_CLOSURE */
- ,opmode(0, 1, OpArgU, OpArgN, iABC))		/* OP_VARARG */
+ ,opmode(0, 1, OpArgU, OpArgN, iABC)),		/* OP_VARARG */
+
+/* NEW: opcodes */
+LUAVM_SHUFFLE6(LUAVM_SHUFFLE_COMMA
+ ,opmode(0, 1, OpArgK, OpArgN, iABC)		/* OP_ADD_EQ */
+ ,opmode(0, 1, OpArgK, OpArgN, iABC)		/* OP_SUB_EQ */
+ ,opmode(0, 1, OpArgK, OpArgN, iABC)		/* OP_MUL_EQ */
+ ,opmode(0, 1, OpArgK, OpArgN, iABC)		/* OP_DIV_EQ */
+ ,opmode(0, 1, OpArgK, OpArgN, iABC)		/* OP_MOD_EQ */
+ ,opmode(0, 1, OpArgK, OpArgN, iABC))		/* OP_POW_EQ */
 };

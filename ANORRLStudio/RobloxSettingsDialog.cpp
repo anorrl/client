@@ -131,7 +131,7 @@ bool RobloxSettingsDialog::close()
         QMessageBox::information(
             this,
             "Save Changes",
-            "Some setting changes will not take effect until you restart ROBLOX" );
+            "Some setting changes will not take effect until you restart ANORRL" );
         hasSeenWarning = true;
     }
 
@@ -327,9 +327,9 @@ void SelectionPropertyTree::onSelectionChanged(const ARL::SelectionChanged& evt)
             QMessageBox::warning(
                 this,
                 "Warning",
-                "<p>Changing settings may make ROBLOX unstable.</p>"
+                "<p>Changing settings may make ANORRL unstable.</p>"
                 "<p>We recommend that you don't change any non-Studio settings "
-                "unless instructed to do so by a ROBLOX engineer.</p>" );
+                "unless instructed to do so by a ANORRL engineer.</p>" );
             hasShownWarning = true;
         }
 

@@ -106,7 +106,7 @@
     <Property name="Z" tooltip="Number Vector3int16.Z%1The z-coordinate" />
   </ItemStruct>
   <ItemStruct name="CFrame">
-    <StaticFunction name="new" tooltip="CFrame CFrame.new(number x, number y, number z)%1Creates a CFrame from position (x, y, z) &lt;a href=&#34;http://wiki.roblox.com/index.php/CFrame&#34;&gt;More Info&lt;/a&gt;"/>
+    <StaticFunction name="new" tooltip="CFrame CFrame.new(number x, number y, number z)%1Creates a CFrame from position (x, y, z) &lt;a href=&#34;http://wiki.lambda.cam/index.php/CFrame&#34;&gt;More Info&lt;/a&gt;"/>
 	<StaticFunction name="fromEulerAnglesXYZ" tooltip="CFrame CFrame.fromEulerAnglesXYZ(number rx, number ry, number rz)%1Creates a rotated CFrame using angles (rx, ry, rz) in radians"/>
 	<StaticFunction name="FromEulerAnglesXYZ" tooltip="CFrame CFrame.FromEulerAnglesXYZ(number rx, number ry, number rz)%1Creates a rotated CFrame using angles (rx, ry, rz) in radians"/>
     <StaticFunction name="Angles" tooltip="CFrame CFrame.Angles(number rx, number ry, number rz)%1Equivalent to fromEulerAnglesXYZ"/>
@@ -145,7 +145,7 @@
     <StaticFunction name="new" tooltip="Region3int16 Region3int16.new(Vector3int16, Vector3int16)%1Creates a new Region3int16 out of two Vector3int16 structs"/>
   </ItemStruct>
   <ItemStruct name="BrickColor">
-    <StaticFunction name="new" tooltip="BrickColor BrickColor.new(r, g, b)%1Returns a BrickColor from the values r, g and b. &lt;a href=&#34;http://wiki.roblox.com/index.php/BrickColor&#34;&gt;More Info&lt;/a&gt;"/>
+    <StaticFunction name="new" tooltip="BrickColor BrickColor.new(r, g, b)%1Returns a BrickColor from the values r, g and b. &lt;a href=&#34;http://wiki.lambda.cam/index.php/BrickColor&#34;&gt;More Info&lt;/a&gt;"/>
     <StaticFunction name="palette" tooltip="BrickColor BrickColor.palette(val)%1Returns a BrickColor from val"/>
     <StaticFunction name="Random" tooltip="BrickColor BrickColor.Random()%1Returns a random BrickColor"/>
     <StaticFunction name="White" tooltip="BrickColor BrickColor.White()%1Returns the BrickColor white"/>
@@ -182,7 +182,7 @@
     <Property name="Y" tooltip="The y dimension scale and offset" />
   </ItemStruct>
   <ItemStruct name="Color3">
-    <StaticFunction name="new" tooltip="Color3 Color3.new(r, g, b)%1Returns a Color3 from the values r, g and b. &lt;a href=&#34;http://wiki.roblox.com/index.php/Color3&#34;&gt;More Info&lt;/a&gt;"/>
+    <StaticFunction name="new" tooltip="Color3 Color3.new(r, g, b)%1Returns a Color3 from the values r, g and b. &lt;a href=&#34;http://wiki.lambda.cam/index.php/Color3&#34;&gt;More Info&lt;/a&gt;"/>
     <Property name="r" tooltip="Number Color3.r%1The red value of the color"/>
     <Property name="g" tooltip="Number Color3.g%1The green value of the color"/>
     <Property name="b" tooltip="Number Color3.b%1The blue value of the color"/>

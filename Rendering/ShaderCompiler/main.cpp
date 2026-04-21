@@ -828,7 +828,7 @@ std::map<std::string, PackEntryMemory> readPack(const std::string& path)
     char header[4];
     readData(in, header, 4);
 
-    if (memcmp(header, "RBXS", 4) != 0)
+    if (memcmp(header, "ARLS", 4) != 0)
 	{
 		fprintf(stderr, "Warning: shader pack %s is corrupted\n", path.c_str());
         return result;
@@ -895,7 +895,7 @@ bool writePack(const std::string& path, const std::map<std::string, PackEntryMem
 
     unsigned int count = entries.size();
 
-	out.write("RBXS", 4);
+	out.write("ARLS", 4);
 	out.write(reinterpret_cast<char*>(&count), sizeof(count));
 	out.write(reinterpret_cast<char*>(&entries[0]), sizeof(PackEntryFile) * count);
 	out.write(reinterpret_cast<char*>(&entryData[0]), entryData.size());

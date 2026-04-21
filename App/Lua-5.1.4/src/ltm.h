@@ -40,6 +40,14 @@ LUAVM_SHUFFLE5(LUAVM_SHUFFLE_COMMA,
   TM_CONCAT,
   TM_CALL),
 
+LUAVM_SHUFFLE6(LUAVM_SHUFFLE_COMMA,
+  TM_ADD_EQ,
+  TM_SUB_EQ,
+  TM_MUL_EQ,
+  TM_DIV_EQ,
+  TM_MOD_EQ,
+  TM_POW_EQ),
+
   TM_N		/* number of elements in the enum */
 } TMS;
 

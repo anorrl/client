@@ -163,7 +163,7 @@ static const char* sDialog_Title        = "ANORRL Studio";       //!< default ch
 static const int SplashTotalTime        = 3505;                  //!< minimum time to display splashscreen
 
 bool RobloxMainWindow::sIsAppRunning = false;
-const QString RobloxMainWindow::NEW_PLACE_FILENAME = "ROBLOX_NEW_PLACE";
+const QString RobloxMainWindow::NEW_PLACE_FILENAME = "ANORRL_NEW_PLACE";
 
 bool RobloxMainWindow::preventActionCounterSending = false;
 
@@ -541,6 +541,11 @@ RobloxMainWindow::RobloxMainWindow(const QMap<QString, QString> argMap)
 		UpdateUIManager::Instance().init(this);
 		
 		RobloxScriptDoc::init(*this);
+
+		QPainter p(this);
+
+		// Set the background to white
+		p.fillRect(rect(), AuthoringSettings::singleton().darkMode ? QColor(45, 45, 45) : Qt::white);
 		
 		if (isRibbonStyle())
 		{
@@ -1130,7 +1135,7 @@ bool RobloxMainWindow::requestDocClose(IRobloxDoc& doc, bool closeIfLastDoc)
 	{
 		QtUtilities::ARLMessageBox msgBox;
 		msgBox.setIcon(QMessageBox::Question);
-		msgBox.setText(QString("ROBLOX is uploading %1. Quit anyway?").arg(StudioUtilities::isVideoUploading() ? "a video" : "an image"));
+		msgBox.setText(QString("ANORRL is uploading %1. Quit anyway?").arg(StudioUtilities::isVideoUploading() ? "a video" : "an image"));
 		msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 		msgBox.setDefaultButton(QMessageBox::No);
 
@@ -1264,7 +1269,7 @@ void RobloxMainWindow::fileOpen()
 	
 	fileName = QFileDialog::getOpenFileName(
 		this, 
-		tr("Open Roblox File"), 
+		tr("Open ANORRL File"), 
 		m_LastDirectory, 
 		tr(RobloxIDEDoc::getOpenFileFilters()));
 
@@ -1281,7 +1286,7 @@ void RobloxMainWindow::fileOpenRecentSaves()
 	
 	fileName = QFileDialog::getOpenFileName(
 		this, 
-		tr("Open Roblox File"), 
+		tr("Open ANORRL File"), 
 		AuthoringSettings::singleton().recentSavesDir.absolutePath(), 
 		tr(RobloxIDEDoc::getOpenFileFilters()));
 
@@ -1577,22 +1582,21 @@ void RobloxMainWindow::about()
 #endif
 
 	aboutMsg = aboutMsg.arg(RobloxSettings::getVersionString());
-    aboutMsg.append(tr("<p>ROBLOX, \"Online Building Toy\", characters, logos, names, and all related indicia "));
+	aboutMsg.append(tr("<p>ANORRL and like everything here is made by the community and primarily grace. "));
 	
 	QString copyrightString;
-	copyrightString.sprintf("are trademarks of ROBLOX Corporation %c2014. ", COPYRIGHT_PREFIX);
+	copyrightString.sprintf("%c2026 GraceRBLX and others.</p> ", COPYRIGHT_PREFIX);
 							
     aboutMsg.append(copyrightString);
-	aboutMsg.append(tr("US Patents 7,874,921. Patents pending.</p>"));
 					   
-	aboutMsg.append(tr("<p>Contact us at info@roblox.com.</p></div>"));
+	aboutMsg.append(tr("<p>Contact us at info@lambda.cam.</p></div>"));
 	
 	QMessageBox::about(this, tr("Welcome to ANORRL!"), aboutMsg);
 }
 
 void RobloxMainWindow::onlineHelp()
 {
-	QUrl helpUrl("http://wiki.roblox.com/index.php/Studio", QUrl::TolerantMode);
+	QUrl helpUrl("http://wiki.lambda.cam/index.php/Studio", QUrl::TolerantMode);
 	QDesktopServices::openUrl(helpUrl);
 }
 
@@ -1933,10 +1937,17 @@ void RobloxMainWindow::initializeUI()
 {
 
     // Apply the global Roblox Studio style sheet to the entire application.
-    // RobloxStudio.css is where we can tweak and tune the look-and-feel
+    // ANORRLStudio.css is where we can tweak and tune the look-and-feel
     // of the Studio UI.  All style overrides that are application-wide
     // should be put there.
-    setStyleSheet(QtUtilities::getResourceFileText(":/ANORRLStudio.css"));
+
+	if (AuthoringSettings::singleton().darkMode) {
+		setStyleSheet(QtUtilities::getResourceFileText(":/ANORRLStudio_dark.css"));
+	}
+	else {
+		setStyleSheet(QtUtilities::getResourceFileText(":/ANORRLStudio.css"));
+	}
+    
     
     // force height so we don't get any resizing when adding and removing controls to the status bar
     statusBar()->setFixedHeight(32);
@@ -1995,8 +2006,6 @@ void RobloxMainWindow::initializeUI()
     QTimer* minute_timer = new QTimer(this);
     connect(minute_timer,SIGNAL(timeout()),this,SLOT(onMinuteTimer()));
     minute_timer->start(60 * 1000);
-    
-    m_AnalyticTrackedConnection = ARL::RobloxGoogleAnalytics::analyticTrackedSignal().connect(boost::bind(&RobloxMainWindow::onAnalyticTracked, this));
     
     qApp->installEventFilter(this);
 
@@ -2196,6 +2205,13 @@ void RobloxMainWindow::setupSlots()
 	connect(actionFullScreen, SIGNAL(toggled(bool)), this, SLOT(toggleFullScreen(bool)));
 
 	updateShortcutSet();
+
+	QPainter p(this);
+
+
+
+	// Set the background to white
+	p.fillRect(rect(), AuthoringSettings::singleton().darkMode ? QColor(45, 45, 45) : Qt::white);
 }
 
 void RobloxMainWindow::updateShortcutSet()

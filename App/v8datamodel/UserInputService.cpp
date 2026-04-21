@@ -85,18 +85,6 @@ namespace ARL {
             addPair(UserInputService::PLATFORM_ANDROID, "Android");
 			addPair(UserInputService::PLATFORM_XBOXONE, "XBoxOne");
 			addPair(UserInputService::PLATFORM_PS4, "PS4");
-			addPair(UserInputService::PLATFORM_PS3, "PS3");
-			addPair(UserInputService::PLATFORM_XBOX360, "XBox360");
-			addPair(UserInputService::PLATFORM_WIIU, "WiiU");
-			addPair(UserInputService::PLATFORM_NX, "NX");
-			addPair(UserInputService::PLATFORM_OUYA, "Ouya");
-			addPair(UserInputService::PLATFORM_ANDROIDTV, "AndroidTV");
-			addPair(UserInputService::PLATFORM_CHROMECAST, "Chromecast");
-			addPair(UserInputService::PLATFORM_LINUX, "Linux");
-			addPair(UserInputService::PLATFORM_STEAMOS, "SteamOS");
-			addPair(UserInputService::PLATFORM_WEBOS, "WebOS");
-			addPair(UserInputService::PLATFORM_DOS, "DOS");
-			addPair(UserInputService::PLATFORM_BEOS, "BeOS");
 			addPair(UserInputService::PLATFORM_UWP, "UWP");
             addPair(UserInputService::PLATFORM_NONE, "None");
         }
@@ -414,8 +402,7 @@ namespace ARL {
 	{
 		UserInputService::Platform platform = getPlatform();
 
-		return (platform == PLATFORM_XBOXONE) || (platform == PLATFORM_PS4) || (platform == PLATFORM_PS3) || (platform == PLATFORM_XBOX360)
-			|| (platform == PLATFORM_WIIU) || (platform == PLATFORM_OUYA) || (platform == PLATFORM_ANDROIDTV) || (platform == PLATFORM_STEAMOS);
+		return (platform == PLATFORM_XBOXONE) || (platform == PLATFORM_PS4);
 	}
 	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getInputBeganEvent(bool whatever)
 	{

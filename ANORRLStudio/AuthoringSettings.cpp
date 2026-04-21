@@ -90,6 +90,8 @@ ARL::Reflection::PropDescriptor<AuthoringSettings, bool> prop_useCoreScriptsDir(
 ARL::Reflection::BoundProp<QDir> prop_RecentSavesDir("RecentSavesDir", "Directories", &AuthoringSettings::recentSavesDir);
 
 // Colors
+//later
+//ARL::Reflection::PropDescriptor<AuthoringSettings, bool> prop_DarkMode("Dark Mode", "Colors", &AuthoringSettings::getDarkMode, &AuthoringSettings::setDarkMode);
 ARL::Reflection::BoundProp<G3D::Color3> prop_SelectColor("Select Color", "Colors", &AuthoringSettings::selectColor);
 ARL::Reflection::BoundProp<G3D::Color3> prop_HoverOverColor("Hover Over Color", "Colors", &AuthoringSettings::hoverOverColor);
 ARL::Reflection::PropDescriptor<AuthoringSettings, G3D::Color3> prop_PrimaryPartSelectColor("Select/Hover Color", "Primary Part", &AuthoringSettings::getPrimaryPartSelectColor, &AuthoringSettings::setPrimaryPartSelectColor);
@@ -213,6 +215,7 @@ AuthoringSettings::AuthoringSettings()
 	,alwaysSaveScriptChangesWhileRunning(false)
 	,clearOutputOnStart(true)
 	,doSettingsChangedGAEvents(false)
+	,darkMode(false)
     // Script Editor
 #ifdef Q_WS_WIN32
     ,editorFont("Courier New",10)
@@ -450,6 +453,16 @@ void AuthoringSettings::setUIStyle( UIStyle value )
 AuthoringSettings::UIStyle AuthoringSettings::getUIStyle() const
 {
 	return uiStyle; 
+}
+
+void AuthoringSettings::setDarkMode(bool value)
+{
+	if (value != darkMode)
+	{
+		darkMode = value;
+
+		//raiseChanged(prop_DarkMode);
+	}
 }
 
 void AuthoringSettings::setOverrideCoreScripts(bool value)

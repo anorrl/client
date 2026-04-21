@@ -100,6 +100,8 @@ public:
     bool    autoSaveEnabled;
     int     autoSaveMinutesInterval;
 
+	bool darkMode;
+
     // Hover Over
     bool animateHoverOver;
     G3D::Color3 hoverOverColor;
@@ -177,6 +179,9 @@ public:
 			return false;
 		return !metadata->isBrowsable();
 	}
+
+	bool getDarkMode() const { return darkMode; }
+	void setDarkMode(bool value);
 
 	QDir getCoreScriptsDir() const { return coreScriptsDir; }
 	void setCoreScriptsDir(QDir value);

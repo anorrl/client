@@ -177,11 +177,11 @@ static int math_max (lua_State *L) {
   return 1;
 }
 
-
+// 32 bit signed limit rahhh
 static int math_random (lua_State *L) {
   /* the `%' avoids the (rare) case of r==1, and is needed also because on
      some systems (SunOS!) `rand()' may return a value larger than RAND_MAX */
-  lua_Number r = (lua_Number)(rand()%RAND_MAX) / (lua_Number)RAND_MAX;
+  lua_Number r = (lua_Number)(rand()%0x7FFFFFFF) / (lua_Number)0x7FFFFFFF;
   switch (lua_gettop(L)) {  /* check number of arguments */
     case 0: {  /* no arguments */
       lua_pushnumber(L, r);  /* Number between 0 and 1 */

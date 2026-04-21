@@ -223,8 +223,15 @@ OP_CLOSE),/*	A 	close all variables in the stack up to (>=) R(A)*/
 
 LUAVM_SHUFFLE2(LUAVM_SHUFFLE_COMMA,
 OP_CLOSURE,/*	A Bx	R(A) := closure(KPROTO[Bx], R(A), ... ,R(A+n))	*/
-
 OP_VARARG),/*	A B	R(A), R(A+1), ..., R(A+B-1) = vararg		*/
+
+LUAVM_SHUFFLE6(LUAVM_SHUFFLE_COMMA,
+OP_ADD_EQ,/*	A B R(A) := R(A) + RK(B)				*/
+OP_SUB_EQ,/*	A B R(A) := R(A) - RK(B)				*/
+OP_MUL_EQ,/*	A B R(A) := R(A) * RK(B)				*/
+OP_DIV_EQ,/*	A B R(A) := R(A) / RK(B)				*/
+OP_MOD_EQ,/*	A B R(A) := R(A) % RK(B)				*/
+OP_POW_EQ),/*	A B R(A) := R(A) ^ RK(B)				*/
 
 OP___COUNT
 } OpCode;

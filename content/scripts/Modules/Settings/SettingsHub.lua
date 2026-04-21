@@ -35,6 +35,7 @@ local platform = UserInputService:GetPlatform()
 local ControlFrame = RobloxGui:WaitForChild('ControlFrame')
 local ToggleDevConsoleBindableFunc = ControlFrame:WaitForChild('ToggleDevConsole')
 local lastInputChangedCon = nil
+local emotesWasVisible = false
 local chatWasVisible = false
 local userlistSuccess, userlistFlagValue = pcall(function() return settings():GetFFlag("UseUserListMenu") end)
 local useUserList = (userlistSuccess and userlistFlagValue == true)
@@ -54,6 +55,7 @@ local GameSettings = Settings.GameSettings
 --[[ CORE MODULES ]]
 local playerList = require(RobloxGui.Modules.PlayerlistModule)
 local chat = require(RobloxGui.Modules.Chat)
+local emotes = require(RobloxGui.Modules.Emotes)
 local backpack = require(RobloxGui.Modules.BackpackScript)
 
 if isSmallTouchScreen or isTenFootInterface then
@@ -875,6 +877,11 @@ local function CreateSettingsHub()
 				chatWasVisible = true
 				chat:ToggleVisibility()
 			end
+			
+			if emotes:GetVisibility() then
+				emotesWasVisible = true
+				emotes:ToggleVisibility()
+			end
 
 			if backpack.IsOpen then
 				backpack:OpenClose()
@@ -902,6 +909,11 @@ local function CreateSettingsHub()
 			if chatWasVisible then
 				chat:ToggleVisibility()
 				chatWasVisible = false
+			end
+			
+			if emotesWasVisible then
+				emotes:ToggleVisibility()
+				emotesWasVisible = false
 			end
 
 			pcall(function() UserInputService.OverrideMouseIconBehavior = Enum.OverrideMouseIconBehavior.None end)

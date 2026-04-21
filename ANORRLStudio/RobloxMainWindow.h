@@ -343,8 +343,7 @@ private:
 	QTimer*		            m_pMinutesPlayedTimer;
 
     rbx::signals::scoped_connection m_PropertyChangedConnection;
-    rbx::signals::scoped_connection m_AnalyticTrackedConnection;
-	boost::scoped_ptr<ARL::CEvent> m_cloudEditAwaitingShutdown;
+    boost::scoped_ptr<ARL::CEvent> m_cloudEditAwaitingShutdown;
 
     RobloxTextOutputWidget* m_pTextOutput;
 
