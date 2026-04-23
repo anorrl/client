@@ -1,0 +1,330 @@
+[
+    {
+        "outputFile": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\incremental\\mergeAmazonDebugResources\\merged.dir\\values-mr\\values-mr.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 110,
+                    "endOffset": 161
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 161,
+                        "endColumn": 110,
+                        "endOffset": 267
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 166,
+                    "endColumn": 115,
+                    "endOffset": 277
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 272,
+                        "endColumn": 115,
+                        "endOffset": 383
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 282,
+                    "endColumn": 95,
+                    "endOffset": 373
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 388,
+                        "endColumn": 95,
+                        "endOffset": 479
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 378,
+                    "endColumn": 66,
+                    "endOffset": 440
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 484,
+                        "endColumn": 66,
+                        "endOffset": 546
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 445,
+                    "endColumn": 68,
+                    "endOffset": 509
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 551,
+                        "endColumn": 68,
+                        "endOffset": 615
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 514,
+                    "endColumn": 63,
+                    "endOffset": 573
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 620,
+                        "endColumn": 63,
+                        "endOffset": 679
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 578,
+                    "endColumn": 73,
+                    "endOffset": 647
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 684,
+                        "endColumn": 73,
+                        "endOffset": 753
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 652,
+                    "endColumn": 75,
+                    "endOffset": 723
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 758,
+                        "endColumn": 75,
+                        "endOffset": 829
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 728,
+                    "endColumn": 89,
+                    "endOffset": 813
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 834,
+                        "endColumn": 89,
+                        "endOffset": 919
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 818,
+                    "endColumn": 77,
+                    "endOffset": 891
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 924,
+                        "endColumn": 77,
+                        "endOffset": 997
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 896,
+                    "endColumn": 77,
+                    "endOffset": 969
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 1002,
+                        "endColumn": 77,
+                        "endOffset": 1075
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 974,
+                    "endColumn": 88,
+                    "endOffset": 1058
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 1080,
+                        "endColumn": 88,
+                        "endOffset": 1164
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 1063,
+                    "endColumn": 101,
+                    "endOffset": 1160
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 1169,
+                        "endColumn": 101,
+                        "endOffset": 1266
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 1165,
+                    "endColumn": 63,
+                    "endOffset": 1224
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 1271,
+                        "endColumn": 63,
+                        "endOffset": 1330
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 1229,
+                    "endColumn": 70,
+                    "endOffset": 1295
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1335,
+                        "endColumn": 70,
+                        "endOffset": 1401
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 1300,
+                    "endColumn": 142,
+                    "endOffset": 1438
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1406,
+                        "endColumn": 142,
+                        "endOffset": 1544
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 1443,
+                    "endColumn": 60,
+                    "endOffset": 1499
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-mr\\values-mr.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1672,
+                        "endColumn": 60,
+                        "endOffset": 1728
+                    }
+                }
+            }
+        ]
+    }
+]

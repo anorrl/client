@@ -1,0 +1,330 @@
+[
+    {
+        "outputFile": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\incremental\\mergeAmazonDebugResources\\merged.dir\\values-ta\\values-ta.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 112,
+                    "endOffset": 163
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 161,
+                        "endColumn": 112,
+                        "endOffset": 269
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 168,
+                    "endColumn": 112,
+                    "endOffset": 276
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 274,
+                        "endColumn": 112,
+                        "endOffset": 382
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 281,
+                    "endColumn": 93,
+                    "endOffset": 370
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 387,
+                        "endColumn": 93,
+                        "endOffset": 476
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 375,
+                    "endColumn": 74,
+                    "endOffset": 445
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 481,
+                        "endColumn": 74,
+                        "endOffset": 551
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 450,
+                    "endColumn": 72,
+                    "endOffset": 518
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 556,
+                        "endColumn": 72,
+                        "endOffset": 624
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 523,
+                    "endColumn": 62,
+                    "endOffset": 581
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 629,
+                        "endColumn": 62,
+                        "endOffset": 687
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 586,
+                    "endColumn": 74,
+                    "endOffset": 656
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 692,
+                        "endColumn": 74,
+                        "endOffset": 762
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 661,
+                    "endColumn": 74,
+                    "endOffset": 731
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 767,
+                        "endColumn": 74,
+                        "endOffset": 837
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 736,
+                    "endColumn": 97,
+                    "endOffset": 829
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 842,
+                        "endColumn": 97,
+                        "endOffset": 935
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 834,
+                    "endColumn": 74,
+                    "endOffset": 904
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 940,
+                        "endColumn": 74,
+                        "endOffset": 1010
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 909,
+                    "endColumn": 74,
+                    "endOffset": 979
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 1015,
+                        "endColumn": 74,
+                        "endOffset": 1085
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 984,
+                    "endColumn": 91,
+                    "endOffset": 1071
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 1090,
+                        "endColumn": 91,
+                        "endOffset": 1177
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 1076,
+                    "endColumn": 111,
+                    "endOffset": 1183
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 1182,
+                        "endColumn": 111,
+                        "endOffset": 1289
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 1188,
+                    "endColumn": 65,
+                    "endOffset": 1249
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 1294,
+                        "endColumn": 65,
+                        "endOffset": 1355
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 1254,
+                    "endColumn": 64,
+                    "endOffset": 1314
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1360,
+                        "endColumn": 64,
+                        "endOffset": 1420
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 1319,
+                    "endColumn": 152,
+                    "endOffset": 1467
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1425,
+                        "endColumn": 152,
+                        "endOffset": 1573
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 1472,
+                    "endColumn": 62,
+                    "endOffset": 1530
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-ta\\values-ta.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1701,
+                        "endColumn": 62,
+                        "endOffset": 1759
+                    }
+                }
+            }
+        ]
+    }
+]

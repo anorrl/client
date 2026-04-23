@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\menu\\menu_button_logout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\menu\\menu_button_logout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\menu\\menu_button_search.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\menu\\menu_button_search.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\menu\\menu_button_bc.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\menu\\menu_button_bc.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\menu\\main_menu_actions.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\menu\\main_menu_actions.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\menu\\menu_button_robux.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\menu\\menu_button_robux.xml"
+    }
+]

@@ -1,0 +1,462 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_settings_card_common.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_settings_card_common.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_change_password_card_common.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_change_password_card_common.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_video.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_video.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_value_friends.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_value_friends.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\activity_glview.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\activity_glview.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\welcome_animation.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\welcome_animation.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_change_password_tablet.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_change_password_tablet.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_login_card_phone.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_login_card_phone.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_alert_dialog_button_bar_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_alert_dialog_button_bar_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\rbx_edittext.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\rbx_edittext.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_popup_menu_item_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_search_view.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_search_view.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\notification_template_big_media_narrow.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\notification_template_part_time.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\notification_template_part_time.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\com_facebook_tooltip_bubble.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\layout\\com_facebook_tooltip_bubble.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\tab_button_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\tab_button_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\com_facebook_activity_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\layout\\com_facebook_activity_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_navigation_menu.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_navigation_menu.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_activity_chooser_view_list_item.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_activity_chooser_view_list_item.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\messenger_button_send_blue_large.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\layout\\messenger_button_send_blue_large.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\activity_start.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\activity_start.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_menu_item_action_area.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_menu_item_action_area.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_value_messages.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_value_messages.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_sign_up_card_common.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_sign_up_card_common.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_bottom_sheet_dialog.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_bottom_sheet_dialog.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\messenger_button_send_white_large.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\layout\\messenger_button_send_white_large.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_navigation_item_header.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_navigation_item_header.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_value_home.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_value_home.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_banned_account.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_banned_account.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_create_username.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_create_username.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_screen_simple.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_screen_simple.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_change_email_phone.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_change_email_phone.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_login_card_common.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_login_card_common.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_create_username_card_common.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_create_username_card_common.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\select_dialog_item_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\select_dialog_item_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\messenger_button_send_blue_round.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\layout\\messenger_button_send_blue_round.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\rbx_button_progress.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\rbx_button_progress.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_list_menu_item_icon.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_list_menu_item_icon.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\button_logout_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\button_logout_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_list_menu_item_radio.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_list_menu_item_radio.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\messenger_button_send_white_small.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\layout\\messenger_button_send_white_small.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_sign_up.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_sign_up.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_settings_new2.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_settings_new2.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_change_email.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_change_email.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\messenger_button_send_blue_small.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\layout\\messenger_button_send_blue_small.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_layout_tab_icon.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_layout_tab_icon.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\activity_curltest.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\activity_curltest.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\support_simple_spinner_dropdown_item.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_sign_up_card_phone.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_sign_up_card_phone.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_layout_tab_text.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_layout_tab_text.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_screen_toolbar.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_screen_toolbar.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_change_email_card_common.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_change_email_card_common.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_settings_new.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_settings_new.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_action_menu_item_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_action_menu_item_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\messenger_button_send_white_round.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\layout\\messenger_button_send_white_round.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_login_phone.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_login_phone.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_action_bar_title_item.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_activity_chooser_view.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_activity_chooser_view.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\notification_template_big_media.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\notification_template_big_media.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_action_mode_bar.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_value_catalog.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_value_catalog.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_navigation_item_separator.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_navigation_item_separator.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_action_bar_up_container.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_action_bar_up_container.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_select_dialog_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_select_dialog_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_about.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_about.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_search_dropdown_item_icons_2line.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_value_error.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_value_error.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\activity_main.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\button_robux_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\button_robux_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\rbx_spinner_top.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\rbx_spinner_top.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_value_more.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_value_more.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_login.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_login.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_alert_dialog_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_alert_dialog_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_layout_snackbar.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_layout_snackbar.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\notification_media_action.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\notification_media_action.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_action_menu_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_action_menu_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\button_bc_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\button_bc_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\rbx_birthday_picker.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\rbx_birthday_picker.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_about_phone.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_about_phone.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_dialog_title_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_dialog_title_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\rbx_spinner_item.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\rbx_spinner_item.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_change_password_new.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_change_password_new.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\notification_template_lines.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\notification_template_lines.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_action_mode_close_item_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_action_mode_close_item_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_layout_snackbar_include.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_layout_snackbar_include.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_change_email_new.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_change_email_new.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_list_menu_item_checkbox.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_list_menu_item_checkbox.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\notification_media_cancel_action.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_webview.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_webview.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\activity_splash.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\activity_splash.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\notification_template_media.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\notification_template_media.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_login_card_tablet.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_login_card_tablet.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\com_facebook_login_fragment.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\layout\\com_facebook_login_fragment.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\notification_template_part_chronometer.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_change_password_phone.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_change_password_phone.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_action_bar_view_list_nav_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_action_bar_view_list_nav_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_change_password.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_change_password.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_expanded_menu_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_expanded_menu_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\select_dialog_singlechoice_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_value_container.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_value_container.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_login_new.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_login_new.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_sign_up_phone.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_sign_up_phone.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_navigation_item.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_navigation_item.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_settings.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_settings.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_navigation_menu_item.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_navigation_menu_item.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_list_menu_item_layout.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_list_menu_item_layout.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\design_navigation_item_subheader.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\layout\\design_navigation_item_subheader.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\fragment_signup_new.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\fragment_signup_new.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\rbx_gender_picker.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\rbx_gender_picker.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\actionbar_centered_title.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\actionbar_centered_title.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\activity_recaptcha.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\activity_recaptcha.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\abc_screen_content_include.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_screen_content_include.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\activity_main_phone.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout\\activity_main_phone.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout\\select_dialog_multichoice_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\select_dialog_multichoice_material.xml"
+    }
+]

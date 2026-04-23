@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+    }
+]

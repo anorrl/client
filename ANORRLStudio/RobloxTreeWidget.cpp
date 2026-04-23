@@ -1255,8 +1255,6 @@ void RobloxTreeWidget::contextMenuEvent(QContextMenuEvent * evt)
 void RobloxTreeWidget::onInsertPart()
 {
     InsertObjectWidget::InsertObject("Part",m_pDataModel,InsertObjectWidget::InsertMode_TreeWidget);
-	if (FFlag::StudioSeparateActionByActivationMethod)
-		UpdateUIManager::Instance().getMainWindow().sendActionCounterEvent("insertPartMainContext");
 }
 
 /**
@@ -1267,8 +1265,6 @@ void RobloxTreeWidget::onInsertObject()
     QAction* action = static_cast<QAction*>(sender());
     QString className = action->text();
     InsertObjectWidget::InsertObject(className,m_pDataModel,InsertObjectWidget::InsertMode_TreeWidget);
-	if (FFlag::StudioSeparateActionByActivationMethod)
-		UpdateUIManager::Instance().getMainWindow().sendActionCounterEvent(QString("insert%1Context").arg(className));
 }
 
 void RobloxTreeWidget::keyPressEvent(QKeyEvent *evt)

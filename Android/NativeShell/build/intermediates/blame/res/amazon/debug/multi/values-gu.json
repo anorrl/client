@@ -1,0 +1,330 @@
+[
+    {
+        "outputFile": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\incremental\\mergeAmazonDebugResources\\merged.dir\\values-gu\\values-gu.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 110,
+                    "endOffset": 161
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 161,
+                        "endColumn": 110,
+                        "endOffset": 267
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 166,
+                    "endColumn": 120,
+                    "endOffset": 282
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 272,
+                        "endColumn": 120,
+                        "endOffset": 388
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 287,
+                    "endColumn": 92,
+                    "endOffset": 375
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 393,
+                        "endColumn": 92,
+                        "endOffset": 481
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 380,
+                    "endColumn": 70,
+                    "endOffset": 446
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 486,
+                        "endColumn": 70,
+                        "endOffset": 552
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 451,
+                    "endColumn": 71,
+                    "endOffset": 518
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 557,
+                        "endColumn": 71,
+                        "endOffset": 624
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 523,
+                    "endColumn": 69,
+                    "endOffset": 588
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 629,
+                        "endColumn": 69,
+                        "endOffset": 694
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 593,
+                    "endColumn": 71,
+                    "endOffset": 660
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 699,
+                        "endColumn": 71,
+                        "endOffset": 766
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 665,
+                    "endColumn": 75,
+                    "endOffset": 736
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 771,
+                        "endColumn": 75,
+                        "endOffset": 842
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 741,
+                    "endColumn": 92,
+                    "endOffset": 829
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 847,
+                        "endColumn": 92,
+                        "endOffset": 935
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 834,
+                    "endColumn": 77,
+                    "endOffset": 907
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 940,
+                        "endColumn": 77,
+                        "endOffset": 1013
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 912,
+                    "endColumn": 77,
+                    "endOffset": 985
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 1018,
+                        "endColumn": 77,
+                        "endOffset": 1091
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 990,
+                    "endColumn": 89,
+                    "endOffset": 1075
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 1096,
+                        "endColumn": 89,
+                        "endOffset": 1181
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 1080,
+                    "endColumn": 107,
+                    "endOffset": 1183
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 1186,
+                        "endColumn": 107,
+                        "endOffset": 1289
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 1188,
+                    "endColumn": 63,
+                    "endOffset": 1247
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 1294,
+                        "endColumn": 63,
+                        "endOffset": 1353
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 1252,
+                    "endColumn": 66,
+                    "endOffset": 1314
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1358,
+                        "endColumn": 66,
+                        "endOffset": 1420
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 1319,
+                    "endColumn": 146,
+                    "endOffset": 1461
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1425,
+                        "endColumn": 146,
+                        "endOffset": 1567
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 1466,
+                    "endColumn": 60,
+                    "endOffset": 1522
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\values-gu\\values-gu.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1695,
+                        "endColumn": 60,
+                        "endOffset": 1751
+                    }
+                }
+            }
+        ]
+    }
+]

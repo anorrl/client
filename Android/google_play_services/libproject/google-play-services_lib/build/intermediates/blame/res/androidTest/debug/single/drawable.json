@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\common_signin_btn_icon_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\drawable\\common_signin_btn_icon_dark.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\common_signin_btn_icon_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\drawable\\common_signin_btn_icon_light.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\common_signin_btn_text_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\drawable\\common_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\common_signin_btn_text_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\drawable\\common_signin_btn_text_dark.xml"
+    }
+]

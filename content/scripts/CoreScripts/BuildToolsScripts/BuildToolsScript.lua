@@ -6,10 +6,11 @@ local currentTools = {}
 
 local BaseUrl = game:GetService("ContentProvider").BaseUrl:lower()
 
-if BaseUrl:find("arl.lambda.cam") or BaseUrl:find("gametest1") then
+if BaseUrl:find("www.roblox.com") or BaseUrl:find("gametest1") then
     DeleteToolID = 73089190
     PartSelectionID = 73089166
     CloneToolID = 73089204
+    RecentPartToolID = 73089229
     RotateToolID = 73089214
     ConfigToolID = 73089239
     WiringToolID = 73089259
@@ -18,6 +19,7 @@ elseif BaseUrl:find("gametest2") then
     DeleteToolID = 70353317
     PartSelectionID = 70353315
     CloneToolID = 70353314
+    RecentPartToolID = 70353316
     RotateToolID = 70353318
     ConfigToolID = 70353319
     WiringToolID = 70353320
@@ -40,19 +42,19 @@ local function waitForChild(instance, name)
 	end
 end
 
-waitForProperty(game:GetService("Players"),"LocalPlayer")
-waitForProperty(game:GetService("Players").LocalPlayer,"userId")
+waitForProperty(game.Players,"LocalPlayer")
+waitForProperty(game.Players.LocalPlayer,"userId")
 
 -- we aren't in a true build mode session, don't give build tools and delete this script
-if game:GetService("Players").LocalPlayer.userId < 1 then
+if game.Players.LocalPlayer.userId < 1 then
 	script:Destroy()
 	return -- this is probably not necessesary, doing it just in case
 end
 
 -- Functions
 function getLatestPlayer()
-	waitForProperty(game:GetService("Players"),"LocalPlayer")
-	player = game:GetService("Players").LocalPlayer
+	waitForProperty(game.Players,"LocalPlayer")
+	player = game.Players.LocalPlayer
 	waitForChild(player,"Backpack")
 	backpack = player.Backpack
 end
@@ -105,15 +107,15 @@ end
 function clearLoadout()
 	currentTools = {}
 
-	local backpackChildren = game:GetService("Players").LocalPlayer.Backpack:GetChildren()
+	local backpackChildren = game.Players.LocalPlayer.Backpack:GetChildren()
 	for i = 1, #backpackChildren do
 		if backpackChildren[i]:IsA("Tool") or backpackChildren[i]:IsA("HopperBin") then
 			table.insert(currentTools,backpackChildren[i])
 		end
 	end
 	
-	if game:GetService("Players").LocalPlayer["Character"] then
-		local characterChildren = game:GetService("Players").LocalPlayer.Character:GetChildren()
+	if game.Players.LocalPlayer["Character"] then
+		local characterChildren = game.Players.LocalPlayer.Character:GetChildren()
 		for i = 1, #characterChildren do
 			if characterChildren[i]:IsA("Tool") or characterChildren[i]:IsA("HopperBin") then
 				table.insert(currentTools,characterChildren[i])
@@ -128,7 +130,7 @@ end
 
 function giveToolsBack()
 	for i = 1, #currentTools do
-		currentTools[i].Parent = game:GetService("Players").LocalPlayer.Backpack
+		currentTools[i].Parent = game.Players.LocalPlayer.Backpack
 	end
 end
 
@@ -175,6 +177,7 @@ function loadBuildTools()
 	giveAssetId(DeleteToolID)
 	giveAssetId(CloneToolID)
 	giveAssetId(RotateToolID)
+	giveAssetId(RecentPartToolID)
 	giveAssetId(WiringToolID)
 	giveAssetId(ConfigToolID)
 	

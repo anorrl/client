@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-tvdpi\\ic_plusone_standard_off_client.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-tvdpi\\ic_plusone_standard_off_client.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-tvdpi\\ic_plusone_small_off_client.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-tvdpi\\ic_plusone_small_off_client.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-tvdpi\\common_full_open_on_phone.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-tvdpi\\common_full_open_on_phone.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-tvdpi\\ic_plusone_medium_off_client.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-tvdpi\\ic_plusone_medium_off_client.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-tvdpi\\ic_plusone_tall_off_client.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-tvdpi\\ic_plusone_tall_off_client.png"
+    }
+]

@@ -2,7 +2,7 @@
 
 -- first, lets see if buildTools have already been created
 -- create the object in ReplicatedStorage if not
-local container = game:GetService("ReplicatedStorage")
+local container = Game:GetService("ReplicatedStorage")
 local toolsArray = container:FindFirstChild("BuildToolsModel")
 local ownerArray = container:FindFirstChild("OwnerToolsModel")
 local hasBuildTools = false
@@ -13,10 +13,10 @@ local function waitForProperty(instance, name)
 	end
 end
 
-waitForProperty(game:GetService("Players"),"LocalPlayer")
-waitForProperty(game:GetService("Players").LocalPlayer,"userId")
+waitForProperty(Game.Players,"LocalPlayer")
+waitForProperty(Game.Players.LocalPlayer,"userId")
 
-local player = game:GetService("Players").LocalPlayer
+local player = Game:GetService("Players").LocalPlayer
 if not player then 
 	script:Destroy()
 	return 
@@ -98,9 +98,9 @@ function giveBuildTools()
 		hasBuildTools = true
 		local theTools = toolsArray:GetChildren()
 		for i = 1, #theTools do
-			local toolClone = theTools[i]:Clone()
+			local toolClone = theTools[i]:clone()
 			if toolClone then
-				toolClone.Parent = player:FindFirstChild("Backpack")
+				toolClone.Parent = player:findFirstChild("Backpack")
 				table.insert(localBuildTools,toolClone)
 			end
 		end
@@ -110,9 +110,9 @@ end
 function giveOwnerTools()
 	local theOwnerTools = ownerArray:GetChildren()
 	for i = 1, #theOwnerTools do
-		local ownerToolClone = theOwnerTools[i]:Clone()
+		local ownerToolClone = theOwnerTools[i]:clone()
 		if ownerToolClone then
-			ownerToolClone.Parent = player:FindFirstChild("Backpack")
+			ownerToolClone.Parent = player:findFirstChild("Backpack")
 			table.insert(localBuildTools,ownerToolClone)
 		end
 	end

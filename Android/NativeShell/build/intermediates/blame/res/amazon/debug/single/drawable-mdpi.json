@@ -1,0 +1,206 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_icon_normal_dark.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_icon_normal_dark.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_tooltip_black_background.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_tooltip_black_background.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_text_disabled_dark.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_text_disabled_dark.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_icon_disabled_focus_dark.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_icon_disabled_focus_dark.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_tooltip_black_xout.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_tooltip_black_xout.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_icon_pressed_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_icon_pressed_light.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_tooltip_black_bottomnub.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_tooltip_black_bottomnub.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\messenger_button_send_round_shadow.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\messenger_button_send_round_shadow.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_icon_pressed_dark.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_icon_pressed_dark.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\messenger_bubble_small_blue.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\messenger_bubble_small_blue.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_profile_picture_blank_square.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_profile_picture_blank_square.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\messenger_bubble_small_white.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\messenger_bubble_small_white.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_text_disabled_focus_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_text_disabled_focus_light.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_text_normal_dark.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_text_normal_dark.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_button_like_icon_selected.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_button_like_icon_selected.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\ic_plusone_tall_off_client.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\ic_plusone_tall_off_client.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_text_pressed_dark.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_text_pressed_dark.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\textfield_search_selected_holo_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\pub\\drawable-mdpi\\textfield_search_selected_holo_light.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\ic_plusone_standard_off_client.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\ic_plusone_standard_off_client.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_tooltip_blue_xout.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_tooltip_blue_xout.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\ic_launcher.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\pub\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_icon_focus_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_icon_focus_light.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_button_send_icon.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_button_send_icon.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_profile_picture_blank_portrait.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_profile_picture_blank_portrait.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_tooltip_blue_topnub.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_tooltip_blue_topnub.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\messenger_bubble_large_white.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\messenger_bubble_large_white.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\roblox_logo.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable-mdpi\\roblox_logo.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\ic_launcher_transparent.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable-mdpi\\ic_launcher_transparent.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_icon_disabled_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_icon_disabled_light.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_tooltip_blue_bottomnub.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_tooltip_blue_bottomnub.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_tooltip_black_topnub.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_tooltip_black_topnub.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_icon_focus_dark.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_icon_focus_dark.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\powered_by_google_light.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-location\\7.0.0\\res\\drawable-mdpi\\powered_by_google_light.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_tooltip_blue_background.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_tooltip_blue_background.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_icon_disabled_focus_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_icon_disabled_focus_light.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\ic_plusone_medium_off_client.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\ic_plusone_medium_off_client.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_text_disabled_focus_dark.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_text_disabled_focus_dark.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\messenger_bubble_large_blue.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\messenger_bubble_large_blue.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_text_disabled_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_text_disabled_light.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\ic_action_search.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\pub\\drawable-mdpi\\ic_action_search.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_text_normal_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_text_normal_light.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_close.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_close.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\com_facebook_button_icon.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable-mdpi\\com_facebook_button_icon.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_text_pressed_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_text_pressed_light.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_icon_disabled_dark.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_icon_disabled_dark.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\powered_by_google_dark.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-location\\7.0.0\\res\\drawable-mdpi\\powered_by_google_dark.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\ic_plusone_small_off_client.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\ic_plusone_small_off_client.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_text_focus_dark.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_text_focus_dark.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_icon_normal_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_icon_normal_light.9.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_full_open_on_phone.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_full_open_on_phone.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-mdpi\\common_signin_btn_text_focus_light.9.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable-mdpi\\common_signin_btn_text_focus_light.9.png"
+    }
+]

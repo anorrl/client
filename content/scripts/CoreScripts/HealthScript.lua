@@ -6,15 +6,15 @@
 
 ---------------------------------------------------------------------
 -- Initialize/Variables
-while not game do
+while not Game do
 	wait(1/60)
 end
-while not game:GetService("Players") do
+while not Game.Players do
 	wait(1/60)
 end
 
 local useCoreHealthBar = false
-local success = pcall(function() useCoreHealthBar = game:GetService("Players"):GetUseCoreScriptHealthBar() end)
+local success = pcall(function() useCoreHealthBar = Game.Players:GetUseCoreScriptHealthBar() end)
 if not success or not useCoreHealthBar then
 	return
 end
@@ -39,10 +39,10 @@ local greenBarImageLeft = "rbxasset://textures/ui/Health-BKG-Left-Cap.png"
 local greenBarImageRight = "rbxasset://textures/ui/Health-BKG-Right-Cap.png"
 local hurtOverlayImage = "http://www.roblox.com/asset/?id=34854607"
 
-game:GetService("ContentProvider"):Preload(greenBarImage)
-game:GetService("ContentProvider"):Preload(hurtOverlayImage)
+Game:GetService("ContentProvider"):Preload(greenBarImage)
+Game:GetService("ContentProvider"):Preload(hurtOverlayImage)
 
-while not game:GetService("Players").LocalPlayer do
+while not Game.Players.LocalPlayer do
 	wait(1/60)
 end
 
@@ -54,7 +54,7 @@ local capWidth = 7
 
 function CreateGui()
 	if HealthGui and #HealthGui:GetChildren() > 0 then 
-		HealthGui.Parent = game:GetService("CoreGui").RobloxGui
+		HealthGui.Parent = Game.CoreGui.RobloxGui
 		return 
 	end
 
@@ -145,7 +145,7 @@ function CreateGui()
 	healthBarRight.Parent = healthBar
 	healthBarRight.ImageColor3 = greenColor
 
-	HealthGui.Parent = game:GetService("CoreGui").RobloxGui
+	HealthGui.Parent = Game.CoreGui.RobloxGui
 end
 
 function UpdateGui(health)
@@ -205,7 +205,7 @@ function UpdateGui(health)
 
 	local thresholdForHurtOverlay = currentHumanoid.MaxHealth * (HealthPercentageForOverlay/100)
 	
-	if healthDelta >= thresholdForHurtOverlay and guiEnabled then
+	if healthDelta >= thresholdForHurtOverlay then
 		AnimateHurtOverlay()
 	end
 
@@ -220,7 +220,7 @@ function AnimateHurtOverlay()
 	local newSize = UDim2.new(20, 0, 20, 0)
 	local newPos = UDim2.new(-10, 0, -10, 0)
 
-	if overlay:IsDescendantOf(game) then
+	if overlay:IsDescendantOf(Game) then
 		-- stop any tweens on overlay
 		overlay:TweenSizeAndPosition(newSize,newPos,Enum.EasingDirection.Out,Enum.EasingStyle.Linear,0,true,function()
 			
@@ -230,7 +230,7 @@ function AnimateHurtOverlay()
 			overlay.Visible = true
 			
 			-- now tween the hide
-			if overlay:IsDescendantOf(game) then
+			if overlay:IsDescendantOf(Game) then
 				overlay:TweenSizeAndPosition(newSize,newPos,Enum.EasingDirection.Out,Enum.EasingStyle.Quad,10,false,function()
 					overlay.Visible = false
 				end)
@@ -262,9 +262,9 @@ function newPlayerCharacter()
 end
 
 function startGui()
-	characterAddedConnection = game:GetService("Players").LocalPlayer.CharacterAdded:connect(newPlayerCharacter)
+	characterAddedConnection = Game.Players.LocalPlayer.CharacterAdded:connect(newPlayerCharacter)
 
-	local character = game:GetService("Players").LocalPlayer.Character
+	local character = Game.Players.LocalPlayer.Character
 	if not character then
 		return
 	end
@@ -274,7 +274,7 @@ function startGui()
 		return
 	end
 
-	if not game:GetService("StarterGui"):GetCoreGuiEnabled(Enum.CoreGuiType.Health) then
+	if not Game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Health) then
 		return
 	end
 
@@ -295,7 +295,7 @@ HealthGui.Name = "HealthGui"
 HealthGui.BackgroundTransparency = 1
 HealthGui.Size = UDim2.new(1,0,1,0)
 
-game:GetService("StarterGui").CoreGuiChangedSignal:connect(function(coreGuiType,enabled)
+Game.StarterGui.CoreGuiChangedSignal:connect(function(coreGuiType,enabled)
 	if coreGuiType == Enum.CoreGuiType.Health or coreGuiType == Enum.CoreGuiType.All then
 		if guiEnabled and not enabled then
 			if HealthGui then
@@ -310,7 +310,7 @@ game:GetService("StarterGui").CoreGuiChangedSignal:connect(function(coreGuiType,
 	end
 end)
 
-if game:GetService("StarterGui"):GetCoreGuiEnabled(Enum.CoreGuiType.Health) then
+if Game.StarterGui:GetCoreGuiEnabled(Enum.CoreGuiType.Health) then
 	guiEnabled = true
 	startGui()
 end

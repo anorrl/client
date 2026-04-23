@@ -1,0 +1,737 @@
+[
+    {
+        "outputFile": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 105,
+                    "endColumn": 60,
+                    "endOffset": 161
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 105,
+                        "endColumn": 60,
+                        "endOffset": 161
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 166,
+                    "endColumn": 82,
+                    "endOffset": 244
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 166,
+                        "endColumn": 82,
+                        "endOffset": 244
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 249,
+                    "endColumn": 72,
+                    "endOffset": 317
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 249,
+                        "endColumn": 72,
+                        "endOffset": 317
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 322,
+                    "endColumn": 82,
+                    "endOffset": 400
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 322,
+                        "endColumn": 82,
+                        "endOffset": 400
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 405,
+                    "endColumn": 82,
+                    "endOffset": 483
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 405,
+                        "endColumn": 82,
+                        "endOffset": 483
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 488,
+                    "endColumn": 72,
+                    "endOffset": 556
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 488,
+                        "endColumn": 72,
+                        "endOffset": 556
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 561,
+                    "endColumn": 72,
+                    "endOffset": 629
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 561,
+                        "endColumn": 72,
+                        "endOffset": 629
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 634,
+                    "endColumn": 73,
+                    "endOffset": 703
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 634,
+                        "endColumn": 73,
+                        "endOffset": 703
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 708,
+                    "endColumn": 72,
+                    "endOffset": 776
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 708,
+                        "endColumn": 72,
+                        "endOffset": 776
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 781,
+                    "endColumn": 83,
+                    "endOffset": 860
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 781,
+                        "endColumn": 83,
+                        "endOffset": 860
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 1917,
+                    "endColumn": 66,
+                    "endOffset": 1979
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 1917,
+                        "endColumn": 66,
+                        "endOffset": 1979
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 21,
+                    "startColumn": 4,
+                    "startOffset": 1984,
+                    "endLine": 23,
+                    "endColumn": 11,
+                    "endOffset": 2110
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 1984,
+                        "endLine": 23,
+                        "endColumn": 11,
+                        "endOffset": 2110
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 2115,
+                    "endLine": 26,
+                    "endColumn": 11,
+                    "endOffset": 2247
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 2115,
+                        "endLine": 26,
+                        "endColumn": 11,
+                        "endOffset": 2247
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 27,
+                    "startColumn": 4,
+                    "startOffset": 2252,
+                    "endLine": 29,
+                    "endColumn": 11,
+                    "endOffset": 2376
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 27,
+                        "startColumn": 4,
+                        "startOffset": 2252,
+                        "endLine": 29,
+                        "endColumn": 11,
+                        "endOffset": 2376
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 30,
+                    "startColumn": 4,
+                    "startOffset": 2381,
+                    "endColumn": 101,
+                    "endOffset": 2478
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 2381,
+                        "endColumn": 101,
+                        "endOffset": 2478
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 31,
+                    "startColumn": 4,
+                    "startOffset": 2483,
+                    "endColumn": 103,
+                    "endOffset": 2582
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 31,
+                        "startColumn": 4,
+                        "startOffset": 2483,
+                        "endColumn": 103,
+                        "endOffset": 2582
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 32,
+                    "startColumn": 4,
+                    "startOffset": 2587,
+                    "endLine": 34,
+                    "endColumn": 11,
+                    "endOffset": 2727
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 2587,
+                        "endLine": 34,
+                        "endColumn": 11,
+                        "endOffset": 2727
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 35,
+                    "startColumn": 4,
+                    "startOffset": 2732,
+                    "endColumn": 125,
+                    "endOffset": 2853
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 35,
+                        "startColumn": 4,
+                        "startOffset": 2732,
+                        "endColumn": 125,
+                        "endOffset": 2853
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 36,
+                    "startColumn": 4,
+                    "startOffset": 2858,
+                    "endColumn": 155,
+                    "endOffset": 3009
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 36,
+                        "startColumn": 4,
+                        "startOffset": 2858,
+                        "endColumn": 155,
+                        "endOffset": 3009
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 37,
+                    "startColumn": 4,
+                    "startOffset": 3014,
+                    "endColumn": 124,
+                    "endOffset": 3134
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 37,
+                        "startColumn": 4,
+                        "startOffset": 3014,
+                        "endColumn": 124,
+                        "endOffset": 3134
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 38,
+                    "startColumn": 4,
+                    "startOffset": 3139,
+                    "endColumn": 123,
+                    "endOffset": 3258
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 38,
+                        "startColumn": 4,
+                        "startOffset": 3139,
+                        "endColumn": 123,
+                        "endOffset": 3258
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 39,
+                    "startColumn": 4,
+                    "startOffset": 3263,
+                    "endColumn": 187,
+                    "endOffset": 3446
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 39,
+                        "startColumn": 4,
+                        "startOffset": 3263,
+                        "endColumn": 187,
+                        "endOffset": 3446
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 40,
+                    "startColumn": 4,
+                    "startOffset": 3451,
+                    "endColumn": 189,
+                    "endOffset": 3636
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 40,
+                        "startColumn": 4,
+                        "startOffset": 3451,
+                        "endColumn": 189,
+                        "endOffset": 3636
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 41,
+                    "startColumn": 4,
+                    "startOffset": 3641,
+                    "endColumn": 122,
+                    "endOffset": 3759
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 41,
+                        "startColumn": 4,
+                        "startOffset": 3641,
+                        "endColumn": 122,
+                        "endOffset": 3759
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 42,
+                    "startColumn": 4,
+                    "startOffset": 3764,
+                    "endColumn": 164,
+                    "endOffset": 3924
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 42,
+                        "startColumn": 4,
+                        "startOffset": 3764,
+                        "endColumn": 164,
+                        "endOffset": 3924
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 43,
+                    "startColumn": 4,
+                    "startOffset": 3929,
+                    "endColumn": 93,
+                    "endOffset": 4018
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 43,
+                        "startColumn": 4,
+                        "startOffset": 3929,
+                        "endColumn": 93,
+                        "endOffset": 4018
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 44,
+                    "startColumn": 4,
+                    "startOffset": 4023,
+                    "endColumn": 140,
+                    "endOffset": 4159
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 44,
+                        "startColumn": 4,
+                        "startOffset": 4023,
+                        "endColumn": 140,
+                        "endOffset": 4159
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 45,
+                    "startColumn": 4,
+                    "startOffset": 4164,
+                    "endColumn": 89,
+                    "endOffset": 4249
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 45,
+                        "startColumn": 4,
+                        "startOffset": 4164,
+                        "endColumn": 89,
+                        "endOffset": 4249
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 46,
+                    "startColumn": 4,
+                    "startOffset": 4254,
+                    "endColumn": 110,
+                    "endOffset": 4360
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 46,
+                        "startColumn": 4,
+                        "startOffset": 4254,
+                        "endColumn": 110,
+                        "endOffset": 4360
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 47,
+                    "startColumn": 4,
+                    "startOffset": 4365,
+                    "endColumn": 162,
+                    "endOffset": 4523
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 47,
+                        "startColumn": 4,
+                        "startOffset": 4365,
+                        "endColumn": 162,
+                        "endOffset": 4523
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 48,
+                    "startColumn": 4,
+                    "startOffset": 4528,
+                    "endColumn": 216,
+                    "endOffset": 4740
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 48,
+                        "startColumn": 4,
+                        "startOffset": 4528,
+                        "endColumn": 216,
+                        "endOffset": 4740
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 49,
+                    "startColumn": 4,
+                    "startOffset": 4745,
+                    "endColumn": 94,
+                    "endOffset": 4835
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 49,
+                        "startColumn": 4,
+                        "startOffset": 4745,
+                        "endColumn": 94,
+                        "endOffset": 4835
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 50,
+                    "startColumn": 4,
+                    "startOffset": 4840,
+                    "endColumn": 104,
+                    "endOffset": 4940
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 50,
+                        "startColumn": 4,
+                        "startOffset": 4840,
+                        "endColumn": 104,
+                        "endOffset": 4940
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 51,
+                    "startColumn": 4,
+                    "startOffset": 4945,
+                    "endColumn": 155,
+                    "endOffset": 5096
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 51,
+                        "startColumn": 4,
+                        "startOffset": 4945,
+                        "endColumn": 155,
+                        "endOffset": 5096
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 52,
+                    "startColumn": 4,
+                    "startOffset": 5101,
+                    "endColumn": 124,
+                    "endOffset": 5221
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 52,
+                        "startColumn": 4,
+                        "startOffset": 5101,
+                        "endColumn": 124,
+                        "endOffset": 5221
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 53,
+                    "startColumn": 4,
+                    "startOffset": 5226,
+                    "endColumn": 61,
+                    "endOffset": 5283
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 53,
+                        "startColumn": 4,
+                        "startOffset": 5226,
+                        "endColumn": 61,
+                        "endOffset": 5283
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 54,
+                    "startColumn": 4,
+                    "startOffset": 5288,
+                    "endColumn": 78,
+                    "endOffset": 5362
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 54,
+                        "startColumn": 4,
+                        "startOffset": 5288,
+                        "endColumn": 78,
+                        "endOffset": 5362
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 55,
+                    "startColumn": 4,
+                    "startOffset": 5367,
+                    "endColumn": 79,
+                    "endOffset": 5442
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\google_play_services\\libproject\\google-play-services_lib\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 55,
+                        "startColumn": 4,
+                        "startOffset": 5367,
+                        "endColumn": 79,
+                        "endOffset": 5442
+                    }
+                }
+            }
+        ]
+    }
+]

@@ -61,9 +61,6 @@
 #include "v8datamodel/BasicPartInstance.h"
 #include "v8datamodel/VehicleSeat.h"
 
-
-FASTFLAG(GoogleAnalyticsTrackingEnabled)
-
 static const char* kInsertedItemSelectedSetting = "insertedItemSelectedSetting";
 
 QSet<QString> InsertObjectWidget::m_sObjectExceptions;
@@ -587,11 +584,6 @@ void InsertObjectWidget::InsertObject(
 					intendedTarget = pTargetInstance;
 
 				throw ARL::runtime_error("%s cannot be a child of %s", pObjectToInsert->getClassNameStr().c_str(), intendedTarget->getName().c_str());
-			}
-
-			if (FFlag::GoogleAnalyticsTrackingEnabled)
-			{
-				ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ACTION, "InsertObject", pObjectToInsert->getClassNameStr().c_str());
 			}
 
 			ARL::PartInstance* pPartInstance = ARL::Instance::fastDynamicCast<ARL::PartInstance>(pObjectToInsert.get());

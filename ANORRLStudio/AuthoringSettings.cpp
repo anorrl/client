@@ -215,7 +215,7 @@ AuthoringSettings::AuthoringSettings()
 	,alwaysSaveScriptChangesWhileRunning(false)
 	,clearOutputOnStart(true)
 	,doSettingsChangedGAEvents(false)
-	,darkMode(true)
+	,darkMode(false)
     // Script Editor
 #ifdef Q_WS_WIN32
     ,editorFont("Courier New",10)

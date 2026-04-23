@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-xxxhdpi\\ic_launcher_transparent.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable-xxxhdpi\\ic_launcher_transparent.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-xxxhdpi\\ic_launcher.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\pub\\drawable-xxxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-xxxhdpi\\ic_action_search.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\pub\\drawable-xxxhdpi\\ic_action_search.png"
+    }
+]

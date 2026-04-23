@@ -12,9 +12,9 @@ local MIN_SAVE_TIME = 900 -- At least this many seconds will pass before saving 
 --| Variables |--
 -----------------
 
-local ContentProviderService = game:GetService('ContentProvider')
-local PlayersService = game:GetService('Players')
-local RunService = game:GetService("RunService")
+local ContentProviderService = Game:GetService('ContentProvider')
+local PlayersService = Game:GetService('Players')
+local RunService = Game:GetService("RunService")
 
 local StartingPlayerRanks = {}
 local RbxUtil = nil
@@ -26,16 +26,10 @@ local NumberOfChangesBeforeSaveAbsolute = CHANGES_PER_PLAYER
 local GameRunning = true
 local WaitingToSave = false
 
-local PlaceId = game.PlaceId
+local PlaceId = Game.PlaceId
 local Url = ContentProviderService.BaseUrl
 local UrlBase = Url:match('^http://www\.(.-)/?$') -- Turns "http://www.gametest1.robloxlabs.com/" into "gametest1.robloxlabs.com"
 local ApiProxyUrl = 'https://api.' ..  UrlBase
-local DataFarmProtocol = 'http'
-local DataFarmUsesHttpsFlagExists, DataFarmUsesHttpsFlagValue = pcall(function () return settings():GetFFlag("DataFarmUsesHttps") end)
-if DataFarmUsesHttpsFlagExists and DataFarmUsesHttpsFlagValue then
-	DataFarmProtocol = 'https'
-end
-local DataFarmUrl = DataFarmProtocol .. '://data.' .. UrlBase
 
 -----------------
 --| Functions |--
@@ -50,7 +44,7 @@ end
 
 -- Checks the full hierarchy of an instance for archivability
 local function IsArchivable(instance)
-	if instance == workspace then
+	if instance == Workspace then
 		return true
 	elseif not instance.Archivable then
 		return false
@@ -70,7 +64,7 @@ local function OnPlayerAdded(player)
 		local getRankUrl = ApiProxyUrl .. '/RoleSets/GetRoleSetForUser?placeId=' .. tostring(PlaceId) .. '&userId=' .. tostring(player.userId)
 		local serverRankTable = nil
 		pcall(function()
-			serverRankTable = GetRbxUtil().DecodeJSON(game:HttpGetAsync(getRankUrl))
+			serverRankTable = GetRbxUtil().DecodeJSON(Game:HttpGetAsync(getRankUrl))
 		end)
 
 		local playerRank = 0
@@ -99,7 +93,7 @@ local function OnPlayerRemoved(player)
 			local playerRank = player.PersonalServerRank
 			if StartingPlayerRanks[player] ~= playerRank then -- Don't need to make web call if rank is the same
 				local setRankUrl = ApiProxyUrl .. '/RoleSets/PrivilegedSetUserRoleSetRank?placeId=' .. tostring(PlaceId) .. '&userId=' .. tostring(player.userId) .. '&newRank=' .. tostring(playerRank)
-				ypcall(function() game:HttpPostAsync(setRankUrl, 'SetPersonalServerRank') end)
+				ypcall(function() Game:HttpPostAsync(setRankUrl, 'SetPersonalServerRank') end)
 			end
 			StartingPlayerRanks[player] = nil
 		end
@@ -110,7 +104,7 @@ local function DoSave()
 	if GameRunning then
 		ChangeCount = 0
 		LastSaveTime = tick()
-		game:ServerSave()
+		Game:ServerSave()
 	end
 end
 
@@ -124,7 +118,7 @@ local function TrySave()
 			DoSave()
 		elseif not WaitingToSave then -- Save after cooldown
 			WaitingToSave = true
-			delay(LastSaveTime + MIN_SAVE_TIME - now, function()
+			Delay(LastSaveTime + MIN_SAVE_TIME - now, function()
 				DoSave()
 				WaitingToSave = false
 			end)
@@ -159,16 +153,16 @@ end
 --| Script Logic |--
 --------------------
 
-game:WaitForChild('Workspace')
+Game:WaitForChild('Workspace')
 
 pcall(function()
-	game.IsPersonalServer = true
+	Game.IsPersonalServer = true
 
-	if not workspace:FindFirstChild("PSVariable") then
+	if not Workspace:FindFirstChild("PSVariable") then
 		local psVar = Instance.new("BoolValue")
 		psVar.Name = "PSVariable"
 		psVar.Archivable = false
-		psVar.Parent = workspace
+		psVar.Parent = Workspace
 	end
 end)
 
@@ -178,21 +172,15 @@ for _, player in pairs(PlayersService:GetPlayers()) do
 	OnPlayerAdded(player)
 end
 
-local useSubdomainsFlagExists, useSubdomainsFlagValue = pcall(function () return settings():GetFFlag("UseNewSubdomainsInCoreScripts") end)
-local saveUrlBase = Url
-if(useSubdomainsFlagExists and useSubdomainsFlagValue and DataFarmUrl~=nil) then
-	saveUrlBase = DataFarmUrl
-end
-
-if saveUrlBase~=nil then
-	game:SetServerSaveUrl(saveUrlBase .. "/Data/AutoSave.ashx?assetId=" .. PlaceId)
+if Url~=nil then
+	Game:SetServerSaveUrl(Url .. "Data/AutoSave.ashx?assetId=" .. PlaceId)
 end
 
 if pcall(function()
-	game.Close:connect(
+	Game.Close:connect(
 		function()
 			GameRunning = false
-			game:ServerSave()
+			Game:ServerSave()
 		end)
 	end) == false then
 	print("!Error in Game.Close:connect")
@@ -200,7 +188,7 @@ end
 
 RunService:Run()
 
-game:GetService("Workspace").DescendantAdded:connect(OnEdit)
-game:GetService("Workspace").DescendantRemoving:connect(OnEdit)
+Game.Workspace.DescendantAdded:connect(OnEdit)
+Game.Workspace.DescendantRemoving:connect(OnEdit)
 
-spawn(CheckForSaveOnInterval)
+Spawn(CheckForSaveOnInterval)

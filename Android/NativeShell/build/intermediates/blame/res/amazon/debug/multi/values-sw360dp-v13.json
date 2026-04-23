@@ -1,0 +1,311 @@
+[
+    {
+        "outputFile": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\incremental\\mergeAmazonDebugResources\\merged.dir\\values-sw360dp-v13\\values-sw360dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 52,
+                    "endOffset": 103
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 218,
+                        "endColumn": 52,
+                        "endOffset": 266
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 108,
+                    "endColumn": 41,
+                    "endOffset": 145
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 485,
+                        "endColumn": 41,
+                        "endOffset": 522
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 150,
+                    "endColumn": 49,
+                    "endOffset": 195
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 750,
+                        "endColumn": 49,
+                        "endOffset": 795
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 200,
+                    "endColumn": 46,
+                    "endOffset": 242
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 580,
+                        "endColumn": 46,
+                        "endOffset": 622
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 247,
+                    "endColumn": 50,
+                    "endOffset": 293
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 528,
+                        "endColumn": 50,
+                        "endOffset": 574
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 298,
+                    "endColumn": 57,
+                    "endOffset": 351
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 860,
+                        "endColumn": 57,
+                        "endOffset": 913
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 356,
+                    "endColumn": 57,
+                    "endOffset": 409
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 801,
+                        "endColumn": 57,
+                        "endOffset": 854
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 414,
+                    "endColumn": 48,
+                    "endOffset": 458
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 272,
+                        "endColumn": 48,
+                        "endOffset": 316
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 463,
+                    "endColumn": 48,
+                    "endOffset": 507
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 322,
+                        "endColumn": 48,
+                        "endOffset": 366
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 512,
+                    "endColumn": 56,
+                    "endOffset": 564
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 372,
+                        "endColumn": 56,
+                        "endOffset": 424
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 569,
+                    "endColumn": 59,
+                    "endOffset": 624
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 628,
+                        "endColumn": 59,
+                        "endOffset": 683
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 629,
+                    "endColumn": 59,
+                    "endOffset": 684
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 689,
+                        "endColumn": 59,
+                        "endOffset": 744
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 689,
+                    "endColumn": 53,
+                    "endOffset": 738
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 430,
+                        "endColumn": 53,
+                        "endOffset": 479
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 743,
+                    "endColumn": 54,
+                    "endOffset": 793
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 162,
+                        "endColumn": 54,
+                        "endOffset": 212
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 798,
+                    "endColumn": 51,
+                    "endOffset": 845
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 57,
+                        "endColumn": 51,
+                        "endOffset": 104
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 850,
+                    "endColumn": 50,
+                    "endOffset": 896
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\values-sw360dp\\dimens.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 110,
+                        "endColumn": 50,
+                        "endOffset": 156
+                    }
+                }
+            }
+        ]
+    }
+]

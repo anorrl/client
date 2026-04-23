@@ -191,8 +191,6 @@ public Q_SLOTS:
 
 	bool commonSlotQuickAccess(QAction* action);
 
-	void sendActionCounterEvent(const QString& action);
-
 	void notifyCloudEditConnectionClosed();
 	void cloudEditStatusChanged(int placeId, int universeId);
 
@@ -274,7 +272,6 @@ private:
 	void setupSlots();
 	void setupCommandToolBar();
 	void setupCounterSender();
-    void setupActionCounters();
     void initializeUI();
 
 	void assignAccelerators();

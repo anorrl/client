@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\xml\\searchable.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\xml\\searchable.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\xml\\android_tracker.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\xml\\android_tracker.xml"
+    }
+]

@@ -56,3 +56,5 @@ Rendering\g3d\obj\graphics3D\Release\graphics3D.lastbuildstate
 QTitanRibbon/roblox_build/*
 *.db
 *.opendb
+Android/.gradle/*
+Android/.idea/*

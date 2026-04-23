@@ -880,19 +880,11 @@ void RobloxPluginHost::processInstallPluginFromWebsite(int assetId, int assetVer
 {
 	QString assetIdString = QString("%1").arg(assetId);
 	// Track an event for each attempt to install a plugin
-	if (FFlag::GoogleAnalyticsTrackingEnabled)
-	{
-		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ACTION, "PluginInstall", assetIdString.toStdString().c_str());
-	}
 
 	if (error || !serialized || serialized->empty() || userPluginPath().isEmpty())
 	{
 		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR,
 			qPrintable(tr("Unable to download plugin at this time. Try again later.")));
-		if (FFlag::GoogleAnalyticsTrackingEnabled)
-		{
-			ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, "PluginInstallFailed", assetIdString.toStdString().c_str());
-		}
 		resultCallback(false);
 		return;
 	}
@@ -904,10 +896,6 @@ void RobloxPluginHost::processInstallPluginFromWebsite(int assetId, int assetVer
 	{
 		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR,
 			qPrintable(tr("Unable to create plugin file.")));
-		if (FFlag::GoogleAnalyticsTrackingEnabled)
-		{
-			ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, "PluginInstallFailed", assetIdString.toStdString().c_str());
-		}
 		resultCallback(false);
 		return;
 	}
@@ -929,12 +917,6 @@ void RobloxPluginHost::processInstallPluginFromWebsite(int assetId, int assetVer
 			}
 			else
 			{
-				if (FFlag::GoogleAnalyticsTrackingEnabled)
-				{
-					ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ACTION, "PluginReInstall",
-						assetIdString.toStdString().c_str());
-				}
-
 				newData.reset(new ARL::Reflection::ValueTable(
 					*(pluginData->second.cast<shared_ptr<const ARL::Reflection::ValueTable> >())));
 			}
@@ -965,12 +947,6 @@ QString RobloxPluginHost::getPluginMetadataJson()
 void RobloxPluginHost::setPluginEnabled(int assetId, bool enabled)
 {
 	std::string assetIdString(qPrintable(QString("%1").arg(assetId)));
-
-	if (FFlag::GoogleAnalyticsTrackingEnabled)
-	{
-		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ACTION,
-			enabled ? "EnablePlugin" : "DisablePlugin", QString::fromUtf8(assetIdString.c_str()).toStdString().c_str());
-	}
 
 	shared_ptr<ARL::Reflection::ValueTable> metadata(new ARL::Reflection::ValueTable);
 	if (readPluginMetadata(metadata))
@@ -1004,11 +980,6 @@ void RobloxPluginHost::uninstallPlugin(int assetId)
 
 	QString assetIdString = QString("%1").arg(assetId);
 	std::string assetIdStdString(qPrintable(assetIdString));
-
-	if (FFlag::GoogleAnalyticsTrackingEnabled)
-	{
-		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ACTION, "UninstallPlugin", assetIdString.toStdString().c_str());
-	}
 
 	{
 		shared_ptr<ARL::Reflection::ValueTable> metadata(new ARL::Reflection::ValueTable);
@@ -1133,11 +1104,6 @@ void RobloxPluginHost::readPluginSettings(int assetId,
 		{
 			ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR,
 				qPrintable(tr("Unable to parse settings file for plugin")));
-			if (FFlag::GoogleAnalyticsTrackingEnabled)
-			{
-				ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR,
-					"ParsePluginSettingsFailed", QString("%1").arg(assetId).toStdString().c_str());
-			}
 		}
 	}
 }

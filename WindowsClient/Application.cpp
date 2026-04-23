@@ -59,7 +59,6 @@
 LOGGROUP(RobloxWndInit)
 LOGGROUP(Network)
 FASTFLAGVARIABLE(ReloadSettingsOnTeleport, false)
-FASTFLAG(GoogleAnalyticsTrackingEnabled)
 DYNAMIC_LOGGROUP(GoogleAnalyticsTracking)
 FASTFLAGVARIABLE(DebugUseDefaultGlobalSettings, false)
 FASTINTVARIABLE(ValidateLauncherPercent, 0)
@@ -300,8 +299,8 @@ void Application::InferredCrashReportingThreadImpl()
 		// We did not had a clean exit last time, report a crash
 		ARL::Analytics::InfluxDb::Points points;
 		points.addPoint("Session" , crash ? "Crash" : "Success" );
-		points.report("Windows-RobloxPlayer-SessionReport-Inferred", FInt::InferredCrashReportingHundredthsPercentage);
-		ARL::Analytics::EphemeralCounter::reportCounter(crash ? "Windows-ROBLOXPlayer-Session-Inferred-Crash" : "Windows-ROBLOXPlayer-Session-Inferred-Success", 1, true);
+		points.report("Windows-ANORRLPlayer-SessionReport-Inferred", FInt::InferredCrashReportingHundredthsPercentage);
+		ARL::Analytics::EphemeralCounter::reportCounter(crash ? "Windows-ROBLOXPlayer-Session-Inferred-Crash" : "Windows-ANORRLPlayer-Session-Inferred-Success", 1, true);
 	}
 	
 	ARL::RegistryUtil::write32bitNumber("HKEY_CURRENT_USER\\Software\\GraceRBLX\\ANORRL\\InferredCrash", 1);
@@ -438,7 +437,7 @@ void Application::OnHelp()
 	if (!DFFlag::DontOpenWikiOnClient) 
 	{
 		ShellExecute(mainWindow, "open", "rundll32.exe", 
-			"url.dll,FileProtocolHandler http://wiki.roblox.com", NULL, SW_SHOWDEFAULT);
+			"url.dll,FileProtocolHandler http://wiki.lambda.cam", NULL, SW_SHOWDEFAULT);
 	}
 }
 
@@ -678,25 +677,6 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 
 	// initialize the TaskScheduler
 	TaskScheduler::singleton().setThreadCount(TaskSchedulerSettings::singleton().getThreadPoolConfig());
-
-	if (ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsInitFix())
-	{
-		ARL::Analytics::GoogleAnalytics::lotteryInit(ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsAccountPropertyIDPlayer(),
-			ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsLoadPlayer());
-	}
-	else
-	{
-		int lottery = rand() % 100;
-		FASTLOG1(DFLog::GoogleAnalyticsTracking, "Google analytics lottery number = %d", lottery);
-		// initialize google analytics
-		if (FFlag::GoogleAnalyticsTrackingEnabled && (lottery < ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsLoadPlayer()))
-		{
-			ARL::RobloxGoogleAnalytics::setCanUseAnalytics();
-
-			ARL::RobloxGoogleAnalytics::init(ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsAccountPropertyIDPlayer(),
-				ARL::ClientAppSettings::singleton().GetValueGoogleAnalyticsThreadPoolMaxScheduleSize());
-		}
-	}
 
 	RobloxGoogleAnalytics::trackUserTiming(GA_CATEGORY_GAME, GA_CLIENT_START, baseInitTime, "Base Init");
 	RobloxGoogleAnalytics::trackUserTiming(GA_CATEGORY_GAME, GA_CLIENT_START, Time::nowFast().timestampSeconds() * 1000, "Load ClientAppSettings");

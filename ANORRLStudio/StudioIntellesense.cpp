@@ -30,7 +30,6 @@
 #include "RobloxMainWindow.h"
 #include "RobloxScriptDoc.h"
 
-FASTFLAG(GoogleAnalyticsTrackingEnabled)
 FASTFLAG(StudioVariableIntellesense)
 
 FASTFLAGVARIABLE(StudioIntellisenseCodeExecutionFixEnabled, true)
@@ -210,9 +209,6 @@ namespace Studio {
 
     bool Intellesense::replaceTextWithCurrentItem(QString& text, int& cursorIndex)
     {
-        if (FFlag::GoogleAnalyticsTrackingEnabled)
-            ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ACTION, "IntellesenseTextReplace");
-
         QListWidgetItem* currentItem = m_AutoCompleteMenu->currentItem();
 
         if (!currentItem)

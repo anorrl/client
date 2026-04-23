@@ -1,57 +1,4 @@
-
-local useNewConsole = false
-pcall(function()
-	useNewConsole = settings():GetFFlag("NewInGameDevConsole")
-end)
-
-if useNewConsole then
-	local DeveloperConsoleModule;
-	local function RequireDeveloperConsoleModule()
-		if not DeveloperConsoleModule then
-			DeveloperConsoleModule = require(game:GetService("CoreGui"):WaitForChild('RobloxGui').Modules.DeveloperConsoleModule)
-		end
-	end
-
-	local screenGui = script.Parent:FindFirstChild("ControlFrame") or script.Parent
-
-	local ToggleConsole = Instance.new('BindableFunction')
-	ToggleConsole.Name = 'ToggleDevConsole'
-	ToggleConsole.Parent = screenGui
-	
-	local debounce = false
-
-	local developerConsole;
-	function ToggleConsole.OnInvoke(duplicate)
-		if debounce then
-			return
-		end
-		debounce = true
-		RequireDeveloperConsoleModule()
-		if not developerConsole or duplicate == true then
-			local permissions = DeveloperConsoleModule.GetPermissions()
-			local messagesAndStats = DeveloperConsoleModule.GetMessagesAndStats(permissions)
-			developerConsole = DeveloperConsoleModule.new(screenGui, permissions, messagesAndStats)
-			developerConsole:SetVisible(true)
-		else
-			developerConsole:SetVisible(not developerConsole.Visible)
-		end
-		debounce = false
-	end
-else
-	
-	
-	
-	
-	
-------------------------------------
-------------------------------------
--- Old -----------------------------
-------------------------------------
-------------------------------------
-	
-	
-	
-	--Include
+--Include
 local Create = assert(LoadLibrary("RbxUtility")).Create
 
 -- A Few Script Globals
@@ -317,7 +264,7 @@ function initializeDeveloperConsole()
 		Position = UDim2.new(0, 0, 0.5, -8);
 		Rotation = 180;
 		Size = UDim2.new(1, 0, 0, 16);
-		Image = "rbxasset://textures/devconsole/legacy/handle.png";
+		Image = "http://www.roblox.com/Asset?id=151205881";
 	}
 
 	local Dev_DownButton = Create'ImageButton'{
@@ -337,7 +284,7 @@ function initializeDeveloperConsole()
 		Position = UDim2.new(0, 3, 0, 3);
 		Size = UDim2.new(0, 14, 0, 14);
 		Rotation = 180;
-		Image = "rbxasset://textures/devconsole/legacy/down.png";
+		Image = "http://www.roblox.com/Asset?id=151205813";
 	}
 
 	local Dev_UpButton = Create'ImageButton'{
@@ -355,14 +302,12 @@ function initializeDeveloperConsole()
 		BackgroundTransparency = 1;
 		Position = UDim2.new(0, 3, 0, 3);
 		Size = UDim2.new(0, 14, 0, 14);
-		Image = "rbxasset://textures/devconsole/legacy/down.png";
+		Image = "http://www.roblox.com/Asset?id=151205813";
 	}
 	
 	local flagExists, flagValue = pcall(function () return settings():GetFFlag("ConsoleCodeExecutionEnabled") end)
 	local codeExecutionEnabled = flagExists and flagValue
-	local creatorFlagExists, creatorFlagValue = pcall(function () return settings():GetFFlag("UseCanManageApiToDetermineConsoleAccess") end)
-	local creatorFlagEnabled = creatorFlagExists and creatorFlagValue
-	local isCreator = creatorFlagEnabled or game:GetService("Players").LocalPlayer.userId == game.CreatorId
+	local isCreator = game.Players.LocalPlayer.userId == game.CreatorId
 	local function shouldShowCommandBar()
 		return codeExecutionEnabled and isCreator
 	end
@@ -405,7 +350,7 @@ function initializeDeveloperConsole()
 		Position = UDim2.new(0, 0, 0, 0);
 		Size = UDim2.new(1, 0, 1, 0);
 		Rotation = 0;
-		Image = "rbxasset://textures/devconsole/legacy/options.png";
+		Image = "http://www.roblox.com/Asset?id=152093917";
 	}
 	
 	local Dev_CommandBar = Create'Frame'{
@@ -480,7 +425,7 @@ function initializeDeveloperConsole()
 		Position = UDim2.new(0, 6, 0, 6);
 		Size = UDim2.new(0.8, 0, 0.8, 0);
 		Rotation = 135;
-		Image = "rbxasset://textures/devconsole/legacy/down.png";
+		Image = "http://www.roblox.com/Asset?id=151205813";
 	}
 
 	Create'TextButton'{
@@ -549,7 +494,7 @@ function initializeDeveloperConsole()
 		BackgroundTransparency = 1;
 		Position = UDim2.new(0, 3, 0, 3);
 		Size = UDim2.new(0, 14, 0, 14);
-		Image = "rbxasset://textures/devconsole/legacy/close.png";
+		Image = "http://www.roblox.com/Asset?id=151205852";
 	}
 
 	Create'TextButton'{
@@ -560,7 +505,6 @@ function initializeDeveloperConsole()
 		Position = UDim2.new(0, 0, 0, 0);
 		Size = UDim2.new(1, -23, 1, 0);
 		Text = "";
-		Modal = true;	-- make modal to unlock mouse in first-person/shift-lock
 	}
 
 	Create'TextLabel'{
@@ -573,7 +517,7 @@ function initializeDeveloperConsole()
 		FontSize = Enum.FontSize.Size18;
 		Text = "Server Console";
 		TextColor3 = Color3.new(1, 1, 1);
-		Text = "ANORRL Developer Console";
+		Text = "Roblox Developer Console";
 		TextYAlignment = Enum.TextYAlignment.Top;
 	}
 	
@@ -687,14 +631,14 @@ function initializeDeveloperConsole()
 	
 	function initStatsListener()
 		if (statsListenerConnection == nil) then
-			game:GetService("NetworkClient"):GetChildren()[1]:RequestServerStats(true)
-			statsListenerConnection = game:GetService("NetworkClient"):GetChildren()[1].StatsReceived:connect(refreshCharts)
+			game.NetworkClient:GetChildren()[1]:RequestServerStats(true)
+			statsListenerConnection = game.NetworkClient:GetChildren()[1].StatsReceived:connect(refreshCharts)
 		end
 	end
 	
 	function removeStatsListener()
 		if (statsListenerConnection ~= nil) then
-			game:GetService("NetworkClient"):GetChildren()[1]:RequestServerStats(false)
+			game.NetworkClient:GetChildren()[1]:RequestServerStats(false)
 			statsListenerConnection:disconnect()
 			statsListenerConnection = nil
 		end
@@ -1249,8 +1193,8 @@ function initializeDeveloperConsole()
 			serverConsole.BackgroundTransparency = 0.8
 			serverStats.BackgroundTransparency = 0.8
 			
-			if game:GetService("Players") and game:GetService("Players")["LocalPlayer"] then
-				local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+			if game:FindFirstChild("Players") and game.Players["LocalPlayer"] then
+				local mouse = game.Players.LocalPlayer:GetMouse()
 				local mousePos = Vector2.new(mouse.X, mouse.Y)
 				refreshConsolePosition(mouse.X, mouse.Y)
 				refreshConsoleSize(mouse.X, mouse.Y)
@@ -1294,8 +1238,8 @@ function initializeDeveloperConsole()
 			localConsole.BackgroundTransparency = 0.8
 			serverStats.BackgroundTransparency = 0.8
 			
-			if game:GetService("Players") and game:GetService("Players")["LocalPlayer"] then
-				local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+			if game:FindFirstChild("Players") and game.Players["LocalPlayer"] then
+				local mouse = game.Players.LocalPlayer:GetMouse()
 				local mousePos = Vector2.new(mouse.X, mouse.Y)
 				refreshConsolePosition(mouse.X, mouse.Y)
 				refreshConsoleSize(mouse.X, mouse.Y)
@@ -1343,13 +1287,13 @@ function initializeDeveloperConsole()
 		clean()
 	end)
 	
-	if game:GetService("Players") and game:GetService("Players")["LocalPlayer"] then
-		local LocalMouse = game:GetService("Players").LocalPlayer:GetMouse()
+	if game:FindFirstChild("Players") and game.Players["LocalPlayer"] then
+		local LocalMouse = game.Players.LocalPlayer:GetMouse()
 		LocalMouse.Move:connect(function()
 			if not Dev_Container.Visible then
 				return
 			end
-			local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+			local mouse = game.Players.LocalPlayer:GetMouse()
 			local mousePos = Vector2.new(mouse.X, mouse.Y)
 			refreshConsolePosition(mouse.X, mouse.Y)
 			refreshConsoleSize(mouse.X, mouse.Y)
@@ -1419,16 +1363,5 @@ function ToggleConsole.OnInvoke()
 		removeStatsListener()
 		clearCharts() 
 	end
-	
-end
-	
-	
-------------------------------------
-------------------------------------
-------------------------------------
-------------------------------------
-------------------------------------
-	
-	
 	
 end

@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout-sw700dp-v13\\fragment_change_email_card_tablet.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout-sw700dp\\fragment_change_email_card_tablet.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout-sw700dp-v13\\fragment_settings_card_tablet.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout-sw700dp\\fragment_settings_card_tablet.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout-sw700dp-v13\\fragment_create_username_card_tablet.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout-sw700dp\\fragment_create_username_card_tablet.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout-sw700dp-v13\\fragment_change_password_card_tablet.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout-sw700dp\\fragment_change_password_card_tablet.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout-sw700dp-v13\\fragment_login_card_tablet.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout-sw700dp\\fragment_login_card_tablet.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\layout-sw700dp-v13\\fragment_sign_up_card_tablet.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\layout-sw700dp\\fragment_sign_up_card_tablet.xml"
+    }
+]

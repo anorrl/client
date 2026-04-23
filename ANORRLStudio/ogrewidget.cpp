@@ -40,7 +40,6 @@
 
 LOGGROUP(TaskSchedulerTiming)
 LOGGROUP(RenderRequest)
-FASTFLAG(GoogleAnalyticsTrackingEnabled)
 DYNAMIC_FASTFLAGVARIABLE(BackTabInputInStudio, false)
 FASTFLAGVARIABLE(DontSwallowInputForStudioShortcuts, false)
 DYNAMIC_FASTFLAG(MaterialPropertiesEnabled)
@@ -528,11 +527,6 @@ void QOgreWidget::dragEnterEvent(QDragEnterEvent *evt)
 		InsertObjectListWidgetItem *pListWidgetItem = dynamic_cast<InsertObjectListWidgetItem *>(itemList.at(0));
 		if (pListWidgetItem)
         {
-            if (FFlag::GoogleAnalyticsTrackingEnabled)
-            {
-				ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ACTION, "InsertObject", pListWidgetItem->text().toStdString().c_str());
-            }
-
 			m_pRobloxView->handleDropOperation(pListWidgetItem->getInstance(), evt->pos().x(), evt->pos().y(), m_bMouseCommandInvoked);
         }
 	}

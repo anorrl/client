@@ -78,7 +78,6 @@ LOGGROUP(HardwareMouse)
 LOGGROUP(TaskSchedulerTiming)
 LOGVARIABLE(RenderRequest, 0)
 
-FASTFLAG(GoogleAnalyticsTrackingEnabled)
 FASTFLAG(StudioSeparateActionByActivationMethod)
 FASTFLAG(StudioRecordToolboxInsert)
 
@@ -880,18 +879,6 @@ shared_ptr<const ARL::Instances> RobloxView::handleDropOperation(const QString& 
 		ARL::DataModel::LegacyLock lock(m_pDataModel, ARL::DataModelJob::Write);
 		ARL::LuaSourceContainer::blockingLoadLinkedScriptsForInstances(cp, *instances);
 
-        if (FFlag::GoogleAnalyticsTrackingEnabled)
-        {
-            // Get the assetID from the url and use it as the event label.
-            QStringList urlSplit = url.split("?id=");
-            if (!urlSplit.empty())
-            {
-                QString assetID = urlSplit.last();
-				ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ACTION, "Insert", assetID.toStdString().c_str());
-				RobloxMainWindow::get(m_pQtWrapperWidget)->m_inserts.increment();
-            }
-        }
-
 		ARL::InsertMode insertMode = ARL::INSERT_TO_3D_VIEW;
 		if ((instances->size() == 1) && ARL::Instance::fastSharedDynamicCast<ARL::Decal>(instances->at(0)))
 		{
@@ -1648,8 +1635,6 @@ bool RobloxView::rightClickContextMenuAllowed()
 void RobloxView::onInsertPart()
 {
     InsertObjectWidget::InsertObject("Part",m_pDataModel, InsertObjectWidget::InsertMode_ContextMenu, &m_rightClickPosition);
-	if (FFlag::StudioSeparateActionByActivationMethod)
-		UpdateUIManager::Instance().getMainWindow().sendActionCounterEvent("insertPartMainContext");
 }
 
 /**
@@ -1660,9 +1645,6 @@ void RobloxView::onInsertObject()
     QAction* action = static_cast<QAction*>(sender());
     QString className = action->text();
     InsertObjectWidget::InsertObject(className,m_pDataModel, InsertObjectWidget::InsertMode_ContextMenu, &m_rightClickPosition);
-	
-	if (FFlag::StudioSeparateActionByActivationMethod)
-		UpdateUIManager::Instance().getMainWindow().sendActionCounterEvent(QString("insert%1Context").arg(className));
 }
 
 bool RobloxView::eventFilter(QObject * watched, QEvent * evt)

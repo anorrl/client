@@ -169,11 +169,11 @@ namespace ARL
                 String,
                 Number,
                 Name,
-				CompoundPlusEquals,
-                
+				
                 Reserved_BEGIN,
                 ReservedAnd = Reserved_BEGIN,
                 ReservedBreak,
+				ReservedContinue,
                 ReservedDo,
                 ReservedElse,
                 ReservedElseif,
@@ -257,9 +257,6 @@ namespace ARL
                         
                 case Dot3:
                     return "'...'";
-
-				case CompoundPlusEquals:
-					return "'+='";
                         
                 case String:
                     return format("\"%s\"", data->c_str());
@@ -1420,6 +1417,22 @@ namespace ARL
                 visitor->visit(this);
             }
         };
+
+		class AstStatContinue : public AstStat
+		{
+		public:
+			ASTRTTI(AstStatContinue)
+
+				AstStatContinue(const Location& location)
+				: AstStat(location)
+			{
+			}
+
+			virtual void visit(AstVisitor* visitor)
+			{
+				visitor->visit(this);
+			}
+		};
         
         class AstStatReturn: public AstStat
         {
@@ -1750,6 +1763,8 @@ namespace ARL
                     return std::make_pair(parseReturn(), true);
                 case Lexeme::ReservedBreak:
                     return std::make_pair(parseBreak(), true);
+				case Lexeme::ReservedContinue:
+					return std::make_pair(parseContinue(), true);
                 default:
                     return std::make_pair(parseAssignmentOrCall(), false);
                 }
@@ -1880,6 +1895,21 @@ namespace ARL
                 else
                     throw Error(lexer.current().location, "No loop to break");
             }
+
+			// continue
+			AstStat* parseContinue()
+			{
+				if (functionStack.back().loopDepth > 0)
+				{
+					Location start = lexer.current().location;
+
+					lexer.next(); // continue
+
+					return new (allocator) AstStatContinue(start);
+				}
+				else
+					throw Error(lexer.current().location, "No loop to continue");
+			}
             
             // for Name `=' exp `,' exp [`,' exp] do block end |
             // for namelist in explist do block end |

@@ -93,8 +93,6 @@ bool AuthenticationHelper::verifyUserAndAuthenticate(int timeOutTime)
 				ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, "Unable to get current user. Request timed out.");
 				networkReply->deleteLater();
 				RobloxMainWindow::sendCounterEvent("StudioAuthenticationFailure", false);
-                if (FFlag::GoogleAnalyticsTrackingEnabled)
-					ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, "StudioAuthenticationFailure");
 				return false;
 			}
 
@@ -146,11 +144,6 @@ bool AuthenticationHelper::verifyUserAndAuthenticate(int timeOutTime)
 		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e.what());
 
 		RobloxMainWindow::sendCounterEvent("StudioAuthenticationFailure", false);
-
-        if (FFlag::GoogleAnalyticsTrackingEnabled)
-		{
-			ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, "StudioAuthenticationFailure");
-		}
 	}
 
 	verifyUserAuthenticationPending = false;

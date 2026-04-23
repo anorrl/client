@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\animator\\slide_in_from_top.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\animator\\slide_in_from_top.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\animator\\slide_in_from_right.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\animator\\slide_in_from_right.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\animator\\slide_in_from_bottom.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\animator\\slide_in_from_bottom.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\animator\\slide_out_to_bottom.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\animator\\slide_out_to_bottom.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\animator\\slide_in_from_left.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\animator\\slide_in_from_left.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\animator\\slide_out_to_left.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\animator\\slide_out_to_left.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\animator\\slide_out_to_top.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\animator\\slide_out_to_top.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\animator\\slide_out_to_right.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\animator\\slide_out_to_right.xml"
+    }
+]

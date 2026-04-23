@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-sw500dp\\pattern_bg_red.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable-sw500dp\\pattern_bg_red.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable-sw500dp\\home_bkg.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable-sw500dp\\home_bkg.png"
+    }
+]

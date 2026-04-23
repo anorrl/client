@@ -211,7 +211,7 @@ crashlytics {
 }
 
 task runNDKBuild(type:Exec) { //, 'NDK_OUT=libsDebug',
-    commandLine '/usr/local/android/android-ndk-r10e/ndk-build', '-C', 'jni', 'NDK_APP_OUT=jniLibs', 'NDK_OUT=libsDebug', 'RELEASE=1', 'PATH_PREFIX=../'
+    commandLine 'C:/Trunk2012/android-ndk-r10e/ndk-build.cmd', '-C', 'jni', 'NDK_APP_OUT=jniLibs', 'NDK_OUT=libsDebug', 'RELEASE=1', 'PATH_PREFIX=../'
     //commandLine 'ndk-build', '-C', 'jni', 'RELEASE=1'
 }
 

@@ -106,7 +106,6 @@
 
 FASTFLAG(PrefetchResourcesEnabled)
 FASTFLAG(LuaDebugger)
-FASTFLAG(GoogleAnalyticsTrackingEnabled)
 
 FASTFLAG(StudioCSGAssets)
 FASTFLAG(StudioNewWiki)
@@ -2194,9 +2193,6 @@ ExportSelectionVerb::ExportSelectionVerb(ARL::DataModel* pDataModel)
 
 void ExportSelectionVerb::doIt(ARL::IDataState*)
 {
-	if (FFlag::GoogleAnalyticsTrackingEnabled)
-		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_STUDIO, "ExportSelection");
-
 	QTimer::singleShot(0, RobloxDocManager::Instance().getPlayDoc(), SLOT(exportSelection()));
 }
 
@@ -2207,9 +2203,6 @@ ExportPlaceVerb::ExportPlaceVerb(ARL::DataModel* pDataModel)
 
 void ExportPlaceVerb::doIt(ARL::IDataState*)
 {
-	if (FFlag::GoogleAnalyticsTrackingEnabled)
-		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_STUDIO, "ExportPlace");
-
 	QTimer::singleShot(0, RobloxDocManager::Instance().getPlayDoc(), SLOT(exportPlace()));
 }
 

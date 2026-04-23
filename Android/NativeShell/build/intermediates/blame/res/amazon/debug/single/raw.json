@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\raw\\gtm_analytics",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-analytics\\7.0.0\\res\\raw\\gtm_analytics"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\raw\\roblox_settings",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\raw\\roblox_settings"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\raw\\more.html",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\raw\\more.html"
+    }
+]

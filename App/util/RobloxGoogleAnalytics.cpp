@@ -18,7 +18,6 @@
 
 using namespace ARL;
 
-FASTFLAGVARIABLE(GoogleAnalyticsTrackingEnabled, false)
 DYNAMIC_LOGVARIABLE(GoogleAnalyticsTracking, 0)
 
 DYNAMIC_FASTFLAGVARIABLE(RobloxAnalyticsTrackingEnabled, false)

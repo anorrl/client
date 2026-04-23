@@ -19,7 +19,6 @@ DYNAMIC_LOGVARIABLE(AnalyticsLog, 0)
 
 // google analytics
 DYNAMIC_LOGGROUP(GoogleAnalyticsTracking)
-FASTFLAG(GoogleAnalyticsTrackingEnabled)
 FASTFLAG(DebugAnalyticsForceLotteryWin)
 DYNAMIC_FASTSTRING(RobloxAnalyticsURL)
 DYNAMIC_FASTFLAG(RobloxAnalyticsTrackingEnabled)

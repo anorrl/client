@@ -71,7 +71,6 @@ bool RbxWorkspace::isScriptAssetUploadEnabled = false;
 bool RbxWorkspace::isAnimationAssetUploadEnabled = false;
 bool RbxWorkspace::isImageModelAssetUploadEnabled = false;
 
-FASTFLAG(GoogleAnalyticsTrackingEnabled)
 FASTFLAG(StudioCSGAssets)
 
 FASTFLAGVARIABLE(StudioEnableGameAnimationsTab, true)
@@ -203,12 +202,6 @@ bool RbxWorkspace::SaveUrl(const QString &saveUrl)
 	catch (std::exception&)
 	{
 		RobloxMainWindow::sendCounterEvent("QTStudioPublishSaveUrlFailure", false);
-
-        if (FFlag::GoogleAnalyticsTrackingEnabled)
-		{
-			ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, "StudioPushSaveUrlFailure");
-		}
-
 		return false;
 	}
 }
@@ -238,12 +231,6 @@ bool RbxWorkspace::Save()
 	catch (std::exception&)
 	{
 		RobloxMainWindow::sendCounterEvent("QTStudioPublishSaveFailure", false);
-
-        if (FFlag::GoogleAnalyticsTrackingEnabled)
-		{
-			ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, "StudioPublishSaveFailure");
-		}
-
 		return false;
 	}
 }
@@ -377,12 +364,6 @@ QObject* RbxWorkspace::WriteSelection()
 	catch (std::exception &e) 
 	{
 		RobloxMainWindow::sendCounterEvent("QTStudioPublishSelectionFailure", false);
-
-        if (FFlag::GoogleAnalyticsTrackingEnabled)
-		{
-			ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, "StudioPublishSelectionFailure");
-		}
-
 		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e.what());
 		return NULL;
 	}	
@@ -434,20 +415,6 @@ bool RbxWorkspace::Insert(const QString& urlQStr)
 		
 		bool success = ARL::Http::trustCheck(url);
 		std::string urlString = urlQStr.toStdString();
-				
-        if (FFlag::GoogleAnalyticsTrackingEnabled)
-        {
-            // Get the assetID from the url and use it as the event label.
-            QString url(urlString.c_str());
-            QStringList urlSplit = url.split("?id=");
-            if (!urlSplit.empty())
-            {
-                QString assetID = urlSplit.last();
-				if (!FFlag::StudioRemoveInsertEvent)
-					ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ACTION, "Insert", assetID.toStdString().c_str());
-				RobloxMainWindow::get(this)->m_inserts.increment();
-            }
-        }
 
 		insert(ARL::ContentId(urlString), false);
 

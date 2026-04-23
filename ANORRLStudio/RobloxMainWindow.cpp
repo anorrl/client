@@ -141,7 +141,6 @@ FASTFLAGVARIABLE(ReportBuildVSEditMode, true)
 FASTFLAGVARIABLE(TeamCreateEnableDownloadLocalCopy, true)
 FASTFLAGVARIABLE(StudioDoublingOnUploadFixEnabled, true)
 
-FASTFLAG(GoogleAnalyticsTrackingEnabled)
 FASTFLAG(StudioInSyncWebKitAuthentication)
 FASTFLAG(StudioDataModelIsStudioFix)
 FASTFLAG(StudioShowTutorialsByDefault)
@@ -410,21 +409,6 @@ RobloxMainWindow::RobloxMainWindow(const QMap<QString, QString> argMap)
 				installDate.toStdString().c_str(), dateString.toStdString().c_str(), 1);
 		}
 
-		// Send tracking information about the application.
-		if (FFlag::GoogleAnalyticsTrackingEnabled)
-		{
-			QString label = m_BuildMode == BM_BASIC ? "Basic" : "IDE";
-
-			// Extract everything from scriptArg before ".ashx"
-			int httpIndex = scriptArg.indexOf("http");
-			int ashxIndex = scriptArg.indexOf(".ashx");
-			if(httpIndex != -1 && ashxIndex > httpIndex)
-				label += " " + scriptArg.mid(httpIndex, ashxIndex - httpIndex + 5);
-
-			ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_STUDIO, "Start", label.toStdString().c_str());
-			ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_STUDIO, "Version", RobloxSettings::getVersionString().toStdString().c_str());
-		}
-
 		QtConcurrent::run(this, &RobloxMainWindow::checkInternetConnectionSendCounter, robloxRequest, externalRequest);
 
 		if (AuthoringSettings::singleton().getUIStyle() == AuthoringSettings::Ribbon)
@@ -475,10 +459,6 @@ RobloxMainWindow::RobloxMainWindow(const QMap<QString, QString> argMap)
 		if (RobloxApplicationManager::instance().getApplicationCount() == 1 && settings.contains("appClosed") && !settings.value("appClosed").toBool())
 		{
 			sendCounterEvent("QTStudioCrashRecorded");
-			if (FFlag::GoogleAnalyticsTrackingEnabled)
-			{
-				ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ERROR, "Crash");
-			}
 		}
 		settings.setValue("appClosed", false);
 
@@ -502,10 +482,6 @@ RobloxMainWindow::RobloxMainWindow(const QMap<QString, QString> argMap)
 			{
 				settings.setValue("studioVersion", RobloxSettings::getVersionString());
 				sendCounterEvent("StudioUpgradedCounter", false);
-                if (FFlag::GoogleAnalyticsTrackingEnabled)
-				{
-					ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_STUDIO, "Upgrade", RobloxSettings::getVersionString().toStdString().c_str());
-				}
 			}
 		}
 		
@@ -672,8 +648,6 @@ RobloxMainWindow::RobloxMainWindow(const QMap<QString, QString> argMap)
                 waitTime = qMax(0,SplashTotalTime - splashTime.elapsed());
             QTimer::singleShot(waitTime,this,SLOT(onDeleteSplashScreen()));
 		}
-
-        setupActionCounters();
 
         RobloxKeyboardConfig::singleton().storeDefaults(*this);
         RobloxKeyboardConfig::singleton().loadKeyboardConfig(*this);
@@ -1092,25 +1066,16 @@ void RobloxMainWindow::commonSlot(bool isChecked)
 	if (!pSender || dynamic_cast<QuickAccessBarProxyAction*>(sender()))
 		return;
 
-	if (!preventActionCounterSending || !FFlag::StudioSeparateActionByActivationMethod)
-		sendActionCounterEvent(pSender->objectName());
-
 	commonSlotHelper(pSender->objectName(), isChecked);
 }
 
 bool RobloxMainWindow::commonSlotShortcut(QAction* action, bool isChecked)
 {
-	if (!preventActionCounterSending)
-		sendActionCounterEvent(action->objectName() + "Shortcut");
-
 	return commonSlotHelper(action->objectName(), isChecked);
 }
 
 bool RobloxMainWindow::commonSlotQuickAccess(QAction* action)
 {
-	if (!preventActionCounterSending)
-		sendActionCounterEvent(action->objectName() + "QuickAccess");
-
 	return commonSlotHelper(action->objectName(), !action->isChecked());
 }
 
@@ -2208,8 +2173,6 @@ void RobloxMainWindow::setupSlots()
 
 	QPainter p(this);
 
-
-
 	// Set the background to white
 	p.fillRect(rect(), AuthoringSettings::singleton().darkMode ? QColor(45, 45, 45) : Qt::white);
 }
@@ -2852,47 +2815,6 @@ void RobloxMainWindow::onPropertyChanged(const ARL::Reflection::PropertyDescript
     }
 }
 
-void RobloxMainWindow::setupActionCounters()
-{
-    if (!FFlag::GoogleAnalyticsTrackingEnabled)
-        return;
-
-    QString ignoreActions("renameObjectAction");
-
-	QList<QAction*> actionList = findChildren<QAction*>();
-
-	if (FFlag::StudioSeparateActionByActivationMethod)
-	{
-		//We should eventually subclass QAction for this
-		static QString noSlotActions("startServerCB fileNewAction fileOpenAction fileCloseAction "
-			"fileSaveAction fileSaveAsAction fileExitAction"); 
-
-		for(QList<QAction*>::const_iterator iter = actionList.begin(); iter != actionList.end(); iter++)
-		{
-			if (noSlotActions.contains((*iter)->objectName()))
-				continue;
-
-			QAction* currentAction = *iter;
-			connect(currentAction, SIGNAL(triggered(bool)), this, SLOT(commonSlot(bool)));
-			currentAction->installEventFilter(this);
-		}
-	}
-	else
-	{
-		QSignalMapper* signalMapper = new QSignalMapper(this);
-		for(QList<QAction*>::const_iterator iter = actionList.begin(); iter != actionList.end(); iter++)
-		{
-			QAction* currentAction = *iter;
-			if(!currentAction->objectName().isEmpty() && !ignoreActions.contains(currentAction->objectName()))
-			{
-				connect(currentAction, SIGNAL(triggered()), signalMapper, SLOT(map()));
-				signalMapper->setMapping(currentAction, currentAction->objectName());
-			}
-		}
-		connect(signalMapper, SIGNAL(mapped(QString)), this, SLOT(sendActionCounterEvent(QString)));
-	}
-}
-
 void RobloxMainWindow::trackToolboxInserts(ARL::ContentId contentId, const ARL::Instances& instances)
 {
 	std::vector<weak_ptr<ARL::Instance> > weakInstances;
@@ -2933,12 +2855,6 @@ void RobloxMainWindow::checkInsertedObjects()
 	}
 
 	ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_STUDIO, objectsStillExist ? "StudioInsertRemains" : "StudioInsertDeleted", insertedInstance.contentId.c_str());
-}
-
-void RobloxMainWindow::sendActionCounterEvent(const QString& action)
-{
-    if (FFlag::GoogleAnalyticsTrackingEnabled)
-		ARL::RobloxGoogleAnalytics::trackEvent(GA_CATEGORY_ACTION, "StudioUserAction", action.toStdString().c_str());
 }
 
 void RobloxMainWindow::notifyCloudEditConnectionClosed()

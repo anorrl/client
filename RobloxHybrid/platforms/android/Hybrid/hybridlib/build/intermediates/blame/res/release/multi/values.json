@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "C:\\Trunk2012\\Client\\RobloxHybrid\\platforms\\android\\Hybrid\\hybridlib\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 61,
+                    "endOffset": 112
+                },
+                "from": {
+                    "file": "C:\\Trunk2012\\Client\\RobloxHybrid\\platforms\\android\\Hybrid\\hybridlib\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 1,
+                        "startColumn": 4,
+                        "startOffset": 17,
+                        "endColumn": 61,
+                        "endOffset": 74
+                    }
+                }
+            }
+        ]
+    }
+]

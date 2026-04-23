@@ -4,9 +4,8 @@
 -- Essentially a user can bind a lua function to a key code, input type (mousebutton1 etc.) and this
 
 -- Variables
-local contextActionService = game:GetService("ContextActionService")
-local userInputService = game:GetService("UserInputService")
-local isTouchDevice = userInputService.TouchEnabled
+local contextActionService = Game:GetService("ContextActionService")
+local isTouchDevice = Game:GetService("UserInputService").TouchEnabled
 local functionTable = {}
 local buttonVector = {}
 local buttonScreenGui = nil
@@ -29,12 +28,16 @@ local buttonPositionTable = {
 local maxButtons = #buttonPositionTable
 
 -- Preload images
-game:GetService("ContentProvider"):Preload(ContextDownImage)
-game:GetService("ContentProvider"):Preload(ContextUpImage)
+Game:GetService("ContentProvider"):Preload(ContextDownImage)
+Game:GetService("ContentProvider"):Preload(ContextUpImage)
 
-repeat wait() until game:GetService("Players").LocalPlayer
+while not Game.Players do
+	wait()
+end
 
-local localPlayer = game:GetService("Players").LocalPlayer
+while not Game.Players.LocalPlayer do
+	wait()
+end
 
 function createContextActionGui()
 	if not buttonScreenGui and isTouchDevice then
@@ -47,13 +50,6 @@ function createContextActionGui()
 		buttonFrame.Position = UDim2.new(0.7,0,0.5,0)
 		buttonFrame.Name = "ContextButtonFrame"
 		buttonFrame.Parent = buttonScreenGui
-
-		buttonFrame.Visible = not userInputService.ModalEnabled
-		userInputService.Changed:connect(function(property)
-			if property == "ModalEnabled" then
-				buttonFrame.Visible = not userInputService.ModalEnabled
-			end
-		end)
 	end
 end
 
@@ -64,7 +60,7 @@ function setButtonSizeAndPosition(object)
 	local yOffset = 95
 
 	-- todo: better way to determine mobile sized screens
-	local onSmallScreen = (game:GetService("CoreGui").RobloxGui.AbsoluteSize.X < 600)
+	local onSmallScreen = (game.CoreGui.RobloxGui.AbsoluteSize.X < 600)
 	if not onSmallScreen then
 		buttonSize = 85
 		xOffset = 40
@@ -95,7 +91,7 @@ function contextButtonUp(button, inputObject, actionName)
 end
 
 function isSmallScreenDevice()
-	return game:GetService("GuiService"):GetScreenResolution().y <= 320
+	return Game:GetService("GuiService"):GetScreenResolution().y <= 320
 end
 
 
@@ -113,7 +109,7 @@ function createNewButton(actionName, functionInfoTable)
 
 	local currentButtonTouch = nil
 
-	userInputService.InputEnded:connect(function ( inputObject )
+	Game:GetService("UserInputService").InputEnded:connect(function ( inputObject )
 		oldTouches[inputObject] = nil
 	end)
 	contextButton.InputBegan:connect(function(inputObject)
@@ -193,7 +189,7 @@ function createButton( actionName, functionInfoTable )
 	button.Parent = buttonFrame
 
 	if buttonScreenGui and buttonScreenGui.Parent == nil then
-		buttonScreenGui.Parent = localPlayer.PlayerGui
+		buttonScreenGui.Parent = Game.Players.LocalPlayer.PlayerGui
 	end
 end
 

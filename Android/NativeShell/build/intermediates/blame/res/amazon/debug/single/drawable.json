@@ -1,0 +1,610 @@
+[
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\design_snackbar_background.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\drawable\\design_snackbar_background.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_icon_inventory.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_icon_inventory.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_seekbar_thumb_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_seekbar_thumb_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_textfield_search_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_textfield_search_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_search_32x32.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_search_32x32.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_home_on.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_home_on.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_gender_full_success.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_gender_full_success.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_male.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_male.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\home_bg_1.jpg",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\home_bg_1.jpg"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_catalog.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_catalog.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_indicator_blue_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_indicator_blue_dark.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tix_symbol2x.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tix_symbol2x.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_white_down.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_white_down.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ic_menu_copy_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ic_menu_copy_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\design_fab_background.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.2.0\\res\\drawable\\design_fab_background.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\textfield_searchview_holo_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\textfield_searchview_holo_light.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_progress_green_up.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_progress_green_up.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_white_up.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_white_up.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ic_menu_cut_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ic_menu_cut_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\home_bg_2.jpg",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\home_bg_2.jpg"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_btn_radio_on_mtrl.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_btn_radio_on_mtrl.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\messenger_button_blue_bg_selector.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable\\messenger_button_blue_bg_selector.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\about_icon.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\about_icon.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_game.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_game.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_warning.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_warning.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_red.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_red.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\white_button_drawable.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\white_button_drawable.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_facebook_white.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_facebook_white.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\background_row_button.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\background_row_button.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_robux_32x32.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_robux_32x32.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\white_button_down.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\white_button_down.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_btn_radio_off_mtrl.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_btn_radio_off_mtrl.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_female_on.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_female_on.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_icon_games.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_icon_games.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_gender.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_gender.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_drawable_flat_button_progress_blue.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_drawable_flat_button_progress_blue.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_cab_background_internal_bg.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_cab_background_internal_bg.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\home_bg_4.jpg",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\home_bg_4.jpg"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_card_shadow_blue.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_card_shadow_blue.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\messenger_button_blue_bg_round.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable\\messenger_button_blue_bg_round.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_card_shadow_blue_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_card_shadow_blue_light.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_progress_green_down.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_progress_green_down.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_solid_white.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_solid_white.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_spinner_outline.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_spinner_outline.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\roblox_logo_black.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\roblox_logo_black.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ratingbar_small_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ratingbar_small_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_icon_catalog.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_icon_catalog.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\home_bg_5.jpg",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\home_bg_5.jpg"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\roblox_logo_black_2x.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\roblox_logo_black_2x.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_more2_notification.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_more2_notification.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ratingbar_full_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ratingbar_full_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_messages.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_messages.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\sign_up_checkmark.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\sign_up_checkmark.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_card_shadow.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_card_shadow.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\roblox_logo.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\roblox_logo.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_friends_on.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_friends_on.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_blue_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_blue_dark.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_tab_indicator_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_tab_indicator_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ic_menu_overflow_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ic_menu_overflow_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_btn_check_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_btn_check_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_more2.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_more2.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\com_facebook_button_login_silver_background.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable\\com_facebook_button_login_silver_background.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_list_selector_holo_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_list_selector_holo_light.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_btn_default_mtrl_shape.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_btn_default_mtrl_shape.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_messages_on.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_messages_on.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_spinner_splash.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_spinner_splash.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\about_icon_2.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\about_icon_2.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_progress_blue_down.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_progress_blue_down.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_home.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_home.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_text_cursor_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_text_cursor_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_dialog_material_background_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_dialog_material_background_light.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\com_facebook_button_background.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable\\com_facebook_button_background.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_blue_up.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_blue_up.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\light_gradient.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\light_gradient.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\messenger_button_white_bg_round.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable\\messenger_button_white_bg_round.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_more2_on_notification.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_more2_on_notification.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_male_on.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_male_on.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_close_black.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_close_black.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_item_background_holo_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_item_background_holo_dark.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ic_go_search_api_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ic_go_search_api_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_indicator_green.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_indicator_green.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_blue_down.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_blue_down.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_gender_full_error.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_gender_full_error.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_icon_groups.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_icon_groups.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_btn_radio_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_btn_radio_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_friends.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_friends.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_circle.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_circle.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\roblox_logo_red_2x.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\roblox_logo_red_2x.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\common_signin_btn_icon_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable\\common_signin_btn_icon_light.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ic_ab_back_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ic_ab_back_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_drawable_flat_button_progress_green.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_drawable_flat_button_progress_green.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_edittext_error.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_edittext_error.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_spinner_textfield_background_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_spinner_textfield_background_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_progress_btn_spinner.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_progress_btn_spinner.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_facebook_blue.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_facebook_blue.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ic_clear_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ic_clear_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_cab_background_top_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_cab_background_top_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\robux_symbol2x.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\robux_symbol2x.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_animated.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_animated.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_btn_checkbox_unchecked_mtrl.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_btn_checkbox_unchecked_mtrl.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_icon_profile.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_icon_profile.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\roblox_logo_red.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\roblox_logo_red.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_female.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_female.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_dialog_material_background_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_dialog_material_background_dark.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_list_selector_holo_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_list_selector_holo_dark.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_catalog_on.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_catalog_on.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_edittext_success.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_edittext_success.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_btn_checkbox_checked_mtrl.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_btn_checkbox_checked_mtrl.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_icon_home.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_icon_home.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\white_button.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\white_button.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_indicator_black.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_indicator_black.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ic_menu_paste_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ic_menu_paste_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\com_facebook_button_like_background.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable\\com_facebook_button_like_background.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_seekbar_track_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_seekbar_track_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_button_progress_blue_up.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_button_progress_blue_up.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\messenger_button_white_bg_selector.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable\\messenger_button_white_bg_selector.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_btn_borderless_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_btn_borderless_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\common_signin_btn_text_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable\\common_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_btn_colored_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_more2_on.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_more2_on.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_switch_thumb_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_switch_thumb_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ic_menu_selectall_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ic_menu_selectall_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_flat_edittext.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_flat_edittext.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_logout.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_logout.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_icon_messages.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_icon_messages.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\sign_up_xmark.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\sign_up_xmark.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_robux.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_robux.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_bc_32x32.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_bc_32x32.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_game_on.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_game_on.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ratingbar_indicator_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ratingbar_indicator_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_search_white.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_search_white.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_bc.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_bc.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\common_signin_btn_text_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable\\common_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\right_arrow.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\right_arrow.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_close_14x14.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_close_14x14.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\tab_indicator_blue.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\tab_indicator_blue.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ic_voice_search_api_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ic_voice_search_api_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_ic_menu_share_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_ic_menu_share_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_robux_on.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_robux_on.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\common_signin_btn_icon_dark.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-base\\7.0.0\\res\\drawable\\common_signin_btn_icon_dark.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_edit_text_material.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_edit_text_material.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\home_bg_6.jpg",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\home_bg_6.jpg"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\home_bg_3.jpg",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\home_bg_3.jpg"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\abc_item_background_holo_light.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable\\abc_item_background_holo_light.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_card_shadow_red.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_card_shadow_red.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_drawable_flat_button_white.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_drawable_flat_button_white.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_bg_gender_full.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_bg_gender_full.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\rbx_drawable_flat_button_blue.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\rbx_drawable_flat_button_blue.xml"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\icon_search_black.png",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\res\\drawable\\icon_search_black.png"
+    },
+    {
+        "merged": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\res\\merged\\amazon\\debug\\drawable\\com_facebook_button_send_background.xml",
+        "source": "C:\\Trunk2012\\Client\\Android\\NativeShell\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.2.0\\res\\drawable\\com_facebook_button_send_background.xml"
+    }
+]
