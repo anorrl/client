@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-namespace RBX {
+namespace ARL {
 
 class initialization_error : public std::runtime_error {
 public:

@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "ShutdownRobloxApp.h"
+#include "ShutdownANORRLApp.h"
 #include "ShutdownDialog.h"
 #include <vector>
 
@@ -14,7 +14,7 @@
 
 #pragma comment (lib,"Psapi.lib")
 
-ShutdownRobloxApp::~ShutdownRobloxApp(void)
+ShutdownANORRLApp::~ShutdownANORRLApp(void)
 {
 }
 
@@ -45,7 +45,7 @@ BOOL CALLBACK TerminateAppEnum( HWND hwnd, DWORD lParam )
 	return TRUE;
 }
 
-void ShutdownRobloxApp::terminateApp(DWORD pid)
+void ShutdownANORRLApp::terminateApp(DWORD pid)
 {
   // If we can't open the process with PROCESS_TERMINATE rights, then we give up immediately.
   CHandle hProc(OpenProcess(SYNCHRONIZE|PROCESS_TERMINATE, FALSE, pid));
@@ -108,7 +108,7 @@ void ShutdownRobloxApp::terminateApp(DWORD pid)
   }
 }
 
-bool ShutdownRobloxApp::run()
+bool ShutdownANORRLApp::run()
 {
 	DWORD process_id_array[1024]; 
 	DWORD bytes_returned; 
@@ -131,7 +131,7 @@ bool ShutdownRobloxApp::run()
 		}
 	} 
 	this->result = false;
-	std::for_each(pids.begin(), pids.end(), boost::bind(&ShutdownRobloxApp::terminateApp, this, _1));
+	std::for_each(pids.begin(), pids.end(), boost::bind(&ShutdownANORRLApp::terminateApp, this, _1));
 
 	return this->result;
 }

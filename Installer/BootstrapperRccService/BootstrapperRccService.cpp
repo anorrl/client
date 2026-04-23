@@ -78,7 +78,7 @@ bool BootstrapperRccService::ProcessArg(wchar_t** args, int &pos, int count)
 
 std::wstring BootstrapperRccService::programDirectory() const
 {
-	std::wstring dir = FileSystem::getSpecialFolder(FileSystem::RobloxProgramFiles, true, format_string("RCC-%08X%04X", serviceGuid.Data1, serviceGuid.Data2).c_str());
+	std::wstring dir = FileSystem::getSpecialFolder(FileSystem::ANORRLProgramFiles, true, format_string("RCC-%08X%04X", serviceGuid.Data1, serviceGuid.Data2).c_str());
 	if (dir.empty())
 		throw std::runtime_error("Failed to create programDirectory");
 	return dir;
@@ -119,11 +119,11 @@ void BootstrapperRccService::installService()
 	CRegKey pathKey;
 	pathKey.Create(HKEY_LOCAL_MACHINE, rbxRegPath);
 	if (pathKey.m_hKey == NULL)
-		throw std::runtime_error("Unable to create/open reg key: 'Software\\ROBLOX Corporation\\Roblox'");
+		throw std::runtime_error("Unable to create/open reg key: 'Software\\ANORRL Corporation\\ANORRL'");
 
 	LONG res = pathKey.SetStringValue(_T("RccServicePath"), (LPCTSTR)ProgramDirectory().c_str());
 	if (res != ERROR_SUCCESS)
-		throw std::runtime_error("Failed writing to registry: 'Software\\ROBLOX Corporation\\Roblox\\RccServicePath'");
+		throw std::runtime_error("Failed writing to registry: 'Software\\ANORRL Corporation\\ANORRL\\RccServicePath'");
 }
 void BootstrapperRccService::uninstallService()
 {

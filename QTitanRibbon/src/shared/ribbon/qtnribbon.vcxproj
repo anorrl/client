@@ -58,7 +58,7 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\roblox_build</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\</IntDir>
-    <PlatformToolSet>v110</PlatformToolSet>
+    <PlatformToolSet>v110_xp</PlatformToolSet>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">qtnribbond</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
   </PropertyGroup>

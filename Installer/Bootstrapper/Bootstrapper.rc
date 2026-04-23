@@ -98,7 +98,7 @@ END
 
 IDD_MAIN DIALOGEX 0, 0, 207, 61
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Roblox"
+CAPTION "ANORRL"
 FONT 10, "Segoe UI", 400, 0, 0x0
 BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,147,37,50,14,NOT WS_VISIBLE
@@ -125,7 +125,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,6,3,202
+ FILEVERSION 1,6,4,323
  PRODUCTVERSION 1,6,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
@@ -143,9 +143,9 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "GraceRBLX"
             VALUE "FileDescription", "ANORRL"
-            VALUE "FileVersion", "1, 6, 3, 202"
+            VALUE "FileVersion", "1, 6, 4, 323"
             VALUE "LegalCopyright", "(C) 2026 GraceRBLX.  All rights reserved."
-            VALUE "OriginalFilename", "Roblox.exe"
+            VALUE "OriginalFilename", "ANORRL.exe"
             VALUE "ProductName", "ANORRL Bootstrapper"
             VALUE "ProductVersion", "1, 6, 0, 0"
         END
@@ -167,7 +167,7 @@ IDB_BTN_OK_ON           BITMAP                  "assets\\btn_ok-ON.bmp"
 IDB_BTN_CANCEL          BITMAP                  "assets\\btn_cancel.bmp"
 IDB_BTN_CANCEL_ON       BITMAP                  "assets\\btn_cancel-ON.bmp"
 IDB_LOGO                BITMAP                  "assets\\logo_meatball@1x.bmp"
-IDB_STUDIO_LOGO         BITMAP                  "assets\\logo_robloxstudio@1x.bmp"
+IDB_STUDIO_LOGO         BITMAP                  "assets\\logo_anorrlstudio@1x.bmp"
 IDB_BTN_LAUNCH_STUDIO   BITMAP                  "assets\\btn_launchstudio.bmp"
 IDB_BTN_LAUNCH_STUDIO_ON BITMAP                  "assets\\btn_launchstudio-ON.bmp"
 IDB_BTN_DEV             BITMAP                  "assets\\txt_backto@1x.bmp"

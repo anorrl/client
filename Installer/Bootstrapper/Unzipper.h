@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////////////////////
 
 /*
-	Modified by Roblox Corporation in 2008
+	Modified by ANORRL Corporation in 2008
 	Primarily replaced BOOL return arguments with throwing std::exception
 */
 

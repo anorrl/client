@@ -773,7 +773,7 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ui_ARLMainWindow.h"> 
+    <ClInclude Include="ui_ARLMainWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -995,9 +995,6 @@
     <Moc Include="ScriptSideWidget.h">
       <Filter>Header Files</Filter>
     </Moc>
-    <Moc Include="ScriptSyntaxHighlighter.h">
-      <Filter>Header Files</Filter>
-    </Moc>
     <Moc Include="ScriptTextEditor.h">
       <Filter>Header Files</Filter>
     </Moc>
@@ -1126,6 +1123,9 @@
     </Moc>
     <Moc Include="RobloxTeamCreateWidget.h">
       <Filter>Header Files\CloudEdit</Filter>
+    </Moc>
+    <Moc Include="ScriptSyntaxHighlighter.h">
+      <Filter>Header Files\Scripting</Filter>
     </Moc>
   </ItemGroup>
   <ItemGroup>

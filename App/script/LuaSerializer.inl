@@ -101,7 +101,7 @@ public:
 private:
     static void writeRoot(std::ostringstream& ss, Proto* p, RbxOpEncoder encode, unsigned int ckey)
     {
-        RBX::DenseHashMap<const TString*, unsigned int> strings(NULL);
+        ARL::DenseHashMap<const TString*, unsigned int> strings(NULL);
             
         unsigned int streamStart = ss.tellp();
         
@@ -116,7 +116,7 @@ private:
         
         std::vector<const TString*> stringTable(strings.size());
         
-        for (RBX::DenseHashMap<const TString*, unsigned int>::const_iterator it = strings.begin(); it != strings.end(); ++it)
+        for (ARL::DenseHashMap<const TString*, unsigned int>::const_iterator it = strings.begin(); it != strings.end(); ++it)
             stringTable[it.getItem().value - 1] = *it;
         
         writeInt(ss, strings.size());
@@ -147,7 +147,7 @@ private:
         ss.write(reinterpret_cast<const char*>(&value), sizeof(value));
     }
     
-    static void writeString(std::ostringstream& ss, RBX::DenseHashMap<const TString*, unsigned int>& strings, const TString* value)
+    static void writeString(std::ostringstream& ss, ARL::DenseHashMap<const TString*, unsigned int>& strings, const TString* value)
     {
         if (value)
         {
@@ -164,7 +164,7 @@ private:
         }
     }
     
-    static void writeProto(std::ostringstream& ss, RBX::DenseHashMap<const TString*, unsigned int>& strings, Proto* p, RbxOpEncoder encode, unsigned int ckey)
+    static void writeProto(std::ostringstream& ss, ARL::DenseHashMap<const TString*, unsigned int>& strings, Proto* p, RbxOpEncoder encode, unsigned int ckey)
     {
         writeInt(ss, p->sizep);
         writeInt(ss, p->sizek);
@@ -330,14 +330,14 @@ public:
         setclvalue(L, L->top, cl);
         incr_top(L);
 
-		RBXASSERT_VERY_FAST(luaG_checkcode(p, L->l_G->ckey));
+		ARLASSERT_VERY_FAST(luaG_checkcode(p, L->l_G->ckey));
         
         return 0;
     }
     
     static int deserializeFailure(lua_State* L, const char* chunkname)
     {
-        RBX::DataModel::sendStats |= HATE_INVALID_BYTECODE;
+		ARL::DataModel::sendStats |= HATE_INVALID_BYTECODE;
 
         return deserializeError(L, "", chunkname);
     }
@@ -378,7 +378,7 @@ private:
 
         void seekg(size_t newoffset)
         {
-            RBXASSERT_VERY_FAST(newoffset <= data.size());
+            ARLASSERT_VERY_FAST(newoffset <= data.size());
 
             offset = newoffset;
         }
@@ -448,7 +448,7 @@ private:
     {
         unsigned int index = readInt(ss);
         
-        RBXASSERT_VERY_FAST(index <= strings.size());
+        ARLASSERT_VERY_FAST(index <= strings.size());
         
         return index ? strings[index - 1] : NULL;
     }

@@ -41,7 +41,7 @@ class WebBrowserAxDialog :
 	ULONG m_cRef;
 	HICON m_hIcon;
 	std::string url;
-	boost::shared_ptr<RBX::DataModel> dataModel;
+	boost::shared_ptr<ARL::DataModel> dataModel;
 	boost::function<void(bool)> enableUpload;
 	
 	void DoPostImage(std::string filename, std::string seostr);
@@ -65,8 +65,8 @@ public:
         MESSAGE_HANDLER(WM_CLOSE, OnClose)
     END_MSG_MAP()
 
-	WebBrowserAxDialog(const std::string& url, boost::shared_ptr<RBX::DataModel> dataModel, boost::function<void(bool)> enableUpload);
-	WebBrowserAxDialog(const std::string& url, boost::shared_ptr<RBX::DataModel> dataModel);
+	WebBrowserAxDialog(const std::string& url, boost::shared_ptr<ARL::DataModel> dataModel, boost::function<void(bool)> enableUpload);
+	WebBrowserAxDialog(const std::string& url, boost::shared_ptr<ARL::DataModel> dataModel);
 
     LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
     LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);

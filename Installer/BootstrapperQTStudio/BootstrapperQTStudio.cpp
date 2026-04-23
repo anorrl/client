@@ -10,13 +10,13 @@
 #include "StudioProgressDialog.h"
 #include "VersionInfo.h"
 
-// TODO - rename to just "Roblox Studio"
+// TODO - rename to just "ANORRL Studio"
 static const TCHAR* BootstrapperQTStudioFileName    = _T(STUDIOBOOTSTAPPERNAMEBETA);
-static const TCHAR* RobloxStudioAppFileName         = _T(STUDIOQTEXENAME);
+static const TCHAR* ANORRLStudioAppFileName         = _T(STUDIOQTEXENAME);
 static const TCHAR* BootstrapperMutexName           = _T("arl.lambda.cam/bootstrapperQTStudio");
-static const TCHAR* StartRobloxStudioAppMutex       = _T("arl.lambda.cam/startRobloxQTStudioApp");
+static const TCHAR* StartANORRLStudioAppMutex       = _T("arl.lambda.cam/startANORRLQTStudioApp");
 static const TCHAR* FriendlyName                    = _T("ANORRL Studio");
-static const TCHAR* StartEvent                      = _T("arl.lambda.cam/robloxQTStudioStartedEvent");
+static const TCHAR* StartEvent                      = _T("arl.lambda.cam/anorrlQTStudioStartedEvent");
 
 static Bootstrapper* newBootstrapper(HINSTANCE hInstance)
 {
@@ -53,12 +53,12 @@ BootstrapperQTStudio::BootstrapperQTStudio(HINSTANCE hInstance)
 
 std::wstring BootstrapperQTStudio::GetRegistryPath() const
 {
-	return getQT2013StudioRegistryPath();
+	return getQTStudioRegistryPath();
 }
 
 std::wstring BootstrapperQTStudio::GetRegistrySubPath() const
 {
-	return getQT2013StudioRegistrySubPath();
+	return getQTStudioRegistrySubPath();
 }
 
 const wchar_t *BootstrapperQTStudio::GetVersionFileName() const
@@ -73,7 +73,7 @@ const wchar_t *BootstrapperQTStudio::GetGuidName() const
 
 const wchar_t *BootstrapperQTStudio::GetStartAppMutexName() const
 {
-	return StartRobloxStudioAppMutex;
+	return StartANORRLStudioAppMutex;
 }
 
 const wchar_t *BootstrapperQTStudio::GetBootstrapperMutexName() const
@@ -86,9 +86,9 @@ std::wstring BootstrapperQTStudio::GetBootstrapperFileName() const
 	return std::wstring(BootstrapperQTStudioFileName);
 }
 
-std::wstring BootstrapperQTStudio::GetRobloxAppFileName() const 
+std::wstring BootstrapperQTStudio::GetANORRLAppFileName() const 
 { 
-	return std::wstring(RobloxStudioAppFileName);
+	return std::wstring(ANORRLStudioAppFileName);
 }
 
 const wchar_t* BootstrapperQTStudio::GetFriendlyName() const
@@ -162,9 +162,9 @@ void BootstrapperQTStudio::createDialog()
 	dialog->InitDialog();
 }
 
-void BootstrapperQTStudio::StartRobloxApp(bool fromInstall)
+void BootstrapperQTStudio::StartANORRLApp(bool fromInstall)
 {
-	LOG_ENTRY("BootstrapperQTStudio::StartRobloxApp");
+	LOG_ENTRY("BootstrapperQTStudio::StartANORRLApp");
 
 	if (settings.GetValueShowInstallSuccessPrompt() && fromInstall)
 	{
@@ -178,24 +178,24 @@ void BootstrapperQTStudio::StartRobloxApp(bool fromInstall)
     CEvent readyEvent;
 	if ( !editArgs.readyEvent.empty() )
 	{
-		LOG_ENTRY1("BootstrapperStudio::StartRobloxApp - Play game, syncGameEventName = %s", editArgs.readyEvent.c_str());
+		LOG_ENTRY1("BootstrapperStudio::StartANORRLApp - Play game, syncGameEventName = %s", editArgs.readyEvent.c_str());
 		readyEvent.Open(EVENT_MODIFY_STATE, FALSE, convert_s2w(editArgs.readyEvent).c_str());
 	}
 
-    robloxAppArgs += _T(" ") + convert_s2w(SharedLauncher::StartEventArgument) + _T(" ") + StartEvent;
-    robloxAppArgs += _T(" ") + SharedLauncher::generateEditCommandLine(editArgs);
+    anorrlAppArgs += _T(" ") + convert_s2w(SharedLauncher::StartEventArgument) + _T(" ") + StartEvent;
+    anorrlAppArgs += _T(" ") + SharedLauncher::generateEditCommandLine(editArgs);
  
 	CProcessInformation pi;
-	CreateProcess((programDirectory() + GetRobloxAppFileName()).c_str(), robloxAppArgs.c_str(), pi);
+	CreateProcess((programDirectory() + GetANORRLAppFileName()).c_str(), anorrlAppArgs.c_str(), pi);
 
-	LOG_ENTRY1("BootstrapperQTStudio::StartRobloxApp - waiting for %S",StartEvent);
+	LOG_ENTRY1("BootstrapperQTStudio::StartANORRLApp - waiting for %S",StartEvent);
 	influxDb.addPoint("WaitingForAppStart", GetElapsedTime() / 1000.0f);
 	::WaitForSingleObject(startEvent,10 * 1000);
 	influxDb.addPoint("WaitingForAppEnd", GetElapsedTime() / 1000.0f);
 
     if ( !editArgs.readyEvent.empty() )
 	{
-		LOG_ENTRY("BootstrapperStudio::StartRobloxApp - Setting ready event");
+		LOG_ENTRY("BootstrapperStudio::StartANORRLApp - Setting ready event");
 		readyEvent.Set();
 	}
 }
@@ -244,22 +244,22 @@ void BootstrapperQTStudio::registerFileTypes()
     // register file extensions
 	{
         // rbxl
-		CRegKey rbxl = CreateKey(classesKey, _T(".rbxl"), _T("Roblox.Place"));
-		CRegKey roblox_place = CreateKey(rbxl, _T("Roblox.Place"), NULL);
-		CreateKey(roblox_place, _T("ShellNew"), NULL);
+		CRegKey rbxl = CreateKey(classesKey, _T(".rbxl"), _T("ANORRL.Place"));
+		CRegKey anorrl_place = CreateKey(rbxl, _T("ANORRL.Place"), NULL);
+		CreateKey(anorrl_place, _T("ShellNew"), NULL);
 	}
 
     // register file types
 	{
-        // Roblox.Place
-		CRegKey roblox_place = CreateKey(classesKey, _T("ANORRL.Place"), _T("ANORRL Place"));
+        // ANORRL.Place
+		CRegKey anorrl_place = CreateKey(classesKey, _T("ANORRL.Place"), _T("ANORRL Place"));
 
 		CRegKey defaultIcon = CreateKey(
-            roblox_place, 
+            anorrl_place, 
             _T("DefaultIcon"), 
-            format_string(_T("%s%s,0"),programDirectory().c_str(),RobloxStudioAppFileName).c_str() );
+            format_string(_T("%s%s,0"),programDirectory().c_str(),ANORRLStudioAppFileName).c_str() );
 
-		CRegKey shell = CreateKey(roblox_place, _T("shell"), NULL);
+		CRegKey shell = CreateKey(anorrl_place, _T("shell"), NULL);
 		CRegKey open = CreateKey(shell, _T("Open"), _T("Open"));
 
         std::wstring commandline = format_string(
@@ -310,7 +310,7 @@ void BootstrapperQTStudio::DoInstallApp()
 
 	LOG_ENTRY("BootstrapperQTStudio::DoInstallApp - RegisterElevationPolicy");
 	std::wstring dir = programDirectory();
-	RegisterElevationPolicy(RobloxStudioAppFileName, dir.c_str());
+	RegisterElevationPolicy(ANORRLStudioAppFileName, dir.c_str());
 	CheckCancel();
 
 	LOG_ENTRY("BootstrapperQTStudio::DoInstallApp - registerFileTypes()");
@@ -324,10 +324,8 @@ void BootstrapperQTStudio::DoInstallApp()
 
 	try
 	{
-		bool hasLegacyShortcut = hasLegacyStudioDesktopShortcut();
-		deleteLegacyShortcuts();
 		// Force creation of new shortcuts if they had an old one (now deleted), or if it's an install
-		CreateShortcuts(!isUpdating || hasLegacyShortcut, _T(STUDIOQTLINKNAME_CUR), BootstrapperQTStudioFileName, _T("-ide"));
+		CreateShortcuts(!isUpdating, _T(STUDIOQTLINKNAME_CUR), BootstrapperQTStudioFileName, _T("-ide"));
 	}
 	catch (std::exception &)
 	{
@@ -340,15 +338,15 @@ void BootstrapperQTStudio::DoInstallApp()
 		LOG_ENTRY("Cleaning up old beta leftovers");
 
 		LOG_ENTRY("Looking for old beta programs link folder");
-		std::wstring shortcuts = FileSystem::getSpecialFolder(isPerUser() ? FileSystem::RobloxUserPrograms : FileSystem::RobloxCommonPrograms, false, NULL, false);
-		shortcuts += _T("RobloxBeta\\");
+		std::wstring shortcuts = FileSystem::getSpecialFolder(isPerUser() ? FileSystem::ANORRLUserPrograms : FileSystem::ANORRLCommonPrograms, false, NULL, false);
+		shortcuts += _T("ANORRLBeta\\");
 		if (FileSystem::IsFolderExists(shortcuts.c_str())) 
 		{
 			deleteDirectory(shortcuts, false);
 		}
 
 		LOG_ENTRY("Looking for old beta data folder");
-		std::wstring oldData = FileSystem::getSpecialFolder(isPerUser() ? FileSystem::RobloxUserApplicationData : FileSystem::RobloxProgramFiles, false, "StudioBetaVersions");
+		std::wstring oldData = FileSystem::getSpecialFolder(isPerUser() ? FileSystem::ANORRLUserApplicationData : FileSystem::ANORRLProgramFiles, false, "StudioBetaVersions");
 		if (FileSystem::IsFolderExists(oldData.c_str())) 
 		{
 			deleteDirectory(oldData, false);
@@ -381,15 +379,13 @@ void BootstrapperQTStudio::DoUninstallApp(CRegKey &hk)
 	LOG_ENTRY("BootstrapperQTStudio::DoUninstallApp - deleteCurVersionKeys");
 	deleteCurVersionKeys(logger, isPerUser(), getQTStudioCode().c_str());
 
-    deleteLegacyShortcuts();
-
 	LOG_ENTRY("BootstrapperQTStudio::DoUninstallApp - redirect to original installer");
 
 	std::wstring exePath = baseProgramDirectory(isPerUser()) + _T(STUDIOBOOTSTAPPERNAMEBETA);
 
 	// reset shortcuts to player's studio launcher
-    createRobloxShortcut(logger,isPerUser(),_T(STUDIOQTLINKNAME_CUR),exePath.c_str(),_T("-ide"),false,false);
-	createRobloxShortcut(logger,isPerUser(),_T(STUDIOQTLINKNAME_CUR),exePath.c_str(),_T("-ide"),true,false);
+    createANORRLShortcut(logger,isPerUser(),_T(STUDIOQTLINKNAME_CUR),exePath.c_str(),_T("-ide"),false,false);
+	createANORRLShortcut(logger,isPerUser(),_T(STUDIOQTLINKNAME_CUR),exePath.c_str(),_T("-ide"),true,false);
 
     // reset key so that shared launcher will run player's studio launcher instead
     std::wstring progPath = baseProgramDirectory(isPerUser()) + _T(STUDIOBOOTSTAPPERNAMEBETA);
@@ -404,19 +400,6 @@ bool BootstrapperQTStudio::ProcessArg(wchar_t** args, int &pos, int count)
     return SharedLauncher::parseEditCommandArg(args,pos,count,editArgs);
 }
 
-void BootstrapperQTStudio::deleteLegacyShortcuts()
-{
-	Bootstrapper::deleteLegacyShortcuts();
-	deleteDesktopShortcut(logger, _T(STUDIOQTLINKNAME2013));
-	deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME2013));
-}
-
-bool BootstrapperQTStudio::hasLegacyStudioDesktopShortcut()
-{
-	if (Bootstrapper::hasLegacyStudioDesktopShortcut())
-		return true;
-	return hasDesktopShortcut(logger, _T(STUDIOQTLINKNAME2013));
-}
 
 static std::wstring getValue(const std::map<std::wstring, std::wstring>& argMap, const std::wstring& key)
 {

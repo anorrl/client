@@ -22,7 +22,7 @@ FileDeployer::FileDeployer(IInstallerSite *site, bool perUser)
 // Downloads a file from the install site. Uses a cached file when possible
 std::wstring FileDeployer::downloadVersionedFile(const TCHAR* name, Progress& progress, bool usePrimaryCdn)
 {
-	std::wstring downloadsDirectory = FileSystem::getSpecialFolder(_perUser ? FileSystem::RobloxUserApplicationData : FileSystem::RobloxCommonApplicationData, true, "Downloads");
+	std::wstring downloadsDirectory = FileSystem::getSpecialFolder(_perUser ? FileSystem::ANORRLUserApplicationData : FileSystem::ANORRLCommonApplicationData, true, "Downloads");
 	if (downloadsDirectory.empty())
 		throw std::runtime_error("Failed to create Downloads folder"); 
 

@@ -57,7 +57,7 @@ class Bootstrapper : public boost::enable_shared_from_this<Bootstrapper>, public
 
 	bool silentMode;
 	// only used if silentMode is true, which means we don't show dialog at all
-	CEvent robloxReady;
+	CEvent anorrlReady;
 	// this mean that bootstrapper should not run anything except preDeploy
 	bool noRun;
 	bool waitOnStart;
@@ -126,7 +126,7 @@ class Bootstrapper : public boost::enable_shared_from_this<Bootstrapper>, public
 	void uninstall(bool isPerUser);
 
 	bool checkBootstrapperVersion();
-	void shutdownRobloxApp(std::wstring appExeName);
+	void shutdownANORRLApp(std::wstring appExeName);
 	void checkDiskSpace();
 	bool shutdownProgress(int& time, int pos, int max);
 	void deleteVersionFolder(std::string version);
@@ -135,8 +135,6 @@ class Bootstrapper : public boost::enable_shared_from_this<Bootstrapper>, public
 	bool isLatestProcess();
 
 	void deleteVersionsDirectoryContents();
-	void forceUninstallMFCStudio();
-	void forceMFCStudioCleanup();
 
 	// If size is set to 0, size will not be included in the log.
 	// Reporting eventually boils down to http requests, which will be made
@@ -159,7 +157,7 @@ protected:
 	CRegKey classesKey;
 
 	//TODO move this into client part
-	std::wstring robloxAppArgs;	// If empty, then don't launch RobloxApp.exe
+	std::wstring anorrlAppArgs;	// If empty, then don't launch ANORRLApp.exe
 
 	InfluxDb influxDb;
 
@@ -180,8 +178,8 @@ protected:
 	virtual void createDialog() {} ;
 
 	// lets make sure that this guy will be 100% client only (RCC won't run this code)
-	virtual HRESULT SheduleRobloxUpdater() { return S_OK; };
-	virtual HRESULT UninstallRobloxUpdater() { return S_OK; };
+	virtual HRESULT SheduleANORRLUpdater() { return S_OK; };
+	virtual HRESULT UninstallANORRLUpdater() { return S_OK; };
 	// will load settings from server
 	virtual void LoadSettings() {}
 	virtual bool CanRunBgTask() { return true; }
@@ -236,8 +234,6 @@ protected:
 	void deploySelf(bool commitData);
 	void message(const std::string& message);
 
-	void deleteLegacyShortcuts();
-
 	void validateAndFixChromeState();
 
 	HWND GetHwndFromPID(DWORD pid);
@@ -254,10 +250,9 @@ public:
 	std::wstring programDirectory(bool isPerUser) const;   // Local location for installing components to
 	std::wstring baseProgramDirectory(bool isPerUser) const; //place where all installed versions are
 	bool hasReturnValue() const { return isFailIfNotUpToDate; }
-	bool hasLegacyStudioDesktopShortcut();
 	bool isSilentMode() const { return silentMode; }
 	bool isWindowed() const { return windowed; }
-	bool WaitForCompletion() { DWORD result = WaitForSingleObject(robloxReady, 30*60*1000); return (result == WAIT_TIMEOUT); }
+	bool WaitForCompletion() { DWORD result = WaitForSingleObject(anorrlReady, 30*60*1000); return (result == WAIT_TIMEOUT); }
 	int ExitCode() const { return exitCode; }
 	void cleanKey(const std::wstring regPathToDelete, CRegKey &hk);
 	std::string BrowserTrackerId() { return browserTrackerId; }
@@ -304,11 +299,11 @@ public:
 
 	virtual void DoInstallApp() {};
 	virtual void DoUninstallApp(CRegKey &hk) {}; //component specific uninstall actions
-	virtual std::wstring GetRobloxAppFileName() const { return std::wstring(_T("")); }
+	virtual std::wstring GetANORRLAppFileName() const { return std::wstring(_T("")); }
 	virtual std::wstring GetBootstrapperFileName() const { return std::wstring(_T("")); }
 	virtual std::wstring GetProductCodeKey() const { return std::wstring(_T("")); }
 	virtual void DeployComponents(bool isUpdating, bool commitData) {};
-	virtual void StartRobloxApp(bool fromInstall) {}
+	virtual void StartANORRLApp(bool fromInstall) {}
 	virtual bool IsPlayMode() { return false; }
 	virtual bool HasUnhideGuid() {return false; }
 	virtual bool ProcessProtocolHandlerArgs(const std::map<std::wstring, std::wstring>& args) { return false; }

@@ -19,7 +19,7 @@
 #include "util/standardout.h"
 #include "util/Http.h"
 #include "util/Statistics.h"
-#include "RobloxServicesTools.h"
+#include "ANORRLServicesTools.h"
 
 // Roblox Studio Headers
 #include "RobloxNetworkAccessManager.h"
@@ -36,7 +36,7 @@
 #include "RobloxWebDoc.h"
 #include "RobloxDocManager.h"
 
-#include "RobloxServicesTools.h"
+#include "ANORRLServicesTools.h"
 
 FASTFLAG(GoogleAnalyticsTrackingEnabled)
 FASTFLAGVARIABLE(StudioInSyncWebKitAuthentication, false)

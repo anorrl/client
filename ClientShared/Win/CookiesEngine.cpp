@@ -4,8 +4,8 @@
 #include "AtlBase.h"
 #include "AtlSync.h"
 
-const TCHAR rbxRegPath[] = _T("Software\\GraceRBLX\\ANORRL");
-const TCHAR rbxRegName[] = _T("CPath");
+const TCHAR arlRegPath[] = _T("Software\\GraceRBLX\\ANORRL");
+const TCHAR arlRegName[] = _T("CPath");
 const TCHAR CookieFileMutext[] = _T("ANORRLCookieEngineMutex");
 
 namespace
@@ -54,12 +54,12 @@ std::wstring CookiesEngine::getCookiesFilePath()
 	TCHAR path[MAX_PATH];
 	path[0] = 0;
     
-	pathKey.Open(HKEY_CURRENT_USER, rbxRegPath);
+	pathKey.Open(HKEY_CURRENT_USER, arlRegPath);
 	if (pathKey.m_hKey != NULL)
 	{
         
 		ULONG size = MAX_PATH;
-		pathKey.QueryStringValue(rbxRegName, path, &size);
+		pathKey.QueryStringValue(arlRegName, path, &size);
         
 		pathKey.Close();
 	}
@@ -73,13 +73,13 @@ std::wstring CookiesEngine::getCookiesFilePath()
 void CookiesEngine::setCookiesFilePath(std::wstring &path)
 {
 	CRegKey pathKey;
-	pathKey.Create(HKEY_CURRENT_USER, rbxRegPath);
+	pathKey.Create(HKEY_CURRENT_USER, arlRegPath);
 	if (pathKey.m_hKey != NULL)
 	{
 #ifdef UNICODE
-		pathKey.SetStringValue(rbxRegName, path.c_str());
+		pathKey.SetStringValue(arlRegName, path.c_str());
 #else
-		pathKey.SetStringValue(rbxRegName, convert_w2s(path).c_str());
+		pathKey.SetStringValue(arlRegName, convert_w2s(path).c_str());
 #endif
         
 		pathKey.Close();

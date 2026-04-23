@@ -43,6 +43,7 @@
 #include "boost/algorithm/string.hpp"
 #include "util/RobloxGoogleAnalytics.h"
 #include "RobloxSettings.h"
+#include "AuthoringSettings.h"
 
 const static std::string classSearchString = "classname:";
 const static std::string nameSearchString = "name:";
@@ -2450,6 +2451,19 @@ RobloxExplorerWidget::RobloxExplorerWidget(QWidget *pParent)
 {
 	m_lineEdit = new QLineEdit();
 	m_lineEdit->setPlaceholderText(QString("Filter workspace (%1)").arg(UpdateUIManager::Instance().getMainWindow().explorerFilterAction->shortcut().toString()));
+	
+	if (AuthoringSettings::singleton().darkMode)
+	{
+		QPalette palette = m_lineEdit->palette();
+		//palette.setColor(QPalette::PlaceholderText, Qt::white);
+		palette.setColor(QPalette::Text, Qt::white);
+		palette.setColor(QPalette::Base, QColor(46, 46, 46));
+		palette.setColor(QPalette::Window, QColor(46, 46, 46));
+		palette.setColor(QPalette::Button, QColor(46, 46, 46));
+		palette.setColor(QPalette::ButtonText, Qt::white);
+		m_lineEdit->setPalette(palette);
+	}
+	
 	m_lineEdit->hide();
 
 	m_loadingMovie = new QMovie(":/images/loading.gif");

@@ -25,9 +25,6 @@ private:
 	void unregisterFileTypes();
 	void unregisterFileTypes(HKEY ckey);
 
-	void deleteLegacyShortcuts();
-	bool hasLegacyStudioDesktopShortcut();
-
 	virtual std::string Type() { return "QTStudio"; };
 	virtual std::string BinaryType() { return "WindowsStudio"; }
 	virtual void initialize();
@@ -41,7 +38,7 @@ private:
 	virtual const wchar_t *GetVersionFileName() const;
 	virtual const wchar_t *GetGuidName() const;
 	virtual std::wstring GetBootstrapperFileName() const;
-	virtual std::wstring GetRobloxAppFileName() const;
+	virtual std::wstring GetANORRLAppFileName() const;
 	virtual std::wstring GetProductCodeKey() const;
 	virtual const wchar_t* GetStartAppMutexName() const;
 	virtual const wchar_t* GetBootstrapperMutexName() const;
@@ -72,5 +69,5 @@ public:
 	virtual void FlushEvents();
 	virtual bool PerModeLoggingEnabled();
 
-	virtual void StartRobloxApp(bool fromInstall);
+	virtual void StartANORRLApp(bool fromInstall);
 };

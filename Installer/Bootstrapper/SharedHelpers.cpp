@@ -258,22 +258,6 @@ std::wstring getQTStudioInstallKey()
 	return std::wstring(_T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{2922D6F1-2865-4EFA-97A9-94EEAB3AFA14}"));
 }
 
-std::wstring get2013PlayerInstallKey()
-{
-	return std::wstring(_T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{34AB2718-8CC5-4671-9178-90330AAA680}"));
-}
-
-std::wstring getQT2013StudioInstallKey()
-{
-	return std::wstring(_T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{2933D6F1-2867-4FAA-9A79-94EEBA3AFA14}"));
-}
-
-std::wstring get2010PlayerInstallKey()
-{
-	return std::wstring(_T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{3AB38218-8CC5-7363-1CC8-9197BB54AA00}"));
-}
-
-
 std::wstring getPlayerCode()
 {
 	return std::wstring(_T("Player"));
@@ -287,21 +271,6 @@ std::wstring getStudioCode()
 std::wstring getQTStudioCode()
 {
 	return std::wstring(_T("QTStudio"));
-}
-
-std::wstring get2013PlayerCode()
-{
-	return std::wstring(_T("2013Player"));
-}
-
-std::wstring getQT2013StudioCode()
-{
-	return std::wstring(_T("QT2013Studio"));
-}
-
-std::wstring get2010PlayerCode()
-{
-	return std::wstring(_T("2010Player"));
 }
 
 void appendEnvironmentToProtocolScheme(std::wstring& scheme, const std::string baseUrl)
@@ -331,33 +300,6 @@ std::wstring getQTStudioProtocolScheme(const std::string& baseUrl)
 	return scheme;
 }
 
-std::wstring get2013PlayerProtocolScheme(const std::string& baseUrl)
-{
-	std::wstring scheme = _T("anorrl-2013-player");
-
-	appendEnvironmentToProtocolScheme(scheme, baseUrl);
-
-	return scheme;
-}
-
-std::wstring getQT2013StudioProtocolScheme(const std::string& baseUrl)
-{
-	std::wstring scheme = _T("anorrl-2013-studio");
-
-	appendEnvironmentToProtocolScheme(scheme, baseUrl);
-
-	return scheme;
-}
-
-std::wstring get2010PlayerProtocolScheme(const std::string& baseUrl)
-{
-	std::wstring scheme = _T("anorrl-2010-player");
-
-	appendEnvironmentToProtocolScheme(scheme, baseUrl);
-
-	return scheme;
-}
-
 std::wstring getStudioRegistrySubPath()
 {
 	return _T("StudioANORRLReg");
@@ -376,16 +318,6 @@ std::wstring getQTStudioRegistrySubPath()
 std::wstring getQTStudioRegistryPath()
 {
 	return _T("SOFTWARE\\") + getQTStudioRegistrySubPath();
-}
-
-std::wstring getQT2013StudioRegistrySubPath()
-{
-	return _T("StudioQT2013ANORRLReg");
-}
-
-std::wstring getQT2013StudioRegistryPath()
-{
-	return _T("SOFTWARE\\") + getQT2013StudioRegistrySubPath();
 }
 
 static void createShortcut(const TCHAR *linkFileName, const TCHAR *exePath, const TCHAR *args)
@@ -412,12 +344,12 @@ static void createShortcut(const TCHAR *linkFileName, const TCHAR *exePath, cons
 	throwHRESULT(ppf->Save(linkFileName, TRUE), "IPersistFile Save failed");
 }
 
-void createRobloxShortcut(simple_logger<wchar_t> &logger, bool isPerUser, const TCHAR *linkFileName, const TCHAR *exePath, const TCHAR *args, bool desktop, bool forceCreate)
+void createANORRLShortcut(simple_logger<wchar_t> &logger, bool isPerUser, const TCHAR *linkFileName, const TCHAR *exePath, const TCHAR *args, bool desktop, bool forceCreate)
 {
 	std::wstring shortcutsDirectory;
 	if (!desktop)
 	{
-		shortcutsDirectory = FileSystem::getSpecialFolder(isPerUser ? FileSystem::RobloxUserPrograms : FileSystem::RobloxCommonPrograms, true);
+		shortcutsDirectory = FileSystem::getSpecialFolder(isPerUser ? FileSystem::ANORRLUserPrograms : FileSystem::ANORRLCommonPrograms, true);
 	}
 	else
 	{
@@ -449,7 +381,7 @@ void createRobloxShortcut(simple_logger<wchar_t> &logger, bool isPerUser, const 
 // exeName: name of executable to which shortcut points
 // exeFolderPath: path to exeName
 // baseFolderPath: path to unversioned programs
-void updateExistingRobloxShortcuts(
+void updateExistingANORRLShortcuts(
     simple_logger<wchar_t>& logger, 
     bool                    isPerUser, 
     const TCHAR*            folder, 
@@ -501,56 +433,6 @@ void updateExistingRobloxShortcuts(
 				LOG_ENTRY2("Updating link: %S with path: %S", fullName.c_str(), newLink.c_str());
 				throwHRESULT(ppf->Save(fullName.c_str(), TRUE), "IPersistFile Save failed");
 			}
-			else
-			{
-				// even if we don't match, we might have to do some magic with old shortcuts that pointed to the player when
-				// they wanted to launch studio (approx 04/2012 we only had one executable for player/studio)
-
-				bool isMFCStudio = (StrCmp(exeName, _T(STUDIOBOOTSTAPPERNAME)) == 0); // true if we're updating for MFC studio
-				LOG_ENTRY1("updateExistingRobloxShortcuts isStudio = %d", isMFCStudio);
-
-				if (StrStr(foundFilePath, _T("ANORRL.exe")))
-				{
-					// this shortcut points to the player
-					TCHAR args[MAX_PATH];
-					// detect if this shortcut is really a studio shortcut by looking at its arguments
-					throwHRESULT(psl->GetArguments(args, MAX_PATH), "updateExistingRobloxShortcuts - GetArgument Failed");
-					bool isIdeLink = (StrStr(args, _T("ide")) != 0);
-					if (isIdeLink && isMFCStudio)
-					{
-						throwHRESULT(psl->SetPath(newLink.c_str()), "psl->SetPath failed");
-						LOG_ENTRY2("Old studio link - updating link: %S with path: %S", fullName.c_str(), newLink.c_str());
-						throwHRESULT(ppf->Save(fullName.c_str(), TRUE), "IPersistFile Save failed");
-					}
-					else if (!isIdeLink)
-					{
-						throwHRESULT(psl->SetPath(newLink.c_str()), "psl->SetPath failed");
-						LOG_ENTRY2("Old player link - updating link: %S with path: %S", fullName.c_str(), newLink.c_str());
-						throwHRESULT(ppf->Save(fullName.c_str(), TRUE), "IPersistFile Save failed");
-					}
-				} 
-				else
-				{
-					// shortcut does not point to the player
-					// rewrite studio shortcuts to point to the base folder instead of the versioned folder
-					// in case the user pointed it directly to the exe instead of the bootstrapper
-					std::vector<std::wstring> sbss;
-					sbss.push_back(_T(STUDIOBOOTSTAPPERNAME));
-					sbss.push_back(_T(STUDIOBOOTSTAPPERNAMEBETA));
-					for (size_t i = 0;i < sbss.size();i ++)
-					{
-						if (StrStr(foundFilePath, sbss[i].c_str()))
-						{
-							LOG_ENTRY1("Studio bootstrapper found name = %S", sbss[i].c_str());
-							std::wstring studioLink = std::wstring(baseFolderPath) + _T(STUDIOBOOTSTAPPERNAMEBETA); // All studios point to QT launcher
-							throwHRESULT(psl->SetPath(studioLink.c_str()), "psl->SetPath failed");
-							LOG_ENTRY2("Old studio link - updating link: %S with path: %S", fullName.c_str(), studioLink.c_str());
-							throwHRESULT(ppf->Save(fullName.c_str(), TRUE), "IPersistFile Save failed");
-							break;
-						}
-					}
-				}
-			}
 		} while (FindNextFile(handle, &findFileData));
 
 		FindClose(handle); 
@@ -589,16 +471,16 @@ bool hasDesktopShortcut(simple_logger<wchar_t> &logger, const TCHAR *shortcutNam
 	return false;
 }
 
-std::wstring getRobloxProgramsFolder(simple_logger<wchar_t> &logger, bool isPerUser)
+std::wstring getANORRLProgramsFolder(simple_logger<wchar_t> &logger, bool isPerUser)
 {
-	return FileSystem::getSpecialFolder(isPerUser ? FileSystem::RobloxUserPrograms : FileSystem::RobloxCommonPrograms, false);
+	return FileSystem::getSpecialFolder(isPerUser ? FileSystem::ANORRLUserPrograms : FileSystem::ANORRLCommonPrograms, false);
 }
 
 bool hasProgramShortcut(simple_logger<wchar_t> &logger, bool isPerUser, const TCHAR *shortcutName)
 {
 	LOG_ENTRY1("hasProgramShortcut - %S", shortcutName);
 
-	std::wstring shortcutsDirectory = getRobloxProgramsFolder(logger, isPerUser);
+	std::wstring shortcutsDirectory = getANORRLProgramsFolder(logger, isPerUser);
 	if (!shortcutsDirectory.empty())
 	{
 		CString szLinkName;
@@ -633,7 +515,7 @@ void deleteProgramsShortcut(simple_logger<wchar_t> &logger, bool isPerUser, cons
 {
 	LOG_ENTRY1("deleteProgramsShortcut - %S", shortcutName);
 
-	std::wstring shortcutsDirectory = FileSystem::getSpecialFolder(isPerUser ? FileSystem::RobloxUserPrograms : FileSystem::RobloxCommonPrograms, false);
+	std::wstring shortcutsDirectory = FileSystem::getSpecialFolder(isPerUser ? FileSystem::ANORRLUserPrograms : FileSystem::ANORRLCommonPrograms, false);
 	if (!shortcutsDirectory.empty())
 	{
 		CString szLinkName;

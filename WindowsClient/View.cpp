@@ -209,13 +209,6 @@ void View::initializeView()
 
 	if(!success)
 	{
-        if (FFlag::GraphicsReportingInitErrorsToGAEnabled)
-        {{{
-            lastMessage += SystemUtil::getGPUMake() + " | ";
-            lastMessage += SystemUtil::osVer();
-            const char* label = modes.size()? "GraphicsInitError" : "GraphicsInitErrorNoModes";
-            RobloxGoogleAnalytics::trackEventWithoutThrottling( GA_CATEGORY_GAME, label , lastMessage.c_str(), 0 );
-        }}}
 
         ::WriteProfileString("Settings", "lastGFXMode", "-1");
 		throw initialization_error(

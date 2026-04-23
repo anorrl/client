@@ -12,13 +12,13 @@
 #include "atlpath.h"
 #include "atlsync.h"
 #include "format_string.h"
-#include "ShutdownRobloxApp.h"
+#include "ShutdownANORRLApp.h"
 #include "shellapi.h"
 #include "ShutdownDialog.h"
 #include "MD5Hasher.h"
 #include "SharedLauncher.h"
 #include "StringConv.h"
-#include "RobloxServicesTools.h"
+#include "ANORRLServicesTools.h"
 
 #include <boost/thread/thread.hpp>
 #include <boost/bind.hpp>
@@ -48,7 +48,7 @@
 #pragma comment(lib, "Sensapi.lib")
 
 // TODO - translation/localization
-using RBX::utf8_encode;
+using ARL::utf8_encode;
 
 void Bootstrapper::CreateProcess(const TCHAR* module, const TCHAR* args, PROCESS_INFORMATION& pi)
 {
@@ -106,7 +106,7 @@ public:
 					{
 						LLOG_ENTRY(bootstrapper->logger, "CSimpleModule::WinMain Waiting for bootstrapper to finish in silent mode");
 						bool result = bootstrapper->WaitForCompletion();
-						LLOG_ENTRY1(bootstrapper->logger, "CSimpleModule::WinMain - robloxReady, wait timeout = %d", result);
+						LLOG_ENTRY1(bootstrapper->logger, "CSimpleModule::WinMain - anorrlReady, wait timeout = %d", result);
 					}
 					else
 					{
@@ -299,7 +299,7 @@ Bootstrapper::Bootstrapper(HINSTANCE hInstance)
 :hInstance(hInstance),
 dialog(CMainDialog::Create(hInstance)),
 mainThreadId(::GetCurrentThreadId()),
-robloxAppArgs(_T("-browser")),	// By default start RobloxApp.exe as a web browser
+anorrlAppArgs(_T("-browser")),	// By default start ANORRLApp.exe as a web browser
 force(false),
 isUninstall(false),
 isNop(false),
@@ -320,7 +320,7 @@ exitCode(0),
 fullCheck(false),
 silentMode(false),
 dontStartApp(false),
-robloxReady(FALSE, FALSE, NULL, NULL),
+anorrlReady(FALSE, FALSE, NULL, NULL),
 noRun(false),
 waitOnStart(true),
 launchedAppHwnd(NULL),
@@ -712,8 +712,8 @@ void Bootstrapper::initialize()
 
 		if (CookiesEngine::getCookiesFilePath().empty())
 		{
-			std::wstring dir = FileSystem::getSpecialFolder(FileSystem::RobloxUserApplicationDataLow, true, NULL, NULL);
-			// lets make sure that we have roblox dir at this point
+			std::wstring dir = FileSystem::getSpecialFolder(FileSystem::ANORRLUserApplicationDataLow, true, NULL, NULL);
+			// lets make sure that we have anorrl dir at this point
 			try 
 			{
 				createDirectory(dir.c_str());
@@ -807,7 +807,7 @@ void Bootstrapper::postLogFile(bool uploadApp)
 					std::wstring file = simple_logger<wchar_t>::get_tmp_path() + std::wstring(files[0].cFileName);
 					{
 						std::fstream data(file.c_str(), std::ios_base::app);
-						data << "Info: RobloxAppLog" << "\n";
+						data << "Info: ANORRLAppLog" << "\n";
 						data << corrID << ": " << reportStatGuid << "\n";
 						data.flush();
 					}
@@ -912,7 +912,7 @@ void Bootstrapper::parseCmdLine()
 		{
 			LOG_ENTRY("option: ide");
 			windowDelay = 1;
-            robloxAppArgs = convert_s2w(SharedLauncher::IDEArgument);
+            anorrlAppArgs = convert_s2w(SharedLauncher::IDEArgument);
 			if (i+1 < __argc && __targv[i+1][0]!='-')
 			{
 				++i;
@@ -922,11 +922,11 @@ void Bootstrapper::parseCmdLine()
 				HANDLE hFile = ::FindFirstFile(__targv[i], &FileInformation);
 				if (hFile != INVALID_HANDLE_VALUE)
 				{
-					robloxAppArgs += _T(" ");
-					robloxAppArgs += convert_s2w(SharedLauncher::FileLocationArgument);
-					robloxAppArgs += _T(" \"");
-					robloxAppArgs += __targv[i];
-					robloxAppArgs += _T("\"");
+					anorrlAppArgs += _T(" ");
+					anorrlAppArgs += convert_s2w(SharedLauncher::FileLocationArgument);
+					anorrlAppArgs += _T(" \"");
+					anorrlAppArgs += __targv[i];
+					anorrlAppArgs += _T("\"");
 				}
 			}
 		}
@@ -957,28 +957,28 @@ void Bootstrapper::parseCmdLine()
 		{
 			LOG_ENTRY("option: browser");
 			windowDelay = 1;
-			robloxAppArgs = _T("-browser");
+			anorrlAppArgs = _T("-browser");
 		}
 		else if (CAtlModule::WordCmpI(arg1, _T("-uninstall"))==0)
 		{
 			LOG_ENTRY("option: Uninstall");
 			isUninstall = true;
-			robloxAppArgs = _T("");
+			anorrlAppArgs = _T("");
 		}
 		else if (CAtlModule::WordCmpI(arg1, _T("-install"))==0)
 		{
 			LOG_ENTRY("option: Install");
 			requestedInstall = true;
-			// Just update/install roblox, but don't run it
-			robloxAppArgs = _T("");
+			// Just update/install anorrl, but don't run it
+			anorrlAppArgs = _T("");
 			windowDelay = 10;
 		}
 		else if(CAtlModule::WordCmpI(arg1, _T("-failIfNotUpToDate"))==0)
 		{
 			LOG_ENTRY("option: FailIfNotUpToDate");
-			//Just check roblox version number, and return "success (0)" if it is up to date
+			//Just check anorrl version number, and return "success (0)" if it is up to date
 			isFailIfNotUpToDate = true;
-			robloxAppArgs = _T("");
+			anorrlAppArgs = _T("");
 			windowDelay = 10;
 		}
 		else if (CAtlModule::WordCmpI(arg1, _T("-force"))==0)
@@ -994,14 +994,14 @@ void Bootstrapper::parseCmdLine()
 		else if (CAtlModule::WordCmpI(arg1, _T("-prePlay"))==0)
 		{
 			LOG_ENTRY("option: prePlay");
-			robloxAppArgs = _T("-nop");
+			anorrlAppArgs = _T("-nop");
 			isNop = true;
 		}
 		else if (!ProcessArg(__targv, i, __argc))
         {
-            if ( !robloxAppArgs.empty() )
-			    robloxAppArgs += _T(" ");
-            robloxAppArgs += arg1;
+            if ( !anorrlAppArgs.empty() )
+			    anorrlAppArgs += _T(" ");
+            anorrlAppArgs += arg1;
 		}
 	}
 }
@@ -1295,7 +1295,7 @@ void Bootstrapper::validateAndFixChromeState()
 		if (iter->name.IsString())
 		{
 			std::string name = iter->name.GetString();
-			if (name.find("roblox") != std::string::npos)
+			if (name.find("anorrl") != std::string::npos)
 			{
 				if (iter->value.GetBool())
 					found = true;
@@ -1359,7 +1359,7 @@ void Bootstrapper::validateAndFixChromeState()
 			if (retried)
 			{
 				int res = dialog->MessageBox(
-					_T("Roblox might not launch correctly if Chrome is open or running in the background during installation.\n\n")
+					_T("ANORRL might not launch correctly if Chrome is open or running in the background during installation.\n\n")
 					_T("Automatically shutdown all instances of Chrome and continue?"), _T("Warning"), MB_YESNOCANCEL);
 
 				if (res == IDYES)
@@ -1579,7 +1579,7 @@ std::wstring Bootstrapper::programDirectory() const
 
 std::wstring Bootstrapper::baseProgramDirectory(bool isPerUser) const
 {
-	return FileSystem::getSpecialFolder(isPerUser ? FileSystem::RobloxUserApplicationData : FileSystem::RobloxProgramFiles, true, "Versions");
+	return FileSystem::getSpecialFolder(isPerUser ? FileSystem::ANORRLUserApplicationData : FileSystem::ANORRLProgramFiles, true, "Versions");
 }
 
 std::wstring Bootstrapper::programDirectory(bool isPerUser) const
@@ -1709,7 +1709,7 @@ bool Bootstrapper::checkBootstrapperVersion()
 		std::wstring newBootstrapper;
 
 		// Lets kill task before updating and installing
-		UninstallRobloxUpdater();
+		UninstallANORRLUpdater();
 
 		try
 		{
@@ -1808,14 +1808,14 @@ void Bootstrapper::CreateShortcuts(bool forceDesktopIconCreation, const TCHAR *l
 	{
 		LOG_ENTRY4("Bootstrapper::CreateShortcuts force = %d, link = '%S', exeName = '%S', params = '%S'", forceDesktopIconCreation, linkName, exeName, params);
 		std::wstring exePath = GetSelfName();
-		createRobloxShortcut(logger, isPerUser(), linkName, exePath.c_str(), params, false, true);
-		createRobloxShortcut(logger, isPerUser(), linkName, exePath.c_str(), params, true, forceDesktopIconCreation);
+		createANORRLShortcut(logger, isPerUser(), linkName, exePath.c_str(), params, false, true);
+		createANORRLShortcut(logger, isPerUser(), linkName, exePath.c_str(), params, true, forceDesktopIconCreation);
 
 		long start = GetTickCount();
 		std::wstring desktop = FileSystem::getSpecialFolder(FileSystem::Desktop, false, NULL, NULL);
 		std::wstring versionedPath = programDirectory();
 		std::wstring unversionedPath = baseProgramDirectory(isPerUser());
-		updateExistingRobloxShortcuts(logger, isPerUser(), desktop.c_str(), exeName, versionedPath.c_str(), unversionedPath.c_str());
+		updateExistingANORRLShortcuts(logger, isPerUser(), desktop.c_str(), exeName, versionedPath.c_str(), unversionedPath.c_str());
 
 		// if user pinned our R link to task bar or start menu we want update that link as well
 		if (IsWin7())
@@ -1823,22 +1823,22 @@ void Bootstrapper::CreateShortcuts(bool forceDesktopIconCreation, const TCHAR *l
 			std::wstring folder = FileSystem::getSpecialFolder(FileSystem::RoamingAppData, false, NULL, NULL);
 		
 			std::wstring taskBar = folder + _T("Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar\\");
-			updateExistingRobloxShortcuts(logger, isPerUser(), taskBar.c_str(), exeName, versionedPath.c_str(), unversionedPath.c_str());
+			updateExistingANORRLShortcuts(logger, isPerUser(), taskBar.c_str(), exeName, versionedPath.c_str(), unversionedPath.c_str());
 
 			std::wstring startMenu = folder + _T("Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\StartMenu\\");
-			updateExistingRobloxShortcuts(logger, isPerUser(), startMenu.c_str(), exeName, versionedPath.c_str(), unversionedPath.c_str());
+			updateExistingANORRLShortcuts(logger, isPerUser(), startMenu.c_str(), exeName, versionedPath.c_str(), unversionedPath.c_str());
 		}
 		else if (IsWinXP()) //WinXP
 		{
 			std::wstring folder = FileSystem::getSpecialFolder(FileSystem::AppData, false, NULL, NULL);
 			folder += _T("Microsoft\\Internet Explorer\\Quick Launch\\");
-			updateExistingRobloxShortcuts(logger, isPerUser(), folder.c_str(), exeName, versionedPath.c_str(), unversionedPath.c_str());
+			updateExistingANORRLShortcuts(logger, isPerUser(), folder.c_str(), exeName, versionedPath.c_str(), unversionedPath.c_str());
 		}
 		else // Win Vista case
 		{
 			std::wstring folder = FileSystem::getSpecialFolder(FileSystem::RoamingAppData, false, NULL, NULL);
 			folder += _T("Microsoft\\Internet Explorer\\Quick Launch\\");
-			updateExistingRobloxShortcuts(logger, isPerUser(), folder.c_str(), exeName, versionedPath.c_str(), unversionedPath.c_str());
+			updateExistingANORRLShortcuts(logger, isPerUser(), folder.c_str(), exeName, versionedPath.c_str(), unversionedPath.c_str());
 		}
 		
 		long end = GetTickCount();
@@ -1864,7 +1864,7 @@ void Bootstrapper::CreateShortcuts(bool forceDesktopIconCreation, const TCHAR *l
 LPCWSTR LOW_INTEGRITY_SDDL_SACL_W = L"S:(ML;;NW;;;LW)";
  
 // http://www.codeproject.com/KB/vista-security/PMSurvivalGuide.aspx#creatingipc
-// This function lets RobloxProxy.dll access the mutex
+// This function lets ANORRLProxy.dll access the mutex
 
 bool SetObjectToLowIntegrity(HANDLE hObject, SE_OBJECT_TYPE type = SE_KERNEL_OBJECT)
 {
@@ -1917,7 +1917,7 @@ void Bootstrapper::checkOSPrerequisit()
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	osvi.dwMajorVersion = 5;
 	osvi.dwMinorVersion = 1;
-	osvi.wServicePackMajor = 1;	// Roblox requires WinXP SP1 because it links to WinHttp
+	osvi.wServicePackMajor = 1;	// ANORRL requires WinXP SP1 because it links to WinHttp
 	osvi.wServicePackMinor = 0;
 
 	DWORDLONG dwlConditionMask = 0;
@@ -2014,12 +2014,12 @@ bool Bootstrapper::isDirectXUpToDate()
 	return true;
 }
 
-void Bootstrapper::shutdownRobloxApp(std::wstring appExeName)
+void Bootstrapper::shutdownANORRLApp(std::wstring appExeName)
 {
 	int time = 0;
-	ShutdownRobloxApp s(hInstance, appExeName, boost::bind(&CMainDialog::GetHWnd, dialog.get()), 15, boost::bind(&Bootstrapper::shutdownProgress, this, boost::ref(time), _1, _2));
+	ShutdownANORRLApp s(hInstance, appExeName, boost::bind(&CMainDialog::GetHWnd, dialog.get()), 15, boost::bind(&Bootstrapper::shutdownProgress, this, boost::ref(time), _1, _2));
 	if(s.run()){
-		//If we have to close Roblox, show the "updating" dialog right away
+		//If we have to close ANORRL, show the "updating" dialog right away
 		dialog->ShowWindow(CMainDialog::WindowSomethingInterestingShow);
 	}
 	dialog->SetMarquee(true);
@@ -2146,7 +2146,7 @@ void Bootstrapper::run()
 {
 	srand(GetTickCount());
 	
-	if (!robloxAppArgs.empty())
+	if (!anorrlAppArgs.empty())
 		setLatestProcess();
 
 	if (isNop)
@@ -2155,17 +2155,7 @@ void Bootstrapper::run()
 	::CoInitialize(NULL);
 
 	// TODO remove this code next iteration
-	UninstallRobloxUpdater();
-
-    try
-    {
-        forceUninstallMFCStudio();
-    }
-    catch (...)
-	{
-		LOG_ENTRY("Bootstrapper::run - forceUninstallMFCStudio failed");
-	}
-
+	UninstallANORRLUpdater();
 
 	startTime = time(NULL);
 
@@ -2203,14 +2193,14 @@ void Bootstrapper::run()
 			if (windowed && isLatestProcess())
 			{
 				CString message = _T("ANORRL cannot connect to the Internet\n\nDoes your computer have a working network connection?  Is antivirus software preventing ANORRL from accessing the Internet?");
-				if (!robloxAppArgs.empty())
+				if (!anorrlAppArgs.empty())
 				{
 					message += _T("\n\nIf you continue ANORRL may not work properly.");
 					// TODO: CTaskDialog should use nice command buttons
 					if (dialog->MessageBox(message, _T("Error"), MB_OKCANCEL | MB_ICONEXCLAMATION)==IDOK)
 					{
 						installVersion = queryInstalledVersion();
-						StartRobloxApp(false);
+						StartANORRLApp(false);
 					}
 				}
 				else
@@ -2239,13 +2229,13 @@ void Bootstrapper::run()
 			if (windowed && isLatestProcess())
 			{
 				CString message = _T("Cannot connect to the ANORRL website.\n\nIs antivirus software preventing ANORRL from accessing the Internet?");
-				if (!robloxAppArgs.empty())
+				if (!anorrlAppArgs.empty())
 				{
 					message += _T("\n\nIf you continue ANORRL may not work properly.");
 					if (dialog->MessageBox(message, _T("Error"), MB_OKCANCEL | MB_ICONEXCLAMATION)==IDOK)
 					{
 						installVersion = queryInstalledVersion();
-						StartRobloxApp(false);
+						StartANORRLApp(false);
 					}
 				}
 				else
@@ -2343,18 +2333,18 @@ void Bootstrapper::run()
 			}
 			else
 			{
-				// if the system is indicating we have roblox installed, try and find the exe
-				HANDLE robloxAppFile;
-				WIN32_FIND_DATA robloxAppFileData;
-				robloxAppFile = FindFirstFile((programDirectory() + GetRobloxAppFileName()).c_str(), &robloxAppFileData);
+				// if the system is indicating we have anorrl installed, try and find the exe
+				HANDLE anorrlAppFile;
+				WIN32_FIND_DATA anorrlAppFileData;
+				anorrlAppFile = FindFirstFile((programDirectory() + GetANORRLAppFileName()).c_str(), &anorrlAppFileData);
 
-				LOG_ENTRY1("RobloxAppFileName = %S", GetRobloxAppFileName().c_str());
+				LOG_ENTRY1("ANORRLAppFileName = %S", GetANORRLAppFileName().c_str());
 				LOG_ENTRY1("programDirectory = %S", programDirectory().c_str());
 
-				// if RobloxApp.exe is not found in the indicated install folder, force uninstall/install
-				if ((robloxAppFile == INVALID_HANDLE_VALUE))
+				// if ANORRLApp.exe is not found in the indicated install folder, force uninstall/install
+				if ((anorrlAppFile == INVALID_HANDLE_VALUE))
 				{
-					LOG_ENTRY1("%S not found, forcing reinstall.", GetRobloxAppFileName().c_str());
+					LOG_ENTRY1("%S not found, forcing reinstall.", GetANORRLAppFileName().c_str());
 					force = true;
 				}
 				else
@@ -2367,13 +2357,13 @@ void Bootstrapper::run()
 
 						if (ValidateInstalledExeVersion())
 						{
-							LOG_ENTRY("RobloxApp version mismatch, forcing reinstall.");
+							LOG_ENTRY("ANORRLApp version mismatch, forcing reinstall.");
 							force = true;
 						}
 					}
 				}
 
-				::FindClose(robloxAppFile);
+				::FindClose(anorrlAppFile);
 			}
 		}
 	
@@ -2405,7 +2395,7 @@ void Bootstrapper::run()
 
 			if (!perUser)
 			{
-				uninstall(true);	// first uninstall per-user Roblox
+				uninstall(true);	// first uninstall per-user ANORRL
 			}
 
 			if (isUninstall)
@@ -2470,7 +2460,7 @@ void Bootstrapper::run()
 				}
 			}
 			else{
-				//Roblox is already installed
+				//ANORRL is already installed
 				//If it is installed for all users
 				if(adminInstallDetected)
 				{
@@ -2499,15 +2489,15 @@ void Bootstrapper::run()
 		}
 
 		checkCancel();
-		if (!robloxAppArgs.empty() && isLatestProcess())
-			StartRobloxApp(isNewInstall);
+		if (!anorrlAppArgs.empty() && isLatestProcess())
+			StartANORRLApp(isNewInstall);
 
 		LOG_ENTRY("Done!");
 	}
 	catch (non_zero_exit_exception&)
 	{
 		exitCode = 1;
-		LOG_ENTRY("Roblox is not up to date, returning failure");
+		LOG_ENTRY("ANORRL is not up to date, returning failure");
 	}
 	catch (silent_exception&)
 	{
@@ -2542,7 +2532,7 @@ done:
 	else
 	{
 		LOG_ENTRY("Setting up finish event in silent mode");
-		robloxReady.Set();
+		anorrlReady.Set();
 	}
 
 	LOG_ENTRY("Fully Done!");
@@ -2678,7 +2668,7 @@ void Bootstrapper::uninstall(bool isPerUser)
 
 	LOG_ENTRY1("Uninstall %s", (isPerUser ? "per user" : "all users"));
 
-	shutdownRobloxApp(GetRobloxAppFileName());
+	shutdownANORRLApp(GetANORRLAppFileName());
 
 	LOG_ENTRY1("Deleting HKCU\\Software\\%S", GetRegistryPath().c_str());
 
@@ -2701,17 +2691,14 @@ void Bootstrapper::uninstall(bool isPerUser)
 	}
 
 	deleteVersionFolder(version);
-    deleteLegacyShortcuts();
-
+    
     // check for components still installed
 
 	std::vector<std::wstring> components;
 	components.push_back(getStudioInstallKey());
 	components.push_back(getPlayerInstallKey());
 	components.push_back(getQTStudioInstallKey());
-	components.push_back(getQT2013StudioInstallKey());
-	components.push_back(get2010PlayerInstallKey());
-
+	
 	bool finalCleanup = true;
 	for (size_t i = 0;i < components.size();i ++) 
 	{
@@ -2726,10 +2713,10 @@ void Bootstrapper::uninstall(bool isPerUser)
 	// final cleanup when we have no more components installed -- nuke all shortcuts
 	if (finalCleanup) 
 	{
-		std::wstring folder = getRobloxProgramsFolder(logger, isPerUser);
+		std::wstring folder = getANORRLProgramsFolder(logger, isPerUser);
 		if (!folder.empty())
 		{
-			LOG_ENTRY1("Deleting roblox shortcuts folder = %S", folder.c_str());
+			LOG_ENTRY1("Deleting anorrl shortcuts folder = %S", folder.c_str());
 			deleteDirectory(folder, false);
 		}
 
@@ -2758,7 +2745,7 @@ void Bootstrapper::deleteVersionsDirectoryContents()
 	try
 	{
 		// Clear out old versions as much as possible
-		std::wstring dir = FileSystem::getSpecialFolder(perUser ? FileSystem::RobloxUserApplicationData : FileSystem::RobloxProgramFiles, true, "Versions");
+		std::wstring dir = FileSystem::getSpecialFolder(perUser ? FileSystem::ANORRLUserApplicationData : FileSystem::ANORRLProgramFiles, true, "Versions");
 		deleteDirectory(dir, true);
 	}
 	catch (cancel_exception&)
@@ -2790,7 +2777,7 @@ void Bootstrapper::deleteVersionFolder(std::string version)
 		return;
 	}
 
-	std::wstring dir = FileSystem::getSpecialFolder(perUser ? FileSystem::RobloxUserApplicationData : FileSystem::RobloxProgramFiles, false, "Versions");
+	std::wstring dir = FileSystem::getSpecialFolder(perUser ? FileSystem::ANORRLUserApplicationData : FileSystem::ANORRLProgramFiles, false, "Versions");
 	if (dir.empty())
 	{
 		return;
@@ -2820,7 +2807,7 @@ void Bootstrapper::DeleteOldVersionsDirectories()
 	try
 	{
 		// Clear out old versions as much as possible
-		std::wstring dir = FileSystem::getSpecialFolder(perUser ? FileSystem::RobloxUserApplicationData : FileSystem::RobloxProgramFiles, false, "Versions");
+		std::wstring dir = FileSystem::getSpecialFolder(perUser ? FileSystem::ANORRLUserApplicationData : FileSystem::ANORRLProgramFiles, false, "Versions");
 		if (dir.empty())
 			return;
 		WIN32_FIND_DATA FileInformation;             // File information
@@ -2998,12 +2985,12 @@ void Bootstrapper::install()
 			if (!perUser && !IsAdminRunning())
 			{
 				if (windowed)
-					dialog->DisplayError("On this machine you must install Roblox using an Administrator account", NULL);
+					dialog->DisplayError("On this machine you must install ANORRL using an Administrator account", NULL);
 				throw installer_error_exception(installer_error_exception::AdminAccountRequired);
 			}
 		}
 
-		shutdownRobloxApp(GetRobloxAppFileName());
+		shutdownANORRLApp(GetANORRLAppFileName());
 		checkCancel();
 
         std::string text = "Configuring " + convert_w2s(GetFriendlyName());
@@ -3200,107 +3187,6 @@ void Bootstrapper::progressBar(int pos, int max)
 {
 	int progress = (int)((__int64)max ? 100 * (__int64)pos / (__int64)max : 0);
 	dialog->SetProgress(progress);
-}
-
-void Bootstrapper::forceUninstallMFCStudio()
-{
-    LOG_ENTRY("Bootstrapper::forceUninstallMFCStudio");
-
-    // check if Studio is installed
-    if ( !isInstalled(getStudioInstallKey()) )
-    {
-        forceMFCStudioCleanup();
-        LOG_ENTRY("Bootstrapper::forceUninstallMFCStudio - not installed");
-        return;
-    }
-
-    // find the uninstall registry key
-    CRegKey key;
-    if ( key.Open(
-            perUser ? HKEY_CURRENT_USER : HKEY_LOCAL_MACHINE,
-            getStudioInstallKey().c_str(), 
-            KEY_READ ) != ERROR_SUCCESS )
-    {
-        LOG_ENTRY("Bootstrapper::forceUninstallMFCStudio - failed to find install key");
-        return;
-    }
-
-    // get the uninstall command
-    TCHAR value[512];
-	ULONG length = sizeof(value) / sizeof(TCHAR);
-    if ( key.QueryStringValue(_T("UninstallString"),value,&length) != ERROR_SUCCESS )
-    {
-        LOG_ENTRY("Bootstrapper::forceUninstallMFCStudio - failed to find uninstall string");
-        return;
-    }
-
-    // run the command
-    std::wstring uninstall_path = value;
-    if ( !uninstall_path.empty() )
-    {
-        LOG_ENTRY1(
-            "Bootstrapper::forceUninstallMFCStudio - path: %S",
-            uninstall_path.c_str() );
-
-        // do this before you execute the uninstall or you'll lose the keys
-        std::string version = queryInstalledVersion(getStudioRegistryPath());
-        std::wstring filePath = getInstalledBootstrapperPath(getStudioRegistryPath());
-
-        // execute command
-        CProcessInformation pi;
-	    CreateProcess(uninstall_path.c_str(),_T(""),pi); // Launch the uninstaller RobloxStudio.exe -uninstall
-
-        // make sure the stub is deleted
-        LOG_ENTRY1("Bootstrapper::forceUninstallMFCStudio - deleting studio stub: %S",filePath.c_str());
-	    ::DeleteFile(filePath.c_str());
-
-        // delete empty directory
-        std::wstring basePath = baseProgramDirectory(isPerUser());
-        std::wstring path = basePath + convert_s2w(version);
-        LOG_ENTRY1("Bootstrapper::forceUninstallMFCStudio - deleting studio directory: %S",path.c_str());
-        deleteVersionFolder(convert_w2s(path));
-    }
-
-    forceMFCStudioCleanup();
-}
-
-void Bootstrapper::forceMFCStudioCleanup()
-{
-    LOG_ENTRY("Bootstrapper::forceMFCStudioCleanup - deleteCurVersionKeys");
-	deleteCurVersionKeys(logger, isPerUser(), getStudioCode().c_str());
-
-	deleteLegacyShortcuts();
-
-    std::wstring basePath = baseProgramDirectory(isPerUser());
-    std::wstring fileName = _T(STUDIOBOOTSTAPPERNAME);
-    std::wstring filePath = basePath + fileName;
-
-    LOG_ENTRY1("Bootstrapper::forceMFCStudioCleanup - deleting studio stub: %S",filePath.c_str());
-	if (FileSystem::IsFileExists(filePath.c_str())) 
-		::DeleteFile(filePath.c_str());
-}
-
-bool Bootstrapper::hasLegacyStudioDesktopShortcut()
-{
-	return hasDesktopShortcut(logger, _T(STUDIOQTLINKNAME))
-		|| hasDesktopShortcut(logger, _T(STUDIOQTLINKNAME20))
-		|| hasDesktopShortcut(logger, _T(STUDIOQTLINKNAME20BETA))
-		|| hasDesktopShortcut(logger, _T(STUDIOLINKNAMELEGACY));
-}
-
-void Bootstrapper::deleteLegacyShortcuts()
-{
-    /*LOG_ENTRY("Bootstrapper::deleteLegacyShortcuts - deleteDesktopShortcut");
-	deleteDesktopShortcut(logger, _T(PLAYERLINKNAMELEGACY));
-    deleteDesktopShortcut(logger, _T(STUDIOQTLINKNAME));
-    deleteDesktopShortcut(logger, _T(STUDIOQTLINKNAME20));
-    deleteDesktopShortcut(logger, _T(STUDIOQTLINKNAME20BETA));
-
-    LOG_ENTRY("Bootstrapper::deleteLegacyShortcuts - deleteProgramsShortcut");
-    deleteProgramsShortcut(logger, isPerUser(), _T(PLAYERLINKNAMELEGACY));
-    deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME));
-    deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME20));
-    deleteProgramsShortcut(logger, isPerUser(), _T(STUDIOQTLINKNAME20BETA));*/
 }
 
 struct HandleInfo

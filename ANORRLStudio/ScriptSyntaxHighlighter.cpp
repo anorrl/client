@@ -51,6 +51,13 @@ static bool IsLuaOperator(int ch) {
 	return false;
 }
 
+static bool IsLuaCompoundOperator(int ch) {
+	if (ch >= 0x80 || isalnum(ch)) {
+		return false;
+	}
+	return ch == '*' || ch == '/' || ch == '-' || ch == '+';
+}
+
 // Test for [=[ ... ]=] delimiters, returns 0 if it's only a [ or ],
 // return 1 for [[ or ]], returns >=2 for [=[ or ]=] and so on.
 // The maximum number of '=' characters allowed is 254.
@@ -75,7 +82,7 @@ ScriptSyntaxHighlighter::ScriptSyntaxHighlighter(QTextDocument *parent)
 
 void ScriptSyntaxHighlighter::initData()
 {
-	m_keywordPatterns  << "and" << "break" << "do" << "else"
+	m_keywordPatterns  << "and" << "break" << "continue" << "do" << "else"
 		<< "elseif" << "end" << "false" << "for"
 		<< "function" << "if" << "in" << "local" 
 		<< "nil" << "not" << "or" << "repeat" 
@@ -124,7 +131,8 @@ void ScriptSyntaxHighlighter::setLexState(ARLLuaLexState lexState, int currentPo
         case ARL_LUA_PREPROCESSOR:
             format = m_preprocessorFormat;
             break;
-        case ARL_LUA_OPERATOR:
+		case ARL_LUA_OPERATOR:
+		case ARL_LUA_COMPOUNDOPERATOR:
             format = m_operatorFormat;
             break;
         case ARL_LUA_STRING:
@@ -242,7 +250,23 @@ void ScriptSyntaxHighlighter::highlightBlock(const QString &text)
 			}
 			
 			setLexState(ARL_LUA_DEFAULT, ii);			
-		} 
+		}
+		if (m_lexState == ARL_LUA_COMPOUNDOPERATOR)
+		{
+			if (ii > 0)
+			{
+				if (text[ii - 1] == QChar('{'))
+					hasFold |= checkApplyFoldState("{");
+				else if (text[ii - 1] == QChar('}'))
+					hasFold |= checkApplyFoldState("}");
+				else if (text[ii - 1] == QChar('('))
+					hasFold |= checkApplyFoldState("(");
+				else if (text[ii - 1] == QChar(')'))
+					hasFold |= checkApplyFoldState(")");
+			}
+
+			setLexState(ARL_LUA_DEFAULT, ii);
+		}
 		else if (m_lexState == ARL_LUA_NUMBER) 
 		{
 			// Stop the number definition on non-numerical non-dot non-eE non-sign non-hexdigit char
@@ -424,17 +448,24 @@ void ScriptSyntaxHighlighter::highlightBlock(const QString &text)
 			else if (ii == 0 && text[ii] == QChar('$')) 
 			{
 				m_lexState = ARL_LUA_PREPROCESSOR;	// Obsolete since Lua 4.0, but still in old code
-			} 
-			else if (IsLuaOperator(text[ii].toAscii())) 
+			}
+			else if (ii + 1 < text.size() && text[ii + 1] == QChar('=') && IsLuaCompoundOperator(text[ii].toAscii()))
+			{
+				m_lexState = ARL_LUA_COMPOUNDOPERATOR;
+				ii++;
+				continue;
+			}
+			else if (IsLuaOperator(text[ii].toAscii()) && !(ii + 1 < text.size() && text[ii + 1] == QChar('=') && IsLuaCompoundOperator(text[ii].toAscii())))
 			{
 				m_lexState = ARL_LUA_OPERATOR;
 			}
+			
 		}
 	}
 
 	// Final check for termination, if any
 	int finalIndex = text.size();
-	if (m_lexState == ARL_LUA_OPERATOR)
+	if (m_lexState == ARL_LUA_OPERATOR || m_lexState == ARL_LUA_COMPOUNDOPERATOR)
 	{
 		if(finalIndex > 0)
 		{

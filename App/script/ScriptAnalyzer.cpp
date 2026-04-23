@@ -145,7 +145,7 @@ namespace ARL
         
         const char* kReserved[] =
         {
-            "and", "break", "do", "else", "elseif",
+            "and", "break", "continue", "do", "else", "elseif",
             "end", "false", "for", "function", "if",
             "in", "local", "nil", "not", "or", "repeat",
             "return", "then", "true", "until", "while"
@@ -169,6 +169,7 @@ namespace ARL
                 String,
                 Number,
                 Name,
+				CompoundPlusEquals,
                 
                 Reserved_BEGIN,
                 ReservedAnd = Reserved_BEGIN,
@@ -256,6 +257,9 @@ namespace ARL
                         
                 case Dot3:
                     return "'...'";
+
+				case CompoundPlusEquals:
+					return "'+='";
                         
                 case String:
                     return format("\"%s\"", data->c_str());

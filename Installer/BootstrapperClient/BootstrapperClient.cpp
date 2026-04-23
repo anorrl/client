@@ -22,20 +22,20 @@
 #include "VersionInfo.h"
 #include "StringConv.h"
 #include "ClientProgressDialog.h"
-#include "RobloxServicesTools.h"
+#include "ANORRLServicesTools.h"
 
 static const TCHAR* BootstrapperFileName    = _T("ANORRLPlayerLauncher.exe");
-static const TCHAR* RobloxAppFileName		= _T(PLAYEREXENAME);
+static const TCHAR* ANORRLAppFileName		= _T(PLAYEREXENAME);
 static const TCHAR* BootstrapperMutexName   = _T("arl.lambda.cam/bootstrapper");
-static const TCHAR* StartRobloxAppMutex     = _T("arl.lambda.cam/startRobloxApp");
-static const TCHAR* LauncherFileName        = _T("RobloxProxy.dll");
-static const TCHAR* LauncherFileName64      = _T("RobloxProxy64.dll");
+static const TCHAR* StartANORRLAppMutex     = _T("arl.lambda.cam/startANORRLApp");
+static const TCHAR* LauncherFileName        = _T("ANORRLProxy.dll");
+static const TCHAR* LauncherFileName64      = _T("ANORRLProxy64.dll");
 static const TCHAR* FriendlyName            = _T("ANORRL");
 static const TCHAR* CLSID_Launcher          = _T("{76D50904-6780-4c8b-8986-1A7EE0B1716D}");
 static const TCHAR* CLSID_Launcher64        = _T("{DEE03C2B-0C0C-41A9-9877-FD4B4D7B6EA3}");
 static const TCHAR* AppID_Launcher          = _T("{664B192B-D17A-4921-ABF9-C6F6264E5110}");
 
-LPCWSTR robloxUpdaterTaskName = L"RobloxGameUpdater";
+LPCWSTR anorrlUpdaterTaskName = L"ANORRLGameUpdater";
 LPCWSTR bgCommand = L"-qbg";
 
 static Bootstrapper* newBootstrapper(HINSTANCE hInstance)
@@ -66,7 +66,7 @@ BootstrapperClient::BootstrapperClient(HINSTANCE hInstance)
 
 	_protocolHandlerScheme = getPlayerProtocolScheme(BaseHost());
 
-	//Plugin depends on RobloxReg value as well, 
+	//Plugin depends on ANORRLReg value as well, 
 	//so if you ever change this guy make sure that plugins code is updates as well
 	_regSubPath = _T("ANORRL");
 	_regPath = _T("SOFTWARE\\") + _regSubPath;
@@ -116,7 +116,7 @@ const wchar_t *BootstrapperClient::GetGuidName() const
 
 const wchar_t *BootstrapperClient::GetStartAppMutexName() const
 {
-	return StartRobloxAppMutex;	
+	return StartANORRLAppMutex;	
 }
 
 const wchar_t *BootstrapperClient::GetBootstrapperMutexName() const
@@ -171,13 +171,13 @@ bool BootstrapperClient::IsInstalledVersionUptodate()
 	if (!expectedVersion.empty())
 	{
 		CVersionInfo vi;
-		std::wstring filePath = programDirectory() + GetRobloxAppFileName();
+		std::wstring filePath = programDirectory() + GetANORRLAppFileName();
 		if (vi.Load(filePath))
 		{
 			std::string fileVersion = vi.GetFileVersionAsDotString();
 			if (expectedVersion != fileVersion)
 			{
-				LOG_ENTRY2("WARNING: RobloxApp.exe version %s != %s", expectedVersion.c_str(), fileVersion.c_str());
+				LOG_ENTRY2("WARNING: ANORRLApp.exe version %s != %s", expectedVersion.c_str(), fileVersion.c_str());
 				return false;
 			}
 		}
@@ -216,7 +216,7 @@ HRESULT BootstrapperClient::SheduleTaskWinVista()
 		return hr;
 	}
 
-	rootFolder->DeleteTask(_bstr_t(robloxUpdaterTaskName), 0);
+	rootFolder->DeleteTask(_bstr_t(anorrlUpdaterTaskName), 0);
 	CComPtr<ITaskDefinition> task;
 	hr = service->NewTask(0, &task);
 	if (FAILED(hr))
@@ -236,7 +236,7 @@ HRESULT BootstrapperClient::SheduleTaskWinVista()
 	GetUserName(name, &bufSize);
 
 	regInfo->put_Author(name);
-	regInfo->put_Description(L"This tasks helps Roblox game be updated.");
+	regInfo->put_Description(L"This tasks helps ANORRL game be updated.");
 
 	CComPtr<ITriggerCollection> triggerCollection;
 	hr = task->get_Triggers(&triggerCollection);
@@ -304,7 +304,7 @@ HRESULT BootstrapperClient::SheduleTaskWinVista()
 	}
 
 	CComPtr<IRegisteredTask> registeredTask;
-	hr = rootFolder->RegisterTaskDefinition(_bstr_t(robloxUpdaterTaskName), task, TASK_CREATE_OR_UPDATE, _variant_t(L""), _variant_t(L""), 
+	hr = rootFolder->RegisterTaskDefinition(_bstr_t(anorrlUpdaterTaskName), task, TASK_CREATE_OR_UPDATE, _variant_t(L""), _variant_t(L""), 
 		TASK_LOGON_INTERACTIVE_TOKEN, _variant_t(L""), &registeredTask);
 
 	return hr;
@@ -320,10 +320,10 @@ HRESULT BootstrapperClient::SheduleTaskWinXP()
 		return hr;
 	}
 
-	hr = scheduler->Delete(robloxUpdaterTaskName);
+	hr = scheduler->Delete(anorrlUpdaterTaskName);
 
 	CComPtr<ITask> task;
-	hr = scheduler->NewWorkItem(robloxUpdaterTaskName, CLSID_CTask, IID_ITask, (IUnknown**)&task);
+	hr = scheduler->NewWorkItem(anorrlUpdaterTaskName, CLSID_CTask, IID_ITask, (IUnknown**)&task);
 	if (FAILED(hr))
 	{
 		return hr;
@@ -407,7 +407,7 @@ HRESULT BootstrapperClient::SheduleTaskWinXP()
 	return hr;
 }
 
-HRESULT BootstrapperClient::SheduleRobloxUpdater()
+HRESULT BootstrapperClient::SheduleANORRLUpdater()
 {
 	if (!UpdaterActive())
 	{
@@ -431,7 +431,7 @@ HRESULT BootstrapperClient::SheduleRobloxUpdater()
 	return S_OK;
 }
 
-HRESULT BootstrapperClient::UninstallRobloxUpdater()
+HRESULT BootstrapperClient::UninstallANORRLUpdater()
 {
 	OSVERSIONINFO osver = {0};
 	HRESULT hr = S_OK;
@@ -448,7 +448,7 @@ HRESULT BootstrapperClient::UninstallRobloxUpdater()
 			return hr;
 		}
 
-		hr = scheduler->Delete(robloxUpdaterTaskName);
+		hr = scheduler->Delete(anorrlUpdaterTaskName);
 	}
 	else if (osver.dwMajorVersion >= 6)
 	{
@@ -472,7 +472,7 @@ HRESULT BootstrapperClient::UninstallRobloxUpdater()
 			return hr;
 		}
 
-		hr = rootFolder->DeleteTask(_bstr_t(robloxUpdaterTaskName), 0);
+		hr = rootFolder->DeleteTask(_bstr_t(anorrlUpdaterTaskName), 0);
 	}
 
 	return hr;
@@ -534,8 +534,8 @@ void BootstrapperClient::RunPreDeploy()
 		setInstallVersion(preVersion);
 
 		deploySelf(false);
-		deployRobloxProxy(false);
-		deployNPRobloxProxy(false);
+		deployANORRLProxy(false);
+		deployNPANORRLProxy(false);
 		DeployComponents(true, false);
 
 		CRegKey key;
@@ -553,9 +553,9 @@ void BootstrapperClient::RunPreDeploy()
 	setInstallVersion(version);
 }
 
-std::wstring BootstrapperClient::GetRobloxAppFileName() const
+std::wstring BootstrapperClient::GetANORRLAppFileName() const
 {
-	return std::wstring(RobloxAppFileName);
+	return std::wstring(ANORRLAppFileName);
 }
 
 std::wstring BootstrapperClient::GetBootstrapperFileName() const
@@ -577,7 +577,7 @@ bool BootstrapperClient::ProcessProtocolHandlerArgs(const std::map<std::wstring,
 	std::wstring launchMode = getValue(argMap, _T("launchmode"));
 	if (launchMode == _T("play"))
 	{
-		robloxAppArgs = _T("play");
+		anorrlAppArgs = _T("play");
 		playArgs.reset(new PlayArgs());
 
 		playArgs->launchMode = SharedLauncher::Play;
@@ -625,7 +625,7 @@ bool BootstrapperClient::ProcessArg(wchar_t** args, int &pos, int count)
 	{
 		LOG_ENTRY("BootstrapperClient::ProcessArg - started");
 		RegisterEvent(_T("BootstrapperPlayStarted"));
-		robloxAppArgs = _T("play");
+		anorrlAppArgs = _T("play");
 		playArgs.reset(new PlayArgs());
 
 		// first, lets set the kind of play we are dealing with
@@ -675,7 +675,7 @@ bool BootstrapperClient::ProcessArg(wchar_t** args, int &pos, int count)
 	return false;
 }
 
-void BootstrapperClient::StartRobloxApp(bool fromInstall)
+void BootstrapperClient::StartANORRLApp(bool fromInstall)
 {
 	if (isDontStartApp()) 
 	{
@@ -686,12 +686,12 @@ void BootstrapperClient::StartRobloxApp(bool fromInstall)
 	// disable Cancel button if we already got this far
 	Dialog()->ShowCancelButton(CMainDialog::CancelHide);
 
-	CMutex mutex(NULL, FALSE, StartRobloxAppMutex);
+	CMutex mutex(NULL, FALSE, StartANORRLAppMutex);
 
 	CTimedMutexLock lock(mutex);
 	while (lock.Lock(1) == WAIT_TIMEOUT )
 	{
-		LOG_ENTRY("Another process is starting Roblox. Abandoning startRobloxApp");
+		LOG_ENTRY("Another process is starting ANORRL. Abandoning startANORRLApp");
 		return;
 	}
 
@@ -702,9 +702,9 @@ void BootstrapperClient::StartRobloxApp(bool fromInstall)
 	message("Starting ANORRL...");
 
 	LOG_ENTRY("Creating event");
-	CEvent robloxStartedEvent(NULL, TRUE, FALSE, _T("arl.lambda.cam/robloxStartedEvent"));
+	CEvent anorrlStartedEvent(NULL, TRUE, FALSE, _T("arl.lambda.cam/anorrlStartedEvent"));
 	LOG_ENTRY("Resetting event");
-	robloxStartedEvent.Reset();
+	anorrlStartedEvent.Reset();
 
 	CEvent gameReady;
 	if (playArgs && !playArgs->guidName.empty())
@@ -718,7 +718,7 @@ void BootstrapperClient::StartRobloxApp(bool fromInstall)
 
 	if (!playArgs)
 	{
-		bool isIDE = robloxAppArgs.find(std::wstring(_T("-ide"))) != std::wstring::npos;
+		bool isIDE = anorrlAppArgs.find(std::wstring(_T("-ide"))) != std::wstring::npos;
 		if (!isIDE)
 		{
 			std::wstring url;
@@ -756,22 +756,22 @@ void BootstrapperClient::StartRobloxApp(bool fromInstall)
 		}
 		else
 		{
-			if (robloxAppArgs != std::wstring(_T("-ide"))) 
+			if (anorrlAppArgs != std::wstring(_T("-ide"))) 
 			{
 				LOG_ENTRY("Starting windows player (beta)");
-				CreateProcess((programDirectory() + std::wstring(RobloxAppFileName)).c_str(), robloxAppArgs.c_str(), pi);
+				CreateProcess((programDirectory() + std::wstring(ANORRLAppFileName)).c_str(), anorrlAppArgs.c_str(), pi);
 
 			} 
 			else //this is very rare corner case, we need to launch studio bootstrapper in this case
 			{
 				LOG_ENTRY("Starting studio bootstrapper from client bootstrapper");
 				std::string fileSubpath = std::string(STUDIOBOOTSTAPPERNAMEBETA);
-				std::wstring robloxPath = baseProgramDirectory(isPerUser());
-				robloxPath += convert_s2w(fileSubpath);
-				LOG_ENTRY1("Checking file existance %S", robloxPath.c_str());
-				if (FileSystem::IsFileExists(robloxPath.c_str()))
+				std::wstring anorrlPath = baseProgramDirectory(isPerUser());
+				anorrlPath += convert_s2w(fileSubpath);
+				LOG_ENTRY1("Checking file existance %S", anorrlPath.c_str());
+				if (FileSystem::IsFileExists(anorrlPath.c_str()))
 				{
-					CreateProcess(robloxPath.c_str(), robloxAppArgs.c_str(), pi);
+					CreateProcess(anorrlPath.c_str(), anorrlAppArgs.c_str(), pi);
 				}
 			}
 		}
@@ -795,19 +795,19 @@ void BootstrapperClient::StartRobloxApp(bool fromInstall)
 		LOG_ENTRY1("playArgs = %S", startArgs.c_str());
 
 		LOG_ENTRY("Starting windows player (beta)");
-		CreateProcess((programDirectory() + std::wstring(RobloxAppFileName)).c_str(), startArgs.c_str(), pi);
+		CreateProcess((programDirectory() + std::wstring(ANORRLAppFileName)).c_str(), startArgs.c_str(), pi);
 	}
 
 	// TODO: Allow cancel of start process???
 	Dialog()->ShowCancelButton(CMainDialog::CancelHide);
 
-	// wait for Roblox to start
+	// wait for ANORRL to start
 	// This event is set in MainFrm.cpp
 	if (waitForApp) 
 	{
-		LOG_ENTRY("startRobloxApp waiting for robloxStartedEvent");
+		LOG_ENTRY("startANORRLApp waiting for anorrlStartedEvent");
 		influxDb.addPoint("WaitingForAppStart", GetElapsedTime() / 1000.0f);
-		::WaitForSingleObject(robloxStartedEvent, 10*1000);
+		::WaitForSingleObject(anorrlStartedEvent, 10*1000);
 		influxDb.addPoint("WaitingForAppEnd", GetElapsedTime() / 1000.0f);
 	}
 
@@ -872,8 +872,8 @@ void BootstrapperClient::deployExtraStudioBootstrapper(std::string exeName, TCHA
 			if (FileSystem::IsFileExists(exePath.c_str())) 
 			{
 				LOG_ENTRY("BootstrapperClient::deployExtraStudioBootstrapper - Studio bootstrapper is present. updating links and leaving");
-				createRobloxShortcut(logger, isPerUser(), linkName, exePath.c_str(), _T("-ide"), false, true);
-				createRobloxShortcut(logger, isPerUser(), linkName, exePath.c_str(), _T("-ide"), true, forceDesktopIconCreation);
+				createANORRLShortcut(logger, isPerUser(), linkName, exePath.c_str(), _T("-ide"), false, true);
+				createANORRLShortcut(logger, isPerUser(), linkName, exePath.c_str(), _T("-ide"), true, forceDesktopIconCreation);
 				return;
 			}
 		}
@@ -896,8 +896,8 @@ void BootstrapperClient::deployExtraStudioBootstrapper(std::string exeName, TCHA
 		copyFile(logger, studioBootstrapper.c_str(), exePath.c_str());
 		setCurrentVersion(logger, isPerUser(), componentId.c_str(), _T(""), _T(""));
 
-        createRobloxShortcut(logger, isPerUser(), linkName, exePath.c_str(), _T("-ide"), false, true);
-        createRobloxShortcut(logger, isPerUser(), linkName, exePath.c_str(), _T("-ide"), true, forceDesktopIconCreation);
+        createANORRLShortcut(logger, isPerUser(), linkName, exePath.c_str(), _T("-ide"), false, true);
+        createANORRLShortcut(logger, isPerUser(), linkName, exePath.c_str(), _T("-ide"), true, forceDesktopIconCreation);
 
 		// create registry info, so we can launch properly from web
         std::wstring progName = convert_s2w(exeName);
@@ -958,9 +958,9 @@ void BootstrapperClient::deployStudioBetaBootstrapper(bool forceDesktopIconCreat
         getQTStudioRegistryPath().c_str() );
 }
 
-void BootstrapperClient::deployRobloxProxy(bool commitData)
+void BootstrapperClient::deployANORRLProxy(bool commitData)
 {
-	deployer->deployVersionedFile(_T("RobloxProxy.zip"), NULL, Progress(), commitData);
+	deployer->deployVersionedFile(_T("ANORRLProxy.zip"), NULL, Progress(), commitData);
 	CheckCancel();
 
 	if (!commitData)
@@ -994,11 +994,11 @@ void BootstrapperClient::deployRobloxProxy(bool commitData)
 		// For IE8:
 		CRegKey allowedDomainsKey = CreateKey(key, _T("AllowedDomains"));
 		CreateKey(allowedDomainsKey, _T("lambda.cam"));
-		CreateKey(allowedDomainsKey, _T("robloxlabs.com"));
+		CreateKey(allowedDomainsKey, _T("anorrllabs.com"));
 	}
 
 	CVersionInfo vi;
-	std::wstring filePath = programDirectory() + _T("\\RobloxProxy.dll");
+	std::wstring filePath = programDirectory() + _T("\\ANORRLProxy.dll");
 	if (vi.Load(filePath))
 	{
 		std::string version = vi.GetFileVersionAsString();
@@ -1008,9 +1008,9 @@ void BootstrapperClient::deployRobloxProxy(bool commitData)
 	}
 }
 
-void BootstrapperClient::deployNPRobloxProxy(bool commitData)
+void BootstrapperClient::deployNPANORRLProxy(bool commitData)
 {
-	deployer->deployVersionedFile(_T("NPRobloxProxy.zip"), NULL, Progress(), commitData);
+	deployer->deployVersionedFile(_T("NPANORRLProxy.zip"), NULL, Progress(), commitData);
 	CheckCancel();
 
 	if (!commitData)
@@ -1030,12 +1030,12 @@ void BootstrapperClient::registerFirefoxPlugin(const TCHAR* id, bool is64Bits)
 	key.SetStringValue(_T("Version"), _T("1"));
 
 	if (is64Bits)
-		key.SetStringValue(_T("Path"), (programDirectory() + _T("\\NPRobloxProxy64.dll")).c_str());
+		key.SetStringValue(_T("Path"), (programDirectory() + _T("\\NPANORRLProxy64.dll")).c_str());
 	else
-		key.SetStringValue(_T("Path"), (programDirectory() + _T("\\NPRobloxProxy.dll")).c_str());
+		key.SetStringValue(_T("Path"), (programDirectory() + _T("\\NPANORRLProxy.dll")).c_str());
 
 	CreateKey(parent, format_string(_T("SOFTWARE\\MozillaPlugins\\%s\\MimeTypes"), id).c_str(), NULL, is64Bits);
-	CreateKey(parent, format_string(_T("SOFTWARE\\MozillaPlugins\\%s\\MimeTypes\\application/x-vnd-roblox-launcher"), id).c_str(), NULL, is64Bits);
+	CreateKey(parent, format_string(_T("SOFTWARE\\MozillaPlugins\\%s\\MimeTypes\\application/x-vnd-anorrl-launcher"), id).c_str(), NULL, is64Bits);
 }
 
 void BootstrapperClient::unregisterFirefoxPlugin(const TCHAR* id, bool is64Bits)
@@ -1098,20 +1098,20 @@ void BootstrapperClient::DoInstallApp()
 	// setup studio bootstrappers so we can launch studio (has to be done before we do much else, to make sure we launch right application)
 	installStudioLauncher(isUpdating);
 
-	// "install key" and "install host" must be set before RobloxProxy is deployed, because RobloxProxy uses these values
+	// "install key" and "install host" must be set before ANORRLProxy is deployed, because ANORRLProxy uses these values
 	LOG_ENTRY("set install key");
 	CRegKey installKey = CreateKey(isPerUser() ? HKEY_CURRENT_USER : HKEY_LOCAL_MACHINE, GetRegistryPath().c_str(), (programDirectory() + BootstrapperFileName).c_str());
 	LOG_ENTRY("set install host key value");
 	throwHRESULT(installKey.SetStringValue(_T("install host"), convert_s2w(InstallHost()).c_str()), "Failed to set install host key value");
 	CheckCancel();
 	
-	// Now deploy RobloxProxy so that javascript clients can get going ASAP (has to go after studio bootstrappers in case we are in editMode)
-	LOG_ENTRY("deployRobloxProxy()");
-	deployRobloxProxy(true);
+	// Now deploy ANORRLProxy so that javascript clients can get going ASAP (has to go after studio bootstrappers in case we are in editMode)
+	LOG_ENTRY("deployANORRLProxy()");
+	deployANORRLProxy(true);
 	CheckCancel();
 
-	LOG_ENTRY("deployNPRobloxProxy()");
-	deployNPRobloxProxy(true);
+	LOG_ENTRY("deployNPANORRLProxy()");
+	deployNPANORRLProxy(true);
 	CheckCancel();
 
 	setStage(3);
@@ -1128,7 +1128,7 @@ void BootstrapperClient::DoInstallApp()
 	setStage(4);
 
 	std::wstring dir = programDirectory();
-	RegisterElevationPolicy(RobloxAppFileName, dir.c_str());
+	RegisterElevationPolicy(ANORRLAppFileName, dir.c_str());
 	CheckCancel();
 
 	LOG_ENTRY("BootstrapperClient::DoInstallApp - RegisterProtocolHandler()");
@@ -1160,15 +1160,15 @@ void BootstrapperClient::DoInstallApp()
 	setCurrentVersion(logger, isPerUser(), getPlayerCode().c_str(), convert_s2w(InstallVersion()).c_str(), convert_s2w(BaseHost()).c_str());
 	setStage(8);
 
-	HRESULT hr = SheduleRobloxUpdater();
-	LOG_ENTRY1("SheduleRobloxUpdater hr = 0x%8.8x", hr);
+	HRESULT hr = SheduleANORRLUpdater();
+	LOG_ENTRY1("SheduleANORRLUpdater hr = 0x%8.8x", hr);
 }
 
 void BootstrapperClient::installStudioLauncher(bool isUpdating)
 {
 	try
 	{
-		deployStudioBetaBootstrapper(!isUpdating || hasLegacyStudioDesktopShortcut());
+		deployStudioBetaBootstrapper(!isUpdating);
 	}
 	catch (std::exception& e)
 	{
@@ -1203,8 +1203,8 @@ void BootstrapperClient::DoUninstallApp(CRegKey &hk)
 	LOG_ENTRY("BootstrapperClient::DoUninstallApp - UnregisterProtocolHandler");
 	UnregisterProtocolHandler(GetProtocolHandlerUrlScheme());
 
-	LOG_ENTRY("Deleting roblox auto updater");
-	UninstallRobloxUpdater();
+	LOG_ENTRY("Deleting anorrl auto updater");
+	UninstallANORRLUpdater();
 
 	LOG_ENTRY("BootstrapperClient::DoUninstallApp - deleteCurVersionKeys");
 	deleteCurVersionKeys(logger, isPerUser(), getPlayerCode().c_str());
@@ -1244,16 +1244,16 @@ void BootstrapperClient::initialize()
 	counters.reset(new CountersClient(BaseHost(), "76E5A40C-3AE1-4028-9F10-7C62520BD94F", &logger));
 
 	{
-		proxyModule.appName = "RobloxProxy";
-		proxyModule.fileName = _T("RobloxProxy.DLL");
+		proxyModule.appName = "ANORRLProxy";
+		proxyModule.fileName = _T("ANORRLProxy.DLL");
 		proxyModule.clsid = CLSID_Launcher;
 		proxyModule.typeLib = "{731B317A-E2B8-4BF7-A2C4-B47C225DDAFF}"; 
 		proxyModule.typeLibVersion = "1.0"; 
 		proxyModule.appID = AppID_Launcher;
 		proxyModule.interfaces.push_back(ComModule::Interface("ILauncher", "{699F0898-B7BC-4DE5-AFEE-0EC38AD42240}", false));
 		proxyModule.interfaces.push_back(ComModule::Interface("_ILauncherEvents", "{6E9600BE-5654-47F0-9A68-D6DC25FADC55}", true));
-		proxyModule.progID = "RobloxProxy.Launcher.4";
-		proxyModule.versionIndependentProgID = "RobloxProxy.Launcher";
+		proxyModule.progID = "ANORRLProxy.Launcher.4";
+		proxyModule.versionIndependentProgID = "ANORRLProxy.Launcher";
 		proxyModule.name = _T("Launcher Class");
 		proxyModule.moduleName = LauncherFileName;
 		proxyModule.isDll = true;
@@ -1262,7 +1262,7 @@ void BootstrapperClient::initialize()
 		proxyModule64 = proxyModule;
 		proxyModule64.clsid = CLSID_Launcher64;
 		proxyModule64.moduleName = LauncherFileName64;
-		proxyModule64.fileName = _T("RobloxProxy64.DLL");
+		proxyModule64.fileName = _T("ANORRLProxy64.DLL");
 		proxyModule64.is64Bits = true;
 	}
 

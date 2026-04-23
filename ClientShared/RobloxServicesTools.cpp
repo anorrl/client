@@ -1,16 +1,11 @@
 #include "stdafx.h"
 
-#include "RobloxServicesTools.h"
+#include "ANORRLServicesTools.h"
 #include "format_string.h"
 #include <boost/algorithm/string/predicate.hpp>
 #include <sstream>
 
-
-#ifdef ARL_PLATFORM_DURANGO
-#define DEFAULT_URL_SCHEMA "https"
-#else
 #define DEFAULT_URL_SCHEMA "http"
-#endif
 
 std::string trim_trailing_slashes(const std::string &path) 
 {
@@ -25,7 +20,7 @@ static std::string BuildGenericApiUrl(const std::string &baseUrl, const std::str
 	size_t pos = baseUrl.find(rbxUrl);
 	if (pos == std::string::npos)
 	{
-		rbxUrl = ".robloxlabs.com";
+		rbxUrl = ".anorrllabs.com";
 		pos =  baseUrl.find(rbxUrl);
 	}
 
