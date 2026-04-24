@@ -13,11 +13,13 @@ namespace ARL {
     REFLECTION_BEGIN();
 	static const Reflection::PropDescriptor<ScreenGui, Vector2int16> prop_ReplicateAbsoluteSize("ReplicatingAbsoluteSize", category_Data, &ScreenGui::getAbsoluteSize, &ScreenGui::setReplicatingAbsoluteSize,  Reflection::PropertyDescriptor::REPLICATE_ONLY);
 	static const Reflection::PropDescriptor<ScreenGui, Vector2int16> prop_ReplicateAbsolutePosition("ReplicatingAbsolutePosition", category_Data, &ScreenGui::getAbsolutePosition, &ScreenGui::setReplicatingAbsolutePosition, Reflection::PropertyDescriptor::REPLICATE_ONLY);
-    REFLECTION_END();
+	static const Reflection::PropDescriptor<ScreenGui, bool> prop_ignoreGuiInset("IgnoreGuiInset", category_Data, &ScreenGui::getIgnoreGuiInsetConst, &ScreenGui::setIgnoreGuiInset, Reflection::PropertyDescriptor::STANDARD, Security::None);
+	REFLECTION_END();
 
 	ScreenGui::ScreenGui()
 		:DescribedCreatable<ScreenGui, GuiLayerCollector, sScreenGui>(sScreenGui)
 		,renderable(false)
+		,ignoreGuiInset(false)
 		,bufferedViewport(Rect2D::xywh(0.0f, 0.0f, 800.0f, 600.0f))
 	{
 	}
@@ -25,6 +27,7 @@ namespace ARL {
 	ScreenGui::ScreenGui(const char* name)
 		:DescribedCreatable<ScreenGui, GuiLayerCollector, sScreenGui>(name)
 		,renderable(false)
+		,ignoreGuiInset(false)
 	{
 	}
     
@@ -146,13 +149,27 @@ namespace ARL {
             handleResize(bufferedViewport, false);
 		}
     }
+
+	void ScreenGui::setIgnoreGuiInset(bool value) {
+		if (value != ignoreGuiInset)
+		{
+			ignoreGuiInset = value;
+			ignoreGuiInsetChangedSignal(value);
+		}
+	}
     
     Vector2 ScreenGui::getAbsolutePosition() const
     {
         if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
         {
-            Vector4 guiInset = guiService->getGlobalGuiInset();
-            return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);
+#if defined(ARL_STUDIO_BUILD)
+			ARL::StandardOut::singleton()->printf(ARL::MessageType::MESSAGE_INFO, "I am evil screengui and i will kill you -> " + !getIgnoreGuiInsetConst() ? "applying gui inset" : "ignoring gui inset");
+			ARL::StandardOut::singleton()->printf(ARL::MessageType::MESSAGE_INFO, getName().c_str());
+#endif
+			if (!getIgnoreGuiInsetConst()) {
+				Vector4 guiInset = guiService->getGlobalGuiInset();
+				return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);
+			}
         }
         return absolutePosition;
     }

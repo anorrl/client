@@ -687,8 +687,24 @@ Vector2 GuiObject::getAbsolutePosition() const
 {
     if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
     {
-        Vector4 guiInset = guiService->getGlobalGuiInset();
-        return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);
+		// don't use const_cast often.... i wonder how the roblox devs think about this
+		// eh im sure it's fine!
+		ScreenGui* screenGui = const_cast<GuiObject*>(this)->getScreenGuiAsParent();
+
+		if (screenGui != NULL) {
+#if defined(ARL_STUDIO_BUILD)
+			ARL::StandardOut::singleton()->printf(ARL::MessageType::MESSAGE_INFO, "Holy shit help! -> " + !screenGui->getIgnoreGuiInsetConst() ? "applying gui inset" : "ignoring gui inset");
+			ARL::StandardOut::singleton()->printf(ARL::MessageType::MESSAGE_INFO, screenGui->getName().c_str());
+#endif
+			if (!screenGui->getIgnoreGuiInsetConst()) {
+				Vector4 guiInset = guiService->getGlobalGuiInset();
+				return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);
+			}
+		}
+		else {
+			Vector4 guiInset = guiService->getGlobalGuiInset();
+			return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);
+		}
     }
     return absolutePosition;
 }
@@ -731,6 +747,22 @@ void GuiObject::handleDragging(const shared_ptr<InputObject>& event)
 void GuiObject::handleDragBegin(Vector2 mousePosition)
 {
 	lastMousePosition = mousePosition;
+}
+
+ScreenGui* GuiObject::getScreenGuiAsParent()
+{
+	Instance* parent = getParent();
+	
+	if (!parent)
+		return NULL;
+
+	else if (parent->fastDynamicCast<ScreenGui>())
+		return parent->fastDynamicCast<ScreenGui>();
+
+	if (GuiObject* guiObject = parent->fastDynamicCast<GuiObject>())
+		return guiObject->getScreenGuiAsParent();
+
+	return NULL;
 }
 
 bool GuiObject::descendantOfBillboardGui()
@@ -1178,7 +1210,12 @@ void GuiObject::renderSelectionFrame(Adorn* adorn, GuiObject* baseSelectionObjec
 		Vector2 absolutePosition = getAbsolutePosition() + (getAbsoluteSize() * Vector2(selectedGuiObjPos.x.scale, selectedGuiObjPos.y.scale)) + Vector2(selectedGuiObjPos.x.offset, selectedGuiObjPos.y.offset);
 		if (GuiService* guiService = ARL::ServiceProvider::find<ARL::GuiService>(this))
 		{
-			absolutePosition += guiService->getGlobalGuiInset().xy();
+			bool inset = true;
+			if (ScreenGui* screenGui = getScreenGuiAsParent())
+				inset = !screenGui->ignoreGuiInset;
+			
+			if(inset)
+				absolutePosition += guiService->getGlobalGuiInset().xy();
 		}
 
 		const UDim2 selectedGuiObjSize = baseSelectionObject->getSize();
@@ -1202,8 +1239,12 @@ void GuiObject::renderSelectionFrame(Adorn* adorn, GuiObject* baseSelectionObjec
 		// we rendered, now set the properties back to normal
 		if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 		{
-			Vector4 guiInset = guiService->getGlobalGuiInset();
-			originalAbsPosition += guiInset.xy();
+			bool inset = true;
+			if (ScreenGui* screenGui = getScreenGuiAsParent())
+				inset = !screenGui->ignoreGuiInset;
+
+			if (inset)
+				originalAbsPosition += guiService->getGlobalGuiInset().xy();
 		}
 
 		baseSelectionObject->setAbsolutePosition(originalAbsPosition, false);
@@ -1886,7 +1927,12 @@ void GuiObject::draggingEnded(const shared_ptr<Instance>& event)
 			Vector2 dragPosition = Vector2(mousePosition.x, mousePosition.y);
 			if (GuiService* guiService = ARL::ServiceProvider::find<ARL::GuiService>(this))
 			{
-				dragPosition -= guiService->getGlobalGuiInset().xy();
+				bool inset = true;
+				if (ScreenGui* screenGui = getScreenGuiAsParent())
+					inset = !screenGui->ignoreGuiInset;
+
+				if(inset)
+					dragPosition -= guiService->getGlobalGuiInset().xy();
 			}
 			dragStoppedSignal(dragPosition.x, dragPosition.y);
 			draggingBeganInputObject.reset();
@@ -1920,7 +1966,16 @@ bool GuiObject::isCurrentlyVisible()
 		if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
 		{
 			Vector2 screenRes = guiService->getScreenResolution();
-			if (!clippedRect.intersects(Rect2D::xywh(Vector2::zero() + guiService->getGlobalGuiInset().xy(),screenRes)))
+
+			bool inset = true;
+			if (ScreenGui* screenGui = getScreenGuiAsParent())
+				inset = !screenGui->ignoreGuiInset;
+
+			Rect2D xywh = Rect2D::xywh(Vector2::zero() + guiService->getGlobalGuiInset().xy(), screenRes);
+			if (inset)
+				xywh = Rect2D::xywh(Vector2::zero(), screenRes);
+
+			if (!clippedRect.intersects(xywh))
 				return false;
 		}
 	}

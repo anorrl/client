@@ -1199,54 +1199,11 @@ double Workspace::getRealPhysicsFPS(void)
 	RunService* runService = ServiceProvider::create<RunService>(this);
 	double realPhysicsFPS = runService->smoothFps() * getWorld()->getEnvironmentSpeed();
 	double reportedPhysicsFPS = realPhysicsFPS;
-	if (DFFlag::ReportElevatedPhysicsFPSToGA && realPhysicsFPS > ((double) DFInt::ElevatedPhysicsFPSReportThresholdTenths / 10.0))
+	if (DFFlag::ReportElevatedPhysicsFPSToGA && realPhysicsFPS > ((double)DFInt::ElevatedPhysicsFPSReportThresholdTenths / 10.0))
 	{
 		if (DFFlag::PreventReturnOfElevatedPhysicsFPS)
 		{
 			reportedPhysicsFPS = 60.0f;
-		}
-
-		DataModel* dm = DataModel::get(this);
-		if (dm)
-		{
-			int placeID = dm->getPlaceID();
-
-			if (realPhysicsFPS > 100.0)
-			{
-				static boost::once_flag flag = BOOST_ONCE_INIT;
-				boost::call_once(flag, boost::bind(&RobloxGoogleAnalytics::trackEvent, GA_CATEGORY_GAME, "ElevatedPhysicsFPSDetected_100", 
-					boost::lexical_cast<std::string>(placeID).c_str(), 0, false));
-			}
-			else if (realPhysicsFPS > 90.0)
-			{
-				static boost::once_flag flag = BOOST_ONCE_INIT;
-				boost::call_once(flag, boost::bind(&RobloxGoogleAnalytics::trackEvent, GA_CATEGORY_GAME, "ElevatedPhysicsFPSDetected_90", 
-					boost::lexical_cast<std::string>(placeID).c_str(), 0, false));
-			}
-			else if (realPhysicsFPS > 80.0)
-			{
-				static boost::once_flag flag = BOOST_ONCE_INIT;
-				boost::call_once(flag, boost::bind(&RobloxGoogleAnalytics::trackEvent, GA_CATEGORY_GAME, "ElevatedPhysicsFPSDetected_80", 
-					boost::lexical_cast<std::string>(placeID).c_str(), 0, false));
-			}
-			else if (realPhysicsFPS > 70.0)
-			{
-				static boost::once_flag flag = BOOST_ONCE_INIT;
-				boost::call_once(flag, boost::bind(&RobloxGoogleAnalytics::trackEvent, GA_CATEGORY_GAME, "ElevatedPhysicsFPSDetected_70", 
-					boost::lexical_cast<std::string>(placeID).c_str(), 0, false));
-			}
-			else if (realPhysicsFPS > 65.0)
-			{
-				static boost::once_flag flag = BOOST_ONCE_INIT;
-				boost::call_once(flag, boost::bind(&RobloxGoogleAnalytics::trackEvent, GA_CATEGORY_GAME, "ElevatedPhysicsFPSDetected_65", 
-					boost::lexical_cast<std::string>(placeID).c_str(), 0, false));
-			}
-			else
-			{
-				static boost::once_flag flag = BOOST_ONCE_INIT;
-				boost::call_once(flag, boost::bind(&RobloxGoogleAnalytics::trackEvent, GA_CATEGORY_GAME, "ElevatedPhysicsFPSDetected_SetMinimum", 
-					boost::lexical_cast<std::string>(placeID).c_str(), 0, false));
-			}
 		}
 	}
 	return reportedPhysicsFPS;

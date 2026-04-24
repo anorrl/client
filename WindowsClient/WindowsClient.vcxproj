@@ -127,6 +127,7 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>..\SDL2\Win\2.0.4\SDL2.lib;strmbase.lib;sensapi.lib;wmvcore.lib;DxErr9.lib;Urlmon.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;discord-rpc.lib;%(AdditionalDependencies)</AdditionalDependencies>

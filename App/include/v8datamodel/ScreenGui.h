@@ -56,6 +56,13 @@ namespace ARL {
         
         void setBufferedViewport(Rect2D newViewport);
 
+		rbx::signal<void(bool)> ignoreGuiInsetChangedSignal;
+
+		bool ignoreGuiInset;
+		bool getIgnoreGuiInsetConst() const { return ignoreGuiInset; }
+		bool getIgnoreGuiInset() { return ignoreGuiInset;  }
+		void setIgnoreGuiInset(bool value);
+
 	protected:
 		ScreenGui(const char* name);
 

@@ -129,6 +129,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>SDL2.lib;qtmain.lib;QtGui4.lib;QtCore4.lib;QtNetwork4.lib;QtXml4.lib;QtWebKit4.lib;gdi32.lib;comdlg32.lib;oleaut32.lib;imm32.lib;winmm.lib;winspool.lib;ws2_32.lib;ole32.lib;user32.lib;advapi32.lib;msimg32.lib;shell32.lib;kernel32.lib;uuid.lib;wmvcore.lib;$(CONTRIB_PATH)\DSBaseClasses\Lib\strmbase.lib;qtnribbon3.lib;..\CSG\sgCore\sgCore.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;discord-rpc.lib;%(AdditionalDependencies)</AdditionalDependencies>

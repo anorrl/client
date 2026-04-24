@@ -100,6 +100,7 @@ namespace ARL
 
 		static void UpdateTween(Tween& tween, GuiObject* obj, boost::function<void(GuiObject*, UDim2)> updateFunc, float timeStep);
 
+		ScreenGui* getScreenGuiAsParent();
 		bool descendantOfBillboardGui();
 
 		void fireGenericInputEvent(const shared_ptr<InputObject>& event);
@@ -340,7 +341,7 @@ namespace ARL
 
 		UDim2 size;
 		UDim2 position;
-		//UDim2 anchor;
+		UDim2 anchor;
 
         RotationAngle rotation;
         Rotation2D absoluteRotation;
