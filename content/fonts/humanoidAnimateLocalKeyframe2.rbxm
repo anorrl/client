@@ -379,13 +379,13 @@ function playAnimation(animName, transitionTime, humanoid)
 
 end
 
-local playEmoteEvent = nil
+local playEmoteEvent = Figure:FindFirstChild("HandleEmote")
+local emotes = {}
 
-if not Figure:FindFirstChild("PlayEmote") then
-    Instance.new("BindableEvent", Figure).Name = "PlayEmote"
+if not playEmoteEvent then
+    playEmoteEvent = Instance.new("BindableEvent", Figure)
+	playEmoteEvent.Name = "HandleEmote"
 end
-
-playEmoteEvent = Figure:FindFirstChild("PlayEmote")
 
 function keyFrameReachedEmoteFunc(frameName)
 	if (frameName == "End") then
@@ -399,8 +399,11 @@ function keyFrameReachedEmoteFunc(frameName)
 end
 
 function playEmote(animId, transitionTime, humanoid)
-    local anim = Instance.new("Animation")
-    anim.AnimationId = animId
+	local anim = emotes[animId]
+    if not anim then
+		print("emote not registered " .. animId)
+		return
+	end
     
     if (anim.AnimationId ~= currentAnimInstance.AnimationId) then
 
@@ -428,10 +431,19 @@ function playEmote(animId, transitionTime, humanoid)
     end
 end
 
-playEmoteEvent.Event:connect(function(id)
-    if (pose == "Standing") then
-        playEmote("rbxassetid://"..id, 0.1, Humanoid)
-    end
+playEmoteEvent.Event:connect(function(cmd, id)
+	if (cmd == "register") then
+		if (not emotes[id]) then
+			local anim = Instance.new("Animation", script)
+			anim.AnimationId = "rbxassetid://"..id
+			emotes[id] = anim
+			--Humanoid:LoadAnimation(anim) -- big hack to preload
+		end
+	else
+		if (pose == "Standing") then
+			playEmote(id, 0.1, Humanoid)
+		end
+	end
 end)
 
 -------------------------------------------------------------------------------------------
