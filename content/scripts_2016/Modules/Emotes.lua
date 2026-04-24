@@ -1,6 +1,6 @@
 --[[
 	// FileName: Emote.lua
-	// Written by: grace
+	// Written by: grace & phil
 	// Description: Code for lua emotes for ANORRL.
 ]]
 
@@ -12,6 +12,7 @@ local InputService = game:GetService('UserInputService')
 local StarterGui = game:GetService('StarterGui')
 local HttpService = game:GetService('HttpService')
 local HttpRbxApiService = game:GetService('HttpRbxApiService')
+local ContentProvider = game:GetService('ContentProvider')
 
 local Settings = UserSettings()
 local GameSettings = Settings.GameSettings
@@ -86,6 +87,37 @@ local function CreateEmotes()
 	end
 
 	
+	function this:positionInsideOuterCircle(centerRelativePos)
+		local outerCircleRadius = self.WholeFrame.AbsoluteSize.X / 2
+		local innerCircleRadius = outerCircleRadius * 0.45
+		
+		local magnitude = math.sqrt(centerRelativePos.X*centerRelativePos.X + centerRelativePos.Y*centerRelativePos.Y)
+		return magnitude > innerCircleRadius and magnitude < outerCircleRadius
+	end
+
+	function this:selectSlot()
+		local delta = Vector2.new(mouse.X, mouse.Y) - Vector2.new(
+			self.WholeFrame.AbsolutePosition.X + self.WholeFrame.AbsoluteSize.X / 2,
+			self.WholeFrame.AbsolutePosition.Y + self.WholeFrame.AbsoluteSize.Y / 2
+		)
+		
+		local angle = math.atan2(delta.Y, delta.X)	
+		
+		local rotation = snapDegrees(math.deg(angle), 45)
+		self.SelectorFrame.Rotation = rotation
+
+		local hasSelection = self:positionInsideOuterCircle(delta)
+		self.SelectorFrame.Visible = hasSelection
+		
+		local index = math.floor((rotation+90) / 45)
+		
+		if index <= 0 then
+			index = 8 + index
+		end
+
+		return hasSelection and index or 0
+	end
+
 	function createWholeFrame()
 		local whole_frame = Instance.new("Frame", GuiRoot)
 		
@@ -110,17 +142,11 @@ local function CreateEmotes()
 		segments.Name = "Segments"
 		segments.ZIndex = 5
 		
-		whole_frame.MouseLeave:connect(function()
-			if this.EmoteNameLabel.Text ~= "You have no emotes!" then
-				this.EmoteNameLabel.Text = ""
-			end
-		end)
-		
 		return whole_frame
 	end
 	
 	function this:createEmoteTemplate(x, y, name)
-		local frame = Instance.new("ImageButton")
+		local frame = Instance.new("ImageLabel")
 		frame.Name = name
 		frame.Position = UDim2.new(x, 0, y, 0)
 		frame.Size = UDim2.new(0, 100, 0, 100)
@@ -173,21 +199,7 @@ local function CreateEmotes()
 			
 			local emoteFrame = this:createEmoteTemplate(x, y, v.name)
 			emoteFrame.Parent = frame
-			emoteFrame.MouseButton1Click:connect(function()
-				this:PlayEmote(v.id)
-			end)
-			
-			emoteFrame.MouseMoved:connect(function()
-				this.EmoteNameLabel.Text = v.name
-			end)
-			
-			emoteFrame.MouseEnter:connect(function()
-				emoteFrame.Image = "rbxasset://textures/ui/Emotes/EmoteIconHover.png"
-			end)
-			
-			emoteFrame.MouseLeave:connect(function()
-				emoteFrame.Image = "rbxasset://textures/ui/Emotes/EmoteIcon.png"
-			end)
+			v.EmoteFrame = emoteFrame
 		end
 		
 		return frame
@@ -209,12 +221,6 @@ local function CreateEmotes()
 		emote_label.Size = UDim2.new(1,0,0,50)
 		emote_label.ZIndex = 6
 		emote_label.Name = "EName"
-		local text = "You have no emotes!"
-		
-		if #this.Emotes > 0 then
-			text = ""
-		end
-		emote_label.Text = text
 		emote_label.TextColor3 = Color3.new(255,255,255)
 		
 		return frame, emote_label
@@ -240,6 +246,13 @@ local function CreateEmotes()
 		return frame
 	end
 	
+	function this:CharacterAdded(character)
+		self.EmoteHandler = character:WaitForChild("HandleEmote")
+		for i, v in ipairs(self.Emotes) do
+			self.EmoteHandler:Fire("register", v.id)
+		end
+	end
+	
 	function this:Initialize()
 		self.WholeFrame = createWholeFrame()
 		local whole_frame = self.WholeFrame
@@ -248,14 +261,50 @@ local function CreateEmotes()
 		self.DetailsFrame, self.EmoteNameLabel = createDetailsFrame(whole_frame)
 		self.SelectorFrame = createSelector(whole_frame)
 		self.VisibilityStateChanged = Util.Signal()
+
+		InputService.InputChanged:connect(function(inputObj)
+			local inputType = inputObj.UserInputType
+
+            if inputType == Enum.UserInputType.MouseMovement or inputType == Enum.UserInputType.Touch then
+				local oldEmote = self.LoadedEmotes[self.slot]
+                self.slot = self:selectSlot()
+				local newEmote = self.LoadedEmotes[self.slot]
+				if oldEmote and oldEmote ~= newEmote then
+					oldEmote.EmoteFrame.Image = "rbxasset://textures/ui/Emotes/EmoteIcon.png"
+				end
+				if self.slot == 0 or (not newEmote) then
+					self.EmoteNameLabel.Text = #self.Emotes > 0 and "" or "You have no emotes!"
+				else
+					newEmote.EmoteFrame.Image = "rbxasset://textures/ui/Emotes/EmoteIconHover.png"
+					this.EmoteNameLabel.Text = newEmote.name
+				end
+            end
+		end)
+
+		InputService.InputBegan:connect(function(inputObj)
+            local inputType = inputObj.UserInputType
+
+            if inputType == Enum.UserInputType.MouseButton1 or inputType == Enum.UserInputType.Touch then
+				local emote = self.LoadedEmotes[self.slot]
+				if emote then
+					this:PlayEmote(emote.id)
+				end
+			end
+		end)
+		
+		Player.CharacterAdded:Connect(function(character)
+			this:CharacterAdded(character)
+		end)
+		
+		if Player.Character then
+			this:CharacterAdded(Player.Character)
+		end
 	end
 	
 	function this:PlayEmote(id)
-		if Player.Character then
-			if Player.Character:FindFirstChild("PlayEmote") then
-				Player.Character:FindFirstChild("PlayEmote"):Fire(id)
-				this:ToggleVisibility()
-			end
+		if self.EmoteHandler and self.EmoteHandler.Parent == Player.Character then
+			self.EmoteHandler:Fire("play", id)
+			this:ToggleVisibility()
 		end
 	end
 	
@@ -317,34 +366,6 @@ local function CreateEmotes()
 			return {}
 		end
 	end
-	
-	function snapDegrees(in_deg, snap)
-		local closest = math.floor((in_deg / snap)+0.5) * snap
-		local result = closest
-		if math.abs(closest - in_deg) then
-			result = closest
-		end
-		
-		return result
-	end
-
-
-	function this:selectSlot()
-		local delta = Vector2.new(mouse.X, mouse.Y) - Vector2.new(
-			self.WholeFrame.AbsolutePosition.X + self.WholeFrame.AbsoluteSize.X / 2,
-			self.WholeFrame.AbsolutePosition.Y + self.WholeFrame.AbsoluteSize.Y / 2
-		)	
-		
-		local angle = math.atan2(delta.Y, delta.X)	
-		
-		local rotation = snapDegrees(math.deg(angle), 45)
-		self.SelectorFrame.Rotation = rotation
-	end
-
-	game:GetService("RunService").Stepped:Connect(function()
-		if not this.WidgetVisible then return end
-		this:selectSlot()
-	end)
 	
 	return this
 end

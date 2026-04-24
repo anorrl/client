@@ -58,3 +58,5 @@ QTitanRibbon/roblox_build/*
 *.opendb
 Android/.gradle/*
 Android/.idea/*
+Android/build/
+Android/*/build/
