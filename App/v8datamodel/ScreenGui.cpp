@@ -7,6 +7,8 @@
 #include "GfxBase/Adorn.h"
 #include "FastLog.h"
 
+DYNAMIC_FASTFLAGVARIABLE(ForceIgnoreGuiInset, false)
+
 namespace ARL {
 	const char* const  sScreenGui = "ScreenGui";
 
@@ -19,7 +21,7 @@ namespace ARL {
 	ScreenGui::ScreenGui()
 		:DescribedCreatable<ScreenGui, GuiLayerCollector, sScreenGui>(sScreenGui)
 		,renderable(false)
-		,ignoreGuiInset(false)
+		,ignoreGuiInset(DFFlag::ForceIgnoreGuiInset)
 		,bufferedViewport(Rect2D::xywh(0.0f, 0.0f, 800.0f, 600.0f))
 	{
 	}
@@ -27,7 +29,7 @@ namespace ARL {
 	ScreenGui::ScreenGui(const char* name)
 		:DescribedCreatable<ScreenGui, GuiLayerCollector, sScreenGui>(name)
 		,renderable(false)
-		,ignoreGuiInset(false)
+		,ignoreGuiInset(DFFlag::ForceIgnoreGuiInset)
 	{
 	}
     
@@ -136,7 +138,7 @@ namespace ARL {
 
 	void ScreenGui::render2dContext(Adorn* adorn, const Instance* context)
 	{
-        setBufferedViewport(adorn->getUserGuiRect());
+        setBufferedViewport(adorn->getUserGuiRect(!ignoreGuiInset));
 
 		Super::render2dContext(adorn, context);
 	}
@@ -162,10 +164,6 @@ namespace ARL {
     {
         if (GuiService* guiService = ARL::ServiceProvider::find<GuiService>(this))
         {
-#if defined(ARL_STUDIO_BUILD)
-			ARL::StandardOut::singleton()->printf(ARL::MessageType::MESSAGE_INFO, "I am evil screengui and i will kill you -> " + !getIgnoreGuiInsetConst() ? "applying gui inset" : "ignoring gui inset");
-			ARL::StandardOut::singleton()->printf(ARL::MessageType::MESSAGE_INFO, getName().c_str());
-#endif
 			if (!getIgnoreGuiInsetConst()) {
 				Vector4 guiInset = guiService->getGlobalGuiInset();
 				return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);

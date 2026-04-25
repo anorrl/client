@@ -92,11 +92,18 @@ public:
 	// "User Gui Space" with the ROBLOX Gui stuff.
 	void setUserGuiInset(const Vector4& value) { userGuiInset = value; }
 
-	Rect2D getUserGuiRect() const
+	Rect2D getUserGuiRect(bool useInset = true) const
 	{
 		Rect2D vp = getViewport();
-		return Rect2D::xyxy(vp.x0() + userGuiInset.x, vp.y0() + userGuiInset.y, vp.x1() - userGuiInset.z,
-			vp.y1() - userGuiInset.w);
+		if (useInset) {
+			return Rect2D::xyxy(vp.x0() + userGuiInset.x, vp.y0() + userGuiInset.y, vp.x1() - userGuiInset.z,
+				vp.y1() - userGuiInset.w);
+		}
+		else {
+			return Rect2D::xyxy(vp.x0(), vp.y0(), vp.x1(), vp.y1());
+		}
+		
+		
 		
 	}
 

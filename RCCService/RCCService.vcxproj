@@ -140,7 +140,7 @@
       <WarningLevel>Level3</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>dxerr9.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>

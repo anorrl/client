@@ -692,10 +692,6 @@ Vector2 GuiObject::getAbsolutePosition() const
 		ScreenGui* screenGui = const_cast<GuiObject*>(this)->getScreenGuiAsParent();
 
 		if (screenGui != NULL) {
-#if defined(ARL_STUDIO_BUILD)
-			ARL::StandardOut::singleton()->printf(ARL::MessageType::MESSAGE_INFO, "Holy shit help! -> " + !screenGui->getIgnoreGuiInsetConst() ? "applying gui inset" : "ignoring gui inset");
-			ARL::StandardOut::singleton()->printf(ARL::MessageType::MESSAGE_INFO, screenGui->getName().c_str());
-#endif
 			if (!screenGui->getIgnoreGuiInsetConst()) {
 				Vector4 guiInset = guiService->getGlobalGuiInset();
 				return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);
