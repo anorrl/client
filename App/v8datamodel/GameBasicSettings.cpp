@@ -19,6 +19,7 @@ static const Reflection::PropDescriptor<GameBasicSettings, bool> prop_ComputerMo
 static const Reflection::EnumPropDescriptor<GameBasicSettings, GameSettings::UploadSetting> prop_uploadVideo("VideoUploadPromptBehavior", category_Video, &GameBasicSettings::getUploadVideoSetting, &GameBasicSettings::setUploadVideoSetting, Reflection::PropertyDescriptor::STANDARD, Security::RobloxScript);
 static const Reflection::EnumPropDescriptor<GameBasicSettings, GameBasicSettings::RenderQualitySetting> prop_renderQuality("SavedQualityLevel", category_Appearance, &GameBasicSettings::getRenderQuality, &GameBasicSettings::setRenderQuality);
 static const Reflection::EnumPropDescriptor<GameBasicSettings, GameBasicSettings::RotationType> prop_rotationType("RotationType", category_Control, &GameBasicSettings::getRotationType, &GameBasicSettings::setRotationType, Reflection::PropertyDescriptor::SCRIPTING);
+static const Reflection::EnumPropDescriptor<GameBasicSettings, GameBasicSettings::VirtualVersion> prop_virtualVersion("VirtualVersion", category_Appearance, &GameBasicSettings::getVirtualVersion, &GameBasicSettings::setVirtualVersion);
 
 static Reflection::BoundFuncDesc<GameBasicSettings, bool(std::string)> func_getTutorialState(&GameBasicSettings::getTutorialState, "GetTutorialState", "tutorialId", Security::RobloxScript);
 static Reflection::BoundFuncDesc<GameBasicSettings, void(std::string, bool)> func_setTutorialState(&GameBasicSettings::setTutorialState, "SetTutorialState", "tutorialId", "value", Security::RobloxScript);
@@ -137,6 +138,14 @@ namespace ARL {
 			addPair(GameBasicSettings::ROTATION_TYPE_MOVEMENT_RELATIVE, "MovementRelative");
 			addPair(GameBasicSettings::ROTATION_TYPE_CAMERA_RELATIVE, "CameraRelative");
 		}
+
+		template <>
+		EnumDesc<GameBasicSettings::VirtualVersion>::EnumDesc()
+			:EnumDescriptor("VirtualVersion")
+		{
+			addPair(GameBasicSettings::VIRTUAL_VERSION_2016, "2016");
+			addPair(GameBasicSettings::VIRTUAL_VERSION_2014, "2014");
+		}
 	}
 }
 
@@ -169,6 +178,7 @@ GameBasicSettings::GameBasicSettings()
 	,mouseSensitivity(1.0f)
 	,startMaximized(true)
 	,usedHideHudShortcut(false)
+	,virtualVersion(VIRTUAL_VERSION_2016)
 {
 	setName("GameSettings");
 }
@@ -456,6 +466,24 @@ void GameBasicSettings::setRenderQuality(RenderQualitySetting value)
 	}
 }
 
+void GameBasicSettings::setVirtualVersion(VirtualVersion value)
+{
+	try {
+		ARL::Security::Context::current().requirePermission(ARL::Security::RobloxScript, "set render quality level");
+	}
+	catch (ARL::base_exception& e)
+	{
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to set SavedQualityLevel");
+		throw e;
+	}
+
+	if (virtualVersion != value)
+	{
+		virtualVersion = value;
+		raisePropertyChanged(prop_virtualVersion);
+	}
+}
+
 void GameBasicSettings::setMouseLock(bool isLocked)
 {
 		mouseLocked = isLocked;
@@ -594,6 +622,8 @@ void GameBasicSettings::reset()
 {
 	setControlMode(CONTROL_CLASSIC);
 	setRenderQuality(QUALITY_AUTO);
+	setVirtualVersion(VIRTUAL_VERSION_2016);
+	aeroEnabled = false;
 	setMouseLock(true);
 	canMousePan = true;
 	freeLook = false;

@@ -35,6 +35,12 @@ namespace ARL
 		enum RotationType {
 			ROTATION_TYPE_MOVEMENT_RELATIVE = 0,
 			ROTATION_TYPE_CAMERA_RELATIVE = 1};
+		enum VirtualVersion {
+			VIRTUAL_VERSION_2016 = 0,
+			VIRTUAL_VERSION_2014 = 1,
+			//VIRTUAL_VERSION_2013 = 2,
+		};
+
 
 		static Reflection::PropDescriptor<GameBasicSettings, float> prop_masterVolume;
 
@@ -102,6 +108,9 @@ namespace ARL
 
 		RenderQualitySetting getRenderQuality() const { return renderQualitySetting; }
 		void setRenderQuality(RenderQualitySetting value);
+
+		VirtualVersion getVirtualVersion() const { return virtualVersion; }
+		void setVirtualVersion(VirtualVersion value);
 
 		bool getAllTutorialsDisabled() const { return allTutorialsDisabled; }
 		void setAllTutorialsDisabled(bool value);
@@ -181,7 +190,8 @@ namespace ARL
 		ComputerMovementMode computerMoveMode;
 		bool computerMoveModeModeModified;
 		RotationType rotationType;
-
+		VirtualVersion virtualVersion;
+		
 		bool mouseLocked;
 		bool canMousePan;
 		bool freeLook;

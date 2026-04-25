@@ -8,35 +8,44 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3rd Party", "3rd Party", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shaders", "shaders", "{E0DB62F9-F6F6-41BA-9C1E-0CBC3C19A525}"
 	ProjectSection(SolutionItems) = preProject
-		shaders\adorn.hlsl = shaders\adorn.hlsl
-		shaders\adorn.material = shaders\adorn.material
-		shaders\aluminum.hlsl = shaders\aluminum.hlsl
-		shaders\concrete.hlsl = shaders\concrete.hlsl
-		shaders\default.hlsl = shaders\default.hlsl
-		shaders\default.material = shaders\default.material
-		shaders\diamondplate.hlsl = shaders\diamondplate.hlsl
-		shaders\grass.hlsl = shaders\grass.hlsl
-		shaders\ice.hlsl = shaders\ice.hlsl
-		shaders\megacluster.hlsl = shaders\megacluster.hlsl
-		shaders\megacluster.material = shaders\megacluster.material
-		shaders\particle.hlsl = shaders\particle.hlsl
-		shaders\particles.material = shaders\particles.material
-		shaders\plastic.hlsl = shaders\plastic.hlsl
-		shaders\rust.hlsl = shaders\rust.hlsl
-		shaders\shadow.material = shaders\shadow.material
-		shaders\shadowextrude.hlsl = shaders\shadowextrude.hlsl
-		shaders\shadowquad.hlsl = shaders\shadowquad.hlsl
-		shaders\sky.hlsl = shaders\sky.hlsl
-		shaders\sky.material = shaders\sky.material
-		shaders\slate.hlsl = shaders\slate.hlsl
-		shaders\ssao.compositor = shaders\ssao.compositor
-		shaders\ssao.hlsl = shaders\ssao.hlsl
-		shaders\ssao.material = shaders\ssao.material
-		shaders\texcomp.hlsl = shaders\texcomp.hlsl
-		shaders\texcomp.material = shaders\texcomp.material
-		shaders\ui.hlsl = shaders\ui.hlsl
-		shaders\ui.material = shaders\ui.material
-		shaders\wood.hlsl = shaders\wood.hlsl
+		shaders\source\adorn.hlsl = shaders\source\adorn.hlsl
+		shaders\source\aluminum.hlsl = shaders\source\aluminum.hlsl
+		shaders\source\brick.hlsl = shaders\source\brick.hlsl
+		shaders\source\cobblestone.hlsl = shaders\source\cobblestone.hlsl
+		shaders\source\common.h = shaders\source\common.h
+		shaders\source\concrete.hlsl = shaders\source\concrete.hlsl
+		shaders\source\default.hlsl = shaders\source\default.hlsl
+		shaders\source\diamondplate.hlsl = shaders\source\diamondplate.hlsl
+		shaders\source\fabric.hlsl = shaders\source\fabric.hlsl
+		shaders\source\gbuffer.hlsl = shaders\source\gbuffer.hlsl
+		shaders\source\globals.h = shaders\source\globals.h
+		shaders\source\granite.hlsl = shaders\source\granite.hlsl
+		shaders\source\grass.hlsl = shaders\source\grass.hlsl
+		shaders\source\ice.hlsl = shaders\source\ice.hlsl
+		shaders\source\marble.hlsl = shaders\source\marble.hlsl
+		shaders\source\material.hlsl = shaders\source\material.hlsl
+		shaders\source\megacluster.hlsl = shaders\source\megacluster.hlsl
+		shaders\source\metal.hlsl = shaders\source\metal.hlsl
+		shaders\source\neon.hlsl = shaders\source\neon.hlsl
+		shaders\source\particle.hlsl = shaders\source\particle.hlsl
+		shaders\source\pebble.hlsl = shaders\source\pebble.hlsl
+		shaders\source\plastic.hlsl = shaders\source\plastic.hlsl
+		shaders\source\profiler.hlsl = shaders\source\profiler.hlsl
+		shaders\source\rust.hlsl = shaders\source\rust.hlsl
+		shaders\source\sand.hlsl = shaders\source\sand.hlsl
+		shaders\source\screenspace.hlsl = shaders\source\screenspace.hlsl
+		shaders\source\shadow.hlsl = shaders\source\shadow.hlsl
+		shaders\source\sky.hlsl = shaders\source\sky.hlsl
+		shaders\source\slate.hlsl = shaders\source\slate.hlsl
+		shaders\source\smoothcluster.hlsl = shaders\source\smoothcluster.hlsl
+		shaders\source\smoothplastic.hlsl = shaders\source\smoothplastic.hlsl
+		shaders\source\smoothwater.hlsl = shaders\source\smoothwater.hlsl
+		shaders\source\ssao.hlsl = shaders\source\ssao.hlsl
+		shaders\source\texcomp.hlsl = shaders\source\texcomp.hlsl
+		shaders\source\ui.hlsl = shaders\source\ui.hlsl
+		shaders\source\water.hlsl = shaders\source\water.hlsl
+		shaders\source\wood.hlsl = shaders\source\wood.hlsl
+		shaders\source\woodplanks.hlsl = shaders\source\woodplanks.hlsl
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "App", "App\App.vcxproj", "{63DB8347-940B-4A05-8975-6A6545C315DC}"
@@ -90,6 +99,105 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreScriptConverter2", "CoreScriptConverter2\CoreScriptConverter2.vcxproj", "{BB0AF3CB-A723-4948-BC84-F9960876C5CE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "zlib\win\zlib.vcxproj", "{85FF2E31-E863-40CC-B1D6-C6C1875EC5A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{2B01FC36-180F-47D4-853F-06909E449FB9}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\ServerStarterScript.lua = content\scripts\ServerStarterScript.lua
+		content\scripts\StarterScript.lua = content\scripts\StarterScript.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{1944F28B-0F05-44CC-AB5D-A0BDC71A77D7}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\Modules\BackpackScript.lua = content\scripts\Modules\BackpackScript.lua
+		content\scripts\Modules\Chat.lua = content\scripts\Modules\Chat.lua
+		content\scripts\Modules\DeveloperConsoleModule.lua = content\scripts\Modules\DeveloperConsoleModule.lua
+		content\scripts\Modules\Emotes.lua = content\scripts\Modules\Emotes.lua
+		content\scripts\Modules\PlayerDropDown.lua = content\scripts\Modules\PlayerDropDown.lua
+		content\scripts\Modules\PlayerlistModule.lua = content\scripts\Modules\PlayerlistModule.lua
+		content\scripts\Modules\TenFootInterface.lua = content\scripts\Modules\TenFootInterface.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreScripts", "CoreScripts", "{033A3FF9-B9F7-43E1-BC36-30E2018804EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{0E980035-8A25-4985-8EC4-0FE5814CA0C2}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\Libraries\RbxGui.lua = content\scripts\Libraries\RbxGui.lua
+		content\scripts\Libraries\RbxStamper.lua = content\scripts\Libraries\RbxStamper.lua
+		content\scripts\Libraries\RbxUtility.lua = content\scripts\Libraries\RbxUtility.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Settings", "Settings", "{01AD2ECB-DCFE-4422-9509-03688CE593F2}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\Modules\Settings\SettingsHub.lua = content\scripts\Modules\Settings\SettingsHub.lua
+		content\scripts\Modules\Settings\SettingsPageFactory.lua = content\scripts\Modules\Settings\SettingsPageFactory.lua
+		content\scripts\Modules\Settings\Utility.lua = content\scripts\Modules\Settings\Utility.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pages", "Pages", "{108FBA13-A0ED-4413-AB82-358376AE2C93}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\Modules\Settings\Pages\GameSettings.lua = content\scripts\Modules\Settings\Pages\GameSettings.lua
+		content\scripts\Modules\Settings\Pages\Help.lua = content\scripts\Modules\Settings\Pages\Help.lua
+		content\scripts\Modules\Settings\Pages\Home.lua = content\scripts\Modules\Settings\Pages\Home.lua
+		content\scripts\Modules\Settings\Pages\LeaveGame.lua = content\scripts\Modules\Settings\Pages\LeaveGame.lua
+		content\scripts\Modules\Settings\Pages\Players.lua = content\scripts\Modules\Settings\Pages\Players.lua
+		content\scripts\Modules\Settings\Pages\Record.lua = content\scripts\Modules\Settings\Pages\Record.lua
+		content\scripts\Modules\Settings\Pages\ReportAbuseMenu.lua = content\scripts\Modules\Settings\Pages\ReportAbuseMenu.lua
+		content\scripts\Modules\Settings\Pages\ResetCharacter.lua = content\scripts\Modules\Settings\Pages\ResetCharacter.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2014", "2014", "{5686926E-36B6-4C17-9782-F36164D41C81}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\CoreScripts\2014\BubbleChat.lua = content\scripts\CoreScripts\2014\BubbleChat.lua
+		content\scripts\CoreScripts\2014\ChatScript.lua = content\scripts\CoreScripts\2014\ChatScript.lua
+		content\scripts\CoreScripts\2014\ContextActionTouch.lua = content\scripts\CoreScripts\2014\ContextActionTouch.lua
+		content\scripts\CoreScripts\2014\DeveloperConsole.lua = content\scripts\CoreScripts\2014\DeveloperConsole.lua
+		content\scripts\CoreScripts\2014\HealthScript.lua = content\scripts\CoreScripts\2014\HealthScript.lua
+		content\scripts\CoreScripts\2014\MainBotChatScript.lua = content\scripts\CoreScripts\2014\MainBotChatScript.lua
+		content\scripts\CoreScripts\2014\NotificationScript.lua = content\scripts\CoreScripts\2014\NotificationScript.lua
+		content\scripts\CoreScripts\2014\PlayerListScript.lua = content\scripts\CoreScripts\2014\PlayerListScript.lua
+		content\scripts\CoreScripts\2014\PopupScript.lua = content\scripts\CoreScripts\2014\PopupScript.lua
+		content\scripts\CoreScripts\2014\PurchasePromptScript.lua = content\scripts\CoreScripts\2014\PurchasePromptScript.lua
+		content\scripts\CoreScripts\2014\Settings.lua = content\scripts\CoreScripts\2014\Settings.lua
+		content\scripts\CoreScripts\2014\ToolTip.lua = content\scripts\CoreScripts\2014\ToolTip.lua
+		content\scripts\CoreScripts\2014\TouchControls.lua = content\scripts\CoreScripts\2014\TouchControls.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2016", "2016", "{1C3F4074-BAD7-4625-B75B-11B72F593CC3}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\CoreScripts\2016\BubbleChat.lua = content\scripts\CoreScripts\2016\BubbleChat.lua
+		content\scripts\CoreScripts\2016\ContextActionTouch.lua = content\scripts\CoreScripts\2016\ContextActionTouch.lua
+		content\scripts\CoreScripts\2016\DeveloperConsole.lua = content\scripts\CoreScripts\2016\DeveloperConsole.lua
+		content\scripts\CoreScripts\2016\GamepadMenu.lua = content\scripts\CoreScripts\2016\GamepadMenu.lua
+		content\scripts\CoreScripts\2016\HealthScript.lua = content\scripts\CoreScripts\2016\HealthScript.lua
+		content\scripts\CoreScripts\2016\MainBotChatScript2.lua = content\scripts\CoreScripts\2016\MainBotChatScript2.lua
+		content\scripts\CoreScripts\2016\NotificationScript2.lua = content\scripts\CoreScripts\2016\NotificationScript2.lua
+		content\scripts\CoreScripts\2016\PurchasePromptScript2.lua = content\scripts\CoreScripts\2016\PurchasePromptScript2.lua
+		content\scripts\CoreScripts\2016\Topbar.lua = content\scripts\CoreScripts\2016\Topbar.lua
+		content\scripts\CoreScripts\2016\VehicleHud.lua = content\scripts\CoreScripts\2016\VehicleHud.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildToolsScripts", "BuildToolsScripts", "{3F85C620-8EAF-4C35-A6A0-C92348A89792}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\CoreScripts\2016\BuildToolsScripts\BuildToolManager.lua = content\scripts\CoreScripts\2016\BuildToolsScripts\BuildToolManager.lua
+		content\scripts\CoreScripts\2016\BuildToolsScripts\BuildToolsScript.lua = content\scripts\CoreScripts\2016\BuildToolsScripts\BuildToolsScript.lua
+		content\scripts\CoreScripts\2016\BuildToolsScripts\PersonalServerScript.lua = content\scripts\CoreScripts\2016\BuildToolsScripts\PersonalServerScript.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackpackScripts", "BackpackScripts", "{3F068FD2-B686-4759-8D1C-37B0773A7360}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\CoreScripts\2014\BackpackScripts\BackpackBuilder.lua = content\scripts\CoreScripts\2014\BackpackScripts\BackpackBuilder.lua
+		content\scripts\CoreScripts\2014\BackpackScripts\BackpackGear.lua = content\scripts\CoreScripts\2014\BackpackScripts\BackpackGear.lua
+		content\scripts\CoreScripts\2014\BackpackScripts\BackpackManager.lua = content\scripts\CoreScripts\2014\BackpackScripts\BackpackManager.lua
+		content\scripts\CoreScripts\2014\BackpackScripts\BackpackResizer.lua = content\scripts\CoreScripts\2014\BackpackScripts\BackpackResizer.lua
+		content\scripts\CoreScripts\2014\BackpackScripts\LoadoutScript.lua = content\scripts\CoreScripts\2014\BackpackScripts\LoadoutScript.lua
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildToolsScripts", "BuildToolsScripts", "{158E1B39-8125-4F5A-A92F-A5575D958AD8}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\CoreScripts\2014\BuildToolsScripts\BuildToolManager.lua = content\scripts\CoreScripts\2014\BuildToolsScripts\BuildToolManager.lua
+		content\scripts\CoreScripts\2014\BuildToolsScripts\BuildToolsScript.lua = content\scripts\CoreScripts\2014\BuildToolsScripts\BuildToolsScript.lua
+		content\scripts\CoreScripts\2014\BuildToolsScripts\PersonalServerScript.lua = content\scripts\CoreScripts\2014\BuildToolsScripts\PersonalServerScript.lua
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(Performance) = preSolution
@@ -954,6 +1062,16 @@ Global
 		{3A10C3EC-1B27-427E-B955-87EE6B176130} = {6714DD30-5615-4BA1-A24B-41209F8C0349}
 		{9B7CCE5D-2877-4321-8910-3C8E3936F62F} = {6714DD30-5615-4BA1-A24B-41209F8C0349}
 		{85FF2E31-E863-40CC-B1D6-C6C1875EC5A1} = {0E953883-6CEC-4DA1-8DFA-B105167E4256}
+		{1944F28B-0F05-44CC-AB5D-A0BDC71A77D7} = {2B01FC36-180F-47D4-853F-06909E449FB9}
+		{033A3FF9-B9F7-43E1-BC36-30E2018804EA} = {2B01FC36-180F-47D4-853F-06909E449FB9}
+		{0E980035-8A25-4985-8EC4-0FE5814CA0C2} = {2B01FC36-180F-47D4-853F-06909E449FB9}
+		{01AD2ECB-DCFE-4422-9509-03688CE593F2} = {1944F28B-0F05-44CC-AB5D-A0BDC71A77D7}
+		{108FBA13-A0ED-4413-AB82-358376AE2C93} = {01AD2ECB-DCFE-4422-9509-03688CE593F2}
+		{5686926E-36B6-4C17-9782-F36164D41C81} = {033A3FF9-B9F7-43E1-BC36-30E2018804EA}
+		{1C3F4074-BAD7-4625-B75B-11B72F593CC3} = {033A3FF9-B9F7-43E1-BC36-30E2018804EA}
+		{3F85C620-8EAF-4C35-A6A0-C92348A89792} = {1C3F4074-BAD7-4625-B75B-11B72F593CC3}
+		{3F068FD2-B686-4759-8D1C-37B0773A7360} = {5686926E-36B6-4C17-9782-F36164D41C81}
+		{158E1B39-8125-4F5A-A92F-A5575D958AD8} = {5686926E-36B6-4C17-9782-F36164D41C81}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {732C7791-E72B-4F2C-82E7-B3224FC06D84}

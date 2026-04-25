@@ -870,7 +870,55 @@ local function createGameSettingsMenu(baseZIndex, shield)
 
 	itemTop = itemTop + 35
 
+	--[[local syncVirtualVersionSetting = nil
 
+	if not macClient and not touchClient then
+		local virtualVersionLabel = Instance.new("TextLabel")
+		virtualVersionLabel.Name = "VirtualVersionLabel"
+		virtualVersionLabel.Text = "Virtual Version"
+		virtualVersionLabel.Font = Enum.Font.SourceSansBold
+		virtualVersionLabel.FontSize = Enum.FontSize.Size18
+		virtualVersionLabel.Position = UDim2.new(0,32,0,itemTop + 6)
+		virtualVersionLabel.Size = UDim2.new(0,164,0,18)
+		virtualVersionLabel.BackgroundTransparency = 1
+		virtualVersionLabel.TextColor3 = Color3I(255,255,255)
+		virtualVersionLabel.TextXAlignment = Enum.TextXAlignment.Left
+		virtualVersionLabel.ZIndex = baseZIndex + 4
+		virtualVersionLabel.Parent = gameSettingsMenuFrame
+
+		local versionNames = {}
+		local versionNameToItem = {}
+		versionNames[1] = "2016"
+		versionNameToItem[versionNames[1]\] = Enum.VirtualVersion["2016"]
+		versionNames[2] = "2014"
+		versionNameToItem[versionNames[2]\] = Enum.VirtualVersion["2014"]
+
+		local videoCaptureDropDown = nil
+		videoCaptureDropDown, updateVirtualVersionDropDownSelection = RbxGui.CreateDropDownMenu(versionNames, 
+			function(text) 
+				UserSettings().GameSettings.VirtualVersion = versionNameToItem[text]
+			end, false, true, baseZIndex)
+		videoCaptureDropDown.Name = "VirtualVersionField"
+		videoCaptureDropDown.ZIndex = baseZIndex + 4
+		videoCaptureDropDown.DropDownMenuButton.ZIndex = baseZIndex + 4
+		videoCaptureDropDown.DropDownMenuButton.Icon.ZIndex = baseZIndex + 4
+		videoCaptureDropDown.Position = UDim2.new(0, 270, 0, itemTop)
+		videoCaptureDropDown.Size = UDim2.new(0,200,0,32)
+		videoCaptureDropDown.Parent = gameSettingsMenuFrame
+
+		syncVirtualVersionSetting = function()
+			if UserSettings().GameSettings.VirtualVersion == Enum.VirtualVersion["2016"] then
+				updateVirtualVersionDropDownSelection(versionNames[1])
+			elseif UserSettings().GameSettings.VirtualVersion == Enum.VirtualVersion["2014"] then
+				updateVirtualVersionDropDownSelection(versionNames[2])
+			else
+				UserSettings().GameSettings.VirtualVersion = Enum.VirtualVersion["2016"]
+				updateVirtualVersionDropDownSelection(versionNames[1])
+			end
+		end
+		itemTop = itemTop + 35
+	end]]
+	
 	----------------------------------------------------------------------------------------------------
 	--  T O U C H    M O V E M E N T    C O N T R O L S
 	----------------------------------------------------------------------------------------------------

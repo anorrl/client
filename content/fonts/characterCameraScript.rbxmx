@@ -3952,9 +3952,37 @@ local function initialize()
 	ShiftLockIcon.Visible = IsShiftLockMode
 	ShiftLockIcon.Parent = frame
 	
+	if UserSettings().GameSettings.VirtualVersion == Enum.VirtualVersion["2016"] then
+		frame.Size = UDim2.new(0, 130, 0, 46)
+		frame.Position = UDim2.new(0, 0, 1, -46)
+		ShiftLockIcon.Size = UDim2.new(0, 31, 0, 31)
+		ShiftLockIcon.Position = UDim2.new(0, 12, 0, 2)
+	elseif UserSettings().GameSettings.VirtualVersion == Enum.VirtualVersion["2014"] then
+		frame.Size = UDim2.new(0, 130, 0, 46)
+		frame.Position = UDim2.new(0, 0, 1, -46)
+		ShiftLockIcon.Size = UDim2.new(0, 62, 0, 62)
+		ShiftLockIcon.Position = UDim2.new(0, 2, 0, -65)
+	end
+
 	ShiftLockIcon.MouseButton1Click:connect(onShiftLockToggled)
 	
 	ScreenGui.Parent = PlayerGui
+	
+	UserSettings().GameSettings.Changed:Connect(function(prop)
+		if prop ~= "VirtualVersion" then return end
+
+		if UserSettings().GameSettings.VirtualVersion == Enum.VirtualVersion["2016"] then
+			frame.Size = UDim2.new(0, 130, 0, 46)
+			frame.Position = UDim2.new(0, 0, 1, -46)
+			ShiftLockIcon.Size = UDim2.new(0, 31, 0, 31)
+			ShiftLockIcon.Position = UDim2.new(0, 12, 0, 2)
+		elseif UserSettings().GameSettings.VirtualVersion == Enum.VirtualVersion["2014"] then
+			frame.Size = UDim2.new(0, 130, 0, 46)
+			frame.Position = UDim2.new(0, 0, 1, -46)
+			ShiftLockIcon.Size = UDim2.new(0, 62, 0, 62)
+			ShiftLockIcon.Position = UDim2.new(0, 2, 0, -65)
+		end
+	end)
 end
 
 --[[ Public API ]]--

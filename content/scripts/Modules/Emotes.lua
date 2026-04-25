@@ -282,6 +282,8 @@ local function CreateEmotes()
 		end)
 
 		InputService.InputBegan:connect(function(inputObj)
+			if not self.WidgetVisible then return end 
+		
             local inputType = inputObj.UserInputType
 
             if inputType == Enum.UserInputType.MouseButton1 or inputType == Enum.UserInputType.Touch then

@@ -31,6 +31,13 @@ local GRAPHICS_QUALITY_TO_INT = {
 	["Enum.SavedQualitySetting.QualityLevel9"] = 9,
 	["Enum.SavedQualitySetting.QualityLevel10"] = 10,
 }
+
+local VIRTUAL_VERSION_LEVELS = 2
+local VIRTUAL_VERSION_INT_TO_STRING = {
+	[0] = "2016",
+	[1] = "2014"
+}
+
 local PC_CHANGED_PROPS = {
 	DevComputerMovementMode = true,
 	DevComputerCameraMode = true,
@@ -470,7 +477,11 @@ local function Initialize()
 		this.VolumeFrame, 
 		this.VolumeLabel,
 		this.VolumeSlider = utility:AddNewRow(this, "Volume", "Slider", 10, startVolumeLevel)
-
+		
+		if not game.CoreGui.RobloxGui:FindFirstChild("Sounds") then
+			Instance.new("Folder", game.CoreGui.RobloxGui).Name = "Sounds"
+		end
+		
 		local volumeSound = Instance.new("Sound", game.CoreGui.RobloxGui.Sounds)
 		volumeSound.Name = "VolumeChangeSound"
 		volumeSound.SoundId = "rbxasset://sounds/uuhhh.mp3"
@@ -481,6 +492,15 @@ local function Initialize()
 			volumeSound:Play()
 			GameSettings.MasterVolume = soundPercent
 		end)
+		
+		--[[this.VirtualVersionFrame, 
+		this.VirtualVersionLabel,
+		this.VirtualVersionSlider = utility:AddNewRow(this, "Virtual Version", "Selector", {"2016", "2014"}, 1)
+		
+		this.VirtualVersionSlider.IndexChanged:connect(function(newValue)
+			print(newValue)
+			GameSettings.VirtualVersion = Enum.VirtualVersion[VIRTUAL_VERSION_INT_TO_STRING[newValue-1]\]
+		end)]]
 		
 		local aeroInit = 1
 		if not GameSettings:IsAeroEnabled() then

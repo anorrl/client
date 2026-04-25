@@ -1,20 +1,54 @@
+local GameSettings = UserSettings().GameSettings
+local currentVirtualVersion = nil
 local RobloxGui = game:GetService("CoreGui"):WaitForChild("RobloxGui")
+local ContextActionService = game:GetService("ContextActionService")
 
 local function clearCorescripts()
     for _, obj in pairs(RobloxGui:GetChildren()) do
-        if obj.Name ~= "Modules" and obj.Name ~= "CoreScripts/2016/DeveloperConsole" then
-            obj:Destroy()
+        if obj.Name ~= "Modules" and obj.Name ~= "CoreScripts/2016/DeveloperConsole" and obj.Name ~= "ControlFrame" then
+			obj:Destroy()
         end
     end
 end
-
-local ver = "2016" -- pretend we have the enum for now
 
 function load2016StarterScript()
 	local scriptContext = game:GetService("ScriptContext")
 	local touchEnabled = game:GetService("UserInputService").TouchEnabled
 
 	local RobloxGui = game:GetService("CoreGui"):WaitForChild("RobloxGui")
+	
+	if not RobloxGui:FindFirstChild("ControlFrame") then
+		clearCorescripts()
+		local controlFrame = Instance.new("Frame")
+		controlFrame.Name = "ControlFrame"
+		controlFrame.Size = UDim2.new(1, 0, 1, 0)
+		controlFrame.BackgroundTransparency = 1
+		controlFrame.RobloxLocked = true
+		controlFrame.Parent = RobloxGui
+
+		local bottomLeftControl = Instance.new("Frame")
+		bottomLeftControl.Name = "BottomLeftControl"
+		bottomLeftControl.Size = UDim2.new(0, 130, 0, 46)
+		bottomLeftControl.Position = UDim2.new(0, 0, 1, -46)
+		bottomLeftControl.BackgroundTransparency = 1
+		bottomLeftControl.RobloxLocked = true
+		bottomLeftControl.Parent = controlFrame
+
+		local bottomRightControl = Instance.new("Frame")
+		bottomRightControl.Name = "BottomRightControl"
+		bottomRightControl.Size = UDim2.new(0, 180, 0, 41)
+		bottomRightControl.Position = UDim2.new(1, -180, 1, -41)
+		bottomRightControl.BackgroundTransparency = 1
+		bottomRightControl.RobloxLocked = true
+		bottomRightControl.Parent = controlFrame
+
+		local topLeftControl = Instance.new("Frame")
+		topLeftControl.Name = "TopLeftControl"
+		topLeftControl.Size = UDim2.new(0.05, 0, 0.05, 0)
+		topLeftControl.BackgroundTransparency = 1
+		topLeftControl.RobloxLocked = true
+		topLeftControl.Parent = controlFrame
+	end
 
 	local soundFolder = Instance.new("Folder")
 	soundFolder.Name = "Sounds"
@@ -80,6 +114,7 @@ function load2016StarterScript()
 end
 
 function load2014StarterScript()
+
 	-- Creates all neccessary scripts for the gui on initial load, everything except build tools
 	-- Created by Ben T. 10/29/10
 	-- Please note that these are loaded in a specific order to diminish errors/perceived load time by user
@@ -88,6 +123,36 @@ function load2014StarterScript()
 
 	Game:GetService("CoreGui"):WaitForChild("RobloxGui")
 	local screenGui = Game:GetService("CoreGui"):FindFirstChild("RobloxGui")
+	
+	local controlFrame = Instance.new("Frame")
+	controlFrame.Name = "ControlFrame"
+	controlFrame.Size = UDim2.new(1, 0, 1, 0)
+	controlFrame.BackgroundTransparency = 1
+	controlFrame.Parent = RobloxGui
+
+	local topLeftControl = Instance.new("Frame")
+	topLeftControl.Name = "TopLeftControl"
+	topLeftControl.Size = UDim2.new(0, 100, 0, 50)
+	topLeftControl.Position = UDim2.new(0, 0, 0, 0)
+	topLeftControl.BackgroundColor3 = Color3.new(1, 0, 0)
+	topLeftControl.BackgroundTransparency = 1 
+	topLeftControl.Parent = controlFrame
+	
+	local bottomLeftControl = Instance.new("Frame")
+	bottomLeftControl.Name = "BottomLeftControl"
+	bottomLeftControl.Size = UDim2.new(0, 100, 0, 50) 
+	bottomLeftControl.Position = UDim2.new(0, 0, 1, -50) 
+	bottomLeftControl.BackgroundColor3 = Color3.new(0, 1, 0)
+	bottomLeftControl.BackgroundTransparency = 1 
+	bottomLeftControl.Parent = controlFrame
+
+	local bottomRightControl = Instance.new("Frame")
+	bottomRightControl.Name = "BottomRightControl"
+	bottomRightControl.Size = UDim2.new(0, 100, 0, 50) 
+	bottomRightControl.Position = UDim2.new(0, 0, 1, -50) 
+	bottomRightControl.BackgroundColor3 = Color3.new(0, 1, 0)
+	bottomRightControl.BackgroundTransparency = 1 
+	bottomRightControl.Parent = controlFrame
 
 	-- SettingsScript 
 	scriptContext:AddCoreScriptLocal("CoreScripts/2014/Settings", screenGui)
@@ -160,25 +225,44 @@ function load2014StarterScript()
 end
 
 
-function load(ver)
-	print("loading")
-	--clearCorescripts()
+function load(newVersion)
 	
-	if ver ~= "2016" then
+	if currentVirtualVersion == newVersion then return end
+	
+	if newVersion ~= currentVirtualVersion then
+		clearCorescripts()
+	end
+	
+	if currentVirtualVersion == Enum.VirtualVersion["2016"] and GameSettings.VirtualVersion ~= Enum.VirtualVersion["2016"] then
 		if RobloxGui:FindFirstChild("Modules") then
 			-- fffffffuck youuu
-            for _, module in pairs(RobloxGui.Modules:GetChildren()) do
-                module:Destroy()
+            for _, module in pairs(RobloxGui.Modules:GetDescendants()) do
+				module:Destroy()
             end
         end
 	end
 	
-	if ver == "2016" then
+	if newVersion ==  Enum.VirtualVersion["2016"] then
 		load2016StarterScript()
-	elseif ver == "2014" then
+	elseif newVersion ==  Enum.VirtualVersion["2014"] then
 		load2014StarterScript()
 	end
+	
+	ContextActionService:UnbindCoreAction("RbxSettingsHubSwitchTab")
+	ContextActionService:UnbindCoreAction("RbxSettingsHubStopCharacter")
+	ContextActionService:UnbindCoreAction("RbxSettingsScrollHotkey")
+	ContextActionService:UnbindCoreAction("RBXEscapeMainMenu")
+
+	currentVirtualVersion = newVersion
 end
 
 
-load("2016")
+load(UserSettings().GameSettings.VirtualVersion)
+
+UserSettings().GameSettings.Changed:Connect(function(prop)
+
+	if prop ~= "VirtualVersion" then return end
+	
+	load(UserSettings().GameSettings.VirtualVersion)
+	
+end)

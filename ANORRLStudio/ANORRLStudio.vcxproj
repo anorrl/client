@@ -146,31 +146,29 @@
       <Message>Copy Plugins</Message>
       <Command>rmdir "$(OutDir)imageformats"
 mkdir "$(OutDir)imageformats"
-mkdir "$(OutDir)imageformats\imageformats"
 copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qgif4.dll $(OutDir)imageformats\imageformats
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qgif4.pdb $(OutDir)imageformats\imageformats
 copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qjpeg4.dll $(OutDir)imageformats\imageformats
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qjpeg4.pdb$(OutDir)imageformats\imageformats
+copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qwebp4.dll $(OutDir)imageformats\imageformats
 copy /Y "$(SolutionDir)CSG\sgCore\sgCore.dll" $(OutDir)
 copy /Y "$(SolutionDir)CSG\sgCore\sgCore.pdb" $(OutDir)
-copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbon3.dll" $(OutDir)
-copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbon3.pdb" $(OutDir)
-copy /Y $(CONTRIB_PATH)\discord-rpc-win32-static\bin\discord-rpc.dll $(OutDir)
+copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbon3.dll" "$(OutDir)"
+copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbon3.pdb" "$(OutDir)"
+copy /Y "$(CONTRIB_PATH)\discord-rpc-win32-static\bin\discord-rpc.dll" "$(OutDir)"
 
-rmdir "$(ProjectDir)$(OutDir)BuiltInPlugins"
-mkdir "$(ProjectDir)$(OutDir)BuiltInPlugins"
-xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins\"
+rmdir "$(OutDir)BuiltInPlugins"
+mkdir "$(OutDir)BuiltInPlugins"
+xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(OutDir)BuiltInPlugins\"
 
-if not exist "$(ProjectDir)$(OutDir)Log.dll" (
-echo placeholder &gt; "$(ProjectDir)$(OutDir)Log.dll"
+if not exist "$(OutDir)Log.dll" (
+echo placeholder &gt; "$(OutDir)Log.dll"
 )
 
-if not exist "$(ProjectDir)$(OutDir)boost.dll" (
-echo placeholder &gt; "$(ProjectDir)$(OutDir)boost.dll"
+if not exist "$(OutDir)boost.dll" (
+echo placeholder &gt; "$(OutDir)boost.dll"
 )
 
-if not exist "$(ProjectDir)$(OutDir)boost.pdb" (
-echo placeholder &gt; "$(ProjectDir)$(OutDir)boost.pdb"
+if not exist "$(OutDir)boost.pdb" (
+echo placeholder &gt; "$(OutDir)boost.pdb"
 )
 
 "$(SolutionDir)buildshaders.bat"</Command>

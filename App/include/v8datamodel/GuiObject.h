@@ -178,6 +178,9 @@ namespace ARL
 		void setSize(UDim2 value);
 		UDim2 getSize() const { return size; }
 
+		void setAnchorPoint(Vector2 value);
+		Vector2 getAnchorPoint() const { return anchor; }
+
 		void setSizeConstraint(SizeConstraint value);
 		SizeConstraint getSizeConstraint() const { return sizeConstraint; }
 
@@ -341,7 +344,7 @@ namespace ARL
 
 		UDim2 size;
 		UDim2 position;
-		UDim2 anchor;
+		Vector2 anchor;
 
         RotationAngle rotation;
         Rotation2D absoluteRotation;

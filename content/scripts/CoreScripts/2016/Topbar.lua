@@ -5,6 +5,7 @@
 ]]
 
 
+
 --[[ CONSTANTS ]]
 
 local TOPBAR_THICKNESS = 36
@@ -67,6 +68,8 @@ while Player == nil do
 end
 
 local GuiRoot = CoreGuiService:WaitForChild('RobloxGui')
+
+if not GuiRoot:FindFirstChild("Modules") then return nil end
 
 local TenFootInterface = require(GuiRoot.Modules.TenFootInterface)
 local isTenFootInterface = TenFootInterface:IsEnabled()

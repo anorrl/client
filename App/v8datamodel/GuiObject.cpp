@@ -41,6 +41,7 @@ static const Reflection::BoundFuncDesc<GuiObject, bool(UDim2, GuiObject::TweenEa
 static const Reflection::BoundFuncDesc<GuiObject, bool(UDim2, GuiObject::TweenEasingDirection, GuiObject::TweenEasingStyle, float, bool, Lua::WeakFunctionRef)> func_tweenSize(&GuiObject::tweenSize, "TweenSize", "endSize", "easingDirection", GuiObject::EASING_DIRECTION_OUT, "easingStyle", GuiObject::EASING_STYLE_QUAD, "time", 1, "override", false, "callback", Lua::WeakFunctionRef(), Security::None);
 
 static const Reflection::PropDescriptor<GuiObject, UDim2>	prop_Size("Size", category_Data, &GuiObject::getSize, &GuiObject::setSize);
+static const Reflection::PropDescriptor<GuiObject, Vector2>	prop_AnchorPosition("AnchorPoint", category_Data, &GuiObject::getAnchorPoint, &GuiObject::setAnchorPoint);
 static const Reflection::PropDescriptor<GuiObject, UDim2>	prop_Position("Position", category_Data, &GuiObject::getPosition, &GuiObject::setPosition);
 static const Reflection::PropDescriptor<GuiObject, int>		prop_BorderSizePixel("BorderSizePixel", category_Data, &GuiObject::getBorderSizePixel, &GuiObject::setBorderSizePixel);
 const Reflection::PropDescriptor<GuiObject, int>            GuiObject::prop_ZIndex("ZIndex", category_Data, &GuiObject::getZIndex, &GuiObject::setZIndex);
@@ -788,8 +789,9 @@ bool GuiObject::recalculateAbsolutePlacement(const Rect2D& parentViewport)
 	result = setAbsoluteSize(size * constrainedParentSize) || result;
     
     // Update position; note that we rotate the center of the element
-	Vector2 transformedPosition = parentRotation.rotate(parentViewport.x0y0() + (position*parentViewport.wh()) + absoluteSizeFloat * 0.5f) - absoluteSizeFloat * 0.5f;
-
+	// THANK YOU PHIL FOR THE PROPOSED SUGGESTION OF ADDING THE ANCHOR CALCULATION!!!!!! GRAHH!!!!
+	Vector2 transformedPosition = parentRotation.rotate(parentViewport.x0y0() + (position*parentViewport.wh()) + absoluteSizeFloat * 0.5f - absoluteSizeFloat * anchor)  - absoluteSizeFloat * 0.5f;
+	
 	result = setAbsolutePosition(transformedPosition);
 
     // Update rotation
@@ -838,6 +840,16 @@ void GuiObject::setSize(UDim2 value)
 		size = value;
 		raisePropertyChanged(prop_Size);
 		
+		checkForResize();
+	}
+}
+
+void GuiObject::setAnchorPoint(Vector2 value)
+{
+	if (anchor != value) {
+		anchor = value;
+		raisePropertyChanged(prop_AnchorPosition);
+
 		checkForResize();
 	}
 }

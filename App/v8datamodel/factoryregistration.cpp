@@ -684,6 +684,7 @@ ARL_REGISTER_ENUM(GameBasicSettings::ComputerCameraMovementMode);
 ARL_REGISTER_ENUM(GameBasicSettings::TouchMovementMode);
 ARL_REGISTER_ENUM(GameBasicSettings::ComputerMovementMode);
 ARL_REGISTER_ENUM(GameBasicSettings::RotationType);
+ARL_REGISTER_ENUM(GameBasicSettings::VirtualVersion);
 ARL_REGISTER_ENUM(Frame::Style);
 ARL_REGISTER_ENUM(GuiButton::Style);
 ARL_REGISTER_ENUM(DialogRoot::DialogPurpose);

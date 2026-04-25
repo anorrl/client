@@ -3233,6 +3233,14 @@
         <string name="ExplorerImageIndex">47</string>
         <string name="PreferredParent">StarterGui</string>
       </Properties>
+      <Item class="ReflectionMetadataProperties">
+        <Item class="ReflectionMetadataMember">
+          <Properties>
+            <string name="Name">IgnoreGuiInset</string>
+            <string name="summary">Ignores the global gui inset from GuiService if enabled.</string>
+          </Properties>
+        </Item>
+      </Item>
     </Item>
     <Item class="ReflectionMetadataClass">
       <Properties>
@@ -3523,6 +3531,12 @@
           <Properties>
             <string name="Name">SelectionImageObject</string>
             <string name="summary">Overrides the default selection adornment (used for gamepads). For best results, this should point to a GuiObject.</string>
+          </Properties>
+        </Item>
+        <Item class="ReflectionMetadataMember">
+          <Properties>
+            <string name="Name">AnchorPoint</string>
+            <string name="summary">Anchors the position a given point. Yeah, very simple...</string>
           </Properties>
         </Item>
       </Item>
