@@ -691,13 +691,13 @@ Vector2 GuiObject::getAbsolutePosition() const
 		// eh im sure it's fine!
 		ScreenGui* screenGui = const_cast<GuiObject*>(this)->getScreenGuiAsParent();
 
+		bool inset = true;
+
 		if (screenGui != NULL) {
-			if (!screenGui->getIgnoreGuiInsetConst()) {
-				Vector4 guiInset = guiService->getGlobalGuiInset();
-				return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);
-			}
+			inset = !screenGui->getIgnoreGuiInsetConst();
 		}
-		else {
+
+		if(inset) {
 			Vector4 guiInset = guiService->getGlobalGuiInset();
 			return Vector2(absolutePosition.x - guiInset.x, absolutePosition.y - guiInset.y);
 		}
