@@ -247,7 +247,7 @@ local function CreateEmotes()
 	end
 	
 	function this:CharacterAdded(character)
-		self.EmoteHandler = character:WaitForChild("HandleEmote")
+		self.EmoteHandler = Player:FindFirstChild("HandleEmote")
 		for i, v in ipairs(self.Emotes) do
 			self.EmoteHandler:Fire("register", v.id)
 		end
@@ -304,7 +304,7 @@ local function CreateEmotes()
 	end
 	
 	function this:PlayEmote(id)
-		if self.EmoteHandler and self.EmoteHandler.Parent == Player.Character then
+		if self.EmoteHandler and self.EmoteHandler.Parent == Player then
 			self.EmoteHandler:Fire("play", id)
 			this:ToggleVisibility()
 		end

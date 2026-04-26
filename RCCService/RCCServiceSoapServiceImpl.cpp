@@ -374,7 +374,7 @@ IMPL_DATA(GoogleAnalyticsInitFix, true);
 IMPL_DATA(HttpUseCurlPercentageRCC, 0); // do not use CURL by default
 DATA_MAP_IMPL_END()
 
-static boost::scoped_ptr<MainLogManager> mainLogManager(new MainLogManager("Roblox Web Service", ".dmp", ".crashevent"));
+static boost::scoped_ptr<MainLogManager> mainLogManager(new MainLogManager("ANORRL Web Service", ".dmp", ".crashevent"));
 
 #ifdef ARL_TEST_BUILD
 std::string RCCServiceSettingsKeyOverwrite;

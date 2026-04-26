@@ -217,11 +217,6 @@ function load2014StarterScript()
 		screenGui.ControlFrame:WaitForChild("BottomLeftControl")
 		screenGui.ControlFrame.BottomLeftControl.Visible = true
 	end
-
-	for _, v in pairs(screenGui:WaitForChild("ControlFrame"):children()) do
-		print(v.Name)
-	end
-
 end
 
 
