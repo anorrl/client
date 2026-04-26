@@ -152,10 +152,27 @@ local function CreateEmotes()
 		frame.Size = UDim2.new(0, 100, 0, 100)
 		frame.ZIndex = 10
 		frame.Image = "rbxasset://textures/ui/Emotes/EmoteIcon.png"
-		frame.BackgroundColor3 = Color3.new(255,255,255)
+		frame.BackgroundColor3 = Color3.new(1,1,1)
 		frame.BackgroundTransparency = 1
 		
 		return frame
+	end
+
+	function this:createSlotNumber(cos, sin, index)
+		local radius = (0.45 + 0.1) / 2 -- insane math optimizing skills wtf
+
+		local text = Instance.new("TextLabel")
+		text.Position = UDim2.new(0.5 - radius*cos - 0.07/2, 0, 0.5 - radius*sin - 0.07/2, 0)
+		text.Size = UDim2.new(0.07, 0, 0.07, 0)
+		text.ZIndex = 10
+		text.BackgroundColor3 = Color3.new(1,1,1)
+		text.BackgroundTransparency = 1
+		text.TextScaled = true
+		text.Font = Enum.Font.SourceSans
+		text.TextColor3 = Color3.new(1,1,1)
+		text.Text = tostring(index)
+		
+		return text
 	end
 
 	function createEmotesFrame(whole_frame)
@@ -190,15 +207,19 @@ local function CreateEmotes()
 			
 			local angle = (i - 1) * angle_step - (math.pi / 2)
 			
-			angle = (max_angle) + math.rad(90) + angle	
+			angle = (max_angle) + angle	
 			
-			local x = offset - radius * math.cos(angle)
-			local y = offset - radius * math.sin(angle)
+			local cos = math.cos(angle)
+			local sin = math.sin(angle)
+
+			local x = offset - radius * cos
+			local y = offset - radius * sin
 			
 			table.insert(this.LoadedEmotes, v)
 			
 			local emoteFrame = this:createEmoteTemplate(x, y, v.name)
 			emoteFrame.Parent = frame
+			this:createSlotNumber(cos, sin, i).Parent = frame
 			v.EmoteFrame = emoteFrame
 		end
 		
@@ -217,11 +238,12 @@ local function CreateEmotes()
 		local emote_label = Instance.new("TextLabel", frame)
 		emote_label.BackgroundTransparency = 1
 		emote_label.TextScaled = true
+		emote_label.Font = Enum.Font.SourceSans
 		emote_label.Position = UDim2.new(0, 0, 0.5, -25)
 		emote_label.Size = UDim2.new(1,0,0,50)
 		emote_label.ZIndex = 6
 		emote_label.Name = "EName"
-		emote_label.TextColor3 = Color3.new(255,255,255)
+		emote_label.TextColor3 = Color3.new(1,1,1)
 		
 		return frame, emote_label
 	end
@@ -265,9 +287,9 @@ local function CreateEmotes()
 		InputService.InputChanged:connect(function(inputObj)
 			local inputType = inputObj.UserInputType
 
-            if inputType == Enum.UserInputType.MouseMovement or inputType == Enum.UserInputType.Touch then
+			if inputType == Enum.UserInputType.MouseMovement or inputType == Enum.UserInputType.Touch then
 				local oldEmote = self.LoadedEmotes[self.slot]
-                self.slot = self:selectSlot()
+				self.slot = self:selectSlot()
 				local newEmote = self.LoadedEmotes[self.slot]
 				if oldEmote and oldEmote ~= newEmote then
 					oldEmote.EmoteFrame.Image = "rbxasset://textures/ui/Emotes/EmoteIcon.png"
@@ -278,19 +300,27 @@ local function CreateEmotes()
 					newEmote.EmoteFrame.Image = "rbxasset://textures/ui/Emotes/EmoteIconHover.png"
 					this.EmoteNameLabel.Text = newEmote.name
 				end
-            end
+			end
 		end)
 
-		InputService.InputBegan:connect(function(inputObj)
+		InputService.InputBegan:connect(function(inputObj, gameProcessed)
+			local keyCode = inputObj.KeyCode.Value
+			if not gameProcessed and keyCode == Enum.KeyCode.B.Value then
+				this:ToggleVisibility(not self.WidgetVisible)
+			end
 			if not self.WidgetVisible then return end 
-		
-            local inputType = inputObj.UserInputType
+			local inputType = inputObj.UserInputType
 
-            if inputType == Enum.UserInputType.MouseButton1 or inputType == Enum.UserInputType.Touch then
-				local emote = self.LoadedEmotes[self.slot]
-				if emote then
-					this:PlayEmote(emote.id)
-				end
+			local emoteIndex = 0
+			if inputType == Enum.UserInputType.MouseButton1 or inputType == Enum.UserInputType.Touch then
+				emoteIndex = self.slot
+			elseif (keyCode >= Enum.KeyCode.One.Value and keyCode <= Enum.KeyCode.Eight.Value) or (keyCode >= Enum.KeyCode.KeypadOne.Value and keyCode < Enum.KeyCode.KeypadEight.Value) then
+				emoteIndex = keyCode - ((keyCode >= Enum.KeyCode.KeypadOne.Value) and Enum.KeyCode.KeypadOne.Value or Enum.KeyCode.One.Value) + 1
+			end
+
+			local emote = self.LoadedEmotes[emoteIndex]
+			if emote then
+				this:PlayEmote(emote.id)
 			end
 		end)
 		
