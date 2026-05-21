@@ -42,6 +42,7 @@
 FASTINTVARIABLE(GameViewItemCap, 200)
 FASTINTVARIABLE(NewGameTemplateId, 95206881)
 FASTFLAG(StudioCSGAssets)
+FASTFLAGVARIABLE(StudioCSGAssetsUploadOnPublish, false)
 FASTFLAGVARIABLE(GameExplorerCopyPath, false)
 FASTFLAGVARIABLE(GameExplorerUseV2AliasEndpoint, false)
 FASTFLAGVARIABLE(GameExplorerCopyId, false)
@@ -60,9 +61,11 @@ namespace
 
 const int kNoGameLoaded = -1;
 const QString kImageAssetNamePrefix = "Images/";
+const QString kAudioAssetNamePrefix = "Audio/";
 const QString kErrorTextStyleSheet = "color: #d86868";
 const QString kErrorTextInputStyleSheet = "border: 2px solid #d86868";
 const char* kLastImageDirectoryKey = "image_last_directory";
+const char* kLastAudioDirectoryKey = "audio_last_directory";
 
 enum GameExplorerDataRoles
 {
@@ -493,6 +496,114 @@ void createImageAssetAndNameThread(const QString& name, const QString& imageFile
 	*created = true;
 }
 
+
+bool validateAudioName(const QString& name, const std::vector<QString>* usedNames, QString* errorMessage)
+{
+	bool valid = true;
+	if (name.trimmed().isEmpty())
+	{
+		valid = false;
+		*errorMessage = "Name cannot be empty";
+	}
+
+	if (usedNames)
+	{
+		QString compareName = QString(kAudioAssetNamePrefix + name);
+		for (std::vector<QString>::const_iterator itr = usedNames->begin();
+			itr != usedNames->end(); ++itr)
+		{
+			if (compareName.compare(*itr, Qt::CaseInsensitive) == 0)
+			{
+				valid = false;
+				*errorMessage = "Name already taken (not case sensitive)";
+				break;
+			}
+		}
+	}
+
+	if (name.contains(QChar('\\')) || name.contains(QChar('/')))
+	{
+		valid = false;
+		*errorMessage = "Name cannot include '\\' or '/'";
+	}
+
+	return valid;
+}
+
+void findAvailableAudioNameFromFilename(const QString& fileName, const std::vector<QString>* usedNames, QString* availableAudioName)
+{
+	QString completedBase = QFileInfo(fileName).completeBaseName();
+	*availableAudioName = completedBase;
+	QString unusedErrorMessage;
+
+	// Make up to #usedNames+1 attempts to find a free name: worst case, all used names
+	// conflict, so need to try one more than that to get a free name.
+	for (size_t attempt = 0; attempt <= usedNames->size() &&
+		!validateAudioName(*availableAudioName, usedNames, &unusedErrorMessage);
+		++attempt)
+	{
+		*availableAudioName = QString("%1 (%2)").arg(completedBase).arg(attempt + 1);
+	}
+}
+
+void createAudioAssetAndNameThread(const QString& name, const QString& audioFileName, int currentGameId,
+	boost::optional<int> currentGameGroupId, bool* created, QString* errorMessage)
+{
+	EntityProperties createImageAssetResponse;
+	HttpPostData postData(
+		shared_ptr<std::istream>(new std::ifstream(audioFileName.toStdString().c_str(), std::ios::binary)),
+		Http::kContentTypeDefaultUnspecified, false);
+	std::string createImageUrl = formatUrl("%DATA_BASE%/data/upload/json?assetTypeId=3&name=%ITEM_ID%&description=madeinstudio", -1, name);
+	if (currentGameGroupId)
+	{
+		createImageUrl += format("&groupId=%d", currentGameGroupId.get());
+	}
+	createImageAssetResponse.setFromJsonFuture(HttpAsync::post(createImageUrl, postData));
+
+	bool succeededInCreatingAsset = createImageAssetResponse.get<bool>("Success").get_value_or(false);
+	boost::optional<int> optionalAssetId = createImageAssetResponse.get<int>("BackingAssetId");
+	if (!succeededInCreatingAsset || !optionalAssetId.is_initialized())
+	{
+		*created = false;
+		std::string returnedMessage = createImageAssetResponse.get<std::string>("Message").get_value_or("Try again later.");
+		*errorMessage = QString("Failed to create audio: %1").arg(QString::fromStdString(returnedMessage));
+		return;
+	}
+	int assetId = optionalAssetId.get();
+
+	EntityProperties createNameRequest;
+	createNameRequest.set("Name", name.toStdString());
+	if (FFlag::GameExplorerUseV2AliasEndpoint)
+	{
+		createNameRequest.set("Type", (int)ALIAS_TYPE_Asset);
+		createNameRequest.set("TargetId", assetId);
+	}
+	else
+	{
+		createNameRequest.set("AssetId", assetId);
+	}
+
+	Http http(formatUrl(kWebSettings[ENTITY_CATEGORY_NamedAssets].createFormatString,
+		currentGameId, name));
+	std::string propertiesJson = createNameRequest.asJson();
+	std::istringstream propertiesStream(propertiesJson);
+	std::string postResponse;
+	try
+	{
+		http.post(propertiesStream, Http::kContentTypeApplicationJson, false, postResponse);
+	}
+	catch (const ARL::base_exception& e)
+	{
+		*created = false;
+		*errorMessage = "An error occurred. See Output Window for details.";
+		std::string gaMessage = format("Error while creating named asset: %s", e.what());
+		StandardOut::singleton()->print(MESSAGE_ERROR, gaMessage.c_str());
+		return;
+	}
+
+	*created = true;
+}
+
 void bulkAddNewImageNamesThread(std::vector<std::pair<QString, QString> >* fileAndImageNames, int currentGameId,
 	boost::optional<int> currentGameGroupId)
 {
@@ -811,7 +922,7 @@ bool UniverseSettings::isLoadedAndParsed() const
 
 bool UniverseSettings::hasRootPlace()
 {
-	return properties.get<int>("RootPlace");
+	return properties.get<int>("RootPlace") > 0;
 }
 
 int UniverseSettings::rootPlaceId()
@@ -1230,6 +1341,184 @@ void AddImageDialog::createButtonClicked()
 }
 
 
+void AddAudioDialog::runModal(QWidget* parent, bool* created, QString* newName)
+{
+	this->created = created;
+	this->newName = newName;
+
+	// initialize usedNames
+	usedNames.clear();
+	ANORRLGameExplorer& rge = UpdateUIManager::Instance().getViewWidget<ANORRLGameExplorer>(eDW_GAME_EXPLORER);
+	rge.getListOfAudios(&usedNames);
+	this->currentGameId = rge.getCurrentGameId();
+	this->currentGameGroupId = rge.getCurrentGameGroupId();
+
+	*created = false;
+
+	dialog = new QDialog(parent);
+	QGridLayout* layout = new QGridLayout();
+
+	QGridLayout* inputLayout = new QGridLayout();
+
+	// Audio file
+	QLabel* fileLabel = new QLabel("Audio:", dialog);
+	inputLayout->addWidget(fileLabel, 0, 0, Qt::AlignRight);
+	fileNameLabel = new QLabel(" ", dialog);
+	inputLayout->addWidget(fileNameLabel, 0, 1, Qt::AlignLeft);
+	fileNameEdit = new QPushButton("Choose File", dialog);
+	connect(fileNameEdit, SIGNAL(clicked()), this, SLOT(openFileSelector()));
+	inputLayout->addWidget(fileNameEdit, 1, 1, Qt::AlignLeft);
+	fileNameErrorMessage = new QLabel(" ", dialog);
+	fileNameErrorMessage->setStyleSheet(kErrorTextStyleSheet);
+	inputLayout->addWidget(fileNameErrorMessage, 2, 1, Qt::AlignLeft);
+
+	// Name
+	QLabel* nameLabel = new QLabel("Name:", dialog);
+	inputLayout->addWidget(nameLabel, 3, 0, Qt::AlignRight);
+	nameEdit = new QLineEdit(dialog);
+	nameEdit->setFixedWidth(250);
+	connect(nameEdit, SIGNAL(textEdited(const QString&)), this, SLOT(validateName()));
+	inputLayout->addWidget(nameEdit, 3, 1, Qt::AlignLeft);
+	nameErrorMessage = new QLabel(" ", dialog);
+	nameErrorMessage->setStyleSheet(kErrorTextStyleSheet);
+	inputLayout->addWidget(nameErrorMessage, 4, 1, Qt::AlignLeft);
+
+	layout->addLayout(inputLayout, 0, 0, 1, 2);
+
+	// General error message
+	generalErrorMessage = new QLabel("", dialog);
+	generalErrorMessage->setStyleSheet(kErrorTextStyleSheet);
+	layout->addWidget(generalErrorMessage, 1, 0, 1, 2, Qt::AlignCenter);
+
+	QPushButton* createButton = new QPushButton("Create", dialog);
+	connect(createButton, SIGNAL(clicked()), this, SLOT(createButtonClicked()));
+	layout->addWidget(createButton, 2, 0);
+
+	QPushButton* cancelButton = new QPushButton("Cancel", dialog);
+	connect(cancelButton, SIGNAL(clicked()), dialog, SLOT(reject()));
+	layout->addWidget(cancelButton, 2, 1);
+
+	dialog->setLayout(layout);
+	dialog->exec();
+}
+
+void AddAudioDialog::createAudioAndNameThread()
+{
+	QString name = kAudioAssetNamePrefix + nameEdit->text();
+	QString errorMessage;
+	createAudioAssetAndNameThread(name, fileNameLabel->text(), currentGameId, currentGameGroupId,
+		created, &errorMessage);
+	if (*created)
+	{
+		*newName = name;
+	}
+	else
+	{
+		generalErrorMessage->setText(errorMessage);
+	}
+}
+
+bool AddAudioDialog::validateName()
+{
+	QString errorMessage;
+	bool valid = validateAudioName(nameEdit->text(), &usedNames, &errorMessage);
+
+	if (valid)
+	{
+		nameEdit->setStyleSheet("");
+		nameErrorMessage->setText(" ");
+	}
+	else
+	{
+		nameEdit->setStyleSheet(kErrorTextInputStyleSheet);
+		nameErrorMessage->setText(errorMessage);
+	}
+	return valid;
+}
+
+bool AddAudioDialog::validateAudioFile()
+{
+	bool valid = true;
+	QString errorMessage;
+
+	QString fileName = fileNameLabel->text();
+	if (fileName.trimmed().isEmpty())
+	{
+		valid = false;
+		fileNameErrorMessage->setText("Audio file is required");
+	}
+	else if (!QFile(fileName).exists())
+	{
+		valid = false;
+		fileNameErrorMessage->setText("File does not exist");
+	}
+
+	if (valid)
+	{
+		fileNameErrorMessage->setText(" ");
+	}
+
+	return valid;
+}
+
+void AddAudioDialog::openFileSelector()
+{
+	ANORRLSettings settings;
+	QString audioLastDir = settings.value(kLastAudioDirectoryKey).toString();
+	if (audioLastDir.isEmpty())
+		audioLastDir = ANORRLMainWindow::getDefaultSavePath();
+
+	QString fileName = QDir::toNativeSeparators(
+		QFileDialog::getOpenFileName(dialog, "Choose audio to upload", audioLastDir,
+			"Audio (*.mp3 *.ogg *.wav);;All Files (*.*)"));
+
+	if (!fileName.isEmpty())
+	{
+		fileNameLabel->setText(fileName);
+		settings.setValue(kLastAudioDirectoryKey, QFileInfo(fileName).absolutePath());
+
+		QString availableName;
+		findAvailableAudioNameFromFilename(fileName, &usedNames, &availableName);
+		nameEdit->setText(availableName);
+	}
+
+	validateAudioFile();
+}
+
+void AddAudioDialog::createButtonClicked()
+{
+	bool nameValid = validateName();
+	bool fileValid = validateAudioFile();
+
+	if (nameValid && fileValid)
+	{
+		UpdateUIManager::Instance().waitForLongProcess("Creating asset name...",
+			boost::bind(&AddAudioDialog::createAudioAndNameThread, this));
+
+		if (*created)
+		{
+			UpdateUIManager::Instance().getViewWidget<ANORRLGameExplorer>(eDW_GAME_EXPLORER)
+				.reloadDataFromWeb();
+
+			dialog->accept();
+		}
+	}
+	else
+	{
+		// refocus the first field that is not valid
+		if (!nameValid)
+		{
+			nameEdit->setFocus();
+		}
+		else
+		{
+			fileNameEdit->setFocus();
+		}
+	}
+}
+
+
+
 ANORRLGameExplorer::ANORRLGameExplorer(QWidget* parent)
     : QTreeView(parent)
     , currentGameId(kNoGameLoaded)
@@ -1473,6 +1762,19 @@ void ANORRLGameExplorer::getListOfImages(std::vector<QString>* out)
 		out->end());
 }
 
+void ANORRLGameExplorer::getListOfAudios(std::vector<QString>* out)
+{
+	if (currentGameId == kNoGameLoaded)
+	{
+		return;
+	}
+
+	entitySettings[ENTITY_CATEGORY_NamedAssets]->transform<QString>(
+		boost::bind(&getNameOrEmptyIfNotAssetType, ASSET_TYPE_ID_Audio, _1), out);
+	out->erase(std::remove_if(out->begin(), out->end(), boost::bind(&QString::isEmpty, _1)),
+		out->end());
+}
+
 void ANORRLGameExplorer::getListOfScripts(std::vector<QString>* out)
 {
 	if (currentGameId == kNoGameLoaded)
@@ -1695,7 +1997,7 @@ std::pair<int, boost::function<std::string()> > ANORRLGameExplorer::buildPlaceCo
 				// not strictly required for publish
 				try
 				{
-					if (FFlag::StudioCSGAssets)
+					if (FFlag::StudioCSGAssets && FFlag::StudioCSGAssetsUploadOnPublish)
 						PartOperationAsset::publishAll(dm.get());
 				}
 				catch (const std::exception&)
@@ -1751,7 +2053,7 @@ ANORRLGameExplorer::NamedAssetCopyInfo ANORRLGameExplorer::buildNamedContentInfo
 	const int sourceAssetTypeId = properties->get<int>("AssetTypeId").get();
 
 	// for immutable asset types just keep the source asset id
-	if (sourceAssetTypeId == (int)ASSET_TYPE_ID_Image)
+	if (sourceAssetTypeId == (int)ASSET_TYPE_ID_Image || sourceAssetTypeId == (int)ASSET_TYPE_ID_Audio)
 	{
 		result.needsTargetIdUpdate = false;
 		return result;
@@ -2093,6 +2395,10 @@ void ANORRLGameExplorer::namedAssetsDoubleClickCallback(EntityProperties* proper
 	{
 		insertNamedImage(properties);
 	}
+	else if (assetTypeId == (int)ASSET_TYPE_ID_Audio)
+	{
+		insertNamedAudio(properties);
+	}
 	else if (assetTypeId == (int)ASSET_TYPE_ID_Script)
 	{
 		ANORRLDocManager::Instance().openDoc(LuaSourceBuffer::fromContentId(
@@ -2160,6 +2466,42 @@ void ANORRLGameExplorer::refreshNamedScriptIcons(int originatingSessionId)
 					{
 						item->setIcon(modifiedScriptIcon);
 					}
+				}
+			}
+		}
+
+		for (int i = 0; i < item->rowCount(); ++i)
+		{
+			itemsToExplore.push_back(item->child(i));
+		}
+	}
+}
+
+void ANORRLGameExplorer::refreshNamedAudioIcons(int originatingSessionId)
+{
+	if (originatingSessionId != currentSessionId)
+	{
+		return;
+	}
+
+	QPixmap audioPixmap = QtUtilities::getPixmap(":/images/ClassImages.PNG", 11);
+	QIcon audioIcon(audioPixmap.scaled(QSize(16, 16)));
+	
+	std::vector<QStandardItem*> itemsToExplore;
+	itemsToExplore.push_back(findGroup(ENTITY_CATEGORY_NamedAssets));
+	while (!itemsToExplore.empty())
+	{
+		QStandardItem* item = itemsToExplore.back();
+		itemsToExplore.pop_back();
+		if (!item) continue;
+
+		if (EntityProperties* properties = item->data(ROLE_EntityProperties).value<EntityProperties*>())
+		{
+			if (boost::optional<int> assetTypeId = properties->get<int>("AssetTypeId"))
+			{
+				if (assetTypeId == (int)ASSET_TYPE_ID_Audio)
+				{
+					item->setIcon(audioIcon);
 				}
 			}
 		}
@@ -2719,20 +3061,8 @@ void ANORRLGameExplorer::badgesPlaceContextMenuHandler(const QPoint& point, Enti
 	QAction* result = menu.exec(point);
 	if (result == createBadgeAction)
 	{
-		if (FFlag::UseNewBadgesCreatePage)
-		{
-			std::string url = formatUrl("%WEB_BASE%/build/upload?AssetTypeId=21&TargetPlaceId=%ITEM_ID%", currentGameId, placeId);
-			if (currentGameGroupId)
-			{
-				url += format("&groupId=%d", currentGameGroupId.get());
-			}
-			openAndFocusConfigureDoc(url);
-		}
-		else
-		{
-			openAndFocusConfigureDoc(
-				formatUrl("%WEB_BASE%/create/%ITEM_ID%/badge", currentGameId, placeId));
-		}
+		openAndFocusConfigureDoc(formatUrl("%WEB_BASE%/create/%ITEM_ID%/badge", currentGameId, placeId));
+		
 	}
 }
 
@@ -2769,20 +3099,32 @@ void ANORRLGameExplorer::namedAssetsContextMenuHandler(const QPoint& point, Enti
 	QAction* copyPath = NULL;
 
 	QAction* insert = NULL;
+	QAction* insertAsAudio = NULL;
 	QAction* insertAsScript = NULL;
 	QAction* insertAsLocalScript = NULL;
 	QAction* insertAsModuleScript = NULL;
 	QAction* publishScript = NULL;
 	QAction* revertToLastPublished = NULL;
 	bool isImage = false;
+	bool isAudio = false;
 	bool isScript = false;
 	bool hasOpenDataModel = ANORRLDocManager::Instance().getPlayDoc() != NULL; 
 	isImage = properties->get<int>("AssetTypeId") == (int)ASSET_TYPE_ID_Image;
+	isAudio = properties->get<int>("AssetTypeId") == (int)ASSET_TYPE_ID_Audio;
 	isScript = properties->get<int>("AssetTypeId") == (int)ASSET_TYPE_ID_Script;
 	if (isImage)
 	{
 		insert = menu.addAction("Insert");
 		insert->setEnabled(hasOpenDataModel);
+		if (FFlag::GameExplorerCopyPath)
+		{
+			copyPath = menu.addAction("Copy Path to Clipboard");
+		}
+	}
+	else if (isAudio)
+	{
+		insertAsAudio = menu.addAction("Insert as Audio");
+		insertAsAudio->setEnabled(hasOpenDataModel);
 		if (FFlag::GameExplorerCopyPath)
 		{
 			copyPath = menu.addAction("Copy Path to Clipboard");
@@ -2840,6 +3182,10 @@ void ANORRLGameExplorer::namedAssetsContextMenuHandler(const QPoint& point, Enti
 	else if (insert && result == insert)
 	{
 		insertNamedImage(properties);
+	}
+	else if (insertAsAudio && result == insertAsAudio)
+	{
+		insertNamedAudio(properties);
 	}
 	else if (insertAsScript && result == insertAsScript)
 	{
@@ -2937,6 +3283,7 @@ void ANORRLGameExplorer::namedAssetsGroupContextMenuHandler(const QPoint& point)
 {
 	QMenu menu(this);
 
+	QAction* addAudio = menu.addAction("Add Audio");
 	QAction* add = menu.addAction("Add Image");
 
 	QAction* bulkAdd = menu.addAction("Add Multiple Images");
@@ -2947,6 +3294,13 @@ void ANORRLGameExplorer::namedAssetsGroupContextMenuHandler(const QPoint& point)
 		bool created = false;
 		QString newName;
 		AddImageDialog dialog;
+		dialog.runModal(this, &created, &newName);
+	}
+	else if (result == addAudio)
+	{
+		bool created = false;
+		QString newName;
+		AddAudioDialog dialog;
 		dialog.runModal(this, &created, &newName);
 	}
 	else if (result == bulkAdd)
@@ -3029,6 +3383,20 @@ void ANORRLGameExplorer::insertNamedImage(EntityProperties* imageInfo)
 	shared_ptr<Decal> decal = Creatable<Instance>::create<Decal>();
 	decal->setTexture(ContentId::fromGameAssetName(imageInfo->get<std::string>("Name").get()));
 	doInsert(decal);
+}
+
+void ANORRLGameExplorer::insertNamedAudio(EntityProperties* audioInfo)
+{
+	const std::string assetName = audioInfo->get<std::string>("Name").get();
+	shared_ptr<ARL::Soundscape::SoundChannel> audio = Creatable<Instance>::create<ARL::Soundscape::SoundChannel>();
+	audio->setSoundId(Soundscape::SoundId::fromGameAssetName(assetName));
+	std::string audioName = assetName;
+	if (boost::starts_with(audioName, "Audio/"))
+	{
+		audioName = audioName.substr(6);
+	}
+	audio->setName(audioName);
+	doInsert(audio);
 }
 
 void ANORRLGameExplorer::insertNamedScript(EntityProperties* scriptInfo, shared_ptr<LuaSourceContainer> container)

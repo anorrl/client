@@ -105,7 +105,6 @@ VisualEngine::VisualEngine(Device* device, CRenderSettings* settings)
 			"fonts/SourceSansPro-Bold.ttf",
 			"fonts/SourceSansPro-Light.ttf",
 			"fonts/SourceSansPro-It.ttf",
-			"fonts/Paintball.ttf",
 			"fonts/RomanAntique.otf",
 			"fonts/PressStart2P-Regular.ttf",
 			"fonts/AccanthisADFStd-Regular.otf",
@@ -122,6 +121,8 @@ VisualEngine::VisualEngine(Device* device, CRenderSettings* settings)
 			"fonts/ProximaNova.ttf",
 			"fonts/NotoSans-Regular.ttf",
 			"fonts/NotoSans-Bold.ttf",
+			"fonts/VCR_OSD_MONO.ttf",
+			"fonts/DashHorizon-Regular.otf",
 		};
 
 		float legacyHeightScale = (font == Text::FONT_LEGACY) ? 1.5f : 1.f;

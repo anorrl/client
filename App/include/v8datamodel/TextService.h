@@ -66,7 +66,6 @@ namespace ARL {
 			FONT_SOURCESANSBOLD = 4,
 			FONT_SOURCESANSLIGHT = 5,
 			FONT_SOURCESANSITALIC = 6,
-			FONT_PAINTBALL = 7,
 			FONT_ANTIQUE = 8,
 			FONT_ARCADE = 9,
 			FONT_BODONI = 10,
@@ -86,7 +85,10 @@ namespace ARL {
 			FONT_NOTOSANS = 22,
 			FONT_NOTOSANSBOLD = 23,
 
-			FONT_LAST = 24
+			FONT_VCR = 24,
+			FONT_DASHHORIZON = 25,
+
+			FONT_LAST = 26
 		};
 
 		static Font FromTextFont(Text::Font font);

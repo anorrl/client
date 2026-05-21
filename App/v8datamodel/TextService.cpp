@@ -42,7 +42,6 @@ EnumDesc<TextService::Font>::EnumDesc()
 	addPair(TextService::FONT_SOURCESANSBOLD, "SourceSansBold");
 	addPair(TextService::FONT_SOURCESANSLIGHT, "SourceSansLight");
 	addPair(TextService::FONT_SOURCESANSITALIC, "SourceSansItalic");
-	addPair(TextService::FONT_PAINTBALL, "Paintball");
 	addPair(TextService::FONT_ANTIQUE, "Antique");
 	addPair(TextService::FONT_ARCADE, "Arcade");
 	addPair(TextService::FONT_BODONI, "Bodoni");
@@ -59,6 +58,8 @@ EnumDesc<TextService::Font>::EnumDesc()
 	addPair(TextService::FONT_PROXIMANOVA, "ProximaNova");
 	addPair(TextService::FONT_NOTOSANS, "NotoSans");
 	addPair(TextService::FONT_NOTOSANSBOLD, "NotoSansBold");
+	addPair(TextService::FONT_VCR, "VCR");
+	addPair(TextService::FONT_DASHHORIZON, "DashHorizon");
 }
 
 template<>
@@ -105,7 +106,6 @@ TextService::Font TextService::FromTextFont(Text::Font font)
 	case Text::FONT_SOURCESANSBOLD:	return FONT_SOURCESANSBOLD;
 	case Text::FONT_SOURCESANSLIGHT:	return FONT_SOURCESANSLIGHT;
 	case Text::FONT_SOURCESANSITALIC:	return FONT_SOURCESANSITALIC;
-	case Text::FONT_PAINTBALL:	return FONT_PAINTBALL;
 	case Text::FONT_ANTIQUE:	return FONT_ANTIQUE;
 	case Text::FONT_ARCADE:	return FONT_ARCADE;
 	case Text::FONT_BODONI:	return FONT_BODONI;
@@ -123,6 +123,9 @@ TextService::Font TextService::FromTextFont(Text::Font font)
 	case Text::FONT_PROXIMANOVA:	return FONT_PROXIMANOVA; 
 	case Text::FONT_NOTOSANS:	return FONT_NOTOSANS;
 	case Text::FONT_NOTOSANSBOLD:	return FONT_NOTOSANSBOLD;
+
+	case Text::FONT_VCR:	return FONT_VCR;
+	case Text::FONT_DASHHORIZON:	return FONT_DASHHORIZON;
 	default:
 		ARLASSERT(0);
 		return FONT_LEGACY;
@@ -139,12 +142,11 @@ Text::Font TextService::ToTextFont(Font font)
 	case FONT_SOURCESANSBOLD:	return Text::FONT_SOURCESANSBOLD;
 	case FONT_SOURCESANSLIGHT:	return Text::FONT_SOURCESANSLIGHT;
 	case FONT_SOURCESANSITALIC:	return Text::FONT_SOURCESANSITALIC;
-	case FONT_PAINTBALL:	return Text::FONT_PAINTBALL;
 	case FONT_ANTIQUE:	return Text::FONT_ANTIQUE;
 	case FONT_ARCADE:	return Text::FONT_ARCADE;
 	case FONT_BODONI:	return Text::FONT_BODONI;
 	case FONT_CARTOON:	return Text::FONT_CARTOON;
-	case FONT_CODE:	return Text::FONT_CODE;
+	case FONT_CODE:		return Text::FONT_CODE;
 	case FONT_FANTASY:	return Text::FONT_FANTASY;
 	case FONT_GARAMOND:	return Text::FONT_GARAMOND;
 	case FONT_HIGHWAY:	return Text::FONT_HIGHWAY;
@@ -156,6 +158,8 @@ Text::Font TextService::ToTextFont(Font font)
 	case FONT_PROXIMANOVA:	return Text::FONT_PROXIMANOVA; 
 	case FONT_NOTOSANS:	return Text::FONT_NOTOSANS;
 	case FONT_NOTOSANSBOLD:	return Text::FONT_NOTOSANSBOLD;
+	case FONT_VCR:	return Text::FONT_VCR;
+	case FONT_DASHHORIZON:	return Text::FONT_DASHHORIZON;
 
 	default:
 		ARLASSERT(0);

@@ -44,6 +44,7 @@ enum AliasType
 enum AssetTypeId
 {
 	ASSET_TYPE_ID_Image = 1,
+	ASSET_TYPE_ID_Audio = 3,
 	ASSET_TYPE_ID_Script = 5,
 	ASSET_TYPE_ID_Animation = 24
 };
@@ -198,6 +199,39 @@ private Q_SLOTS:
 	void createButtonClicked();
 };
 
+class AddAudioDialog : public QObject
+{
+	Q_OBJECT
+public:
+	void runModal(QWidget* parent, bool* created, QString* newName);
+
+private:
+	QDialog* dialog;
+
+	QLineEdit* nameEdit;
+	QLabel* nameErrorMessage;
+
+	QPushButton* fileNameEdit;
+	QLabel* fileNameLabel;
+	QLabel* fileNameErrorMessage;
+
+	QLabel* generalErrorMessage;
+
+	int currentGameId;
+	boost::optional<int> currentGameGroupId;
+	bool* created;
+	QString* newName;
+	std::vector<QString> usedNames;
+
+	void createAudioAndNameThread();
+
+private Q_SLOTS:
+	bool validateName();
+	bool validateAudioFile();
+	void openFileSelector();
+	void createButtonClicked();
+};
+
 class AbortableLineEdit : public QLineEdit
 {
 	Q_OBJECT
@@ -244,6 +278,7 @@ public:
 
 // These methods must be run from main thread for concurrency protection:
 	void getListOfImages(std::vector<QString>* out);
+	void getListOfAudios(std::vector<QString>* out);
 	void getListOfScripts(std::vector<QString>* out);
 	void getListOfAnimations(std::vector<QString>* out);
 	int getCurrentGameId() const { return currentGameId; }
@@ -352,6 +387,7 @@ private:
 	void handleRemoveAssetName(const std::string& name, bool* needReload);
 	void bulkAddNewImageNames();
 	void insertNamedImage(EntityProperties* imageInfo);
+	void insertNamedAudio(EntityProperties* audioInfo);
 	void insertNamedScript(EntityProperties* scriptInfo, shared_ptr<ARL::LuaSourceContainer> container);
 	void checkRowForNameUpdate(EntityCategory category, QStandardItem* entityRow);
 	void afterNamedAssetsFinishedRecursive(QStandardItem* root, QStringList& imagesToReload);
@@ -365,6 +401,7 @@ private Q_SLOTS:
 	void afterPlacesLoadedFinished(int originatingSessionId);
 	void afterNamedAssetsFinished(int originatingSessionId);
 	void refreshNamedScriptIcons(int originatingSessionId);
+	void refreshNamedAudioIcons(int originatingSessionId);
 	void afterBadgesFinished(int originatingSessionId);
 	void thumbnailLoadedForImage(int originatingSessionId, QModelIndex item, QVariant future);
 
