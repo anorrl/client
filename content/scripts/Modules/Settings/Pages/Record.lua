@@ -75,15 +75,15 @@ local function Initialize()
 	function this:SetHub(newHubRef)
 		this.HubRef = newHubRef
 
-		local recordEnumNames = {}
+		--[[local recordEnumNames = {}
 		recordEnumNames[1] = "Save To Disk"
 		recordEnumNames[2] = "Upload to YouTube"
 
 		local startSetting = 2
 		
-		--[[if GameSettings.VideoUploadPromptBehavior == Enum.UploadSetting["Never"] then
-			startSetting = 1
-		end]]
+		--if GameSettings.VideoUploadPromptBehavior == Enum.UploadSetting["Never"] then
+		--	startSetting = 1
+		--end]]
 
 		---------------------------------- SCREENSHOT -------------------------------------
 		local screenshotTitle = makeTextLabel("ScreenshotTitle", 
@@ -105,7 +105,7 @@ local function Initialize()
 
 
 		---------------------------------- VIDEO -------------------------------------
-		local videoTitle = makeTextLabel("VideoTitle", 
+		--[[local videoTitle = makeTextLabel("VideoTitle", 
 												"Video",
 												true, UDim2.new(1,0,0,36), UDim2.new(0,10,0.5,0), this.Page)
 		videoTitle.FontSize = Enum.FontSize.Size36
@@ -148,7 +148,7 @@ local function Initialize()
 		end
 
 
-		recordButton:SetVerb("RecordToggle")
+		recordButton:SetVerb("RecordToggle")]]
 		this.ScreenshotButton:SetVerb("Screenshot")
 
 		this.Page.Size = UDim2.new(1,0,0,400)

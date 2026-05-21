@@ -17,7 +17,7 @@ local toolbar = Plugin:CreateToolbar("Animations")
 local button = toolbar:CreateButton(
 	"", -- The text next to the icon. Leave Othis blank if the icon is sufficient.
 	"Animation Editor 2.2", -- hover text
-	"http://arl.lambda.cam/asset/?id=142301226" -- The icon file's name
+	"arlassetid://142301226" -- The icon file's name
 )
 
 local rootPart
