@@ -194,11 +194,7 @@ ANORRLIDEDoc::ANORRLIDEDoc(ANORRLMainWindow* pMainWindow)
 , m_CurrentGame(&m_EditGame)
 , m_initialDataModelHash("")
 , m_AnnouncementWidget(NULL)
-{ 
-#ifdef _WIN32
-	m_pRecordToggle = NULL;
-#endif
-	
+{ 	
 	InitializeDefaultsFromSettings();
 }
 
@@ -402,9 +398,7 @@ void ANORRLIDEDoc::initializeANORRLView()
         m_CurrentGame->m_View->buildGui(StudioUtilities::isAvatarMode() || isCloudEditSession());
 
 		// view has been created, initialize video recording
-		initializeVideoRecording(*m_CurrentGame);
-		UpdateUIManager::Instance().updateAction(*m_pMainWindow->toggleVideoRecordAction);
-    }
+	}
     catch(CreatePopupException &e)
     {
         ARL::Log::current()->writeEntry(ARL::Log::Information,ARL::format("\tPopup Exception : %s",qPrintable(e.m_message)).c_str());
@@ -1233,9 +1227,6 @@ void ANORRLIDEDoc::cleanupGameState(GameState& gameState)
         gameState.m_Verbs.clear();
 		gameState.m_UndoVerb = NULL;
 		gameState.m_RedoVerb = NULL;
-#ifdef _WIN32
-		gameState.m_RecordToggleVerb = NULL;
-#endif
 		dataModel->getWorkspace()->getAdornableCollector()->onRenderableDescendantRemoving(&gameState.m_SelectionHighlightAdornable);
 	}
 
@@ -1725,11 +1716,6 @@ void ANORRLIDEDoc::deActivate()
 {
 	if (!m_bActive)
 		return;
-	
-#ifdef _WIN32
-	if (m_CurrentGame->m_RecordToggleVerb && m_CurrentGame->m_RecordToggleVerb->isRecording())
-		m_CurrentGame->m_RecordToggleVerb->stopRecording(false);
-#endif
 	
 	if (m_pQOgreWidget)
         m_pQOgreWidget->deActivate();
@@ -2876,9 +2862,6 @@ void ANORRLIDEDoc::loadPlayDataModel(QString url, bool play, bool cloneDataModel
 
     if (m_EditGame.m_View)
     {
-		// remove video recording verb since it's associated with view
-		cleanupVideoRecording(m_EditGame);
-
         delete m_EditGame.m_View;
         m_EditGame.m_View = NULL;
     }
@@ -2914,9 +2897,7 @@ void ANORRLIDEDoc::loadPlayDataModel(QString url, bool play, bool cloneDataModel
         m_PlayGame.m_View->buildGui(StudioUtilities::isAvatarMode());
         
         createActionIDVerbMap(m_PlayGame);
-		// initialize video recording
-		initializeVideoRecording(m_PlayGame);
-        
+		
         m_PlayGame.m_TreeWidget = new ANORRLTreeWidget(playDataModel);
 
         UpdateUIManager::Instance().getViewWidget<ANORRLExplorerWidget>(eDW_OBJECT_EXPLORER).setCurrentWidget(m_PlayGame.m_TreeWidget);
@@ -3003,11 +2984,6 @@ void ANORRLIDEDoc::loadPlayDataModel(QString url, bool play, bool cloneDataModel
 
 	}
 
-	if (DFFlag::UseR15Character && playDataModel->getUniverseDataRequested())
-	{
-		playDataModel->universeDataLoaded.get_future().wait();
-	}
-
 	// make sure we patch scripts before calling RunService 
 	// otherwise it will create a 'Player1' instance inside Workspace, leading to a mismatch in index hierarchy
     patchPlayModelScripts();
@@ -3052,8 +3028,7 @@ void ANORRLIDEDoc::closePlayDataModel()
         updateEditModelDebuggerData();
     restoreEditModelScripts();
 
-	cleanupVideoRecording(m_PlayGame);
-    deActivate();
+	deActivate();
     m_pQOgreWidget->setANORRLView(m_EditGame.m_View);
     
     if (FFlag::LuaDebugger)
@@ -3066,9 +3041,6 @@ void ANORRLIDEDoc::closePlayDataModel()
         
         ARLASSERT(!m_EditGame.m_View);
         m_EditGame.m_View = new ANORRLView(m_pQOgreWidget,m_EditGame.m_Game, m_GameView);
-
-		//since we are creating a new view we will be required to reinitialize video recording
-		initializeVideoRecording(m_EditGame);
     }
     
     m_CurrentGame = &m_EditGame;
@@ -3200,7 +3172,7 @@ void ANORRLIDEDoc::onIdeReset()
 
 bool ANORRLIDEDoc::isIdeResetEnabled()
 {
-	return m_PlayGame.m_Game;
+	return m_PlayGame.m_Game != NULL;
 }
 
 bool ANORRLIDEDoc::isCloudEditSession()
@@ -3852,35 +3824,6 @@ boost::shared_ptr<ARL::Instance> ANORRLIDEDoc::getEditScriptByPlayInstance(ARL::
         return iter->second;
     
     return boost::shared_ptr<ARL::Instance>();
-}
-
-void ANORRLIDEDoc::initializeVideoRecording(GameState& gameState)
-{
-#ifdef _WIN32
-	if (gameState.m_View && m_pQOgreWidget)
-	{
-		ARLASSERT(!gameState.m_RecordToggleVerb);
-
-		gameState.m_RecordToggleVerb = new RecordToggleVerb(gameState.m_Game->getDataModel().get(), &gameState.m_View->getViewBase());
-		gameState.m_Verbs.append(gameState.m_RecordToggleVerb);
-		mapActionIDWithVerb(*m_CurrentGame, "toggleVideoRecordAction", gameState.m_RecordToggleVerb);
-	}
-#endif
-}
-
-void ANORRLIDEDoc::cleanupVideoRecording(GameState& gameState)
-{
-#ifdef _WIN32
-	if (gameState.m_RecordToggleVerb)
-	{
-		if (gameState.m_RecordToggleVerb->isRecording())
-			gameState.m_RecordToggleVerb->stopRecording(false);
-
-		gameState.m_Verbs.remove(gameState.m_Verbs.indexOf(gameState.m_RecordToggleVerb.get()));
-		delete gameState.m_RecordToggleVerb;
-		gameState.m_RecordToggleVerb = NULL;
-	}
-#endif
 }
 
 void ANORRLIDEDoc::saveEditModelDebuggerData()

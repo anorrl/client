@@ -59,7 +59,6 @@ FASTFLAG(DebugHumanoidRendering)
 LOGGROUP(UserInputProfile)
 LOGGROUP(HumanoidFloorProcess)
 DYNAMIC_FASTFLAG(CheckForHeadHit)
-DYNAMIC_FASTFLAG(UseR15Character)
 
 namespace ARL {
 	namespace HUMAN {
@@ -1512,15 +1511,8 @@ float lowLadderSearch(HumanoidState *pHumanoidState)
 }
 
 float searchDepth(Humanoid *pHumanoid) {
-    if (pHumanoid && pHumanoid->getUseR15())
-	{
-		return 1.2f;
-	} 
-	else 
-	{
-		return 0.7f;
-	}
-}								// studs from the middle of leg to the max depth to search for a rung or step
+	return 0.7f;
+}				// studs from the middle of leg to the max depth to search for a rung or step
 float ladderSearchDistance(Humanoid *pHumanoid) {return searchDepth(pHumanoid) * 1.5f; }	//  1.5x search depth
 
 
@@ -1787,19 +1779,9 @@ void HumanoidState::setHeadCanCollide(bool canCollide)
 
 void HumanoidState::setTorsoCanCollide(bool canCollide)
 {
-	if (DFFlag::UseR15Character && getHumanoid()->getUseR15())
-	{
-		PartInstance* lowertorso = Instance::fastDynamicCast<PartInstance>(getHumanoid()->getParent()->findFirstChildByName("LowerTorso"));
-		PartInstance* uppertorso = getHumanoid()->getVisibleTorsoSlow();
-		if (lowertorso)
-			lowertorso->getPartPrimitive()->setPreventCollide(!canCollide);
-		if (uppertorso)
-			uppertorso->getPartPrimitive()->setPreventCollide(!canCollide);
-	} else {
-		PartInstance* torso = getHumanoid()->getVisibleTorsoSlow();
-		if (torso)
-			torso->getPartPrimitive()->setPreventCollide(!canCollide);
-	}
+	PartInstance* torso = getHumanoid()->getVisibleTorsoSlow();
+	if (torso)
+		torso->getPartPrimitive()->setPreventCollide(!canCollide);
 }
 
 void HumanoidState::setNearlyTouched()

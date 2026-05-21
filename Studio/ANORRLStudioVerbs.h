@@ -24,7 +24,6 @@
 namespace ARL {
 	class Instance;
 	class DataModel;
-	class VideoControl;
 	class ViewBase;
 	class ChangeHistoryService;
 	class LuaSourceContainer;
@@ -652,46 +651,6 @@ private:
 	void updateMenuIcon();
 	void updateMenuActions();
 };
-
-#ifdef Q_WS_WIN32   // must be Q_WS_WIN32 so moc picks it up
-
-class RecordToggleVerb:public QObject, public ARL::Verb
-{
-	Q_OBJECT
-public:
-	RecordToggleVerb(ARL::DataModel*, ARL::ViewBase* pViewGfx);
-	~RecordToggleVerb();
-
-	virtual bool isEnabled() const;
-	virtual bool isChecked() const;
-	virtual bool isSelected() const;
-	virtual void doIt(ARL::IDataState* dataState);
-
-	void startRecording();
-	void stopRecording(bool showUploadDialog = true);
-	bool isRecording() const;
-
-private Q_SLOTS:
-	void uploadVideo();
-
-private:
-	void action();
-
-	boost::scoped_ptr<ARL::VideoControl> m_pVideoControl;
-	boost::scoped_ptr<boost::thread>     m_helperThread;
-
-	ARL::DataModel                      *m_pDataModel; 
-	boost::function<void()>              m_job;
-
-	ARL::CEvent                          m_jobWait;
-	ARL::CEvent                          m_jobDone;
-	ARL::CEvent                          m_threadDone;
-
-	bool                                 m_bStop;
-	bool                                 m_bIsBusy;
-};
-
-#endif
 
 class ExportSelectionVerb:public QObject, public ARL::Verb
 {

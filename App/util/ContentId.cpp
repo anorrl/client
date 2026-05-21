@@ -125,8 +125,7 @@ namespace ARL
 				}
 				ss << "asset/"
 					<< "?universeId=" << universeId
-					<< "&" << kNamedUniverseAssetAssetNameParam << ARL::Http::urlEncode(id.substr(strlen(kNamedUniverseAssetBase)))
-					<< "&skipSigningScripts=1";
+					<< "&" << kNamedUniverseAssetAssetNameParam << ARL::Http::urlEncode(id.substr(strlen(kNamedUniverseAssetBase)));
 
 				id = ss.str();
 			}

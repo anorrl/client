@@ -6,18 +6,6 @@
 namespace ARL {
 	namespace Reflection {
 		template<>
-		EnumDesc<GameSettings::VideoQuality>::EnumDesc()
-		:EnumDescriptor("VideoQualitySettings")
-		{
-			addPair(GameSettings::LOW_RES, "LowResolution");
-			addPair(GameSettings::MEDIUM_RES, "MediumResolution");
-			addPair(GameSettings::HIGH_RES, "HighResolution");
-			addLegacyName("Low Resolution", GameSettings::LOW_RES);
-			addLegacyName("Medium Resolution", GameSettings::MEDIUM_RES);
-			addLegacyName("High Resolution", GameSettings::HIGH_RES);
-		}
-		
-		template<>
 		EnumDesc<GameSettings::UploadSetting>::EnumDesc()
 		:EnumDescriptor("UploadSetting")
 		{
@@ -44,10 +32,6 @@ Reflection::BoundProp<int> prop_MaxCollisionSounds("MaxCollisionSounds", "Sound"
 Reflection::BoundProp<int> prop_bubbleChatMaxBubbles("BubbleChatMaxBubbles", "Online", &GameSettings::bubbleChatMaxBubbles);
 Reflection::BoundProp<float> prop_bubbleChatLifetime("BubbleChatLifetime", "Online", &GameSettings::bubbleChatLifetime);
 Reflection::BoundProp<bool> prop_hardwareMouse("HardwareMouse", "Input", &GameSettings::hardwareMouse);
-
-static const Reflection::EnumPropDescriptor<GameSettings, GameSettings::VideoQuality> prop_videoSettings("VideoQuality", category_Video, &GameSettings::getVideoQualitySetting, &GameSettings::setVideoQualitySetting);
-static Reflection::EventDesc<GameSettings, void(bool)> event_videoRecordingRequest(&GameSettings::videoRecordingSignal, "VideoRecordingChangeRequest","recording",Security::ANORRLScript);
-Reflection::BoundProp<bool> prop_videoCaptureEnabled("VideoCaptureEnabled", category_Video, &GameSettings::videoCaptureEnabled);
 REFLECTION_END();
 
 GameSettings::GameSettings(void)
@@ -61,8 +45,6 @@ GameSettings::GameSettings(void)
 	,softwareSound(false)
 	,bubbleChatMaxBubbles(3)
 	,bubbleChatLifetime(30.0f)
-	,videoQuality(MEDIUM_RES)
-	,videoCaptureEnabled(true)
 	,hardwareMouse(false)
     ,overscanPX(-1)
     ,overscanPY(-1)
@@ -79,13 +61,3 @@ void GameSettings::setPostImageSetting(GameSettings::UploadSetting setting)
 {
 	GameBasicSettings::singleton().setPostImageSetting(setting);
 }
-
-void GameSettings::setVideoQualitySetting(VideoQuality value)
-{
-	if(videoQuality != value){
-		videoQuality = value;
-
-		raisePropertyChanged(prop_videoSettings);
-	}
-}
-

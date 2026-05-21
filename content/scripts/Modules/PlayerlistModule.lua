@@ -269,9 +269,39 @@ local function getFollowerStatusIcon(followerStatus)
 	end
 end
 
+local function getUserIcon(player)
+	if player.userId < 1 then
+		return nil
+	end
+	
+	local success, result = pcall(function()
+		return HttpRbxApiService:GetAsync("users/get-icon?userId="..tostring(player.userId), true)
+	end)
+	
+	if not success then
+		print("getUserIcon() failed because", result)
+		return nil
+	end
+
+	-- can now parse web response
+	result = HttpService:JSONDecode(result)
+	if not result["error"] then
+		local icon = result["icon"]
+		if icon == -1 then
+			return nil
+		end
+		
+		return icon
+	else
+		print("getUserIcon() failed because", result["reason"])
+		return nil
+	end
+end
+
 local function getAdminIcon(player)
 	local userIdStr = tostring(player.userId)
-	if ADMINS[userIdStr] then return nil end
+	
+	if getUserIcon(player) then return nil end
 	--
 	local success, result = pcall(function()
 		return player:IsInGroup(1200769)	-- yields
@@ -318,8 +348,10 @@ local function getMembershipIcon(player)
 		else
 			local userIdStr = tostring(player.userId)
 			local membershipType = player.MembershipType
-			if ADMINS[userIdStr] then
-				return ADMINS[userIdStr]
+			local userIcon = getUserIcon(player)
+			
+			if userIcon then
+				return "arlassetid://"..tostring(userIcon)
 			elseif player.userId == game.CreatorId and game.CreatorType == Enum.CreatorType.User then
 				return PLACE_OWNER_ICON
 			elseif membershipType == Enum.MembershipType.None then

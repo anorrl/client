@@ -57,8 +57,6 @@ DYNAMIC_FASTINTVARIABLE(HumanoidFloorTeleportWeightValue, 50);
 DYNAMIC_FASTINTVARIABLE(HumanoidFloorManualFrictionVelocityMultValue, 100);
 FASTFLAGVARIABLE(PhysicsSkipNonRealTimeHumanoidForceCalc, false)
 
-DYNAMIC_FASTFLAG(UseR15Character)
-
 DYNAMIC_FASTFLAGVARIABLE(HumanoidCookieRecursive, false)
 DYNAMIC_FASTFLAGVARIABLE(ReplicateLuaMoveDirection, false)
 DYNAMIC_FASTFLAGVARIABLE(NamesOccludedAsDefault, false)
@@ -135,7 +133,6 @@ static const Reflection::PropDescriptor<Humanoid, Vector3> propLuaMoveDirectionI
 static const Reflection::PropDescriptor<Humanoid, float> propWalkAngleError("WalkAngleError", "Control", &Humanoid::getWalkAngleError, &Humanoid::setWalkAngleError, Reflection::PropertyDescriptor::REPLICATE_ONLY);
 static const Reflection::PropDescriptor<Humanoid, bool> propStrafe("Strafe", "Control", &Humanoid::getStrafe, &Humanoid::setStrafe, Reflection::PropertyDescriptor::REPLICATE_ONLY);
 
-static Reflection::EnumPropDescriptor<Humanoid, Humanoid::HumanoidRigType> propRigType("RigType", category_Data, &Humanoid::getRigType, &Humanoid::setRigType, Reflection::PropertyDescriptor::SCRIPTING);
 static const Reflection::PropDescriptor<Humanoid, float> propCameraMinDistance("CameraMinDistance", category_Data, &Humanoid::getMinDistance, &Humanoid::setMinDistance, Reflection::PropertyDescriptor::REPLICATE_ONLY);
 static const Reflection::PropDescriptor<Humanoid, float> propCameraMaxDistance("CameraMaxDistance", category_Data, &Humanoid::getMaxDistance, &Humanoid::setMaxDistance, Reflection::PropertyDescriptor::REPLICATE_ONLY);
 static const Reflection::PropDescriptor<Humanoid, Vector3> propCameraOffset("CameraOffset", category_Data, &Humanoid::getCamearaOffset, &Humanoid::setCameraOffset, Reflection::PropertyDescriptor::SCRIPTING);
@@ -277,19 +274,11 @@ static const std::string kAppendageNames[] =
     "HumanoidRootPart", "Head", "Right Arm", "Left Arm", "Right Leg", "Left Leg", "Torso"
 };
 
-static const std::string  kAppendageNamesR15[] =
-{
-	"HumanoidRootPart", "Head", "RightArm", "LeftArm", "RightLeg", "LeftLeg", "UpperTorso"
-};
-
-static const std::string& getAppendageString(size_t appendage, bool R15)
+static const std::string& getAppendageString(size_t appendage)
 {
     if (appendage < sizeof(kAppendageNames) / sizeof(kAppendageNames[0]))
 	{
-		if (R15)
-			return kAppendageNamesR15[appendage];
-		else
-	        return kAppendageNames[appendage];
+		 return kAppendageNames[appendage];
 	}
     else
     {
@@ -345,7 +334,6 @@ Humanoid::Humanoid()
 , lastFilterPhase(0)
 , autoJumpEnabled(true)
 , previousState(HUMAN::FREE_FALL)
-, rigType(HUMANOID_RIG_TYPE_R6)
 , pos0()
 , pos1()
 , pos2()
@@ -497,19 +485,6 @@ void Humanoid::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* 
 	if(newProvider)
 	{
 		humanoidEquipConnection	= serverEquipToolSignal.connect(boost::bind(&Humanoid::equipToolInstance,this,_1));
-
-		if (DFFlag::UseR15Character && ARL::Network::Players::backendProcessing(this))
-		{
-			DataModel* dataModel = Instance::fastDynamicCast<DataModel>(newProvider);
-			if (dataModel)
-			{
-				ARL::Security::Impersonator impersonate(ARL::Security::Replicator_);
-				if (dataModel->getForceR15())
-					setRigType(Humanoid::HUMANOID_RIG_TYPE_R15);
-				else 
-					setRigType(Humanoid::HUMANOID_RIG_TYPE_R6);
-			}
-		}
 	}
 	else if(oldProvider)
 	{
@@ -715,41 +690,6 @@ shared_ptr<JointInstance> newJoint(bool animated)
 	}
 }
 
-void Humanoid::setRigType(HumanoidRigType type)
-{ 
-	try {
-		ARL::Security::Context::current().requirePermission(ARL::Security::ANORRLScript, "setRigType");
-	} 
-	catch (ARL::base_exception& e) 
-	{
-		raisePropertyChanged(propRigType);
-		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Insufficient permissions to setRigType");
-		throw e;
-	}
-
-	if (type != rigType)
-	{
-		rigType = type; 
-		raisePropertyChanged(propRigType);
-
-		if (getParent())
-		{
-			// update all cache entries
-			for (int i = TORSO; i < APPENDAGE_COUNT; i++)
-			{
-				appendageCache[i] = Instance::fastSharedDynamicCast<PartInstance>(shared_from(getParent()->findFirstChildByName(getAppendageString(i, getUseR15()))));
-				updateSiblingPropertyListener(appendageCache[i]);
-			}
-			updateBaseInstance();
-
-			// register update to listen to sibling changes
-			characterChildAdded = getParent()->onDemandWrite()->childAddedSignal.connect(boost::bind(&Humanoid::onEvent_ChildModified, this, _1));
-			characterChildRemoved = getParent()->onDemandWrite()->childRemovedSignal.connect(boost::bind(&Humanoid::onEvent_ChildModified, this, _1));
-		}
-
-	}
-}
-
 static void createJoint(const std::string& jointName, Attachment& parentAttachment, Attachment& partForJointAttachment)
 {
 	shared_ptr<Motor6D> newMotor = Creatable<Instance>::create<Motor6D>();
@@ -831,91 +771,77 @@ void Humanoid::buildJoints(ARL::DataModel* dm)
 	ARLASSERT(character);
 	if (character)
 	{	
-		if (dm && dm->getForceR15())
+		PartInstance* head = getHeadSlow();
+		PartInstance* torso = getAppendageSlow(VISIBLE_TORSO);
+		PartInstance* rightArm = getRightArmSlow();
+		PartInstance* leftArm = getLeftArmSlow();
+		PartInstance* rightLeg = getRightLegSlow();
+		PartInstance* leftLeg = getLeftLegSlow();
+
+		ARLASSERT(head && torso && rightArm && leftArm && rightLeg && leftLeg);
+
+		if (torso)
 		{
-			PartInstance* torso = getTorsoFast();
-			if (torso)
+			PartInstance *pRoot = getTorsoSlow();
+
+			if (pRoot != NULL)
 			{
-				std::vector<PartInstance*> characterParts;
-				getParts(characterParts);
+				shared_ptr<JointInstance> rootJoint = newJoint(true);
+				rootJoint->setName("RootJoint");
+				rootJoint->setPart0(pRoot);
+				rootJoint->setPart1(torso);
 
-				buildJointsFromAttachments(torso, characterParts);
+				CoordinateFrame torsoP(			normalIdToMatrix3(NORM_Y), Vector3(0, 0, 0));
+				rootJoint->setC0(torsoP);
+				rootJoint->setC1(torsoP);
+
+				rootJoint->setParent(pRoot);
+
+				pRoot->getPartPrimitive()->setMassInertia(0.1f);  // Should be small, but not zero.  Physics doesn't like 0 weight parts
 			}
-		}
-		else
-		{
-			PartInstance* head = getHeadSlow();
-			PartInstance* torso = getAppendageSlow(VISIBLE_TORSO);
-			PartInstance* rightArm = getRightArmSlow();
-			PartInstance* leftArm = getLeftArmSlow();
-			PartInstance* rightLeg = getRightLegSlow();
-			PartInstance* leftLeg = getLeftLegSlow();
 
-			ARLASSERT(head && torso && rightArm && leftArm && rightLeg && leftLeg);
+			shared_ptr<JointInstance> rightShoulder = newJoint(true);
+			shared_ptr<JointInstance> leftShoulder = newJoint(true);
+			shared_ptr<JointInstance> rightHip = newJoint(true);
+			shared_ptr<JointInstance> leftHip = newJoint(true);
+			shared_ptr<JointInstance> neck = newJoint(true);
 
-			if (torso)
-			{
-				PartInstance *pRoot = getTorsoSlow();
+			rightShoulder->setName("Right Shoulder");
+			leftShoulder->setName("Left Shoulder");
+			rightHip->setName("Right Hip");
+			leftHip->setName("Left Hip");
+			neck->setName("Neck");
 
-				if (pRoot != NULL)
-				{
-					shared_ptr<JointInstance> rootJoint = newJoint(true);
-					rootJoint->setName("RootJoint");
-					rootJoint->setPart0(pRoot);
-					rootJoint->setPart1(torso);
+			rightShoulder->setPart0(torso);
+			leftShoulder->setPart0(torso);
+			rightHip->setPart0(torso);
+			leftHip->setPart0(torso);
+			neck->setPart0(torso);
 
-					CoordinateFrame torsoP(			normalIdToMatrix3(NORM_Y), Vector3(0, 0, 0));
-					rootJoint->setC0(torsoP);
-					rootJoint->setC1(torsoP);
-
-					rootJoint->setParent(pRoot);
-
-					pRoot->getPartPrimitive()->setMassInertia(0.1f);  // Should be small, but not zero.  Physics doesn't like 0 weight parts
-				}
-
-				shared_ptr<JointInstance> rightShoulder = newJoint(true);
-				shared_ptr<JointInstance> leftShoulder = newJoint(true);
-				shared_ptr<JointInstance> rightHip = newJoint(true);
-				shared_ptr<JointInstance> leftHip = newJoint(true);
-				shared_ptr<JointInstance> neck = newJoint(true);
-
-				rightShoulder->setName("Right Shoulder");
-				leftShoulder->setName("Left Shoulder");
-				rightHip->setName("Right Hip");
-				leftHip->setName("Left Hip");
-				neck->setName("Neck");
-
-				rightShoulder->setPart0(torso);
-				leftShoulder->setPart0(torso);
-				rightHip->setPart0(torso);
-				leftHip->setPart0(torso);
-				neck->setPart0(torso);
-
-				rightShoulder->setPart1(rightArm);
-				leftShoulder->setPart1(leftArm);
-				rightHip->setPart1(rightLeg);
-				leftHip->setPart1(leftLeg);
-				neck->setPart1(head);
+			rightShoulder->setPart1(rightArm);
+			leftShoulder->setPart1(leftArm);
+			rightHip->setPart1(rightLeg);
+			leftHip->setPart1(leftLeg);
+			neck->setPart1(head);
 
 
-				rightShoulder->setC0(rightShoulderP);
-				leftShoulder->setC0(leftShoulderP);
-				rightHip->setC0(rightHipP);
-				leftHip->setC0(leftHipP);
-				neck->setC0(neckP);
+			rightShoulder->setC0(rightShoulderP);
+			leftShoulder->setC0(leftShoulderP);
+			rightHip->setC0(rightHipP);
+			leftHip->setC0(leftHipP);
+			neck->setC0(neckP);
 
-				rightShoulder->setC1(rightArmP);
-				leftShoulder->setC1(leftArmP);
-				rightHip->setC1(rightLegP);
-				leftHip->setC1(leftLegP);
-				neck->setC1(headP);
+			rightShoulder->setC1(rightArmP);
+			leftShoulder->setC1(leftArmP);
+			rightHip->setC1(rightLegP);
+			leftHip->setC1(leftLegP);
+			neck->setC1(headP);
 
-				rightShoulder->setParent(torso);
-				leftShoulder->setParent(torso);
-				rightHip->setParent(torso);
-				leftHip->setParent(torso);
-				neck->setParent(torso);
-			}
+			rightShoulder->setParent(torso);
+			leftShoulder->setParent(torso);
+			rightHip->setParent(torso);
+			leftHip->setParent(torso);
+			neck->setParent(torso);
 		}
 	}
 }
@@ -1674,23 +1600,15 @@ CoordinateFrame Humanoid::getRightArmGrip() const
 {
 	CoordinateFrame C0;
 
-	if (getUseR15())
+	Attachment *answer = Tool::findFirstAttachmentByNameRecursive(getParent(), "RightGripAttachment");
+	if (answer != NULL)
 	{
-			Attachment *answer = Tool::findFirstAttachmentByNameRecursive(getParent(), "RightGripAttachment");
-			if (answer != NULL)
-			{
-				return answer->getFrameInPart();
-			} else {
-				// HACK. USE EXTENTS to allow for different sized arms.
-				C0.lookAt(Vector3(0,-1,0), Vector3(0,0,-1));
-				C0.translation = Vector3(0, -0.2, 0);
-			}
+		return answer->getFrameInPart();
 	}
-	else 
-	{
+	else {
 		// HACK. USE EXTENTS to allow for different sized arms.
-		C0.lookAt(Vector3(0,-1,0), Vector3(0,0,-1));
-		C0.translation = Vector3(0, -1, 0);
+		C0.lookAt(Vector3(0, -1, 0), Vector3(0, 0, -1));
+		C0.translation = Vector3(0, -0.2, 0);
 	}
 
 	return C0;
@@ -1947,7 +1865,7 @@ void Humanoid::onEvent_ChildModified(shared_ptr<Instance> child)
 		// see if this is a humanoid part
 		for (int i = TORSO; i < APPENDAGE_COUNT; i++) 
 		{
-			if (pChild->getName() == getAppendageString(i, getUseR15()))
+			if (pChild->getName() == getAppendageString(i))
 			{
 				if (pChild->getParent() == getParent()) 
 				{
@@ -1979,7 +1897,7 @@ void Humanoid::onEvent_SiblingPropertyChanged(const ARL::Reflection::PropertyDes
 				// remove any old map for this part in case it changes due to the name change
 				if (appendageCache[i] != NULL)
 					siblingMap.erase(appendageCache[i]);
-				appendageCache[i] = Instance::fastSharedDynamicCast<PartInstance>(shared_from(pParent->findFirstChildByName(getAppendageString(i, getUseR15()))));
+				appendageCache[i] = Instance::fastSharedDynamicCast<PartInstance>(shared_from(pParent->findFirstChildByName(getAppendageString(i))));
 				updateSiblingPropertyListener(appendageCache[i]);
 			}
 			updateBaseInstance();
@@ -2014,7 +1932,7 @@ void Humanoid::onAncestorChanged(const AncestorChanged& event)
 			// update all cache entries
 			for (int i = TORSO; i < APPENDAGE_COUNT; i++)
 			{
-				appendageCache[i] = Instance::fastSharedDynamicCast<PartInstance>(shared_from(getParent()->findFirstChildByName(getAppendageString(i, getUseR15()))));
+				appendageCache[i] = Instance::fastSharedDynamicCast<PartInstance>(shared_from(getParent()->findFirstChildByName(getAppendageString(i))));
 				updateSiblingPropertyListener(appendageCache[i]);
 			}
 			updateBaseInstance();
@@ -2981,15 +2899,6 @@ EnumDesc<ARL::Humanoid::HumanoidDisplayDistanceType>::EnumDesc()
 	addPair(ARL::Humanoid::HUMANOID_DISPLAY_DISTANCE_TYPE_SUBJECT, "Subject");
 	addPair(ARL::Humanoid::HUMANOID_DISPLAY_DISTANCE_TYPE_NONE, "None");
 }
-
-template<>
-EnumDesc<ARL::Humanoid::HumanoidRigType>::EnumDesc()
-	:EnumDescriptor("HumanoidRigType")
-{
-	addPair(ARL::Humanoid::HUMANOID_RIG_TYPE_R6, "R6");
-	addPair(ARL::Humanoid::HUMANOID_RIG_TYPE_R15, "R15");
-}
-
 
 template<>
 ARL::Humanoid::NameOcclusion& Variant::convert<ARL::Humanoid::NameOcclusion>(void)

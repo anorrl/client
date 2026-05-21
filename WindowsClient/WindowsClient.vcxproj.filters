@@ -40,9 +40,6 @@
     <ClCompile Include="Document.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Win\DSVideoCaptureEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Win\DumpErrorUploader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -89,9 +86,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Win\VersionInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Win\VideoControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="View.cpp">
@@ -150,9 +144,6 @@
     <ClInclude Include="Document.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Win\DSVideoCaptureEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Win\DumpErrorUploader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -181,9 +172,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Win\UserInputUtil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Win\VideoControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Win\VersionInfo.h">

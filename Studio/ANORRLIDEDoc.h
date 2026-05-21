@@ -45,7 +45,6 @@ class QStringList;
 class QOgreWidget;
 class ANORRLMainWindow;
 class ANORRLDiagnosticsView;
-class RecordToggleVerb;
 class ScreenshotVerb;
 class ANORRLChatWidget;
 class PlayersDataManager;
@@ -109,9 +108,6 @@ struct GameState
 	shared_ptr<PlayersDataManager>  m_PlayerDataManager;
 	ARL::BaldPtr<ARL::Verb>         m_UndoVerb;
 	ARL::BaldPtr<ARL::Verb>         m_RedoVerb;
-#ifdef _WIN32
-	ARL::BaldPtr<RecordToggleVerb>  m_RecordToggleVerb;
-#endif	
     rbx::signals::scoped_connection m_ChangeHistoryConnection;
 	SelectionHighlightAdornable     m_SelectionHighlightAdornable;
 };
@@ -343,10 +339,7 @@ private:
     shared_ptr<ARL::Instance> getScriptByIndexHierarchy(shared_ptr<ARL::DataModel> dataModel,  const std::vector<int>& indexHierarchy, const std::string& serviceName);
     
 	Q_INVOKABLE void placeNameLoaded(QString json);
-
-	void initializeVideoRecording(GameState& gameState);
-	void cleanupVideoRecording(GameState& gameState);
-
+	
 	void resetMouseCommand(const char* mouseCommandToReset);
 	shared_ptr<EntityProperties> cloudEditDetectionAndPlaceLaunch();
 
@@ -401,10 +394,6 @@ private:
 	GameState                         m_EditGame;
     GameState                         m_PlayGame;
     GameState*                        m_CurrentGame;
-
-#ifdef _WIN32
-	RecordToggleVerb                 *m_pRecordToggle;
-#endif	
 
 	rbx::signals::scoped_connection   m_ChangeHistoryConnection;
 	rbx::signals::scoped_connection	  m_openUrlConnection;

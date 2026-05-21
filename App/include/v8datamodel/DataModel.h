@@ -217,8 +217,7 @@ private:
 	int									totalWorldSteps;
 	bool								isGameLoaded;
 
-    bool                                forceR15;
-	bool								canRequestUniverseInfo;
+    bool								canRequestUniverseInfo;
 	bool								universeDataRequested;
 	void								requestGameStartInfo();
 
@@ -396,13 +395,6 @@ public:
 			gameLoadedSignal();
 	}
 	void gameLoaded();
-
-    bool getForceR15() const { return forceR15; }
-    void setForceR15(bool v);
-	boost::promise<void> universeDataLoaded;
-	bool getUniverseDataRequested() const { return universeDataRequested; }
-	void clearUniverseDataRequested() { universeDataRequested = false; }
-	void setCanRequestUniverseInfo(bool value);
 
 	void loadCoreScripts(const std::string &altStarterScript = "");
 

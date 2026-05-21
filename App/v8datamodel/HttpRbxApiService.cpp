@@ -22,8 +22,6 @@ DYNAMIC_FASTINTVARIABLE(HttpRbxApiMaxRetryQueueSize, 500)
 DYNAMIC_FASTINTVARIABLE(HttpRbxApiMaxSyncRetries, 3)
 DYNAMIC_FASTINTVARIABLE(HttpRbxApiSyncRetryWaitTimeMSec, 500)
 
-DYNAMIC_FASTFLAG(UseR15Character)
-
 LOGVARIABLE(HttpRbxApiBudget, 0);
 
 namespace ARL {
@@ -85,15 +83,6 @@ namespace ARL {
 				apiBaseUrl.replace(apiBaseUrl.find(httpsString),httpsString.length(),"");
 
 				HttpRbxApiService::StaticApiBaseUrl = apiBaseUrl;
-
-				if (DFFlag::UseR15Character)
-				{
-					if(DataModel* dataModel = DataModel::get(this)) 
-					{
-						dataModel->setCanRequestUniverseInfo(true);
-					}
-				}
-
 			}
 		}
 

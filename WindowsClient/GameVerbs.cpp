@@ -3,19 +3,14 @@
 #include "GameVerbs.h"
 
 #include "Document.h"
-#include "DSVideoCaptureEngine.h"
 #include "FunctionMarshaller.h"
-#include "VideoControl.h"
-#include "DSVideoCaptureEngine.h"
 #include "RenderSettingsItem.h"
-#include "DSVideoCaptureEngine.h"
 #include "Resource.h"
 #include "util/FileSystem.h"
 #include "util/Http.h"
 #include "util/Statistics.h"
 #include "v8datamodel/Game.h"
 #include "v8datamodel/GameBasicSettings.h"
-#include "VideoControl.h"
 #include "View.h"
 #include "Application.h"
 #include "LogManager.h"
@@ -148,136 +143,8 @@ void ScreenshotVerb::uploadScreenshot(const std::string& filename)
 	}
 }
 
-void RecordToggleVerb::action()
-{
-	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
-	while(!stop)
-	{
-		jobWait.Wait();
-		if (!stop)
-		{
-			{
-				DataModel::scoped_write_transfer request(game->getDataModel().get());
-				job();
-			}
-			jobDone.Set();
-		}
-	}
-	CoUninitialize();
-	threadDone.Set();
-}
-
-RecordToggleVerb::RecordToggleVerb(const Document& doc,
-								   View* view,
-								   Game* game)
-	: Verb(game->getDataModel().get(), "RecordToggle")
-	, doc(doc)
-    , view(view)
-	, game(game)
-	, stop(false)
-	, jobWait(false)
-	, jobDone(false)
-	, threadDone(false)
-	, videoUploadingEnabled(true)
-{
-	helper.reset(new boost::thread(boost::bind(&RecordToggleVerb::action,
-		this)));
-
-    DSVideoCaptureEngine* videoCaptureEngine = new DSVideoCaptureEngine();
-    VideoControl* videoControlPtr = new VideoControl(videoCaptureEngine,
-        view->GetGfxView(), view->GetGfxView()->getFrameRateManager(), this);
-
-    videoControl.reset(videoControlPtr);
-}
-
-RecordToggleVerb::~RecordToggleVerb()
-{
-	if( isSelected() )
-		abortCapture();
-
-	stop = true;
-	jobWait.Set();
-	threadDone.Wait();
-}
-
-bool RecordToggleVerb::isEnabled() const
-{
-	return GameSettings::singleton().videoCaptureEnabled
-		&& isUploadingVideo();
-}
-
-bool RecordToggleVerb::isChecked() const
-{
-	return videoControl->isVideoRecording();
-}
-
-bool RecordToggleVerb::isSelected() const
-{
-	return videoControl->isVideoRecording();
-}
-
-void RecordToggleVerb::startAction()
-{
-	Soundscape::SoundService* soundService =
-		ServiceProvider::create<Soundscape::SoundService>(
-		game->getDataModel().get());
-
-	videoControl->startRecording(soundService);
-
-	fileName = videoControl->getFileName();
-
-	ARL::GameSettings::singleton().videoRecordingSignal(true);
-}
-
-void RecordToggleVerb::stopAction()
-{
-	videoControl->stopRecording();
-
-	GameBasicSettings& settings = GameBasicSettings::singleton();
-
-	ARL::GameSettings::singleton().videoRecordingSignal(false);
-
-	if (settings.getUploadVideoSetting() == GameSettings::NEVER)
-		return;
-
-	doc.GetMarshaller()->Submit(boost::bind(&RecordToggleVerb::uploadVideo, this));
-}
-
-void RecordToggleVerb::abortCapture()
-{
-    if( videoControl->isVideoRecording())
-    {
-        videoControl->stopRecording();
-    }
-}
-
-void RecordToggleVerb::uploadVideo() {}
-
-void RecordToggleVerb::doIt(IDataState* dataState)
-{
-	OutputDebugString("RecordToggleVerb::doIt");
-
-	if (videoControl->isVideoRecording())
-	{
-		job = boost::bind(&RecordToggleVerb::stopAction, this);
-		jobWait.Set();
-		jobDone.Wait();
-		return;
-	}
-
-    job = boost::bind(&RecordToggleVerb::startAction, this);
-    jobWait.Set();
-    jobDone.Wait();
-}
-
-VideoControl* RecordToggleVerb::GetVideoControl()
-{
-	return videoControl.get();
-}
-
-ToggleFullscreenVerb::ToggleFullscreenVerb(View& view, VerbContainer* container, VideoControl* videoControl) 
+ToggleFullscreenVerb::ToggleFullscreenVerb(View& view, VerbContainer* container) 
 	: Verb(container, "ToggleFullScreen")
-	, videoControl(videoControl)
 	, view(view)
 {}
 

@@ -58,7 +58,6 @@ FASTFLAGVARIABLE(CustomEmitterRenderEnabled, false)
 FASTFLAG(SmoothTerrainRenderLOD)
 
 DYNAMIC_FASTFLAG(HumanoidCookieRecursive)
-DYNAMIC_FASTFLAG(UseR15Character)
 
 FASTINTVARIABLE(FastClusterUpdateWaitingBudgetMs, 4)
 
@@ -1302,19 +1301,13 @@ void SceneUpdater::destroySuperCluster( SuperCluster* cluster )
 void SceneUpdater::addAttachment(const shared_ptr<ARL::Instance>& instance)
 {
 	PartInstance* part = 0;
-	if(ARL::Instance::fastDynamicCast<ARL::ForceField>(instance.get())) // Special case for forcefield - only put on character's Torso
-		if (DFFlag::UseR15Character)
-		{
-			Humanoid *humanoid = ARL::Instance::fastDynamicCast<Humanoid>(instance->getParent()->findFirstChildByName2("Humanoid", false).get());;
-			if (humanoid)
-				part = humanoid->getVisibleTorsoSlow();
-			else
-				part = ARL::Instance::fastDynamicCast<PartInstance>(instance->getParent()->findFirstChildByName2("Torso", false).get());
-		} 
-		else 
-		{
+	if (ARL::Instance::fastDynamicCast<ARL::ForceField>(instance.get())) { // Special case for forcefield - only put on character's Torso
+		Humanoid *humanoid = ARL::Instance::fastDynamicCast<Humanoid>(instance->getParent()->findFirstChildByName2("Humanoid", false).get());;
+		if (humanoid)
+			part = humanoid->getVisibleTorsoSlow();
+		else
 			part = ARL::Instance::fastDynamicCast<PartInstance>(instance->getParent()->findFirstChildByName2("Torso", false).get());
-		}
+	}
 	else
 		part = ARL::Instance::fastDynamicCast<PartInstance>(instance->getParent());
 

@@ -8,8 +8,6 @@
 #include "Humanoid/Humanoid.h"
 #include "Network/Players.h"
 
-DYNAMIC_FASTFLAG(UseR15Character)
-
 namespace ARL {
 
 const char* const sCharacterAppearance	= "CharacterAppearance";
@@ -143,57 +141,19 @@ void BodyColors::applyByMyself(Humanoid* humanoid)
 	if (hasSkin)
 		return;
 
-    if (humanoid->getUseR15())
-	{
-		Instance *pParent = getParent();
-		if (pParent)
-		{
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("LowerTorso")))
-				answer->setColor(torsoColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("UpperTorso")))
-				answer->setColor(torsoColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("Head")))
-				answer->setColor(headColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("RightUpperArm")))
-				answer->setColor(rightArmColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("RightLowerArm")))
-				answer->setColor(rightArmColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("RightHand")))
-				answer->setColor(rightArmColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("LeftUpperArm")))
-				answer->setColor(leftArmColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("LeftLowerArm")))
-				answer->setColor(leftArmColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("LeftHand")))
-				answer->setColor(leftArmColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("RightUpperLeg")))
-				answer->setColor(rightLegColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("RightLowerLeg")))
-				answer->setColor(rightLegColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("RightFoot")))
-				answer->setColor(rightLegColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("LeftUpperLeg")))
-				answer->setColor(leftLegColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("LeftLowerLeg")))
-				answer->setColor(leftLegColor);
-			if (PartInstance* answer = Instance::fastDynamicCast<PartInstance>(pParent->findFirstChildByName("LeftFoot")))
-				answer->setColor(leftLegColor);
-
-		}
-	} else {
-		if (PartInstance* head = humanoid->getHeadSlow())
-			head->setColor(headColor);
-		if (PartInstance* leftLeg = humanoid->getLeftLegSlow())
-			leftLeg->setColor(leftLegColor);
-		if (PartInstance* rightLeg = humanoid->getRightLegSlow())
-			rightLeg->setColor(rightLegColor);
-		if (PartInstance* torso = humanoid->getVisibleTorsoSlow())
-			torso->setColor(torsoColor);
-		if (PartInstance* leftSleeve = humanoid->getLeftArmSlow())
-			leftSleeve->setColor(leftArmColor);
-		if (PartInstance* rightSleeve = humanoid->getRightArmSlow())
-			rightSleeve->setColor(rightArmColor);
-	}
+	if (PartInstance* head = humanoid->getHeadSlow())
+		head->setColor(headColor);
+	if (PartInstance* leftLeg = humanoid->getLeftLegSlow())
+		leftLeg->setColor(leftLegColor);
+	if (PartInstance* rightLeg = humanoid->getRightLegSlow())
+		rightLeg->setColor(rightLegColor);
+	if (PartInstance* torso = humanoid->getVisibleTorsoSlow())
+		torso->setColor(torsoColor);
+	if (PartInstance* leftSleeve = humanoid->getLeftArmSlow())
+		leftSleeve->setColor(leftArmColor);
+	if (PartInstance* rightSleeve = humanoid->getRightArmSlow())
+		rightSleeve->setColor(rightArmColor);
+	
 }
 
 void LegacyCharacterAppearance::apply()

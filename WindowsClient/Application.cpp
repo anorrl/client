@@ -1488,9 +1488,8 @@ void Application::initVerbs()
     DataModel* dm = currentDocument->getGame()->getDataModel().get();
     leaveGameVerb.reset(new LeaveGameVerb(*mainView, dm));
     ARL::ViewBase* gfx = mainView->GetGfxView();
-    recordToggleVerb.reset(new RecordToggleVerb(*currentDocument, mainView.get(), currentDocument->getGame().get()));
     screenshotVerb.reset(new ScreenshotVerb(*currentDocument, gfx, currentDocument->getGame().get()));
-    toggleFullscreenVerb.reset(new ToggleFullscreenVerb(*mainView, dm, recordToggleVerb->GetVideoControl()));
+    toggleFullscreenVerb.reset(new ToggleFullscreenVerb(*mainView, dm));
 
 }
 

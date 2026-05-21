@@ -163,9 +163,6 @@ LOGVARIABLE(CyclicExecutiveTiming, 0)
 
 LOGVARIABLE(CyclicExecutiveThrottling, 0)
 
-DYNAMIC_FASTFLAG(UseR15Character)
-DYNAMIC_LOGVARIABLE(R15Character, 0)
-
 namespace ARL {
 
 static void dummyLoader(ARL::DataModel*) {}
@@ -252,7 +249,6 @@ Reflection::RefPropDescriptor<DataModel, Instance> DataModel::prop_lighting("lig
 static Reflection::PropDescriptor<DataModel, int> prop_placeId("PlaceId", category_State, &DataModel::getPlaceID, NULL, Reflection::PropertyDescriptor::UI);
 static Reflection::PropDescriptor<DataModel, int> prop_placeVersion("PlaceVersion", category_State, &DataModel::getPlaceVersion, NULL, Reflection::PropertyDescriptor::UI);
 static Reflection::PropDescriptor<DataModel, int> prop_creatorId("CreatorId", category_State, &DataModel::getCreatorID, NULL, Reflection::PropertyDescriptor::UI);
-static Reflection::PropDescriptor<DataModel, bool> prop_forceR15("ForceR15", category_State, &DataModel::getForceR15, &DataModel::setForceR15, Reflection::PropertyDescriptor::REPLICATE_ONLY, Security::ANORRL);
 static Reflection::EnumPropDescriptor<DataModel, DataModel::CreatorType> prop_creatorType("CreatorType", category_State, &DataModel::getCreatorType, NULL, Reflection::PropertyDescriptor::UI);
 static Reflection::EnumPropDescriptor<DataModel, DataModel::Genre> prop_genre("Genre", category_State, &DataModel::getGenre, NULL, Reflection::PropertyDescriptor::UI);
 static Reflection::EnumPropDescriptor<DataModel, DataModel::GearGenreSetting> prop_gearGenreSetting("GearGenreSetting", category_State, &DataModel::getGearGenreSetting, NULL, Reflection::PropertyDescriptor::UI);
@@ -895,8 +891,7 @@ DataModel::DataModel(ARL::Verb* lockVerb)
 	vipServerOwnerId(0),
 	renderGuisActive(DFFlag::AllowHideHudShortcutDefault),
 	canRequestUniverseInfo(false),
-	universeDataRequested(false),
-    forceR15(false)
+	universeDataRequested(false)
 {
 	if (TaskScheduler::singleton().isCyclicExecutive())
 	{
@@ -3585,102 +3580,11 @@ void DataModel::setPlaceID(int placeID, bool anorrlPlace)
 	Analytics::setPlaceId(placeID);
 }
 
-
-static void gameStartInfoLoadedHelperSuccess(weak_ptr<DataModel> dm, std::string json)
-{
-	FASTLOG(DFLog::R15Character, "DataModel::gameStartInfoLoadedHelperSuccess");
-
-	shared_ptr<DataModel> dm_shared = dm.lock();
-	if (dm_shared.get() == NULL)
-		return;
-
-	if (json.empty()) 
-	{
-		dm_shared->universeDataLoaded.set_value();
-		dm_shared->clearUniverseDataRequested();
-		return;
-	}
-
-	FASTLOGS(DFLog::R15Character, "DataModel::gameStartInfoLoadedHelperSuccess %s", json.c_str());
-
-	ARL::Reflection::Variant v;
-	if (ARL::WebParser::parseJSONObject(json, v))
-	{
-		bool forceR15 = v.cast<shared_ptr<const Reflection::ValueTable> >()->at("r15Morphing").cast<bool>();
-		dm_shared->setForceR15(forceR15);
-	}
-
-	dm_shared->universeDataLoaded.set_value();
-	dm_shared->clearUniverseDataRequested();
-}
-
-static void gameStartInfoLoadedHelperError(weak_ptr<DataModel> dm,  std::string error)
-{
-	FASTLOG(DFLog::R15Character, "DataModel::gameStartInfoLoadedHelperError");
-
-	shared_ptr<DataModel> dm_shared = dm.lock();
-	if (dm_shared.get() == NULL)
-		return;
-
-	FASTLOGS(DFLog::R15Character, "DataModel::gameStartInfoLoadedHelperError %s", error.c_str());
-
-	// didn't get settings, just do nothing for now
-	dm_shared->universeDataLoaded.set_value();
-	dm_shared->clearUniverseDataRequested();
-}
-
-void DataModel::setForceR15(bool v) 
-{ 
-	if (v != forceR15) 
-	{
-		forceR15 = v; 
-		raisePropertyChanged(prop_forceR15);
-	}
-}
-
-void DataModel::setCanRequestUniverseInfo(bool value)
-{
-	FASTLOG(DFLog::R15Character, "DataModel::requestGameStartInfo setCanRequestUniverseInfo");
-
-	if (value != canRequestUniverseInfo)
-	{
-		FASTLOG(DFLog::R15Character, "DataModel::requestGameStartInfo setCanRequestUniverseInfo setting");
-		canRequestUniverseInfo = value;
-		if (canRequestUniverseInfo && universeDataRequested && Network::Players::backendProcessing(this))
-		{
-			requestGameStartInfo();
-		}
-	}
-}
-
-void DataModel::requestGameStartInfo()
-{
-	FASTLOG(DFLog::R15Character, "DataModel::requestGameStartInfo universeDataRequested");
-
-	if (ARL::HttpRbxApiService* apiService = ARL::ServiceProvider::create<ARL::HttpRbxApiService>(this))
-	{
-		apiService->getAsync( ARL::format("universes/%d/game-start-info", universeId),false, ARL::PRIORITY_DEFAULT,
-			boost::bind(&gameStartInfoLoadedHelperSuccess, weak_from(this), _1),
-			boost::bind(&gameStartInfoLoadedHelperError, weak_from(this), _1));
-	}	
-}
-
-
 void DataModel::setUniverseId(int uId) 
 { 
-	FASTLOG1(DFLog::R15Character, "DataModel::setUniverseId %d", uId);
 	if (uId != universeId)
 	{
 		universeId = uId; 
-
-		if (DFFlag::UseR15Character && Network::Players::backendProcessing(this))
-		{
-			FASTLOG(DFLog::R15Character, "DataModel::setUniverseId universeDataRequested");
-			universeDataLoaded = boost::promise<void>();
-			universeDataRequested = true;
-			if (canRequestUniverseInfo)
-				requestGameStartInfo();
-		}
 	}
 }
 

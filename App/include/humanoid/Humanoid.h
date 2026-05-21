@@ -60,12 +60,6 @@ namespace ARL {
 			HUMANOID_DISPLAY_DISTANCE_TYPE_SUBJECT = 1,
 			HUMANOID_DISPLAY_DISTANCE_TYPE_NONE = 2,
 		};
-
-		enum HumanoidRigType
-		{
-			HUMANOID_RIG_TYPE_R6 = 0,
-			HUMANOID_RIG_TYPE_R15 = 1,
-		};
 	private:
         friend unsigned int HUMAN::HumanoidState::checkComputeEvent(); // only used to check for exploits.
 
@@ -101,7 +95,6 @@ namespace ARL {
 		bool ownedByLocalPlayer;				// is this my own humanoid?
 		bool typing;
 		bool autorotate;
-		HumanoidRigType rigType;
 		HeapValue<bool> platformStanding;
 
 		bool autoJumpEnabled;
@@ -522,10 +515,6 @@ namespace ARL {
 		void moveTo(const Vector3& worldPosition, PartInstance* part);
 		void moveTo2(Vector3 worldPosition, shared_ptr<Instance> part);
 		rbx::signal<void(bool)> moveToFinishedSignal;
-
-        bool getUseR15() const { return (rigType != HUMANOID_RIG_TYPE_R6); }
-		Humanoid::HumanoidRigType getRigType() const { return rigType; }
-        void setRigType(Humanoid::HumanoidRigType type);
 
 		// Build Joints
 		void buildJoints(ARL::DataModel* dm = NULL);

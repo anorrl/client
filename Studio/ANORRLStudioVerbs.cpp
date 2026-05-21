@@ -97,10 +97,6 @@
 #include "v8xml/SerializerBinary.h"
 
 //Video record related includes
-#ifdef _WIN32
-    #include "VideoControl.h"
-    #include "DSVideoCaptureEngine.h"
-#endif
 #include "ManageEmulationDeviceDialog.h"
 
 FASTFLAG(PrefetchResourcesEnabled)
@@ -783,7 +779,7 @@ void SelectionSaveToFileVerb::saveToFile()
 	if ( rbxmLastDir.isEmpty() )
         rbxmLastDir = ANORRLMainWindow::getDefaultSavePath();
 
-    QString fileExtnModels("ANORRL XML Model Files (*.arlmx);;ANORRL Model Files (*.arlm)");
+    QString fileExtnModels("ANORRL Model Files (*.arlm);;ANORRL XML Model Files (*.arlmx)");
     QString fileExtnScripts("ANORRL Lua Scripts (*.lua)");
 
 	QString fileExtn = fileExtnModels;
@@ -829,7 +825,7 @@ void SelectionSaveToFileVerb::saveToFile()
 		nrDictionaryService->retrieveAllDescendants(*iter);
 	}
 
-	if (fileName.endsWith(".arlm", Qt::CaseInsensitive) || fileName.endsWith(".arlx", Qt::CaseInsensitive))
+	if (fileName.endsWith(".arlm", Qt::CaseInsensitive) || fileName.endsWith(".arlmx", Qt::CaseInsensitive))
 	{
 	    QByteArray ba = fileName.toAscii();
 	    const char *c_str = ba.constData();
@@ -838,7 +834,7 @@ void SelectionSaveToFileVerb::saveToFile()
 	    std::ofstream stream;
 	    stream.open(c_str, std::ios_base::out | std::ios::binary);
 
-        const bool useBinaryFormat = !(fileName.endsWith(".arlx", Qt::CaseInsensitive));
+        const bool useBinaryFormat = !(fileName.endsWith(".arlmx", Qt::CaseInsensitive));
 
         if (useBinaryFormat)
         {
@@ -888,7 +884,7 @@ void SelectionSaveToFileVerb::saveToFile()
 		}
 	}
 
-	settings.setValue("rbxm_last_directory", QFileInfo(fileName).absolutePath());
+	settings.setValue("arlm_last_directory", QFileInfo(fileName).absolutePath());
 
 	for (std::vector<shared_ptr<ARL::Instance> >::const_iterator iter = pSelection->begin(); iter != pSelection->end(); ++iter)
 	{
@@ -1006,7 +1002,7 @@ static void AnimationResponse(std::string* response, std::exception*, shared_ptr
 		istream >> newAssetId;
 
 		QString baseUrl = ANORRLSettings::getBaseURL();
-		animation->setAssetId(ARL::format("%s/Asset?ID=%d", qPrintable(baseUrl), newAssetId));
+		animation->setAssetId(ARL::format("%s/asset/?id=%d", qPrintable(baseUrl), newAssetId));
 	}
 }
 
@@ -1145,7 +1141,7 @@ void PublishSelectionToANORRLVerb::doIt(ARL::IDataState*)
 		initialUrl = QString("%1/UI/Save.aspx?type=Lua").arg(ANORRLSettings::getBaseURL());
 	else if (isAnimation)
 	{
-		initialUrl = QString("%1/studio/animations/publish").arg(ANORRLSettings::getBaseURL());
+		initialUrl = QString("%1/UI/Save.aspx?type=Animation").arg(ANORRLSettings::getBaseURL());
 		if (FFlag::StudioEnableGameAnimationsTab)
 		{
 			ANORRLGameExplorer& gameExplorer = UpdateUIManager::Instance().getViewWidget<ANORRLGameExplorer>(eDW_GAME_EXPLORER);
@@ -2050,119 +2046,6 @@ void ScreenshotVerb::reconnectScreenshotSignal()
 
 	m_spDataModel->screenshotReadySignal.connect(boost::bind(&ScreenshotVerb::onScreenshotFinished, this, _1));
 }
-
-//Video recording is currently supported on windows only
-#ifdef _WIN32
-
-RecordToggleVerb::RecordToggleVerb(ARL::DataModel* pDataModel, ARL::ViewBase* pViewGfx)
-: ARL::Verb(pDataModel, "RecordToggle")
-, m_pDataModel(pDataModel)
-, m_jobWait(false)
-, m_jobDone(false)
-, m_threadDone(false)
-, m_bStop(false)
-, m_bIsBusy(false)
-{
-    m_pVideoControl.reset(new ARL::VideoControl(new ARL::DSVideoCaptureEngine(), pViewGfx,
-                                                pViewGfx->getFrameRateManager(),
-                                                this));
-
-	m_helperThread.reset(new boost::thread(boost::bind(&RecordToggleVerb::action, this)));
-}
-
-RecordToggleVerb::~RecordToggleVerb()
-{
-	m_bStop = true;
-	m_jobWait.Set();
-	m_threadDone.Wait();
-}
-
-bool RecordToggleVerb::isEnabled() const
-{	return (ARL::GameSettings::singleton().videoCaptureEnabled && !StudioUtilities::isVideoUploading() && !m_bIsBusy); }
-
-bool RecordToggleVerb::isChecked() const
-{	return isRecording(); }
-
-bool RecordToggleVerb::isSelected() const
-{	return isRecording(); }
-
-void RecordToggleVerb::startRecording()
-{
-	ARL::Soundscape::SoundService* pSoundService = ARL::ServiceProvider::create<ARL::Soundscape::SoundService>(m_pDataModel);
-	ARLASSERT(pSoundService);
-
-	m_pVideoControl->startRecording(pSoundService);
-	StudioUtilities::setVideoFileName(m_pVideoControl->getFileName());
-
-	ARL::GameSettings::singleton().videoRecordingSignal(true);
-	m_bIsBusy = false;
-}
-
-void RecordToggleVerb::stopRecording(bool showUploadDialog)
-{
-	m_pVideoControl->stopRecording();
-
-	if (showUploadDialog && (ARL::GameBasicSettings::singleton().getUploadVideoSetting() != ARL::GameSettings::NEVER))
-	{
-		QTimer::singleShot(0, this, SLOT(uploadVideo()));
-	}
-	else
-	{
-		m_bIsBusy = false;
-		UpdateUIManager::Instance().updateToolBars();
-	}
-
-	ARL::GameSettings::singleton().videoRecordingSignal(false);
-}
-
-bool RecordToggleVerb::isRecording() const
-{ return m_pVideoControl->isVideoRecording(); }
-
-void RecordToggleVerb::doIt(ARL::IDataState*)
-{
-	if (m_bIsBusy)
-		return;
-	m_bIsBusy = true;
-
-	if (m_pVideoControl->isVideoRecording())
-	{
-		m_job = boost::bind(&RecordToggleVerb::stopRecording, this, true);
-		m_jobWait.Set();
-		m_jobDone.Wait();
-	}
-	else
-	{
-        m_job = boost::bind(&RecordToggleVerb::startRecording, this);
-        m_jobWait.Set();
-        m_jobDone.Wait();
-    }
-}
-
-void RecordToggleVerb::uploadVideo()
-{
-	m_bIsBusy = false;
-	UpdateUIManager::Instance().updateToolBars();
-}
-
-void RecordToggleVerb::action()
-{
-	//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO,  "Starting vid. rec. helper thread");
-	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
-	while(!m_bStop)
-	{
-		m_jobWait.Wait();
-		if (!m_bStop)
-		{
-			m_job();
-			m_jobDone.Set();
-		}
-	}
-	CoUninitialize();
-	//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO,  "Exiting vid. rec. helper thread");
-	m_threadDone.Set();
-}
-
-#endif
 
 ExportSelectionVerb::ExportSelectionVerb(ARL::DataModel* pDataModel)
 : ARL::Verb(pDataModel, "ExportSelectionVerb")

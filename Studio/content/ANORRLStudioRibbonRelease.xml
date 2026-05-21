@@ -340,7 +340,6 @@
               <addaction name="toggleAxisWidgetAction" style="textundericon" text="Display Axis" icon=":/RibbonBar/images/RibbonIcons/View/Display-Axis.png" tooltip="Show world-space aligned coordinate axis" height="32" width="32" />
                 <addaction name="actionFullScreen" style="textundericon" text="Full Screen" icon=":/RibbonBar/images/RibbonIcons/View/Fullscreen.png" tooltip="Enabled Full Screen mode" height="32" width="32" />
                 <addaction name="screenShotAction" style="textundericon" text="Screen Shot" icon=":/RibbonBar/images/RibbonIcons/View/Screen-Capture.png" tooltip="Take a screenshot" height="32" width="32" />
-                <addaction name="toggleVideoRecordAction" style="textundericon" iswindowsonly="true" icon=":/RibbonBar/images/RibbonIcons/View/Record-Video.png" tooltip="Record a video" height="32" width="32" />
             </Group>
             <Group name="Settings">
                 <addaction type="radio" name="gridSizeToTwoAction" action="gridSizeToTwoAction"  tooltip="Resize grid to two studs" style="textbesideicon" text="2 Studs" />

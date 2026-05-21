@@ -347,25 +347,10 @@ local function CreateSettingsHub()
 		local resumeBtn   = MakeButton("ARLPauseMenuResumeGameBtn", "Resume Game", UDim2.new(1, 0, 0, sizeY),    UDim2.new(0,0,0,y),   actualMenu, closeMenu); y = y + sizeY + 5
 		local settingsBtn = MakeButton("ARLPauseMenuSettingsBtn",   "Settings",    UDim2.new(1, 0, 0, sizeY),    UDim2.new(0,0,0,y),   actualMenu, openSettingsMenu); y = y + sizeY + 5
 		local scrnShotBtn = MakeButton("ARLPauseMenuScreenshotBtn", "Screenshot",  UDim2.new(0.5, -5, 0, sizeY), UDim2.new(0,0,0,y),   actualMenu, noAnimMenu)
-		local recordBtn   = MakeButton("ARLPauseMenuRecordBtn",     "Record Video",UDim2.new(0.5, -5, 0, sizeY), UDim2.new(0.5,5,0,y), actualMenu, noAnimMenu); y = y + sizeY + 5
-		local resetBtn    = MakeButton("ARLPauseMenuResetBtn",      "Reset",       UDim2.new(0.5, -5, 0, sizeY), UDim2.new(0,0,0,y),   actualMenu, openResetMenu)
-		local leaveBtn    = MakeButton("ARLPauseMenuLeaveBtn",      "Leave",       UDim2.new(0.5, -5, 0, sizeY), UDim2.new(0.5,5,0,y), actualMenu, openLeaveMenu)
+		local resetBtn    = MakeButton("ARLPauseMenuResetBtn",      "Reset",       UDim2.new(0.5, -5, 0, sizeY), UDim2.new(0.5,5,0,y),   actualMenu, openResetMenu)  y = y + sizeY + 5
+		local leaveBtn    = MakeButton("ARLPauseMenuLeaveBtn",      "Leave",       UDim2.new(1, 0, 0, sizeY), UDim2.new(0,0,0,y), actualMenu, openLeaveMenu)
 		
 		scrnShotBtn:SetVerb("Screenshot")
-		  recordBtn:SetVerb("RecordToggle")
-		
-		local gameOptions = settings():FindFirstChild("Game Options")
-		if gameOptions then
-			gameOptions.VideoRecordingChangeRequest:connect(function(recording)
-				isRecordingVideo = recording
-				if recording then
-					recordBtn.ARLPauseMenuRecordBtnTextLabel.Text = "Stop Recording"
-				else
-					recordBtn.ARLPauseMenuRecordBtnTextLabel.Text = "Record Video"
-				end
-			end)
-		end
-
 		
 		RunService.Heartbeat:Connect(function(time)
 			if this.Visible then

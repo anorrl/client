@@ -222,7 +222,6 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
     <ClCompile Include="Crypt.cpp" />
     <ClCompile Include="..\ClientShared\DataModelEmptySerialize.cpp" />
     <ClCompile Include="Document.cpp" />
-    <ClCompile Include="..\Win\DSVideoCaptureEngine.cpp" />
     <ClCompile Include="..\Win\DumpErrorUploader.cpp" />
     <ClCompile Include="..\Win\ErrorUploader.cpp" />
     <ClCompile Include="functionHooks.cpp" />
@@ -290,7 +289,6 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
     <ClCompile Include="UserInput.cpp" />
     <ClCompile Include="..\Win\UserInputUtil.cpp" />
     <ClCompile Include="..\Win\VersionInfo.cpp" />
-    <ClCompile Include="..\Win\VideoControl.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="..\Win\VistaTools.cpp" />
     <ClCompile Include="WebBrowserAxDialog.cpp" />
@@ -390,7 +388,6 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
     <ClInclude Include="Crypt.h" />
     <ClInclude Include="..\Win\dinput.h" />
     <ClInclude Include="Document.h" />
-    <ClInclude Include="..\Win\DSVideoCaptureEngine.h" />
     <ClInclude Include="..\Win\DumpErrorUploader.h" />
     <ClInclude Include="..\Win\ErrorUploader.h" />
     <ClInclude Include="functionHooks.h" />
@@ -408,7 +405,6 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
     <ClInclude Include="UserInput.h" />
     <ClInclude Include="..\Win\UserInputUtil.h" />
     <ClInclude Include="..\Win\VersionInfo.h" />
-    <ClInclude Include="..\Win\VideoControl.h" />
     <ClInclude Include="View.h" />
     <ClInclude Include="..\Win\VistaTools.h" />
   </ItemGroup>

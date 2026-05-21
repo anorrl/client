@@ -102,7 +102,6 @@ DYNAMIC_FASTFLAGVARIABLE(LoadStarterGearWithoutLoadCharacter, false)
 DYNAMIC_FASTFLAGVARIABLE(ValidateCharacterAppearanceUrl, false)
 DYNAMIC_FASTFLAGVARIABLE(FilterKickMessage, false)
 
-DYNAMIC_FASTFLAGVARIABLE(UseR15Character, false)
 DYNAMIC_FASTFLAGVARIABLE(CloudEditDisablePlayerDestroy, false)
 
 static const int idleCheckFrequency = 30; // check for idleness every X seconds
@@ -1326,24 +1325,9 @@ void Player::setAppearanceParent(weak_ptr<Player> player, weak_ptr<Instance> ins
 		else if (dynamic_cast<IEquipable*>(i.get()))
 		{
 			// hats
-			if (!DFFlag::UseR15Character)
+			if (!i->fastDynamicCast<Tool>())
 			{
-				if (!i->fastDynamicCast<Tool>())
-				{
-					i->setParent(character);
-				}
-			} else {
-				if (Humanoid* humanoid = character->findFirstChildOfType<Humanoid>())
-				{
-					if (!humanoid->getUseR15())
-					{
-						if (!i->fastDynamicCast<Tool>())
-						{
-							i->setParent(character);
-						}
-					}
-				}
-
+				i->setParent(character);
 			}
 		}
 	}
@@ -1926,15 +1910,6 @@ void Player::loadCharacter(bool inGame, std::string preferedSpawnName)
 	ModelInstance *pModel = NULL;
 	StarterPlayerService* starterPlayerService = ServiceProvider::create<StarterPlayerService>(this) ;
 	bool doLoadCharacterAppearance = true;
-
-    bool useR15 = false;
-    if (DFFlag::UseR15Character) 
-    {
-        if(DataModel* dataModel = DataModel::get(this))
-        {
-            useR15 = dataModel->getForceR15();
-        }
-    }
 
 	if (DFFlag::UseStarterPlayerCharacter && starterPlayerService != NULL) 
 	{

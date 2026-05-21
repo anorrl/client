@@ -29,8 +29,6 @@ FASTINTVARIABLE(NumDummyJobs, 0)
 DYNAMIC_FASTFLAGVARIABLE(VariableHeartbeat, false)
 DYNAMIC_FASTFLAGVARIABLE(TeamCreateIgnoreRunStateTransition, true)
 
-DYNAMIC_FASTFLAG(UseR15Character)
-
 namespace ARL {
 
 namespace Reflection {
@@ -439,15 +437,6 @@ void RunService::stopTasks()
 
 void RunService::start()
 {
-	if (DFFlag::UseR15Character)
-	{
-		if (DataModel* dm = DataModel::get(this))
-		{
-			if (dm->getUniverseDataRequested())
-				dm->universeDataLoaded.get_future().wait();
-		}
-	}
-
 	physicsJob = shared_ptr<PhysicsJob>(new PhysicsJob(shared_from_dynamic_cast<DataModel>(getParent())));
     heartbeatTask = shared_ptr<HeartbeatTask>(new HeartbeatTask(shared_from(this)));
     TaskScheduler::singleton().add(physicsJob);

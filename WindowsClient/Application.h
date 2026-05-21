@@ -25,11 +25,9 @@ class Game;
 class UserInput;
 class RenderJob;
 class LeaveGameVerb;
-class RecordToggleVerb;
 class ScreenshotVerb;
 class ToggleFullscreenVerb;
 class ProfanityFilter;
-class RecordToggleVerb;
 class FunctionMarshaller;
 class Document;
 struct StandardOutMessage;
@@ -192,7 +190,6 @@ private:
 
     boost::scoped_ptr<ToggleFullscreenVerb> toggleFullscreenVerb;
     boost::scoped_ptr<LeaveGameVerb> leaveGameVerb;
-    boost::scoped_ptr<RecordToggleVerb> recordToggleVerb;
     boost::scoped_ptr<ScreenshotVerb> screenshotVerb;
 
     void initVerbs();

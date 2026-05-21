@@ -302,19 +302,12 @@ Tool::ToolState Tool::computeDesiredState(Instance* testParent)
 		return IN_WORKSPACE;
 	}
 
-	if (!humanoid->getTorsoSlow()) {
+	if (!humanoid->getTorsoSlow())
 		return IN_CHARACTER;
-	}
 
-	if (humanoid->getUseR15())
-	{
-		if (Instance::fastDynamicCast<PartInstance>(humanoid->getParent()->findFirstChildByName("RightHand")) == NULL)
-			return HAS_TORSO;
-	} else {
-		if (!(humanoid->getRightArmSlow() && humanoid->getRightShoulder())) {
-			return HAS_TORSO;
-		}
-	}
+	if (!(humanoid->getRightArmSlow() && humanoid->getRightShoulder()))
+		return HAS_TORSO;
+	
 
 	
 	return EQUIPPED;
@@ -480,13 +473,8 @@ void Tool::upTo_Equipped()
 	if (!humanoid)
 		return;
 
-	PartInstance* arm;
-	if (humanoid->getUseR15())
-	{
-		arm = Instance::fastDynamicCast<PartInstance>(humanoid->getParent()->findFirstChildByName("RightHand"));
-	} else {
-		arm = humanoid->getRightArmSlow();
-	}
+	PartInstance* arm = humanoid->getRightArmSlow();
+	
 	if (!arm)
 		return;
 

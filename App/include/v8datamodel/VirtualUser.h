@@ -40,9 +40,6 @@ namespace ARL {
 		void moveMouse(ARL::Vector2 position, ARL::CoordinateFrame camera);
 		void captureInputDevice();
 
-		void startRecording();
-		std::string stopRecording();
-
 	protected:
 		/*override*/ void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 	private:

@@ -20,10 +20,6 @@ namespace ARL {
 	static Reflection::BoundFuncDesc<VirtualUser, void(ARL::Vector2, ARL::CoordinateFrame)> func_Button2Up(&VirtualUser::button2Up, "Button2Up", "position", "camera", ARL::CoordinateFrame(), Security::TestLocalUser);
 	static Reflection::BoundFuncDesc<VirtualUser, void(ARL::Vector2, ARL::CoordinateFrame)> func_MoveMouse(&VirtualUser::moveMouse, "MoveMouse", "position", "camera", ARL::CoordinateFrame(), Security::TestLocalUser);
 
-	static Reflection::BoundFuncDesc<VirtualUser, void()> func_StartRecording(&VirtualUser::startRecording, "StartRecording", Security::TestLocalUser);
-	static Reflection::BoundFuncDesc<VirtualUser, std::string()> func_StopRecording(&VirtualUser::stopRecording, "StopRecording", Security::TestLocalUser);
-	static Reflection::BoundFuncDesc<VirtualUser, void()> func_CaptureController(&VirtualUser::captureInputDevice, "CaptureController", Security::TestLocalUser);
-
 	static Reflection::BoundFuncDesc<VirtualUser, void(std::string)> func_PressKey(&VirtualUser::pressKey, "TypeKey", "key", Security::TestLocalUser);
 	static Reflection::BoundFuncDesc<VirtualUser, void(std::string)> func_SetKeyDown(&VirtualUser::setKeyDown, "SetKeyDown", "key", Security::TestLocalUser);
 	static Reflection::BoundFuncDesc<VirtualUser, void(std::string)> func_SetKeyUp(&VirtualUser::setKeyUp, "SetKeyUp", "key", Security::TestLocalUser);
@@ -227,20 +223,6 @@ namespace ARL {
 		setKeyUp(key);
 	}
 
-	void VirtualUser::startRecording()
-	{
-		if (recordingConnection.connected())
-			throw std::runtime_error("Already recording");
-
-		recording.clear();
-		recording << "-- Begin Recording\n";
-		recording << "local virtualUser = game:GetService('VirtualUser')\n";
-		recording << "virtualUser:CaptureController()\n";
-		lastEventTime = Time::now<Time::Fast>();
-		recordingConnection = getDataModel()->InputObjectProcessed.connect(boost::bind(&VirtualUser::onInputObject, this, _1));
-	}
-
-
 	static ARL::Vector2 toNormalized(Vector2int16 windowSize, const Vector2int16 mousePosition)
 	{
 		Vector2 position;
@@ -310,16 +292,5 @@ namespace ARL {
             break;
 		}
 	}
-
-	std::string VirtualUser::stopRecording()
-	{
-		if (!recordingConnection.connected())
-			throw std::runtime_error("Not recording");
-
-		recordingConnection.disconnect();
-		recording << "-- End Recording\n";
-		return recording.str();
-	}
-
 
 } // namespace ARL

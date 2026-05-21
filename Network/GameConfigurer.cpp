@@ -63,8 +63,6 @@ DYNAMIC_FASTINTVARIABLE(JoinInfluxHundredthsPercentage, 0)
 
 FASTFLAGVARIABLE(ClientABTestingEnabled, true)
 
-DYNAMIC_FASTFLAG(UseR15Character)
-
 using namespace ARL;
 
 void GameConfigurer::parseArgs(const std::string& args)
@@ -600,9 +598,6 @@ void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 	testing = (getParamString("ClientTicket").length() == 0);
 	logAnalytics = (rand() % 100 == 1);
 
-	if (DFFlag::UseR15Character)
-		dataModel->create<Network::Client>();
-
 	dataModel->setPlaceID(getParamInt("PlaceId"), getParamBool("IsANORRLPlace"));
 	int universeId = getParamInt("UniverseId");
 	dataModel->setUniverseId(universeId);
@@ -627,8 +622,6 @@ void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 	Reflection::EnumDesc<Network::Players::ChatOption>::singleton().convertToValue(getParamString("ChatStyle").c_str(), chatOption);
 	players->setChatOption(chatOption);
 
-	if (!DFFlag::UseR15Character)
-		dataModel->create<Network::Client>();
 	dataModel->create<Visit>();
 
 	ifSeleniumThenSetCookie("SeleniumTest1", "Started join script");

@@ -1663,6 +1663,8 @@ int CoordinateFrameBridge::on_mul(lua_State *L)
 {
 	const G3D::CoordinateFrame& a = CoordinateFrameBridge::getObject(L, 1);
 
+	// M = Matrix? V = obv Vector
+
 	// Try Ma * Mb
 	G3D::CoordinateFrame b;
 	if (CoordinateFrameBridge::getValue(L, 2, b))
@@ -1815,8 +1817,6 @@ int CoordinateFrameBridge::on_vectorToObjectSpace(lua_State *L)
 	}
 	return count;
 }
-
-
 
 int CoordinateFrameBridge::fromEulerAnglesXYZ(lua_State *L)
 {

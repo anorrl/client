@@ -361,7 +361,6 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
     <ClCompile Include="CloudEditAdornable.cpp" />
     <ClCompile Include="CommonInsertWidget.cpp" />
     <ClCompile Include="..\ClientShared\DataModelSerialize.cpp" />
-    <ClCompile Include="..\Win\DSVideoCaptureEngine.cpp" />
     <ClCompile Include="..\Win\DumpErrorUploader.cpp" />
     <ClCompile Include="..\Win\ErrorUploader.cpp" />
     <ClCompile Include="CSGOperations.cpp" />
@@ -539,7 +538,6 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
     <ClCompile Include="UserInput.cpp" />
     <ClCompile Include="UserInputUtil.cpp" />
     <ClCompile Include="..\Win\VersionInfo.cpp" />
-    <ClCompile Include="..\Win\VideoControl.cpp" />
     <ClCompile Include="..\Win\VistaTools.cpp" />
     <ClCompile Include="WebDialog.cpp" />
     <ClCompile Include="ANORRLPluginHost.cpp" />
@@ -551,7 +549,6 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
     <ClInclude Include="..\ClientShared\SDLGameController.h" />
     <ClInclude Include="AuthoringSettings.h" />
     <Moc Include="CommonInsertWidget.h" />
-    <ClInclude Include="..\Win\DSVideoCaptureEngine.h" />
     <ClInclude Include="..\Win\DumpErrorUploader.h" />
     <ClInclude Include="..\Win\ErrorUploader.h" />
     <CustomBuild Include="ExternalHandlers.h" />
@@ -661,7 +658,6 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
     <ClInclude Include="UserInput.h" />
     <ClInclude Include="UserInputUtil.h" />
     <ClInclude Include="..\Win\VersionInfo.h" />
-    <ClInclude Include="..\Win\VideoControl.h" />
     <ClInclude Include="..\Win\VistaTools.h" />
     <Moc Include="WebDialog.h" />
     <Moc Include="ANORRLPluginHost.h" />
@@ -901,14 +897,13 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
   </ItemGroup>
   <ItemGroup>
     <Uic Include="resources\qt\AddEmulationDevDialog.ui" />
-	<Uic Include="resources\qt\ARLMainWindow.ui">
+    <Uic Include="resources\qt\ARLMainWindow.ui">
       <SubType>Designer</SubType>
     </Uic>
     <Uic Include="resources\qt\AutoSave.ui" />
     <Uic Include="resources\qt\ManageEmulationDevDialog.ui" />
     <Uic Include="resources\qt\PairRbxDevDialog.ui" />
     <Uic Include="resources\qt\TeamCreate.ui" />
-	
   </ItemGroup>
   <ItemGroup>
     <Xml Include="content\ANORRLStudioRibbon.xml" />

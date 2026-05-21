@@ -28,23 +28,12 @@ namespace ARL
         float overscanPX;
         float overscanPY;
 
-		rbx::signal<void(bool)> videoRecordingSignal;
-
-		typedef enum { LOW_RES = 0, MEDIUM_RES, HIGH_RES } VideoQuality;
 		typedef enum { NEVER = 0, ASK, ALWAYS } UploadSetting;
-
-		VideoQuality getVideoQualitySetting() const { return videoQuality; }
-		void setVideoQualitySetting(VideoQuality value);
 
 		GameSettings::UploadSetting getPostImageSetting() const;
 		void setPostImageSetting(GameSettings::UploadSetting setting);
 
 		bool hardwareMouse;
-		
-		bool videoCaptureEnabled;
-
-	private:		
-		VideoQuality videoQuality;
 	};
 }
 
