@@ -133,19 +133,6 @@ local SHADOW_IMAGE = 'arlasset://textures/ui/PlayerList/TileShadowMissingTop.png
 local SHADOW_SLICE_SIZE = 5
 local SHADOW_SLICE_RECT = Rect.new(SHADOW_SLICE_SIZE+1, SHADOW_SLICE_SIZE+1, SHADOW_SLICE_SIZE*2-1, SHADOW_SLICE_SIZE*2-1)
 
-local ADMINS = {	-- Admins with special icons
---[[    ['7210880'] = 'arlassetid://134032333', -- Jeditkacheff
-    ['13268404'] = 'arlassetid://113059239', -- Sorcus
-    ['261'] = 'arlassetid://105897927', -- shedlestky
-    ['20396599'] = 'arlassetid://161078086', -- Robloxsai
-	['1'] = 'arlassetid://899',
-	['36'] = 'arlassetid://2309',
-	['41'] = 'arlassetid://2827',
-	['30'] = 'arlassetid://3165',
-	['48'] = 'arlassetid://3720',
-	['60'] = 'arlassetid://7429',]]
-}
-
 local ABUSES = {
 	"Swearing",
 	"Bullying",

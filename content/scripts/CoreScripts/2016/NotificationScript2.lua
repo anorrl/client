@@ -64,8 +64,8 @@ local TWEEN_TIME = 0.35
 local DEFAULT_NOTIFICATION_DURATION = 5
 
 --[[ Images ]]--
-local PLAYER_POINTS_IMG = 'arlassetid://206410433'
-local BADGE_IMG = 'arlassetid://206410289'
+local PLAYER_POINTS_IMG = 'arlasset://textures/ui/Points.png' --206410433
+local BADGE_IMG = 'arlasset://textures/ui/Badge.png'
 local FRIEND_IMAGE = 'http://anorrl.lambda.cam/thumbs/avatar.ashx?userId='
 
 --[[ Gui Creation ]]--
