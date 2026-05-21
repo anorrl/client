@@ -1676,6 +1676,7 @@ void ANORRLGameExplorer::updateAsset(const ARL::ContentId& contentId, const std:
 		outStream.flush();
 
 		refreshNamedScriptIcons(currentSessionId);
+		refreshNamedAudioIcons(currentSessionId);
 	}
 }
 
@@ -1721,6 +1722,8 @@ void ANORRLGameExplorer::publishNamedAssetsToCurrentSlot()
 	}
 
 	QMetaObject::invokeMethod(this, "refreshNamedScriptIcons", Qt::QueuedConnection,
+		Q_ARG(int, currentSessionId));
+	QMetaObject::invokeMethod(this, "refreshNamedAudioIcons", Qt::QueuedConnection,
 		Q_ARG(int, currentSessionId));
 }
 
@@ -2623,6 +2626,7 @@ void ANORRLGameExplorer::publishInternal(boost::function<int()> newUniverseFutur
 	if (publishSucceeded)
 	{
 		refreshNamedScriptIcons(currentSessionId);
+		refreshNamedAudioIcons(currentSessionId);
 
 		if (targetGameId != currentGameId)
 		{
@@ -2784,6 +2788,7 @@ void ANORRLGameExplorer::afterNamedAssetsFinished(int originatingSessionId)
 			ideDoc->forceReloadImages(imagesToReload);
 		}
 		refreshNamedScriptIcons(currentSessionId);
+		refreshNamedAudioIcons(currentSessionId);
 
 		Q_EMIT namedAssetsLoaded(currentGameId);
 	}
@@ -3186,6 +3191,7 @@ void ANORRLGameExplorer::namedAssetsContextMenuHandler(const QPoint& point, Enti
 	else if (insertAsAudio && result == insertAsAudio)
 	{
 		insertNamedAudio(properties);
+		refreshNamedAudioIcons(currentSessionId);
 	}
 	else if (insertAsScript && result == insertAsScript)
 	{
