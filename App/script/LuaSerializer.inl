@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 
 #include "util/ProtectedString.h"
 
