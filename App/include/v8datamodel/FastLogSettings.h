@@ -5,14 +5,13 @@
 #include "SimpleJSON.h"
 #include "util/Statistics.h"
 
-#define CLIENT_APP_SETTINGS_STRING  "ClientAppSettings"
+#define CLIENT_APP_SETTINGS_STRING  "ClientSettings"
 #define CLIENT_SETTINGS_API_KEY     "D6925E56-BFB9-4908-AAA2-A5B1EC4B2D79"
 
 namespace ARL
 {
 	extern const char* const sFastLogSettings;
 	GlobalAdvancedSettings::Item& FastLogSettingsInstance();
-
 
 	class FastLogJSON : public SimpleJSON
 	{
@@ -32,10 +31,7 @@ namespace ARL
 		
 		START_DATA_MAP(ClientAppSettings);
 		
-		DECLARE_DATA_BOOL(AllowVideoPreRoll);
-		DECLARE_DATA_INT(VideoPreRollWaitTimeSeconds);
 		DECLARE_DATA_BOOL(CaptureQTStudioCountersEnabled);
-		DECLARE_DATA_BOOL(CaptureMFCStudioCountersEnabled);
 		DECLARE_DATA_INT(CaptureCountersIntervalInMinutes);
 		DECLARE_DATA_INT(CaptureSlowCountersIntervalInSeconds);
 		DECLARE_DATA_STRING(StartPageUrl);

@@ -8,8 +8,8 @@
 #include "Util/G3DCore.h"
 #include "Util/ContentId.h"
 #include "Util/Rotation2D.h"
-#include "rbx/signal.h"
-#include "rbx/Declarations.h"
+#include "arl/signal.h"
+#include "arl/Declarations.h"
 
 namespace ARL {
 
@@ -59,7 +59,7 @@ public:
 
 	// Listen to this signal if you need a hint about when to release your
 	// TextureProxys.
-    virtual rbx::signal<void()>& getUnbindResourcesSignal() = 0;
+    virtual arl::signal<void()>& getUnbindResourcesSignal() = 0;
 
 	// Called to perform any preparations before the render pass begins.
 	virtual void prepareRenderPass() {}

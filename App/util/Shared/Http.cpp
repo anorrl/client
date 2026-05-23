@@ -20,7 +20,7 @@
 #include "util/ThreadPool.h"
 #include "util/Analytics.h"
 
-#include "rbx/TaskScheduler.h"
+#include "arl/TaskScheduler.h"
 
 #include "v8datamodel/DataStore.h"
 #include "v8datamodel/DebugSettings.h"
@@ -363,13 +363,13 @@ Http::API Http::defaultApi = Http::WinHttp;
 Http::API Http::defaultApi = Http::Uninitialized;
 #endif
 
-rbx::atomic<int> Http::cdnSuccessCount = 0;
-rbx::atomic<int> Http::cdnFailureCount = 0;
-rbx::atomic<int> Http::alternateCdnSuccessCount = 0;
-rbx::atomic<int> Http::alternateCdnFailureCount = 0;
+arl::atomic<int> Http::cdnSuccessCount = 0;
+arl::atomic<int> Http::cdnFailureCount = 0;
+arl::atomic<int> Http::alternateCdnSuccessCount = 0;
+arl::atomic<int> Http::alternateCdnFailureCount = 0;
 double Http::lastCdnFailureTimeSpan = 0;
-rbx::atomic<int> Http::anorrlSuccessCount = 0;
-rbx::atomic<int> Http::anorrlFailureCount = 0;
+arl::atomic<int> Http::anorrlSuccessCount = 0;
+arl::atomic<int> Http::anorrlFailureCount = 0;
 WindowAverage<double, double> Http::anorrlResponse(kWindowSize);
 WindowAverage<double, double> Http::cdnResponse(kWindowSize);
 
@@ -493,7 +493,7 @@ void Http::SetUseStatistics(bool value)
     {
         boost::function0<void> f = boost::bind(&HTTPStatistics::reportingThreadHandler);
         boost::function0<void> g = boost::bind(&StandardOut::print_exception, f, MESSAGE_ERROR, false);
-        boost::thread(thread_wrapper(g, "rbx_http_stats_report"));
+        boost::thread(thread_wrapper(g, "arl_http_stats_report"));
     }
 }
 

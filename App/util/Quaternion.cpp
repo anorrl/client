@@ -3,7 +3,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 
 #include "Util/Quaternion.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/Math.h"
 
 namespace ARL {

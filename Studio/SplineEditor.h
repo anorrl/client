@@ -2,7 +2,7 @@
 #pragma once
 
 //this will make sure that we can use qt with boost (else moc compiler errors)
-//without it, qt moc interprets 'rbx::signals::connection foo' as 'rbx::    signals:   :connection foo' and chokes to death
+//without it, qt moc interprets 'arl::signals::connection foo' as 'arl::    signals:   :connection foo' and chokes to death
 #ifndef QT_NO_KEYWORDS
 #   define QT_NO_KEYWORDS
 #endif
@@ -12,7 +12,7 @@
 #include <QRegExp>
 #include <QComboBox>
 #include <QDockWidget>
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "G3D/Vector4.h"
 
 class QLineEdit;
@@ -175,7 +175,7 @@ private:
     ARL::Instance* m_pInst;
     SplineEditor* m_pSplineEditor;
     SplineDef m_spline;
-    rbx::signals::scoped_connection m_propChangedConn, m_ancestryChangedConn;
+    arl::signals::scoped_connection m_propChangedConn, m_ancestryChangedConn;
     bool m_inhibitPropChanged;
 
 private Q_SLOTS:

@@ -3,7 +3,7 @@
 #include "util/NamedMutex.h"
 #include "FastLog.h"
 #include "RbxFormat.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include <sstream>
 

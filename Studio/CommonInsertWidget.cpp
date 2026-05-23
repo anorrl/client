@@ -366,7 +366,7 @@ InsertObjectWidget::InsertObjectWidget(QWidget *pParentWidget)
 
     // Get Object Weights
 	ANORRLSettings settings;
-	m_objectWeights = settings.value("rbxObjectWeights").toHash();
+	m_objectWeights = settings.value("arlObjectWeights").toHash();
 }
 
 void InsertObjectWidget::onSelectOnInsertClicked(bool checked)
@@ -378,7 +378,7 @@ InsertObjectWidget::~InsertObjectWidget()
 {
     // Set Object Weights
 	ANORRLSettings settings;
-	settings.setValue("rbxObjectWeights", m_objectWeights);
+	settings.setValue("arlObjectWeights", m_objectWeights);
 
     m_ItemList->clear();
 	m_cSelectionChanged.disconnect();

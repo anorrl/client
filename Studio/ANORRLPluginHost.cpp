@@ -51,7 +51,7 @@
 #include "V8Xml/SerializerBinary.h"
 #include "V8Tree/Service.h"
 
-#include "rbx/make_shared.h"
+#include "arl/make_shared.h"
 
 Q_DECLARE_METATYPE(QList<int>);
 
@@ -1088,7 +1088,7 @@ void ANORRLPluginHost::readPluginSettings(int assetId,
 
 	// initialize readValues to an empty table, in case the settings cannot be read from file.
 	shared_ptr<const ARL::Reflection::ValueTable> readValues =
-		rbx::make_shared<const ARL::Reflection::ValueTable>();
+		arl::make_shared<const ARL::Reflection::ValueTable>();
 
 	if (!settingsFileContents.isEmpty())
 	{
@@ -1350,7 +1350,7 @@ shared_ptr<const ARL::Instances> ANORRLPluginHost::csgNegate(shared_ptr<const AR
 
     std::vector<shared_ptr<ARL::Instance> > toSelect;
     csgOps.doNegate( instances->begin(), instances->end(), toSelect );
-    shared_ptr<ARL::Instances> result = rbx::make_shared<ARL::Instances>(toSelect.size());
+    shared_ptr<ARL::Instances> result = arl::make_shared<ARL::Instances>(toSelect.size());
     int i = 0;
     for ( std::vector<shared_ptr<ARL::Instance> >::const_iterator iter = toSelect.begin(); iter != toSelect.end(); iter++, i++ )
         (*result)[i] = (*iter);
@@ -1369,7 +1369,7 @@ shared_ptr<const ARL::Instances> ANORRLPluginHost::csgSeparate(shared_ptr<const 
 
     std::vector<shared_ptr<ARL::Instance> > ungroupedItems;
     csgOps.doSeparate( instances->begin(), instances->end(), ungroupedItems );
-    shared_ptr<ARL::Instances> result = rbx::make_shared<ARL::Instances>(ungroupedItems.size());
+    shared_ptr<ARL::Instances> result = arl::make_shared<ARL::Instances>(ungroupedItems.size());
     int i = 0;
     for ( std::vector<shared_ptr<ARL::Instance> >::const_iterator iter = ungroupedItems.begin(); iter != ungroupedItems.end(); iter++, i++ )
         (*result)[i] = (*iter);

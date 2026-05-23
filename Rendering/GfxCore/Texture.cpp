@@ -1,6 +1,6 @@
 #include "GfxCore/Texture.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 FASTFLAGVARIABLE(GraphicsTextureCommitChanges, false)
 

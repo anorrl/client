@@ -6,7 +6,7 @@
 #include "lobject.h"
 #include <algorithm>
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 using namespace ARL;
 

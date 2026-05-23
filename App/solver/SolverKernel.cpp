@@ -12,7 +12,7 @@
 
 #include "boost/limits.hpp"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 namespace ARL
 {

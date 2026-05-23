@@ -134,14 +134,14 @@ public:
 		void setStickyWheels(bool value);
 		bool getStickyWheels() const { return stickyWheels; } 
 
-		rbx::signal<void(MoveState,MoveState)> moveStateChangedSignal; // void(newState, oldState)
+		arl::signal<void(MoveState,MoveState)> moveStateChangedSignal; // void(newState, oldState)
 
 		// this is better:
-		rbx::signal<void(shared_ptr<Instance>, shared_ptr<Instance>)> equippedSignal; // void(humanoid, controller)
-		rbx::signal<void(shared_ptr<Instance>)> unequippedSignal; //void(humanoid)
+		arl::signal<void(shared_ptr<Instance>, shared_ptr<Instance>)> equippedSignal; // void(humanoid, controller)
+		arl::signal<void(shared_ptr<Instance>)> unequippedSignal; //void(humanoid)
 
-		rbx::remote_signal<void(shared_ptr<Instance>)> createPlatformMotor6DSignal;
-		rbx::remote_signal<void()> destroyPlatformMotor6DSignal;
+		arl::remote_signal<void(shared_ptr<Instance>)> createPlatformMotor6DSignal;
+		arl::remote_signal<void()> destroyPlatformMotor6DSignal;
 
 		SkateboardController* getController() const { return myController.get(); }		
 		Humanoid* getControllingHumanoid() const { return humanoid; }

@@ -13,8 +13,8 @@ class CollectionService
 public:
 	CollectionService();
 
-	rbx::signal<void(shared_ptr<Instance>)> itemAddedSignal;
-	rbx::signal<void(shared_ptr<Instance>)> itemRemovedSignal;
+	arl::signal<void(shared_ptr<Instance>)> itemAddedSignal;
+	arl::signal<void(shared_ptr<Instance>)> itemRemovedSignal;
 
 	shared_ptr<const Instances> getCollection(std::string type);
 	shared_ptr<const Instances> getCollection(const Name& className);

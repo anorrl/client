@@ -7,7 +7,7 @@
 #include "V8World/Primitive.h"
 #include "V8World/Joint.h"
 #include "V8World/Assembly.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 
 

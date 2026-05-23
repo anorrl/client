@@ -20,8 +20,8 @@ namespace ARL {
 
 	public:
 
-		rbx::signals::scoped_connection p0AncestorChangedConnection;
-		rbx::signals::scoped_connection p1AncestorChangedConnection;
+		arl::signals::scoped_connection p0AncestorChangedConnection;
+		arl::signals::scoped_connection p1AncestorChangedConnection;
 
 		ConstraintSurfacePair(const Primitive& p0, size_t& face0Id, const Primitive& p1, size_t& face1Id);
 		ConstraintSurfacePair();

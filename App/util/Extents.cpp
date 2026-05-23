@@ -4,7 +4,7 @@
 #include "Util/Extents.h"
 #include "Util/Math.h"
 #include "V8DataModel/Camera.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

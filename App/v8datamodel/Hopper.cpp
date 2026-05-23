@@ -54,7 +54,7 @@ static Reflection::EnumPropDescriptor<HopperBin, HopperBin::BinType> desc_BinTyp
 //Used to convey the Active/Deactivated signal
 static Reflection::BoundProp<bool> desc_Active("Active", category_Data, &HopperBin::active, &HopperBin::dataChanged);
 
-static Reflection::EventDesc<HopperBin, void(shared_ptr<Instance>), rbx::remote_signal<void(shared_ptr<Instance>)> > desc_Selected(&HopperBin::selectedSignal, "Selected", "mouse");
+static Reflection::EventDesc<HopperBin, void(shared_ptr<Instance>), arl::remote_signal<void(shared_ptr<Instance>)> > desc_Selected(&HopperBin::selectedSignal, "Selected", "mouse");
 static Reflection::RemoteEventDesc<HopperBin, void()> desc_ReplicatedSelected(&HopperBin::replicatedSelectedSignal, "ReplicatedSelected", Security::None, Reflection::RemoteEventCommon::REPLICATE_ONLY, Reflection::RemoteEventCommon::CLIENT_SERVER);
 static Reflection::EventDesc<HopperBin, void()> desc_Deselected(&HopperBin::deselectedSignal, "Deselected");
 

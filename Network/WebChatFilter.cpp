@@ -4,7 +4,7 @@
 
 #include "ANORRLServicesTools.h"
 
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 #include "v8datamodel/Stats.h"
 #include "V8DataModel/DataModel.h"
 #include "util/Guid.h"
@@ -145,7 +145,7 @@ void WebChatFilter::filterMessage(
 	ARLASSERT(sender);
 	boost::function0<void> f = boost::bind(&filterMessageHelper, message, filteredCallback, sender);
 	boost::function0<void> g = boost::bind(&StandardOut::print_exception, f, ARL::MESSAGE_ERROR, false);
-	boost::thread(thread_wrapper(g, "rbx_webChatFilterHttpPost"));
+	boost::thread(thread_wrapper(g, "arl_webChatFilterHttpPost"));
 }
 
 void ARL::Network::ConstructModerationFilterTextParamsAndHeaders(

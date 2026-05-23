@@ -228,7 +228,7 @@ bool LuaArguments::getRec(lua_State *L, int luaIndex, Reflection::Variant& value
 			if (n > 0)
 			{
 				// Create a new collection so that we can populate it
-				shared_ptr<Reflection::ValueArray> values(rbx::make_shared<Reflection::ValueArray>(n));
+				shared_ptr<Reflection::ValueArray> values(arl::make_shared<Reflection::ValueArray>(n));
 
 				// Now populate the collection with values from the Lua *array* (recursive call to get)
 				for (int i=1; i<=n; i++)
@@ -270,7 +270,7 @@ bool LuaArguments::getRec(lua_State *L, int luaIndex, Reflection::Variant& value
 					getRec(L, -1, v, false, visitedTables);
 
 					if (!values)
-						values = rbx::make_shared<Reflection::ValueTable>();
+						values = arl::make_shared<Reflection::ValueTable>();
 
 					(*values)[key] = v;
 
@@ -282,7 +282,7 @@ bool LuaArguments::getRec(lua_State *L, int luaIndex, Reflection::Variant& value
 					value = shared_ptr<const ARL::Reflection::ValueTable>(values);
 				else
 					// Assume an empty Lua table is an empty ValueArray (they can auto-convert later)
-					value = rbx::make_shared<const Reflection::ValueArray>();
+					value = arl::make_shared<const Reflection::ValueArray>();
 
 				// reset visited status
 				if (visitedTables && tablePtr)

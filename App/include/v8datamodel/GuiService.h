@@ -28,7 +28,7 @@ namespace ARL {
 
 		Vector4 guiInset; // user's GUIs will be rendered inset by x,y in the top-left corner and by z,w in the bottom-right
         
-        rbx::signals::scoped_connection screenGuiConnection;
+        arl::signals::scoped_connection screenGuiConnection;
 
 		std::string errorMessage;
 		std::string uiMessage;
@@ -88,20 +88,20 @@ namespace ARL {
 		void openBrowserWindow(std::string url);
 
 		GuiService();
-		rbx::signal<void(std::string)> openUrlWindow;
-		rbx::signal<void()> urlWindowClosed;
+		arl::signal<void(std::string)> openUrlWindow;
+		arl::signal<void()> urlWindowClosed;
 
-		rbx::signal<void(std::string, std::string)> keyPressed;
-		rbx::signal<void()> escapeKeyPressed;
-		rbx::signal<void(GuiService::SpecialKey, std::string)> specialKeyPressed;
+		arl::signal<void(std::string, std::string)> keyPressed;
+		arl::signal<void()> escapeKeyPressed;
+		arl::signal<void(GuiService::SpecialKey, std::string)> specialKeyPressed;
 
-		rbx::signal<void(std::string)> newErrorSignal;
-		rbx::signal<void(UiMessageType, std::string)> newUiMessageSignal;
+		arl::signal<void(std::string)> newErrorSignal;
+		arl::signal<void(UiMessageType, std::string)> newUiMessageSignal;
 
-		rbx::signal<void()> showLeaveConfirmationSignal;
+		arl::signal<void()> showLeaveConfirmationSignal;
 
-		rbx::signal<void()> menuOpenedSignal;
-		rbx::signal<void()> menuClosedSignal;
+		arl::signal<void()> menuOpenedSignal;
+		arl::signal<void()> menuClosedSignal;
 
 		void fireMenuOpenedSignal() { menuOpenedSignal(); }
 		void fireMenuClosedSignal() { menuClosedSignal(); }

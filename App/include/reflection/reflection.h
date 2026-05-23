@@ -3,7 +3,7 @@
 #include "reflection/object.h"
 #include "reflection/enumconverter.h"
 #include "reflection/Type.h"
-#include "rbx/make_shared.h"
+#include "arl/make_shared.h"
 #include <boost/static_assert.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits.hpp>
@@ -692,7 +692,7 @@ namespace ARL
 					return shared_ptr<const Tuple>();	// no arguments. Return an null Tuple, which is shorthand for empty
 
 				// Create a tuple that is the same size as the number of arguments in the stack
-				shared_ptr<Tuple> tuple = rbx::make_shared<Tuple>(arguments.size() - index + 1);
+				shared_ptr<Tuple> tuple = arl::make_shared<Tuple>(arguments.size() - index + 1);
 				for (size_t i = 0; i < tuple->values.size(); ++i)
 				{
 					// Ignore the result. It might return false for nil args, but that is OK

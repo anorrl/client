@@ -22,7 +22,7 @@ namespace ARL {
 
 	private:
 		StepType stepType;
-		rbx::signals::scoped_connection steppedConnection;
+		arl::signals::scoped_connection steppedConnection;
 
 	protected:
 		// call this inside onServiceProvider

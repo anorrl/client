@@ -20,7 +20,7 @@ namespace ARL {
 	{
 	private:
 		typedef DescribedCreatable<Flag, Tool, sFlag> Super;
-		rbx::signals::scoped_connection_logged flagTouched;
+		arl::signals::scoped_connection_logged flagTouched;
 		void onEvent_flagTouched(shared_ptr<Instance> other);
 
 	protected:

@@ -15,8 +15,8 @@ namespace ARL {
 	public:
 		ReplicatedFirst();
 
-        rbx::signal<void()> finishedReplicatingSignal;
-		rbx::signal<void()> removeDefaultLoadingGuiSignal;
+        arl::signal<void()> finishedReplicatingSignal;
+		arl::signal<void()> removeDefaultLoadingGuiSignal;
 
 		void doRemoveDefaultLoadingGui();
 		bool getIsDefaultLoadingGuiRemoved() { return isDefaultLoadingGuiRemoved; }

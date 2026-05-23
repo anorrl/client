@@ -1,7 +1,7 @@
 #pragma once
 
-#include "rbx/Debug.h"
-#include "rbx/atomic.h"
+#include "arl/Debug.h"
+#include "arl/atomic.h"
 
 
 #ifdef __ARL_NOT_RELEASE
@@ -17,9 +17,9 @@ namespace ARL {
 class ConcurrencyValidator
 {
 private:
-    rbx::atomic<int> writing;
+    arl::atomic<int> writing;
 	std::string writeLocation;
-    mutable rbx::atomic<int> reading;
+    mutable arl::atomic<int> reading;
 
 public:
 	ConcurrencyValidator() : writing(0), reading(0)

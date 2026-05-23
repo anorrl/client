@@ -40,8 +40,8 @@ public:
 	void setCurrentEditor(Instance* newEditor);
 	virtual void fireSourceChanged() {};
 
-	rbx::remote_signal<void()> requestLock;
-	rbx::remote_signal<void(bool)> lockGrantedOrNot;
+	arl::remote_signal<void()> requestLock;
+	arl::remote_signal<void(bool)> lockGrantedOrNot;
 
 protected:
 	virtual void onScriptIdChanged() {}
@@ -50,7 +50,7 @@ protected:
 private:
 	struct LinkedScriptLoadData
 	{
-		rbx::atomic<int> scriptCount;
+		arl::atomic<int> scriptCount;
 		boost::function<void()> callbackWhenDone;
 		shared_ptr<Instance> context;
 		AsyncHttpQueue::ResultJob jobType;

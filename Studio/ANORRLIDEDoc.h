@@ -25,8 +25,8 @@
 #include "GfxBase/ViewBase.h"
 #include "v8datamodel/Game.h"
 #include "tool/DragTypes.h"
-#include "rbx/signal.h"
-#include "rbx/BaldPtr.h"
+#include "arl/signal.h"
+#include "arl/BaldPtr.h"
 #include "util/G3DCore.h"
 #include "tool/DragTypes.h"
 
@@ -108,7 +108,7 @@ struct GameState
 	shared_ptr<PlayersDataManager>  m_PlayerDataManager;
 	ARL::BaldPtr<ARL::Verb>         m_UndoVerb;
 	ARL::BaldPtr<ARL::Verb>         m_RedoVerb;
-    rbx::signals::scoped_connection m_ChangeHistoryConnection;
+    arl::signals::scoped_connection m_ChangeHistoryConnection;
 	SelectionHighlightAdornable     m_SelectionHighlightAdornable;
 };
 
@@ -320,7 +320,7 @@ private:
         PlayModifiedScriptItem() {}
         
         boost::shared_ptr<ARL::Instance> instance;
-        rbx::signals::scoped_connection	ancestryChangedConnection;
+        arl::signals::scoped_connection	ancestryChangedConnection;
     };
     
     typedef std::list<PlayModifiedScriptItem*> tPlayModifiedScriptList;
@@ -395,12 +395,12 @@ private:
     GameState                         m_PlayGame;
     GameState*                        m_CurrentGame;
 
-	rbx::signals::scoped_connection   m_ChangeHistoryConnection;
-	rbx::signals::scoped_connection	  m_openUrlConnection;
-	rbx::signals::scoped_connection	  m_contentDataLoadedConnection;
-	rbx::signals::scoped_connection   m_localPlayerConnection;	
-	rbx::signals::scoped_connection   m_workspacePropertyChangedConnection;
-	rbx::signals::scoped_connection   m_dataModelItemChangedConnection;
+	arl::signals::scoped_connection   m_ChangeHistoryConnection;
+	arl::signals::scoped_connection	  m_openUrlConnection;
+	arl::signals::scoped_connection	  m_contentDataLoadedConnection;
+	arl::signals::scoped_connection   m_localPlayerConnection;	
+	arl::signals::scoped_connection   m_workspacePropertyChangedConnection;
+	arl::signals::scoped_connection   m_dataModelItemChangedConnection;
 	
 
 	boost::shared_ptr<ARL::ViewBase>  m_GameView;

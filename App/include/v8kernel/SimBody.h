@@ -7,7 +7,7 @@
 #include "Util/Quaternion.h"
 #include "Util/Math.h"
 #include "Util/Memory.h"
-#include "rbx/threadsafe.h"
+#include "arl/threadsafe.h"
 #include "v8kernel/Constants.h"
 #include "Fastlog.h"
 

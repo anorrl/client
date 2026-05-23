@@ -7,7 +7,7 @@
 #include "V8Kernel/Constants.h"
 #include "Util/Units.h"
 #include "Util/Math.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

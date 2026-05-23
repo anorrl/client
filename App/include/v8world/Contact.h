@@ -10,8 +10,8 @@
 #include "Util/NormalId.h"
 #include "Util/Math.h"
 #include "Util/FixedArray.h"
-#include "rbx/Debug.h"
-#include "rbx/Declarations.h"
+#include "arl/Debug.h"
+#include "arl/Declarations.h"
 
 #define CONTACT_ARRAY_SIZE 40
 #define BULLET_CONTACT_ARRAY_SIZE 40

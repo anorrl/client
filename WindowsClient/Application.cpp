@@ -15,8 +15,8 @@
 #include "util/SoundService.h"
 #include "util/Statistics.h"
 #include "util/SafeToLower.h"
-#include "rbx/ProcessPerfCounter.h"
-#include "rbx/Tasks/Coordinator.h"
+#include "arl/ProcessPerfCounter.h"
+#include "arl/Tasks/Coordinator.h"
 #include "resource.h"
 #include "RenderSettingsItem.h"
 #include "Script/CoreScript.h"
@@ -53,7 +53,7 @@
 
 #include "boost/filesystem.hpp"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(ANORRLWndInit)
 LOGGROUP(Network)
@@ -84,7 +84,6 @@ Application::Application()
 	, processLocal_stopPreventMultipleJobsThread(NULL)
 	, marshaller(NULL)
 	, spoofMD5(false)
-	, processLocal_stopWaitForVideoPrerollThread(NULL)
 	, launchMode(SharedLauncher::Play)
 {
 	enteredShutdown = 0;
@@ -237,7 +236,7 @@ Application::RequestPlaceInfoResult Application::requestPlaceInfo(const std::str
 
 		std::stringstream jsonStream;
 		jsonStream << response;
-		shared_ptr<const Reflection::ValueTable> jsonResult(rbx::make_shared<const Reflection::ValueTable>());
+		shared_ptr<const Reflection::ValueTable> jsonResult(arl::make_shared<const Reflection::ValueTable>());
 		bool parseResult = WebParser::parseJSONTable(jsonStream.str(), jsonResult);
 		if (parseResult)
 		{
@@ -723,13 +722,8 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 		}
 	}
 
-    // Wait to display the window for video preroll
-    processLocal_stopWaitForVideoPrerollThread = CreateEvent(NULL, false, false, NULL);
-
-    if (ClientAppSettings().singleton().GetValueAllowVideoPreRoll() && !waitEventName.empty())
-        showWindowAfterEvent.reset(new boost::thread(boost::bind(&Application::waitForShowWindow, this, ClientAppSettings().singleton().GetValueVideoPreRollWaitTimeSeconds() * 1000)));
-    else
-        showWindowAfterEvent.reset(new boost::thread(boost::bind(&Application::waitForShowWindow, this, 0)));
+    // Wait to display the window
+	showWindowAfterEvent.reset(new boost::thread(boost::bind(&Application::waitForShowWindow, this, 0)));
 
 	bool startBootstrapperValidationThread = rand() % 100 < FInt::ValidateLauncherPercent;
 	if (startBootstrapperValidationThread)
@@ -872,12 +866,6 @@ void Application::Shutdown()
         singleRunningInstance->join();
     }
     singleRunningInstance.reset();
-
-    // If the showWindowAfterEvent is still pending, then join it so that it
-	// won't try to show window while we are shutting down currentDocument.
-	if (processLocal_stopWaitForVideoPrerollThread) {
-		SetEvent(processLocal_stopWaitForVideoPrerollThread);
-	}
 
 	if (showWindowAfterEvent) {
 		showWindowAfterEvent->join();
@@ -1226,10 +1214,7 @@ void Application::waitForShowWindow(int delay)
 				}
 			}
 
-			HANDLE handles[2] = { waitHandle, processLocal_stopWaitForVideoPrerollThread };
-			DWORD waitResult = WaitForMultipleObjects(2, handles,
-				false, // wait for _any_ signal, not all signals
-				delay);
+			DWORD waitResult = WaitForSingleObject(waitHandle, delay);
 
 			// if the processLocal event was fired, don't bother showing window
 			// because this app is closing.
@@ -1238,11 +1223,11 @@ void Application::waitForShowWindow(int delay)
 			}
 
 			if (waitResult == WAIT_FAILED) {
-				FASTLOG2(FLog::ANORRLWndInit, "Waiting for show window (video preroll) is done with ERROR, "
+				FASTLOG2(FLog::ANORRLWndInit, "Waiting for show window is done with ERROR, "
 					"wait result is = 0x%X, ERROR = 0x%X", waitResult, GetLastError());
 			} else {
 				FASTLOG1(FLog::ANORRLWndInit,
-					"Waiting for show window (video preroll) is done and wait result is = 0x%X", waitResult);
+					"Waiting for show window is done and wait result is = 0x%X", waitResult);
 			}
 
 			if (shared_ptr<ARL::Soundscape::SoundService> soundService = weakSoundService.lock())
@@ -1252,7 +1237,7 @@ void Application::waitForShowWindow(int delay)
 			}
 		} else {
 			LogManager::ReportEvent(EVENTLOG_ERROR_TYPE, 
-				ARL::format("Cannot create listening event (for video preroll): %s error: %d", 
+				ARL::format("Cannot create listening event: %s error: %d", 
 				waitEventName.c_str(), GetLastError()).c_str());
 		}
 	}
@@ -1303,7 +1288,7 @@ void Application::validateBootstrapperVersion()
 				return;
 
 			// from anorrl.lambda.cam or www.gametest1.robloxlabs.com to setup.lambda.cam or setup.gametest1.robloxlabs.com, etc...
-			installHost = "http://setup" + baseUrl.substr(pos+5);
+			installHost = "http://setup" + baseUrl.substr(pos+6);
 
 			{
 				Http http(installHost + "version");
@@ -1498,7 +1483,6 @@ void Application::shutdownVerbs()
     toggleFullscreenVerb.reset();
     leaveGameVerb.reset();
     screenshotVerb.reset();
-    recordToggleVerb.reset();
 }
 
 void Application::doOpenUrl(const std::string url)

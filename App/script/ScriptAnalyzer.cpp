@@ -14,7 +14,7 @@
 #include "script/LuaInstanceBridge.h"
 #include "script/LuaArguments.h"
 
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 
 FASTFLAGVARIABLE(StudioVariableIntellesense, false)
 FASTFLAGVARIABLE(DebugScriptAnalyzer, false)

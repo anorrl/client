@@ -1,6 +1,6 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "RbxAssert.h"
 #include "RbxFormat.h"
 #include <algorithm>
@@ -39,4 +39,4 @@ namespace ARL
 
 	#pragma optimize ("", on )
 
-} // rbx namespace
+} // arl namespace

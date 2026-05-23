@@ -36,7 +36,7 @@ namespace ARL {
 		shared_ptr<Instance> loadAnimation(shared_ptr<Instance> animation);
 		shared_ptr<const Reflection::ValueArray> getPlayingAnimationTracks();
 
-		rbx::signal<void(shared_ptr<Instance>)> animationPlayedSignal;
+		arl::signal<void(shared_ptr<Instance>)> animationPlayedSignal;
 	};
 
 }	// namespace ARL

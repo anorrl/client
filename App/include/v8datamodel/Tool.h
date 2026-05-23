@@ -38,10 +38,10 @@ namespace ARL {
 		// * track weather the tool is currently equipped
 		// * when a new connection is made to this signal, if the tool is
 		//   equipped then fire the signal to the new listener
-		class special_equipped_signal : public rbx::signals::signal_with_args<1, void(shared_ptr<Instance>)> //rbx::signal<void(shared_ptr<Instance>)>
+		class special_equipped_signal : public arl::signals::signal_with_args<1, void(shared_ptr<Instance>)> //arl::signal<void(shared_ptr<Instance>)>
 		{
 		private:
-			typedef rbx::signals::signal_with_args<1, void(shared_ptr<Instance>)> Super;
+			typedef arl::signals::signal_with_args<1, void(shared_ptr<Instance>)> Super;
 			bool currentlyEquipped;
 			weak_ptr<Instance> lastArg;
 
@@ -56,8 +56,8 @@ namespace ARL {
 			void unequipped();
 
 			template<class Delegate>
-			rbx::signals::connection connect(Delegate& function) {
-				rbx::signals::connection result = Super::connect(function);
+			arl::signals::connection connect(Delegate& function) {
+				arl::signals::connection result = Super::connect(function);
 				if (currentlyEquipped) {
 					function(lastArg.lock());
 				}
@@ -90,12 +90,12 @@ namespace ARL {
 		bool ownWeld;							// owner means it's responsible for creating and deleting the weld
 
 		// "Backend" connections
-		rbx::signals::scoped_connection_logged handleTouched;			// watches for handle touched
-		rbx::signals::scoped_connection characterChildAdded;		
-		rbx::signals::scoped_connection characterChildRemoved;		
-		rbx::signals::scoped_connection torsoChildAdded;			
-		rbx::signals::scoped_connection torsoChildRemoved;
-		rbx::signals::scoped_connection armChildAdded;			
+		arl::signals::scoped_connection_logged handleTouched;			// watches for handle touched
+		arl::signals::scoped_connection characterChildAdded;		
+		arl::signals::scoped_connection characterChildRemoved;		
+		arl::signals::scoped_connection torsoChildAdded;			
+		arl::signals::scoped_connection torsoChildRemoved;
+		arl::signals::scoped_connection armChildAdded;			
 
 
 		// Event handlers - hooked to these signals
@@ -185,9 +185,9 @@ namespace ARL {
 		~Tool();
 
 		special_equipped_signal equippedSignal;
-		rbx::remote_signal<void()> activatedSignal;
-		rbx::signal<void()> unequippedSignal;
-		rbx::remote_signal<void()> deactivatedSignal;
+		arl::remote_signal<void()> activatedSignal;
+		arl::signal<void()> unequippedSignal;
+		arl::remote_signal<void()> deactivatedSignal;
 
 		static void dropAll(Network::Player* player);
 	

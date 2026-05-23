@@ -6,7 +6,7 @@
 #include "V8World/Mechanism.h"
 #include "V8World/Assembly.h"
 #include "V8World/Primitive.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

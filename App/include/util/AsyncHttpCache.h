@@ -1,7 +1,7 @@
 #pragma once
 #include "FastLog.h"
 #include "Util/AsyncHttpQueue.h"
-#include "rbx/make_shared.h"
+#include "arl/make_shared.h"
 
 namespace ARL
 {
@@ -16,7 +16,7 @@ public:
 	{}
 	shared_ptr<const Reflection::ValueArray> getRequestedUrls()
 	{
-		shared_ptr<Reflection::ValueArray> result(rbx::make_shared<Reflection::ValueArray>());
+		shared_ptr<Reflection::ValueArray> result(arl::make_shared<Reflection::ValueArray>());
 		{
 			{
 				boost::mutex::scoped_lock lock(contentCacheMutex);

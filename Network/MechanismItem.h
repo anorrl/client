@@ -3,7 +3,7 @@
 #include "V8DataModel/PartInstance.h"
 #include "Util/PV.h"
 #include "Util/Memory.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "G3D/Array.h"
 #include "CompactCFrame.h"
 #include "RakNetTime.h"

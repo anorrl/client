@@ -13,7 +13,7 @@
 #include <QTreeWidget>
 #include "ui_TeamCreate.h"
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "Util/HttpAsync.h"
 
 #include "PlayersDataManager.h"
@@ -164,8 +164,8 @@ protected:
 
 	void mousePressEvent(QMouseEvent *evt) override;	
 
-	rbx::signals::scoped_connection       m_cPlayerAdded;
-	rbx::signals::scoped_connection       m_cPlayerRemoving;
+	arl::signals::scoped_connection       m_cPlayerAdded;
+	arl::signals::scoped_connection       m_cPlayerRemoving;
 
 	boost::shared_ptr<ARL::DataModel>     m_pDataModel;
 	boost::shared_ptr<PlayersDataManager> m_pPlayersDataManager;
@@ -296,7 +296,7 @@ private:
 
 	boost::shared_ptr<ARL::DataModel>              m_pDataModel;
 	boost::shared_ptr<PlayersDataManager>          m_pPlayersDataManager;
-	rbx::signals::scoped_connection                m_cPlaceIdChange;
+	arl::signals::scoped_connection                m_cPlaceIdChange;
 
 	CreatorsListWidget*                            m_pCreatorsListWidget;
 	QtUtilities::StackedWidgetAnimator*            m_pMainStackedWidgetAnimator;

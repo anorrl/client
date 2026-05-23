@@ -2,7 +2,7 @@
 
 #include "v8xml/Serializer.h"
 #include "v8xml/XmlSerializer.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include "ReflectionMetadata.h"
 #ifdef QT_ANORRL_STUDIO

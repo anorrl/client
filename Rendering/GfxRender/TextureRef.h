@@ -2,7 +2,7 @@
 
 #include "ImageInfo.h"
 
-#include <rbx/Boost.hpp>
+#include <ARL/Boost.hpp>
 
 namespace ARL
 {

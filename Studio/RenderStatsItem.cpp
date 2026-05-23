@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include "RenderStatsItem.h"
-#include "rbx/SystemUtil.h"
+#include "arl/SystemUtil.h"
 
 // ANORRL Headers
 #include "util/Profiling.h"

@@ -71,7 +71,7 @@ private:
 
 	mutable ANORRLCriticalSection diSection;
 
-	rbx::signals::scoped_connection processedMouseConnection;
+	arl::signals::scoped_connection processedMouseConnection;
 
 	size_t tableSize;
 

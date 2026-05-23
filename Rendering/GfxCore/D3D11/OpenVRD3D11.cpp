@@ -5,7 +5,7 @@
 
 #include "G3D/Quat.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 #include <d3d11.h>
 

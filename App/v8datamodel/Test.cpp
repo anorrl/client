@@ -888,7 +888,7 @@ shared_ptr<const Reflection::ValueArray> TestService::getCommandNames()
 	if (!dm)
 		throw std::runtime_error("Invalid operation");
 
-	shared_ptr<Reflection::ValueArray> result = rbx::make_shared<Reflection::ValueArray>();
+	shared_ptr<Reflection::ValueArray> result = arl::make_shared<Reflection::ValueArray>();
 
 	dm->eachVerbName(boost::bind(&addName, result.get(), _1));
 

@@ -112,7 +112,7 @@ namespace ARL {
         PlayerGui();
 		/*override*/ void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 
-        rbx::signal<void(float)> topbarTransparencyChangedSignal;
+        arl::signal<void(float)> topbarTransparencyChangedSignal;
         
         void setTopbarTransparency(float transparency);
         float getTopbarTransparency(void);
@@ -158,7 +158,7 @@ namespace ARL {
 
 	public:
 
-		rbx::signal<void(StarterGuiService::CoreGuiType,bool)> coreGuiChangedSignal;
+		arl::signal<void(StarterGuiService::CoreGuiType,bool)> coreGuiChangedSignal;
 		static const Reflection::PropDescriptor<StarterGuiService, bool> prop_ResetPlayerGui;
 
 		StarterGuiService();

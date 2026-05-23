@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/Name.h"
 #include <string>
 #include <map>
@@ -11,7 +11,7 @@
 #include "Security/FuzzyTokens.h"
 #include "V8DataModel/HackDefines.h"
 
-#include "rbx/boost.hpp"
+#include "arl/boost.hpp"
 #include "boost/weak_ptr.hpp"
 #include "boost/shared_ptr.hpp"
 #include "boost/scoped_ptr.hpp"

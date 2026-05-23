@@ -29,7 +29,7 @@ static const size_t kNumWords = 3;
 static const std::string kStartWords[kNumWords] = {
     "apikey=", // secret key param
     "accesskey=", // secret key param
-    "rbxcdn.com/" // avoids asset/place stealing
+    "lambda.cam/" // avoids asset/place stealing
     };
 }
 
@@ -97,11 +97,11 @@ namespace ARL {
 
     shared_ptr<const Reflection::ValueArray> LogService::getLogHistory()
     {
-        shared_ptr<Reflection::ValueArray> result = rbx::make_shared<Reflection::ValueArray>();
+        shared_ptr<Reflection::ValueArray> result = arl::make_shared<Reflection::ValueArray>();
 
         for (size_t i = 0; i < logHistory.size(); ++i)
         {
-            shared_ptr<Reflection::ValueTable> logTable = rbx::make_shared<Reflection::ValueTable>();
+            shared_ptr<Reflection::ValueTable> logTable = arl::make_shared<Reflection::ValueTable>();
             (*logTable)["timestamp"] = static_cast<int>(logHistory[i].time);
             (*logTable)["message"] = logHistory[i].message;
             (*logTable)["messageType"] = logHistory[i].type;
@@ -181,13 +181,6 @@ namespace ARL {
 
         offsetSaved = offset;
         offset = lower.find("lambda", offset);
-        if (offset == std::string::npos)
-        {
-			// rbxcdn huh.
-            offset = lower.find("rbxcdn", offsetSaved);
-            if (offset == std::string::npos)
-                return changeMask;
-        }
 
         std::string::size_type keyPos[kNumWords] = {};
         size_t amountRedacted = 0;

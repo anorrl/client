@@ -18,7 +18,7 @@
 #include <QMutex>
 
 // ANORRL Headers
-#include "rbx/signal.h"
+#include "arl/signal.h"
 
 // ANORRL Studio Headers
 #include "PropertyItems.h"
@@ -45,7 +45,7 @@ typedef std::list<PropertyItem *>                                           Prop
 typedef std::map<QString, CategoryItem *>                                   CategoryItems;
 typedef std::map<const ARL::Reflection::PropertyDescriptor*, PropertyItem*> PropertyItemMap;
 typedef std::map<const ARL::Reflection::ClassDescriptor*, InstanceList>     ClassDescriptorInstanceMap;
-typedef std::map<ARL::Instance*, rbx::signals::connection>                  Connections;
+typedef std::map<ARL::Instance*, arl::signals::connection>                  Connections;
 
 class CategoryItem: public QTreeWidgetItem
 {
@@ -176,7 +176,7 @@ private:
 	/*override*/bool event(QEvent * evt);
 	
 	boost::shared_ptr<ARL::DataModel>        m_pDataModel;
-	rbx::signals::scoped_connection          m_cInstanceSelectionChanged;
+	arl::signals::scoped_connection          m_cInstanceSelectionChanged;
 
 	QMutex                                   m_propertyWidgetMutex;
 

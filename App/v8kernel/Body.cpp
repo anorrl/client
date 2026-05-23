@@ -7,8 +7,8 @@
 #include "Util/Units.h"
 
 #include "boost/utility.hpp"
-#include "rbx/boost.hpp"
-#include "rbx/atomic.h"
+#include "arl/boost.hpp"
+#include "arl/atomic.h"
 
 #include "btBulletCollisionCommon.h"
 
@@ -16,7 +16,7 @@ namespace ARL {
 
 Body* Body::worldBody;
 
-static rbx::atomic<int> gBodyStateIndex;
+static arl::atomic<int> gBodyStateIndex;
 
 Body::Body()
 : connectorUseCount(0) 

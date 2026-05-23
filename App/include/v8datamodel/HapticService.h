@@ -41,8 +41,8 @@ namespace ARL
 	public:
 		HapticService();
 
-		rbx::signal<void(InputObject::UserInputType, VibrationMotor, shared_ptr<const ARL::Reflection::Tuple>)> setVibrationMotorSignal;
-		rbx::signal<void(InputObject::UserInputType)> setEnabledVibrationMotorsSignal;
+		arl::signal<void(InputObject::UserInputType, VibrationMotor, shared_ptr<const ARL::Reflection::Tuple>)> setVibrationMotorSignal;
+		arl::signal<void(InputObject::UserInputType)> setEnabledVibrationMotorsSignal;
 
 		void setEnabledVibrationMotors(InputObject::UserInputType inputType, HapticService::VibrationMotor vibrationMotor, bool isEnabled);
 

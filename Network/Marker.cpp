@@ -1,5 +1,5 @@
 #include "./Marker.h"
-#include "rbx/atomic.h"
+#include "arl/atomic.h"
 
 namespace ARL {
 	namespace Network {
@@ -8,7 +8,7 @@ const char* const sMarker = "NetworkMarker";
 
 Reflection::EventDesc<Marker, void()> event_Returned(&Marker::receivedSignal, "Received");
 
-static rbx::atomic<int> ctr;
+static arl::atomic<int> ctr;
 
 Marker::Marker()
 :returned(false)

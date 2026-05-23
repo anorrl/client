@@ -1,5 +1,5 @@
 #pragma once
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include <string>
 
 namespace ARL {

@@ -39,7 +39,7 @@ namespace ARL {
 		};
 
 		shared_ptr<ContentProviderJob> contentJob;
-        rbx::atomic<int> pendingRequests;
+        arl::atomic<int> pendingRequests;
 		bool immediateMode;
 
 		boost::scoped_ptr< ConcurrentControlledLRUCache<std::string, boost::shared_ptr<CachedItem> > > lruCache;

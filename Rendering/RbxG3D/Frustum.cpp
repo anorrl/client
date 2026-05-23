@@ -1,5 +1,5 @@
 #include "RbxG3D/Frustum.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "util/Math.h"
 #include "util/Extents.h"
 

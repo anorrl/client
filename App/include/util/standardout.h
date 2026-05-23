@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "boost/enable_shared_from_this.hpp"
 #include <time.h>
 
@@ -49,7 +49,7 @@ namespace ARL {
 		// Value is true if warning should be allowed to print, false to ignore.
 		static bool allowPrintWarnings;
 
-		rbx::signal<void(const StandardOutMessage&)> messageOut;
+		arl::signal<void(const StandardOutMessage&)> messageOut;
 		
 		// Prints an exception if f() throws an exception (passes exception on)
 		// TODO: Rewrite this to handle an kind of function????

@@ -59,7 +59,7 @@ namespace ARL
 	static Reflection::RemoteEventDesc<MarketplaceService, void(shared_ptr<Instance>, std::string, std::string, bool)> event_PromptTPPurchaseFinished(&MarketplaceService::thirdPartyPurchaseFinished, "ThirdPartyPurchaseFinished", "player","productId","receipt","wasPurchased", Security::ANORRLPlace, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
 
     
-    // rbx dev purchasing calls
+    // arl dev purchasing calls
 	static Reflection::BoundYieldFuncDesc<MarketplaceService, shared_ptr<const Reflection::ValueTable>(int, MarketplaceService::InfoType)> func_getProductInfo(&MarketplaceService::getProductInfo, "GetProductInfo", "assetId","infoType",MarketplaceService::INFO_ASSET, Security::None);
 	static Reflection::BoundYieldFuncDesc<MarketplaceService, bool(shared_ptr<Instance>, int)> func_playerOwnsAsset(&MarketplaceService::playerOwnsAsset, "PlayerOwnsAsset", "player", "assetId", Security::None);
 	static Reflection::BoundFuncDesc<MarketplaceService, void(shared_ptr<Instance>, int, bool, MarketplaceService::CurrencyType)> func_PromptPurchase(&MarketplaceService::promptPurchase, "PromptPurchase", "player", "assetId", "equipIfPurchased", true, "currencyType",MarketplaceService::CURRENCY_DEFAULT, Security::None);
@@ -571,7 +571,7 @@ namespace ARL
 		if(ARL::DataModel* dataModel = ARL::DataModel::get(this))
 			placeId = dataModel->getPlaceID();
 
-		shared_ptr<Reflection::ValueTable> values(rbx::make_shared<Reflection::ValueTable>());
+		shared_ptr<Reflection::ValueTable> values(arl::make_shared<Reflection::ValueTable>());
 
 		(*values)["playerId"] = userId;
 		(*values)["placeId"] = placeId;

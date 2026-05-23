@@ -1556,9 +1556,6 @@
     <ClCompile Include="v8datamodel\CSGMesh.cpp">
       <Filter>Source Files\V8DataModel</Filter>
     </ClCompile>
-    <ClCompile Include="v8datamodel\AdService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
-    </ClCompile>
     <ClCompile Include="v8datamodel\NotificationService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -3429,9 +3426,6 @@
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ScrollingFrame.h">
       <Filter>Header Files\V8DataModel\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="include\v8datamodel\AdService.h">
-      <Filter>Header Files\V8DataModel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\NotificationService.h">
       <Filter>Header Files</Filter>

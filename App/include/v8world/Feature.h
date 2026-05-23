@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Util/G3DCore.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

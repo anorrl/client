@@ -5,7 +5,7 @@
 #include "util/HttpAux.h"
 #include "util/FileSystem.h"
 #include "util/NamedMutex.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include <boost/filesystem.hpp>
 

@@ -17,7 +17,7 @@
 
 #include "reflection/EnumConverter.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGVARIABLE(PathfindingDetail, 0);
 LOGVARIABLE(PathfindingPerf, 0);

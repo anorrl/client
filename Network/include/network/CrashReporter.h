@@ -4,7 +4,7 @@
 #include <assert.h>
 #include "boost/scoped_ptr.hpp"
 #include "boost/thread.hpp"
-#include "rbx/CEvent.h"
+#include "arl/CEvent.h"
 
 
 /// Holds all the parameters to CrashReporter::Start

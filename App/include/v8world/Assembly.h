@@ -9,7 +9,7 @@
 #include "Util/ComputeProp.h"
 #include "Util/PhysicsCoord.h"
 #include "Util/Average.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include <set>
 #include "boost/intrusive/list.hpp"
 #include "Network/CompactCFrame.h"

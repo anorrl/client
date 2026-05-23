@@ -5,7 +5,7 @@
 
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/JointInstance.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 
 namespace ARL {

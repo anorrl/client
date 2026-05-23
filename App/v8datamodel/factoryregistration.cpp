@@ -211,7 +211,6 @@
 #include "util/KeyCode.h"
 #include "v8datamodel/PointsService.h"
 #include "v8datamodel/ScrollingFrame.h"
-#include "V8datamodel/AdService.h"
 #include "V8datamodel/NotificationService.h"
 #include "V8datamodel/GroupService.h"
 #include "V8datamodel/GamepadService.h"
@@ -557,7 +556,6 @@ ARL_REGISTER_CLASS(RemoteEvent);
 ARL_REGISTER_CLASS(TerrainRegion);
 ARL_REGISTER_CLASS(ModuleScript);
 ARL_REGISTER_CLASS(PointsService);
-ARL_REGISTER_CLASS(AdService);
 ARL_REGISTER_CLASS(NotificationService);
 ARL_REGISTER_CLASS(ReplicatedFirst);
 ARL_REGISTER_CLASS(PartOperation);
@@ -591,7 +589,7 @@ FactoryRegistrator::FactoryRegistrator()
 	ARL::registerStatsClasses();
 	ARL::Surface::registerSurfaceDescriptors();
 
-	rbx::signals::slot_exception_handler = onSlotException;
+	arl::signals::slot_exception_handler = onSlotException;
 
 	srand(ARL::randomSeed());
 

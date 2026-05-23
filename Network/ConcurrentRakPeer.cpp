@@ -23,7 +23,7 @@ public:
 		RakNet::SystemAddress systemAddress;
 		bool broadcast;
 	};
-	rbx::timestamped_safe_queue<SendData> sendQueue;
+	arl::timestamped_safe_queue<SendData> sendQueue;
 	bool isQueueErrorComputed;
 
 	weak_ptr<RakNet::RakPeerInterface> peer;

@@ -16,7 +16,7 @@
 #include <QMutex>
 
 // ANORRL Headers
-#include "rbx/signal.h"
+#include "arl/signal.h"
 
 namespace ARL {
 	class Instance;
@@ -50,8 +50,8 @@ private:
 
 	boost::shared_ptr<ARL::DataModel>				m_pDataModel;
 	boost::shared_ptr<ARL::Stats::StatsService>		m_pStats;
-	rbx::signals::scoped_connection					m_childAddedConnection;
-	rbx::signals::scoped_connection					m_childRemovedConnection;
+	arl::signals::scoped_connection					m_childAddedConnection;
+	arl::signals::scoped_connection					m_childRemovedConnection;
 	QTimer										   *m_pTimer;
 
 	bool											m_bPreviousProfiling;
@@ -75,7 +75,7 @@ private:
 	void onChildRemoved(boost::shared_ptr<ARL::Instance> child);
 
 	boost::shared_ptr<ARL::Stats::Item>		m_pItem;
-	rbx::signals::scoped_connection			m_childAddedConnection;
-	rbx::signals::scoped_connection			m_childRemovedConnection;	
+	arl::signals::scoped_connection			m_childAddedConnection;
+	arl::signals::scoped_connection			m_childRemovedConnection;	
 };
 

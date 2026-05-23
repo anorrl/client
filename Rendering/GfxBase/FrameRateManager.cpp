@@ -2,14 +2,14 @@
 #include "GfxBase/FrameRateManager.h"
 #include "GfxBase/RenderCaps.h"
 
-#include "rbx/debug.h"
-#include "rbx/Log.h"
+#include "arl/debug.h"
+#include "arl/Log.h"
 #include "FastLog.h"
 #include "RbxFormat.h"
-#include "rbx/TaskScheduler.h"
+#include "arl/TaskScheduler.h"
 
 #include "Util/Math.h"
-#include "rbx/SystemUtil.h"
+#include "arl/SystemUtil.h"
 
 #include <functional>
 

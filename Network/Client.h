@@ -18,7 +18,7 @@ namespace ARL {
 		private:
 			typedef DescribedCreatable<Client, Peer, sClient, Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
 
-			rbx::signals::scoped_connection closingConnection;
+			arl::signals::scoped_connection closingConnection;
 			RakNet::SystemAddress serverId;
             int userId;
 			std::string ticket;
@@ -29,9 +29,9 @@ namespace ARL {
 			Client();
 			~Client();
 
-			rbx::signal<void(std::string, shared_ptr<Instance>)> connectionAcceptedSignal;
-			rbx::signal<void(std::string, int, std::string)> connectionFailedSignal;
-			rbx::signal<void(std::string)> connectionRejectedSignal;
+			arl::signal<void(std::string, shared_ptr<Instance>)> connectionAcceptedSignal;
+			arl::signal<void(std::string, int, std::string)> connectionFailedSignal;
+			arl::signal<void(std::string)> connectionRejectedSignal;
 
 			void setTicket(const std::string& t) { ticket = t; }
 

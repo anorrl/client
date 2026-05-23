@@ -4,7 +4,7 @@
 #include "V8Kernel/Constants.h"
 #include "Util/Math.h"
 #include "Util/Units.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include <vector>
 #include <algorithm>
 

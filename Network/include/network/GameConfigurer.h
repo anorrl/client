@@ -4,7 +4,7 @@
 #include <boost/scoped_ptr.hpp>
 #include "reflection/Type.h"
 #include "reflection/Property.h"
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "security/SecurityContext.h"
 #include "util/Analytics.h"
 
@@ -70,9 +70,9 @@ namespace ARL {
 		ARL::Analytics::InfluxDb::Points analyticsPoints;
 		boost::shared_ptr<GamePerfMonitor> gamePerfMonitor;
 
-		rbx::signals::scoped_connection playerChangedConnection;
+		arl::signals::scoped_connection playerChangedConnection;
         
-        std::vector<rbx::signals::connection> connections;
+        std::vector<arl::signals::connection> connections;
 
 		void ifSeleniumThenSetCookie(const std::string& key, const std::string& value);
 		void showErrorWindow(const std::string& message, const std::string& errorType, const std::string& errorCategory);

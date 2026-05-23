@@ -19,7 +19,7 @@
 #include "security/FuzzyTokens.h"
 #include "util/ProgramMemoryChecker.h"
 #include "Script/ExitHandlers.h"
-#include "rbx/Intrusive/Set.h"
+#include "arl/Intrusive/Set.h"
 
 #include "Script/LuaVM.h"
 
@@ -28,7 +28,7 @@
 #undef check
 #endif
 
-#include "RBX/Debug.h"
+#include "ARL/Debug.h"
 
 namespace ARL
 {

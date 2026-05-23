@@ -20,7 +20,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 
-#include "rbx/Declarations.h"
+#include "arl/Declarations.h"
 
 #include "GfxBase/ViewBase.h"
 #include "GfxBase/RenderSettings.h"

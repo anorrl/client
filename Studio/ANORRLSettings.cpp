@@ -20,7 +20,7 @@
 #include "util/Statistics.h"
 
 // ANORRL Studio Headers
-#include "RbxWorkspace.h"
+#include "ARLWorkspace.h"
 
 #ifdef _WIN32
     #include "ANORRLStudioVersion.h"
@@ -168,9 +168,9 @@ QString ANORRLSettings::getResourcesFolder()
 
 void ANORRLSettings::initWorkspaceSettings()
 {
-	RbxWorkspace::isScriptAssetUploadEnabled = AppSettings::instance().isScriptAssetUploadEnabled();
-	RbxWorkspace::isAnimationAssetUploadEnabled = AppSettings::instance().isAnimationAssetUploadEnabled();
-	RbxWorkspace::isImageModelAssetUploadEnabled = AppSettings::instance().isImageModelAssetUploadEnabled();
+	ARLWorkspace::isScriptAssetUploadEnabled = AppSettings::instance().isScriptAssetUploadEnabled();
+	ARLWorkspace::isAnimationAssetUploadEnabled = AppSettings::instance().isAnimationAssetUploadEnabled();
+	ARLWorkspace::isImageModelAssetUploadEnabled = AppSettings::instance().isImageModelAssetUploadEnabled();
 	
 }
 

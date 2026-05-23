@@ -14,7 +14,7 @@
 #include "Util/RbxStringTable.h"
 #include "CPUCount.h"
 #include "FastLog.h"
-#include "rbx/RbxDbgInfo.h"
+#include "arl/RbxDbgInfo.h"
 #include "v8datamodel/HackDefines.h"
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/DataModel.h"

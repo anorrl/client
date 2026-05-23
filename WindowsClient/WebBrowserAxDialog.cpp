@@ -172,21 +172,13 @@ HRESULT WebBrowserAxDialog::GetIDsOfNames(REFIID riid, LPOLESTR* rgszNames, UINT
 	{
 		rgDispId[0] = 0;
 	}
-	else if (wcscmp(*rgszNames, L"AppHostOpenVideoFolder") == 0) 
+	else if (wcscmp(*rgszNames, L"AppHostOpenPicFolder") == 0)
 	{
 		rgDispId[0] = 1;
 	}
-	else if (wcscmp(*rgszNames, L"AppHostUploadVideo") == 0) 
-	{
-		rgDispId[0] = 2;
-	}
-	else if (wcscmp(*rgszNames, L"AppHostOpenPicFolder") == 0)
-	{
-		rgDispId[0] = 3;
-	}
 	else if (wcscmp(*rgszNames, L"AppHostPostImage") == 0)
 	{
-		rgDispId[0] = 4;
+		rgDispId[0] = 2;
 	}
 
 	return S_OK;
@@ -198,25 +190,9 @@ HRESULT WebBrowserAxDialog::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, 
 	{
 		if (dispIdMember == 1)
 		{
-			ShellExecuteW(NULL, L"open", ARL::FileSystem::getUserDirectory(true, ARL::DirVideo).native().c_str(), NULL, NULL, SW_SHOWNORMAL);
-		}
-		else if (dispIdMember == 2)
-		{
-			BSTR title_ = pDispParams->rgvarg[0].bstrVal;
-			SHORT postSetting = pDispParams->rgvarg[1].iVal;
-			SHORT doPost = pDispParams->rgvarg[2].iVal;
-			BSTR token_ = pDispParams->rgvarg[3].bstrVal;
-
-			std::string tile = convert_w2s(title_);
-			std::string token = convert_w2s(token_);
-
-			UploadVideo(token, doPost, postSetting, tile);
-		}
-		else if (dispIdMember == 3)
-		{
 			ShellExecuteW(NULL, L"open", ARL::FileSystem::getUserDirectory(true, ARL::DirPicture).native().c_str(), NULL, NULL, SW_SHOWNORMAL);
 		}
-		else if (dispIdMember == 4)
+		else if (dispIdMember == 2)
 		{
 			// This should only happen when the user clicks the "Do not show this window again" button
 			ARL::GameSettings::singleton().setPostImageSetting(ARL::GameSettings::NEVER);
@@ -271,168 +247,6 @@ void WebBrowserAxDialog::DoPostImage(std::string filename, std::string seostr)
 		dataModel->submitTask(boost::bind(&ARL::DataModel::ShowMessage, weak_ptr<ARL::DataModel>(dataModel), 1, "Failed to upload image", 2), ARL::DataModelJob::Write);
 
 		dataModel->submitTask(boost::bind(&ARL::DataModel::ScreenshotUploadTask, weak_ptr<ARL::DataModel>(dataModel), true), ARL::DataModelJob::Write);
-	}
-}
-
-DWORD ThreadDoUploadVideo(shared_ptr<ARL::DataModel> dataModel, bool siteSEO, std::string videoTitle, std::string videoSEOInfo, std::string fileName, std::string youtubeToken, boost::function<void(bool)> enableUpload) 
-{
-	shared_ptr<ARL::CoreGuiService> coreGuiService;
-	if(dataModel)
-		coreGuiService = shared_from(dataModel->find<ARL::CoreGuiService>());
-
-	if(coreGuiService)
-	{
-		dataModel->submitTask(boost::bind(&ARL::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Uploading video ...", 0), ARL::DataModelJob::Write);
-	}
-
-	ARL::Http http(ARL::format("http://uploads.gdata.youtube.com/feeds/api/users/default/uploads"));
-	try{
-		std::string request1;
-		if (!siteSEO)
-		{
-			std::string requestTmp(
-				"--f93dcbA3\r\n"
-				"Content-Type: application/atom+xml; charset=UTF-8\r\n"
-				"\r\n"
-				"<?xml version=\"1.0\"?>\r\n"
-				"<entry xmlns=\"http://www.w3.org/2005/Atom\"\r\n"
-				"xmlns:media=\"http://search.yahoo.com/mrss/\"\r\n"
-				"xmlns:yt=\"http://gdata.youtube.com/schemas/2007\">\r\n"
-				"<media:group>\r\n"
-				"<media:title type=\"plain\">" + videoTitle + "</media:title>\r\n"
-				"<media:description type=\"plain\">\r\n"
-				"" + videoSEOInfo + "\r\n"
-				"For more games visit http://anorrl.lambda.cam\r\n"
-				"</media:description>\r\n"
-				"<media:category\r\n"
-				"scheme=\"http://gdata.youtube.com/schemas/2007/categories.cat\">Games\r\n"
-				"</media:category>\r\n"
-				"<media:keywords>ANORRL, video, free game, online virtual world</media:keywords>\r\n"
-				"</media:group>\r\n"
-				"</entry>\r\n"
-				"--f93dcbA3\r\n"
-				"Content-Type: video/avi\r\n"
-				"Content-Transfer-Encoding: binary\r\n"
-				"\r\n"
-				);
-			request1 = requestTmp;
-		}
-		else
-		{
-			int s = videoSEOInfo.find(titlePrefix) + titlePrefix.length();
-			int e = videoSEOInfo.find(titlePostfix);
-			videoSEOInfo = videoSEOInfo.replace(s, e - s, videoTitle);
-
-			request1 = ARL::format("--f93dcbA3\r\n"
-				"Content-Type: application/atom+xml; charset=UTF-8\r\n"
-				"\r\n"
-				"%s\r\n"
-				"--f93dcbA3\r\n"
-				"Content-Type: video/avi\r\n"
-				"Content-Transfer-Encoding: binary\r\n"
-				"\r\n", videoSEOInfo.c_str());
-		}
-
-		std::stringstream buffer;		
-		buffer << request1;
-
-		ARLASSERT(!fileName.empty());
-		std::ifstream file(fileName.c_str(), std::ios::in | std::ios::binary);
-		if ( file.is_open() )
-		{
-			buffer << file.rdbuf();
-			file.close();
-		}
-		else
-		{
-			if(coreGuiService)
-				dataModel->submitTask(boost::bind(&ARL::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Failed to upload video", 2), ARL::DataModelJob::Write);
-
-			enableUpload(true);
-			return 1;
-		}
-
-		std::string request2("\r\n--f93dcbA3--\r\n");
-
-		buffer << request2;
-
-		buffer << '\0';
-
-		http.additionalHeaders["Authorization"] = "AuthSub token=\"" + youtubeToken + "\"";
-		http.additionalHeaders["GData-Version"] = "2";
-		http.additionalHeaders["X-GData-Key"] = "key=AI39si5sZKe6qAobFgnT9UFGXq9bBO7mUCsK3_cWy_LJmgKDtl-GOMHNNV_Bh7Jk7KqDX7vI8D30jFHwnu8RJcDmcJN47yPW7A";
-		http.additionalHeaders["Slug"] = "anorrl.avi";
-		http.additionalHeaders["Connection"] = "close";
-		http.additionalHeaders["Content-Length"] = ARL::format("%d", buffer.str().length());
-
-		std::string response;
-		http.post(buffer, "multipart/related; boundary=\"f93dcbA3\"", false, response);
-
-		// Check the response to see if the upload succeeded.
-		// TODO: better way of checking if the upload succeeded from youtube?
-		int pos = response.find("videoid");
-		if(coreGuiService){
-			if (pos == std::string::npos){
-				dataModel->submitTask(boost::bind(&ARL::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Failed to upload video", 2), ARL::DataModelJob::Write);
-			}
-			else{
-				dataModel->submitTask(boost::bind(&ARL::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Video uploaded to YouTube", 2), ARL::DataModelJob::Write);;
-			}
-		}
-	}
-	catch (...) {
-		if(coreGuiService)
-			dataModel->submitTask(boost::bind(&ARL::CoreGuiService::displayOnScreenMessage, coreGuiService, 1, "Failed to upload video", 2), ARL::DataModelJob::Write);
-	}
-
-	enableUpload(true);
-	return 1;
-}
-
-void WebBrowserAxDialog::DoUploadVideo(std::string token, std::string title, std::string seostr, int placeId)
-{
-	std::string titelString = title;
-
-	if (seostr.empty())
-	{
-		siteSEO = false;
-		if (placeId > 0) 
-		{
-			videoSEOInfo = format_string("To play this game, please visit: http://anorrl.lambda.cam/a-place?id=%d&amp;rbx_source=youtube&amp;rbx_medium=uservideo", placeId);
-		} else {
-			videoSEOInfo = seostr;
-		}
-	}
-	else
-	{
-		videoSEOInfo = seostr;
-		siteSEO = true;
-	}
-
-	videoTitle = titelString;
-	if (videoTitle.length() == 0)
-		videoTitle = "ANORRL ROCKS!";
-
-	youtubeToken = token;
-	
-	enableUpload(false);
-	boost::thread(boost::bind(ThreadDoUploadVideo, dataModel, siteSEO, videoTitle, videoSEOInfo, fileName, youtubeToken, enableUpload));
-}
-
-void WebBrowserAxDialog::UploadVideo(std::string  token, SHORT doPost, SHORT postSetting, std::string  title)
-{
-	ARL::GameBasicSettings::singleton().setUploadVideoSetting((ARL::GameSettings::UploadSetting)postSetting);
-
-	if (doPost == 1) {
-		int placeId = dataModel->getPlaceID();
-		if (dataModel->isVideoSEOInfoSet())
-		{
-			DoUploadVideo(token, title, dataModel->getVideoSEOInfo(), placeId);
-		}
-		else
-		{
-			DoUploadVideo(token, title, "", placeId);
-		}
 	}
 }
 

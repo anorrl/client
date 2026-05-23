@@ -12,7 +12,7 @@
 #include "util/ThreadPool.h"
 #include "util/Statistics.h"
 #include "StringConv.h"
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(Graphics)
 
@@ -167,7 +167,7 @@ TextureManager::TextureManager(VisualEngine* visualEngine)
 	, totalSizeBudget(0)
 {
 	loadingPool.reset(new ThreadPool(kTextureManagerThreads, BaseThreadPool::WaitForRunningTasks));
-	pendingImages.reset(new rbx::safe_queue<LoadedImage>());
+	pendingImages.reset(new arl::safe_queue<LoadedImage>());
 
 	fallbackTextures[Fallback_White] = createSingleColorTexture(255, 255, 255, 255);
 	fallbackTextures[Fallback_Gray] = createSingleColorTexture(128, 128, 128, 255);
@@ -400,7 +400,7 @@ bool TextureManager::loadAsync(const ContentId& id, const std::string& context)
 			if (ContentProvider* cp = visualEngine->getContentProvider())
 			{
                 boost::function<void (shared_ptr<const std::string>)> loadCallback =
-					boost::bind(&TextureManager::loadImageHttpCallback, weak_ptr<ThreadPool>(loadingPool), weak_ptr<rbx::safe_queue<LoadedImage> >(pendingImages), _1, id, maxTextureSize, flags, context);
+					boost::bind(&TextureManager::loadImageHttpCallback, weak_ptr<ThreadPool>(loadingPool), weak_ptr<arl::safe_queue<LoadedImage> >(pendingImages), _1, id, maxTextureSize, flags, context);
 
                 outstandingRequests++;
 
@@ -575,10 +575,10 @@ shared_ptr<Texture> TextureManager::createTexture(const Image& image)
     return texture;
 }
 
-void TextureManager::loadImageHttpCallback(const weak_ptr<ThreadPool>& loadingPoolWeak, const weak_ptr<rbx::safe_queue<LoadedImage> >& pendingImagesWeak, const shared_ptr<const std::string>& content, const ContentId& id, unsigned int maxTextureSize, unsigned int flags, const std::string& context)
+void TextureManager::loadImageHttpCallback(const weak_ptr<ThreadPool>& loadingPoolWeak, const weak_ptr<arl::safe_queue<LoadedImage> >& pendingImagesWeak, const shared_ptr<const std::string>& content, const ContentId& id, unsigned int maxTextureSize, unsigned int flags, const std::string& context)
 {
 	shared_ptr<ThreadPool> loadingPool = loadingPoolWeak.lock();
-	shared_ptr<rbx::safe_queue<LoadedImage> > pendingImages = pendingImagesWeak.lock();
+	shared_ptr<arl::safe_queue<LoadedImage> > pendingImages = pendingImagesWeak.lock();
 
     if (loadingPool && pendingImages)
 	{
@@ -617,7 +617,7 @@ static std::pair<std::string, int> findImageAsset(const ContentId& id, bool useR
     return std::make_pair(ContentProvider::findAsset(id), 1);
 }
 
-void TextureManager::loadImageFile(const shared_ptr<rbx::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const ContentId& loadId, unsigned int maxTextureSize, unsigned int flags, bool useRetina, const std::string& context)
+void TextureManager::loadImageFile(const shared_ptr<arl::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const ContentId& loadId, unsigned int maxTextureSize, unsigned int flags, bool useRetina, const std::string& context)
 {
 	std::pair<std::string, int> imageAsset = findImageAsset(loadId, useRetina);
 
@@ -632,14 +632,14 @@ void TextureManager::loadImageFile(const shared_ptr<rbx::safe_queue<LoadedImage>
 	}
 }
 
-void TextureManager::loadImageHttp(const shared_ptr<rbx::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const shared_ptr<const std::string>& content, unsigned int maxTextureSize, unsigned int flags, const std::string& context)
+void TextureManager::loadImageHttp(const shared_ptr<arl::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const shared_ptr<const std::string>& content, unsigned int maxTextureSize, unsigned int flags, const std::string& context)
 {
     std::istringstream in(*content);
 
     loadImage(pendingImages, id, in, maxTextureSize, flags, 1, context);
 }
 
-void TextureManager::loadImage(const shared_ptr<rbx::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, std::istream& stream, unsigned int maxTextureSize, unsigned int flags, int scale, const std::string& context)
+void TextureManager::loadImage(const shared_ptr<arl::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, std::istream& stream, unsigned int maxTextureSize, unsigned int flags, int scale, const std::string& context)
 {
     try
 	{
@@ -671,7 +671,7 @@ void TextureManager::loadImage(const shared_ptr<rbx::safe_queue<LoadedImage> >& 
 	}
 }
 
-void TextureManager::loadImageError(const shared_ptr<rbx::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const char* error, const std::string& context)
+void TextureManager::loadImageError(const shared_ptr<arl::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const char* error, const std::string& context)
 {
     logError(id, context, error);
 

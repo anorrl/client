@@ -6,8 +6,8 @@
 #include "V8World/ContactManager.h"
 
 #include "Util/IndexArray.h"
-#include "rbx/rbxTime.h"
-#include "rbx/signal.h"
+#include "arl/rbxTime.h"
+#include "arl/signal.h"
 #include "Util/SpatialRegion.h"
 #include "Util/HeapValue.h"
 #include "util/PhysicalProperties.h"
@@ -76,11 +76,11 @@ namespace ARL {
 	{
 	friend class ContactManager;
 	public:
-		rbx::signal<void(Joint*, Primitive*, std::vector<Primitive*>&)> postInsertJointSignal;
-		rbx::signal<void(Joint*, std::vector<Primitive*>&, std::vector<Primitive*>&)> postRemoveJointSignal;
-		rbx::signal<void(Joint*)> autoJoinSignal;
-		rbx::signal<void(Joint*)> autoDestroySignal;
-		rbx::signal<void(std::pair<Primitive*, Primitive*>)> primitiveCollideSignal;
+		arl::signal<void(Joint*, Primitive*, std::vector<Primitive*>&)> postInsertJointSignal;
+		arl::signal<void(Joint*, std::vector<Primitive*>&, std::vector<Primitive*>&)> postRemoveJointSignal;
+		arl::signal<void(Joint*)> autoJoinSignal;
+		arl::signal<void(Joint*)> autoDestroySignal;
+		arl::signal<void(std::pair<Primitive*, Primitive*>)> primitiveCollideSignal;
 
 		struct TouchInfo
 		{

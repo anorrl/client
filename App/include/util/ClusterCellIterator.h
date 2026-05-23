@@ -1,7 +1,7 @@
 #pragma once
 
 #include "G3DCore.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Voxel/Cell.h"
 #include "Voxel/Util.h"
 #include "Util/StreamRegion.h"

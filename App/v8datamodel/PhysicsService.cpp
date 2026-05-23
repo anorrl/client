@@ -7,7 +7,7 @@
 #include "V8World/World.h"
 #include "V8World/Assembly.h"
 #include "Network/Players.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

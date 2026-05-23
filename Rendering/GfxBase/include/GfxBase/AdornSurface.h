@@ -30,7 +30,7 @@ namespace ARL {
 
 		const Camera* getCamera() const																		{ return 0; }
 		TextureProxyBaseRef createTextureProxy(const ContentId& id, bool& waiting, bool bBlocking, const std::string& context = "")			{ return parent->createTextureProxy(id,waiting,bBlocking,context);	}
-        rbx::signal<void()>& getUnbindResourcesSignal()                                                     { return parent->getUnbindResourcesSignal(); }
+        arl::signal<void()>& getUnbindResourcesSignal()                                                     { return parent->getUnbindResourcesSignal(); }
 		Rect2D getViewport() const;
 
 		void setObjectToWorldMatrix(const CoordinateFrame& c) { ; }

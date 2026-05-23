@@ -107,7 +107,7 @@ namespace ARL {
 
 		static Reflection::EventDesc<TeleportService, void(shared_ptr<Instance>, Reflection::Variant)> event_playerArrivedFromTeleport;
 		void sendPlayerArrivedFromTeleportSignal(shared_ptr<Instance> loadingGui, Reflection::Variant teleportDataTable) { playerArrivedFromTeleportSignal(loadingGui, teleportDataTable); }
-		rbx::signal<void(shared_ptr<Instance>, Reflection::Variant)> playerArrivedFromTeleportSignal;
+		arl::signal<void(shared_ptr<Instance>, Reflection::Variant)> playerArrivedFromTeleportSignal;
         static int getPreviousPlaceId() {return previousPlaceId;}
 		static int getPreviousCreatorType() {return previousCreatorType;}
 		static int getPreviousCreatorId() {return previousCreatorId;}

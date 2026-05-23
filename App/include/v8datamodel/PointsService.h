@@ -20,7 +20,7 @@ namespace ARL
 	private:
 		typedef DescribedCreatable<PointsService, Instance, sPointsService, Reflection::ClassDescriptor::INTERNAL> Super;
 
-		rbx::signals::scoped_connection heartbeatSignalConnection;
+		arl::signals::scoped_connection heartbeatSignalConnection;
 
 		boost::mutex batchAwardPointsMutex;
 		PointRequestMap batchAwardPointRequests;
@@ -44,7 +44,7 @@ namespace ARL
 	public:
 		PointsService();
 
-		rbx::remote_signal<void(int, int, int, int)> pointsAwardedSignal;
+		arl::remote_signal<void(int, int, int, int)> pointsAwardedSignal;
 
 		void getUserPointBalanceInUniverse(int userId, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction);
 		void getUserPointBalance(int userId, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction);

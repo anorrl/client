@@ -66,5 +66,5 @@ public:
 	static ARL::Reflection::EnumPropDescriptor<CRenderSettingsItem, CRenderSettingsItem::ResolutionPreset> prop_resolution;
 
 	// special signal used only in native code
-	rbx::signal<void(const ARL::Reflection::PropertyDescriptor*)> settingsChangedSignal;
+	arl::signal<void(const ARL::Reflection::PropertyDescriptor*)> settingsChangedSignal;
 };

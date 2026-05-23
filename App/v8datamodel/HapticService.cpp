@@ -104,7 +104,7 @@ namespace ARL
 			}
 		}
 
-		shared_ptr<const ARL::Reflection::Tuple> tuple(rbx::make_shared<Reflection::Tuple>());
+		shared_ptr<const ARL::Reflection::Tuple> tuple(arl::make_shared<Reflection::Tuple>());
 		return tuple;
 	}
 

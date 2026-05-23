@@ -20,8 +20,8 @@ class SeatImpl : public ActionStation<Base>
 	private:
 		typedef ActionStation<Base> Super;
 		// "Backend" connections
-		rbx::signals::scoped_connection seatTouched;
-		rbx::signals::scoped_connection humanoidDoneSitting;
+		arl::signals::scoped_connection seatTouched;
+		arl::signals::scoped_connection humanoidDoneSitting;
 
 		bool disabled;
 
@@ -234,8 +234,8 @@ class Seat : public DescribedCreatable<Seat, SeatImpl<BasicPartInstance>, sSeat>
 	typedef SeatImpl<BasicPartInstance> Super;
 public:
 
-	rbx::remote_signal<void(shared_ptr<Instance>)> createSeatWeldSignal;
-	rbx::remote_signal<void()> destroySeatWeldSignal;
+	arl::remote_signal<void(shared_ptr<Instance>)> createSeatWeldSignal;
+	arl::remote_signal<void()> destroySeatWeldSignal;
 
 	Seat();
 	~Seat();

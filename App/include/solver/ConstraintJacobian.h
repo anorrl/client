@@ -11,7 +11,7 @@
 #include <utility>
 
 #include "simd/simd.h"
-#include "rbx/ArrayDynamic.h"
+#include "arl/ArrayDynamic.h"
 
 namespace ARL
 {

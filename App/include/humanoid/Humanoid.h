@@ -151,18 +151,18 @@ namespace ARL {
 		shared_ptr<PartInstance> appendageCache[APPENDAGE_COUNT];
 		shared_ptr<PartInstance> baseInstance;
 
-		rbx::signals::scoped_connection characterChildAdded;		
-		rbx::signals::scoped_connection characterChildRemoved;				
+		arl::signals::scoped_connection characterChildAdded;		
+		arl::signals::scoped_connection characterChildRemoved;				
 		void onEvent_ChildModified(shared_ptr<Instance> child);
 
-		boost::unordered_map<shared_ptr<PartInstance>, rbx::signals::scoped_connection> siblingMap;
+		boost::unordered_map<shared_ptr<PartInstance>, arl::signals::scoped_connection> siblingMap;
 		void updateSiblingPropertyListener(shared_ptr<PartInstance> sibling);
 		void onEvent_SiblingPropertyChanged(const ARL::Reflection::PropertyDescriptor* desc);
 
 		shared_ptr<StatusInstance> status;
 
-		rbx::signals::scoped_connection onCFrameChangedConnection;
-		rbx::signals::scoped_connection humanoidEquipConnection;
+		arl::signals::scoped_connection onCFrameChangedConnection;
+		arl::signals::scoped_connection humanoidEquipConnection;
 
 		void setCachePointerByType(AppendageType appendage, PartInstance *part);
 		void updateBaseInstance();
@@ -289,15 +289,15 @@ namespace ARL {
         void setStateTransitionEnabled(HUMAN::StateType state, bool enabled);
 
 		shared_ptr<const Reflection::ValueArray> getStatuses();
-		rbx::signal<void(Status)> statusAddedSignal;
-		rbx::signal<void(Status)> statusRemovedSignal;
-		rbx::signal<void(std::string)> customStatusAddedSignal;
-		rbx::signal<void(std::string)> customStatusRemovedSignal;
+		arl::signal<void(Status)> statusAddedSignal;
+		arl::signal<void(Status)> statusRemovedSignal;
+		arl::signal<void(std::string)> customStatusAddedSignal;
+		arl::signal<void(std::string)> customStatusRemovedSignal;
 		
-		rbx::remote_signal<void(shared_ptr<Instance>)> serverEquipToolSignal;
+		arl::remote_signal<void(shared_ptr<Instance>)> serverEquipToolSignal;
 
 		// Humanoid Network Update Connection
-		rbx::signals::scoped_connection         onPositionUpdatedByNetworkConnection;
+		arl::signals::scoped_connection         onPositionUpdatedByNetworkConnection;
 
 		NameOcclusion getNameOcclusion() const { return nameOcclusion; }
 		void setNameOcclusion(NameOcclusion value);
@@ -329,31 +329,31 @@ namespace ARL {
 		static const Vector3 &defaultCharacterCorner() { static Vector3 corner(2.5f,2.5f,2.5f); return corner; }
 
 		// By Definition, these are all called by HumanoidState - these are reflected
-		rbx::signal<void()> diedSignal;
-		rbx::signal<void(float)> swimmingSignal;
-		rbx::signal<void(float)> runningSignal;				// state change scripts			
-		rbx::signal<void(float)> climbingSignal;			// state change scripts
-		rbx::signal<void(bool)> jumpingSignal;				// state change scripts
-		rbx::signal<void(bool)> freeFallingSignal;
-		rbx::signal<void(bool)> strafingSignal;
-		rbx::signal<void(bool)> gettingUpSignal;
-		rbx::signal<void(bool)> fallingDownSignal;
-		rbx::signal<void(bool)> ragdollSignal;
-		rbx::signal<void(bool, shared_ptr<Instance>)> seatedSignal;
-		rbx::signal<void(bool)> platformStandingSignal;
-        rbx::signal<void(ARL::HUMAN::StateType, ARL::HUMAN::StateType)> stateChangedSignal;
-        rbx::signal<void(ARL::HUMAN::StateType, bool)> stateEnabledChangedSignal;
+		arl::signal<void()> diedSignal;
+		arl::signal<void(float)> swimmingSignal;
+		arl::signal<void(float)> runningSignal;				// state change scripts			
+		arl::signal<void(float)> climbingSignal;			// state change scripts
+		arl::signal<void(bool)> jumpingSignal;				// state change scripts
+		arl::signal<void(bool)> freeFallingSignal;
+		arl::signal<void(bool)> strafingSignal;
+		arl::signal<void(bool)> gettingUpSignal;
+		arl::signal<void(bool)> fallingDownSignal;
+		arl::signal<void(bool)> ragdollSignal;
+		arl::signal<void(bool, shared_ptr<Instance>)> seatedSignal;
+		arl::signal<void(bool)> platformStandingSignal;
+        arl::signal<void(ARL::HUMAN::StateType, ARL::HUMAN::StateType)> stateChangedSignal;
+        arl::signal<void(ARL::HUMAN::StateType, bool)> stateEnabledChangedSignal;
 		ARL::HUMAN::StateType getCurrentStateType();
 		ARL::HUMAN::StateType getPreviousStateType() { return previousState; };
 		void setPreviousStateType(ARL::HUMAN::StateType newState);
 		void changeState(ARL::HUMAN::StateType state);
 		static bool isStateInString(const std::string& text, const ARL::HUMAN::StateType &compare, ARL::HUMAN::StateType& value);
 
-		rbx::signal<void(float)> healthChangedSignal;
+		arl::signal<void(float)> healthChangedSignal;
 
 		// Internal use only - no reflection - happens both client, server
-		rbx::signal<void()> doneSittingSignal;
-		rbx::signal<void()> donePlatformStandingSignal;
+		arl::signal<void()> doneSittingSignal;
+		arl::signal<void()> donePlatformStandingSignal;
 
 		void equipToolInstance(shared_ptr<Instance> instance);
 		void equipTool(ARL::Tool* tool);
@@ -514,7 +514,7 @@ namespace ARL {
 		// Walk Utilities
 		void moveTo(const Vector3& worldPosition, PartInstance* part);
 		void moveTo2(Vector3 worldPosition, shared_ptr<Instance> part);
-		rbx::signal<void(bool)> moveToFinishedSignal;
+		arl::signal<void(bool)> moveToFinishedSignal;
 
 		// Build Joints
 		void buildJoints(ARL::DataModel* dm = NULL);
@@ -599,7 +599,7 @@ namespace ARL {
 		void setupAnimator();
 		shared_ptr<const Reflection::ValueArray> getPlayingAnimationTracks();
 
-		rbx::signal<void(shared_ptr<Instance>)> animationPlayedSignal;
+		arl::signal<void(shared_ptr<Instance>)> animationPlayedSignal;
 
 		bool getOwnedByLocalPlayer() const { return ownedByLocalPlayer; }
 		

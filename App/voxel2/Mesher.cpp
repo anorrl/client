@@ -4,7 +4,7 @@
 #include "voxel2/Grid.h"
 #include "voxel2/MaterialTable.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 namespace ARL { namespace Voxel2 { namespace Mesher {
 

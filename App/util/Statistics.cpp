@@ -14,7 +14,7 @@
 #include "format_string.h"
 #include "SimpleJSON.h"
 #include "util/FileSystem.h"
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 #include "ANORRLServicesTools.h"
 
 #include "v8xml/WebParser.h"
@@ -222,7 +222,7 @@ void addABTest(const std::string& name, const std::string& value, void* context)
 {
 	ABPass* pass = (ABPass*)context;
 
-	shared_ptr<ARL::Reflection::ValueTable> experimentTable = rbx::make_shared<ARL::Reflection::ValueTable>();
+	shared_ptr<ARL::Reflection::ValueTable> experimentTable = arl::make_shared<ARL::Reflection::ValueTable>();
 	(*experimentTable)["Name"] = name;
 	(*experimentTable)["Type"] = pass->entry;
 
@@ -233,7 +233,7 @@ ARL::HttpFuture FetchABTestDataAsync(const std::string& url)
 {
 	FASTLOG(FLog::ClientSettings, "Loading AB tests to http future");
 
-	shared_ptr<ARL::Reflection::ValueArray> experiments = rbx::make_shared<ARL::Reflection::ValueArray>();
+	shared_ptr<ARL::Reflection::ValueArray> experiments = arl::make_shared<ARL::Reflection::ValueArray>();
 	ABPass passData;
 	passData.experiments = experiments;
 

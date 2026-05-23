@@ -5,7 +5,7 @@
 #include <map>
 #include <boost/function.hpp>
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "security/FuzzyTokens.h"
 #include "v8datamodel/HackDefines.h"
 

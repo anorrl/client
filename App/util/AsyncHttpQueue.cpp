@@ -12,7 +12,7 @@
 
 #include "Util/SafeToLower.h"
 #include "util/standardout.h"
-#include "rbx/make_shared.h"
+#include "arl/make_shared.h"
 
 #include "StringConv.h"
 
@@ -91,7 +91,7 @@ void AsyncHttpQueue::resetStatsItem(ServiceProvider* provider)
 
 shared_ptr<const Reflection::ValueArray> AsyncHttpQueue::getFailedUrls()
 {
-	shared_ptr<Reflection::ValueArray> result(rbx::make_shared<Reflection::ValueArray>());
+	shared_ptr<Reflection::ValueArray> result(arl::make_shared<Reflection::ValueArray>());
 	{
 		{
 			boost::recursive_mutex::scoped_lock lock(requestSync);
@@ -111,7 +111,7 @@ int AsyncHttpQueue::getRequestQueueSize() const
 }
 shared_ptr<const Reflection::ValueArray> AsyncHttpQueue::getRequestQueueUrls()
 {
-	shared_ptr<Reflection::ValueArray> result(rbx::make_shared<Reflection::ValueArray>());
+	shared_ptr<Reflection::ValueArray> result(arl::make_shared<Reflection::ValueArray>());
 	{
 		{
 			boost::recursive_mutex::scoped_lock lock(requestSync);
@@ -240,7 +240,7 @@ bool AsyncHttpQueue::isRequestQueueEmpty()
 	boost::recursive_mutex::scoped_lock lock(requestSync);
 	return requestQueue.empty();
 }
-void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQueue, RequestHandle request, boost::shared_ptr<rbx::spin_mutex> criticalSection)
+void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQueue, RequestHandle request, boost::shared_ptr<arl::spin_mutex> criticalSection)
 {
 	shared_ptr<std::string> response(new std::string());
 	RequestResult result;
@@ -281,7 +281,7 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 
 				if (!filename.empty()) // is a file on disk. do file load
 				{
-					rbx::spin_mutex::scoped_lock lock(*criticalSection);
+					arl::spin_mutex::scoped_lock lock(*criticalSection);
 					std::ifstream filestream(utf8_decode(filename).c_str(), std::ios_base::in | std::ios_base::binary);
 					std::ostringstream strbuffer;
 					strbuffer << filestream.rdbuf();
@@ -401,7 +401,7 @@ void AsyncHttpQueue::processRequests(boost::weak_ptr<AsyncHttpQueue> weakHttpQue
 
 		{
 			//Issue the callbacks
-			rbx::spin_mutex::scoped_lock lock(*criticalSection);
+			arl::spin_mutex::scoped_lock lock(*criticalSection);
 			std::for_each(callbacks.begin(), callbacks.end(), boost::bind(&callback, _1, httpQueue->owner, result, response, exception));
 		}
 	}

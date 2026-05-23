@@ -121,8 +121,8 @@ static const char* actionCheckBox      = "checkbox";
 static const char* actionRadio         = "radio";
 static const char* actionPlugin        = "plugin";
 
-static const char* settingRibbonMinimized   = "rbxRibbonMinimized";
-static const char* settingRecentFiles       = "rbxRecentFiles";
+static const char* settingRibbonMinimized   = "arlRibbonMinimized";
+static const char* settingRecentFiles       = "arlRecentFiles";
 static const char* settingLastDirectory     = "arl_last_directory";
 
 ANORRLRibbonMainWindow::ANORRLRibbonMainWindow(ANORRLMainWindow* pMainWindow)

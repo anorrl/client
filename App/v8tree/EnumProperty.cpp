@@ -15,8 +15,8 @@
 #include "Util/PhysicalProperties.h"
 #include "v8tree/Instance.h"
 #include "Script/ThreadRef.h"
-#include "rbx/make_shared.h"
-#include "rbx/signal.h"
+#include "arl/make_shared.h"
+#include "arl/signal.h"
 
 using namespace ARL;
 using namespace ARL::Reflection;
@@ -797,9 +797,9 @@ const Type& Type::getSingleton<ARL::Vector2>()
 }
 
 template<>
-const Type& Type::getSingleton<rbx::signals::connection>()
+const Type& Type::getSingleton<arl::signals::connection>()
 {
-	static TType<rbx::signals::connection> type("Connection");
+	static TType<arl::signals::connection> type("Connection");
 	return type;
 }
 
@@ -990,7 +990,7 @@ shared_ptr<const Tuple>& Variant::convert<shared_ptr<const Tuple> >(void)
 	}
 
 	// Any value can be converted to a tuple of 1
-	shared_ptr<Tuple> tuple = rbx::make_shared<Tuple>(1);
+	shared_ptr<Tuple> tuple = arl::make_shared<Tuple>(1);
 	tuple->values[0] = *this;
 	value = shared_ptr<const Tuple>(tuple);
 	_type = &Type::singleton< shared_ptr<const Tuple> >();

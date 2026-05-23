@@ -46,7 +46,7 @@
     #include "BreakpadCrashReporter.h"
 #endif
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(ANORRLWndInit)
 

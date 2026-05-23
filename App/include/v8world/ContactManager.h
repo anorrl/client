@@ -16,7 +16,7 @@
 #include "v8tree/Instance.h"
 #include "util/PartMaterial.h"
 
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 
 #include <set>
 #include <boost/unordered_set.hpp>

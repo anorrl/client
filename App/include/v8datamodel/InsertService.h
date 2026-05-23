@@ -2,8 +2,8 @@
 #include "V8Tree/Instance.h"
 #include "V8Tree/Service.h"
 #include "V8DataModel/ContentProvider.h"
-#include "rbx/signal.h"
-#include "rbx/boost.hpp"
+#include "arl/signal.h"
+#include "arl/boost.hpp"
 #include "boost/thread.hpp"
 #include <boost/unordered_set.hpp>
 
@@ -21,12 +21,12 @@ namespace ARL {
 	public:
 		InsertService();
 
-		rbx::remote_signal<void(std::string, ContentId)> insertRequestSignal;
-		rbx::remote_signal<void(std::string, int, int)> insertRequestAssetSignal;
-		rbx::remote_signal<void(std::string, int, int)> insertRequestAssetVersionSignal;
-		rbx::remote_signal<void(std::string, shared_ptr<Instance>)> insertReadySignal;
-		rbx::remote_signal<void(std::string, std::string)> insertErrorSignal;
-        rbx::remote_signal<void(shared_ptr<Instance>)> internalDeleteSignal;
+		arl::remote_signal<void(std::string, ContentId)> insertRequestSignal;
+		arl::remote_signal<void(std::string, int, int)> insertRequestAssetSignal;
+		arl::remote_signal<void(std::string, int, int)> insertRequestAssetVersionSignal;
+		arl::remote_signal<void(std::string, shared_ptr<Instance>)> insertReadySignal;
+		arl::remote_signal<void(std::string, std::string)> insertErrorSignal;
+        arl::remote_signal<void(shared_ptr<Instance>)> internalDeleteSignal;
 
 		void setTrustLevel(float);
 		void setFreeModelUrl(std::string);
@@ -68,10 +68,10 @@ namespace ARL {
 
         void populateExtraInsertUrlParams(std::stringstream& url, bool clientInsert);
 
-		rbx::signals::connection backendInsertConnection;
-		rbx::signals::connection backendInsertAssetConnection;
-		rbx::signals::connection backendInsertAssetVersionConnection;
-        rbx::signals::scoped_connection backendInternalDeleteConnection;
+		arl::signals::connection backendInsertConnection;
+		arl::signals::connection backendInsertAssetConnection;
+		arl::signals::connection backendInsertAssetVersionConnection;
+        arl::signals::scoped_connection backendInternalDeleteConnection;
 		void backendInsertRequested(std::string key, bool clientInsert, ContentId contentId);
 		void backendInsertRequested(InsertRequestType requestType, int id, std::string key, bool clientInsert);
 		void backendInsertAssetRequested(std::string key, bool clientInsert, int assetId, int userId);
@@ -108,8 +108,8 @@ namespace ARL {
 			boost::function<void(shared_ptr<Instance>, AsyncHttpQueue::RequestResult, shared_ptr<std::exception>)> resultFunction);
 
 
-		rbx::signals::connection frontendInsertReadyConnection;
-		rbx::signals::connection frontendInsertErrorConnection;
+		arl::signals::connection frontendInsertReadyConnection;
+		arl::signals::connection frontendInsertErrorConnection;
 		void insertResultsReady(std::string key, shared_ptr<Instance> container);
 		void insertResultsError(std::string key, std::string message);
 		std::string addBaseUrl(const std::string& urlPiece);
@@ -124,7 +124,7 @@ namespace ARL {
 		};
 		typedef std::map<std::string, Callback> CallbackLibrary;
 		CallbackLibrary callbackLibrary;
-		rbx::atomic<int> loadCount;	// used to uniquely identify a load asset request
+		arl::atomic<int> loadCount;	// used to uniquely identify a load asset request
         shared_ptr<Instance> holder; // items are initially loaded into this Folder
         
         bool allowInsertFreeModels;

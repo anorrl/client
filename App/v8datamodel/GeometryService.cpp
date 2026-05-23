@@ -8,7 +8,7 @@
 #include "V8DataModel/Filters.h"
 #include "V8DataModel/PartInstance.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 const char* const ARL::sGeometryService = "Geometry";
 

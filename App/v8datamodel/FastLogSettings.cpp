@@ -3,7 +3,6 @@
 #include "V8DataModel/FastLogSettings.h"
 
 // Client
-LOGVARIABLE(VideoCapture, 0)
 LOGVARIABLE(Verbs, 0)
 LOGVARIABLE(Plugins, 0)
 LOGVARIABLE(COMCalls, 1)
@@ -158,12 +157,9 @@ LOGVARIABLE(PlayerShutdownLuaTimeoutSeconds, 0)
 namespace ARL
 {
 	DATA_MAP_IMPL_START(ClientAppSettings)
-		IMPL_DATA(AllowVideoPreRoll, false);
-		IMPL_DATA(VideoPreRollWaitTimeSeconds, 30);
 		IMPL_DATA(StartPageUrl, "");
 		IMPL_DATA(WebDocAddressBarEnabled, true);
 		IMPL_DATA(CaptureQTStudioCountersEnabled, false);
-		IMPL_DATA(CaptureMFCStudioCountersEnabled, false);
 		IMPL_DATA(CaptureCountersIntervalInMinutes, 5);
 		IMPL_DATA(CaptureSlowCountersIntervalInSeconds, 300);
 		IMPL_DATA(PublishedProjectsPageUrl, "");

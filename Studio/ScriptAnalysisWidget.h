@@ -15,7 +15,7 @@
 
 #include <QTreeWidget>
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "script/ScriptAnalyzer.h"
 #include "v8datamodel/DataModel.h"
 
@@ -54,7 +54,7 @@ public:
 	void categoryItemBecomingLinked(QTreeWidgetItem*);
 	void removeGameScriptAssets();
 
-	rbx::signal<void(boost::shared_ptr<ARL::Instance>)> embeddedSourceRemoved;
+	arl::signal<void(boost::shared_ptr<ARL::Instance>)> embeddedSourceRemoved;
 
 Q_SIGNALS:
 	void resultsUpdated();
@@ -88,13 +88,13 @@ public:
 	LinkedSourceInstance(boost::shared_ptr<ARL::LuaSourceContainer> instance);
 
 	boost::shared_ptr<ARL::LuaSourceContainer> getInstance() {  return m_LuaSourceContainer; }
-	rbx::signal<void(boost::shared_ptr<LinkedSourceInstance>)>   linkedSourceRemoved;
+	arl::signal<void(boost::shared_ptr<LinkedSourceInstance>)>   linkedSourceRemoved;
 
 private:
 	void onPropertyChanged(const ARL::Reflection::PropertyDescriptor* pDescriptor);
 
 	boost::shared_ptr<ARL::LuaSourceContainer>    m_LuaSourceContainer;
-	rbx::signals::scoped_connection               m_cPropertyChangedConnection;
+	arl::signals::scoped_connection               m_cPropertyChangedConnection;
 };
 
 class ScriptAnalysisWidget: public QWidget
@@ -138,9 +138,9 @@ private:
 	LinkedSourceInstanceCollection    m_LinkedSources;
 
 	boost::shared_ptr<ARL::DataModel> m_dataModel;
-    rbx::signals::scoped_connection   m_dataModelDescendantAdded;
-	rbx::signals::scoped_connection   m_dataModelDescendantRemoving;
-	rbx::signals::scoped_connection   m_treeWidgetEmbeddedSourceRemoved;
+    arl::signals::scoped_connection   m_dataModelDescendantAdded;
+	arl::signals::scoped_connection   m_dataModelDescendantRemoving;
+	arl::signals::scoped_connection   m_treeWidgetEmbeddedSourceRemoved;
 
 	LuaSourceBuffer                  m_currentScriptInstance;
 	QCheckBox*                       m_pDisplayCurrentScript;

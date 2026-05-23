@@ -41,7 +41,7 @@ public:
 
 	void replaceSky(Sky* newSky);
 
-	rbx::signal<void(bool)> lightingChangedSignal;		// (arg=skyboxChanged)
+	arl::signal<void(bool)> lightingChangedSignal;		// (arg=skyboxChanged)
 
 	bool isSkySuppressed() const { return !hasSky; }
 	void suppressSky(const bool value) { hasSky = !value; }

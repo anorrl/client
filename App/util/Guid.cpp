@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "Util/Guid.h"
-#include "rbx/atomic.h"
+#include "arl/atomic.h"
 
 #ifdef _WIN32
 #include "objbase.h"
@@ -39,7 +39,7 @@ namespace ARL {
 	}
 }
 
-static rbx::atomic<int> nextIndex = 0;
+static arl::atomic<int> nextIndex = 0;
 static ARL::Guid::Scope* localScope;
 ARL::Guid::Scope ARL::Guid::Scope::nullScope;
 
@@ -55,7 +55,7 @@ static void initLocalScope()
 
     // Note: localScope has to be a pointer to avoid initialization order fiasco between localScope and getLocalScope() callers
     // We never free this memory because we don't really need to and that avoids a symmetrical problem during deinitialization
-    // (see SAFE_HEAP_STATIC in rbx/threadsafe.h)
+    // (see SAFE_HEAP_STATIC in arl/threadsafe.h)
     localScope = new ARL::Guid::Scope(scope);
 }
 

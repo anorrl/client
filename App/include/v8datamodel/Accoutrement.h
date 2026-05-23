@@ -47,10 +47,10 @@ namespace ARL {
 		CoordinateFrame attachmentPoint;					// replicates, stores
 
 		// "Backend" connections
-		rbx::signals::scoped_connection_logged handleTouched;			// watches for handle touched
-		rbx::signals::scoped_connection characterChildAdded;		
-		rbx::signals::scoped_connection characterChildRemoved;				
-		rbx::signals::scoped_connection attachmentAdjusted;
+		arl::signals::scoped_connection_logged handleTouched;			// watches for handle touched
+		arl::signals::scoped_connection characterChildAdded;		
+		arl::signals::scoped_connection characterChildRemoved;				
+		arl::signals::scoped_connection attachmentAdjusted;
 
 		// Event handlers - hooked to these signals
 		void onEvent_AddedBackend(shared_ptr<Instance> child);

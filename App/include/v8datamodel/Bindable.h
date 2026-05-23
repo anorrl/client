@@ -39,7 +39,7 @@ namespace ARL {
 	public:
 		PropertyInstance():DescribedCreatable<PropertyInstance, Instance, sPropertyInstance>("Property") {}
 
-		rbx::signal<void(Reflection::Variant)> valueChanged;
+		arl::signal<void(Reflection::Variant)> valueChanged;
 		boost::function<Reflection::Variant()> getCallback;
 		boost::function<void(Reflection::Variant)> setCallback;
 
@@ -57,7 +57,7 @@ namespace ARL {
 	{
 	public:
 		BindableEvent():DescribedCreatable<BindableEvent, Instance, sBindableEvent>("Event") {}
-		rbx::signal<void(shared_ptr<const Reflection::Tuple>)> event;
+		arl::signal<void(shared_ptr<const Reflection::Tuple>)> event;
 		void fire(shared_ptr<const Reflection::Tuple> arguments);
 		/*override*/ bool askSetParent(const Instance* instance) const;
 	};

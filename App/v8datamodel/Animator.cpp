@@ -20,7 +20,7 @@
 #include "V8DataModel/AnimatableRootJoint.h"
 #include "v8datamodel/AnimationController.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 DYNAMIC_FASTFLAGVARIABLE(ErrorOnFailedToLoadAnim, false)
 
@@ -429,7 +429,7 @@ void Animator::onPlay(ContentId animation, float fadeTime, float weight, float s
 
 shared_ptr<const Reflection::ValueArray> Animator::getPlayingAnimationTracks()
 {
-	shared_ptr<Reflection::ValueArray> playingAnimationTracks(rbx::make_shared<Reflection::ValueArray>());
+	shared_ptr<Reflection::ValueArray> playingAnimationTracks(arl::make_shared<Reflection::ValueArray>());
 	std::list<shared_ptr<AnimationTrackState> >::iterator node;
 	for (node = activeAnimations.begin(); node != activeAnimations.end(); ++node)
 	{

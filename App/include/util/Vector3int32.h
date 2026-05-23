@@ -5,7 +5,7 @@
 #include "G3D/Vector3.h"
 #include "G3D/Vector3int16.h"
 #include "Util/Math.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include <limits.h>
 
 namespace ARL {

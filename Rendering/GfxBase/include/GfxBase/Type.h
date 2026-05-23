@@ -29,6 +29,7 @@ namespace ARL {
 			FONT_NOTOSANSBOLD,
 			FONT_VCR,
 			FONT_DASHHORIZON,
+			FONT_PUNKTYPE,
 			FONT_LAST
 		};
 		// Font drawing params - copied from G3D

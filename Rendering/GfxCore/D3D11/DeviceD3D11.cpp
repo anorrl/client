@@ -6,8 +6,8 @@
 #include "TextureD3D11.h"
 #include "FramebufferD3D11.h"
 
-#include "rbx/rbxTime.h"
-#include "rbx/Profiler.h"
+#include "arl/rbxTime.h"
+#include "arl/Profiler.h"
 
 #include "StringConv.h"
 

@@ -115,15 +115,15 @@ namespace ARL {
 	public:
 		ContextActionService();
         
-        rbx::signal<void(shared_ptr<Instance>)> equippedToolSignal;
-        rbx::signal<void(shared_ptr<Instance>)> unequippedToolSignal;
+        arl::signal<void(shared_ptr<Instance>)> equippedToolSignal;
+        arl::signal<void(shared_ptr<Instance>)> unequippedToolSignal;
         
-        rbx::signal<void(std::string, std::string, shared_ptr<const Reflection::ValueTable>)>  boundActionChangedSignal;
-        rbx::signal<void(std::string, bool, shared_ptr<const Reflection::ValueTable>)> boundActionAddedSignal;
-        rbx::signal<void(std::string, shared_ptr<const Reflection::ValueTable>)> boundActionRemovedSignal;
+        arl::signal<void(std::string, std::string, shared_ptr<const Reflection::ValueTable>)>  boundActionChangedSignal;
+        arl::signal<void(std::string, bool, shared_ptr<const Reflection::ValueTable>)> boundActionAddedSignal;
+        arl::signal<void(std::string, shared_ptr<const Reflection::ValueTable>)> boundActionRemovedSignal;
         
-        rbx::signal<void(std::string)> getActionButtonSignal;
-        rbx::signal<void(std::string, shared_ptr<Instance>)> actionButtonFoundSignal;
+        arl::signal<void(std::string)> getActionButtonSignal;
+        arl::signal<void(std::string, shared_ptr<Instance>)> actionButtonFoundSignal;
         
         std::string getCurrentLocalToolIcon();
         
@@ -166,9 +166,9 @@ namespace ARL {
         void callFunction(const std::string actionName, const InputObject::UserInputState state, const shared_ptr<Instance> inputObject);
         
     protected:
-        rbx::signals::scoped_connection characterChildAddConnection;
-        rbx::signals::scoped_connection characterChildRemoveConnection;
-        rbx::signals::scoped_connection localPlayerAddConnection;
+        arl::signals::scoped_connection characterChildAddConnection;
+        arl::signals::scoped_connection characterChildRemoveConnection;
+        arl::signals::scoped_connection localPlayerAddConnection;
         
 	private:
         typedef DescribedNonCreatable<ContextActionService, Instance, sContextActionService> Super;

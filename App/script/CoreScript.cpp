@@ -7,7 +7,7 @@
 #include "v8datamodel/ContentProvider.h"
 #include "Lua/Lua.hpp"
 #include "util/FileSystem.h"
-#include "rbx/Log.h"
+#include "arl/Log.h"
 
 #include "StringConv.h"
 

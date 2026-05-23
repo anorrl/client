@@ -5,7 +5,7 @@
 #include "Util/NormalId.h"
 #include "Util/G3DCore.h"
 #include "Util/PV.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "G3D/Array.h"
 #include "RbxG3D/RbxRay.h"
 #include <limits>

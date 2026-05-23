@@ -123,14 +123,14 @@ private:
     VisualEngine* visualEngine;
     const DataModel* dataModel;
 
-    rbx::signal<void()> unbindResourcesSignal;
+    arl::signal<void()> unbindResourcesSignal;
 
     float currentHeight;
     CoordinateFrame currentCFrame;
     shared_ptr<Texture> currentTexture;
     BatchTextureType currentTextureType;
 
-    rbx::signal<void()>& getUnbindResourcesSignal();
+    arl::signal<void()>& getUnbindResourcesSignal();
 
     std::vector<AdornMesh> meshesOpaque;
     std::vector<AdornMesh> meshesTransparent;

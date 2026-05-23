@@ -4,7 +4,7 @@
 #include "G3D/Vector3.h"
 #include "G3D/CoordinateFrame.h"
 #include "G3D/Color3.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/Name.h"
 #include "Util/Memory.h"
 #include "util/Utilities.h"

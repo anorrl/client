@@ -9,7 +9,7 @@
 #include <QDialog>
 
 // Roblox Headers
-#include "rbx/BaldPtr.h"
+#include "arl/BaldPtr.h"
 
 class QTreeWidget;
 class ANORRLMainWindow;

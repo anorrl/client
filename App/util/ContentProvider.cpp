@@ -13,7 +13,7 @@
 #include "Util/ThreadPool.h"
 #include "Util/Statistics.h"
 #include "V8DataModel/DataModel.h"
-#include "rbx/Crypt.h"
+#include "arl/Crypt.h"
 #include "StringConv.h"
 #include "ANORRLServicesTools.h"
 
@@ -859,7 +859,7 @@ namespace ARL
 	
 	static fs::path getLocalCachePath(bool createPath)
 	{
-        static rbx::atomic<int> caching;
+        static arl::atomic<int> caching;
 		static bool isCached = false;
 		static std::string cachedResult;
 		

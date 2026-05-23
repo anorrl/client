@@ -60,7 +60,7 @@ namespace ARL {
         
 		GuiLayers mGuiVectors[ARL::GUIQUEUE_COUNT];		// temp arrays for rendering - never realloc, always fast clear
         
-        boost::unordered_map<Instance*,rbx::signals::scoped_connection> propertyConnections;
+        boost::unordered_map<Instance*,arl::signals::scoped_connection> propertyConnections;
 	};
 
 }

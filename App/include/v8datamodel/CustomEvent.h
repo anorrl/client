@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "V8DataModel/CustomEventReceiver.h"
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/ModelInstance.h"
@@ -61,8 +61,8 @@ public:
 	static Reflection::EventDesc<CustomEvent, void(shared_ptr<Instance>)> event_ReceiverDisconnected;
 
 	// signals are public for testing only
-	rbx::signal<void(shared_ptr<Instance>)> receiverConnected;
-	rbx::signal<void(shared_ptr<Instance>)> receiverDisconnected;
+	arl::signal<void(shared_ptr<Instance>)> receiverConnected;
+	arl::signal<void(shared_ptr<Instance>)> receiverDisconnected;
 
 	/*override*/ virtual bool askSetParent(const Instance* instance) const {
 		return Instance::fastDynamicCast<PartInstance>(instance) != NULL;

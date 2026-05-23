@@ -187,9 +187,9 @@ namespace Network {
 
 		bool nonSuperSafeChatForAllPlayersEnabled;
 
-		rbx::signals::connection blockUserClientSignalConnection;
-		rbx::signals::connection blockUserFinishedFromServerConnection;
-		rbx::signals::connection loadLocalPlayerGuisConnection;
+		arl::signals::connection blockUserClientSignalConnection;
+		arl::signals::connection blockUserFinishedFromServerConnection;
+		arl::signals::connection loadLocalPlayerGuisConnection;
 
 		boost::unordered_map<std::pair<int,int>, std::pair<boost::function<void(std::string)>, boost::function<void(std::string)> > > clientBlockUserMap;
 
@@ -215,22 +215,22 @@ namespace Network {
 		ReceiveResult OnReceiveChat(Player* sourceValidation, RakNet::RakPeerInterface* peer, RakNet::Packet* packet, unsigned char chatType);
 		ReceiveResult OnReceiveReportAbuse(Player* source, RakNet::RakPeerInterface* peer, RakNet::Packet* packet);
 
-		rbx::signal<void(shared_ptr<Instance>,shared_ptr<Instance>,FriendService::FriendEventType)> friendRequestEvent;
-		rbx::signal<void(shared_ptr<Instance>)> playerAddedEarlySignal;
-		rbx::signal<void(shared_ptr<Instance>)> playerAddedSignal;
-		rbx::signal<void(shared_ptr<Instance>)> playerRemovingSignal;
-		rbx::signal<void(shared_ptr<Instance>)> playerRemovingLateSignal;
-		rbx::signal<void(const ChatMessage&)> chatMessageSignal;
-		rbx::signal<void(AbuseReport report)> abuseReportedReceived;
-		rbx::signal<void(const RakNet::SystemAddress&, const shared_ptr<RakNet::BitStream>&, const shared_ptr<Instance>, const std::string&, const std::string&)> sendFilteredChatMessageSignal;
+		arl::signal<void(shared_ptr<Instance>,shared_ptr<Instance>,FriendService::FriendEventType)> friendRequestEvent;
+		arl::signal<void(shared_ptr<Instance>)> playerAddedEarlySignal;
+		arl::signal<void(shared_ptr<Instance>)> playerAddedSignal;
+		arl::signal<void(shared_ptr<Instance>)> playerRemovingSignal;
+		arl::signal<void(shared_ptr<Instance>)> playerRemovingLateSignal;
+		arl::signal<void(const ChatMessage&)> chatMessageSignal;
+		arl::signal<void(AbuseReport report)> abuseReportedReceived;
+		arl::signal<void(const RakNet::SystemAddress&, const shared_ptr<RakNet::BitStream>&, const shared_ptr<Instance>, const std::string&, const std::string&)> sendFilteredChatMessageSignal;
 
-		rbx::signal<void(PlayerChatType, shared_ptr<Instance>, std::string, shared_ptr<Instance>)> playerChattedSignal;
-		rbx::signal<void(std::string)> gameAnnounceSignal;
+		arl::signal<void(PlayerChatType, shared_ptr<Instance>, std::string, shared_ptr<Instance>)> playerChattedSignal;
+		arl::signal<void(std::string)> gameAnnounceSignal;
 
-		rbx::remote_signal<void(int,int,bool)> blockUserRequestFromClientSignal;
-		rbx::remote_signal<void(int,int,std::string)> blockUserFinishedFromServerSignal;
-		rbx::remote_signal<void(int)> requestCloudEditKick;
-		rbx::remote_signal<void()> requestCloudEditShutdown;
+		arl::remote_signal<void(int,int,bool)> blockUserRequestFromClientSignal;
+		arl::remote_signal<void(int,int,std::string)> blockUserFinishedFromServerSignal;
+		arl::remote_signal<void(int)> requestCloudEditKick;
+		arl::remote_signal<void()> requestCloudEditShutdown;
 
 		static Reflection::RefPropDescriptor<Players, Instance> propLocalPlayer;
 		static Reflection::PropDescriptor<Players, bool> propCharacterAutoSpawn;

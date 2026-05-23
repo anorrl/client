@@ -4,7 +4,7 @@
 
 #include "Material.h"
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL
 {

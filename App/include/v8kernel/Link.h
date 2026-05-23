@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Util/G3DCore.h"
-#include "rbx/Declarations.h"
+#include "arl/Declarations.h"
 #include "Util/Memory.h"
 #include "Util/Math.h"
 

@@ -1421,7 +1421,6 @@ cmd /c "exit /b 0"</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseStudio|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseStudio|Durango'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="v8datamodel\AdService.cpp" />
     <ClCompile Include="v8datamodel\AnimationController.cpp" />
     <ClCompile Include="v8datamodel\AssetService.cpp" />
     <ClCompile Include="v8datamodel\Attachment.cpp" />
@@ -4260,7 +4259,6 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\util\StreamRegion.h" />
     <ClInclude Include="include\util\URL.h" />
     <ClInclude Include="include\util\xxhash.h" />
-    <ClInclude Include="include\v8datamodel\AdService.h" />
     <ClInclude Include="include\v8datamodel\AnimationController.h" />
     <ClInclude Include="include\v8datamodel\AssetService.h" />
     <ClInclude Include="include\v8datamodel\Attachment.h" />

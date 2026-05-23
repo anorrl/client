@@ -8,7 +8,7 @@
 #include "util/HttpPlatformImpl.h"
 #include "util/Http.h"
 #include "FastLog.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "util/StreamHelpers.h"
 #include "util/Guid.h"
 #include "util/standardout.h"
@@ -229,7 +229,7 @@ public:
 		boost::this_thread::sleep(boost::posix_time::seconds(10));
 		boost::function0<void> f = boost::bind(&cacheCleanupThreadHandler);
 		boost::function0<void> g = boost::bind(&StandardOut::print_exception, f, MESSAGE_ERROR, false);
-		boost::thread(thread_wrapper(g, "rbx_http_cache_clean"));
+		boost::thread(thread_wrapper(g, "arl_http_cache_clean"));
 
 		while (true)
 		{
@@ -1167,7 +1167,7 @@ void init(Http::CookieSharingPolicy cookieSharingPolicy)
         {
             boost::function0<void> f = boost::bind(&CacheStatistics::initializeCachingThreadHandler);
             boost::function0<void> g = boost::bind(&StandardOut::print_exception, f, MESSAGE_ERROR, false);
-            boost::thread(thread_wrapper(g, "rbx_http_cache_stats_report"));
+            boost::thread(thread_wrapper(g, "arl_http_cache_stats_report"));
         }
 
         initialized = true;

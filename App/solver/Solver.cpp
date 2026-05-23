@@ -15,11 +15,11 @@
 #include "RbxAssert.h"
 #include "FastLog.h"
 #include "g3d/g3dmath.h"
-#include "rbx/ArrayDynamic.h"
+#include "arl/ArrayDynamic.h"
 
 #include "boost/functional/hash.hpp"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 FASTFLAGVARIABLE(PGSSolverFileDump, false)
 DYNAMIC_FASTFLAGVARIABLE(PGSSolverSimIslandsEnabled, false)

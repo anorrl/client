@@ -4,7 +4,7 @@
 // If you only need the SIMD types (v4f, v4u, v4i), include simd_types.h.
 
 #include "simd/simd_types.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "boost/static_assert.hpp"
 
 namespace ARL

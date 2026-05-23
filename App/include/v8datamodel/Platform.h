@@ -17,8 +17,8 @@ class PlatformImpl : public ActionStation<Base>
 	private:
 		typedef ActionStation<Base> Super;
 		// "Backend" connections
-		rbx::signals::scoped_connection platformTouched;
-		rbx::signals::scoped_connection humanoidDonePlatformStanding;		
+		arl::signals::scoped_connection platformTouched;
+		arl::signals::scoped_connection humanoidDonePlatformStanding;		
 
 		void onEvent_platformTouched(shared_ptr<Instance> other) {
 			if (Humanoid* h = Humanoid::humanoidFromBodyPart(other.get())) {
@@ -215,8 +215,8 @@ class Platform : public Reflection::Described<Platform, sPlatform, PlatformImpl<
 {
 	typedef PlatformImpl<BasicPartInstance> Super;
 public:
-	rbx::remote_signal<void(shared_ptr<Instance>)> createPlatformMotor6DSignal;
-	rbx::remote_signal<void()> destroyPlatformMotor6DSignal;
+	arl::remote_signal<void(shared_ptr<Instance>)> createPlatformMotor6DSignal;
+	arl::remote_signal<void()> destroyPlatformMotor6DSignal;
 
 	///////////////////////////////////////////////////////////////////////////
 	// PlatformImpl

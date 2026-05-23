@@ -1,9 +1,9 @@
 #pragma once
 
-#include "rbx/intrusive_ptr_target.h"
+#include "arl/intrusive_ptr_target.h"
 #include "boost/intrusive_ptr.hpp"
-#include "rbx/boost.hpp"
-#include "rbx/threadsafe.h"
+#include "arl/boost.hpp"
+#include "arl/threadsafe.h"
 #include "reflection/type.h"
 
 struct lua_State;
@@ -21,7 +21,7 @@ namespace ARL {
 	// Used internally
 		namespace detail {
 			class LiveThreadRef 
-				: public rbx::quick_intrusive_ptr_target<LiveThreadRef>
+				: public arl::quick_intrusive_ptr_target<LiveThreadRef>
 				, public Diagnostics::Countable<LiveThreadRef>
 				, boost::noncopyable
 			{
@@ -68,16 +68,16 @@ namespace ARL {
 
 	// Registers a weak reference to a thread, ensuring that it isn't collected (sometimes)
 	class WeakThreadRef
-		: public rbx::quick_intrusive_ptr_target<WeakThreadRef>
+		: public arl::quick_intrusive_ptr_target<WeakThreadRef>
 		, boost::noncopyable
 		, public Diagnostics::Countable<WeakThreadRef>
 	{
 		// TODO: boost::mutex would be safer
-		typedef rbx::spin_mutex Mutex;
+		typedef arl::spin_mutex Mutex;
 		static Mutex sync;
 	public:
 		class Node
-			: public rbx::quick_intrusive_ptr_target<Node>
+			: public arl::quick_intrusive_ptr_target<Node>
 			, boost::noncopyable
 		{
 			friend class WeakThreadRef;

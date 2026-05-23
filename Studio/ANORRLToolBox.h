@@ -19,7 +19,7 @@ namespace ARL
 	class DataModel;
 }
 
-class RbxWorkspace;
+class ARLWorkspace;
 
 
 class ANORRLToolBox : public QWidget
@@ -42,7 +42,7 @@ private:
 	
 	QString m_urlString;
 	
-	boost::shared_ptr<RbxWorkspace> m_pWorkspace;
+	boost::shared_ptr<ARLWorkspace> m_pWorkspace;
 	
 	void setupWebView(QWidget *wrapperWidget);
 	bool reloadView;

@@ -51,8 +51,8 @@ namespace ARL
 			bool enabled;
 			Debuggers debuggers;
 
-			rbx::signals::connection errorSignalConnection;
-			rbx::signals::connection descendantAddedSignalConnection;
+			arl::signals::connection errorSignalConnection;
+			arl::signals::connection descendantAddedSignalConnection;
 
 			typedef boost::unordered_map<const Instance*, boost::shared_ptr<ScriptDebugger> > UnaddedDebuggers;
 			UnaddedDebuggers unaddedDebuggers;
@@ -112,8 +112,8 @@ namespace ARL
 
 			static void hook(lua_State* L, lua_Debug *ar);
 
-			rbx::signal<void(shared_ptr<Instance>)> debuggerAdded;
-			rbx::signal<void(shared_ptr<Instance>)> debuggerRemoved;
+			arl::signal<void(shared_ptr<Instance>)> debuggerAdded;
+			arl::signal<void(shared_ptr<Instance>)> debuggerRemoved;
 
 		protected:
 			/*override*/ bool askForbidChild(const Instance* instance) const;
@@ -151,10 +151,10 @@ namespace ARL
 			boost::scoped_ptr<ISpecialBreakpoint> specialBreakpoint;
 
 			shared_ptr<Instance> script;
-			rbx::signals::scoped_connection scriptStartedConnection;
-			rbx::signals::scoped_connection scriptStoppedConnection;
-			rbx::signals::scoped_connection scriptParentChangedConnection;
-			rbx::signals::scoped_connection scriptClonedConnection;
+			arl::signals::scoped_connection scriptStartedConnection;
+			arl::signals::scoped_connection scriptStoppedConnection;
+			arl::signals::scoped_connection scriptParentChangedConnection;
+			arl::signals::scoped_connection scriptClonedConnection;
 			Lua::WeakThreadRef rootThread; // The root thread of script. Set when the Script starts and reset when it stops
 
 			typedef boost::function<void(lua_State* L, lua_Debug *ar)> HookFunction;
@@ -296,14 +296,14 @@ namespace ARL
 			void setCurrentThread(long threadID);
 			long getCurrentThread() { return currentThreadID; }
 
-			rbx::signal<void(int)> encounteredBreak;
-			rbx::signal<void()> resuming;
+			arl::signal<void(int)> encounteredBreak;
+			arl::signal<void()> resuming;
 			
-			rbx::signal<void(shared_ptr<Instance>)> breakpointAdded;
-			rbx::signal<void(shared_ptr<Instance>)> breakpointRemoved;
-			rbx::signal<void(shared_ptr<Instance>)> watchAdded;
-			rbx::signal<void(shared_ptr<Instance>)> watchRemoved;
-			rbx::signal<void(int, std::string, Stack)>   scriptErrorDetected;
+			arl::signal<void(shared_ptr<Instance>)> breakpointAdded;
+			arl::signal<void(shared_ptr<Instance>)> breakpointRemoved;
+			arl::signal<void(shared_ptr<Instance>)> watchAdded;
+			arl::signal<void(shared_ptr<Instance>)> watchRemoved;
+			arl::signal<void(int, std::string, Stack)>   scriptErrorDetected;
 
 		protected:
 			/*override*/ bool askForbidChild(const Instance* instance) const;

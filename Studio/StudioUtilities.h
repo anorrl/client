@@ -49,12 +49,6 @@ namespace StudioUtilities
 	void setScreenShotUploading(bool state);
 	bool isScreenShotUploading();
 
-	void setVideoUploading(bool state);
-	bool isVideoUploading();
-
-	void setVideoFileName(const std::string &fileName);
-	std::string getVideoFileName();
-
 	bool containsEditScript(const QString& url);
 	bool containsJoinScript(const QString& url);
 	bool containsVisitScript(const QString& url);

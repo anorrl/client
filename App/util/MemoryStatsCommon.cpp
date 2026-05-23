@@ -2,7 +2,7 @@
 
 #include "util/MemoryStats.h"
 #include <vector>
-#include "rbx/Memory.h"
+#include "arl/Memory.h"
 
 DYNAMIC_FASTINTVARIABLE(StreamingMemoryUsagePercent, 50)
 

@@ -47,7 +47,7 @@ namespace ARL {
 		~BadgeService()
 		{}
 
-		rbx::remote_signal<void(std::string, int, int)> badgeAwardedSignal; 	
+		arl::remote_signal<void(std::string, int, int)> badgeAwardedSignal; 	
 
 		void userHasBadge(int userId, int badgeId, boost::function<void(bool)> resumeFunction, boost::function<void(std::string)> errorFunction);
 		void awardBadge(int userId, int badgeId, boost::function<void(bool)> resumeFunction, boost::function<void(std::string)> errorFunction);

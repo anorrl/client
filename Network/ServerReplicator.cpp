@@ -27,7 +27,6 @@
 #include "v8datamodel/Hopper.h"
 #include "v8datamodel/Lighting.h"
 #include "v8datamodel/LogService.h"
-#include "v8datamodel/AdService.h"
 #include "v8datamodel/Teams.h"
 #include "v8datamodel/PointsService.h"
 #include "v8datamodel/ReplicatedFirst.h"
@@ -41,14 +40,14 @@
 #include "script/script.h"
 #include "util/http.h"
 #include "util/xxhash.h"
-#include "rbx/Crypt.h"
+#include "arl/Crypt.h"
 #include "FastLog.h"
 #include "Network/NetworkOwner.h"
 #include "Util/Statistics.h"
 #include "ConcurrentRakPeer.h"
 #include "ANORRLServicesTools.h"
 
-#include "rbx/boost.hpp"
+#include "arl/boost.hpp"
 
 #include <boost/thread/xtime.hpp>
 #include <boost/bind.hpp>

@@ -12,7 +12,7 @@
 #include "V8DataModel/SleepingJob.h"
 #include "v8datamodel/UserInputService.h"
 #include "util/NavKeys.h"
-#include "rbx/TaskScheduler.h"
+#include "arl/TaskScheduler.h"
 #include "RenderSettingsItem.h"
 
 // ANORRL Studio Headers

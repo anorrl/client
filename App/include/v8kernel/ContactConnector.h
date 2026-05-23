@@ -9,7 +9,7 @@
 #include "v8kernel/SimBody.h"
 #include "v8kernel/Constants.h"
 #include "Util/NormalID.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/Memory.h"
 
 

@@ -4,7 +4,7 @@
 #include "boost/unordered/unordered_map.hpp"
 #include "boost/container/vector.hpp"
 
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 #include "util/G3DCore.h"
 
 #include <map>

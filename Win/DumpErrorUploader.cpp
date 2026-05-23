@@ -5,11 +5,11 @@
 #undef min
 #undef max
 
-#include "rbx/Log.h"
+#include "arl/Log.h"
 
 #include "DumpErrorUploader.h"
 #include "LogManager.h"
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 
 #include "util/http.h"
 #include "util/StandardOut.h"

@@ -14,7 +14,7 @@ class Marker
 public:
 	Marker();
 	const long id;
-	rbx::signal<void()> receivedSignal;
+	arl::signal<void()> receivedSignal;
 	void fireReturned();
 };
 

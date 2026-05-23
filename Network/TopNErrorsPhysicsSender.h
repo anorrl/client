@@ -5,7 +5,7 @@
 
 #include "V8DataModel/PartInstance.h"
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "boost/pool/pool_alloc.hpp"
 
 
@@ -71,8 +71,8 @@ namespace ARL {
 		int sortId;
 		bool sendDetailed;
 
-		rbx::signals::scoped_connection addingAssemblyConnection;
-		rbx::signals::scoped_connection removedAssemblyConnection;
+		arl::signals::scoped_connection addingAssemblyConnection;
+		arl::signals::scoped_connection removedAssemblyConnection;
 
 	public:
 		TopNErrorsPhysicsSender(Replicator& replicator);

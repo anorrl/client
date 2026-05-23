@@ -55,7 +55,6 @@
 #include "v8datamodel/ReplicatedFirst.h"
 #include "v8datamodel/LogService.h"
 #include "v8datamodel/PointsService.h"
-#include "v8datamodel/AdService.h"
 #include "v8datamodel/NumberSequence.h"
 #include "v8datamodel/NumberRange.h"
 #include "v8datamodel/ColorSequence.h"
@@ -116,7 +115,7 @@
 #include <boost/iostreams/device/array.hpp>
 #include <boost/iostreams/copy.hpp>
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 DYNAMIC_LOGGROUP(NetworkJoin)
 
@@ -807,8 +806,7 @@ void Replicator::addTopReplicationContainers(ServiceProvider* newProvider)
 	addTopReplicationContainer(ServiceProvider::create<ARL::TestService>(newProvider), true, true, replicationMethodFunc);
 	addTopReplicationContainer(ServiceProvider::create<LogService>(newProvider), true, false, replicationMethodFunc);
 	addTopReplicationContainer(ServiceProvider::create<PointsService>(newProvider), true, false, replicationMethodFunc);
-	addTopReplicationContainer(ServiceProvider::create<AdService>(newProvider), true, false, replicationMethodFunc);
-
+	
 	if (isCloudEdit())
 	{
 		addTopReplicationContainer(newProvider->create<ServerScriptService>(), true, true, replicationMethodFunc);
@@ -826,9 +824,7 @@ bool Replicator::canReplicateInstance(Instance* instance, int replicationProtoco
 
 	if(Instance::fastDynamicCast<ARL::ReplicatedFirst>(instance))
 		return (replicationProtocolVersion >= 25);
-	if (Instance::fastDynamicCast<ARL::AdService>(instance))
-		return (replicationProtocolVersion >= 26);
-
+	
 	return true;
 }
 

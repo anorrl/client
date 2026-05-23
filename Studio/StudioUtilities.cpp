@@ -59,11 +59,9 @@ static const char* kCloudEditScriptUrlPrefix = "CloudEditPlace:";
 
 namespace StudioUtilities
 {
-	static bool sIsVideoUploading = false;
-	static std::string sVideoFileName("");
-    static bool IsAvatarMode = false;
+	static bool IsAvatarMode = false;
     static bool IsTestMode = false;
-    static rbx::atomic<int> sNumScreenShotUploads;
+    static arl::atomic<int> sNumScreenShotUploads;
     static bool IsFirstTimeOpeningStudio = false;
 
     bool isFirstTimeOpeningStudio()
@@ -134,18 +132,6 @@ namespace StudioUtilities
 	bool isScreenShotUploading()
 	{ return sNumScreenShotUploads > 0; }
 	
-	void setVideoUploading(bool state)
-	{	sIsVideoUploading = state; }
-
-	bool isVideoUploading()
-	{	return sIsVideoUploading; }
-
-	void setVideoFileName(const std::string &fileName)
-	{	sVideoFileName = fileName; }
-
-	std::string getVideoFileName()
-	{	return sVideoFileName; }
-
 	bool containsEditScript(const QString& url)
 	{
 		return url.contains("edit.slua", Qt::CaseInsensitive);

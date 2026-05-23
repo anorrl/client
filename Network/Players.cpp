@@ -49,7 +49,7 @@
 #include "V8Xml/XmlSerializer.h"
 #include "Util/SafeToLower.h"
 
-#include "rbx/RbxDbgInfo.h"
+#include "arl/RbxDbgInfo.h"
 
 #include "Util/http.h"
 #include "Util/Region2.h"
@@ -758,7 +758,7 @@ void AbuseReport::addMessage(shared_ptr<Player> reportingPlayer, const ChatMessa
 AbuseReporter::AbuseReporter(std::string abuseUrl)
 	:_data(new data())
 {
-	requestProcessor.reset(new worker_thread(boost::bind(&AbuseReporter::processRequests, _data, abuseUrl), "rbx_abusereporter"));
+	requestProcessor.reset(new worker_thread(boost::bind(&AbuseReporter::processRequests, _data, abuseUrl), "arl_abusereporter"));
 }
 
 
@@ -1528,7 +1528,7 @@ void Players::gotBlockUserSuccess(std::string response, bool blockUser, int bloc
 	std::string methodName = (blockUser ? "Players:BlockUser" : "Players:UnblockUser");
 	if (!response.empty())
 	{
-		shared_ptr<const Reflection::ValueTable> jsonResult(rbx::make_shared<const Reflection::ValueTable>());
+		shared_ptr<const Reflection::ValueTable> jsonResult(arl::make_shared<const Reflection::ValueTable>());
 		bool parseResult = WebParser::parseJSONTable(response, jsonResult);
 
 		if (!parseResult)

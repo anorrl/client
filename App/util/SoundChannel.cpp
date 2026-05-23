@@ -13,7 +13,7 @@
 #include "Network/Players.h"
 
 #include "FastLog.h"
-#include "rbx/RbxDbgInfo.h"
+#include "arl/RbxDbgInfo.h"
 
 #define FMOD_DEFAULT_CHANNEL_PRIORITY  128
 #define FMOD_LONG_SOUND_CHANNEL_PRIORITY FMOD_DEFAULT_CHANNEL_PRIORITY - 16

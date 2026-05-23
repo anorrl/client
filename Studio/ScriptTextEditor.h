@@ -23,8 +23,8 @@
 #include <QClipboard>
 
 // ANORRL Headers
-#include "rbx/BaldPtr.h"
-#include "rbx/signal.h"
+#include "arl/BaldPtr.h"
+#include "arl/signal.h"
 #include "reflection/Property.h"
 
 #include "script/ScriptAnalyzer.h"
@@ -33,7 +33,7 @@
 #include "FindDialog.h"
 
 #include "ANORRLContextualHelp.h"
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 #include "boost/optional/optional.hpp"
 
 class ANORRLScriptDoc;
@@ -333,7 +333,7 @@ private:
 	FindThread*								m_pFindThread;
     ARL::BaldPtr<ANORRLMainWindow>          m_pMainWindow;
     ARL::BaldPtr<QMenu>                     m_ContextMenu;
-    rbx::signals::scoped_connection         m_PropertyChangedConnection;
+    arl::signals::scoped_connection         m_PropertyChangedConnection;
     QTextCharFormat                         m_ErrorFormat;
     QTextCharFormat                         m_WarningFormat;
     

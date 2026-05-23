@@ -9,7 +9,7 @@
 #include "Util/IndexArray.h"
 #include "Util/IndexedTree.h"
 #include "Util/Memory.h"
-#include "rbx/threadsafe.h"
+#include "arl/threadsafe.h"
 
 class btCollisionObject;
 
@@ -65,7 +65,7 @@ namespace ARL {
 		friend class SimBody;
 
 	private:
-		rbx::spin_mutex		mutex;		// for safe calls that require update
+		arl::spin_mutex		mutex;		// for safe calls that require update
 
         // Unique identifier set by the World
         boost::uint64_t     uid;
@@ -263,7 +263,7 @@ namespace ARL {
 		}
 
 		const PV& getPV_Spin_Lock() {
-			rbx::spin_mutex::scoped_lock lock(mutex);
+			arl::spin_mutex::scoped_lock lock(mutex);
 			updatePV();
 			return pv;
 		}

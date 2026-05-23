@@ -2,7 +2,7 @@
 
 #include "HeadersGL.h"
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>

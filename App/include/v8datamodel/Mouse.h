@@ -5,7 +5,7 @@
 #include "V8Tree/Instance.h"
 #include "v8datamodel/InputObject.h"
 #include "Util/TextureId.h"
-#include "rbx/signal.h"
+#include "arl/signal.h"
 
 namespace ARL {
 
@@ -23,16 +23,16 @@ public:
 	Mouse();
 	~Mouse();
 
-	rbx::signal<void()> moveSignal;
-	rbx::signal<void()> idleSignal;
-	rbx::signal<void()> button1DownSignal;
-	rbx::signal<void()> button2DownSignal;
-	rbx::signal<void()> button1UpSignal;
-	rbx::signal<void()> button2UpSignal;
-	rbx::signal<void()> wheelForwardSignal;
-	rbx::signal<void()> wheelBackwardSignal;
-	rbx::signal<void(std::string)> keyDownSignal;
-	rbx::signal<void(std::string)> keyUpSignal;
+	arl::signal<void()> moveSignal;
+	arl::signal<void()> idleSignal;
+	arl::signal<void()> button1DownSignal;
+	arl::signal<void()> button2DownSignal;
+	arl::signal<void()> button1UpSignal;
+	arl::signal<void()> button2UpSignal;
+	arl::signal<void()> wheelForwardSignal;
+	arl::signal<void()> wheelBackwardSignal;
+	arl::signal<void(std::string)> keyDownSignal;
+	arl::signal<void(std::string)> keyUpSignal;
 
 	virtual void update(const shared_ptr<InputObject>& inputObject);
 

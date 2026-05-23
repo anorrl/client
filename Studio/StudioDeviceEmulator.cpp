@@ -42,7 +42,7 @@ void StudioDeviceEmulator::storeEmulationList()
 
 	settings.remove("");
 
-	settings.setValue("rbxEmulationDevices", m_deviceList.size());
+	settings.setValue("arlEmulationDevices", m_deviceList.size());
 	
 	int i = 0;
 	for (QList<StudioDeviceEmulator::EmulationDevice>::const_iterator iter = m_deviceList.begin(); iter != m_deviceList.end(); ++iter, ++i)
@@ -65,7 +65,7 @@ QList<StudioDeviceEmulator::EmulationDevice> StudioDeviceEmulator::retrieveEmula
 
 	settings.beginGroup("emulationDevices");
 
-	int numOfDevices = settings.value("rbxEmulationDevices", 0).toInt();
+	int numOfDevices = settings.value("arlEmulationDevices", 0).toInt();
 
 	QList<EmulationDevice> devices;
 

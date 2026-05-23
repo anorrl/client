@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

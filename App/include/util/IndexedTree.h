@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "rbx/Declarations.h"
+#include "arl/Declarations.h"
 #include "Util/IndexArray.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

@@ -37,11 +37,11 @@ private:
 	boost::unordered_map<int, HapticData> hapticsFromGamepadId;
 	boost::unordered_map<int, int> joystickIdToGamepadId;
 
-	rbx::signals::scoped_connection renderSteppedConnection;
-	rbx::signals::scoped_connection getSupportedGamepadKeyCodesConnection;
+	arl::signals::scoped_connection renderSteppedConnection;
+	arl::signals::scoped_connection getSupportedGamepadKeyCodesConnection;
 
-	rbx::signals::scoped_connection setEnabledVibrationMotorsConnection;
-	rbx::signals::scoped_connection setVibrationMotorConnection;
+	arl::signals::scoped_connection setEnabledVibrationMotorsConnection;
+	arl::signals::scoped_connection setVibrationMotorConnection;
 
 	void initSDL();
 

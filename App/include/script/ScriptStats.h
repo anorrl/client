@@ -1,5 +1,5 @@
 #pragma once
-#include "rbx/RunningAverage.h"
+#include "arl/RunningAverage.h"
 #include "boost/weak_ptr.hpp"
 #include "util/Utilities.h"
 #include "V8DataModel/Stats.h"

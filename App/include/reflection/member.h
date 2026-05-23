@@ -5,7 +5,7 @@
 #include <vector>
 #include "security/SecurityContext.h"
 
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 
 namespace ARL
 {

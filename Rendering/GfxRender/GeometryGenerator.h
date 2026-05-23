@@ -4,7 +4,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL
 {

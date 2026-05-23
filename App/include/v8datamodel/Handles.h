@@ -21,11 +21,11 @@ namespace ARL
 	public:
 		Handles();
 
-		rbx::remote_signal<void(NormalId)>			mouseEnterSignal;
-		rbx::remote_signal<void(NormalId)>			mouseLeaveSignal;	
-		rbx::remote_signal<void(NormalId,float)>	mouseDragSignal;
-		rbx::remote_signal<void(NormalId)>			mouseButton1DownSignal;
-		rbx::remote_signal<void(NormalId)>			mouseButton1UpSignal;	
+		arl::remote_signal<void(NormalId)>			mouseEnterSignal;
+		arl::remote_signal<void(NormalId)>			mouseLeaveSignal;	
+		arl::remote_signal<void(NormalId,float)>	mouseDragSignal;
+		arl::remote_signal<void(NormalId)>			mouseButton1DownSignal;
+		arl::remote_signal<void(NormalId)>			mouseButton1UpSignal;	
 
 		DECLARE_EVENT_REPLICATOR_SIG(Handles,MouseEnter,		void(NormalId));
 		DECLARE_EVENT_REPLICATOR_SIG(Handles,MouseLeave,		void(NormalId));

@@ -10,7 +10,6 @@
 #define IDI_ICON1                       114
 #define IDI_WINDOW_ICON                 115
 #define IDS_DEFAULT_IMAGE_INFO          147
-#define IDD_UPLOADVIDEODIALOG           252
 #define IDD_ARLWEBVIEW                  253
 #define IDR_GAME_ACCELERATOR            255
 #define IDC_EXPLORER1                   1005

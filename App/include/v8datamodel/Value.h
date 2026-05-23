@@ -39,7 +39,7 @@ namespace ARL
 		}
 
 		static Reflection::BoundProp<ValueType> desc_Value;
-		rbx::signal<void(ValueType)> valueChangedSignal;
+		arl::signal<void(ValueType)> valueChangedSignal;
 		static Reflection::EventDesc< Value<ValueType, sClassName>, void(ValueType)> desc_ValueChanged;
 		
 		// Convenience functions:
@@ -87,7 +87,7 @@ namespace ARL
         REFLECTION_END();
 
         //static Reflection::BoundProp<ValueType> desc_Value;
-        rbx::signal<void(ValueType)> valueChangedSignal;
+        arl::signal<void(ValueType)> valueChangedSignal;
 
         // Convenience functions:
         ValueType getValue() const 
@@ -162,7 +162,7 @@ namespace ARL
 			Super::setName("Value");
 		}
 		static Reflection::BoundProp<std::string> desc_Value;
-		rbx::signal<void(std::string)> valueChangedSignal;
+		arl::signal<void(std::string)> valueChangedSignal;
 		static Reflection::EventDesc< StringValue, void(std::string)> desc_ValueChanged;
 		
 		// Convenience functions:
@@ -215,7 +215,7 @@ namespace ARL
 		static const Reflection::PropDescriptor<ConstrainedValue<ValueType, sClassName>, ValueType> desc_ValueRaw;
 		static Reflection::BoundProp<ValueType> desc_MinValue;
 		static Reflection::BoundProp<ValueType> desc_MaxValue;
-		rbx::signal<void(ValueType)> valueChangedSignal;
+		arl::signal<void(ValueType)> valueChangedSignal;
 		static Reflection::EventDesc< ConstrainedValue<ValueType, sClassName>, void(ValueType)> desc_ValueChanged;
 		
 		// Convenience functions:
@@ -272,7 +272,7 @@ namespace ARL
 		Instance* getValue() const;
 		void setValue(Instance* value);
 		static ARL::Reflection::RefPropDescriptor<ObjectValue, Instance> desc_Value;
-		rbx::signal<void(shared_ptr<Instance>)> valueChangedSignal;
+		arl::signal<void(shared_ptr<Instance>)> valueChangedSignal;
 	protected:
 		virtual bool askSetParent(const Instance* instance) const {
 			// Values are willing to be placed anywhere

@@ -36,8 +36,8 @@ namespace ARL {
 		shared_ptr<TaskScheduler::Job> networkOwnerJob;
 		bool isCloudEditServer;
 
-		rbx::signals::scoped_connection itemAddedConnection;
-		rbx::signals::scoped_connection workspaceLoadedConnection;
+		arl::signals::scoped_connection itemAddedConnection;
+		arl::signals::scoped_connection workspaceLoadedConnection;
 		static int lastId;
 
 		bool isPlayerAuthenticationRequired;
@@ -76,9 +76,9 @@ namespace ARL {
 		~Server();
 		/*override*/ void onCreateRakPeer();
 
-		rbx::signal<void(shared_ptr<Instance> peer, FilterResult result, shared_ptr<Instance> item, std::string member)> dataBasicFilteredSignal;
-		rbx::signal<void(shared_ptr<Instance> peer, FilterResult result, shared_ptr<Instance> item, std::string member)> dataCustomFilteredSignal;
-		rbx::signal<void(std::string, shared_ptr<Instance>)> incommingConnectionSignal;
+		arl::signal<void(shared_ptr<Instance> peer, FilterResult result, shared_ptr<Instance> item, std::string member)> dataBasicFilteredSignal;
+		arl::signal<void(shared_ptr<Instance> peer, FilterResult result, shared_ptr<Instance> item, std::string member)> dataCustomFilteredSignal;
+		arl::signal<void(std::string, shared_ptr<Instance>)> incommingConnectionSignal;
 
 		static bool serverIsPresent(const Instance* context, bool testInDatamodel = true);
 

@@ -17,7 +17,7 @@ FASTFLAG(StudioShowTutorialsByDefault)
 
 // shortcuts that should not be visible to the average user
 static const QString ShortcutExceptions = 
-    "toggleBuildModeAction filePublishedProjectsAction toggleGridAction toggleVideoRecordAction ";
+    "toggleBuildModeAction filePublishedProjectsAction toggleGridAction ";
 
 enum eShortcutTableColumns
 {

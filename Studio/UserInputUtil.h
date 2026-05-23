@@ -11,7 +11,7 @@
 // ANORRL Headers
 #include "Util/KeyCode.h"
 #include "Util/G3DCore.h"
-#include "rbx/debug.h"
+#include "arl/debug.h"
 #include "V8DataModel/InputObject.h"
 
 #define GET_X_LPARAM(l)			((short)(l & 0x0000FFFF))

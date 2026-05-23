@@ -68,10 +68,10 @@ namespace ARL
 
 		virtual CoordinateFrame getWorldCoordinateFrame() const;
 
-		rbx::remote_signal<void()>	mouseEnterSignal;
-		rbx::remote_signal<void()>	mouseLeaveSignal;
-		rbx::remote_signal<void()>	mouseButton1DownSignal;
-		rbx::remote_signal<void()>	mouseButton1UpSignal;
+		arl::remote_signal<void()>	mouseEnterSignal;
+		arl::remote_signal<void()>	mouseLeaveSignal;
+		arl::remote_signal<void()>	mouseButton1DownSignal;
+		arl::remote_signal<void()>	mouseButton1UpSignal;
 
 	protected:
 		Vector3			sizeRelativeOffset;

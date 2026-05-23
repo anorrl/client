@@ -4,10 +4,10 @@
 
 #include <boost/filesystem.hpp>
 
-#include "rbx/atomic.h"
-#include "rbx/CEvent.h"
-#include "rbx/RunningAverage.h"
-#include "rbx/rbxTime.h"
+#include "arl/atomic.h"
+#include "arl/CEvent.h"
+#include "arl/RunningAverage.h"
+#include "arl/rbxTime.h"
 #include "util/HttpAux.h"
 
 DYNAMIC_FASTFLAG(UseAssetTypeHeader)
@@ -121,13 +121,13 @@ namespace ARL
 		static void init(API api, CookieSharingPolicy cookieSharingPolicy);
         static void SetUseStatistics(bool value);
         static void SetUseCurl(bool value);
-        static rbx::atomic<int> cdnSuccessCount;
-        static rbx::atomic<int> cdnFailureCount;
-        static rbx::atomic<int> alternateCdnSuccessCount;
-        static rbx::atomic<int> alternateCdnFailureCount;
+        static arl::atomic<int> cdnSuccessCount;
+        static arl::atomic<int> cdnFailureCount;
+        static arl::atomic<int> alternateCdnSuccessCount;
+        static arl::atomic<int> alternateCdnFailureCount;
 		static double lastCdnFailureTimeSpan;
-        static rbx::atomic<int> anorrlSuccessCount;
-        static rbx::atomic<int> anorrlFailureCount;
+        static arl::atomic<int> anorrlSuccessCount;
+        static arl::atomic<int> anorrlFailureCount;
 
 		static WindowAverage<double, double> anorrlResponse;
 		static WindowAverage<double, double> cdnResponse;

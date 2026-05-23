@@ -20,11 +20,11 @@ namespace ARL
 	public:
 		LoginService();
         
-        rbx::signal<void(std::string)> loginSucceededSignal;
-        rbx::signal<void(std::string)> loginFailedSignal;
+        arl::signal<void(std::string)> loginSucceededSignal;
+        arl::signal<void(std::string)> loginFailedSignal;
         
-        rbx::signal<void()> promptLoginSignal;
-        rbx::signal<void()> promptLogoutSignal;
+        arl::signal<void()> promptLoginSignal;
+        arl::signal<void()> promptLogoutSignal;
         
         void promptSignup();
         void promptLogin();

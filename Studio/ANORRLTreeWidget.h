@@ -16,7 +16,7 @@
 #include <QLineEdit>
 
 // ANORRL Headers
-#include "rbx/signal.h"
+#include "arl/signal.h"
 
 // ANORRL Studio Headers
 #include "FindDialog.h"
@@ -117,9 +117,9 @@ public:
 protected:
 	boost::shared_ptr<ARL::Instance>  m_pInstance;
 
-	rbx::signals::scoped_connection   m_cChildAddedConnection;
-	rbx::signals::scoped_connection   m_cChildRemovedConnection;
-	rbx::signals::scoped_connection   m_cPropertyChangedConnection;
+	arl::signals::scoped_connection   m_cChildAddedConnection;
+	arl::signals::scoped_connection   m_cChildRemovedConnection;
+	arl::signals::scoped_connection   m_cPropertyChangedConnection;
 
 	InstanceList_SPTR                 m_PendingItemsToAdd;
 	InstanceList_SPTR				  m_FilterItemsToAdd;
@@ -388,9 +388,9 @@ private:
   	
 	boost::shared_ptr<ARL::DataModel>        m_pDataModel;
 	boost::shared_ptr<PlayersDataManager>    m_pPlayersDataManager;
-	rbx::signals::scoped_connection          m_cInstanceSelectionChanged;
-	rbx::signals::scoped_connection			 m_cDescendantAddedConnection;
-	rbx::signals::scoped_connection			 m_cDescendantRemovedConnection;
+	arl::signals::scoped_connection          m_cInstanceSelectionChanged;
+	arl::signals::scoped_connection			 m_cDescendantAddedConnection;
+	arl::signals::scoped_connection			 m_cDescendantRemovedConnection;
 
 	InstanceMap                              m_InstanceMap;
 

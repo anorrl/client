@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <string>
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/Object.h"
 #include "Util/Memory.h"
 

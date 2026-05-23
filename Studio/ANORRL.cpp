@@ -24,8 +24,8 @@
 #include "v8datamodel/Light.h"
 #include "v8datamodel/Lighting.h"
 #include "v8datamodel/HttpService.h"
-#include "rbx/TaskScheduler.h"
-#include "rbx/ProcessPerfCounter.h"
+#include "arl/TaskScheduler.h"
+#include "arl/ProcessPerfCounter.h"
 #include "Util/standardout.h"
 #include "Util/Statistics.h"
 #include "NetworkSettings.h"
@@ -47,7 +47,7 @@
 #include "MachineConfig.h"
 #include "ANORRLUser.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 FASTFLAG(SurfaceLightEnabled)
 DYNAMIC_FASTFLAG(CustomEmitterInstanceEnabled)
@@ -60,7 +60,7 @@ FASTFLAGVARIABLE(StudioABTestEnabled, false)
 #endif
 
 bool ANORRL::sInitialized = false;
-rbx::signals::scoped_connection messageOutConnection;
+arl::signals::scoped_connection messageOutConnection;
 
 #ifdef Q_WS_WIN
 static boost::shared_ptr<CProcessPerfCounter> s_perfCounter;

@@ -1,4 +1,4 @@
-#include "rbx/Log.h"
+#include "arl/Log.h"
 #include "RbxFormat.h"
 #ifdef _WIN32
 #include <Windows.h>
@@ -13,7 +13,7 @@
 
 using namespace ARL;
 
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 
 ILogProvider* Log::provider = NULL;
 

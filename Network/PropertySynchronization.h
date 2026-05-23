@@ -84,7 +84,7 @@ namespace detail
 		ARL::Time::Interval expirationTime;
 		typedef boost::unordered_map<PropertyKey, Item> Map;
 		Map map;
-		rbx::timestamped_safe_queue<PropertyKey> expirationQueue;
+		arl::timestamped_safe_queue<PropertyKey> expirationQueue;
 
 		Base(ARL::Time::Interval expirationTime):expirationTime(expirationTime) {}
 

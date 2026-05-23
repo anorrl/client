@@ -12,8 +12,8 @@
 #include "boost/shared_ptr.hpp"
 #include <algorithm>
 
-#include "rbx/Countable.h"
-#include "rbx/signal.h"
+#include "arl/Countable.h"
+#include "arl/signal.h"
 #include "reflection/type.h"
 
 namespace ARL
@@ -189,7 +189,7 @@ namespace ARL
 			EventDescriptor(ClassDescriptor& classDescriptor, const char* name, Security::Permissions security, Attributes attributes);
 
 		public:
-			virtual rbx::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const = 0;
+			virtual arl::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const = 0;
 			const SignatureDescriptor& getSignature() const { return signature; }
 			
 			virtual bool isScriptable() const { return true; }
@@ -230,7 +230,7 @@ namespace ARL
 				return (obj->*sig);
 			}
 		public:
-			inline rbx::signals::connection connect(EventSource* source, const boost::function<Signature>& slot) const
+			inline arl::signals::connection connect(EventSource* source, const boost::function<Signature>& slot) const
             {
 				if (source)
 				{
@@ -238,7 +238,7 @@ namespace ARL
 					return (e->*sig).connect(slot);
 				}
 				else
-					return rbx::signals::connection();		// return an empty connection
+					return arl::signals::connection();		// return an empty connection
 			}
 			
 			inline void disconnectAll(EventSource* source) const
@@ -266,7 +266,7 @@ namespace ARL
                 return *s;
 			}
 		public:
-			inline rbx::signals::connection connect(EventSource* source, const boost::function<Signature>& slot) const
+			inline arl::signals::connection connect(EventSource* source, const boost::function<Signature>& slot) const
             {
 				if (source)
 				{
@@ -274,7 +274,7 @@ namespace ARL
 					return getSignal(e).connect(slot);
 				}
 				else
-					return rbx::signals::connection();		// return an empty connection
+					return arl::signals::connection();		// return an empty connection
 			}
 
 			inline void disconnectAll(EventSource* source) const
@@ -298,7 +298,7 @@ namespace ARL
 				:EventDescBase<EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{}
 		public:
-			rbx::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const 
+			arl::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const 
 			{
 				EventArguments foo2;
 				return this->connect(source, boost::bind(&GenericSlotWrapper::execute, wrapper, foo2));
@@ -323,7 +323,7 @@ namespace ARL
 				:EventDescBase<EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{}
 		public:
-			rbx::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
+			arl::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
 				return this->connect(source, boost::bind(&GenericSlotWrapper::execute1<
 					typename boost::function_traits<Signature>::arg1_type>, 
 					wrapper, _1));
@@ -351,7 +351,7 @@ namespace ARL
 				:EventDescBase<EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{}
 		public:
-			rbx::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
+			arl::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
 				return this->connect(source, boost::bind(&GenericSlotWrapper::execute2<
 					typename boost::function_traits<Signature>::arg1_type, 
 					typename boost::function_traits<Signature>::arg2_type>, 
@@ -381,7 +381,7 @@ namespace ARL
 				:EventDescBase<EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{}
 		public:
-			rbx::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
+			arl::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
 				return this->connect(source, boost::bind(&GenericSlotWrapper::execute3<
 				typename boost::function_traits<Signature>::arg1_type, 
 				typename boost::function_traits<Signature>::arg2_type, 
@@ -413,7 +413,7 @@ namespace ARL
 				:EventDescBase<EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{}
 		public:
-			rbx::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
+			arl::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
 				return this->connect(source, boost::bind(&GenericSlotWrapper::execute4<
 				typename boost::function_traits<Signature>::arg1_type, 
 				typename boost::function_traits<Signature>::arg2_type, 
@@ -447,7 +447,7 @@ namespace ARL
             :EventDescBase<EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{}
 		public:
-			rbx::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
+			arl::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
 				return this->connect(source, boost::bind(&GenericSlotWrapper::execute5<
                                                          typename boost::function_traits<Signature>::arg1_type,
                                                          typename boost::function_traits<Signature>::arg2_type,
@@ -483,7 +483,7 @@ namespace ARL
 				:EventDescBase<EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{}
 		public:
-			rbx::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
+			arl::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
 				return this->connect(source, boost::bind(&GenericSlotWrapper::execute6<
 					typename boost::function_traits<Signature>::arg1_type,
 					typename boost::function_traits<Signature>::arg2_type,
@@ -521,7 +521,7 @@ namespace ARL
 				:EventDescBase<EventClass, Signature, SignalType, SignalGetter>(sig, name, security, attributes)
 			{}
 		public:
-			rbx::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
+			arl::signals::connection connectGeneric(EventSource* source, shared_ptr<GenericSlotWrapper> wrapper) const {
 				return this->connect(source, boost::bind(&GenericSlotWrapper::execute7<
 					typename boost::function_traits<Signature>::arg1_type,
 					typename boost::function_traits<Signature>::arg2_type,
@@ -558,7 +558,7 @@ namespace ARL
 		template<
 			class EventClass,	// The class type that fires the event
 			typename Signature, // The signature of the event
-			typename SignalType = rbx::signal<Signature>, // Optional specialization of the signal type
+			typename SignalType = arl::signal<Signature>, // Optional specialization of the signal type
 			typename SignalGetter = SignalType EventClass::*  // Optional signal getter, raw member pointer by default
 		>
 		class EventDesc : public EventDescImpl<boost::function_traits<Signature>::arity, EventClass, Signature, SignalType, SignalGetter>
@@ -1043,7 +1043,7 @@ namespace ARL
 		template<
 			class EventClass,	// The class type that fires the event
 			typename Signature, // The signature of the event
-			typename SignalType = rbx::remote_signal<Signature>, // Optional specialization of the signal type
+			typename SignalType = arl::remote_signal<Signature>, // Optional specialization of the signal type
 			typename SignalGetter = SignalType EventClass::*  // Optional signal getter, raw member pointer by default
 		>
 		class RemoteEventDesc : public RemoteEventDescImpl<boost::function_traits<Signature>::arity, EventClass, Signature, SignalType, SignalGetter>

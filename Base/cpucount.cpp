@@ -3,7 +3,7 @@
 #if defined (_WIN32)
 #   include <thread>
 #else
-#   include "rbx/SystemUtil.h"
+#   include "arl/SystemUtil.h"
 #endif
 
 unsigned int RbxTotalUsableCoreCount(unsigned int defaultValue)

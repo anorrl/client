@@ -2,7 +2,7 @@
 
 #include "Util/G3DCore.h"
 #include "Util/NormalId.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

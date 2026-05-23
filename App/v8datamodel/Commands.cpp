@@ -1010,10 +1010,6 @@ void CameraZoomExtentsCommand::doIt(IDataState* dataState )
 	}
 }
 
-
-// Video recording code moved to GUI
-
-
 TurnOnManualJointCreation::TurnOnManualJointCreation(DataModel* dataModel)
 : Verb(dataModel, "TurnOnManualJointCreation")
 , dataModel(dataModel)

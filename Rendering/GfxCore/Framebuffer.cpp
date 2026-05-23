@@ -1,6 +1,6 @@
 #include "GfxCore/Framebuffer.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 namespace ARL
 {

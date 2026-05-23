@@ -40,7 +40,7 @@
 #include "BulletCollision/CollisionDispatch/btCollisionWorld.h"
 #include "BulletCollision/GImpact/btGImpactCollisionAlgorithm.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGVARIABLE(CyclicExecutiveWorldSteps, 0)
 LOGGROUP(Physics)

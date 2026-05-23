@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Replicator.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "V8DataModel/DataModel.h"
 #include "Network/Players.h"
 #include "util/MemoryStats.h"
@@ -17,7 +17,7 @@ namespace ARL { namespace Network {
 
 class Replicator::ProcessPacketsJob : public ReplicatorJob
 {
-	rbx::atomic<int> isAwake;
+	arl::atomic<int> isAwake;
     DataModel* dm;
 	
 public:

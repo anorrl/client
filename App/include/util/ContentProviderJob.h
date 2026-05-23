@@ -2,7 +2,7 @@
 
 #include "Util/AsyncHttpQueue.h"
 #include "v8datamodel/DataModelJob.h"
-#include "rbx/threadsafe.h"
+#include "arl/threadsafe.h"
 
 namespace ARL
 {
@@ -27,7 +27,7 @@ private:
 		shared_ptr<const std::string> data;
 	};
 	bool aborted;
-	rbx::safe_queue<ContentProviderTask> tasks;
+	arl::safe_queue<ContentProviderTask> tasks;
 	ExecutionMode execMode;
 
 	TaskScheduler::StepResult processTask(const ContentProviderTask& task);

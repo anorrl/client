@@ -34,7 +34,7 @@
 #include "v8datamodel/MegaCluster.h"
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/Lighting.h"
-#include "rbx/SystemUtil.h"
+#include "arl/SystemUtil.h"
 
 LOGGROUP(Graphics)
 
@@ -123,6 +123,7 @@ VisualEngine::VisualEngine(Device* device, CRenderSettings* settings)
 			"fonts/NotoSans-Bold.ttf",
 			"fonts/VCR_OSD_MONO.ttf",
 			"fonts/DashHorizon-Regular.otf",
+			"fonts/Punktype-Regular.ttf",
 		};
 
 		float legacyHeightScale = (font == Text::FONT_LEGACY) ? 1.5f : 1.f;

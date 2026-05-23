@@ -24,7 +24,7 @@ namespace HUMAN {
 		shared_ptr<PartInstance> torsoPart;
 		weak_ptr<PhysicsService> physicsService;
 
-		rbx::signals::scoped_connection torsoAncestryChanged;		
+		arl::signals::scoped_connection torsoAncestryChanged;		
 		void onEvent_TorsoAncestryChanged();
 		void disconnectTorso();
 

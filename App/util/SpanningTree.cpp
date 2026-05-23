@@ -4,7 +4,7 @@
 #include "Util/SpanningTree.h"
 #include "Util/SpanningNode.h"
 #include "Util/SpanningEdge.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 
 /*

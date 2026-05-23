@@ -3,7 +3,7 @@
 #include "MechanismItem.h"
 #include "Util/PV.h"
 #include "Util/Math.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 using namespace ARL;
 

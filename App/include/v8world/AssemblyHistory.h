@@ -4,7 +4,7 @@
 
 #include "Util/PhysicsCoord.h"
 #include "Util/Average.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

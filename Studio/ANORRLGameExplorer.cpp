@@ -1127,7 +1127,7 @@ void EntityPropertiesForCategory::handlePage(int loadedPage, std::string* json, 
 			requestPage(loadedPage + 1);
 		}
 	}
-	catch (const std::exception& e)
+	catch (const std::exception&)
 	{
 		StandardOut::singleton()->print(MESSAGE_WARNING, "Error while loading data for game. Try again later.");
 

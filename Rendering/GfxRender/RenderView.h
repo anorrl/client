@@ -2,7 +2,7 @@
 
 #include "GfxBase/ViewBase.h"
 #include "v8datamodel/RenderHooksService.h"
-#include "rbx/RunningAverage.h"
+#include "arl/RunningAverage.h"
 
 LOGGROUP(DeviceLost)
 LOGGROUP(ViewRbxBase)
@@ -118,14 +118,14 @@ private:
     ARL::WindowAverage<double, double> presentAverage;
     ARL::WindowAverage<double, double> gpuAverage;
 
-    rbx::signal<void(std::string)> screenshotFinishedSignal;
+    arl::signal<void(std::string)> screenshotFinishedSignal;
 
     boost::shared_ptr<ARL::DataModel> dataModel;
 
-    rbx::signals::scoped_connection lightingChangedConnection;
+    arl::signals::scoped_connection lightingChangedConnection;
     bool lightingValid;
 
-    rbx::signals::scoped_connection screenshotConnection;
+    arl::signals::scoped_connection screenshotConnection;
     bool doScreenshot;
 
     bool adornsEnabled;

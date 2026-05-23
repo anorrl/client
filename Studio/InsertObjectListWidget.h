@@ -12,7 +12,7 @@
 
 #include <QListWidget>
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "Reflection/Property.h"
 
 class QListWidgetItem;
@@ -48,5 +48,5 @@ private:
     void onPropertyChanged(const ARL::Reflection::PropertyDescriptor* pDescriptor);
 
 	QPoint  m_dragStartPosition;
-	rbx::signals::scoped_connection m_PropertyChangedConnection;
+	arl::signals::scoped_connection m_PropertyChangedConnection;
 };

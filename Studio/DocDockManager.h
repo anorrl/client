@@ -10,7 +10,7 @@
 #include <QMap>
 
 // ANORRL Headers
-#include "RBX/BaldPtr.h"
+#include "ARL/BaldPtr.h"
 
 // ANORRL Studio Headers
 #include "IANORRLDoc.h"

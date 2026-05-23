@@ -8,7 +8,7 @@
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/InputObject.h"
 #include "Util/TextureId.h"
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "V8DataModel/Filters.h"
 #include "V8DataModel/MouseCommand.h"
 
@@ -30,7 +30,7 @@ public:
 
 	void fireDragEnterEvent(shared_ptr<const ARL::Instances> instances, shared_ptr<InputObject> input);
 
-	rbx::signal<void(shared_ptr<const Instances>)> dragEnterEventSignal;
+	arl::signal<void(shared_ptr<const Instances>)> dragEnterEventSignal;
 };
 
 

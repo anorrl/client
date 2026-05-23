@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "V8Tree/Property.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include "Util/BrickColor.h"
 #include "Util/Region3.h"

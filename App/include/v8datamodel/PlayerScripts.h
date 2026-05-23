@@ -53,9 +53,9 @@ namespace ARL {
 
 		void InitializeDefaultScripts();
 		void InitializeDefaultScriptsRunService(RunTransition transition);
-		rbx::signals::scoped_connection initializeDefaultScriptsConnection;
+		arl::signals::scoped_connection initializeDefaultScriptsConnection;
 
-		rbx::signal<void()> defaultScriptsLoadedSignal;	
+		arl::signal<void()> defaultScriptsLoadedSignal;	
 
 		bool defaultScriptsLoadRequested;
 		bool defaultScriptsLoaded;
@@ -71,8 +71,8 @@ namespace ARL {
 		void defaultScriptsSend(weak_ptr<ARL::Network::Player> p);
 		void defaultScriptsReceived(int confirm);
 
-		rbx::remote_signal<void(shared_ptr<Instance>)> requestDefaultScriptsSignal;
-		rbx::remote_signal<void(int)> confirmDefaultScriptsSignal;
+		arl::remote_signal<void(shared_ptr<Instance>)> requestDefaultScriptsSignal;
+		arl::remote_signal<void(int)> confirmDefaultScriptsSignal;
 
 	protected:
 		////////////////////////////////////////////////////////////////////////////////////

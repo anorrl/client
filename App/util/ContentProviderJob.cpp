@@ -3,7 +3,7 @@
 #include "Util/ContentProviderJob.h"
 #include "v8datamodel/DataModel.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 DYNAMIC_FASTINTVARIABLE(MaxContentProviderRunsPerStep, 10)
 DYNAMIC_FASTINTVARIABLE(MaxContentProviderRunsAccumulated, 20)

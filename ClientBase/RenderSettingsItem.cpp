@@ -11,7 +11,7 @@
 #include "v8datamodel/GameBasicSettings.h"
 #include "V8DataModel/PartInstance.h"
 #include "util/standardout.h"
-#include "rbx/SystemUtil.h"
+#include "arl/SystemUtil.h"
 
 using namespace ARL;
 

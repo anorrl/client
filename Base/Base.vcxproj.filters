@@ -8,10 +8,10 @@
     <Filter Include="Source Files\Util Source">
       <UniqueIdentifier>{0d8c3e5f-2941-415c-b783-dd5707b49c43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\RBX">
+    <Filter Include="Source Files\ARL">
       <UniqueIdentifier>{ea8678fa-91fe-48fd-96b2-9534ba41f4c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\RBX\Tasks">
+    <Filter Include="Source Files\ARL\Tasks">
       <UniqueIdentifier>{e8e6c2c9-50e3-49af-b5ff-e1d345366ff4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\ClientShared">
@@ -24,13 +24,13 @@
     <Filter Include="Header Files\Util Header">
       <UniqueIdentifier>{f291e2e0-4d31-4a8f-adcc-c8a5427a4881}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\RBX">
+    <Filter Include="Header Files\ARL">
       <UniqueIdentifier>{1493a382-b7d7-4531-8401-2399aa7c31f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\RBX\Tasks">
+    <Filter Include="Header Files\ARL\Tasks">
       <UniqueIdentifier>{75367d34-58e2-475f-9db3-8fccd90bca0d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\RBX\Intrusive">
+    <Filter Include="Header Files\ARL\Intrusive">
       <UniqueIdentifier>{289fe25e-217e-4e7f-b3a9-a4f4bf314f9c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\ClientShared">
@@ -48,7 +48,7 @@
     <ClCompile Include="cpucount.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\MathUtil.cpp">
+    <ClCompile Include="arl\MathUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RbxAssert.cpp">
@@ -57,7 +57,7 @@
     <ClCompile Include="RbxFormat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\Time.cpp">
+    <ClCompile Include="arl\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="util\Debug.cpp">
@@ -72,41 +72,41 @@
     <ClCompile Include="util\RegistryUtil.cpp">
       <Filter>Source Files\Util Source</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\boost.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\boost.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\CEvent.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\CEvent.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\Crypt.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\Crypt.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\Memory.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\Memory.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\ProcessPerfCounter.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\ProcessPerfCounter.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="include\rbx\RbxDbgInfo.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="include\arl\RbxDbgInfo.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\Signal.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\Signal.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\TaskScheduler.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\TaskScheduler.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\TaskScheduler.Job.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\TaskScheduler.Job.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\TaskScheduler.Thread.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\TaskScheduler.Thread.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\ThreadSafe.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\ThreadSafe.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\Tasks\Coordinator.cpp">
-      <Filter>Source Files\RBX\Tasks</Filter>
+    <ClCompile Include="arl\Tasks\Coordinator.cpp">
+      <Filter>Source Files\ARL\Tasks</Filter>
     </ClCompile>
     <ClCompile Include="..\ClientShared\SimpleJSON.cpp">
       <Filter>Source Files\ClientShared</Filter>
@@ -114,8 +114,8 @@
     <ClCompile Include="..\ClientShared\StringConv.cpp">
       <Filter>Source Files\ClientShared</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\Win\SystemUtil.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\Win\SystemUtil.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
     <ClCompile Include="..\ClientShared\Win\CookiesEngine.cpp">
       <Filter>Source Files\ClientShared</Filter>
@@ -123,8 +123,8 @@
     <ClCompile Include="util\StreamHelpers.cpp">
       <Filter>Source Files\Util Source</Filter>
     </ClCompile>
-    <ClCompile Include="rbx\Profiler.cpp">
-      <Filter>Source Files\RBX</Filter>
+    <ClCompile Include="arl\Profiler.cpp">
+      <Filter>Source Files\ARL</Filter>
     </ClCompile>
     <ClCompile Include="..\ClientShared\Mobile\CookiesEngine.cpp">
       <Filter>Source Files</Filter>
@@ -134,7 +134,7 @@
     <ClInclude Include="include\CPUCount.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\MathUtil.h">
+    <ClInclude Include="include\arl\MathUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\RbxAssert.h">
@@ -152,7 +152,7 @@
     <ClInclude Include="include\RbxPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\rbxTime.h">
+    <ClInclude Include="include\arl\rbxTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\SelectState.h">
@@ -173,95 +173,95 @@
     <ClInclude Include="include\util\ublas_ext.h">
       <Filter>Header Files\Util Header</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\atomic.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\atomic.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\BaldPtr.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\BaldPtr.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Boost.hpp">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\Boost.hpp">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\callable.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\callable.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\CEvent.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\CEvent.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Crypt.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\Crypt.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Countable.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\Countable.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Debug.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\Debug.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Declarations.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\Declarations.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\GlobalVectorItem.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\GlobalVectorItem.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\intrusive_ptr_target.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\intrusive_ptr_target.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\intrusive_weak_ptr.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\intrusive_weak_ptr.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Log.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\Log.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\make_shared.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\make_shared.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Memory.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\Memory.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Nil.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\Nil.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\object_pool.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\object_pool.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\ProcessPerfCounter.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\ProcessPerfCounter.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\RbxDbgInfo.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\RbxDbgInfo.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\RbxStrings.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\RbxStrings.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\RunningAverage.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\RunningAverage.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\signal.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\signal.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\TaskScheduler.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\TaskScheduler.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\TaskScheduler.Job.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\TaskScheduler.Job.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\threadsafe.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\threadsafe.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\trie.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\trie.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Tasks\Coordinator.h">
-      <Filter>Header Files\RBX\Tasks</Filter>
+    <ClInclude Include="include\arl\Tasks\Coordinator.h">
+      <Filter>Header Files\ARL\Tasks</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Intrusive\MemberBucket.h">
-      <Filter>Header Files\RBX\Intrusive</Filter>
+    <ClInclude Include="include\arl\Intrusive\MemberBucket.h">
+      <Filter>Header Files\ARL\Intrusive</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Intrusive\Set.h">
-      <Filter>Header Files\RBX\Intrusive</Filter>
+    <ClInclude Include="include\arl\Intrusive\Set.h">
+      <Filter>Header Files\ARL\Intrusive</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Intrusive\SLinkedLoopNode.h">
-      <Filter>Header Files\RBX\Intrusive</Filter>
+    <ClInclude Include="include\arl\Intrusive\SLinkedLoopNode.h">
+      <Filter>Header Files\ARL\Intrusive</Filter>
     </ClInclude>
     <ClInclude Include="..\ClientShared\CookiesEngine.h">
       <Filter>Header Files\ClientShared</Filter>
@@ -272,16 +272,16 @@
     <ClInclude Include="..\ClientShared\StringConv.h">
       <Filter>Header Files\ClientShared</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Thread.hpp">
+    <ClInclude Include="include\arl\Thread.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\DenseHash.h">
+    <ClInclude Include="include\arl\DenseHash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\Profiler.h">
-      <Filter>Header Files\RBX</Filter>
+    <ClInclude Include="include\arl\Profiler.h">
+      <Filter>Header Files\ARL</Filter>
     </ClInclude>
-    <ClInclude Include="include\rbx\ArrayDynamic.h">
+    <ClInclude Include="include\arl\ArrayDynamic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\simd\simd.h">

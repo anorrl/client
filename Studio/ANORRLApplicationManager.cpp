@@ -23,9 +23,9 @@
 #include "StudioDeviceEmulator.h"
 #include "StudioUtilities.h"
 
-const char* kChildProcessServerName   = "rbxDeleteChildProcessesServer_%1";
-const char* kDeleteChildProcessesMsg  = "rbxDeleteChildProcesses";
-const char* kChildProcessesDeletedMsg = "rbxChildProcessesDeleted";
+const char* kChildProcessServerName   = "arlDeleteChildProcessesServer_%1";
+const char* kDeleteChildProcessesMsg  = "arlDeleteChildProcesses";
+const char* kChildProcessesDeletedMsg = "arlChildProcessesDeleted";
 
 ANORRLApplicationManager::ANORRLApplicationManager()
 : childProcessHandler(NULL)

@@ -18,7 +18,7 @@
 #include "boost/function.hpp"
 
 // ANORRL Headers
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 // ANORRL Studio Headers
 #include "IANORRLDoc.h"

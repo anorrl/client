@@ -5,7 +5,7 @@
 #include "v8datamodel/ModelInstance.h"
 #include "v8datamodel/Workspace.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(TaskSchedulerTiming)
 

@@ -62,7 +62,7 @@
 #include "script/LuaSourceContainer.h"
 #include "script/ScriptContext.h"
 #include "script/script.h"
-#include "rbx/Log.h"
+#include "arl/Log.h"
 #include "tool/ToolsArrow.h"
 #include "GeometryGenerator.h"
 #include "../CSG/CSGKernel.h"
@@ -72,7 +72,7 @@
 // ANORRL Studio Headers
 #include "StudioUtilities.h"
 #include "WebDialog.h"
-#include "RbxWorkspace.h"
+#include "ARLWorkspace.h"
 #include "ANORRLSettings.h"
 #include "ANORRLDocManager.h"
 #include "CommonInsertWidget.h"
@@ -96,7 +96,6 @@
 
 #include "v8xml/SerializerBinary.h"
 
-//Video record related includes
 #include "ManageEmulationDeviceDialog.h"
 
 FASTFLAG(PrefetchResourcesEnabled)
@@ -122,9 +121,9 @@ DYNAMIC_FASTFLAG(UseRemoveTypeIDTricks)
 static const char* sCollisionToggleModeSetting = "CollisionToggleMode";
 static const char* sLocalTranslationModeSetting = "LocalTranslationMode";
 static const char* sLocalRotationModeSetting = "LocalRotationMode";
-static const char* sRibbonJointCreationMode = "rbxRibbonJointCreationMode";
-static const char* sRibbonStartServerSetting = "rbxRibbonStartServer";
-static const char* sRibbonNumPlayerSetting = "rbxRibbonNumPlayer";
+static const char* sRibbonJointCreationMode = "arlRibbonJointCreationMode";
+static const char* sRibbonStartServerSetting = "arlRibbonStartServer";
+static const char* sRibbonNumPlayerSetting = "arlRibbonNumPlayer";
 
 static const char* sANORRLMimeType = "application/x-anorrl-studio";
 
@@ -1086,7 +1085,7 @@ void PublishSelectionToANORRLVerb::doIt(ARL::IDataState*)
 	ARL::DataModel::LegacyLock lock(m_pDataModel, ARL::DataModelJob::Write);
 
 	bool isScript = false;
-	if (RbxWorkspace::isScriptAssetUploadEnabled)
+	if (ARLWorkspace::isScriptAssetUploadEnabled)
 	{
 
 		ARL::Selection* sel = ARL::ServiceProvider::find<ARL::Selection>(m_pDataModel);
@@ -1094,7 +1093,7 @@ void PublishSelectionToANORRLVerb::doIt(ARL::IDataState*)
 			if (dynamic_cast<ARL::BaseScript*>(sel->front().get()))
 				isScript = true;
 	}
-	if (RbxWorkspace::isImageModelAssetUploadEnabled)
+	if (ARLWorkspace::isImageModelAssetUploadEnabled)
 	{
 		ARL::Selection* sel = ARL::ServiceProvider::find<ARL::Selection>(m_pDataModel);
 		if (sel && sel->size()==1){
@@ -2289,7 +2288,7 @@ StudioMaterialVerb::StudioMaterialVerb(ARL::DataModel* dataModel)
 : MaterialVerb(dataModel, "StudioMaterialVerb")
 {
 	// initialize default value
-	StudioMaterialVerb::sMaterialActionActAsTool = ANORRLSettings().value("rbxMaterialActionActAsTool", false).toBool();;
+	StudioMaterialVerb::sMaterialActionActAsTool = ANORRLSettings().value("arlMaterialActionActAsTool", false).toBool();;
 }
 
 void StudioMaterialVerb::doIt( ARL::IDataState* dataState )
@@ -2334,7 +2333,7 @@ StudioColorVerb::StudioColorVerb(ARL::DataModel* dataModel)
 {
 	addColorToIcon();
 	// initialize default value
-	StudioColorVerb::sColorActionActAsTool = ANORRLSettings().value("rbxColorActionActAsTool", false).toBool();
+	StudioColorVerb::sColorActionActAsTool = ANORRLSettings().value("arlColorActionActAsTool", false).toBool();
 }
 
 void StudioColorVerb::doIt( ARL::IDataState* dataState )

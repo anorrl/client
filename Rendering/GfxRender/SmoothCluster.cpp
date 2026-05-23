@@ -24,7 +24,7 @@
 #include "voxel2/Grid.h"
 #include "voxel2/Mesher.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 using namespace ARL::Voxel;
 

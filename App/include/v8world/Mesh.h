@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Util/G3DCore.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "V8World/GeometryPool.h"
 
 namespace ARL {

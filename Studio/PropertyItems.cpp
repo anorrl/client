@@ -2438,6 +2438,48 @@ public:
 	}
 };
 
+//--------------------------------------------------------------------------------------------
+// AudioAssetPropertyItem
+//--------------------------------------------------------------------------------------------
+
+class AudioAssetPropertyItem : public ContentPropertyItem
+{
+public:
+	AudioAssetPropertyItem(const ARL::Reflection::PropertyDescriptor *pPropertyDescriptor)
+		: ContentPropertyItem(pPropertyDescriptor)
+	{
+	}
+
+	virtual Qt::TextElideMode getTextElideMode() const
+	{
+		return Qt::ElideLeft;
+	}
+
+	bool customLaunchEditorHook(QMouseEvent* event)
+	{
+		if (UpdateUIManager::Instance().getViewWidget<ANORRLGameExplorer>(eDW_GAME_EXPLORER)
+			.getCurrentGameId() > 0)
+		{
+			QRect rect = getTreeWidget()->visualItemRect(this);
+			QPoint location = getTreeWidget()->mapToGlobal(rect.bottomLeft());
+			boost::shared_ptr<ARL::DataModel> dm = getTreeWidget()->getDataModel();
+
+			AudioPickerWidget pickerFrame(treeWidget());
+			QString string = pickerFrame.getAudioUrl(text(1), location, dm);
+
+			{
+				ARL::DataModel::LegacyLock lock(dm, ARL::DataModelJob::Write);
+
+				setVariantValue(string.toStdString());
+				commitModification();
+			}
+
+			return true;
+		}
+		return false;
+	}
+};
+
 
 //--------------------------------------------------------------------------------------------
 // ScriptAssetPropertyItem
@@ -2959,10 +3001,10 @@ PropertyItem* PropertyItem::createItem(const ARL::Reflection::PropertyDescriptor
 	const ARL::Reflection::TypedPropertyDescriptor<ARL::TextureId>* pTextureProp = dynamic_cast<const ARL::Reflection::TypedPropertyDescriptor<ARL::TextureId>*>(pPropertyDescriptor);
 	if (pTextureProp)
 		return new ImageAssetPropertyItem(pPropertyDescriptor);
-		
+
 	const ARL::Reflection::TypedPropertyDescriptor<ARL::Soundscape::SoundId>* pSoundProp = dynamic_cast<const ARL::Reflection::TypedPropertyDescriptor<ARL::Soundscape::SoundId>*>(pPropertyDescriptor);
 	if (pSoundProp)		
-		return new ContentPropertyItem(pPropertyDescriptor);
+		return new AudioAssetPropertyItem(pPropertyDescriptor);
 	
 	if (FFlag::AnimationIdIsContentPropertyItem)
 	{

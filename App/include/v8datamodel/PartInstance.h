@@ -18,8 +18,8 @@
 #include "Util/Faces.h"
 #include "Util/PathInterpolatedCFrame.h"
 #include "Util/CompactEnum.h"
-#include "rbx/rbxTime.h"
-#include "RBX/Intrusive/Set.h"
+#include "arl/rbxTime.h"
+#include "ARL/Intrusive/Set.h"
 #include "Reflection/Property.h"
 #include "Util/Average.h"
 #include <vector>
@@ -143,7 +143,7 @@ protected:
 	void safeMove();			// call PVInstance::safeMove
 
 public:
-	rbx::remote_signal<void(ARL::SystemAddress)>* getOrCreateNetworkOwnerChangedSignal(bool create);
+	arl::remote_signal<void(ARL::SystemAddress)>* getOrCreateNetworkOwnerChangedSignal(bool create);
 
 	//helper function
 	static void printNetAPIDisabledMessage();
@@ -176,10 +176,10 @@ public:
 	static const Reflection::PropDescriptor<PartInstance, Vector3> prop_Velocity;
 	static const Reflection::PropDescriptor<PartInstance, Vector3> prop_RotVelocity;
 
-	class TouchedSignal : public rbx::signal<void(shared_ptr<Instance>)>
+	class TouchedSignal : public arl::signal<void(shared_ptr<Instance>)>
 	{
 		private:
-			typedef rbx::signal<void(shared_ptr<Instance>)> Super;
+			typedef arl::signal<void(shared_ptr<Instance>)> Super;
 
 		class TouchedSlot
 		{
@@ -212,10 +212,10 @@ public:
 	public:
 		PartInstance* part;
 		template<typename F>
-		rbx::signals::connection connect(F slot)
+		arl::signals::connection connect(F slot)
 		{
 			FASTLOG1(FLog::TouchedSignal, "Signal connected (no upper message = lua) - %p", this);
-			rbx::signals::connection con = Super::connect(TouchedSlot(slot, part));
+			arl::signals::connection con = Super::connect(TouchedSlot(slot, part));
 			if(FLog::TouchedSignal)
 			{
 				FASTLOG1(FLog::TouchedSignal, "Signal connected - %p", this);
@@ -247,24 +247,24 @@ public:
 			return Allocator<OnDemandPartInstance>::operator delete(p);
 		}
 
-		rbx::signal<void(bool)> sleepingChangedSignal;
-        rbx::signal<void(shared_ptr<Instance>)> clumpChangedSignal;
+		arl::signal<void(bool)> sleepingChangedSignal;
+        arl::signal<void(shared_ptr<Instance>)> clumpChangedSignal;
 
 		// Fired for humanoid state when CFrame changed from reflection
-		rbx::signal<void()> cframeChangedFromReflectionSignal;
+		arl::signal<void()> cframeChangedFromReflectionSignal;
 
 		TouchTransmitter* touchTransmitter;
-		rbx::atomic<int> touchedSlotCount;
+		arl::atomic<int> touchedSlotCount;
 		TouchedSignal touchedSignal;
 		TouchedSignal touchEndedSignal;
 
-		rbx::signal<void(shared_ptr<Instance>)> deprecatedStoppedTouchingSignal;
-		rbx::signal<void()> outfitChangedSignal;
+		arl::signal<void(shared_ptr<Instance>)> deprecatedStoppedTouchingSignal;
+		arl::signal<void()> outfitChangedSignal;
 
-		rbx::signal<void(shared_ptr<Instance>)> localSimulationTouchedSignal;
-        rbx::signal<void(bool)> buoyancyChangedSignal;
+		arl::signal<void(shared_ptr<Instance>)> localSimulationTouchedSignal;
+        arl::signal<void(bool)> buoyancyChangedSignal;
 
-        rbx::signal<void(PartInstance* , CoordinateFrame&, ARL::Velocity&, float&)> onPositionUpdatedByNetworkSignal;
+        arl::signal<void(PartInstance* , CoordinateFrame&, ARL::Velocity&, float&)> onPositionUpdatedByNetworkSignal;
 
 		bool isCurrentlyStreamRemovingPart;
 		std::vector< weak_ptr<SurfaceGui> > surfaceGuiCookies;
@@ -275,9 +275,9 @@ public:
 
 	TouchedSignal* getOrCreateTouchedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->touchedSignal : NULL; }
 	TouchedSignal* getOrCreateTouchedEndedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->touchEndedSignal : NULL; }
-	rbx::signal<void(shared_ptr<Instance>)>* getOrCreateDeprecatedStoppedTouchingSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->deprecatedStoppedTouchingSignal : NULL; }
-	rbx::signal<void(shared_ptr<Instance>)>* getOrCreateLocalSimulationTouchedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->localSimulationTouchedSignal : NULL; }
-	rbx::signal<void()>* getOrCreateOutfitChangedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->outfitChangedSignal : NULL; }
+	arl::signal<void(shared_ptr<Instance>)>* getOrCreateDeprecatedStoppedTouchingSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->deprecatedStoppedTouchingSignal : NULL; }
+	arl::signal<void(shared_ptr<Instance>)>* getOrCreateLocalSimulationTouchedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->localSimulationTouchedSignal : NULL; }
+	arl::signal<void()>* getOrCreateOutfitChangedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->outfitChangedSignal : NULL; }
 
 	static bool nonNullInWorkspace(const shared_ptr<PartInstance>& part);
 
@@ -467,7 +467,7 @@ public:
 	void setNetworkOwnerAndNotify(const ARL::SystemAddress value);
 	void notifyNetworkOwnerChanged(const ARL::SystemAddress oldOwner);
 #ifdef ARL_TEST_BUILD
-	rbx::signal<void(float, float)> ownershipChangeSignal;
+	arl::signal<void(float, float)> ownershipChangeSignal;
 #endif
 
 	bool getNetworkIsSleeping() const;

@@ -12,7 +12,7 @@
 #include <QMap>
 #include <QMetaType>
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "V8Tree/Instance.h"
 #include "Util/HttpAsync.h"
 

@@ -2,7 +2,7 @@
 
 #include "Util/UintSet.h"
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #ifdef _WIN32
 #include <intrin.h>

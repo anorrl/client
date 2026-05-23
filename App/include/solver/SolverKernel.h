@@ -2,7 +2,7 @@
 
 #include "solver/SolverConfig.h"
 #include "boost/cstdint.hpp"
-#include "rbx/ArrayDynamic.h"
+#include "arl/ArrayDynamic.h"
 
 namespace ARL
 {

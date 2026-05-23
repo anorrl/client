@@ -7,11 +7,11 @@
 #include <map>
 #include "boost/utility.hpp"
 
-#include "rbx/Debug.h"
-#include "rbx/boost.hpp"
-#include "rbx/atomic.h"  
+#include "arl/Debug.h"
+#include "arl/boost.hpp"
+#include "arl/atomic.h"  
 #include <boost/unordered_map.hpp>
-#include "rbx/threadsafe.h"
+#include "arl/threadsafe.h"
 
 #include "security/ApiSecurity.h"
 
@@ -37,7 +37,7 @@ namespace ARL {
 
 		// sortIndex is atomic to avoid any chance of stale
 		// data when calling setOrderIndex
-		rbx::atomic<int> sortIndex;
+		arl::atomic<int> sortIndex;
 
 	public:
 		std::string const str;	// the string that is the text name

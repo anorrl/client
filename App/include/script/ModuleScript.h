@@ -83,7 +83,7 @@ public:
 
 	void fireSourceChanged() override;
 
-	rbx::signal<void(lua_State*)> starting;
+	arl::signal<void(lua_State*)> starting;
     
 protected:
 	void onScriptIdChanged() override;

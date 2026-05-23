@@ -5,7 +5,7 @@
 #include "V8Xml/XmlSerializer.h"
 #include "V8DataModel/DataModel.h"
 #include "v8datamodel/contentprovider.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "util/standardout.h"
 
 #include "v8xml/SerializerBinary.h"

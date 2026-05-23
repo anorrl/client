@@ -4,8 +4,8 @@
 #include "Util/G3DCore.h"
 #include "Util/Memory.h"
 #include "Util/ConcurrencyValidator.h"
-#include "rbx/Debug.h"
-#include "rbx/object_pool.h"
+#include "arl/Debug.h"
+#include "arl/object_pool.h"
 
 #include <boost/unordered_set.hpp>
 #include <boost/pool/pool.hpp>

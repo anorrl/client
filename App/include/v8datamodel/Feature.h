@@ -110,7 +110,7 @@ namespace ARL {
 
 		shared_ptr<Hole> hole;
 
-		rbx::signals::scoped_connection holeAncestorChanged;		
+		arl::signals::scoped_connection holeAncestorChanged;		
 		void onEvent_HoleAncestorChanged();
 
 		void setPart(int i, Feature* feature);

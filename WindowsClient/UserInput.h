@@ -39,7 +39,7 @@ class UserInput : public UserInputBase
 		MBUTTON_MIDDLE  = 2
     };
 
-	rbx::signals::scoped_connection steppedConnection;
+	arl::signals::scoped_connection steppedConnection;
 
 	mutable ANORRLCriticalSection diSection;
 

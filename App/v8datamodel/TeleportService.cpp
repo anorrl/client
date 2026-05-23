@@ -300,7 +300,7 @@ void TeleportService::TeleportThreadImpl(shared_ptr<const Reflection::ValueTable
                     
                 std::stringstream jsonStream;
                 jsonStream << response;
-                shared_ptr<const Reflection::ValueTable> jsonResult(rbx::make_shared<const Reflection::ValueTable>());
+                shared_ptr<const Reflection::ValueTable> jsonResult(arl::make_shared<const Reflection::ValueTable>());
                 bool parseResult = WebParser::parseJSONTable(jsonStream.str(), jsonResult);
                 if (parseResult)
                 {
@@ -540,7 +540,7 @@ void TeleportService::ProcessGetPlayerPlaceInstanceResultsSuccess(std::string re
 	{
 		std::stringstream jsonStream;
 		jsonStream << response;
-		shared_ptr<const Reflection::ValueTable> jsonResult(rbx::make_shared<const Reflection::ValueTable>());
+		shared_ptr<const Reflection::ValueTable> jsonResult(arl::make_shared<const Reflection::ValueTable>());
 		bool parseResult = WebParser::parseJSONTable(jsonStream.str(), jsonResult);
 		if (!parseResult)
 		{
@@ -738,7 +738,7 @@ void TeleportService::ProcessReserveServerResultsSuccess(std::string response, b
 	{
 		std::stringstream jsonStream;
 		jsonStream << response;
-		shared_ptr<const Reflection::ValueTable> jsonResult(rbx::make_shared<const Reflection::ValueTable>());
+		shared_ptr<const Reflection::ValueTable> jsonResult(arl::make_shared<const Reflection::ValueTable>());
 		bool parseResult = WebParser::parseJSONTable(jsonStream.str(), jsonResult);
 		if (!parseResult)
 		{

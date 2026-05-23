@@ -15,9 +15,9 @@
 #include <QEvent>
 
 // ANORRL Headers
-#include "rbx/Tasks/Coordinator.h"
-#include "rbx/CEvent.h"
-#include "rbx/SystemUtil.h"
+#include "arl/Tasks/Coordinator.h"
+#include "arl/CEvent.h"
+#include "arl/SystemUtil.h"
 #include "Network/Players.h"
 #include "Network/api.h"
 #include "script/script.h"
@@ -71,7 +71,7 @@
 #include "ANORRLDocManager.h"
 #include "ANORRLIDEDoc.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(HardwareMouse)
 LOGGROUP(TaskSchedulerTiming)

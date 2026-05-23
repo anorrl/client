@@ -139,7 +139,7 @@ public:
 	struct ReplicationData
 	{
 		shared_ptr<Instance> instance;
-		rbx::signals::connection connection;
+		arl::signals::connection connection;
 		bool deleteOnDisconnect;
 		bool replicateChildren : 1;
 		bool listenToChanges : 1;
@@ -154,7 +154,7 @@ public:
 			readyToSendChunks = false;
 		}
 
-		rbx::signals::connection parentConnection;
+		arl::signals::connection parentConnection;
 
 		ClusterUpdateBuffer updateBuffer;
 		boost::unordered_set<Vector3int32> updateBufferSmooth;
@@ -218,7 +218,7 @@ public:
 	bool isInstanceAChildOfClientsCharacterModel(const Instance* testInstance) const;
 
 	static Reflection::BoundProp<int> prop_maxDataModelSendBuffer;
-	rbx::signal<void(std::string, bool)> disconnectionSignal;
+	arl::signal<void(std::string, bool)> disconnectionSignal;
 
 	virtual RakNet::PluginReceiveResult OnReceive(RakNet::Packet *packet);
 
@@ -392,7 +392,7 @@ protected:
 	DefaultObjects defaultObjects;  // Used for stripping out default properties (compression)
 
 	// Note: This queue doesn't need a concurrency guard, but we need the timestamping feature
-	rbx::timestamped_safe_queue<RakNet::Packet*> incomingPackets;
+	arl::timestamped_safe_queue<RakNet::Packet*> incomingPackets;
 
 	bool processAllPacketsPerStep;	// determine if ProcessPacketsJob should budget each step
 
@@ -612,7 +612,7 @@ private:
 
 	void addToPendingItemsList(shared_ptr<Instance> instance);
 
-	rbx::signals::scoped_connection sendFilteredChatMessageConnection;
+	arl::signals::scoped_connection sendFilteredChatMessageConnection;
 	void sendFilteredChatMessage(const RakNet::SystemAddress &systemAddress, const shared_ptr<RakNet::BitStream> &data,	const shared_ptr<Instance> sourceInstance, const std::string &blacklist, const std::string &whitelist);
 
 	void writeInstance(shared_ptr<Instance> instance, RakNet::BitStream* outBitstream);
@@ -660,7 +660,7 @@ private:
 	bool deserializePacketsThreadEnabled;
 	std::list<RakNet::Packet*> receivedPackets;
 	std::list<RakNet::Packet*> packetsToDeserailze;
-	rbx::timestamped_safe_queue<DeserializedPacket> deserializedPackets;
+	arl::timestamped_safe_queue<DeserializedPacket> deserializedPackets;
 
 	boost::scoped_ptr<boost::thread> deserializePacketsThread;
 	void deserializePacketsThreadImpl();

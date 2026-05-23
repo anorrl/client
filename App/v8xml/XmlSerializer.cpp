@@ -3,7 +3,7 @@
 #include "RbxAssert.h"
 #include "V8Xml/XmlSerializer.h"
 #include "reflection/type.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include <sstream>
 #include "util/base64.hpp"
 #include "util/exception.h"

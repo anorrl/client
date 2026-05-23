@@ -118,20 +118,20 @@ public:
 
 	void postCreate();
 		
-	static rbx::atomic<int> count;
+	static arl::atomic<int> count;
 	std::auto_ptr<ARL::Verb> lockVerb;
 
-	rbx::signal<void()> screenshotSignal;
-	rbx::signal<void(const std::string &)> screenshotReadySignal;
-	rbx::signal<void(bool)> screenshotUploadSignal;
+	arl::signal<void()> screenshotSignal;
+	arl::signal<void(const std::string &)> screenshotReadySignal;
+	arl::signal<void(bool)> screenshotUploadSignal;
 
-	rbx::signal<void(bool)> graphicsQualityShortcutSignal;
+	arl::signal<void(bool)> graphicsQualityShortcutSignal;
 
-	rbx::signal<void()> allowedGearTypeChanged;
-	rbx::signal<void(const shared_ptr<InputObject>& event)> InputObjectProcessed;
+	arl::signal<void()> allowedGearTypeChanged;
+	arl::signal<void(const shared_ptr<InputObject>& event)> InputObjectProcessed;
 
-	rbx::signal<void()> workspaceLoadedSignal;
-	rbx::signal<void()> gameLoadedSignal;
+	arl::signal<void()> workspaceLoadedSignal;
+	arl::signal<void()> gameLoadedSignal;
 
 	Genre getGenre() const { return genre; }
 	void setGenre(Genre genre);
@@ -350,7 +350,7 @@ public:
 	static bool throttleAt30Fps;							// for debugging/benchmarking - default is false;
 
 	// This event is fired anytime anything in the DataModel changes
-	rbx::signal<void(shared_ptr<Instance>, const Reflection::PropertyDescriptor*)> itemChangedSignal;
+	arl::signal<void(shared_ptr<Instance>, const Reflection::PropertyDescriptor*)> itemChangedSignal;
 
 	void clearContents(bool resettingSimulation);
     
@@ -469,7 +469,7 @@ public:
 
 	void loadContent(ContentId contentId);
 	void processAfterLoad();
-	rbx::signal<void()> saveFinishedSignal;
+	arl::signal<void()> saveFinishedSignal;
 
 
     class SerializationException : public std::runtime_error
@@ -519,12 +519,9 @@ public:
 	static void ShowMessage(weak_ptr<ARL::DataModel> weakDataModel, int slot, const std::string &message, double duration);
 
 	void setScreenshotSEOInfo(std::string str);
-	void setVideoSEOInfo(std::string str);
 	std::string getScreenshotSEOInfo();
-	std::string getVideoSEOInfo() { return videoSEOInfo; }
 	bool isScreenshotSEOInfoSet() { return screenshotSEOInfo != ""; }
-	bool isVideoSEOInfoSet() { return videoSEOInfo != ""; }
-
+	
 	void addCustomStat(std::string name, std::string value);
 	void removeCustomStat(std::string str);
 	void writeStatsSettings();
@@ -641,7 +638,7 @@ protected:
 
 	bool getSuppressNavKeys() const { return suppressNavKeys; } 
 private:
-    rbx::signals::scoped_connection unbindResourceSignal;
+    arl::signals::scoped_connection unbindResourceSignal;
     void onUnbindResourceSignal();
 
 	bool suppressNavKeys;

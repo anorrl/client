@@ -28,7 +28,7 @@
 #include "Util/Quaternion.h"
 #include "Util/NavKeys.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 #include <boost/algorithm/string.hpp>
 
@@ -166,30 +166,30 @@ namespace ARL {
     // Low Level touch events
 	static Reflection::EventDesc<UserInputService, 
 		void(shared_ptr<Instance>, bool), 
-		rbx::signal<void(shared_ptr<Instance>, bool)>,
-		rbx::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> event_TouchStarted(&UserInputService::getTouchBeganEvent, "TouchStarted", "touch", "gameProcessedEvent", Security::None);
+		arl::signal<void(shared_ptr<Instance>, bool)>,
+		arl::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> event_TouchStarted(&UserInputService::getTouchBeganEvent, "TouchStarted", "touch", "gameProcessedEvent", Security::None);
 	static Reflection::EventDesc<UserInputService, 
 		void(shared_ptr<Instance>, bool), 
-		rbx::signal<void(shared_ptr<Instance>, bool)>,
-		rbx::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)>  event_TouchMoved(&UserInputService::getTouchChangedEvent, "TouchMoved", "touch", "gameProcessedEvent", Security::None);
+		arl::signal<void(shared_ptr<Instance>, bool)>,
+		arl::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)>  event_TouchMoved(&UserInputService::getTouchChangedEvent, "TouchMoved", "touch", "gameProcessedEvent", Security::None);
 	static Reflection::EventDesc<UserInputService, 
 		void(shared_ptr<Instance>, bool), 
-		rbx::signal<void(shared_ptr<Instance>, bool)>,
-		rbx::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)>  event_TouchEnded(&UserInputService::getTouchEndedEvent, "TouchEnded", "touch", "gameProcessedEvent", Security::None);
+		arl::signal<void(shared_ptr<Instance>, bool)>,
+		arl::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)>  event_TouchEnded(&UserInputService::getTouchEndedEvent, "TouchEnded", "touch", "gameProcessedEvent", Security::None);
 
 	// Low Level Generic input events
 	Reflection::EventDesc<UserInputService, 
 		void(shared_ptr<Instance>, bool), 
-		rbx::signal<void(shared_ptr<Instance>, bool)>,
-		rbx::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> UserInputService::event_InputBegin(&UserInputService::getInputBeganEvent, "InputBegan", "input", "gameProcessedEvent", Security::None);
+		arl::signal<void(shared_ptr<Instance>, bool)>,
+		arl::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> UserInputService::event_InputBegin(&UserInputService::getInputBeganEvent, "InputBegan", "input", "gameProcessedEvent", Security::None);
 	Reflection::EventDesc<UserInputService, 
 		void(shared_ptr<Instance>, bool), 
-		rbx::signal<void(shared_ptr<Instance>, bool)>,
-		rbx::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> UserInputService::event_InputUpdate(&UserInputService::getInputChangedEvent, "InputChanged", "input", "gameProcessedEvent", Security::None);
+		arl::signal<void(shared_ptr<Instance>, bool)>,
+		arl::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> UserInputService::event_InputUpdate(&UserInputService::getInputChangedEvent, "InputChanged", "input", "gameProcessedEvent", Security::None);
 	Reflection::EventDesc<UserInputService, 
 		void(shared_ptr<Instance>, bool), 
-		rbx::signal<void(shared_ptr<Instance>, bool)>,
-		rbx::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> UserInputService::event_InputEnd(&UserInputService::getInputEndedEvent, "InputEnded", "input", "gameProcessedEvent", Security::None);
+		arl::signal<void(shared_ptr<Instance>, bool)>,
+		arl::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> UserInputService::event_InputEnd(&UserInputService::getInputEndedEvent, "InputEnded", "input", "gameProcessedEvent", Security::None);
     
     // Textbox Stuff
     static Reflection::EventDesc<UserInputService, void(shared_ptr<Instance>)> event_TextboxFocus(&UserInputService::textBoxGainFocus, "TextBoxFocused", "textboxFocused", Security::None);
@@ -212,16 +212,16 @@ namespace ARL {
     // Motion Stuff
     static Reflection::EventDesc<UserInputService,
         void(shared_ptr<Instance>),
-        rbx::signal<void(shared_ptr<Instance>)>,
-        rbx::signal<void(shared_ptr<Instance>)>* (UserInputService::*)(bool)> event_AccelerometerChanged(&UserInputService::getOrCreateScriptAccelerometerEventSignal, "DeviceAccelerationChanged","acceleration", Security::None);
+        arl::signal<void(shared_ptr<Instance>)>,
+        arl::signal<void(shared_ptr<Instance>)>* (UserInputService::*)(bool)> event_AccelerometerChanged(&UserInputService::getOrCreateScriptAccelerometerEventSignal, "DeviceAccelerationChanged","acceleration", Security::None);
     static Reflection::EventDesc<UserInputService,
             void(shared_ptr<Instance>),
-            rbx::signal<void(shared_ptr<Instance>)>,
-            rbx::signal<void(shared_ptr<Instance>)>* (UserInputService::*)(bool)> event_gravityChanged(&UserInputService::getOrCreateScriptGravityEventSignal, "DeviceGravityChanged","gravity", Security::None);
+            arl::signal<void(shared_ptr<Instance>)>,
+            arl::signal<void(shared_ptr<Instance>)>* (UserInputService::*)(bool)> event_gravityChanged(&UserInputService::getOrCreateScriptGravityEventSignal, "DeviceGravityChanged","gravity", Security::None);
     static Reflection::EventDesc<UserInputService,
         void(shared_ptr<Instance>, CoordinateFrame),
-        rbx::signal<void(shared_ptr<Instance>, CoordinateFrame)>,
-        rbx::signal<void(shared_ptr<Instance>, CoordinateFrame)>* (UserInputService::*)(bool)> event_GyroChanged(&UserInputService::getOrCreateScriptGyroEventSignal, "DeviceRotationChanged","rotation","cframe", Security::None);
+        arl::signal<void(shared_ptr<Instance>, CoordinateFrame)>,
+        arl::signal<void(shared_ptr<Instance>, CoordinateFrame)>* (UserInputService::*)(bool)> event_GyroChanged(&UserInputService::getOrCreateScriptGyroEventSignal, "DeviceRotationChanged","rotation","cframe", Security::None);
     
     static Reflection::BoundFuncDesc<UserInputService, shared_ptr<Instance>(void)> func_getCurrentAcceleration(&UserInputService::getAcceleration, "GetDeviceAcceleration", Security::None);
     static Reflection::BoundFuncDesc<UserInputService, shared_ptr<Instance>(void)> func_getCurrentGravity(&UserInputService::getGravity, "GetDeviceGravity", Security::None);
@@ -404,28 +404,28 @@ namespace ARL {
 
 		return (platform == PLATFORM_XBOXONE) || (platform == PLATFORM_PS4);
 	}
-	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getInputBeganEvent(bool whatever)
+	arl::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getInputBeganEvent(bool whatever)
 	{
 		return ARL::Security::Context::current().hasPermission(ARL::Security::ANORRLScript) ? &coreInputBeganEvent : &inputBeganEvent;
 	}
-	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getInputChangedEvent(bool whatever)
+	arl::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getInputChangedEvent(bool whatever)
 	{
 		return ARL::Security::Context::current().hasPermission(ARL::Security::ANORRLScript) ? &coreInputUpdatedEvent : &inputUpdatedEvent;
 	}
-	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getInputEndedEvent(bool whatever)
+	arl::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getInputEndedEvent(bool whatever)
 	{
 		return ARL::Security::Context::current().hasPermission(ARL::Security::ANORRLScript) ? &coreInputEndedEvent : &inputEndedEvent;
 	}
 
-	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getTouchBeganEvent(bool whatever)
+	arl::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getTouchBeganEvent(bool whatever)
 	{
 		return ARL::Security::Context::current().hasPermission(ARL::Security::ANORRLScript) ? &coreTouchStartedEvent : &touchStartedEvent;
 	}
-	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getTouchChangedEvent(bool whatever)
+	arl::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getTouchChangedEvent(bool whatever)
 	{
 		return ARL::Security::Context::current().hasPermission(ARL::Security::ANORRLScript) ? &coreTouchMovedEvent : &touchMovedEvent;
 	}
-	rbx::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getTouchEndedEvent(bool whatever)
+	arl::signal<void(shared_ptr<Instance>, bool)>* UserInputService::getTouchEndedEvent(bool whatever)
 	{
 		return ARL::Security::Context::current().hasPermission(ARL::Security::ANORRLScript) ? &coreTouchEndedEvent : &touchEndedEvent;
 	}
@@ -1267,7 +1267,7 @@ namespace ARL {
                     }
                     if (BindableFunction* toggle = Instance::fastDynamicCast<BindableFunction>(parent->findFirstChildByName("ToggleDevConsole")))
                     {
-                        toggle->invoke(rbx::make_shared<Reflection::Tuple>(), 
+                        toggle->invoke(arl::make_shared<Reflection::Tuple>(), 
                             boost::bind(&doNothing, _1), boost::bind(&doNothing, _1));
                     }
                 }
@@ -1659,7 +1659,7 @@ namespace ARL {
         }
     }
     
-    rbx::signal<void(shared_ptr<Instance>, CoordinateFrame)>* UserInputService::getOrCreateScriptGyroEventSignal(bool create)
+    arl::signal<void(shared_ptr<Instance>, CoordinateFrame)>* UserInputService::getOrCreateScriptGyroEventSignal(bool create)
     {
         if (create)
         {
@@ -1680,7 +1680,7 @@ namespace ARL {
         return &gyroChangedSignal;
     }
     
-    rbx::signal<void(shared_ptr<Instance>)>* UserInputService::getOrCreateScriptGravityEventSignal(bool create )
+    arl::signal<void(shared_ptr<Instance>)>* UserInputService::getOrCreateScriptGravityEventSignal(bool create )
     {
         if (create)
         {
@@ -1702,7 +1702,7 @@ namespace ARL {
         return &gravityChangedSignal;
     }
     
-    rbx::signal<void(shared_ptr<Instance>)>* UserInputService::getOrCreateScriptAccelerometerEventSignal(bool create )
+    arl::signal<void(shared_ptr<Instance>)>* UserInputService::getOrCreateScriptAccelerometerEventSignal(bool create )
     {
         if (create)
         {
@@ -1998,7 +1998,7 @@ namespace ARL {
 
 	shared_ptr<const Reflection::ValueArray> UserInputService::getKeyboardState()
 	{
-		shared_ptr<Reflection::ValueArray> keyboardArray = rbx::make_shared<Reflection::ValueArray>();
+		shared_ptr<Reflection::ValueArray> keyboardArray = arl::make_shared<Reflection::ValueArray>();
 
 		for (boost::unordered_map<ARL::KeyCode, shared_ptr<InputObject> >::iterator iter = newKeyState.begin(); iter != newKeyState.end(); ++iter)
 		{
@@ -2272,7 +2272,7 @@ namespace ARL {
 
 	shared_ptr<const Reflection::ValueArray> UserInputService::getConnectedGamepads()
 	{
-		shared_ptr<Reflection::ValueArray> gamepadConnectedArray = rbx::make_shared<Reflection::ValueArray>();
+		shared_ptr<Reflection::ValueArray> gamepadConnectedArray = arl::make_shared<Reflection::ValueArray>();
 		for (boost::unordered_map<InputObject::UserInputType, bool >::iterator iter = connectedGamepadsMap.begin(); iter != connectedGamepadsMap.end(); ++iter)
 		{
 			if ((*iter).second)
@@ -2364,7 +2364,7 @@ namespace ARL {
 
 	shared_ptr<const Reflection::ValueArray> UserInputService::getGamepadState(InputObject::UserInputType gamepadType)
 	{
-		shared_ptr<Reflection::ValueArray> gamepadArray = rbx::make_shared<Reflection::ValueArray>();
+		shared_ptr<Reflection::ValueArray> gamepadArray = arl::make_shared<Reflection::ValueArray>();
 
 		if (GamepadService* gamepadService = ServiceProvider::create<ARL::GamepadService>(this))
 		{
@@ -2382,7 +2382,7 @@ namespace ARL {
 
 	shared_ptr<const Reflection::ValueArray> UserInputService::getNavigationGamepads()
 	{
-		shared_ptr<Reflection::ValueArray> gamepadNavigationArray = rbx::make_shared<Reflection::ValueArray>();
+		shared_ptr<Reflection::ValueArray> gamepadNavigationArray = arl::make_shared<Reflection::ValueArray>();
 		if (GamepadService* gamepadService = ServiceProvider::create<ARL::GamepadService>(this))
 		{
 			boost::unordered_map<InputObject::UserInputType, bool> navigationGamepadMap = gamepadService->getNavigationGamepadMap();

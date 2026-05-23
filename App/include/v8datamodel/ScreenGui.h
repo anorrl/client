@@ -56,7 +56,7 @@ namespace ARL {
         
         void setBufferedViewport(Rect2D newViewport);
 
-		rbx::signal<void(bool)> ignoreGuiInsetChangedSignal;
+		arl::signal<void(bool)> ignoreGuiInsetChangedSignal;
 
 		bool ignoreGuiInset;
 		bool getIgnoreGuiInsetConst() const { return ignoreGuiInset; }
@@ -80,7 +80,7 @@ namespace ARL {
 		bool renderable;
 
 		std::vector<GuiButton*> modalGuiObjects;
-		boost::unordered_map<Instance*, rbx::signals::scoped_connection> connections;
+		boost::unordered_map<Instance*, arl::signals::scoped_connection> connections;
 
 		/*override*/ void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 

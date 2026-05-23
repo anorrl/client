@@ -3,7 +3,7 @@
 
 #include "V8Tree/Service.h"
 #include "v8datamodel/partinstance.h"
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include <boost/unordered/unordered_map.hpp>
 
 namespace RakNet {
@@ -39,8 +39,8 @@ namespace ARL {
 			StreamCacheMap streamCache;
 			boost::shared_mutex sharedMutex;
 
-			rbx::signals::scoped_connection addingAssemblyConnection;
-			rbx::signals::scoped_connection removedAssemblyConnection;
+			arl::signals::scoped_connection addingAssemblyConnection;
+			arl::signals::scoped_connection removedAssemblyConnection;
 
 		public:
 			PhysicsPacketCache();
@@ -73,7 +73,7 @@ namespace ARL {
 			, public Service
 		{
 			typedef DescribedNonCreatable<InstancePacketCache, Instance, sInstancePacketCache> Super;
-			typedef std::list<rbx::signals::connection> ConnectionList;
+			typedef std::list<arl::signals::connection> ConnectionList;
 
 			class CachedBitStream
 			{
@@ -86,8 +86,8 @@ namespace ARL {
 				// debug
 				const std::string guidString;
 
-				rbx::signals::scoped_connection propChangedConnection;
-				rbx::signals::scoped_connection ancestorChangedConnection;
+				arl::signals::scoped_connection propChangedConnection;
+				arl::signals::scoped_connection ancestorChangedConnection;
 
 				CachedBitStream(const std::string& guid) : dirty(true), guidString(guid) {}
 				~CachedBitStream() {}

@@ -197,11 +197,11 @@ private:
 	boost::shared_ptr<RenderStatsItem>					m_renderStatsItem;		// Used for displaying RenderStats in ARL::Stats
 	boost::scoped_ptr<ARL::Profiling::CodeProfiler>		m_profilingSection;
 
-	rbx::signals::scoped_connection						mouseCursorEnabledConnection;
-	rbx::signals::scoped_connection						mouseCursorChangeConnection;
-    rbx::signals::scoped_connection                     m_textBoxGainFocus;
-    rbx::signals::scoped_connection                     m_textBoxReleaseFocus;
-	rbx::signals::scoped_connection                     m_itemAddedToPlayersConnection;
+	arl::signals::scoped_connection						mouseCursorEnabledConnection;
+	arl::signals::scoped_connection						mouseCursorChangeConnection;
+    arl::signals::scoped_connection                     m_textBoxGainFocus;
+    arl::signals::scoped_connection                     m_textBoxReleaseFocus;
+	arl::signals::scoped_connection                     m_itemAddedToPlayersConnection;
 
 	G3D::Vector2										m_previousCursorPosFraction;
 	G3D::Vector2										m_previousCursorPos;

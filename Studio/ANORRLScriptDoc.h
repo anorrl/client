@@ -23,8 +23,8 @@
 #include <QWaitCondition>
 
 // ANORRL Headers
-#include "rbx/signal.h"
-#include "rbx/BaldPtr.h"
+#include "arl/signal.h"
+#include "arl/BaldPtr.h"
 
 // ANORRL Studio Headers
 #include "LuaSourceBuffer.h"
@@ -160,8 +160,8 @@ private:
 
 	static void setMenuVisibility(bool visible);
 	
-	rbx::signals::scoped_connection		m_ancestryChangedConnection;
-	rbx::signals::scoped_connection		m_propertyChangedConnection;
+	arl::signals::scoped_connection		m_ancestryChangedConnection;
+	arl::signals::scoped_connection		m_propertyChangedConnection;
 	LuaSourceBuffer                     m_script;
 	boost::shared_ptr<ARL::DataModel>	m_dataModel;
 

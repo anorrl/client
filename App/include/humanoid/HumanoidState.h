@@ -6,9 +6,9 @@
 #include "Util/HitTestFilter.h"
 #include "GfxBase/IAdornable.h"
 #include "Util/Name.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/Velocity.h"
-#include "rbx/boost.hpp"
+#include "arl/boost.hpp"
 #include "Reflection/Event.h"
 #include "G3D/Array.h"
 #include "util/PartMaterial.h"
@@ -249,7 +249,7 @@ namespace ARL
 			std::vector<DebugRay> debugRayList;
 #endif
 
-			void fireMovementSignal(rbx::signal<void(float)>& movementSignal, float movementVelocity);
+			void fireMovementSignal(arl::signal<void(float)>& movementSignal, float movementVelocity);
 
 			// Tick Count - 30 FPS, state table occurs here
 			virtual void onComputeForceImpl() = 0;
@@ -305,7 +305,7 @@ namespace ARL
 			void onComputeForce();
 
 			bool torsoHasBuoyancy, leftLegHasBuoyancy, rightLegHasBuoyancy;
-			std::vector<rbx::signals::connection> buoyancyConnections;
+			std::vector<arl::signals::connection> buoyancyConnections;
 			void setTorsoHasBuoyancy( bool value ) { torsoHasBuoyancy = value; }
 			void setLeftLegHasBuoyancy( bool value ) { leftLegHasBuoyancy = value; }
 			void setRightLegHasBuoyancy( bool value ) { rightLegHasBuoyancy = value; }

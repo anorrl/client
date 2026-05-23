@@ -5,7 +5,7 @@
 #include "V8Xml/XmlSerializer.h"
 #include "Util/Guid.h"
 #include "Util/Utilities.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include <stdlib.h>
 #include <stdio.h>
 

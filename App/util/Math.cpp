@@ -6,7 +6,7 @@
 #include "Util/PV.h"
 #include "Util/Units.h"
 #include "RbxG3D/RbxRay.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "V8DataModel/Camera.h"
 #include "boost/functional/hash/hash.hpp"
 #include "boost/math/special_functions/fpclassify.hpp"

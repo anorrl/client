@@ -11,8 +11,8 @@
 #include "V8Kernel/Body.h"
 #include "V8Kernel/Constants.h"
 #include "Util/Profiling.h"
-#include "rbx/Debug.h"
-#include "rbx/Profiler.h"
+#include "arl/Debug.h"
+#include "arl/Profiler.h"
 #include "V8Kernel/Kernel.h"
 
 DYNAMIC_FASTFLAGVARIABLE(PGSWakeOtherAssemblyForJoints, false)

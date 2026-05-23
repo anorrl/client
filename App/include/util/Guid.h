@@ -7,7 +7,7 @@
 #include "util/name.h"
 #include "util/Object.h"
 
-#include "rbx/intrusive_ptr_target.h"
+#include "arl/intrusive_ptr_target.h"
 #include <boost/intrusive_ptr.hpp>
 
 namespace ARL
@@ -118,7 +118,7 @@ namespace ARL
 		// Each instance can belong to only one Registry.
 		// Usually a Registry is associated with a DataModel
 		class Registry
-			: public rbx::quick_intrusive_ptr_target<Registry>
+			: public arl::quick_intrusive_ptr_target<Registry>
 		{
 			friend class GuidItem;
 			typedef boost::unordered_map<Guid::Data, weak_ptr<T> > Map;

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "Util/UserInputBase.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/NavKeys.h"
 #include "Util/Rect.h"
 

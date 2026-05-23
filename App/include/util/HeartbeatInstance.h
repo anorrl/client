@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "Util/G3DCore.h"
 
 // hook up by overriding onServiceProvider call in this pattern:
@@ -20,7 +20,7 @@ namespace ARL {
 	class HeartbeatInstance
 	{
 	private:
-		rbx::signals::scoped_connection heartbeatConnection;
+		arl::signals::scoped_connection heartbeatConnection;
 
 	protected:
 		// call this inside onServiceProvider

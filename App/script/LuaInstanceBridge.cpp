@@ -31,7 +31,7 @@
 
 #include "script/DebuggerManager.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 FASTFLAG(LuaDebugger)
 

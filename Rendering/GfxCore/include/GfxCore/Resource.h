@@ -1,7 +1,7 @@
 #pragma once
 
-#include "rbx/boost.hpp"
-#include "rbx/Debug.h"
+#include "arl/boost.hpp"
+#include "arl/Debug.h"
 
 namespace ARL
 {

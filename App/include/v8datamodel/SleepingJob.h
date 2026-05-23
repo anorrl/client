@@ -7,7 +7,7 @@ namespace ARL {
 class SleepingJob : public DataModelJob
 {
 private:
-	rbx::atomic<int> isAwake;
+	arl::atomic<int> isAwake;
 	const double desiredFps;
 	ARL::Time lastWakeTime;
 

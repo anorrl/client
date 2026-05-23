@@ -23,7 +23,7 @@ namespace ARL {
 		ContentId currentCursorId;
 		TextureProxyBaseRef currentCursor;
 		TextureProxyBaseRef fallbackCursor;
-		rbx::signals::scoped_connection unbindResourceSignal;
+		arl::signals::scoped_connection unbindResourceSignal;
 
         void onUnbindResourceSignal();
 
@@ -37,7 +37,7 @@ namespace ARL {
 		UserInputBase();
 		~UserInputBase() {}
 
-		rbx::signal<void()> cursorIdChangedSignal;
+		arl::signal<void()> cursorIdChangedSignal;
 
 		// This function is purely intended for debugging and diagnostics
 		Vector2 getCursorPositionForDebugging()

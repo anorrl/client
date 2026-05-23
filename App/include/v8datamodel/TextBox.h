@@ -2,7 +2,7 @@
 
 #include "V8DataModel/GuiObject.h"
 #include "V8DataModel/GuiText.h"
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 #include "Util/HeartbeatInstance.h"
 
 namespace ARL
@@ -77,7 +77,7 @@ namespace ARL
 
 		void selectionToggled(const shared_ptr<InputObject>& event);
         
-        rbx::signals::scoped_connection textBoxFinishedEditingConnection;
+        arl::signals::scoped_connection textBoxFinishedEditingConnection;
 
 		////////////////////////////////////////////////////////////////////////////////////
 		// 
@@ -119,8 +119,8 @@ namespace ARL
 		bool getClearTextOnFocus() const { return clearTextOnFocus; }
 		void setClearTextOnFocus(bool value);
 
-		rbx::signal<void(bool, const shared_ptr<Instance>)> focusLostSignal;
-		rbx::signal<void()> focusGainedSignal;
+		arl::signal<void(bool, const shared_ptr<Instance>)> focusLostSignal;
+		arl::signal<void()> focusGainedSignal;
 
 		void captureFocus();
 		void externalReleaseFocus(const char* externalReleaseText, bool enterPressed, const shared_ptr<InputObject>& inputThatCausedFocusLoss);

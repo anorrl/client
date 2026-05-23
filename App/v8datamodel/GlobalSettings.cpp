@@ -287,7 +287,7 @@ static void visit(const std::string& name, const std::string& value, void* conte
 
 shared_ptr<const ARL::Reflection::ValueTable> ARL::GlobalAdvancedSettings::getFVariables()
 {
-	shared_ptr<Reflection::ValueTable> values(rbx::make_shared<Reflection::ValueTable>());
+	shared_ptr<Reflection::ValueTable> values(arl::make_shared<Reflection::ValueTable>());
     FLog::ForEachVariable(&visit, values.get(), FASTVARTYPE_ANY);
 	return values;
 }

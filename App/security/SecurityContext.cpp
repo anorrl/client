@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
 #include "security/SecurityContext.h"
-#include "rbx/Thread.hpp"
-#include "rbx/Debug.h"
+#include "arl/Thread.hpp"
+#include "arl/Debug.h"
 
 namespace ARL
 {

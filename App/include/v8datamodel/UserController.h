@@ -106,7 +106,7 @@ namespace ARL {
 		bool getDismount() const { return getButton(DISMOUNT); } // do we need this on the controller? probably shoudn't be here.
 
 
-		rbx::signal<void(Button)> buttonChangedSignal;
+		arl::signal<void(Button)> buttonChangedSignal;
 	};
 
 

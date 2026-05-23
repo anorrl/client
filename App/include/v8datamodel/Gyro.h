@@ -221,7 +221,7 @@ namespace ARL
 		static Reflection::PropDescriptor<BodyPosition, G3D::Vector3> prop_position;
 		static Reflection::PropDescriptor<BodyPosition, G3D::Vector3> prop_positionDeprecated;
 
-		rbx::remote_signal<void()> reachedTargetSignal;
+		arl::remote_signal<void()> reachedTargetSignal;
 
 		Vector3 getLastForce() { return lastForce; }
 		Vector3 getMaxForce() const { return maxForce; }
@@ -385,7 +385,7 @@ namespace ARL
 		static Reflection::BoundFuncDesc<Rocket, void()> func_Fire;
 		static Reflection::BoundFuncDesc<Rocket, void()> func_Abort;
 
-		rbx::remote_signal<void()> reachedTargetSignal;
+		arl::remote_signal<void()> reachedTargetSignal;
 
 		void fire();
 		void abort();

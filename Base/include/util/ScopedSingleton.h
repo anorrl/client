@@ -3,8 +3,8 @@
 
 #include "boost/weak_ptr.hpp"
 #include "boost/shared_ptr.hpp"
-#include "rbx/Debug.h"
-#include "rbx/threadsafe.h"
+#include "arl/Debug.h"
+#include "arl/threadsafe.h"
 
 namespace ARL
 {
@@ -25,12 +25,12 @@ namespace ARL
 		{
 			return initCount();
 		}
-		SAFE_STATIC(rbx::spin_mutex, sync)
+		SAFE_STATIC(arl::spin_mutex, sync)
 		SAFE_STATIC(boost::weak_ptr<T>, s_instance)
 	public:
 		static boost::shared_ptr<T> getInstance()
 		{
-			rbx::spin_mutex::scoped_lock lock(sync());
+			arl::spin_mutex::scoped_lock lock(sync());
 			
 			shared_ptr<T> result = s_instance().lock();
 

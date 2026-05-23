@@ -5,7 +5,7 @@
 #include "V8Tree/Instance.h"
 #include "V8Tree/Service.h"
 
-#include "rbx/boost.hpp"
+#include "arl/boost.hpp"
 #include <boost/thread/condition.hpp>
 
 namespace ARL {

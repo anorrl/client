@@ -1,7 +1,7 @@
 #pragma once
 
 #include <boost/scoped_ptr.hpp>
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 #include <vector>
 #include "Security/RandomConstant.h"
 #include "v8datamodel/HackDefines.h"

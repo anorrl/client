@@ -41,9 +41,9 @@ namespace ARL {
 		shared_ptr<Instance> getLastHoverPart() { return lastHoverPart; }
 		bool updateLastHoverPart(shared_ptr<Instance> newHover, ARL::Network::Player* player);
 
-		rbx::remote_signal<void(shared_ptr<Instance>)> mouseClickSignal;
-		rbx::remote_signal<void(shared_ptr<Instance>)> mouseHoverSignal;
-		rbx::remote_signal<void(shared_ptr<Instance>)> mouseHoverLeaveSignal;
+		arl::remote_signal<void(shared_ptr<Instance>)> mouseClickSignal;
+		arl::remote_signal<void(shared_ptr<Instance>)> mouseHoverSignal;
+		arl::remote_signal<void(shared_ptr<Instance>)> mouseHoverLeaveSignal;
 
 		static int cycles() {return 30;}
 

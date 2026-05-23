@@ -5,7 +5,7 @@
 
 #include <boost/unordered_map.hpp>
 
-#include <rbx/threadsafe.h>
+#include <ARL/threadsafe.h>
 
 namespace ARL
 {
@@ -111,7 +111,7 @@ private:
 
     shared_ptr<Texture> fallbackTextures[Fallback_Count];
 
-    shared_ptr<rbx::safe_queue<LoadedImage> > pendingImages;
+    shared_ptr<arl::safe_queue<LoadedImage> > pendingImages;
     shared_ptr<ThreadPool> loadingPool;
     boost::unordered_set<ContentId> pendingReloads;
     unsigned int outstandingRequests;
@@ -141,12 +141,12 @@ private:
     shared_ptr<Texture> createSingleColorTexture(unsigned char r, unsigned char g, unsigned char b, unsigned char a, bool cube = false);
     shared_ptr<Texture> createTexture(const Image& image);
 
-	static void loadImageHttpCallback(const weak_ptr<ThreadPool>& loadingPool, const weak_ptr<rbx::safe_queue<LoadedImage> >& pendingImages, const shared_ptr<const std::string>& content, const ContentId& id, unsigned int maxTextureSize, unsigned int flags, const std::string& context);
+	static void loadImageHttpCallback(const weak_ptr<ThreadPool>& loadingPool, const weak_ptr<arl::safe_queue<LoadedImage> >& pendingImages, const shared_ptr<const std::string>& content, const ContentId& id, unsigned int maxTextureSize, unsigned int flags, const std::string& context);
 
-    static void loadImageFile(const shared_ptr<rbx::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const ContentId& loadId, unsigned int maxTextureSize, unsigned int flags, bool useRetina, const std::string& context = "");
-	static void loadImageHttp(const shared_ptr<rbx::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const shared_ptr<const std::string>& content, unsigned int maxTextureSize, unsigned int flags, const std::string& context = "");
-    static void loadImage(const shared_ptr<rbx::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, std::istream& stream, unsigned int maxTextureSize, unsigned int flags, int scale, const std::string& context = "");
-    static void loadImageError(const shared_ptr<rbx::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const char* error, const std::string& context);
+    static void loadImageFile(const shared_ptr<arl::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const ContentId& loadId, unsigned int maxTextureSize, unsigned int flags, bool useRetina, const std::string& context = "");
+	static void loadImageHttp(const shared_ptr<arl::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const shared_ptr<const std::string>& content, unsigned int maxTextureSize, unsigned int flags, const std::string& context = "");
+    static void loadImage(const shared_ptr<arl::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, std::istream& stream, unsigned int maxTextureSize, unsigned int flags, int scale, const std::string& context = "");
+    static void loadImageError(const shared_ptr<arl::safe_queue<LoadedImage> >& pendingImages, const ContentId& id, const char* error, const std::string& context);
 };
 
 }

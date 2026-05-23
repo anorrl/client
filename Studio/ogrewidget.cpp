@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include "ogrewidget.h"
-#include "rbx/TaskScheduler.h"
+#include "arl/TaskScheduler.h"
 
 // Qt Headers
 #include <QHBoxLayout>

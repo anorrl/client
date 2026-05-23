@@ -243,24 +243,24 @@ namespace ARL {
 
 		static Reflection::PropDescriptor<PlatformService, int> prop_DatamodelType;
 
-        rbx::signal<void(int)> viewChanged;
-		rbx::signal<void(int)> gameJoinedSignal;
-		rbx::signal<void()> userAuthCompleteSignal;	
-		rbx::signal<void(int)> userAccountChangeSignal;
-		rbx::signal<void(int)>	robuxAmountChangedSignal;
-		rbx::signal<void(std::string)> networkStatusChangedSignal;
-        rbx::signal<void(std::string)> keyboardClosedSignal;
+        arl::signal<void(int)> viewChanged;
+		arl::signal<void(int)> gameJoinedSignal;
+		arl::signal<void()> userAuthCompleteSignal;	
+		arl::signal<void(int)> userAccountChangeSignal;
+		arl::signal<void(int)>	robuxAmountChangedSignal;
+		arl::signal<void(std::string)> networkStatusChangedSignal;
+        arl::signal<void(std::string)> keyboardClosedSignal;
 
-		rbx::signal<void(std::string)> lostActiveUser;
-		rbx::signal<void(std::string)> gainedActiveUser;
+		arl::signal<void(std::string)> lostActiveUser;
+		arl::signal<void(std::string)> gainedActiveUser;
 
-		rbx::signal<void(std::string)> lostUserGamepad;
-		rbx::signal<void(std::string)> gainedUserGamepad;
+		arl::signal<void(std::string)> lostUserGamepad;
+		arl::signal<void(std::string)> gainedUserGamepad;
 
-        rbx::signal<void(int)> voiceChatUserTalkingStartSignal;
-        rbx::signal<void(int)> voiceChatUserTalkingEndSignal;
+        arl::signal<void(int)> voiceChatUserTalkingStartSignal;
+        arl::signal<void(int)> voiceChatUserTalkingEndSignal;
 
-		rbx::signal<void()> suspendSignal;
+		arl::signal<void()> suspendSignal;
 
         void beginAuthorization(InputObject::UserInputType gamepadId, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction);
         void beginAuthUnlinkCheck(InputObject::UserInputType gamepadId, boost::function<void(int)> resumeFunction, boost::function<void(std::string)> errorFunction);

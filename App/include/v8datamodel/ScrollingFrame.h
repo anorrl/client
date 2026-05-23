@@ -117,10 +117,10 @@ namespace ARL
 		ARL::Timer<ARL::Time::Fast> wheelDownTimer;
         ARL::Timer<ARL::Time::Fast> touchDeltaTimer;
         
-        rbx::signals::scoped_connection inputEndedConnection;
-		rbx::signals::scoped_connection guiServicePropertyChangedConnection;
-		rbx::signals::scoped_connection selectionGainedConnection;
-		rbx::signals::scoped_connection selectionLostConnection;
+        arl::signals::scoped_connection inputEndedConnection;
+		arl::signals::scoped_connection guiServicePropertyChangedConnection;
+		arl::signals::scoped_connection selectionGainedConnection;
+		arl::signals::scoped_connection selectionLostConnection;
 
 		Vector2 getScrollWheelDelta(bool scrollingDownValue);
         

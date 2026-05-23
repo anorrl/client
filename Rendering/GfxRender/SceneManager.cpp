@@ -25,7 +25,7 @@
 
 #include "EmitterShared.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(Graphics)
 

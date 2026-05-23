@@ -14,7 +14,7 @@
 #include "boost/shared_ptr.hpp"
 
 // ANORRL Headers
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "script/DebuggerManager.h"
 
 // Qt Headers
@@ -83,24 +83,24 @@ public:
 	void onRunTransition(ARL::RunTransition evt);
 
 	//signals emitted 
-	rbx::signal<void(int, ARL::Scripting::ScriptDebugger::Stack)>     clientActivated;
-	rbx::signal<void()>                                               clientDeactivated;
+	arl::signal<void(int, ARL::Scripting::ScriptDebugger::Stack)>     clientActivated;
+	arl::signal<void()>                                               clientDeactivated;
 
-	rbx::signal<void()>                                               clearAll;
+	arl::signal<void()>                                               clearAll;
 
-	rbx::signal<void()>                                               debuggingStarted;
-	rbx::signal<void()>                                               debuggingStopped;
+	arl::signal<void()>                                               debuggingStarted;
+	arl::signal<void()>                                               debuggingStopped;
 
-	rbx::signal<void()>                                               executionDataCleared;
-	rbx::signal<void(int, DebuggerClient*)>                           breakpointEncountered;
+	arl::signal<void()>                                               executionDataCleared;
+	arl::signal<void(int, DebuggerClient*)>                           breakpointEncountered;
 
-	rbx::signal<void(shared_ptr<ARL::Scripting::DebuggerBreakpoint>)> breakpointAdded;
-	rbx::signal<void(shared_ptr<ARL::Scripting::DebuggerBreakpoint>)> breakpointRemoved;
+	arl::signal<void(shared_ptr<ARL::Scripting::DebuggerBreakpoint>)> breakpointAdded;
+	arl::signal<void(shared_ptr<ARL::Scripting::DebuggerBreakpoint>)> breakpointRemoved;
 	
-	rbx::signal<void(shared_ptr<ARL::Scripting::DebuggerWatch>)>      watchAdded;
-	rbx::signal<void(shared_ptr<ARL::Scripting::DebuggerWatch>)>      watchRemoved;
+	arl::signal<void(shared_ptr<ARL::Scripting::DebuggerWatch>)>      watchAdded;
+	arl::signal<void(shared_ptr<ARL::Scripting::DebuggerWatch>)>      watchRemoved;
 
-	rbx::signal<void(DebuggerClient*)>                                debuggersListUpdated;
+	arl::signal<void(DebuggerClient*)>                                debuggersListUpdated;
 
 private Q_SLOTS:	
 	void onStepAction();
@@ -129,9 +129,9 @@ private:
 	std::vector<DebuggerClient *>                       debuggerClients;
 	boost::shared_ptr<ARL::DataModel>					m_spDataModel;
 
-	rbx::signals::connection                            m_cRunTransitionConnection;
-	rbx::signals::connection                            m_cDebuggerAddedConnection;
-	rbx::signals::connection                            m_cDebuggerRemovedConnection;
+	arl::signals::connection                            m_cRunTransitionConnection;
+	arl::signals::connection                            m_cDebuggerAddedConnection;
+	arl::signals::connection                            m_cDebuggerRemovedConnection;
 
 	DebuggerClient*                     				m_pCurrentDebuggerClient;
 	DebuggerClient*                                     m_pActiveDebuggerClient;
@@ -219,7 +219,7 @@ public:
 	bool handleAction(const QString &actionID, bool checkedState);
 
 	//signals emitted 
-	rbx::signal<void()> debuggerResuming;
+	arl::signal<void()> debuggerResuming;
 
 private:
 	bool isValid();
@@ -240,7 +240,7 @@ private:
 	boost::shared_ptr<ARL::DataModel>					m_spDataModel;
 	boost::shared_ptr<ARL::Scripting::ScriptDebugger>	m_spDebugger;
 
-	std::list<rbx::signals::connection>	   		        m_cConnections;
+	std::list<arl::signals::connection>	   		        m_cConnections;
 
 	DebuggerClient*                                     m_pExtDebuggerClient;
 	QDebuggerClient*                                    m_pQDebuggerClient;

@@ -123,10 +123,10 @@
     <ClCompile Include="QtUtilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RbxContent.cpp">
+    <ClCompile Include="ARLContent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RbxWorkspace.cpp">
+    <ClCompile Include="ARLWorkspace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\ClientBase\ReflectionMetadata.cpp">
@@ -588,10 +588,10 @@
     <ClCompile Include="generated\moc_QtUtilities.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="generated\moc_RbxContent.cpp">
+    <ClCompile Include="generated\moc_ARLContent.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="generated\moc_RbxWorkspace.cpp">
+    <ClCompile Include="generated\moc_ARLWorkspace.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="generated\moc_ScriptAnalysisWidget.cpp">
@@ -871,10 +871,10 @@
     <Moc Include="QtUtilities.h">
       <Filter>Header Files</Filter>
     </Moc>
-    <Moc Include="RbxContent.h">
+    <Moc Include="ARLContent.h">
       <Filter>Header Files</Filter>
     </Moc>
-    <Moc Include="RbxWorkspace.h">
+    <Moc Include="ARLWorkspace.h">
       <Filter>Header Files</Filter>
     </Moc>
     <Moc Include="WebDialog.h">

@@ -39,7 +39,7 @@ namespace ARL {
 		float getThrottle() const { return throttle; }
 		float getSteer() const { return steer; }
 
-		rbx::signal<void(std::string)> axisChangedSignal;
+		arl::signal<void(std::string)> axisChangedSignal;
 	};
 
 

@@ -16,7 +16,6 @@ enum FileSystemDir
 {
     DirAppData = 0,
     DirPicture,
-    DirVideo,
     DirExe
 };
 

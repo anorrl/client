@@ -209,8 +209,8 @@ public:
 	bool getRightMousePan() const { return inRightMousePan; }
 	void cancelMiddleMouseTrack();
 	bool getMiddleMouseTrack() const { return inMiddleMouseTrack; }
-	rbx::signal<void(const TouchPair&)> stepTouch;	// called for each touch on a step
-	rbx::signal<void(shared_ptr<Camera>)> currentCameraChangedSignal;
+	arl::signal<void(const TouchPair&)> stepTouch;	// called for each touch on a step
+	arl::signal<void(shared_ptr<Camera>)> currentCameraChangedSignal;
     float renderingDistance;
 
 	void replenishCamera();
@@ -268,9 +268,9 @@ private:
 	/*override*/ Extents computeExtentsWorld() {ARLASSERT(this->computeNumParts() < 25);	return RootInstance::computeExtentsWorld();}		// make sure nobody is calling this directly on the workspace?
 	/*override*/ const ModelInstance* getCameraOwnerModel() const {return this;}
 
-	rbx::signals::scoped_connection heartbeatConnection;
+	arl::signals::scoped_connection heartbeatConnection;
 	void onHeartbeat(const Heartbeat& heartbeat);
-	rbx::signals::scoped_connection setDefaultMouseCommandConnection;
+	arl::signals::scoped_connection setDefaultMouseCommandConnection;
 
 public:
 	boost::scoped_ptr<Profiling::CodeProfiler> profileDataModelStep;
@@ -332,11 +332,6 @@ public:
 	Camera* getCurrentCameraDangerous() const;
 	void setCurrentCamera(Camera *value); 
 
-	///////////////////////////////////////////////////////////////////////////////
-	//
-	// Video Control
-	//
-
 	// Used by image server - standard ~45 degree view looking down -z, centered
 	// Returns true if it creates a new ThumbnailCamera
 	bool setImageServerView(bool bIsPlace);
@@ -391,7 +386,7 @@ public:
 public:
     void setPhysicsAnalyzerBreakOnIssue( bool enable );
     bool getPhysicsAnalyzerBreakOnIssue( );
-    rbx::signal<void(int)> luaPhysicsAnalyzerIssuesFound;
+    arl::signal<void(int)> luaPhysicsAnalyzerIssuesFound;
     shared_ptr<const Instances> getPhysicsAnalyzerIssue( int group );
 };
 

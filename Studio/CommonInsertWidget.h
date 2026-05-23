@@ -18,7 +18,7 @@
 #include <QSet>
 
 // ANORRL Headers
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "reflection/Property.h"
 
 namespace ARL {
@@ -131,7 +131,7 @@ private:
 	QLineEdit*                                      m_pFilterEdit;
 	QCheckBox*										m_pCheckBox;
 	
-	rbx::signals::connection                        m_cSelectionChanged;
+	arl::signals::connection                        m_cSelectionChanged;
 	
 	bool                                            m_bInitializationRequired;
 	bool											m_bRedrawRequested;

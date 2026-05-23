@@ -11,8 +11,8 @@
 #include <QHeaderView>
 
 // ANORRL Headers
-#include "rbx/TaskScheduler.h"
-#include "rbx/TaskScheduler.Job.h"
+#include "arl/TaskScheduler.h"
+#include "arl/TaskScheduler.Job.h"
 
 // ANORRL Studio Headers
 #include "QtUtilities.h"

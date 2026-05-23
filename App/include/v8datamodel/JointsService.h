@@ -23,10 +23,10 @@ namespace ARL {
 	private:
 		typedef DescribedNonCreatable<JointsService, Instance, sJointsService, Reflection::ClassDescriptor::INTERNAL> Super;
 		ConcurrencyValidator concurrencyValidator;
-		rbx::signals::scoped_connection postInertJointConnection;
-		rbx::signals::scoped_connection postDestroyJointConnection;
-		rbx::signals::scoped_connection autoJoinConnection;
-		rbx::signals::scoped_connection autoDestroyConnection;
+		arl::signals::scoped_connection postInertJointConnection;
+		arl::signals::scoped_connection postDestroyJointConnection;
+		arl::signals::scoped_connection autoJoinConnection;
+		arl::signals::scoped_connection autoDestroyConnection;
 
 		//////////////////////////////////////
 		// Instance

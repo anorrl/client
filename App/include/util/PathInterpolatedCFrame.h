@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Util/G3DCore.h"
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 #include <boost/circular_buffer.hpp>
 #include "Util/Average.h"
 #include "Util/Velocity.h"
-#include "rbx/RunningAverage.h"
+#include "arl/RunningAverage.h"
 
 namespace ARL {
 

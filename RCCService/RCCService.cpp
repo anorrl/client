@@ -14,10 +14,10 @@
 #include "gSOAP/generated/RCCServiceSoap.nsmap"
 #include "gSOAP/generated/soapRCCServiceSoapService.h"
 #include "logmanager.h"
-#include "rbx/boost.hpp"
+#include "arl/boost.hpp"
 #include "Util/WinHeap.h"
 #include "Util/StandardOut.h"
-#include "rbx/TaskScheduler.h"
+#include "arl/TaskScheduler.h"
 #include "Util/Statistics.h"
 #include "util/Http.h"
 #include "v8datamodel/datamodel.h"
@@ -595,9 +595,9 @@ void ReadAccessKey()
 
 class PrintfLogger
 {
-	rbx::signals::scoped_connection messageConnection;
+	arl::signals::scoped_connection messageConnection;
 	HANDLE handle;  
-	rbx::spin_mutex mutex;
+	arl::spin_mutex mutex;
 public:
 	PrintfLogger()
 		:handle(GetStdHandle(STD_OUTPUT_HANDLE))
@@ -607,7 +607,7 @@ public:
 protected:
 	void onMessage(const ARL::StandardOutMessage& message)
 	{
-		rbx::spin_mutex::scoped_lock lock(mutex);
+		arl::spin_mutex::scoped_lock lock(mutex);
 		switch (message.type)
 		{
 		case ARL::MESSAGE_OUTPUT:

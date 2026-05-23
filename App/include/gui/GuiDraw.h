@@ -7,7 +7,7 @@
 #include "Util/TextureId.h"
 #include "GfxBase/TextureProxyBase.h"
 #include "GfxBase/Adorn.h"
-#include "rbx/signal.h"
+#include "arl/signal.h"
 
 namespace ARL {
 
@@ -38,7 +38,7 @@ namespace ARL {
 		ARL::TextureProxyBaseRef selectedHover;
 		ARL::TextureProxyBaseRef selectedDown;
 		mutable Vector2 size;
-		rbx::signals::scoped_connection unbindResourceSignalHint;
+		arl::signals::scoped_connection unbindResourceSignalHint;
 
 		void OnUnbindResourceSignalHint();
 

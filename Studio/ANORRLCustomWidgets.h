@@ -330,6 +330,23 @@ private:
 	Q_INVOKABLE void handleListItemClicked(QListWidgetItem* item);
 };
 
+class AudioPickerWidget : public PickerFrame
+{
+	Q_OBJECT
+public:
+	AudioPickerWidget(QWidget* parent);
+	QString getAudioUrl(const QString& lastValue, const QPoint& location, boost::shared_ptr<ARL::DataModel> dm);
+
+private:
+	QLineEdit* lineEdit;
+	QString resultString;
+
+	QPoint moveLocationIntoMonitor(const QPoint& location);
+
+	Q_INVOKABLE void acceptLineEditValue();
+	Q_INVOKABLE void handleListItemClicked(QListWidgetItem* item);
+};
+
 
 
 // used exclusively by NumberSequencePropertyItem
@@ -362,8 +379,8 @@ public:
 	PartSelectionTool(ARL::Workspace* workspace);
 	void setHighlightPart(boost::shared_ptr<ARL::PartInstance> pPart) { m_pHighlightPart = pPart; }
 
-	rbx::signal<void(ARL::PartInstance*, bool&)> partSelectedSignal;
-	rbx::signal<void(ARL::PartInstance*, bool&)> partHoveredOverSignal;
+	arl::signal<void(ARL::PartInstance*, bool&)> partSelectedSignal;
+	arl::signal<void(ARL::PartInstance*, bool&)> partHoveredOverSignal;
 
 private:
 	/*override*/ const std::string getCursorName() const	{return m_CursorName;}
@@ -405,6 +422,6 @@ private:
 
 	PropertyItem                              *m_pPrimaryPartPropertyItem;
 
-	rbx::signals::scoped_connection		       m_cPartSelectedConnection;
-	rbx::signals::scoped_connection		       m_cPartHoveredOverConnection;
+	arl::signals::scoped_connection		       m_cPartSelectedConnection;
+	arl::signals::scoped_connection		       m_cPartHoveredOverConnection;
 };

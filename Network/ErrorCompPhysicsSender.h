@@ -12,7 +12,7 @@
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/hashed_index.hpp>
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 
 #include "boost/pool/pool_alloc.hpp"
 #include "boost/intrusive/set.hpp"
@@ -88,8 +88,8 @@ namespace ARL {
 
 		bool sendDetailed;
 
-		rbx::signals::scoped_connection addingAssemblyConnection;
-		rbx::signals::scoped_connection removedAssemblyConnection;
+		arl::signals::scoped_connection addingAssemblyConnection;
+		arl::signals::scoped_connection removedAssemblyConnection;
 
 	public:
 		ErrorCompPhysicsSender(Replicator& replicator);

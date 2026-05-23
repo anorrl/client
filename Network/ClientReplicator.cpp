@@ -56,7 +56,7 @@
 #include "util/UDim.h"
 #include "util/Axes.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 #if defined(_WIN32)
 #include "util/CheatEngine.h"
@@ -251,7 +251,7 @@ namespace ARL { namespace Network {
         static const unsigned int kStepFrequency = ProgramMemoryChecker::kSteps/kTimeToCompleteHash;
 
 	public:
-        rbx::signal<void()> hashReadySignal;
+        arl::signal<void()> hashReadySignal;
 
 		MemoryCheckerJob(shared_ptr<ClientReplicator> clientReplicator) :
 			DataModelJob("US14116", DataModelJob::None, false,
@@ -414,7 +414,7 @@ namespace ARL { namespace Network {
         }
 
 	public:
-        rbx::signal<void()> reportReadySignal;
+        arl::signal<void()> reportReadySignal;
 
 		MemoryCheckerCheckerJob(shared_ptr<ClientReplicator> clientReplicator) :
 			DataModelJob("US14116_pt2", DataModelJob::None, false,

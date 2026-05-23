@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rbx/TaskScheduler.h"
+#include "arl/TaskScheduler.h"
 #include "v8Tree/Instance.h"
 #include "v8Tree/Service.h"
 
@@ -107,22 +107,22 @@ namespace Lua
 
 		static bool parallelPhysicsUserEnabled;
 
-		rbx::signal<void(const Stepped&)> highPrioritySteppedSignal;
-		rbx::signal<void(const Stepped&)> steppedSignal;
-		rbx::signal<void(const Stepped&)> renderSteppedSignal;
-		rbx::signal<void()>				  earlyRenderSignal;
-		rbx::signal<void(const Heartbeat&)> heartbeatSignal;
-		rbx::signal<void(RunTransition)> runTransitionSignal;
+		arl::signal<void(const Stepped&)> highPrioritySteppedSignal;
+		arl::signal<void(const Stepped&)> steppedSignal;
+		arl::signal<void(const Stepped&)> renderSteppedSignal;
+		arl::signal<void()>				  earlyRenderSignal;
+		arl::signal<void(const Heartbeat&)> heartbeatSignal;
+		arl::signal<void(RunTransition)> runTransitionSignal;
 
 		TaskScheduler::Job* getPhysicsJob();
 		TaskScheduler::Job* getHeartbeat();
 
-		rbx::signal<void(double, double)> scriptSteppedSignal;
-		rbx::signal<void(double)> scriptHeartbeatSignal;
-		rbx::signal<void(double)> scriptRenderSteppedSignal;
-		rbx::signal<void()> scriptRenderSteppedEarlySignal;
+		arl::signal<void(double, double)> scriptSteppedSignal;
+		arl::signal<void(double)> scriptHeartbeatSignal;
+		arl::signal<void(double)> scriptRenderSteppedSignal;
+		arl::signal<void()> scriptRenderSteppedEarlySignal;
 
-		rbx::signal<void(double)>* getOrCreateScriptRenderSteppedSignal(bool create = true);
+		arl::signal<void(double)>* getOrCreateScriptRenderSteppedSignal(bool create = true);
 
 		void bindFunctionToRenderStepEarly(std::string name, int priority, Lua::WeakFunctionRef functionToBind);
 		void unbindFunctionFromRenderStepEarly(std::string name);

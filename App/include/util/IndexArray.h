@@ -5,7 +5,7 @@
 #include "boost/utility.hpp"
 #include "util/utilities.h"
 #include "Util/G3DCore.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "G3D/Array.h"
 
 namespace ARL {

@@ -21,7 +21,7 @@
 #include "v8datamodel/UserInputService.h"
 
 #include "util/standardout.h"
-#include "rbx/MathUtil.h"
+#include "arl/MathUtil.h"
 #include "VisualEngine.h"
 #include "VertexStreamer.h"
 #include "TypesetterBitmap.h"
@@ -50,7 +50,7 @@
 
 #include "Sky.h"
 #include "Util.h"
-#include "rbx/SystemUtil.h"
+#include "arl/SystemUtil.h"
 
 #include "GfxCore/Framebuffer.h"
 #include "GfxCore/Device.h"
@@ -59,9 +59,9 @@
 #include "CullableSceneNode.h"
 #include "LightObject.h"
 
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 #include "GfxCore/States.h"
 #include "ShaderManager.h"
 

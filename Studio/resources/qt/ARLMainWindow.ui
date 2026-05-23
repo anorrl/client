@@ -1954,27 +1954,6 @@
     <string>Alt+G</string>
    </property>
   </action>
-  <action name="toggleVideoRecordAction">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="ANORRLStudio.qrc">
-     <normaloff>:/16x16/images/Studio 2.0 icons/16x16/Record-icon.png</normaloff>:/16x16/images/Studio 2.0 icons/16x16/Record-icon.png</iconset>
-   </property>
-   <property name="text">
-    <string>Video Record</string>
-   </property>
-   <property name="toolTip">
-    <string>Toggles video record</string>
-   </property>
-   <property name="shortcut">
-    <string>F12</string>
-   </property>
-   <property name="autoRepeat">
-    <bool>false</bool>
-   </property>
-  </action>
   <action name="filePublishedProjectsAction">
    <property name="icon">
     <iconset resource="ANORRLStudio.qrc">

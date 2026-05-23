@@ -125,4 +125,4 @@ private:
     std::string fragment_;
 }; // class Url
     
-} // namespace rbx
+} // namespace arl

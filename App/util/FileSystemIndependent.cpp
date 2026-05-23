@@ -17,7 +17,7 @@
 
 #include "RbxFormat.h"
 #include "util/standardout.h"
-#include "rbx/atomic.h"
+#include "arl/atomic.h"
 
 #include "util/Guid.h"
 
@@ -70,7 +70,7 @@ boost::filesystem::path getBaseCacheDirectory(bool create)
     ARLASSERT(!JNI::fileSystemCacheDir.empty());
     return JNI::fileSystemCacheDir;
 #else
-    static rbx::atomic<int> caching;
+    static arl::atomic<int> caching;
     static boost::filesystem::path cachedResult;
 
     if (!cachedResult.empty())

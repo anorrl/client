@@ -3,7 +3,7 @@
 #pragma once
 
 #include "V8Kernel/IStage.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/G3DCore.h"
 
 namespace ARL {

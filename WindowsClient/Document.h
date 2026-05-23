@@ -1,5 +1,5 @@
 #pragma once
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "SharedLauncher.h"
 #include "RbxWebView.h"
 #include "util/HttpAsync.h"
@@ -16,7 +16,7 @@ class Document
 {
 public:
 
-	rbx::signal<void(bool)> startedSignal;
+	arl::signal<void(bool)> startedSignal;
 
 	Document();
 	~Document();

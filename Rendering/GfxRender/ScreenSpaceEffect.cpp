@@ -9,7 +9,7 @@
 #include "VisualEngine.h"
 #include "ShaderManager.h"
 #include "SceneManager.h"
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 namespace ARL
 {

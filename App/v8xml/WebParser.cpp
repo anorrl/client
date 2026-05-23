@@ -3,7 +3,7 @@
 #include "V8Xml/WebParser.h"
 #include "V8Xml/XmlSerializer.h"
 #include "V8Xml/Serializer.h"
-#include "rbx/make_shared.h"
+#include "arl/make_shared.h"
 #include "Util/SafeToLower.h"
 #include <boost/property_tree/ptree.hpp>
 
@@ -43,7 +43,7 @@ namespace ARL
 		}
 		else if(root->getTag() == tag_WebList)
 		{
-			shared_ptr<Reflection::ValueArray> list(rbx::make_shared<Reflection::ValueArray>());
+			shared_ptr<Reflection::ValueArray> list(arl::make_shared<Reflection::ValueArray>());
 			if(loadList(root, *list)){
 				result = shared_ptr<const ARL::Reflection::ValueArray>(list);
 				return true;
@@ -100,7 +100,7 @@ namespace ARL
 			}
 		}
 		else if((tableElement = valueElement->findFirstChildByTag(tag_WebList))){
-			shared_ptr<Reflection::ValueArray> list(rbx::make_shared<Reflection::ValueArray>());
+			shared_ptr<Reflection::ValueArray> list(arl::make_shared<Reflection::ValueArray>());
 			if(loadList(tableElement, *list)){
 				value = shared_ptr<const ARL::Reflection::ValueArray>(list);
 				return true;
@@ -232,7 +232,7 @@ namespace ARL
 
 					if(it->second.size() > 0) // we have a nested table, get the info
 					{
-						shared_ptr<Reflection::ValueTable> subMap(rbx::make_shared<Reflection::ValueTable>());
+						shared_ptr<Reflection::ValueTable> subMap(arl::make_shared<Reflection::ValueTable>());
 						if(!legacyPopulateValueTableFromPtree(it->second,subMap))
 							return false;
 
@@ -290,14 +290,14 @@ namespace ARL
 				{
 					ARLASSERT(!subMap);
 					if(!subArray)
-						subArray = rbx::make_shared<Reflection::ValueArray>();
+						subArray = arl::make_shared<Reflection::ValueArray>();
 					subArray->push_back(value);
 				}
 				else
 				{
 					ARLASSERT(!subArray);
 					if(!subMap)
-						subMap = rbx::make_shared<Reflection::ValueTable>();
+						subMap = arl::make_shared<Reflection::ValueTable>();
 					(*subMap)[key] = value;
 				}
 
@@ -327,7 +327,7 @@ namespace ARL
 			v = std::string(node.GetString());
 		else if(node.IsObject())
 		{
-			shared_ptr<Reflection::ValueTable> subMap = rbx::make_shared<Reflection::ValueTable>();
+			shared_ptr<Reflection::ValueTable> subMap = arl::make_shared<Reflection::ValueTable>();
 			for(rapidjson::Value::MemberIterator it = node.MemberBegin(); it != node.MemberEnd(); ++it)
 			{
 				Reflection::Variant subValue = populateValueTableFromRapidJson(it->value);
@@ -337,7 +337,7 @@ namespace ARL
 		} 
 		else if(node.IsArray())
 		{
-			shared_ptr<Reflection::ValueArray> subArray = rbx::make_shared<Reflection::ValueArray>();
+			shared_ptr<Reflection::ValueArray> subArray = arl::make_shared<Reflection::ValueArray>();
 			for(rapidjson::Value::ValueIterator it = node.Begin(); it != node.End(); ++it)
 			{
 				Reflection::Variant subValue = populateValueTableFromRapidJson(*it);
@@ -491,7 +491,7 @@ namespace ARL
 			return false;
 		}
 
-		shared_ptr<Reflection::ValueTable> table(rbx::make_shared<Reflection::ValueTable>());
+		shared_ptr<Reflection::ValueTable> table(arl::make_shared<Reflection::ValueTable>());
 		bool result = legacyPopulateValueTableFromPtree(propTree, table);
 
 		if(result)

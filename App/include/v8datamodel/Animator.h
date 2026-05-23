@@ -38,10 +38,10 @@ namespace ARL {
 
 		scoped_ptr<AnimatableRootJoint> animatableRootJoint;
 
-		rbx::signals::scoped_connection descentdantAdded;		
-		rbx::signals::scoped_connection descentdantRemoved;				
-		rbx::signals::scoped_connection ancestorChanged;
-		rbx::signals::scoped_connection clumpChangedConnection;
+		arl::signals::scoped_connection descentdantAdded;		
+		arl::signals::scoped_connection descentdantRemoved;				
+		arl::signals::scoped_connection ancestorChanged;
+		arl::signals::scoped_connection clumpChangedConnection;
 		void onEvent_DescendantAdded(shared_ptr<Instance> descendant);
 		void onEvent_DescendantRemoving(shared_ptr<Instance> descendant);
 		void onEvent_AncestorModified();
@@ -70,10 +70,10 @@ namespace ARL {
 		/*override*/ bool askAddChild(const Instance* instance) const;
 		/*override*/ void onAncestorChanged(const AncestorChanged& event);
 
-        rbx::remote_signal<void(ContentId, float, float, float)> onPlaySignal;
-        rbx::remote_signal<void(ContentId, float)> onStopSignal;
-		rbx::remote_signal<void(ContentId, float)> onAdjustSpeedSignal;
-		rbx::remote_signal<void(ContentId, float)> onSetTimePositionSignal;
+        arl::remote_signal<void(ContentId, float, float, float)> onPlaySignal;
+        arl::remote_signal<void(ContentId, float)> onStopSignal;
+		arl::remote_signal<void(ContentId, float)> onAdjustSpeedSignal;
+		arl::remote_signal<void(ContentId, float)> onSetTimePositionSignal;
         void onPlay(ContentId animation, float fadeTime, float weight, float speed);
         void onStop(ContentId animation, float fadeTime);
 		void onAdjustSpeed(ContentId animation, float speed);

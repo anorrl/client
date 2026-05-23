@@ -9,7 +9,7 @@
 #include <istream>
 #include <memory>
 #include <vector>
-#include "rbx/boost.hpp"
+#include "arl/boost.hpp"
 #include <boost/shared_ptr.hpp>
 #include <boost/scoped_ptr.hpp>
 

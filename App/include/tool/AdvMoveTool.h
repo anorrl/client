@@ -45,7 +45,7 @@ namespace ARL {
 		void saveAndModifyPartsTransparency();
 		void restoreSavedPartsTransparency();
 
-		rbx::signals::scoped_connection selectionChangedConnection;
+		arl::signals::scoped_connection selectionChangedConnection;
 		void setToSelection();
 
     protected:

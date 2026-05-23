@@ -19,7 +19,7 @@
 #include "Network/Players.h"
 
 #include "FastLog.h"
-#include "rbx/RbxDbgInfo.h"
+#include "arl/RbxDbgInfo.h"
 
 FASTINTVARIABLE(FMODSoundChannels, 100);
 

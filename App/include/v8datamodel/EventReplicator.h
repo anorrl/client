@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "reflection/type.h"
 #include "Reflection/reflection.h"
 #include "Reflection/Event.h"
@@ -25,9 +25,9 @@ namespace ARL
 		
 		Parent* instance;
 		Reflection::RemoteEventDesc<Parent,Signature>& remoteEvent;
-		rbx::signal<void()>& connectionSignal;
+		arl::signal<void()>& connectionSignal;
 		
-		rbx::signals::connection listenerConnection;
+		arl::signals::connection listenerConnection;
 		void listenerConnectionAdded()
 		{ 
 			//ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, 
@@ -38,10 +38,10 @@ namespace ARL
 		}
 
 
-		rbx::signals::connection signalConnection;
+		arl::signals::connection signalConnection;
 		virtual void connectSignalListener(){}
 	public:
-		EventReplicatorBase(rbx::signal<void()>& connectionSignal, 
+		EventReplicatorBase(arl::signal<void()>& connectionSignal, 
 						Reflection::RemoteEventDesc<Parent,Signature>& remoteEvent,
 						Reflection::BoundProp<int>& connectionCount)
 			: connectionSignal(connectionSignal)
@@ -111,7 +111,7 @@ namespace ARL
 	class EventReplicatorImpl<0, Parent, Signature> : public EventReplicatorBase<Parent, Signature>
 	{
 	public:
-		EventReplicatorImpl(rbx::signal<void()>& connectionSignal, 
+		EventReplicatorImpl(arl::signal<void()>& connectionSignal, 
 							Reflection::RemoteEventDesc<Parent,Signature>& remoteEvent,
 							Reflection::BoundProp<int>& connectionCount)
 						: EventReplicatorBase<Parent, Signature>(connectionSignal,remoteEvent,connectionCount)
@@ -137,7 +137,7 @@ namespace ARL
 		
 	public:
 		
-		EventReplicatorImpl(rbx::signal<void()>& connectionSignal, 
+		EventReplicatorImpl(arl::signal<void()>& connectionSignal, 
 							Reflection::RemoteEventDesc<Parent,Signature>& remoteEvent,
 							Reflection::BoundProp<int>& connectionCount)
 						: EventReplicatorBase<Parent, Signature>(connectionSignal,remoteEvent,connectionCount)
@@ -163,7 +163,7 @@ namespace ARL
 	class EventReplicatorImpl<2, Parent, Signature> : public EventReplicatorBase<Parent, Signature>
 	{
 	public:
-		EventReplicatorImpl(rbx::signal<void()>& connectionSignal, 
+		EventReplicatorImpl(arl::signal<void()>& connectionSignal, 
 							Reflection::RemoteEventDesc<Parent,Signature>& remoteEvent,
 							Reflection::BoundProp<int>& connectionCount)
 						: EventReplicatorBase<Parent, Signature>(connectionSignal,remoteEvent,connectionCount)
@@ -188,7 +188,7 @@ namespace ARL
 	class EventReplicatorImpl<3, Parent, Signature> : public EventReplicatorBase<Parent, Signature>
 	{
 	public:
-		EventReplicatorImpl(rbx::signal<void()>& connectionSignal, 
+		EventReplicatorImpl(arl::signal<void()>& connectionSignal, 
 							Reflection::RemoteEventDesc<Parent,Signature>& remoteEvent,
 							Reflection::BoundProp<int>& connectionCount)
 						: EventReplicatorBase<Parent, Signature>(connectionSignal,remoteEvent,connectionCount)
@@ -215,7 +215,7 @@ namespace ARL
 	class EventReplicator : public EventReplicatorImpl<boost::function_traits<Signature>::arity, Parent, Signature>
 	{
 	public:
-		EventReplicator(rbx::signal<void()>& connectionSignal, 
+		EventReplicator(arl::signal<void()>& connectionSignal, 
 						Reflection::RemoteEventDesc<Parent,Signature>& remoteEvent, 
 						Reflection::BoundProp<int>& connectionCount)
 			: EventReplicatorImpl<boost::function_traits<Signature>::arity,Parent,Signature>(connectionSignal,remoteEvent,connectionCount)

@@ -17,7 +17,7 @@ namespace ARL {
 		AdornBillboarder(Adorn* parent, const Rect2D& viewport, const CoordinateFrame& transform, bool alwaysOnTop = false);
 
 		/*override*/ TextureProxyBaseRef createTextureProxy(const ContentId& id, bool& waiting, bool bBlocking = false, const std::string& context = "") { return parent->createTextureProxy(id, waiting, bBlocking, context); };
-        /*override*/ rbx::signal<void()>& getUnbindResourcesSignal() { return parent->getUnbindResourcesSignal(); }
+        /*override*/ arl::signal<void()>& getUnbindResourcesSignal() { return parent->getUnbindResourcesSignal(); }
 
 		/////////////////////////////////////////////////
 		//

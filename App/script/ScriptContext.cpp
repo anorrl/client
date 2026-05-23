@@ -36,12 +36,12 @@
 #include "Network/api.h"
 #include "ANORRLServicesTools.h"
 
-#include "rbx/Crypt.h"
+#include "arl/Crypt.h"
 #include "FastLog.h"
-#include "rbx/atomic.h"
+#include "arl/atomic.h"
 
 #include "RbxG3D/RbxTime.h"
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 
 #include <boost/lexical_cast.hpp>
 
@@ -51,7 +51,7 @@
 
 #include "VMProtectSDK.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(CoreScripts)
 LOGGROUP(UseLuaMemoryPool)
@@ -348,7 +348,7 @@ struct LuaProfiler
 LuaProfiler* LuaProfiler::instance = NULL;
 LuaProfiler::StringCache LuaProfiler::stringCache;
 
-static rbx::atomic<int> contextCount;
+static arl::atomic<int> contextCount;
 
 REFLECTION_BEGIN();
 //LocalUser permissions (including Studio.slua execution)
@@ -1140,7 +1140,7 @@ shared_ptr<const Reflection::ValueArray> ScriptContext::getScriptStatsNew()
 		throw std::runtime_error("Script stats collection is not enabled");
 
 	const ScriptStats::ScriptActivityMeterMap& stats = scriptStats->getScriptActivityMap();
-	shared_ptr<Reflection::ValueArray> result(rbx::make_shared<Reflection::ValueArray>(stats.size()));
+	shared_ptr<Reflection::ValueArray> result(arl::make_shared<Reflection::ValueArray>(stats.size()));
 	int pos = 0;
 	for(ScriptStats::ScriptActivityMeterMap::const_iterator iter = stats.begin(); iter != stats.end(); ++iter)
 	{

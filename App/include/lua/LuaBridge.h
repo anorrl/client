@@ -4,8 +4,8 @@
 
 #include "util/exception.h"
 #include "util/utilities.h"
-#include "rbx/Debug.h"
-#include "rbx/atomic.h"
+#include "arl/Debug.h"
+#include "arl/atomic.h"
 
 namespace ARL { namespace Lua {
 

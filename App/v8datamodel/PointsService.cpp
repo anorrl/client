@@ -143,7 +143,7 @@ namespace ARL
 
 			if (!response.empty())
 			{
-				shared_ptr<const Reflection::ValueTable> responseTable(rbx::make_shared<const Reflection::ValueTable>());
+				shared_ptr<const Reflection::ValueTable> responseTable(arl::make_shared<const Reflection::ValueTable>());
 				if(!WebParser::parseJSONTable(response,responseTable))
 				{
 					errorFunction( ARL::format("%s failed because could not parse JSON response",methodName->c_str()) );
@@ -316,7 +316,7 @@ namespace ARL
 
 			if (!response.empty())
 			{
-				shared_ptr<const Reflection::ValueTable> awardPointsTable(rbx::make_shared<const Reflection::ValueTable>());
+				shared_ptr<const Reflection::ValueTable> awardPointsTable(arl::make_shared<const Reflection::ValueTable>());
 				WebParser::parseJSONTable(response,awardPointsTable);
 
 				if (awardPointsTable && awardPointsTable->size() > 0)
@@ -348,7 +348,7 @@ namespace ARL
 								return;
 							}
 
-							shared_ptr<Reflection::Tuple> args = rbx::make_shared<Reflection::Tuple>();
+							shared_ptr<Reflection::Tuple> args = arl::make_shared<Reflection::Tuple>();
 							args->values.push_back(userId);
 							args->values.push_back(amountAwarded);
 							args->values.push_back(universeBalance);

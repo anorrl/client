@@ -27,10 +27,10 @@ namespace ARL
 		void executeScript(std::string source);
         shared_ptr<const Reflection::ValueArray> getLogHistory();
 
-        rbx::signal<void(std::string, MessageType)> outputMessageSignal;
-        rbx::remote_signal<void(shared_ptr<Instance>)> requestServerOutputSignal;
-        rbx::remote_signal<void(std::string, MessageType, int)> serverOutputMessageSignal;
-		rbx::remote_signal<void(shared_ptr<Instance>, std::string)> requestScriptExecutionSignal;
+        arl::signal<void(std::string, MessageType)> outputMessageSignal;
+        arl::remote_signal<void(shared_ptr<Instance>)> requestServerOutputSignal;
+        arl::remote_signal<void(std::string, MessageType, int)> serverOutputMessageSignal;
+		arl::remote_signal<void(shared_ptr<Instance>, std::string)> requestScriptExecutionSignal;
         /*override*/ void processRemoteEvent(const Reflection::EventDescriptor& descriptor, const Reflection::EventArguments& args, const SystemAddress& source);
 		void runCallbackIfPlayerHasConsoleAccess(shared_ptr<Network::Player> player, boost::function<void()> callback);
 
@@ -53,9 +53,9 @@ namespace ARL
 		static void executeServerScript(weak_ptr<LogService> weakLogService, std::string source);
 
         bool currentlyFiringEvent;
-        rbx::signals::scoped_connection messageOutConnection;
+        arl::signals::scoped_connection messageOutConnection;
         boost::circular_buffer_space_optimized<StandardOutMessage> logHistory;
-        rbx::signals::scoped_connection listenForServerLogRequestConnection;
+        arl::signals::scoped_connection listenForServerLogRequestConnection;
         weak_ptr<Network::Player> playerReceivingServerLogs;
 		std::list<weak_ptr<Network::Player> > playersReceivingServerLogs;
     };

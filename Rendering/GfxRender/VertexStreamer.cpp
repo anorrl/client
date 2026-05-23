@@ -13,7 +13,7 @@
 
 #include "GfxBase/RenderStats.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 FASTFLAG(GUIZFighterGPU)
 

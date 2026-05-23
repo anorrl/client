@@ -22,7 +22,7 @@
 #include "GfxCore/Framebuffer.h"
 #include "GfxCore/Device.h"
 #include "GfxCore/States.h"
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGVARIABLE(RenderTextureCompositor, 0)
 LOGVARIABLE(RenderTextureCompositorBudget, 0)

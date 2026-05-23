@@ -13,7 +13,7 @@
 
 class ANORRLBrowser;
 class ANORRLWebPage;
-class RbxWorkspace;
+class ARLWorkspace;
 
 namespace ARL
 {
@@ -37,7 +37,7 @@ protected:
 	ANORRLWebPage		*m_pWebPage;
 	ARL::DataModel		*m_pDataModel;
 
-	boost::shared_ptr<RbxWorkspace> m_pWorkspace;
+	boost::shared_ptr<ARLWorkspace> m_pWorkspace;
 
     virtual QSize sizeHint() const;
 	virtual void resizeEvent(QResizeEvent* evt);

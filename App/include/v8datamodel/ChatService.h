@@ -29,6 +29,6 @@ namespace ARL {
 
 		void filterStringForPlayer(std::string stringToFilter, shared_ptr<Instance> playerToFilterFor, boost::function<void(std::string)> resumeFunction, boost::function<void(std::string)> errorFunction);
 
-		rbx::remote_signal<void(shared_ptr<Instance>, std::string, ChatService::ChatColor)> chattedSignal;
+		arl::remote_signal<void(shared_ptr<Instance>, std::string, ChatService::ChatColor)> chattedSignal;
 	};
 }

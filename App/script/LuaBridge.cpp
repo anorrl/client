@@ -132,7 +132,7 @@ namespace ARL
         template void Bridge <shared_ptr<GenericFunction> >::registerClass(lua_State *);
         template void Bridge <shared_ptr<GenericAsyncFunction> >::registerClass(lua_State *);
         template void Bridge <shared_ptr<class ARL::Instance>, false >::registerClass(lua_State *);
-        template void Bridge <rbx::signals::connection>::registerClass(lua_State *);
+        template void Bridge <arl::signals::connection>::registerClass(lua_State *);
         template void Bridge <Library>::registerClass(lua_State *);
         template void Bridge <EventInstance>::registerClass(lua_State *);
         template void Bridge <AllEnumDescriptorsPtr, false>::registerClass(lua_State *);

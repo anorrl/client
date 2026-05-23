@@ -36,7 +36,7 @@ namespace ARL {
 		func_updateAsync(&DataStore::updateAsync, "UpdateAsync", "key", "transformFunction", Security::None);
 	static Reflection::BoundYieldFuncDesc<DataStore, Reflection::Variant(std::string, int)> 
 		func_incrementAsync(&DataStore::incrementAsync, "IncrementAsync", "key", "delta", 1, Security::None);
-	static Reflection::BoundFuncDesc<DataStore, rbx::signals::connection(std::string, Lua::WeakFunctionRef)> func_onUpdate(&DataStore::onUpdate, "OnUpdate", "key", "callback", Security::None);
+	static Reflection::BoundFuncDesc<DataStore, arl::signals::connection(std::string, Lua::WeakFunctionRef)> func_onUpdate(&DataStore::onUpdate, "OnUpdate", "key", "callback", Security::None);
 
  	static Reflection::BoundYieldFuncDesc<OrderedDataStore, shared_ptr<Instance>(bool, int, Reflection::Variant, Reflection::Variant)> 
  		func_getSortedAsync(&OrderedDataStore::getSortedAsync, "GetSortedAsync", "ascending", "pagesize", "minValue", Reflection::Variant(), "maxValue", Reflection::Variant(), Security::None);
@@ -253,7 +253,7 @@ namespace ARL {
 
 		FASTLOGS(FLog::DataStore, "Updating key %s", key);
 
-		shared_ptr<Lua::WeakFunctionRef> transform = rbx::make_shared<Lua::WeakFunctionRef>(transformFunc);
+		shared_ptr<Lua::WeakFunctionRef> transform = arl::make_shared<Lua::WeakFunctionRef>(transformFunc);
 
 		CachedKeys::iterator it = cachedKeys.find(key);
 		if (it == cachedKeys.end())
@@ -287,7 +287,7 @@ namespace ARL {
 			return;
 		}
 
-		shared_ptr<Reflection::Tuple> args = rbx::make_shared<Reflection::Tuple>();
+		shared_ptr<Reflection::Tuple> args = arl::make_shared<Reflection::Tuple>();
 		args->values.push_back(it->second.getVariant());
 
 		FASTLOGS(FLog::DataStore, "Running transform function, input: %s", it->second.getSerialized());
@@ -397,7 +397,7 @@ namespace ARL {
 				return;
 			}
 
-			shared_ptr<Reflection::Tuple> args = rbx::make_shared<Reflection::Tuple>();
+			shared_ptr<Reflection::Tuple> args = arl::make_shared<Reflection::Tuple>();
 			args->values.push_back(cachedKeys[key].getVariant());
 			resumeFunction(args);
 			return;
@@ -543,7 +543,7 @@ namespace ARL {
 		jsonStream << webValue;
 		jsonStream << "}";
 
-		shared_ptr<const Reflection::ValueTable> jsonResult(rbx::make_shared<const Reflection::ValueTable>());
+		shared_ptr<const Reflection::ValueTable> jsonResult(arl::make_shared<const Reflection::ValueTable>());
 
 		bool parseResult = WebParser::parseJSONTable(jsonStream.str(), jsonResult);
 		if (!parseResult)
@@ -703,7 +703,7 @@ namespace ARL {
 
 		try
 		{
-			shared_ptr<Reflection::Tuple> args = rbx::make_shared<Reflection::Tuple>();
+			shared_ptr<Reflection::Tuple> args = arl::make_shared<Reflection::Tuple>();
 			args->values.push_back(value);
 			callCallback(callback, args, new Lua::WeakThreadRef());
 		}
@@ -715,18 +715,18 @@ namespace ARL {
 	}
 
 
-	rbx::signals::connection DataStore::onUpdate(std::string key, Lua::WeakFunctionRef callback)
+	arl::signals::connection DataStore::onUpdate(std::string key, Lua::WeakFunctionRef callback)
 	{
 		if (!checkAccess(key, NULL))
-			return rbx::signals::connection();
+			return arl::signals::connection();
 
 		FASTLOGS(FLog::DataStore, "Subscribed to key %s", key);
-		shared_ptr<rbx::signal<void(Reflection::Variant) > >& signal = onUpdateKeys[key];
+		shared_ptr<arl::signal<void(Reflection::Variant) > >& signal = onUpdateKeys[key];
 		if (!signal)
-			signal = rbx::make_shared<rbx::signal<void(Reflection::Variant)> >();
+			signal = arl::make_shared<arl::signal<void(Reflection::Variant)> >();
 
-		shared_ptr<EventSlot> slot = rbx::make_shared<EventSlot>(callback);
-		rbx::signals::connection conn = signal->connect(
+		shared_ptr<EventSlot> slot = arl::make_shared<EventSlot>(callback);
+		arl::signals::connection conn = signal->connect(
 			boost::bind(&DataStore::EventSlot::fire, slot, _1));
 
 		if (cachedKeys.find(key) == cachedKeys.end())
@@ -1148,7 +1148,7 @@ namespace ARL {
 			return;
 		}
 
-		shared_ptr<Reflection::ValueArray> page = rbx::make_shared<Reflection::ValueArray>();
+		shared_ptr<Reflection::ValueArray> page = arl::make_shared<Reflection::ValueArray>();
 		shared_ptr<const Reflection::ValueArray> entries = itEntries->second.cast<shared_ptr<const ARL::Reflection::ValueArray> >();
 
 		for(Reflection::ValueArray::const_iterator it = entries->begin(); it != entries->end(); ++it)
@@ -1171,7 +1171,7 @@ namespace ARL {
 				continue;
 			}
 
-			shared_ptr<Reflection::ValueTable> pageEntry = rbx::make_shared<Reflection::ValueTable>();
+			shared_ptr<Reflection::ValueTable> pageEntry = arl::make_shared<Reflection::ValueTable>();
 			(*pageEntry)["key"] = itKey->second.cast<std::string>();
 			(*pageEntry)["value"] = itValue->second;
 			page->push_back(Reflection::Variant(shared_ptr<const Reflection::ValueTable>(pageEntry)));

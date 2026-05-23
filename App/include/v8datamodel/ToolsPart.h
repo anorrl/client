@@ -31,7 +31,7 @@ namespace ARL {
 	{
 		BrickColor color;
 	public:
-		rbx::signal<void(ARL::BrickColor)> brickColorSignal;
+		arl::signal<void(ARL::BrickColor)> brickColorSignal;
 
 		FillToolColor();
 		ARL::BrickColor get() const {return color;}

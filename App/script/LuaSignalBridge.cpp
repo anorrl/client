@@ -322,7 +322,7 @@ int EventBridge::connect(lua_State *L)
 	ANORRLExtraSpace* space = ANORRLExtraSpace::get(L);
 	EventInstance& ei(getObject(L, 1));
 	
-	rbx::signals::connection connection;
+	arl::signals::connection connection;
 
 	shared_ptr<Reflection::DescribedBase> source = ei.source.lock();
 	if (source && ei.descriptor->isScriptable() && !space->context()->shouldPreventNewConnections())
@@ -341,7 +341,7 @@ int EventBridge::connect(lua_State *L)
 		bool useSubmitTask = DFFlag::UseSubmitTaskWhenFiringSignalsOnSettings && source->useSubmitTaskForLuaListeners();
 
 		shared_ptr< ARL::Reflection::TGenericSlotWrapper<FunctionScriptSlot> > wrapper(
-			rbx::make_shared< ARL::Reflection::TGenericSlotWrapper<FunctionScriptSlot> >(FunctionScriptSlot(ei.descriptor, L, 2, useSubmitTask))
+			arl::make_shared< ARL::Reflection::TGenericSlotWrapper<FunctionScriptSlot> >(FunctionScriptSlot(ei.descriptor, L, 2, useSubmitTask))
 		);
 		if (useSubmitTask)
 		{
@@ -372,7 +372,7 @@ int EventBridge::wait(lua_State *L)
 			bool useSubmitTask = DFFlag::UseSubmitTaskWhenFiringSignalsOnSettings && source->useSubmitTaskForLuaListeners();
 
 			shared_ptr<ARL::Reflection::TGenericSlotWrapper<WaitScriptSlot> > wrapper(
-				rbx::make_shared< ARL::Reflection::TGenericSlotWrapper<WaitScriptSlot> >(WaitScriptSlot(L, useSubmitTask))
+				arl::make_shared< ARL::Reflection::TGenericSlotWrapper<WaitScriptSlot> >(WaitScriptSlot(L, useSubmitTask))
 			);
 			if (useSubmitTask)
 			{
@@ -389,10 +389,10 @@ int EventBridge::wait(lua_State *L)
 }
 
 template<>
-const char* Bridge< rbx::signals::connection >::className("ARLScriptConnection"); 		
+const char* Bridge< arl::signals::connection >::className("ARLScriptConnection"); 		
 
 template<>
-int Bridge< rbx::signals::connection >::on_index(const rbx::signals::connection& object, const char* name, lua_State *L)
+int Bridge< arl::signals::connection >::on_index(const arl::signals::connection& object, const char* name, lua_State *L)
 {
 	// The pre-defined "disconnect()" method
 	if (strcmp(name, "disconnect")==0 || strcmp(name, "Disconnect") == 0)
@@ -413,7 +413,7 @@ int Bridge< rbx::signals::connection >::on_index(const rbx::signals::connection&
 }
 
 template<>
-void Bridge< rbx::signals::connection >::on_newindex(rbx::signals::connection& object, const char* name, lua_State *L)
+void Bridge< arl::signals::connection >::on_newindex(arl::signals::connection& object, const char* name, lua_State *L)
 {
 	throw ARL::runtime_error("%s cannot be assigned to", name);
 }

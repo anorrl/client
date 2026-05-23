@@ -3,7 +3,7 @@
 
 #include "V8DataModel/Stats.h"
 #include "V8DataModel/DataModel.h"
-#include "rbx/Log.h"
+#include "arl/Log.h"
 #include "util/http.h"
 #include "util/profiling.h"
 #include "util/statistics.h"
@@ -778,7 +778,7 @@ static const bool jobsAsArray = true;
 
 			baseUrlConnection.disconnect();
 
-			std::string url = GetSettingsUrl(baseUrl, "ClientSharedSettings", "D6925E56-BFB9-4908-AAA2-A5B1EC4B2D79");
+			std::string url = GetSettingsUrl(baseUrl, "ClientAppSettings", "D6925E56-BFB9-4908-AAA2-A5B1EC4B2D79");
 
             Http request(url);
 			shared_ptr<DataModel> dm = shared_from(DataModel::get(this));

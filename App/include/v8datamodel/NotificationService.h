@@ -26,10 +26,10 @@ namespace ARL
 	public:
 		NotificationService();
         
-        rbx::signal<void(int, int, std::string, int)> scheduleNotificationSignal;
-        rbx::signal<void(int, int)> cancelNotificationSignal;
-        rbx::signal<void(int)> cancelAllNotificationSignal;
-        rbx::signal<void(int, boost::function<void(shared_ptr<const Reflection::ValueArray>)>, boost::function<void(std::string)>)> getScheduledNotificationsSignal;
+        arl::signal<void(int, int, std::string, int)> scheduleNotificationSignal;
+        arl::signal<void(int, int)> cancelNotificationSignal;
+        arl::signal<void(int)> cancelAllNotificationSignal;
+        arl::signal<void(int, boost::function<void(shared_ptr<const Reflection::ValueArray>)>, boost::function<void(std::string)>)> getScheduledNotificationsSignal;
 
         
         void scheduleNotification(int userId, int alertId, std::string alerMsg, int minutesToFire);

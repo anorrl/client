@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
 #include "Util/ProgramMemoryChecker.h"
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 
 #include "FastLog.h"
-#include "Rbx/Debug.h"
+#include "ARL/Debug.h"
 #include "Util/xxhash.h"
 
 #include <boost/algorithm/string.hpp>

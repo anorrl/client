@@ -100,9 +100,6 @@ namespace ARL
 		std::string getCompletedTutorials() const;
 		void setCompletedTutorials(std::string value);
 
-		GameSettings::UploadSetting getUploadVideoSetting() const { return uploadVideos; }
-		void setUploadVideoSetting(GameSettings::UploadSetting setting);
-
 		GameSettings::UploadSetting getPostImageSetting() const { return uploadScreenshots; }
 		void setPostImageSetting(GameSettings::UploadSetting setting);
 
@@ -179,9 +176,9 @@ namespace ARL
 		/*override*/ void verifySetParent(const Instance* instance) const;
 
 		
-		rbx::signal<void(bool)> fullscreenChangedSignal;
-		rbx::signal<void(bool)> studioModeChangedSignal;
-		rbx::signal<void(bool)> areoChangedSignal;
+		arl::signal<void(bool)> fullscreenChangedSignal;
+		arl::signal<void(bool)> studioModeChangedSignal;
+		arl::signal<void(bool)> areoChangedSignal;
 		
 	private:	
 		ControlMode controlMode;
@@ -201,7 +198,6 @@ namespace ARL
 		bool mouseLocked;
 		bool canMousePan;
 		bool freeLook;
-		GameSettings::UploadSetting uploadVideos;
 		GameSettings::UploadSetting uploadScreenshots;
 		bool usedHideHudShortcut;
 

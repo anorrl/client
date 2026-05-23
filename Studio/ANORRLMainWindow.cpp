@@ -58,8 +58,8 @@
 #include "v8world/Contact.h"
 #include "v8kernel/Body.h"
 #include "v8kernel/ContactConnector.h"
-#include "rbx/BaldPtr.h"
-#include "rbx/CEvent.h"
+#include "arl/BaldPtr.h"
+#include "arl/CEvent.h"
 #include "Network/Players.h"
 #include "CountersClient.h"
 #include "FastLog.h"
@@ -114,7 +114,7 @@
 #include "InsertServiceDialog.h"
 #include "StudioIntellesense.h"
 #include "ANORRLWebDoc.h"
-#include "RbxWorkspace.h"
+#include "ARLWorkspace.h"
 #include "FindDialog.h"
 #include "ScriptTextEditor.h"
 
@@ -226,13 +226,12 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
 
 			srand(time(NULL)); // call just once or explode or something
 
-			int numberOfSplashes = 50;
+			int numberOfSplashes = 60;
 
-			int randSplashNumber = rand() % numberOfSplashes +1;
+			int randSplashNumber = rand() % numberOfSplashes + 1;
 			if (randSplashNumber <= 0) {
 				randSplashNumber = 1;
 			}
-
 			if (randSplashNumber > numberOfSplashes) {
 				randSplashNumber = numberOfSplashes;
 			}
@@ -242,12 +241,11 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
             m_splashScreen = new QSplashScreen(this,QPixmap(path.c_str()));
 
 #ifdef Q_WS_WIN32
-            Qt::WindowFlags flags = Qt::SplashScreen | Qt::FramelessWindowHint;
+            Qt::WindowFlags flags = Qt::SplashScreen | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint;
 #else
             // Qt::Tool makes the window on top of the Z order on Mac
             Qt::WindowFlags flags = Qt::Tool | Qt::FramelessWindowHint;
 #endif
-
             // now we can set window flags
             m_splashScreen->setWindowFlags(flags);  
 
@@ -802,7 +800,7 @@ void ANORRLMainWindow::handleCommandLineOptions()
 
 		ANORRLIDEDoc* pIDEDoc = ANORRLDocManager::Instance().getPlayDoc();
 
-		int numPlayers = ANORRLSettings().value("rbxRibbonNumPlayer").toInt();
+		int numPlayers = ANORRLSettings().value("arlRibbonNumPlayer").toInt();
 		if (numPlayers > 0)
 		{
 			if (pIDEDoc && pIDEDoc->getDataModel())
@@ -1037,11 +1035,11 @@ bool ANORRLMainWindow::requestDocClose(IANORRLDoc& doc, bool closeIfLastDoc)
         return true;
     }
 
-	if ( StudioUtilities::isVideoUploading() || StudioUtilities::isScreenShotUploading())
+	if (StudioUtilities::isScreenShotUploading())
 	{
 		QtUtilities::ARLMessageBox msgBox;
 		msgBox.setIcon(QMessageBox::Question);
-		msgBox.setText(QString("ANORRL is uploading %1. Quit anyway?").arg(StudioUtilities::isVideoUploading() ? "a video" : "an image"));
+		msgBox.setText(QString("ANORRL is uploading an image. Quit anyway?"));
 		msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 		msgBox.setDefaultButton(QMessageBox::No);
 
@@ -1051,7 +1049,6 @@ bool ANORRLMainWindow::requestDocClose(IANORRLDoc& doc, bool closeIfLastDoc)
 
 		// user has pressed YES, modifying the uploading status to make sure 
 		//  we don't show the message multiple times
-		StudioUtilities::setVideoUploading(false);
 		StudioUtilities::setScreenShotUploading(false);
 	}
 
@@ -1144,7 +1141,7 @@ void ANORRLMainWindow::openStartPage(bool checked, QString optionalQueryParams /
 			// Generate start page url from our recent files -- these files are put into the query string
 			fileToOpen = QString::fromStdString(GetBaseURL()).append(startPageUrl).append("?");
 			ANORRLSettings settings;
-			QStringList recentFiles = settings.value("rbxRecentFiles").toStringList();
+			QStringList recentFiles = settings.value("arlRecentFiles").toStringList();
 			for(int i = 0; i < qMin(recentFiles.length(), (int)MAX_RECENT_FILES); i++)
 			{
 				QFileInfo info(recentFiles.at(i));
@@ -1152,7 +1149,7 @@ void ANORRLMainWindow::openStartPage(bool checked, QString optionalQueryParams /
 			}				
 		}
 		else
-			fileToOpen = QString::fromStdString(GetBaseURL() + "/my/places"); // implement universes bitch
+			fileToOpen = QString::fromStdString(GetBaseURL() + "/ide/projects");
 
 		if (!optionalQueryParams.isEmpty())
 			fileToOpen.append("&").append(optionalQueryParams);
@@ -1859,9 +1856,6 @@ void ANORRLMainWindow::initializeUI()
 
 	//TODO: Move all these customizations to .ui file
 	menuTools->insertAction(openPluginsFolderAction, screenShotAction);
-#ifdef _WIN32
-	menuTools->insertAction(openPluginsFolderAction, toggleVideoRecordAction);
-#endif
 
 	menuTools->insertSeparator(openPluginsFolderAction);
 
@@ -2053,7 +2047,7 @@ void ANORRLMainWindow::setupSlots()
 		startPlayerAction, pairRbxDeviceAction, insertModelAction, insertIntoFileAction, 
 		selectionSaveToFileAction, publishToANORRLAction, publishToANORRLAsAction, publishGameAction, publishSelectionToANORRLAction, 
 		saveToANORRLAction, publishAsPluginAction, createNewLinkedSourceAction, advArrowToolAction, toggleAxisWidgetAction, toggle3DGridAction,
-		toggleVideoRecordAction, viewDiagnosticsAction, viewTaskSchedulerAction, viewToolboxAction,
+		viewDiagnosticsAction, viewTaskSchedulerAction, viewToolboxAction,
 		viewBasicObjectsAction, viewScriptPerformanceAction, viewObjectExplorerAction,
 		viewPropertiesAction, viewOutputWindowAction, viewContextualHelpAction, viewFindResultsWindowAction, viewScriptAnalysisAction,
         gameExplorerAction, toggleCollisionCheckAction,
@@ -2487,7 +2481,7 @@ void ANORRLMainWindow::saveApplicationStates()
 	settings.setValue(sWindowStateKey, saveState());
 	
 	// Save command history from output window
-	settings.setValue("rbxCommandHistory", m_pScriptComboBox->commandHistory());
+	settings.setValue("arlCommandHistory", m_pScriptComboBox->commandHistory());
 
 	//TODO: Move this to ANORRLRibbonMainWindow.cpp
 	if (isRibbonStyle())
@@ -2526,7 +2520,7 @@ void ANORRLMainWindow::loadApplicationStates()
 	restoreState(settings.value(sWindowStateKey).toByteArray());
 	restoreGeometry(settings.value(sGeometryKey).toByteArray());
 
-    m_pScriptComboBox->setCommandHistory(settings.value("rbxCommandHistory").toStringList());
+    m_pScriptComboBox->setCommandHistory(settings.value("arlCommandHistory").toStringList());
 	
 	UpdateUIManager::Instance().loadDocksGeometry();
 

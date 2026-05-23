@@ -38,6 +38,7 @@
 #include "ANORRLIDEDoc.h"
 #include "ANORRLTreeWidget.h"
 #include "ANORRLMainWindow.h"
+#include "QtUtilities.h"
 
 
 #define COLOR_COLS      8
@@ -862,6 +863,139 @@ void ImagePickerWidget::handleListItemClicked(QListWidgetItem* item)
 		close();
 	}
 }
+
+
+
+AudioPickerWidget::AudioPickerWidget(QWidget* parent)
+	: PickerFrame(parent)
+	, lineEdit(new QLineEdit(this))
+{
+}
+
+QString AudioPickerWidget::getAudioUrl(const QString& lastValue, const QPoint& location, boost::shared_ptr<ARL::DataModel> dm)
+{
+	ARL::ContentProvider* cp = dm->find<ARL::ContentProvider>();
+
+	resultString = lastValue;
+
+	std::vector<QString> audioNames;
+	UpdateUIManager::Instance().getViewWidget<ANORRLGameExplorer>(eDW_GAME_EXPLORER)
+		.getListOfAudios(&audioNames);
+
+	QGridLayout* topLayout = new QGridLayout(this);
+
+	QLabel* otherLabel = new QLabel(this);
+	otherLabel->setText("URL:");
+	topLayout->addWidget(otherLabel, 0, 0);
+
+	lineEdit->setText(lastValue);
+	topLayout->addWidget(lineEdit, 0, 1);
+
+	QObject::connect(lineEdit, SIGNAL(returnPressed()),
+		this, SLOT(acceptLineEditValue()));
+
+	QListWidget* scrollList = new QListWidget(this);
+
+	for (size_t i = 0; i < audioNames.size(); ++i)
+	{
+		QListWidgetItem* item = new QListWidgetItem();
+		item->setSizeHint(QSize(-1, 64));
+
+		QFrame* widget = new QFrame();
+		widget->setLayout(new QHBoxLayout());
+
+		QString url = QString("arlgameasset://%1").arg(audioNames[i]);
+		QLabel* image = new QLabel();
+
+		QPixmap audioPixmap = QtUtilities::getPixmap(":/images/ClassImages.PNG", 11);
+		audioPixmap = audioPixmap.scaled(QSize(64, 64), Qt::KeepAspectRatio);
+		image->setPixmap(audioPixmap);
+
+		widget->layout()->addWidget(image);
+		// Trim leading "Audio/" in name
+		widget->layout()->addWidget(new QLabel(audioNames[i].right(audioNames[i].length() - 6)));
+
+		item->setData(Qt::UserRole + 1, url);
+
+		scrollList->addItem(item);
+		scrollList->setItemWidget(item, widget);
+	}
+
+	// "Add" button
+	QListWidgetItem* addItem = new QListWidgetItem("Add Audio...");
+	addItem->setSizeHint(QSize(-1, 64));
+	scrollList->addItem(addItem);
+
+	QObject::connect(scrollList, SIGNAL(itemClicked(QListWidgetItem*)),
+		this, SLOT(handleListItemClicked(QListWidgetItem*)));
+
+	topLayout->addWidget(scrollList, 1, 0, 1, 2);
+
+	setLayout(topLayout);
+
+	// We need to know the actual size of this widget in order to fit it into the monitor,
+	// so do a fake show()/hide() it so that all of the geometry calculations happen and size()
+	// gives a correct value.
+	setAttribute(Qt::WA_DontShowOnScreen, true);
+	show();
+	hide();
+	setAttribute(Qt::WA_DontShowOnScreen, false);
+	move(moveLocationIntoMonitor(location));
+	show();
+
+	lineEdit->setFocus();
+	lineEdit->selectAll();
+
+	QEventLoop* eventLoop = new QEventLoop(this);
+	setEventLoop(eventLoop);
+	eventLoop->exec();
+
+	return resultString;
+}
+
+QPoint AudioPickerWidget::moveLocationIntoMonitor(const QPoint& location)
+{
+	QRect monitorGeometry = QApplication::desktop()->screenGeometry(location);
+	QSize frameSize = size();
+	QPoint minLocation = monitorGeometry.topLeft();
+	QPoint maxLocation = monitorGeometry.bottomRight() - QPoint(frameSize.width(), frameSize.height());
+	return QPoint(std::max(minLocation.x(), std::min(location.x(), maxLocation.x())),
+		std::max(minLocation.y(), std::min(location.y(), maxLocation.y())));
+}
+
+void AudioPickerWidget::acceptLineEditValue()
+{
+	resultString = lineEdit->text();
+	close();
+}
+
+void AudioPickerWidget::handleListItemClicked(QListWidgetItem* item)
+{
+	QVariant url = item->data(Qt::UserRole + 1);
+	bool hasUrl = url.isValid();
+
+	if (!hasUrl)
+	{
+		// "Add" button clicked
+
+		bool created = false;
+		QString newName;
+		AddAudioDialog addAudioDialog;
+		addAudioDialog.runModal(item->listWidget(), &created, &newName);
+		if (created)
+		{
+			hasUrl = true;
+			url = QString("arlgameasset://%1").arg(newName);
+		}
+	}
+
+	if (hasUrl)
+	{
+		resultString = url.toString();
+		close();
+	}
+}
+
 
 
 //////////////////////////////////////////////////////////////////////////

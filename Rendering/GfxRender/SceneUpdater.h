@@ -42,7 +42,7 @@ namespace Graphics
 		CRenderSettings* mSettings;
 	
 		// debugging.
-		std::vector<rbx::signals::connection> connections;
+		std::vector<arl::signals::connection> connections;
 
 	protected:
 		boost::shared_ptr<ARL::DataModel> dataModel;
@@ -105,8 +105,8 @@ namespace Graphics
 		const boost::shared_ptr<ARL::DataModel>& getDataModel() const { return dataModel; }
 
 	protected:
-		rbx::signals::scoped_connection workspaceDescendantAddedConnection;
-        rbx::signals::scoped_connection propertyChangedSignal;
+		arl::signals::scoped_connection workspaceDescendantAddedConnection;
+        arl::signals::scoped_connection propertyChangedSignal;
 
 		void addMegaCluster(const shared_ptr<ARL::PartInstance>& part);
 		void addFastPart(const shared_ptr<ARL::PartInstance>& part, bool isFW, bool isPriorityPart);

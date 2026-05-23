@@ -3,7 +3,7 @@
 #include "V8Tree/Service.h"
 #include "V8World/SendPhysics.h"
 #include "Util/ConcurrencyValidator.h"
-#include "RBX/Intrusive/Set.h"
+#include "ARL/Intrusive/Set.h"
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/Workspace.h"
 
@@ -32,20 +32,20 @@ namespace ARL {
 		typedef boost::unordered_set<TouchPair> PartPairs;
 		PartPairs touchesSendList;		// used by physics senders, swaps with receive list
 		PartPairs touchesReceiveList;	// from physics receiver and world
-		rbx::signals::scoped_connection touchesConnection;
-		rbx::atomic<int> touchSentCounter;
+		arl::signals::scoped_connection touchesConnection;
+		arl::atomic<int> touchSentCounter;
 		int touchResetCount;
 		int touchSendListId;
 
 		// used to determine number of physics senders
-		rbx::signals::connection playersChangedConnection;
+		arl::signals::connection playersChangedConnection;
 
 		ConcurrencyValidator concurrencyValidator;
 
 		/*override*/ void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 
-		rbx::signals::connection assemblyPhysicsOnConnection;
-		rbx::signals::connection assemblyPhysicsOffConnection;
+		arl::signals::connection assemblyPhysicsOnConnection;
+		arl::signals::connection assemblyPhysicsOffConnection;
 		void onAssemblyPhysicsOn(Primitive* primitive);		// added by engine
 		void onAssemblyPhysicsOff(Primitive* primitive);
 
@@ -58,8 +58,8 @@ namespace ARL {
 		~PhysicsService();
 
 		// Interface
-		rbx::signal<void(shared_ptr<Instance>)> assemblyAddingSignal;				// state change scripts			
-		rbx::signal<void(shared_ptr<Instance>)> assemblyRemovedSignal;			// state change scripts
+		arl::signal<void(shared_ptr<Instance>)> assemblyAddingSignal;				// state change scripts			
+		arl::signal<void(shared_ptr<Instance>)> assemblyRemovedSignal;			// state change scripts
 
 		int numSenders() {
 			return parts.size();

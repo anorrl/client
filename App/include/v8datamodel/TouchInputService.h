@@ -34,7 +34,7 @@ namespace ARL
         boost::unordered_map<void*, int> touchToCountMap;
         boost::unordered_map<int, shared_ptr<InputObject> > touchIdToInputObjectMap;
         
-        rbx::signals::scoped_connection updateInputConnection;
+        arl::signals::scoped_connection updateInputConnection;
         
         void processTouchBuffer();
     protected:

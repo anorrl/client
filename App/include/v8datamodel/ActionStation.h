@@ -7,7 +7,7 @@
 #include "Humanoid/Humanoid.h"
 #include "V8World/Primitive.h"
 #include "V8World/Assembly.h"
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 
 DYNAMIC_FASTINT(ActionStationDebounceTime)
 

@@ -2,7 +2,7 @@
 #ifndef _568E368F53F1431aB7D4923F6D45021A
 #define _568E368F53F1431aB7D4923F6D45021A
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include "Util/Object.h"
 #include "Util/Handle.h"

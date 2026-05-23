@@ -5,7 +5,7 @@
 #include "PhysicsSender.h"
 #include "BoostAppend.h"
 #include "V8DataModel/PartInstance.h"
-#include "rbx/signal.h"
+#include "arl/signal.h"
 
 #include "boost/pool/pool_alloc.hpp"
 
@@ -91,8 +91,8 @@ namespace ARL {
 
 			bool sendDetailed;
 
-			rbx::signals::scoped_connection addingAssemblyConnection;
-			rbx::signals::scoped_connection removedAssemblyConnection;
+			arl::signals::scoped_connection addingAssemblyConnection;
+			arl::signals::scoped_connection removedAssemblyConnection;
 
 			typedef std::list<shared_ptr<PartInstance>, boost::fast_pool_allocator<shared_ptr<PartInstance> > > NewMovingAssemblies;
 			NewMovingAssemblies newMovingAssemblies;	// new moving assemblies for current step

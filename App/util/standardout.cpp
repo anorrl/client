@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 #include "util/standardout.h"
-#include "rbx/Log.h"
+#include "arl/Log.h"
 #include "RbxFormat.h"
 
 using namespace ARL;

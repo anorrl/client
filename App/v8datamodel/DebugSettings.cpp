@@ -5,15 +5,15 @@
 #include "V8DataModel/DataModel.h"
 #include "util/profiling.h"
 #include "util/http.h"
-#include "rbx/ProcessPerfCounter.h"
+#include "arl/ProcessPerfCounter.h"
 #include "Script/LuaMemory.h"
 #include "v8world/Block.h"
 #include "v8datamodel/BlockMesh.h"
-#include "rbx/RbxDbgInfo.h"
+#include "arl/RbxDbgInfo.h"
 
 #include "util/RegistryUtil.h"
 
-#include "rbx/SystemUtil.h"
+#include "arl/SystemUtil.h"
 
 #if defined(__APPLE__) || defined(__ANDROID__)
 #include <sys/types.h>

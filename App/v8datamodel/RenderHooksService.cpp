@@ -5,7 +5,7 @@
 #include "V8Xml/WebParser.h"
 #include "Util/Http.h"
 #include "Util/Profiling.h"
-#include "rbx/Log.h"
+#include "arl/Log.h"
 
 namespace ARL
 {

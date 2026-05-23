@@ -79,8 +79,8 @@ private:
 		void onLocalUnseated(Humanoid* humanoid);
 
 public:
-		rbx::remote_signal<void(shared_ptr<Instance>)> createSeatWeldSignal;
-		rbx::remote_signal<void()> destroySeatWeldSignal;
+		arl::remote_signal<void(shared_ptr<Instance>)> createSeatWeldSignal;
+		arl::remote_signal<void()> destroySeatWeldSignal;
 
 		VehicleSeat();								
 		virtual ~VehicleSeat();								

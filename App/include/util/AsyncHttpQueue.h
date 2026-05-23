@@ -7,8 +7,8 @@
 #include <vector>
 
 #include "util/name.h"
-#include "rbx/boost.hpp"
-#include "rbx/rbxTime.h"
+#include "arl/boost.hpp"
+#include "arl/rbxTime.h"
 #include "Util/contentid.h"
 #include "Util/HeartbeatInstance.h"
 #include "Util/LRUCache.h"
@@ -123,7 +123,7 @@ protected:
 
 	double currentWallTime;
 
-	static void processRequests(boost::weak_ptr<AsyncHttpQueue> httpQueue, RequestHandle request, boost::shared_ptr<rbx::spin_mutex> lock);
+	static void processRequests(boost::weak_ptr<AsyncHttpQueue> httpQueue, RequestHandle request, boost::shared_ptr<arl::spin_mutex> lock);
 	void addAsyncRetryTask(RequestHandle request);
 
 	Instance* owner;

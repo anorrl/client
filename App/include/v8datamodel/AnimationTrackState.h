@@ -64,12 +64,12 @@ namespace ARL {
 		void adjustSpeed(float speed);
 
 		//Should be private
-		rbx::remote_signal<void(float,float,float, float)> internalPlaySignal;
-		rbx::remote_signal<void(float,float)>		internalStopSignal;
-		rbx::remote_signal<void(float,float,float)>	internalAdjustWeightSignal;
-		rbx::remote_signal<void(float,float)>		internalAdjustSpeedSignal;
-		rbx::remote_signal<void(std::string)>		keyframeReachedSignal;
-		rbx::remote_signal<void()>					stoppedSignal;
+		arl::remote_signal<void(float,float,float, float)> internalPlaySignal;
+		arl::remote_signal<void(float,float)>		internalStopSignal;
+		arl::remote_signal<void(float,float,float)>	internalAdjustWeightSignal;
+		arl::remote_signal<void(float,float)>		internalAdjustSpeedSignal;
+		arl::remote_signal<void(std::string)>		keyframeReachedSignal;
+		arl::remote_signal<void()>					stoppedSignal;
 
 		const KeyframeSequence* getKeyframeSequence() const { return keyframeSequence.get(); };
 		void setKeyframeSequence(shared_ptr<KeyframeSequence>);

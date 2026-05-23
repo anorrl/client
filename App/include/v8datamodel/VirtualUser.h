@@ -21,7 +21,7 @@ namespace ARL {
 		typedef DescribedCreatable<VirtualUser, Instance, sVirtualUser, Reflection::ClassDescriptor::INTERNAL_LOCAL> Super;
 
 		std::stringstream recording;	// the script code when recording
-		rbx::signals::scoped_connection recordingConnection;
+		arl::signals::scoped_connection recordingConnection;
 
 		ARL::Time lastEventTime;
 

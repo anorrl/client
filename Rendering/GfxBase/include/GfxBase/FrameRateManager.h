@@ -7,7 +7,7 @@
 #pragma warning (pop)
 
 #include "GfxBase/RenderSettings.h"
-#include "rbx/RunningAverage.h"
+#include "arl/RunningAverage.h"
 #include <map>
 
 namespace ARL { 

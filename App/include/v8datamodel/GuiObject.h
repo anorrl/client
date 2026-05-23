@@ -125,7 +125,7 @@ namespace ARL
 		bool draggable;
 		bool dragging;
 		Vector2 lastMousePosition;
-		rbx::signals::scoped_connection draggingEndedConnection;
+		arl::signals::scoped_connection draggingEndedConnection;
 		shared_ptr<InputObject> draggingBeganInputObject;
 		void draggingEnded(const shared_ptr<Instance>& event);
 
@@ -261,27 +261,27 @@ namespace ARL
 		bool isCurrentlyVisible();
 
 		// Selection Events
-		rbx::signal<void()> selectionGainedEvent;
-		rbx::signal<void()> selectionLostEvent;
+		arl::signal<void()> selectionGainedEvent;
+		arl::signal<void()> selectionLostEvent;
 
 		// low level generic event signals
-		rbx::signal<void(shared_ptr<Instance>)> inputBeganEvent;
-		rbx::signal<void(shared_ptr<Instance>)> inputChangedEvent;
-		rbx::signal<void(shared_ptr<Instance>)> inputEndedEvent;
+		arl::signal<void(shared_ptr<Instance>)> inputBeganEvent;
+		arl::signal<void(shared_ptr<Instance>)> inputChangedEvent;
+		arl::signal<void(shared_ptr<Instance>)> inputEndedEvent;
         
         // touch gesture event signals
-        rbx::signal<void(shared_ptr<const ARL::Reflection::ValueArray>)> tapGestureEvent;
-        rbx::signal<void(shared_ptr<const ARL::Reflection::ValueArray>,float, float, InputObject::UserInputState)> pinchGestureEvent;
-        rbx::signal<void(UserInputService::SwipeDirection, int)> swipeGestureEvent;
-        rbx::signal<void(shared_ptr<const ARL::Reflection::ValueArray>, InputObject::UserInputState)> longPressGestureEvent;
-        rbx::signal<void(shared_ptr<const ARL::Reflection::ValueArray>, float, float, InputObject::UserInputState)> rotateGestureEvent;
-        rbx::signal<void(shared_ptr<const ARL::Reflection::ValueArray>, Vector2, Vector2, InputObject::UserInputState)> panGestureEvent;
+        arl::signal<void(shared_ptr<const ARL::Reflection::ValueArray>)> tapGestureEvent;
+        arl::signal<void(shared_ptr<const ARL::Reflection::ValueArray>,float, float, InputObject::UserInputState)> pinchGestureEvent;
+        arl::signal<void(UserInputService::SwipeDirection, int)> swipeGestureEvent;
+        arl::signal<void(shared_ptr<const ARL::Reflection::ValueArray>, InputObject::UserInputState)> longPressGestureEvent;
+        arl::signal<void(shared_ptr<const ARL::Reflection::ValueArray>, float, float, InputObject::UserInputState)> rotateGestureEvent;
+        arl::signal<void(shared_ptr<const ARL::Reflection::ValueArray>, Vector2, Vector2, InputObject::UserInputState)> panGestureEvent;
 
-		rbx::remote_signal<void(int, int)>  mouseEnterSignal;
-		rbx::remote_signal<void(int, int)>  mouseLeaveSignal;
-		rbx::remote_signal<void(int, int)>	mouseMovedSignal;
-		rbx::remote_signal<void(int, int)>	mouseWheelForwardSignal;
-		rbx::remote_signal<void(int, int)>	mouseWheelBackwardSignal;
+		arl::remote_signal<void(int, int)>  mouseEnterSignal;
+		arl::remote_signal<void(int, int)>  mouseLeaveSignal;
+		arl::remote_signal<void(int, int)>	mouseMovedSignal;
+		arl::remote_signal<void(int, int)>	mouseWheelForwardSignal;
+		arl::remote_signal<void(int, int)>	mouseWheelBackwardSignal;
 
 		DECLARE_EVENT_REPLICATOR_SIG(GuiObject,MouseEnter,		 void(int,int));
 		DECLARE_EVENT_REPLICATOR_SIG(GuiObject,MouseLeave,		 void(int,int));
@@ -289,8 +289,8 @@ namespace ARL
 		DECLARE_EVENT_REPLICATOR_SIG(GuiObject,MouseWheelForward,	 void(int,int));
 		DECLARE_EVENT_REPLICATOR_SIG(GuiObject,MouseWheelBackward,	 void(int,int));
 
-		rbx::remote_signal<void(int, int)> dragStoppedSignal;
-		rbx::remote_signal<void(UDim2)> dragBeginSignal;
+		arl::remote_signal<void(int, int)> dragStoppedSignal;
+		arl::remote_signal<void(UDim2)> dragBeginSignal;
 
 		DECLARE_EVENT_REPLICATOR_SIG(GuiObject,DragStopped,		 void(int, int));
 		DECLARE_EVENT_REPLICATOR_SIG(GuiObject,DragBegin,		 void(UDim2));
@@ -456,12 +456,12 @@ namespace ARL
 
 		static const Reflection::PropDescriptor<GuiButton, bool> prop_Modal;
 
-		rbx::remote_signal<void()> mouseButton1ClickSignal;
-        rbx::remote_signal<void()> mouseButton2ClickSignal;
-		rbx::remote_signal<void(int, int)> mouseButton1DownSignal;
-		rbx::remote_signal<void(int, int)>	mouseButton1UpSignal;
-		rbx::remote_signal<void(int, int)>	mouseButton2DownSignal;
-		rbx::remote_signal<void(int, int)>	mouseButton2UpSignal;
+		arl::remote_signal<void()> mouseButton1ClickSignal;
+        arl::remote_signal<void()> mouseButton2ClickSignal;
+		arl::remote_signal<void(int, int)> mouseButton1DownSignal;
+		arl::remote_signal<void(int, int)>	mouseButton1UpSignal;
+		arl::remote_signal<void(int, int)>	mouseButton2DownSignal;
+		arl::remote_signal<void(int, int)>	mouseButton2UpSignal;
 
 		DECLARE_EVENT_REPLICATOR_SIG(GuiButton,MouseButton1Click, void());
 		DECLARE_EVENT_REPLICATOR_SIG(GuiButton,MouseButton2Click, void());

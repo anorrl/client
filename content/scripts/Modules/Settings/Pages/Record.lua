@@ -24,14 +24,6 @@ local PageInstance = nil
 local function Initialize()
 	local settingsPageFactory = require(ANORRLGui.Modules.Settings.SettingsPageFactory)
 	local this = settingsPageFactory:CreateNewPage()
-	local isRecordingVideo = false
-
-	local recordingEvent = Instance.new("BindableEvent")
-	recordingEvent.Name = "RecordingEvent"
-	this.RecordingChanged = recordingEvent.Event
-	function this:IsRecording()
-		return isRecordingVideo
-	end
 	
 	------ TAB CUSTOMIZATION -------
 	this.TabHeader.Name = "RecordTab"
@@ -75,16 +67,6 @@ local function Initialize()
 	function this:SetHub(newHubRef)
 		this.HubRef = newHubRef
 
-		--[[local recordEnumNames = {}
-		recordEnumNames[1] = "Save To Disk"
-		recordEnumNames[2] = "Upload to YouTube"
-
-		local startSetting = 2
-		
-		--if GameSettings.VideoUploadPromptBehavior == Enum.UploadSetting["Never"] then
-		--	startSetting = 1
-		--end]]
-
 		---------------------------------- SCREENSHOT -------------------------------------
 		local screenshotTitle = makeTextLabel("ScreenshotTitle", 
 												"Screenshot",
@@ -103,52 +85,6 @@ local function Initialize()
 		this.ScreenshotButton.Position = UDim2.new(0,400,1,0)
 		this.ScreenshotButton.Parent = screenshotBody
 
-
-		---------------------------------- VIDEO -------------------------------------
-		--[[local videoTitle = makeTextLabel("VideoTitle", 
-												"Video",
-												true, UDim2.new(1,0,0,36), UDim2.new(0,10,0.5,0), this.Page)
-		videoTitle.FontSize = Enum.FontSize.Size36
-
-		local videoBody = makeTextLabel("VideoBody", 
-												"By clicking the 'Record Video' button, the menu will close and start recording your screen.",
-												false, UDim2.new(1,-10,0,70), UDim2.new(0,0,1,0), videoTitle)
-
-		this.VideoSettingsFrame, 
-		this.VideoSettingsLabel,
-		this.VideoSettingsMode = utility:AddNewRow(this, "Video Settings", "Selector", recordEnumNames, startSetting, 270)
-
-		this.VideoSettingsMode.IndexChanged:connect(function(newIndex)
-			if newIndex == 1 then
-				GameSettings.VideoUploadPromptBehavior = Enum.UploadSetting.Never
-			elseif newIndex == 2 then
-				GameSettings.VideoUploadPromptBehavior = Enum.UploadSetting.Always
-			end
-		end)
-
-
-		local recordButton = utility:MakeStyledButton("RecordButton", "Record Video", UDim2.new(0,300,0,44), closeSettingsFunc, this)
-		
-		recordButton.Position = UDim2.new(0,410,1,10)
-		recordButton.Parent = this.VideoSettingsMode.SelectorFrame.Parent
-		recordButton.MouseButton1Click:connect(function()
-			recordingEvent:Fire(not isRecordingVideo)
-		end)
-
-		local gameOptions = settings():FindFirstChild("Game Options")
-		if gameOptions then
-			gameOptions.VideoRecordingChangeRequest:connect(function(recording)
-				isRecordingVideo = recording
-				if recording then
-					recordButton.RecordButtonTextLabel.Text = "Stop Recording"
-				else
-					recordButton.RecordButtonTextLabel.Text = "Record Video"
-				end
-			end)
-		end
-
-
-		recordButton:SetVerb("RecordToggle")]]
 		this.ScreenshotButton:SetVerb("Screenshot")
 
 		this.Page.Size = UDim2.new(1,0,0,400)

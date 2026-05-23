@@ -57,13 +57,13 @@ namespace ARL {
 		void enableAdorns(bool enabled);
 		void printScene();
 
-		rbx::signal<void()> reloadShadersSignal;
+		arl::signal<void()> reloadShadersSignal;
 		void reloadShaders() { reloadShadersSignal(); }
 
-		rbx::signal<void(int)> enableQueueSignal;
+		arl::signal<void(int)> enableQueueSignal;
 		void enableQueue(int qID) { enableQueueSignal(qID); }
 
-		rbx::signal<void(int)> disableQueueSignal;
+		arl::signal<void(int)> disableQueueSignal;
 		void disableQueue(int qID) { disableQueueSignal(qID); }
 
 		void captureMetrics();

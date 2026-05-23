@@ -4,7 +4,7 @@
 #include "Teleporter.h"
 #include "SharedLauncher.h"
 
-#include "rbx/atomic.h"
+#include "arl/atomic.h"
 #include "v8datamodel/FastLogSettings.h"
 
 #include "Util/HttpAsync.h"
@@ -124,10 +124,9 @@ private:
 
 	const char* getVRDeviceName();
 
-	rbx::atomic<int> enteredShutdown;
+	arl::atomic<int> enteredShutdown;
 	HANDLE processLocal_stopPreventMultipleJobsThread;
-	HANDLE processLocal_stopWaitForVideoPrerollThread;
-    HWND   mainWindow;
+	HWND   mainWindow;
 
 	HANDLE mapFileForWnd;
 	LPCTSTR bufForWnd;

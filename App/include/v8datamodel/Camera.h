@@ -26,9 +26,9 @@ class Camera	: public DescribedCreatable<Camera, Instance, sCamera, Reflection::
 {
 public:
 
-	rbx::signal<void()> interpolationFinishedSignal;
-	rbx::signal<void(bool)> firstPersonTransitionSignal;
-	rbx::signal<void(CoordinateFrame)> cframeChangedSignal;
+	arl::signal<void()> interpolationFinishedSignal;
+	arl::signal<void(bool)> firstPersonTransitionSignal;
+	arl::signal<void(CoordinateFrame)> cframeChangedSignal;
 
 	// Warning - these enums are part of the XML - only append
 	enum CameraType {	FIXED_CAMERA = 0,

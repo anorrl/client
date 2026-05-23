@@ -69,7 +69,7 @@ namespace ARL
         void setAccel(const Vector3& v);
         void setZOffset(float v);
 
-		rbx::remote_signal<void(int)> onEmitRequested;
+		arl::remote_signal<void(int)> onEmitRequested;
 
         const TextureId& getTexture() const;
         void setTexture(const TextureId& id);

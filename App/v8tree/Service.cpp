@@ -2,7 +2,7 @@
 
 #include "v8tree/service.h"
 #include "boost/cast.hpp"
-#include "rbx/atomic.h"
+#include "arl/atomic.h"
 
 namespace ARL
 {
@@ -31,7 +31,7 @@ namespace ARL
 
 	size_t ServiceProvider::newIndex()
 	{
-        static rbx::atomic<int> index(-1);
+        static arl::atomic<int> index(-1);
 		return ++index;
 	}
 

@@ -179,9 +179,9 @@ namespace ARL {
 		/*override*/ void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 
 		// Listener
-		rbx::signals::scoped_connection heartbeatConnection;
-		rbx::signals::scoped_connection playerChatMessageConnection;
-		rbx::signals::scoped_connection gameChatMessageConnection;
+		arl::signals::scoped_connection heartbeatConnection;
+		arl::signals::scoped_connection playerChatMessageConnection;
+		arl::signals::scoped_connection gameChatMessageConnection;
 		void onHeartbeat(const Heartbeat& heartbeat);
 
 		void onPlayerChatMessage(const Network::ChatMessage& event);

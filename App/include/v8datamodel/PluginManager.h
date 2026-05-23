@@ -37,7 +37,7 @@ namespace ARL {
 		
 		void setActive(bool value);
 
-		rbx::signal<void()> clickSignal;
+		arl::signal<void()> clickSignal;
 	};
 
 	extern const char *const sToolbar;
@@ -101,7 +101,7 @@ namespace ARL {
 
 		void activate(bool exclusiveMouse);
 		void setActive(bool state);
-		rbx::signal<void()> deactivationSignal;
+		arl::signal<void()> deactivationSignal;
 
 		void setAssetId(int assetId);
 
@@ -156,7 +156,7 @@ namespace ARL {
 		PluginManager();
 		static shared_ptr<PluginManager> singleton();
 		boost::mutex mutex;
-		rbx::signal<void()> allPluginsDeactivatedSignal;
+		arl::signal<void()> allPluginsDeactivatedSignal;
 
 		virtual shared_ptr<Instance> createToolbar(Plugin *plugin, std::string name);
 		virtual void activate(Plugin *plugin, DataModel *dataModel);

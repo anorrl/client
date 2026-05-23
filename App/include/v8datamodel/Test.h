@@ -4,7 +4,7 @@
 
 #include "V8Tree/Instance.h"
 #include "V8Tree/Service.h"
-#include "rbx/CEvent.h"
+#include "arl/CEvent.h"
 #include "V8World/World.h"
 #ifdef check
 #undef check
@@ -108,8 +108,8 @@ namespace ARL
 		bool isAClient(void) { return clientTestService; }
 		void setIsAClient(bool tF) { clientTestService = tF; }
 
-		rbx::remote_signal<void(std::string, shared_ptr<Instance>, int)> serverCollectResultSignal;
-		rbx::remote_signal<void(bool, std::string, shared_ptr<Instance>, int)> serverCollectConditionalResultSignal;
+		arl::remote_signal<void(std::string, shared_ptr<Instance>, int)> serverCollectResultSignal;
+		arl::remote_signal<void(bool, std::string, shared_ptr<Instance>, int)> serverCollectConditionalResultSignal;
 		void onRemoteResult( std::string text, shared_ptr<Instance> source, int line );
 		void onRemoteConditionalResult( bool, std::string text, shared_ptr<Instance> source, int line );
 
@@ -140,8 +140,8 @@ namespace ARL
 
 		static void output(MessageType type, shared_ptr<Instance> source, int line, const std::string& message);
 
-		rbx::signals::scoped_connection resultCollectConnection;
-		rbx::signals::scoped_connection conditionalResultCollectConnection;
+		arl::signals::scoped_connection resultCollectConnection;
+		arl::signals::scoped_connection conditionalResultCollectConnection;
 
 	};
 

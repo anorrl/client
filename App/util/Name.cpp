@@ -2,9 +2,9 @@
 
 #include "util/name.h"
 
-#include "rbx/threadsafe.h"
+#include "arl/threadsafe.h"
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include <boost/thread/once.hpp>
 #include <boost/unordered_map.hpp>

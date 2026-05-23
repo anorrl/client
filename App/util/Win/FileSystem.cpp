@@ -15,7 +15,7 @@
 #include <boost/system/error_code.hpp>
 
 #include "shlobj.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "util/standardout.h"
 
 
@@ -60,9 +60,6 @@ boost::filesystem::path getUserDirectory(bool create, FileSystemDir dir, const c
 			break;
 		case DirPicture:
 			hr = SHGetFolderPathAndSubDirW(NULL, CSIDL_MYPICTURES | flags, NULL, SHGFP_TYPE_CURRENT, anorrlDir.native().c_str(), pathBuffer);
-			break;
-		case DirVideo:
-			hr = SHGetFolderPathAndSubDirW(NULL, CSIDL_MYVIDEO | flags, NULL, SHGFP_TYPE_CURRENT, anorrlDir.native().c_str(), pathBuffer);
 			break;
 		default:
 			ARLASSERT(false);

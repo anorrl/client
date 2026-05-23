@@ -2793,6 +2793,24 @@ void Bridge<G3D::Vector3int16>::registerClass (lua_State *L)
 	lua_pushcfunction(L, Vector3int16Bridge::on_div);
 	lua_settable(L, -3);
 
+	/* Compound Operators */
+	lua_pushstring(L, "__add_eq");
+	lua_pushcfunction(L, Vector3int16Bridge::on_add);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__sub_eq");
+	lua_pushcfunction(L, Vector3int16Bridge::on_sub);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__mul_eq");
+	lua_pushcfunction(L, Vector3int16Bridge::on_mul);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__div_eq");
+	lua_pushcfunction(L, Vector3int16Bridge::on_div);
+	lua_settable(L, -3);
+	/* ------------------ */
+
 	lua_pushstring(L, "__unm");
 	lua_pushcfunction(L, Vector3int16Bridge::on_unm);
 	lua_settable(L, -3);
@@ -2844,6 +2862,24 @@ void Bridge<G3D::Vector2int16>::registerClass (lua_State *L)
 	lua_pushstring(L, "__div");
 	lua_pushcfunction(L, Vector2int16Bridge::on_div);
 	lua_settable(L, -3);
+
+	/* Compound Operators */
+	lua_pushstring(L, "__add_eq");
+	lua_pushcfunction(L, Vector2int16Bridge::on_add);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__sub_eq");
+	lua_pushcfunction(L, Vector2int16Bridge::on_sub);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__mul_eq");
+	lua_pushcfunction(L, Vector2int16Bridge::on_mul);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__div_eq");
+	lua_pushcfunction(L, Vector2int16Bridge::on_div);
+	lua_settable(L, -3);
+	/* ------------------ */
 
 	lua_pushstring(L, "__unm");
 	lua_pushcfunction(L, Vector2int16Bridge::on_unm);
@@ -2897,6 +2933,24 @@ void Bridge<G3D::Vector3>::registerClass (lua_State *L)
 	lua_pushcfunction(L, Vector3Bridge::on_div);
 	lua_settable(L, -3);
 
+	/* Compound Operators */
+	lua_pushstring(L, "__add_eq");
+	lua_pushcfunction(L, Vector3Bridge::on_add);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__sub_eq");
+	lua_pushcfunction(L, Vector3Bridge::on_sub);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__mul_eq");
+	lua_pushcfunction(L, Vector3Bridge::on_mul);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__div_eq");
+	lua_pushcfunction(L, Vector3Bridge::on_div);
+	lua_settable(L, -3);
+	/* ------------------ */
+
 	lua_pushstring(L, "__unm");
 	lua_pushcfunction(L, Vector3Bridge::on_unm);
 	lua_settable(L, -3);
@@ -2949,6 +3003,24 @@ void Bridge<ARL::Vector2>::registerClass (lua_State *L)
 	lua_pushcfunction(L, Vector2Bridge::on_div);
 	lua_settable(L, -3);
 
+	/* Compound Operators */
+	lua_pushstring(L, "__add_eq");
+	lua_pushcfunction(L, Vector2Bridge::on_add);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__sub_eq");
+	lua_pushcfunction(L, Vector2Bridge::on_sub);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__mul_eq");
+	lua_pushcfunction(L, Vector2Bridge::on_mul);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__div_eq");
+	lua_pushcfunction(L, Vector2Bridge::on_div);
+	lua_settable(L, -3);
+	/* ------------------ */
+
 	lua_pushstring(L, "__unm");
 	lua_pushcfunction(L, Vector2Bridge::on_unm);
 	lua_settable(L, -3);
@@ -2996,6 +3068,20 @@ void Bridge<G3D::CoordinateFrame>::registerClass (lua_State *L)
 	lua_pushstring(L, "__mul");
 	lua_pushcfunction(L, CoordinateFrameBridge::on_mul);
 	lua_settable(L, -3);
+	
+	/* Compound Operators */
+	lua_pushstring(L, "__add_eq");
+	lua_pushcfunction(L, CoordinateFrameBridge::on_add);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__sub_eq");
+	lua_pushcfunction(L, CoordinateFrameBridge::on_sub);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__mul_eq");
+	lua_pushcfunction(L, CoordinateFrameBridge::on_mul);
+	lua_settable(L, -3);
+	/* ------------------ */
 
 	lua_pushstring(L, "inverse");
 	lua_pushcfunction(L, CoordinateFrameBridge::on_inverse);
@@ -3104,9 +3190,19 @@ void Bridge<ARL::UDim>::registerClass (lua_State *L)
 	lua_pushcfunction(L, UDimBridge::on_add);
 	lua_settable(L, -3);
 
-	lua_pushstring(L, "__sub");
+	/* Compound Operators */
+	lua_pushstring(L, "__sub_eq");
 	lua_pushcfunction(L, UDimBridge::on_sub);
 	lua_settable(L, -3);
+
+	lua_pushstring(L, "__add_eq");
+	lua_pushcfunction(L, UDimBridge::on_add);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__sub_eq");
+	lua_pushcfunction(L, UDimBridge::on_sub);
+	lua_settable(L, -3);
+	/* ------------------ */
 
 	lua_pushstring(L, "__unm");
 	lua_pushcfunction(L, UDimBridge::on_unm);
@@ -3151,6 +3247,16 @@ void Bridge<ARL::UDim2>::registerClass (lua_State *L)
 	lua_pushstring(L, "__sub");
 	lua_pushcfunction(L, UDim2Bridge::on_sub);
 	lua_settable(L, -3);
+
+	/* Compound Operators */
+	lua_pushstring(L, "__add_eq");
+	lua_pushcfunction(L, UDim2Bridge::on_add);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "__sub_eq");
+	lua_pushcfunction(L, UDim2Bridge::on_sub);
+	lua_settable(L, -3);
+	/* ------------------ */
 
 	lua_pushstring(L, "__unm");
 	lua_pushcfunction(L, UDim2Bridge::on_unm);

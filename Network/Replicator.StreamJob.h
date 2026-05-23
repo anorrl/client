@@ -91,9 +91,9 @@ private:
 
     ContactManagerSpatialHash* spatialHash;
 
-	rbx::signals::scoped_connection playerSpawningConnection;
-	rbx::signals::scoped_connection playerCharacterAddedConnection;
-	rbx::signals::scoped_connection playerTorsoPropChangedConnection;
+	arl::signals::scoped_connection playerSpawningConnection;
+	arl::signals::scoped_connection playerCharacterAddedConnection;
+	arl::signals::scoped_connection playerTorsoPropChangedConnection;
 
 	// stats
 	friend class ServerReplicator::ServerStatsItem;

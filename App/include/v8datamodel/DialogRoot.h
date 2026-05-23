@@ -36,7 +36,7 @@ namespace ARL {
 		DialogPurpose dialogPurpose;
 		DialogTone dialogTone;
 
-		rbx::signal<void(shared_ptr<Instance>)> dialogChoice;
+		arl::signal<void(shared_ptr<Instance>)> dialogChoice;
 	public:
 		DialogRoot();
 		~DialogRoot();
@@ -64,7 +64,7 @@ namespace ARL {
 
 		void signalDialogChoice(shared_ptr<Instance> player, shared_ptr<Instance> dialogChoice);
 
-		rbx::remote_signal<void(shared_ptr<Instance>, shared_ptr<Instance>)> dialogChoiceSelected;
+		arl::remote_signal<void(shared_ptr<Instance>, shared_ptr<Instance>)> dialogChoiceSelected;
 		
 		////////////////////////////////////////////////////////////////////////////////////
 		// 

@@ -4,8 +4,8 @@
 #include "PhysicsReceiver.h"
 #include "ReplicatorStats.h"
 #include "BoostAppend.h"
-#include "rbx/RunningAverage.h"
-#include "rbx/Nil.h"
+#include "arl/RunningAverage.h"
+#include "arl/Nil.h"
 
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/member.hpp>
@@ -76,7 +76,7 @@ namespace ARL {
 
 		class Job;
 		shared_ptr<Job> job;
-		rbx::signals::scoped_connection serviceProviderConnection;
+		arl::signals::scoped_connection serviceProviderConnection;
 
 		class LagStats
 		{

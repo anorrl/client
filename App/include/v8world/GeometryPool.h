@@ -1,6 +1,6 @@
 #pragma once
-#include "rbx/threadsafe.h"
-#include "rbx/debug.h"
+#include "arl/threadsafe.h"
+#include "arl/debug.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/unordered_map.hpp>
@@ -106,7 +106,7 @@ namespace ARL {
 			{
 			public:
 				Map map;
-				rbx::spin_mutex mutex;
+				arl::spin_mutex mutex;
 			};
 
 			SAFE_STATIC(StaticData, staticData);
@@ -181,7 +181,7 @@ namespace ARL {
 			static Token getToken(const Key& key, const Key& data)
 			{
 				StaticData &d = getStaticData();
-				rbx::spin_mutex::scoped_lock lock(d.mutex);
+				arl::spin_mutex::scoped_lock lock(d.mutex);
 
 				typename Map::iterator it = d.map.find(key);
                 Entry* entry = (it != d.map.end()) ? it->second : 0;
@@ -205,7 +205,7 @@ namespace ARL {
 			static void returnToken(Entry* entry)
 			{
 				StaticData &d = getStaticData();
-				rbx::spin_mutex::scoped_lock lock(d.mutex);
+				arl::spin_mutex::scoped_lock lock(d.mutex);
                 
 				ARLASSERT(entry->count > 0);
                 entry->count--;
@@ -222,7 +222,7 @@ namespace ARL {
             static int getSize()
             {
 				StaticData &d = getStaticData();
-				rbx::spin_mutex::scoped_lock lock(d.mutex);
+				arl::spin_mutex::scoped_lock lock(d.mutex);
                 
                 return d.map.size();
             }

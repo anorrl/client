@@ -3,7 +3,7 @@
 #include "Replicator.ItemSender.h"
 #include "ClientReplicator.h"
 
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 #include "V8DataModel/ModelInstance.h"
 #include "v8world/ContactManager.h"
 #include "v8world/ContactManagerSpatialHash.h"

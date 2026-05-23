@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rbx/Memory.h"
+#include "arl/Memory.h"
 #include "GfxBase/GfxPart.h"
 #include "RenderNode.h"
 #include "SpatialGrid.h"

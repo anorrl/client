@@ -2,7 +2,7 @@
 #include "Reflection/Reflection.h"
 #include "V8Tree/Instance.h"
 #include "V8Tree/Service.h"
-#include "rbx/RunningAverage.h"
+#include "arl/RunningAverage.h"
 #include "v8datamodel/HttpService.h"
 #include "Util/Http.h"
 #include "Util/DoubleEndedVector.h"
@@ -96,9 +96,9 @@ namespace ARL {
 		bool serverPresent;
 		bool clientPresent;
 		bool isPlaySolo;
-		rbx::signals::scoped_connection serviceAddedConnection;
-		rbx::signals::scoped_connection playersChangedConnection;
-		rbx::signals::scoped_connection contentProviderPropertyChangedConnection;
+		arl::signals::scoped_connection serviceAddedConnection;
+		arl::signals::scoped_connection playersChangedConnection;
+		arl::signals::scoped_connection contentProviderPropertyChangedConnection;
 
 		unsigned int totalNumOfApiCalls;
 		ARL::Timer<ARL::Time::Fast> instanceAliveTimer;

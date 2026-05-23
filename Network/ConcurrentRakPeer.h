@@ -7,7 +7,7 @@
 #include "boost/scoped_ptr.hpp"
 #include "boost/shared_ptr.hpp"
 #include "V8DataModel/DataModelJob.h"
-#include "rbx/threadsafe.h"
+#include "arl/threadsafe.h"
 #include <map>
 
 

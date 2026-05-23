@@ -15,7 +15,7 @@
 #include <QMenu>
 
 // ANORRL Headers
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "util/standardout.h"
 #include "reflection/Property.h"
 
@@ -51,6 +51,6 @@ class ANORRLTextOutputWidget : public QPlainTextEdit
 
         void onPropertyChanged(const ARL::Reflection::PropertyDescriptor* pDescriptor);
 
-        rbx::signals::scoped_connection     m_PropertyChangedConnection;
+        arl::signals::scoped_connection     m_PropertyChangedConnection;
         QTextCharFormat                     m_TextFormats[ARL::MESSAGE_TYPE_MAX];
 };

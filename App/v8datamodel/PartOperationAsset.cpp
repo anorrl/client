@@ -9,7 +9,7 @@
 #include "G3D/CollisionDetection.h"
 #include "Network/Players.h"
 #include "Reflection/Reflection.h"
-#include "RBX/RbxTime.h"
+#include "ARL/RbxTime.h"
 #include "Util/BinaryString.h"
 #include "Util/NormalId.h"
 #include "Util/SurfaceType.h"

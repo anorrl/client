@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 #include "Util/CameraSubject.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "V8DataModel/Workspace.h"
 #include "V8DataModel/Filters.h"
 #include "V8DataModel/Camera.h"

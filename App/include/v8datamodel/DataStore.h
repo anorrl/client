@@ -4,7 +4,7 @@
 #include "Reflection/Reflection.h"
 #include "script/ThreadRef.h"
 #include "V8Tree/Instance.h"
-#include "rbx/RunningAverage.h"
+#include "arl/RunningAverage.h"
 #include "v8datamodel/DataStoreService.h"
 #include "util/LuaWebService.h"
 #include "signal.h"
@@ -46,7 +46,7 @@ namespace ARL {
 
 		typedef std::map<std::string, CachedRecord> CachedKeys;
 		CachedKeys cachedKeys;
-		typedef std::map<std::string, shared_ptr<rbx::signal<void(Reflection::Variant)> > > OnUpdateKeys;
+		typedef std::map<std::string, shared_ptr<arl::signal<void(Reflection::Variant)> > > OnUpdateKeys;
 		OnUpdateKeys onUpdateKeys;
 
 		typedef std::map<std::string,Time> KeyTimestamps;
@@ -120,7 +120,7 @@ namespace ARL {
 		void setAsync(std::string key, Reflection::Variant value, boost::function<void()> resumeFunction, boost::function<void(std::string)> errorFunction);
 		void incrementAsync(std::string key, int delta, boost::function<void(Reflection::Variant)> resumeFunction, boost::function<void(std::string)> errorFunction);
 
-		rbx::signals::connection onUpdate(std::string key, Lua::WeakFunctionRef callback);
+		arl::signals::connection onUpdate(std::string key, Lua::WeakFunctionRef callback);
 		
 		/*override*/ void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 

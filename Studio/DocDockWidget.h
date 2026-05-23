@@ -9,7 +9,7 @@
 #include <QDockWidget>
 
 // ANORRL Headers
-#include "rbx/BaldPtr.h"
+#include "arl/BaldPtr.h"
 
 // ANORRL Studio Headers
 #include "IANORRLDoc.h"

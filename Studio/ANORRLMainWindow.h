@@ -28,8 +28,8 @@
 
 // ANORRL Headers
 #include "v8datamodel/StudioPluginHost.h"
-#include "rbx/Debug.h"
-#include "rbx/BaldPtr.h"
+#include "arl/Debug.h"
+#include "arl/BaldPtr.h"
 #include "tool/DragTypes.h"
 #include "ANORRL.h"
 #include "StudioAnalytics.h"
@@ -339,7 +339,7 @@ private:
 	QAction*				separator;   // a separator for recently opened files.
 	QTimer*		            m_pMinutesPlayedTimer;
 
-    rbx::signals::scoped_connection m_PropertyChangedConnection;
+    arl::signals::scoped_connection m_PropertyChangedConnection;
     boost::scoped_ptr<ARL::CEvent> m_cloudEditAwaitingShutdown;
 
     ANORRLTextOutputWidget* m_pTextOutput;
@@ -364,7 +364,7 @@ private:
 	std::queue<InsertObjectItem> m_insertObjectItems;
 
     // TODO - fix this, friends bad
-	friend class RbxWorkspace;
+	friend class ARLWorkspace;
 	friend class ShutdownClientVerb;
 	friend class ANORRLBrowser;
 public:

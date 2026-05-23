@@ -1401,7 +1401,7 @@ Vector4 Camera::projectPointToScreen(const Vector3& point) const
 
 shared_ptr<Reflection::Tuple> makeProjectionArgs(const Vector3& vectorIn2D, const Vector2& viewport)
 {
-	shared_ptr<Reflection::Tuple> args = rbx::make_shared<Reflection::Tuple>();
+	shared_ptr<Reflection::Tuple> args = arl::make_shared<Reflection::Tuple>();
 	args->values.push_back(vectorIn2D);
 
 	const Vector2 clampedPosition = G3D::clamp(Vector2(vectorIn2D.x, vectorIn2D.y),Vector2(0,0), viewport); 

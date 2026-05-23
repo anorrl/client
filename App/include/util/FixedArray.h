@@ -3,7 +3,7 @@
 #pragma once
 
 #include "boost/array.hpp"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

@@ -38,13 +38,13 @@
 #include "V8Kernel/Constants.h"
 #include "V8Kernel/Body.h"
 #include "Gui/ProfanityFilter.h"
-#include "rbx/make_shared.h"
+#include "arl/make_shared.h"
 #include "V8DataModel/UserInputService.h"
 #include "V8Kernel/Kernel.h"
 
 #include "Network/Players.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 #include "Util/PathInterpolatedCFrame.h"
 
@@ -56,6 +56,7 @@ LOGGROUP(DistanceMetricP1)
 DYNAMIC_FASTINTVARIABLE(HumanoidFloorTeleportWeightValue, 50);
 DYNAMIC_FASTINTVARIABLE(HumanoidFloorManualFrictionVelocityMultValue, 100);
 FASTFLAGVARIABLE(PhysicsSkipNonRealTimeHumanoidForceCalc, false)
+FASTFLAGVARIABLE(FindRightGripAttachment, true)
 
 DYNAMIC_FASTFLAGVARIABLE(HumanoidCookieRecursive, false)
 DYNAMIC_FASTFLAGVARIABLE(ReplicateLuaMoveDirection, false)
@@ -376,7 +377,7 @@ void collectStatus(shared_ptr<ARL::Instance> instance, Reflection::ValueArray* r
 
 shared_ptr<const Reflection::ValueArray> Humanoid::getStatuses()
 {
-	shared_ptr<Reflection::ValueArray> result(rbx::make_shared<Reflection::ValueArray>());
+	shared_ptr<Reflection::ValueArray> result(arl::make_shared<Reflection::ValueArray>());
 	if(StatusInstance* status = getStatusFast()){
 		status->visitChildren(boost::bind(&collectStatus, _1, result.get()));
 	}
@@ -1597,19 +1598,19 @@ CoordinateFrame Humanoid::getTopOfHead() const
 }
 
 CoordinateFrame Humanoid::getRightArmGrip() const
-{
-	CoordinateFrame C0;
+{	
+	if (FFlag::FindRightGripAttachment) {
+		Attachment *answer = Tool::findFirstAttachmentByNameRecursive(getParent(), "RightGripAttachment");
+		if (answer != NULL)
+		{
+			return answer->getFrameInPart();
+		}
+	}
 
-	Attachment *answer = Tool::findFirstAttachmentByNameRecursive(getParent(), "RightGripAttachment");
-	if (answer != NULL)
-	{
-		return answer->getFrameInPart();
-	}
-	else {
-		// HACK. USE EXTENTS to allow for different sized arms.
-		C0.lookAt(Vector3(0, -1, 0), Vector3(0, 0, -1));
-		C0.translation = Vector3(0, -0.2, 0);
-	}
+	// HACK. USE EXTENTS to allow for different sized arms.
+	CoordinateFrame C0;
+	C0.lookAt(Vector3(0, -1, 0), Vector3(0, 0, -1));
+	C0.translation = Vector3(0, -1, 0);
 
 	return C0;
 }

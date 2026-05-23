@@ -305,12 +305,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Durango'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="cpucount.cpp" />
-    <ClCompile Include="rbx\MathUtil.cpp" />
+    <ClCompile Include="arl\MathUtil.cpp" />
     <ClCompile Include="RbxAssert.cpp" />
     <ClCompile Include="RbxFormat.cpp" />
-    <ClCompile Include="rbx\Profiler.cpp" />
-    <ClCompile Include="rbx\Time.cpp" />
-    <ClCompile Include="rbx\Win\SystemUtil.cpp">
+    <ClCompile Include="arl\Profiler.cpp" />
+    <ClCompile Include="arl\Time.cpp" />
+    <ClCompile Include="arl\Win\SystemUtil.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Durango'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Durango'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Durango'">true</ExcludedFromBuild>
@@ -323,39 +323,39 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Durango'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Durango'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="rbx\boost.cpp" />
-    <ClCompile Include="rbx\CEvent.cpp" />
-    <ClCompile Include="rbx\Crypt.cpp" />
-    <ClCompile Include="rbx\Memory.cpp" />
-    <ClCompile Include="rbx\ProcessPerfCounter.cpp">
+    <ClCompile Include="arl\boost.cpp" />
+    <ClCompile Include="arl\CEvent.cpp" />
+    <ClCompile Include="arl\Crypt.cpp" />
+    <ClCompile Include="arl\Memory.cpp" />
+    <ClCompile Include="arl\ProcessPerfCounter.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Durango'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Durango'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Durango'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="include\rbx\RbxDbgInfo.cpp" />
-    <ClCompile Include="rbx\Signal.cpp" />
-    <ClCompile Include="rbx\TaskScheduler.cpp" />
-    <ClCompile Include="rbx\TaskScheduler.Job.cpp" />
-    <ClCompile Include="rbx\TaskScheduler.Thread.cpp" />
-    <ClCompile Include="rbx\ThreadSafe.cpp" />
-    <ClCompile Include="rbx\Tasks\Coordinator.cpp" />
+    <ClCompile Include="include\arl\RbxDbgInfo.cpp" />
+    <ClCompile Include="arl\Signal.cpp" />
+    <ClCompile Include="arl\TaskScheduler.cpp" />
+    <ClCompile Include="arl\TaskScheduler.Job.cpp" />
+    <ClCompile Include="arl\TaskScheduler.Thread.cpp" />
+    <ClCompile Include="arl\ThreadSafe.cpp" />
+    <ClCompile Include="arl\Tasks\Coordinator.cpp" />
     <ClCompile Include="..\ClientShared\SimpleJSON.cpp" />
     <ClCompile Include="util\StreamHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ClientShared\StringConv.h" />
     <ClInclude Include="include\CPUCount.h" />
-    <ClInclude Include="include\rbx\ArrayDynamic.h" />
-    <ClInclude Include="include\rbx\DenseHash.h" />
-    <ClInclude Include="include\rbx\MathUtil.h" />
+    <ClInclude Include="include\arl\ArrayDynamic.h" />
+    <ClInclude Include="include\arl\DenseHash.h" />
+    <ClInclude Include="include\arl\MathUtil.h" />
     <ClInclude Include="include\RbxAssert.h" />
     <ClInclude Include="include\RbxBase.h" />
     <ClInclude Include="include\RbxFormat.h" />
     <ClInclude Include="include\RbxHash.h" />
     <ClInclude Include="include\RbxPlatform.h" />
-    <ClInclude Include="include\rbx\Profiler.h" />
-    <ClInclude Include="include\rbx\rbxTime.h" />
-    <ClInclude Include="include\rbx\Thread.hpp" />
+    <ClInclude Include="include\arl\Profiler.h" />
+    <ClInclude Include="include\arl\rbxTime.h" />
+    <ClInclude Include="include\arl\Thread.hpp" />
     <ClInclude Include="include\SelectState.h" />
     <ClInclude Include="include\simd\simd.h" />
     <ClInclude Include="include\simd\simd_platform.h" />
@@ -369,36 +369,36 @@
     <ClInclude Include="include\util\ScopedSingleton.h" />
     <ClInclude Include="include\util\stringbuffer.h" />
     <ClInclude Include="include\util\ublas_ext.h" />
-    <ClInclude Include="include\rbx\atomic.h" />
-    <ClInclude Include="include\rbx\BaldPtr.h" />
-    <ClInclude Include="include\rbx\Boost.hpp" />
-    <ClInclude Include="include\rbx\callable.h" />
-    <ClInclude Include="include\rbx\CEvent.h" />
-    <ClInclude Include="include\rbx\Crypt.h" />
-    <ClInclude Include="include\rbx\Countable.h" />
-    <ClInclude Include="include\rbx\Debug.h" />
-    <ClInclude Include="include\rbx\Declarations.h" />
-    <ClInclude Include="include\rbx\GlobalVectorItem.h" />
-    <ClInclude Include="include\rbx\intrusive_ptr_target.h" />
-    <ClInclude Include="include\rbx\intrusive_weak_ptr.h" />
-    <ClInclude Include="include\rbx\Log.h" />
-    <ClInclude Include="include\rbx\make_shared.h" />
-    <ClInclude Include="include\rbx\Memory.h" />
-    <ClInclude Include="include\rbx\Nil.h" />
-    <ClInclude Include="include\rbx\object_pool.h" />
-    <ClInclude Include="include\rbx\ProcessPerfCounter.h" />
-    <ClInclude Include="include\rbx\RbxDbgInfo.h" />
-    <ClInclude Include="include\rbx\RbxStrings.h" />
-    <ClInclude Include="include\rbx\RunningAverage.h" />
-    <ClInclude Include="include\rbx\signal.h" />
-    <ClInclude Include="include\rbx\TaskScheduler.h" />
-    <ClInclude Include="include\rbx\TaskScheduler.Job.h" />
-    <ClInclude Include="include\rbx\threadsafe.h" />
-    <ClInclude Include="include\rbx\trie.h" />
-    <ClInclude Include="include\rbx\Tasks\Coordinator.h" />
-    <ClInclude Include="include\rbx\Intrusive\MemberBucket.h" />
-    <ClInclude Include="include\rbx\Intrusive\Set.h" />
-    <ClInclude Include="include\rbx\Intrusive\SLinkedLoopNode.h" />
+    <ClInclude Include="include\arl\atomic.h" />
+    <ClInclude Include="include\arl\BaldPtr.h" />
+    <ClInclude Include="include\arl\Boost.hpp" />
+    <ClInclude Include="include\arl\callable.h" />
+    <ClInclude Include="include\arl\CEvent.h" />
+    <ClInclude Include="include\arl\Crypt.h" />
+    <ClInclude Include="include\arl\Countable.h" />
+    <ClInclude Include="include\arl\Debug.h" />
+    <ClInclude Include="include\arl\Declarations.h" />
+    <ClInclude Include="include\arl\GlobalVectorItem.h" />
+    <ClInclude Include="include\arl\intrusive_ptr_target.h" />
+    <ClInclude Include="include\arl\intrusive_weak_ptr.h" />
+    <ClInclude Include="include\arl\Log.h" />
+    <ClInclude Include="include\arl\make_shared.h" />
+    <ClInclude Include="include\arl\Memory.h" />
+    <ClInclude Include="include\arl\Nil.h" />
+    <ClInclude Include="include\arl\object_pool.h" />
+    <ClInclude Include="include\arl\ProcessPerfCounter.h" />
+    <ClInclude Include="include\arl\RbxDbgInfo.h" />
+    <ClInclude Include="include\arl\RbxStrings.h" />
+    <ClInclude Include="include\arl\RunningAverage.h" />
+    <ClInclude Include="include\arl\signal.h" />
+    <ClInclude Include="include\arl\TaskScheduler.h" />
+    <ClInclude Include="include\arl\TaskScheduler.Job.h" />
+    <ClInclude Include="include\arl\threadsafe.h" />
+    <ClInclude Include="include\arl\trie.h" />
+    <ClInclude Include="include\arl\Tasks\Coordinator.h" />
+    <ClInclude Include="include\arl\Intrusive\MemberBucket.h" />
+    <ClInclude Include="include\arl\Intrusive\Set.h" />
+    <ClInclude Include="include\arl\Intrusive\SLinkedLoopNode.h" />
     <ClInclude Include="..\ClientShared\CookiesEngine.h" />
     <ClInclude Include="..\ClientShared\SimpleJSON.h" />
     <ClInclude Include="include\XStudioBuild.h" />

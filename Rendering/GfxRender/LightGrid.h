@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rbx/Boost.hpp"
+#include "arl/Boost.hpp"
 
 #include "Util/G3DCore.h"
 #include "Util/Vector3int32.h"

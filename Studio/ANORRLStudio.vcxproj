@@ -434,8 +434,8 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
     <ClCompile Include="generated\moc_PlayersDataManager.cpp" />
     <ClCompile Include="generated\moc_PropertyItems.cpp" />
     <ClCompile Include="generated\moc_QtUtilities.cpp" />
-    <ClCompile Include="generated\moc_RbxContent.cpp" />
-    <ClCompile Include="generated\moc_RbxWorkspace.cpp" />
+    <ClCompile Include="generated\moc_ARLContent.cpp" />
+    <ClCompile Include="generated\moc_ARLWorkspace.cpp" />
     <ClCompile Include="generated\moc_ScriptAnalysisWidget.cpp" />
     <ClCompile Include="generated\moc_ScriptComboBox.cpp" />
     <ClCompile Include="generated\moc_ScriptPickerDialog.cpp" />
@@ -469,8 +469,8 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
     <ClCompile Include="PairRbxDeviceDialog.cpp" />
     <ClCompile Include="PropertyItems.cpp" />
     <ClCompile Include="QtUtilities.cpp" />
-    <ClCompile Include="RbxContent.cpp" />
-    <ClCompile Include="RbxWorkspace.cpp" />
+    <ClCompile Include="ARLContent.cpp" />  
+    <ClCompile Include="ARLWorkspace.cpp" />
     <ClCompile Include="..\ClientBase\ReflectionMetadata.cpp" />
     <ClCompile Include="..\ClientBase\RenderSettingsItem.cpp" />
     <ClCompile Include="RenderStatsItem.cpp" />
@@ -586,8 +586,8 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
     <Moc Include="ogrewidget.h" />
     <Moc Include="PropertyItems.h" />
     <Moc Include="QtUtilities.h" />
-    <Moc Include="RbxContent.h" />
-    <Moc Include="RbxWorkspace.h" />
+    <Moc Include="ARLContent.h" />
+    <Moc Include="ARLWorkspace.h" />
     <ClInclude Include="..\ClientBase\ReflectionMetadata.h" />
     <ClInclude Include="..\ClientBase\RenderSettingsItem.h" />
     <Moc Include="ANORRL.h" />

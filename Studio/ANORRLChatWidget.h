@@ -16,7 +16,7 @@
 #include <QPair>
 #include <QQueue>
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "Util/HttpAsync.h"
 
 namespace ARL {
@@ -156,7 +156,7 @@ private:
 	boost::shared_ptr<ARL::DataModel>      m_pDataModel;
 	boost::shared_ptr<PlayersDataManager>  m_pPlayersDataManager;
 
-	rbx::signals::scoped_connection        m_cPlayerChatMessage;
+	arl::signals::scoped_connection        m_cPlayerChatMessage;
 
 	QPixmap                                m_OriginalChatActionPixmap;
 };

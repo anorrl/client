@@ -15,7 +15,7 @@ namespace ARL {
 		std::string responseDialog;
 		std::string goodbyeDialog;
 
-		rbx::signal<void(shared_ptr<Instance>)> selected;
+		arl::signal<void(shared_ptr<Instance>)> selected;
 	public:
 		DialogChoice();
 

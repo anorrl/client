@@ -70,7 +70,7 @@ void Visit::setPing(std::string url, int interval)
 		// Create a new thread
 		pingThread.reset(new worker_thread(
 			boost::bind(&Visit::ping, url, interval),
-			"rbx_visit"));
+			"arl_visit"));
 	}
 	else
 		// Just stop the current ping thread:

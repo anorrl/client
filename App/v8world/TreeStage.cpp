@@ -11,7 +11,7 @@
 #include "V8World/Assembly.h"
 #include "V8World/Mechanism.h"
 #include "V8Kernel/Body.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include <map>
 

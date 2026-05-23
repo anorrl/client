@@ -149,7 +149,7 @@ void ModuleScript::PerVMState::releaseReferenceIfCompletedSuccessfully()
 void ModuleScript::PerVMState::releaseScriptNodeIfPresent()
 {
 	// Destroy weak thread refs belonging to the thread that ran the module script's code.
-	// This mechanism is how rbx::signal connections get cleaned up.
+	// This mechanism is how arl::signal connections get cleaned up.
 	if (node)
 	{
 		node->eraseAllRefs();

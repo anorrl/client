@@ -22,7 +22,7 @@
 #include "util/IndexBox.h"
 #include "util/Rotation2d.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 #ifdef _WIN32
 #define alloca _alloca
@@ -474,7 +474,7 @@ TextureProxyBaseRef AdornRender::createTextureProxy(const ContentId& id, bool& w
 	}
 }
 
-rbx::signal<void()>& AdornRender::getUnbindResourcesSignal()
+arl::signal<void()>& AdornRender::getUnbindResourcesSignal()
 {
     return unbindResourcesSignal;
 }

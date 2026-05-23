@@ -5,7 +5,7 @@
 #include "V8Kernel/ContactParams.h"
 #include "V8Kernel/ContactConnector.h"
 #include "Util/G3DCore.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

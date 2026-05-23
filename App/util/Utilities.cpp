@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "Util/Utilities.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "RbxAssert.h"
 #include "G3D/g3dmath.h"
 #include "G3D/Random.h"

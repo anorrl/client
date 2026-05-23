@@ -46,9 +46,7 @@ class WebBrowserAxDialog :
 	boost::function<void(bool)> enableUpload;
 	
 	void DoPostImage(std::string filename, std::string seostr);
-	void UploadVideo(std::string token, SHORT doPost, SHORT postSetting, std::string title);
-	void DoUploadVideo(std::string token, std::string title, std::string seostr, int placeId);
-
+	
 	//video upload data
 	std::string videoSEOInfo;
 	bool siteSEO;

@@ -4,7 +4,7 @@
 
 #include "Replicator.h"
 #include "PropertySynchronization.h"
-#include "rbx/threadsafe.h"
+#include "arl/threadsafe.h"
 #include "util/MemoryStats.h"
 #include "Replicator.StreamJob.h"
 
@@ -65,11 +65,11 @@ namespace ARL {
 			RunningAverage<int> avgRequestCount;
             ARL::MemoryStats::MemoryLevel memoryLevel;
 
-			rbx::signals::scoped_connection playerCharacterAddedConnection;
+			arl::signals::scoped_connection playerCharacterAddedConnection;
 			void onPlayerCharacterAdded();
 
-            rbx::signals::scoped_connection hashReadyConnection;
-            rbx::signals::scoped_connection mccReadyConnection;
+            arl::signals::scoped_connection hashReadyConnection;
+            arl::signals::scoped_connection mccReadyConnection;
             void onHashReady();
             void onMccReady();
 			shared_ptr<Reflection::ValueTable> readStats(RakNet::BitStream& bitStream);
@@ -166,9 +166,9 @@ namespace ARL {
 
 		public:
 
-			rbx::signal<void()> receivedGlobalsSignal;
-			rbx::signal<void()> gameLoadedSignal;
-			rbx::signal<void(shared_ptr<const Reflection::ValueTable>)> statsReceivedSignal;
+			arl::signal<void()> receivedGlobalsSignal;
+			arl::signal<void()> gameLoadedSignal;
+			arl::signal<void(shared_ptr<const Reflection::ValueTable>)> statsReceivedSignal;
 
 			ClientReplicator(RakNet::SystemAddress systemAddress, Client* client, RakNet::SystemAddress clientAddress, NetworkSettings* networkSettings);
 			~ClientReplicator();

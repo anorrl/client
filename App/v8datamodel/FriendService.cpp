@@ -4,7 +4,7 @@
 #include "Network/Players.h"
 #include "V8Xml/WebParser.h"
 #include "Util/Http.h"
-#include "rbx/Log.h"
+#include "arl/Log.h"
 #include "Util/LuaWebService.h"
 #include "v8datamodel/HttpRbxApiService.h"
 
@@ -61,7 +61,7 @@ void FriendService::processServiceSuccess(int maxFriends, std::string result, bo
 	}
 
 	shared_ptr<const Reflection::ValueArray> inputTable;
-	shared_ptr<Reflection::ValueArray> lTable(rbx::make_shared<Reflection::ValueArray>());
+	shared_ptr<Reflection::ValueArray> lTable(arl::make_shared<Reflection::ValueArray>());
 	if(WebParser::parseJSONArray(result, inputTable))
 	{
 		*lTable = *inputTable;		

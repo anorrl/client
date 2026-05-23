@@ -87,8 +87,9 @@ namespace ARL {
 
 			FONT_VCR = 23,
 			FONT_DASHHORIZON = 24,
+			FONT_PUNKTYPE = 25,
 
-			FONT_LAST = 25
+			FONT_LAST = 26
 		};
 
 		static Font FromTextFont(Text::Font font);

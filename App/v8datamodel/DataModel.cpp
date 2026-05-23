@@ -60,7 +60,6 @@
 #include "v8datamodel/DataStoreService.h"
 #include "v8datamodel/HttpService.h"
 #include "V8DataModel/LogService.h"
-#include "V8DataModel/AdService.h"
 #include "V8DataModel/NotificationService.h"
 #include "V8DataModel/CSGDictionaryService.h"
 #include "V8DataModel/NonReplicatedCSGDictionaryService.h"
@@ -104,10 +103,10 @@
 #include "Util/Statistics.h"
 #include "Util/ContentFilter.h"
 
-#include "rbx/Log.h"
+#include "arl/Log.h"
 #include "FastLog.h"
-#include "rbx/threadsafe.h"
-#include "rbx/Countable.h"
+#include "arl/threadsafe.h"
+#include "arl/Countable.h"
 
 #include "AppDraw/DrawPrimitives.h"
 
@@ -122,7 +121,7 @@
 
 #include "GfxBase/IAdornableCollector.h" 
 #include <fstream>
-#include "rbx/RbxDbgInfo.h"
+#include "arl/RbxDbgInfo.h"
 #include <boost/format.hpp> 
 
 #include "util/RbxStringTable.h"
@@ -138,7 +137,7 @@
 #include "boost/algorithm/string/split.hpp"
 #include "boost/algorithm/string/classification.hpp"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(CloseDataModel)
 LOGGROUP(LegacyLock)
@@ -258,7 +257,6 @@ static Reflection::EventDesc<DataModel, void()> event_allowedGearTypeChanged(&Da
 static Reflection::PropDescriptor<DataModel, std::string> prop_getJobId("JobId", "JobInfo", &DataModel::getJobId, NULL, Reflection::PropertyDescriptor::UI);
 
 static Reflection::BoundFuncDesc<DataModel, void(std::string)> setScreenshotSEOInfoFunction(&DataModel::setScreenshotSEOInfo, "SetScreenshotInfo", "info", Security::LocalUser);
-static Reflection::BoundFuncDesc<DataModel, void(std::string)> setVideoSEOInfoFunction(&DataModel::setVideoSEOInfo, "SetVideoInfo", "info", Security::LocalUser);
 
 static Reflection::EventDesc<DataModel, void(bool)> event_graphicsQualityChangeRequest(&DataModel::graphicsQualityShortcutSignal, "GraphicsQualityChangeRequest","betterQuality");
 
@@ -414,7 +412,7 @@ class DataModel::GenericJob : public DataModelJob
 {
 public:
 	weak_ptr<DataModel> const dataModel;
-	rbx::timestamped_safe_queue<Task> tasks;
+	arl::timestamped_safe_queue<Task> tasks;
 
 	GenericJob(shared_ptr<DataModel> dataModel, const char* name, TaskType taskType)
 		:DataModelJob(name, taskType, false, dataModel, Time::Interval(0))
@@ -517,7 +515,7 @@ private:
 
 static std::string tempTag()
 {
-    static rbx::atomic<int> count = 0;
+    static arl::atomic<int> count = 0;
 	return ARL::format("DataModel-%d", (int)++count);
 }
 
@@ -919,11 +917,6 @@ void DataModel::setScreenshotSEOInfo(std::string value)
 	screenshotSEOInfo = value;
 }
 
-void DataModel::setVideoSEOInfo(std::string value)
-{
-	videoSEOInfo = value;
-}
-
 std::string DataModel::getScreenshotSEOInfo()
 {
 	return screenshotSEOInfo;
@@ -949,7 +942,6 @@ void DataModel::initializeContents(bool startHeartbeat)
 	ServiceProvider::create<ChatService>();
 	ServiceProvider::create<MarketplaceService>();
 	ServiceProvider::create<PointsService>();
-    ServiceProvider::create<AdService>();
     ServiceProvider::create<NotificationService>();
 	ServiceProvider::create<ReplicatedFirst>();
 	ServiceProvider::create<HttpRbxApiService>();
@@ -1042,7 +1034,7 @@ void DataModel::startCoreScripts(bool buildInGameGui, const std::string &altStar
 }
 
 
-rbx::atomic<int> DataModel::count;
+arl::atomic<int> DataModel::count;
 
 DataModel::~DataModel() 
 {
@@ -1067,11 +1059,11 @@ struct DataModel::LegacyLock::Implementation : boost::noncopyable
 			,releasedLock(false)
 		{}
 	};
-	SAFE_STATIC(rbx::safe_queue< shared_ptr<Events> >, eventsPool)
+	SAFE_STATIC(arl::safe_queue< shared_ptr<Events> >, eventsPool)
 
 	// The job in this thread that has currently acquired a lock (if any)
 	// This thread specific pointer is used to re-entrancy checks
-	SAFE_STATIC(rbx::thread_specific_reference<GenericJob>, currentJob)
+	SAFE_STATIC(arl::thread_specific_reference<GenericJob>, currentJob)
 
 	DataModel* const dataModel;
 
@@ -3481,7 +3473,7 @@ static void appendJobInfo(DataModel* dataModel, shared_ptr<const TaskScheduler::
 		return;
 
 	
-	shared_ptr<Reflection::ValueArray> info(rbx::make_shared<Reflection::ValueArray>());
+	shared_ptr<Reflection::ValueArray> info(arl::make_shared<Reflection::ValueArray>());
 	info->push_back(job->name);
 	info->push_back(job->averageDutyCycle());
 	info->push_back(job->averageStepsPerSecond());
@@ -3495,9 +3487,9 @@ static void appendJobInfo(DataModel* dataModel, shared_ptr<const TaskScheduler::
 shared_ptr<const Reflection::ValueArray> DataModel::getJobsInfo()
 {
 	// Returns some nice diagnostic information
-	shared_ptr<Reflection::ValueArray> result(rbx::make_shared<Reflection::ValueArray>());
+	shared_ptr<Reflection::ValueArray> result(arl::make_shared<Reflection::ValueArray>());
 	{
-		shared_ptr<Reflection::ValueArray> info(rbx::make_shared<Reflection::ValueArray>());
+		shared_ptr<Reflection::ValueArray> info(arl::make_shared<Reflection::ValueArray>());
 		info->push_back(std::string("name"));
 		info->push_back(std::string("averageDutyCycle"));
 		info->push_back(std::string("averageStepsPerSecond"));
@@ -3693,7 +3685,7 @@ static void appendJobExtendedStats(DataModel* dataModel, shared_ptr<const TaskSc
 	if (job->getArbiter().get()!=dataModel)
 		return;
 
-	shared_ptr<Reflection::ValueArray> info(rbx::make_shared<Reflection::ValueArray>());
+	shared_ptr<Reflection::ValueArray> info(arl::make_shared<Reflection::ValueArray>());
 
 	WindowAverageDutyCycle<>::Stats stats = job->getDutyCycleWindow().getStats();
 	info->push_back(job->name);
@@ -3713,10 +3705,10 @@ static void appendJobExtendedStats(DataModel* dataModel, shared_ptr<const TaskSc
 shared_ptr<const Reflection::ValueArray> DataModel::getJobsExtendedStats()
 {
 	// Returns some nice diagnostic information
-	shared_ptr<Reflection::ValueArray> result(rbx::make_shared<Reflection::ValueArray>());
+	shared_ptr<Reflection::ValueArray> result(arl::make_shared<Reflection::ValueArray>());
 	{
 		
-		shared_ptr<Reflection::ValueArray> info(rbx::make_shared<Reflection::ValueArray>());
+		shared_ptr<Reflection::ValueArray> info(arl::make_shared<Reflection::ValueArray>());
 		info->push_back(std::string("name"));
 		info->push_back(std::string("time.average"));
 		info->push_back(std::string("time.variance"));

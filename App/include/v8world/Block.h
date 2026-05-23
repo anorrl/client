@@ -8,7 +8,7 @@
 
 #include "V8Kernel/ContactParams.h"
 #include "Util/NormalID.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL {
 

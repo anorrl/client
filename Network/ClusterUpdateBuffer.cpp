@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "util/G3DCore.h"
 #include "V8DataModel/MegaCluster.h"
 #include "boost/cstdint.hpp"

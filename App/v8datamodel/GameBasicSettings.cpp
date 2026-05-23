@@ -15,7 +15,6 @@ static const Reflection::EnumPropDescriptor<GameBasicSettings, GameBasicSettings
 static const Reflection::PropDescriptor<GameBasicSettings, bool> prop_TouchMovementChanged("TouchMovementChanged",category_Data, &GameBasicSettings::getTouchMovementModeModified,&GameBasicSettings::setTouchMovementModeModified, Reflection::PropertyDescriptor::CLUSTER, Security::ANORRL);
 static const Reflection::EnumPropDescriptor<GameBasicSettings, GameBasicSettings::ComputerMovementMode> prop_computerMovementMode("ComputerMovementMode", category_Control, &GameBasicSettings::getComputerMovementMode, &GameBasicSettings::setComputerMovementMode);
 static const Reflection::PropDescriptor<GameBasicSettings, bool> prop_ComputerMovementChanged("ComputerMovementChanged",category_Data, &GameBasicSettings::getComputerMovementModeModified,&GameBasicSettings::setComputerMovementModeModified, Reflection::PropertyDescriptor::CLUSTER, Security::ANORRL);
-static const Reflection::EnumPropDescriptor<GameBasicSettings, GameSettings::UploadSetting> prop_uploadVideo("VideoUploadPromptBehavior", category_Video, &GameBasicSettings::getUploadVideoSetting, &GameBasicSettings::setUploadVideoSetting, Reflection::PropertyDescriptor::STANDARD, Security::ANORRLScript);
 static const Reflection::EnumPropDescriptor<GameBasicSettings, GameBasicSettings::RenderQualitySetting> prop_renderQuality("SavedQualityLevel", category_Appearance, &GameBasicSettings::getRenderQuality, &GameBasicSettings::setRenderQuality);
 static const Reflection::EnumPropDescriptor<GameBasicSettings, GameBasicSettings::RotationType> prop_rotationType("RotationType", category_Control, &GameBasicSettings::getRotationType, &GameBasicSettings::setRotationType, Reflection::PropertyDescriptor::SCRIPTING);
 static const Reflection::EnumPropDescriptor<GameBasicSettings, GameBasicSettings::VirtualVersion> prop_virtualVersion("VirtualVersion", category_Appearance, &GameBasicSettings::getVirtualVersion, &GameBasicSettings::setVirtualVersion);
@@ -156,7 +155,6 @@ GameBasicSettings::GameBasicSettings()
 	,canMousePan(true)
 	,freeLook(false)
 	,allTutorialsDisabled(false)
-	,uploadVideos(GameSettings::ASK)
 	,uploadScreenshots(GameSettings::ASK)
 	,fullscreen(false)
 	,studio(false)
@@ -487,14 +485,6 @@ bool GameBasicSettings::getTutorialState(std::string tutorialId)
 	return iter->second;
 }
 
-void GameBasicSettings::setUploadVideoSetting(GameSettings::UploadSetting setting) 
-{
-	if(uploadVideos != setting){
-		uploadVideos = setting; 
-		raisePropertyChanged(prop_uploadVideo);
-	}
-}
-
 void GameBasicSettings::setPostImageSetting(GameSettings::UploadSetting setting) 
 {
 	if(uploadScreenshots != setting){
@@ -601,8 +591,7 @@ void GameBasicSettings::reset()
 	setMouseLock(true);
 	canMousePan = true;
 	freeLook = false;
-	setUploadVideoSetting(GameSettings::ASK);
-	setPostImageSetting(GameSettings::ASK);
+	setPostImageSetting(GameSettings::NEVER);
 }
 
 /*override*/ void GameBasicSettings::verifySetParent(const Instance* instance) const

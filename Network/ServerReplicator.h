@@ -74,12 +74,12 @@ namespace ARL {
 
 	public: // variables
 		int numPartsOwned;
-		rbx::signal<void(int, bool, int)> remoteTicketProcessedSignal;
+		arl::signal<void(int, bool, int)> remoteTicketProcessedSignal;
         int remoteProtocolVersion;
 
 	protected:
 
-		rbx::signal<void()> placeAutenticatedSignal;
+		arl::signal<void()> placeAutenticatedSignal;
 
 		// metrics
 		Time startTime;

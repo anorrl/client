@@ -51,7 +51,7 @@ struct ThumbnailRenderRequest
 	ARL::CEvent* doneEvent;
 };
 
-static rbx::safe_queue<ThumbnailRenderRequest> gThumbRenderQueue;
+static arl::safe_queue<ThumbnailRenderRequest> gThumbRenderQueue;
 static ARL::CEvent gThumbRenderQueueNotEmpty(/* manualReset= */ false);
 
 static boost::scoped_ptr<boost::thread> gThumbRenderThread;

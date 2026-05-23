@@ -5,7 +5,7 @@
 #include "V8Kernel/ContactParams.h"
 #include "V8Kernel/PolyConnectors.h"
 #include "Util/G3DCore.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include "BulletCollision/NarrowphaseCollision/btPersistentManifold.h"
 #include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"

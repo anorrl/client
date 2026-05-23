@@ -31,8 +31,8 @@
 
 #include "v8datamodel/PlayerGui.h"
 
-const char* kSAShowErrorsKey    = "rbxSAShowErrors";
-const char* kSAShowWarningsKey  = "rbxSAShowWarnings";
+const char* kSAShowErrorsKey    = "arlSAShowErrors";
+const char* kSAShowWarningsKey  = "arlSAShowWarnings";
 
 const int   kSADocLeftMargin    = 4;
 const int   kSADocTopMargin     = 4;
@@ -224,7 +224,7 @@ private:
 		}
 	}
 
-	rbx::signals::scoped_connection   m_cPropertyChangedConnection;
+	arl::signals::scoped_connection   m_cPropertyChangedConnection;
 };
 
 //--------------------------------------------------------------------------------------------

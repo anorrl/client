@@ -23,7 +23,7 @@ class FlagStand
 {
 private:
 	typedef DescribedCreatable<FlagStand, BasicPartInstance, sFlagStand> Super;
-	rbx::signals::scoped_connection_logged standTouched;
+	arl::signals::scoped_connection_logged standTouched;
 	void onEvent_standTouched(shared_ptr<Instance> other);
 
 	shared_ptr<Flag> watchingFlag;
@@ -33,7 +33,7 @@ private:
 
 public:
 	FlagStand();								
-	rbx::signal<void(shared_ptr<Instance>)> flagCapturedSignal;
+	arl::signal<void(shared_ptr<Instance>)> flagCapturedSignal;
 	void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 
 	void onStepped();

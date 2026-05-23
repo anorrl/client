@@ -273,8 +273,8 @@ const BoundFuncDesc<PartInstance, shared_ptr<const Instances>()> func_getTouchin
 const PropDescriptor<PartInstance, ARL::SystemAddress> PartInstance::prop_NetworkOwner("NetworkOwnerV3", category_Data, &PartInstance::getNetworkOwner, &PartInstance::setNetworkOwner, PropertyDescriptor::REPLICATE_ONLY);
 static RemoteEventDesc<PartInstance,
     void(ARL::SystemAddress),
-    rbx::remote_signal<void(ARL::SystemAddress)>,
-    rbx::remote_signal<void(ARL::SystemAddress)>* (PartInstance::*)(bool)
+    arl::remote_signal<void(ARL::SystemAddress)>,
+    arl::remote_signal<void(ARL::SystemAddress)>* (PartInstance::*)(bool)
     > event_NetworkOwnerChanged(&PartInstance::getOrCreateNetworkOwnerChangedSignal, "NetworkOwnerChanged", "systemAddress", Security::LocalUser, RemoteEventCommon::REPLICATE_ONLY, RemoteEventCommon::CLIENT_SERVER);
 const PropDescriptor<PartInstance, bool> PartInstance::prop_NetworkIsSleeping("NetworkIsSleeping", category_Data, &PartInstance::getNetworkIsSleeping, &PartInstance::setNetworkIsSleeping, PropertyDescriptor::REPLICATE_ONLY);
 #ifdef ARL_TEST_BUILD
@@ -284,8 +284,8 @@ EventDesc<PartInstance, void(float, float)> event_OwnershipChange(&PartInstance:
 // New way of reporting touches
 EventDesc<PartInstance, 
 	void(shared_ptr<Instance>), 
-	rbx::signal<void(shared_ptr<Instance>)>,
-	rbx::signal<void(shared_ptr<Instance>)>* (PartInstance::*)(bool)> event_LocalSimulationTouched(&PartInstance::getOrCreateLocalSimulationTouchedSignal, "LocalSimulationTouched", "part");
+	arl::signal<void(shared_ptr<Instance>)>,
+	arl::signal<void(shared_ptr<Instance>)>* (PartInstance::*)(bool)> event_LocalSimulationTouched(&PartInstance::getOrCreateLocalSimulationTouchedSignal, "LocalSimulationTouched", "part");
 
 EventDesc<PartInstance, 
 	void(shared_ptr<Instance>), 
@@ -304,13 +304,13 @@ EventDesc<PartInstance,
 
 EventDesc<PartInstance, 
 	void(shared_ptr<Instance>), 
-	rbx::signal<void(shared_ptr<Instance>)>,
-	rbx::signal<void(shared_ptr<Instance>)>* (PartInstance::*)(bool)> dep_StoppedTouching(&PartInstance::getOrCreateDeprecatedStoppedTouchingSignal, "StoppedTouching", "otherPart", Reflection::Descriptor::Attributes::deprecated(event_TouchEnded));
+	arl::signal<void(shared_ptr<Instance>)>,
+	arl::signal<void(shared_ptr<Instance>)>* (PartInstance::*)(bool)> dep_StoppedTouching(&PartInstance::getOrCreateDeprecatedStoppedTouchingSignal, "StoppedTouching", "otherPart", Reflection::Descriptor::Attributes::deprecated(event_TouchEnded));
 
 EventDesc<PartInstance, 
 	void(), 
-	rbx::signal<void()>,
-	rbx::signal<void()>* (PartInstance::*)(bool)> event_OutfitChanged(&PartInstance::getOrCreateOutfitChangedSignal, "OutfitChanged");
+	arl::signal<void()>,
+	arl::signal<void()>* (PartInstance::*)(bool)> event_OutfitChanged(&PartInstance::getOrCreateOutfitChangedSignal, "OutfitChanged");
 
 // Temporary property for handling concurrent drags
 const PropDescriptor<PartInstance, bool> prop_Dragging("DraggingV1", category_Behavior, &PartInstance::getDragging, &PartInstance::setDragging, PropertyDescriptor::REPLICATE_ONLY);
@@ -1962,7 +1962,7 @@ void PartInstance::notifyNetworkOwnerChanged(const ARL::SystemAddress oldOwner)
 	}
 }
 
-rbx::remote_signal<void(ARL::SystemAddress)>* PartInstance::getOrCreateNetworkOwnerChangedSignal(bool create)
+arl::remote_signal<void(ARL::SystemAddress)>* PartInstance::getOrCreateNetworkOwnerChangedSignal(bool create)
 {
     return NULL;
 }
@@ -2603,7 +2603,7 @@ bool PartInstance::canSetNetworkOwnership(Primitive*& rootPrimitive, std::string
 
 shared_ptr<const Reflection::Tuple> PartInstance::canSetNetworkOwnershipScript()
 {
-	shared_ptr<Reflection::Tuple> args = rbx::make_shared<Reflection::Tuple>();
+	shared_ptr<Reflection::Tuple> args = arl::make_shared<Reflection::Tuple>();
 
 	Primitive* placeholderPointer;
 	std::string statusMessage;

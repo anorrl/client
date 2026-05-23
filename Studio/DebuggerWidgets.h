@@ -92,7 +92,7 @@ private:
 	QMap<EDebuggerViewID,QDockWidget*>    m_DockWidgets;
 	QMap<EDebuggerViewID,QWidget*>        m_ViewWidgets;
 
-	std::list<rbx::signals::connection>	  m_cConnections;
+	std::list<arl::signals::connection>	  m_cConnections;
 	bool                                  m_bBreakpointEncountered;
 };
 
@@ -216,8 +216,8 @@ private:
 	void onScriptAncestryChanged(shared_ptr<ARL::Instance> newParent);
 
 	boost::shared_ptr<ARL::Scripting::DebuggerBreakpoint>		m_spBreakpoint;
-	rbx::signals::scoped_connection                             m_cPropertyChangedConnection;
-	rbx::signals::scoped_connection                             m_cAncestoryChangedConnection;
+	arl::signals::scoped_connection                             m_cPropertyChangedConnection;
+	arl::signals::scoped_connection                             m_cAncestoryChangedConnection;
 	bool                                                        m_bIgnoreBreakpointModification;
 	bool                                                        m_bIgnoreWaypointRequest;
 };
@@ -297,8 +297,8 @@ private:
 	void removeChildren();
 
 	boost::shared_ptr<ARL::Scripting::DebuggerWatch>            m_spWatch;
-	rbx::signals::scoped_connection                             m_cPropertyChangedConnection;
-	rbx::signals::scoped_connection                             m_cAncestoryChangedConnection;
+	arl::signals::scoped_connection                             m_cPropertyChangedConnection;
+	arl::signals::scoped_connection                             m_cAncestoryChangedConnection;
 	bool                                                        m_bIgnoreWatchModification;
 	bool                                                        m_bIsInValid;
 };

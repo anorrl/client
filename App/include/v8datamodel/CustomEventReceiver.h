@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "V8DataModel/PartInstance.h"
 #include "V8DataModel/ModelInstance.h"
 #include "V8Tree/Instance.h"
@@ -21,15 +21,15 @@ private:
 	CustomEventReceiver& operator=(const CustomEventReceiver& other);
 
 	weak_ptr<CustomEvent> sourceEvent;
-	rbx::signals::scoped_connection sourceValueChangedConnection;
+	arl::signals::scoped_connection sourceValueChangedConnection;
 	float lastReceivedValue;
 
 public:
 	// public for interoperation with CustomEvent
-	rbx::signal<void(float)> sourceValueChanged;
+	arl::signal<void(float)> sourceValueChanged;
 	// connection signals public for testing
-	rbx::signal<void(shared_ptr<Instance>)> eventConnected;
-	rbx::signal<void(shared_ptr<Instance>)> eventDisconnected;
+	arl::signal<void(shared_ptr<Instance>)> eventConnected;
+	arl::signal<void(shared_ptr<Instance>)> eventDisconnected;
 
 	CustomEventReceiver()
 		:Super(sCustomEventReceiver),

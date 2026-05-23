@@ -3,8 +3,8 @@
 #include "v8datamodel/Workspace.h"
 #include "MechanismItem.h"
 #include "ReplicatorStats.h"
-#include "rbx/Declarations.h"
-#include "rbx/boost.hpp"
+#include "arl/Declarations.h"
+#include "arl/boost.hpp"
 #include <vector>
 
 #include "RakNetTypes.h"

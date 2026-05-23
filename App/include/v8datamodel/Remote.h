@@ -42,9 +42,9 @@ namespace ARL {
             fire2(arg1, arg2);
         }
 
-        template <typename F> rbx::signals::connection connect(const F& function)
+        template <typename F> arl::signals::connection connect(const F& function)
         {
-            rbx::signals::connection result = BaseSignal<Signature>::connect(function);
+            arl::signals::connection result = BaseSignal<Signature>::connect(function);
             queue.process();
             return result;
         }
@@ -95,11 +95,11 @@ namespace ARL {
 		void invokeServer(shared_ptr<const Reflection::Tuple> arguments, boost::function<void(shared_ptr<const Reflection::Tuple>)> resumeFunction, boost::function<void(std::string)> errorFunction);
 		void invokeClient(shared_ptr<Instance> player, shared_ptr<const Reflection::Tuple> arguments, boost::function<void(shared_ptr<const Reflection::Tuple>)> resumeFunction, boost::function<void(std::string)> errorFunction);
 
-		rbx::remote_signal<void(int, shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)> remoteOnInvokeServer;
-		rbx::remote_signal<void(int, shared_ptr<const Reflection::Tuple>)> remoteOnInvokeClient;
+		arl::remote_signal<void(int, shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)> remoteOnInvokeServer;
+		arl::remote_signal<void(int, shared_ptr<const Reflection::Tuple>)> remoteOnInvokeClient;
 
-		rbx::remote_signal<void(int, shared_ptr<const Reflection::Tuple>)> remoteOnInvokeSuccess;
-		rbx::remote_signal<void(int, std::string)> remoteOnInvokeError;
+		arl::remote_signal<void(int, shared_ptr<const Reflection::Tuple>)> remoteOnInvokeSuccess;
+		arl::remote_signal<void(int, std::string)> remoteOnInvokeError;
 
 		void onServerInvokeChanged(const ServerInvokeCallback& oldValue);
 		void onClientInvokeChanged(const ClientInvokeCallback& oldValue);
@@ -119,7 +119,7 @@ namespace ARL {
 		DelayedInvocationQueue delayedInvocations;
         std::map<int, RemoteInvocation> remoteInvocations;
 
-        rbx::signals::scoped_connection playerRemovingConnection;
+        arl::signals::scoped_connection playerRemovingConnection;
 
         int lastRemoteInvocationId;
 
@@ -150,16 +150,16 @@ namespace ARL {
 		void fireClient(shared_ptr<Instance> player, shared_ptr<const Reflection::Tuple> arguments);
 		void fireAllClients(shared_ptr<const Reflection::Tuple> arguments);
 
-		LatchedSignal<rbx::remote_signal, void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)>* getOrCreateOnServerEvent(bool create = true);
-		LatchedSignal<rbx::remote_signal, void(shared_ptr<const Reflection::Tuple>)>* getOrCreateOnClientEvent(bool create = true);
+		LatchedSignal<arl::remote_signal, void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)>* getOrCreateOnServerEvent(bool create = true);
+		LatchedSignal<arl::remote_signal, void(shared_ptr<const Reflection::Tuple>)>* getOrCreateOnClientEvent(bool create = true);
         
 		/*override*/ bool askSetParent(const Instance* instance) const;
 
     private:
         virtual void processRemoteEvent(const Reflection::EventDescriptor& descriptor, const Reflection::EventArguments& args, const SystemAddress& source);
         
-        LatchedSignal<rbx::remote_signal, void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)> onServerEvent;
-		LatchedSignal<rbx::remote_signal, void(shared_ptr<const Reflection::Tuple>)> onClientEvent;
+        LatchedSignal<arl::remote_signal, void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)> onServerEvent;
+		LatchedSignal<arl::remote_signal, void(shared_ptr<const Reflection::Tuple>)> onClientEvent;
 	};
 
 }	// namespace ARL

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 // Simple class for returning metric values - used for graphics reporting
 

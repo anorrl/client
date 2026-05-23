@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 #include "v8tree/instance.h"
 #include "v8datamodel/team.h"
 #include "V8Datamodel/FriendService.h"
@@ -72,11 +72,11 @@ namespace Network {
         bool hasGroupBuildTools;
         HeapValue<int> personalServerRank;
 
-		rbx::signals::scoped_connection characterDiedConnection;
-		rbx::signals::scoped_connection backendDiedSignalConnection;
-		rbx::signals::scoped_connection spawnLocationChangedConnection;
-		rbx::signals::scoped_connection simulationRadiusChangedConnection;
-		rbx::signals::scoped_connection setShutdownMessageConnection;
+		arl::signals::scoped_connection characterDiedConnection;
+		arl::signals::scoped_connection backendDiedSignalConnection;
+		arl::signals::scoped_connection spawnLocationChangedConnection;
+		arl::signals::scoped_connection simulationRadiusChangedConnection;
+		arl::signals::scoped_connection setShutdownMessageConnection;
 		boost::function<void()> teamStatusChangedCallback;
 
 		// CharacterAppearance is the url of a handler that returns a delimited list of asset ids
@@ -171,32 +171,32 @@ namespace Network {
 		static Reflection::BoundProp<std::string> prop_VRDevice;
 		static Reflection::RemoteEventDesc<Player, void(shared_ptr<const Reflection::ValueArray>)> event_cloudEditSelectionChanged;
 
-		rbx::remote_signal<void(std::string, std::string, std::string)> scriptSecurityErrorSignal;
-		rbx::remote_signal<void(std::string,Vector3)> remoteInsertSignal;
+		arl::remote_signal<void(std::string, std::string, std::string)> scriptSecurityErrorSignal;
+		arl::remote_signal<void(std::string,Vector3)> remoteInsertSignal;
 
-		rbx::remote_signal<void()> connectDiedSignalBackend;
+		arl::remote_signal<void()> connectDiedSignalBackend;
 
-		rbx::remote_signal<void(bool,int)> remoteFriendServiceSignal;
-		rbx::remote_signal<void()> killPlayerSignal;
-		rbx::remote_signal<void(float)> simulationRadiusChangedSignal;
+		arl::remote_signal<void(bool,int)> remoteFriendServiceSignal;
+		arl::remote_signal<void()> killPlayerSignal;
+		arl::remote_signal<void(float)> simulationRadiusChangedSignal;
 
-		rbx::remote_signal<void(std::string)> statsSignal;
-		rbx::signals::scoped_connection charChildAddedConnection; 
+		arl::remote_signal<void(std::string)> statsSignal;
+		arl::signals::scoped_connection charChildAddedConnection; 
 		
-		rbx::signal<void(std::string, shared_ptr<Instance>)> chattedSignal;
-		rbx::signal<void(shared_ptr<Instance>)> characterAddedSignal;
-		rbx::remote_signal<void(shared_ptr<Instance>)> CharacterAppearanceLoadedSignal;
-		rbx::signal<void(shared_ptr<Instance>)> characterRemovingSignal;
-		rbx::signal<void(Vector3)> nextSpawnLocationChangedSignal;
-		rbx::signal<void(double)> idledSignal;			
+		arl::signal<void(std::string, shared_ptr<Instance>)> chattedSignal;
+		arl::signal<void(shared_ptr<Instance>)> characterAddedSignal;
+		arl::remote_signal<void(shared_ptr<Instance>)> CharacterAppearanceLoadedSignal;
+		arl::signal<void(shared_ptr<Instance>)> characterRemovingSignal;
+		arl::signal<void(Vector3)> nextSpawnLocationChangedSignal;
+		arl::signal<void(double)> idledSignal;			
 
-		rbx::signal<void(shared_ptr<Instance>, FriendService::FriendStatus)> friendStatusChangedSignal;
+		arl::signal<void(shared_ptr<Instance>, FriendService::FriendStatus)> friendStatusChangedSignal;
 
-        rbx::remote_signal<void(TeleportService::TeleportState, int, std::string)> onTeleportSignal;
-		rbx::remote_signal<void(TeleportService::TeleportState, shared_ptr<const Reflection::ValueTable>, shared_ptr<Instance>)> onTeleportInternalSignal;
+        arl::remote_signal<void(TeleportService::TeleportState, int, std::string)> onTeleportSignal;
+		arl::remote_signal<void(TeleportService::TeleportState, shared_ptr<const Reflection::ValueTable>, shared_ptr<Instance>)> onTeleportInternalSignal;
 
-		rbx::remote_signal<void(std::string)> setShutdownMessageSignal;
-		rbx::remote_signal<void(shared_ptr<const Reflection::ValueArray>)> cloudEditSelectionChanged;
+		arl::remote_signal<void(std::string)> setShutdownMessageSignal;
+		arl::remote_signal<void(shared_ptr<const Reflection::ValueArray>)> cloudEditSelectionChanged;
 
 		Player();
 		~Player();

@@ -5,7 +5,7 @@
 
 #include "SQLite3Plugin/sqlite3.h"
 #include "SQLite3Plugin/SQLiteClientLoggerPlugin.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "RakNetTypes.h"
 
 namespace ARL {

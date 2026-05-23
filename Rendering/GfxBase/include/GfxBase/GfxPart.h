@@ -4,7 +4,7 @@
 #include "Util/SpatialRegion.h"
 #include "V8Tree/Instance.h"
 #include "v8world/BasicSpatialHashPrimitive.h"
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "reflection/Property.h"
 
 namespace ARL { 
@@ -55,7 +55,7 @@ namespace ARL {
 
 	protected:
 		boost::shared_ptr<ARL::PartInstance> partInstance;
-		std::vector<rbx::signals::connection> connections;
+		std::vector<arl::signals::connection> connections;
 
 	private:
 		void onPropertyChanged(const ARL::Reflection::PropertyDescriptor* descriptor);

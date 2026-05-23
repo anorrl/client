@@ -252,94 +252,94 @@ namespace ARL
 
 		static Reflection::EventDesc<UserInputService, 
 			void(shared_ptr<Instance>, bool), 
-			rbx::signal<void(shared_ptr<Instance>, bool)>,
-			rbx::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> event_InputBegin;
+			arl::signal<void(shared_ptr<Instance>, bool)>,
+			arl::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> event_InputBegin;
 		static Reflection::EventDesc<UserInputService, 
 			void(shared_ptr<Instance>, bool), 
-			rbx::signal<void(shared_ptr<Instance>, bool)>,
-			rbx::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> event_InputUpdate;
+			arl::signal<void(shared_ptr<Instance>, bool)>,
+			arl::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> event_InputUpdate;
 		static Reflection::EventDesc<UserInputService, 
 			void(shared_ptr<Instance>, bool), 
-			rbx::signal<void(shared_ptr<Instance>, bool)>,
-			rbx::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> event_InputEnd;
+			arl::signal<void(shared_ptr<Instance>, bool)>,
+			arl::signal<void(shared_ptr<Instance>, bool)>* (UserInputService::*)(bool)> event_InputEnd;
 
 		static bool IsUsingNewKeyboardEvents();
 
         // Signals
         // IF THESE ARE BEING CALLED DIRECTLY FROM OUTSIDE DATAMODEL, STOP THAT!
         // could cause a deadlock, please submit a task to datamodel and call the signal
-        rbx::signal<void(bool, void*, const shared_ptr<ARL::InputObject>&)> processedMouseEvent;
-        rbx::signal<void(shared_ptr<Instance>, bool)> processedEventSignal;
+        arl::signal<void(bool, void*, const shared_ptr<ARL::InputObject>&)> processedMouseEvent;
+        arl::signal<void(shared_ptr<Instance>, bool)> processedEventSignal;
         
         // touch gesture event signals
-        rbx::signal<void(shared_ptr<const Reflection::ValueArray>, bool)> tapGestureEvent;
-        rbx::signal<void(shared_ptr<const Reflection::ValueArray>, float, float, InputObject::UserInputState, bool)> pinchGestureEvent;
-        rbx::signal<void(SwipeDirection, int, bool)> swipeGestureEvent;
-        rbx::signal<void(shared_ptr<const Reflection::ValueArray>, InputObject::UserInputState, bool)> longPressGestureEvent;
-        rbx::signal<void(shared_ptr<const Reflection::ValueArray>, float, float, InputObject::UserInputState, bool)> rotateGestureEvent;
-        rbx::signal<void(shared_ptr<const Reflection::ValueArray>, ARL::Vector2, ARL::Vector2, InputObject::UserInputState, bool)> panGestureEvent;
+        arl::signal<void(shared_ptr<const Reflection::ValueArray>, bool)> tapGestureEvent;
+        arl::signal<void(shared_ptr<const Reflection::ValueArray>, float, float, InputObject::UserInputState, bool)> pinchGestureEvent;
+        arl::signal<void(SwipeDirection, int, bool)> swipeGestureEvent;
+        arl::signal<void(shared_ptr<const Reflection::ValueArray>, InputObject::UserInputState, bool)> longPressGestureEvent;
+        arl::signal<void(shared_ptr<const Reflection::ValueArray>, float, float, InputObject::UserInputState, bool)> rotateGestureEvent;
+        arl::signal<void(shared_ptr<const Reflection::ValueArray>, ARL::Vector2, ARL::Vector2, InputObject::UserInputState, bool)> panGestureEvent;
         
         // low level touch event signals
-        rbx::signal<void(shared_ptr<Instance>, bool)> touchStartedEvent;
-		rbx::signal<void(shared_ptr<Instance>, bool)> coreTouchStartedEvent;
+        arl::signal<void(shared_ptr<Instance>, bool)> touchStartedEvent;
+		arl::signal<void(shared_ptr<Instance>, bool)> coreTouchStartedEvent;
 
-        rbx::signal<void(shared_ptr<Instance>, bool)> touchEndedEvent;
-		rbx::signal<void(shared_ptr<Instance>, bool)> coreTouchEndedEvent;
+        arl::signal<void(shared_ptr<Instance>, bool)> touchEndedEvent;
+		arl::signal<void(shared_ptr<Instance>, bool)> coreTouchEndedEvent;
 
-        rbx::signal<void(shared_ptr<Instance>, bool)> touchMovedEvent;
-		rbx::signal<void(shared_ptr<Instance>, bool)> coreTouchMovedEvent;
+        arl::signal<void(shared_ptr<Instance>, bool)> touchMovedEvent;
+		arl::signal<void(shared_ptr<Instance>, bool)> coreTouchMovedEvent;
 
-		rbx::signal<void(shared_ptr<Instance>, bool)>* getTouchBeganEvent(bool whatever = true);
-		rbx::signal<void(shared_ptr<Instance>, bool)>* getTouchChangedEvent(bool whatever = true);
-		rbx::signal<void(shared_ptr<Instance>, bool)>* getTouchEndedEvent(bool whatever = true);
+		arl::signal<void(shared_ptr<Instance>, bool)>* getTouchBeganEvent(bool whatever = true);
+		arl::signal<void(shared_ptr<Instance>, bool)>* getTouchChangedEvent(bool whatever = true);
+		arl::signal<void(shared_ptr<Instance>, bool)>* getTouchEndedEvent(bool whatever = true);
 
 		// low level generic event signals
-		rbx::signal<void(shared_ptr<Instance>, bool)> inputBeganEvent;
-		rbx::signal<void(shared_ptr<Instance>, bool)> coreInputBeganEvent;
+		arl::signal<void(shared_ptr<Instance>, bool)> inputBeganEvent;
+		arl::signal<void(shared_ptr<Instance>, bool)> coreInputBeganEvent;
 
-		rbx::signal<void(shared_ptr<Instance>, bool)> inputUpdatedEvent;
-		rbx::signal<void(shared_ptr<Instance>, bool)> coreInputUpdatedEvent;
+		arl::signal<void(shared_ptr<Instance>, bool)> inputUpdatedEvent;
+		arl::signal<void(shared_ptr<Instance>, bool)> coreInputUpdatedEvent;
 
-		rbx::signal<void(shared_ptr<Instance>, bool)> inputEndedEvent;
-		rbx::signal<void(shared_ptr<Instance>, bool)> coreInputEndedEvent;
+		arl::signal<void(shared_ptr<Instance>, bool)> inputEndedEvent;
+		arl::signal<void(shared_ptr<Instance>, bool)> coreInputEndedEvent;
 
-		rbx::signal<void(shared_ptr<Instance>, bool)>* getInputBeganEvent(bool whatever = true);
-		rbx::signal<void(shared_ptr<Instance>, bool)>* getInputChangedEvent(bool whatever = true);
-		rbx::signal<void(shared_ptr<Instance>, bool)>* getInputEndedEvent(bool whatever = true);
+		arl::signal<void(shared_ptr<Instance>, bool)>* getInputBeganEvent(bool whatever = true);
+		arl::signal<void(shared_ptr<Instance>, bool)>* getInputChangedEvent(bool whatever = true);
+		arl::signal<void(shared_ptr<Instance>, bool)>* getInputEndedEvent(bool whatever = true);
         
         // Motion Events
-        rbx::signal<void(shared_ptr<Instance>, CoordinateFrame)> gyroChangedSignal;
-        rbx::signal<void(shared_ptr<Instance>)> accelerometerChangedSignal;
-        rbx::signal<void(shared_ptr<Instance>)> gravityChangedSignal;
+        arl::signal<void(shared_ptr<Instance>, CoordinateFrame)> gyroChangedSignal;
+        arl::signal<void(shared_ptr<Instance>)> accelerometerChangedSignal;
+        arl::signal<void(shared_ptr<Instance>)> gravityChangedSignal;
         
-        rbx::signal<void(shared_ptr<Instance>, CoordinateFrame)>* getOrCreateScriptGyroEventSignal(bool create = true);
-        rbx::signal<void(shared_ptr<Instance>)>* getOrCreateScriptAccelerometerEventSignal(bool create = true);
-        rbx::signal<void(shared_ptr<Instance>)>* getOrCreateScriptGravityEventSignal(bool create = true);
+        arl::signal<void(shared_ptr<Instance>, CoordinateFrame)>* getOrCreateScriptGyroEventSignal(bool create = true);
+        arl::signal<void(shared_ptr<Instance>)>* getOrCreateScriptAccelerometerEventSignal(bool create = true);
+        arl::signal<void(shared_ptr<Instance>)>* getOrCreateScriptGravityEventSignal(bool create = true);
         
-        rbx::signal<void(std::string)> motionEventListeningStarted;
+        arl::signal<void(std::string)> motionEventListeningStarted;
         
         // Text Events
-        rbx::signal<void(shared_ptr<ARL::Instance>)> textBoxGainFocus;
-        rbx::signal<void(shared_ptr<ARL::Instance>)> textBoxReleaseFocus;
-        rbx::signal<void(const char*, bool, const shared_ptr<InputObject>&)> textBoxFinishedEditing;
+        arl::signal<void(shared_ptr<ARL::Instance>)> textBoxGainFocus;
+        arl::signal<void(shared_ptr<ARL::Instance>)> textBoxReleaseFocus;
+        arl::signal<void(const char*, bool, const shared_ptr<InputObject>&)> textBoxFinishedEditing;
 
-		rbx::signals::connection textboxFocusBeganConnection;
-		rbx::signals::connection textboxFocusEndedConnection;
+		arl::signals::connection textboxFocusBeganConnection;
+		arl::signals::connection textboxFocusEndedConnection;
 
 		// Gamepad Events
-		rbx::signal<void(InputObject::UserInputType)> gamepadDisconnectedSignal;
-		rbx::signal<void(InputObject::UserInputType)> gamepadConnectedSignal;
-		rbx::signal<void(InputObject::UserInputType)> getSupportedGamepadKeyCodesSignal;
+		arl::signal<void(InputObject::UserInputType)> gamepadDisconnectedSignal;
+		arl::signal<void(InputObject::UserInputType)> gamepadConnectedSignal;
+		arl::signal<void(InputObject::UserInputType)> getSupportedGamepadKeyCodesSignal;
 
 		// Window Event
-		rbx::signal<void()> windowFocused;
-		rbx::signal<void()> windowFocusReleased;
+		arl::signal<void()> windowFocused;
+		arl::signal<void()> windowFocusReleased;
         
         // Misc Events
-     	rbx::signal<void()> jumpRequestEvent;
-		rbx::signal<void(bool)> mouseIconEnabledEvent;
-        rbx::signal<void()> updateInputSignal;
-        rbx::signal<void(InputObject::UserInputType)> lastInputTypeChangedSignal;
+     	arl::signal<void()> jumpRequestEvent;
+		arl::signal<void(bool)> mouseIconEnabledEvent;
+        arl::signal<void()> updateInputSignal;
+        arl::signal<void(InputObject::UserInputType)> lastInputTypeChangedSignal;
 
         // Touch Functions
         InputObjectVector getCurrentTouches() { return currentTouches; }
@@ -505,7 +505,7 @@ namespace ARL
 
 		void recenterUserHeadCFrame();
 
-        rbx::signal<void(UserCFrame, CoordinateFrame)> userCFrameChanged;
+        arl::signal<void(UserCFrame, CoordinateFrame)> userCFrameChanged;
 
         // internal (to client, don't access from lua)
         

@@ -4,7 +4,7 @@
 
 #include "FastLog.h"
 #include "V8DataModel/PartInstance.h"
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "util/PhysicalProperties.h"
 #include "util/Region3int16.h"
 #include "Util/BinaryString.h"

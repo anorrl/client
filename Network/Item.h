@@ -1,9 +1,9 @@
 #pragma once
 
-#include "rbx/Declarations.h"
-#include "rbx/boost.hpp"
-#include "rbx/Debug.h"
-#include "rbx/RbxTime.h"
+#include "arl/Declarations.h"
+#include "arl/boost.hpp"
+#include "arl/Debug.h"
+#include "arl/RbxTime.h"
 #include "util/Memory.h"
 #include "boost/intrusive/list.hpp"
 

@@ -3,8 +3,8 @@
 #pragma once
 
 #include "Util/G3DCore.h"
-#include "rbx/Declarations.h"
-#include "rbx/boost.hpp"
+#include "arl/Declarations.h"
+#include "arl/boost.hpp"
 
 // Common base class for Tool, Accoutrement
 //

@@ -4,7 +4,7 @@
 
 #include "Voxel/Cell.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 namespace ARL { namespace Voxel {
 

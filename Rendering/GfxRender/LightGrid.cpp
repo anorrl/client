@@ -2,7 +2,7 @@
 #include "LightGrid.h"
 
 #include "FastLog.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include "v8world/ContactManagerSpatialHash.h"
 #include "v8datamodel/PartInstance.h"
@@ -20,9 +20,9 @@
 #include "Util.h"
 #include "SpatialHashedScene.h"
 
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 #if defined(__APPLE__)
 #include "TargetConditionals.h"

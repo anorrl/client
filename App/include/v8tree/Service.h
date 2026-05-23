@@ -42,10 +42,10 @@ namespace ARL
 		mutable ServiceArray serviceArray;
 		mutable std::map<const ARL::Name*, shared_ptr<Instance> > serviceMap;
 	public:
-		rbx::signal<void()> closingSignal;
-		rbx::signal<void()> closingLateSignal;
-		rbx::signal<void(shared_ptr<Instance> service)> serviceAddedSignal;
-		rbx::signal<void(shared_ptr<Instance> service)> serviceRemovingSignal;
+		arl::signal<void()> closingSignal;
+		arl::signal<void()> closingLateSignal;
+		arl::signal<void(shared_ptr<Instance> service)> serviceAddedSignal;
+		arl::signal<void(shared_ptr<Instance> service)> serviceRemovingSignal;
 
 		ServiceProvider();
 		ServiceProvider(const char* name);

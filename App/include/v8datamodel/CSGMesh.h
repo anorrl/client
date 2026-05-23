@@ -11,7 +11,7 @@
 #include "G3D/Color3uint8.h"
 #include "G3D/CoordinateFrame.h"
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 
 namespace ARL

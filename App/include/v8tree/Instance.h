@@ -8,7 +8,7 @@
 #include "V8Xml/Reference.h"
 #include "V8Tree/Verb.h"
 
-#include "rbx/Countable.h"
+#include "arl/Countable.h"
 #include "Util/Guid.h"
 
 #include <vector>
@@ -129,11 +129,11 @@ typedef std::vector<shared_ptr<Instance> > Instances;
 class OnDemandInstance : public Allocator<OnDemandInstance>
 {
 public:
-	rbx::signal<void(shared_ptr<Instance>)> childAddedSignal;
-	rbx::signal<void(shared_ptr<Instance>)> childRemovedSignal;
-	rbx::signal<void(shared_ptr<Instance>)> descendantAddedSignal;
-	rbx::signal<void(shared_ptr<Instance>)> descendantRemovingSignal;
-	rbx::signal<void(shared_ptr<Instance>)> instanceClonedSignal;
+	arl::signal<void(shared_ptr<Instance>)> childAddedSignal;
+	arl::signal<void(shared_ptr<Instance>)> childRemovedSignal;
+	arl::signal<void(shared_ptr<Instance>)> descendantAddedSignal;
+	arl::signal<void(shared_ptr<Instance>)> descendantRemovingSignal;
+	arl::signal<void(shared_ptr<Instance>)> instanceClonedSignal;
 	
 	struct ThreadWaitingForChild
 	{
@@ -297,23 +297,23 @@ public:
 
 
 	void childAddedSignal(shared_ptr<Instance>& inst) { if(onDemandRead()) onDemandWrite()->childAddedSignal(inst); }
-	rbx::signal<void(shared_ptr<Instance>)>* getOrCreateChildAddedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->childAddedSignal : NULL; };
+	arl::signal<void(shared_ptr<Instance>)>* getOrCreateChildAddedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->childAddedSignal : NULL; };
 
 	void childRemovedSignal(shared_ptr<Instance>& inst) { if(onDemandRead()) onDemandWrite()->childRemovedSignal(inst); }
-	rbx::signal<void(shared_ptr<Instance>)>* getOrCreateChildRemovedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->childRemovedSignal : NULL; };
+	arl::signal<void(shared_ptr<Instance>)>* getOrCreateChildRemovedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->childRemovedSignal : NULL; };
 
 	void descendantAddedSignal(shared_ptr<Instance>& inst) { if(onDemandRead()) onDemandWrite()->descendantAddedSignal(inst); }
-	rbx::signal<void(shared_ptr<Instance>)>* getOrCreateDescendantAddedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->descendantAddedSignal : NULL; };
+	arl::signal<void(shared_ptr<Instance>)>* getOrCreateDescendantAddedSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->descendantAddedSignal : NULL; };
 
 	void descendantRemovingSignal(const shared_ptr<Instance>& inst) { if(onDemandRead()) onDemandWrite()->descendantRemovingSignal(inst); }
-	rbx::signal<void(shared_ptr<Instance>)>* getOrCreateDescendantRemovingSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->descendantRemovingSignal : NULL; };
+	arl::signal<void(shared_ptr<Instance>)>* getOrCreateDescendantRemovingSignal(bool create = true) { return (onDemandRead() || create) ? &onDemandWrite()->descendantRemovingSignal : NULL; };
 
-	rbx::signal<void(shared_ptr<Instance>, shared_ptr<Instance>)> ancestryChangedSignal;
-	rbx::signal<void(const Reflection::PropertyDescriptor*)> propertyChangedSignal;
+	arl::signal<void(shared_ptr<Instance>, shared_ptr<Instance>)> ancestryChangedSignal;
+	arl::signal<void(const Reflection::PropertyDescriptor*)> propertyChangedSignal;
 
 	// combinedSignal is an optimization. You could use the regular signals, like childAddedSignal.
 	// However, if you are listening to many signals then you can save memory by listening to just the combinedSignal
-	rbx::signal<void(CombinedSignalType, const ICombinedSignalData*)> combinedSignal;
+	arl::signal<void(CombinedSignalType, const ICombinedSignalData*)> combinedSignal;
 
 	shared_ptr<Instance> clone(CreatorRole creatorRole);
 	virtual shared_ptr<Instance> luaClone(); //Just like regular clone, but it enforces the Instance limits

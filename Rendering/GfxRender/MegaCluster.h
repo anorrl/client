@@ -4,7 +4,7 @@
 
 #include "GfxBase/GfxPart.h"
 #include "reflection/Property.h"
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "Util/G3DCore.h"
 #include "Util/SpatialRegion.h"
 

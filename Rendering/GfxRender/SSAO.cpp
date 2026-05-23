@@ -13,7 +13,7 @@
 #include "GfxCore/States.h"
 #include "GfxCore/pix.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(Graphics)
 

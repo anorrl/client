@@ -26,7 +26,7 @@
 
 #include "VisualEngine.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGVARIABLE(RenderFastCluster, 0)
 

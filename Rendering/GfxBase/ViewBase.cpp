@@ -1,7 +1,7 @@
 #include "GfxBase/ViewBase.h"
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include "util/MachineIdUploader.h"
 #include "boost/functional/hash.hpp"

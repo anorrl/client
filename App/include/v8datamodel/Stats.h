@@ -2,8 +2,8 @@
 
 #include "V8Tree/Instance.h"
 #include "V8Tree/Service.h"
-#include "rbx/RunningAverage.h"
-#include "rbx/TaskScheduler.h"
+#include "arl/RunningAverage.h"
+#include "arl/TaskScheduler.h"
 #include "util/Analytics.h"
 
 #include <rapidjson/document.h>
@@ -165,7 +165,7 @@ namespace ARL {
 			std::string customReportUrl;
 			typedef boost::unordered_map<std::string, ARL::Time> LastReportTimes;
 			LastReportTimes lastReportTimes;
-			rbx::signals::scoped_connection baseUrlConnection;
+			arl::signals::scoped_connection baseUrlConnection;
 		public:
 			StatsService():DescribedNonCreatable<StatsService, Instance, sStats, Reflection::ClassDescriptor::INTERNAL_LOCAL, ARL::Security::LocalUser>("Stats") 
 				,minReportInterval(10)

@@ -70,7 +70,7 @@ namespace ARL {
 		Explosion();
 		virtual ~Explosion();
 
-		rbx::signal<void(shared_ptr<Instance>, float)> hitSignal;
+		arl::signal<void(shared_ptr<Instance>, float)> hitSignal;
 
 		static Reflection::BoundProp<Vector3> propPosition;
 		static Reflection::BoundProp<float> propBlastPressure;

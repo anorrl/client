@@ -9,7 +9,7 @@
 #include "boost/container/map.hpp"
 
 #include "simd/simd.h"
-#include "rbx/ArrayDynamic.h"
+#include "arl/ArrayDynamic.h"
 
 #include <vector>
 #include <map>

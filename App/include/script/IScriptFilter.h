@@ -37,7 +37,7 @@ namespace ARL
 	protected:
 		virtual void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 	private:
-		rbx::signals::scoped_connection runTransitionConnection;
+		arl::signals::scoped_connection runTransitionConnection;
 		std::set<weak_ptr<BaseScript> > pendingScripts;		// holds Scripts that are waiting for "Run"
 		std::set<weak_ptr<BaseScript> > runningScripts;
 

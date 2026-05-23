@@ -66,7 +66,7 @@ namespace ARL {
 
 	// specialization
 	template<>
-	int Bridge<rbx::signals::connection>::on_tostring(const rbx::signals::connection& object, lua_State *L);
+	int Bridge<arl::signals::connection>::on_tostring(const arl::signals::connection& object, lua_State *L);
 
 	template<>
 	int Bridge<boost::intrusive_ptr<class WeakThreadRef::Node> >::on_tostring(const boost::intrusive_ptr<class WeakThreadRef::Node>& object, lua_State *L);

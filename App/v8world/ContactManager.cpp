@@ -18,14 +18,14 @@
 #include "V8World/Joint.h"
 #include "V8world/Mechanism.h"
 #include "V8World/SpatialFilter.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/Profiling.h"
 #include "V8DataModel/MegaCluster.h"
 #include "V8World/MegaClusterPoly.h"
 #include "V8World/SmoothClusterGeometry.h"
 #include "v8world/Buoyancy.h"
 #include "Voxel/Grid.h"
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 #include "v8world/Tolerance.h"
 
 #include "voxel2/Grid.h"
@@ -35,7 +35,7 @@
 
 #include "BulletCollision/CollisionDispatch/btCollisionWorld.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(TerrainCellListener)
 DYNAMIC_LOGVARIABLE(DeferredVoxelUpdates, 0)

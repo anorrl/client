@@ -10,8 +10,8 @@
 #include "atlbase.h"
 #include "AtlWin.h"
 #include <map>
-#include "rbx/threadsafe.h"
-#include "rbx/atomic.h"
+#include "arl/threadsafe.h"
+#include "arl/atomic.h"
 
 namespace ARL {
 
@@ -36,9 +36,9 @@ class FunctionMarshaller
 	};
 	SAFE_STATIC(StaticData, staticData)
 
-	rbx::safe_queue<boost::function<void()>*> asyncCalls;
+	arl::safe_queue<boost::function<void()>*> asyncCalls;
 
-	rbx::atomic<LONG> postedAsyncMessage;
+	arl::atomic<LONG> postedAsyncMessage;
 	int refCount;
 	DWORD threadID;
 

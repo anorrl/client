@@ -17,7 +17,7 @@ namespace ARL {
 	private:
 		typedef Named<ScriptMouseCommand, sStudioToolMouseCommand> Super;
 		shared_ptr<StudioTool> tool;
-		rbx::signals::scoped_connection toolUnequipped;	
+		arl::signals::scoped_connection toolUnequipped;	
 
 		void onEvent_ToolUnequipped();
 	public:

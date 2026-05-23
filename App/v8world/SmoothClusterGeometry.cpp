@@ -17,7 +17,7 @@
 #include "BulletCollision/NarrowPhaseCollision/btRaycastCallback.h"
 #include "BulletCollision/BroadPhaseCollision/btDbvt.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 FASTINTVARIABLE(SmoothTerrainPhysicsCacheSize, 16*1024*1024)
 

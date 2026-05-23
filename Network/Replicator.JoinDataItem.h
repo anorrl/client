@@ -10,7 +10,7 @@
 #include "script/ModuleScript.h"
 #include "Replicator.NewInstanceItem.h"
 
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 #include "util/VarInt.h"
 
 #define ESTIMATED_COMPRESSION_RATIO 5.0f

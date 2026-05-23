@@ -14,7 +14,7 @@
 #include "boost/shared_ptr.hpp"
 
 // ANORRL Headers
-#include "rbx/BaldPtr.h"
+#include "arl/BaldPtr.h"
 #include "V8DataModel/DataModel.h"
 
 // ANORRL Studio Headers

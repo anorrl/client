@@ -12,7 +12,7 @@
 #include "Network/Players.h"
 #include <boost/algorithm/string.hpp>
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 DYNAMIC_FASTFLAGVARIABLE(AnimationAllowProdUrls, true);
 DYNAMIC_FASTFLAGVARIABLE(DontUseInsertServiceOnAnimLoad, false)

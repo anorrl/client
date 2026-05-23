@@ -6,7 +6,7 @@
 #include "V8DataModel/Workspace.h"
 #include "Util/Math.h"
 #include "Util/Action.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "AppDraw/DrawAdorn.h"
 #include "GfxBase/Part.h"
 #include "GfxBase/Adorn.h"

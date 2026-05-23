@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "Voxel/Voxelizer.h"
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 #include "v8world/Primitive.h"
 #include "v8world/ContactManager.h"
 #include "v8world/TriangleMesh.h"
@@ -16,7 +16,7 @@
 
 #include "voxel2/Grid.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 #include "BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
 #include "Extras/GIMPACTUtils/btGImpactConvexDecompositionShape.h"

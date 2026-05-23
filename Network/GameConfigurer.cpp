@@ -67,7 +67,7 @@ using namespace ARL;
 
 void GameConfigurer::parseArgs(const std::string& args)
 {
-	parameters = rbx::make_shared<const Reflection::ValueTable>();
+	parameters = arl::make_shared<const Reflection::ValueTable>();
 	WebParser::parseJSONTable(args, parameters);
 }
 
@@ -698,8 +698,7 @@ void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 
 	
 	dataModel->setScreenshotSEOInfo(getParamString("ScreenShotInfo"));
-	dataModel->setVideoSEOInfo(getParamString("VideoInfo"));
-
+	
 	ifSeleniumThenSetCookie("SeleniumTest4", "Finished join");
 
     if (FFlag::ClientABTestingEnabled)

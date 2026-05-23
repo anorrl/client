@@ -5,8 +5,8 @@
 #include "script/LuaEnum.h"
 #include "script/ThreadRef.h"
 #include "script/LuaInstanceBridge.h"
-#include "rbx/make_shared.h"
-#include "rbx/DenseHash.h"
+#include "arl/make_shared.h"
+#include "arl/DenseHash.h"
 #include "util/ProtectedString.h"
 #include "util/PhysicalProperties.h"
 
@@ -115,8 +115,8 @@ namespace ARL {
 		if (value.isType<const Reflection::PropertyDescriptor*>())
 			return f(*value.cast<const Reflection::PropertyDescriptor*>());
 
-		if (value.isType<rbx::signals::connection>())
-			return f(value.cast<rbx::signals::connection>());
+		if (value.isType<arl::signals::connection>())
+			return f(value.cast<arl::signals::connection>());
 
         if (value.isType<NumberSequence>())
             return f(value.cast<NumberSequence>());
@@ -158,7 +158,7 @@ namespace ARL {
 		{
 			int argCount = lua_gettop(L);
 
-			shared_ptr<Reflection::Tuple> args(rbx::make_shared<Reflection::Tuple>(argCount));
+			shared_ptr<Reflection::Tuple> args(arl::make_shared<Reflection::Tuple>(argCount));
 
 			for (int i = 0; i<argCount; ++i)
 			{

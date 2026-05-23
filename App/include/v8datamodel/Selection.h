@@ -35,12 +35,12 @@ namespace ARL {
 	private:
 		copy_on_write_ptr<Instances> selection;
 		std::vector<ISelectionBase*> filteredSelections;
-		typedef std::map<ARL::Instance*, rbx::signals::connection> Connections;
+		typedef std::map<ARL::Instance*, arl::signals::connection> Connections;
 		Connections connections;
 
 	public:
-		rbx::signal<void(const SelectionChanged&)> selectionChanged;
-		rbx::signal<void()> luaSelectionChanged;
+		arl::signal<void(const SelectionChanged&)> selectionChanged;
+		arl::signal<void()> luaSelectionChanged;
 
 		Selection();
 		~Selection();
@@ -216,7 +216,7 @@ namespace ARL {
 		void propagateChangeSignalToLua(const ARL::SelectionChanged& event);
 		bool instanceCanLiveInSelection(Instance* instance);
 
-		rbx::signals::connection selectionChangedConnection;
+		arl::signals::connection selectionChangedConnection;
 	};
 	
 	extern const char* const sFilteredSelection;

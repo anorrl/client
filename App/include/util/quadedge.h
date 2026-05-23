@@ -3,7 +3,7 @@
 // See http://graphics.stanford.edu/courses/cs468-02-fall/readings/lischinski.ps
 // And Graphics Gems IV - delaunay
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include <limits>
 #include "math.h"
 

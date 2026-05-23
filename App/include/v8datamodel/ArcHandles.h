@@ -21,11 +21,11 @@ namespace ARL
 	public:
 		ArcHandles();
 
-		rbx::remote_signal<void(ARL::Vector3::Axis)>				mouseEnterSignal;
-		rbx::remote_signal<void(ARL::Vector3::Axis)>				mouseLeaveSignal;	
-		rbx::remote_signal<void(ARL::Vector3::Axis,float,float)>	mouseDragSignal;
-		rbx::remote_signal<void(ARL::Vector3::Axis)>				mouseButton1DownSignal;
-		rbx::remote_signal<void(ARL::Vector3::Axis)>				mouseButton1UpSignal;	
+		arl::remote_signal<void(ARL::Vector3::Axis)>				mouseEnterSignal;
+		arl::remote_signal<void(ARL::Vector3::Axis)>				mouseLeaveSignal;	
+		arl::remote_signal<void(ARL::Vector3::Axis,float,float)>	mouseDragSignal;
+		arl::remote_signal<void(ARL::Vector3::Axis)>				mouseButton1DownSignal;
+		arl::remote_signal<void(ARL::Vector3::Axis)>				mouseButton1UpSignal;	
 
 		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseEnter,		void(ARL::Vector3::Axis));
 		DECLARE_EVENT_REPLICATOR_SIG(ArcHandles,MouseLeave,		void(ARL::Vector3::Axis));

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "Util/ThreadPool.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "boost/cast.hpp"
 
 namespace ARL
@@ -16,7 +16,7 @@ namespace ARL
 		poolLocks.resize(count);
 		
 		for (int i=0; i<count; ++i){
-			poolLocks[i].reset(new rbx::spin_mutex());
+			poolLocks[i].reset(new arl::spin_mutex());
 			pool[i].reset(new boost::thread(boost::bind(&loop, poolData, poolLocks[i], shutdownPolicy)));
 		}
 	}
@@ -56,7 +56,7 @@ namespace ARL
 			ARLASSERT(pool.size() == poolLocks.size());
 			boost::posix_time::milliseconds timeout(50);
 			for(unsigned i = 0; i<pool.size(); ++i){
-				rbx::spin_mutex::scoped_lock lock(*poolLocks[i]);
+				arl::spin_mutex::scoped_lock lock(*poolLocks[i]);
 				pool[i]->timed_join(timeout);
 			}
 			break;
@@ -67,9 +67,9 @@ namespace ARL
 		}
 	}
 
-	void BaseThreadPool::loop(boost::shared_ptr<PoolData> poolData, boost::shared_ptr<rbx::spin_mutex> lock, ShutdownPolicy shutdownPolicy)
+	void BaseThreadPool::loop(boost::shared_ptr<PoolData> poolData, boost::shared_ptr<arl::spin_mutex> lock, ShutdownPolicy shutdownPolicy)
 	{
-		ARL::set_thread_name("rbx_BaseThreadPool");
+		ARL::set_thread_name("arl_BaseThreadPool");
 		while (true)
 		{
 			{
@@ -84,7 +84,7 @@ namespace ARL
 				poolData->fired = false;
 			}
 			{
-				boost::function<void(boost::shared_ptr<rbx::spin_mutex>)> task;
+				boost::function<void(boost::shared_ptr<arl::spin_mutex>)> task;
 				while (poolData->getNextTask(task))
 				{
                     // Discard remaining tasks on shutdown
@@ -109,7 +109,7 @@ namespace ARL
 		:BaseThreadPool(count, shutdownPolicy, new ThreadPoolData(), maxScheduleSize)
 	{}
 
-	bool ThreadPool::schedule(boost::function<void(boost::shared_ptr<rbx::spin_mutex>)> task)
+	bool ThreadPool::schedule(boost::function<void(boost::shared_ptr<arl::spin_mutex>)> task)
 	{
 		if (!shouldSchedule(poolData))
 		{
@@ -127,7 +127,7 @@ namespace ARL
 		:BaseThreadPool(count, shutdownPolicy, new PriorityThreadPoolData(), maxScheduleSize)
 	{}
 
-	bool PriorityThreadPool::schedule(boost::function<void(boost::shared_ptr<rbx::spin_mutex>)> task, float priority)
+	bool PriorityThreadPool::schedule(boost::function<void(boost::shared_ptr<arl::spin_mutex>)> task, float priority)
 	{
 		if (!shouldSchedule(poolData))
 		{
@@ -140,7 +140,7 @@ namespace ARL
 		return true;
 	}
 
-	bool PriorityThreadPool::PriorityThreadPoolData::getNextTask(boost::function<void(boost::shared_ptr<rbx::spin_mutex>)>& task)
+	bool PriorityThreadPool::PriorityThreadPoolData::getNextTask(boost::function<void(boost::shared_ptr<arl::spin_mutex>)>& task)
 	{
 		PriorityTask priTask;
 		bool result = heap.pop_heap_if_present(priTask);

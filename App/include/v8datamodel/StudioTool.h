@@ -28,9 +28,9 @@ namespace ARL {
 		void equip(Workspace*);
 		void unequip();
 
-		rbx::signal<void(shared_ptr<Instance>)> equippedSignal;
-		rbx::signal<void()> activatedSignal;
-		rbx::signal<void()> unequippedSignal;
-		rbx::signal<void()> deactivatedSignal;
+		arl::signal<void(shared_ptr<Instance>)> equippedSignal;
+		arl::signal<void()> activatedSignal;
+		arl::signal<void()> unequippedSignal;
+		arl::signal<void()> deactivatedSignal;
 	};
 }

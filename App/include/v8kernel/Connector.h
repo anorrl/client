@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Util/NormalID.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/Memory.h"
 #include "Util/Math.h"
 

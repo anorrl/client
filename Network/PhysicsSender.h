@@ -1,17 +1,17 @@
 #pragma once
 
 #include "Compressor.h"
-#include "rbx/Declarations.h"
+#include "arl/Declarations.h"
 #include "Util/G3DCore.h"
 #include "Util/PV.h"
-#include "rbx/boost.hpp"
-#include "rbx/signal.h"
-#include "rbx/rbxTime.h"
+#include "arl/boost.hpp"
+#include "arl/signal.h"
+#include "arl/rbxTime.h"
 #include <vector>
 #include "CompactCFrame.h"
 #include <boost/unordered_set.hpp>
 #include "PacketPriority.h"
-#include "rbx/RunningAverage.h"
+#include "arl/RunningAverage.h"
 #include "ReplicatorStats.h"
 
 namespace RakNet {

@@ -7,8 +7,8 @@
 
 #include "LogManager.h"
 #include "RbxFormat.h"
-#include "rbx/Debug.h"
-#include "rbx/boost.hpp"
+#include "arl/Debug.h"
+#include "arl/boost.hpp"
 #include "util/StandardOut.h"
 #include "util/FileSystem.h"
 #include "util/Guid.h"
@@ -22,10 +22,10 @@
 #include "atlfile.h"
 
 #include "versioninfo.h"
-#include "rbx/TaskScheduler.h"
+#include "arl/TaskScheduler.h"
 #include "VistaTools.h"
 #include "DumpErrorUploader.h"
-#include "rbx/Log.h"
+#include "arl/Log.h"
 #include "FastLog.h"
 
 LOGGROUP(CrashReporterInit)

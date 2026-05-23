@@ -23,8 +23,8 @@ namespace ARL {
 
         shared_ptr<Animation> animation;
 
-		rbx::signals::connection keyframeReachedConnection;
-		rbx::signals::connection stoppedConnection;
+		arl::signals::connection keyframeReachedConnection;
+		arl::signals::connection stoppedConnection;
 
 		void forwardKeyframeReached(std::string);
 		void forwardStopped();
@@ -62,8 +62,8 @@ namespace ARL {
 		bool getLooped() const { return looped;  }
 		void setLooped(bool value);
 
-		rbx::signal<void(std::string)> keyframeReachedSignal;
-		rbx::signal<void()> stoppedSignal;
+		arl::signal<void(std::string)> keyframeReachedSignal;
+		arl::signal<void()> stoppedSignal;
 	};
 
 } // namespace

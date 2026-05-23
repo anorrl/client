@@ -104,7 +104,7 @@ namespace ARL
 
 			shared_ptr<SoundJob> soundJob;
 
-			rbx::signals::scoped_connection gameSettingsChangedConnection;
+			arl::signals::scoped_connection gameSettingsChangedConnection;
 
 			Time nextGarbageCollectTime;
 			typedef boost::unordered_map<SoundId, shared_ptr<Sound> > LoadedSounds;

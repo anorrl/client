@@ -126,6 +126,7 @@ TextService::Font TextService::FromTextFont(Text::Font font)
 
 	case Text::FONT_VCR:	return FONT_VCR;
 	case Text::FONT_DASHHORIZON:	return FONT_DASHHORIZON;
+	case Text::FONT_PUNKTYPE:	return FONT_PUNKTYPE;
 	default:
 		ARLASSERT(0);
 		return FONT_LEGACY;
@@ -160,6 +161,7 @@ Text::Font TextService::ToTextFont(Font font)
 	case FONT_NOTOSANSBOLD:	return Text::FONT_NOTOSANSBOLD;
 	case FONT_VCR:	return Text::FONT_VCR;
 	case FONT_DASHHORIZON:	return Text::FONT_DASHHORIZON;
+	case FONT_PUNKTYPE:	return Text::FONT_PUNKTYPE;
 
 	default:
 		ARLASSERT(0);

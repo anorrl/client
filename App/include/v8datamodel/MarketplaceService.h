@@ -17,13 +17,13 @@ namespace ARL {
 		std::string productInfoUrl;
 		std::string playerOwnsAssetUrl;
 
-		rbx::signals::scoped_connection playerRemovingConnection;
+		arl::signals::scoped_connection playerRemovingConnection;
 		boost::unordered_map<shared_ptr<Instance>, boost::function<void(bool, shared_ptr<Instance>)> > callbackFunctionMap;
 
 		bool receiptProcessingEnabledByUser;
-		rbx::signals::scoped_connection playerAddedReceiptConnection;
-		rbx::signals::scoped_connection playerPurchaseReceiptConnection;
-		rbx::signals::scoped_connection verifyPurchaseConnection;
+		arl::signals::scoped_connection playerAddedReceiptConnection;
+		arl::signals::scoped_connection playerPurchaseReceiptConnection;
+		arl::signals::scoped_connection verifyPurchaseConnection;
 
 		// Cache the MarketPlace Product Info Response
 		struct ResponseCache
@@ -91,23 +91,23 @@ namespace ARL {
 
 		void verifyPurchaseTicket(std::string ticket, int userId, int productId);
         
-        rbx::remote_signal<void(shared_ptr<Instance> player, std::string productId, bool isPurchased)> nativePurchaseFinished;
-		rbx::remote_signal<void(shared_ptr<Instance> player, std::string productId)> promptNativePurchaseRequested;
+        arl::remote_signal<void(shared_ptr<Instance> player, std::string productId, bool isPurchased)> nativePurchaseFinished;
+		arl::remote_signal<void(shared_ptr<Instance> player, std::string productId)> promptNativePurchaseRequested;
 
-		rbx::remote_signal<void(shared_ptr<Instance> player, std::string productId, std::string receipt, bool isPurchased)> thirdPartyPurchaseFinished;
-		rbx::remote_signal<void(shared_ptr<Instance> player, std::string productId)> promptThirdPartyPurchaseRequested;
+		arl::remote_signal<void(shared_ptr<Instance> player, std::string productId, std::string receipt, bool isPurchased)> thirdPartyPurchaseFinished;
+		arl::remote_signal<void(shared_ptr<Instance> player, std::string productId)> promptThirdPartyPurchaseRequested;
 
-		rbx::remote_signal<void(shared_ptr<Instance> player, int assetId, bool equipIfPurchased, CurrencyType currencyType)> promptProductPurchaseRequested;
-		rbx::remote_signal<void(int userId, int assetId, bool isPurchased)> promptProductPurchaseFinished;
+		arl::remote_signal<void(shared_ptr<Instance> player, int assetId, bool equipIfPurchased, CurrencyType currencyType)> promptProductPurchaseRequested;
+		arl::remote_signal<void(int userId, int assetId, bool isPurchased)> promptProductPurchaseFinished;
 				
-		rbx::remote_signal<void(shared_ptr<Instance> player, int assetId, bool isPurchased)> promptPurchaseFinished;
-		rbx::remote_signal<void(shared_ptr<Instance> player, int assetId, bool equipIfPurchased, CurrencyType currencyType)> promptPurchaseRequested;
+		arl::remote_signal<void(shared_ptr<Instance> player, int assetId, bool isPurchased)> promptPurchaseFinished;
+		arl::remote_signal<void(shared_ptr<Instance> player, int assetId, bool equipIfPurchased, CurrencyType currencyType)> promptPurchaseRequested;
 
-		rbx::remote_signal<void(std::string response, int userId, int productId)> clientPurchaseSuccess;
-		rbx::remote_signal<void(shared_ptr<const Reflection::ValueTable> responseTable)> serverPurchaseVerification;
+		arl::remote_signal<void(std::string response, int userId, int productId)> clientPurchaseSuccess;
+		arl::remote_signal<void(shared_ptr<const Reflection::ValueTable> responseTable)> serverPurchaseVerification;
 
-        rbx::remote_signal<void(shared_ptr<const Reflection::Tuple>)> clientLuaDialogRequested;
-		rbx::remote_signal<void(bool, shared_ptr<Instance>)> luaDialogCallbackSignal;
+        arl::remote_signal<void(shared_ptr<const Reflection::Tuple>)> clientLuaDialogRequested;
+		arl::remote_signal<void(bool, shared_ptr<Instance>)> luaDialogCallbackSignal;
 
 		typedef boost::function<void(shared_ptr<const Reflection::ValueTable>,
 			Reflection::AsyncCallbackDescriptor::ResumeFunction,

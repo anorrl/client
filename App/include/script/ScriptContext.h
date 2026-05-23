@@ -9,7 +9,7 @@
 #include "Security/SecurityContext.h"
 #include "Util/AsyncHttpQueue.h"
 #include "util/RunningAverage.h"
-#include "rbx/RunningAverage.h"
+#include "arl/RunningAverage.h"
 
 #define BOOST_DATE_TIME_NO_LIB
 #include "boost/date_time/posix_time/posix_time.hpp"
@@ -161,7 +161,7 @@ namespace ARL
 			Lua::ThreadRef thread;
 			shared_ptr<const Reflection::Tuple> arguments;
 		};
-		rbx::safe_queue<WaitingThread> waitingThreads;
+		arl::safe_queue<WaitingThread> waitingThreads;
 
 		bool anorrlPlace;
 		bool scriptsDisabled;	// == don't run the scripts contained in BaseScript objects
@@ -174,10 +174,10 @@ namespace ARL
 
 		int startScriptReentrancy;
 
-        rbx::atomic<int> timedoutCount;
+        arl::atomic<int> timedoutCount;
 		Time::Interval timoutSpan;	// The time that is allowed per heartbeat before scripts stop running (0 means no timeouts)
 		Time timoutTime;	// The system time when we should time-out scripts 
-        rbx::atomic<int> timedout;     // == scripts should stop running
+        arl::atomic<int> timedout;     // == scripts should stop running
 		boost::scoped_ptr<boost::thread> timeoutThread;
 		boost::mutex timeoutMutex;
 		volatile bool endTimoutThread;
@@ -235,10 +235,10 @@ namespace ARL
 		void addCoreScript(int assetId, shared_ptr<Instance> parent, std::string name);
 		void addCoreScriptLocal(std::string scriptName, shared_ptr<Instance> parent);
 		// Experimental error signal for catching errors server-side
-		rbx::signal<void(std::string, std::string, shared_ptr<Instance>)> errorSignal;
+		arl::signal<void(std::string, std::string, shared_ptr<Instance>)> errorSignal;
 		// A temporary signals used for diagnostic purposes
-		rbx::signal<void(shared_ptr<Instance>, std::string, shared_ptr<Instance>)> camelCaseViolation;
-		rbx::signal<void(lua_State*)> scriptErrorDetected;
+		arl::signal<void(shared_ptr<Instance>, std::string, shared_ptr<Instance>)> camelCaseViolation;
+		arl::signal<void(lua_State*)> scriptErrorDetected;
 
 		////////////////////////////////////////////////
 		// Configuration
@@ -319,7 +319,7 @@ namespace ARL
 	protected:
 		/*override*/ void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 	private:
-		rbx::signals::scoped_connection heartbeatConnection;
+		arl::signals::scoped_connection heartbeatConnection;
 
 		boost::scoped_ptr<LuaAllocator> allocator;
 
@@ -424,7 +424,7 @@ namespace ARL
 		static int resumeImpl(lua_State* L, int nargs);
         
 		int camelCaseViolationCount;
-		rbx::signals::connection camelCaseViolationConnection;
+		arl::signals::connection camelCaseViolationConnection;
 		void onCamelCaseViolation(shared_ptr<Instance> object, std::string memberName, shared_ptr<Instance> script);
 
 		friend class BaseScript;

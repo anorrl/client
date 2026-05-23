@@ -2,7 +2,7 @@
 
 #include "GfxBase/IAdornableCollector.h"
 #include "v8datamodel/Camera.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "FastLog.h"
 
 LOGGROUP(AdornableLifetime);

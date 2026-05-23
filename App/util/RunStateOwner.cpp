@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "Util/RunStateOwner.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 #include "V8DataModel/Workspace.h"
 #include "V8DataModel/DataModel.h"
@@ -10,13 +10,13 @@
 #include "Util/Profiling.h"
 #include "util/standardout.h"
 #include "Network/Players.h"
-#include "rbx/Log.h"
+#include "arl/Log.h"
 #include "VMProtectSDK.h"
 #include "V8DataModel/HackDefines.h"
 #include "V8World/Tolerance.h"
 #include "script/ThreadRef.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 DYNAMIC_FASTFLAGVARIABLE(HeartBeatCanRunTwiceFor30Hz, true)
 DYNAMIC_FASTFLAGVARIABLE(PhysicsFPSTimerFix, false)
@@ -53,8 +53,8 @@ static Reflection::EventDesc<RunService, void(double)> event_Heartbeat(&RunServi
 
 static Reflection::EventDesc<RunService, 
 	void(double), 
-	rbx::signal<void(double)>,
-	rbx::signal<void(double)>* (RunService::*)(bool)> event_RenderStepped(&RunService::getOrCreateScriptRenderSteppedSignal, "RenderStepped", "step", Security::None);
+	arl::signal<void(double)>,
+	arl::signal<void(double)>* (RunService::*)(bool)> event_RenderStepped(&RunService::getOrCreateScriptRenderSteppedSignal, "RenderStepped", "step", Security::None);
 
 static Reflection::BoundFuncDesc<RunService, void()> runFunction(&RunService::run, "Run", Security::Plugin);
 static Reflection::BoundFuncDesc<RunService, void()> pauseFunction(&RunService::pause, "Pause", Security::Plugin);
@@ -573,7 +573,7 @@ void RunService::fireRenderStepEarlyFunctions()
 			{
 				if (!funcIter->second.empty())
 				{
-					InvokeCallback(weak_from(this), funcIter->second, rbx::make_shared<Reflection::Tuple>());
+					InvokeCallback(weak_from(this), funcIter->second, arl::make_shared<Reflection::Tuple>());
 				}
 			}
 			catch(const std::runtime_error& e)
@@ -691,7 +691,7 @@ double RunService::heartbeatAverageStep() const { return heartbeatTask->averageS
 double RunService::physicsCpuFraction() const { return physicsJob->averageDutyCycle(); }
 double RunService::heartbeatCpuFraction() const { return heartbeatTask->averageDutyCycle(); }
 
-rbx::signal<void(double)>* RunService::getOrCreateScriptRenderSteppedSignal(bool create)
+arl::signal<void(double)>* RunService::getOrCreateScriptRenderSteppedSignal(bool create)
 {
 	if (create && !Network::Players::frontendProcessing(this))
         throw std::runtime_error("RenderStepped event can only be used from local scripts");

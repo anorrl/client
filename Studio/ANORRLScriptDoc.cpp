@@ -162,7 +162,7 @@ static void attemptToLockScript(shared_ptr<ARL::DataModel> dm, LuaSourceBuffer l
 
 	CEvent cevent(true);
 	shared_ptr<LuaSourceContainer> lsc;
-	rbx::signals::scoped_connection conn1, conn2;
+	arl::signals::scoped_connection conn1, conn2;
 
 	{
 		DataModel::LegacyLock l(dm, DataModelJob::Write);

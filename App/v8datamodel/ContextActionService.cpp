@@ -321,7 +321,7 @@ void ContextActionService::callFunction(boost::function<void(shared_ptr<Reflecti
 {
 	if (!luaFunction.empty())
 	{
-		shared_ptr<Reflection::Tuple> args = rbx::make_shared<Reflection::Tuple>();
+		shared_ptr<Reflection::Tuple> args = arl::make_shared<Reflection::Tuple>();
 		args->values.push_back(actionName);
 		args->values.push_back(state);
 		args->values.push_back(inputObject);
@@ -457,7 +457,7 @@ GuiResponse ContextActionService::processDevBindings(const shared_ptr<InputObjec
 
 static shared_ptr<Reflection::ValueTable> constructTableFromBoundFunctionData(const BoundFunctionData& functionData)
 {
-	shared_ptr<Reflection::ValueTable> functionTable = rbx::make_shared<Reflection::ValueTable>();
+	shared_ptr<Reflection::ValueTable> functionTable = arl::make_shared<Reflection::ValueTable>();
 	if (!functionData.title.empty())
 	{
 		(*functionTable)["title"] = functionData.title;
@@ -476,14 +476,14 @@ static shared_ptr<Reflection::ValueTable> constructTableFromBoundFunctionData(co
 	}
 	if (functionData.inputTypes)
 	{
-		shared_ptr<Reflection::ValueArray> inputArray = rbx::make_shared<Reflection::ValueArray>(functionData.inputTypes->values);
+		shared_ptr<Reflection::ValueArray> inputArray = arl::make_shared<Reflection::ValueArray>(functionData.inputTypes->values);
 		(*functionTable)["inputTypes"] = Reflection::Variant(shared_ptr<const Reflection::ValueArray>(inputArray));
 	}
 
 	return functionTable;
 }
 
-void unbindActionInternal(const std::string actionName, FunctionMap& funcMap, FunctionVector& funcVector, rbx::signal<void(std::string, shared_ptr<const Reflection::ValueTable>)>& removedSignal)
+void unbindActionInternal(const std::string actionName, FunctionMap& funcMap, FunctionVector& funcVector, arl::signal<void(std::string, shared_ptr<const Reflection::ValueTable>)>& removedSignal)
 {
 	if (funcMap.find(actionName) != funcMap.end())
 	{
@@ -676,7 +676,7 @@ void ContextActionService::bindActionInternal(const std::string actionName, Lua:
 	funcVector.push_back( std::pair<std::string, BoundFunctionData>(actionName,data) );
 
 	// now fire a signal so we know a new function was bound (used by core scripts)
-	shared_ptr<Reflection::ValueTable> functionTable(rbx::make_shared<Reflection::ValueTable>());
+	shared_ptr<Reflection::ValueTable> functionTable(arl::make_shared<Reflection::ValueTable>());
 
 	(*functionTable)["title"] = ARL::Reflection::Variant();
 	(*functionTable)["image"] = ARL::Reflection::Variant();
@@ -684,7 +684,7 @@ void ContextActionService::bindActionInternal(const std::string actionName, Lua:
 	(*functionTable)["createTouchButton"] = ARL::Reflection::Variant(createTouchButton);
 	if (hotkeys && !hotkeys->values.empty())
 	{
-		shared_ptr<Reflection::ValueArray> hotkeyArray = rbx::make_shared<Reflection::ValueArray>(hotkeys->values);
+		shared_ptr<Reflection::ValueArray> hotkeyArray = arl::make_shared<Reflection::ValueArray>(hotkeys->values);
 		(*functionTable)["inputTypes"] = shared_ptr<const ARL::Reflection::ValueArray>(hotkeyArray);
 	}
 
@@ -716,7 +716,7 @@ void ContextActionService::bindActivate(InputObject::UserInputType inputType, Ke
 
 	unbindActivate(inputType, keyCode);
 
-	shared_ptr<Reflection::Tuple> activateTuple = rbx::make_shared<Reflection::Tuple>();
+	shared_ptr<Reflection::Tuple> activateTuple = arl::make_shared<Reflection::Tuple>();
 	activateTuple->values.push_back(inputType);
 	if (keyCode != SDLK_UNKNOWN)
 	{
@@ -857,7 +857,7 @@ void ContextActionService::fireActionButtonFoundSignal(const std::string actionN
 
 shared_ptr<const Reflection::ValueTable> ContextActionService::getAllBoundActionData()
 {
-    shared_ptr<Reflection::ValueTable> reflectedFuncMap = rbx::make_shared<Reflection::ValueTable>();
+    shared_ptr<Reflection::ValueTable> reflectedFuncMap = arl::make_shared<Reflection::ValueTable>();
     
     for(FunctionMap::iterator iter = functionMap.begin(); iter != functionMap.end(); ++ iter)
     {
@@ -881,7 +881,7 @@ shared_ptr<const Reflection::ValueTable> ContextActionService::getBoundCoreActio
         return constructTableFromBoundFunctionData(iter->second);
     }
     
-    return rbx::make_shared<Reflection::ValueTable>();
+    return arl::make_shared<Reflection::ValueTable>();
 }
     
 shared_ptr<const Reflection::ValueTable> ContextActionService::getBoundActionData(const std::string actionName)
@@ -892,7 +892,7 @@ shared_ptr<const Reflection::ValueTable> ContextActionService::getBoundActionDat
 		return constructTableFromBoundFunctionData(iter->second);
     }
     
-    return rbx::make_shared<Reflection::ValueTable>();
+    return arl::make_shared<Reflection::ValueTable>();
 }
 
 namespace Reflection {

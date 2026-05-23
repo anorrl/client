@@ -30,14 +30,14 @@ namespace ARL {
 
 	static Reflection::RemoteEventDesc<RemoteEvent,
         void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>),
-        LatchedSignal<rbx::remote_signal, void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)>,
-        LatchedSignal<rbx::remote_signal, void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)>* (RemoteEvent::*)(bool)
+        LatchedSignal<arl::remote_signal, void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)>,
+        LatchedSignal<arl::remote_signal, void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)>* (RemoteEvent::*)(bool)
         > event_OnServerEvent(&RemoteEvent::getOrCreateOnServerEvent, "OnServerEvent", "player", "arguments", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
     
 	static Reflection::RemoteEventDesc<RemoteEvent,
         void(shared_ptr<const Reflection::Tuple>),
-        LatchedSignal<rbx::remote_signal, void(shared_ptr<const Reflection::Tuple>)>,
-        LatchedSignal<rbx::remote_signal, void(shared_ptr<const Reflection::Tuple>)>* (RemoteEvent::*)(bool)
+        LatchedSignal<arl::remote_signal, void(shared_ptr<const Reflection::Tuple>)>,
+        LatchedSignal<arl::remote_signal, void(shared_ptr<const Reflection::Tuple>)>* (RemoteEvent::*)(bool)
         > event_OnClientEvent(&RemoteEvent::getOrCreateOnClientEvent, "OnClientEvent", "arguments", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::CLIENT_SERVER);
     REFLECTION_END();
 
@@ -436,7 +436,7 @@ namespace ARL {
         }
     }
 
-    LatchedSignal<rbx::remote_signal, void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)>* RemoteEvent::getOrCreateOnServerEvent(bool create)
+    LatchedSignal<arl::remote_signal, void(shared_ptr<Instance>, shared_ptr<const Reflection::Tuple>)>* RemoteEvent::getOrCreateOnServerEvent(bool create)
     {
         if (create && Network::Players::clientIsPresent(this))
             throw std::runtime_error("OnServerEvent can only be used on the server");
@@ -444,7 +444,7 @@ namespace ARL {
         return &onServerEvent;
     }
     
-    LatchedSignal<rbx::remote_signal, void(shared_ptr<const Reflection::Tuple>)>* RemoteEvent::getOrCreateOnClientEvent(bool create)
+    LatchedSignal<arl::remote_signal, void(shared_ptr<const Reflection::Tuple>)>* RemoteEvent::getOrCreateOnClientEvent(bool create)
     {
         if (create && Network::Players::serverIsPresent(this))
             throw std::runtime_error("OnClientEvent can only be used on the client");

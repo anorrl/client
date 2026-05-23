@@ -2,7 +2,7 @@
 #pragma once
 
 #include "Util/Rect.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/Math.h"
 
 namespace ARL {

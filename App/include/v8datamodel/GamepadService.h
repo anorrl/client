@@ -41,10 +41,10 @@ namespace ARL
 
 		Vector2 lastGuiSelectionDirection; // helper for determining how to use thumbstick for gui selection
 
-		rbx::signals::scoped_connection updateInputConnection;
-		rbx::signals::scoped_connection inputEndedConnection;
-		rbx::signals::scoped_connection inputChangedConnection;
-		rbx::signals::scoped_connection cameraCframeUpdateConnection;
+		arl::signals::scoped_connection updateInputConnection;
+		arl::signals::scoped_connection inputEndedConnection;
+		arl::signals::scoped_connection inputChangedConnection;
+		arl::signals::scoped_connection cameraCframeUpdateConnection;
         
         shared_ptr<ARL::InputObject> createInputObjectForGamepadKeyCode(ARL::KeyCode keyCode, ARL::InputObject::UserInputType gamepadType);
 		void createControllerKeyMapForController(int controllerIndex);

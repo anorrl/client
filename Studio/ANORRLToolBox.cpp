@@ -20,7 +20,7 @@
 
 // ANORRL Studio Headers
 #include "AuthenticationHelper.h"
-#include "RbxWorkspace.h"
+#include "ARLWorkspace.h"
 #include "ANORRLCookieJar.h"
 #include "ANORRLNetworkAccessManager.h"
 #include "ANORRLSettings.h"
@@ -99,7 +99,7 @@ void ANORRLToolBox::setDataModel(boost::shared_ptr<ARL::DataModel> pDataModel)
 
     if (!m_pWorkspace)
     {
-        m_pWorkspace.reset(new RbxWorkspace(this, m_pDataModel ? m_pDataModel.get() : NULL));
+        m_pWorkspace.reset(new ARLWorkspace(this, m_pDataModel ? m_pDataModel.get() : NULL));
         firstTime = true;
     }
     else

@@ -2864,7 +2864,7 @@ void Player::onTeleportInternal(TeleportService::TeleportState teleportState, sh
 void Player::loadChatInfo() {
 	boost::function0<void> f = boost::bind(&Player::loadChatInfoInternal, weak_from(this));
 	boost::function0<void> g = boost::bind(&StandardOut::print_exception, f, ARL::MESSAGE_ERROR, false);
-	boost::thread(thread_wrapper(g, "rbx_getPlayerMetaData"));
+	boost::thread(thread_wrapper(g, "arl_getPlayerMetaData"));
 }
 
 void Player::loadChatInfoInternal(weak_ptr<Player> weakPlayer) {

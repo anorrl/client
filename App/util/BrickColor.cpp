@@ -4,7 +4,7 @@
 #include "Util/BrickColor.h"
 #include <map>
 #include <assert.h>
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include <boost/functional/hash.hpp>
 
 namespace ARL {

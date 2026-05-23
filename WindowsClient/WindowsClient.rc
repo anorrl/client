@@ -61,8 +61,8 @@ IDI_WINDOW_ICON         ICON                    "ANORRL.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 18,5,2026,2
- PRODUCTVERSION 18,5,2026,0
+ FILEVERSION 21,5,2026,2
+ PRODUCTVERSION 21,5,2026,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -79,11 +79,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "GraceRBLX"
             VALUE "FileDescription", "ANORRL Game Client"
-            VALUE "FileVersion", "18.5.2026.2"
+            VALUE "FileVersion", "21.5.2026.2"
             VALUE "LegalCopyright", "© 2026 GraceRBLX.  All rights reserved to Roblox Corporation."
             VALUE "OriginalFilename", "RobloxPlayerBeta.exe"
             VALUE "ProductName", "ANORRL"
-            VALUE "ProductVersion", "18.5.2026.0"
+            VALUE "ProductVersion", "21.5.2026.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -117,14 +117,6 @@ END
 //
 // Dialog
 //
-
-IDD_UPLOADVIDEODIALOG DIALOGEX 0, 0, 650, 265
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "ANORRL"
-FONT 8, "MS Shell Dlg", 0, 0, 0x0
-BEGIN
-    CONTROL         "",IDC_EXPLORER1,"{8856F961-340A-11D0-A96B-00C04FD705A2}",WS_TABSTOP,0,0,649,265
-END
 
 IDD_ARLWEBVIEW DIALOGEX 0, 0, 741, 394
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
@@ -188,10 +180,6 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_UPLOADVIDEODIALOG, DIALOG
-    BEGIN
-    END
-
     IDD_ARLWEBVIEW, DIALOG
     BEGIN
         RIGHTMARGIN, 740

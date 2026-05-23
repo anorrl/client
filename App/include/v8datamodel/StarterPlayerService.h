@@ -58,7 +58,7 @@ namespace ARL {
 
 		void setupPlayer(shared_ptr<Instance> instance);
 
-		rbx::signals::scoped_connection workspaceLoadedConnection;
+		arl::signals::scoped_connection workspaceLoadedConnection;
 
 		bool autoJumpEnabled;
 		bool loadCharacterAppearance;

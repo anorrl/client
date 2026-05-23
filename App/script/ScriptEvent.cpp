@@ -5,7 +5,7 @@
 #include "lua/lua.hpp"
 #include "util/standardout.h"
 #include "script/LuaInstanceBridge.h"
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 #include "script/LuaSettings.h"
 #include "FastLog.h"
 
@@ -96,7 +96,7 @@ namespace ARL
 	{
 		// The default implementation for on_tostring is available in LuaBridge.cpp. This is a specialization.
 		template<>
-		int Bridge<rbx::signals::connection>::on_tostring(const rbx::signals::connection& object, lua_State *L)
+		int Bridge<arl::signals::connection>::on_tostring(const arl::signals::connection& object, lua_State *L)
 		{
 			lua_pushliteral(L, "Connection");
 			return 1;

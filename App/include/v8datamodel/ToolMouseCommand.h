@@ -17,7 +17,7 @@ namespace ARL {
 	private:
 		typedef Named<ScriptMouseCommand, sToolMouseCommand> Super;
 		shared_ptr<Tool> tool;
-		rbx::signals::scoped_connection toolUnequipped;	
+		arl::signals::scoped_connection toolUnequipped;	
 
 		bool mouseIsDown;
 

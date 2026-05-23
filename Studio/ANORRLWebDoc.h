@@ -20,7 +20,7 @@ class QToolBar;
 class QSslError;
 
 class ANORRLBrowser;
-class RbxWorkspace;
+class ARLWorkspace;
 
 class ANORRLWebDoc: public QObject, public ANORRLBasicDoc
 {
@@ -60,7 +60,7 @@ public:
 
 	bool supportsZeroPlaneGrid()        { return false; }
 
-	boost::shared_ptr<RbxWorkspace> getWorkspace() { return m_pWorkspace; }
+	boost::shared_ptr<ARLWorkspace> getWorkspace() { return m_pWorkspace; }
 
 public Q_SLOTS:
 	void refreshPage();
@@ -82,7 +82,7 @@ private:
 
 	ANORRLBrowser                       *m_pWebView;
 	QWidget                             *m_pWrapperWidget;
-	boost::shared_ptr<RbxWorkspace>      m_pWorkspace;
+	boost::shared_ptr<ARLWorkspace>      m_pWorkspace;
 	QComboBox                           *m_pAddrInputComboBox;
 	QString                              m_displayName; //to be used if file name is empty
 	QString                              m_currentUrl;

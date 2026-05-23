@@ -179,7 +179,7 @@ HumanoidState::~HumanoidState()
 {
 	setCanThrottleState(false);
 
-	std::vector<rbx::signals::connection>::iterator buoyancyConnectionsIterator;
+	std::vector<arl::signals::connection>::iterator buoyancyConnectionsIterator;
 	for( buoyancyConnectionsIterator = buoyancyConnections.begin(); buoyancyConnectionsIterator != buoyancyConnections.end(); ++buoyancyConnectionsIterator )
 	{
 		(*buoyancyConnectionsIterator).disconnect();
@@ -1430,7 +1430,7 @@ Vector3 HumanoidState::getRelativeMovementVelocity()
 	}
 }
 
-void HumanoidState::fireMovementSignal(rbx::signal<void(float)>& movementSignal, float movementVelocity)
+void HumanoidState::fireMovementSignal(arl::signal<void(float)>& movementSignal, float movementVelocity)
 {
 	if (humanoid->getTorsoPrimitiveSlow() &&
 		!movementSignal.empty()) 

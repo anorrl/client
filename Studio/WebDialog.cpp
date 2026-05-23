@@ -13,7 +13,7 @@
 #include "util/Statistics.h"
 
 // ANORRL Studio Headers
-#include "RbxWorkspace.h"
+#include "ARLWorkspace.h"
 #include "ANORRLBrowser.h"
 #include "ANORRLSettings.h"
 #include "ANORRLWebPage.h"
@@ -60,7 +60,7 @@ WebDialog::WebDialog(QWidget* parent, const QString& initialUrl, ARL::DataModel 
 	if(FFlag::WebkitDeveloperToolsEnabled)
 		globalSetting->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
 	
-	m_pWorkspace.reset(new RbxWorkspace(this, m_pDataModel));
+	m_pWorkspace.reset(new ARLWorkspace(this, m_pDataModel));
 	connect(m_pWorkspace.get(), SIGNAL(closeEvent()), this, SLOT(close()));
 	connect(m_pWorkspace.get(), SIGNAL(hideEvent()), this, SLOT(hide()));
 	connect(m_pWorkspace.get(), SIGNAL(showEvent()), this, SLOT(show()));

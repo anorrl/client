@@ -53,7 +53,7 @@ private:
 	void removeSelectionInstance(boost::shared_ptr<ARL::Instance> pInstance);
 
 	boost::shared_ptr<ARL::Selection>		m_selection;
-	rbx::signals::scoped_connection			m_selectionChangedConnection;
+	arl::signals::scoped_connection			m_selectionChangedConnection;
 
 	InstanceList							m_selectedInstances;
 
@@ -85,8 +85,8 @@ private:
 	void onDescendantAdded(boost::shared_ptr<ARL::Instance> child);
 	void onDescendantRemoving(boost::shared_ptr<ARL::Instance> child);
 
-	rbx::signals::scoped_connection m_descendantAddedConnection;
-	rbx::signals::scoped_connection m_descendantRemovingConnection;
+	arl::signals::scoped_connection m_descendantAddedConnection;
+	arl::signals::scoped_connection m_descendantRemovingConnection;
 
 	QSplitter				*m_hSplitter;
 	QTableWidget			*m_SettingsTypesTable;

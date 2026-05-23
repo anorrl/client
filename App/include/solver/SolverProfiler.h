@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rbx/rbxTime.h"
+#include "arl/rbxTime.h"
 #include "RbxAssert.h"
 #include "util/standardout.h"
 

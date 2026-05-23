@@ -145,7 +145,7 @@ namespace ARL
             };
 
 			const Type* _type;
-			rbx::placement_any<Storage> value;
+			arl::placement_any<Storage> value;
 
 		public:
 			inline Variant()

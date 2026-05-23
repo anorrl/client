@@ -7,7 +7,7 @@
 #include "FunctionMarshaller.h"
 #include "GameVerbs.h"
 #include "LogManager.h"
-#include "rbx/Tasks/Coordinator.h"
+#include "arl/Tasks/Coordinator.h"
 #include "RenderJob.h"
 #include "RenderSettingsItem.h"
 #include "util/ScopedAssign.h"
@@ -17,7 +17,7 @@
 #include "View.h"
 #include "format_string.h"
 
-#include "rbx/SystemUtil.h"
+#include "arl/SystemUtil.h"
 
 LOGGROUP(PlayerShutdownLuaTimeoutSeconds)
 LOGGROUP(ANORRLWndInit)

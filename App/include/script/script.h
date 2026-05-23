@@ -5,7 +5,7 @@
 #include "Util/ScriptInformationProvider.h"
 #include "Util/ProtectedString.h"
 #include "script/LuaSourceContainer.h"
-#include "rbx/atomic.h"
+#include "arl/atomic.h"
 #include <boost/function.hpp>
 #include <boost/flyweight.hpp>
 
@@ -84,8 +84,8 @@ namespace ARL
 
 		// Thread management
 		boost::intrusive_ptr<Lua::WeakThreadRef::Node> threadNode;
-		rbx::signal<void(lua_State*)> starting;
-		rbx::signal<void()> stopped;
+		arl::signal<void(lua_State*)> starting;
+		arl::signal<void()> stopped;
 
 		bool isDisabled() const { return disabled; }
 		static const Reflection::PropDescriptor<BaseScript, bool> prop_Disabled;
@@ -168,11 +168,11 @@ namespace ARL
 
 	class BaseScript::Slot
 	{
-		rbx::signals::connection connection;
+		arl::signals::connection connection;
 	public:
 		// A Slot must keep a reference to its connection, because it
 		// must be capable of disconnecting itself. 
-		void assignConnection(const rbx::signals::connection& connection)
+		void assignConnection(const arl::signals::connection& connection)
 		{
 			this->connection = connection;
 		}

@@ -25,7 +25,7 @@
 #include "v8datamodel/FastLogSettings.h"
 
 // ANORRL Studio Headers
-#include "RbxWorkspace.h"
+#include "ARLWorkspace.h"
 #include "ANORRLBrowser.h"
 #include "ANORRLMainWindow.h"
 #include "ANORRLWebPage.h"
@@ -43,7 +43,7 @@ FASTFLAG(StudioEnableWebKitPlugins);
 ANORRLWebDoc::ANORRLWebDoc(const QString& displayName, const QString& keyName)
 : m_pWebView(NULL)
 , m_pWrapperWidget(NULL)
-, m_pWorkspace(new RbxWorkspace(this, NULL))
+, m_pWorkspace(new ARLWorkspace(this, NULL))
 , m_pAddrInputComboBox(NULL)
 , m_displayName(displayName)
 , m_currentUrl("")

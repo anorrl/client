@@ -9,7 +9,7 @@
 
 #include "StringConv.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 #include "fmod.h"
 #include "fmod.hpp"

@@ -52,8 +52,8 @@ namespace ARL {
 		/*override*/ void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 
 		//Should be private
-		rbx::remote_signal<void(int, int, FriendEventType)> friendEventReplicatingSignal;
-		rbx::remote_signal<void(int, int, FriendStatus)> friendStatusReplicatingSignal;		
+		arl::remote_signal<void(int, int, FriendEventType)> friendEventReplicatingSignal;
+		arl::remote_signal<void(int, int, FriendStatus)> friendStatusReplicatingSignal;		
 		
 		
 		void getFriendsOnline(int maxFriends, boost::function<void(shared_ptr<const Reflection::ValueArray>)> resumeFunction, boost::function<void(std::string)> errorFunction); 		
@@ -62,10 +62,10 @@ namespace ARL {
 
 
 		void friendStatusReplicationChanged(int playerId, int otherPlayerId, FriendStatus status);
-		rbx::signals::scoped_connection friendStatusConnection;
+		arl::signals::scoped_connection friendStatusConnection;
 		
 		void friendEventReplicationChanged(int playerId, int otherPlayerId, FriendEventType status);
-		rbx::signals::scoped_connection friendEventConnection;
+		arl::signals::scoped_connection friendEventConnection;
 
 		std::string getBulkFriendsUrl;
 

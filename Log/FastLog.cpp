@@ -12,9 +12,9 @@
 #include <boost/thread/condition_variable.hpp>
 #include <boost/thread/thread.hpp>
 
-#include "rbx/atomic.h"
-#include "rbx/rbxTime.h"
-#include "rbx/boost.hpp"
+#include "arl/atomic.h"
+#include "arl/rbxTime.h"
+#include "arl/boost.hpp"
 #include "RbxPlatform.h"
 #include "RbxFormat.h"
 
@@ -205,7 +205,7 @@ namespace FLog
 
 	static LogEntry g_FastLog[LOGCHANNELS][LOG_HISTORY];
 	
-    static rbx::atomic<unsigned int> g_LogCounters[LOGCHANNELS] = {0, 0, 0, 0, 0};
+    static arl::atomic<unsigned int> g_LogCounters[LOGCHANNELS] = {0, 0, 0, 0, 0};
 
 	// flf == FastLogFloat
 	inline void* flf(FASTFLAG_VAR_FLOAT value)
@@ -456,7 +456,7 @@ namespace FLog
         entry.timestamp = (float)timeF();
         entry.threadid = (unsigned)GetCurrentThreadId();
 
-        rbx::atomic<unsigned int>& counter = g_LogCounters[level-1];
+        arl::atomic<unsigned int>& counter = g_LogCounters[level-1];
 
         unsigned int index = (--counter) % LOG_HISTORY;
 
@@ -524,7 +524,7 @@ namespace FLog
 		entry.timestamp = (float)timeF();
 		entry.threadid = GetCurrentThreadId();
 
-        rbx::atomic<unsigned int>& counter = g_LogCounters[level-1];
+        arl::atomic<unsigned int>& counter = g_LogCounters[level-1];
 
 		unsigned int index = (--counter) % LOG_HISTORY;
 
@@ -584,7 +584,7 @@ namespace FLog
 		entry.timestamp = (float)timeF();
 		entry.threadid = GetCurrentThreadId();
 
-        rbx::atomic<unsigned int>& counter = g_LogCounters[level-1];
+        arl::atomic<unsigned int>& counter = g_LogCounters[level-1];
 
 		unsigned int index = (--counter) % LOG_HISTORY;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rbx/threadsafe.h"
+#include "arl/threadsafe.h"
 
 namespace ARL
 {
@@ -31,16 +31,16 @@ namespace ARL
 			{}
 			virtual bool shouldSchedule(const BaseThreadPool *targetThreadPool) const = 0;
 
-			virtual bool getNextTask(boost::function<void(boost::shared_ptr<rbx::spin_mutex>)>& task) = 0;
+			virtual bool getNextTask(boost::function<void(boost::shared_ptr<arl::spin_mutex>)>& task) = 0;
 		};
 	private:
 		int count;
 		const size_t kMaxScheduleSize;
-		std::vector< boost::shared_ptr<rbx::spin_mutex> > poolLocks;
+		std::vector< boost::shared_ptr<arl::spin_mutex> > poolLocks;
 		std::vector< boost::shared_ptr<boost::thread> > pool;
 		ShutdownPolicy shutdownPolicy;
 
-		static void loop(boost::shared_ptr<PoolData> poolData, boost::shared_ptr<rbx::spin_mutex> lock, ShutdownPolicy shutdownPolicy);
+		static void loop(boost::shared_ptr<PoolData> poolData, boost::shared_ptr<arl::spin_mutex> lock, ShutdownPolicy shutdownPolicy);
 
 	protected:
 		boost::shared_ptr<PoolData> poolData;
@@ -70,10 +70,10 @@ namespace ARL
 		struct ThreadPoolData
 			: public PoolData
 		{
-			typedef rbx::safe_queue<boost::function<void(boost::shared_ptr<rbx::spin_mutex>)> > Queue;
+			typedef arl::safe_queue<boost::function<void(boost::shared_ptr<arl::spin_mutex>)> > Queue;
 			Queue queue;
 
-			/*override*/ bool getNextTask(boost::function<void(boost::shared_ptr<rbx::spin_mutex>)>& task)
+			/*override*/ bool getNextTask(boost::function<void(boost::shared_ptr<arl::spin_mutex>)>& task)
 			{
 				return queue.pop_if_present(task);
 			}
@@ -88,7 +88,7 @@ namespace ARL
 	public:
 		ThreadPool(int count, ShutdownPolicy shutdownPolicy = NoAction, size_t maxScheduleSize = 0);
 
-		bool schedule(boost::function<void(boost::shared_ptr<rbx::spin_mutex>)> task);
+		bool schedule(boost::function<void(boost::shared_ptr<arl::spin_mutex>)> task);
 	};
 
 	//A ThreadPool with job priorities
@@ -98,9 +98,9 @@ namespace ARL
 	private:
 		struct PriorityTask
 		{
-			boost::function<void(boost::shared_ptr<rbx::spin_mutex>)> func;
+			boost::function<void(boost::shared_ptr<arl::spin_mutex>)> func;
 			float priority;
-			PriorityTask(boost::function<void(boost::shared_ptr<rbx::spin_mutex>)> func, float priority)
+			PriorityTask(boost::function<void(boost::shared_ptr<arl::spin_mutex>)> func, float priority)
 				: func(func)
 				, priority(priority)
 			{}
@@ -115,10 +115,10 @@ namespace ARL
 		struct PriorityThreadPoolData
 			: public PoolData
 		{
-			typedef rbx::safe_heap<PriorityTask> Heap;
+			typedef arl::safe_heap<PriorityTask> Heap;
 			Heap heap;
 
-			/*override*/ bool getNextTask(boost::function<void(boost::shared_ptr<rbx::spin_mutex>)>& task);
+			/*override*/ bool getNextTask(boost::function<void(boost::shared_ptr<arl::spin_mutex>)>& task);
 
 			/*override*/ bool shouldSchedule(const BaseThreadPool *targetThreadPool) const
 			{
@@ -130,6 +130,6 @@ namespace ARL
 	public:
 		PriorityThreadPool(int count, ShutdownPolicy shutdownPolicy = NoAction, size_t maxScheduleSize = 0 );
 
-		bool schedule(boost::function<void(boost::shared_ptr<rbx::spin_mutex>)> task, float priority);
+		bool schedule(boost::function<void(boost::shared_ptr<arl::spin_mutex>)> task, float priority);
 	};
 }

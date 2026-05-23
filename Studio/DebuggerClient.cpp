@@ -699,7 +699,7 @@ DebuggerClient::~DebuggerClient()
 {
 	DebuggerClientManager::Instance().removeDebuggerClient(this);
 
-	for (std::list<rbx::signals::connection>::iterator iter=m_cConnections.begin(); iter != m_cConnections.end(); ++iter)
+	for (std::list<arl::signals::connection>::iterator iter=m_cConnections.begin(); iter != m_cConnections.end(); ++iter)
 		(*iter).disconnect();
 	m_cConnections.clear();
 

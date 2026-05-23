@@ -43,7 +43,7 @@
 #include "v8datamodel/Visit.h"
 #include "v8xml/Serializer.h"
 #include "v8xml/SerializerBinary.h"
-#include "rbx/BaldPtr.h"
+#include "arl/BaldPtr.h"
 #include "AppDraw/Draw.h"
 #include "script/ScriptContext.h"
 #include "script/LuaMemory.h"
@@ -172,7 +172,7 @@ static const char* kPublishedPlacePrefix = "Published as ";
 static const char* kCloudEditPlacePrefix = "Team Create: ";
 static const char* kNewPlaceWindowTitle  = "Untitled";
 
-#define ARL_MANUAL_JOINT_CREATION_KEY "RbxManualJointCreationMode"
+#define ARL_MANUAL_JOINT_CREATION_KEY "ARLManualJointCreationMode"
 
 int ANORRLIDEDoc::sIDEDocCount = 1;
 
@@ -183,7 +183,7 @@ ANORRLIDEDoc::ANORRLIDEDoc(ANORRLMainWindow* pMainWindow)
 , m_pMainWindow(pMainWindow)
 , m_pFileWatcher(NULL)
 , m_fileName("")
-, m_displayName(QString("Place%1").arg(sIDEDocCount))
+, m_displayName(QString("Place %1").arg(sIDEDocCount))
 , m_bIsLocalDocument(true)
 , m_initializationScript("")
 , m_IsAutoSaveLoad(false)
@@ -1995,7 +1995,7 @@ bool ANORRLIDEDoc::doHandleAction(const QString& actionID, bool isChecked)
 	else if (actionID == "materialActionAsTool")
 	{
 		StudioMaterialVerb::sMaterialActionActAsTool = isChecked;
-		ANORRLSettings().setValue("rbxMaterialActionActAsTool", isChecked);
+		ANORRLSettings().setValue("arlMaterialActionActAsTool", isChecked);
 		// reset mouse command if material tool is active
 		if (!isChecked)
 			resetMouseCommand("Material");
@@ -2004,7 +2004,7 @@ bool ANORRLIDEDoc::doHandleAction(const QString& actionID, bool isChecked)
 	else if (actionID == "colorFillActionAsTool")
 	{
 		StudioColorVerb::sColorActionActAsTool = isChecked;
-		ANORRLSettings().setValue("rbxColorActionActAsTool", isChecked);
+		ANORRLSettings().setValue("arlColorActionActAsTool", isChecked);
 		// reset mouse command if fill tool is active
 		if (!isChecked)
 			resetMouseCommand("Fill");

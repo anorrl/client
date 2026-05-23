@@ -165,7 +165,7 @@ QString MobileDevelopmentDeployer::getLocalIPAddress()
 
 void MobileDevelopmentDeployer::broadcastReadyDatagram()
 {
-    QString broadcastString("RbxDevPairServer readyToPair");
+    QString broadcastString("ARLDevPairServer readyToPair");
     broadcastDatagram(broadcastString.toAscii());
 }
 
@@ -255,7 +255,7 @@ void MobileDevelopmentDeployer::on_newConnection()
 
 bool MobileDevelopmentDeployer::checkForClientPairCode(const QString& messageFromClient)
 {
-    if (messageFromClient.contains(QString::fromStdString("RbxDevClient pairCode")))
+    if (messageFromClient.contains(QString::fromStdString("ARLDevClient pairCode")))
     {
         QStringList list = messageFromClient.split(QRegExp("\\s+"));
         if(list.count() == 3)
@@ -265,7 +265,7 @@ bool MobileDevelopmentDeployer::checkForClientPairCode(const QString& messageFro
             {
                 if (udpSocket)
                 {
-                    QString broadcastString("RbxDevPairServer didPair true ip ");
+                    QString broadcastString("ARLDevPairServer didPair true ip ");
                     broadcastString.append(getLocalIPAddress());
                     broadcastDatagram(broadcastString.toAscii());
                 }
@@ -274,7 +274,7 @@ bool MobileDevelopmentDeployer::checkForClientPairCode(const QString& messageFro
             {
                 if (udpSocket)
                 {
-                    QString broadcastString("RbxDevPairServer didPair false ip ");
+                    QString broadcastString("ARLDevPairServer didPair false ip ");
                     broadcastString.append("0.0.0.0");
                     broadcastDatagram(broadcastString.toAscii());
                 }
@@ -287,7 +287,7 @@ bool MobileDevelopmentDeployer::checkForClientPairCode(const QString& messageFro
 
 bool MobileDevelopmentDeployer::checkForClientPaired(const QString& messageFromClient, const QHostAddress& sender)
 {
-    if (messageFromClient.contains(QString::fromStdString("RbxDevClient didPair")))
+    if (messageFromClient.contains(QString::fromStdString("ARLDevClient didPair")))
     {
         QStringList list = messageFromClient.split(QRegExp("\\s+"));
         if (list.count() == 3)
@@ -299,7 +299,7 @@ bool MobileDevelopmentDeployer::checkForClientPaired(const QString& messageFromC
                 {
                     startTcpServer();
                     
-                    QString broadcastString("RbxDevPairServer didStartServer");
+                    QString broadcastString("ARLDevPairServer didStartServer");
                     broadcastDatagram(broadcastString.toAscii());
                 }
                 
@@ -330,7 +330,7 @@ void MobileDevelopmentDeployer::on_receivedUdpBroadcast()
             return;
         if ( checkForClientPaired(message,sender) )
             return;
-        if (message.contains(QString::fromStdString("RbxDevClient didConnectToServer")))
+        if (message.contains(QString::fromStdString("ARLDevClient didConnectToServer")))
         {
             // todo: maybe do something here? confirmation message or something?
         }
@@ -359,8 +359,8 @@ void MobileDevelopmentDeployer::writeCoreScriptToFile(const std::string& filePat
          std::string relativeName = filePath.substr(ARL::BaseScript::adminScriptsPath.size() + 1);
          relativeName = relativeName.substr(0,relativeName.size() - 4);
 
-         stream << ARL::format("RbxScriptName%sRbxEnd RbxScriptSource",relativeName.c_str());
-         stream << in.rdbuf() << "RbxEnd ";
+         stream << ARL::format("ARLScriptName%sARLEnd ARLScriptSource",relativeName.c_str());
+         stream << in.rdbuf() << "ARLEnd ";
      }
 }
 
@@ -413,37 +413,37 @@ void MobileDevelopmentDeployer::on_readyRead()
 		return;
 	}
 
-	if(strcmp(ba.constData(), "RbxReadyForPlay") == 0)
+	if(strcmp(ba.constData(), "ARLReadyForPlay") == 0)
 	{
         QString address = getLocalIPAddress();
-		tcpClient->write("RbxReadyForPlay 53640 " + address.toAscii());
+		tcpClient->write("ARLReadyForPlay 53640 " + address.toAscii());
         return;
 	}
     
-    if(strcmp(ba.constData(), "RbxReadyForCoreScripts") == 0)
+    if(strcmp(ba.constData(), "ARLReadyForCoreScripts") == 0)
     {
         if (ARL::BaseScript::hasCoreScriptReplacements())
         {
-            tcpClient->write("RbxReadyForCoreScripts true");
+            tcpClient->write("ARLReadyForCoreScripts true");
         }
         else
         {
-            tcpClient->write("RbxReadyForCoreScripts false");
+            tcpClient->write("ARLReadyForCoreScripts false");
         }
         return;
     }
     
-    if(strcmp(ba.constData(), "RbxSendCoreScripts") == 0)
+    if(strcmp(ba.constData(), "ARLSendCoreScripts") == 0)
     {
         if (ARL::BaseScript::hasCoreScriptReplacements())
         {
-            tcpClient->write("RbxSendCoreScripts ");
+            tcpClient->write("ARLSendCoreScripts ");
             
             std::stringstream ss;
             
             boost::filesystem::path rootPath = boost::filesystem::path(ARL::BaseScript::adminScriptsPath);
             writeCoreScriptsToStream(rootPath, ss);
-            ss << "RbxCoreScriptEnd";
+            ss << "ARLCoreScriptEnd";
 
             std::string coreScriptsString = ss.str();
             tcpClient->write(coreScriptsString.c_str(), coreScriptsString.size());
@@ -452,10 +452,10 @@ void MobileDevelopmentDeployer::on_readyRead()
     }
     
     
-    QString attemptToPairCorrectResponse = QString("RbxAttemptToPair ").append(getPairCodeString());
+    QString attemptToPairCorrectResponse = QString("ARLAttemptToPair ").append(getPairCodeString());
 	if(strcmp(ba.constData(), attemptToPairCorrectResponse.toAscii()) == 0)
 	{
-		tcpClient->write("RbxAttemptToPair true");
+		tcpClient->write("ARLAttemptToPair true");
 	}
 }
 

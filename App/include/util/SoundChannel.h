@@ -63,9 +63,9 @@ namespace ARL {
 
 			PartInstance* part;	// The Part (if any) that this sound is attached to
 
-			rbx::signals::scoped_connection serverUpdatedTimeConnection;
-			rbx::signals::scoped_connection serverScriptUpdatedTimeConnection;
-			rbx::signals::scoped_connection serverResumedSoundConnection;
+			arl::signals::scoped_connection serverUpdatedTimeConnection;
+			arl::signals::scoped_connection serverScriptUpdatedTimeConnection;
+			arl::signals::scoped_connection serverResumedSoundConnection;
 
 			/** 
 			 * Some sounds are "played" everywhere, but should only be heard by certain peers.
@@ -94,16 +94,16 @@ namespace ARL {
 			/*override*/ void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 
 		public:
-			rbx::signal<void(std::string soundId, int)> soundLoopedSignal;
-			rbx::signal<void(std::string soundId)> soundPausedSignal;
-			rbx::signal<void(std::string soundId)> soundStoppedSignal;
-			rbx::signal<void(std::string soundId)> soundPlayedSignal;
-			rbx::signal<void(std::string soundId)> soundEndedSignal;
+			arl::signal<void(std::string soundId, int)> soundLoopedSignal;
+			arl::signal<void(std::string soundId)> soundPausedSignal;
+			arl::signal<void(std::string soundId)> soundStoppedSignal;
+			arl::signal<void(std::string soundId)> soundPlayedSignal;
+			arl::signal<void(std::string soundId)> soundEndedSignal;
 
-			rbx::remote_signal<void(int)> timePositionUpdatedFromServerSignal;
-			rbx::remote_signal<void(int)> timePositionUpdatedFromServerScriptSignal;
+			arl::remote_signal<void(int)> timePositionUpdatedFromServerSignal;
+			arl::remote_signal<void(int)> timePositionUpdatedFromServerScriptSignal;
 
-			rbx::remote_signal<void(int)> soundResumedFromServerSignal;
+			arl::remote_signal<void(int)> soundResumedFromServerSignal;
 
 			SoundChannel();
 			~SoundChannel();

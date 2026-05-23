@@ -30,7 +30,7 @@ private:
 	BrickColor teamColor;
 	bool enabled;
 
-	rbx::signals::scoped_connection_logged spawnerTouched;
+	arl::signals::scoped_connection_logged spawnerTouched;
 	void onEvent_spawnerTouched(shared_ptr<Instance> other);
 	void updateSpawnerTouched();
 

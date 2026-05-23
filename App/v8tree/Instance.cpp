@@ -61,36 +61,36 @@ const Reflection::PropDescriptor<Instance, bool> Instance::propANORRLLocked("ANO
 Reflection::EventDesc<
 	Instance, 
 	void(shared_ptr<Instance>), 
-	rbx::signal<void(shared_ptr<Instance>)>, 
-	rbx::signal<void(shared_ptr<Instance>)>* (Instance::*)(bool)>
+	arl::signal<void(shared_ptr<Instance>)>, 
+	arl::signal<void(shared_ptr<Instance>)>* (Instance::*)(bool)>
 	event_childAdded(&Instance::getOrCreateChildAddedSignal, "ChildAdded", "child");
 
 Reflection::EventDesc<
 	Instance, 
 	void(shared_ptr<Instance>), 
-	rbx::signal<void(shared_ptr<Instance>)>, 
-	rbx::signal<void(shared_ptr<Instance>)>* (Instance::*)(bool)>
+	arl::signal<void(shared_ptr<Instance>)>, 
+	arl::signal<void(shared_ptr<Instance>)>* (Instance::*)(bool)>
 	dep_childAdded(&Instance::getOrCreateChildAddedSignal, "childAdded", "child", Reflection::Descriptor::Attributes::deprecated(event_childAdded));
 
 Reflection::EventDesc<
 Instance, 
 void(shared_ptr<Instance>), 
-rbx::signal<void(shared_ptr<Instance>)>, 
-rbx::signal<void(shared_ptr<Instance>)>* (Instance::*)(bool)>
+arl::signal<void(shared_ptr<Instance>)>, 
+arl::signal<void(shared_ptr<Instance>)>* (Instance::*)(bool)>
 event_childRemoved(&Instance::getOrCreateChildRemovedSignal, "ChildRemoved", "child");
 
 Reflection::EventDesc<
 Instance, 
 void(shared_ptr<Instance>), 
-rbx::signal<void(shared_ptr<Instance>)>, 
-rbx::signal<void(shared_ptr<Instance>)>* (Instance::*)(bool)>
+arl::signal<void(shared_ptr<Instance>)>, 
+arl::signal<void(shared_ptr<Instance>)>* (Instance::*)(bool)>
 event_descendantAdded(&Instance::getOrCreateDescendantAddedSignal, "DescendantAdded", "descendant");
 
 Reflection::EventDesc<
 Instance, 
 void(shared_ptr<Instance>), 
-rbx::signal<void(shared_ptr<Instance>)>, 
-rbx::signal<void(shared_ptr<Instance>)>* (Instance::*)(bool)>
+arl::signal<void(shared_ptr<Instance>)>, 
+arl::signal<void(shared_ptr<Instance>)>* (Instance::*)(bool)>
 event_descendantRemoving(&Instance::getOrCreateDescendantRemovingSignal, "DescendantRemoving", "descendant");
 
 Reflection::EventDesc<Instance, void(shared_ptr<Instance>, shared_ptr<Instance>)> event_ancestryChanged(&Instance::ancestryChangedSignal, "AncestryChanged", "child", "parent");

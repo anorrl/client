@@ -2,7 +2,7 @@
 
 #include "Voxel/Grid.h"
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/G3DCore.h"
 #include "Voxel/Cell.h"
 #include "Voxel/Util.h"

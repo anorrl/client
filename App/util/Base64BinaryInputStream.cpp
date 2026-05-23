@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Util/Base64BinaryInputStream.h"
 
-#include "Rbx/Debug.h"
+#include "ARL/Debug.h"
 
 namespace ARL {
 

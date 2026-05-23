@@ -40,7 +40,7 @@
 
 #include "voxel2/Grid.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 LOGGROUP(GfxClusters)
 LOGGROUP(GfxClustersFull)

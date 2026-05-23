@@ -45,9 +45,9 @@ namespace ARL
 			static int wait(lua_State *L);
 		};
 
-		class SignalConnectionBridge : public Bridge< rbx::signals::connection >
+		class SignalConnectionBridge : public Bridge< arl::signals::connection >
 		{
-			friend class Bridge< rbx::signals::connection >;
+			friend class Bridge< arl::signals::connection >;
 			static int disconnect(lua_State *L);
 		};
 	}

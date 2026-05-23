@@ -305,7 +305,7 @@ void DebuggerManager::setBreakOnErrorMode(BreakOnErrorMode mode)
 
 shared_ptr<const Instances> DebuggerManager::getDebuggers_Reflection()
 {
-	shared_ptr<Instances> result = rbx::make_shared<Instances>(debuggers.size());
+	shared_ptr<Instances> result = arl::make_shared<Instances>(debuggers.size());
 	int i = 0;
 	for (Debuggers::const_iterator iter = debuggers.begin(); iter != debuggers.end(); ++iter, ++i)
 		(*result)[i] = shared_from(iter->second);
@@ -684,7 +684,7 @@ ScriptDebugger::~ScriptDebugger()
 
 shared_ptr<const Instances> ScriptDebugger::getBreakpoints_Reflection()
 {
-	shared_ptr<Instances> result = rbx::make_shared<Instances>(breakpoints.size());
+	shared_ptr<Instances> result = arl::make_shared<Instances>(breakpoints.size());
 	int i = 0;
 	for (Breakpoints::const_iterator iter = breakpoints.begin(); iter != breakpoints.end(); ++iter, ++i)
 		(*result)[i] = shared_from(iter->second);
@@ -708,7 +708,7 @@ shared_ptr<Instance> ScriptDebugger::addWatch_Reflection( std::string expression
 
 shared_ptr<const Instances> ScriptDebugger::getWatches_Reflection()
 {
-	shared_ptr<Instances> result = rbx::make_shared<Instances>(watches.size());
+	shared_ptr<Instances> result = arl::make_shared<Instances>(watches.size());
 	int i = 0;
 	for (Watches::const_iterator iter = watches.begin(); iter != watches.end(); ++iter, ++i)
 		(*result)[i] = shared_from(*iter);
@@ -992,7 +992,7 @@ void ScriptDebugger::withPausedThreadHook( lua_State* L, lua_Debug *ar, boost::f
 	}
 	catch (ARL::base_exception& ex)
 	{
-		error = rbx::make_shared<std::string>(ex.what());
+		error = arl::make_shared<std::string>(ex.what());
 	}
 
 	ARLASSERT(pausedThread.lock() == L);
@@ -1121,7 +1121,7 @@ shared_ptr<Reflection::ValueMap> ScriptDebugger::readLocals(int stackIndex, lua_
 	if (lua_getstack(L, stackIndex, &ar) == 0)
 		throw std::runtime_error("stackIndex out of range");
 
-	shared_ptr<Reflection::ValueMap> locals = rbx::make_shared<Reflection::ValueMap>();
+	shared_ptr<Reflection::ValueMap> locals = arl::make_shared<Reflection::ValueMap>();
 	ARLASSERT_BALLANCED_LUA_STACK(L);
 	int n = 1;
 	while (const char* name = lua_getlocal(L, &ar, n++))
@@ -1157,7 +1157,7 @@ shared_ptr<Reflection::ValueMap> ScriptDebugger::readGlobals(lua_State* L)
 	const int t = LUA_GLOBALSINDEX;
 	lua_getfenv(L, t);
 #endif
-	shared_ptr<Reflection::ValueMap> result = rbx::make_shared<Reflection::ValueMap>();
+	shared_ptr<Reflection::ValueMap> result = arl::make_shared<Reflection::ValueMap>();
 
 	lua_pushnil(L);  /* first key */
 	while (lua_next(L, t))
@@ -1187,7 +1187,7 @@ shared_ptr<Reflection::ValueMap> ScriptDebugger::readUpvalues(int stackIndex, lu
 	if (lua_getstack(L, stackIndex, &ar) == 0)
 		throw std::runtime_error("stackIndex out of range");
 
-	shared_ptr<Reflection::ValueMap> arguments = rbx::make_shared<Reflection::ValueMap>();
+	shared_ptr<Reflection::ValueMap> arguments = arl::make_shared<Reflection::ValueMap>();
 
 	ARLASSERT_BALLANCED_LUA_STACK(L);
 	int result = lua_getinfo(L, "fu", &ar);	
@@ -1775,12 +1775,12 @@ std::vector<ScriptDebugger::FunctionInfo> ScriptDebugger::getStack()
 
 shared_ptr<const Reflection::ValueArray> ScriptDebugger::getStack_Reflection()
 {
-	shared_ptr<Reflection::ValueArray> result = rbx::make_shared<Reflection::ValueArray>();
+	shared_ptr<Reflection::ValueArray> result = arl::make_shared<Reflection::ValueArray>();
 
 	Stack stack = getStack();
 	for (Stack::const_iterator iter = stack.begin(); iter != stack.end(); ++iter)
 	{
-		shared_ptr<Reflection::ValueMap> item = rbx::make_shared<Reflection::ValueMap>();
+		shared_ptr<Reflection::ValueMap> item = arl::make_shared<Reflection::ValueMap>();
 		(*item)["frame"] = iter->frame;
 		(*item)["name"] = iter->name;
 		(*item)["currentline"] = iter->currentline;

@@ -12,7 +12,7 @@
 #include <QStyledItemDelegate>
 #include <QWidget>
 
-#include "rbx/BaldPtr.h"
+#include "arl/BaldPtr.h"
 
 class ANORRLMainWindow;
 class QAbstractButton;

@@ -40,8 +40,8 @@ namespace ARL
 
 		FlyweightInstanceMap instanceMap;
 
-		rbx::signals::scoped_connection stringChildAddedSignal;
-		rbx::signals::scoped_connection stringChildRemovedSignal;
+		arl::signals::scoped_connection stringChildAddedSignal;
+		arl::signals::scoped_connection stringChildRemovedSignal;
 
 		virtual void onChildAdded(shared_ptr<ARL::Instance> childInstance);
 

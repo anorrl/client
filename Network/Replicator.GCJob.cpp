@@ -6,7 +6,7 @@
 #include "Util.h"
 
 #include "AppDraw/DrawAdorn.h"
-#include "rbx/DenseHash.h"
+#include "arl/DenseHash.h"
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/datamodel.h"
 #include "V8DataModel/PartInstance.h"

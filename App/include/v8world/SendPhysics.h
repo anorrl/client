@@ -4,9 +4,9 @@
 
 #include "V8World/IWorldStage.h"
 #include "V8World/SimJob.h"
-#include "rbx/signal.h"
+#include "arl/signal.h"
 #include "Util/ConcurrencyValidator.h"
-#include "rbx/threadsafe.h"
+#include "arl/threadsafe.h"
 
 
 namespace ARL {
@@ -24,17 +24,17 @@ namespace ARL {
 
 		void buildSimJob(SimJob* job);
 		void destroySimJob(SimJob* job);
-		mutable rbx::spin_mutex changeTrackerMutex;
+		mutable arl::spin_mutex changeTrackerMutex;
 
 		void setTrackerSimJob(SimJobTracker& tracker, SimJob* simJob) const
 		{
-			rbx::spin_mutex::scoped_lock lock(changeTrackerMutex);
+			arl::spin_mutex::scoped_lock lock(changeTrackerMutex);
 			tracker.setSimJob(simJob);
 		}
 
 	public:
-		rbx::signal<void(Primitive*)> assemblyPhysicsOnSignal;
-		rbx::signal<void(Primitive*)> assemblyPhysicsOffSignal;
+		arl::signal<void(Primitive*)> assemblyPhysicsOnSignal;
+		arl::signal<void(Primitive*)> assemblyPhysicsOffSignal;
 
 		SimJob* nextSimJob(SimJob* current)
 		{

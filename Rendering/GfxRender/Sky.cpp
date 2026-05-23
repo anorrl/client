@@ -17,7 +17,7 @@
 #include "g3d/LightingParameters.h"
 #include "GfxCore/pix.h"
 
-#include "rbx/Profiler.h"
+#include "arl/Profiler.h"
 
 FASTFLAG(DebugRenderDownloadAssets)
 FASTFLAGVARIABLE(RenderMoonBillboard, true)

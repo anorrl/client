@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 #include "Util/IndexBox.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "Util/Math.h"
 
 

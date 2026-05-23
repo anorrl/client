@@ -1,7 +1,7 @@
 #include "V8World/World.h"
 #include "V8World/ContactManager.h"
 #include "Util/Math.h"
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 #include "RbxAssert.h"
 #include "G3D/CollisionDetection.h"
 

@@ -44,10 +44,10 @@ private:
 	shared_ptr<RunService>  runService;
     shared_ptr<Instance>    statsItem;
 
-	rbx::signals::scoped_connection itemAddedConnection;
-	rbx::signals::scoped_connection itemRemovedConnection;
-	rbx::signals::scoped_connection itemChangedConnection;
-	rbx::signals::scoped_connection runTransitionConnection;
+	arl::signals::scoped_connection itemAddedConnection;
+	arl::signals::scoped_connection itemRemovedConnection;
+	arl::signals::scoped_connection itemChangedConnection;
+	arl::signals::scoped_connection runTransitionConnection;
 public:
     static const int minWaypoints = 3;
 	static const int maxWaypoints = 250;
@@ -98,9 +98,9 @@ public:
     int getWaypointDataSize() const { return dataSize; }
     int getWaypointCount() const    { return waypoints.size(); }
 
-    rbx::signal<void()> waypointChangedSignal;
-    rbx::signal<void(std::string)> undoSignal;
-    rbx::signal<void(std::string)> redoSignal;
+    arl::signal<void()> waypointChangedSignal;
+    arl::signal<void(std::string)> undoSignal;
+    arl::signal<void(std::string)> redoSignal;
 
 	MegaClusterInstance* getTerrain() const { return megaClusterInstance.get(); }
 

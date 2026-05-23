@@ -168,7 +168,6 @@ local function Initialize()
 		local hideHudSuccess, hideHudFlagValue = pcall(function() return settings():GetFFlag("AllowHideHudShortcut") end)
 		if (hideHudSuccess and hideHudFlagValue) then
 			miscFrame = createPCGroup("Misc", {	[1] = {["Screenshot"] = "Print Screen"}, 
-												[2] = {["Record Video"] = isOSX and "F12/fn + F12" or "F12"},
 												[3] = {["Hide HUD"] = isOSX and "F7/fn + F7" or "F7"},
 												[4] = {["Dev Console"] = isOSX and "F9/fn + F9" or "F9"},
 												[5] = {["Mouselock"] = "Shift"},

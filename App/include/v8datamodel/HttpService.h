@@ -2,7 +2,7 @@
 #include "Reflection/Reflection.h"
 #include "V8Tree/Instance.h"
 #include "V8Tree/Service.h"
-#include "rbx/RunningAverage.h"
+#include "ARL/RunningAverage.h"
 
 
 namespace ARL {

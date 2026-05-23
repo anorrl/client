@@ -445,7 +445,7 @@ void PlatformService::beginGetPartyMembers(boost::function<void(shared_ptr<const
 		if( InterlockedCompareExchange( &bgpmFlag, 1, 0 ) == 0 )
 		{
 			dprintf("PlatformService: beginGetPartyMembers...\n");
-			shared_ptr<Reflection::ValueArray> values(rbx::make_shared<Reflection::ValueArray>()) ;
+			shared_ptr<Reflection::ValueArray> values(arl::make_shared<Reflection::ValueArray>()) ;
 			int r = platform->getPlatformPartyMembers(values);
 			if( r==0 )
 				endTask( this, [=](...) { cl->resume(values); delete cl; } );
@@ -470,7 +470,7 @@ void PlatformService::beginGetInGamePlayers(boost::function<void(shared_ptr<cons
 		if( InterlockedCompareExchange( &bgigpFlag, 1, 0 ) == 0 )
 		{
 			dprintf("PlatformService: beginGetInGamePlayers...\n");
-			shared_ptr<Reflection::ValueArray> values(rbx::make_shared<Reflection::ValueArray>()) ;
+			shared_ptr<Reflection::ValueArray> values(arl::make_shared<Reflection::ValueArray>()) ;
 			int r = platform->getInGamePlayers(values);
 			if( r==0 )
 				endTask( this, [=](...) { cl->resume(values); delete cl; } );
@@ -528,7 +528,7 @@ void PlatformService::beginGetInventoryInfo(boost::function<void(shared_ptr<cons
 		if( InterlockedCompareExchange( &bgiiFlag, 1, 0 ) == 0 )
 		{
 			dprintf("PlatformService: beginGetInventoryInfo...\n");
-			shared_ptr<Reflection::ValueArray> values(rbx::make_shared<Reflection::ValueArray>()) ;
+			shared_ptr<Reflection::ValueArray> values(arl::make_shared<Reflection::ValueArray>()) ;
 			int r = platform->fetchInventoryInfo(values);
 			if( r==0 )
 				endTask( this, [=](...) { cl->resume(values); delete cl; } );
@@ -552,7 +552,7 @@ void PlatformService::beginGetCatalogInfo(boost::function<void(shared_ptr<const 
 		if( InterlockedCompareExchange( &bgciFlag, 1, 0 ) == 0 )
 		{
 			dprintf("PlatformService: fetchingCatalogInfo...\n");
-			shared_ptr<Reflection::ValueArray> values(rbx::make_shared<Reflection::ValueArray>()) ;
+			shared_ptr<Reflection::ValueArray> values(arl::make_shared<Reflection::ValueArray>()) ;
 			int r = platform->fetchCatalogInfo(values);
 			if( r==0 )
 				endTask( this, [=](...) { cl->resume(values); delete cl; } );

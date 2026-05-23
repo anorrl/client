@@ -91,14 +91,14 @@ namespace ARL {
 		void selectedConnectionShimFunction();
 		void reverseSelectedConnectionShimFunction(shared_ptr<Instance>& instance);
 
-		rbx::signals::connection selectedConnectionShim;
+		arl::signals::connection selectedConnectionShim;
 
 	public:
 		HopperBin();
 
-		rbx::remote_signal<void()> replicatedSelectedSignal;
-		rbx::remote_signal<void(shared_ptr<Instance>)> selectedSignal;
-		rbx::signal<void()> deselectedSignal;
+		arl::remote_signal<void()> replicatedSelectedSignal;
+		arl::remote_signal<void(shared_ptr<Instance>)> selectedSignal;
+		arl::signal<void()> deselectedSignal;
 
 		BinType getBinType() const {return binType;}
 		void setBinType(const BinType value);

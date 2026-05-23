@@ -7,7 +7,7 @@
  *
  */
 
-#include "rbx/Debug.h"
+#include "arl/Debug.h"
 
 void ARLCRASH()
 {
