@@ -724,6 +724,13 @@ bool ReliabilityLayer::HandleSocketReceiveFromConnectedPlayer(
 		}
 		for (i=0; i<incomingAcks.ranges.Size();i++)
 		{
+			// WOAH!
+			if (incomingAcks.ranges[i].maxIndex.val - incomingAcks.ranges[i].minIndex.val > 1000)
+			{
+			    for (unsigned int mh=0; mh < messageHandlerList.Size(); mh++)
+			        messageHandlerList[mh]->OnReliabilityLayerPacketError("range too wide", BYTES_TO_BITS(length), systemAddress);
+			    return false;
+			}
 			if (incomingAcks.ranges[i].minIndex>incomingAcks.ranges[i].maxIndex)
 			{
 				RakAssert(incomingAcks.ranges[i].minIndex<=incomingAcks.ranges[i].maxIndex);
