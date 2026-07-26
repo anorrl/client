@@ -724,11 +724,11 @@ bool ReliabilityLayer::HandleSocketReceiveFromConnectedPlayer(
 		}
 		for (i=0; i<incomingAcks.ranges.Size();i++)
 		{
-			// WOAH!
+			// Fix for CVE-2026-45290 (for now) - kuro
 			if (incomingAcks.ranges[i].maxIndex.val - incomingAcks.ranges[i].minIndex.val > 1000)
 			{
-			    for (unsigned int mh=0; mh < messageHandlerList.Size(); mh++)
-			        messageHandlerList[mh]->OnReliabilityLayerPacketError("range too wide", BYTES_TO_BITS(length), systemAddress);
+				for (unsigned int messageHandlerIndex=0; messageHandlerIndex < messageHandlerList.Size(); messageHandlerIndex++)
+					messageHandlerList[messageHandlerIndex]->OnReliabilityLayerPacketError("range too wide", BYTES_TO_BITS(length), systemAddress);
 			    return false;
 			}
 			if (incomingAcks.ranges[i].minIndex>incomingAcks.ranges[i].maxIndex)
