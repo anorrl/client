@@ -1,10 +1,10 @@
-# ANORRLClientSource
-## What is this?
-This is the client source for 2016E (March 16th 2016, at the time of writing this 10 year anniversary! :D ). This is the ANORRL fork, have a look around!
+# ANOther Roblox Retake Lol - client
+## what is this?
+This is the client source for ANORRL, it's based off the March 2016 source code (slowly but surely making it NOT roblox!). 
 
-If you're daring, try make a mac build, an android build whatever!!
+If you're daring, try make a mac build, a android build whatever!!
 
-## Contributors
+## contributors
 
 Thanks to all these people for the contributions made to this project (of the client)
 
@@ -16,12 +16,12 @@ Thanks to all these people for the contributions made to this project (of the cl
 
 The rest were either made by me and/or power!
 
-## How do I set this up?? (for windows)
+## how do I set this up?? (for windows)
 
 Alright, first. Grab the Visual Studio 2012 iso (and install VS2012) from [here](https://repo.lambda.cam/en_visual_studio_professional_2012_x86_dvd_2262334.iso), this is my repository site (hoarders dream) so it should be fine!
 It's up to you what Visual Studio version you use after, for example I use VS2019! (Please be aware it has to be >= VS2012)
 
-### Ok so I got that installed what now?
+### ok so I got that installed what now?
 
 Right. At the root of your drive (C:\ for example) create `Trunk2012`. In that folder you clone this repo into it, name it `Client`.
 
@@ -44,23 +44,23 @@ This is an example of the two variables, this is my setup!
 <img width="500" alt="Trunk2012" src="https://github.com/user-attachments/assets/19b17f8d-10da-4429-a5ce-9326825bff70" />
 
 ```
-This is C:\Trunk2012.
+This is C:\dazai.
 ```
 
 <img width="500" alt="BuildFolder" src="https://github.com/user-attachments/assets/a403e418-3882-47df-b961-d217618e065c" />
 
 ```
-This is C:\Trunk2012\Build. The folders within are generated automatically by Visual Studio (at least it SHOULD) they go like this C:/Trunk2012/Build/<Project>/<Platform>/Release/
+This is C:\dazai\Build. The folders within are generated automatically by Visual Studio (at least it SHOULD) they go like this C:/Trunk2012/Build/<Project>/<Platform>/Release/
 ```
 
 <img width="500" alt="ClientFolder" src="https://github.com/user-attachments/assets/4edbb094-f300-4adb-b5b8-a81a09a3956a" />
 
 ```
-This is C:\Trunk2012\Client. This is where you clone THIS repo to.
+This is C:\dazai\Client. This is where you clone THIS repo to.
 ```
 
 <img width="500" alt="Contribs" src="https://github.com/user-attachments/assets/9c6ff0ba-37b4-464c-af62-cbaa70a83e70" />
 
 ```
-This is C:\Trunk2012\Contribs. This is where you extract that Contribs.7z archive into.
+This is C:\dazai\Contribs. This is where you extract that Contribs.7z archive into.
 ```
