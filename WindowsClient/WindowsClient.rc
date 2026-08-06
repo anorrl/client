@@ -77,13 +77,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "GraceRBLX"
+            VALUE "CompanyName", "kuro.remover"
             VALUE "FileDescription", "ANORRL Game Client"
-            VALUE "FileVersion", "22.5.2026.1"
-            VALUE "LegalCopyright", "© 2026 GraceRBLX.  All rights reserved to Roblox Corporation."
+            VALUE "FileVersion", "5.8.2026.1"
+            VALUE "LegalCopyright", "© 2026 kuro.remover - All rights reserved to Roblox Corporation."
             VALUE "OriginalFilename", "RobloxPlayerBeta.exe"
             VALUE "ProductName", "ANORRL"
-            VALUE "ProductVersion", "22.5.2026.0"
+            VALUE "ProductVersion", "5.8.2026.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -214,7 +214,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_DEFAULT_IMAGE_INFO  "A screenshot from ANORRL.  Learn more at http://anorrl.lambda.cam"
+    IDS_DEFAULT_IMAGE_INFO  "A screenshot from ANORRL.  Learn more at http://www.anorrl.com"
 END
 
 #endif    // English (United States) resources

@@ -843,8 +843,8 @@ bool ScriptContext::openState(size_t idx)
 		lua_setglobal(globalState, "loadfile");
 
         // Replace the definition of loadstring
-		lua_pushcfunction(globalState, loadstring);
-		lua_setglobal(globalState, "loadstring");
+		//lua_pushcfunction(globalState, loadstring);
+		//lua_setglobal(globalState, "loadstring");
 
 		// Replace the definition of load
 		// TODO: Security: Does this truly replace the Lua's version of the function?
@@ -2454,7 +2454,7 @@ int ScriptContext::loadfile(lua_State *L)
 	return load_aux(L, LuaVM::load(L, verifiedSource, ("=" + contentId.toString()).c_str()));
 }
 
-int ScriptContext::loadstring(lua_State *L)
+/*int ScriptContext::loadstring(lua_State* L)
 {
 	ScriptContext& context = ScriptContext::getContext(L);
 
@@ -2485,7 +2485,7 @@ int ScriptContext::loadstring(lua_State *L)
     const char* chunkname = luaL_optstring(L, 2, s);
 
     return load_aux(L, LuaVM::load(L, ProtectedString::fromTrustedSource(std::string(s, l)), chunkname));
-}
+}*/
 
 int ScriptContext::version(lua_State *L)
 {

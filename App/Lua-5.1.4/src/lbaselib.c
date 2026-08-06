@@ -474,7 +474,7 @@ static const luaL_Reg base_funcs[] = {
   {"getmetatable", luaB_getmetatable},
   {"loadfile", luaB_loadfile},
   {"load", luaB_load},
-  {"loadstring", luaB_loadstring},
+  //{"loadstring", luaB_loadstring},
   {"next", luaB_next},
   {"pcall", luaB_pcall},
   {"print", luaB_print},

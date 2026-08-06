@@ -26,7 +26,7 @@ local COLORS = {
 local IMAGES = {
 	BACKGROUND_THUMBNAIL_VIGNETTE = 'arlasset://textures/loading/loadingvignette.png',
 	ANORRL_LOGO_256 = 'arlasset://textures/loading/anorrllogo.png',
-	GAME_THUMBNAIL =  'http://arl.lambda.cam/Thumbs/Asset.ashx?format=png&width=420&height=230&assetId=',
+	GAME_THUMBNAIL =  'http://www.anorrl.com/Thumbs/Asset.ashx?format=png&width=420&height=230&assetId=',
 	GAME_BACKGROUND = 'arlasset://textures/loading/loadingTexture.png'
 }
 

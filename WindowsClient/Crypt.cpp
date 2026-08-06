@@ -289,7 +289,7 @@ bool VerifyCryptSignature(const std::wstring& fileName)
             //    wprintf(L"Publisher Link : %s\n", ProgPubInfo.lpszPublisherLink);
             //}
 
-			if (StrCmpW(ProgPubInfo.lpszMoreInfoLink, L"http://anorrl.lambda.cam ") != 0)
+			if (StrCmpW(ProgPubInfo.lpszMoreInfoLink, L"http://www.anorrl.com ") != 0)
             {
 				result = false;
 				__leave;

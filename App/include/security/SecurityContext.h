@@ -23,8 +23,8 @@ namespace ARL
 #if defined(ARL_STUDIO_BUILD)
 			StudioPlugin,				// Any Studio plug-in script
 #endif
-			COM,						// Scripts executed via the COM API (usually comes from anorrl.lambda.cam)
-			WebService,					// Scripts executed via the Web Service API (usually comes from anorrl.lambda.cam)
+			COM,						// Scripts executed via the COM API (usually comes from www.anorrl.com)
+			WebService,					// Scripts executed via the Web Service API (usually comes from www.anorrl.com)
 			Replicator_,				// Receiving data via replication
 			COUNT_Identities            // Not a true identity. Used for enumeration
 		} Identities;

@@ -366,7 +366,9 @@ private:
 	void namedAssetsDoubleClickCallback(EntityProperties* assetInfo);
 	void openPlace(int placeId);
 	void updateItemForOpenedPlaceState(QStandardItem* placeItem);
+	void updateItemForBadgesState(QStandardItem* badgeItem);
 	void refreshOpenedPlaceIndicator();
+	void refreshBadgesSecretIndicator();
 	void openStartPlaceIfRequestedAndNoPlaceOpenedAndDataReady();
 	void publishInternal(boost::function<int()> newUniverseFuture);
 	std::pair<int, boost::function<std::string()> > buildPlaceContentPair(EntityProperties* properties);
@@ -379,7 +381,7 @@ private:
 	void developerProductContextMenuHandler(const QPoint& point, EntityProperties* properties);
 	void namedAssetsContextMenuHandler(const QPoint& point, EntityProperties* properties);
 	void badgesContextMenuHandler(const QPoint& point, EntityProperties* properties);
-	void badgesPlaceContextMenuHandler(const QPoint& point, EntityProperties* properties);
+	void badgesGroupContextMenuHandler(const QPoint& point);
 	void placeGroupContextMenuHandler(const QPoint& point);
 	void developerProductGroupContextMenuHandler(const QPoint& point);
 	void namedAssetsGroupContextMenuHandler(const QPoint& point);

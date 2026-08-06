@@ -29,7 +29,7 @@ static const size_t kNumWords = 3;
 static const std::string kStartWords[kNumWords] = {
     "apikey=", // secret key param
     "accesskey=", // secret key param
-    "lambda.cam/" // avoids asset/place stealing
+    "anorrl.com/" // avoids asset/place stealing
     };
 }
 

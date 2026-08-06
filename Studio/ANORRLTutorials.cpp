@@ -37,9 +37,9 @@
 FASTFLAG(WebkitDeveloperToolsEnabled);
 FASTFLAGVARIABLE(StudioShowTutorialsByDefault, false);
 FASTFLAGVARIABLE(StudioTutorialSeeAll, false);
-FASTSTRINGVARIABLE(StudioTutorialsSeeAllUrl, "http://wiki.lambda.cam/index.php?title=AllTutorials");
-FASTSTRINGVARIABLE(StudioTutorialsUrl, "http://wiki.lambda.cam/index.php?title=StudioTutorials&studiomode=true");
-FASTSTRINGVARIABLE(StudioTutorialsTOCUrl, "http://wiki.lambda.cam/index.php?title=Studio_Tutorials_Landing&studiomode=true");
+FASTSTRINGVARIABLE(StudioTutorialsSeeAllUrl, "http://wiki.anorrl.com/index.php?title=AllTutorials");
+FASTSTRINGVARIABLE(StudioTutorialsUrl, "http://wiki.anorrl.com/index.php?title=StudioTutorials&studiomode=true");
+FASTSTRINGVARIABLE(StudioTutorialsTOCUrl, "http://wiki.anorrl.com/index.php?title=Studio_Tutorials_Landing&studiomode=true");
 
 ANORRLTutorials::ANORRLTutorials()
 : m_pWebView(NULL)

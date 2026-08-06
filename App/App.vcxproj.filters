@@ -15,9 +15,6 @@
     <Filter Include="lz4">
       <UniqueIdentifier>{05436c4c-8c89-4d4b-b5dc-a5a3084bce5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\libwww">
-      <UniqueIdentifier>{00ff171e-8e18-44eb-b857-259704096026}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Solver">
       <UniqueIdentifier>{f8479df0-33a6-44dd-a664-d8b6768be737}</UniqueIdentifier>
     </Filter>
@@ -1663,18 +1660,6 @@
     </ClCompile>
     <ClCompile Include="util\URL.cpp">
       <Filter>Source Files\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="$(CONTRIB_PATH)\w3c-libwww-5.4.0\Library\src\HTParse.c">
-      <Filter>Source Files\libwww</Filter>
-    </ClCompile>
-    <ClCompile Include="$(CONTRIB_PATH)\w3c-libwww-5.4.0\Library\src\HTMemory.c">
-      <Filter>Source Files\libwww</Filter>
-    </ClCompile>
-    <ClCompile Include="$(CONTRIB_PATH)\w3c-libwww-5.4.0\Library\src\HTString.c">
-      <Filter>Source Files\libwww</Filter>
-    </ClCompile>
-    <ClCompile Include="$(CONTRIB_PATH)\w3c-libwww-5.4.0\Library\src\HTList.c">
-      <Filter>Source Files\libwww</Filter>
     </ClCompile>
     <ClCompile Include="script\LuaVM.cpp">
       <Filter>Source Files\Script</Filter>
@@ -3537,18 +3522,6 @@
     </ClInclude>
     <ClInclude Include="include\util\NamedMutex.h">
       <Filter>Header Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="$(CONTRIB_PATH)\w3c-libwww-5.4.0\Library\src\HTParse.h">
-      <Filter>Source Files\libwww</Filter>
-    </ClInclude>
-    <ClInclude Include="$(CONTRIB_PATH)\w3c-libwww-5.4.0\Library\src\HTMemory.h">
-      <Filter>Source Files\libwww</Filter>
-    </ClInclude>
-    <ClInclude Include="$(CONTRIB_PATH)\w3c-libwww-5.4.0\Library\src\HTString.h">
-      <Filter>Source Files\libwww</Filter>
-    </ClInclude>
-    <ClInclude Include="$(CONTRIB_PATH)\w3c-libwww-5.4.0\Library\src\HTList.h">
-      <Filter>Source Files\libwww</Filter>
     </ClInclude>
     <ClInclude Include="include\util\HTW3C.h">
       <Filter>Header Files\Util</Filter>

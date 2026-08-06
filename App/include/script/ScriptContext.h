@@ -385,7 +385,7 @@ namespace ARL
 		static int spawn(lua_State* thread);
 		static int printidentity(lua_State* thread);
 		static int loadfile(lua_State* thread);
-		static int loadstring(lua_State* thread);
+		//static int loadstring(lua_State* thread);
 		static int notImplemented(lua_State* thread);
 		static int dofile(lua_State* thread);
 		static int settings(lua_State* thread);

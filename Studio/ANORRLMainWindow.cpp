@@ -731,7 +731,7 @@ void ANORRLMainWindow::parseCommandLineOptions(const QMap<QString, QString> argM
 	QString sWidth	= argMap[StudioUtilities::StudioWidthArgument];
 	QString sHeight	= argMap[StudioUtilities::StudioHeightArgument];
 
-	// convert loadfile('http://anorrl.lambda.cam/game/join.ashx')() to just the url
+	// convert loadfile('http://www.anorrl.com/game/join.ashx')() to just the url
 	if (StudioUtilities::containsJoinScript(scriptArg) && scriptArg.contains("loadfile("))
 	{
 		int urlBegin = scriptArg.indexOf("(")+2; // skip over the qoute
@@ -1485,21 +1485,21 @@ void ANORRLMainWindow::about()
 #endif
 
 	aboutMsg = aboutMsg.arg(ANORRLSettings::getVersionString());
-	aboutMsg.append(tr("<p>ANORRL and like everything here is made by the community and primarily grace. "));
+	aboutMsg.append(tr("<p>ANORRL and like everything here is made by the community and primarily kuro. "));
 	
 	QString copyrightString;
-	copyrightString.sprintf("%c2026 GraceRBLX and others.</p> ", COPYRIGHT_PREFIX);
+	copyrightString.sprintf("%c2026 kuro and others.</p> ", COPYRIGHT_PREFIX);
 							
     aboutMsg.append(copyrightString);
 					   
-	aboutMsg.append(tr("<p>Contact us at info@lambda.cam.</p></div>"));
+	aboutMsg.append(tr("<p>Contact us at info@anorrl.com.</p></div>"));
 	
 	QMessageBox::about(this, tr("Welcome to ANORRL!"), aboutMsg);
 }
 
 void ANORRLMainWindow::onlineHelp()
 {
-	QUrl helpUrl("http://wiki.lambda.cam/index.php/Studio", QUrl::TolerantMode);
+	QUrl helpUrl("http://wiki.anorrl.com/index.php/Studio", QUrl::TolerantMode);
 	QDesktopServices::openUrl(helpUrl);
 }
 

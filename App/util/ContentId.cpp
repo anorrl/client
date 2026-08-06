@@ -8,13 +8,6 @@
 
 #include "util/LegacyContentTable.h"
 
-// Remove this after removal of FFlag::UseNewUrlClass and defaulting to it
-// {
-#undef HAVE_MEMCPY
-#undef HAVE_CTYPE_H
-#include "util/HTW3C.h"
-// }
-
 #include "util/URL.h"
 
 DYNAMIC_FASTFLAGVARIABLE(UrlReconstructRejectInvalidSchemes, false);
@@ -154,7 +147,7 @@ namespace ARL
 	{
 		boost::scoped_array<char> url(new char[id.length()+1]);
 
-		// remove any spaces since HTParse stops parsing at the first space and we need to handle "http://anorrl.lambda.cam/asset/?id= 1818"
+		// remove any spaces since HTParse stops parsing at the first space and we need to handle "http://www.anorrl.com/asset/?id= 1818"
 		char* urlIter = url.get();
 		for (size_t i = 0; i < id.length(); ++i)
 		{
@@ -166,82 +159,45 @@ namespace ARL
 		}
 		*urlIter = '\0';
         
-        if (DFFlag::UseNewUrlClass)
-        {
-            const ARL::Url parsed = ARL::Url::fromString(url.get());
+		const ARL::Url parsed = ARL::Url::fromString(url.get());
 
-            // As of 2016-02-09 ContentId::id strings may have following forms:
-            // - http://host/path?query -- a valid HTTP URL
-            // - arlasset://something/file
-            // - /asset/?query -- these should not be valid
-            
-            // Only HTTP URLs are subject for reconstruction
-            if (!parsed.hasHttpScheme())
-            {
-                return !DFFlag::UrlReconstructRejectInvalidSchemes || parsed.hasValidScheme();
-            }
-            
-            // Refuse to reconstruct malformed URLs
-            if (!parsed.isValid() || parsed.pathIsEmpty())
-            {
-                return false;
-            }
-            
-            // These can be rewritten
-            std::string scheme = parsed.scheme();
-            std::string host = parsed.host();
-            std::string path = parsed.path();
+		// As of 2016-02-09 ContentId::id strings may have following forms:
+		// - http://host/path?query -- a valid HTTP URL
+		// - arlasset://something/file
+		// - /asset/?query -- these should not be valid
+		
+		// Only HTTP URLs are subject for reconstruction
+		if (!parsed.hasHttpScheme())
+		{
+			return !DFFlag::UrlReconstructRejectInvalidSchemes || parsed.hasValidScheme();
+		}
+		
+		// Refuse to reconstruct malformed URLs
+		if (!parsed.isValid() || parsed.pathIsEmpty())
+		{
+			return false;
+		}
+		
+		// These can be rewritten
+		std::string scheme = parsed.scheme();
+		std::string host = parsed.host();
+		std::string path = parsed.path();
 
-            const ARL::Url baseUrlParsed = ARL::Url::fromString(baseUrl);
+		const ARL::Url baseUrlParsed = ARL::Url::fromString(baseUrl);
 
-            for (int i = 0; i < pathCount; i++)
-            {
-                if (parsed.pathEqualsCaseInsensitive(paths[i]))
-                {
-                    scheme = "http";
-                    host = "anorrl.lambda.cam";
-                    
-                    id = ARL::Url::fromComponents(scheme, host, path, parsed.query(), parsed.fragment()).asString();
+		for (int i = 0; i < pathCount; i++)
+		{
+			if (parsed.pathEqualsCaseInsensitive(paths[i]))
+			{
+				scheme = "http";
+				host = "www.anorrl.com";
+				
+				id = ARL::Url::fromComponents(scheme, host, path, parsed.query(), parsed.fragment()).asString();
 
-                    return true;
-                }
-            } // for all paths[]
-            
-            return false;
-        } // if (DFFlag::UseNewUrlClass)
-
-        // parse out host and path
-        char* simplifiedUrl = url.get();
-        simplifiedUrl = HTSimplify(&simplifiedUrl);
-        boost::scoped_ptr<char> chost(HTParse(simplifiedUrl, NULL, PARSE_HOST));
-        boost::scoped_ptr<char> cscheme(HTParse(simplifiedUrl, NULL, PARSE_ACCESS));
-        boost::scoped_ptr<char> cpath(HTParse(simplifiedUrl, NULL, PARSE_PATH));
-
-        std::string scheme = cscheme.get();
-        std::string path = cpath.get();
-        std::string host = chost.get();
-
-        if (scheme != "http" && scheme != "https")
-            return true;
-
-        // remove any leading '/' from path
-        int pathStart = path.find_first_not_of("/");
-        if (pathStart == std::string::npos)
-            return false; // invalid path
-
-        path = path.substr(pathStart);
-
-        for (int i = 0; i < pathCount; i++)
-        {
-            size_t pathLength = strlen(paths[i]);
-
-            if (boost::istarts_with(path, paths[i]) && (path.size() == pathLength || path[pathLength] == '?'))
-            {
-				id = "http://anorrl.lambda.cam/" + path;
-                return true;
-            }
-        } // for all paths[]
-
+				return true;
+			}
+		} // for all paths[]
+		
 		return false;
 	}
 

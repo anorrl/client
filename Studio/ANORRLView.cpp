@@ -1766,7 +1766,7 @@ static ARL::ViewBase* createGameWindow(QOgreWidget *pQtWrapperWindow)
 	{
 		ANORRLSettings settings;
 		settings.setValue("lastGFXMode", -1);
-		throw std::runtime_error("Your graphics drivers seem to be too old for ANORRL to use.\n\nVisit http://anorrl.lambda.cam/drivers for info on how to perform a driver upgrade.");
+		throw std::runtime_error("Your graphics drivers seem to be too old for ANORRL to use.\n\nVisit http://www.anorrl.com/drivers for info on how to perform a driver upgrade.");
 	}
 
 	if(success && pRbxView)

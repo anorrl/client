@@ -23,7 +23,7 @@ local TEXT_STROKE_TRANSPARENCY = 0.75
 local TEXT_COLOR = Color3.new(1, 1, 243/255)
 local TEXT_STROKE_COLOR = Color3.new(34/255, 34/255, 34/255)
 local MAX_FRIEND_COUNT = 200
-local FRIEND_IMAGE = 'http://anorrl.lambda.cam/thumbs/avatar.ashx?nocompress&headshot&userId='
+local FRIEND_IMAGE = 'http://www.anorrl.com/thumbs/avatar.ashx?nocompress&headshot&userId='
 
 --[[ Fast Flags ]]--
 local followerSuccess, isFollowersEnabled = pcall(function() return settings():GetFFlag("EnableLuaFollowers") end)

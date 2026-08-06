@@ -221,8 +221,8 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(ANORRLStudio);
 	
 	// Platform independent settings
-	QApplication::setOrganizationName("GraceRBLX");
-    QApplication::setOrganizationDomain("anorrl.lambda.cam");
+	QApplication::setOrganizationName("kuro.remover");
+    QApplication::setOrganizationDomain("www.anorrl.com");
     QApplication::setApplicationName("ANORRLStudio");  
     QApplication::setApplicationVersion(ANORRLSettings::getVersionString());
 

@@ -11,9 +11,6 @@
 
 #include "util/Http.h"
 #include "util/HttpPlatformImpl.h"
-#undef HAVE_MEMCPY
-#undef HAVE_CTYPE_H
-#include "util/HTW3C.h"
 #include "util/URL.h"
 #include "util/standardout.h"
 #include "util/Statistics.h"
@@ -242,33 +239,17 @@ class HTTPStatistics
 
     static ServiceCategory getServiceCategory(const char* url)
     {
-        if (DFFlag::UseNewUrlClass)
-        {
-            ARL::Url parsed = ARL::Url::fromString(url);
-            if (parsed.pathEquals(DataStore::urlApiPath()))
-            {
-                return ServiceCategoryDataStore;
-            }
+		ARL::Url parsed = ARL::Url::fromString(url);
+		if (parsed.pathEquals(DataStore::urlApiPath()))
+		{
+			return ServiceCategoryDataStore;
+		}
 
-            if (parsed.pathEquals(MarketplaceService::urlApiPath()))
-            {
-                return ServiceCategoryMarketPlace;
-            }
-            return ServiceCategoryOther;
-        }
-
-        boost::scoped_ptr<char> chost(HTParse(url, NULL, PARSE_PATH));
-        if (chost.get() == strstr(chost.get(), DataStore::urlApiPath()))
-        {
-            return ServiceCategoryDataStore;
-        }
-
-        if (chost.get() == strstr(chost.get(), MarketplaceService::urlApiPath()))
-        {
-            return ServiceCategoryMarketPlace;
-        }
-
-        return ServiceCategoryOther;
+		if (parsed.pathEquals(MarketplaceService::urlApiPath()))
+		{
+			return ServiceCategoryMarketPlace;
+		}
+		return ServiceCategoryOther;
     }
 
     static const char* serviceToString(const char* url)
@@ -934,19 +915,9 @@ bool Http::isScript(const char* url)
 // This allows just anorrl domains, not anorrl trusted domains like facebook.
 bool Http::isStrictlyANORRLSite(const char* url)
 {
-    if (DFFlag::UseNewUrlClass)
-    {
-        ARL::Url parsed = ARL::Url::fromString(url);
+    ARL::Url parsed = ARL::Url::fromString(url);
     
-        return parsed.isSubdomainOf("lambda.cam");
-    }
-
-    std::string host(HTParse(url, NULL, PARSE_HOST));
-    if ("lambda.cam" != host && !hasEnding(host, ".lambda.cam"))
-    {
-        return false;
-    }
-    return true;
+    return parsed.isSubdomainOf("anorrl.com");
 }
 
 bool Http::isANORRLSite(const char* url)
@@ -957,50 +928,6 @@ bool Http::isANORRLSite(const char* url)
         return rbx_isRobloxSite(url) != 0; // uhm ok
     }
 #endif // ifdef __APPLE__
-
-#if defined(_WIN32)
-    if (!useCurlHttpImpl)
-    {
-        CUrl crack;
-        crack.CrackUrl(url);
-        switch (crack.GetScheme())
-        {
-        case ATL_URL_SCHEME_HTTP:
-        case ATL_URL_SCHEME_HTTPS:
-        case ATL_URL_SCHEME_FTP:
-        {
-            CString hostName = crack.GetHostName();
-            hostName.MakeLower();
-            CString urlPath = crack.GetUrlPath();
-            urlPath.MakeLower();
-
-            // trust urls from lambda.cam
-			if (hostName.Right(10)=="lambda.cam")
-				return true;
-
-            // trust google/youtube upload/auth
-            if (hostName == "www.youtube.com" && (urlPath == "/auth_sub_request" || urlPath == "/signin" || urlPath == "/issue_auth_sub_token"))
-                return true;
-            if (hostName == "uploads.gdata.youtube.com")
-                return true;
-            if (hostName == "www.google.com" && urlPath == "/accounts/serviceloginauth")
-                return true;
-            if (hostName == "accounts.google.com" && urlPath == "/serviceloginauth") {
-                return true;
-            }
-
-            return false;
-        }
-        default:
-        {
-            return false;
-        }
-        }
-    }
-#endif // ifdef _WIN32
-    
-    if (DFFlag::UseNewUrlClass)
-    {
         ARL::Url parsed = ARL::Url::fromString(url);
         if (!parsed.hasHttpScheme())
         {
@@ -1008,7 +935,7 @@ bool Http::isANORRLSite(const char* url)
         }
     
 		const bool isANORRL =
-			parsed.isSubdomainOf("lambda.cam");
+			parsed.isSubdomainOf("anorrl.com");
         
         const bool isYoutube =
             ("www.youtube.com" == parsed.host()
@@ -1024,33 +951,6 @@ bool Http::isANORRLSite(const char* url)
                 && parsed.pathEqualsCaseInsensitive("/serviceloginauth"));
 
         return isANORRL || isYoutube || isGoogle;
-    } // if (DFFlag::UseNewUrlClass)
-
-    std::string host;
-    std::string path;
-
-    boost::scoped_ptr<char> cscheme(HTParse(url, NULL, PARSE_ACCESS));
-    if (!isValidScheme(cscheme.get()))
-    {
-        return false;
-    }
-
-    boost::scoped_ptr<char> chost(HTParse(url, NULL, PARSE_HOST));
-    host = chost.get();
-
-    boost::scoped_ptr<char> cpath(HTParse(url, NULL, PARSE_PATH));
-    path = cpath.get();
-
-    std::transform(host.begin(), host.end(), host.begin(), ::tolower);
-    std::transform(path.begin(), path.end(), path.begin(), ::tolower);
-
-    return
-        "lambda.cam" == host || hasEnding(host, ".lambda.cam") ||
-        // trust google/youtube upload/auth
-        ("www.youtube.com" == host && ("/auth_sub_request" == path || "/signin" == path || "/issue_auth_sub_token" == path)) ||
-        ("uploads.gdata.youtube.com" == host) ||
-        ("www.google.com" == host && "/accounts/serviceloginauth" == path) ||
-        ("accounts.google.com" == host && "/serviceloginauth" == path);
 }
 
 bool Http::trustCheckBrowser(const char* url)
@@ -1060,54 +960,14 @@ bool Http::trustCheckBrowser(const char* url)
 
 bool Http::isExternalRequest(const char* url)
 {
-#if defined(_WIN32)
-    if (!useCurlHttpImpl)
-    {
-        std::string urlLower = url;
-        std::transform(urlLower.begin(), urlLower.end(), urlLower.begin(), tolower);
-
-        CUrl urlParsed;
-        urlParsed.CrackUrl(urlLower.c_str());
-
-        ATL_URL_SCHEME scheme = urlParsed.GetScheme();
-        if(scheme != ATL_URL_SCHEME_HTTP && scheme != ATL_URL_SCHEME_HTTPS)
-            return false;
-
-        std::string hostname = urlParsed.GetHostName();
-
-        if(hostname.find("lambda.cam") != std::string::npos)
-            return false;
-
-        return true;
-    }
-#endif // ifdef _WIn32
-
-    if (DFFlag::UseNewUrlClass)
-    {
-        ARL::Url parsed = ARL::Url::fromString(url);
+    ARL::Url parsed = ARL::Url::fromString(url);
         if (!parsed.hasHttpScheme())
         {
             return false;
         }
 
-		return !parsed.isSubdomainOf("lambda.cam");
-    }
-
-    std::string host;
-
-    boost::scoped_ptr<char> cscheme(HTParse(url, NULL, PARSE_ACCESS));
-    if (!isValidScheme(cscheme.get()))
-    {
-        return false;
-    }
-
-    boost::scoped_ptr<char> chost(HTParse(url, NULL, PARSE_HOST));
-    host = chost.get();
-
-    std::transform(host.begin(), host.end(), host.begin(), ::tolower);
-
-    return
-        "lambda.cam" != host && !hasEnding(host, ".lambda.cam");
+		return !parsed.isSubdomainOf("anorrl.com");
+    
 }
 
 void Http::setProxy(const std::string& host, long port)
@@ -1135,113 +995,7 @@ bool Http::trustCheck(const char* url, bool externalRequest)
         return true;
     }
 
-#if defined(_WIN32)
-    if (!useCurlHttpImpl)
-    {
-        CUrl crack;
-        crack.CrackUrl(url);
-        switch (crack.GetScheme())
-        {
-        case ATL_URL_SCHEME_HTTP:
-        case ATL_URL_SCHEME_HTTPS:
-        {
-            return false;
-        }
-        default:
-        {
-            // also trust some embedded resources
-            CString sUrl = url;
-            // Patch for IE6:
-            sUrl.Replace("%20", " ");
-            if (sUrl.Find("res://")==0)
-            {
-                if (sUrl.Find("res://mshtml.dll")==0)
-                    return true;
-                if (sUrl.Find("res://ieframe.dll")==0)
-                    return true;
-                if (sUrl.Find("res://shdoclc.dll")==0)
-                    return true;
-
-                // Allow resources embedded inside this app
-                TCHAR module[_MAX_PATH];
-                if (GetModuleFileName(NULL, module, _MAX_PATH))
-                {
-                    CString strResourceURL;
-                    strResourceURL.Format(_T("res://%s"), module);
-                    if (sUrl.Find(strResourceURL)==0)
-                        return true;
-                }
-            }
-
-            return false;
-        }
-        }
-    }
-    else
-    {
-        if (DFFlag::UseNewUrlClass)
-        {
-		    ARL::Url parsed = ARL::Url::fromString(url);
-		
-		    if (parsed.hasHttpScheme())
-		    {
-			    return false;
-		    }
-
-		    if ("mshtml.dll" == parsed.host() ||
-			    "ieframe.dll" == parsed.host() ||
-			    "shdoclc.dll" == parsed.host())
-		    {
-			    return true;
-		    }
-
-		    // Allow resources embedded inside this app
-		    TCHAR module[_MAX_PATH];
-		    if (GetModuleFileName(NULL, module, _MAX_PATH))
-		    {
-			    if ("res" == parsed.scheme() && 0 == parsed.host().find(module))
-			    {
-			        return true;
-			    }
-		    }
-
-		    return false;
-        } // if (DFFlag::UseNewUrlClass)
-
-        std::string host;
-        boost::scoped_ptr<char> cscheme(HTParse(url, NULL, PARSE_ACCESS));
-        if (isValidScheme(cscheme.get()))
-        {
-            return false;
-        }
-
-        boost::scoped_ptr<char> chost(HTParse(url, NULL, PARSE_HOST));
-        host = chost.get();
-
-        if ("mshtml.dll" == host ||
-            "ieframe.dll" == host ||
-            "shdoclc.dll" == host)
-        {
-            return true;
-        }
-
-        // Allow resources embedded inside this app
-        TCHAR module[_MAX_PATH];
-        if (GetModuleFileName(NULL, module, _MAX_PATH))
-        {
-            std::stringstream ss;
-            ss << "res://" << module;
-            if (0 == host.find(ss.str()))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-#else // not ifdef _WIN32
     return false;
-#endif // not ifdef _WIN32
 }
 
 bool Http::doHttpGetPostWithNativeFallbackForReporting(bool isPost, std::istream& dataStream, const std::string& contentType, bool compressData, const HttpAux::AdditionalHeaders& additionalHeaders, bool allowExternal, std::string& response)

@@ -512,15 +512,6 @@ local function Initialize()
 			GameSettings.MasterVolume = soundPercent
 		end)
 		
-		--[[this.VirtualVersionFrame, 
-		this.VirtualVersionLabel,
-		this.VirtualVersionSlider = utility:AddNewRow(this, "Virtual Version", "Selector", {"2016", "2014"}, 1)
-		
-		this.VirtualVersionSlider.IndexChanged:connect(function(newValue)
-			print(newValue)
-			GameSettings.VirtualVersion = Enum.VirtualVersion[VIRTUAL_VERSION_INT_TO_STRING[newValue-1]\]
-		end)]]
-		
 		local aeroInit = 1
 		if not GameSettings:IsAeroEnabled() then
 			aeroInit = 2

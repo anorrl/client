@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Settings>
-	<BaseUrl>http://anorrl.lambda.cam/</BaseUrl>
+	<BaseUrl>http://www.anorrl.com/</BaseUrl>
 	<ContentFolder>..\..\..\..\Client\content</ContentFolder>
 	<SilentCrashReport>0</SilentCrashReport>
 	<HideChatWindow>0</HideChatWindow>

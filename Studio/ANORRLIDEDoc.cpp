@@ -141,7 +141,7 @@ FASTFLAGVARIABLE(NoPromptOnAlreadySavedPlace, true)
 FASTFLAG(UseBuildGenericGameUrl)
 FASTFLAG(CSGPhysicsLevelOfDetailEnabled)
 DYNAMIC_FASTSTRINGVARIABLE(WorkspaceMessageText, std::string("Test Me - Please Remove"))
-DYNAMIC_FASTSTRINGVARIABLE(WorkspaceMessageLink, std::string("http://anorrl.lambda.cam"))
+DYNAMIC_FASTSTRINGVARIABLE(WorkspaceMessageLink, std::string("http://www.anorrl.com"))
 DYNAMIC_FASTFLAGVARIABLE(WorkspaceNotificationMasterEnable, false)
 
 // Level 1 = Show it to people with DEFAULT Physical Properties settings

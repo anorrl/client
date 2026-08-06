@@ -66,7 +66,7 @@ local DEFAULT_NOTIFICATION_DURATION = 5
 --[[ Images ]]--
 local PLAYER_POINTS_IMG = 'arlasset://textures/ui/Points.png' --206410433
 local BADGE_IMG = 'arlasset://textures/ui/Badge.png'
-local FRIEND_IMAGE = 'http://anorrl.lambda.cam/thumbs/avatar.ashx?userId='
+local FRIEND_IMAGE = 'http://www.anorrl.com/thumbs/avatar.ashx?userId='
 
 --[[ Gui Creation ]]--
 local function createFrame(name, size, position, bgt)

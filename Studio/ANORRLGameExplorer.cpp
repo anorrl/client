@@ -47,6 +47,7 @@ FASTFLAGVARIABLE(GameExplorerCopyPath, false)
 FASTFLAGVARIABLE(GameExplorerUseV2AliasEndpoint, false)
 FASTFLAGVARIABLE(GameExplorerCopyId, false)
 FASTFLAGVARIABLE(UseNewBadgesCreatePage, false)
+FASTFLAGVARIABLE(UseLetterSpacingOnBadges, false)
 
 Q_DECLARE_METATYPE(boost::function<void()>);
 Q_DECLARE_METATYPE(boost::function<void(const QPoint&)>);
@@ -108,11 +109,12 @@ const CategoryWebSettings kWebSettings[ENTITY_CATEGORY_MAX] =
 		"", // no content, so no content write url
 		NULL // no properties fixer
 	},
+	// Badges
 	{
-		"Places",
-		"PlaceId",
+		"GameBadges",
 		"BadgeId",
-		"%API_PROXY%/universes/get-universe-places?universeId=%UNIVERSE_ID%&page=%ITEM_ID%",
+		"BadgeId",
+		"%WEB_BASE%/universes/%UNIVERSE_ID%/badges",
 		"",
 		"",
 		"",
@@ -134,17 +136,6 @@ const CategoryWebSettings kWebSettings[ENTITY_CATEGORY_MAX] =
 		&namedAssetsPropertiesFixer
 	},
 };
-
-const CategoryWebSettings badgesWebSettings = {"GameBadges",
-											   "PlaceId",
-											   "BadgeId",
-											   "%WEB_BASE%/badges/list-badges-for-place/json?placeId=%ITEM_ID%",
-											   "",
-											   "",
-											   "",
-											   "",
-											   "",
-											   NULL};
 
 template<class IdType>
 IdType extractPropertyHelper(boost::shared_future<std::string> future, const std::string fieldName)
@@ -334,14 +325,15 @@ void placesPropertiesFixer(int universeId, EntityProperties* properties)
 
 void badgesPropertiesFixer(int universeId, EntityProperties* properties)
 {
+	CategoryWebSettings webSettings = kWebSettings[ENTITY_CATEGORY_Badges];
 	// get place id
-	const QVariant id = properties->get<int>(kWebSettings[ENTITY_CATEGORY_Badges].jsonItemIdFieldName).get();
+	const QVariant id = properties->get<int>(webSettings.jsonItemIdFieldName).get();
 
 	// load badges information for the place
 	HttpOptions options;
 	options.setDoNotUseCachedResponse();
 	boost::function<shared_ptr<const ValueArray>()> f = extractProperty<shared_ptr<const ValueArray> >(HttpAsync::get(
-		formatUrl(badgesWebSettings.fetchPageUrlFormatString, universeId, id), options), badgesWebSettings.jsonItemGroupFieldName);
+		formatUrl(webSettings.fetchPageUrlFormatString, universeId, id), options), webSettings.jsonItemGroupFieldName);
 
 	// set badges list
 	shared_ptr<const ValueArray> jsonList = f();
@@ -922,7 +914,7 @@ bool UniverseSettings::isLoadedAndParsed() const
 
 bool UniverseSettings::hasRootPlace()
 {
-	return properties.get<int>("RootPlace") > 0;
+	return properties.get<int>("RootPlace").is_initialized();
 }
 
 int UniverseSettings::rootPlaceId()
@@ -1127,9 +1119,11 @@ void EntityPropertiesForCategory::handlePage(int loadedPage, std::string* json, 
 			requestPage(loadedPage + 1);
 		}
 	}
-	catch (const std::exception&)
+	catch (const std::exception& e)
 	{
 		StandardOut::singleton()->print(MESSAGE_WARNING, "Error while loading data for game. Try again later.");
+
+		StandardOut::singleton()->print(MESSAGE_ERROR, e);
 
 		doneEvent.Set();
 	}
@@ -1572,7 +1566,7 @@ ANORRLGameExplorer::ANORRLGameExplorer(QWidget* parent)
 		NULL, // shouldBuildExplorerItemCallback
 		NULL, // double click callback
 		boost::bind(&ANORRLGameExplorer::badgesContextMenuHandler, this, _1, _2),
-		NULL,
+		boost::bind(&ANORRLGameExplorer::badgesGroupContextMenuHandler, this, _1),
 		NULL,
 		CategoryUiSettings::FlatNames
 	};
@@ -2439,6 +2433,17 @@ void ANORRLGameExplorer::refreshOpenedPlaceIndicator()
     }
 }
 
+void ANORRLGameExplorer::refreshBadgesSecretIndicator()
+{
+	if (QStandardItem* badgesGroup = findGroup(ENTITY_CATEGORY_Badges))
+	{
+		for (int i = 0; i < badgesGroup->rowCount(); ++i)
+		{
+			updateItemForBadgesState(badgesGroup->child(i));
+		}
+	}
+}
+
 void ANORRLGameExplorer::refreshNamedScriptIcons(int originatingSessionId)
 {
 	if (originatingSessionId != currentSessionId)
@@ -2546,6 +2551,28 @@ void ANORRLGameExplorer::updateItemForOpenedPlaceState(QStandardItem* placeItem)
         f.setBold(false);
         placeItem->setFont(f);
     }
+}
+
+void ANORRLGameExplorer::updateItemForBadgesState(QStandardItem* badgeItem)
+{
+	QFont f = badgeItem->font();
+	f.setFamily("Source Sans Pro");
+	f.setItalic(false);
+	if(FFlag::UseLetterSpacingOnBadges)
+		f.setLetterSpacing(QFont::SpacingType::AbsoluteSpacing, qreal(0));
+
+	if (EntityProperties* properties = badgeItem->data(ROLE_EntityProperties).value<EntityProperties*>())
+	{
+		boost::optional<bool> secretProp = properties->get<bool>("Secret");
+
+		if (secretProp.is_initialized() && secretProp.get()) {
+			f.setItalic(true);
+			if (FFlag::UseLetterSpacingOnBadges)
+				f.setLetterSpacing(QFont::SpacingType::AbsoluteSpacing, qreal(1.0));
+		}
+	}
+
+	badgeItem->setFont(f);
 }
 
 QStandardItem* ANORRLGameExplorer::buildItem(const CategoryUiSettings& uiSettings,
@@ -2685,6 +2712,8 @@ void ANORRLGameExplorer::populateWithLoadedData(int originatingSessionId, int ca
 	group->setText(settings.groupDisplayName);
 }
 
+
+// THIS IS ONLY FOR THE PLACES AREA!
 void ANORRLGameExplorer::afterPlacesLoadedFinished(int originatingSessionId)
 {
 	if (originatingSessionId != currentSessionId) return;
@@ -2707,6 +2736,7 @@ void ANORRLGameExplorer::afterPlacesLoadedFinished(int originatingSessionId)
 		}
 	}
 
+	// this is actually the text at the top of the window
 	QString baseName = QString::fromStdString(gameSettings.getName());
 	gameNameEdit->setText(baseName);
 	gameNameEdit->setEnabled(true);
@@ -2733,45 +2763,32 @@ void ANORRLGameExplorer::afterBadgesFinished(int originatingSessionId)
 		for (int i = 0; i < badgesGroup->rowCount(); ++i)
 		{
 			const CategoryUiSettings& badgesUiSettings = uiSettings[ENTITY_CATEGORY_Badges];
-			QStandardItem* placesItem = badgesGroup->child(i);
-			placesItem->setEditable(false);
+			QStandardItem* badgesItem = badgesGroup->child(i);
+			badgesItem->setEditable(true);
 
-			if (EntityProperties* properties = placesItem->data(ROLE_EntityProperties).value<EntityProperties*>())
+			if (EntityProperties* properties = badgesItem->data(ROLE_EntityProperties).value<EntityProperties*>())
 			{
-				// update icon and context menu handler for placeItem under Badge
-				placesItem->setData(uiSettings[ENTITY_CATEGORY_Places].icon, Qt::DecorationRole);
-				placesItem->setData(qvar2(boost::bind(&ANORRLGameExplorer::badgesPlaceContextMenuHandler, this, _1, properties)), ROLE_ContextMenuCallback);
 
-				// create badge items for the place
-				EntityProperties::EntityCollection& children = properties->getChildren();
-				for (size_t i = 0; i < children.size(); ++i)
+				//badgesItem->setData(qvar2(boost::bind(&ANORRLGameExplorer::badgesContextMenuHandler, this, _1, properties)), ROLE_ContextMenuCallback);
+
+				// update badge icon with the image url for the badge
+				boost::optional<shared_ptr<const Reflection::ValueTable> > thumbnailDetails = properties->get<shared_ptr<const Reflection::ValueTable> >("Thumbnail");
+				if (thumbnailDetails.is_initialized() && thumbnailDetails.get())
 				{
-					EntityProperties& childProp = children[i];
-					QStandardItem* newItem = buildItem(badgesUiSettings, badgesWebSettings, placesItem, &childProp);
-					if (!newItem)
-						continue;
-
-					newItem->setEditable(false);
-					// update badge icon with the image url for the badge
-					boost::optional<shared_ptr<const Reflection::ValueTable> > thumbnailDetails = childProp.get<shared_ptr<const Reflection::ValueTable> >("Thumbnail");
-					if (thumbnailDetails.is_initialized() && thumbnailDetails.get())
+					Reflection::ValueTable::const_iterator iter = thumbnailDetails.get()->find("Url");
+					if (iter != thumbnailDetails.get()->end())
 					{
-						Reflection::ValueTable::const_iterator iter = thumbnailDetails.get()->find("Url");
-						if (iter != thumbnailDetails.get()->end())
+						std::string thumbnailUrl = iter->second.get<std::string>();
+						if (!thumbnailUrl.empty())
 						{
-							std::string thumbnailUrl = iter->second.get<std::string>();
-							if (!thumbnailUrl.empty())
-							{
-								HttpOptions options;
-								//options.setExternal(true);
-								HttpAsync::get(thumbnailUrl, options).then(boost::bind(&invokeThumbnailLoadedForImage, this,
-											                                    currentSessionId, newItem->index(), _1));
-							}
+							HttpAsync::get(thumbnailUrl).then(boost::bind(&invokeThumbnailLoadedForImage, this,
+								currentSessionId, badgesItem->index(), _1));
 						}
 					}
 				}
 			}
 		}
+		refreshBadgesSecretIndicator();
 	}
 }
 
@@ -2941,6 +2958,7 @@ void ANORRLGameExplorer::placeContextMenuHandler(const QPoint& point, EntityProp
 	remove->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/delete_x_16_h.png"));
 
 	QAction* rename = menu.addAction("Rename");
+	rename->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/rename.png"));
 
 	bool isCurrentRoot = gameSettings.hasRootPlace() && gameSettings.rootPlaceId() == placeId;
 	QAction* makeRoot = menu.addAction("Mark as Start Place");
@@ -3002,6 +3020,7 @@ void ANORRLGameExplorer::developerProductContextMenuHandler(const QPoint& point,
 	QMenu menu(this);
 
 	QAction* rename = menu.addAction("Rename");
+	rename->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/rename.png"));
 
 	QAction* copyId = NULL;
 	if (FFlag::GameExplorerCopyId)
@@ -3025,7 +3044,7 @@ void ANORRLGameExplorer::developerProductContextMenuHandler(const QPoint& point,
 
 void ANORRLGameExplorer::badgesContextMenuHandler(const QPoint& point, EntityProperties* properties)
 {
-	boost::optional<int> var = properties->get<int>("BadgeAssetId").get();
+	boost::optional<int> var = properties->get<int>("BadgeId").get();
 	if (!var.is_initialized())
 		return;
 
@@ -3033,16 +3052,27 @@ void ANORRLGameExplorer::badgesContextMenuHandler(const QPoint& point, EntityPro
 	ARLASSERT(badgeId > 0);
 
 	QMenu menu(this);
-	QAction* configureAction = menu.addAction(tr("Configure"));
+
+	QAction* secretAction = menu.addAction(tr("Toggle Secret"));
+	QAction* renameAction = menu.addAction(tr("Rename"));
+	QAction* removeAction = menu.addAction(tr("Remove From Game"));
+	
+	renameAction->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/rename.png"));
+	removeAction->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/delete_x_16_h.png"));
+
 	QAction* copyIdAction = NULL;
 	if (FFlag::GameExplorerCopyId)
 		copyIdAction = menu.addAction("Copy ID to Clipboard");
 
 	QAction* result = menu.exec(point);
-	if (result == configureAction)
-	{
-		openAndFocusConfigureDoc(
-			formatUrl("%WEB_BASE%/edit?id=%ITEM_ID%", currentGameId, badgeId));
+	if (result == renameAction) {
+		handleRename(point);
+	}
+	else if (result == removeAction || result == secretAction) {
+		QMessageBox mb(this);
+		mb.setText("Is this working? I think its working? Its so working!!!");
+		//mb.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+		mb.exec();
 	}
 	else if (FFlag::GameExplorerCopyId && copyIdAction && result == copyIdAction)
 	{
@@ -3051,14 +3081,11 @@ void ANORRLGameExplorer::badgesContextMenuHandler(const QPoint& point, EntityPro
 	}
 }
 
-void ANORRLGameExplorer::badgesPlaceContextMenuHandler(const QPoint& point, EntityProperties* properties)
+void ANORRLGameExplorer::badgesGroupContextMenuHandler(const QPoint& point)
 {
-	boost::optional<int> var = properties->get<int>("PlaceId");
-	if (!var.is_initialized())
-		return;
-		
-	int placeId = var.get();
-	ARLASSERT(placeId > 0);
+	
+	
+	ARLASSERT(currentGameId > 0);
 
 	QMenu menu(this);
 	QAction* createBadgeAction = menu.addAction(tr("Create Badge"));
@@ -3066,8 +3093,10 @@ void ANORRLGameExplorer::badgesPlaceContextMenuHandler(const QPoint& point, Enti
 	QAction* result = menu.exec(point);
 	if (result == createBadgeAction)
 	{
-		openAndFocusConfigureDoc(formatUrl("%WEB_BASE%/create/%ITEM_ID%/badge", currentGameId, placeId));
-		
+		//openAndFocusConfigureDoc(formatUrl("%WEB_BASE%/create/%ITEM_ID%/badge", currentGameId, placeId));
+		QMessageBox mb;
+		mb.setText("There would be a dialog option here but im lazy and its getting late");
+		mb.exec();
 	}
 }
 
@@ -3100,6 +3129,7 @@ void ANORRLGameExplorer::namedAssetsContextMenuHandler(const QPoint& point, Enti
 	remove->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/delete_x_16_h.png"));
 
 	QAction* rename = menu.addAction("Rename");
+	rename->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/rename.png"));
 
 	QAction* copyPath = NULL;
 

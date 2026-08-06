@@ -130,7 +130,7 @@
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>..\SDL2\Win\2.0.4\SDL2.lib;strmbase.lib;sensapi.lib;wmvcore.lib;DxErr9.lib;Urlmon.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;discord-rpc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\SDL2\Win\2.0.4\SDL2.lib;sensapi.lib;DxErr9.lib;Urlmon.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;discord-rpc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)ANORRLPlayerBetaRaw.exe</OutputFile>
       <AdditionalLibraryDirectories>$(CONTRIB_PATH)\discord-rpc-win32-static\lib;$(CONTRIB_PATH)\boost_1_56_0\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\DSBaseClasses\Lib;$(CONTRIB_PATH)\VMProtectWin_2.13;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;$(CONTRIB_PATH)\SDL\SDL2-2.0.3\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>

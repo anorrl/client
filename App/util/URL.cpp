@@ -10,8 +10,6 @@
 #include <algorithm>
 #include <cstring>
 
-DYNAMIC_FASTFLAGVARIABLE(UseNewUrlClass, true);
-
 namespace
 {
 

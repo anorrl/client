@@ -434,7 +434,7 @@ void Application::OnHelp()
 	if (!DFFlag::DontOpenWikiOnClient) 
 	{
 		ShellExecute(mainWindow, "open", "rundll32.exe", 
-			"url.dll,FileProtocolHandler http://wiki.lambda.cam", NULL, SW_SHOWDEFAULT);
+			"url.dll,FileProtocolHandler http://wiki.anorrl.com", NULL, SW_SHOWDEFAULT);
 	}
 }
 
@@ -716,7 +716,7 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
 	{
 		// Bootstrapper will wait for this event, to make sure that app was started
 		ATL::CEvent anorrlStartedEvent;
-		if (anorrlStartedEvent.Open(EVENT_MODIFY_STATE, FALSE, "anorrl.lambda.cam/anorrlStartedEvent"))
+		if (anorrlStartedEvent.Open(EVENT_MODIFY_STATE, FALSE, "www.anorrl.com/anorrlStartedEvent"))
 		{
 			anorrlStartedEvent.Set();
 		}
@@ -1248,7 +1248,7 @@ void Application::waitForShowWindow(int delay)
 
 		// Bootstrapper will wait for this event, to make sure that app was started
 		ATL::CEvent anorrlStartedEvent;
-		if (anorrlStartedEvent.Open(EVENT_MODIFY_STATE, FALSE, "anorrl.lambda.cam/anorrlStartedEvent"))
+		if (anorrlStartedEvent.Open(EVENT_MODIFY_STATE, FALSE, "www.anorrl.com/anorrlStartedEvent"))
 		{
 			anorrlStartedEvent.Set();
 		}
@@ -1287,7 +1287,7 @@ void Application::validateBootstrapperVersion()
 			if (pos == std::string::npos)
 				return;
 
-			// from anorrl.lambda.cam or www.gametest1.robloxlabs.com to setup.lambda.cam or setup.gametest1.robloxlabs.com, etc...
+			// from www.anorrl.com or www.gametest1.robloxlabs.com to setup.anorrl.com or setup.gametest1.robloxlabs.com, etc...
 			installHost = "http://setup" + baseUrl.substr(pos+6);
 
 			{

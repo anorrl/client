@@ -1467,7 +1467,7 @@ CreatePluginVerb::CreatePluginVerb( ARL::VerbContainer* pVerbContainer )
 
 void CreatePluginVerb::doIt( ARL::IDataState* dataState )
 {
-	QDesktopServices::openUrl(QUrl("http://wiki.lambda.cam/index.php/How_To_Make_Plugins"));
+	QDesktopServices::openUrl(QUrl("http://wiki.anorrl.com/index.php/How_To_Make_Plugins"));
 }
 
 PlaySoloVerb::PlaySoloVerb(ARL::VerbContainer* pVerbContainer)
@@ -1495,7 +1495,7 @@ void PlaySoloVerb::doIt(ARL::IDataState*)
         return;
     }
 
-	// loadfile('http://anorrl.lambda.cam/game/visit.slua')()
+	// loadfile('http://www.anorrl.com/game/visit.slua')()
 	QString script;
 	script = QString("loadfile(\"%1/game/visit.slua?IsPlaySolo=1&placeId=%2&universeId=%3\")()\n")
 		.arg(ANORRLSettings::getBaseURL())
@@ -1616,7 +1616,7 @@ void StartServerVerb::doIt(ARL::IDataState*)
         return;
     }
 
-	// loadfile('http://anorrl.lambda.cam/game/gameserver.slua')(<placeid>, 53640)
+	// loadfile('http://www.anorrl.com/game/gameserver.slua')(<placeid>, 53640)
 
 	//local placeId, port, sleeptime, timeout, url, universeId, injectScriptAssetID, libraryRegistrationScriptAssetID = ...
 
@@ -1640,7 +1640,7 @@ StartPlayerVerb::StartPlayerVerb(ARL::VerbContainer* pVerbContainer)
 
 void StartPlayerVerb::doIt(ARL::IDataState*)
 {
-    // loadfile('http://anorrl.lambda.cam/game/join.ashx?UserID=0&serverPort=53640')()
+    // loadfile('http://www.anorrl.com/game/join.ashx?UserID=0&serverPort=53640')()
 	QString script;
 	script = QString("loadfile(\"%1/game/join.ashx?UserID=0&serverPort=53640&universeId=%2\")()\n")
 		.arg(ANORRLSettings::getBaseURL())
@@ -2027,7 +2027,7 @@ QString ScreenshotVerb::getSEOStr()
 {
 	QString seo = QString::fromStdString(m_spDataModel->getScreenshotSEOInfo());
 	if (seo.isEmpty())
-		seo = tr("A screenshot from ANORRL.  Learn more at http://anorrl.lambda.cam");
+		seo = tr("A screenshot from ANORRL.  Learn more at http://www.anorrl.com");
 	return seo;
 }
 
@@ -2281,7 +2281,7 @@ JointToolHelpDialogVerb::JointToolHelpDialogVerb( ARL::VerbContainer* pVerbConta
 
 void JointToolHelpDialogVerb::doIt( ARL::IDataState* dataState )
 {
-	QDesktopServices::openUrl(QUrl("http://wiki.lambda.cam/index.php/Joint#Automatic_creation"));
+	QDesktopServices::openUrl(QUrl("http://wiki.anorrl.com/index.php/Joint#Automatic_creation"));
 }
 
 StudioMaterialVerb::StudioMaterialVerb(ARL::DataModel* dataModel)

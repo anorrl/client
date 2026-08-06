@@ -31,7 +31,7 @@
 
 FASTSTRINGVARIABLE(ClientExternalBrowserUserAgent, "ANORRL/WinInet")
 
-#define ANORRL_URL_IDENTIFIER "lambda.cam/"
+#define ANORRL_URL_IDENTIFIER "anorrl.com/"
 
 #pragma comment (lib, "Ws2_32.lib")
 

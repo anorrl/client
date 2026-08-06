@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37516.0 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rendering", "Rendering", "{6714DD30-5615-4BA1-A24B-41209F8C0349}"
 EndProject
@@ -125,6 +125,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{1944
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreScripts", "CoreScripts", "{033A3FF9-B9F7-43E1-BC36-30E2018804EA}"
+	ProjectSection(SolutionItems) = preProject
+		content\scripts\CoreScripts\BubbleChat.lua = content\scripts\CoreScripts\BubbleChat.lua
+		content\scripts\CoreScripts\ContextActionTouch.lua = content\scripts\CoreScripts\ContextActionTouch.lua
+		content\scripts\CoreScripts\DeveloperConsole.lua = content\scripts\CoreScripts\DeveloperConsole.lua
+		content\scripts\CoreScripts\GamepadMenu.lua = content\scripts\CoreScripts\GamepadMenu.lua
+		content\scripts\CoreScripts\HealthScript.lua = content\scripts\CoreScripts\HealthScript.lua
+		content\scripts\CoreScripts\MainBotChatScript2.lua = content\scripts\CoreScripts\MainBotChatScript2.lua
+		content\scripts\CoreScripts\NotificationScript2.lua = content\scripts\CoreScripts\NotificationScript2.lua
+		content\scripts\CoreScripts\PurchasePromptScript2.lua = content\scripts\CoreScripts\PurchasePromptScript2.lua
+		content\scripts\CoreScripts\Topbar.lua = content\scripts\CoreScripts\Topbar.lua
+		content\scripts\CoreScripts\VehicleHud.lua = content\scripts\CoreScripts\VehicleHud.lua
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{0E980035-8A25-4985-8EC4-0FE5814CA0C2}"
 	ProjectSection(SolutionItems) = preProject
@@ -152,58 +164,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pages", "Pages", "{108FBA13
 		content\scripts\Modules\Settings\Pages\ResetCharacter.lua = content\scripts\Modules\Settings\Pages\ResetCharacter.lua
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2014", "2014", "{5686926E-36B6-4C17-9782-F36164D41C81}"
-	ProjectSection(SolutionItems) = preProject
-		content\scripts\CoreScripts\2014\BubbleChat.lua = content\scripts\CoreScripts\2014\BubbleChat.lua
-		content\scripts\CoreScripts\2014\ChatScript.lua = content\scripts\CoreScripts\2014\ChatScript.lua
-		content\scripts\CoreScripts\2014\ContextActionTouch.lua = content\scripts\CoreScripts\2014\ContextActionTouch.lua
-		content\scripts\CoreScripts\2014\DeveloperConsole.lua = content\scripts\CoreScripts\2014\DeveloperConsole.lua
-		content\scripts\CoreScripts\2014\HealthScript.lua = content\scripts\CoreScripts\2014\HealthScript.lua
-		content\scripts\CoreScripts\2014\MainBotChatScript.lua = content\scripts\CoreScripts\2014\MainBotChatScript.lua
-		content\scripts\CoreScripts\2014\NotificationScript.lua = content\scripts\CoreScripts\2014\NotificationScript.lua
-		content\scripts\CoreScripts\2014\PlayerListScript.lua = content\scripts\CoreScripts\2014\PlayerListScript.lua
-		content\scripts\CoreScripts\2014\PopupScript.lua = content\scripts\CoreScripts\2014\PopupScript.lua
-		content\scripts\CoreScripts\2014\PurchasePromptScript.lua = content\scripts\CoreScripts\2014\PurchasePromptScript.lua
-		content\scripts\CoreScripts\2014\Settings.lua = content\scripts\CoreScripts\2014\Settings.lua
-		content\scripts\CoreScripts\2014\ToolTip.lua = content\scripts\CoreScripts\2014\ToolTip.lua
-		content\scripts\CoreScripts\2014\TouchControls.lua = content\scripts\CoreScripts\2014\TouchControls.lua
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2016", "2016", "{1C3F4074-BAD7-4625-B75B-11B72F593CC3}"
-	ProjectSection(SolutionItems) = preProject
-		content\scripts\CoreScripts\2016\BubbleChat.lua = content\scripts\CoreScripts\2016\BubbleChat.lua
-		content\scripts\CoreScripts\2016\ContextActionTouch.lua = content\scripts\CoreScripts\2016\ContextActionTouch.lua
-		content\scripts\CoreScripts\2016\DeveloperConsole.lua = content\scripts\CoreScripts\2016\DeveloperConsole.lua
-		content\scripts\CoreScripts\2016\GamepadMenu.lua = content\scripts\CoreScripts\2016\GamepadMenu.lua
-		content\scripts\CoreScripts\2016\HealthScript.lua = content\scripts\CoreScripts\2016\HealthScript.lua
-		content\scripts\CoreScripts\2016\MainBotChatScript2.lua = content\scripts\CoreScripts\2016\MainBotChatScript2.lua
-		content\scripts\CoreScripts\2016\NotificationScript2.lua = content\scripts\CoreScripts\2016\NotificationScript2.lua
-		content\scripts\CoreScripts\2016\PurchasePromptScript2.lua = content\scripts\CoreScripts\2016\PurchasePromptScript2.lua
-		content\scripts\CoreScripts\2016\Topbar.lua = content\scripts\CoreScripts\2016\Topbar.lua
-		content\scripts\CoreScripts\2016\VehicleHud.lua = content\scripts\CoreScripts\2016\VehicleHud.lua
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildToolsScripts", "BuildToolsScripts", "{3F85C620-8EAF-4C35-A6A0-C92348A89792}"
 	ProjectSection(SolutionItems) = preProject
-		content\scripts\CoreScripts\2016\BuildToolsScripts\BuildToolManager.lua = content\scripts\CoreScripts\2016\BuildToolsScripts\BuildToolManager.lua
-		content\scripts\CoreScripts\2016\BuildToolsScripts\BuildToolsScript.lua = content\scripts\CoreScripts\2016\BuildToolsScripts\BuildToolsScript.lua
-		content\scripts\CoreScripts\2016\BuildToolsScripts\PersonalServerScript.lua = content\scripts\CoreScripts\2016\BuildToolsScripts\PersonalServerScript.lua
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackpackScripts", "BackpackScripts", "{3F068FD2-B686-4759-8D1C-37B0773A7360}"
-	ProjectSection(SolutionItems) = preProject
-		content\scripts\CoreScripts\2014\BackpackScripts\BackpackBuilder.lua = content\scripts\CoreScripts\2014\BackpackScripts\BackpackBuilder.lua
-		content\scripts\CoreScripts\2014\BackpackScripts\BackpackGear.lua = content\scripts\CoreScripts\2014\BackpackScripts\BackpackGear.lua
-		content\scripts\CoreScripts\2014\BackpackScripts\BackpackManager.lua = content\scripts\CoreScripts\2014\BackpackScripts\BackpackManager.lua
-		content\scripts\CoreScripts\2014\BackpackScripts\BackpackResizer.lua = content\scripts\CoreScripts\2014\BackpackScripts\BackpackResizer.lua
-		content\scripts\CoreScripts\2014\BackpackScripts\LoadoutScript.lua = content\scripts\CoreScripts\2014\BackpackScripts\LoadoutScript.lua
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildToolsScripts", "BuildToolsScripts", "{158E1B39-8125-4F5A-A92F-A5575D958AD8}"
-	ProjectSection(SolutionItems) = preProject
-		content\scripts\CoreScripts\2014\BuildToolsScripts\BuildToolManager.lua = content\scripts\CoreScripts\2014\BuildToolsScripts\BuildToolManager.lua
-		content\scripts\CoreScripts\2014\BuildToolsScripts\BuildToolsScript.lua = content\scripts\CoreScripts\2014\BuildToolsScripts\BuildToolsScript.lua
-		content\scripts\CoreScripts\2014\BuildToolsScripts\PersonalServerScript.lua = content\scripts\CoreScripts\2014\BuildToolsScripts\PersonalServerScript.lua
+		content\scripts\CoreScripts\BuildToolsScripts\BuildToolManager.lua = content\scripts\CoreScripts\BuildToolsScripts\BuildToolManager.lua
+		content\scripts\CoreScripts\BuildToolsScripts\BuildToolsScript.lua = content\scripts\CoreScripts\BuildToolsScripts\BuildToolsScript.lua
+		content\scripts\CoreScripts\BuildToolsScripts\PersonalServerScript.lua = content\scripts\CoreScripts\BuildToolsScripts\PersonalServerScript.lua
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{0C94DF55-C2C1-4989-A7AD-22394E703580}"
@@ -693,11 +658,7 @@ Global
 		{0E980035-8A25-4985-8EC4-0FE5814CA0C2} = {2B01FC36-180F-47D4-853F-06909E449FB9}
 		{01AD2ECB-DCFE-4422-9509-03688CE593F2} = {1944F28B-0F05-44CC-AB5D-A0BDC71A77D7}
 		{108FBA13-A0ED-4413-AB82-358376AE2C93} = {01AD2ECB-DCFE-4422-9509-03688CE593F2}
-		{5686926E-36B6-4C17-9782-F36164D41C81} = {033A3FF9-B9F7-43E1-BC36-30E2018804EA}
-		{1C3F4074-BAD7-4625-B75B-11B72F593CC3} = {033A3FF9-B9F7-43E1-BC36-30E2018804EA}
-		{3F85C620-8EAF-4C35-A6A0-C92348A89792} = {1C3F4074-BAD7-4625-B75B-11B72F593CC3}
-		{3F068FD2-B686-4759-8D1C-37B0773A7360} = {5686926E-36B6-4C17-9782-F36164D41C81}
-		{158E1B39-8125-4F5A-A92F-A5575D958AD8} = {5686926E-36B6-4C17-9782-F36164D41C81}
+		{3F85C620-8EAF-4C35-A6A0-C92348A89792} = {033A3FF9-B9F7-43E1-BC36-30E2018804EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {732C7791-E72B-4F2C-82E7-B3224FC06D84}

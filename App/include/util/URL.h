@@ -7,7 +7,6 @@
 #include <stdexcept>
 
 // NOTE: After removal of this fast flag, remove the HTW3C.h file and all libwww references everywhere
-DYNAMIC_FASTFLAG(UseNewUrlClass);
 
 namespace ARL
 {
@@ -15,7 +14,7 @@ namespace ARL
 /* A class for parsing and assembling URLs with focus mostly on HTTP-specific subset of RFC3986.
  *
  * Works with strings having the following form:
- * https://ar.lambda.cam/very/long/path?query&arg=value#fragment
+ * https://www.anorrl.com/very/long/path?query&arg=value#fragment
  * \___/   \____________/\_____________/ \_____________/ \______/
  *   |           |             |                |           |
  * scheme       host          path            query      fragment
@@ -87,9 +86,9 @@ public:
     }
 
     // Check whether the current host() is a subdomain of provided domain name.
-    // - "anorrl.lambda.cam" is a subdomain of "lambda.cam"
-    // - "lambda.cam" is a subdomain of "lambda.cam"
-    // - "notlambda.cam" is not a subdomain of "lambda.cam"
+    // - "www.anorrl.com" is a subdomain of "anorrl.com"
+    // - "anorrl.com" is a subdomain of "anorrl.com"
+    // - "notanorrl.com" is not a subdomain of "anorrl.com"
     // Domain names are case insensitive
     bool isSubdomainOf(const char* domain) const;
     
