@@ -116,6 +116,7 @@ namespace ARL {
         
         void setTopbarTransparency(float transparency);
         float getTopbarTransparency(void);
+		void handleCharacterReset(Instance* starterGui);
         
 		/*override*/ void setSelectionImageObject(GuiObject* value);
 	protected:
@@ -165,9 +166,6 @@ namespace ARL {
 		bool getShowGui() const { return showGui; }
 		void setShowGui(bool value);
 
-		bool getResetPlayerGui() const { return resetPlayerGui;}
-		void setResetPlayerGui(bool value);
-
 		void setCoreGuiEnabled(CoreGuiType type, bool enabled);
 		bool getCoreGuiEnabled(CoreGuiType type);
 
@@ -190,7 +188,6 @@ namespace ARL {
 		
 	protected:
 		bool showGui;
-		bool resetPlayerGui; 
 	};
 
 	//////////////////////////////////////////////////////////////////////////////

@@ -844,13 +844,15 @@
     <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtXmld4.pdb">
       <Filter>Libraries\Qt\Debug</Filter>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="..\Rendering\ShaderCompiler\d3dcompiler_47.dll" />
     <PublishDLLDependency Include="..\fmod\win32\fmod.dll">
       <Filter>Libraries</Filter>
     </PublishDLLDependency>
     <PublishDLLDependency Include="..\Rendering\OpenVR\bin\win32\openvr_api.dll" />
     <PublishDLLDependency Include="..\SDL2\Win\2.0.4\SDL2.dll" />
     <PublishDLLDependency Include="..\SDL2\Win\2.0.4\SDL2.pdb" />
+    <PublishDLLDependency Include="..\Rendering\ShaderCompiler\d3dcompiler_47.dll">
+      <Filter>Content Files</Filter>
+    </PublishDLLDependency>
   </ItemGroup>
   <ItemGroup>
     <Moc Include="AuthenticationHelper.h">

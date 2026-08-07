@@ -686,11 +686,37 @@ void PlayerGui::setSelectionImageObject(GuiObject* value)
 	}
 }
 
+// Removes ScreenGuis that have ResetOnSpawn enabled
+void PlayerGui::handleCharacterReset(Instance* starterGui) {
+	for (size_t n = 0; n < numChildren(); n++) {
+		Instance* c = getChild(n);
+
+		// Basically, if a screengui adjacent item is found via cast then check if its Resettable
+		if (GuiLayerCollector* item = fastDynamicCast<GuiLayerCollector>(c)) {
+			if (item->getResetOnSpawn())
+				item->remove();
+		}
+	}
+
+	// copy startergui items
+	for (size_t n = 0; n < starterGui->numChildren(); n++) {
+		Instance* c = starterGui->getChild(n);
+
+		// if the item is a screengui or whatever, DONT copy if it doesn't reset on spawn.
+		if (GuiLayerCollector* item = fastDynamicCast<GuiLayerCollector>(c))
+			if (!item->getResetOnSpawn())
+				continue;
+
+		// Might be null if Instance was non-archivable
+		if (shared_ptr<Instance> copy = c->clone(EngineCreator))
+			copy.get()->setParent(this);
+	}
+}
+
 const char *const sStarterGuiService = "StarterGui";
 
 REFLECTION_BEGIN();
 static const Reflection::PropDescriptor<StarterGuiService, bool> prop_showGui("ShowDevelopmentGui", category_Data, &StarterGuiService::getShowGui, &StarterGuiService::setShowGui);
-const Reflection::PropDescriptor<StarterGuiService, bool> StarterGuiService::prop_ResetPlayerGui("ResetPlayerGuiOnSpawn", category_Data, &StarterGuiService::getResetPlayerGui, &StarterGuiService::setResetPlayerGui, Reflection::PropertyDescriptor::STANDARD, Security::None);
 
 static const Reflection::BoundFuncDesc<StarterGuiService, void(StarterGuiService::CoreGuiType, bool)> func_setCoreGuiEnabled(&StarterGuiService::setCoreGuiEnabled,"SetCoreGuiEnabled", "coreGuiType", "enabled",  Security::None);
 static const Reflection::BoundFuncDesc<StarterGuiService, bool(StarterGuiService::CoreGuiType)> func_getCoreGuiEnabled(&StarterGuiService::getCoreGuiEnabled,"GetCoreGuiEnabled", "coreGuiType", Security::None);
@@ -728,8 +754,7 @@ bool StringConverter<StarterGuiService::CoreGuiType>::convertToValue(const std::
 }
 
 StarterGuiService::StarterGuiService()
-	:showGui(true),
-    resetPlayerGui(true)
+	:showGui(true)
 {
 	Instance::setName(sStarterGuiService);
 
@@ -862,15 +887,6 @@ void StarterGuiService::setShowGui(bool value)
 	if(showGui != value){
 		showGui = value;
 		raisePropertyChanged(prop_showGui);
-	}
-}
-
-void StarterGuiService::setResetPlayerGui(bool value)
-{
-	if(resetPlayerGui != value)
-	{
-		resetPlayerGui = value;
-		raisePropertyChanged(prop_ResetPlayerGui);
 	}
 }
 

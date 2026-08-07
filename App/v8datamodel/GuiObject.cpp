@@ -1267,7 +1267,7 @@ void GuiObject::renderStudioSelectionBox(Adorn* adorn)
 	{
 		Rect2D outlineRect = getRect2D();
 		outlineRect = Rect2D::xyxy(outlineRect.x0() - 1.0f, outlineRect.y0() - 1.0f,outlineRect.x1() + 1.0f,outlineRect.y1() + 1.0f);
-		adorn->outlineRect2d(outlineRect,3.0f,ARL::Color4(ARL::Color3(0.1f, 0.6f, 1.0f)), absoluteRotation);
+		adorn->outlineRect2d(outlineRect,3.0f,ARL::Color4(ARL::Color3(0.6f, 0.1f, 1.0f)), absoluteRotation);
 	}
 }
 //Used by children without text

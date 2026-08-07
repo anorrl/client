@@ -63,6 +63,9 @@ namespace ARL {
 		bool getIgnoreGuiInset() { return ignoreGuiInset;  }
 		void setIgnoreGuiInset(bool value);
 
+		int getDisplayOrder() const { return displayOrder; }
+		void setDisplayOrder(int value);
+
 	protected:
 		ScreenGui(const char* name);
 

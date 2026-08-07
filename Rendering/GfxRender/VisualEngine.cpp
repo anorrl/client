@@ -124,6 +124,9 @@ VisualEngine::VisualEngine(Device* device, CRenderSettings* settings)
 			"fonts/VCR_OSD_MONO.ttf",
 			"fonts/DashHorizon-Regular.otf",
 			"fonts/Punktype-Regular.ttf",
+            "fonts/cour.ttf",
+            "fonts/zenith-brk.regular.ttf",
+            "fonts/Kosmos.ttf"
 		};
 
 		float legacyHeightScale = (font == Text::FONT_LEGACY) ? 1.5f : 1.f;

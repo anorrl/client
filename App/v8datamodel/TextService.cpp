@@ -60,6 +60,9 @@ EnumDesc<TextService::Font>::EnumDesc()
 	addPair(TextService::FONT_NOTOSANSBOLD, "NotoSansBold");
 	addPair(TextService::FONT_VCR, "VCR");
 	addPair(TextService::FONT_DASHHORIZON, "DashHorizon");
+	addPair(TextService::FONT_COURIERNEW, "CourierNew");
+	addPair(TextService::FONT_ZENITH, "Zenith");
+	addPair(TextService::FONT_KOSMOS, "Kosmos");
 }
 
 template<>
@@ -127,6 +130,11 @@ TextService::Font TextService::FromTextFont(Text::Font font)
 	case Text::FONT_VCR:	return FONT_VCR;
 	case Text::FONT_DASHHORIZON:	return FONT_DASHHORIZON;
 	case Text::FONT_PUNKTYPE:	return FONT_PUNKTYPE;
+
+	case Text::FONT_COURIERNEW:	return FONT_COURIERNEW;
+	case Text::FONT_ZENITH: return FONT_ZENITH;
+	case Text::FONT_KOSMOS: return FONT_KOSMOS;
+
 	default:
 		ARLASSERT(0);
 		return FONT_LEGACY;
@@ -162,6 +170,9 @@ Text::Font TextService::ToTextFont(Font font)
 	case FONT_VCR:	return Text::FONT_VCR;
 	case FONT_DASHHORIZON:	return Text::FONT_DASHHORIZON;
 	case FONT_PUNKTYPE:	return Text::FONT_PUNKTYPE;
+	case FONT_COURIERNEW:	return Text::FONT_COURIERNEW;
+	case FONT_ZENITH:	return Text::FONT_ZENITH;
+	case FONT_KOSMOS:	return Text::FONT_KOSMOS;
 
 	default:
 		ARLASSERT(0);

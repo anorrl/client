@@ -101,7 +101,7 @@ void ANORRLContextualHelp::setupWebView()
 		m_pWebView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 		connect(m_pWebView->page(), SIGNAL(linkClicked(const QUrl&)), this, SLOT(linkClicked(const QUrl&)));
 	}
-	m_urlString = QString("http://wiki.anorrl.com/index.php/Studio");
+	m_urlString = QString("http://wiki.anorrl.com/index.php/StudioJARONA");
 
 	if (FFlag::StudioNewWiki)
 	{

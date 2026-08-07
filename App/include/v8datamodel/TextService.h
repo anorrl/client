@@ -89,7 +89,11 @@ namespace ARL {
 			FONT_DASHHORIZON = 24,
 			FONT_PUNKTYPE = 25,
 
-			FONT_LAST = 26
+			FONT_COURIERNEW = 26,
+			FONT_ZENITH = 27,
+			FONT_KOSMOS = 28,
+
+			FONT_LAST = 29
 		};
 
 		static Font FromTextFont(Text::Font font);

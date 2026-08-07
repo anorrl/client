@@ -64,6 +64,7 @@ static const QString PluginToolbarName = "Plugins";
 static const QString TerrainToolbarName = "Terrain";
 static const QString TransformToolbarName = "Transform";
 static const QString SmoothTerrainToolbarName = "Smooth Terrain";
+static const QString UIEditorToolbarName = "ANORRLUIEditor";
 
 int ANORRLPluginHost::m_NextID = 1;
 static const char* kFailedToLoadPluginIconIcon = "/textures/ui/CloseButton_dn.png";
@@ -336,17 +337,24 @@ void ANORRLPluginHost::onShowToolbars(QVariant toolbarsVariant, bool show)
 
     QVector<bool> shows(toolbars.size(), show);
 
-    if (show)
-    {
-        bool hasSmoothTerrainToolbar = false;
+	if (show)
+	{
+		bool hasSmoothTerrainToolbar = false;
+		bool hasUIEditorToolbar = false;
 
-        for (int i = 0; i < toolbars.size(); ++i)
-            if (getToolbarName(toolbars[i]) == SmoothTerrainToolbarName)
-                hasSmoothTerrainToolbar = true;
+		for (int i = 0; i < toolbars.size(); ++i) {
+			if (getToolbarName(toolbars[i]) == SmoothTerrainToolbarName)
+				hasSmoothTerrainToolbar = true;
+			if (getToolbarName(toolbars[i]) == UIEditorToolbarName)
+				hasUIEditorToolbar = true;
+		}
 
-        for (int i = 0; i < toolbars.size(); ++i)
+		for (int i = 0; i < toolbars.size(); ++i) {
             if (hasSmoothTerrainToolbar && getToolbarName(toolbars[i]) == TerrainToolbarName)
                 shows[i] = false;
+			if (hasUIEditorToolbar && getToolbarName(toolbars[i]) == UIEditorToolbarName)
+				shows[i] = false;
+		}
     }
 
     for (int i = 0; i < toolbars.size(); ++i)
@@ -481,7 +489,7 @@ void ANORRLPluginHost::handlePluginAction()
 	if (ANORRLIDEDoc::getIsCloudEditSession() && pAction->data().toInt() == m_ConvertToSmoothID)
 	{
 		QtUtilities::ARLMessageBox warning;
-		warning.setText("Cannot conver to smooth during Cloud Edit session");
+		warning.setText("Cannot convert to smooth during Cloud Edit session");
 		warning.setStandardButtons(QMessageBox::Ok);
 		warning.exec();
 		return;

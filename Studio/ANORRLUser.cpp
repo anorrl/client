@@ -17,6 +17,7 @@
 #include "AuthenticationHelper.h"
 
 #include "V8DataModel/Stats.h"
+#include "V8Xml/WebParser.h"
 
 ANORRLUser& ANORRLUser::singleton()
 {
@@ -26,6 +27,7 @@ ANORRLUser& ANORRLUser::singleton()
 
 ANORRLUser::ANORRLUser()
 	: m_webKitUserId(-1)
+	, m_userName("")
 {
     connect(&AuthenticationHelper::Instance(), SIGNAL(authenticationChanged(bool)), this, SLOT(onAuthenticationChanged(bool)));
 }
@@ -50,14 +52,17 @@ void ANORRLUser::onAuthenticationChanged(bool)
 
 void ANORRLUser::currentUserReplied(ARL::HttpFuture future)
 {
-	try {
-		QString webKitUserIDStr(QString::fromStdString(future.get()));
-		m_webKitUserId = webKitUserIDStr.toInt();
-		ARL::Analytics::setUserId(m_webKitUserId);
+	try
+	{
+		shared_ptr<const ARL::Reflection::ValueTable> v(new ARL::Reflection::ValueTable);
+		ARL::WebParser::parseJSONTable(future.get(), v);
+		m_webKitUserId = v->at("UserId").cast<int>();
+		m_userName = v->at("Name").cast<std::string>();
 	}
-	catch(std::exception&)
+	catch (...)
 	{
 		m_webKitUserId = 0;
+		m_userName = "";
 	}
 }
 
@@ -80,4 +85,18 @@ int ANORRLUser::getUserId()
 	}
 
 	return m_webKitUserId;
+}
+
+std::string ANORRLUser::getUserName() {
+	if (m_userName == "")
+	{
+		// make sure we are authenticated before querying user id		
+		AuthenticationHelper::Instance().waitForHttpAuthentication();
+		if (!m_webKitUserIDQuery.valid())
+			getWebkitUserId();
+
+		m_webKitUserIDQuery.get();
+	}
+
+	return m_userName;
 }

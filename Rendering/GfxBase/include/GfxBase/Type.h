@@ -30,6 +30,9 @@ namespace ARL {
 			FONT_VCR,
 			FONT_DASHHORIZON,
 			FONT_PUNKTYPE,
+			FONT_COURIERNEW,
+			FONT_ZENITH,
+			FONT_KOSMOS,
 			FONT_LAST
 		};
 		// Font drawing params - copied from G3D

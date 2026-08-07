@@ -13,6 +13,10 @@ DYNAMIC_FASTFLAGVARIABLE(FixClippedScrollingFrameNavigation, true)
 
 namespace ARL {
 	const char* const sLayerCollector = "LayerCollector";
+	REFLECTION_BEGIN();
+	static Reflection::PropDescriptor<GuiLayerCollector, bool> prop_resetOnSpawn("ResetOnSpawn", category_Data, &GuiLayerCollector::getResetOnSpawn, &GuiLayerCollector::setResetOnSpawn);
+	static Reflection::PropDescriptor<GuiLayerCollector, bool> prop_enabled("Enabled", category_Data, &GuiLayerCollector::getEnabled, &GuiLayerCollector::setEnabled);
+	REFLECTION_END();
 
 	static bool isAllGuiQueuesHaveCorrectNumberOfLayers( std::vector<  std::vector<shared_ptr<GuiBase> > > vectors[])
 	{
@@ -30,6 +34,9 @@ namespace ARL {
 	GuiLayerCollector::GuiLayerCollector(const char* name)
 		: DescribedNonCreatable<GuiLayerCollector, GuiBase2d, sLayerCollector>(name)
 		, rebuildGuiVector(true)
+		, resetOnSpawn(true)
+		, enabled(true)
+		, displayOrder(0)
 	{
 		FASTLOG1(FLog::GuiTargetLifetime, "GuiLayerCollector created: %p", this);
 
@@ -83,13 +90,13 @@ namespace ARL {
 	}
 
     // Only render GuiBase objects that are below a PlayerGui
-	void GuiLayerCollector::LoadZ(const shared_ptr<ARL::Instance>& instance, GuiLayers guiVectors[])
+	void GuiLayerCollector::LoadZ(const shared_ptr<ARL::Instance>& instance, int displayOrder, GuiLayers guiVectors[])
 	{
 		if (GuiBase* gb = instance->fastDynamicCast<GuiBase>())
 		{
 			if (gb->canProcessMeAndDescendants())
 			{
-				const int z = gb->getZIndex();
+				const int z = displayOrder+gb->getZIndex();
 				const int queue = gb->getGuiQueue();
                 
 				ARLASSERT(queue < GUIQUEUE_COUNT);
@@ -104,7 +111,7 @@ namespace ARL {
                         const Instances& children = *instance->getChildren();
                         
                         for (size_t i = 0; i < children.size(); ++i)
-                            LoadZ(children[i], guiVectors);
+                            LoadZ(children[i], displayOrder, guiVectors);
                     }
 				}
 			}
@@ -116,7 +123,7 @@ namespace ARL {
                 const Instances& children = *fold->getChildren();
                         
                 for (size_t i = 0; i < children.size(); ++i)
-                    LoadZ(children[i], guiVectors);
+                    LoadZ(children[i], displayOrder, guiVectors);
             }
 		}
 	}
@@ -139,7 +146,7 @@ namespace ARL {
             const Instances& children = *getChildren();
             
             for (size_t i = 0; i < children.size(); ++i)
-                LoadZ(children[i], mGuiVectors);
+                LoadZ(children[i], displayOrder, mGuiVectors);
         }
 	}
 
@@ -153,6 +160,9 @@ namespace ARL {
 	// only children - check at each level - go top down (back to front)
 	void GuiLayerCollector::render2dContext(Adorn* adorn, const Instance* context)
 	{
+		if (!enabled)
+			return; 
+
 		if (rebuildGuiVector)
 		{
 			loadZVectors();
@@ -444,4 +454,21 @@ namespace ARL {
 	}
 
 
+	void GuiLayerCollector::setResetOnSpawn(bool value)
+	{
+		if (resetOnSpawn != value)
+		{
+			resetOnSpawn = value;
+			raisePropertyChanged(prop_resetOnSpawn);
+		}
+	}
+
+	void GuiLayerCollector::setEnabled(bool value)
+	{
+		if (enabled != value)
+		{
+			enabled = value;
+			raisePropertyChanged(prop_enabled);
+		}
+	}
 }

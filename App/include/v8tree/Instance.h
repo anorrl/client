@@ -428,7 +428,7 @@ public:
 	Instance* findFirstChildByName(const std::string& findName) {
 		return const_cast<Instance*>(findConstFirstChildByName(findName));
 	}
-	Instance* findFirstChildByNameDangerous(const std::string& findName) const {		// used by reflection - breaking from const to non const
+	Instance* findFirstChildByNameDangerous(const std::string& findName) const {		// used by reflectionmetadata - breaking from const to non const
 		return const_cast<Instance*>(findConstFirstChildByName(findName));
 	}
 
@@ -439,9 +439,35 @@ public:
 		return shared_from(findFirstChildOfType(className));
 	}
 
+	Instance* findFirstChildWhichIsATypeRecursive(const std::string& findName);
+	shared_ptr<Instance> findFirstChildWhichIsA(std::string className, bool recursive) {
+		return recursive ? shared_from(findFirstChildWhichIsATypeRecursive(className)) : shared_from(findFirstChildWhichIsAType(className));
+	}
+
 	// Used for Reflection:
 	shared_ptr<Instance> findFirstChildByName2(std::string findName, bool recursive) {
 		return recursive ? shared_from(findFirstChildByNameRecursive(findName)) : shared_from(findFirstChildByName(findName));
+	}
+
+	const Instance* findConstFirstAncestorByName(const std::string& findName) const;
+	Instance* findFirstAncestorByName(const std::string& findName) {
+		return const_cast<Instance*>(findConstFirstAncestorByName(findName));
+	}
+
+	// breadth-first search
+	Instance* findFirstAncestorByNameRecursive(const std::string& findName);
+
+	// Used for Reflection:
+	shared_ptr<Instance> findFirstAncestorByName2(std::string findName) {
+		return shared_from(findFirstAncestorByNameRecursive(findName));
+	}
+	// Used for Reflection:
+	shared_ptr<Instance> findFirstAncestorOfClass(std::string findName) {
+		return shared_from(findFirstAncestorOfType(findName));
+	}
+	// Used for Reflection:
+	shared_ptr<Instance> findFirstAncestorWhichIsA(std::string findName) {
+		return shared_from(findFirstAncestorWhichIsAType(findName));
 	}
 
 	// queryTypedChild
@@ -593,6 +619,42 @@ public:
 			}
 		}
 		return NULL;
+	}
+
+	Instance* findFirstChildWhichIsAType(const std::string& className)
+	{
+		if (children)
+		{
+			Instances::const_iterator end = children->end();
+			for (Instances::const_iterator iter = children->begin(); iter != end; ++iter) {
+				if (iter->get()->isA(className))
+					return iter->get();
+			}
+		}
+		return NULL;
+	}
+
+	Instance* findFirstAncestorOfType(const std::string& className)
+	{
+		if (!parent)
+			return NULL;
+
+		if (parent->getClassNameStr() == className)
+			return parent;
+
+		return parent->findFirstAncestorOfType(className);
+	}
+
+
+	Instance* findFirstAncestorWhichIsAType(const std::string& className)
+	{
+		if (!parent)
+			return NULL;
+
+		if (parent->isA(className))
+			return parent;
+
+		return parent->findFirstAncestorWhichIsAType(className);
 	}
 
 	template<class C>

@@ -51,8 +51,18 @@ static Reflection::PropDescriptor<Instance, int> prop_dataCost("DataCost", categ
 
 static Reflection::BoundYieldFuncDesc<Instance, shared_ptr<Instance>(std::string)> func_WaitForChild(&Instance::waitForChild, "WaitForChild", "childName", Security::None);
 
-static Reflection::BoundFuncDesc<Instance, shared_ptr<Instance>(std::string)> func_findFirstChildOfClass(&Instance::findFirstChildOfClass, "FindFirstChildOfClass", "className", Security::None);
 static Reflection::CustomBoundFuncDesc<Instance, shared_ptr<const Instances>()> desc_getDescendants(&Instance::getDescendants, "GetDescendants", Security::None);
+
+// FindFirstAncestor         x
+// FindFirstAncestorOfClass  x
+// FindFirstAncestorWhichIsA x
+static Reflection::BoundFuncDesc<Instance, shared_ptr<Instance>(std::string)> findFirstAncestor        (&Instance::findFirstAncestorByName2,  "FindFirstAncestor",         "name",      Security::None);
+static Reflection::BoundFuncDesc<Instance, shared_ptr<Instance>(std::string)> findFirstAncestorOfClass (&Instance::findFirstAncestorOfClass,  "FindFirstAncestorOfClass",  "className", Security::None);
+static Reflection::BoundFuncDesc<Instance, shared_ptr<Instance>(std::string)> findFirstAncestorWhichIsA(&Instance::findFirstAncestorWhichIsA, "FindFirstAncestorWhichIsA", "className", Security::None);
+
+// FindFirstChildWhichIsA    x
+static Reflection::BoundFuncDesc<Instance, shared_ptr<Instance>(std::string)> func_findFirstChildOfClass(&Instance::findFirstChildOfClass, "FindFirstChildOfClass", "className", Security::None);
+static Reflection::BoundFuncDesc<Instance, shared_ptr<Instance>(std::string, bool)> func_findFirstChildWhichIsA(&Instance::findFirstChildWhichIsA, "FindFirstChildWhichIsA", "className", "recursive", false, Security::None);
 
 const Reflection::PropDescriptor<Instance, std::string> Instance::desc_Name("Name", category_Data, &Instance::getName, &Instance::setName);
 const Reflection::RefPropDescriptor<Instance, Instance> Instance::propParent("Parent", category_Data, &Instance::getParentDangerous, &Instance::setParent, Reflection::PropertyDescriptor::UI);
@@ -365,6 +375,26 @@ Instance* Instance::findFirstChildByNameRecursive(const std::string& findName)
 	return NULL;
 }
 
+Instance* Instance::findFirstChildWhichIsATypeRecursive(const std::string& findName)
+{
+	// breadth-first search
+	Instance* child = findFirstChildWhichIsAType(findName);
+	if (child != NULL)
+		return child;
+
+	if (!children)
+		return NULL;
+
+	const Instances& c(*children);
+	for (size_t i = 0; i < c.size(); ++i) {
+		child = c[i]->findFirstChildWhichIsATypeRecursive(findName);
+		if (child != NULL)
+			return child;
+	}
+
+	return NULL;
+}
+
 
 const Instance* Instance::findConstFirstChildByName(const std::string& findName) const
 {
@@ -390,6 +420,32 @@ shared_ptr<Instance> Instance::findFirstAncestorOf(const Instance* descendant) c
 		}
 	}
 	return shared_ptr<Instance>();
+}
+
+
+const Instance* Instance::findConstFirstAncestorByName(const std::string& findName) const
+{
+	if (!parent)
+		return NULL;
+
+	if (parent->getName() == findName)
+		return parent;
+
+	return NULL;
+}
+
+
+Instance* Instance::findFirstAncestorByNameRecursive(const std::string& findName)
+{
+	// breadth-first search
+	Instance* ancestor = findFirstAncestorByName(findName);
+	if (ancestor != NULL)
+		return ancestor;
+
+	if (!parent)
+		return NULL;
+
+	return parent->findFirstAncestorByName(findName);
 }
 
 int Instance::getDescendants(lua_State* L)

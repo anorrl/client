@@ -2198,14 +2198,15 @@ void Player::rebuildGui()
 			copyChildrenToGui(starterGui, currPlayerGui);
 			copiedGuiOnce = true;
 		}
-		else if(starterGui && starterGui->getResetPlayerGui()) 
+		else if(starterGui) 
 		{
-			currPlayerGui->removeAllChildren();
-			copyChildrenToGui(starterGui, currPlayerGui);
+			currPlayerGui->handleCharacterReset(starterGui);
+
+			//currPlayerGui->removeAllChildren();
+			//copyChildrenToGui(starterGui, currPlayerGui);
 		}	
 	}
 }
-
 
 void Player::rebuildBackpack()
 {

@@ -11,9 +11,9 @@
 #include "Network/Player.h"
 #include "Network/Players.h"
 
-DYNAMIC_FASTFLAGVARIABLE(UseStarterPlayerCharacter, false)
-DYNAMIC_FASTFLAGVARIABLE(UseStarterPlayerCharacterScripts, false)
-DYNAMIC_FASTFLAGVARIABLE(UseStarterPlayerHumanoid, false)
+DYNAMIC_FASTFLAGVARIABLE(UseStarterPlayerCharacter, true)
+DYNAMIC_FASTFLAGVARIABLE(UseStarterPlayerCharacterScripts, true)
+DYNAMIC_FASTFLAGVARIABLE(UseStarterPlayerHumanoid, true)
 
 
 namespace ARL {

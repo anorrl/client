@@ -16,6 +16,7 @@ namespace ARL {
 	static const Reflection::PropDescriptor<ScreenGui, Vector2int16> prop_ReplicateAbsoluteSize("ReplicatingAbsoluteSize", category_Data, &ScreenGui::getAbsoluteSize, &ScreenGui::setReplicatingAbsoluteSize,  Reflection::PropertyDescriptor::REPLICATE_ONLY);
 	static const Reflection::PropDescriptor<ScreenGui, Vector2int16> prop_ReplicateAbsolutePosition("ReplicatingAbsolutePosition", category_Data, &ScreenGui::getAbsolutePosition, &ScreenGui::setReplicatingAbsolutePosition, Reflection::PropertyDescriptor::REPLICATE_ONLY);
 	static const Reflection::PropDescriptor<ScreenGui, bool> prop_ignoreGuiInset("IgnoreGuiInset", category_Data, &ScreenGui::getIgnoreGuiInsetConst, &ScreenGui::setIgnoreGuiInset, Reflection::PropertyDescriptor::STANDARD, Security::None);
+	static const Reflection::PropDescriptor<ScreenGui, int> prop_displayOrder("DisplayOrder", category_Data, &ScreenGui::getDisplayOrder, &ScreenGui::setDisplayOrder, Reflection::PropertyDescriptor::STANDARD, Security::None);
 	REFLECTION_END();
 
 	ScreenGui::ScreenGui()
@@ -245,6 +246,14 @@ namespace ARL {
 				return true;
 		}
 		return false;
+	}
+
+	void ScreenGui::setDisplayOrder(int value) {
+		if (value != displayOrder)
+		{
+			displayOrder = value;
+			raisePropertyChanged(prop_displayOrder);
+		}
 	}
 
 	const char* const  sGuiMain = "GuiMain";

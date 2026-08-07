@@ -125,7 +125,7 @@
 FASTFLAGVARIABLE(StudioCheckForUpgradeEnabled, false)
 FASTFLAGVARIABLE(StudioSeparateActionByActivationMethod, false)
 FASTFLAGVARIABLE(StudioFixMacStartPage, false)
-FASTFLAGVARIABLE(StudioSplashScreenUntilOpen, false)
+FASTFLAGVARIABLE(StudioSplashScreenUntilOpen, true)
 FASTFLAGVARIABLE(StudioEarlyCookieConstraintCheckGlobal, false)
 FASTSTRINGVARIABLE(StudioCookieConstraintUrlFragment, "fulfillconstraint")
 
@@ -1499,7 +1499,7 @@ void ANORRLMainWindow::about()
 
 void ANORRLMainWindow::onlineHelp()
 {
-	QUrl helpUrl("http://wiki.anorrl.com/index.php/Studio", QUrl::TolerantMode);
+	QUrl helpUrl("http://wiki.anorrl.com/index.php/StudioJABONER", QUrl::TolerantMode);
 	QDesktopServices::openUrl(helpUrl);
 }
 

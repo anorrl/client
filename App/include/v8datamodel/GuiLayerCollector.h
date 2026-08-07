@@ -37,6 +37,12 @@ namespace ARL {
 
 		void getGuiObjectsForSelection(std::vector<GuiObject*>& guiObjects);
 
+		void setResetOnSpawn(bool value);
+		bool getResetOnSpawn() const { return resetOnSpawn; }
+
+		void setEnabled(bool value);
+		bool getEnabled() const { return enabled; }
+
 	private:
         typedef DescribedNonCreatable<GuiLayerCollector, GuiBase2d, sLayerCollector> Super;
         
@@ -44,8 +50,11 @@ namespace ARL {
 		typedef std::vector<GuiVector> GuiLayers;
 
 		bool rebuildGuiVector;
+
+		bool resetOnSpawn;
+		bool enabled;
         
-		static void LoadZ(const shared_ptr<ARL::Instance>& instance, GuiLayers guiVectors[]);
+		static void LoadZ(const shared_ptr<ARL::Instance>& instance, int displayOrder, GuiLayers guiVectors[]);
 		void loadZVectors();
 
 		void tryReleaseLastButtonDown(const shared_ptr<InputObject>& event);
@@ -61,6 +70,8 @@ namespace ARL {
 		GuiLayers mGuiVectors[ARL::GUIQUEUE_COUNT];		// temp arrays for rendering - never realloc, always fast clear
         
         boost::unordered_map<Instance*,arl::signals::scoped_connection> propertyConnections;
+	protected:
+		int displayOrder;
 	};
 
 }
