@@ -50,7 +50,7 @@ end
 local luaControlsSuccess, luaControlsFlagValue = pcall(function() return settings():GetFFlag("UseLuaCameraAndControl") end)
 
 -- MainBotChatScript (the Lua part of Dialogs)
-scriptContext:AddCoreScriptLocal("CoreScripts/MainBotChatScript2", ANORRLGui)
+scriptContext:AddCoreScriptLocal("CoreScripts/MainBotChatScript", ANORRLGui)
 
 -- Developer Console Script
 scriptContext:AddCoreScriptLocal("CoreScripts/DeveloperConsole", ANORRLGui)

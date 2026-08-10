@@ -232,6 +232,41 @@ private Q_SLOTS:
 	void createButtonClicked();
 };
 
+class AddBadgeDialog : public QObject
+{
+	Q_OBJECT
+public:
+	void runModal(QWidget* parent, bool* created, QString* newName);
+
+private:
+	QDialog* dialog;
+
+	QLineEdit* nameEdit;
+	QLabel* nameErrorMessage;
+
+	QTextEdit* descriptionEdit;
+	QCheckBox* secretCheck;
+
+	QPushButton* fileNameEdit;
+	QLabel* fileNameLabel;
+	QLabel* fileNameErrorMessage;
+
+	QLabel* generalErrorMessage;
+
+	int currentGameId;
+	boost::optional<int> currentGameGroupId;
+	bool* created;
+	QString* newName;
+
+	void createBadgeAndNameThread();
+
+private Q_SLOTS:
+	bool validateName();
+	bool validateImageFile();
+	void openFileSelector();
+	void createButtonClicked();
+};
+
 class AbortableLineEdit : public QLineEdit
 {
 	Q_OBJECT

@@ -48,6 +48,7 @@ FASTFLAGVARIABLE(GameExplorerUseV2AliasEndpoint, false)
 FASTFLAGVARIABLE(GameExplorerCopyId, false)
 FASTFLAGVARIABLE(UseNewBadgesCreatePage, false)
 FASTFLAGVARIABLE(UseLetterSpacingOnBadges, false)
+FASTFLAGVARIABLE(ShowExceptionOnGameExplorer, false)
 
 Q_DECLARE_METATYPE(boost::function<void()>);
 Q_DECLARE_METATYPE(boost::function<void(const QPoint&)>);
@@ -78,7 +79,6 @@ enum GameExplorerDataRoles
 };
 
 void placesPropertiesFixer(int universeId, EntityProperties* properties);
-void badgesPropertiesFixer(int universeId, EntityProperties* properties);
 void namedAssetsPropertiesFixer(int universeId, EntityProperties* properties);
 
 const CategoryWebSettings kWebSettings[ENTITY_CATEGORY_MAX] =
@@ -88,10 +88,10 @@ const CategoryWebSettings kWebSettings[ENTITY_CATEGORY_MAX] =
 		"Places",
 		"PlaceId",
 		"ID",
-		"%API_PROXY%/universes/get-universe-places?universeId=%UNIVERSE_ID%&page=%ITEM_ID%",
+		"%API_PROXY%/universes/%UNIVERSE_ID%/get-places?page=%ITEM_ID%",
 		"%WEB_BASE%/ide/places/create?universeId=%UNIVERSE_ID%",
 		"%WEB_BASE%/ide/places/%ITEM_ID%/updatesettings",
-		"%WEB_BASE%/universes/removeplace?universeId=%UNIVERSE_ID%&placeId=%ITEM_ID%",
+		"%WEB_BASE%/universes/%UNIVERSE_ID%/removeplace?placeId=%ITEM_ID%",
 		"%WEB_BASE%/asset/?id=%ITEM_ID%",
 		"%DATA_BASE%/Data/Upload.ashx?assetid=%ITEM_ID%",
 		&placesPropertiesFixer
@@ -116,11 +116,11 @@ const CategoryWebSettings kWebSettings[ENTITY_CATEGORY_MAX] =
 		"BadgeId",
 		"%WEB_BASE%/universes/%UNIVERSE_ID%/badges",
 		"",
+		"%WEB_BASE%/universes/%UNIVERSE_ID%/togglebadge?badgeId=%ITEM_ID%",
+		"%WEB_BASE%/universes/%UNIVERSE_ID%/removebadge?badgeId=%ITEM_ID%",
 		"",
 		"",
-		"",
-		"",
-		&badgesPropertiesFixer
+		NULL
 	},
 	// Named assets
 	{
@@ -198,6 +198,16 @@ QVariant qvar2(boost::function<void(const QPoint&)> val)
 	return result;
 }
 
+QString strip(const QString& str) {
+	int n = str.size() - 1;
+	for (; n >= 0; --n) {
+		if (!str.at(n).isSpace()) {
+			return str.left(n + 1);
+		}
+	}
+	return "";
+}
+
 template<class T>
 T identity(T x) { return x; }
 
@@ -214,6 +224,24 @@ std::string formatUrl(const std::string& formatString, int universeId, QVariant 
 		.replace("%API_PROXY%", apiBaseUrl)
 		.replace("%UNIVERSE_ID%", QString("%1").arg(universeId))
 		.replace("%ITEM_ID%", QString::fromStdString(Http::urlEncode(itemId.toString().toStdString())))
+		.toStdString();
+}
+
+std::string formatBadgeUrl(const std::string& formatString, int universeId, QVariant name = -1, QVariant description = -1, bool secret = false)
+{
+	const QString baseUrl = ANORRLSettings::getBaseURL();
+	const std::string stdBaseUrl = baseUrl.toStdString();
+	const QString apiBaseUrl = QString::fromStdString(ContentProvider::getUnsecureApiBaseUrl(stdBaseUrl));
+	const QString dataBaseUrl = QString::fromStdString(stdBaseUrl);
+
+	return QString::fromStdString(formatString)
+		.replace("%WEB_BASE%", baseUrl)
+		.replace("%DATA_BASE%", dataBaseUrl)
+		.replace("%API_PROXY%", apiBaseUrl)
+		.replace("%UNIVERSE_ID%", QString("%1").arg(universeId))
+		.replace("%NAME%", QString::fromStdString(Http::urlEncode(name.toString().toStdString())))
+		.replace("%DESC%", QString::fromStdString(Http::urlEncode(description.toString().toStdString())))
+		.replace("%SECRET%", QString::fromStdString(secret ? "true" : "false"))
 		.toStdString();
 }
 
@@ -268,7 +296,7 @@ void blockingMakeRoot(int gameId, int placeId, bool* success)
 	try
 	{
 		HttpPostData d("", Http::kContentTypeDefaultUnspecified, false);
-		HttpAsync::post(formatUrl("%WEB_BASE%/universes/setrootplace?universeid=%UNIVERSE_ID%&placeid=%ITEM_ID%",
+		HttpAsync::post(formatUrl("%WEB_BASE%/universes/%UNIVERSE_ID%/setrootplace?placeid=%ITEM_ID%",
 			gameId, placeId), d).get();
 	}
 	catch (const ARL::base_exception& e)
@@ -320,28 +348,6 @@ void placesPropertiesFixer(int universeId, EntityProperties* properties)
 	}
 	catch (...)
 	{
-	}
-}
-
-void badgesPropertiesFixer(int universeId, EntityProperties* properties)
-{
-	CategoryWebSettings webSettings = kWebSettings[ENTITY_CATEGORY_Badges];
-	// get place id
-	const QVariant id = properties->get<int>(webSettings.jsonItemIdFieldName).get();
-
-	// load badges information for the place
-	HttpOptions options;
-	options.setDoNotUseCachedResponse();
-	boost::function<shared_ptr<const ValueArray>()> f = extractProperty<shared_ptr<const ValueArray> >(HttpAsync::get(
-		formatUrl(webSettings.fetchPageUrlFormatString, universeId, id), options), webSettings.jsonItemGroupFieldName);
-
-	// set badges list
-	shared_ptr<const ValueArray> jsonList = f();
-	for (size_t i = 0; i < jsonList->size(); ++i)
-	{
-		EntityProperties newProp;
-		newProp.setFromValueTable(jsonList->at(i).cast<shared_ptr<const ValueTable> >());
-		properties->addChild(newProp);
 	}
 }
 
@@ -403,6 +409,24 @@ bool validateImageName(const QString& name, const std::vector<QString>* usedName
 				break;
 			}
 		}
+	}
+
+	if (name.contains(QChar('\\')) || name.contains(QChar('/')))
+	{
+		valid = false;
+		*errorMessage = "Name cannot include '\\' or '/'";
+	}
+
+	return valid;
+}
+
+bool validateBadgeName(const QString& name, QString* errorMessage)
+{
+	bool valid = true;
+	if (name.trimmed().isEmpty())
+	{
+		valid = false;
+		*errorMessage = "Name cannot be empty";
 	}
 
 	if (name.contains(QChar('\\')) || name.contains(QChar('/')))
@@ -484,6 +508,35 @@ void createImageAssetAndNameThread(const QString& name, const QString& imageFile
 		StandardOut::singleton()->print(MESSAGE_ERROR, gaMessage.c_str());
 		return;
 	}
+
+	*created = true;
+}
+
+void createBadgeAssetAndNameThread(const QString& name, const QString& description, bool secret, const QString& imageFileName, int currentGameId,
+	boost::optional<int> currentGameGroupId, bool* created, QString* errorMessage)
+{
+	EntityProperties createBadgeAssetResponse;
+	HttpPostData postData(
+		shared_ptr<std::istream>(new std::ifstream(imageFileName.toStdString().c_str(), std::ios::binary)),
+		Http::kContentTypeDefaultUnspecified, false);
+
+	std::string createImageUrl = formatBadgeUrl("%DATA_BASE%/data/upload/json?assetTypeId=21&universe=%UNIVERSE_ID%&name=%NAME%&description=%DESC%&secret=%SECRET%", currentGameId, name, description, secret);
+	if (currentGameGroupId)
+	{
+		createImageUrl += format("&groupId=%d", currentGameGroupId.get());
+	}
+	createBadgeAssetResponse.setFromJsonFuture(HttpAsync::post(createImageUrl, postData));
+
+	bool succeededInCreatingAsset = createBadgeAssetResponse.get<bool>("Success").get_value_or(false);
+	boost::optional<int> optionalAssetId = createBadgeAssetResponse.get<int>("BackingAssetId");
+	if (!succeededInCreatingAsset || !optionalAssetId.is_initialized())
+	{
+		*created = false;
+		std::string returnedMessage = createBadgeAssetResponse.get<std::string>("Message").get_value_or("Try again later.");
+		*errorMessage = QString("Failed to create badge: %1").arg(QString::fromStdString(returnedMessage));
+		return;
+	}
+	int assetId = optionalAssetId.get();
 
 	*created = true;
 }
@@ -1122,8 +1175,9 @@ void EntityPropertiesForCategory::handlePage(int loadedPage, std::string* json, 
 	catch (const std::exception& e)
 	{
 		StandardOut::singleton()->print(MESSAGE_WARNING, "Error while loading data for game. Try again later.");
-
-		StandardOut::singleton()->print(MESSAGE_ERROR, e);
+		
+		if(FFlag::ShowExceptionOnGameExplorer)
+			StandardOut::singleton()->print(MESSAGE_ERROR, e);
 
 		doneEvent.Set();
 	}
@@ -1488,6 +1542,201 @@ void AddAudioDialog::createButtonClicked()
 	{
 		UpdateUIManager::Instance().waitForLongProcess("Creating asset name...",
 			boost::bind(&AddAudioDialog::createAudioAndNameThread, this));
+
+		if (*created)
+		{
+			UpdateUIManager::Instance().getViewWidget<ANORRLGameExplorer>(eDW_GAME_EXPLORER)
+				.reloadDataFromWeb();
+
+			dialog->accept();
+		}
+	}
+	else
+	{
+		// refocus the first field that is not valid
+		if (!nameValid)
+		{
+			nameEdit->setFocus();
+		}
+		else
+		{
+			fileNameEdit->setFocus();
+		}
+	}
+}
+
+void AddBadgeDialog::runModal(QWidget* parent, bool* created, QString* newName)
+{
+	this->created = created;
+	this->newName = newName;
+
+	// initialize usedNames
+	ANORRLGameExplorer& rge = UpdateUIManager::Instance().getViewWidget<ANORRLGameExplorer>(eDW_GAME_EXPLORER);
+	this->currentGameId = rge.getCurrentGameId();
+	this->currentGameGroupId = rge.getCurrentGameGroupId();
+
+	*created = false;
+
+	dialog = new QDialog(parent);
+	QGridLayout* layout = new QGridLayout();
+
+	QGridLayout* inputLayout = new QGridLayout();
+
+	// Image file
+	QLabel* fileLabel = new QLabel("Image:", dialog);
+	inputLayout->addWidget(fileLabel, 0, 0, Qt::AlignRight);
+	fileNameLabel = new QLabel(" ", dialog);
+	inputLayout->addWidget(fileNameLabel, 0, 1, Qt::AlignLeft);
+	fileNameEdit = new QPushButton("Choose File", dialog);
+	connect(fileNameEdit, SIGNAL(clicked()), this, SLOT(openFileSelector()));
+	inputLayout->addWidget(fileNameEdit, 1, 1, Qt::AlignLeft);
+	fileNameErrorMessage = new QLabel(" ", dialog);
+	fileNameErrorMessage->setStyleSheet(kErrorTextStyleSheet);
+	inputLayout->addWidget(fileNameErrorMessage, 2, 1, Qt::AlignLeft);
+
+	// Name
+	QLabel* nameLabel = new QLabel("Name:", dialog);
+	inputLayout->addWidget(nameLabel, 3, 0, Qt::AlignRight);
+	nameEdit = new QLineEdit(dialog);
+	nameEdit->setFixedWidth(250);
+	nameEdit->setPlaceholderText("Better be interesting!");
+	connect(nameEdit, SIGNAL(textEdited(const QString&)), this, SLOT(validateName()));
+	inputLayout->addWidget(nameEdit, 3, 1, Qt::AlignLeft);
+	nameErrorMessage = new QLabel(" ", dialog);
+	nameErrorMessage->setStyleSheet(kErrorTextStyleSheet);
+	inputLayout->addWidget(nameErrorMessage, 4, 1, Qt::AlignLeft);
+
+	QLabel* descriptionLabel = new QLabel("Description:", dialog);
+	inputLayout->addWidget(descriptionLabel, 5, 0, Qt::AlignRight);
+	descriptionEdit = new QTextEdit(dialog);
+	descriptionEdit->setFixedSize(QSize(250, 150));
+	descriptionEdit->setFixedHeight(150);
+	descriptionEdit->setMaximumHeight(150);
+	
+	inputLayout->addWidget(descriptionEdit, 5, 1, Qt::AlignLeft);
+
+	QLabel* secretLabel = new QLabel("Secret:", dialog);
+	secretLabel->setToolTip("Do you want this to be hidden from regular players?");
+	inputLayout->addWidget(secretLabel, 6, 0, Qt::AlignRight);
+	secretCheck = new QCheckBox(dialog);
+	inputLayout->addWidget(secretCheck, 6, 1, Qt::AlignLeft);
+	
+	layout->addLayout(inputLayout, 0, 0, 1, 2);
+
+	// General error message
+	generalErrorMessage = new QLabel("", dialog);
+	generalErrorMessage->setStyleSheet(kErrorTextStyleSheet);
+	layout->addWidget(generalErrorMessage, 1, 0, 1, 2, Qt::AlignCenter);
+
+	QPushButton* createButton = new QPushButton("Create", dialog);
+	connect(createButton, SIGNAL(clicked()), this, SLOT(createButtonClicked()));
+	layout->addWidget(createButton, 2, 0);
+
+	QPushButton* cancelButton = new QPushButton("Cancel", dialog);
+	connect(cancelButton, SIGNAL(clicked()), dialog, SLOT(reject()));
+	layout->addWidget(cancelButton, 2, 1);
+
+	dialog->setLayout(layout);
+	dialog->exec();
+}
+
+void AddBadgeDialog::createBadgeAndNameThread()
+{
+	QString name = nameEdit->text();
+	QString description = descriptionEdit->toPlainText();
+	Qt::CheckState checkState = secretCheck->checkState();
+	bool secret = checkState == Qt::CheckState::Checked;
+
+	QString errorMessage;
+	createBadgeAssetAndNameThread(name, description, secret, fileNameLabel->text(), currentGameId, currentGameGroupId,
+		created, &errorMessage);
+	if (*created)
+	{
+		*newName = name;
+	}
+	else
+	{
+		generalErrorMessage->setText(errorMessage);
+	}
+}
+
+bool AddBadgeDialog::validateName()
+{
+	QString errorMessage;
+	bool valid = validateBadgeName(nameEdit->text(), &errorMessage);
+
+	if (valid)
+	{
+		nameEdit->setStyleSheet("");
+		nameErrorMessage->setText(" ");
+	}
+	else
+	{
+		nameEdit->setStyleSheet(kErrorTextInputStyleSheet);
+		nameErrorMessage->setText(errorMessage);
+	}
+	return valid;
+}
+
+bool AddBadgeDialog::validateImageFile()
+{
+	bool valid = true;
+	QString errorMessage;
+
+	QString fileName = fileNameLabel->text();
+	if (fileName.trimmed().isEmpty())
+	{
+		valid = false;
+		fileNameErrorMessage->setText("Image file is required");
+	}
+	else if (!QFile(fileName).exists())
+	{
+		valid = false;
+		fileNameErrorMessage->setText("File does not exist");
+	}
+
+	if (valid)
+	{
+		fileNameErrorMessage->setText(" ");
+	}
+
+	return valid;
+}
+
+void AddBadgeDialog::openFileSelector()
+{
+	ANORRLSettings settings;
+	QString imageLastDir = settings.value(kLastImageDirectoryKey).toString();
+	if (imageLastDir.isEmpty())
+		imageLastDir = ANORRLMainWindow::getDefaultSavePath();
+
+	QString fileName = QDir::toNativeSeparators(
+		QFileDialog::getOpenFileName(dialog, "Choose image to upload", imageLastDir,
+			"Images (*.jpg *.jpeg *.png *.gif *.bmp);;All Files (*.*)"));
+
+	if (!fileName.isEmpty())
+	{
+		fileNameLabel->setText(fileName);
+		settings.setValue(kLastImageDirectoryKey, QFileInfo(fileName).absolutePath());
+
+		if (strip(nameEdit->text()) == "") {
+			QString availableName = QFileInfo(fileName).completeBaseName();
+			nameEdit->setText(availableName);
+		}
+	}
+
+	validateImageFile();
+}
+
+void AddBadgeDialog::createButtonClicked()
+{
+	bool nameValid = validateName();
+	bool fileValid = validateImageFile();
+
+	if (nameValid && fileValid)
+	{
+		UpdateUIManager::Instance().waitForLongProcess("Creating badge...",
+			boost::bind(&AddBadgeDialog::createBadgeAndNameThread, this));
 
 		if (*created)
 		{
@@ -2411,6 +2660,8 @@ void ANORRLGameExplorer::openPlace(int placeId)
 			formatUrl(
 				"%WEB_BASE%/game/edit.slua?PlaceID=%ITEM_ID%&upload=%ITEM_ID%&testmode=false&universeId=%UNIVERSE_ID%",
 				currentGameId, placeId)));
+
+		// move to cpp
 	}
 	else
 	{
@@ -2953,22 +3204,24 @@ void ANORRLGameExplorer::placeContextMenuHandler(const QPoint& point, EntityProp
 	QMenu menu(this);
 
 	int placeId = getEntityId(properties, ENTITY_CATEGORY_Places).toInt();
+	bool isCurrentRoot = gameSettings.hasRootPlace() && gameSettings.rootPlaceId() == placeId;
 
-	QAction* remove = menu.addAction("Remove From Game");
-	remove->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/delete_x_16_h.png"));
+	QAction* makeRoot = menu.addAction("Mark as Start Place");
+	makeRoot->setIcon(QtUtilities::getPixmap(":/images/ClassImages.PNG", 25));
+	makeRoot->setEnabled(!isCurrentRoot);
 
 	QAction* rename = menu.addAction("Rename");
 	rename->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/rename.png"));
 
-	bool isCurrentRoot = gameSettings.hasRootPlace() && gameSettings.rootPlaceId() == placeId;
-	QAction* makeRoot = menu.addAction("Mark as Start Place");
-	makeRoot->setIcon(QtUtilities::getPixmap(":/images/ClassImages.PNG", 25));
-	makeRoot->setEnabled(!isCurrentRoot);
+	QAction* remove = menu.addAction("Remove From Game");
+	remove->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/delete_x_16_h.png"));
+	remove->setEnabled(!isCurrentRoot);
 
 	QAction* copyId = NULL;
 	if (FFlag::GameExplorerCopyId)
 	{
 		copyId = menu.addAction("Copy ID to Clipboard");
+		copyId->setIcon(QPixmap(":/16x16/images/Studio 2.0 icons/16x16/paste_clipboard_16_h.png"));
 	}
 
 	QAction* result = menu.exec(point);
@@ -3026,6 +3279,7 @@ void ANORRLGameExplorer::developerProductContextMenuHandler(const QPoint& point,
 	if (FFlag::GameExplorerCopyId)
 	{
 		copyId = menu.addAction("Copy ID to Clipboard");
+		copyId->setIcon(QPixmap(":/16x16/images/Studio 2.0 icons/16x16/paste_clipboard_16_h.png"));
 	}
 
 	QAction* result = menu.exec(point);
@@ -3040,6 +3294,36 @@ void ANORRLGameExplorer::developerProductContextMenuHandler(const QPoint& point,
 		QClipboard *clipboard = QApplication::clipboard();
 		clipboard->setText(productId);
 	}
+}
+
+static void blockingRemoveBadge(int gameId, int badgeId, bool* reload)
+{
+	try
+	{
+		HttpPostData d("", Http::kContentTypeDefaultUnspecified, false);
+		HttpAsync::post(formatUrl(kWebSettings[ENTITY_CATEGORY_Badges].removeFormatString,
+			gameId, badgeId), d).get();
+	}
+	catch (const ARL::base_exception& e)
+	{
+		StandardOut::singleton()->printf(MESSAGE_ERROR, "Error while removing badge: %s", e.what());
+	}
+	*reload = true;
+}
+
+static void blockingToggleBadge(int gameId, int badgeId, bool* reload)
+{
+	try
+	{
+		HttpPostData d("", Http::kContentTypeDefaultUnspecified, false);
+		HttpAsync::post(formatUrl(kWebSettings[ENTITY_CATEGORY_Badges].updateFormatString,
+			gameId, badgeId), d).get();
+	}
+	catch (const ARL::base_exception& e)
+	{
+		StandardOut::singleton()->printf(MESSAGE_ERROR, "Error while toggling badge: %s", e.what());
+	}
+	*reload = true;
 }
 
 void ANORRLGameExplorer::badgesContextMenuHandler(const QPoint& point, EntityProperties* properties)
@@ -3057,46 +3341,61 @@ void ANORRLGameExplorer::badgesContextMenuHandler(const QPoint& point, EntityPro
 	QAction* renameAction = menu.addAction(tr("Rename"));
 	QAction* removeAction = menu.addAction(tr("Remove From Game"));
 	
+	secretAction->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/recycle.PNG"));
 	renameAction->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/rename.png"));
 	removeAction->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/delete_x_16_h.png"));
+	
+
 
 	QAction* copyIdAction = NULL;
-	if (FFlag::GameExplorerCopyId)
+	if (FFlag::GameExplorerCopyId) {
 		copyIdAction = menu.addAction("Copy ID to Clipboard");
+		copyIdAction->setIcon(QPixmap(":/16x16/images/Studio 2.0 icons/16x16/paste_clipboard_16_h.png"));
+	}
 
 	QAction* result = menu.exec(point);
+	
+	bool reload = false;
+	
 	if (result == renameAction) {
 		handleRename(point);
 	}
-	else if (result == removeAction || result == secretAction) {
-		QMessageBox mb(this);
-		mb.setText("Is this working? I think its working? Its so working!!!");
-		//mb.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-		mb.exec();
+	else if (result == secretAction) {
+		UpdateUIManager::Instance().waitForLongProcess(
+			QString("Toggling badge \"%1\" in game").arg(QString::fromStdString(properties->get<std::string>("Name").get())),
+			boost::bind(&blockingToggleBadge, currentGameId, badgeId, &reload));
+	}
+	else if (result == removeAction) {
+		UpdateUIManager::Instance().waitForLongProcess(
+			QString("Removing badge \"%1\" from game").arg(QString::fromStdString(properties->get<std::string>("Name").get())),
+			boost::bind(&blockingRemoveBadge, currentGameId, badgeId, &reload));
 	}
 	else if (FFlag::GameExplorerCopyId && copyIdAction && result == copyIdAction)
 	{
 		QClipboard *clipboard = QApplication::clipboard();
 		clipboard->setText(QString::number(badgeId));
 	}
+
+	if (reload) {
+		reloadDataFromWeb();
+	}
 }
 
 void ANORRLGameExplorer::badgesGroupContextMenuHandler(const QPoint& point)
 {
-	
-	
 	ARLASSERT(currentGameId > 0);
 
 	QMenu menu(this);
-	QAction* createBadgeAction = menu.addAction(tr("Create Badge"));
+	QAction* createBadgeAction = menu.addAction(tr("Add Badge"));
+	createBadgeAction->setIcon(QPixmap(":/16x16/images/Studio 2.0 icons/16x16/insert_file.png"));
 
 	QAction* result = menu.exec(point);
 	if (result == createBadgeAction)
 	{
-		//openAndFocusConfigureDoc(formatUrl("%WEB_BASE%/create/%ITEM_ID%/badge", currentGameId, placeId));
-		QMessageBox mb;
-		mb.setText("There would be a dialog option here but im lazy and its getting late");
-		mb.exec();
+		bool created = false;
+		QString newName;
+		AddBadgeDialog dialog;
+		dialog.runModal(this, &created, &newName);
 	}
 }
 
@@ -3125,16 +3424,9 @@ void ANORRLGameExplorer::namedAssetsContextMenuHandler(const QPoint& point, Enti
 {
 	QMenu menu(this);
 
-	QAction* remove = menu.addAction("Remove From Game");
-	remove->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/delete_x_16_h.png"));
-
-	QAction* rename = menu.addAction("Rename");
-	rename->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/rename.png"));
-
 	QAction* copyPath = NULL;
 
 	QAction* insert = NULL;
-	QAction* insertAsAudio = NULL;
 	QAction* insertAsScript = NULL;
 	QAction* insertAsLocalScript = NULL;
 	QAction* insertAsModuleScript = NULL;
@@ -3147,23 +3439,12 @@ void ANORRLGameExplorer::namedAssetsContextMenuHandler(const QPoint& point, Enti
 	isImage = properties->get<int>("AssetTypeId") == (int)ASSET_TYPE_ID_Image;
 	isAudio = properties->get<int>("AssetTypeId") == (int)ASSET_TYPE_ID_Audio;
 	isScript = properties->get<int>("AssetTypeId") == (int)ASSET_TYPE_ID_Script;
-	if (isImage)
+
+	if (isImage || isAudio)
 	{
 		insert = menu.addAction("Insert");
 		insert->setEnabled(hasOpenDataModel);
-		if (FFlag::GameExplorerCopyPath)
-		{
-			copyPath = menu.addAction("Copy Path to Clipboard");
-		}
-	}
-	else if (isAudio)
-	{
-		insertAsAudio = menu.addAction("Insert as Audio");
-		insertAsAudio->setEnabled(hasOpenDataModel);
-		if (FFlag::GameExplorerCopyPath)
-		{
-			copyPath = menu.addAction("Copy Path to Clipboard");
-		}
+		insert->setIcon(QPixmap(":/16x16/images/Studio 2.0 icons/16x16/paste_into.png"));
 	}
 	else if (isScript)
 	{
@@ -3185,6 +3466,18 @@ void ANORRLGameExplorer::namedAssetsContextMenuHandler(const QPoint& point, Enti
 
 		publishScript = menu.addAction("Publish This LinkedSource");
 		publishScript->setEnabled(hasUnpublishedChange);
+	}
+
+	QAction* rename = menu.addAction("Rename");
+	rename->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/rename.png"));
+
+	QAction* remove = menu.addAction("Remove From Game");
+	remove->setIcon(QIcon(":/16x16/images/Studio 2.0 icons/16x16/delete_x_16_h.png"));
+
+	if (FFlag::GameExplorerCopyPath && (isAudio || isImage))
+	{
+		copyPath = menu.addAction("Copy Path to Clipboard");
+		copyPath->setIcon(QPixmap(":/16x16/images/Studio 2.0 icons/16x16/paste_clipboard_16_h.png"));
 	}
 
 	bool needReload = false;
@@ -3216,12 +3509,13 @@ void ANORRLGameExplorer::namedAssetsContextMenuHandler(const QPoint& point, Enti
 	}
 	else if (insert && result == insert)
 	{
-		insertNamedImage(properties);
-	}
-	else if (insertAsAudio && result == insertAsAudio)
-	{
-		insertNamedAudio(properties);
-		refreshNamedAudioIcons(currentSessionId);
+		if (isImage) {
+			insertNamedImage(properties);
+		}
+		else if(isAudio) {
+			insertNamedAudio(properties);
+			refreshNamedAudioIcons(currentSessionId);
+		}
 	}
 	else if (insertAsScript && result == insertAsScript)
 	{
@@ -3286,6 +3580,7 @@ void ANORRLGameExplorer::placeGroupContextMenuHandler(const QPoint& point)
 	QMenu menu(this);
 
 	QAction* add = menu.addAction("Add Empty Place");
+	add->setIcon(QPixmap(":/16x16/images/Studio 2.0 icons/16x16/insert_file.png"));
 
 	QAction* configure = menu.addAction("Change Place List");
 
@@ -3297,7 +3592,7 @@ void ANORRLGameExplorer::placeGroupContextMenuHandler(const QPoint& point)
 	else if (result == configure)
 	{
 		openAndFocusConfigureDoc(
-			formatUrl("%WEB_BASE%/universes/configure?id=%UNIVERSE_ID%#/#places", currentGameId));
+			formatUrl("%WEB_BASE%/universes/%UNIVERSE_ID%/configure#places", currentGameId));
 	}
 }
 
@@ -3318,11 +3613,14 @@ void ANORRLGameExplorer::developerProductGroupContextMenuHandler(const QPoint& p
 void ANORRLGameExplorer::namedAssetsGroupContextMenuHandler(const QPoint& point)
 {
 	QMenu menu(this);
-
-	QAction* addAudio = menu.addAction("Add Audio");
+	
 	QAction* add = menu.addAction("Add Image");
+	QAction* addAudio = menu.addAction("Add Audio");
 
 	QAction* bulkAdd = menu.addAction("Add Multiple Images");
+
+	add->setIcon(QPixmap(":/16x16/images/Studio 2.0 icons/16x16/insert_file.png"));
+	addAudio->setIcon(QPixmap(":/16x16/images/Studio 2.0 icons/16x16/insert_file.png"));
 
 	QAction* result = menu.exec(point);
 	if (result == add)

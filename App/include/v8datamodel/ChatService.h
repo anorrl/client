@@ -9,7 +9,7 @@ namespace ARL {
 	extern const char *const sChatService ;
 
 	class ChatService 
-		: public DescribedCreatable<ChatService, Instance, sChatService, Reflection::ClassDescriptor::INTERNAL>
+		: public DescribedCreatable<ChatService, Instance, sChatService, Reflection::ClassDescriptor::PERSISTENT_LOCAL>
 		, public Service
 	{
 	private:

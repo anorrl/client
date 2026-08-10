@@ -279,26 +279,6 @@ namespace ARL
 		AddEntry("arlasset://textures/advancedMove_keysOnly.png", "arlasset://retros/textures/advancedMove_keysOnly.png");
 		AddEntry("arlasset://textures/advancedMove_noJoint.png", "arlasset://retros/textures/advancedMove_noJoint.png");
 
-		AddEntry("arlasset://textures/chatBubble_botBlue_bkg.png", "arlasset://retros/textures/chatBubble_botBlue_bkg.png");
-		AddEntry("arlasset://textures/chatBubble_botBlue_notify_bkg.png", "arlasset://retros/textures/chatBubble_botBlue_notify_bkg.png");
-		AddEntry("arlasset://textures/chatBubble_botBlue_tail.png", "arlasset://retros/textures/chatBubble_botBlue_tail.png");
-		AddEntry("arlasset://textures/chatBubble_botBlue_tailRight.png", "arlasset://retros/textures/chatBubble_botBlue_tailRight.png");
-		AddEntry("arlasset://textures/chatBubble_botGreen_bkg.png", "arlasset://retros/textures/chatBubble_botGreen_bkg.png");
-		AddEntry("arlasset://textures/chatBubble_botGreen_notify_bkg.png", "arlasset://retros/textures/chatBubble_botGreen_notify_bkg.png");
-		AddEntry("arlasset://textures/chatBubble_botGreen_tail.png", "arlasset://retros/textures/chatBubble_botGreen_tail.png");
-		AddEntry("arlasset://textures/chatBubble_botGreen_tailRight.png", "arlasset://retros/textures/chatBubble_botGreen_tailRight.png");
-		AddEntry("arlasset://textures/chatBubble_botRed_bkg.png", "arlasset://retros/textures/chatBubble_botRed_bkg.png");
-		AddEntry("arlasset://textures/chatBubble_botRed_notify_bkg.png", "arlasset://retros/textures/chatBubble_botRed_notify_bkg.png");
-		AddEntry("arlasset://textures/chatBubble_botRed_tail.png", "arlasset://retros/textures/chatBubble_botRed_tail.png");
-		AddEntry("arlasset://textures/chatBubble_botRed_tailRight.png", "arlasset://retros/textures/chatBubble_botRed_tailRight.png");
-		AddEntry("arlasset://textures/chatBubble_bot_notifyGray_dotDotDot.png", "arlasset://retros/textures/chatBubble_bot_notifyGray_dotDotDot.png");
-		AddEntry("arlasset://textures/chatBubble_bot_notify_bang.png", "arlasset://retros/textures/chatBubble_bot_notify_bang.png");
-		AddEntry("arlasset://textures/chatBubble_bot_notify_dotDotDot.png", "arlasset://retros/textures/chatBubble_bot_notify_dotDotDot.png");
-		AddEntry("arlasset://textures/chatBubble_bot_notify_money.png", "arlasset://retros/textures/chatBubble_bot_notify_money.png");
-		AddEntry("arlasset://textures/chatBubble_bot_notify_question.png", "arlasset://retros/textures/chatBubble_bot_notify_question.png");
-		AddEntry("arlasset://textures/chatBubble_white_bkg.png", "arlasset://retros/textures/chatBubble_white_bkg.png");
-		AddEntry("arlasset://textures/chatBubble_white_notify_bkg.png", "arlasset://retros/textures/chatBubble_white_notify_bkg.png");
-		AddEntry("arlasset://textures/chatBubble_white_tail.png", "arlasset://retros/textures/chatBubble_white_tail.png");
 		AddEntry("arlasset://textures/DialogHelp.png", "arlasset://retros/textures/DialogHelp.png");
 		AddEntry("arlasset://textures/DialogQuest.png", "arlasset://retros/textures/DialogQuest.png");
 		AddEntry("arlasset://textures/DialogShop.png", "arlasset://retros/textures/DialogShop.png");

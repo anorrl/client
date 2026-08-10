@@ -681,20 +681,30 @@ local function CreatePlayerChatMessage(settings, playerChatType, sendingPlayer, 
 
 	local function CreateMessageGuiElement()
 		local fontSize = this:GetMessageFontSize(this.Settings)
+		
+		local font = this.Settings.Font
+		if this.ReceivingPlayer then
+			font = this.ReceivingPlayer.ChatFont
+		end
+		if this.SendingPlayer == Player then
+			font = this.SendingPlayer.ChatFont
+		end
+		
+		print(font)
 
 		local toMesasgeDisplayText = "To "
 		local toMessageSize = Util.GetStringTextBounds(toMesasgeDisplayText, this.Settings.Font, fontSize)
 		local fromMesasgeDisplayText = "From "
-		local fromMessageSize = Util.GetStringTextBounds(fromMesasgeDisplayText, this.Settings.Font, fontSize)
+		local fromMessageSize = Util.GetStringTextBounds(fromMesasgeDisplayText,  this.Settings.Font, fontSize)
 		local chatTypeDisplayText = this:FormatChatType()
-		local chatTypeSize = chatTypeDisplayText and Util.GetStringTextBounds(chatTypeDisplayText, this.Settings.Font, fontSize) or Vector2.new(0,0)
+		local chatTypeSize = chatTypeDisplayText and Util.GetStringTextBounds(chatTypeDisplayText,  this.Settings.Font, fontSize) or Vector2.new(0,0)
 		local playerNameDisplayText = this:FormatPlayerNameText()
 		local playerNameSize = Util.GetStringTextBounds(playerNameDisplayText, this.Settings.Font, fontSize)
 
-		local singleSpaceSize = Util.GetStringTextBounds(" ", this.Settings.Font, fontSize)
+		local singleSpaceSize = Util.GetStringTextBounds(" ",font, fontSize)
 		local numNeededSpaces = math.ceil(playerNameSize.X / singleSpaceSize.X) + 1
 		local chatMessageDisplayText = string.rep(" ", numNeededSpaces) .. this:FormatMessage()
-		local chatMessageSize = Util.GetStringTextBounds(chatMessageDisplayText, this.Settings.Font, fontSize, UDim2.new(0, 400 - 5 - playerNameSize.X, 0, 1000))
+		local chatMessageSize = Util.GetStringTextBounds(chatMessageDisplayText, font, fontSize, UDim2.new(0, 400 - 5 - playerNameSize.X, 0, 1000))
 
 
 		local playerColor = this.Settings.DefaultMessageTextColor
@@ -795,7 +805,7 @@ local function CreatePlayerChatMessage(settings, playerChatType, sendingPlayer, 
 				TextXAlignment = Enum.TextXAlignment.Left;
 				TextYAlignment = Enum.TextYAlignment.Top;
 				FontSize = fontSize;
-				Font = this.Settings.Font;
+				Font = font;
 				Size = UDim2.new(0, chatTypeSize.X, 0, chatTypeSize.Y);
 				TextStrokeColor3 = this.Settings.TextStrokeColor;
 				TextStrokeTransparency = this.Settings.TextStrokeTransparency;
@@ -868,7 +878,7 @@ local function CreatePlayerChatMessage(settings, playerChatType, sendingPlayer, 
 				TextWrapped = true;
 				TextColor3 = this.Settings.DefaultMessageTextColor;
 				FontSize = fontSize;
-				Font = this.Settings.Font;
+				Font = font;
 				TextStrokeColor3 = this.Settings.TextStrokeColor;
 				TextStrokeTransparency = this.Settings.TextStrokeTransparency;
 				Parent = container;

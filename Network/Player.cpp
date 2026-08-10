@@ -271,6 +271,9 @@ static Reflection::RemoteEventDesc<Player, void(TeleportService::TeleportState, 
 static Reflection::RemoteEventDesc<Player, void(TeleportService::TeleportState, shared_ptr<const Reflection::ValueTable>, shared_ptr<Instance>)> event_OnTeleportInternal(&Player::onTeleportInternalSignal, "OnTeleportInternal", "teleportState", "teleportInfo", "customLoadingScreen", Security::ANORRL, Reflection::RemoteEventCommon::REPLICATE_ONLY, Reflection::RemoteEventCommon::CLIENT_SERVER);
 static Reflection::PropDescriptor<Player, bool> prop_teleported("Teleported", category_Data, &Player::getTeleported, NULL, Reflection::PropertyDescriptor::HIDDEN_SCRIPTING, Security::ANORRLScript);
 static Reflection::PropDescriptor<Player, bool> prop_teleportedIn("TeleportedIn", category_Data, &Player::getTeleportedIn, &Player::setTeleportedIn, Reflection::PropertyDescriptor::STANDARD, Security::ANORRLScript);
+
+static Reflection::EnumPropDescriptor<Player, TextService::Font> prop_chatFont("ChatFont", category_Data, &Player::getChatFont, &Player::setChatFont);
+
 REFLECTION_END();
 
 
@@ -317,6 +320,7 @@ Player::Player(void)
 	,teleported(false)
 	,teleportedIn(false)
 	,autoJumpEnabled(true)
+	,chatFont(TextService::Font::FONT_NOTOSANS)
 {
 #ifndef REMOVE_PLAYER_PROTECTIONS 
 	ARL::Security::Context::current().requirePermission(ARL::Security::WritePlayer, "create a Player");
@@ -2940,6 +2944,15 @@ void Player::setForceEarlySpawnLocationCalculation() {
 
 bool Player::calculatesSpawnLocationEarly() const {
 	return forceEarlySpawnLocationCalculation;
+}
+
+void Player::setChatFont(TextService::Font value)
+{
+	if (chatFont != value)
+	{
+		chatFont = value;
+		raisePropertyChanged(prop_chatFont);
+	}
 }
 
 namespace ARL {

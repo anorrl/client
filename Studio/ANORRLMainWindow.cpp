@@ -2845,16 +2845,7 @@ void ANORRLMainWindow::cloudEditStatusChanged(int placeId, int universeId)
 		requestDocClose(*playDoc, false /*closeiflastdoc*/);
 	}
 
-	QString initScript;
-	if (FFlag::UseBuildGenericGameUrl)
-	{
-		QString pathStr = QString("game/edit.slua?PlaceID=%1&upload=%1&testmode=false&universeId=%2").arg(placeId).arg(universeId);
-		initScript = QString::fromStdString(BuildGenericGameUrl(ANORRLSettings::getBaseURL().toStdString(), pathStr.toStdString()));
-	}
-	else
-	{
-		initScript = QString("%1/game/edit.slua?PlaceID=%2&upload=%2&testmode=false&universeId=%3").arg(ANORRLSettings::getBaseURL()).arg(placeId).arg(universeId);
-	}
+	QString initScript = QString("%1/game/edit.slua?PlaceID=%2&upload=%2&testmode=false&universeId=%3").arg(ANORRLSettings::getBaseURL()).arg(placeId).arg(universeId);
 
 	handleFileOpen(FFlag::StudioDoublingOnUploadFixEnabled ? "" : fileLocationArg,
 		IANORRLDoc::IDE, initScript);

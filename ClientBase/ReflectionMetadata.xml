@@ -1288,6 +1288,8 @@
     <Item class="ReflectionMetadataClass">
       <Properties>
         <string name="Name">Chat</string>
+		<string name="ExplorerOrder">3</string>
+        <string name="ExplorerImageIndex">69</string>
       </Properties>
       <Item class="ReflectionMetadataYieldFunctions">
         <Item class="ReflectionMetadataMember">

@@ -189,7 +189,7 @@ local function createPlayerChatLine(chatType, player, message, isLocalPlayer)
 	local this = createChatLine(chatType, message, BubbleColor.WHITE, isLocalPlayer)
 
 	if player then
-		this.User = player.Name
+		this.User = player
 		this.Origin = player.Character
 	end
 
@@ -208,7 +208,7 @@ function createChatBubbleMain(filePrefix, sliceRect)
 	chatBubbleMain.Name = "ChatBubble"
 	chatBubbleMain.ScaleType = Enum.ScaleType.Slice
 	chatBubbleMain.SliceCenter = sliceRect
-	chatBubbleMain.Image = "arlasset://textures/" .. tostring(filePrefix) .. ".png"
+	chatBubbleMain.Image = "arlasset://textures/" .. tostring(filePrefix) .. "_bkg.png"
 	chatBubbleMain.BackgroundTransparency = 1
 	chatBubbleMain.BorderSizePixel = 0
 	chatBubbleMain.Size = UDim2.new(1.0, 0, 1.0, 0)
@@ -217,10 +217,10 @@ function createChatBubbleMain(filePrefix, sliceRect)
 	return chatBubbleMain
 end
 
-function createChatBubbleTail(position, size)
+function createChatBubbleTail(filePrefix, position, size)
 	local chatBubbleTail = Instance.new("ImageLabel")
 	chatBubbleTail.Name = "ChatBubbleTail"
-	chatBubbleTail.Image = "arlasset://textures/ui/dialog_tail.png"
+	chatBubbleTail.Image = "arlasset://textures/" .. tostring(filePrefix) .. "_tail.png"
 	chatBubbleTail.BackgroundTransparency = 1
 	chatBubbleTail.BorderSizePixel = 0
 	chatBubbleTail.Position = position
@@ -232,7 +232,7 @@ end
 function createChatBubbleWithTail(filePrefix, position, size, sliceRect)
 	local chatBubbleMain = createChatBubbleMain(filePrefix, sliceRect)
 	
-	local chatBubbleTail = createChatBubbleTail(position, size)
+	local chatBubbleTail = createChatBubbleTail(filePrefix, position, size)
 	chatBubbleTail.Parent = chatBubbleMain
 
 	return chatBubbleMain
@@ -249,7 +249,7 @@ function createScaledChatBubbleWithTail(filePrefix, frameScaleSize, position, sl
 	frame.Size = UDim2.new(frameScaleSize, 0, frameScaleSize, 0)
 	frame.Parent = chatBubbleMain
 
-	local chatBubbleTail = createChatBubbleTail(position, UDim2.new(1,0,0.5,0))
+	local chatBubbleTail = createChatBubbleTail(filePrefix, position, UDim2.new(1,0,0.5,0))
 	chatBubbleTail.Parent = frame
 
 	return chatBubbleMain
@@ -286,16 +286,16 @@ local function createChatOutput()
 	this.CharacterSortedMsg = createMap()
 
 	-- init chat bubble tables
-	local function initChatBubbleType(chatBubbleType, fileName, imposterFileName, isInset, sliceRect)
+	local function initChatBubbleType(chatBubbleType, fileName, isInset, sliceRect)
 		this.ChatBubble[chatBubbleType] = createChatBubbleMain(fileName, sliceRect)
-		this.ChatBubbleWithTail[chatBubbleType] = createChatBubbleWithTail(fileName, UDim2.new(0.5, -CHAT_BUBBLE_TAIL_HEIGHT, 1, isInset and -1 or 0), UDim2.new(0, 30, 0, CHAT_BUBBLE_TAIL_HEIGHT), sliceRect)
+		this.ChatBubbleWithTail[chatBubbleType] = createChatBubbleWithTail(fileName, UDim2.new(0.5, -CHAT_BUBBLE_TAIL_HEIGHT, 1, -5.4), UDim2.new(0, 30, 0, CHAT_BUBBLE_TAIL_HEIGHT), sliceRect)
 		this.ScalingChatBubbleWithTail[chatBubbleType] = createScaledChatBubbleWithTail(fileName, 0.5, UDim2.new(-0.5, 0, 0, isInset and -1 or 0), sliceRect)
 	end
 
-	initChatBubbleType(BubbleColor.WHITE,	"ui/dialog_white",	"ui/chatBubble_white_notify_bkg", 	false,	Rect.new(5,5,15,15))
-	initChatBubbleType(BubbleColor.BLUE,	"ui/dialog_blue",	"ui/chatBubble_blue_notify_bkg",	true, 	Rect.new(7,7,33,33))
-	initChatBubbleType(BubbleColor.RED,		"ui/dialog_red",	"ui/chatBubble_red_notify_bkg",		true,	Rect.new(7,7,33,33))
-	initChatBubbleType(BubbleColor.GREEN,	"ui/dialog_green",	"ui/chatBubble_green_notify_bkg",	true,	Rect.new(7,7,33,33))
+	initChatBubbleType(BubbleColor.WHITE,	"ui/chatBubble_white", 	true,	Rect.new(30,30,30,30))
+	initChatBubbleType(BubbleColor.BLUE,	"ui/chatBubble_botBlue",	true, 	Rect.new(30,30,30,30))
+	initChatBubbleType(BubbleColor.RED,		"ui/chatBubble_botRed",		true,	Rect.new(30,30,30,30))
+	initChatBubbleType(BubbleColor.GREEN,	"ui/chatBubble_botGreen",	true,	Rect.new(30,30,30,30))
 
 	function this:SanitizeChatLine(msg)
 		if string.len(msg) > CchMaxChatMessageLengthExclusive then
@@ -422,17 +422,24 @@ local function createChatOutput()
 		end
 	end
 
-	function this:CreateBubbleText(message)
+	function this:CreateBubbleText(message, font, darkMode)
 		local bubbleText = Instance.new("TextLabel")
 		bubbleText.Name = "BubbleText"
 		bubbleText.BackgroundTransparency = 1
 		bubbleText.Position = UDim2.new(0,CHAT_BUBBLE_WIDTH_PADDING/2,0,0)
 		bubbleText.Size = UDim2.new(1,-CHAT_BUBBLE_WIDTH_PADDING,1,0)
-		bubbleText.Font = CHAT_BUBBLE_FONT
+		if not font then
+			bubbleText.Font = CHAT_BUBBLE_FONT
+		else
+			bubbleText.Font = font
+		end
 		bubbleText.TextWrapped = true
 		bubbleText.FontSize = CHAT_BUBBLE_FONT_SIZE
 		bubbleText.Text = message
 		bubbleText.Visible = false
+		if darkMode then
+			bubbleText.TextColor3 = Color3.new(1,1,1)
+		end
 
 		return bubbleText
 	end
@@ -522,15 +529,21 @@ local function createChatOutput()
 
 		local billboardGui = this.CharacterSortedMsg:Get(instance)["BillboardGui"]
 		local chatBubbleRender = this.ChatBubbleWithTail[line.BubbleColor]:Clone()
+		local font = CHAT_BUBBLE_FONT
+		if line.User then
+			font = line.User.ChatFont
+			print(font)
+		end
+		
 		chatBubbleRender.Visible = false
-		local bubbleText = this:CreateBubbleText(line.Message)
+		local bubbleText = this:CreateBubbleText(line.Message, font, line.BubbleColor ~= "dub")
 
 		bubbleText.Parent = chatBubbleRender
 		chatBubbleRender.Parent = billboardGui.BillboardFrame
 
 		line.RenderBubble = chatBubbleRender
 
-		local currentTextBounds = TextService:GetTextSize(bubbleText.Text, CHAT_BUBBLE_FONT_SIZE_INT, CHAT_BUBBLE_FONT, 
+		local currentTextBounds = TextService:GetTextSize(bubbleText.Text, CHAT_BUBBLE_FONT_SIZE_INT, font, 
 															Vector2.new(BILLBOARD_MAX_WIDTH, BILLBOARD_MAX_HEIGHT))
 		local bubbleWidthScale = math.max((currentTextBounds.x + CHAT_BUBBLE_WIDTH_PADDING)/BILLBOARD_MAX_WIDTH, 0.1)
 		local numOflines = (currentTextBounds.y/CHAT_BUBBLE_FONT_SIZE_INT)

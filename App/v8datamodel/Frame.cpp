@@ -64,9 +64,9 @@ namespace ARL
 	
 	void Frame::render2d(Adorn* adorn) 
 	{
-		static const TextureId sBlue =			TextureId("arlasset://textures/ui/dialog_blue.png");
-		static const TextureId sGreen =			TextureId("arlasset://textures/ui/dialog_green.png");
-		static const TextureId sRed =			TextureId("arlasset://textures/ui/dialog_red.png");
+		static const TextureId sBlue =			TextureId("arlasset://textures/ui/chatBubble_botBlue_bkg.png");
+		static const TextureId sGreen =			TextureId("arlasset://textures/ui/chatBubble_botGreen_bkg.png");
+		static const TextureId sRed =			TextureId("arlasset://textures/ui/chatBubble_botRed_bkg.png");
 		static const TextureId sBlackSquare =	TextureId("arlasset://textures/blackBkg_square.png");
 		static const TextureId sBlackRound =	TextureId("arlasset://textures/blackBkg_round.png");
 		static const TextureId sNewSquare =		TextureId("arlasset://textures/ui/newBkg_square.png");
@@ -80,21 +80,21 @@ namespace ARL
 			break;
 		case Frame::BLUE_CHAT_STYLE:
 		{
-            Rect2D rect = Rect2D::xyxy(7, 7, 33, 33);
+            Rect2D rect = Rect2D::xyxy(30, 30, 30, 30);
             Color4 color = Color3::white();
             render2dScale9Impl2(adorn, sBlue, image, rect, clippingObject, color);
 			break;
 		}
 		case Frame::GREEN_CHAT_STYLE:
 		{
-            Rect2D rect = Rect2D::xyxy(7, 7, 33, 33);
+            Rect2D rect = Rect2D::xyxy(30, 30, 30, 30);
             Color4 color = Color3::white();
             render2dScale9Impl2(adorn, sGreen, image, rect, clippingObject, color);
 			break;
 		}
 		case Frame::RED_CHAT_STYLE:
 		{
-            Rect2D rect = Rect2D::xyxy(7, 7, 33, 33);
+            Rect2D rect = Rect2D::xyxy(30, 30, 30, 30);
             Color4 color = Color3::white();
 			render2dScale9Impl2(adorn, sRed, image, rect, clippingObject, color);
 			break;

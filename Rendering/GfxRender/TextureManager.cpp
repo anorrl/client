@@ -19,6 +19,7 @@ LOGGROUP(Graphics)
 FASTINTVARIABLE(RenderTextureManagerBudget, 0)
 FASTINTVARIABLE(RenderTextureManagerBudgetFor4k, 0)
 DYNAMIC_FASTFLAG(ImageFailedToLoadContext)
+DYNAMIC_FASTFLAGVARIABLE(PrintReloadMsgIntoConsole, false)
 
 namespace ARL
 {
@@ -325,7 +326,9 @@ void TextureManager::reloadImage(const ContentId& id, const std::string& context
         }
         else if (loadAsync(id, context))
         {
-            StandardOut::singleton()->printf(MESSAGE_INFO, "Reloading %s texture", id.c_str());
+			if (DFFlag::PrintReloadMsgIntoConsole) {
+				StandardOut::singleton()->printf(MESSAGE_INFO, "Reloading %s texture", id.c_str());
+			}
             it->second.updateAllRefsToWaiting();
         }
     }

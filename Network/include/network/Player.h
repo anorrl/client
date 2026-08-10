@@ -19,6 +19,7 @@
 
 #include <boost/scoped_ptr.hpp>
 #include "v8datamodel/TeleportService.h"
+#include "v8datamodel/TextService.h"
 
 LOGGROUP(Network)
 LOGGROUP(Player)
@@ -139,6 +140,8 @@ namespace Network {
 		void loadDataResult(shared_ptr<const Reflection::ValueMap> result);
 
 		bool autoJumpEnabled;
+
+		TextService::Font chatFont;
 
 	public:
 		enum MembershipType
@@ -446,6 +449,9 @@ namespace Network {
 
 		int getFollowUserId() const { return followUserId; }
 		void setFollowUserId(int followUserId) { this->followUserId = followUserId; }
+
+		void setChatFont(TextService::Font font);
+		TextService::Font getChatFont() const { return chatFont; }
 
 		void loadStarterGear();
 		void onCharacterDied();
