@@ -1491,7 +1491,7 @@ Vector2 GuiObject::render2dTextImpl(	Adorn* adorn,
 									const Color4& _backgroundColor,
 									const std::string& _textName,
 									TextService::Font		_font, 
-									TextService::FontSize _fontSizeEnum,
+									int _fontSize,
 									const Color4& _textColor,
 									const Color4& _textStrokeColor,
 									bool _textWrap,
@@ -1503,11 +1503,11 @@ Vector2 GuiObject::render2dTextImpl(	Adorn* adorn,
 	Rect2D rect;
 	render2dImpl(adorn, _backgroundColor, rect);
 
-	return render2dTextImpl(adorn, rect, _textName, _font, _fontSizeEnum, _textColor, _textStrokeColor, _textWrap, _textScale, _xalignment, _yalignment);
+	return render2dTextImpl(adorn, rect, _textName, _font, _fontSize, _textColor, _textStrokeColor, _textWrap, _textScale, _xalignment, _yalignment);
 }
 float GuiObject::getFontSizeScale(bool _textScale, bool _textWrap, TextService::FontSize _fontSizeEnum, const Rect2D& rect)
 {
-	float normalFontSize = convertFontSize(_fontSizeEnum);
+	float normalFontSize =	convertFontSize(_fontSizeEnum);
 	return normalFontSize;
 }
 
@@ -1554,7 +1554,7 @@ Vector2 GuiObject::render2dTextImpl(	Adorn* adorn,
                                     const Rect2D& rectIn,
 									const std::string& _textName,
 									TextService::Font		_font, 
-									TextService::FontSize _fontSizeEnum,
+									int fontSize,
 									const Color4& _textColor,
 									const Color4& _textStrokeColor,
 									bool _textWrap,
@@ -1567,10 +1567,10 @@ Vector2 GuiObject::render2dTextImpl(	Adorn* adorn,
     bool autoScale = _textScale && adorn->useFontSmoothScalling();
 
     rect = autoScale ? getRect2DFloat() : rectIn;
-    if (adorn->useFontSmoothScalling())
-        _fontSize = getFontSizeScale(_textScale, _textWrap, _fontSizeEnum, rect);
-    else
-        _fontSize = _textScale ? getScaledFontSize(rect,_textName,_font,_textWrap,_fontSize) : getFontSizeScale(_textScale, _textWrap, _fontSizeEnum, rect);
+	if (adorn->useFontSmoothScalling())
+		_fontSize = fontSize; //getFontSizeScale(_textScale, _textWrap, _fontSizeEnum, rect);
+	else
+		_fontSize = _textScale ? getScaledFontSize(rect, _textName, _font, _textWrap, _fontSize) : fontSize; // getFontSizeScale(_textScale, _textWrap, _fontSizeEnum, rect);
 
 	Vector2 pos;
 	switch(_xalignment){

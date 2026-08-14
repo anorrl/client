@@ -29,11 +29,14 @@ public:
 			, font(TextService::FONT_LEGACY)
 			, textStrokeTransparency(1.0f)
 			, textStrokeColor(0,0,0)
+			, textSize(8)
 		{}
 
 	const std::string& getText() const { return text; }
 
 	TextService::FontSize getFontSize() const { return fontSize; }
+
+	int getTextSize() const { return textSize; }
 
 	TextService::Font getFont() const { return font; }
 
@@ -72,6 +75,7 @@ protected:
 		ContentFilter::FilterResult filterState;
 		std::string text;
 		TextService::FontSize fontSize;
+		int textSize;
 		Color3 textColor;
 		float textTransparency;
 		Color3 textStrokeColor;
@@ -86,6 +90,7 @@ protected:
 #define DECLARE_GUI_TEXT_MIXIN()							\
 /*override*/ void checkForResize();							\
 void setText(std::string value);							\
+void setTextSize(int value);				\
 void setFontSize(TextService::FontSize value);				\
 void setFont(TextService::Font value);						\
 void setTextColor(BrickColor value);						\
@@ -106,7 +111,8 @@ bool getTextFits() const;									\
 #define IMPLEMENT_GUI_TEXT_MIXIN(Class)																																																	\
 REFLECTION_BEGIN();                                                                                                                                                                                                                     \
 static const Reflection::PropDescriptor<Class, std::string> prop_Text("Text", category_Text, &Class::getText, &Class::setText);																											\
-static const Reflection::EnumPropDescriptor<Class, TextService::FontSize>	prop_FontSize("FontSize", category_Text, &Class::getFontSize, &Class::setFontSize);																			\
+static const Reflection::EnumPropDescriptor<Class, TextService::FontSize>	prop_FontSize("FontSize", category_Text, &Class::getFontSize, &Class::setFontSize, Reflection::PropertyDescriptor::LEGACY_SCRIPTING);						\
+static const Reflection::PropDescriptor<Class, int>	prop_TextSize("TextSize", category_Text, &Class::getTextSize, &Class::setTextSize);																								\
 static const Reflection::EnumPropDescriptor<Class, TextService::Font>	prop_Font("Font", category_Text, &Class::getFont, &Class::setFont);																								\
 static const Reflection::PropDescriptor<Class, BrickColor>  prop_TextColor("TextColor", category_Text, &Class::getTextColor, &Class::setTextColor, Reflection::PropertyDescriptor::LEGACY_SCRIPTING);									\
 static const Reflection::PropDescriptor<Class, Color3>	    prop_TextColor3("TextColor3", category_Text, &Class::getTextColor3, &Class::setTextColor3);																					\
@@ -146,12 +152,44 @@ void Class::setText(std::string value)																																		\
 		}																																									\
 	}																																										\
 }																																											\
-                            																																				\
+																																											\
+																																											\
 void Class::setFontSize(TextService::FontSize value)																														\
 {																																											\
 	if (GuiTextMixin::fontSize != value) {																																	\
+		int convEnumValue = 8;																																				\
+		switch (value)																																						\
+		{																																									\
+		case TextService::SIZE_8: convEnumValue = 8;																														\
+		case TextService::SIZE_9: convEnumValue = 9;																														\
+		case TextService::SIZE_10: convEnumValue = 10;																														\
+		case TextService::SIZE_11: convEnumValue = 11;																														\
+		case TextService::SIZE_12: convEnumValue = 12;																														\
+		case TextService::SIZE_14: convEnumValue = 14;																														\
+		case TextService::SIZE_18: convEnumValue = 18;																														\
+		case TextService::SIZE_24: convEnumValue = 24;																														\
+		case TextService::SIZE_36: convEnumValue = 36;																														\
+		case TextService::SIZE_48: convEnumValue = 48;																														\
+		case TextService::SIZE_28: convEnumValue = 28;																														\
+		case TextService::SIZE_32: convEnumValue = 32;																														\
+		case TextService::SIZE_42: convEnumValue = 42;																														\
+		case TextService::SIZE_60: convEnumValue = 60;																														\
+		case TextService::SIZE_96: convEnumValue = 96;																														\
+		default:																																							\
+			ARLASSERT(0);																																					\
+			convEnumValue = 8;																																				\
+		}																																									\
+		setTextSize(convEnumValue);																																			\
 		GuiTextMixin::fontSize = value;																																		\
 		raisePropertyChanged(prop_FontSize);																																\
+	}																																										\
+}																																											\
+                            																																				\
+void Class::setTextSize(int value)																																			\
+{																																											\
+	if (GuiTextMixin::textSize != value) {																																	\
+		GuiTextMixin::textSize = G3D::iClamp(value, 1, 100);																												\
+		raisePropertyChanged(prop_TextSize);																																\
 		raisePropertyChanged(prop_TextBounds);																																\
 	}																																										\
 }																																											\

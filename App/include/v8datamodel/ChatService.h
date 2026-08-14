@@ -23,7 +23,12 @@ namespace ARL {
 			CHAT_RED
 		};
 
+		bool loadDefaultModules;
+
 		ChatService();
+
+		void setLoadDefaultModules(bool value);
+		bool getLoadDefaultModules() const { return loadDefaultModules; }
 
 		void chat(shared_ptr<Instance> instance, std::string message, ChatService::ChatColor chatColor);
 

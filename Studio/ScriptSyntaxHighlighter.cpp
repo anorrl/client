@@ -450,13 +450,13 @@ void ScriptSyntaxHighlighter::highlightBlock(const QString &text)
 			{
 				m_lexState = ARL_LUA_PREPROCESSOR;	// Obsolete since Lua 4.0, but still in old code
 			}
-			else if (ii + 1 < text.size() && text[ii + 1] == QChar('=') && IsLuaCompoundOperator(text[ii].toAscii()))
+			else if (ii + 1 < text.size() && text[ii+1] == QChar('=') && IsLuaCompoundOperator(text[ii].toAscii()))
 			{
+				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "hello");
 				m_lexState = ARL_LUA_COMPOUNDOPERATOR;
 				ii++;
-				continue;
 			}
-			else if (IsLuaOperator(text[ii].toAscii()) && !(ii + 1 < text.size() && text[ii + 1] == QChar('=') && IsLuaCompoundOperator(text[ii].toAscii())))
+			else if (IsLuaOperator(text[ii].toAscii()) && !(ii + 1 < text.size() && text[ii + 1] == QChar('=') && !IsLuaCompoundOperator(text[ii].toAscii())))
 			{
 				m_lexState = ARL_LUA_OPERATOR;
 			}

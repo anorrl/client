@@ -19,13 +19,7 @@ local GuiService = game:GetService("GuiService")
 ------------------ VARIABLES --------------------
 local tenFootInterfaceEnabled = false
 do
-	local platform = UserInputService:GetPlatform()
-
-	tenFootInterfaceEnabled = (platform == Enum.Platform.XBoxOne or platform == Enum.Platform.PS4)
-end
-
-if FORCE_TEN_FOOT_INTERFACE then
-	tenFootInterfaceEnabled = true
+	tenFootInterfaceEnabled = FORCE_TEN_FOOT_INTERFACE or GuiService:IsTenFootInterface()
 end
 
 local Util = {}

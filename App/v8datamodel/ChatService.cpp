@@ -21,6 +21,8 @@ static Reflection::BoundFuncDesc<ChatService, void(shared_ptr<Instance>, std::st
 static Reflection::BoundYieldFuncDesc<ChatService, std::string(std::string, shared_ptr<Instance>)> func_filterString(&ChatService::filterStringForPlayer, "FilterStringForPlayerAsync", "stringToFilter",  "playerToFilterFor", Security::None);
 
 static Reflection::RemoteEventDesc<ChatService, void(shared_ptr<Instance>, std::string, ChatService::ChatColor)> event_Chatted(&ChatService::chattedSignal, "Chatted", "part", "message", "color", Security::None, Reflection::RemoteEventCommon::SCRIPTING, Reflection::RemoteEventCommon::BROADCAST);
+
+static Reflection::PropDescriptor<ChatService, bool> prop_loadDefaultChat("LoadDefaultChat", category_Behavior, &ChatService::getLoadDefaultModules, &ChatService::setLoadDefaultModules);
 REFLECTION_END();
 
 namespace Reflection {
@@ -175,6 +177,13 @@ void ChatService::filterStringForPlayer(std::string stringToFilter, shared_ptr<I
 	{
 		errorFunction("ChatService:FilterString could not find ApiService.");
 		return;
+	}
+}
+
+void ChatService::setLoadDefaultModules(bool value) {
+	if (loadDefaultModules != value) {
+		loadDefaultModules = value;
+		raisePropertyChanged(prop_loadDefaultChat);
 	}
 }
 

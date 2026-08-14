@@ -36,6 +36,7 @@ namespace ARL {
 // Some standard categories
 #define category_Data       "Data"
 #define category_Behavior   "Behavior"
+#define category_Behaviour  "Behavior"
 #define category_State		"State"
 #define category_Appearance "Appearance"
 #define category_Team		"Team"

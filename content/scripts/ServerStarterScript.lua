@@ -54,3 +54,8 @@ local function setDialogInUse(player, dialog, value)
 	end
 end
 RemoteEvent_SetDialogInUse.OnServerEvent:connect(setDialogInUse)
+
+if game:GetService("Chat").LoadDefaultChat then
+	require(game:GetService("CoreGui").ANORRLGui.Modules.Server.ClientChat.ChatWindowInstaller)()
+	require(game:GetService("CoreGui").ANORRLGui.Modules.Server.ServerChat.ChatServiceInstaller)()
+end

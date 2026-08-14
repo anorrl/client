@@ -60,7 +60,7 @@ scriptContext:AddCoreScriptLocal("CoreScripts/NotificationScript2", ANORRLGui)
 
 -- Chat script
 if useTopBar then
-	spawn(function() require(ANORRLGui.Modules.Chat) end)
+	spawn(function() require(ANORRLGui.Modules.ChatSelector) end)
 	spawn(function() require(ANORRLGui.Modules.Emotes) end)
 	spawn(function() require(ANORRLGui.Modules.PlayerlistModule) end)
 end

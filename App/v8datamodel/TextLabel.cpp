@@ -37,7 +37,7 @@ void TextLabel::render2dContext(Adorn* adorn, const Instance* context)
 	{
         if (getRenderTextAlpha(getTextTransparency()) > 0.0f) {
 		    render2dTextImpl(adorn, getRenderBackgroundColor4(), getText(), 
-			    getFont(), getFontSize(), getRenderTextColor4(),getRenderTextStrokeColor4(), getTextWrap(), getTextScale(),
+			    getFont(), getTextSize(), getRenderTextColor4(),getRenderTextStrokeColor4(), getTextWrap(), getTextScale(),
 			    getXAlignment(), getYAlignment());
         } 
         else if (DFFlag::TextTransparencyRenderingFix)

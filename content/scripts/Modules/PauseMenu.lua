@@ -9,7 +9,7 @@ local RunService = game:GetService("RunService")
 
 --[[ CORE MODULES ]]
 local playerList = require(ANORRLGui.Modules.PlayerlistModule)
-local chat = require(ANORRLGui.Modules.Chat)
+local chat = require(ANORRLGui.Modules.ChatSelector)
 local emotes = require(ANORRLGui.Modules.Emotes)
 local backpack = require(ANORRLGui.Modules.BackpackScript)
 

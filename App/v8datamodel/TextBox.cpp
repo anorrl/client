@@ -686,10 +686,10 @@ namespace ARL
 				lastSwap = now;
 			}
             
-			render2dTextImpl(adorn, getRenderBackgroundColor4(), showingCursor ? getTextWithCursor() : getTextWithBlankCursor(), getFont(), getFontSize(), getRenderTextColor4(), getRenderTextStrokeColor4(), getTextWrap(), getTextScale(), getXAlignment(), getYAlignment());
+			render2dTextImpl(adorn, getRenderBackgroundColor4(), showingCursor ? getTextWithCursor() : getTextWithBlankCursor(), getFont(), getTextSize(), getRenderTextColor4(), getRenderTextStrokeColor4(), getTextWrap(), getTextScale(), getXAlignment(), getYAlignment());
 		}
 		else
-			render2dTextImpl(adorn, getRenderBackgroundColor4(), getText(), getFont(), getFontSize(), getRenderTextColor4(), getRenderTextStrokeColor4(), getTextWrap(), getTextScale(), getXAlignment(), getYAlignment());
+			render2dTextImpl(adorn, getRenderBackgroundColor4(), getText(), getFont(), getTextSize(), getRenderTextColor4(), getRenderTextStrokeColor4(), getTextWrap(), getTextScale(), getXAlignment(), getYAlignment());
         
 		renderStudioSelectionBox(adorn);
 	}

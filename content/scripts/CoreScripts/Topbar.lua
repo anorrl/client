@@ -862,7 +862,7 @@ local function CreateChatIcon()
 	local chatEnabled = game:GetService("UserInputService"):GetPlatform() ~= Enum.Platform.XBoxOne
 	if not chatEnabled then return end
 	
-	local ChatModule = require(GuiRoot.Modules.Chat)
+	local ChatModule = require(GuiRoot.Modules.ChatSelector)
 	
 	local MenuModule = nil
 	game.CoreGui.ANORRLGui.Modules:WaitForChild("PauseMenu")
@@ -1002,7 +1002,7 @@ local function CreateChatIcon()
 end
 
 local function CreateMobileHideChatIcon()
-	local ChatModule = require(GuiRoot.Modules.Chat)
+	local ChatModule = require(GuiRoot.Modules.ChatSelector)
 
 	local chatHideIconButton = Util.Create'ImageButton'
 	{

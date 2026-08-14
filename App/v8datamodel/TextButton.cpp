@@ -41,7 +41,7 @@ void GuiTextButton::render2dContext(Adorn* adorn, const Instance* context)
 			filterState = contentFilter->getStringState(text);
 
 	if(filterState == ContentFilter::Succeeded)
-		render2dTextImpl(adorn, rect, getText(), getFont(), getFontSize(), getRenderTextColor4(), getRenderTextStrokeColor4(), getTextWrap(), getTextScale(), getXAlignment(), getYAlignment());
+		render2dTextImpl(adorn, rect, getText(), getFont(), getTextSize(), getRenderTextColor4(), getRenderTextStrokeColor4(), getTextWrap(), getTextScale(), getXAlignment(), getYAlignment());
 
 	renderStudioSelectionBox(adorn);
 }
