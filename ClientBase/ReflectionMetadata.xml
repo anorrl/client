@@ -3026,8 +3026,7 @@
         <Item class="ReflectionMetadataMember">
           <Properties>
             <string name="Name">Color</string>
-            <bool name="Deprecated">true</bool>
-            <string name="summary">Deprecated. Use BrickColor instead</string>
+            <string name="summary">Color3 of the part.</string>
           </Properties>
         </Item>
         <Item class="ReflectionMetadataMember">

@@ -412,7 +412,7 @@ bool ARL::CSGOperations::setUnionMesh(shared_ptr<PartOperation> finalPartOperati
 
             if (!positiveMesh)
             {
-                finalPartOperation->setColor(unionOperation->getColor());
+                finalPartOperation->setColor3(unionOperation->getColor3());
                 finalPartOperation->setRenderMaterial(unionOperation->getRenderMaterial());
                 finalPartOperation->setReflectance(unionOperation->getReflectance());
                 finalPartOperation->setTransparency(unionOperation->getTransparencyUi());
@@ -463,7 +463,7 @@ bool ARL::CSGOperations::setUnionMesh(shared_ptr<PartOperation> finalPartOperati
             warnIfChildInstances(partInstance, "union");
             if (!positiveMesh)
             {
-                finalPartOperation->setColor(partInstance->getColor());
+                finalPartOperation->setColor3(partInstance->getColor3());
                 finalPartOperation->setRenderMaterial(partInstance->getRenderMaterial());
                 finalPartOperation->setReflectance(partInstance->getReflectance());
                 finalPartOperation->setTransparency(partInstance->getTransparencyUi());
@@ -808,7 +808,7 @@ bool ARL::CSGOperations::negateSelection(Instances& toRemove,
                 pOperation->setPhysicsData(BinaryString(""));
 
                 negateOperation->setUsePartColor(pOperation->getUsePartColor());
-                negateOperation->setColor(pOperation->getColor());
+                negateOperation->setColor3(pOperation->getColor3());
             }
 
             bool validNegation = setNegateMesh(negateOperation, pInst);

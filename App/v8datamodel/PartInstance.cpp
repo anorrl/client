@@ -243,7 +243,7 @@ const PropDescriptor<PartInstance, float> PartInstance::prop_Friction("Friction"
 const PropDescriptor<PartInstance, PhysicalProperties> PartInstance::prop_CustomPhysicalProperties("CustomPhysicalProperties", category_Part, &PartInstance::getPhysicalProperties, &PartInstance::setPhysicalProperties);
 
 // color, transparency, reflectance, anchored, canCollide, locked
-const PropDescriptor<PartInstance, Color3> PartInstance::prop_Color("Color", category_Appearance, &PartInstance::getColor3, &PartInstance::setColor3, PropertyDescriptor::Functionality(PropertyDescriptor::UI));
+const PropDescriptor<PartInstance, Color3> PartInstance::prop_Color("Color", category_Appearance, &PartInstance::getColor3, &PartInstance::setColor3);
 const PropDescriptor<PartInstance, BrickColor> PartInstance::prop_BrickColor("BrickColor", category_Appearance, &PartInstance::getColor, &PartInstance::setColor);
 const PropDescriptor<PartInstance, BrickColor> prop_BrickColorDep("brickColor", category_Appearance, &PartInstance::getColor, &PartInstance::setColor, PropertyDescriptor::Attributes::deprecated(PartInstance::prop_BrickColor));
 const EnumPropDescriptor<PartInstance, PartMaterial> PartInstance::prop_renderMaterial("Material", category_Appearance, &PartInstance::getRenderMaterial, &PartInstance::setRenderMaterial);
@@ -423,7 +423,7 @@ PartInstance::PartInstance(const Vector3& initialSize)
 	, primitive(new Primitive(Geometry::GEOMETRY_BLOCK))
 	, gfxPart(NULL)
 	, cookie(0)
-	, color(BrickColor::defaultColor())
+	, color(BrickColor::defaultColor().color3())
 	, transparency(0.0f)
 	, reflectance(0.0f)
 	, localTransparencyModifier(0.0)
@@ -2729,7 +2729,7 @@ void PartInstance::setReflectance(float value)
 	}
 }
 
-void PartInstance::setColor(BrickColor value)
+void PartInstance::setColor3(const Color3& value)
 {
 	if (value != color)
 	{
