@@ -20,7 +20,7 @@ using namespace Voxel;
 MegaClusterPoly::MegaClusterPoly(Primitive* p)
     : myPrim(p)
 {
-	Grid* grid = rbx_static_cast<MegaClusterInstance*>(myPrim->getOwner())->getVoxelGrid();
+	Grid* grid = arl_static_cast<MegaClusterInstance*>(myPrim->getOwner())->getVoxelGrid();
 
 	myTerrainPartition.reset(new TerrainPartitionMega(grid));
 
@@ -89,7 +89,7 @@ bool MegaClusterPoly::hitTestMC(const RbxRay& rayInMe, Vector3& localHitPoint, V
         }
 	}
 
-	Grid* grid = rbx_static_cast<MegaClusterInstance*>(myPrim->getOwner())->getVoxelGrid();
+	Grid* grid = arl_static_cast<MegaClusterInstance*>(myPrim->getOwner())->getVoxelGrid();
 
 	bool doneSearching = false;
 	bool foundIntersection = false;
@@ -277,13 +277,13 @@ std::vector<Vector3> MegaClusterPoly::findCellIntersectionWithGeom( const Vector
 		otherGeom.getGeometryType() == Geometry::GEOMETRY_TRI_MESH )
         return result;
 
-    const Poly* otherPoly = rbx_static_cast<const Poly*>(&otherGeom);
+    const Poly* otherPoly = arl_static_cast<const Poly*>(&otherGeom);
 
     Vector3 size(kCELL_SIZE, kCELL_SIZE, kCELL_SIZE);
     POLY::Mesh cellMesh;
     Vector3 cellOffset = kCELL_SIZE * Vector3(cell) + Vector3(Voxel::kHALF_CELL, Voxel::kHALF_CELL, Voxel::kHALF_CELL);
 
-	Grid* grid = rbx_static_cast<MegaClusterInstance*>(myPrim->getOwner())->getVoxelGrid();
+	Grid* grid = arl_static_cast<MegaClusterInstance*>(myPrim->getOwner())->getVoxelGrid();
     Cell cellData = grid->getCell(cell);
 
     CellOrientation orientation = cellData.solid.getOrientation();
@@ -937,7 +937,7 @@ void MegaClusterPoly::findCellsTouchingGeometryWithBuffer( const float& buffer, 
 //	also, using spatial hashing, this code could be sped up a lot...
 bool MegaClusterPoly::cellsInBoundingBox(const Vector3& min, const Vector3& max)
 {
-	Grid* grid = rbx_static_cast<MegaClusterInstance*>(myPrim->getOwner())->getVoxelGrid();
+	Grid* grid = arl_static_cast<MegaClusterInstance*>(myPrim->getOwner())->getVoxelGrid();
 
 	Vector3int16 gridMin(worldToCell_floor(min));
 	Vector3int16 gridMax(worldToCell_floor(max));

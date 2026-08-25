@@ -11,7 +11,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Rcc>
-      <CommandLineTemplate>"$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\bin\Rcc.exe" -name %(Filename) "%(FullPath)" -o "$(ProjectDir)\generated\qrc_%(Filename).cpp"</CommandLineTemplate>
+      <CommandLineTemplate>"$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Rcc.exe" -name %(Filename) "%(FullPath)" -o "$(ProjectDir)\generated\qrc_%(Filename).cpp"</CommandLineTemplate>
       <!--<Outputs>"$(ProjectDir)qrc_%(Filename).cpp"</Outputs>-->
 	  <Outputs>$(ProjectDir)\generated\qrc_%(Filename).cpp</Outputs>
       <ExecutionDescription>Rcc %(Filename)%(Extension)</ExecutionDescription>
@@ -28,7 +28,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Moc>
-      <CommandLineTemplate>"$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\bin\moc.exe" -fstdafx.h -f%(Filename).h -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I"$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\include\QtCore" -I"$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\include\QtGui" -I"$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\include" -I"$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\include\ActiveQt" -I"$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\mkspecs\win32-msvc2008" -D_MSC_VER=1500 -DWIN32 "%(FullPath)" -o "$(ProjectDir)\generated\moc_%(Filename).cpp"</CommandLineTemplate>
+      <CommandLineTemplate>"$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\moc.exe" -fstdafx.h -f%(Filename).h -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -I"$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtCore" -I"$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtGui" -I"$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include" -I"$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\ActiveQt" -I"$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\mkspecs\win32-msvc2008" -D_MSC_VER=1500 -DWIN32 "%(FullPath)" -o "$(ProjectDir)\generated\moc_%(Filename).cpp"</CommandLineTemplate>
       <Outputs>$(ProjectDir)\generated\moc_%(Filename).cpp</Outputs>
       <ExecutionDescription>Moc %(Filename)%(Extension)</ExecutionDescription>
     </Moc>
@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Uic>
-      <CommandLineTemplate>"$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\bin\uic.exe" "%(FullPath)" -o "$(ProjectDir)ui_%(Filename).h"</CommandLineTemplate>
+      <CommandLineTemplate>"$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\uic.exe" "%(FullPath)" -o "$(ProjectDir)ui_%(Filename).h"</CommandLineTemplate>
       <Outputs>$(ProjectDir)\generated\ui_%(Filename).h</Outputs>
       <ExecutionDescription>Uic %(Filename)%(Extension)</ExecutionDescription>
     </Uic>

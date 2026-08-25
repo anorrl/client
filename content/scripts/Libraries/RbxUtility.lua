@@ -749,7 +749,7 @@ end
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 --[[
-A 'Signal' object identical to the internal RBXScriptSignal object in it's public API and semantics. This function 
+A 'Signal' object identical to the internal ARLScriptSignal object in it's public API and semantics. This function 
 can be used to create "custom events" for user-made code.
 API:
 Method :connect( function handler )
@@ -1038,7 +1038,7 @@ t.Help =
 		if funcNameOrFunc == "CreateSignal" or funcNameOrFunc == t.CreateSignal then
 			return "Function CreateSignal. "..
 			       "Arguments: None. "..
-			       "Returns: The newly created Signal object. This object is identical to the RBXScriptSignal class "..
+			       "Returns: The newly created Signal object. This object is identical to the ARLScriptSignal class "..
 			       "used for events in Objects, but is a Lua-side object so it can be used to create custom events in"..
 			       "Lua code. "..
 			       "Methods of the Signal object: :connect, :wait, :fire, :disconnect. "..

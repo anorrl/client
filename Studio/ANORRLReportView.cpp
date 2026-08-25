@@ -9,7 +9,7 @@
 // Qt Headers
 #include <QPainter>
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     #define CATEGORY_ITEM_PADDING	7
     #define CATEGORY_ITEM_INDENT	24
 #else

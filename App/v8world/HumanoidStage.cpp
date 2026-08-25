@@ -29,12 +29,12 @@ HumanoidStage::~HumanoidStage()
 
 void HumanoidStage::toDynamics(Assembly* a)
 {
-	rbx_static_cast<SleepStage*>(getDownstreamWS())->onAssemblyAdded(a);
+	arl_static_cast<SleepStage*>(getDownstreamWS())->onAssemblyAdded(a);
 }
 
 void HumanoidStage::fromDynamics(Assembly* a)
 {
-	rbx_static_cast<SleepStage*>(getDownstreamWS())->onAssemblyRemoving(a);
+	arl_static_cast<SleepStage*>(getDownstreamWS())->onAssemblyRemoving(a);
 }
 
 void HumanoidStage::toHumanoid(Assembly* a)

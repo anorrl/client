@@ -12,7 +12,7 @@
 namespace ARL
 {
 	class PartOperation;
-    class CSGMesh;
+	class CSGMesh;
 
 	extern const char *const sCSGDictionaryService;
 
@@ -29,26 +29,26 @@ namespace ARL
 
 		virtual void refreshRefCountUnderInstance(ARL::Instance* instance);
 
-        boost::shared_ptr<CSGMesh> insertMesh(const std::string key, const ARL::BinaryString& meshData);
+		boost::shared_ptr<CSGMesh> insertMesh(const std::string key, const ARL::BinaryString& meshData);
 
 		boost::shared_ptr<CSGMesh> insertCachedMesh(const std::string key, const ARL::BinaryString& meshData);
 
-        virtual void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
+		virtual void onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider);
 
-    public:
+	public:
 
 		CSGDictionaryService();
 
 		void storeData(PartOperation& partOperation, bool forceIncrement = false);
 		void retrieveData(PartOperation& partOperation);
-
+		
 		void storeAllDescendants(shared_ptr<ARL::Instance> instance);
 		void retrieveAllDescendants(shared_ptr<ARL::Instance> instance);
-		
+
 		void reparentAllChildData();
 
 		void insertMesh(PartOperation& partOperation);
-        boost::shared_ptr<CSGMesh> getMesh(PartOperation& partOperation);
+		boost::shared_ptr<CSGMesh> getMesh(PartOperation& partOperation);
 
 		boost::shared_ptr<CSGMesh> getCachedMesh(PartOperation& partOperation);
 
@@ -57,6 +57,6 @@ namespace ARL
 		void storePhysicsData(PartOperation& partOperation, bool forceIncrement = false);
 		void retrievePhysicsData(PartOperation& partOperation);
 
-        void onWorkspaceLoaded();
+		void onWorkspaceLoaded();
 	};
 }

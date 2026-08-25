@@ -66,3 +66,5 @@ uic_*
 ui_*.h
 Network/API.cpp
 App/tmp.h
+*.sdf
+*.suo

@@ -539,16 +539,16 @@ void SleepStage::wakeEdge(Edge* e)
 	Sim::EdgeState state = e->getEdgeState();
 	if (Contact::isContact(e)) {
 		if (state == Sim::CONTACTING_SLEEPING) {
-			changeContactState(rbx_static_cast<Contact*>(e), Sim::CONTACTING);
+			changeContactState(arl_static_cast<Contact*>(e), Sim::CONTACTING);
 		}
 		else if (state == Sim::SLEEPING) {
-			changeContactState(rbx_static_cast<Contact*>(e), Sim::STEPPING);
+			changeContactState(arl_static_cast<Contact*>(e), Sim::STEPPING);
 		}
 	}
 	else {
 		ARLASSERT(Joint::isJoint(e));
 		if (state == Sim::SLEEPING) {
-			changeJointState(rbx_static_cast<Joint*>(e), Sim::STEPPING);
+			changeJointState(arl_static_cast<Joint*>(e), Sim::STEPPING);
 		}
 	}
 }
@@ -814,14 +814,14 @@ void SleepStage::changeAssemblyState(Assembly* a, Sim::AssemblyState newState)
 			if (!a->downstreamOfStage(this)) {
 				Body* b = a->getAssemblyPrimitive()->getBody();
 				b->resetForceAccumulators();
-				rbx_static_cast<SimulateStage*>(getDownstreamWS())->onAssemblyAdded(a);
+				arl_static_cast<SimulateStage*>(getDownstreamWS())->onAssemblyAdded(a);
 			}
 		}
 		if (Sim::outOfKernelAssemblyState(newState)) {		// OUT OF KERNEL - note "wake pending" do not force into or out of kernel"
 			if (a->downstreamOfStage(this)) {
 				if (Sim::isSleepingAssemblyState(newState))
 					a->getAssemblyPrimitive()->getBody()->getRootSimBody()->clearVelocity();
-				rbx_static_cast<SimulateStage*>(getDownstreamWS())->onAssemblyRemoving(a);
+				arl_static_cast<SimulateStage*>(getDownstreamWS())->onAssemblyRemoving(a);
 			}
 		}
 		a->setAssemblyState(newState);
@@ -956,14 +956,14 @@ void SleepStage::onEdgeAdded(Edge* e)
 	e->putInStage(this);
 
 	if (Contact::isContact(e)) {
-		Contact* c = rbx_static_cast<Contact*>(e);
+		Contact* c = arl_static_cast<Contact*>(e);
 		Sim::ThrottleType throttleType = c->getThrottleType();		// we just set this value above
 		steppingContacts[throttleType].fastAppend(c);
 		c->setEdgeState(Sim::STEPPING);
 		numContactsInStage++;
 	}
 	else {
-		Joint* j = rbx_static_cast<Joint*>(e);
+		Joint* j = arl_static_cast<Joint*>(e);
 		j->setEdgeState(Sim::SLEEPING);
 		changeJointState(j, Sim::STEPPING);	// put in kernel
 	}
@@ -981,7 +981,7 @@ void SleepStage::onEdgeRemoving(Edge* e)
 			wakeEvent(e);
 		}
 		if (e->getEdgeState() != Sim::SLEEPING) {
-			changeContactState(rbx_static_cast<Contact*>(e), Sim::SLEEPING);
+			changeContactState(arl_static_cast<Contact*>(e), Sim::SLEEPING);
 		}
 		numContactsInStage--;
 	}
@@ -990,7 +990,7 @@ void SleepStage::onEdgeRemoving(Edge* e)
 			wakeEvent(e);
 		}
 		else {
-			changeJointState(rbx_static_cast<Joint*>(e), Sim::SLEEPING);
+			changeJointState(arl_static_cast<Joint*>(e), Sim::SLEEPING);
 		}
 	}
 

@@ -1,25 +1,45 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonStyle.h'
 **
-** Created by: The Qt Meta Object Compiler version 63 (Qt 4.8.5)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.6.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
 #include "../../../styles/QtnRibbonStyle.h"
+#include <QtCore/qbytearray.h>
+#include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonStyle.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 63
-#error "This file was generated using the moc from 4.8.5. It"
+#elif Q_MOC_OUTPUT_REVISION != 67
+#error "This file was generated using the moc from 5.6.3. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
+struct qt_meta_stringdata_Qtitan__RibbonStyle_t {
+    QByteArrayData data[1];
+    char stringdata0[20];
+};
+#define QT_MOC_LITERAL(idx, ofs, len) \
+    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonStyle_t, stringdata0) + ofs \
+        - idx * sizeof(QByteArrayData)) \
+    )
+static const qt_meta_stringdata_Qtitan__RibbonStyle_t qt_meta_stringdata_Qtitan__RibbonStyle = {
+    {
+QT_MOC_LITERAL(0, 0, 19) // "Qtitan::RibbonStyle"
+
+    },
+    "Qtitan::RibbonStyle"
+};
+#undef QT_MOC_LITERAL
+
 static const uint qt_meta_data_Qtitan__RibbonStyle[] = {
 
  // content:
-       6,       // revision
+       7,       // revision
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
@@ -32,10 +52,6 @@ static const uint qt_meta_data_Qtitan__RibbonStyle[] = {
        0        // eod
 };
 
-static const char qt_meta_stringdata_Qtitan__RibbonStyle[] = {
-    "Qtitan::RibbonStyle\0"
-};
-
 void Qtitan::RibbonStyle::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     Q_UNUSED(_o);
@@ -44,28 +60,21 @@ void Qtitan::RibbonStyle::qt_static_metacall(QObject *_o, QMetaObject::Call _c, 
     Q_UNUSED(_a);
 }
 
-const QMetaObjectExtraData Qtitan::RibbonStyle::staticMetaObjectExtraData = {
-    0,  qt_static_metacall 
-};
-
 const QMetaObject Qtitan::RibbonStyle::staticMetaObject = {
-    { &OfficeStyle::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonStyle,
-      qt_meta_data_Qtitan__RibbonStyle, &staticMetaObjectExtraData }
+    { &OfficeStyle::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonStyle.data,
+      qt_meta_data_Qtitan__RibbonStyle,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
-#ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &Qtitan::RibbonStyle::getStaticMetaObject() { return staticMetaObject; }
-#endif //Q_NO_DATA_RELOCATION
 
 const QMetaObject *Qtitan::RibbonStyle::metaObject() const
 {
-    return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
 void *Qtitan::RibbonStyle::qt_metacast(const char *_clname)
 {
-    if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonStyle))
+    if (!_clname) return Q_NULLPTR;
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonStyle.stringdata0))
         return static_cast<void*>(const_cast< RibbonStyle*>(this));
     return OfficeStyle::qt_metacast(_clname);
 }
@@ -77,10 +86,28 @@ int Qtitan::RibbonStyle::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     return _id;
 }
+struct qt_meta_stringdata_Qtitan__RibbonStylePlugin_t {
+    QByteArrayData data[1];
+    char stringdata0[26];
+};
+#define QT_MOC_LITERAL(idx, ofs, len) \
+    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonStylePlugin_t, stringdata0) + ofs \
+        - idx * sizeof(QByteArrayData)) \
+    )
+static const qt_meta_stringdata_Qtitan__RibbonStylePlugin_t qt_meta_stringdata_Qtitan__RibbonStylePlugin = {
+    {
+QT_MOC_LITERAL(0, 0, 25) // "Qtitan::RibbonStylePlugin"
+
+    },
+    "Qtitan::RibbonStylePlugin"
+};
+#undef QT_MOC_LITERAL
+
 static const uint qt_meta_data_Qtitan__RibbonStylePlugin[] = {
 
  // content:
-       6,       // revision
+       7,       // revision
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
@@ -93,10 +120,6 @@ static const uint qt_meta_data_Qtitan__RibbonStylePlugin[] = {
        0        // eod
 };
 
-static const char qt_meta_stringdata_Qtitan__RibbonStylePlugin[] = {
-    "Qtitan::RibbonStylePlugin\0"
-};
-
 void Qtitan::RibbonStylePlugin::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     Q_UNUSED(_o);
@@ -105,28 +128,21 @@ void Qtitan::RibbonStylePlugin::qt_static_metacall(QObject *_o, QMetaObject::Cal
     Q_UNUSED(_a);
 }
 
-const QMetaObjectExtraData Qtitan::RibbonStylePlugin::staticMetaObjectExtraData = {
-    0,  qt_static_metacall 
-};
-
 const QMetaObject Qtitan::RibbonStylePlugin::staticMetaObject = {
-    { &QStylePlugin::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonStylePlugin,
-      qt_meta_data_Qtitan__RibbonStylePlugin, &staticMetaObjectExtraData }
+    { &QStylePlugin::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonStylePlugin.data,
+      qt_meta_data_Qtitan__RibbonStylePlugin,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
-#ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &Qtitan::RibbonStylePlugin::getStaticMetaObject() { return staticMetaObject; }
-#endif //Q_NO_DATA_RELOCATION
 
 const QMetaObject *Qtitan::RibbonStylePlugin::metaObject() const
 {
-    return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
 void *Qtitan::RibbonStylePlugin::qt_metacast(const char *_clname)
 {
-    if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonStylePlugin))
+    if (!_clname) return Q_NULLPTR;
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonStylePlugin.stringdata0))
         return static_cast<void*>(const_cast< RibbonStylePlugin*>(this));
     return QStylePlugin::qt_metacast(_clname);
 }

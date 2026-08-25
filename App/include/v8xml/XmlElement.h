@@ -122,7 +122,7 @@ public:
 #endif
 #endif
 
-	typedef enum { NONE, NAME, STRING, CONTENTID, BOOL, INT, UINT, FLOAT, HANDLE, DOUBLE } ValueType;
+	typedef enum { NONE, NAME, STRING, CONTENTID, BOOL, INT, UINT, FLOAT, HANDLE, DOUBLE, LONG, LONGLONG } ValueType;
 
 private:
 	const XmlTag& tag;
@@ -133,6 +133,8 @@ private:
 		mutable bool boolValue;
 		mutable int intValue;
 		mutable unsigned int uintValue;
+		mutable long longValue;
+		mutable long long longlongValue;
 		mutable float floatValue;
 		mutable double doubleValue;
 		mutable const ARL::Name* nameValue;
@@ -154,6 +156,8 @@ public:
 		:tag(tag),valueType(INT),intValue(_number) {}
 	XmlNameValuePair(const XmlTag& tag, const unsigned int _number)
 		:tag(tag),valueType(UINT),uintValue(_number) {}
+	XmlNameValuePair(const XmlTag& tag, const long long _number)
+		:tag(tag), valueType(LONGLONG), longlongValue(_number) {}
 	XmlNameValuePair(const XmlTag& tag, const ARL::Name* value)
 		:tag(tag),valueType(NAME),nameValue(value) {}
 	XmlNameValuePair(const XmlTag& tag, bool value)
@@ -197,6 +201,8 @@ public:
 	bool getValue(ARL::ContentId& contentId) const;
 	bool getValue(int &value) const;
 	bool getValue(unsigned int &value) const;
+	bool getValue(long &value) const;
+	bool getValue(long long &value) const;
 	bool getValue(float &value) const;
 	bool getValue(double &value) const;
 	bool getValue(bool &value) const;
@@ -211,6 +217,8 @@ public:
 	void setValue(const char* value) {clearValue(); stringValue = new std::string(value); valueType=STRING; }
 	void setValue(int value) {clearValue(); intValue = value; valueType=INT; }
 	void setValue(unsigned int value) {clearValue(); uintValue = value; valueType=UINT; }
+	void setValue(long value) {clearValue(); longValue = value; valueType = LONG; }
+	void setValue(long long value) {clearValue(); longlongValue = value; valueType = LONGLONG; }
 	void setValue(bool value) {clearValue(); boolValue = value; valueType=BOOL; };
 	void setValue(float value) {clearValue(); floatValue = value; valueType=FLOAT; };
 	void setValue(double value) {clearValue(); doubleValue = value; valueType=DOUBLE; };

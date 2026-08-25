@@ -38,7 +38,7 @@ SpatialFilter::~SpatialFilter()
 
 MechToAssemblyStage* SpatialFilter::getMechToAssemblyStage()
 {
-	return rbx_static_cast<MechToAssemblyStage*>(this->getDownstreamWS());
+	return arl_static_cast<MechToAssemblyStage*>(this->getDownstreamWS());
 }
 
 

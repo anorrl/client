@@ -60,6 +60,7 @@ namespace FLog
         return false;
 	}
 
+#pragma warning(disable: 4996)
 	bool SetLogStreamNetworkClient(const char* address, unsigned int port)
 	{
 	#ifdef _WIN32

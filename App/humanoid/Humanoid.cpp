@@ -108,6 +108,8 @@ static const Reflection::PropDescriptor<Humanoid, float> propMaxHealth("MaxHealt
 static const Reflection::PropDescriptor<Humanoid, float> propMaxHealthDep("maxHealth", "Game", &Humanoid::getMaxHealth, &Humanoid::setMaxHealth, Reflection::PropertyDescriptor::Attributes::deprecated(propMaxHealth));
 static const Reflection::PropDescriptor<Humanoid, float> propWalkSpeed("WalkSpeed", "Game", &Humanoid::getWalkSpeed, &Humanoid::setWalkSpeed);
 
+static const Reflection::EnumPropDescriptor<Humanoid, PartMaterial> propFloorMaterial("FloorMaterial", "Game", &Humanoid::getFloorMaterial, NULL, Reflection::PropertyDescriptor::SCRIPTING);
+
 static const Reflection::PropDescriptor<Humanoid, float> propJumpPower("JumpPower", "Game", &Humanoid::getJumpPower, &Humanoid::setJumpPower);
 static const Reflection::PropDescriptor<Humanoid, float> propMaxSlopeAngle("MaxSlopeAngle", "Game", &Humanoid::getMaxSlopeAngle, &Humanoid::setMaxSlopeAngle);
 static const Reflection::PropDescriptor<Humanoid, float> propHipHeight("HipHeight", "Game", &Humanoid::getHipHeight, &Humanoid::setHipHeight);
@@ -358,6 +360,15 @@ Humanoid::~Humanoid()
 	ARLASSERT(!currentState.get());
 	ARLASSERT(world==NULL);
 	FASTLOG1(FLog::ISteppedLifetime, "Humanoid destroyed - %p", this);
+}
+
+PartMaterial Humanoid::getFloorMaterial() const
+{
+    if (currentState.get())
+    {
+        return currentState->getFloorMaterial();
+    }
+    return PartMaterial::LEGACY_MATERIAL;
 }
 
 void collectStatus(shared_ptr<ARL::Instance> instance, Reflection::ValueArray* result)
@@ -1739,7 +1750,7 @@ JointInstance* Humanoid::getRightShoulder()
 {
 	PartInstance* temp = getVisibleTorsoSlow();
 
-	return temp ? rbx_static_cast<JointInstance*>(temp->findFirstChildByName("Right Shoulder"))
+	return temp ? arl_static_cast<JointInstance*>(temp->findFirstChildByName("Right Shoulder"))
 				: NULL;
 }
 

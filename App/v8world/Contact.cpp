@@ -205,7 +205,7 @@ void Contact::invalidateContactCache()
 
 Ball* BallBallContact::ball(int i) 
 {
-	return rbx_static_cast<Ball*>(getPrimitive(i)->getGeometry());
+	return arl_static_cast<Ball*>(getPrimitive(i)->getGeometry());
 }
 
 ContactConnector* BallBallContact::getConnector(int i)
@@ -270,10 +270,10 @@ Primitive* BallBlockContact::ballPrim() {return getPrimitive(0);}
 Primitive* BallBlockContact::blockPrim() {return getPrimitive(1);}
 
 Ball* BallBlockContact::ball() {
-	return rbx_static_cast<Ball*>(ballPrim()->getGeometry());
+	return arl_static_cast<Ball*>(ballPrim()->getGeometry());
 }
 Block* BallBlockContact::block() {
-	return rbx_static_cast<Block*>(blockPrim()->getGeometry());
+	return arl_static_cast<Block*>(blockPrim()->getGeometry());
 }
 
 ContactConnector* BallBlockContact::getConnector(int i)
@@ -383,7 +383,7 @@ void BallBlockContact::generateDataForMovingAssemblyStage(void)
 //
 
 Block* BlockBlockContact::block(int i) {
-	return rbx_static_cast<Block*>(getPrimitive(i)->getGeometry());
+	return arl_static_cast<Block*>(getPrimitive(i)->getGeometry());
 }
 
 ContactConnector* BlockBlockContact::getConnector(int i)

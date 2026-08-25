@@ -128,7 +128,7 @@ protected:
 		static bool isJoint(const Edge* e) {return (e->getEdgeType() == Edge::JOINT);}
 
 		static JointType getJointType(const Edge* e) {
-			return isJoint(e) ? rbx_static_cast<const Joint*>(e)->getJointType() : Joint::NO_JOINT;
+			return isJoint(e) ? arl_static_cast<const Joint*>(e)->getJointType() : Joint::NO_JOINT;
 		}
 
 		static bool isGroundJoint(const Edge* e) {			// alternately, created by AutoJoin

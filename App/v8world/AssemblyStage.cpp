@@ -47,7 +47,7 @@ void AssemblyStage::onEngineChanged(Assembly* a)
 void AssemblyStage::onSimulateAssemblyDescendentAdded(Assembly* a)
 {
 	a->putInPipeline(this);
-	rbx_static_cast<MovingAssemblyStage*>(getDownstreamWS())->onSimulateAssemblyAdded(a);
+	arl_static_cast<MovingAssemblyStage*>(getDownstreamWS())->onSimulateAssemblyAdded(a);
 	afterAssemblyAdded(a);
 }
 
@@ -55,7 +55,7 @@ void AssemblyStage::onSimulateAssemblyDescendentAdded(Assembly* a)
 void AssemblyStage::onSimulateAssemblyDescendentRemoving(Assembly* a) 
 {
 	beforeAssemblyRemoving(a);
-	rbx_static_cast<MovingAssemblyStage*>(getDownstreamWS())->onSimulateAssemblyRemoving(a);
+	arl_static_cast<MovingAssemblyStage*>(getDownstreamWS())->onSimulateAssemblyRemoving(a);
 	a->removeFromPipeline(this);
 }
 
@@ -63,7 +63,7 @@ void AssemblyStage::onSimulateAssemblyDescendentRemoving(Assembly* a)
 void AssemblyStage::onSimulateAssemblyRootAdded(Assembly* a)
 {
 	a->putInStage(this);
-	rbx_static_cast<MovingAssemblyStage*>(getDownstreamWS())->onSimulateAssemblyAdded(a);
+	arl_static_cast<MovingAssemblyStage*>(getDownstreamWS())->onSimulateAssemblyAdded(a);
 	afterAssemblyAdded(a);
 }
 
@@ -71,7 +71,7 @@ void AssemblyStage::onSimulateAssemblyRootAdded(Assembly* a)
 void AssemblyStage::onSimulateAssemblyRootRemoving(Assembly* a) 
 {
 	beforeAssemblyRemoving(a);
-	rbx_static_cast<MovingAssemblyStage*>(getDownstreamWS())->onSimulateAssemblyRemoving(a);
+	arl_static_cast<MovingAssemblyStage*>(getDownstreamWS())->onSimulateAssemblyRemoving(a);
 	a->removeFromStage(this);
 }
 

@@ -22,6 +22,8 @@ namespace ARL
 	public:
 		TweenService();
 
+		void fuckingAround(shared_ptr<const Reflection::ValueTable> table);
+
 		void addTweeningObject(boost::weak_ptr<GuiObject> guiObject);
 
 		void addTweenCallback(boost::function<void(GuiObject::TweenStatus)> tweenCallbackFunc, GuiObject::TweenStatus tweenStatusForCallback);

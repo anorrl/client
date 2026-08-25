@@ -152,9 +152,6 @@
     <ClInclude Include="include\RbxPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\arl\rbxTime.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\SelectState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -306,6 +303,9 @@
       <Filter>Header Files\simd</Filter>
     </ClInclude>
     <ClInclude Include="include\XStudioBuild.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\arl\rbxTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

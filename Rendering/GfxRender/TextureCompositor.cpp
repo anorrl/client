@@ -351,6 +351,9 @@ public:
 
 				context->bindProgram(program.get());
 
+                float offsetAndScale[] = { ld.desc.offsetAndScale.x, ld.desc.offsetAndScale.y, ld.desc.offsetAndScale.z, ld.desc.offsetAndScale.w };
+                context->setConstant(program->getConstantHandle("OffsetAndScale"), offsetAndScale, 1);
+
 				context->bindTexture(0, ld.texture.getTexture().get(), SamplerState(SamplerState::Filter_Linear, SamplerState::Address_Clamp));
 
                 float colorData[] = {ld.desc.color.r, ld.desc.color.g, ld.desc.color.b, (ld.desc.mode == TextureCompositorLayer::Composit_BlitTextureAlphaMagnify4x) ? 4.f : 1.f};
@@ -369,7 +372,7 @@ public:
 private:
     struct LayerData
     {
-        LayerData(): desc(MeshId(), TextureId()), mesh(NULL)
+        LayerData(): desc(MeshId(), TextureId(), ARL::Vector4(0,0,1,1)), mesh(NULL)
         {
         }
         

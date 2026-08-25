@@ -127,7 +127,7 @@ private:
 	// Streamable data
 
 protected:
-	BrickColor color;
+	Color3 color;
 	float transparency;
 	float reflectance;
 	float localTransparencyModifier;
@@ -160,6 +160,7 @@ public:
 
 	// 
 	static const Reflection::PropDescriptor<PartInstance, Color3> prop_Color;
+	static const Reflection::PropDescriptor<PartInstance, Color3uint8> prop_Color3uint8;
 	static const Reflection::PropDescriptor<PartInstance, BrickColor> prop_BrickColor;
 	static const Reflection::PropDescriptor<PartInstance, float> prop_Transparency;
 	static const Reflection::PropDescriptor<PartInstance, float> prop_LocalTransparencyModifier;
@@ -491,12 +492,20 @@ public:
 	float getReflectance() const			{return reflectance;}// if(transparency != 0) return this->reflectance; else return 0; }
 	virtual void setReflectance(float value);
 
-	BrickColor getColor() const				{return color;}
-	virtual void setColor(BrickColor value);
+	BrickColor getColor() const { return BrickColor::closest(color); }
+	Color3 getColor3() const { return color; }
+	virtual void setColor3(Color3 value);
 
-	Color3 getColor3() const				{return getColor().color3();}
-	void setColor3(const Color3& value) {
-		setColor(BrickColor::closest(value));
+	Color3uint8 getColor3uint8() const { return Color3uint8(color); }
+
+	void setColor(BrickColor value)
+	{
+		setColor3(value.color3());
+	}
+
+	void setColor3uint8(const Color3uint8& value)
+	{
+		setColor3(Color3(value));
 	}
 
 	bool getPartLocked() const				{return locked;}

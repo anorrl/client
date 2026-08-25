@@ -325,6 +325,10 @@ function methods:CalculateSize()
 		textSize = self.TextLabel.textSize
 		bounds = self.TextLabel.TextBounds.Y
 	end
+	
+	if(bounds < textSize) then
+		bounds = textSize
+	end
 
 	self.GuiObject.Size = lastPos
 
@@ -554,11 +558,8 @@ function module.new(CommandProcessor, ChatWindow)
 	end)
 
 	coroutine.wrap(function()
-		local success, canLocalUserChat = pcall(function()
-			return Chat:CanUserChatAsync(LocalPlayer.UserId)
-		end)
-		local canChat = success and (RunService:IsStudio() or canLocalUserChat)
-		if canChat == false then
+		local canChat = RunService:IsStudio() or LocalPlayer.UserId > 0
+		if not canChat then
 			obj.UserHasChatOff = true
 			obj:DoLockChatBar()
 		end

@@ -193,7 +193,7 @@ namespace Studio {
 
 		while (stringSize--)
 		{
-			switch (str.at(stringSize).toAscii())
+			switch (str.at(stringSize).toLatin1())
 			{
 			case '"': case '\\': case '\n': case '\r':
 				str.insert(stringSize, "\\");
@@ -944,6 +944,8 @@ namespace Studio {
             return repopulateItemMetadata("BrickColor");
         else if (varValue.isType<ARL::Color3>())
             return repopulateItemMetadata("Color3");
+        else if (varValue.isType<ARL::Color3uint8>())
+            return repopulateItemMetadata("Color3uint8");
         else if (varValue.isType<ARL::RbxRay>())
             return repopulateItemMetadata("Ray");
         else if (varValue.isType<ARL::UDim>())

@@ -52,13 +52,13 @@ void StepJointsStage::onSimulateAssemblyAdded(Assembly* a)
 {
 	a->putInStage(this);									
 
-	rbx_static_cast<HumanoidStage*>(getDownstreamWS())->onAssemblyAdded(a);
+	arl_static_cast<HumanoidStage*>(getDownstreamWS())->onAssemblyAdded(a);
 }
 
 
 void StepJointsStage::onSimulateAssemblyRemoving(Assembly* a) 
 {
-	rbx_static_cast<HumanoidStage*>(getDownstreamWS())->onAssemblyRemoving(a);
+	arl_static_cast<HumanoidStage*>(getDownstreamWS())->onAssemblyRemoving(a);
 
 	a->removeFromStage(this);							
 }
@@ -69,7 +69,7 @@ void StepJointsStage::onEdgeAdded(Edge* e)
 	e->putInStage(this);
 
 	if (Joint::isJoint(e)) {
-		Joint* j = rbx_static_cast<Joint*>(e);
+		Joint* j = arl_static_cast<Joint*>(e);
 		addJoint(j);
 	}
 
@@ -86,7 +86,7 @@ void StepJointsStage::onEdgeRemoving(Edge* e)
 	}
 
 	if (Joint::isJoint(e)) {
-		Joint* j = rbx_static_cast<Joint*>(e);
+		Joint* j = arl_static_cast<Joint*>(e);
 		removeJoint(j);
 	}
 

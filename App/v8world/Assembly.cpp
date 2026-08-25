@@ -193,12 +193,12 @@ void Assembly::getPhysics(G3D::Array<CompactCFrame>& motorAngles) const
 	{
 		if(MotorJoint::isMotorJoint(motors[i]))
 		{
-			const MotorJoint* m1d = rbx_static_cast<const MotorJoint*>(motors[i]);
+			const MotorJoint* m1d = arl_static_cast<const MotorJoint*>(motors[i]);
 			motorAngles[i] = CompactCFrame(Vector3::zero(), Vector3::unitZ(), m1d->getCurrentAngle());
 		}
 		else
 		{
-            const Motor6DJoint* m6d = rbx_static_cast<const Motor6DJoint*>(motors[i]);
+            const Motor6DJoint* m6d = arl_static_cast<const Motor6DJoint*>(motors[i]);
 			motorAngles[i] = CompactCFrame(m6d->getCurrentOffset(), m6d->getCurrentAngle());
 		}
 
@@ -220,7 +220,7 @@ void Assembly::setPhysics(const G3D::Array<CompactCFrame>& motorAngles, const PV
 		{
 			if(MotorJoint::isMotorJoint(assemblyMotors[i]))
 			{
-				MotorJoint* m1d = rbx_static_cast<MotorJoint*>(assemblyMotors[i]);
+				MotorJoint* m1d = arl_static_cast<MotorJoint*>(assemblyMotors[i]);
 				// TODO: Put this assertion back in and debug http://roblox.onjira.com/browse/CLIENT-250
 				//ARLASSERT(G3D::fuzzyEq(fabs(motorAngles[i].getAxis().z), 1.0f));
 
@@ -231,7 +231,7 @@ void Assembly::setPhysics(const G3D::Array<CompactCFrame>& motorAngles, const PV
 			}
 			else
 			{
-				Motor6DJoint* m6d = rbx_static_cast<Motor6DJoint*>(assemblyMotors[i]);
+				Motor6DJoint* m6d = arl_static_cast<Motor6DJoint*>(assemblyMotors[i]);
 				Vector3 newAngle = motorAngles[i].getAxisAngle();
 				anglesUpdated = anglesUpdated || (newAngle != m6d->getCurrentAngle());
 				m6d->setCurrentOffsetAngle(motorAngles[i].translation, newAngle);

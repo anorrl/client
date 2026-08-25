@@ -7,6 +7,10 @@
 
 
 namespace ARL {
+	namespace Network {
+		class Players;
+		class Player;
+	}
 
 	extern const char *const sTeam;
 	class Team 
@@ -29,10 +33,16 @@ namespace ARL {
 		bool getAutoAssignable() const;
 		void setAutoAssignable(bool autoAssign);
 
+		shared_ptr<const Instances> getPlayers();
+		void playerAdded(Network::Player* player);
+		void playerRemoved(Network::Player* player);
+
 		static Reflection::BoundProp<bool> prop_AutoColorCharacters;
+
+		arl::signal<void(shared_ptr<Instance>)> playerAddedSignal;
+		arl::signal<void(shared_ptr<Instance>)> playerRemovedSignal;
 	protected:
 		/* override */ bool askSetParent(const Instance* parent) const;
-		/* override */ bool askAddChild(const Instance* instance) const {return true;}
-
+		/* override */ bool askAddChild(const Instance* instance) const { return true; }
 	};
 }

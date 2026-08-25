@@ -265,9 +265,9 @@ void VehicleSeat::doLoadHinges(Primitive* primitive)
 	for (int i = 0; i < primitive->numChildren(); ++i) {
 		Primitive* child = primitive->getTypedChild<Primitive>(i);
 		SpanningEdge* edge = child->getEdgeToParent();
-		Joint* joint = rbx_static_cast<Joint*>(edge);
+		Joint* joint = arl_static_cast<Joint*>(edge);
 		if (Joint::getJointType(joint) == Joint::ROTATE_JOINT) {
-			RotateJoint* rotateJoint = rbx_static_cast<RotateJoint*>(joint);
+			RotateJoint* rotateJoint = arl_static_cast<RotateJoint*>(joint);
 
 			bool aligned, onRight, axlePointingIn;
 			getJointInfo(rotateJoint, aligned, onRight, axlePointingIn);

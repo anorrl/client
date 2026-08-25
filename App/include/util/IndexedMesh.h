@@ -97,22 +97,22 @@ namespace ARL {
 
 		template<class Type>
 		Type* getTypedLower() {
-			return rbx_static_cast<Type*>(getLower());
+			return arl_static_cast<Type*>(getLower());
 		}
 
 		template<class Type>
 		const Type* getConstTypedLower() const {
-			return rbx_static_cast<const Type*>(getConstLower());
+			return arl_static_cast<const Type*>(getConstLower());
 		}
 
 		template<class Type>
 		Type* getTypedUpper() {
-			return rbx_static_cast<Type*>(getUpper());
+			return arl_static_cast<Type*>(getUpper());
 		}
 
 		template<class Type>
 		const Type* getConstTypedUpper() const {
-			return rbx_static_cast<const Type*>(getConstUpper());
+			return arl_static_cast<const Type*>(getConstUpper());
 		}
 
 		IndexedMesh* getComputedUpper();
@@ -123,7 +123,7 @@ namespace ARL {
 		template<class Type, class Func>
 		inline void visitMeAndChildrenWhileNoUpper(Func func)				// hack - for iterating all assemblies in a mechanism
 		{
-			Type* t = rbx_static_cast<Type*>(this);
+			Type* t = arl_static_cast<Type*>(this);
 			func(t);
 			for (int i = 0; i < numChildren(); ++i) {
 				Type* child = getTypedChild<Type>(i);

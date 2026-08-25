@@ -22,7 +22,7 @@ ContactStage::ContactStage(IStage* upstream, World* world)
 
 TreeStage* ContactStage::getTreeStage()
 {
-	return rbx_static_cast<TreeStage*>(getDownstreamWS());
+	return arl_static_cast<TreeStage*>(getDownstreamWS());
 }
 
 void ContactStage::onPrimitiveAdded(Primitive* p)
@@ -52,7 +52,7 @@ void ContactStage::onEdgeAdded(Edge* e)
 		}
 	}
 	else {
-		Joint* j = rbx_static_cast<Joint*>(e);
+		Joint* j = arl_static_cast<Joint*>(e);
 		if (!Joint::isGroundJoint(j)) {
 			Contact* c = Primitive::getContact(e->getPrimitive(0), e->getPrimitive(1));
 			if (c && c->downstreamOfStage(this)) {
@@ -76,7 +76,7 @@ void ContactStage::onEdgeRemoving(Edge* e)
 		;
 	}
 	else {
-		Joint* j = rbx_static_cast<Joint*>(e);
+		Joint* j = arl_static_cast<Joint*>(e);
 		if (!Joint::isGroundJoint(j)) {
 			Contact* c = Primitive::getContact(e->getPrimitive(0), e->getPrimitive(1));
 			if (c) {

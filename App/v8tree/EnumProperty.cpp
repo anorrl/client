@@ -242,6 +242,62 @@ bool TypedPropertyDescriptor<int>::setStringValue(DescribedBase* instance, const
 }
 
 template<>
+int TypedPropertyDescriptor<long>::getDataSize(const DescribedBase* instance) const
+{
+	return sizeof(long);
+}
+template<>
+bool TypedPropertyDescriptor<long>::hasStringValue() const
+{
+	return true;
+}
+template<>
+std::string TypedPropertyDescriptor<long>::getStringValue(const DescribedBase* instance) const
+{
+	return StringConverter<long>::convertToString(getValue(instance));
+}
+template<>
+bool TypedPropertyDescriptor<long>::setStringValue(DescribedBase* instance, const std::string& text) const
+{
+	long value;
+	if (StringConverter<long>::convertToValue(text, value))
+	{
+		setValue(instance, value);
+		return true;
+	}
+	else
+		return false;
+}
+
+template<>
+int TypedPropertyDescriptor<long long>::getDataSize(const DescribedBase* instance) const
+{
+	return sizeof(long long);
+}
+template<>
+bool TypedPropertyDescriptor<long long>::hasStringValue() const
+{
+	return true;
+}
+template<>
+std::string TypedPropertyDescriptor<long long>::getStringValue(const DescribedBase* instance) const
+{
+	return StringConverter<long long>::convertToString(getValue(instance));
+}
+template<>
+bool TypedPropertyDescriptor<long long>::setStringValue(DescribedBase* instance, const std::string& text) const
+{
+	long long value;
+	if (StringConverter<long long>::convertToValue(text, value))
+	{
+		setValue(instance, value);
+		return true;
+	}
+	else
+		return false;
+}
+
+template<>
 int TypedPropertyDescriptor<ARL::Region3>::getDataSize(const DescribedBase* instance) const 
 {
     return sizeof(ARL::Region3);
@@ -482,6 +538,40 @@ void ARL::Reflection::TypedPropertyDescriptor<int>::writeValue(const DescribedBa
 }
 
 template<>
+void ARL::Reflection::TypedPropertyDescriptor<long>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+{
+	if (!element->isXsiNil())
+	{
+		long value;
+		if (element->getValue(value))
+			setValue(instance, value);
+	}
+}
+
+template<>
+void ARL::Reflection::TypedPropertyDescriptor<long>::writeValue(const DescribedBase* instance, XmlElement* element) const
+{
+	element->setValue(getValue(instance));
+}
+
+template<>
+void ARL::Reflection::TypedPropertyDescriptor<long long>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+{
+	if (!element->isXsiNil())
+	{
+		long value;
+		if (element->getValue(value))
+			setValue(instance, value);
+	}
+}
+
+template<>
+void ARL::Reflection::TypedPropertyDescriptor<long long>::writeValue(const DescribedBase* instance, XmlElement* element) const
+{
+	element->setValue(getValue(instance));
+}
+
+template<>
 void ARL::Reflection::TypedPropertyDescriptor<class G3D::Vector2>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
 {
 	if (!element->isXsiNil())
@@ -592,6 +682,13 @@ const Type& Type::getSingleton<long>()
 	return type;
 }
 
+template<>
+const Type& Type::getSingleton<long long>()
+{
+	static TType<long long> type("int64");
+	return type;
+}
+
 
 template<>
 int& ARL::Reflection::Variant::convert<int>(void)
@@ -617,7 +714,74 @@ int& ARL::Reflection::Variant::convert<int>(void)
 		_type = &Type::singleton<int>();
 	}
 
+	else if (_type->isType<long long>())
+	{
+		value = (int)cast<long long>();
+		_type = &Type::singleton<int>();
+	}
+
 	return genericConvert<int>();
+}
+
+template<>
+long& ARL::Reflection::Variant::convert<long>(void)
+{
+	// Convert double to int
+	if (_type->isType<double>())
+	{
+		value = G3D::iRound(cast<double>());
+		_type = &Type::singleton<long>();
+	}
+
+	// Convert float to int
+	if (_type->isType<float>())
+	{
+		value = G3D::iRound(cast<float>());
+		_type = &Type::singleton<long>();
+	}
+
+	// Convert bool to int
+	if (_type->isType<bool>())
+	{
+		value = (cast<bool>() ? 1 : 0);
+		_type = &Type::singleton<long>();
+	}
+
+	return genericConvert<long>();
+}
+
+template<>
+long long& ARL::Reflection::Variant::convert<long long>(void)
+{
+	// Convert double to int64
+	if (_type->isType<double>())
+	{
+		value = G3D::llRound(cast<double>());
+		_type = &Type::singleton<long long>();
+	}
+
+	// Convert float to int64
+	if (_type->isType<float>())
+	{
+		value = G3D::llRound(cast<float>());
+		_type = &Type::singleton<long long>();
+	}
+
+	// int to int64
+	if (_type->isType<int>())
+	{
+		value = (long long)(cast<int>() != 0);
+		_type = &Type::singleton<long long>();
+	}
+
+	// Convert bool to int64
+	if (_type->isType<bool>())
+	{
+		value = (cast<bool>() ? 1 : 0);
+		_type = &Type::singleton<long long>();
+	}
+
+	return genericConvert<long long>();
 }
 
 template<>
@@ -648,6 +812,13 @@ bool& ARL::Reflection::Variant::convert<bool>(void)
 	else if (_type->isType<double>())
 	{
 		value = (bool) (cast<double>()!=0.0);
+		_type = &Type::singleton<bool>();
+	}
+
+	// Convert int64 to bool
+	else if (_type->isType<long long>())
+	{
+		value = (bool)(cast<long long>()!=0);
 		_type = &Type::singleton<bool>();
 	}
 
@@ -685,6 +856,12 @@ float& ARL::Reflection::Variant::convert<float>(void)
 		_type = &Type::singleton<float>();
 	}
 
+	else if (_type->isType<long long>())
+	{
+		value = (float)cast<long long>();
+		_type = &Type::singleton<float>();
+	}
+
 	return genericConvert<float>();
 }
 
@@ -719,6 +896,12 @@ double& ARL::Reflection::Variant::convert<double>(void)
 	else if (_type->isType<float>())
 	{
 		value = (double) cast<float>();
+		_type = &Type::singleton<double>();
+	}
+
+	else if (_type->isType<long long>())
+	{
+		value = (double)cast<long long>();
 		_type = &Type::singleton<double>();
 	}
 
@@ -828,6 +1011,11 @@ std::string& ARL::Reflection::Variant::convert<std::string>(void)
 	else if (isType<long>())
 	{
 		value = StringConverter<long>::convertToString(cast<long>());
+		_type = &Type::singleton<std::string>();
+	}
+	else if (isType<long long>())
+	{
+		value = StringConverter<long long>::convertToString(cast<long long>());
 		_type = &Type::singleton<std::string>();
 	}
 	else if (isType<float>())
@@ -1688,6 +1876,80 @@ void ARL::Reflection::TypedPropertyDescriptor<G3D::Color3>::readValue(DescribedB
 
 template<>
 void ARL::Reflection::TypedPropertyDescriptor<G3D::Color3>::writeValue(const DescribedBase* instance, XmlElement* element) const
+{
+	// Write the data out in accordance with ROBLOX Schema
+
+	XmlElement* xElement = element->addChild(tag_R);
+	XmlElement* yElement = element->addChild(tag_G);
+	XmlElement* zElement = element->addChild(tag_B);
+
+	G3D::Color3 v = getValue(instance);
+	xElement->setValue(v.r);
+	yElement->setValue(v.g);
+	zElement->setValue(v.b);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////
+		//
+		// Color3uint8
+		// convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
+
+template<>
+G3D::Color3uint8& ARL::Reflection::Variant::convert<G3D::Color3uint8>(void)
+{
+	return genericConvert<G3D::Color3uint8>();
+}
+
+template<>
+const Type& Type::getSingleton<G3D::Color3uint8>()
+{
+	static TType<G3D::Color3uint8> type("Color3uint8");
+	return type;
+}
+
+template<>
+int TypedPropertyDescriptor<G3D::Color3uint8>::getDataSize(const DescribedBase* instance) const
+{
+	return sizeof(G3D::Color3uint8);
+}
+template<>
+bool TypedPropertyDescriptor<G3D::Color3uint8>::hasStringValue() const
+{
+	return true;
+}
+template<>
+std::string TypedPropertyDescriptor<G3D::Color3uint8>::getStringValue(const DescribedBase* instance) const
+{
+	return StringConverter<G3D::Color3uint8>::convertToString(getValue(instance));
+}
+template<>
+bool TypedPropertyDescriptor<G3D::Color3uint8>::setStringValue(DescribedBase* instance, const std::string& text) const
+{
+	G3D::Color3uint8 value;
+	if (StringConverter<G3D::Color3uint8>::convertToValue(text, value))
+	{
+		setValue(instance, value);
+		return true;
+	}
+	else
+		return false;
+}
+
+template<>
+void ARL::Reflection::TypedPropertyDescriptor<G3D::Color3uint8>::readValue(DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+{
+	if (!element->isXsiNil())
+	{
+		unsigned int argb;
+		element->getValue(argb);
+		setValue(instance, G3D::Color3uint8::fromARGB(argb));
+	}
+}
+
+template<>
+void ARL::Reflection::TypedPropertyDescriptor<G3D::Color3uint8>::writeValue(const DescribedBase* instance, XmlElement* element) const
 {
 	// Write the data out in accordance with ROBLOX Schema
 

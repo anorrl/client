@@ -829,8 +829,8 @@ local selectDirection = Vector2.new(0,0)
 local hotbarVisible = false
 
 function unbindAllGamepadEquipActions()
-	ContextActionService:UnbindCoreAction("RBXBackpackHasGamepadFocus")
-	ContextActionService:UnbindCoreAction("RBXCloseInventory")
+	ContextActionService:UnbindCoreAction("ARLBackpackHasGamepadFocus")
+	ContextActionService:UnbindCoreAction("ARLCloseInventory")
 end
 
 local function setHotbarVisibility(visible, isInventoryScreen)
@@ -1037,8 +1037,8 @@ function enableGamepadInventoryControl()
 		end
 	end
 
-	ContextActionService:BindCoreAction("RBXBackpackHasGamepadFocus", noOpFunc, false, Enum.UserInputType.Gamepad1)
-	ContextActionService:BindCoreAction("RBXCloseInventory", goBackOneLevel, false, Enum.KeyCode.ButtonB, Enum.KeyCode.ButtonStart)
+	ContextActionService:BindCoreAction("ARLBackpackHasGamepadFocus", noOpFunc, false, Enum.UserInputType.Gamepad1)
+	ContextActionService:BindCoreAction("ARLCloseInventory", goBackOneLevel, false, Enum.KeyCode.ButtonB, Enum.KeyCode.ButtonStart)
 
 	GuiService.SelectedCoreObject = HotbarFrame:FindFirstChild("1")
 end
@@ -1065,11 +1065,11 @@ end
 
 function gamepadConnected()
 	GamepadEnabled = true
-	GuiService:AddSelectionParent("RBXBackpackSelection", MainFrame)
+	GuiService:AddSelectionParent("ARLBackpackSelection", MainFrame)
 
 	if not gamepadActionsBound then
 		gamepadActionsBound = true
-		ContextActionService:BindCoreAction("RBXHotbarEquip", changeToolFunc, false, Enum.KeyCode.ButtonL1, Enum.KeyCode.ButtonR1)
+		ContextActionService:BindCoreAction("ARLHotbarEquip", changeToolFunc, false, Enum.KeyCode.ButtonL1, Enum.KeyCode.ButtonR1)
 	end
 
 	if InventoryFrame.Visible then
@@ -1101,11 +1101,11 @@ local function OnCoreGuiChanged(coreGuiType, enabled)
 		if GamepadEnabled then
 			if enabled then
 				gamepadActionsBound = true
-				ContextActionService:BindCoreAction("RBXHotbarEquip", changeToolFunc, false, Enum.KeyCode.ButtonL1, Enum.KeyCode.ButtonR1)
+				ContextActionService:BindCoreAction("ARLHotbarEquip", changeToolFunc, false, Enum.KeyCode.ButtonL1, Enum.KeyCode.ButtonR1)
 			else
 				disableGamepadInventoryControl()
 				gamepadActionsBound = false
-				ContextActionService:UnbindCoreAction("RBXHotbarEquip")
+				ContextActionService:UnbindCoreAction("ARLHotbarEquip")
 			end
 		end
 	end
@@ -1434,9 +1434,9 @@ do -- Make the Inventory expand/collapse arrow (unless TopBar)
 		end
 
 		if InventoryFrame.Visible and GamepadEnabled then
-			ContextActionService:BindCoreAction("RBXRemoveSlot", removeHotBarSlot, false, Enum.KeyCode.ButtonX)
+			ContextActionService:BindCoreAction("ARLRemoveSlot", removeHotBarSlot, false, Enum.KeyCode.ButtonX)
 		elseif GamepadEnabled then
-			ContextActionService:UnbindCoreAction("RBXRemoveSlot")
+			ContextActionService:UnbindCoreAction("ARLRemoveSlot")
 		end
 
 		BackpackScript.IsOpen = InventoryFrame.Visible

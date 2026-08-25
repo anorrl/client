@@ -28,9 +28,9 @@ namespace ARL {
 			, world(world)
 		{}
 
-		IWorldStage* getUpstreamWS()				{return rbx_static_cast<IWorldStage*>(getUpstream());}
-		IWorldStage* getDownstreamWS()				{return rbx_static_cast<IWorldStage*>(getDownstream());}
-		const IWorldStage* getDownstreamWS() const	{return rbx_static_cast<const IWorldStage*>(getDownstream());}
+		IWorldStage* getUpstreamWS()				{return arl_static_cast<IWorldStage*>(getUpstream());}
+		IWorldStage* getDownstreamWS()				{return arl_static_cast<IWorldStage*>(getDownstream());}
+		const IWorldStage* getDownstreamWS() const	{return arl_static_cast<const IWorldStage*>(getDownstream());}
 
 		World* getWorld() {return world;}
 

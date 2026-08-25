@@ -14,7 +14,7 @@
 #include <QDir>
 #include <QDesktopServices>
 #include <QStringList>
-#include <QWebPage>
+#include <QWebEnginePage>
 
 // ANORRL Headers
 #include "v8datamodel/DataModel.h"
@@ -572,7 +572,7 @@ bool ARLWorkspace::StartDrag(const QString& urlQStr)
 			QPixmap pixMap(1, 1);
 			pDrag->setPixmap(pixMap);
 			
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 			pDrag->exec();	
 #else
 			pDrag->exec(Qt::CopyAction);
@@ -667,9 +667,6 @@ void ARLWorkspace::onScreenShotFinished_MT(QString fileName)
 
 	// Re-show the web page
 	Show();
-
-	// Add the file to the page's input
-	pWebDialog->getWebPage()->setUploadFile(m_selectorForFileUpload, fileName);
 
 	// Tell the page we've added the thumb
 	QImage image(fileName);

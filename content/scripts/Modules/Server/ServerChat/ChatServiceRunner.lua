@@ -357,12 +357,7 @@ if ChatSettings.GeneralChannelName and ChatSettings.GeneralChannelName ~= "" the
 		end
 		local player = speaker:GetPlayer()
 		if player then
-			local success, canChat = pcall(function()
-				return Chat:CanUserChatAsync(player.UserId)
-			end)
-			if success and not canChat then
-				return ""
-			end
+			return ""
 		end
 	end)
 end

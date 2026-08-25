@@ -1288,8 +1288,8 @@
     <Item class="ReflectionMetadataClass">
       <Properties>
         <string name="Name">Chat</string>
-		<string name="ExplorerOrder">3</string>
-        <string name="ExplorerImageIndex">69</string>
+		<string name="ExplorerOrder">51</string>
+        <string name="ExplorerImageIndex">33</string>
       </Properties>
       <Item class="ReflectionMetadataYieldFunctions">
         <Item class="ReflectionMetadataMember">
@@ -3495,7 +3495,6 @@
         </Item>
       </Item>
     </Item>
-    
     <Item class="ReflectionMetadataClass">
       <Properties>
         <string name="Name">GuiObject</string>
@@ -3832,6 +3831,14 @@
             <string name="summary">Deprecated. Use TextColor3 instead</string>
           </Properties>
         </Item>
+		<Item class="ReflectionMetadataMember">
+		  <Properties>
+            <string name="Name">TextSize</string>
+            <string name="summary">poop out of a butt</string>
+            <double name="UIMinimum">1</double>
+            <double name="UIMaximum">100</double>
+          </Properties>
+        </Item>
       </Item>
     </Item>
     <Item class="ReflectionMetadataClass">
@@ -3850,6 +3857,14 @@
             <string name="summary">Deprecated. Use TextColor3 instead</string>
           </Properties>
         </Item>
+		<Item class="ReflectionMetadataMember">
+		  <Properties>
+            <string name="Name">TextSize</string>
+            <string name="summary">poop out of a butt</string>
+            <double name="UIMinimum">1</double>
+            <double name="UIMaximum">100</double>
+          </Properties>
+        </Item>
       </Item>
     </Item>
     <Item class="ReflectionMetadataClass">
@@ -3866,6 +3881,14 @@
             <string name="Name">TextColor</string>
             <bool name="Deprecated">true</bool>
             <string name="summary">Deprecated. Use TextColor3 instead</string>
+          </Properties>
+        </Item>
+		<Item class="ReflectionMetadataMember">
+		  <Properties>
+            <string name="Name">TextSize</string>
+            <string name="summary">poop out of a butt</string>
+            <iny name="UIMinimum">1</double>
+            <double name="UIMaximum">100</double>
           </Properties>
         </Item>
       </Item>
@@ -4159,6 +4182,17 @@
           </Properties>
         </Item>
       </Item>
+    </Item>
+	<Item class="ReflectionMetadataClass">
+      <Properties>
+        <string name="Name">MeshPart</string>
+        <string name="ClassCategory">Parts</string>
+        <bool name="Browsable">true</bool>
+        <bool name="Insertable">true</bool>
+        <string name="ExplorerOrder">105</string>
+        <string name="ExplorerImageIndex">73</string>
+        <string name="PreferredParent">Model</string>
+      </Properties>
     </Item>
     <Item class="ReflectionMetadataClass">
       <Properties>

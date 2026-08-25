@@ -6,9 +6,9 @@
 #pragma once
 
 // Qt Headers
-#include <QWebView>
+#include <QWebEngineView>
 
-class ANORRLBrowser : public QWebView 
+class ANORRLBrowser : public QWebEngineView
 {
 	Q_OBJECT
 
@@ -24,8 +24,7 @@ public Q_SLOTS:
     
 protected:
     
-    virtual void paintEvent(QPaintEvent*);
- 	virtual void dropEvent(QDropEvent* evt);
+    virtual void dropEvent(QDropEvent* evt);
 
 private Q_SLOTS:
 

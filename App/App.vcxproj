@@ -50,16 +50,17 @@
     <SccProvider>MSSCCI:Perforce SCM</SccProvider>
     <Keyword>Win32Proj</Keyword>
     <ApplicationEnvironment>title</ApplicationEnvironment>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NoOptRcc|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NoOpt|Durango'" Label="Configuration">
@@ -74,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NoOptStudio|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NoOptStudio|Durango'" Label="Configuration">
@@ -84,12 +85,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseRcc|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Durango'" Label="Configuration">
@@ -104,7 +105,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseStudio|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseStudio|Durango'" Label="Configuration">
@@ -114,7 +115,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Durango'" Label="Configuration">
@@ -124,12 +125,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugRcc|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Durango'" Label="Configuration">
@@ -144,7 +145,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugStudio|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugStudio|Durango'" Label="Configuration">
@@ -646,7 +647,7 @@ cmd /c "exit /b 0"</Command>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\Include;$(CONTRIB_PATH)\boost_1_56_0\include;$(CONTRIB_PATH)\cpp-netlib-0.11.0-final;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\include;$(CONTRIB_PATH)\VMProtectWin_2.13;.\include;..\Base\include;..\fmod\include;.\lua-5.1.4\src;..\Rendering;..\Rendering\g3d\include;..\Rendering\g3d\zlib;..\Rendering\RbxG3D\include;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Network\include;..\RBXCookies;..\Log\Include;..\ClientShared;..\App.BulletPhysics;..\Win;$(CONTRIB_PATH)\discord-rpc-win32-static\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\Include;$(CONTRIB_PATH)\boost_1_59_0;$(CONTRIB_PATH)\cpp-netlib-0.11.0-final;$(CONTRIB_PATH)\windows\x86\curl\curl-7.44.0\include;$(CONTRIB_PATH)\VMProtectWin_2.13;.\include;..\Base\include;..\fmod\include;.\lua-5.1.4\src;..\Rendering;..\Rendering\g3d\include;..\Rendering\g3d\zlib;..\Rendering\RbxG3D\include;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Network\include;..\RBXCookies;..\Log\Include;..\ClientShared;..\App.BulletPhysics;..\Win;$(CONTRIB_PATH)\discord-rpc-win32-static\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;CURL_STATICLIB;WWW_MSWINDOWS;NDEBUG;_LIB;_RELEASE;ARL_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -657,7 +658,7 @@ cmd /c "exit /b 0"</Command>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -1197,6 +1198,7 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="v8datamodel\Light.cpp" />
     <ClCompile Include="v8datamodel\LoginService.cpp" />
     <ClCompile Include="v8datamodel\LogService.cpp" />
+    <ClCompile Include="v8datamodel\MeshPartInstance.cpp" />
     <ClCompile Include="v8datamodel\NonReplicatedCSGDictionaryService.cpp" />
     <ClCompile Include="v8datamodel\NotificationService.cpp" />
     <ClCompile Include="v8datamodel\NumberRange.cpp" />
@@ -4030,6 +4032,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8datamodel\Light.h" />
     <ClInclude Include="include\v8datamodel\LoginService.h" />
     <ClInclude Include="include\v8datamodel\LogService.h" />
+    <ClInclude Include="include\v8datamodel\MeshPartInstance.h" />
     <ClInclude Include="include\v8datamodel\NonReplicatedCSGDictionaryService.h" />
     <ClInclude Include="include\v8datamodel\NotificationService.h" />
     <ClInclude Include="include\v8datamodel\NumberSequence.h" />

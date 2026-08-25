@@ -826,7 +826,7 @@ void SelectionSaveToFileVerb::saveToFile()
 
 	if (fileName.endsWith(".arlm", Qt::CaseInsensitive) || fileName.endsWith(".arlmx", Qt::CaseInsensitive))
 	{
-	    QByteArray ba = fileName.toAscii();
+	    QByteArray ba = fileName.toLatin1();
 	    const char *c_str = ba.constData();
 
 	    // Stream the XML data

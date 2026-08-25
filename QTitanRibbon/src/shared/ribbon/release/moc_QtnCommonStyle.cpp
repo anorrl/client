@@ -1,25 +1,45 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnCommonStyle.h'
 **
-** Created by: The Qt Meta Object Compiler version 63 (Qt 4.8.5)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.6.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
 #include "../../../styles/QtnCommonStyle.h"
+#include <QtCore/qbytearray.h>
+#include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnCommonStyle.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 63
-#error "This file was generated using the moc from 4.8.5. It"
+#elif Q_MOC_OUTPUT_REVISION != 67
+#error "This file was generated using the moc from 5.6.3. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
+struct qt_meta_stringdata_Qtitan__CommonStyle_t {
+    QByteArrayData data[1];
+    char stringdata0[20];
+};
+#define QT_MOC_LITERAL(idx, ofs, len) \
+    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__CommonStyle_t, stringdata0) + ofs \
+        - idx * sizeof(QByteArrayData)) \
+    )
+static const qt_meta_stringdata_Qtitan__CommonStyle_t qt_meta_stringdata_Qtitan__CommonStyle = {
+    {
+QT_MOC_LITERAL(0, 0, 19) // "Qtitan::CommonStyle"
+
+    },
+    "Qtitan::CommonStyle"
+};
+#undef QT_MOC_LITERAL
+
 static const uint qt_meta_data_Qtitan__CommonStyle[] = {
 
  // content:
-       6,       // revision
+       7,       // revision
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
@@ -32,10 +52,6 @@ static const uint qt_meta_data_Qtitan__CommonStyle[] = {
        0        // eod
 };
 
-static const char qt_meta_stringdata_Qtitan__CommonStyle[] = {
-    "Qtitan::CommonStyle\0"
-};
-
 void Qtitan::CommonStyle::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     Q_UNUSED(_o);
@@ -44,28 +60,21 @@ void Qtitan::CommonStyle::qt_static_metacall(QObject *_o, QMetaObject::Call _c, 
     Q_UNUSED(_a);
 }
 
-const QMetaObjectExtraData Qtitan::CommonStyle::staticMetaObjectExtraData = {
-    0,  qt_static_metacall 
-};
-
 const QMetaObject Qtitan::CommonStyle::staticMetaObject = {
-    { &QCommonStyle::staticMetaObject, qt_meta_stringdata_Qtitan__CommonStyle,
-      qt_meta_data_Qtitan__CommonStyle, &staticMetaObjectExtraData }
+    { &QCommonStyle::staticMetaObject, qt_meta_stringdata_Qtitan__CommonStyle.data,
+      qt_meta_data_Qtitan__CommonStyle,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
-#ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &Qtitan::CommonStyle::getStaticMetaObject() { return staticMetaObject; }
-#endif //Q_NO_DATA_RELOCATION
 
 const QMetaObject *Qtitan::CommonStyle::metaObject() const
 {
-    return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
 void *Qtitan::CommonStyle::qt_metacast(const char *_clname)
 {
-    if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__CommonStyle))
+    if (!_clname) return Q_NULLPTR;
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__CommonStyle.stringdata0))
         return static_cast<void*>(const_cast< CommonStyle*>(this));
     return QCommonStyle::qt_metacast(_clname);
 }

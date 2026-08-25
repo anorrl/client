@@ -41,19 +41,17 @@ void Seat::createSeatWeld(Humanoid *h)
 			this->debounceTime = Time::now<Time::Fast>();
 		}
 	}
-	ARL::StandardOut::singleton()->printf(MESSAGE_INFO, "createSeatWeld(Humanoid *h)");
-	Super::createSeatWeld(h);
+	else
+		Super::createSeatWeld(h);
 }
 
 void Seat::findAndDestroySeatWeld()
 {
-	ARL::StandardOut::singleton()->printf(MESSAGE_INFO, "findAndDestroySeatWeld()");
 	event_destroySeatWeld.fireAndReplicateEvent(this);
 }
 
 void Seat::onSeatedChanged(bool seated, Humanoid* humanoid)
 {
-	ARL::StandardOut::singleton()->printf(MESSAGE_INFO, "onSeatedChanged(seated: %s, humanoid)", (seated ? "true" : "false"));
 	if (!seated && humanoid && (humanoid == Humanoid::getLocalHumanoidFromContext(this)))
 	{
 		humanoid->setSit(false);
@@ -62,7 +60,6 @@ void Seat::onSeatedChanged(bool seated, Humanoid* humanoid)
 
 void Seat::setOccupant(Humanoid* value)
 {
-	ARL::StandardOut::singleton()->printf(MESSAGE_INFO, "setOccupant(Humanoid* valueHumanoid* value)");
 	if (occupant.get() != value)
 	{
 		occupant = shared_from(value);

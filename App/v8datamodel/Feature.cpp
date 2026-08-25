@@ -251,8 +251,8 @@ void MotorFeature::join(Instance* i0, Instance* i1)
 		Instance* holeInstance = i0->fastDynamicCast<Hole>() ? i0 : i1;
 		Instance* axleInstance = (holeInstance == i0) ? i1 : i0;
 
-		Hole* hole = rbx_static_cast<Hole*>(holeInstance);
-		MotorFeature* axle = rbx_static_cast<MotorFeature*>(axleInstance);
+		Hole* hole = arl_static_cast<Hole*>(holeInstance);
+		MotorFeature* axle = arl_static_cast<MotorFeature*>(axleInstance);
 
 		shared_ptr<VelocityMotor> vm = Creatable<Instance>::create<VelocityMotor>();	
 
@@ -276,12 +276,12 @@ VelocityMotor::~VelocityMotor()
 
 MotorJoint*	VelocityMotor::motorJoint()
 {
-	return rbx_static_cast<MotorJoint*>(joint);
+	return arl_static_cast<MotorJoint*>(joint);
 }
 
 const MotorJoint* VelocityMotor::motorJoint() const
 {
-	return rbx_static_cast<MotorJoint*>(joint);
+	return arl_static_cast<MotorJoint*>(joint);
 }
 
 void VelocityMotor::setPart(int i, Feature* feature)

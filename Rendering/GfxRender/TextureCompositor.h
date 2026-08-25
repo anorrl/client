@@ -37,17 +37,27 @@ struct TextureCompositorLayer
         Composit_BlitTextureAlphaMagnify4x
     };
     
-    TextureCompositorLayer(const MeshId& mesh, const TextureId& texture, CompositMode mode = Composit_BlendTexture)
+    TextureCompositorLayer(const MeshId& mesh, const TextureId& texture, ARL::Vector4 offsetAndScale, CompositMode mode = Composit_BlendTexture)
         : mesh(mesh)
         , texture(texture)
         , color(1.0f, 1.0f, 1.0f)
+        , offsetAndScale(offsetAndScale)
         , mode(mode)
     {
     }
     
-    TextureCompositorLayer(const MeshId& mesh, const Color3& color)
+    TextureCompositorLayer(const MeshId& mesh, const Color3uint8& color)
         : mesh(mesh)
         , color(color)
+        , offsetAndScale(ARL::Vector4(0,0,1,1))
+        , mode(Composit_BlitColor)
+    {
+    }
+
+    TextureCompositorLayer(const MeshId& mesh, const Color3uint8& color, ARL::Vector4 offsetAndScale)
+        : mesh(mesh)
+        , color(color)
+        , offsetAndScale(offsetAndScale)
         , mode(Composit_BlitColor)
     {
     }
@@ -55,6 +65,7 @@ struct TextureCompositorLayer
     MeshId mesh;
     TextureId texture;
     Color3 color;
+    ARL::Vector4 offsetAndScale;
     CompositMode mode;
 
     std::string toString() const;

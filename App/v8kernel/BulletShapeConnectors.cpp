@@ -211,7 +211,7 @@ void BulletShapeConnector::realignConnectorsToBulletContacts()
 	bulletAlgo->getAllContactManifolds(manifoldArray);
 	for (int i = 0; i < manifoldArray[bulletManifoldIndex]->getNumContacts(); i++)
 	{
-		BulletShapeConnector* conn = rbx_static_cast<BulletShapeConnector*>(manifoldArray[bulletManifoldIndex]->getContactPoint(i).m_userPersistentData);
+		BulletShapeConnector* conn = arl_static_cast<BulletShapeConnector*>(manifoldArray[bulletManifoldIndex]->getContactPoint(i).m_userPersistentData);
 		if (conn)
 			conn->setBulletManifoldPointIndex(i);
 	}

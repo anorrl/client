@@ -62,11 +62,11 @@ FASTFLAGVARIABLE(StudioABTestEnabled, false)
 bool ANORRL::sInitialized = false;
 arl::signals::scoped_connection messageOutConnection;
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 static boost::shared_ptr<CProcessPerfCounter> s_perfCounter;
 #endif
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 
 extern "C" {
 	void writeFastLogDumpHelper(const char* fileName, int numEntries)
@@ -79,7 +79,7 @@ extern "C" {
 //this function is being used in ARLGraphics.cpp also!
 std::string macBundlePath()
 {
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	char path[1024];
 	CFBundleRef mainBundle = CFBundleGetMainBundle();
 	assert(mainBundle);
@@ -134,7 +134,7 @@ void ANORRL::stopTimer()
 
 void ANORRL::onTimeOut()
 {
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 	s_perfCounter->CollectData();
 #endif
 }
@@ -184,7 +184,7 @@ void ANORRL::globalInit(const QString& urlArg, const QString& ticketArg, ARL::Ht
 
 	ARL::MouseCommand::enableAdvArrowTool(true);
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 	s_perfCounter = CProcessPerfCounter::getInstance();
 #endif
 
@@ -253,7 +253,7 @@ void ANORRL::globalInit(const QString& urlArg, const QString& ticketArg, ARL::Ht
 void ANORRL::globalShutdown()
 {
 	ANORRLSettings::saveAssets();
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 	s_perfCounter.reset();
 #endif
 	ANORRL::Instance().stopTimer();

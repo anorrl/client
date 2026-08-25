@@ -216,7 +216,7 @@ void ChildProcessHandler::startLocalServer()
 	connect(m_pLocalServer, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
 
 	int processId = 0;
-#ifdef Q_WS_WIN32
+#ifdef Q_OS_WIN32
 	processId = ::GetCurrentProcessId();
 #else
 	processId = getpid();
@@ -249,7 +249,7 @@ void ChildProcessHandler::cleanupChildProcesses(int timeout)
 		childProcess = serverProcesses.at(ii);
 		if (childProcess && childProcess->state() != QProcess::NotRunning)
 		{			
-			int processId = QtUtilities::toInt(childProcess->pid());
+			int processId = (int)childProcess->pid();
 			if (!processId)
 				continue;
 

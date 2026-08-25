@@ -32,7 +32,7 @@ JointStage::~JointStage()
 
 GroundStage* JointStage::getGroundStage()
 {
-	return rbx_static_cast<GroundStage*>(getDownstream());
+	return arl_static_cast<GroundStage*>(getDownstream());
 }
 
 void JointStage::moveEdgeToDownstream(Edge* e)
@@ -177,7 +177,7 @@ void JointStage::onEdgeAdded(Edge* e)
 			moveEdgeToDownstream(e);
 		}
 		else {
-			Joint* j = rbx_static_cast<Joint*>(e);
+			Joint* j = arl_static_cast<Joint*>(e);
 			putJointHere(j);
 		}
 	}
@@ -200,7 +200,7 @@ void JointStage::onEdgeRemoving(Edge* e)
 	}
 	else {
 		ARLASSERT(Joint::isJoint(e));
-		Joint* j = rbx_static_cast<Joint*>(e);
+		Joint* j = arl_static_cast<Joint*>(e);
 		removeJointFromHere(j);
 	}
 

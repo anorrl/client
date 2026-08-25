@@ -48,6 +48,7 @@ bool ARL::StringConverter<ChatService::ChatColor>::convertToValue(const std::str
 	return Reflection::EnumDesc<ChatService::ChatColor>::singleton().convertToValue(text.c_str(),value);
 }
 ChatService::ChatService()
+	:loadDefaultModules(true)
 {
 	setName(sChatService);
 }

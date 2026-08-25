@@ -412,7 +412,7 @@ bool ARL::CSGOperations::setUnionMesh(shared_ptr<PartOperation> finalPartOperati
 
             if (!positiveMesh)
             {
-                finalPartOperation->setColor(unionOperation->getColor());
+                finalPartOperation->setColor3uint8(unionOperation->getColor3uint8());
                 finalPartOperation->setRenderMaterial(unionOperation->getRenderMaterial());
                 finalPartOperation->setReflectance(unionOperation->getReflectance());
                 finalPartOperation->setTransparency(unionOperation->getTransparencyUi());

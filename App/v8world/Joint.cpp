@@ -302,7 +302,7 @@ static int biggerJointGuid2(const Joint* j0, const Joint* j1)
 bool Joint::isHeavierThan(const SpanningEdge* other) const
 {
 	const Joint* const j0 = this;
-	const Joint* j1 = rbx_static_cast<const Joint*>(other);
+	const Joint* j1 = arl_static_cast<const Joint*>(other);
 
 	if (j0 == j1) {
 		return false;
@@ -344,14 +344,14 @@ bool Joint::isHeavierThan(const SpanningEdge* other) const
 
 SpanningNode* Joint::otherNode(SpanningNode* n)
 {
-	Primitive* p = rbx_static_cast<Primitive*>(n);
+	Primitive* p = arl_static_cast<Primitive*>(n);
 	return otherPrimitive(p);
 }
 
 
 const SpanningNode* Joint::otherConstNode(const SpanningNode* n) const
 {
-	const Primitive* p = rbx_static_cast<const Primitive*>(n);
+	const Primitive* p = arl_static_cast<const Primitive*>(n);
 	return otherConstPrimitive(p);
 }
 

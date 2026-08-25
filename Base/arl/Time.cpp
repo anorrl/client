@@ -9,6 +9,7 @@
 #include "arl/atomic.h"
 #include <stdexcept>
 #include "FastLog.h"
+#include <algorithm>
 
 #ifdef __APPLE__
 #include <mach/mach.h>

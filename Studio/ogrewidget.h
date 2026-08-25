@@ -64,9 +64,7 @@ class QOgreWidget : public QWidget
 		/*override*/void dropEvent(QDropEvent *evt);
 		/*override*/void dragLeaveEvent(QDragLeaveEvent *evt);
 
-#ifdef Q_WS_WIN
-		virtual bool winEvent(MSG * msg, long * result);
-#endif
+		virtual bool nativeEvent(const QByteArray &eventType, MSG * msg, long * result);
 		
     private:
 		typedef QWidget Super;

@@ -146,12 +146,12 @@ void PolyCellContact::resetBestPair(PolyCellPair* pairOnStack)
 
 const Poly* PolyCellPair::poly0() const
 {
-	return rbx_static_cast<const Poly*>(primitive[0]->getConstGeometry());
+	return arl_static_cast<const Poly*>(primitive[0]->getConstGeometry());
 }
 
 const Poly* PolyCellPair::poly1() const
 {
-	return rbx_static_cast<const Poly*>(primitive[1]->getConstGeometry());
+	return arl_static_cast<const Poly*>(primitive[1]->getConstGeometry());
 }
 
 
@@ -300,8 +300,8 @@ bool CellFaceFacePair::pairIsValid()
 	MegaClusterInstance* terrain1 = NULL;
 
 	primitive[0]->getGeometryType() == Geometry::GEOMETRY_MEGACLUSTER ? 
-		terrain0 = rbx_static_cast<MegaClusterInstance*>(primitive[0]->getOwner()) :
-		terrain1 = rbx_static_cast<MegaClusterInstance*>(primitive[1]->getOwner());
+		terrain0 = arl_static_cast<MegaClusterInstance*>(primitive[0]->getOwner()) :
+		terrain1 = arl_static_cast<MegaClusterInstance*>(primitive[1]->getOwner());
 
 	ARLASSERT(primitive[0]->getGeometryType() == Geometry::GEOMETRY_MEGACLUSTER || primitive[1]->getGeometryType() == Geometry::GEOMETRY_MEGACLUSTER);
 

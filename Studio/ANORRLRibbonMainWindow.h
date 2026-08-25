@@ -88,6 +88,9 @@ private Q_SLOTS:
 	void showGroupOptionsMenu();
 
 	void updateProxyAction();
+
+	void handleLogOut();
+	void updateUser(bool authenticated);
 	
 private:	
 	void parseAndCreateQuickAccessBar(const QDomElement &docElement);
@@ -133,12 +136,16 @@ private:
 
 	void updateFonts(const QFont& font);
 	void createThemeOptions();
+	void createAuthenticatedMenu();
 	void setTheme(Qtitan::RibbonStyle::Theme themeId);
 
 	QAction* findChildAction(const QString& actionName) const;	
 	void populateNameValueStore(const QString& storeID, const QObject *pObject);
 
 	QString getFullName(QObject* pObject);
+
+	
+	
 
 	// Data members	
 	QMap<QAction*, QWidget*>   m_mCorrelaryActionMap;
@@ -148,10 +155,14 @@ private:
 
 	Qtitan::RibbonStyle*       m_pRibbonStyle;
 	QAction*                   m_pRibbonMinimizeAction;
+	QMenu*					   m_authenticatedMenu;
+	QAction*				   m_actionLogOut;
 	
 	QuickAccessConfigDialog*   m_pQuickAccessConfigDialog;
     
 	bool                       m_bInitialized;
+
+	bool					   m_bAuthenticated;
 };
 
 

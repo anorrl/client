@@ -35,7 +35,6 @@
 #include <QDesktopWidget>
 #include <QNetworkProxy>
 #include <QtConcurrentRun>
-
 // 3rd Party Headers
 #include "boost/filesystem/path.hpp"
 #include "boost/iostreams/stream.hpp"
@@ -209,8 +208,6 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
 , m_editScriptActions("EditScript", &studioAnalytics)
 , m_mouseActions("ManipulatePart", &studioAnalytics)
 , m_inserts("Inserts", &studioAnalytics)
-, m_cookieConstraintChecker(NULL)
-, m_cookieConstraintCheckDone(NULL)
 {
 	try
 	{
@@ -240,7 +237,7 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
 
             m_splashScreen = new QSplashScreen(this,QPixmap(path.c_str()));
 
-#ifdef Q_WS_WIN32
+#ifdef Q_OS_WIN32
             Qt::WindowFlags flags = Qt::SplashScreen | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint;
 #else
             // Qt::Tool makes the window on top of the Z order on Mac
@@ -251,7 +248,7 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
 
             m_splashScreen->raise();
             m_splashScreen->show();
-        }
+		}
 
 		//start the bootstrapper on Mac, start the Event on Windows
 		checkUpdater(true,startEventArg);
@@ -318,7 +315,7 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
 		ANORRL::globalInit(urlArg, ticketArg, settingsFuture);
 		ARL::Stats::reportGameStatus("AppStarted");	// must be after gloablInit due to http initialization
 
-        Qtitan::RibbonStyle::setStyleVersion(1);
+        Qtitan::RibbonStyle::setStyleVersion(0);
 		
 		// Disable FRM in studio by default
 		CRenderSettingsItem::singleton().setEnableFRM(false);
@@ -460,7 +457,7 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
 		QPainter p(this);
 
 		// Set the background to white
-		p.fillRect(rect(), AuthoringSettings::singleton().darkMode ? QColor(45, 45, 45) : Qt::white);
+		p.fillRect(rect(), Qt::white);
 		
 		if (isRibbonStyle())
 		{
@@ -493,24 +490,6 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
         m_PropertyChangedConnection = AuthoringSettings::singleton().propertyChangedSignal.connect(
             boost::bind(&ANORRLMainWindow::onPropertyChanged,this,_1));
         onPropertyChanged(NULL);
-
-        if (FFlag::StudioEarlyCookieConstraintCheckGlobal ||
-			ANORRLSettings::getBaseURL().contains("robloxlabs", Qt::CaseInsensitive))
-		{
-			m_cookieConstraintChecker = new QWebView(NULL);
-			m_cookieConstraintCheckDone = new QEventLoop(this);
-			m_cookieConstraintChecker->setAttribute(Qt::WA_DeleteOnClose);
-			m_cookieConstraintChecker->page()->setNetworkAccessManager(&ANORRLNetworkAccessManager::Instance());
-			connect(m_cookieConstraintChecker->page(), SIGNAL(loadStarted()), m_cookieConstraintChecker, SLOT(hide()));
-			connect(m_cookieConstraintChecker, SIGNAL(loadFinished(bool)), this, SLOT(cookieConstraintCheckerLoadFinished(bool)));
-			connect(m_cookieConstraintChecker, SIGNAL(destroyed(QObject*)), m_cookieConstraintCheckDone, SLOT(quit()));
-			m_cookieConstraintChecker->load(ANORRLSettings::getBaseURL());
-			m_cookieConstraintCheckDone->exec();
-			m_cookieConstraintCheckDone->deleteLater();
-			m_cookieConstraintCheckDone = NULL;
-			// if the window is destroyed from close we want to null it out here.
-			m_cookieConstraintChecker = NULL;
-		}
         
 #ifdef _WIN32
         if ( showEventArg.isEmpty() ) 
@@ -689,7 +668,7 @@ void ANORRLMainWindow::causeCrash()
 
 bool ANORRLMainWindow::checkUpdater(bool showUpdateOptionsDialog, const QString& initDoneEventName) const
 {
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	QString bootstrapper = QCoreApplication::applicationFilePath(); 
 	if(bootstrapper.lastIndexOf("ANORRLStudio") > -1)
 		bootstrapper = bootstrapper.replace(bootstrapper.lastIndexOf("ANORRLStudio"), 12, "ANORRLStudio.app/Contents/MacOS/ANORRLStudio");
@@ -845,7 +824,7 @@ bool ANORRLMainWindow::eventFilter(QObject* watched,QEvent* evt)
 		}
 	}
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	// handle special file open command on Mac coming from Finder
 	if ( evt->type() == QEvent::FileOpen && watched == qApp )
 	{
@@ -939,7 +918,7 @@ void ANORRLMainWindow::toggleFullScreen(bool state)
 	setWindowState(windowState() ^ Qt::WindowFullScreen);
 
     // Toggle fullscreen glitches with layout on Mac for Ribbon Bar (send event to update layout)
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	if (isRibbonStyle())
 	{
         Qtitan::RibbonPage* pPage = ribbonBar()->getPage(ribbonBar()->currentIndexPage());
@@ -1101,7 +1080,7 @@ bool ANORRLMainWindow::requestDocClose(IANORRLDoc& doc, bool closeIfLastDoc)
 	    actionStartPage->setChecked(false);
 	else if ( doc.docType() == IANORRLDoc::OBJECTBROWSER )
 	    objectBrowserAction->setChecked(false);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     // On Mac, if we do not make the IDE document current then it results in DE7073
     // Combination of QWidget and ViewBase creation coupled with deletion of IDE document
     // without making it current results in non responding keyboard (?)
@@ -1841,19 +1820,11 @@ void ANORRLMainWindow::initializeUI()
     // of the Studio UI.  All style overrides that are application-wide
     // should be put there.
 
-	if (AuthoringSettings::singleton().darkMode) {
-		setStyleSheet(QtUtilities::getResourceFileText(":/resources/css/ANORRLStudio_dark.css"));
-	}
-	else {
-		setStyleSheet(QtUtilities::getResourceFileText(":/resources/css/ANORRLStudio.css"));
-	}
-    
+	setStyleSheet(QtUtilities::getResourceFileText(":/resources/css/ANORRLStudio.css"));
     
     // force height so we don't get any resizing when adding and removing controls to the status bar
     statusBar()->setFixedHeight(32);
-	// Apply the global ANORRL Studio style sheet to the entire application.
-	//css = QtUtilities::getResourceFileText(":/ANORRLStudio.css");
-
+	
 	//TODO: Move all these customizations to .ui file
 	menuTools->insertAction(openPluginsFolderAction, screenShotAction);
 
@@ -1877,10 +1848,8 @@ void ANORRLMainWindow::initializeUI()
 	}
 
 	advToolsToolBar->insertAction(glueSurfaceAction, smoothNoOutlinesAction);
-	
 
-	//setStyleSheet(css);
-    Studio::Intellesense::singleton().setStyleSheet(QtUtilities::getResourceFileText(":/resources/css/ANORRLStudioRibbon.css"));
+	Studio::Intellesense::singleton().setStyleSheet(QtUtilities::getResourceFileText(":/resources/css/ANORRLStudioRibbon.css"));
 
     //support drag drop
     setAcceptDrops(true);
@@ -2097,7 +2066,7 @@ void ANORRLMainWindow::setupSlots()
 	QPainter p(this);
 
 	// Set the background to white
-	p.fillRect(rect(), AuthoringSettings::singleton().darkMode ? QColor(45, 45, 45) : Qt::white);
+	p.fillRect(rect(), Qt::white);
 }
 
 void ANORRLMainWindow::updateShortcutSet()
@@ -2175,7 +2144,7 @@ void ANORRLMainWindow::assignAccelerators()
     QtUtilities::setActionShortcuts(*zoomOutAction, QList<QKeySequence>() << QKeySequence(QKeySequence::ZoomOut) << QKeySequence("Ctrl+_"));
 
     shortcuts.clear();
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
 	// TODO: remove shortcut collision for debugger action - stepinto
 	QtUtilities::setActionShortcuts(*stepIntoAction,shortcuts);
     // F11 works differently on Mac
@@ -2941,30 +2910,6 @@ void ANORRLMainWindow::onIDEDocViewInitialized()
 {
     if ( m_splashScreen )
         onDeleteSplashScreen();
-}
-
-void ANORRLMainWindow::cookieConstraintCheckerLoadFinished(bool ok)
-{
-	ARLASSERT(m_cookieConstraintChecker);
-	if (!m_cookieConstraintChecker)
-		return;
-
-	if (ok && m_cookieConstraintChecker->url().toString().contains(
-		FString::StudioCookieConstraintUrlFragment.c_str(), Qt::CaseInsensitive))
-	{
-		m_cookieConstraintChecker->raise();
-		m_cookieConstraintChecker->show();
-	}
-	else
-	{
-		m_cookieConstraintChecker->hide();
-		disconnect(
-			m_cookieConstraintChecker, SIGNAL(                     loadFinished(bool)),
-			this,                      SLOT(cookieConstraintCheckerLoadFinished(bool)));
-		m_cookieConstraintChecker->deleteLater();
-		m_cookieConstraintChecker = NULL;
-		m_cookieConstraintCheckDone->exit();
-	}
 }
 
 

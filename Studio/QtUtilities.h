@@ -35,7 +35,7 @@ class QPropertyAnimation;
 
 namespace QtUtilities
 {
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	const int BranchIndicatorSize = 18;
 #else
 	const int BranchIndicatorSize = 14;

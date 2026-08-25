@@ -259,18 +259,18 @@ void EdgeList::removeEdge(Edge* e)
 
 Joint* Primitive::getJoint(int id)
 {
-	return rbx_static_cast<Joint*>(joints.getEdge(id));
+	return arl_static_cast<Joint*>(joints.getEdge(id));
 }
 
 const Joint* Primitive::getConstJoint(int id) const
 {
-	return rbx_static_cast<Joint*>(joints.getEdge(id));
+	return arl_static_cast<Joint*>(joints.getEdge(id));
 }
 
 
 Contact* Primitive::getContact(int id)
 {
-	return rbx_static_cast<Contact*>(contacts.getEdge(id));
+	return arl_static_cast<Contact*>(contacts.getEdge(id));
 }
 
 void Primitive::insertEdge(Edge* e)
@@ -284,7 +284,7 @@ void Primitive::insertEdge(Edge* e)
 			p1->joints.insertEdge(e);
 		}
 		else {
-			ARLASSERT(AnchorJoint::isAnchorJoint(rbx_static_cast<Joint*>(e)) || FreeJoint::isFreeJoint(rbx_static_cast<Joint*>(e)));
+			ARLASSERT(AnchorJoint::isAnchorJoint(arl_static_cast<Joint*>(e)) || FreeJoint::isFreeJoint(arl_static_cast<Joint*>(e)));
 		}
 	}
 	else {
@@ -305,7 +305,7 @@ void Primitive::removeEdge(Edge* e)
 			p1->joints.removeEdge(e);
 		}
 		else {
-			ARLASSERT(AnchorJoint::isAnchorJoint(rbx_static_cast<Joint*>(e)) || FreeJoint::isFreeJoint(rbx_static_cast<Joint*>(e)));
+			ARLASSERT(AnchorJoint::isAnchorJoint(arl_static_cast<Joint*>(e)) || FreeJoint::isFreeJoint(arl_static_cast<Joint*>(e)));
 		}
 	}
 	else {
@@ -344,7 +344,7 @@ Edge* Primitive::getNextEdge(Edge* e) const
 // Joint
 const Joint* Primitive::getConstFirstJoint() const 
 {
-	return rbx_static_cast<Joint*>(joints.getFirst());
+	return arl_static_cast<Joint*>(joints.getFirst());
 }
 
 Joint* Primitive::getFirstJoint()
@@ -359,7 +359,7 @@ const Joint* Primitive::getConstNextJoint(const Joint* prev) const
 
 	Edge* e = joints.getNext(this, const_cast<Joint*>(prev));
 
-	return rbx_static_cast<const Joint*>(e);
+	return arl_static_cast<const Joint*>(e);
 }
 
 Joint* Primitive::getNextJoint(Joint* prev)
@@ -371,14 +371,14 @@ Joint* Primitive::getNextJoint(Joint* prev)
 // Contact
 Contact* Primitive::getFirstContact() 
 {
-	return rbx_static_cast<Contact*>(contacts.getFirst());
+	return arl_static_cast<Contact*>(contacts.getFirst());
 }
 
 Contact* Primitive::getNextContact(Contact* prev) 
 {
 	ARLASSERT_VERY_FAST(prev);
 
-	return rbx_static_cast<Contact*>(contacts.getNext(this, prev));
+	return arl_static_cast<Contact*>(contacts.getNext(this, prev));
 }
 
 
@@ -386,7 +386,7 @@ RigidJoint* Primitive::getFirstRigidAt(Joint* start)
 {
 	while (start) {
 		if (RigidJoint::isRigidJoint(start)) {
-			return rbx_static_cast<RigidJoint*>(start);
+			return arl_static_cast<RigidJoint*>(start);
 		}
 		start = this->getNextJoint(start);
 	}
@@ -1032,7 +1032,7 @@ SpanningEdge* Primitive::getFirstSpanningEdge()
 
 SpanningEdge* Primitive::getNextSpanningEdge(SpanningEdge* edge) 
 {
-	Joint* j = rbx_static_cast<Joint*>(edge);
+	Joint* j = arl_static_cast<Joint*>(edge);
 	return nextSpanningEdgeFromJoint(getNextJoint(j));
 }
 

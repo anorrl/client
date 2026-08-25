@@ -373,7 +373,7 @@ void PhysicsReceiver::readAssembly(RakNet::BitStream& bitstream, PartInstance* r
 		ARLASSERT(rootPart->getPartPrimitive()->getAssembly());
 
 		Primitive* primitive = rootPart->getPartPrimitive();
-		Joint* toParent = rbx_static_cast<Joint*>(primitive->getEdgeToParent());
+		Joint* toParent = arl_static_cast<Joint*>(primitive->getEdgeToParent());
 
 		// This joint could be null if the primitive still exists, but is no longer a child joint to parent
 

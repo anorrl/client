@@ -35,8 +35,6 @@
 #include "ANORRLWebDoc.h"
 #include "ANORRLDocManager.h"
 
-#include "ANORRLServicesTools.h"
-
 FASTFLAGVARIABLE(StudioInSyncWebKitAuthentication, false)
 FASTFLAG(UseBuildGenericGameUrl)
 
@@ -75,7 +73,7 @@ bool AuthenticationHelper::verifyUserAndAuthenticate(int timeOutTime)
 		QUrl url(requestUserUrl);
 
 		QNetworkRequest networkRequest(url);
-		networkRequest.setRawHeader("User-Agent", userAgentStr.toAscii()); 
+		networkRequest.setRawHeader("User-Agent", userAgentStr.toLatin1());
 		ANORRLNetworkReply* networkReply = ANORRLNetworkAccessManager::Instance().get(networkRequest);
 		
 		if (!networkReply->waitForFinished(timeOutTime, 100))
@@ -169,7 +167,7 @@ int AuthenticationHelper::getWebKitUserId()
 	int userId = 0;
 
 	QNetworkRequest networkRequest(url);
-	networkRequest.setRawHeader("User-Agent", userAgentStr.toAscii()); 
+	networkRequest.setRawHeader("User-Agent", userAgentStr.toLatin1());
 	ANORRLNetworkReply* networkReply = ANORRLNetworkAccessManager::Instance().get(networkRequest);
 	if (networkReply && networkReply->waitForFinished(5000, 100) && (networkReply->error() == QNetworkReply::NoError))
 	{
@@ -234,7 +232,7 @@ int AuthenticationHelper::doWebKitAuthentication(const QString& url)
 {
 	QNetworkRequest networkRequest(url);
 	networkRequest.setRawHeader("ARLAuthenticationNegotiation:", QByteArray(GetBaseURL().c_str(), GetBaseURL().length()));
-	networkRequest.setRawHeader("User-Agent", userAgentStr.toAscii()); 
+	networkRequest.setRawHeader("User-Agent", userAgentStr.toLatin1());
 	ANORRLNetworkReply *networkReply = ANORRLNetworkAccessManager::Instance().get(networkRequest);
 
 	if (!networkReply->waitForFinished(5000, 100)) 
@@ -260,7 +258,7 @@ void AuthenticationHelper::deAuthenticateWebKitLayer()
         logoutUrl = ANORRLSettings::getBaseURL() + "/game/logout.aspx";
     }
 	QNetworkRequest networkRequest(logoutUrl);
-	networkRequest.setRawHeader("User-Agent", userAgentStr.toAscii()); 
+	networkRequest.setRawHeader("User-Agent", userAgentStr.toLatin1());
 	ANORRLNetworkReply* networkReply = ANORRLNetworkAccessManager::Instance().get(networkRequest);
 	if (networkReply)
 	{
@@ -288,11 +286,11 @@ QString AuthenticationHelper::doHttpGetRequest(const QString& str, const ARL::Ht
 	std::string result = "";
 	try 
 	{
-		QByteArray ba = str.toAscii();
+		QByteArray ba = str.toLatin1();
 		const char *c_str = ba.data();
 
 		ARL::Http http(c_str);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 			http.setAuthDomain(::GetBaseURL());
 #else
 			http.additionalHeaders["ARLAuthenticationNegotiation:"] = ::GetBaseURL();
@@ -470,7 +468,7 @@ bool AuthenticationHelper::authenticateHttpSession()
 	authRequest.replace("http", "https");
 
 	QNetworkRequest networkRequest(authRequest);
-	networkRequest.setRawHeader("User-Agent", userAgentStr.toAscii()); 
+	networkRequest.setRawHeader("User-Agent", userAgentStr.toLatin1());
 
 	// we need to create new AccessManager as we are in a different thread, also set cookies loaded from disk to new cookiejar
 	QNetworkCookieJar* cookieJar = new QNetworkCookieJar;
@@ -528,8 +526,8 @@ bool AuthenticationHelper::authenticateQtWebkitSession(const QString& authentica
 	QString baseURL = ANORRLSettings::getBaseURL();
 
 	QNetworkRequest networkRequest(authenticationUrl);
-	networkRequest.setRawHeader("ARLAuthenticationNegotiation:", baseURL.toAscii());
-	networkRequest.setRawHeader("User-Agent", userAgentStr.toAscii());
+	networkRequest.setRawHeader("ARLAuthenticationNegotiation:", baseURL.toLatin1());
+	networkRequest.setRawHeader("User-Agent", userAgentStr.toLatin1());
 
 	// we need to create new AccessManager as we are in a different thread
 	QNetworkAccessManager* accessManager = new QNetworkAccessManager;
@@ -648,4 +646,10 @@ void AuthenticationHelper::waitForQtWebkitAuthentication()
 {
 	if (m_QtWebkitAuthenticationFutureWatcher.isRunning())
 		m_QtWebkitAuthenticationFutureWatcher.waitForFinished();
+}
+
+void AuthenticationHelper::logOut() {
+	deAuthenticateHttpLayer();
+	deAuthenticateHttpSession();
+	deAuthenticateWebKitLayer();
 }

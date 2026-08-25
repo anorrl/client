@@ -113,6 +113,7 @@ REFLECTION_BEGIN();                                                             
 static const Reflection::PropDescriptor<Class, std::string> prop_Text("Text", category_Text, &Class::getText, &Class::setText);																											\
 static const Reflection::EnumPropDescriptor<Class, TextService::FontSize>	prop_FontSize("FontSize", category_Text, &Class::getFontSize, &Class::setFontSize, Reflection::PropertyDescriptor::LEGACY_SCRIPTING);						\
 static const Reflection::PropDescriptor<Class, int>	prop_TextSize("TextSize", category_Text, &Class::getTextSize, &Class::setTextSize);																								\
+static const Reflection::PropDescriptor<Class, int>	prop_TextSizeDep("textSize", category_Text, &Class::getTextSize, &Class::setTextSize,  Reflection::PropertyDescriptor::Attributes::deprecated(prop_TextSize, Reflection::PropertyDescriptor::UI));																								\
 static const Reflection::EnumPropDescriptor<Class, TextService::Font>	prop_Font("Font", category_Text, &Class::getFont, &Class::setFont);																								\
 static const Reflection::PropDescriptor<Class, BrickColor>  prop_TextColor("TextColor", category_Text, &Class::getTextColor, &Class::setTextColor, Reflection::PropertyDescriptor::LEGACY_SCRIPTING);									\
 static const Reflection::PropDescriptor<Class, Color3>	    prop_TextColor3("TextColor3", category_Text, &Class::getTextColor3, &Class::setTextColor3);																					\
@@ -158,26 +159,22 @@ void Class::setFontSize(TextService::FontSize value)																												
 {																																											\
 	if (GuiTextMixin::fontSize != value) {																																	\
 		int convEnumValue = 8;																																				\
-		switch (value)																																						\
-		{																																									\
-		case TextService::SIZE_8: convEnumValue = 8;																														\
-		case TextService::SIZE_9: convEnumValue = 9;																														\
-		case TextService::SIZE_10: convEnumValue = 10;																														\
-		case TextService::SIZE_11: convEnumValue = 11;																														\
-		case TextService::SIZE_12: convEnumValue = 12;																														\
-		case TextService::SIZE_14: convEnumValue = 14;																														\
-		case TextService::SIZE_18: convEnumValue = 18;																														\
-		case TextService::SIZE_24: convEnumValue = 24;																														\
-		case TextService::SIZE_36: convEnumValue = 36;																														\
-		case TextService::SIZE_48: convEnumValue = 48;																														\
-		case TextService::SIZE_28: convEnumValue = 28;																														\
-		case TextService::SIZE_32: convEnumValue = 32;																														\
-		case TextService::SIZE_42: convEnumValue = 42;																														\
-		case TextService::SIZE_60: convEnumValue = 60;																														\
-		case TextService::SIZE_96: convEnumValue = 96;																														\
-		default:																																							\
-			ARLASSERT(0);																																					\
-			convEnumValue = 8;																																				\
+		switch (value) {																																					\
+			case TextService::SIZE_8: convEnumValue = 8; break;																												\
+			case TextService::SIZE_9: convEnumValue = 9; break;																												\
+			case TextService::SIZE_10: convEnumValue = 10; break;																											\
+			case TextService::SIZE_11: convEnumValue = 11; break;																											\
+			case TextService::SIZE_12: convEnumValue = 12; break;																											\
+			case TextService::SIZE_14: convEnumValue = 14; break;																											\
+			case TextService::SIZE_18: convEnumValue = 18; break;																											\
+			case TextService::SIZE_24: convEnumValue = 24; break;																											\
+			case TextService::SIZE_36: convEnumValue = 36; break;																											\
+			case TextService::SIZE_48: convEnumValue = 48; break;																											\
+			case TextService::SIZE_28: convEnumValue = 28; break;																											\
+			case TextService::SIZE_32: convEnumValue = 32; break;																											\
+			case TextService::SIZE_42: convEnumValue = 42; break;																											\
+			case TextService::SIZE_60: convEnumValue = 60; break;																											\
+			case TextService::SIZE_96: convEnumValue = 96; break;																											\
 		}																																									\
 		setTextSize(convEnumValue);																																			\
 		GuiTextMixin::fontSize = value;																																		\

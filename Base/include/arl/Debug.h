@@ -198,7 +198,7 @@ void ReleaseAssert(int channel, const char* msg);
 
 // Same as boost::polymorphic_downcast but with an ARLASSERT
 template<class T, class U>
-inline T rbx_static_cast(U u) {
+inline T arl_static_cast(U u) {
 	ARLASSERT_SLOW(dynamic_cast<T>(u)==u);
 	return static_cast<T>(u);
 }

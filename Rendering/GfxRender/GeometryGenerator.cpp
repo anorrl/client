@@ -28,6 +28,7 @@
 #include "V8DataModel/PartOperation.h"
 #include "V8DataModel/PartOperationAsset.h"
 #include "V8DataModel/SolidModelContentProvider.h"
+#include "V8DataModel/MeshPartInstance.h"
 
 #include "g3d/g3dmath.h"
 
@@ -253,7 +254,7 @@ namespace Graphics
 		// Note that bevel, roundness and bulge are unique enough to determine the cylinder/block variant, so we'll use just that
 	#define LOOKUP(ifBevel, ifRoundness, ifBulge, head) \
 		if (G3D::fuzzyEq(bevel, ifBevel) && G3D::fuzzyEq(roundness, ifRoundness) && G3D::fuzzyEq(bulge, ifBulge)) return MeshId("arlasset://avatar/meshes/heads/" head ".mesh")
-	
+
 		if (specialShape)
 		{
 			if (SpecialShape* shape = specialShape->fastDynamicCast<SpecialShape>())
@@ -297,10 +298,10 @@ namespace Graphics
 		
 		// fallback for all other head types
 		return MeshId("arlasset://avatar/meshes/head.mesh");
-		
-	#undef LOOKUP
+
+#undef LOOKUP
 	}
-	
+
 	static MeshId getMeshIdForBodyPart(const HumanoidIdentifier& hi, PartInstance* part, DataModelMesh* specialShape, unsigned int flags)
 	{
 		if (CharacterMesh* charmesh = hi.getRelevantMesh(part))
@@ -351,7 +352,7 @@ namespace Graphics
 			
 		// Requested colors from part
 		if (options.flags & GeometryGenerator::Flag_VertexColorPart)
-			return Color4uint8(part->getColor().color3uint8(), alpha);
+			return Color4uint8(part->getColor3uint8(), alpha);
 			
 		return Color4uint8(255, 255, 255, alpha);
 	}
@@ -589,26 +590,52 @@ namespace Graphics
 		return result;
 	}
 	
-	void GeometryGenerator::addFileMesh(FileMeshData* data, DataModelMesh* specialShape, PartInstance* part, Decal* decal, const HumanoidIdentifier* humanoidIdentifier, const Options& options)
+	void GeometryGenerator::addFileMesh(FileMeshData* data, DataModelMesh* specialShape, PartInstance* part, Decal* decal,
+		const HumanoidIdentifier* humanoidIdentifier, const Options& options)
 	{
 		size_t vertexCount = data->vnts.size();
 		size_t faceCount = data->faces.size();
 
+		// Check if this is a double-sided mesh part
+		bool isDoubleSided = false;
+		if (MeshPartInstance* meshPart = part->fastDynamicCast<MeshPartInstance>())
+		{
+			isDoubleSided = meshPart->getDoubleSided();
+		}
+
 		size_t vertexOffset = mVertexCount;
 		size_t indexOffset = mIndexCount;
-		
-		mVertexCount += vertexCount;
-		mIndexCount += faceCount * 3;
-		
-		if (!mVertices) return;
+
+		// For double-sided meshes, we need double the vertices and indices
+		mVertexCount += vertexCount * (isDoubleSided ? 2 : 1);
+		mIndexCount += faceCount * 3 * (isDoubleSided ? 2 : 1);
+
+		if (!mVertices)
+			return;
 
 		Color4uint8 color = getColor(part, decal, specialShape, options, 0, false);
 		Color4uint8 extra = getExtra(part, options);
 		Vector3 scale = getMeshScale(part, specialShape, humanoidIdentifier);
 
+		if (MeshPartInstance* meshPart = part->fastDynamicCast<MeshPartInstance>())
+		{
+			if (boost::shared_ptr<FileMeshData> fileMeshData = meshPart->getMeshData())
+			{
+				Vector3 boundingSize = meshPart->getPartSizeXml();
+				AABox meshBox = fileMeshData->aabb;
+
+				Vector3 scaleFactor(boundingSize.x / meshBox.extent().x, boundingSize.y / meshBox.extent().y, boundingSize.z / meshBox.extent().z);
+				scale = scaleFactor;
+			}
+			else
+			{
+				return;
+			}
+		}
+
 		const CoordinateFrame& cframe = options.cframe;
 		Vertex* vertices = mVertices;
-        Vector3 offset = specialShape ? specialShape->getOffset() : Vector3::zero();
+		Vector3 offset = specialShape ? specialShape->getOffset() : Vector3::zero();
 
 		SpecialShape* shape = Instance::fastDynamicCast<SpecialShape>(specialShape);
 		bool isHead = shape && shape->getMeshType() == SpecialShape::HEAD_MESH;
@@ -619,23 +646,22 @@ namespace Graphics
 			// Since head mesh is centered around origin, with 0.625 as Y extents (maxY ~= 0.625, minY ~= -0.625), we scale vertices by scale.x
 			// along Y axis and extrude by headCylinderExtents, that is set to keep the cumulative extents at 0.625 * scale.y
 			float headCylinderExtents = 0.625 * (scale.y - scale.x);
-			
+
 			for (size_t i = 0; i < vertexCount; ++i)
 			{
 				Vertex& v = vertices[vertexOffset + i];
 				const FileMeshVertexNormalTexture3d& sv = data->vnts[i];
-				
+
 				float headY = (sv.vy > 0) ? (sv.vy * scale.x + headCylinderExtents) : (sv.vy * scale.x - headCylinderExtents);
-					
-                Vector3 pos;
-                if (FFlag::FixMeshOffset)
-				    pos = cframe.pointToWorldSpace(Vector3(sv.vx * scale.x, headY, sv.vz * scale.z) + offset);
-                else
-                    pos = cframe.pointToWorldSpace(Vector3(sv.vx * scale.x, headY, sv.vz * scale.z)) + offset;
-				
-				fillVertex(v, pos, cframe.vectorToWorldSpace(Vector3(sv.nx, sv.ny, sv.nz)), 
-					transformUV(Vector2(sv.tu, sv.tv), options), Vector2(0.0f,0.0f),
-					color, extra, Vector3());
+
+				Vector3 pos;
+				if (FFlag::FixMeshOffset)
+					pos = cframe.pointToWorldSpace(Vector3(sv.vx * scale.x, headY, sv.vz * scale.z) + offset);
+				else
+					pos = cframe.pointToWorldSpace(Vector3(sv.vx * scale.x, headY, sv.vz * scale.z)) + offset;
+
+				fillVertex(v, pos, cframe.vectorToWorldSpace(Vector3(sv.nx, sv.ny, sv.nz)), transformUV(Vector2(sv.tu, sv.tv), options),
+					Vector2(0.0f, 0.0f), color, extra, Vector3());
 			}
 		}
 		else
@@ -644,34 +670,56 @@ namespace Graphics
 			{
 				Vertex& v = vertices[vertexOffset + i];
 				const FileMeshVertexNormalTexture3d& sv = data->vnts[i];
-				
-                Vector3 pos;
-                if (FFlag::FixMeshOffset)
-                    pos = cframe.pointToWorldSpace(Vector3(sv.vx * scale.x, sv.vy * scale.y, sv.vz * scale.z) + offset);
-                else
-                    pos = cframe.pointToWorldSpace(Vector3(sv.vx * scale.x, sv.vy * scale.y, sv.vz * scale.z)) + offset;
-				
-				fillVertex(v, pos, cframe.vectorToWorldSpace(Vector3(sv.nx, sv.ny, sv.nz)), 
-					transformUV(Vector2(sv.tu, sv.tv), options), Vector2(0.0f,0.0f), 
-					color, extra, Vector3());
+
+				Vector3 pos;
+				if (FFlag::FixMeshOffset)
+					pos = cframe.pointToWorldSpace(Vector3(sv.vx * scale.x, sv.vy * scale.y, sv.vz * scale.z) + offset);
+				else
+					pos = cframe.pointToWorldSpace(Vector3(sv.vx * scale.x, sv.vy * scale.y, sv.vz * scale.z)) + offset;
+
+				fillVertex(v, pos, cframe.vectorToWorldSpace(Vector3(sv.nx, sv.ny, sv.nz)), transformUV(Vector2(sv.tu, sv.tv), options),
+					Vector2(0.0f, 0.0f), color, extra, Vector3());
 			}
 		}
-		
+
 		if (vertexCount > 0)
 		{
 			AABox aabb = cframe.AABBtoWorldSpace(AABox(data->aabb.low() * scale + offset, data->aabb.high() * scale + offset));
-					
+
 			extendBounds(mBboxMin, mBboxMax, aabb.low());
 			extendBounds(mBboxMin, mBboxMax, aabb.high());
 		}
-		
+
 		unsigned short* indices = mIndices;
-		
+
+		// Generate front-facing triangles
 		for (size_t i = 0; i < faceCount; ++i)
 		{
-			indices[indexOffset + i * 3 + 0] = vertexOffset + data->faces[i].a;
-			indices[indexOffset + i * 3 + 1] = vertexOffset + data->faces[i].b;
-			indices[indexOffset + i * 3 + 2] = vertexOffset + data->faces[i].c;
+			indices[indexOffset + i * 3 + 0] = (unsigned short)(vertexOffset + data->faces[i].a);
+			indices[indexOffset + i * 3 + 1] = (unsigned short)(vertexOffset + data->faces[i].b);
+			indices[indexOffset + i * 3 + 2] = (unsigned short)(vertexOffset + data->faces[i].c);
+		}
+
+		// For double-sided meshes, generate back-facing triangles with flipped normals
+		if (isDoubleSided)
+		{
+			size_t backVertexOffset = vertexOffset + vertexCount;
+			size_t backIndexOffset = indexOffset + faceCount * 3;
+
+			// Duplicate vertices with flipped normals
+			for (size_t i = 0; i < vertexCount; ++i)
+			{
+				vertices[backVertexOffset + i] = vertices[vertexOffset + i];
+				vertices[backVertexOffset + i].normal = -vertices[vertexOffset + i].normal;
+			}
+
+			// Generate back faces with reversed winding order
+			for (size_t i = 0; i < faceCount; ++i)
+			{
+				indices[backIndexOffset + i * 3 + 0] = (unsigned short)(backVertexOffset + data->faces[i].a);
+				indices[backIndexOffset + i * 3 + 1] = (unsigned short)(backVertexOffset + data->faces[i].c);
+				indices[backIndexOffset + i * 3 + 2] = (unsigned short)(backVertexOffset + data->faces[i].b);
+			}
 		}
 	}
 
@@ -2236,12 +2284,14 @@ namespace Graphics
 			// Unknown shape type, or a file mesh with an empty meshData (which means that the mesh data could not be loaded)
 			return;
 		}
-		
+
 		// handle parts
 		switch(part->getPartType())
 		{
 		case BLOCK_PART:
 			return addBlock(part->getPartSizeXml(), Vector3::zero(), part, decal, options, randomSeed, ignoreMaterialsStuds);
+		case MESH_PART:
+			return addBlock(part->getPartSizeXml(), Vector3::zero(), part, decal, options, randomSeed, true);
 		case BALL_PART: 
 			return addSphere(part->getPartSizeXml(), Vector3::zero(), part, decal, options, randomSeed, ignoreMaterialsStuds);
 		case CYLINDER_PART:
@@ -2296,6 +2346,33 @@ namespace Graphics
 	{
 		DataModelMesh* specialShape = getSpecialShape(part);
 		
+		// meshpartinstance
+		if (MeshPartInstance* meshPart = part->fastDynamicCast<MeshPartInstance>())
+		{
+			// If we have meshparts, this is most likely a R15 character
+			// Should probably add a check just to make sure down the line
+			if (Humanoid* humanoid = getHumanoid(part))
+			{
+				ARLASSERT(hi && hi->humanoid == humanoid);
+
+				MeshId meshId = getMeshIdForBodyPart(*hi, part, specialShape, flags);
+
+				if (!meshId.isNull())
+				{
+					boost::shared_ptr<FileMeshData> fileMeshData = fetchMesh<MeshContentProvider, FileMeshData, MeshId>(meshId, part, asyncResult);
+					meshPart->setMeshData(fileMeshData);
+					return Resources(fileMeshData ? fileMeshData : kDummyMeshData);
+				}
+			}
+
+			if (!meshPart->isActualMeshIdSet())
+				return Resources();
+
+			boost::shared_ptr<FileMeshData> fileMeshData = fetchMesh<MeshContentProvider, FileMeshData, MeshId>(meshPart->getMeshId(), part, asyncResult);
+			meshPart->setMeshData(fileMeshData);
+			return Resources(fileMeshData ? fileMeshData : kDummyMeshData);
+		}
+
 		// handle parts with file mesh
 		if (FileMesh* shape = getFileMesh(specialShape))
 		{
@@ -2321,8 +2398,8 @@ namespace Graphics
 		if (part->getCookie() & PartCookie::HAS_HEADMESH)
 		{
 			// Return the default head; scaling is taken care of in getMeshScale
-            boost::shared_ptr<FileMeshData> fileMeshData = fetchMesh<MeshContentProvider, FileMeshData, MeshId>(MeshId("arlasset://avatar/meshes/head.mesh"), part, asyncResult);
-            return Resources(fileMeshData ? fileMeshData : kDummyMeshData);
+			boost::shared_ptr<FileMeshData> fileMeshData = fetchMesh<MeshContentProvider, FileMeshData, MeshId>(MeshId("arlasset://avatar/meshes/head.mesh"), part, asyncResult);
+			return Resources(fileMeshData ? fileMeshData : kDummyMeshData);
 		}
 
         if (FFlag::StudioCSGAssets && !FFlag::CSGLoadBlocking)
@@ -2493,6 +2570,19 @@ namespace Graphics
     void GeometryGenerator::addOperation(PartInstance* part, Decal* decal, const Options& options, const Resources& resources, unsigned int randomSeed)
 	{
         bool renderCollision = PartOperation::renderCollisionData;
+
+		// is it a meshpart?
+		if (MeshPartInstance* meshPart = part->fastDynamicCast<MeshPartInstance>())
+		{
+			if (boost::shared_ptr<FileMeshData> fileMeshData = meshPart->getMeshData())
+			{
+				// do nothing for now
+			}
+			else
+			{
+				return;
+			}
+		}
 
 		PartOperation* operation = part->fastDynamicCast<PartOperation>();
 

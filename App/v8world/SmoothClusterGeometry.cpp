@@ -300,7 +300,7 @@ SmoothClusterGeometry::SmoothClusterGeometry(Primitive* p)
 	, gcUnusedMemory(0)
 	, gcUnusedMemoryNext(0)
 {
-	grid = rbx_static_cast<MegaClusterInstance*>(p->getOwner())->getSmoothGrid();
+	grid = arl_static_cast<MegaClusterInstance*>(p->getOwner())->getSmoothGrid();
 
 	partition.reset(new TerrainPartitionSmooth(grid));
 
@@ -560,7 +560,7 @@ bool SmoothClusterGeometry::castRay(const RbxRay& rayInMe, Vector3& localHitPoin
 	Vector3 from = rayInMe.origin();
 	Vector3 to = rayInMe.origin() + maxDistance * rayInMe.direction();
 
-    MegaClusterInstance* mci = rbx_static_cast<MegaClusterInstance*>(myPrim->getOwner());
+    MegaClusterInstance* mci = arl_static_cast<MegaClusterInstance*>(myPrim->getOwner());
 
     DbvhRayTest test(mci, from, to, ignoreWater);
 
@@ -584,7 +584,7 @@ bool SmoothClusterGeometry::castRay(const RbxRay& rayInMe, Vector3& localHitPoin
 
 bool SmoothClusterGeometry::findCellsInBoundingBox(const Vector3& min, const Vector3& max)
 {
-	Voxel2::Grid* grid = rbx_static_cast<MegaClusterInstance*>(myPrim->getOwner())->getSmoothGrid();
+	Voxel2::Grid* grid = arl_static_cast<MegaClusterInstance*>(myPrim->getOwner())->getSmoothGrid();
 
 	Voxel2::Region region = Voxel2::Region::fromExtents(min, max);
 
@@ -622,7 +622,7 @@ void SmoothClusterGeometry::updateAllChunks()
 
 	bulletChunks.clear();
 
-    MegaClusterInstance* mci = rbx_static_cast<MegaClusterInstance*>(myPrim->getOwner());
+    MegaClusterInstance* mci = arl_static_cast<MegaClusterInstance*>(myPrim->getOwner());
 	Voxel2::Grid* grid = mci->getSmoothGrid();
 
 	std::vector<Voxel2::Region> regions = grid->getNonEmptyRegions();
@@ -701,7 +701,7 @@ shared_ptr<btCollisionShape> SmoothClusterGeometry::getBulletChunkShape(const Ve
 
 	if (it->second->state == ChunkMesh::State_Dummy)
 	{
-		MegaClusterInstance* mci = rbx_static_cast<MegaClusterInstance*>(myPrim->getOwner());
+		MegaClusterInstance* mci = arl_static_cast<MegaClusterInstance*>(myPrim->getOwner());
 
 		it->second->generateShape(mci);
 		it->second->updateTree();

@@ -616,7 +616,7 @@ void ANORRLPluginHost::onCreateButton(int toolbarID,int actionID,QString text,QS
 
 	if ( !iconName.isEmpty() )
 	{ 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 		iconName.replace('\\',QDir::separator());
 #endif
 		// set icon for action (safe to call this method as we should be in MainThread)
@@ -733,10 +733,10 @@ void ANORRLPluginHost::doLoadPlugin(ARL::DataModel* dataModel, QString filename)
     if ( toExecute.isEmpty() )
         return;
 
-    QByteArray baToExe = toExecute.toAscii();
+    QByteArray baToExe = toExecute.toLatin1();
     const char* c_strToExe = baToExe.data();
 
-    QByteArray baFileName = filename.toAscii();
+    QByteArray baFileName = filename.toLatin1();
     const char* c_strFileName = baFileName.data();
 
     ARL::PluginManager::singleton()->setLastPath(QFileInfo(filename).absoluteDir().absolutePath().toStdString());

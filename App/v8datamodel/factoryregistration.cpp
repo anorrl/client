@@ -12,6 +12,7 @@
 #include "V8DataModel/Backpack.h"
 #include "V8DataModel/BadgeService.h"
 #include "V8DataModel/BasicPartInstance.h"
+#include "V8DataModel/MeshPartInstance.h"
 #include "V8DataModel/BevelMesh.h"
 #include "V8DataModel/BlockMesh.h"
 #include "v8datamodel/CacheableContentProvider.h"
@@ -229,6 +230,7 @@ ARL_REGISTER_TYPE(bool);
 ARL_REGISTER_TYPE(float);
 ARL_REGISTER_TYPE(int);
 ARL_REGISTER_TYPE(long);
+ARL_REGISTER_TYPE(long long);
 ARL_REGISTER_TYPE(double);
 ARL_REGISTER_TYPE(std::string);
 ARL_REGISTER_TYPE(ARL::ProtectedString);
@@ -469,6 +471,7 @@ ARL_REGISTER_CLASS(PartInstance);
 ARL_REGISTER_CLASS(FormFactorPart);
 ARL_REGISTER_CLASS(BasicPartInstance);
 ARL_REGISTER_CLASS(ExtrudedPartInstance);
+ARL_REGISTER_CLASS(MeshPartInstance);
 ARL_REGISTER_CLASS(PART::Wedge);
 ARL_REGISTER_CLASS(Decal);
 ARL_REGISTER_CLASS(DecalTexture);

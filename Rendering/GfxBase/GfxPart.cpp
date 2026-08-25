@@ -12,6 +12,7 @@
 #include "v8datamodel/SpecialMesh.h"
 #include "v8datamodel/BlockMesh.h"
 #include "v8datamodel/CylinderMesh.h"
+#include "v8datamodel/MeshPartInstance.h"
 #include "v8datamodel/PartOperation.h"
 #include "humanoid/Humanoid.h"
 
@@ -201,6 +202,14 @@ namespace ARL
 			invalidateEntity();
 		}
 		else if (*descriptor == PartOperation::desc_FormFactor)
+		{
+			invalidateEntity();
+		}
+		else if (*descriptor == MeshPartInstance::prop_meshPartId)
+		{
+			invalidateEntity();
+		}
+		else if (*descriptor == MeshPartInstance::prop_meshPartTextureId)
 		{
 			invalidateEntity();
 		}

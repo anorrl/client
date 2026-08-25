@@ -397,6 +397,8 @@ namespace ARL {
 
 		void setMaxHealth(float value);
 		float getMaxHealth() const {return maxHealth;}
+		
+		PartMaterial getFloorMaterial() const;
 
 		void setTyping(bool value) { typing = value; }
 		bool getTyping() const { return typing; }

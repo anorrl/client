@@ -43,7 +43,7 @@ class TreeWidgetDelegate;
 
 struct DepthCompare
 {
-	bool operator() (const ANORRLTreeWidgetItem* lhs, const ANORRLTreeWidgetItem* rhs);
+	bool operator()(const ANORRLTreeWidgetItem* lhs, const ANORRLTreeWidgetItem* rhs) const;
 };
 
 enum ItemRole

@@ -219,7 +219,7 @@ void HopperBin::onSelectCommand()
 {
 	ARLASSERT(binType != SCRIPT_BIN);
 	
-	DataModel* dataModel = rbx_static_cast<DataModel*>(getRootAncestor());
+	DataModel* dataModel = arl_static_cast<DataModel*>(getRootAncestor());
 
 	std::string command = Reflection::EnumDesc<BinType>::singleton().convertToString(binType) + "Tool";
 

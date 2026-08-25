@@ -60,7 +60,7 @@ DocTabManager::DocTabManager(ANORRLMainWindow& mainWindow)
 
 	m_MainWindow.setCentralWidget(m_TabWidget);
     
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     setupTabPageSwitchingShortcuts();
 #endif
 }

@@ -1056,7 +1056,7 @@ bool OfficePaintManager::drawScrollBarSlider(const QStyleOption* opt, QPainter* 
                 if (opt->rect.width() > 10)
                 {
                     QPixmap soImageScrollThumbGripperHorizontal = cached("ControlGalleryScrollThumbGripperHorizontal.png");
-                    Q_ASSERT(soImageScrollThumbGripperHorizontal);
+                    //Q_ASSERT(soImageScrollThumbGripperHorizontal);
                     drawImage(soImageScrollThumbGripperHorizontal, *p, rcGripper, sourceRectImage(soImageScrollThumbGripperHorizontal.rect(), state, 3));
                 }
             }
@@ -1065,7 +1065,7 @@ bool OfficePaintManager::drawScrollBarSlider(const QStyleOption* opt, QPainter* 
                 if (opt->rect.height() > 10)
                 {
                     QPixmap soImageScrollThumbGripperVertical = cached("ControlGalleryScrollThumbGripperVertical.png");
-                    Q_ASSERT(soImageScrollThumbGripperVertical);
+                    //Q_ASSERT(soImageScrollThumbGripperVertical);
                     drawImage(soImageScrollThumbGripperVertical, *p, rcGripper, sourceRectImage(soImageScrollThumbGripperVertical.rect(), state, 3));
                 }
             }

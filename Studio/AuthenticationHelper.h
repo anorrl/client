@@ -39,6 +39,8 @@ public:
 	
 	static QString getLoggedInUserUrl();
 
+	void logOut();
+
 Q_SIGNALS:
 	void authenticationDone(bool authSuccess);
     void authenticationChanged(bool isAuthenticated) const;

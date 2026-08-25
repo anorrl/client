@@ -161,6 +161,14 @@ namespace ARL {
 	}
 
 	template<>
+	std::string StringConverter<long long>::convertToString(const long long& value)
+	{
+		char szText[16];
+		_snprintf(szText, 16, "%lld", value);
+		return szText;
+	}
+
+	template<>
 	bool StringConverter<int>::convertToValue(const std::string& text, int& value)
 	{
 		if (text.size()==0) {
@@ -245,6 +253,22 @@ namespace ARL {
 			value = boost::lexical_cast<long>(text);
 		}
 		catch(boost::bad_lexical_cast &)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	template<>
+	bool StringConverter<long long>::convertToValue(const std::string& text, long long& value)
+	{
+		if (text.size()==0)
+			return false;
+		try
+		{
+			value = boost::lexical_cast<long long>(text);
+		}
+		catch (boost::bad_lexical_cast &)
 		{
 			return false;
 		}

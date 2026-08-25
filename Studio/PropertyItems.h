@@ -210,3 +210,36 @@ private:
 	QMutex				m_updateMutex;
 };
 
+
+class IntPropertyItem : public QObject, public PropertyItem
+{
+	Q_OBJECT
+
+public:
+
+	IntPropertyItem(const ARL::Reflection::PropertyDescriptor* pPropertyDescriptor);
+	IntPropertyItem(PropertyItem* parent, const QString& name);
+
+	QString getTextValue();
+	QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option);
+	void setEditorData(QWidget* editor);
+	void setModelData(QWidget* editor);
+
+	void updateSpinBox();
+	void updateSlider();
+
+	virtual void setVariantValue(const ARL::Reflection::Variant& value);
+
+	virtual bool eventFilter(QObject* obj, QEvent* evt);
+
+private Q_SLOTS:
+	void onSpinBoxChanged();
+	void onSliderChanged(int value);
+	void onSliderReleased();
+
+private:
+
+	QSpinBox* m_SpinBox;
+	QSlider* m_Slider;
+};
+

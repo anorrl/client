@@ -12,6 +12,8 @@
 #include <QString>
 #include <QKeyEvent>
 #include <QLineEdit>
+#include <QTextEdit>
+#include <QCheckBox>
 #include <QTreeView>
 
 #include <boost/function.hpp>

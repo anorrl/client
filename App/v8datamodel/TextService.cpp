@@ -63,6 +63,13 @@ EnumDesc<TextService::Font>::EnumDesc()
 	addPair(TextService::FONT_COURIERNEW, "CourierNew");
 	addPair(TextService::FONT_ZENITH, "Zenith");
 	addPair(TextService::FONT_KOSMOS, "Kosmos");
+	addPair(TextService::FONT_PETSCOP_WIDE, "PetscopWide");
+	addPair(TextService::FONT_PETSCOP_HAND, "PetscopHand");
+	addPair(TextService::FONT_GOTHAMBLACK, "GothamBlack");
+	addPair(TextService::FONT_GOTHAMBOOK, "GothamBook");
+	addPair(TextService::FONT_GOTHAMBOLD, "GothamBold");
+	addPair(TextService::FONT_GOTHAMSEMIBOLD, "GothamSemiBold");
+	addPair(TextService::FONT_EUROSTILEEXTENDEDBLACK, "EurostileExtendedBlack");
 }
 
 template<>
@@ -96,7 +103,7 @@ bool StringConverter<TextService::Font>::convertToValue(const std::string& text,
 	return Reflection::EnumDesc<TextService::Font>::singleton().convertToValue(text.c_str(),value);
 }
 
-static Reflection::BoundFuncDesc<TextService, Vector2(std::string, int, TextService::Font, Vector2)> func_getTextSize(&TextService::getTextSize, "GetTextSize", "string", "fontSize", "font", "frameSize", Security::ANORRLScript);
+static Reflection::BoundFuncDesc<TextService, Vector2(std::string, int, TextService::Font, Vector2)> func_getTextSize(&TextService::getTextSize, "GetTextSize", "string", "fontSize", "font", "frameSize", Security::None);
 
 TextService::Font TextService::FromTextFont(Text::Font font)
 {
@@ -134,6 +141,14 @@ TextService::Font TextService::FromTextFont(Text::Font font)
 	case Text::FONT_COURIERNEW:	return FONT_COURIERNEW;
 	case Text::FONT_ZENITH: return FONT_ZENITH;
 	case Text::FONT_KOSMOS: return FONT_KOSMOS;
+
+	case Text::FONT_PETSCOP_WIDE: return FONT_PETSCOP_WIDE;
+	case Text::FONT_PETSCOP_HAND: return FONT_PETSCOP_HAND;
+	case Text::FONT_GOTHAMBLACK: return FONT_GOTHAMBLACK;
+	case Text::FONT_GOTHAMBOOK: return FONT_GOTHAMBOOK;
+	case Text::FONT_GOTHAMBOLD: return FONT_GOTHAMBOLD;
+	case Text::FONT_GOTHAMSEMIBOLD: return FONT_GOTHAMSEMIBOLD;
+	case Text::FONT_EUROSTILEEXTENDEDBLACK: return FONT_EUROSTILEEXTENDEDBLACK;
 
 	default:
 		ARLASSERT(0);
@@ -173,6 +188,14 @@ Text::Font TextService::ToTextFont(Font font)
 	case FONT_COURIERNEW:	return Text::FONT_COURIERNEW;
 	case FONT_ZENITH:	return Text::FONT_ZENITH;
 	case FONT_KOSMOS:	return Text::FONT_KOSMOS;
+
+	case FONT_PETSCOP_WIDE:	return Text::FONT_PETSCOP_WIDE;
+	case FONT_PETSCOP_HAND:	return Text::FONT_PETSCOP_HAND;
+	case FONT_GOTHAMBLACK:	return Text::FONT_GOTHAMBLACK;
+	case FONT_GOTHAMBOOK:	return Text::FONT_GOTHAMBOOK;
+	case FONT_GOTHAMBOLD:	return Text::FONT_GOTHAMBOLD;
+	case FONT_GOTHAMSEMIBOLD:	return Text::FONT_GOTHAMSEMIBOLD;
+	case FONT_EUROSTILEEXTENDEDBLACK: return Text::FONT_EUROSTILEEXTENDEDBLACK;
 
 	default:
 		ARLASSERT(0);

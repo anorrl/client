@@ -615,14 +615,22 @@ ChatService.Chatted:connect(function(origin, message, color) this:OnGameChatMess
 
 local cameraChangedCon = nil
 if game.Workspace.CurrentCamera then
-	cameraChangedCon = game.Workspace.CurrentCamera:GetPropertyChangedSignal("CFrame"):connect(function(prop) this:CameraCFrameChanged() end)
+	cameraChangedCon = game.Workspace.CurrentCamera.Changed:connect(function(prop)
+		if prop == "CFrame" then 
+			this:CameraCFrameChanged()
+		end
+	end)
 end
 
 game.Workspace.Changed:connect(function(prop)
 	if prop == "CurrentCamera" then
 		if cameraChangedCon then cameraChangedCon:disconnect() end
 		if game.Workspace.CurrentCamera then
-			cameraChangedCon = game.Workspace.CurrentCamera:GetPropertyChangedSignal("CFrame"):connect(function(prop) this:CameraCFrameChanged() end)
+			cameraChangedCon = game.Workspace.CurrentCamera.Changed:connect(function(prop)
+				if prop == "CFrame" then 
+					this:CameraCFrameChanged()
+				end
+			end)
 		end
 	end
 end)

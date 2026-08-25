@@ -47,9 +47,9 @@ bool TreeStage::validateTree(SpanningNode* root)
 	if (!Super::validateTree(root)) {
 		return false;
 	}
-	Primitive* primitive = rbx_static_cast<Primitive*>(root);
+	Primitive* primitive = arl_static_cast<Primitive*>(root);
 
-	Joint* joint = rbx_static_cast<Joint*>(primitive->getEdgeToParent());
+	Joint* joint = arl_static_cast<Joint*>(primitive->getEdgeToParent());
 	Primitive* parent = primitive->getTypedParent<Primitive>();
 
 	Clump* parentClump = parent ? parent->getClump() : NULL;
@@ -107,7 +107,7 @@ bool chainToGround(Primitive* p)
 	}
 	else {
 		Primitive* root = p->getRoot<Primitive>();
-		Joint* joint = rbx_static_cast<Joint*>(root->getEdgeToParent());
+		Joint* joint = arl_static_cast<Joint*>(root->getEdgeToParent());
 		return (joint && Joint::isGroundJoint(joint));
 	}
 }
@@ -115,7 +115,7 @@ bool chainToGround(Primitive* p)
 void TreeStage::onSpanningEdgeAdding(SpanningEdge* edge, SpanningNode* child)
 {
 #ifdef _DEBUG
-	Primitive* childPrim = rbx_static_cast<Primitive*>(child);
+	Primitive* childPrim = arl_static_cast<Primitive*>(child);
 	ARLASSERT(!childPrim->getTypedUpper<Clump>());
 	ARLASSERT(!childPrim->getClump());
 	ARLASSERT(!childPrim->getAssembly());
@@ -123,7 +123,7 @@ void TreeStage::onSpanningEdgeAdding(SpanningEdge* edge, SpanningNode* child)
 	ARLASSERT(!chainToGround(childPrim));
 #endif
 	
-	Primitive* parentPrim = rbx_static_cast<Primitive*>(edge->otherNode(child));
+	Primitive* parentPrim = arl_static_cast<Primitive*>(edge->otherNode(child));
 	ARLASSERT(!parentPrim || parentPrim->getClump());
 	ARLASSERT(!parentPrim || parentPrim->getAssembly());
 	ARLASSERT(!parentPrim || parentPrim->getMechanism());
@@ -145,10 +145,10 @@ void TreeStage::onSpanningEdgeAdding(SpanningEdge* edge, SpanningNode* child)
 
 void TreeStage::onSpanningEdgeAdded(SpanningEdge* edge)
 {
-	Joint* joint = rbx_static_cast<Joint*>(edge);
+	Joint* joint = arl_static_cast<Joint*>(edge);
 	bool isGroundJoint = Joint::isGroundJoint(joint);
-	Primitive* parent = rbx_static_cast<Primitive*>(edge->getParentSpanningNode());
-	Primitive* child = rbx_static_cast<Primitive*>(edge->getChildSpanningNode());
+	Primitive* parent = arl_static_cast<Primitive*>(edge->getParentSpanningNode());
+	Primitive* child = arl_static_cast<Primitive*>(edge->getChildSpanningNode());
 
 	ARLASSERT(chainToGround(child));
 	ARLASSERT(child->getBody()->getParent() == NULL);
@@ -162,7 +162,7 @@ void TreeStage::onSpanningEdgeAdded(SpanningEdge* edge)
 	}
 
 	if (RigidJoint::isRigidJoint(joint)) {						// RIGID JOINT - same clump
-		RigidJoint* r = rbx_static_cast<RigidJoint*>(joint);
+		RigidJoint* r = arl_static_cast<RigidJoint*>(joint);
 		child->getBody()->setParent(parent ? parent->getBody() : NULL);
 		child->getBody()->setMeInParent(r->getChildInParent(parent, child));
 	}
@@ -232,9 +232,9 @@ bool noAssembliesInPipeline(Mechanism* m)
 
 void TreeStage::onSpanningEdgeRemoving(SpanningEdge* edge)
 {
-	Primitive* child = rbx_static_cast<Primitive*>(edge->getChildSpanningNode());
+	Primitive* child = arl_static_cast<Primitive*>(edge->getChildSpanningNode());
 #ifdef _DEBUG
-	Primitive* parent = rbx_static_cast<Primitive*>(edge->getParentSpanningNode());
+	Primitive* parent = arl_static_cast<Primitive*>(edge->getParentSpanningNode());
     ARL_UNUSED(parent);
     ARLASSERT_SLOW(chainToGround(parent));
 	ARLASSERT_SLOW(chainToGround(child));
@@ -248,10 +248,10 @@ void TreeStage::onSpanningEdgeRemoving(SpanningEdge* edge)
 
 void TreeStage::onSpanningEdgeRemoved(SpanningEdge* edge, SpanningNode* childNode)
 {
-	Joint* joint = rbx_static_cast<Joint*>(edge);
-	Primitive* childPrim = rbx_static_cast<Primitive*>(childNode);
+	Joint* joint = arl_static_cast<Joint*>(edge);
+	Primitive* childPrim = arl_static_cast<Primitive*>(childNode);
 #ifdef _DEBUG
-	Primitive* parentPrim = rbx_static_cast<Primitive*>(edge->otherNode(childNode));
+	Primitive* parentPrim = arl_static_cast<Primitive*>(edge->otherNode(childNode));
 	ARLASSERT_SLOW(chainToGround(parentPrim));
 	ARLASSERT_SLOW(!chainToGround(childPrim));
 	ARLASSERT(Joint::isKinematicJoint(joint) == (childPrim->getBody()->getParent() != NULL));
@@ -308,7 +308,7 @@ void TreeStage::sendClumpChangedMessage(Primitive* childPrim)
 	// only do the clump
 	for (int i = 0; i < childPrim->numChildren(); ++i) {
 		Primitive* childChild = childPrim->getTypedChild<Primitive>(i);
-		Joint* joint = rbx_static_cast<Joint*>(childChild->getEdgeToParent());
+		Joint* joint = arl_static_cast<Joint*>(childChild->getEdgeToParent());
 		if (RigidJoint::isRigidJoint(joint)) {
 			sendClumpChangedMessage(childChild);
 		}
@@ -323,7 +323,7 @@ void TreeStage::removeFromPipeline(Mechanism* m)
 {
 	if (m->inPipeline()) {
 		if (m->downstreamOfStage(this)) {
-			rbx_static_cast<MovingStage*>(getDownstreamWS())->onMechanismRemoving(m);
+			arl_static_cast<MovingStage*>(getDownstreamWS())->onMechanismRemoving(m);
 			int num = downstreamMechanisms.erase(m);
 			ARLASSERT(num == 1);
 		}
@@ -390,7 +390,7 @@ void TreeStage::cleanMechanism(Mechanism* m)
 	}
 
 	ARLASSERT(m->inStage(this));
-	rbx_static_cast<MovingStage*>(getDownstreamWS())->onMechanismAdded(m);
+	arl_static_cast<MovingStage*>(getDownstreamWS())->onMechanismAdded(m);
 	bool ok = downstreamMechanisms.insert(m).second;
 	ARLASSERT(ok);
 }
@@ -426,7 +426,7 @@ void TreeStage::onEdgeAdded(Edge* e)
 	e->putInStage(this);
 
 	if (Joint::isSpanningTreeJoint(e)) {
-		Joint* j = rbx_static_cast<Joint*>(e);
+		Joint* j = arl_static_cast<Joint*>(e);
 		insertSpanningTreeEdge(j);
 		if (!(RigidJoint::isRigidJoint(j) || Joint::isGroundJoint(j))) {
 			getDownstreamWS()->onEdgeAdded(e);
@@ -444,7 +444,7 @@ void TreeStage::onEdgeRemoving(Edge* e)
 	ARLASSERT(!e->getPrimitive(1) || e->getPrimitive(1)->inOrDownstreamOfStage(this));
 
 	if (Joint::isSpanningTreeJoint(e)) {
-		Joint* j = rbx_static_cast<Joint*>(e);
+		Joint* j = arl_static_cast<Joint*>(e);
 		if (!(RigidJoint::isRigidJoint(j) || Joint::isGroundJoint(j))) {
 			getDownstreamWS()->onEdgeRemoving(e);
 		}

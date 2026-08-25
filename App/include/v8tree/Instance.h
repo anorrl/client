@@ -483,12 +483,12 @@ public:
 	// getTypedChild
 	template<class Type>
 	Type* getTypedChild(int index)	{
-		return rbx_static_cast<Type*>((*children)[index].get());
+		return arl_static_cast<Type*>((*children)[index].get());
 	}
 
 	template<class Type>
 	const Type* getTypedChild(int index) const	{
-		return rbx_static_cast<const Type*>((*children)[index].get());
+		return arl_static_cast<const Type*>((*children)[index].get());
 	}
 
 	// queryTypedParent
@@ -505,12 +505,12 @@ public:
 	// getTypedParent
 	template<class Type>
 	Type* getTypedParent() {
-		return rbx_static_cast<Type*>(parent);
+		return arl_static_cast<Type*>(parent);
 	}
 
 	template<class Type>
 	const Type* getTypedParent() const {
-		return rbx_static_cast<const Type*>(parent);
+		return arl_static_cast<const Type*>(parent);
 	}
 
 	// getTypedRoot

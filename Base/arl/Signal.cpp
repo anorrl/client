@@ -20,27 +20,27 @@ using namespace signals;
 
 boost::function<void(std::exception&)> arl::signals::slot_exception_handler(0);
 
-void connection::disconnect() const 
-{ 
+void connection::disconnect() const
+{
 	boost::intrusive_ptr<islot> s(weak_slot.lock());
-	if (s) 
+	if (s)
 		s->disconnect();
 }
 
-bool connection::connected() const 
-{ 
+bool connection::connected() const
+{
 	boost::intrusive_ptr<islot> s(weak_slot.lock());
-	return s && s->connected(); 
+	return s && s->connected();
 }
 
-bool connection::operator== (const connection& other) const 
-{ 
-	return weak_slot.lock() == other.weak_slot.lock(); 
+bool connection::operator== (const connection& other) const
+{
+	return weak_slot.lock() == other.weak_slot.lock();
 }
 
-bool connection::operator!= (const connection& other) const 
-{ 
-	return weak_slot.lock() != other.weak_slot.lock(); 
+bool connection::operator!= (const connection& other) const
+{
+	return weak_slot.lock() != other.weak_slot.lock();
 }
 
 connection& connection::operator= (const connection& con)

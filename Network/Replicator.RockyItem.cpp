@@ -83,7 +83,7 @@ bool Replicator::NetPmcChallengeItem::write(RakNet::BitStream& bitStream)
 void DeserializedRockyItem::process(Replicator& replicator) 
 {
 #if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
-	ClientReplicator* rep = rbx_static_cast<ClientReplicator*>(&replicator);
+	ClientReplicator* rep = arl_static_cast<ClientReplicator*>(&replicator);
     DataModel::get(rep)->submitTask(
         boost::bind(&ClientReplicator::doNetPmcCheck, shared_from(rep), idx, challenge), DataModelJob::Write);
 #endif
@@ -93,7 +93,7 @@ shared_ptr<DeserializedItem> Replicator::RockyItem::read(Replicator& replicator,
 {
 	shared_ptr<DeserializedRockyItem> deserializedData(new DeserializedRockyItem());
 
-	ClientReplicator* rep = rbx_static_cast<ClientReplicator*>(&replicator);
+	ClientReplicator* rep = arl_static_cast<ClientReplicator*>(&replicator);
 	rep->readRockyItem(bitStream, deserializedData->idx, deserializedData->challenge);
 	
 	return deserializedData;

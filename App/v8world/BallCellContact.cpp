@@ -17,8 +17,8 @@ using namespace Voxel;
 BallCellContact::BallCellContact(Primitive* p0, Primitive* p1, const Vector3int16& cell)
 	: CellMeshContact(p0, p1, Vector3int32(cell))
 {
-	ARLASSERT(rbx_static_cast<Ball*>(p1->getGeometry()));
-	ARLASSERT(rbx_static_cast<MegaClusterPoly*>(p0->getGeometry()));
+	ARLASSERT(arl_static_cast<Ball*>(p1->getGeometry()));
+	ARLASSERT(arl_static_cast<MegaClusterPoly*>(p0->getGeometry()));
 
     cellMesh = new POLY::Mesh;
 
@@ -245,12 +245,12 @@ BallVertexConnector* BallCellContact::newBallVertexConnector(const POLY::Vertex*
 
 const Ball* BallCellContact::ball() const
 {
-	return rbx_static_cast<const Ball*>(getConstPrimitive(1)->getConstGeometry());
+	return arl_static_cast<const Ball*>(getConstPrimitive(1)->getConstGeometry());
 }
 
 const Poly* BallCellContact::poly() const
 {
-	return rbx_static_cast<const MegaClusterPoly*>(getConstPrimitive(0)->getConstGeometry());
+	return arl_static_cast<const MegaClusterPoly*>(getConstPrimitive(0)->getConstGeometry());
 }
 
 void BallCellContact::generateDataForMovingAssemblyStage(void)

@@ -474,7 +474,6 @@
     <ClCompile Include="TextureCompositor.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TextureRef.cpp" />
-    <ClCompile Include="TypesetterBitmap.cpp" />
     <ClCompile Include="TypesetterDynamic.cpp" />
     <ClCompile Include="VertexStreamer.cpp" />
     <ClCompile Include="VisualEngine.cpp" />
@@ -523,7 +522,6 @@
     <ClInclude Include="TextureCompositor.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TextureRef.h" />
-    <ClInclude Include="TypesetterBitmap.h" />
     <ClInclude Include="TypesetterDynamic.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="VertexStreamer.h" />
@@ -538,11 +536,12 @@
     <SccProvider>SAK</SccProvider>
     <SccAuxPath>SAK</SccAuxPath>
     <ApplicationEnvironment>title</ApplicationEnvironment>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
@@ -554,7 +553,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
@@ -566,7 +565,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
@@ -578,7 +577,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
@@ -714,7 +713,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;.\include;.\freetype\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\Base\include;..\..\TBB_4_1\include;..\..\App\Include;..\..\ClientShared;..\GfxBase\include;..\GfxCore\include;..\g3d\include;..\g3d\zlib;..\AppDraw\include;..\RbxG3D\include;$(CONTRIB_PATH)\SDK\Include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\include;.\include;.\freetype\include;$(CONTRIB_PATH)\boost_1_59_0;..\..\Base\include;..\..\App\Include;..\..\ClientShared;..\GfxBase\include;..\GfxCore\include;..\g3d\include;..\g3d\zlib;..\AppDraw\include;..\RbxG3D\include;..\..\Log\include;..\..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_RELEASE;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -723,7 +722,7 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <WarningLevel>Level3</WarningLevel>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>

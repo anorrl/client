@@ -44,7 +44,7 @@ bool Mechanism::isComplexMovingMechanism(const Assembly* a)
 		const Assembly* child = a->getConstTypedChild<Assembly>(i);
 		const Primitive* p = child->getConstAssemblyPrimitive();
 		const SpanningEdge* spanningEdge = p->getConstEdgeToParent();
-		const Joint* j = rbx_static_cast<const Joint*>(spanningEdge);
+		const Joint* j = arl_static_cast<const Joint*>(spanningEdge);
 		ARLASSERT(Joint::isSpringJoint(j));
 	}
 #endif
@@ -107,7 +107,7 @@ Primitive* Mechanism::getRootMovingPrimitive(Primitive* p)
 Mechanism* Mechanism::getPrimitiveMechanism(Primitive* p)
 {
 	if (Assembly* assembly = Assembly::getPrimitiveAssembly(p)) {
-		return rbx_static_cast<Mechanism*>(assembly->getComputedUpper());
+		return arl_static_cast<Mechanism*>(assembly->getComputedUpper());
 	}
 	return NULL;
 }
@@ -115,7 +115,7 @@ Mechanism* Mechanism::getPrimitiveMechanism(Primitive* p)
 const Mechanism* Mechanism::getConstPrimitiveMechanism(const Primitive* p)
 {
 	if (const Assembly* assembly = Assembly::getConstPrimitiveAssembly(p)) {
-		return rbx_static_cast<const Mechanism*>(assembly->getConstComputedUpper());
+		return arl_static_cast<const Mechanism*>(assembly->getConstComputedUpper());
 	}
 	return NULL;
 }

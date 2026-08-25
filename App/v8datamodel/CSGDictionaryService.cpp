@@ -12,10 +12,10 @@ FASTFLAG(IgnoreBlankDataOnStore)
 
 namespace {
 
-const std::string localKeyTag("CSGK");
-const size_t minKeySize = 4;
+	const std::string localKeyTag("CSGK");
+	const size_t minKeySize = 4;
 
-} 
+}
 
 namespace ARL
 {
@@ -66,11 +66,11 @@ namespace ARL
 		}
 
 		tmpString = partOperation.getPhysicsData();
-        if ( FFlag::IgnoreBlankDataOnStore && tmpString.value().size() > 0 )
-        {
-		    storeStringData(tmpString, forceIncrement, "PhysicsData");
+		if ( FFlag::IgnoreBlankDataOnStore && tmpString.value().size() > 0 )
+		{
+			storeStringData(tmpString, forceIncrement, "PhysicsData");
 		}
-        partOperation.setPhysicsData(tmpString);
+		partOperation.setPhysicsData(tmpString);
 	}
 
 	void CSGDictionaryService::retrieveData(PartOperation& partOperation)
@@ -116,13 +116,13 @@ namespace ARL
 				refreshRefCountUnderInstance(iter->get());
 	}
 
-    boost::shared_ptr<CSGMesh> CSGDictionaryService::insertMesh(const std::string key, const ARL::BinaryString& meshData)
-    {
-        shared_ptr<CSGMesh> mesh = shared_ptr<CSGMesh>(CSGMeshFactory::singleton()->createMesh());
-        mesh->fromBinaryString(meshData.value());
+	boost::shared_ptr<CSGMesh> CSGDictionaryService::insertMesh(const std::string key, const ARL::BinaryString& meshData)
+	{
+		shared_ptr<CSGMesh> mesh = shared_ptr<CSGMesh>(CSGMeshFactory::singleton()->createMesh());
+		mesh->fromBinaryString(meshData.value());
 		cachedMeshMap.insert(std::make_pair(key, mesh));
-        return cachedMeshMap.at(key);
-    }
+		return cachedMeshMap.at(key);
+	}
 
 	void CSGDictionaryService::insertMesh(PartOperation& partOperation)
 	{
@@ -144,14 +144,14 @@ namespace ARL
 		}
 	}
 
-    boost::shared_ptr<CSGMesh> CSGDictionaryService::getMesh(PartOperation& partOperation)
-    {
-        const BinaryString& keyIn = partOperation.getMeshData();
+	boost::shared_ptr<CSGMesh> CSGDictionaryService::getMesh(PartOperation& partOperation)
+	{
+		const BinaryString& keyIn = partOperation.getMeshData();
 
-   		if (keyIn.value().size() > minKeySize)
+		if (keyIn.value().size() > minKeySize)
 		{
-            std::string key = getLocalKeyHash(keyIn);
-			
+			std::string key = getLocalKeyHash(keyIn);
+
 			if (strncmp(keyIn.value().c_str(), localKeyTag.c_str(), minKeySize) == 0)
 			{
 				if (cachedBREPMeshMap.count(key))
@@ -168,9 +168,9 @@ namespace ARL
 						return insertMesh(key, meshData->getValue());
 				}
 			}
-        }
-        return  boost::shared_ptr<CSGMesh>();
-    }
+		}
+		return  boost::shared_ptr<CSGMesh>();
+	}
 
 	void CSGDictionaryService::retrieveMeshData(PartOperation& partOperation)
 	{
@@ -193,51 +193,51 @@ namespace ARL
 		partOperation.setPhysicsData(tmpString);
 	}
 
-    void CSGDictionaryService::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider)
-    {
-        FlyweightService::onServiceProvider(oldProvider, newProvider);
+	void CSGDictionaryService::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider)
+	{
+		FlyweightService::onServiceProvider(oldProvider, newProvider);
 
-        if (FFlag::CSGLoadFromCDN && !oldProvider && newProvider)
-        {
-            DataModel* dataModel = DataModel::get(this);
+		if (FFlag::CSGLoadFromCDN && !oldProvider && newProvider)
+		{
+			DataModel* dataModel = DataModel::get(this);
 
-            if (!dataModel)
-                return;
+			if (!dataModel)
+				return;
 
-            dataModel->workspaceLoadedSignal.connect(boost::bind(&CSGDictionaryService::onWorkspaceLoaded, shared_from(this)));
-        }
-    }
+			dataModel->workspaceLoadedSignal.connect(boost::bind(&CSGDictionaryService::onWorkspaceLoaded, shared_from(this)));
+		}
+	}
 
-    void findAndStripMeshData(std::set<BinaryString>* keys, shared_ptr<Instance> descendant)
-    {
-        if(shared_ptr<PartOperation> partOperation = Instance::fastSharedDynamicCast<PartOperation>(descendant))
-        {
-            if (partOperation->hasAsset() &&
-                partOperation->getMeshData().value().size() > 0)
-            {
-                keys->insert(partOperation->getMeshData());
-                partOperation->setMeshData(BinaryString());
-            }
-        }
-    }
+	void findAndStripMeshData(std::set<BinaryString>* keys, shared_ptr<Instance> descendant)
+	{
+		if(shared_ptr<PartOperation> partOperation = Instance::fastSharedDynamicCast<PartOperation>(descendant))
+		{
+			if (partOperation->hasAsset() &&
+				partOperation->getMeshData().value().size() > 0)
+			{
+				keys->insert(partOperation->getMeshData());
+				partOperation->setMeshData(BinaryString());
+			}
+		}
+	}
 
-    void CSGDictionaryService::onWorkspaceLoaded()
-    {
-        std::set<BinaryString> keys;
+	void CSGDictionaryService::onWorkspaceLoaded()
+	{
+		std::set<BinaryString> keys;
 
-        DataModel* dataModel = DataModel::get(this);
+		DataModel* dataModel = DataModel::get(this);
 
-        if (!dataModel)
-            return;
+		if (!dataModel)
+			return;
 
-        dataModel->visitDescendants(boost::bind(&findAndStripMeshData, &keys, _1));
+		dataModel->visitDescendants(boost::bind(&findAndStripMeshData, &keys, _1));
 
-        for (std::set<BinaryString>::iterator iter = keys.begin();
-             iter != keys.end();
-             ++iter)
-        {
-            removeStringData((*iter));
-        }
-    }
+		for (std::set<BinaryString>::iterator iter = keys.begin();
+			iter != keys.end();
+			++iter)
+		{
+			removeStringData((*iter));
+		}
+	}
 
 }

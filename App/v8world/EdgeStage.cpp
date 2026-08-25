@@ -20,7 +20,7 @@ EdgeStage::EdgeStage(IStage* upstream, World* world)
 
 ContactStage* EdgeStage::getContactStage()
 {
-	return rbx_static_cast<ContactStage*>(getDownstreamWS());
+	return arl_static_cast<ContactStage*>(getDownstreamWS());
 }
 
 void EdgeStage::onPrimitiveAdded(Primitive* p)

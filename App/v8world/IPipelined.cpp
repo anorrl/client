@@ -11,7 +11,7 @@ Kernel* IPipelined::getKernel() const
 {
 	ARLASSERT(this->inKernel());
 	IStage* answer = getStage(IStage::KERNEL_STAGE);
-	return rbx_static_cast<Kernel*>(answer);
+	return arl_static_cast<Kernel*>(answer);
 }
 
 void IPipelined::putInKernel(Kernel* kernel)

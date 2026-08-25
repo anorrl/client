@@ -37,6 +37,7 @@
 #include "ANORRLCustomWidgets.h"
 #include "ANORRLQuickAccessConfig.h"
 #include "StudioDeviceEmulator.h"
+#include "AuthenticationHelper.h"
 
 FASTFLAGVARIABLE(SurfaceLightEnabled, true)
 
@@ -131,6 +132,8 @@ ANORRLRibbonMainWindow::ANORRLRibbonMainWindow(ANORRLMainWindow* pMainWindow)
 , m_pRibbonStyle(NULL)
 , m_pRibbonMinimizeAction(NULL)
 , m_pQuickAccessConfigDialog(NULL)
+, m_authenticatedMenu(NULL)
+, m_actionLogOut(NULL)
 , m_bInitialized(false)
 {
 	// DO NOT ADD MORE HERE
@@ -171,8 +174,8 @@ void ANORRLRibbonMainWindow::setupRibbonBar()
 	// quickaccess bar must be created in the last, as there can be some actions created from XML file
 	parseAndCreateQuickAccessBar(docElem);
 	
-    ribbonBar()->setFrameThemeEnabled(false);
-	ribbonBar()->setTitleBarVisible(false);
+    ribbonBar()->setFrameThemeEnabled(true);
+	ribbonBar()->setTitleBarVisible(true);
 	ribbonBar()->getSystemButton()->setToolButtonStyle(Qt::ToolButtonTextOnly);
 
 	m_bInitialized = true;
@@ -297,7 +300,7 @@ void ANORRLRibbonMainWindow::updateInternalWidgetsState(QAction* pAction, bool e
 
 QString ANORRLRibbonMainWindow::getDefaultSavePath()
 {
-    QString doc_path = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+    QString doc_path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QDir(doc_path).mkdir("ANORRL");
     return doc_path + "/ANORRL";
 }
@@ -407,7 +410,7 @@ void ANORRLRibbonMainWindow::parseAndCreateSystemButton(const QDomElement &docEl
 	{
 		QPixmap iconPixmap(icon);
 		if (!iconPixmap.isNull())
-			iconLogo.addPixmap(iconPixmap.scaled(32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+			iconLogo.addPixmap(iconPixmap.scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 	}
 
 	if(QAction* actionFile = ribbonBar()->addSystemButton(iconLogo, buttonName)) 
@@ -434,8 +437,8 @@ void ANORRLRibbonMainWindow::parseAndCreateSystemButton(const QDomElement &docEl
 			QAction* pActionExit =  popupBar->addPopupBarAction(tr("Exit"));
 			connect(pActionExit, SIGNAL(triggered()), this, SLOT(close()));
 
-			//QAction* pActionOption = popupBar->addPopupBarAction(tr("Settings"));
-			//connect(pActionOption, SIGNAL(triggered()), this, SLOT(openSettingsDialog()));						
+			QAction* pActionOption = popupBar->addPopupBarAction(tr("Settings"));
+			connect(pActionOption, SIGNAL(triggered()), this, SLOT(openSettingsDialog()));						
 		}
 	}
 }
@@ -444,7 +447,8 @@ void ANORRLRibbonMainWindow::parseAndCreateRibbonBar(const QDomElement &docElem)
 {
 	QDomElement ribbonBarElement = docElem.firstChildElement(elemRibbonBar);
 	if (!ribbonBarElement.isNull())
-	{								
+	{	
+		createAuthenticatedMenu();
 		// Add online help button
 		ribbonBar()->addAction(onlineHelpAction, Qt::ToolButtonIconOnly);
 		onlineHelpAction->setIcon(QIcon(":/RibbonBar/images/Studio Ribbon Icons/about.png"));
@@ -453,6 +457,8 @@ void ANORRLRibbonMainWindow::parseAndCreateRibbonBar(const QDomElement &docElem)
 		if (ribbonBarElement.attribute(attribThemeOptions) == "true")
 			createThemeOptions();
 		
+
+
 		// Add a minimize button
 		if (ribbonBarElement.attribute(attribMinButton) == "true")
 		{
@@ -472,7 +478,9 @@ void ANORRLRibbonMainWindow::parseAndCreateRibbonBar(const QDomElement &docElem)
 			// add this to registry
             ANORRLSettings settings;
 			ribbonBar()->setMinimized(settings.value(settingRibbonMinimized, false).toBool());
-		}	
+		}
+		
+		
 
 		// Create our tab pages and their children, recursively
 		parseAndCreateChildren(ribbonBarElement, ribbonBar());
@@ -488,7 +496,7 @@ void ANORRLRibbonMainWindow::parseAndCreateRibbonBar(const QDomElement &docElem)
 			{
 				QFont font;
 				font.fromString(fontStr);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 				// On Mac we need to have bigger fonts
 				font.setPointSize(font.pointSize() + 4);
 #endif
@@ -503,7 +511,7 @@ void ANORRLRibbonMainWindow::parseAndCreateChildren(const QDomElement& tabPageEl
 {
 	for (QDomElement domElementIterator = tabPageElement.firstChildElement(); !domElementIterator.isNull(); domElementIterator = domElementIterator.nextSiblingElement()) 
 	{		
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
         if (domElementIterator.attribute(attribWinOnly) == "true")
             continue;
 #else
@@ -1746,6 +1754,8 @@ void ANORRLRibbonMainWindow::handleStyleChange(QAction* pAction)
 		themeId = Qtitan::OfficeStyle::Office2013White;
 	else if (pAction->objectName() == "Office2013Gray")
 		themeId = Qtitan::OfficeStyle::Office2013Gray;
+	else if (pAction->objectName() == "Office2013Black")
+		themeId = Qtitan::OfficeStyle::Office2013Black;
 
 	setTheme(themeId);	
 }
@@ -1770,7 +1780,7 @@ void ANORRLRibbonMainWindow::initialize()
 
 	m_ribbonFont = QFont(loadedFontFamilies.at(0), 9);
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	// On Mac we need to have bigger fonts
 	m_ribbonFont.setPointSize(m_ribbonFont.pointSize() + 4);
 
@@ -1782,8 +1792,8 @@ void ANORRLRibbonMainWindow::initialize()
 	
 	// create default style
 	m_pRibbonStyle = new Qtitan::RibbonStyle();
-	m_pRibbonStyle->setTheme(AuthoringSettings::singleton().darkMode ? Qtitan::OfficeStyle::Office2013Black : Qtitan::OfficeStyle::Office2013White);
-	m_pRibbonStyle->setAnimationEnabled(false);
+	m_pRibbonStyle->setTheme(Qtitan::OfficeStyle::Office2013White);
+	m_pRibbonStyle->setAnimationEnabled(true);
 	qApp->setStyle(m_pRibbonStyle);
 
 	//  ribbon bar object (MUST)
@@ -1817,7 +1827,7 @@ void ANORRLRibbonMainWindow::updateFonts(const QFont& font)
 		{
 			if (ribbonWidgets[ii] && ribbonWidgets[ii]->metaObject())
 			{
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
                 // Mac requires setting of fonts to both i.e. Tab as well as other children
                 ribbonWidgets[ii]->setFont(ribbonWidgets[ii]->metaObject()->className() == QString("Qtitan::RibbonTab") ? smallerFont : font);
 #else
@@ -1843,7 +1853,7 @@ void ANORRLRibbonMainWindow::updateFonts(const QFont& font)
 	{
 		QApplication::setFont(font);
 		// on mac we need explicit font update
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 		QApplication::setFont(font, "QListWidget");
 #endif
 
@@ -1941,6 +1951,10 @@ void ANORRLRibbonMainWindow::createThemeOptions()
 	action2013Gray->setObjectName("Office2013Gray");
 	action2013Gray->setChecked(themeId == Qtitan::RibbonStyle::Office2013Gray);
 
+	QAction* action2013Black = menuStyle->addAction(tr("Office 2013 Black"));
+	action2013Black->setObjectName("Office2013Black");
+	action2013Black->setChecked(themeId == Qtitan::RibbonStyle::Office2013Black);
+
 	styleActions->addAction(actionBlue);
 	styleActions->addAction(actionBlack);
 	styleActions->addAction(actionSilver);
@@ -1951,6 +1965,7 @@ void ANORRLRibbonMainWindow::createThemeOptions()
 	styleActions->addAction(action2010Black);
 	styleActions->addAction(action2013White);
 	styleActions->addAction(action2013Gray);
+	styleActions->addAction(action2013Black);
 	styleActions->setEnabled(true);
 
 	QList<QAction*> styleActionsList= styleActions->actions();
@@ -1961,6 +1976,29 @@ void ANORRLRibbonMainWindow::createThemeOptions()
 	
 	actionStyle->setMenu(menuStyle);
 	connect(styleActions, SIGNAL(triggered(QAction*)), this, SLOT(handleStyleChange(QAction*)));
+}
+
+void ANORRLRibbonMainWindow::createAuthenticatedMenu()
+{
+	if (m_authenticatedMenu)
+		return;
+
+	m_authenticatedMenu = ribbonBar()->addMenu(tr("Logged out"));
+	m_actionLogOut = m_authenticatedMenu->addAction(tr("Log out"));
+
+	connect(m_actionLogOut, SIGNAL(triggered()), this, SLOT(handleLogOut()));
+
+	connect(&AuthenticationHelper::Instance(), SIGNAL(authenticationDone(bool)), this, SLOT(updateUser(bool)));
+}
+
+void ANORRLRibbonMainWindow::updateUser(bool authenticated) {
+	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "authentication %s", (authenticated ? "true" : "false"));
+	m_bAuthenticated = authenticated;
+	m_authenticatedMenu->setTitle(m_bAuthenticated ? QString(ANORRLUser::singleton().getUserName().c_str()) : "LOGGED OUT");	
+}
+
+void ANORRLRibbonMainWindow::handleLogOut() {
+	AuthenticationHelper::Instance().logOut();
 }
 
 void ANORRLRibbonMainWindow::setTheme(Qtitan::RibbonStyle::Theme themeId)
@@ -1975,7 +2013,8 @@ void ANORRLRibbonMainWindow::setTheme(Qtitan::RibbonStyle::Theme themeId)
 			themeId == Qtitan::OfficeStyle::Office2010Silver ||
 			themeId == Qtitan::OfficeStyle::Office2010Black ||
 			themeId == Qtitan::OfficeStyle::Office2013White ||
-			themeId == Qtitan::OfficeStyle::Office2013Gray)
+			themeId == Qtitan::OfficeStyle::Office2013Gray ||
+			themeId == Qtitan::OfficeStyle::Office2013Black)
 		{
 			pButton->setToolButtonStyle(Qt::ToolButtonTextOnly);
 		}

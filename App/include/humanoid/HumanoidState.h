@@ -198,6 +198,7 @@ namespace ARL
 			static float runningKMoveP();
 			static float runningKMovePForPGS();
 			static float maxLinearGroundMoveForce()			{ return 500.0; }
+			PartMaterial getFloorMaterial() const { return floorMaterial; }
 
 		protected:
 			Assembly* filteringAssembly;
@@ -222,7 +223,6 @@ namespace ARL
 			bool getFacingLadder() const {return facingLadder;}
 			bool getHeadClear() const { return headClear; }
 
-			PartMaterial getFloorMaterial() const { return floorMaterial; }
 			float getFloorFrictionProperty(Primitive* floorPrim) const;
 
 			Primitive* getFloorPrimitive();

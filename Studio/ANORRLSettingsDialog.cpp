@@ -40,8 +40,8 @@ ANORRLSettingsDialog::ANORRLSettingsDialog(QWidget* parent)
 	QStringList headerLabels("Names");
 	m_SettingsTypesTable->setHorizontalHeaderLabels(headerLabels);
 	m_SettingsTypesTable->verticalHeader()->hide();
-	m_SettingsTypesTable->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-	m_SettingsTypesTable->horizontalHeader()->setClickable(true);
+	m_SettingsTypesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	m_SettingsTypesTable->horizontalHeader()->setSectionsClickable(true);
 	m_SettingsTypesTable->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
 	m_SettingsTypesTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	m_SettingsTypesTable->setAlternatingRowColors(true);
@@ -270,7 +270,7 @@ SelectionPropertyTree::SelectionPropertyTree(QWidget* parent)
 
 SelectionPropertyTree::~SelectionPropertyTree()
 {
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     // On Mac, intermittent crash during deletion of GlobalAdvancedSetting requires us to explictly remove selection (if any)
     if (m_selection)
         m_selection->clearSelection();

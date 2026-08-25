@@ -309,7 +309,7 @@ void ScriptSideWidget::mousePressEvent(QMouseEvent* evt)
 
         const int xofs = FFlag::LuaDebugger ? 0 : (width() - m_foldArea);
         const int fh   = fm.lineSpacing();
-        const int ys   = evt->posF().y();
+        const int ys   = evt->pos().y();
 
         int lineNumber  = 0;
 

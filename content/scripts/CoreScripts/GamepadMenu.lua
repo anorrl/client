@@ -396,7 +396,7 @@ local function setupGamepadControls()
 	local thumbstick2RadialActionName = "Thumbstick2RadialAction"
 	local radialCancelActionName = "RadialSelectCancel"
 	local radialAcceptActionName = "RadialSelectAccept"
-	local toggleMenuActionName = "RBXToggleMenuAction"
+	local toggleMenuActionName = "ARLToggleMenuAction"
 
 	local noOpFunc = function() end
 	local doGamepadMenuButton = nil

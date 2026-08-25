@@ -396,6 +396,63 @@ bool StringConverter<G3D::Color3>::convertToValue(const std::string& text, G3D::
 	return true;
 }
 
+template<>
+std::string StringConverter<G3D::Color3uint8>::convertToString(const G3D::Color3uint8& value)
+{
+	char szText[64];
+#ifdef _WIN32
+	_snprintf(szText, 64, "%g, %g, %g", value[0], value[1], value[2]);
+#else	
+	snprintf(szText, 64, "%g, %g, %g", value[0], value[1], value[2]);
+#endif	
+	return szText;
+}
+
+template<>
+bool StringConverter<G3D::Color3uint8>::convertToValue(const std::string& text, G3D::Color3uint8& value)
+{
+	if (text[0] == '#')
+	{
+		// This is an HTML color: #rrggbb
+		if (text.size() != 7)
+			return false;
+		value[0] = static_cast<float>(strtol(text.substr(1, 2).c_str(), NULL, 16)) / 255.0f;
+		value[1] = static_cast<float>(strtol(text.substr(3, 2).c_str(), NULL, 16)) / 255.0f;
+		value[2] = static_cast<float>(strtol(text.substr(5, 2).c_str(), NULL, 16)) / 255.0f;
+		return true;
+	}
+
+	if (text.substr(0, 2) == "0x")
+	{
+		// This is a color of the form 0xrrggbb
+		if (text.size() != 8)
+			return false;
+		value[0] = static_cast<float>(strtol(text.substr(2, 2).c_str(), NULL, 16)) / 255.0f;
+		value[1] = static_cast<float>(strtol(text.substr(4, 2).c_str(), NULL, 16)) / 255.0f;
+		value[2] = static_cast<float>(strtol(text.substr(6, 2).c_str(), NULL, 16)) / 255.0f;
+		return true;
+	}
+
+	int pos = text.find_first_of(",;", 0);
+	if (pos < 0)
+		return false;
+	value[0] = static_cast<float>(atof(text.substr(0, pos).c_str()));
+
+	int last = pos + 1;
+	pos = text.find_first_of(",;", last);
+	if (pos < last)
+		return false;
+	value[1] = static_cast<float>(atof(text.substr(last, pos - last).c_str()));
+
+	last = pos + 1;
+	pos = text.length();
+	if (pos < last)
+		return false;
+	value[2] = static_cast<float>(atof(text.substr(last, pos - last).c_str()));
+
+	return true;
+}
+
 
 template<>
 bool StringConverter<ARL::ContentId>::convertToValue(const std::string& text, ARL::ContentId& value)

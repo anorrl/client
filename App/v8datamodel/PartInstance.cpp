@@ -44,17 +44,17 @@
 #include "script/LuaInstanceBridge.h"
 
 DYNAMIC_FASTFLAG(HumanoidFloorPVUpdateSignal)
-DYNAMIC_FASTFLAGVARIABLE(SetUpdateTimeOnClumpChanged, false)
-DYNAMIC_FASTFLAGVARIABLE(SetNetworkOwnerFixAnchoring, false)
-DYNAMIC_FASTFLAGVARIABLE(SetNetworkOwnerFixAnchoring2, false)
-DYNAMIC_FASTFLAGVARIABLE(NetworkOwnershipRuleReplicates, false)
-DYNAMIC_FASTFLAGVARIABLE(LocalScriptSpawnPartAlwaysSetOwner, false)
+DYNAMIC_FASTFLAGVARIABLE(SetUpdateTimeOnClumpChanged, true)
+DYNAMIC_FASTFLAGVARIABLE(SetNetworkOwnerFixAnchoring, true)
+DYNAMIC_FASTFLAGVARIABLE(SetNetworkOwnerFixAnchoring2, true)
+DYNAMIC_FASTFLAGVARIABLE(NetworkOwnershipRuleReplicates, true)
+DYNAMIC_FASTFLAGVARIABLE(LocalScriptSpawnPartAlwaysSetOwner, true)
 
 // Physical Material Properties
-DYNAMIC_FASTFLAGVARIABLE(MaterialPropertiesEnabled, false)
-SYNCHRONIZED_FASTFLAGVARIABLE(MaterialPropertiesNewIsDefault, false)
-SYNCHRONIZED_FASTFLAGVARIABLE(NewPhysicalPropertiesForcedOnAll, false)
-FASTFLAGVARIABLE        (AnchoredSendPositionUpdate, false)
+DYNAMIC_FASTFLAGVARIABLE(MaterialPropertiesEnabled, true)
+SYNCHRONIZED_FASTFLAGVARIABLE(MaterialPropertiesNewIsDefault, true)
+SYNCHRONIZED_FASTFLAGVARIABLE(NewPhysicalPropertiesForcedOnAll, true)
+FASTFLAGVARIABLE        (AnchoredSendPositionUpdate, true)
 
 LOGGROUP(PartInstanceLifetime)
 
@@ -66,6 +66,8 @@ DYNAMIC_FASTFLAGVARIABLE(FixShapeChangeBug, false)
 
 DYNAMIC_FASTFLAGVARIABLE(FixFallenPartsNotDeleted, false)
 DYNAMIC_FASTFLAG(CleanUpInterpolationTimestamps)
+
+DYNAMIC_FASTFLAGVARIABLE(HaveRetroStudsOnParts, false)
 
 namespace
 {
@@ -244,6 +246,7 @@ const PropDescriptor<PartInstance, PhysicalProperties> PartInstance::prop_Custom
 
 // color, transparency, reflectance, anchored, canCollide, locked
 const PropDescriptor<PartInstance, Color3> PartInstance::prop_Color("Color", category_Appearance, &PartInstance::getColor3, &PartInstance::setColor3, PropertyDescriptor::Functionality(PropertyDescriptor::UI));
+const PropDescriptor<PartInstance, Color3uint8> PartInstance::prop_Color3uint8("Color3uint8", category_Appearance, &PartInstance::getColor3uint8, &PartInstance::setColor3uint8, PropertyDescriptor::Functionality(PropertyDescriptor::CLUSTER));
 const PropDescriptor<PartInstance, BrickColor> PartInstance::prop_BrickColor("BrickColor", category_Appearance, &PartInstance::getColor, &PartInstance::setColor);
 const PropDescriptor<PartInstance, BrickColor> prop_BrickColorDep("brickColor", category_Appearance, &PartInstance::getColor, &PartInstance::setColor, PropertyDescriptor::Attributes::deprecated(PartInstance::prop_BrickColor));
 const EnumPropDescriptor<PartInstance, PartMaterial> PartInstance::prop_renderMaterial("Material", category_Appearance, &PartInstance::getRenderMaterial, &PartInstance::setRenderMaterial);
@@ -423,7 +426,7 @@ PartInstance::PartInstance(const Vector3& initialSize)
 	, primitive(new Primitive(Geometry::GEOMETRY_BLOCK))
 	, gfxPart(NULL)
 	, cookie(0)
-	, color(BrickColor::defaultColor())
+	, color(BrickColor::defaultColor().color3())
 	, transparency(0.0f)
 	, reflectance(0.0f)
 	, localTransparencyModifier(0.0)
@@ -434,8 +437,10 @@ PartInstance::PartInstance(const Vector3& initialSize)
 {
 	FASTLOG2(FLog::PartInstanceLifetime, "PartInstance created: %p, primitive: %p", this, getPartPrimitive());
     
-	primitive->setSurfaceType(NORM_Y, STUDS);
-	primitive->setSurfaceType(NORM_Y_NEG, INLET);
+	if(DFFlag::HaveRetroStudsOnParts) {
+		primitive->setSurfaceType(NORM_Y, STUDS);
+		primitive->setSurfaceType(NORM_Y_NEG, INLET);
+	}
 	primitive->setSize(initialSize);
 	primitive->setFriction(defaultFriction());
 	primitive->setElasticity(defaultElasticity());
@@ -790,7 +795,7 @@ PartInstance* PartInstance::fromPrimitive(Primitive* p)
 const PartInstance* PartInstance::fromConstPrimitive(const Primitive* p)
 {
 	return p 
-		? rbx_static_cast<PartInstance*>(p->getOwner())
+		? arl_static_cast<PartInstance*>(p->getOwner())
 		: NULL;
 }
 
@@ -2729,13 +2734,14 @@ void PartInstance::setReflectance(float value)
 	}
 }
 
-void PartInstance::setColor(BrickColor value)
+void PartInstance::setColor3(Color3 value)
 {
 	if (value != color)
 	{
 		color = value;
 		raisePropertyChanged(prop_BrickColor);
 		raisePropertyChanged(prop_Color);
+		raisePropertyChanged(prop_Color3uint8);
 	}
 }
 
@@ -3087,11 +3093,12 @@ bool PartInstance::intersectFrustum(const ARL::Frustum& frustum) const
 bool PartInstance::isStandardPart() const
 {
 	// Inlets on bottom, all sides flat, anything on top
-	return (	(getSurfaceType(NORM_Y_NEG) == INLET)
-		&&	(getSurfaceType(NORM_Z_NEG) == NO_SURFACE)
-		&&	(getSurfaceType(NORM_Z) == NO_SURFACE)
-		&&	(getSurfaceType(NORM_X_NEG) == NO_SURFACE)
-		&&	(getSurfaceType(NORM_X) == NO_SURFACE)	);
+	return ((getSurfaceType(NORM_Y_NEG) == (DFFlag::HaveRetroStudsOnParts ? INLET : NO_SURFACE))
+		&& (getSurfaceType(NORM_Z_NEG) == NO_SURFACE)
+		&& (getSurfaceType(NORM_Z) == NO_SURFACE)
+		&& (getSurfaceType(NORM_X_NEG) == NO_SURFACE)
+		&& (getSurfaceType(NORM_X) == NO_SURFACE));
+	
 }
 
 namespace Reflection

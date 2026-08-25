@@ -24,6 +24,7 @@
 // ANORRL Headers
 #include "v8world/World.h"
 #include "v8datamodel/PartOperation.h"
+#include "v8datamodel/MeshPartInstance.h"
 #include "v8datamodel/Game.h"
 #include "v8datamodel/DataModel.h"
 #include "v8datamodel/Workspace.h"
@@ -150,7 +151,7 @@ DYNAMIC_FASTINTVARIABLE(StudioWorkspaceNotificationLevel, 0)
 FASTFLAGVARIABLE(CLI10590_FixConversionDialog, true)
 FASTFLAGVARIABLE(RetryWhenCloudEditEnabledEndpointFails, false)
 
-DYNAMIC_FASTFLAG(UseR15Character)
+DYNAMIC_FASTFLAGVARIABLE(UseRetroStudsOnBaseplate, true)
 
 Q_DECLARE_METATYPE(boost::function<void(int)>);
 Q_DECLARE_METATYPE(boost::function<void(std::string)>);
@@ -317,6 +318,11 @@ void ANORRLIDEDoc::initializeNewPlace()
 	if (shared_ptr<ARL::BasicPartInstance> basicPartInstance = ARL::Instance::fastSharedDynamicCast<ARL::BasicPartInstance>(instance))
 		basicPartInstance->setFormFactorXml(ARL::PartInstance::SYMETRIC);
 
+	if (DFFlag::UseRetroStudsOnBaseplate) {
+		partInstance->setSurfaceType(NORM_Y, STUDS);
+		partInstance->setSurfaceType(NORM_Y_NEG, INLET);
+	}
+	
 	partInstance->setPartSizeUi(ARL::Vector3(512, 20, 512));
 	partInstance->setTranslationUi(ARL::Vector3(0,-10,0));
     partInstance->setAnchored(true);
@@ -2088,7 +2094,7 @@ void ANORRLIDEDoc::preProcessVerb(const QStringList &tokens)
 	//if it is a color changes, get the last three tokens, which will be the rgb value respectily. check the name of the color actions for detail.
 	if (tokens[0] == "actionFillColor")
 	{	
-		QByteArray ba = tokens[tokens.length()-1].toAscii();
+		QByteArray ba = tokens[tokens.length()-1].toLatin1();
 		const char *c_str = ba.data();
 
 		ARL::FillTool::color.set(ARL::BrickColor::parse(c_str));

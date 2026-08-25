@@ -40,43 +40,41 @@ namespace ARL
 namespace Graphics
 {
 
-static void renderObjectsImpl(DeviceContext* context, const RenderQueueGroup& group, RenderPassStats& stats, const char* dbgname)
+static void renderObjectsImpl(DeviceContext* context, const RenderQueueGroup& group, RenderPassStats& stats)
 {
-    float matrixData[256*12];
+    float matrixData[256 * 12];
 
     const Technique* cachedTechnique = NULL;
     const void* cachedMatrixData = NULL;
 
-    PIX_SCOPE(context,"Render: %s", dbgname);
-
     for (size_t i = 0; i < group.size(); ++i)
-	{
+    {
         const RenderOperation& rop = group[i];
 
-		if (cachedTechnique != rop.technique)
+        if (cachedTechnique != rop.technique)
         {
-			cachedTechnique = rop.technique;
-			cachedMatrixData = NULL;
+            cachedTechnique = rop.technique;
+            cachedMatrixData = NULL;
 
-			rop.technique->apply(context);
+            rop.technique->apply(context);
 
-			stats.passChanges++;
+            stats.passChanges++;
         }
-        
-		if (rop.renderable)
-		{
+
+        if (rop.renderable)
+        {
             unsigned int matrixCount = rop.renderable->getWorldTransforms4x3(matrixData, ARRAYSIZE(matrixData) / 12, &cachedMatrixData);
 
             if (matrixCount)
                 context->setWorldTransforms4x3(matrixData, matrixCount);
-		}
+        }
 
-		context->draw(*rop.geometry);
+        context->draw(*rop.geometry);
 
-		stats.batches++;
-		stats.vertices += rop.geometry->getIndexRangeEnd() - rop.geometry->getIndexRangeBegin();
-		stats.faces += rop.geometry->getCount() / 3;
-	}
+        stats.batches++;
+        stats.vertices += rop.geometry->getIndexRangeEnd() - rop.geometry->getIndexRangeBegin();
+        stats.faces += rop.geometry->getCount() / 3;
+    }
 }
 
 static void renderObjects(DeviceContext* context, RenderQueueGroup& group, RenderQueueGroup::SortMode sortMode, RenderPassStats& stats, const char* dbgname)
@@ -99,7 +97,7 @@ static void renderObjects(DeviceContext* context, RenderQueueGroup& group, Rende
 	{
 		ARLPROFILER_SCOPE("Render", "draw");
 
-		renderObjectsImpl(context, group, stats, dbgname);
+		renderObjectsImpl(context, group, stats);
 	}
 }
 

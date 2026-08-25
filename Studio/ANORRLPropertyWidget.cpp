@@ -342,7 +342,7 @@ PropertyTreeWidget::PropertyTreeWidget(QWidget *pParent)
     setHeaderHidden(true);
 
 	header()->setStretchLastSection(true);
-    header()->setResizeMode(0,QHeaderView::ResizeToContents);
+    header()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
 
 	m_expandIcon = getIndicatorIcon(palette(), style());
 
@@ -930,6 +930,7 @@ ANORRLPropertyWidget::ANORRLPropertyWidget(QWidget *pParent)
 	m_pSortItems->setText("Sort");
 	m_pSortItems->setCheckable(true);
 	*/
+
 	m_pFilterEdit = new QLineEdit(this);
 	m_pFilterEdit->setPlaceholderText("Search Properties");	
 	m_pFilterEdit->setVisible(!FFlag::StudioPropertySearchDisabled);

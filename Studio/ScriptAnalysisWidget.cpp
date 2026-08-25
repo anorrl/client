@@ -57,7 +57,7 @@ public:
         m_warningCode = warning.code;
 		m_bIsError = false;
 
-        QString text = Qt::escape(warning.text.c_str());
+        QString text = QString(warning.text.c_str()).toHtmlEscaped();
 		
 		setText(0, QString("<a href=\"http://\">%1</a>: (%2,%3) %4").arg(getWarningCodeString(m_warningCode)).arg(m_location.begin.line+1).arg(m_location.begin.column+1).arg(text));
 	}
@@ -68,7 +68,7 @@ public:
         m_warningCode = 0;
 		m_bIsError = true;
 
-        QString text = Qt::escape(error.text.c_str());
+        QString text = QString(error.text.c_str()).toHtmlEscaped();
 
 		setText(0, QString("<font color=\"red\">Error: (%1,%2) %3</font>").arg(m_location.begin.line+1).arg(m_location.begin.column+1).arg(text));
 	}
@@ -275,7 +275,7 @@ public:
 			// NOTE: Using QStyledItemDelegate::sizeHint we can get wrong results on Mac in Ribbon mode
 			// so using the default height computation - (fontMetrics.height + margin) will be the height
 			m_docHeight = optionV4.fontMetrics.height() + kSADocTopMargin;
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 			// on windows in ribbon style the margin is smaller
 			if (UpdateUIManager::Instance().getMainWindow().isRibbonStyle())
 				m_docHeight = m_docHeight - kSADocTopMargin/2;
@@ -338,7 +338,7 @@ ScriptAnalysisTreeWidget::ScriptAnalysisTreeWidget(QWidget* parent)
 	setMouseTracking(true);
 
 	header()->setStretchLastSection(true);
-    header()->setResizeMode(0,QHeaderView::ResizeToContents);
+    header()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
 
 	setItemDelegate(new ScriptMessageItemDelegate(this));
 

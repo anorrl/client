@@ -1763,6 +1763,9 @@
     <ClCompile Include="v8datamodel\ANORRLReplicatedStorage.cpp">
       <Filter>Source Files\V8DataModel</Filter>
     </ClCompile>
+    <ClCompile Include="v8datamodel\MeshPartInstance.cpp">
+      <Filter>Source Files\V8DataModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lua-5.1.4\src\lapi.h">
@@ -3638,6 +3641,9 @@
       <Filter>Header Files\V8DataModel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ANORRLReplicatedStorage.h">
+      <Filter>Header Files\V8DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="include\v8datamodel\MeshPartInstance.h">
       <Filter>Header Files\V8DataModel</Filter>
     </ClInclude>
   </ItemGroup>

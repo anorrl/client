@@ -21,7 +21,7 @@ CleanStage::CleanStage(IStage* upstream, World* world)
 
 JointStage* CleanStage::getJointStage()
 {
-	return rbx_static_cast<JointStage*>(getDownstream());
+	return arl_static_cast<JointStage*>(getDownstream());
 }
 
 bool CleanStage::primitivesAreOk(Edge* e)

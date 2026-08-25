@@ -16,7 +16,6 @@
 #include "EmitterShared.h"
 #include "MaterialGenerator.h"
 #include "SceneManager.h"
-#include "TypesetterBitmap.h"
 #include "TypesetterDynamic.h"
 #include "AdornRender.h"
 #include "VertexStreamer.h"
@@ -126,11 +125,18 @@ VisualEngine::VisualEngine(Device* device, CRenderSettings* settings)
 			"fonts/Punktype-Regular.ttf",
             "fonts/cour.ttf",
             "fonts/zenith-brk.regular.ttf",
-            "fonts/Kosmos.ttf"
+            "fonts/Kosmos.ttf",
+            "fonts/PetscopWide.ttf",
+            "fonts/PetscopHand.ttf",
+            "fonts/GothamSSm-Black.otf",
+            "fonts/GothamSSm-Book.otf",
+            "fonts/GothamSSm-Bold.otf",
+            "fonts/GothamSSm-Medium.otf",
+            "fonts/EurostileExtendedBlack.ttf"
 		};
 
 		float legacyHeightScale = (font == Text::FONT_LEGACY) ? 1.5f : 1.f;
-		typesetters[font].reset(new TypesetterDynamic(glyphAtlas.get(), textureManager.get(), ContentProvider::assetFolder() + kFontTTFPaths[font], legacyHeightScale, (unsigned)font, device->getCaps().retina));
+		typesetters[font].reset(new TypesetterDynamic(glyphAtlas.get(), textureManager.get(), ContentProvider::assetFolder() + kFontTTFPaths[font], legacyHeightScale, (unsigned)font, /*device->getCaps().retina*/true));
 	}
 
     materialGenerator.reset(new MaterialGenerator(this));

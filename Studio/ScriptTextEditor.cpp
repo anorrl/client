@@ -1477,7 +1477,7 @@ bool ScriptTextEditor::doHandleAction(const QString& actionID)
     else if ( actionID == "zoomOutAction" )
         zoom(-1);
     else if ( actionID == "resetScriptZoomAction" )
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
         zoom(14, true);
 #else
         zoom(10, true);

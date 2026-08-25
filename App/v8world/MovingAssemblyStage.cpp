@@ -103,13 +103,13 @@ void MovingAssemblyStage::removeJoint(Joint* j)
 void MovingAssemblyStage::onSimulateAssemblyAdded(Assembly* a)
 {
 	a->putInStage(this);							
-	rbx_static_cast<StepJointsStage*>(getDownstreamWS())->onSimulateAssemblyAdded(a);
+	arl_static_cast<StepJointsStage*>(getDownstreamWS())->onSimulateAssemblyAdded(a);
 }
 
 
 void MovingAssemblyStage::onSimulateAssemblyRemoving(Assembly* a) 
 {
-	rbx_static_cast<StepJointsStage*>(getDownstreamWS())->onSimulateAssemblyRemoving(a);
+	arl_static_cast<StepJointsStage*>(getDownstreamWS())->onSimulateAssemblyRemoving(a);
 	a->removeFromStage(this);							// 2.  out of this stage
 
 	removeMovingGroundedAssembly(a);
@@ -121,7 +121,7 @@ void MovingAssemblyStage::onEdgeAdded(Edge* e)
 	e->putInStage(this);
 
 	if (Joint::isJoint(e)) {
-		Joint* j = rbx_static_cast<Joint*>(e);
+		Joint* j = arl_static_cast<Joint*>(e);
 		addJoint(j);
 	}
 
@@ -135,7 +135,7 @@ void MovingAssemblyStage::onEdgeRemoving(Edge* e)
 	}
 
 	if (Joint::isJoint(e)) {
-		Joint* j = rbx_static_cast<Joint*>(e);
+		Joint* j = arl_static_cast<Joint*>(e);
 		removeJoint(j);
 	}
 

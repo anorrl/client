@@ -149,7 +149,7 @@ bool CellMeshContact::cellFaceIsInterior(const Vector3int16& mainCellLoc, ARL::V
 {
     using namespace Voxel;
     
-	Grid* vs = rbx_static_cast<MegaClusterInstance*>(getPrimitive(0)->getOwner())->getVoxelGrid();
+	Grid* vs = arl_static_cast<MegaClusterInstance*>(getPrimitive(0)->getOwner())->getVoxelGrid();
 
     Grid::Region mainRegion = vs->getRegion(mainCellLoc, mainCellLoc);
     Voxel::Cell mainVoxel = mainRegion.voxelAt(mainCellLoc);

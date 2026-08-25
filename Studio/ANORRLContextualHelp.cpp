@@ -11,9 +11,9 @@
 #include <QString>
 #include <QPainter>
 #include <QTimer>
-#include <QWebElement>
-#include <QWebFrame>
-#include <QWebPage>
+#include <QWebEnginePage>
+#include <QWebEngineSettings>
+#include <QWebEngineProfile>
 
 #include "util/standardout.h"
 
@@ -69,36 +69,10 @@ void ANORRLContextualHelp::setupWebView()
 	m_pWebPage = new ANORRLWebPage(this);
 	
 	m_pWebView->setPage(m_pWebPage);
-
-	QWebSettings *globalSetting = QWebSettings::globalSettings();
-	
-	globalSetting->setAttribute(QWebSettings::AutoLoadImages, true);
-	globalSetting->setAttribute(QWebSettings::JavascriptEnabled, true);
-	globalSetting->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-	globalSetting->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-
-#ifdef _WIN32
-    if (FFlag::StudioEnableWebKitPlugins)
-        globalSetting->setAttribute(QWebSettings::PluginsEnabled, true);
-    else
-        globalSetting->setAttribute(QWebSettings::PluginsEnabled, false);
-#endif
-
-	/// Keep all this for now, later on we should remove it depending on bare minimum required.
-	globalSetting->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-	globalSetting->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-
-	if(FFlag::WebkitLocalStorageEnabled)
-		globalSetting->setAttribute(QWebSettings::LocalStorageEnabled, true);
-
-	if(FFlag::WebkitDeveloperToolsEnabled)
-		globalSetting->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    
     connect(&AuthenticationHelper::Instance(), SIGNAL(authenticationChanged(bool)), this, SLOT(onAuthenticationChanged(bool)));
     
 	if(FFlag::StudioNewWiki)
 	{
-		m_pWebView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 		connect(m_pWebView->page(), SIGNAL(linkClicked(const QUrl&)), this, SLOT(linkClicked(const QUrl&)));
 	}
 	m_urlString = QString("http://wiki.anorrl.com/index.php/StudioJARONA");
@@ -117,13 +91,13 @@ void ANORRLContextualHelp::setupWebView()
 void ANORRLContextualHelp::linkClicked(const QUrl& url)
 {
 	QUrl studioModeUrl = url;
-	studioModeUrl.addQueryItem("studiomode", "true");
+	//studioModeUrl.addQueryItem("studiomode", "true");
 	m_pWebView->load(studioModeUrl);
 }
 
 void ANORRLContextualHelp::onAuthenticationChanged(bool)
 {
-	m_pWebPage->triggerAction(QWebPage::Reload);
+	m_pWebPage->triggerAction(QWebEnginePage::Reload);
 }
 
 void ANORRLContextualHelp::onHelpTopicChanged(const QString& helpTopic)
@@ -175,8 +149,8 @@ void ANORRLHelpWebView::loadProgress(int)
 {
     // Run some special code to hide the sidebars and turn off the background.
     // This is temporary until the wiki has Studio friendly view.
-    ((QWebView*)sender())->page()->mainFrame()->evaluateJavaScript("content = document.getElementById('column-content'); content.style.float = 'none'; content.style.margin = '-3em 0 0 -12.2em'; content.style.width = 'auto'; columnOne = document.getElementById('column-one'); columnOne.style.display = 'none'; document.body.style.background = 'white';");
-    update();
+    //((QWebView*)sender())->page()->mainFrame()->evaluateJavaScript("content = document.getElementById('column-content'); content.style.float = 'none'; content.style.margin = '-3em 0 0 -12.2em'; content.style.width = 'auto'; columnOne = document.getElementById('column-one'); columnOne.style.display = 'none'; document.body.style.background = 'white';");
+    //update();
 }
 
 

@@ -38,8 +38,8 @@ namespace ARL {
 		Clump* getRootClump()								{return getRoot<Clump>();}
 		const Clump* getRootClump() const				{return getRoot<Clump>();}
 
-		Primitive* getClumpPrimitive()						{return rbx_static_cast<Primitive*>(getLower());}
-		const Primitive* getConstClumpPrimitive() const		{return rbx_static_cast<const Primitive*>(getConstLower());}
+		Primitive* getClumpPrimitive()						{return arl_static_cast<Primitive*>(getLower());}
+		const Primitive* getConstClumpPrimitive() const		{return arl_static_cast<const Primitive*>(getConstLower());}
 
 		static Clump* getPrimitiveClump(Primitive* p);
 		static const Clump* getConstPrimitiveClump(const Primitive* p);

@@ -6,7 +6,7 @@
 
 #include "VisualEngine.h"
 #include "VertexStreamer.h"
-#include "TypesetterBitmap.h"
+#include "TypesetterDynamic.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
 

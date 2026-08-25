@@ -48,8 +48,6 @@ class LightGrid;
 class AdornRender;
 class VertexStreamer;
 
-class TypesetterBitmap;
-
 class Material;
 
 class VertexLayout;

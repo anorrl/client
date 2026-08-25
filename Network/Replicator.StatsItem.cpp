@@ -18,7 +18,7 @@ struct JobInfo
 
 void DeserializedStatsItem::process(Replicator& replicator) 
 {
-	ClientReplicator* rep = rbx_static_cast<ClientReplicator*>(&replicator);
+	ClientReplicator* rep = arl_static_cast<ClientReplicator*>(&replicator);
 	rep->statsReceivedSignal(stats);
 }
 
@@ -145,7 +145,7 @@ shared_ptr<DeserializedItem> Replicator::StatsItem::read(Replicator& replicator,
 {
 	shared_ptr<DeserializedStatsItem> deserializedData(new DeserializedStatsItem());
 
-	ClientReplicator* rep = rbx_static_cast<ClientReplicator*>(&replicator);
+	ClientReplicator* rep = arl_static_cast<ClientReplicator*>(&replicator);
 	deserializedData->stats = rep->readStats(bitStream);
 	
 	return deserializedData;

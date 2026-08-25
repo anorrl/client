@@ -34,8 +34,8 @@ module.ChatChannelsTabTextSizePhone = 18
 module.ChatBarTextSizePhone = 14
 
 ---[[ Font Settings ]]
-module.DefaultFont = Enum.Font.SourceSansBold
-module.ChatBarFont = Enum.Font.SourceSansBold
+module.DefaultFont = Enum.Font.NotoSans
+module.ChatBarFont = Enum.Font.NotoSansBold
 
 ----[[ Color Settings ]]
 module.BackGroundColor = Color3.new(0, 0, 0)

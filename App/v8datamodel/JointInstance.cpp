@@ -347,7 +347,7 @@ Weld::Weld()
 
 const WeldJoint* Weld::weldJointConst() const
 {
-	return rbx_static_cast<const WeldJoint*>(joint);
+	return arl_static_cast<const WeldJoint*>(joint);
 }
 
 void Weld::render3dAdorn(Adorn* adorn)
@@ -473,7 +473,7 @@ ManualWeld::ManualWeld()
 
 const ManualWeldJoint* ManualWeld::manualWeldJointConst() const
 {
-	return rbx_static_cast<const ManualWeldJoint*>(joint);
+	return arl_static_cast<const ManualWeldJoint*>(joint);
 }
 
 void ManualWeld::render3dAdorn(Adorn* adorn)
@@ -529,7 +529,7 @@ ManualGlue::ManualGlue()
 
 const ManualGlueJoint* ManualGlue::manualGlueJointConst() const
 {
-	return rbx_static_cast<const ManualGlueJoint*>(joint);
+	return arl_static_cast<const ManualGlueJoint*>(joint);
 }
 
 void ManualGlue::render3dAdorn(Adorn* adorn)
@@ -584,12 +584,12 @@ Glue::Glue()
 
 GlueJoint* Glue::glueJoint()
 {
-	return rbx_static_cast<GlueJoint*>(joint);
+	return arl_static_cast<GlueJoint*>(joint);
 }
 
 const GlueJoint* Glue::glueJointConst() const
 {
-	return rbx_static_cast<const GlueJoint*>(joint);
+	return arl_static_cast<const GlueJoint*>(joint);
 }
 
 
@@ -627,14 +627,14 @@ Rotate::Rotate()
 
 float DynamicRotate::getBaseAngle() const
 {
-	const DynamicRotateJoint* dynamicRotateJoint = rbx_static_cast<const DynamicRotateJoint*>(joint);
+	const DynamicRotateJoint* dynamicRotateJoint = arl_static_cast<const DynamicRotateJoint*>(joint);
 	return dynamicRotateJoint->getBaseAngle();
 
 }
 
 void DynamicRotate::setBaseAngle(float value)
 {
-	DynamicRotateJoint* dynamicRotateJoint = rbx_static_cast<DynamicRotateJoint*>(joint);
+	DynamicRotateJoint* dynamicRotateJoint = arl_static_cast<DynamicRotateJoint*>(joint);
 	dynamicRotateJoint->setBaseAngle(value);
 }
 
@@ -700,12 +700,12 @@ Motor::Motor(Joint* joint, int)
 
 MotorJoint* Motor::getMotorJoint()
 {
-	return rbx_static_cast<MotorJoint*>(joint);
+	return arl_static_cast<MotorJoint*>(joint);
 }
 
 const MotorJoint* Motor::getMotorJoint() const
 {
-	return rbx_static_cast<MotorJoint*>(joint);
+	return arl_static_cast<MotorJoint*>(joint);
 }
 
 float Motor::getMaxVelocity() const
@@ -824,12 +824,12 @@ Motor6D::Motor6D()
 
 Motor6DJoint* Motor6D::getMotorJoint()
 {
-	return rbx_static_cast<Motor6DJoint*>(joint);
+	return arl_static_cast<Motor6DJoint*>(joint);
 }
 
 const Motor6DJoint* Motor6D::getMotorJoint() const
 {
-	return rbx_static_cast<Motor6DJoint*>(joint);
+	return arl_static_cast<Motor6DJoint*>(joint);
 }
 
 float Motor6D::getMaxVelocity() const

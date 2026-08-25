@@ -80,7 +80,7 @@ namespace ARL {
 			}
 			else {
 				IStage* worldStage = (!inKernel()) ? currentStage : currentStage->getUpstream();
-				return rbx_static_cast<IWorldStage*>(worldStage)->getWorld();
+				return arl_static_cast<IWorldStage*>(worldStage)->getWorld();
 			}
 		}
 	};

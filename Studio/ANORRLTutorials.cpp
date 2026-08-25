@@ -13,12 +13,12 @@
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QWebPage>
 #include <QPushButton>
 #include <QKeySequence>
 #include <QSize>
-#include <QWebSettings>
-#include <QWebFrame>
+#include <QWebEnginePage>
+#include <QWebEngineSettings>
+#include <QWebEngineProfile>
 
 // ANORRL Headers
 #include "v8datamodel/FastLogSettings.h"
@@ -71,10 +71,10 @@ void ANORRLTutorials::handleHomeClicked()
 
 void ANORRLTutorials::updateButtons()
 {
-	m_pStopButton->setEnabled(m_pWebView->pageAction(QWebPage::Stop)->isEnabled());
-	m_pReloadButton->setEnabled(m_pWebView->pageAction(QWebPage::Reload)->isEnabled());
-	m_pBackButton->setEnabled(m_pWebView->pageAction(QWebPage::Back)->isEnabled());
-	m_pForwardButton->setEnabled(m_pWebView->pageAction(QWebPage::Forward)->isEnabled());
+	m_pStopButton->setEnabled(m_pWebView->pageAction(QWebEnginePage::Stop)->isEnabled());
+	m_pReloadButton->setEnabled(m_pWebView->pageAction(QWebEnginePage::Reload)->isEnabled());
+	m_pBackButton->setEnabled(m_pWebView->pageAction(QWebEnginePage::Back)->isEnabled());
+	m_pForwardButton->setEnabled(m_pWebView->pageAction(QWebEnginePage::Forward)->isEnabled());
 }
 
 void ANORRLTutorials::resizeWidget()
@@ -126,8 +126,6 @@ void ANORRLTutorials::linkClicked(const QUrl& url)
 		}
 
 		QUrl studioModeUrl = url;
-		if (!studioModeUrl.hasQueryItem("studiomode"))
-			studioModeUrl.addQueryItem("studiomode", "true");
 		m_pWebView->load(studioModeUrl);
 	}
 }
@@ -143,32 +141,19 @@ void ANORRLTutorials::setupWebView(QWidget *wrapperWidget)
 	m_pWebContentsView->setMaximumSize(QWIDGETSIZE_MAX, COLLAPSED_SIZE);
 	m_pWebContentsView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	m_pWebContentsView->setPage(new ANORRLWebPage(wrapperWidget));
-	m_pWebContentsView->page()->currentFrame()->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
-	m_pWebContentsView->page()->currentFrame()->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
-
+	
 	setMaximumHeight(COLLAPSED_SIZE);
 
 	// This is here to disable links in the main tutorial frame. Since we don't have any kind of web
 	// navigation controls we don't want users able to navigate away from the page
-	m_pWebView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+	//m_pWebView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
 	// This is to listen to the url changed event for the main tutorial frame. When the url changes we want to disable
 	// history so a user can't navigate back
 	connect(m_pWebContentsView, SIGNAL(urlChanged(const QUrl&)), this, SLOT(urlChanged(const QUrl&)));
 
-	m_pWebContentsView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+	//m_pWebContentsView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 	connect(m_pWebContentsView->page(), SIGNAL(linkClicked(const QUrl&)), this, SLOT(linkClicked(const QUrl&)));
 
 	m_pWebContentsView->load(QUrl(FString::StudioTutorialsTOCUrl.c_str()));
-
-	QWebSettings *globalSetting = QWebSettings::globalSettings();
-	
-	globalSetting->setAttribute(QWebSettings::AutoLoadImages, true);
-	
-	globalSetting->setAttribute(QWebSettings::JavascriptEnabled, true);
-	globalSetting->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-	
-#ifdef _WIN32
-	globalSetting->setAttribute(QWebSettings::PluginsEnabled, true);
-#endif
 }

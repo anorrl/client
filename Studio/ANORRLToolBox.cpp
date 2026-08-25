@@ -8,8 +8,10 @@
 
 // Qt Headers
 #include <QGridLayout>
-#include <QWebElement>
-#include <QWebFrame>
+#include <QWebChannel>
+#include <QWebEnginePage>
+#include <QWebEngineProfile>
+#include <QWebEngineSettings>
 
 // ANORRL Headers
 #include "v8datamodel/DataModel.h"
@@ -56,32 +58,7 @@ void ANORRLToolBox::setupWebView(QWidget *wrapperWidget)
 	m_pWebPage = new ANORRLWebPage(wrapperWidget);
 	
 	m_pWebView->setPage(m_pWebPage);
-	
-	QWebSettings *globalSetting = QWebSettings::globalSettings();
-	
-	globalSetting->setAttribute(QWebSettings::AutoLoadImages, true);
-	globalSetting->setAttribute(QWebSettings::JavascriptEnabled, true);
-	globalSetting->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-	globalSetting->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-	
-#ifdef _WIN32
-    if (FFlag::StudioEnableWebKitPlugins)
-        globalSetting->setAttribute(QWebSettings::PluginsEnabled, true);
-    else
-        globalSetting->setAttribute(QWebSettings::PluginsEnabled, false);
-#endif
-	
-	/// Keep all this for now, later on we should remove it depending on bare minimum required.
-	globalSetting->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-	globalSetting->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-
-	if(FFlag::WebkitLocalStorageEnabled)
-		globalSetting->setAttribute(QWebSettings::LocalStorageEnabled, true);
-
-	if(FFlag::WebkitDeveloperToolsEnabled)
-		globalSetting->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-
-	connect(m_pWebView->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(initJavascript())); 
+	connect(m_pWebView->page(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(initJavascript())); 
 
 	m_urlString = QString("%1/ide/toolbox").arg(ANORRLSettings::getBaseURL());
 
@@ -121,7 +98,7 @@ void ANORRLToolBox::setDataModel(boost::shared_ptr<ARL::DataModel> pDataModel)
 	}
 	else if (reloadView)
 	{
-		m_pWebPage->triggerAction(QWebPage::Reload);
+		m_pWebPage->triggerAction(QWebEnginePage::Reload);
 	}
 	reloadView = false;
     
@@ -130,15 +107,20 @@ void ANORRLToolBox::setDataModel(boost::shared_ptr<ARL::DataModel> pDataModel)
 
 void ANORRLToolBox::initJavascript()
 {
-	if(m_pWorkspace && m_pWebView->page() && m_pWebView->page()->mainFrame())
+	if(m_pWorkspace && m_pWebView->page())
 	{
-		m_pWebView->page()->mainFrame()->addToJavaScriptWindowObject("external", m_pWorkspace.get() );
+		QWebChannel* pWebChannel = new QWebChannel(m_pWebView->page());
+		pWebChannel->registerObject(QStringLiteral("external"), m_pWorkspace.get());
+		m_pWebView->page()->setWebChannel(pWebChannel);
+
+		m_pWebView->page()->runJavaScript(
+			QStringLiteral("new QWebChannel(qt.webChannelTransport, function(channel) { window.external = channel.objects.external; });"));
 	}
 }
 
 QString ANORRLToolBox::getTitleFromUrl(const QString &urlString)
 {	
-	if(m_pWebView && m_pWebView->page() && m_pWebView->page()->mainFrame())
+	/*if(m_pWebView && m_pWebView->page())
 	{
 		int pos = urlString.indexOf("id=");
 		if (pos > 0 && pos+3 < urlString.size())
@@ -154,7 +136,7 @@ QString ANORRLToolBox::getTitleFromUrl(const QString &urlString)
 				}
 			}
 		}
-	}
+	}*/
 	
 	return QString("");
 }
@@ -162,7 +144,7 @@ QString ANORRLToolBox::getTitleFromUrl(const QString &urlString)
 void ANORRLToolBox::onAuthenticationChanged(bool)
 {
 	if (m_pDataModel)
-		m_pWebPage->triggerAction(QWebPage::Reload);
+		m_pWebPage->triggerAction(QWebEnginePage::Reload);
 	else
 		reloadView = true;
 }

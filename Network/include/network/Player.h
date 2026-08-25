@@ -55,6 +55,7 @@ namespace Network {
 		typedef DescribedCreatable<Player, Instance, sPlayer, Reflection::ClassDescriptor::RUNTIME> Super;
 		shared_ptr<ModelInstance> character;		// The ModelInstance that this player is represented by
 		BrickColor teamColor;
+		weak_ptr<Team> team;
 		bool neutral;
 		int loadAppearanceCounter;
 		int dataComplexityLimit;
@@ -287,6 +288,11 @@ namespace Network {
 		void setPersonalServerRank(int value);
 		
 		const Primitive* getConstCharacterRoot() const;
+
+		void setTeamInternal(Team* value);
+
+		Team* getTeam() const;
+		void setTeam(Team* value);
 
 		BrickColor getTeamColor() const {return teamColor;}
 		void setTeamColor(BrickColor value);

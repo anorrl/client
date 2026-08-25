@@ -398,7 +398,7 @@ bool TextureManager::loadAsync(const ContentId& id, const std::string& context)
 
             return true;
         }
-		else if (loadId.isHttp() || loadId.isAssetId() || loadId.isRbxHttp() || loadId.isNamedAsset())
+		else if (loadId.isHttp() || loadId.isAssetId() || loadId.isARLHttp() || loadId.isNamedAsset())
         {
 			if (ContentProvider* cp = visualEngine->getContentProvider())
 			{

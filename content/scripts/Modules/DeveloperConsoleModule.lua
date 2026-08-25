@@ -401,11 +401,11 @@ function DeveloperConsole.new(screenGui, permissions, messagesAndStats)
 		end)
 
 		local closeDevConsole = function(name, inputState, input)
-			ContextActionService:UnbindCoreAction("RBXDevConsoleCloseAction")
+			ContextActionService:UnbindCoreAction("ARLDevConsoleCloseAction")
 			devConsole:SetVisible(false, true)
 		end
 
-		ContextActionService:BindCoreAction("RBXDevConsoleCloseAction", closeDevConsole, false, Enum.KeyCode.ButtonB)
+		ContextActionService:BindCoreAction("ARLDevConsoleCloseAction", closeDevConsole, false, Enum.KeyCode.ButtonB)
 
 	end
 	

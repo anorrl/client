@@ -18,7 +18,7 @@ void SpanningNode::setEdgeToParent(SpanningEdge* edge)
 bool SpanningNode::lessThan(const IndexedTree* other) const
 {
 	ARLASSERT(edgeToParent);
-	const SpanningNode* otherNode = rbx_static_cast<const SpanningNode*>(other);
+	const SpanningNode* otherNode = arl_static_cast<const SpanningNode*>(other);
 	ARLASSERT(otherNode->getConstEdgeToParent());
 	return edgeToParent->isLighterThan(otherNode->getConstEdgeToParent());
 }

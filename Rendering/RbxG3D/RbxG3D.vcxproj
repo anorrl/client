@@ -27,11 +27,13 @@
     <Keyword>Win32Proj</Keyword>
     <SccAuxPath>SAK</SccAuxPath>
     <ApplicationEnvironment>title</ApplicationEnvironment>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>ARLG3D</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Durango'" Label="Configuration">
@@ -41,7 +43,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Durango'" Label="Configuration">
@@ -146,7 +148,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
-      <AdditionalIncludeDirectories>.\include;..\..\Base\include;..\RbxG3D\include;..\GfxBase;..\GfxBase\include;..\RenderLibNew\include;..\G3D\png;..\g3d\include;..\g3d\include\zlib;$(CONTRIB_PATH)\boost_1_56_0\include;..\..\TBB_4_1\include;..\..\app\include;..\..\Rendering\AppDraw;..\..\Rendering\AppDraw\include;..\..\log\include;$(CONTRIB_PATH)\SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\include;..\..\Base\include;..\RbxG3D\include;..\GfxBase;..\GfxBase\include;..\RenderLibNew\include;..\G3D\png;..\g3d\include;..\g3d\include\zlib;$(CONTRIB_PATH)\boost_1_59_0;..\..\app\include;..\..\Rendering\AppDraw;..\..\Rendering\AppDraw\include;..\..\log\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -156,7 +158,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>

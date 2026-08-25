@@ -300,7 +300,7 @@ namespace ARL { namespace Voxel {
         if (geometry->getGeometryType() != Geometry::GEOMETRY_TRI_MESH)
             return;
         
-        TriangleMesh* triangleMesh = rbx_static_cast<TriangleMesh*>(geometry);
+        TriangleMesh* triangleMesh = arl_static_cast<TriangleMesh*>(geometry);
         const BulletDecompWrapper* compound = triangleMesh->getCompound();
         
         if (!compound)
@@ -924,7 +924,7 @@ namespace ARL { namespace Voxel {
 					{
                         partCache.push_back(DataModelPartCache( &Voxelizer::occupancyFillBlock, chunk, size, cframe, 0.75f + 0.25f * transparency));
 					}
-					else if (partType == OPERATION_PART)
+					else if (partType == OPERATION_PART || partType == MESH_PART)
 					{
 						addMeshToPartCache(partCache, part, chunk, chunkExtents, part->getPartSizeXml(), cframe, transparency);
 					}

@@ -20,7 +20,7 @@ DeserializedTagItem::DeserializedTagItem()
 
 void DeserializedTagItem::process(Replicator& replicator)
 {
-	ClientReplicator* rep = rbx_static_cast<ClientReplicator*>(&replicator);
+	ClientReplicator* rep = arl_static_cast<ClientReplicator*>(&replicator);
 	rep->readTagItem(this);
 }
 

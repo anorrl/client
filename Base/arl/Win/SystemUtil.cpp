@@ -17,6 +17,7 @@ namespace ARL
 {
 namespace SystemUtil
 {
+#pragma warning(disable: 4996)
 	std::string osVer()
     {
         OSVERSIONINFO osvi = {0};

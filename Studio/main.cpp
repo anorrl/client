@@ -9,6 +9,7 @@
 // Qt Headers
 #include <QApplication>
 #include <QFile>
+#include <QMessageBox>
 
 // ANORRL Headers
 #include "FastLog.h"
@@ -32,7 +33,7 @@
     #include "SharedLauncher.h"
 #endif
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     #ifndef _DEBUG
         #define ENABLE_BREAKPAD_CRASH_REPORTER
     #endif

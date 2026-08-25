@@ -19,7 +19,7 @@
 LOGGROUP(Graphics)
 
 FASTFLAG(FontSmoothScalling)
-DYNAMIC_FASTFLAG(TextScaleDontWrapInWords)
+DYNAMIC_FASTFLAGVARIABLE(TextScaleDontWrapInWords, true)
 FASTINTVARIABLE(FontSizePadding, 1)
 
 #define FONT_PADDING 1.0f

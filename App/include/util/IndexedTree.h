@@ -40,36 +40,36 @@ namespace ARL {
 
 		template<class Type>
 		Type* getTypedChild(int i) {
-			return rbx_static_cast<Type*>(children[i]);
+			return arl_static_cast<Type*>(children[i]);
 		}
 
 		template<class Type>
 		const Type* getConstTypedChild(int i) const {
-			return rbx_static_cast<Type*>(children[i]);
+			return arl_static_cast<Type*>(children[i]);
 		}
 
 		template<class Type>
 		Type* getTypedParent() {
-			return rbx_static_cast<Type*>(parent);
+			return arl_static_cast<Type*>(parent);
 		}
 
 		template<class Type>
 		const Type* getConstTypedParent() const {
-			return rbx_static_cast<Type*>(parent);
+			return arl_static_cast<Type*>(parent);
 		}
 
 		template<class Type>
 		Type* getRoot() {
 			return (parent) 
 				? parent->getRoot<Type>()
-				: rbx_static_cast<Type*>(this);
+				: arl_static_cast<Type*>(this);
 		}
 
 		template<class Type>
 		const Type* getRoot() const {
 			return (parent) 
 				? parent->getRoot<Type>()
-				: rbx_static_cast<const Type*>(this);
+				: arl_static_cast<const Type*>(this);
 		}
 
 		template<class Type>
@@ -81,7 +81,7 @@ namespace ARL {
 				answer = above;
 				above = above->parent;
 			}
-			return rbx_static_cast<Type*>(answer);
+			return arl_static_cast<Type*>(answer);
 		}
 
 
@@ -93,7 +93,7 @@ namespace ARL {
 		template<class Type, class Func>
 		inline void visitMeAndChildren(Func func) 
 		{
-			Type* t = rbx_static_cast<Type*>(this);
+			Type* t = arl_static_cast<Type*>(this);
 			func(t);
 			for (int i = 0; i < children.size(); ++i) {
 				children[i]->visitMeAndChildren<Type, Func>(func);
@@ -103,7 +103,7 @@ namespace ARL {
 		template<class Type, class Func>
 		inline void visitConstMeAndChildren(Func func) 
 		{
-			const Type* t = rbx_static_cast<const Type*>(this);
+			const Type* t = arl_static_cast<const Type*>(this);
 			func(t);
 			for (int i = 0; i < children.size(); ++i) {
 				children[i]->visitConstMeAndChildren<Type, Func>(func);

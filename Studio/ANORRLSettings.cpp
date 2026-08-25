@@ -124,6 +124,11 @@ QString ANORRLSettings::getBaseURL()
 	return AppSettings::instance().baseURL();
 }
 
+QString ANORRLSettings::getWebURL()
+{
+	return AppSettings::instance().webURL();
+}
+
 QString ANORRLSettings::getApiBaseURL()
 {
 	return QString::fromStdString(ARL::ContentProvider::getUnsecureApiBaseUrl(getBaseURL().toStdString()));
@@ -160,7 +165,7 @@ QString ANORRLSettings::getTempLocation()
 QString ANORRLSettings::getResourcesFolder()
 {
 	QString resourcesFolder = QApplication::applicationDirPath();
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	resourcesFolder += "/../Resources";
 #endif
 	return resourcesFolder;

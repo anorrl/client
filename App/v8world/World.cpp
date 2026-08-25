@@ -2,6 +2,7 @@
 #include "stdafx.h"
 
 #include "V8DataModel/PartOperation.h"
+#include "V8DataModel/MeshPartInstance.h"
 #include "V8World/World.h"
 #include "V8World/Contact.h"
 #include "V8World/Joint.h"
@@ -294,38 +295,38 @@ void World::loadProfilers(std::vector<ARL::Profiling::CodeProfiler*>& worldProfi
 
 TreeStage* World::getTreeStage()
 {
-	return rbx_static_cast<TreeStage*>(cleanStage->findStage(IStage::TREE_STAGE));
+	return arl_static_cast<TreeStage*>(cleanStage->findStage(IStage::TREE_STAGE));
 }
 
 
 
 SpatialFilter* World::getSpatialFilter()
 {
-	return rbx_static_cast<SpatialFilter*>(cleanStage->findStage(IStage::SPATIAL_FILTER));
+	return arl_static_cast<SpatialFilter*>(cleanStage->findStage(IStage::SPATIAL_FILTER));
 }
 
 const SpatialFilter* World::getSpatialFilter() const
 {
-	return rbx_static_cast<SpatialFilter*>(cleanStage->findStage(IStage::SPATIAL_FILTER));
+	return arl_static_cast<SpatialFilter*>(cleanStage->findStage(IStage::SPATIAL_FILTER));
 }
 
 
 
 AssemblyStage* World::getAssemblyStage()
 {
-	return rbx_static_cast<AssemblyStage*>(cleanStage->findStage(IStage::ASSEMBLY_STAGE));
+	return arl_static_cast<AssemblyStage*>(cleanStage->findStage(IStage::ASSEMBLY_STAGE));
 }
 
 const AssemblyStage* World::getAssemblyStage() const
 {
-	return rbx_static_cast<AssemblyStage*>(cleanStage->findStage(IStage::ASSEMBLY_STAGE));
+	return arl_static_cast<AssemblyStage*>(cleanStage->findStage(IStage::ASSEMBLY_STAGE));
 }
 
 
 
 MovingAssemblyStage* World::getMovingAssemblyStage()
 {
-	return rbx_static_cast<MovingAssemblyStage*>(cleanStage->findStage(IStage::MOVING_ASSEMBLY_STAGE));
+	return arl_static_cast<MovingAssemblyStage*>(cleanStage->findStage(IStage::MOVING_ASSEMBLY_STAGE));
 }
 
 
@@ -333,40 +334,40 @@ MovingAssemblyStage* World::getMovingAssemblyStage()
 
 StepJointsStage* World::getStepJointsStage()
 {
-	return rbx_static_cast<StepJointsStage*>(cleanStage->findStage(IStage::STEP_JOINTS_STAGE));
+	return arl_static_cast<StepJointsStage*>(cleanStage->findStage(IStage::STEP_JOINTS_STAGE));
 }
 
 
 const StepJointsStage* World::getStepJointsStage() const
 {
-	return rbx_static_cast<StepJointsStage*>(cleanStage->findStage(IStage::STEP_JOINTS_STAGE));
+	return arl_static_cast<StepJointsStage*>(cleanStage->findStage(IStage::STEP_JOINTS_STAGE));
 }
 
 GroundStage* World::getGroundStage()
 {
-	return rbx_static_cast<GroundStage*>(cleanStage->findStage(IStage::GROUND_STAGE));
+	return arl_static_cast<GroundStage*>(cleanStage->findStage(IStage::GROUND_STAGE));
 }
 
 HumanoidStage* World::getHumanoidStage() 
 {
-	return rbx_static_cast<HumanoidStage*>(cleanStage->findStage(IStage::HUMANOID_STAGE));
+	return arl_static_cast<HumanoidStage*>(cleanStage->findStage(IStage::HUMANOID_STAGE));
 }
 
 SleepStage* World::getSleepStage()
 {
-	return rbx_static_cast<SleepStage*>(cleanStage->findStage(IStage::SLEEP_STAGE));
+	return arl_static_cast<SleepStage*>(cleanStage->findStage(IStage::SLEEP_STAGE));
 }
 
 const SleepStage* World::getSleepStage() const
 {
-	return rbx_static_cast<SleepStage*>(cleanStage->findStage(IStage::SLEEP_STAGE));
+	return arl_static_cast<SleepStage*>(cleanStage->findStage(IStage::SLEEP_STAGE));
 }
 
 
 
 SimulateStage* World::getSimulateStage()
 {
-	return rbx_static_cast<SimulateStage*>(cleanStage->findStage(IStage::SIMULATE_STAGE));
+	return arl_static_cast<SimulateStage*>(cleanStage->findStage(IStage::SIMULATE_STAGE));
 }
 
 
@@ -1082,14 +1083,14 @@ void World::notifyMoved(Primitive* p)
 
 void World::jointCoordsChanged(Joint* j)
 {
-	Primitive* parent = rbx_static_cast<Primitive*>(j->getParentSpanningNode());
-	Primitive* child = rbx_static_cast<Primitive*>(j->getChildSpanningNode());
+	Primitive* parent = arl_static_cast<Primitive*>(j->getParentSpanningNode());
+	Primitive* child = arl_static_cast<Primitive*>(j->getChildSpanningNode());
 
 	if (parent && child && (parent != child))
 	{
 		if (Joint::isRigidJoint(j))
 		{						
-			RigidJoint* r = rbx_static_cast<RigidJoint*>(j);
+			RigidJoint* r = arl_static_cast<RigidJoint*>(j);
 			child->getBody()->setMeInParent(r->getChildInParent(parent, child));
 			notifyMoved(parent);
 
@@ -1164,11 +1165,15 @@ void World::joinAll()
 		PartInstance* part = PartInstance::fromPrimitive(primitives[i]);
 		if(PartOperation* partOp = ARL::Instance::fastDynamicCast<PartOperation>(part))
 		{
-				partOp->trySetPhysicsData();
+			partOp->trySetPhysicsData();
 		}
+		if (MeshPartInstance* meshPart = ARL::Instance::fastDynamicCast<MeshPartInstance>(part))
+		{
+			meshPart->trySetPhysicsData();
+		}
+		
 		// CSG PHYSICS LOADING HACK
-
-			if (!canSkipJoinAllForPrimitive(primitives[i])) 
+		if (!canSkipJoinAllForPrimitive(primitives[i])) 
 		{
 			createAutoJoints(primitives[i]);
 		}

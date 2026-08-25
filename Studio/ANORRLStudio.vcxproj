@@ -26,29 +26,30 @@
     <SccProvider>MSSCCI:Perforce SCM</SccProvider>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>Studio</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v140_xp</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
@@ -116,7 +117,7 @@
       <AdditionalOptions>/Zm450</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\discord-rpc-win32-static\include;.;..\ClientBase;..\Win;..\Base\include;..\Log\include;..\App\include;..\Network;..\Network\raknet\Source;..\Network\include;generated;$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\fmod\include;..\fmod\api\inc;..\RbxDebug;..\RbxTestHooks;..\Rendering\AppDraw\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d\png;..\App.BulletPhysics;..\Rendering\GfxBase\include;..\Rendering\GfxRender;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtCore;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtGui;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\ActiveQt;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtWebKit;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtNetwork;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtXml;..\ClientShared;..\QTitanRibbon\include;..\CSG;..\Rendering\GfxCore\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\discord-rpc-win32-static\include;.;..\ClientBase;..\Win;..\Base\include;..\Log\include;..\App\include;..\Network;..\Network\raknet\Source;..\Network\include;generated;$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_59_0;..\fmod\include;..\fmod\api\inc;..\RbxDebug;..\RbxTestHooks;..\Rendering\AppDraw\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d\png;..\App.BulletPhysics;..\Rendering\GfxBase\include;..\Rendering\GfxRender;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtCore;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtGui;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\ActiveQt;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtWebEngineCore;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtWebChannel;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtWebEngineWidgets;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtWebEngine;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtNetwork;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtWidgets;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtConcurrent;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtPrintSupport;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtXml;..\ClientShared;..\QTitanRibbon\include;..\CSG;..\Rendering\GfxCore\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;ARL_STUDIO_BUILD;WIN32;NDEBUG;QT_THREAD_SUPPORT;QT_NO_KEYWORDS;QT_DLL;QT_GUI_LIB;QT_CORE_LIB;QT_WEBKIT_LIB;_SECURE_SCL=0;MACONLY_ADVANCED_DOCK_WIDGETS;QT_ANORRL_STUDIO;USE_PCH_HEADERS;_STUDIO_BUILD;BOOST_THREAD_PROVIDES_FUTURE_CONTINUATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -132,9 +133,9 @@
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2.lib;qtmain.lib;QtGui4.lib;QtCore4.lib;QtNetwork4.lib;QtXml4.lib;QtWebKit4.lib;gdi32.lib;comdlg32.lib;oleaut32.lib;imm32.lib;winmm.lib;winspool.lib;ws2_32.lib;ole32.lib;user32.lib;advapi32.lib;msimg32.lib;shell32.lib;kernel32.lib;uuid.lib;wmvcore.lib;qtnribbon3.lib;..\CSG\sgCore\sgCore.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;discord-rpc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;SDL2.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Network.lib;Qt5Widgets.lib;Qt5WebChannel.lib;Qt5WebEngineCore.lib;Qt5WebEngineWidgets.lib;Qt5WebEngine.lib;Qt5Concurrent.lib;Qt5PrintSupport.lib;Qt5Xml.lib;Qt5Qml.lib;Qt5Multimedia.lib;gdi32.lib;comdlg32.lib;oleaut32.lib;imm32.lib;winmm.lib;winspool.lib;ws2_32.lib;ole32.lib;user32.lib;advapi32.lib;msimg32.lib;shell32.lib;kernel32.lib;uuid.lib;qtnribbon5.lib;..\CSG\sgCore\sgCore.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;discord-rpc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)ANORRLStudioBeta.exe</OutputFile>
-      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\SDL2.0.4\VisualC\Win32\Release;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\VMProtectWin_2.13;..\QTitanRibbon\roblox_build;$(CONTRIB_PATH)\boost_1_56_0\lib;$(CONTRIB_PATH)\discord-rpc-win32-static\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\SDL2.0.4\VisualC\Win32\Release;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.44.0\builds\libcurl-vc14-x86-release-static-sspi-winssl\lib;$(CONTRIB_PATH)\VMProtectWin_2.13;..\QTitanRibbon\roblox_build;$(CONTRIB_PATH)\boost_1_59_0\lib;$(CONTRIB_PATH)\discord-rpc-win32-static\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <LargeAddressAware>true</LargeAddressAware>
@@ -146,13 +147,13 @@
       <Message>Copy Plugins</Message>
       <Command>rmdir "$(OutDir)imageformats"
 mkdir "$(OutDir)imageformats"
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qgif4.dll $(OutDir)imageformats\imageformats
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qjpeg4.dll $(OutDir)imageformats\imageformats
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qwebp4.dll $(OutDir)imageformats\imageformats
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qgif.dll $(OutDir)imageformats\imageformats
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qjpeg.dll $(OutDir)imageformats\imageformats
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qwebp.dll $(OutDir)imageformats\imageformats
 copy /Y "$(SolutionDir)CSG\sgCore\sgCore.dll" $(OutDir)
 copy /Y "$(SolutionDir)CSG\sgCore\sgCore.pdb" $(OutDir)
-copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbon3.dll" "$(OutDir)"
-copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbon3.pdb" "$(OutDir)"
+copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbon5.dll" "$(OutDir)"
+copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbon5.pdb" "$(OutDir)"
 copy /Y "$(CONTRIB_PATH)\discord-rpc-win32-static\bin\discord-rpc.dll" "$(OutDir)"
 
 rmdir "$(OutDir)BuiltInPlugins"
@@ -189,7 +190,7 @@ echo placeholder &gt; "$(OutDir)boost.pdb"
       <AdditionalOptions>/Zm450</AdditionalOptions>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;..\ClientBase;..\Win;..\Base\include;..\Log\include;..\App\include;..\Network;..\Network\raknet\Source;..\Network\include;$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\fmod\include;..\fmod\api\inc;..\RbxDebug;..\RbxTestHooks;..\Rendering\AppDraw\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d\png;..\App.BulletPhysics;..\Rendering\GfxRender;..\Rendering\GfxBase\include;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtCore;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtGui;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\ActiveQt;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtWebKit;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtNetwork;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtXml;..\ClientShared;..\QTitanRibbon\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\ClientBase;..\Win;..\Base\include;..\Log\include;..\App\include;..\Network;..\Network\raknet\Source;..\Network\include;$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_59_0\include;..\fmod\include;..\fmod\api\inc;..\RbxDebug;..\RbxTestHooks;..\Rendering\AppDraw\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d\png;..\App.BulletPhysics;..\Rendering\GfxRender;..\Rendering\GfxBase\include;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtCore;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtGui;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\ActiveQt;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtWebKit;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtNetwork;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtXml;..\ClientShared;..\QTitanRibbon\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;QT_THREAD_SUPPORT;QT_NO_KEYWORDS;QT_DLL;QT_GUI_LIB;QT_CORE_LIB;QT_WEBKIT_LIB;_SECURE_SCL=0;MACONLY_ADVANCED_DOCK_WIDGETS;QT_ANORRL_STUDIO;USE_PCH_HEADERS;_STUDIO_BUILD;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -205,7 +206,7 @@ echo placeholder &gt; "$(OutDir)boost.pdb"
     <Link>
       <AdditionalDependencies>$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release\SDL2.lib;qtmain.lib;QtGui4.lib;QtCore4.lib;QtNetwork4.lib;QtXml4.lib;QtWebKit4.lib;gdi32.lib;comdlg32.lib;oleaut32.lib;imm32.lib;winmm.lib;winspool.lib;ws2_32.lib;ole32.lib;user32.lib;advapi32.lib;msimg32.lib;shell32.lib;kernel32.lib;uuid.lib;wmvcore.lib;$(CONTRIB_PATH)\DSBaseClasses\Lib\strmbase.lib;qtnribbon3.lib;..\CSG\sgCore\sgCore.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName)Beta.exe</OutputFile>
-      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\VMProtectWin;..\QTitanRibbon\roblox_build;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\VMProtectWin;..\QTitanRibbon\roblox_build;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <LargeAddressAware>true</LargeAddressAware>
@@ -216,10 +217,10 @@ echo placeholder &gt; "$(OutDir)boost.pdb"
     </Link>
     <PostBuildEvent>
       <Message>Copy Plugins</Message>
-      <Command>copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qgif4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qgif4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qjpeg4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qjpeg4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
+      <Command>copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qgif4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qgif4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qjpeg4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qjpeg4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
 copy /Y "$(SolutionDir)CSG\sgCore\sgCore.dll" $(ProjectDir)$(OutDir)
 copy /Y "$(SolutionDir)CSG\sgCore\sgCore.pdb" $(ProjectDir)$(OutDir)
 copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbon3.dll" $(ProjectDir)$(OutDir)
@@ -242,7 +243,7 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>.;..\ClientBase;..\Win;..\Base\include;..\Log\include;..\App\include;..\Network;..\Network\raknet\Source;..\Network\include;$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\fmod\include;..\fmod\api\inc;..\RbxDebug;..\RbxTestHooks;..\Rendering\AppDraw\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d\png;..\App.BulletPhysics;..\Rendering\GfxBase\include;..\Rendering\GfxRender;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtCore;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtGui;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\ActiveQt;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtWebKit;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtNetwork;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtXml;..\ClientShared;..\QTitanRibbon\include;..\CSG;..\Rendering\GfxCore\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\ClientBase;..\Win;..\Base\include;..\Log\include;..\App\include;..\Network;..\Network\raknet\Source;..\Network\include;$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_59_0\include;..\fmod\include;..\fmod\api\inc;..\RbxDebug;..\RbxTestHooks;..\Rendering\AppDraw\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d\png;..\App.BulletPhysics;..\Rendering\GfxBase\include;..\Rendering\GfxRender;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtCore;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtGui;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\ActiveQt;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtWebKit;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtNetwork;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtXml;..\ClientShared;..\QTitanRibbon\include;..\CSG;..\Rendering\GfxCore\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;ARL_STUDIO_BUILD;WIN32;_NOOPT;NDEBUG;QT_THREAD_SUPPORT;QT_NO_KEYWORDS;QT_DLL;QT_GUI_LIB;QT_CORE_LIB;QT_WEBKIT_LIB;_SECURE_SCL=0;MACONLY_ADVANCED_DOCK_WIDGETS;QT_ANORRL_STUDIO;USE_PCH_HEADERS;_STUDIO_BUILD;Q_COMPILER_RVALUE_REFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <MinimalRebuild>true</MinimalRebuild>
@@ -260,7 +261,7 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
       <AdditionalDependencies>$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release\SDL2.lib;qtmain.lib;QtGui4.lib;QtCore4.lib;QtNetwork4.lib;fmod_vc.lib;QtXml4.lib;QtWebKit4.lib;gdi32.lib;comdlg32.lib;oleaut32.lib;imm32.lib;winmm.lib;winspool.lib;ws2_32.lib;ole32.lib;user32.lib;advapi32.lib;msimg32.lib;shell32.lib;kernel32.lib;uuid.lib;wmvcore.lib;$(CONTRIB_PATH)\DSBaseClasses\Lib\strmbase.lib;qtnribbon3.lib;..\CSG\sgCore\sgCore.lib;zlib.lib;libcurl_a.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>LinkVerboseLib</ShowProgress>
       <OutputFile>$(OutDir)$(ProjectName)Beta.exe</OutputFile>
-      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\VMProtectWin_2.13;..\QTitanRibbon\roblox_build;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\VMProtectWin_2.13;..\QTitanRibbon\roblox_build;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences />
@@ -271,10 +272,10 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
     </Link>
     <PostBuildEvent>
       <Message>Copy Plugins</Message>
-      <Command>copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qgif4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qgif4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qjpeg4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qjpeg4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
+      <Command>copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qgif4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qgif4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qjpeg4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qjpeg4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
 copy /Y "$(SolutionDir)CSG\sgCore\sgCore.dll" $(ProjectDir)$(OutDir)
 copy /Y "$(SolutionDir)CSG\sgCore\sgCore.pdb" $(ProjectDir)$(OutDir)
 copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbon3.dll" $(ProjectDir)$(OutDir)
@@ -302,7 +303,7 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>.;..\ClientBase;..\Win;..\Base\include;..\Log\include;..\App\include;..\Network;..\Network\raknet\Source;..\Network\include;$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_56_0\include;..\fmod\include;..\fmod\api\inc;..\RbxDebug;..\RbxTestHooks;..\Rendering\AppDraw\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d\png;..\App.BulletPhysics;..\Rendering\GfxBase\include;..\Rendering\GfxRender;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtCore;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtGui;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\ActiveQt;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtWebKit;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtNetwork;$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\include\QtXml;..\ClientShared;..\QTitanRibbon\include;..\CSG;..\Rendering\GfxCore\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\ClientBase;..\Win;..\Base\include;..\Log\include;..\App\include;..\Network;..\Network\raknet\Source;..\Network\include;$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_59_0\include;..\fmod\include;..\fmod\api\inc;..\RbxDebug;..\RbxTestHooks;..\Rendering\AppDraw\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d\png;..\App.BulletPhysics;..\Rendering\GfxBase\include;..\Rendering\GfxRender;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtCore;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtGui;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\ActiveQt;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtWebKit;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtNetwork;$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\include\QtXml;..\ClientShared;..\QTitanRibbon\include;..\CSG;..\Rendering\GfxCore\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;ARL_STUDIO_BUILD;WIN32;_DEBUG;QT_THREAD_SUPPORT;QT_NO_KEYWORDS;QT_DLL;QT_GUI_LIB;QT_CORE_LIB;QT_WEBKIT_LIB;_SECURE_SCL=0;MACONLY_ADVANCED_DOCK_WIDGETS;QT_ANORRL_STUDIO;USE_PCH_HEADERS;_STUDIO_BUILD;Q_COMPILER_RVALUE_REFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
       <MinimalRebuild>true</MinimalRebuild>
@@ -319,7 +320,7 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
       <AdditionalDependencies>$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release\SDL2.lib;qtmaind.lib;QtGuid4.lib;QtCored4.lib;QtNetworkd4.lib;QtXmld4.lib;QtWebKitd4.lib;gdi32.lib;comdlg32.lib;oleaut32.lib;imm32.lib;winmm.lib;winspool.lib;ws2_32.lib;ole32.lib;user32.lib;advapi32.lib;msimg32.lib;shell32.lib;kernel32.lib;uuid.lib;wmvcore.lib;$(CONTRIB_PATH)\DSBaseClasses\Lib\strmbasd.lib;qtnribbond3.lib;..\CSG\sgCore\sgCore.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ShowProgress>LinkVerboseLib</ShowProgress>
       <OutputFile>$(OutDir)$(ProjectName)Beta.exe</OutputFile>
-      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\qt\4.8.5\win_VS2012\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\VMProtectWin_2.13;..\QTitanRibbon\roblox_build;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\VMProtectWin_2.13;..\QTitanRibbon\roblox_build;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>
@@ -332,10 +333,10 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
     </Link>
     <PostBuildEvent>
       <Message>Copy Plugins</Message>
-      <Command>copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qgifd4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qgifd4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qjpegd4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
-copy /Y $(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\plugins\imageformats\qjpegd4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
+      <Command>copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qgifd4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qgifd4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qjpegd4.dll $(ProjectDir)$(OutDir)imageformats\imageformats\
+copy /Y $(CONTRIB_PATH)\Qt\5.6.3\msvc2015\plugins\imageformats\qjpegd4.pdb $(ProjectDir)$(OutDir)imageformats\imageformats\
 copy /Y "$(SolutionDir)CSG\sgCore\sgCore.dll" $(ProjectDir)$(OutDir)
 copy /Y "$(SolutionDir)CSG\sgCore\sgCore.pdb" $(ProjectDir)$(OutDir)
 copy /Y "$(SolutionDir)QTitanRibbon\roblox_build\qtnribbond3.dll" $(ProjectDir)$(OutDir)
@@ -687,112 +688,94 @@ xcopy /E /Y "$(SolutionDir)BuiltInPlugins" "$(ProjectDir)$(OutDir)BuiltInPlugins
     <PublishDLLDependency Include="..\openssl\libeay32.dll" />
     <PublishDLLDependency Include="..\openssl\libssl32.dll" />
     <PublishDLLDependency Include="..\openssl\ssleay32.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\phonond4.dll">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Multimediad.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\phonond4.pdb">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Multimediad.pdb">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtCored4.dll">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Cored.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtCored4.pdb">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Cored.pdb">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtGuid4.dll">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Guid.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtGuid4.pdb">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Guid.pdb">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtNetworkd4.dll">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Networkd.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtNetworkd4.pdb">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Networkd.pdb">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtWebKitd4.dll">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5WebKitd.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtWebKitd4.pdb">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5WebKitd.pdb">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtXmld4.dll">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Xmld.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtXmld4.pdb">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Xmld.pdb">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\phonon4.dll">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Multimedia.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\phonon4.pdb">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Core.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtCore4.dll">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Gui.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtCore4.pdb">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Network.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtGui4.dll">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5WebEngine.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtGui4.pdb">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtNetwork4.dll">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtNetwork4.pdb">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtWebKit4.dll">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtWebKit4.pdb">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtXml4.dll">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtXml4.pdb">
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Xml.dll">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </PublishDLLDependency>
   </ItemGroup>

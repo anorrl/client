@@ -30,7 +30,7 @@ GroundStage::~GroundStage()
 
 EdgeStage* GroundStage::getEdgeStage()
 {
-	return rbx_static_cast<EdgeStage*>(getDownstreamWS());
+	return arl_static_cast<EdgeStage*>(getDownstreamWS());
 }
 
 
@@ -149,13 +149,13 @@ bool GroundStage::kernelJointHere(Primitive* p)
 void GroundStage::onEdgeAdded(Edge* e)
 {
 	if (Joint::isKernelJoint(e)) {
-		onKernelJointAdded(rbx_static_cast<KernelJoint*>(e));
+		onKernelJointAdded(arl_static_cast<KernelJoint*>(e));
 	}
 
 	Super::onEdgeAdded(e);		// put the joint downstream, in the primitive list
 
 	if (Joint::isRigidJoint(e)) {	// do this after - uses the primitive list
-		checkForFreeGroundJoint(rbx_static_cast<RigidJoint*>(e));
+		checkForFreeGroundJoint(arl_static_cast<RigidJoint*>(e));
 	}
 }
 
@@ -165,11 +165,11 @@ void GroundStage::onEdgeRemoving(Edge* e)
 	Super::onEdgeRemoving(e);		// remove the joint from downstream
 
 	if (Joint::isRigidJoint(e)) {
-		checkForFreeGroundJoint(rbx_static_cast<RigidJoint*>(e));
+		checkForFreeGroundJoint(arl_static_cast<RigidJoint*>(e));
 	}
 
 	if (Joint::isKernelJoint(e)) {
-		onKernelJointRemoving(rbx_static_cast<KernelJoint*>(e));
+		onKernelJointRemoving(arl_static_cast<KernelJoint*>(e));
 	}
 }
 

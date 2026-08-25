@@ -11,7 +11,7 @@ FASTFLAGVARIABLE(DebugRenderVRHUD, false)
 
 #include "../Rendering/LibOVR/Include/OVR_CAPI_D3D.h"
 
-#pragma comment(lib, "../Rendering/LibOVR/Lib/Windows/Win32/Release/VS2012/LibOVR.lib")
+#pragma comment(lib, "../Rendering/LibOVR/Lib/Windows/Win32/Release/VS2015/LibOVR.lib")
 
 #define OVR_CHECK(call) \
 	do { \

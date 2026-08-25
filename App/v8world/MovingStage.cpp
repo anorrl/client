@@ -28,7 +28,7 @@ MovingStage::~MovingStage()
 
 SpatialFilter* MovingStage::getSpatialFilter()
 {
-	return rbx_static_cast<SpatialFilter*>(getDownstreamWS());
+	return arl_static_cast<SpatialFilter*>(getDownstreamWS());
 }
 
 void assertNotInPipeline2(Assembly* a)

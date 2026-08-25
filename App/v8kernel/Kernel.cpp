@@ -251,7 +251,7 @@ void Kernel::preStep()
 			// TODO: optimize this
 			for (int i = 0; i < contactConnectors.size(); ++i)
 			{
-				ContactConnector* conn = rbx_static_cast<ContactConnector*>(contactConnectors[i]);		
+				ContactConnector* conn = arl_static_cast<ContactConnector*>(contactConnectors[i]);		
 				conn->clearImpulseComputed();
 			}
 		}

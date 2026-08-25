@@ -148,7 +148,7 @@ namespace QtUtilities
 	QString getMacOSXVersion()
 	{
 		QString strMacVersion = "";
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 		QSysInfo::MacVersion macVersion = QSysInfo::MacintoshVersion;
 		switch (macVersion) 
 		{
@@ -182,16 +182,9 @@ namespace QtUtilities
             color.b * 255 );
     }
 
-	int toInt(Q_PID pId)
+	int toInt(qint64 pId)
 	{
-		int processId = 0;
-#ifdef Q_WS_WIN32
-			if (pId)
-				processId = pId->dwProcessId;
-#else
-			processId = pId;
-#endif
-		return processId;
+		return pId;
 	}
 
     QByteArray getResourceFileBytes(const QString& resourceName)
@@ -341,7 +334,7 @@ namespace QtUtilities
         pGridLayout->addWidget(m_pLabel, 0, 0, 1, 1);
 		pGridLayout->addWidget(m_pProgressBar, 1, 0, 1, 1);
 		
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 		UpdateUIManager::Instance().setMenubarEnabled(false);
 #endif
 
@@ -351,7 +344,7 @@ namespace QtUtilities
 	
 	ProgressDialog::~ProgressDialog()
 	{
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 		UpdateUIManager::Instance().setMenubarEnabled(true);
 #endif
 		if(m_lastFocusWidget)

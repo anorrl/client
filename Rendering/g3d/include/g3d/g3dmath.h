@@ -52,6 +52,7 @@
 #define __USE_ISOC991
 
 #include <math.h>
+#include <algorithm>
 
 #include "G3D/debug.h"
 
@@ -167,6 +168,10 @@ inline int iRound(double fValue) {
  */
 inline int iRound(float fValue) {
     return (fValue >= 0) ? int(fValue + 0.5f) : int(fValue - 0.5f);
+}
+
+inline long long llRound(double fValue) {
+    return (fValue >= 0) ? (long long)(fValue + 0.5) : (long long)(fValue - 0.5);
 }
 
 /**

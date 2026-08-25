@@ -17,6 +17,7 @@
 #include "v8datamodel/BlockMesh.h"
 #include "v8datamodel/CylinderMesh.h"
 #include "v8datamodel/PartCookie.h"
+#include "v8datamodel/MeshPartInstance.h"
 
 
 #include "Material.h"
@@ -73,6 +74,21 @@ static const G3D::Vector4 kTextureCompositSlotConfiguration[] =
     G3D::Vector4(kTextureCompositBaseWidth + 0.5f * kTextureCompositExtraWidth, 0.00f, 0.5f * kTextureCompositExtraWidth, 0.25f),
 };
 
+static const G3D::Vector4 kTextureCompositSlotConfigurationR15[] =
+{
+    ARL::Vector4(0.f, 200.f, .25f, .25f),
+    ARL::Vector4(256.f, 200.f, .25f, .25f),
+    ARL::Vector4(512.f, 200.f, .25f, .25f),
+    ARL::Vector4(768.f, 200.f, .25f, .25f),
+    ARL::Vector4(0.f, 456.f, .234f, .234f),
+    ARL::Vector4(0.f, 0.f, .195f, .195f),
+    ARL::Vector4(200.f, 0.f, .195f, .195f),
+    ARL::Vector4(400.f, 0.f, .195f, .195f),
+    ARL::Vector4(600.f, 0.f, .195f, .195f),
+    ARL::Vector4(800.f, 0.f, .195f, .195f),
+    ARL::Vector4(1000.f, 0.f, .195f, .195f),
+};
+
 // one of the slots is used by the head, all other slots are used by accoutrements
 static const size_t kTextureCompositAccoutrementCount = ARRAYSIZE(kTextureCompositSlotConfiguration) - 1;
 
@@ -94,10 +110,10 @@ public:
         nameAppend("TexComp");
     }
     
-    void add(const MeshId& mesh, const ContentId& texture, TextureCompositorLayer::CompositMode mode = TextureCompositorLayer::Composit_BlendTexture) 
-    { 
-        layers.push_back(TextureCompositorLayer(mesh, texture, mode));
-        
+    void add(const MeshId& mesh, const ContentId& texture, TextureCompositorLayer::CompositMode mode = TextureCompositorLayer::Composit_BlendTexture)
+    {
+        layers.push_back(TextureCompositorLayer(mesh, texture, ARL::Vector4(0, 0, 1, 1), mode));
+
         nameAppend(" T[");
         nameAppend(mesh.toString());
         nameAppend(":");
@@ -107,14 +123,38 @@ public:
         nameAppend("]");
     }
 
-    void add(const MeshId& mesh, const BrickColor& color)
+    void add(const MeshId& mesh, const ContentId& texture, ARL::Vector4 offsetAndScale, TextureCompositorLayer::CompositMode mode = TextureCompositorLayer::Composit_BlendTexture)
     {
-        layers.push_back(TextureCompositorLayer(mesh, color.color3()));
-        
+        layers.push_back(TextureCompositorLayer(mesh, texture, offsetAndScale, mode));
+
+        nameAppend(" T[");
+        nameAppend(mesh.toString());
+        nameAppend(":");
+        nameAppend(texture.toString());
+        nameAppend(":");
+        nameAppend(mode);
+        nameAppend("]");
+    }
+
+    void add(const MeshId& mesh, const Color3uint8& color)
+    {
+        layers.push_back(TextureCompositorLayer(mesh, color));
+
         nameAppend(" C[");
         nameAppend(mesh.toString());
         nameAppend(":");
-        nameAppend(color.asInt());
+        nameAppend(color.asUInt32());
+        nameAppend("]");
+    }
+
+    void add(const MeshId& mesh, const Color3uint8& color, ARL::Vector4 offsetAndScale)
+    {
+        layers.push_back(TextureCompositorLayer(mesh, color, offsetAndScale));
+
+        nameAppend(" C[");
+        nameAppend(mesh.toString());
+        nameAppend(":");
+        nameAppend(color.asUInt32());
         nameAppend("]");
     }
     
@@ -158,7 +198,7 @@ struct AccoutrementMesh
     float quality;
 };
 
-typedef AccoutrementMesh AccoutrementMeshes[kTextureCompositAccoutrementCount];
+typedef AccoutrementMesh AccoutrementMeshes[ARRAYSIZE(kTextureCompositSlotConfigurationR15)];
 
 static float getAccoutrementQuality(Accoutrement* acc, PartInstance* part)
 {
@@ -231,7 +271,7 @@ static void getCompositedAccoutrements(AccoutrementMeshes& result, const Humanoi
 
 static int getExtraSlot(PartInstance* part, const HumanoidIdentifier& hi, const AccoutrementMeshes& accoutrements)
 {
-    if (part == hi.head)
+    if (hi.isPartHead(part))
         return kTextureCompositAccoutrementCount;
         
     for (size_t i = 0; i < kTextureCompositAccoutrementCount; ++i)
@@ -244,17 +284,17 @@ static int getExtraSlot(PartInstance* part, const HumanoidIdentifier& hi, const 
 static std::pair<bool, G3D::Vector4> getPartCompositConfiguration(PartInstance* part, const HumanoidIdentifier& hi, const AccoutrementMeshes& accoutrements)
 {
     // base part
-    if (hi.leftArm == part || hi.leftLeg == part || hi.rightArm == part || hi.rightLeg == part || hi.torso == part)
+    if (hi.isBodyPart(part) && !hi.isPartHead(part))
         return std::make_pair(true, G3D::Vector4(0, 0, kTextureCompositBaseWidth, 1));
-    
+
     // head and accoutrements occupy the rightmost column, with reversed order (bottom to top)
     int slot = getExtraSlot(part, hi, accoutrements);
-    
+
     if (slot >= 0)
     {
         const G3D::Vector4& cfg = kTextureCompositSlotConfiguration[slot];
         G3D::Vector4 borderAdjustment(kTextureCompositExtraBorderWidth, kTextureCompositExtraBorderHeight, -2.f * kTextureCompositExtraBorderWidth, -2.f * kTextureCompositExtraBorderHeight);
-        
+
         return std::make_pair(true, cfg + borderAdjustment);
     }
     
@@ -272,26 +312,26 @@ static MeshId getExtraSlotMeshId(PartInstance* part, const HumanoidIdentifier& h
 static void prepareHumanoidTextureCompositing(TextureCompositingDescription& desc, const HumanoidIdentifier& hi, const AccoutrementMeshes& accoutrements, CharacterMesh* mesh)
 {
     if (hi.torso)
-        desc.add(MeshId("arlasset://avatar/meshes/composit/base/Torso.mesh"), hi.torso->getColor());
+        desc.add(MeshId("arlasset://avatar/meshes/composit/base/Torso.mesh"), hi.torso->getColor3uint8());
         
     if (hi.leftArm)
-        desc.add(MeshId("arlasset://avatar/meshes/composit/base/LeftArm.mesh"), hi.leftArm->getColor());
+        desc.add(MeshId("arlasset://avatar/meshes/composit/base/LeftArm.mesh"), hi.leftArm->getColor3uint8());
         
     if (hi.rightArm)
-        desc.add(MeshId("arlasset://avatar/meshes/composit/base/RightArm.mesh"), hi.rightArm->getColor());
+        desc.add(MeshId("arlasset://avatar/meshes/composit/base/RightArm.mesh"), hi.rightArm->getColor3uint8());
         
     if (hi.leftLeg)
-        desc.add(MeshId("arlasset://avatar/meshes/composit/base/LeftLeg.mesh"), hi.leftLeg->getColor());
+        desc.add(MeshId("arlasset://avatar/meshes/composit/base/LeftLeg.mesh"), hi.leftLeg->getColor3uint8());
         
     if (hi.rightLeg)
-        desc.add(MeshId("arlasset://avatar/meshes/composit/base/RightLeg.mesh"), hi.rightLeg->getColor());
+        desc.add(MeshId("arlasset://avatar/meshes/composit/base/RightLeg.mesh"), hi.rightLeg->getColor3uint8());
         
     if (hi.head)
     {
         FileMesh* headMesh = getFileMesh(hi.head);
         MeshId slotMeshId = getExtraSlotMeshId(hi.head, hi, accoutrements);
         
-        desc.add(slotMeshId, hi.head->getColor());
+        desc.add(slotMeshId, hi.head->getColor3uint8());
         
         if (headMesh && !headMesh->getTextureId().isNull())
             desc.add(slotMeshId, headMesh->getTextureId());
@@ -321,7 +361,7 @@ static void prepareHumanoidTextureCompositing(TextureCompositingDescription& des
         
     if (mesh && !mesh->getOverlayTextureId().isNull())
         desc.add(MeshId("arlasset://avatar/meshes/composit/fullatlas/OverlayTexture.mesh"), mesh->getOverlayTextureId());
-        
+    
     for (size_t i = 0; i < kTextureCompositAccoutrementCount; ++i)
     {
         if (accoutrements[i].mesh)
@@ -332,10 +372,11 @@ static void prepareHumanoidTextureCompositing(TextureCompositingDescription& des
             // to work with the existing assets, we have to decrease it - we do it using fixed-function 4x modulation,
             // which effectively changes the cutoff to 32.
             MeshId slotMeshId = getExtraSlotMeshId(accoutrements[i].part, hi, accoutrements);
-        
-            desc.add(slotMeshId, accoutrements[i].part->getColor());
+    
+            desc.add(slotMeshId, accoutrements[i].part->getColor3());
             desc.add(slotMeshId, accoutrements[i].mesh->getTextureId(), TextureCompositorLayer::Composit_BlitTextureAlphaMagnify4x);
         }
+        
     }
 }
 
@@ -389,7 +430,7 @@ static std::pair<std::pair<TextureRef, TextureCompositor::JobHandle>, G3D::Vecto
     // get mesh that's used as base/overlay texture source
     // heads/accoutrements use torso mesh to share the composit texture
     CharacterMesh* mesh =
-        (part == hi.torso || part == hi.leftArm || part == hi.rightArm || part == hi.leftLeg || part == hi.rightLeg)
+        (!hi.isPartHead(part))
         ? hi.getRelevantMesh(part)
         : hi.torsoMesh;
     
@@ -500,7 +541,7 @@ static PartInstance* getHumanoidFocusPart(const HumanoidIdentifier& hi)
 {
     if (hi.torso) return hi.torso;
     if (hi.head) return hi.head;
-    
+
     return NULL;
 }
 
@@ -947,6 +988,7 @@ MaterialGenerator::Result MaterialGenerator::createMaterialForPart(PartInstance*
     
     DataModelMesh* specialShape = getSpecialShape(part);
 
+    
     if (FileMesh* fileMesh = getFileMesh(specialShape))
     {
 		const TextureId& textureId = fileMesh->getTextureId();
@@ -955,6 +997,25 @@ MaterialGenerator::Result MaterialGenerator::createMaterialForPart(PartInstance*
 
         return texture.getTexture()
 			? Result(createTexturedMaterial(texture, textureId.toString(), flags), Result_UsesTexture)
+            : createDefaultMaterial(part, flags, SMOOTH_PLASTIC_MATERIAL);
+    }
+
+    if (MeshPartInstance* meshPart = part->fastDynamicCast<MeshPartInstance>())
+    {
+        TextureId textureId = TextureId("arlasset://textures/meshPartFallback.png");
+        unsigned int flag = Flag_ForceDecalTexture;
+
+        if (meshPart->isActualTextureIdSet() || meshPart->isActualMeshIdSet())
+        {
+            textureId = meshPart->getTextureId();
+            flag = Result_UsesTexture;
+        }
+
+        TextureRef texture = textureId.isNull() ? TextureRef()
+            : visualEngine->getTextureManager()->load(
+                textureId, TextureManager::Fallback_Gray, meshPart->getFullName() + ".TextureId");
+
+        return texture.getTexture() ? Result(createTexturedMaterial(texture, textureId.toString(), flags), Result_UsesTexture)
             : createDefaultMaterial(part, flags, SMOOTH_PLASTIC_MATERIAL);
     }
     
@@ -1071,11 +1132,12 @@ Vector2int16 MaterialGenerator::getSpecular(PartMaterial material)
 unsigned int MaterialGenerator::createFlags(bool skinned, ARL::PartInstance* part, const HumanoidIdentifier* hi, bool& ignoreDecalsOut)
 {
 	bool useCompositTexture = hi && hi->humanoid && hi->isPartComposited(part);
+    
 	ignoreDecalsOut = false;
 
 	unsigned int materialFlags = skinned ? MaterialGenerator::Flag_Skinned : 0;
 
-	if (hi && part == hi->head &&  hi->isPartHead(part))
+	if (hi && hi->getBodyPartType(part) == HumanoidIdentifier::BodyPartType::PartType_Head &&  hi->isPartHead(part))
 	{
 		// Heads don't support materials/studs
 		materialFlags |= MaterialGenerator::Flag_DisableMaterialsAndStuds;
@@ -1083,17 +1145,18 @@ unsigned int MaterialGenerator::createFlags(bool skinned, ARL::PartInstance* par
 
 	if (useCompositTexture)
 	{
+        HumanoidIdentifier::BodyPartType BodyPartType = hi->getBodyPartType(part);
 		materialFlags |= MaterialGenerator::Flag_UseCompositTexture;
 
 		// Bake all accoutrements in the same composit texture
 		materialFlags |= MaterialGenerator::Flag_UseCompositTextureForAccoutrements;
 
 		// If torso has a tshirt, ignore all decals
-		if (part == hi->torso && !hi->shirtGraphic.isNull())
+		if (BodyPartType == HumanoidIdentifier::BodyPartType::PartType_Torso && !hi->shirtGraphic.isNull())
 			ignoreDecalsOut = true;
 
 		// Ignore head decals since they are composited
-		if (part == hi->head)
+		if (BodyPartType == HumanoidIdentifier::BodyPartType::PartType_Head)
 			ignoreDecalsOut = true;
 	}
 

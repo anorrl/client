@@ -673,7 +673,10 @@ void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 		{
 			// don't care, happens when called from studio cmd bar
 		}
-		
+
+		TextService::Font chatFont;
+		Reflection::EnumDesc<TextService::Font>::singleton().convertToValue(getParamString("ChatFont").c_str(), chatFont);
+		player->setChatFont(chatFont);
 		player->setCharacterAppearance(getParamString("CharacterAppearance"));
 		player->setFollowUserId(getParamInt("FollowUserId"));
 		

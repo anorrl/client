@@ -102,7 +102,7 @@ namespace ARL
 	{
 		if(isAssetId())
 			createIdUrl(id, baseUrl, id.substr(13));
-		else if(isRbxHttp()){
+		else if(isARLHttp()){
 			id = baseUrl + id.substr(10);
 		}
 		else if (isNamedAsset())
@@ -211,7 +211,7 @@ namespace ARL
 		if(isAssetId()){
 			return id.substr(13); 
 		}
-		else if(isHttp() || isRbxHttp()){
+		else if(isHttp() || isARLHttp()){
 			std::string lower = id;
 			std::transform(lower.begin(), lower.end(), lower.begin(), tolower);
 			std::string::size_type pos = lower.find("id=");

@@ -357,7 +357,7 @@ function newChoice()
 	prompt.Parent = frame
 
 	local selectionButton = Instance.new("ImageLabel")
-	selectionButton.Name = "RBXchatDialogSelectionButton"
+	selectionButton.Name = "ARLchatDialogSelectionButton"
 	selectionButton.Position = UDim2.new(0, 0, 0.5, -33/2)
 	selectionButton.Size = UDim2.new(0, 33, 0, 33)
 	selectionButton.Image = "arlasset://textures/ui/Settings/Help/AButtonLightSmall.png"
@@ -648,7 +648,7 @@ function onLoad()
   frame.Size = UDim2.new(0,0,0,0)
   frame.BackgroundTransparency = 1
   frame.ANORRLLocked = true
-  game:GetService("GuiService"):AddSelectionParent("RBXDialogGroup", frame)
+  game:GetService("GuiService"):AddSelectionParent("ARLDialogGroup", frame)
 
   if (touchEnabled and not isSmallTouchScreen) then
 	frame.Position = UDim2.new(0,20,0.5,0)
@@ -714,13 +714,13 @@ local lastSelectedChoice = nil
 
 guiService.Changed:connect(function(property)
 	if property == "SelectedCoreObject" then
-		if lastSelectedChoice and lastSelectedChoice:FindFirstChild("RBXchatDialogSelectionButton") then
-			lastSelectedChoice:FindFirstChild("RBXchatDialogSelectionButton").Visible = false
+		if lastSelectedChoice and lastSelectedChoice:FindFirstChild("ARLchatDialogSelectionButton") then
+			lastSelectedChoice:FindFirstChild("ARLchatDialogSelectionButton").Visible = false
 			lastSelectedChoice.BackgroundTransparency = 1
 		end
 		lastSelectedChoice = guiService.SelectedCoreObject
-		if lastSelectedChoice and lastSelectedChoice:FindFirstChild("RBXchatDialogSelectionButton") then
-			lastSelectedChoice:FindFirstChild("RBXchatDialogSelectionButton").Visible = true
+		if lastSelectedChoice and lastSelectedChoice:FindFirstChild("ARLchatDialogSelectionButton") then
+			lastSelectedChoice:FindFirstChild("ARLchatDialogSelectionButton").Visible = true
 			lastSelectedChoice.BackgroundTransparency = 0
 		end
 	end

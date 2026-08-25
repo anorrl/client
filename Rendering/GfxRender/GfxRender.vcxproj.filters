@@ -71,9 +71,6 @@
     <ClCompile Include="TextureCompositor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TypesetterBitmap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="VertexStreamer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -311,9 +308,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextureCompositor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TypesetterBitmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Util.h">

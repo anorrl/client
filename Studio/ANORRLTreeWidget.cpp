@@ -65,7 +65,7 @@ FASTFLAG(TeamCreateOptimizeRemoteSelection)
 
 LOGGROUP(Explorer)
 
-bool DepthCompare::operator() (const ANORRLTreeWidgetItem* lhs, const ANORRLTreeWidgetItem* rhs)
+bool DepthCompare::operator() (const ANORRLTreeWidgetItem* lhs, const ANORRLTreeWidgetItem* rhs) const
 {
 	if (lhs->getTreeWidgetDepth() == rhs->getTreeWidgetDepth())
 		return lhs < rhs;
@@ -965,7 +965,7 @@ ANORRLTreeWidget::ANORRLTreeWidget(boost::shared_ptr<ARL::DataModel> pDataModel)
 	setSelectionBehavior(QAbstractItemView::SelectItems);
 
     header()->setStretchLastSection(false);
-    header()->setResizeMode(0,QHeaderView::ResizeToContents);
+    header()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
     
     // Set edit trigger only for SelectionClicked and EditKeyPressed 
 	setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed);
@@ -2409,18 +2409,6 @@ ANORRLExplorerWidget::ANORRLExplorerWidget(QWidget *pParent)
 {
 	m_lineEdit = new QLineEdit();
 	m_lineEdit->setPlaceholderText(QString("Filter workspace (%1)").arg(UpdateUIManager::Instance().getMainWindow().explorerFilterAction->shortcut().toString()));
-	
-	if (AuthoringSettings::singleton().darkMode)
-	{
-		QPalette palette = m_lineEdit->palette();
-		palette.setColor(QPalette::Text, Qt::white);
-		palette.setColor(QPalette::Base, QColor(46, 46, 46));
-		palette.setColor(QPalette::Window, QColor(46, 46, 46));
-		palette.setColor(QPalette::Button, QColor(46, 46, 46));
-		palette.setColor(QPalette::ButtonText, Qt::white);
-		m_lineEdit->setPalette(palette);
-	}
-	
 	m_lineEdit->hide();
 
 	m_loadingMovie = new QMovie(":/images/loading.gif");

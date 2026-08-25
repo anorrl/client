@@ -21,13 +21,7 @@ end
 local function Run(ChatService)
 
 	local function CanUserChat(playerObj)
-		if RunService:IsStudio() then
-			return true
-		end
-		local success, canChat = pcall(function()
-			return Chat:CanUserChatAsync(playerObj.UserId)
-		end)
-		return success and canChat
+		return RunService:IsStudio() or playerObj.UserId > 0
 	end
 
 	local function ValidateChatFunction(speakerName, message, channel)

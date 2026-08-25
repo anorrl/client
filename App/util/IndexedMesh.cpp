@@ -102,7 +102,7 @@ void IndexedMesh::setLower(IndexedMesh* newLower)
 void IndexedMesh::onParentChanged(IndexedTree* oldParent)
 {
 	if (oldParent) {
-		IndexedMesh* oldMeshParent = rbx_static_cast<IndexedMesh*>(oldParent);
+		IndexedMesh* oldMeshParent = arl_static_cast<IndexedMesh*>(oldParent);
 		if (IndexedMesh* oldUpper = oldMeshParent->getComputedUpper()) {
 			oldUpper->onLowerChildRemoved(this);
 		}

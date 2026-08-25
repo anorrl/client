@@ -15,8 +15,8 @@ namespace ARL {
 BallPolyContact::BallPolyContact(Primitive* p0, Primitive* p1)
 	: PolyContact(p0, p1)
 {
-	ARLASSERT(rbx_static_cast<Ball*>(p0->getGeometry()));
-	ARLASSERT(rbx_static_cast<Poly*>(p1->getGeometry()));
+	ARLASSERT(arl_static_cast<Ball*>(p0->getGeometry()));
+	ARLASSERT(arl_static_cast<Poly*>(p1->getGeometry()));
 }
 
 
@@ -204,12 +204,12 @@ BallVertexConnector* BallPolyContact::newBallVertexConnector(const POLY::Vertex*
 
 const Ball* BallPolyContact::ball() const
 {
-	return rbx_static_cast<const Ball*>(getConstPrimitive(0)->getConstGeometry());
+	return arl_static_cast<const Ball*>(getConstPrimitive(0)->getConstGeometry());
 }
 
 const Poly* BallPolyContact::poly() const
 {
-	return rbx_static_cast<const Poly*>(getConstPrimitive(1)->getConstGeometry());
+	return arl_static_cast<const Poly*>(getConstPrimitive(1)->getConstGeometry());
 }
 
 void BallPolyContact::generateDataForMovingAssemblyStage(void)

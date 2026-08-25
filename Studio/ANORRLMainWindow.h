@@ -52,7 +52,7 @@ static const char* IDEArgument          = "-ide";
 
 class QLabel;
 class QSplashScreen;
-class QWebView;
+class QWebEngineView;
 
 class CustomToolButton;
 class ANORRLInputConfigDialog;
@@ -249,8 +249,6 @@ private Q_SLOTS:
 
 	void cleanupPlayersAndServers();
 
-	void cookieConstraintCheckerLoadFinished(bool ok);
-
 	void checkInsertedObjects();
 
 private:
@@ -358,9 +356,7 @@ private:
 	bool					m_isRibbon; // whether we're in ribbon bar mode or classic
     bool                    m_fileOpenHandled;
 	bool                    m_IgnoreCloudEditDisconnect;
-	QWebView*               m_cookieConstraintChecker;
-	QEventLoop*             m_cookieConstraintCheckDone;
-
+	
 	std::queue<InsertObjectItem> m_insertObjectItems;
 
     // TODO - fix this, friends bad

@@ -29,7 +29,7 @@ AutoSaveDialog::AutoSaveDialog(QWidget* Parent)
 
     m_UI.setupUi(this);
 
-#ifdef Q_WS_WIN32
+#ifdef Q_OS_WIN32
 
     QString text = tr(
         "<font size=4><b>An auto-save recovery file was detected!</b></font><br><br>"

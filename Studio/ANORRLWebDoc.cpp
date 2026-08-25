@@ -13,10 +13,15 @@
 #include <QLineEdit>
 #include <QDesktopServices>
 #include <QGridLayout>
-#include <QWebSettings>
-#include <QWebFrame>
 #include <QNetworkReply>
+#include <QWebChannel>
+#include <QWebEnginePage>
+#include <QWebEngineScript>
+#include <QWebEngineProfile>
+#include <QWebEngineSettings>
+#include <QWebEngineScriptCollection>
 #include <QDebug>
+#include <QFile>
 #include <QSslError>
 
 // ANORRL Headers
@@ -39,6 +44,7 @@ FASTFLAG(StudioInSyncWebKitAuthentication)
 FASTFLAG(WebkitLocalStorageEnabled);
 FASTFLAG(WebkitDeveloperToolsEnabled);
 FASTFLAG(StudioEnableWebKitPlugins);
+FASTFLAGVARIABLE(FunnyBrowserThing, true);
 
 ANORRLWebDoc::ANORRLWebDoc(const QString& displayName, const QString& keyName)
 : m_pWebView(NULL)
@@ -155,37 +161,29 @@ void ANORRLWebDoc::setupWebView(QWidget *wrapperWidget)
 	if (FFlag::StudioInSyncWebKitAuthentication && m_keyName != "StartPage")
 		connect(&AuthenticationHelper::Instance(), SIGNAL(authenticationChanged(bool)), this, SLOT(onAuthenticationChanged(bool)));
 	
-	connect(m_pWebView->page()->networkAccessManager(),
-			SIGNAL(sslErrors(QNetworkReply*, const QList<QSslError> & )),
-			this,
-			SLOT(sslErrorHandler(QNetworkReply*, const QList<QSslError> & )));
+	QWebEngineSettings *globalSetting = QWebEngineSettings::globalSettings();
 	
-	QWebSettings *globalSetting = QWebSettings::globalSettings();
+	globalSetting->setAttribute(QWebEngineSettings::AutoLoadImages, true);
 	
-	globalSetting->setAttribute(QWebSettings::AutoLoadImages, true);
-	
-	globalSetting->setAttribute(QWebSettings::JavascriptEnabled, true);
-	globalSetting->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-	globalSetting->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
+	globalSetting->setAttribute(QWebEngineSettings::JavascriptEnabled, true);
+	globalSetting->setAttribute(QWebEngineSettings::JavascriptCanAccessClipboard, true);
+	globalSetting->setAttribute(QWebEngineSettings::JavascriptCanOpenWindows, true);
 	
 #ifdef _WIN32
     if (FFlag::StudioEnableWebKitPlugins)
-        globalSetting->setAttribute(QWebSettings::PluginsEnabled, true);
+        globalSetting->setAttribute(QWebEngineSettings::PluginsEnabled, true);
     else
-        globalSetting->setAttribute(QWebSettings::PluginsEnabled, false);
+        globalSetting->setAttribute(QWebEngineSettings::PluginsEnabled, false);
 #endif
 	
 	/// Keep all this for now, later on we should remove it depending on bare minimum required.
-	globalSetting->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-	globalSetting->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
+	globalSetting->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
+	globalSetting->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
 
 	if(FFlag::WebkitLocalStorageEnabled)
-		globalSetting->setAttribute(QWebSettings::LocalStorageEnabled, true);
+		globalSetting->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
 
-	if(FFlag::WebkitDeveloperToolsEnabled)
-		globalSetting->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-	
-	connect(m_pWebView->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(initJavascript()));
+	//initJavascript();
 
 	// update title only for StartPage
 	if (m_keyName == "StartPage")
@@ -211,23 +209,23 @@ QToolBar* ANORRLWebDoc::setupAddressToolBar(QWidget *wrapperWidget)
 	m_pAddrInputComboBox->setSizePolicy(QLineEdit().sizePolicy());
 
 	//QT has implementations for the back, forward, stop, and reload actions already.
-	QAction* pAction = m_pWebView->pageAction(QWebPage::Back);
+	QAction* pAction = m_pWebView->pageAction(QWebEnginePage::Back);
 	pAction->setStatusTip("Go Back");
 	QtUtilities::setActionShortcuts(*pAction,QKeySequence::keyBindings(QKeySequence::Back));
 	pAction->setShortcutContext(Qt::WidgetShortcut);
 	pToolBar->addAction(pAction);
 
-	pAction = m_pWebView->pageAction(QWebPage::Forward);
+	pAction = m_pWebView->pageAction(QWebEnginePage::Forward);
 	pAction->setStatusTip("Go Forward");
 	QtUtilities::setActionShortcuts(*pAction,QKeySequence::keyBindings(QKeySequence::Forward));
 	pAction->setShortcutContext(Qt::WidgetShortcut);
 	pToolBar->addAction(pAction);
 
-	pAction = m_pWebView->pageAction(QWebPage::Stop);
+	pAction = m_pWebView->pageAction(QWebEnginePage::Stop);
 	pAction->setStatusTip("Stop");
 	pToolBar->addAction(pAction);
 
-	pAction = m_pWebView->pageAction(QWebPage::Reload);
+	pAction = m_pWebView->pageAction(QWebEnginePage::Reload);
 	pAction->setStatusTip("Reload");
     QtUtilities::setActionShortcuts(*pAction,QKeySequence::keyBindings(QKeySequence::Refresh));
 	pAction->setShortcutContext(Qt::WidgetShortcut);
@@ -240,7 +238,7 @@ QToolBar* ANORRLWebDoc::setupAddressToolBar(QWidget *wrapperWidget)
 	pAction->setObjectName("actionNavigateHome");
 
     QList<QKeySequence> sequences;
-#ifdef Q_WS_WIN32
+#ifdef Q_OS_WIN32
     sequences.append(QKeySequence("Alt+Home"));
 #else
     sequences.append(QKeySequence("Ctrl+Home"));
@@ -273,18 +271,24 @@ void ANORRLWebDoc::navigateUrl(const QString& urlString)
 	if (!urlStringMod.contains("://"))
 		urlStringMod.prepend("http://");
 
-	QByteArray ba = urlStringMod.toAscii();
+	QByteArray ba = urlStringMod.toLatin1();
 	const char *c_str = ba.data();
 
-	if (ARL::Http::trustCheckBrowser(c_str))
-	{
+	if (!FFlag::FunnyBrowserThing) {
+		if (ARL::Http::trustCheckBrowser(c_str))
+		{
+			m_pWebView->load(urlStringMod);
+		}
+		else
+		{
+			QDesktopServices::openUrl(urlStringMod);
+			urlStringMod = "";
+		}
+	}
+	else {
 		m_pWebView->load(urlStringMod);
 	}
-	else 
-	{
-		QDesktopServices::openUrl(urlStringMod);
-		urlStringMod = "";
-	}
+	
 
 	updateAddressBar(QUrl(urlStringMod));
 }
@@ -303,12 +307,26 @@ void ANORRLWebDoc::updateAddressBar(const QUrl& url)
 
 void ANORRLWebDoc::initJavascript()
 {
-	if (m_pWebView->page() && m_pWebView->page()->mainFrame())
+	if (m_pWebView->page())
 	{
+		if (!m_pWebView->page()->webChannel())
+		{
+			QWebChannel* channel = new QWebChannel(m_pWebView->page());
+			m_pWebView->page()->setWebChannel(channel);
+		}
+
+		QFile webChannelJsFile(":/qtwebchannel/qwebchannel.js");
+		if (!webChannelJsFile.open(QIODevice::ReadOnly)) {
+			qDebug() << QString("Couldn't open qwebchannel.js file: %1").arg(webChannelJsFile.errorString());
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "CANNOT OPEN THE DAMN THING %s", QString("%1").arg(webChannelJsFile.errorString()).toStdString().c_str());
+		}
+
 		// remove all slots connected to workspace before adding it again
 		// or else we can have multiple slots getting called from web page, resulting in dangling function calls.
 		m_pWorkspace->disconnect();
-		m_pWebView->page()->mainFrame()->addToJavaScriptWindowObject("external", m_pWorkspace.get() );
+		m_pWebView->page()->webChannel()->registerObject(QString("ARLext"), m_pWorkspace.get());
+		m_pWebView->page()->runJavaScript(
+			QStringLiteral("new QWebChannel(qt.webChannelTransport, function(channel) { window.external = channel.objects.ARLext; });"));
 	}
 }
 
@@ -335,7 +353,7 @@ void ANORRLWebDoc::sslErrorHandler(QNetworkReply* qnr, const QList<QSslError> & 
 void ANORRLWebDoc::onAuthenticationChanged(bool)
 {
 	//make sure reload action is enabled (to avoid circular loop)
-	QAction* pReloadAction = m_pWebView->page()->action(QWebPage::Reload);
+	QAction* pReloadAction = m_pWebView->page()->action(QWebEnginePage::Reload);
 	if (pReloadAction && pReloadAction->isEnabled())
 		QTimer::singleShot(0, pReloadAction, SLOT(trigger()));
 }

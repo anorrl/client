@@ -25,7 +25,7 @@ MechToAssemblyStage::~MechToAssemblyStage()
 
 AssemblyStage* MechToAssemblyStage::getAssemblyStage()
 {
-	return rbx_static_cast<AssemblyStage*>(getDownstreamWS());
+	return arl_static_cast<AssemblyStage*>(getDownstreamWS());
 }
 
 

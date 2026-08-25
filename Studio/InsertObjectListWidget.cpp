@@ -78,7 +78,7 @@ void InsertObjectListWidget::mouseMoveEvent(QMouseEvent *evt)
 	QPixmap pixMap(1, 1);
 	pDrag->setPixmap(pixMap);
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	pDrag->exec();	
 #else
 	pDrag->exec(Qt::CopyAction);

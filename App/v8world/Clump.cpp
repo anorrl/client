@@ -28,13 +28,13 @@ bool Clump::isClumpRootPrimitive(const Primitive* p)
 
 Clump* Clump::getPrimitiveClump(Primitive* p)
 {
-	return rbx_static_cast<Clump*>(p->getComputedUpper());
+	return arl_static_cast<Clump*>(p->getComputedUpper());
 }
 
 
 const Clump* Clump::getConstPrimitiveClump(const Primitive* p)
 {
-	return rbx_static_cast<const Clump*>(p->getConstComputedUpper());
+	return arl_static_cast<const Clump*>(p->getConstComputedUpper());
 }
 
 // TODO:  redundant code
@@ -44,7 +44,7 @@ void Clump::loadConstMotors(G3D::Array<const Joint*>& load, bool nonAnimatedOnly
 	const SpanningEdge* edge = getConstTypedLower<Primitive>()->getConstEdgeToParent();
 	ARLASSERT(edge);
 	
-	const Joint* j = rbx_static_cast<const Joint*>(edge);
+	const Joint* j = arl_static_cast<const Joint*>(edge);
 
 	if (Joint::isMotorJoint(j)) 
 	{
@@ -67,7 +67,7 @@ void Clump::loadMotors(G3D::Array<Joint*>& load, bool nonAnimatedOnly)
 	SpanningEdge* edge = getTypedLower<Primitive>()->getEdgeToParent();
 	ARLASSERT(edge);
 	
-	Joint* j = rbx_static_cast<Joint*>(edge);
+	Joint* j = arl_static_cast<Joint*>(edge);
 
 	if (Joint::isMotorJoint(j)) 
 	{
@@ -93,7 +93,7 @@ bool PrimIterator::isParent(Primitive* parentCandidate, Primitive* child, Search
 	ARLASSERT(child && parentCandidate);
 	ARLASSERT(child->getTypedParent<Primitive>() == parentCandidate);
 
-	Joint* joint = rbx_static_cast<Joint*>(child->getEdgeToParent());
+	Joint* joint = arl_static_cast<Joint*>(child->getEdgeToParent());
 
 	ARLASSERT(Joint::isSpanningTreeJoint(joint));
 

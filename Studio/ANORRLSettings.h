@@ -8,7 +8,12 @@
 // Qt Headers
 #include <QSettings>
 
-class AppSettings 
+#pragma once
+
+// Qt Headers
+#include <QSettings>
+
+class AppSettings
 {
 public:
 	static AppSettings& instance();
@@ -19,18 +24,20 @@ public:
 #endif
 	QString builtInPluginsFolder() { return m_builtInPluginsFolder; }
 	QString baseURL() { return m_baseURL; }
+	QString webURL() { return m_webURL; }
 	QString tempLocation() { return m_tempLocation; }
 	bool isScriptAssetUploadEnabled() { return m_bIsScriptAssetUploadEnabled; }
 	bool isAnimationAssetUploadEnabled() { return m_bIsAnimationAssetUploadEnabled; }
 	bool isImageModelAssetUploadEnabled() { return m_bIsImageModelAssetUploadEnabled; }
 	bool showCrashMenu() { return m_bShowStudioCrashMenu; }
-	
+
 private:
 	AppSettings();
 
 	QString m_contentFolder;
 	QString m_builtInPluginsFolder;
 	QString m_baseURL;
+	QString m_webURL;
 	QString m_tempLocation;
 #ifdef STUDIO_ADMIN_BUILD
 	QString m_adminKey;
@@ -43,8 +50,8 @@ private:
 
 class ANORRLSettings : public QSettings
 {
-Q_OBJECT
-	
+	Q_OBJECT
+
 public:
 	ANORRLSettings();
 	static void saveAssets();
@@ -53,6 +60,7 @@ public:
 	static QString getBuiltInPluginsFolder();
 	static QString getResourcesFolder(); // Resources such as ReflectionMetadata.xml
 	static QString getBaseURL();
+	static QString getWebURL();
 	static QString getApiBaseURL();
 #ifdef STUDIO_ADMIN_BUILD
 	static QString getAdminKey();
@@ -60,8 +68,8 @@ public:
 	static QString getVersionString();
 	static QString getTempLocation();
 	static void initWorkspaceSettings();
-	static bool showCrashMenu();	
+	static bool showCrashMenu();
 private:
 	ANORRLSettings(const ANORRLSettings&);                 // Prevent copy-construction
 	ANORRLSettings& operator=(const ANORRLSettings&);      // Prevent assignment		
-};	
+};

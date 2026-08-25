@@ -129,12 +129,12 @@ void PolyPolyContact::resetBestPair(PolyPair* pairOnStack)
 
 const Poly* PolyPair::poly0() const
 {
-	return rbx_static_cast<const Poly*>(primitive[0]->getConstGeometry());
+	return arl_static_cast<const Poly*>(primitive[0]->getConstGeometry());
 }
 
 const Poly* PolyPair::poly1() const
 {
-	return rbx_static_cast<const Poly*>(primitive[1]->getConstGeometry());
+	return arl_static_cast<const Poly*>(primitive[1]->getConstGeometry());
 }
 
 

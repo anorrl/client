@@ -4,10 +4,10 @@
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
 
-#define VER_FILEVERSION             5,8,2026,1
+#define VER_FILEVERSION             22,8,2026,1
 #define VER_FILEVERSION_STR         TOSTRING(VER_FILEVERSION)
 
-#define VER_PRODUCTVERSION          5,8,2026,0
+#define VER_PRODUCTVERSION          22,8,2026,0
 #define VER_PRODUCTVERSION_STR      TOSTRING(VER_PRODUCTVERSION)
 
 #define VER_COMPANYNAME_STR         "kuro.remover"

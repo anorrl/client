@@ -4964,7 +4964,7 @@ double Replicator::getMetricValue(const std::string& metric) const
 
 void Replicator::assignRef(Reflection::Property& property, ARL::Guid::Data id)
 {
-	Instance* baldReferencer = rbx_static_cast<Instance*>(property.getInstance());
+	Instance* baldReferencer = arl_static_cast<Instance*>(property.getInstance());
 
 	shared_ptr<Instance> referencer = shared_from<Instance>(baldReferencer);
 
@@ -5016,7 +5016,7 @@ void Replicator::assignDefaultPropertyValue(Reflection::Property& property, bool
 
 	const Reflection::PropertyDescriptor& descriptor = property.getDescriptor();
 
-	Instance* instance = rbx_static_cast<Instance*>(property.getInstance());
+	Instance* instance = arl_static_cast<Instance*>(property.getInstance());
 	const Instance* defaultInstance = instance ? getDefault(instance->getClassName()) : NULL;
 	if (instance && defaultInstance)
 	{

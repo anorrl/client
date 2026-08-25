@@ -1,4 +1,5 @@
 <RCC>
+
   <qresource prefix="/"> 
 	<file>fonts/SourceSansPro/TTF/SourceSansPro-Regular.ttf</file>
 	<file>images/c_tiltUpCamera_old.png</file>

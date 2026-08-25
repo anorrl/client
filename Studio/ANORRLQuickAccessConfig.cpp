@@ -148,7 +148,7 @@ BaseListWidget::BaseListWidget(QWidget* parent)
 	setSelectionMode(QAbstractItemView::SingleSelection);
 
 	header()->setVisible(false);
-	header()->setResizeMode(QHeaderView::ResizeToContents);
+	header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	header()->setStretchLastSection(true);
 
 	setItemDelegate(new ActionItemDelegate(this));

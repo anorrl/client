@@ -37,7 +37,7 @@ BulletShapeCellContact::BulletShapeCellContact(Primitive* p0, Primitive* p1, con
     if (orientation > 0)
         Math::rotateAboutYGlobal(cellCFrame, orientation*Math::piHalff());
 
-    btCollisionShape* bulletCellShape = rbx_static_cast<MegaClusterPoly*>(p0->getGeometry())->getBulletCellShape(type);
+    btCollisionShape* bulletCellShape = arl_static_cast<MegaClusterPoly*>(p0->getGeometry())->getBulletCellShape(type);
 
     // set up collision object
     bulletCollisionObject.setWorldTransform(cellCFrame.transformFromCFrame());

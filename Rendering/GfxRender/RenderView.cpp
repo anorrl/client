@@ -24,7 +24,7 @@
 #include "arl/MathUtil.h"
 #include "VisualEngine.h"
 #include "VertexStreamer.h"
-#include "TypesetterBitmap.h"
+#include "TypesetterDynamic.h"
 #include "Water.h"
 
 #include "SceneManager.h"

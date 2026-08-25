@@ -216,6 +216,7 @@ Reflection::EnumPropDescriptor<Player, Player::ChatMode> prop_ChatMode("ChatMode
 
 static Reflection::PropDescriptor<Player, BrickColor/**/> prop_teamColor ("TeamColor", category_Team, &Player::getTeamColor, &Player::setTeamColor);
 static Reflection::PropDescriptor<Player, bool/**/> prop_neutral("Neutral", category_Team, &Player::getNeutral, &Player::setNeutral);
+static Reflection::RefPropDescriptor<Player, Team> prop_Team("Team", category_Team, &Player::getTeam, &Player::setTeam);
 
 static Reflection::PropDescriptor<Player, bool> prop_autoJumpEnabled("AutoJumpEnabled", category_Data, &Player::getAutoJumpEnabled, &Player::setAutoJumpEnabled);
 
@@ -927,6 +928,60 @@ void Player::onCharacterDied()
 	}
 }
 
+
+Team* Player::getTeam() const
+{
+	Teams* teams = ServiceProvider::find<Teams>(this);
+	if (!teams)
+		return NULL;
+
+	return teams->getTeamFromTeamColor(getTeamColor());
+}
+
+void Player::setTeam(Team* value)
+{
+	Players* players = ServiceProvider::find<Players>(this);
+	if (!players || getParent() != players)
+		throw ARL::runtime_error("Failed to set %s's team because the player left the game", getName());
+
+	bool makeNeutral = false;
+
+	if (value)
+	{
+		Teams* teams = ServiceProvider::find<Teams>(this);
+		if (!teams || value->getParent() != teams)
+			throw ARL::runtime_error("Setting Player.Team failed because team must be a child of the Teams service");
+
+		BrickColor teamColor = value->getTeamColor();
+		setTeamColor(teamColor);
+
+		makeNeutral = false;
+	}
+	else
+	{
+		makeNeutral = true;
+	}
+
+	setNeutral(makeNeutral);
+}
+
+void Player::setTeamInternal(Team* value)
+{
+	shared_ptr<Team> lastTeam = team.lock();
+
+	if (value != lastTeam.get())
+	{
+		team = weak_from(value);
+
+		if (lastTeam.get())
+			lastTeam->playerRemoved(this);
+		if (value)
+			value->playerAdded(this);
+
+		raisePropertyChanged(prop_Team);
+	}
+}
+
 void Player::setTeamColor(BrickColor value)
 {
 	// Allow people to set a nil color - just changes player to neutral
@@ -936,19 +991,34 @@ void Player::setTeamColor(BrickColor value)
 		if (calculatesSpawnLocationEarly() && teamStatusChangedCallback) {
 			teamStatusChangedCallback();
 		}
+
 		raisePropertyChanged(prop_teamColor);
+
+		if (!neutral)
+		{
+			if (Teams* teams = ServiceProvider::find<Teams>(this)) {
+				setTeamInternal(teams->getTeamFromTeamColor(value));
+			}
+		}
 	}
 }
 
 void Player::setNeutral(bool value)
 {
-	if ( value != neutral ) 
+	if (value != neutral)
 	{
 		neutral = value;
 		if (calculatesSpawnLocationEarly() && teamStatusChangedCallback) {
 			teamStatusChangedCallback();
 		}
+
 		raisePropertyChanged(prop_neutral);
+
+		if (Teams* teams = ServiceProvider::find<Teams>(this)) {
+			Team* TeamFromPlayer = teams->getTeamFromPlayer(this);
+			setTeamInternal(TeamFromPlayer);
+		}
+
 	}
 }
 

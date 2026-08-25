@@ -96,7 +96,7 @@ while not LocalPlayer do
 	LocalPlayer = Players.LocalPlayer
 end
 
-local canChat = true
+local canChat = RunService:IsStudio() or LocalPlayer.UserId > 0
 
 local ChatDisplayOrder = 6
 if ChatSettings.ScreenGuiDisplayOrder ~= nil then
@@ -1011,15 +1011,6 @@ spawn(function()
 				end
 			end
 		end)
-	end
-end)
-
-spawn(function()
-	local success, canLocalUserChat = pcall(function()
-		return Chat:CanUserChatAsync(LocalPlayer.UserId)
-	end)
-	if success then
-		canChat = RunService:IsStudio() or canLocalUserChat
 	end
 end)
 

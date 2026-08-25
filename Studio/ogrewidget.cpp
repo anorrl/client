@@ -1,7 +1,7 @@
 /**
- * ogrewidget.cpp
- * Copyright (c) 2013 ROBLOX Corp. All Rights Reserved.
- */
+* ogrewidget.cpp
+* Copyright (c) 2013 ROBLOX Corp. All Rights Reserved.
+*/
 
 #include "stdafx.h"
 #include "ogrewidget.h"
@@ -39,6 +39,7 @@
 
 LOGGROUP(TaskSchedulerTiming)
 LOGGROUP(RenderRequest)
+FASTFLAG(GoogleAnalyticsTrackingEnabled)
 DYNAMIC_FASTFLAGVARIABLE(BackTabInputInStudio, false)
 FASTFLAGVARIABLE(DontSwallowInputForStudioShortcuts, false)
 DYNAMIC_FASTFLAG(MaterialPropertiesEnabled)
@@ -46,35 +47,36 @@ DYNAMIC_FASTFLAG(MaterialPropertiesEnabled)
 static ARL::KeyCode keyCodeTOUIKeyCode(int keyCode);
 static ARL::ModCode modifiersToUIModCode(int modifier);
 
-QOgreWidget::QOgreWidget(const QString& name,QWidget *parent)
-: QWidget(NULL)
-, m_pANORRLView(NULL)
-, m_bIgnoreEnterEvent(0)
-, m_bIgnoreLeaveEvent(false)
-, m_bUpdateInProgress(false)
-, m_bMouseCommandInvoked(false)
-, m_hasApplicationFocus(true)
-, m_bANORRLViewInitialized(false)
-, m_luaTextBoxHasFocus(false)
+QOgreWidget::QOgreWidget(const QString& name, QWidget *parent)
+	: QWidget(NULL)
+	, m_pANORRLView(NULL)
+	, m_bIgnoreEnterEvent(0)
+	, m_bIgnoreLeaveEvent(false)
+	, m_bUpdateInProgress(false)
+	, m_bMouseCommandInvoked(false)
+	, m_hasApplicationFocus(true)
+	, m_bANORRLViewInitialized(false)
+	, m_luaTextBoxHasFocus(false)
 {
-    setObjectName(name);
+	setObjectName(name);
 
 	//set default states
 	setAttribute(Qt::WA_PaintOnScreen, true);
 	setAttribute(Qt::WA_OpaquePaintEvent, true);
 	setAttribute(Qt::WA_NoSystemBackground, true);
+	setAttribute(Qt::WA_NativeWindow, true);
 
 	setFocusPolicy(Qt::StrongFocus);
 	setAutoFillBackground(true);
 	setAcceptDrops(true);
 	setMinimumSize(100, 100);
-    setMaximumSize(3800,2100);
-    setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
-    setContextMenuPolicy(Qt::PreventContextMenu);
+	setMaximumSize(3800, 2100);
+	setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+	setContextMenuPolicy(Qt::PreventContextMenu);
 }
 
 void QOgreWidget::setANORRLView(ANORRLView *rbxView)
-{	
+{
 	m_pANORRLView = rbxView;
 
 	if (!m_pANORRLView)
@@ -83,18 +85,18 @@ void QOgreWidget::setANORRLView(ANORRLView *rbxView)
 	QPoint mousePos = mapFromGlobal(QCursor::pos());
 	if (rect().contains(mousePos))
 		enterEvent(NULL);
-	else 
+	else
 		leaveEvent(NULL);
 }
 
 void QOgreWidget::activate()
 {
 	qApp->installEventFilter(this);
-    
-    // reset bounds to force a resize if parent or size changed
+
+	// reset bounds to force a resize if parent or size changed
 	// ANORRL view can already be destroyed in resetting case
-	if(m_pANORRLView)
-		m_pANORRLView->setBounds(width(),height());
+	if (m_pANORRLView)
+		m_pANORRLView->setBounds(width(), height());
 
 }
 
@@ -124,10 +126,10 @@ bool QOgreWidget::eventFilter(QObject * watched, QEvent * evt)
 	// whenever popup widgets are shown, QOgreWidget receives only enter and leave event but no mouse move event
 	// so, do not handle enter/leave event in all such cases
 	// e.g Color Picker Widget which comes up from the Properties Window
-	if ((watched != this ) && watched->isWidgetType() && (static_cast<QWidget *>(watched)->windowFlags() & Qt::Popup) == Qt::Popup)
+	if ((watched != this) && watched->isWidgetType() && (static_cast<QWidget *>(watched)->windowFlags() & Qt::Popup) == Qt::Popup)
 	{
 		// In case of Floating Dock Widget, do not show ArrowCursor when the mouse is over Ogre Window
-		if(watched->inherits("QDockWidget")) 
+		if (watched->inherits("QDockWidget"))
 			return QWidget::eventFilter(watched, evt);
 
 		if (eventType == QEvent::Show)
@@ -135,14 +137,14 @@ bool QOgreWidget::eventFilter(QObject * watched, QEvent * evt)
 			m_bIgnoreEnterEvent++;
 		}
 		else if (eventType == QEvent::Hide)
-		{		
+		{
 			--m_bIgnoreEnterEvent;
 			if (!m_bIgnoreEnterEvent)
 			{
 				QPoint mousePos = mapFromGlobal(QCursor::pos());
 				if (rect().contains(mousePos))
 					enterEvent(NULL);
-			}	
+			}
 		}
 		else if (eventType == QEvent::MouseButtonRelease)
 		{
@@ -169,15 +171,15 @@ bool QOgreWidget::eventFilter(QObject * watched, QEvent * evt)
 				QKeyEvent* keyEvent = static_cast<QKeyEvent*>(evt);
 				int keyCode = keyEvent->key() | StudioUtilities::translateKeyModifiers(keyEvent->modifiers(), keyEvent->text());
 
-				if (UpdateUIManager::Instance().getMainWindow().isShortcut(QKeySequence(keyCode))) 
+				if (UpdateUIManager::Instance().getMainWindow().isShortcut(QKeySequence(keyCode)))
 				{
 					processed = true;
 				}
-				
+
 				//ShorcutOverride is sent for every key press, not just shortcuts. We don't want to fire handleKeyEvent in KeyPressed because then studio shortcuts get swallowed.
 				handleKeyEvent((QKeyEvent*)evt, ARL::InputObject::TYPE_KEYBOARD, ARL::InputObject::INPUT_STATE_BEGIN, processed);
-			} 
-			else if (evt->type() == QEvent::KeyRelease) 
+			}
+			else if (evt->type() == QEvent::KeyRelease)
 			{
 				handleKeyEvent((QKeyEvent*)evt, ARL::InputObject::TYPE_KEYBOARD, ARL::InputObject::INPUT_STATE_END);
 			}
@@ -185,8 +187,8 @@ bool QOgreWidget::eventFilter(QObject * watched, QEvent * evt)
 	}
 
 	// This is needed for Modal Dialog Show/Hide on Mac	
-#ifdef Q_WS_MAC
-	if ( eventType == QEvent::ActivationChange || eventType == QEvent::FocusIn || eventType == QEvent::FocusOut )
+#ifdef Q_OS_MAC
+	if (eventType == QEvent::ActivationChange || eventType == QEvent::FocusIn || eventType == QEvent::FocusOut)
 	{
 		if (rect().contains(mapFromGlobal(QCursor::pos())))
 			isActiveWindow() ? enterEvent(NULL) : leaveEvent(NULL);
@@ -197,7 +199,7 @@ bool QOgreWidget::eventFilter(QObject * watched, QEvent * evt)
 			m_bIgnoreLeaveEvent = true;
 	}
 #else
-	if( eventType == QEvent::ActivationChange ) 
+	if (eventType == QEvent::ActivationChange)
 	{
 		if (rect().contains(mapFromGlobal(QCursor::pos())))
 			isActiveWindow() ? enterEvent(NULL) : leaveEvent(NULL);
@@ -209,30 +211,30 @@ bool QOgreWidget::eventFilter(QObject * watched, QEvent * evt)
 
 bool QOgreWidget::event(QEvent * evt)
 {
-    if (m_pANORRLView)
-    {
-        if (evt->type() == QEvent::FocusOut)
-        {
-            m_pANORRLView->handleFocus(false);
-            setLuaTextBoxHasFocus(false);
-        }
-        else if (evt->type() == QEvent::FocusIn)
-        {
-            m_pANORRLView->handleFocus(true);
-        }
-    }
+	if (m_pANORRLView)
+	{
+		if (evt->type() == QEvent::FocusOut)
+		{
+			m_pANORRLView->handleFocus(false);
+			setLuaTextBoxHasFocus(false);
+		}
+		else if (evt->type() == QEvent::FocusIn)
+		{
+			m_pANORRLView->handleFocus(true);
+		}
+	}
 
-    // If a lua text box as focus then prevent all shortcut overrides
-    // from executing.
-    if (m_luaTextBoxHasFocus)
-    {
-        if (evt->type() == QEvent::ShortcutOverride)
-        {
-            QKeyEvent* keyEvent = static_cast<QKeyEvent*>(evt);
-            keyEvent->accept();
-            return true;
-        }
-    }
+	// If a lua text box as focus then prevent all shortcut overrides
+	// from executing.
+	if (m_luaTextBoxHasFocus)
+	{
+		if (evt->type() == QEvent::ShortcutOverride)
+		{
+			QKeyEvent* keyEvent = static_cast<QKeyEvent*>(evt);
+			keyEvent->accept();
+			return true;
+		}
+	}
 
 	if (evt->type() == QEvent::KeyPress)
 	{
@@ -243,7 +245,7 @@ bool QOgreWidget::event(QEvent * evt)
 			return true;
 		}
 	}
-    
+
 	FASTLOG(FLog::TaskSchedulerTiming, "QT Event fired through QOgreWidget");
 	if ((evt->type() != OGRE_VIEW_UPDATE) || !m_pANORRLView)
 	{
@@ -252,7 +254,7 @@ bool QOgreWidget::event(QEvent * evt)
 	}
 
 	if (!m_bUpdateInProgress)
-	{	
+	{
 		m_bUpdateInProgress = true;
 		m_pANORRLView->updateView();
 		m_bUpdateInProgress = false;
@@ -263,18 +265,18 @@ bool QOgreWidget::event(QEvent * evt)
 
 void QOgreWidget::closeEvent(QCloseEvent *)
 {
-	if (m_pANORRLView) 
+	if (m_pANORRLView)
 		delete m_pANORRLView;
 	m_pANORRLView = NULL;
 }
 
 void QOgreWidget::enterEvent(QEvent *)
-{	
-	if(!m_pANORRLView)
+{
+	if (!m_pANORRLView)
 		return;
 
-#ifdef Q_WS_MAC
-	if ( QApplication::activeWindow() != &UpdateUIManager::Instance().getMainWindow() )
+#ifdef Q_OS_MAC
+	if (QApplication::activeWindow() != &UpdateUIManager::Instance().getMainWindow())
 		return;
 #endif
 
@@ -287,7 +289,7 @@ void QOgreWidget::enterEvent(QEvent *)
 
 void QOgreWidget::leaveEvent(QEvent *)
 {
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	if (m_bIgnoreLeaveEvent)
 	{
 		m_bIgnoreLeaveEvent = false;
@@ -295,7 +297,7 @@ void QOgreWidget::leaveEvent(QEvent *)
 	}
 #endif
 
-	if(!m_pANORRLView)
+	if (!m_pANORRLView)
 		return;
 
 	//inform rbx view about the change
@@ -304,14 +306,14 @@ void QOgreWidget::leaveEvent(QEvent *)
 	//disable mouse tracking
 	setMouseTracking(false);
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	setCursor(Qt::ArrowCursor);
 #endif
 }
 
 void QOgreWidget::focusOutEvent(QFocusEvent* focusEvent)
 {
-    QWidget::focusOutEvent(focusEvent);
+	QWidget::focusOutEvent(focusEvent);
 
 	if (m_pANORRLView)
 		m_pANORRLView->resetKeyState();
@@ -319,7 +321,7 @@ void QOgreWidget::focusOutEvent(QFocusEvent* focusEvent)
 
 void QOgreWidget::resizeEvent(QResizeEvent *evt)
 {
-	if (!m_pANORRLView) 
+	if (!m_pANORRLView)
 		return;
 
 	m_pANORRLView->setBounds(evt->size().width(), evt->size().height());
@@ -337,7 +339,7 @@ void QOgreWidget::mousePressEvent(QMouseEvent *evt)
 	QPoint currentPos = evt->pos();
 
 	ARL::InputObject::UserInputType mouseEventType = ARL::InputObject::TYPE_NONE;
-	switch(evt->button())
+	switch (evt->button())
 	{
 	case Qt::LeftButton:
 		mouseEventType = ARL::InputObject::TYPE_MOUSEBUTTON1;
@@ -345,18 +347,18 @@ void QOgreWidget::mousePressEvent(QMouseEvent *evt)
 	case Qt::RightButton:
 		mouseEventType = ARL::InputObject::TYPE_MOUSEBUTTON2;
 		break;
-    case Qt::MiddleButton:
+	case Qt::MiddleButton:
 		mouseEventType = ARL::InputObject::TYPE_MOUSEBUTTON3;
 		break;
-    default:
-            break;
-            
+	default:
+		break;
+
 	}
 
 	m_pANORRLView->handleMouse(mouseEventType,
-        ARL::InputObject::INPUT_STATE_BEGIN,
-		currentPos.x(), 
-		currentPos.y(), 
+		ARL::InputObject::INPUT_STATE_BEGIN,
+		currentPos.x(),
+		currentPos.y(),
 		modifiersToUIModCode(evt->modifiers()));
 	evt->accept();
 }
@@ -367,7 +369,7 @@ void QOgreWidget::mouseReleaseEvent(QMouseEvent *evt)
 		return;
 
 	ARL::InputObject::UserInputType mouseEventType = ARL::InputObject::TYPE_NONE;
-	switch(evt->button())
+	switch (evt->button())
 	{
 	case Qt::LeftButton:
 		mouseEventType = ARL::InputObject::TYPE_MOUSEBUTTON1;
@@ -375,30 +377,30 @@ void QOgreWidget::mouseReleaseEvent(QMouseEvent *evt)
 	case Qt::RightButton:
 		mouseEventType = ARL::InputObject::TYPE_MOUSEBUTTON2;
 		break;
-    case Qt::MiddleButton:
+	case Qt::MiddleButton:
 		mouseEventType = ARL::InputObject::TYPE_MOUSEBUTTON3;
 		break;
-    default:
-        break;
-            
+	default:
+		break;
+
 	}
 
-    evt->accept();
+	evt->accept();
 
 	QPoint currentPos = evt->pos();
 	m_pANORRLView->handleMouse(
-        mouseEventType,
-        ARL::InputObject::INPUT_STATE_END,
-		currentPos.x(), 
-		currentPos.y(), 
-		modifiersToUIModCode(evt->modifiers()) );
+		mouseEventType,
+		ARL::InputObject::INPUT_STATE_END,
+		currentPos.x(),
+		currentPos.y(),
+		modifiersToUIModCode(evt->modifiers()));
 }
 
 void QOgreWidget::mouseMoveEvent(QMouseEvent *evt)
 {
 	FASTLOG(FLog::TaskSchedulerTiming, "QOgreWidget::mouseMoveEvent firing");
 	if (m_pANORRLView)
-	{	
+	{
 		lastMovePoint = evt->pos();
 		lastMoveModCode = modifiersToUIModCode(evt->modifiers());
 		m_pANORRLView->handleMouse(ARL::InputObject::TYPE_MOUSEMOVEMENT, ARL::InputObject::INPUT_STATE_CHANGE, lastMovePoint.x(), lastMovePoint.y(), lastMoveModCode);
@@ -407,7 +409,7 @@ void QOgreWidget::mouseMoveEvent(QMouseEvent *evt)
 }
 
 void QOgreWidget::handleKeyEvent(QKeyEvent * evt, ARL::InputObject::UserInputType eventType,
-    ARL::InputObject::UserInputState eventState, bool processed)
+	ARL::InputObject::UserInputState eventState, bool processed)
 {
 	if (eventType == ARL::InputObject::TYPE_KEYBOARD && (!m_pANORRLView || evt->isAutoRepeat()))
 	{
@@ -415,7 +417,7 @@ void QOgreWidget::handleKeyEvent(QKeyEvent * evt, ARL::InputObject::UserInputTyp
 		{
 			if (eventState == ARL::InputObject::INPUT_STATE_BEGIN)
 				Super::keyPressEvent(evt);
-			else if(eventState == ARL::InputObject::INPUT_STATE_END)
+			else if (eventState == ARL::InputObject::INPUT_STATE_END)
 				Super::keyReleaseEvent(evt);
 		}
 		return;
@@ -424,8 +426,8 @@ void QOgreWidget::handleKeyEvent(QKeyEvent * evt, ARL::InputObject::UserInputTyp
 	std::string textString = evt->text().toStdString();
 
 	m_pANORRLView->handleKey(eventType, eventState,
-        keyCodeTOUIKeyCode(evt->key()), modifiersToUIModCode(evt->modifiers()),
-        (textString.length() > 0) ? textString.c_str()[0] : NULL,
+		keyCodeTOUIKeyCode(evt->key()), modifiersToUIModCode(evt->modifiers()),
+		(textString.length() > 0) ? textString.c_str()[0] : NULL,
 		processed);
 
 	if (!FFlag::DontSwallowInputForStudioShortcuts)
@@ -475,7 +477,7 @@ void QOgreWidget::keyReleaseEvent(QKeyEvent * evt)
 
 void QOgreWidget::wheelEvent(QWheelEvent *evt)
 {
-    if (!m_pANORRLView)
+	if (!m_pANORRLView)
 		return;
 
 	QPoint currentPos = evt->pos();
@@ -485,18 +487,18 @@ void QOgreWidget::wheelEvent(QWheelEvent *evt)
 
 void QOgreWidget::paintEvent(QPaintEvent *evt)
 {
-    if (!m_bANORRLViewInitialized)
-        if (ANORRLIDEDoc* playDoc = ANORRLDocManager::Instance().getPlayDoc())
-        {
-            m_bANORRLViewInitialized = true;
-            playDoc->initializeANORRLView();
-        }
-    
+	if (!m_bANORRLViewInitialized)
+		if (ANORRLIDEDoc* playDoc = ANORRLDocManager::Instance().getPlayDoc())
+		{
+			m_bANORRLViewInitialized = true;
+			playDoc->initializeANORRLView();
+		}
+
 
 	if (!m_pANORRLView)
 		return QWidget::paintEvent(evt);
 
-	m_pANORRLView->requestUpdateView();	
+	m_pANORRLView->requestUpdateView();
 
 	evt->accept();
 }
@@ -516,7 +518,7 @@ void QOgreWidget::dragEnterEvent(QDragEnterEvent *evt)
 			if (ARL::DataModel* dataModel = playDoc->getDataModel())
 				UpdateUIManager::Instance().getMainWindow().getPluginHost()->handleDragEnterEvent(dataModel, shared_ptr<const ARL::Instances>(insertedInstances), ARL::Vector2(evt->pos().x(), evt->pos().y()));
 	}
-	else 
+	else
 	{
 		QListWidget *pListWidget = static_cast<QListWidget *>(evt->source());
 		QList<QListWidgetItem *> itemList = pListWidget->selectedItems();
@@ -525,18 +527,18 @@ void QOgreWidget::dragEnterEvent(QDragEnterEvent *evt)
 
 		InsertObjectListWidgetItem *pListWidgetItem = dynamic_cast<InsertObjectListWidgetItem *>(itemList.at(0));
 		if (pListWidgetItem)
-        {
+		{
 			m_pANORRLView->handleDropOperation(pListWidgetItem->getInstance(), evt->pos().x(), evt->pos().y(), m_bMouseCommandInvoked);
-        }
+		}
 	}
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	if (m_bMouseCommandInvoked)
 	{
 		QApplication::setOverrideCursor(Qt::ClosedHandCursor);
 		enterEvent(NULL);
 	}
-	else 
+	else
 	{
 		QApplication::setOverrideCursor(Qt::DragCopyCursor);
 		leaveEvent(NULL);
@@ -548,15 +550,15 @@ void QOgreWidget::dragEnterEvent(QDragEnterEvent *evt)
 
 void QOgreWidget::dragMoveEvent(QDragMoveEvent *evt)
 {
-	if(!m_pANORRLView) 
+	if (!m_pANORRLView)
 		return QWidget::dragMoveEvent(evt);
 
 	if (m_bMouseCommandInvoked)
 	{
 		lastMovePoint = evt->pos();
 		m_pANORRLView->handleMouse(ARL::InputObject::TYPE_MOUSEMOVEMENT,
-            ARL::InputObject::INPUT_STATE_CHANGE,
-            lastMovePoint.x(), lastMovePoint.y(), lastMoveModCode);
+			ARL::InputObject::INPUT_STATE_CHANGE,
+			lastMovePoint.x(), lastMovePoint.y(), lastMoveModCode);
 	}
 
 	evt->acceptProposedAction();
@@ -568,7 +570,7 @@ void QOgreWidget::dropEvent(QDropEvent *evt)
 	if (!m_pANORRLView || !pMimeData)
 		return QWidget::dropEvent(evt);
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	QApplication::restoreOverrideCursor();
 #endif
 
@@ -576,7 +578,7 @@ void QOgreWidget::dropEvent(QDropEvent *evt)
 	{
 		QPoint currentPos = evt->pos();
 		m_pANORRLView->handleMouse(ARL::InputObject::TYPE_MOUSEBUTTON1,
-            ARL::InputObject::INPUT_STATE_END, currentPos.x(), currentPos.y(), (ARL::ModCode)0);
+			ARL::InputObject::INPUT_STATE_END, currentPos.x(), currentPos.y(), (ARL::ModCode)0);
 	}
 
 	evt->acceptProposedAction();
@@ -585,12 +587,12 @@ void QOgreWidget::dropEvent(QDropEvent *evt)
 
 void QOgreWidget::dragLeaveEvent(QDragLeaveEvent *evt)
 {
-	if(!m_pANORRLView) 
+	if (!m_pANORRLView)
 		return QWidget::dragLeaveEvent(evt);
 
 	m_pANORRLView->cancelDropOperation(m_bMouseCommandInvoked);
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	QApplication::restoreOverrideCursor();
 	leaveEvent(NULL);
 #endif
@@ -598,21 +600,19 @@ void QOgreWidget::dragLeaveEvent(QDragLeaveEvent *evt)
 	evt->accept();
 }
 
-#ifdef Q_WS_WIN
-bool QOgreWidget::winEvent(MSG * msg, long * result)
+bool QOgreWidget::nativeEvent(const QByteArray &eventType, MSG * msg, long * result)
 {
-	if ( (msg->message == WM_KEYUP) && //key up
-		 (msg->wParam == VK_SNAPSHOT) && //print screen key
-		 (UpdateUIManager::Instance().getMainWindow().getBuildMode() == BM_BASIC) )//build mode is basic
+	if ((msg->message == WM_KEYUP) && //key up
+		(msg->wParam == VK_SNAPSHOT) && //print screen key
+		(UpdateUIManager::Instance().getMainWindow().getBuildMode() == BM_BASIC))//build mode is basic
 	{
 		//invoke snapshot command
 		QMetaObject::invokeMethod(UpdateUIManager::Instance().getMainWindow().screenShotAction, "triggered", Qt::QueuedConnection);
 		return true;
 	}
 
-	return QWidget::winEvent(msg, result);
+	return QWidget::nativeEvent(eventType, msg, result);
 }
-#endif
 
 bool QOgreWidget::isValidDrag(QDragEnterEvent *evt)
 {
@@ -633,9 +633,9 @@ bool QOgreWidget::isValidDrag(QDragEnterEvent *evt)
 			if (!urlQStr.isEmpty() && fileStr.isEmpty())
 				result = true;
 		}
-		else 
+		else
 		{
-			QWidget *pSourceWidget = evt->source();
+			QWidget* pSourceWidget = qobject_cast<QWidget*>(evt->source());
 			if (pSourceWidget && (pSourceWidget->objectName() == "InsertObjectListWidget"))
 				result = true;
 		}
@@ -651,63 +651,63 @@ static ARL::KeyCode keyCodeTOUIKeyCode(int keyCode)
 		return ARL::KeyCode(keyCode - Qt::Key_A + 'a');
 
 	// Handle Numbers
-	if(keyCode >= Qt::Key_0 && keyCode <= Qt::Key_9)
+	if (keyCode >= Qt::Key_0 && keyCode <= Qt::Key_9)
 		return ARL::KeyCode(keyCode);
 
 	// Handle F1 to F15
-	if(keyCode >= Qt::Key_F1 && keyCode <= Qt::Key_F15)
+	if (keyCode >= Qt::Key_F1 && keyCode <= Qt::Key_F15)
 		return ARL::KeyCode(keyCode - 0xFFFF16);
 
 
 	ARL::KeyCode rbxKey = ARL::SDLK_UNKNOWN;
 
 	// Handle Special Unordered Keys Here
-	switch(keyCode)
+	switch (keyCode)
 	{
 	case Qt::Key_CapsLock:
 		rbxKey = ARL::SDLK_CAPSLOCK;
 		break;
-	case Qt::Key_Backspace :
+	case Qt::Key_Backspace:
 		rbxKey = ARL::SDLK_BACKSPACE;
 		break;
-	case Qt::Key_Up :
+	case Qt::Key_Up:
 		rbxKey = ARL::SDLK_UP;
 		break;
-	case Qt::Key_Down :
+	case Qt::Key_Down:
 		rbxKey = ARL::SDLK_DOWN;
 		break;
-	case Qt::Key_Left :
+	case Qt::Key_Left:
 		rbxKey = ARL::SDLK_LEFT;
 		break;
-	case Qt::Key_Right :
+	case Qt::Key_Right:
 		rbxKey = ARL::SDLK_RIGHT;
 		break;
-	case Qt::Key_Insert :
+	case Qt::Key_Insert:
 		rbxKey = ARL::SDLK_INSERT;
 		break;
-	case Qt::Key_Delete :
+	case Qt::Key_Delete:
 		rbxKey = ARL::SDLK_DELETE;
 		break;
-	case Qt::Key_Home :
+	case Qt::Key_Home:
 		rbxKey = ARL::SDLK_HOME;
 		break;
-	case Qt::Key_End :
+	case Qt::Key_End:
 		rbxKey = ARL::SDLK_END;
 		break;
-	case Qt::Key_PageUp :
+	case Qt::Key_PageUp:
 		rbxKey = ARL::SDLK_PAGEUP;
 		break;
-	case Qt::Key_PageDown :
+	case Qt::Key_PageDown:
 		rbxKey = ARL::SDLK_PAGEDOWN;
 		break;
-	case Qt::Key_Space :
+	case Qt::Key_Space:
 		rbxKey = ARL::SDLK_SPACE;
 		break;
 	case Qt::Key_Control:
-		rbxKey = ARL::SDLK_LCTRL;	
+		rbxKey = ARL::SDLK_LCTRL;
 		break;
 	case Qt::Key_Alt:
-		rbxKey = ARL::SDLK_LALT;		
+		rbxKey = ARL::SDLK_LALT;
 		break;
 	case Qt::Key_Shift:
 		rbxKey = ARL::SDLK_LSHIFT;
@@ -725,13 +725,13 @@ static ARL::KeyCode keyCodeTOUIKeyCode(int keyCode)
 		rbxKey = ARL::SDLK_TAB;
 		break;
 	case Qt::Key_Backtab:
+	{
+		if (DFFlag::BackTabInputInStudio)
 		{
-			if (DFFlag::BackTabInputInStudio)
-			{
-				rbxKey = ARL::SDLK_TAB;
-				break;
-			}
+			rbxKey = ARL::SDLK_TAB;
+			break;
 		}
+	}
 	case Qt::Key_BracketLeft:
 		rbxKey = ARL::SDLK_LEFTBRACKET;
 		break;
@@ -793,15 +793,15 @@ static ARL::ModCode modifiersToUIModCode(int modifier)
 	if (modifier & Qt::ShiftModifier)
 	{
 		modCode = modCode | ARL::KMOD_LSHIFT;
-	} 
+	}
 	if (modifier & Qt::ControlModifier)
 	{
 		modCode = modCode | ARL::KMOD_LCTRL;
-	} 
+	}
 	if (modifier & Qt::AltModifier)
 	{
 		modCode = modCode | ARL::KMOD_LALT;
-	} 
+	}
 
 	return (ARL::ModCode) modCode;
 }

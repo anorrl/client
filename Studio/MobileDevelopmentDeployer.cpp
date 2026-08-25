@@ -166,7 +166,7 @@ QString MobileDevelopmentDeployer::getLocalIPAddress()
 void MobileDevelopmentDeployer::broadcastReadyDatagram()
 {
     QString broadcastString("ARLDevPairServer readyToPair");
-    broadcastDatagram(broadcastString.toAscii());
+    broadcastDatagram(broadcastString.toLatin1());
 }
 
 void MobileDevelopmentDeployer::broadcastDatagram(QByteArray dataToSend)
@@ -267,7 +267,7 @@ bool MobileDevelopmentDeployer::checkForClientPairCode(const QString& messageFro
                 {
                     QString broadcastString("ARLDevPairServer didPair true ip ");
                     broadcastString.append(getLocalIPAddress());
-                    broadcastDatagram(broadcastString.toAscii());
+                    broadcastDatagram(broadcastString.toLatin1());
                 }
             }
             else
@@ -276,7 +276,7 @@ bool MobileDevelopmentDeployer::checkForClientPairCode(const QString& messageFro
                 {
                     QString broadcastString("ARLDevPairServer didPair false ip ");
                     broadcastString.append("0.0.0.0");
-                    broadcastDatagram(broadcastString.toAscii());
+                    broadcastDatagram(broadcastString.toLatin1());
                 }
             }
         }
@@ -300,7 +300,7 @@ bool MobileDevelopmentDeployer::checkForClientPaired(const QString& messageFromC
                     startTcpServer();
                     
                     QString broadcastString("ARLDevPairServer didStartServer");
-                    broadcastDatagram(broadcastString.toAscii());
+                    broadcastDatagram(broadcastString.toLatin1());
                 }
                 
                 QHostInfo info = QHostInfo::fromName(sender.toString());
@@ -416,7 +416,7 @@ void MobileDevelopmentDeployer::on_readyRead()
 	if(strcmp(ba.constData(), "ARLReadyForPlay") == 0)
 	{
         QString address = getLocalIPAddress();
-		tcpClient->write("ARLReadyForPlay 53640 " + address.toAscii());
+		tcpClient->write("ARLReadyForPlay 53640 " + address.toLatin1());
         return;
 	}
     
@@ -453,7 +453,7 @@ void MobileDevelopmentDeployer::on_readyRead()
     
     
     QString attemptToPairCorrectResponse = QString("ARLAttemptToPair ").append(getPairCodeString());
-	if(strcmp(ba.constData(), attemptToPairCorrectResponse.toAscii()) == 0)
+	if(strcmp(ba.constData(), attemptToPairCorrectResponse.toLatin1()) == 0)
 	{
 		tcpClient->write("ARLAttemptToPair true");
 	}

@@ -457,7 +457,7 @@ bool PartOperation::createPhysicsData(const CSGMesh* mData)
 				return false;
 		}
 
-		TriangleMesh* primitiveMesh = rbx_static_cast<TriangleMesh*>(getPrimitive(this)->getGeometry());
+		TriangleMesh* primitiveMesh = arl_static_cast<TriangleMesh*>(getPrimitive(this)->getGeometry());
 
 		if (primitiveMesh)
 		{
@@ -518,7 +518,7 @@ void PartOperation::trySetPhysicsData()
 	{
 		return;
 	}
-	TriangleMesh* primitiveMesh = rbx_static_cast<TriangleMesh*>(getPrimitive(this)->getGeometry());
+	TriangleMesh* primitiveMesh = arl_static_cast<TriangleMesh*>(getPrimitive(this)->getGeometry());
 	if (!primitiveMesh->getCompound())
 	{
 		CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(this));
@@ -553,7 +553,7 @@ bool PartOperation::checkDecompExists()
 {
 	if (getPrimitive(this)->getGeometryType() == Geometry::GEOMETRY_TRI_MESH)
 	{
-		TriangleMesh* primitiveMesh = rbx_static_cast<TriangleMesh*>(getPrimitive(this)->getGeometry());
+		TriangleMesh* primitiveMesh = arl_static_cast<TriangleMesh*>(getPrimitive(this)->getGeometry());
 		if (primitiveMesh->getCompound())
 			return true;
 	}
@@ -657,7 +657,7 @@ void PartOperation::setBulletObjectsScale(const Vector3& newBoundingBoxSize)
 	CSGDictionaryService* dictionaryService = ServiceProvider::create<CSGDictionaryService>(ARL::DataModel::get(this));
 	if (dictionaryService && checkDecompExists())
 	{
-		TriangleMesh* primitiveMesh = rbx_static_cast<TriangleMesh*>(getPrimitive(this)->getGeometry());
+		TriangleMesh* primitiveMesh = arl_static_cast<TriangleMesh*>(getPrimitive(this)->getGeometry());
 		primitiveMesh->updateObjectScale(generateHashKey(getNonKeyPhysicsData()), 
 											getNonKeyPhysicsData(), 
 											calculateAdjustedSizeDifference(newBoundingBoxSize),

@@ -145,7 +145,7 @@ ANORRLScriptReview::ANORRLScriptReview()
 
 	header()->setDefaultSectionSize(50);
 	header()->resizeSection(0, 100);
-	header()->setClickable(true);
+	header()->setSectionsClickable(true);
 
     m_pTimer->setInterval(UpdateInterval);
 	connect(m_pTimer, SIGNAL(timeout()), this, SLOT(onTimer()));

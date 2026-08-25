@@ -47,7 +47,7 @@
     #include "LogManager.h"
 #endif
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     #include "BreakpadCrashReporter.h"
 #endif
 

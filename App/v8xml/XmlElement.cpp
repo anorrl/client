@@ -301,6 +301,50 @@ bool XmlNameValuePair::getValue(unsigned int& value) const
 	return false;
 }
 
+bool XmlNameValuePair::getValue(long& value) const
+{
+	if (valueType == LONG)
+	{
+		value = longValue;
+		return true;
+	}
+
+	if (valueType == STRING)
+	{
+		if (StringConverter<long>::convertToValue(*stringValue, value))
+		{
+			clearValue();
+			longValue = value;
+			valueType = LONG;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool XmlNameValuePair::getValue(long long& value) const
+{
+	if (valueType == LONGLONG)
+	{
+		value = longlongValue;
+		return true;
+	}
+
+	if (valueType == STRING)
+	{
+		if (StringConverter<long long>::convertToValue(*stringValue, value))
+		{
+			clearValue();
+			longlongValue = value;
+			valueType = LONGLONG;
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool XmlNameValuePair::getValue(bool& value) const
 {
 	if (valueType==BOOL) {

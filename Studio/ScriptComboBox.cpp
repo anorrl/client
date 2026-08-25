@@ -51,17 +51,7 @@ ScriptComboBox::ScriptComboBox(QWidget* parent)
 void ScriptComboBox::applyPlaceHolderText()
 {
     setEditText(COMMAND_PLACE_HOLDER);
-    
-	if (AuthoringSettings::singleton().darkMode)
-	{
-		QString styleSheet = "QComboBox { background: #252525; color: #eee; }";
-		setStyleSheet(styleSheet);
-	}
-	else {
-		QString styleSheet = "QComboBox { color: grey; }";
-		setStyleSheet(styleSheet);
-	}
-    
+	setStyleSheet("QComboBox { color: grey; }");
 }
 
 void ScriptComboBox::intellesenseDoubleClick(QListWidgetItem* listItem)

@@ -4,6 +4,7 @@
 
 #include "v8datamodel/DataModelMesh.h"
 #include "v8datamodel/FileMesh.h"
+#include "v8datamodel/MeshPartInstance.h"
 #include "v8datamodel/Decal.h"
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/PartInstance.h"
@@ -155,7 +156,7 @@ namespace ARL
 				// Unrecognized shape type - this is not a head from the store, so don't treat it as a head.
 				return false;
 			}
-			else if (specialShape->fastDynamicCast<ARL::FileMesh>())
+			else if (specialShape->fastDynamicCast<ARL::FileMesh>() || specialShape->fastDynamicCast<ARL::MeshPartInstance>())
 			{
 				// A file mesh - treat it as a head even if there is no face (might use a mesh texture)
 				return true;

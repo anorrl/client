@@ -167,7 +167,7 @@ namespace StudioUtilities
 				compound += ticket;
 
 				ARL::Http http(compound.c_str());
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 				http.setAuthDomain(::GetBaseURL());
 #else
 				http.additionalHeaders["ARLAuthenticationNegotiation:"] = ::GetBaseURL();
@@ -483,7 +483,7 @@ namespace StudioUtilities
 		if (!pDataModel)
 			throw std::runtime_error("Can't insert at this time");
 
-		QByteArray ba = fileName.toAscii();
+		QByteArray ba = fileName.toLatin1();
 		const char *c_str = ba.constData();
 		
 		std::ifstream stream(c_str, std::ios_base::in | std::ios_base::binary);
@@ -579,7 +579,7 @@ namespace StudioUtilities
 
 		// read and set code from file into script instance
 		QTextStream in(&file);
-		pScriptInstance->setEmbeddedCode(ARL::ProtectedString::fromTrustedSource(in.readAll().toAscii().data()));
+		pScriptInstance->setEmbeddedCode(ARL::ProtectedString::fromTrustedSource(in.readAll().toLatin1().data()));
 
 		// set appropriate parent
 		ARL::Selection* pSelection = ARL::ServiceProvider::create<ARL::Selection>(spWorkspace.get());

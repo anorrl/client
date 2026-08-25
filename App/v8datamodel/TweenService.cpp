@@ -9,11 +9,20 @@ namespace ARL
 {
 const char* const sTweenService = "TweenService";
 
+REFLECTION_BEGIN();
+static Reflection::BoundFuncDesc<TweenService, void(shared_ptr<const Reflection::ValueTable>)> func_TestFunction(&TweenService::fuckingAround, "TestFunction", "tabletTest", Security::None);
+REFLECTION_END();
+
 TweenService::TweenService() :
 	IStepped(StepType_Render)
 {
 	setName(sTweenService);
 }
+
+void TweenService::fuckingAround(shared_ptr<const Reflection::ValueTable> table) {
+
+}
+
 void TweenService::addTweeningObject(boost::weak_ptr<GuiObject> guiObject)
 {
 	if(tweeningObjects.find(guiObject) == tweeningObjects.end())

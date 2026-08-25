@@ -53,7 +53,7 @@ namespace ARL {
 
 		static bool isMotor6DJoint(const Edge* e) {
 			return (	isJoint(e) 
-					&&	rbx_static_cast<const Joint*>(e)->getJointType() == Joint::MOTOR_6D_JOINT);
+					&&	arl_static_cast<const Joint*>(e)->getJointType() == Joint::MOTOR_6D_JOINT);
 		}
 	};
 

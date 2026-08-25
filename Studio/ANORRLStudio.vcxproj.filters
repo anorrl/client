@@ -772,78 +772,6 @@
     <PublishDLLDependency Include="..\openssl\ssleay32.dll">
       <Filter>Libraries\openssl</Filter>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\phonon4.dll">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\phonond4.dll">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtCore4.dll">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtCore4.pdb">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtGui4.dll">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtGui4.pdb">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtNetwork4.dll">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtNetwork4.pdb">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtWebKit4.dll">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtWebKit4.pdb">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtXml4.dll">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtXml4.pdb">
-      <Filter>Libraries\Qt\Release</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\phonon4.pdb">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\phonond4.pdb">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtCored4.dll">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtCored4.pdb">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtGuid4.dll">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtGuid4.pdb">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtNetworkd4.dll">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtNetworkd4.pdb">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtWebKitd4.dll">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtWebKitd4.pdb">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtXmld4.dll">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\4.8.5\win_VS2012\lib\QtXmld4.pdb">
-      <Filter>Libraries\Qt\Debug</Filter>
-    </PublishDLLDependency>
     <PublishDLLDependency Include="..\fmod\win32\fmod.dll">
       <Filter>Libraries</Filter>
     </PublishDLLDependency>
@@ -853,6 +781,24 @@
     <PublishDLLDependency Include="..\Rendering\ShaderCompiler\d3dcompiler_47.dll">
       <Filter>Content Files</Filter>
     </PublishDLLDependency>
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Multimediad.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Multimediad.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Cored.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Cored.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Guid.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Guid.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Networkd.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Networkd.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5WebKitd.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5WebKitd.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Xmld.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Xmld.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Multimedia.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Core.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Gui.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Network.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5WebEngine.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\Qt\5.6.3\msvc2015\bin\Qt5Xml.dll" />
   </ItemGroup>
   <ItemGroup>
     <Moc Include="AuthenticationHelper.h">

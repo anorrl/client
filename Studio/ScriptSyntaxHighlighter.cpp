@@ -271,7 +271,7 @@ void ScriptSyntaxHighlighter::highlightBlock(const QString &text)
 		else if (m_lexState == ARL_LUA_NUMBER) 
 		{
 			// Stop the number definition on non-numerical non-dot non-eE non-sign non-hexdigit char
-			if (!IsANumberChar(text[ii].toAscii())) 
+			if (!IsANumberChar(text[ii].toLatin1())) 
 			{
 				setLexState(ARL_LUA_DEFAULT, ii);	
 			} 
@@ -283,7 +283,7 @@ void ScriptSyntaxHighlighter::highlightBlock(const QString &text)
 		} 
 		else if (m_lexState == ARL_LUA_IDENTIFIER) 
 		{
-			if (!IsAWordChar(text[ii].toAscii()) || (text[ii] == QChar('.')))
+			if (!IsAWordChar(text[ii].toLatin1()) || (text[ii] == QChar('.')))
 			{
 				QString keyword = text.mid(m_startSegPos, ii-m_startSegPos);
 				while(keyword.startsWith(QChar(' ')) || keyword.startsWith(QChar('\t')))
@@ -390,7 +390,7 @@ void ScriptSyntaxHighlighter::highlightBlock(const QString &text)
 			if(ii >= text.size())
 				break;
 
-			if (IsADigit(text[ii].toAscii()) || (text[ii] == QChar('.') && (ii+1 < text.size()) && IsADigit(text[ii+1].toAscii()))) 
+			if (IsADigit(text[ii].toLatin1()) || (text[ii] == QChar('.') && (ii+1 < text.size()) && IsADigit(text[ii+1].toLatin1())))
 			{
 				m_lexState = ARL_LUA_NUMBER;
 				if (text[ii] == QChar('0') && (ii+1 < text.size()) && text[ii+1].toUpper() == QChar('X')) 
@@ -398,7 +398,7 @@ void ScriptSyntaxHighlighter::highlightBlock(const QString &text)
 					ii++;
 				}
 			} 
-			else if (IsAWordStart(text[ii].toAscii())) 
+			else if (IsAWordStart(text[ii].toLatin1()))
 			{
 				m_lexState = ARL_LUA_IDENTIFIER;
 			} 
@@ -450,13 +450,13 @@ void ScriptSyntaxHighlighter::highlightBlock(const QString &text)
 			{
 				m_lexState = ARL_LUA_PREPROCESSOR;	// Obsolete since Lua 4.0, but still in old code
 			}
-			else if (ii + 1 < text.size() && text[ii+1] == QChar('=') && IsLuaCompoundOperator(text[ii].toAscii()))
+			else if (ii + 1 < text.size() && text[ii+1] == QChar('=') && IsLuaCompoundOperator(text[ii].toLatin1()))
 			{
 				ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "hello");
 				m_lexState = ARL_LUA_COMPOUNDOPERATOR;
 				ii++;
 			}
-			else if (IsLuaOperator(text[ii].toAscii()) && !(ii + 1 < text.size() && text[ii + 1] == QChar('=') && !IsLuaCompoundOperator(text[ii].toAscii())))
+			else if (IsLuaOperator(text[ii].toLatin1()) && !(ii + 1 < text.size() && text[ii + 1] == QChar('=') && !IsLuaCompoundOperator(text[ii].toLatin1())))
 			{
 				m_lexState = ARL_LUA_OPERATOR;
 			}

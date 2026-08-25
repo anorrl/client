@@ -87,8 +87,6 @@ ARL::Reflection::PropDescriptor<AuthoringSettings, bool> prop_useCoreScriptsDir(
 ARL::Reflection::BoundProp<QDir> prop_RecentSavesDir("RecentSavesDir", "Directories", &AuthoringSettings::recentSavesDir);
 
 // Colors
-//later
-ARL::Reflection::PropDescriptor<AuthoringSettings, bool> prop_DarkMode("Dark Mode", "Colors", &AuthoringSettings::getDarkMode, &AuthoringSettings::setDarkMode);
 ARL::Reflection::BoundProp<G3D::Color3> prop_SelectColor("Select Color", "Colors", &AuthoringSettings::selectColor);
 ARL::Reflection::BoundProp<G3D::Color3> prop_HoverOverColor("Hover Over Color", "Colors", &AuthoringSettings::hoverOverColor);
 ARL::Reflection::PropDescriptor<AuthoringSettings, G3D::Color3> prop_PrimaryPartSelectColor("Select/Hover Color", "Primary Part", &AuthoringSettings::getPrimaryPartSelectColor, &AuthoringSettings::setPrimaryPartSelectColor);
@@ -199,11 +197,11 @@ namespace ARL {
 AuthoringSettings::AuthoringSettings()
 	:showDeprecated(false)
 	,permissionLevelShown(Game)
-	,defaultScriptFileDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/ANORRL/Scripts")
+	,defaultScriptFileDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ANORRL/Scripts")
     ,pluginsDir(AppSettings::instance().tempLocation() + "/Plugins")
 	,modelPluginsDir(AppSettings::instance().tempLocation() + "/InstalledPlugins")
 	,coreScriptsDir(AppSettings::instance().tempLocation() + "/CoreScriptOverrides")
-	,recentSavesDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/ANORRL/RecentSaves")
+	,recentSavesDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ANORRL/RecentSaves")
 	,overrideCoreScripts(false)
     ,basicObjectsDisplayMode(Vertical)
     ,maximumOutputLines(5000)
@@ -211,9 +209,8 @@ AuthoringSettings::AuthoringSettings()
     ,renderThrottlePercentage(75)
 	,alwaysSaveScriptChangesWhileRunning(false)
 	,clearOutputOnStart(true)
-	,darkMode(false)
-    // Script Editor
-#ifdef Q_WS_WIN32
+	// Script Editor
+#ifdef Q_OS_WIN32
     ,editorFont("Courier New",10)
 #else
     ,editorFont("Courier New",14)
@@ -244,7 +241,7 @@ AuthoringSettings::AuthoringSettings()
     // AutoSave
     , autoSaveEnabled(true)
     , autoSaveMinutesInterval(5)
-    , autoSaveDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/ANORRL/AutoSaves")
+    , autoSaveDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ANORRL/AutoSaves")
     // Advanced
     , diagnosticsBarEnabled(false)
 	, intellisenseEnabled(true)
@@ -436,16 +433,6 @@ void AuthoringSettings::setUIStyle( UIStyle value )
 AuthoringSettings::UIStyle AuthoringSettings::getUIStyle() const
 {
 	return uiStyle; 
-}
-
-void AuthoringSettings::setDarkMode(bool value)
-{
-	if (value != darkMode)
-	{
-		darkMode = value;
-
-		//raiseChanged(prop_DarkMode);
-	}
 }
 
 void AuthoringSettings::setOverrideCoreScripts(bool value)

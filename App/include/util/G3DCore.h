@@ -48,6 +48,7 @@ namespace ARL {
 	typedef G3D::Line Line;
 	typedef G3D::LineSegment LineSegment;
 	typedef G3D::Color3 Color3;
+	typedef G3D::Color3uint8 Color3uint18;
 	typedef G3D::Color4 Color4;
 	typedef G3D::Rect2D Rect2D;
 	typedef G3D::Box Box;

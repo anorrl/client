@@ -30,6 +30,7 @@
 #include "v8datamodel/ModelInstance.h"
 #include "v8datamodel/Selection.h"
 #include "v8datamodel/PartInstance.h"
+#include "v8datamodel/MeshPartInstance.h"
 #include "v8datamodel/PartOperation.h"
 #include "v8datamodel/Workspace.h"
 #include "util/ScopedAssign.h"
@@ -262,212 +263,191 @@ public:
 //--------------------------------------------------------------------------------------------
 // IntPropertyItem
 //--------------------------------------------------------------------------------------------
-class IntPropertyItem: public QObject, public PropertyItem
+
+IntPropertyItem::IntPropertyItem(const ARL::Reflection::PropertyDescriptor *pPropertyDescriptor)
+: PropertyItem(pPropertyDescriptor)
+	, m_SpinBox(NULL)
+	, m_Slider(NULL)
 {
-public:
-	IntPropertyItem(const ARL::Reflection::PropertyDescriptor *pPropertyDescriptor)
-	: PropertyItem(pPropertyDescriptor)
-		, m_SpinBox(NULL)
-		, m_Slider(NULL)
+}
+
+IntPropertyItem::IntPropertyItem(PropertyItem *pParentItem, const QString &name)
+: PropertyItem(pParentItem, name)
+	, m_SpinBox(NULL)
+	, m_Slider(NULL)
+{
+}
+
+QString IntPropertyItem::getTextValue()
+{
+	int val = m_variantValue.get<int>();
+	return QString::number(val);
+}
+
+void IntPropertyItem::onSliderChanged(int value)
+{
+	setVariantValue((int)((double)value / m_SliderDivisor));
+	commitModification(false);
+	updateSpinBox();
+}
+
+void IntPropertyItem::onSpinBoxChanged()
+{
+	setVariantValue(m_SpinBox->value());
+	commitModification(false);
+	updateSlider();
+}
+
+void IntPropertyItem::onSliderReleased()
+{
+	commitModification();
+}
+
+
+void IntPropertyItem::updateSpinBox()
+{
+	if (m_SpinBox)
 	{
+		m_SpinBox->blockSignals(true);
+		m_SpinBox->setValue(m_variantValue.get<int>());
+		m_SpinBox->blockSignals(false);
+	}
+}
+
+void IntPropertyItem::updateSlider()
+{
+	if (m_Slider)
+	{
+		m_Slider->blockSignals(true);
+		m_Slider->setValue(m_variantValue.get<int>() * m_SliderDivisor);
+		m_Slider->blockSignals(false);
+	}
+}
+
+QWidget* IntPropertyItem::createEditor(QWidget *parent, const QStyleOptionViewItem &option)
+{
+	double minimum = 0;
+	double maximum = 0;
+
+	if (m_pPropertyDescriptor)
+	{
+		if (ARL::Reflection::Metadata::Item* metadata = ARL::Reflection::Metadata::Reflection::singleton()->get(*m_pPropertyDescriptor))
+		{
+			minimum = (int)metadata->minimum;
+			maximum = (int)metadata->maximum;
+		}
 	}
 
-	IntPropertyItem(PropertyItem *pParentItem, const QString &name)
-	: PropertyItem(pParentItem, name)
-		, m_SpinBox(NULL)
-		, m_Slider(NULL)
+	if (minimum != maximum)
 	{
+		QWidget* widget = new QWidget(parent);
+		QHBoxLayout* layout = new QHBoxLayout;
+
+		layout->setContentsMargins(0, 0, 0, 0);
+		layout->setSpacing(0);
+
+		m_Slider = new QSlider(Qt::Horizontal);
+		m_Slider->setStyleSheet(STRINGIFY(QSlider{ background: white; }));
+		m_Slider->setRange(minimum * m_SliderDivisor, maximum * m_SliderDivisor);
+		m_Slider->setFocusPolicy(Qt::WheelFocus);
+		m_Slider->installEventFilter(this);
+		m_Slider->setValue(m_variantValue.get<int>() * m_SliderDivisor);
+
+		m_SpinBox = new QSpinBox(widget);
+		m_SpinBox->setSingleStep(1);
+		m_SpinBox->setRange(minimum, maximum);
+		m_SpinBox->setFocusPolicy(Qt::WheelFocus);
+		m_SpinBox->installEventFilter(this);
+		m_SpinBox->setValue(m_variantValue.get<int>());
+
+		layout->addWidget(m_SpinBox);
+		layout->addWidget(m_Slider);
+
+		widget->setLayout(layout);
+		widget->setGeometry(option.rect);
+
+		connect(m_Slider, SIGNAL(valueChanged(int)), this, SLOT(onSliderChanged(int)));
+		connect(m_Slider, SIGNAL(sliderReleased()), this, SLOT(onSliderReleased()));
+		connect(m_SpinBox, SIGNAL(valueChanged(double)), this, SLOT(onSpinBoxChanged()));
+
+		widget->setFocusProxy(m_SpinBox);
+
+		return widget;
 	}
 
-	QString getTextValue()
+	QSpinBox* pSpinBox = new QSpinBox(parent);
+	pSpinBox->setGeometry(option.rect);		
+	pSpinBox->setMinimum(INT_MIN);
+    pSpinBox->setMaximum(INT_MAX);
+	pSpinBox->setFrame(false);
+	return pSpinBox; 
+}
+
+void IntPropertyItem::setEditorData(QWidget *editor)
+{
+	QSpinBox *pSpinBox = dynamic_cast<QSpinBox *>(editor);
+	if (!pSpinBox)
+		return;
+	
+	pSpinBox->setValue(text(1).toInt());
+}
+
+bool IntPropertyItem::eventFilter(QObject* obj, QEvent* evt)
+{
+	if (evt->type() == QEvent::FocusIn || evt->type() == QEvent::FocusOut)
 	{
-		int val = m_variantValue.get<int>();
-		return QString::number(val);
+		QWidget* focus = QApplication::focusWidget();
+
+		if (focus != m_Slider && focus != m_SpinBox)
+		{
+			QWidget* parentEditor = static_cast<QWidget*>(m_SpinBox->parent());
+			setModelData(parentEditor);
+			getTreeWidget()->closeEditor(parentEditor, QAbstractItemDelegate::NoHint);
+		}
 	}
 
-	void onSliderChanged(int value)
+	return false;
+}
+
+void IntPropertyItem::setModelData(QWidget* editor)
+{
+	if (m_Slider)
 	{
-		ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "onSliderChanged()");
-		setVariantValue((int)((double)value / m_SliderDivisor));
-		commitModification(false);
-		updateSpinBox();
-
-		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "value * m_SliderDivisor %f", value * m_SliderDivisor);
-	}
-
-	void onSpinBoxChanged()
-	{
-		ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "onSpinBoxChanged()");
-		setVariantValue(m_SpinBox->value());
-		commitModification(false);
-		updateSlider();
-		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "m_spinBox->value() %i", m_SpinBox->value());
-	}
-
-	void onSliderReleased()
-	{
-		ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "onSliderReleased()");
-		commitModification();
-		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "m_variantValue %i", m_variantValue.get<int>());
-	}
-
-
-	void updateSpinBox()
-	{
-		ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "updateSpinBox()");
 		if (m_SpinBox)
 		{
-			m_SpinBox->blockSignals(true);
-			m_SpinBox->setValue(m_variantValue.get<int>());
-			m_SpinBox->blockSignals(false);
+			setVariantValue(m_SpinBox->value());
+			commitModification();
 
-			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "updateSpinBox() %i", m_variantValue.get<int>());
+			m_SpinBox->removeEventFilter(this);
+			m_SpinBox = NULL;
 		}
+
+		m_Slider->removeEventFilter(this);
+		m_Slider = NULL;
 	}
-
-	void updateSlider()
+	else
 	{
-		ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "updateSlider()");
-		if (m_Slider)
-		{
-			m_Slider->blockSignals(true);
-			m_Slider->setValue(m_variantValue.get<int>() * m_SliderDivisor);
-			m_Slider->blockSignals(false);
-
-			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "updateSlider() %f", m_variantValue.get<int>() * m_SliderDivisor);
-		}
-	}
-
-	QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option)
-	{
-		double minimum = 0;
-		double maximum = 0;
-
-		if (m_pPropertyDescriptor)
-		{
-			if (ARL::Reflection::Metadata::Item* metadata = ARL::Reflection::Metadata::Reflection::singleton()->get(*m_pPropertyDescriptor))
-			{
-				minimum = (int)metadata->minimum;
-				maximum = (int)metadata->maximum;
-			}
-		}
-
-		if (minimum != maximum)
-		{
-			QWidget* widget = new QWidget(parent);
-			QHBoxLayout* layout = new QHBoxLayout;
-
-			layout->setContentsMargins(0, 0, 0, 0);
-			layout->setSpacing(0);
-
-			m_Slider = new QSlider(Qt::Horizontal);
-			m_Slider->setStyleSheet(STRINGIFY(QSlider{ background: white; }));
-			m_Slider->setRange(minimum * m_SliderDivisor, maximum * m_SliderDivisor);
-			m_Slider->setFocusPolicy(Qt::WheelFocus);
-			m_Slider->installEventFilter(this);
-			m_Slider->setValue(m_variantValue.get<int>() * m_SliderDivisor);
-
-			m_SpinBox = new QSpinBox(widget);
-			m_SpinBox->setSingleStep(1);
-			m_SpinBox->setRange(minimum, maximum);
-			m_SpinBox->setFocusPolicy(Qt::WheelFocus);
-			m_SpinBox->installEventFilter(this);
-			m_SpinBox->setValue(m_variantValue.get<int>());
-
-			layout->addWidget(m_SpinBox);
-			layout->addWidget(m_Slider);
-
-			widget->setLayout(layout);
-			widget->setGeometry(option.rect);
-
-			connect(m_Slider, SIGNAL(valueChanged(int)), this, SLOT(onSliderChanged(int)));
-			connect(m_Slider, SIGNAL(sliderReleased()), this, SLOT(onSliderReleased()));
-			connect(m_SpinBox, SIGNAL(valueChanged(double)), this, SLOT(onSpinBoxChanged()));
-
-			widget->setFocusProxy(m_SpinBox);
-
-			ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "creati");
-
-			return widget;
-		}
-
-		QSpinBox* pSpinBox = new QSpinBox(parent);
-		pSpinBox->setGeometry(option.rect);		
-		pSpinBox->setMinimum(INT_MIN);
-        pSpinBox->setMaximum(INT_MAX);
-		pSpinBox->setFrame(false);
-		return pSpinBox; 
-	}
-
-	void setEditorData(QWidget *editor)
-	{
-		QSpinBox *pSpinBox = dynamic_cast<QSpinBox *>(editor);
+		QSpinBox* pSpinBox = dynamic_cast<QSpinBox*>(editor);
 		if (!pSpinBox)
 			return;
-	
-		pSpinBox->setValue(text(1).toInt());
-	}
 
-	bool eventFilter(QObject* obj, QEvent* evt)
-	{
-		if (evt->type() == QEvent::FocusIn || evt->type() == QEvent::FocusOut)
+		//apply values only if it has been changed
+		if (pSpinBox->cleanText() != text(1))
 		{
-			QWidget* focus = QApplication::focusWidget();
-
-			if (focus != m_Slider && focus != m_SpinBox)
-			{
-				QWidget* parentEditor = static_cast<QWidget*>(m_SpinBox->parent());
-				setModelData(parentEditor);
-				ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "setModelData()");
-				getTreeWidget()->closeEditor(parentEditor, QAbstractItemDelegate::NoHint);
-			}
-		}
-
-		return false;
-	}
-
-	void setModelData(QWidget* editor)
-	{
-		if (m_Slider)
-		{
-			if (m_SpinBox)
-			{
-				setVariantValue(m_SpinBox->value());
-				commitModification();
-
-				m_SpinBox->removeEventFilter(this);
-				m_SpinBox = NULL;
-			}
-
-			m_Slider->removeEventFilter(this);
-			m_Slider = NULL;
-		}
-		else
-		{
-			QSpinBox* pSpinBox = dynamic_cast<QSpinBox*>(editor);
-			if (!pSpinBox)
-				return;
-
-			//apply values only if it has been changed
-			if (pSpinBox->cleanText() != text(1))
-			{
-				setVariantValue(pSpinBox->value());
-				commitModification();
-			}
+			setVariantValue(pSpinBox->value());
+			commitModification();
 		}
 	}
+}
 
-	void setVariantValue(const ARL::Reflection::Variant& value)
-	{
-		m_variantValue = value;
+void IntPropertyItem::setVariantValue(const ARL::Reflection::Variant& value)
+{
+	m_variantValue = value;
 
-		//check if the value will be changed
-		setTextValue(getTextValue());
-	}
-protected:
-	QSpinBox* m_SpinBox;
-	QSlider* m_Slider;
-};
+	//check if the value will be changed
+	setTextValue(getTextValue());
+}
+
 
 //--------------------------------------------------------------------------------------------
 // DoublePropertyItem
@@ -2660,7 +2640,14 @@ public:
 	QString getTextValue()
 	{
 		QString value = QString::fromStdString(getVariantValue().cast<ARL::ContentId>().toString());
-		if (value.isEmpty())
+		if ((*propertyDescriptor() == ARL::MeshPartInstance::prop_meshPartTextureId ||
+			*propertyDescriptor() == ARL::MeshPartInstance::prop_meshPartId) &&
+			value.isEmpty())
+		{
+			return "";
+		}
+
+		else if (value.isEmpty())
 		{
 			value = kUseEmbeddedSourceText;
 		}
@@ -3172,7 +3159,7 @@ PropertyItem* PropertyItem::createItem(const ARL::Reflection::PropertyDescriptor
 		return new FontPropertyItem(pPropertyDescriptor);
 
     const ARL::Reflection::TypedPropertyDescriptor<QDir>* pDirProp = dynamic_cast<const ARL::Reflection::TypedPropertyDescriptor<QDir>*>(pPropertyDescriptor);
- 	if ( pDirProp )
+	if ( pDirProp )
 		return new DirPropertyItem(pPropertyDescriptor);
 
     const ARL::Reflection::TypedPropertyDescriptor<ARL::NumberSequence>* pNSProp = dynamic_cast< const ARL::Reflection::TypedPropertyDescriptor<ARL::NumberSequence>*>(pPropertyDescriptor);
@@ -3188,12 +3175,14 @@ PropertyItem* PropertyItem::createItem(const ARL::Reflection::PropertyDescriptor
         return new ColorSequencePropertyItem(pPropertyDescriptor);
 
 	const ARL::Reflection::TypedPropertyDescriptor<ARL::ContentId>* pContentProp = dynamic_cast<const ARL::Reflection::TypedPropertyDescriptor<ARL::ContentId>*>(pPropertyDescriptor);
-	if (pContentProp)
+	if (pContentProp && !(*pPropertyDescriptor == ARL::MeshPartInstance::prop_meshPartTextureId || *pPropertyDescriptor == ARL::MeshPartInstance::prop_meshPartId))
 		return new ScriptAssetPropertyItem(pPropertyDescriptor);
 
 	const ARL::Reflection::TypedPropertyDescriptor<ARL::Rect2D>* pRectProp = dynamic_cast< const ARL::Reflection::TypedPropertyDescriptor<ARL::Rect2D>*>(pPropertyDescriptor);
 	if( pRectProp )
 		return new RectPropertyItem(pPropertyDescriptor);
+
+	
 
 	if (pPropertyDescriptor->hasStringValue())
 		return new StringPropertyItem(pPropertyDescriptor);

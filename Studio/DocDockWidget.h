@@ -50,9 +50,7 @@ protected:
     virtual bool event(QEvent* event);
     virtual QSize sizeHint() const { return maximumSize(); }
 
-#ifdef Q_WS_WIN32
-    virtual bool winEvent(MSG* msg,long* result);
-#endif
+    virtual bool nativeEvent(const QByteArray &eventType, MSG* msg, long* result);
 
 private:
 

@@ -174,6 +174,7 @@ static int math_max (lua_State *L) {
   return 1;
 }
 
+#if(_MSC_VER < 1900)
 // https://stackoverflow.com/a/4572591
 static int round(double x) {
 	if (x < 0.0)
@@ -181,6 +182,7 @@ static int round(double x) {
 	else
 		return (int)(x + 0.5);
 }
+#endif
 
 static int math_round(lua_State *L) {
 	lua_pushnumber(L, round(luaL_checknumber(L, 1)));

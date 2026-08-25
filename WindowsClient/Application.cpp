@@ -937,7 +937,7 @@ bool Application::ParseArguments(const char* argv)
 		{
 			std::basic_stringstream<char> options;
 			desc.print(options);
-			MessageBoxA(NULL, options.str().c_str(), "ABIRRK", MB_OK);
+			MessageBoxA(NULL, options.str().c_str(), "ANORRL", MB_OK);
 			return false;
 		}
 
