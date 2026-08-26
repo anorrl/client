@@ -56,17 +56,7 @@ namespace ARL
 	}
 
 	bool PointsService::canUseService()
-	{
-        if (DataModel* dm = DataModel::get(this))
-        {
-            ServerScriptService* sss = ServiceProvider::find<ServerScriptService>(dm);
-
-            if (!sss || sss->getLoadStringEnabled())
-            {
-                return false;
-            }
-        }
-		
+	{	
 		return true;
 	}
 

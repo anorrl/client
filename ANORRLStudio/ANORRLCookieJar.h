@@ -7,6 +7,7 @@
 
 #include <QNetworkCookie>
 #include <QNetworkCookieJar>
+#include <QWebEngineCookieStore>
 
 
 typedef QList<QNetworkCookie> NetworkCookieList;
@@ -29,6 +30,7 @@ public:
 public Q_SLOTS:
 	void saveCookiesToDisk();
     void lazyInitialization();
+	void handleCookieAdded(const QNetworkCookie &cookie);
 
 private:
 	static void transferCookieToNativeHttpLayer(const QString& domain, const QNetworkCookie& cookie);
@@ -37,4 +39,5 @@ private:
 
 	static CookieMap m_cookieMap;
 	static CookieReadStatusMap m_cookieReadMap;
+	QWebEngineCookieStore* _store;
 };

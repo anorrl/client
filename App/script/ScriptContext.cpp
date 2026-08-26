@@ -2454,39 +2454,6 @@ int ScriptContext::loadfile(lua_State *L)
 	return load_aux(L, LuaVM::load(L, verifiedSource, ("=" + contentId.toString()).c_str()));
 }
 
-/*int ScriptContext::loadstring(lua_State* L)
-{
-	ScriptContext& context = ScriptContext::getContext(L);
-
-    DataModel* dm = DataModel::get(&context);
-
-	if (dm)
-    {
-        if (Network::Players::serverIsPresent(dm))
-        {
-            ServerScriptService* sss = ServiceProvider::find<ServerScriptService>(dm);
-
-            if (!(sss && sss->getLoadStringEnabled()))
-            {
-                throw std::runtime_error("loadstring() is not available");
-            }
-        }
-        else
-        {
-            if ((Network::Players::clientIsPresent(dm) && !Network::Players::isCloudEdit(dm)) || !LuaVM::canCompileScripts())
-            {
-                throw std::runtime_error("loadstring() is not available");
-            }
-        }
-    }
-
-    size_t l;
-    const char* s = luaL_checklstring(L, 1, &l);
-    const char* chunkname = luaL_optstring(L, 2, s);
-
-    return load_aux(L, LuaVM::load(L, ProtectedString::fromTrustedSource(std::string(s, l)), chunkname));
-}*/
-
 int ScriptContext::version(lua_State *L)
 {
 	lua_pushstring(L, DebugSettings::anorrlVersion);

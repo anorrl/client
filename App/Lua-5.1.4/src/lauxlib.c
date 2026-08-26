@@ -639,10 +639,11 @@ LUALIB_API int luaL_loadbuffer (lua_State *L, const char *buff, size_t size,
   return lua_load(L, getS, &ls, name);
 }
 
-
+#ifdef ARL_STUDIO_BUILD
 LUALIB_API int (luaL_loadstring) (lua_State *L, const char *s) {
   return luaL_loadbuffer(L, s, strlen(s), s);
 }
+#endif
 
 /* }====================================================== */
 

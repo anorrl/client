@@ -5054,7 +5054,6 @@ bool Replicator::isCloudEditReplicateProperty(const Reflection::PropertyDescript
 		descriptor == Workspace::prop_FilteringEnabled ||
 		descriptor == Workspace::prop_StreamingEnabled ||
 		descriptor == Workspace::prop_allowThirdPartySales ||
-		descriptor == ServerScriptService::desc_loadStringEnabled ||
 		descriptor == Players::propCharacterAutoSpawn;
 }
 

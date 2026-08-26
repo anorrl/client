@@ -1073,10 +1073,10 @@ PluginReceiveResult ServerReplicator::OnReceive(Packet *packet) {
 	// Fix for ReplicatorFail
 	catch (ARL::network_stream_exception& e) {
 		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "ServerReplicator::OnReceive packet %d: %s", packet->data[0], e.what());
-		rakPeer->DeallocatePacket(packet);
 		requestDisconnect(DisconnectReason_ReceivePacketStreamError);
+		return RR_STOP_PROCESSING_AND_DEALLOCATE;
 	}
-	return RR_STOP_PROCESSING_AND_DEALLOCATE;
+	
 }
 
 #if defined(ARL_ACC_SECURITY)

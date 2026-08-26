@@ -11,24 +11,9 @@ using namespace ARL;
 
 const char* const ARL::sServerScriptService = "ServerScriptService";
 
-REFLECTION_BEGIN();
-Reflection::PropDescriptor<ServerScriptService, bool> ServerScriptService::desc_loadStringEnabled("LoadStringEnabled", category_Behavior, &ServerScriptService::getLoadStringEnabled, &ServerScriptService::setLoadStringEnabled, Reflection::PropertyDescriptor::PUBLIC_SERIALIZED);
-REFLECTION_END();
-
 ServerScriptService::ServerScriptService(void)
-	: loadStringEnabled(false)
 {
 	setName(sServerScriptService);
-}
-
-void ServerScriptService::setLoadStringEnabled(bool value)
-{
-	bool changed = value != loadStringEnabled;
-    loadStringEnabled = value;
-	if (changed && Network::Players::isCloudEdit(this))
-	{
-		raisePropertyChanged(desc_loadStringEnabled);
-	}
 }
 
 bool ServerScriptService::askAddChild(const Instance* instance) const
