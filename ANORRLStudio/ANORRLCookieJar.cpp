@@ -254,7 +254,7 @@ void ANORRLCookieJar::lazyInitialization()
 {
 	QWebEngineProfile* profile = new QWebEngineProfile("ANORRL");
 	_store = profile->cookieStore();
-	connect(_store, SIGNAL(cookieAdded(const QNetworkCookie &cookie)), this, SIGNAL(handleCookieAdded(const QNetworkCookie &cookie)));
+	connect(_store, &QWebEngineCookieStore::cookieAdded, this, &ANORRLCookieJar::handleCookieAdded);
 	_store->loadAllCookies();
 	connect(&AuthenticationHelper::Instance(), SIGNAL(authenticationChanged(bool)), this, SLOT(saveCookiesToDisk()));
 }

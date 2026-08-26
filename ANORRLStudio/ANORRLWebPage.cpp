@@ -35,9 +35,10 @@ QWebEngineProfile* ANORRLWebPage::getSharedProfile()
 	static QWebEngineProfile* sharedProfile = nullptr;
 	if (!sharedProfile)
 	{
-		sharedProfile = QWebEngineProfile::defaultProfile();
+		sharedProfile = new QWebEngineProfile("ANORRL");
 		sharedProfile->setPersistentCookiesPolicy(QWebEngineProfile::AllowPersistentCookies);
 
+		connect(sharedProfile->cookieStore(), SIGNAL(sharedProfile->cookieStore()->cookieAdded), sharedProfile, SLOT(ANORRLNetworkAccessManager::Instance().cookieJar()->handleCookieAdded));
 
 		auto baseURL = ANORRLSettings::getWebURL();
 		auto authCookie = ANORRLNetworkAccessManager::Instance().cookieJar()->getCookieValue(baseURL, "ANORRLSECURITY");

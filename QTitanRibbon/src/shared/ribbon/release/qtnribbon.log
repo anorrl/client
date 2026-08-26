@@ -1,5 +1,35 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
 C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (release\) contains files shared from another project (qtnribbon.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  MOC ..\..\styles\QtnCommonStyle.h
+  MOC ..\..\ribbon\QtnOfficeFrameHelper_win.h
+  MOC ..\..\ribbon\QtnOfficePopupColorButton.h
+  MOC ..\..\ribbon\QtnOfficePopupMenu.h
+  MOC ..\..\ribbon\QtnOfficePopupWindow.h
+  MOC ..\..\styles\QtnOfficeStyle.h
+  MOC ..\..\styles\QtnOfficeStylePrivate.h
+  MOC ..\..\styles\QtnPopupHelpers.h
+  MOC ..\..\ribbon\QtnRibbonBackstageView.h
+  MOC ..\..\ribbon\QtnRibbonBackstageViewPrivate.h
+  MOC ..\..\ribbon\QtnRibbonBar.h
+  MOC ..\..\ribbon\QtnRibbonBarPrivate.h
+  MOC ..\..\ribbon\QtnRibbonButton.h
+  MOC ..\..\ribbon\QtnRibbonGallery.h
+  MOC ..\..\ribbon\QtnRibbonGalleryPrivate.h
+  MOC ..\..\ribbon\QtnRibbonGroup.h
+  MOC ..\..\ribbon\QtnRibbonGroupLayout.h
+  MOC ..\..\ribbon\QtnRibbonGroupPrivate.h
+  MOC ..\..\ribbon\QtnRibbonMainWindow.h
+  MOC ..\..\ribbon\QtnRibbonPage.h
+  MOC ..\..\ribbon\QtnRibbonPrivate.h
+  MOC ..\..\ribbon\QtnRibbonQuickAccessBar.h
+  MOC ..\..\ribbon\QtnRibbonSliderPane.h
+  MOC ..\..\ribbon\QtnRibbonStatusBar.h
+  MOC ..\..\styles\QtnRibbonStyle.h
+  MOC ..\..\styles\QtnRibbonStylePrivate.h
+  MOC ..\..\ribbon\QtnRibbonSystemPopupBar.h
+  MOC ..\..\ribbon\QtnRibbonTabBar.h
+  MOC ..\..\ribbon\QtnRibbonToolTip.h
+  RCC ..\..\ribbon\QtnRibbonResources.qrc
   QtnCommonPaintManager.cpp
   QtnCommonStyle.cpp
   QtnCommonStyle_win.cpp
