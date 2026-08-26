@@ -43,9 +43,9 @@
 
 DYNAMIC_LOGGROUP(NetworkJoin)
 
-FASTFLAG(DebugLocalRccServerConnection)
+FASTFLAG(DebugLocalACCServerConnection)
 DYNAMIC_FASTFLAG(DebugDisableTimeoutDisconnect)
-DYNAMIC_FASTFLAGVARIABLE(RCCSupportCloudEdit, true)
+DYNAMIC_FASTFLAGVARIABLE(ACCSupportCloudEdit, true)
 DYNAMIC_FASTFLAGVARIABLE(CloudEditCheckClientPresent, false)
 
 using namespace ARL;
@@ -361,7 +361,7 @@ void Server::configureAsCloudEditServer()
 	if (DFFlag::CloudEditCheckClientPresent && Players::clientIsPresent(this))
 		throw ARL::runtime_error("Can not call server, client is present.");
 
-	if (!DFFlag::RCCSupportCloudEdit)
+	if (!DFFlag::ACCSupportCloudEdit)
 	{
 		return;
 	}
@@ -376,7 +376,7 @@ void Server::onCreateRakPeer()
 {	
 	Super::onCreateRakPeer();
 	rakPeer->rawPeer()->SetMaximumIncomingConnections(maxClients);
-	if (FFlag::DebugLocalRccServerConnection)
+	if (FFlag::DebugLocalACCServerConnection)
 	{
 		Network::versionB = "test";
 	}
@@ -638,7 +638,7 @@ void Server::registerPlaceAuthenticationResult(int originPlaceId, int result)
 
 bool Server::securityKeyMatches(const std::string& key)
 {
-	if (FFlag::DebugLocalRccServerConnection)
+	if (FFlag::DebugLocalACCServerConnection)
 	{
 		return true;
 	}

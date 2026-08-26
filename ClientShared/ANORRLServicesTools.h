@@ -14,7 +14,7 @@ std::string GetBreakpadUrl(const std::string &, bool changeToDataDomain = true);
 std::string BuildGenericPersistenceUrl(const std::string& baseUrl, const std::string &servicePath);
 std::string BuildGenericGameUrl(const std::string &baseUrl, const std::string &servicePath);
 
-// these should only be used on RCC.
+// these should only be used on ACC.
 std::string GetSecurityKeyUrl(const std::string &baseUrl, const std::string &key);
 std::string GetSecurityKeyUrl2(const std::string &baseUrl, const std::string &key);
 std::string GetMD5HashUrl(const std::string &baseUrl, const std::string &key);

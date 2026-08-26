@@ -41,7 +41,7 @@ uint32_t netPmcHashCheck(const NetPmcChallenge& challenge);
 #endif
 
 void salsa20(uint8_t *message, uint64_t mlen, uint8_t key[32], uint64_t nonce);
-// This will appear in the release patcher and in RCC, but not in studio or the final client.
+// This will appear in the release patcher and in ACC, but not in studio or the final client.
 __forceinline std::vector<NetPmcChallenge> generateNetPmcKeys()
 {
     std::vector<NetPmcChallenge> keys;
@@ -55,7 +55,7 @@ __forceinline std::vector<NetPmcChallenge> generateNetPmcKeys()
     return keys;
 }
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
 extern std::vector<NetPmcChallenge> netPmcKeys;
 
 class NetPmcServer

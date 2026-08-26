@@ -63,7 +63,7 @@
 #include "security/ApiSecurity.h"
 #endif
 
-FASTFLAG(DebugLocalRccServerConnection)
+FASTFLAG(DebugLocalACCServerConnection)
 DYNAMIC_LOGVARIABLE(PartStreamingRequests, 0)
 DYNAMIC_FASTINTVARIABLE(ClientInstanceQuotaCap, 10000)
 DYNAMIC_FASTINTVARIABLE(ClientInstanceQuotaInitial, 2000)
@@ -895,7 +895,7 @@ void ClientReplicator::processPacket(Packet *packet)
 			inBitstream >> scopeName;
 			this->serverScope.set(scopeName);
 
-			if (LuaVM::useSecureReplication() || FFlag::DebugLocalRccServerConnection)
+			if (LuaVM::useSecureReplication() || FFlag::DebugLocalACCServerConnection)
 			{
 				unsigned int scriptKey;
 				inBitstream >> scriptKey;

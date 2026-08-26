@@ -2,7 +2,7 @@
 
 #include <string>
 
-#ifndef ARL_RCC_SECURITY
+#ifndef ARL_ACC_SECURITY
 #include "discord_rpc.h"
 #endif
 

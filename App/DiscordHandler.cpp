@@ -31,7 +31,7 @@ namespace ARL {
 		if (initialized)
 			return;
 
-#ifndef ARL_RCC_SECURITY
+#ifndef ARL_ACC_SECURITY
 		DiscordEventHandlers handlers;
 		memset(&handlers, 0, sizeof(handlers));
 		
@@ -47,7 +47,7 @@ namespace ARL {
 		if (!initialized)
 			return;
 
-#ifndef ARL_RCC_SECURITY
+#ifndef ARL_ACC_SECURITY
 		DiscordRichPresence discordPresence;
 		memset(&discordPresence, 0, sizeof(discordPresence));
 		discordPresence.state = state.c_str();
@@ -67,7 +67,7 @@ namespace ARL {
 	{
 		if (!initialized)
 			return;
-#ifndef ARL_RCC_SECURITY
+#ifndef ARL_ACC_SECURITY
 		Discord_ClearPresence();
 		Discord_Shutdown();
 #endif

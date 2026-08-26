@@ -23,7 +23,7 @@ std::istringstream DumpErrorUploader::crashEventData("Crash happened!");
 std::string DumpErrorUploader::crashEventResponse;
 std::string DumpErrorUploader::crashCounterNamePrefix;
 
-DYNAMIC_FASTINTVARIABLE(RCCInfluxHundredthsPercentage, 1000)
+DYNAMIC_FASTINTVARIABLE(ACCInfluxHundredthsPercentage, 1000)
 DYNAMIC_FASTFLAGVARIABLE(ExtendedCrashInfluxReporting, false)
 
 DumpErrorUploader::DumpErrorUploader(bool backgroundUpload, const std::string& crashCounterNamePrefix)
@@ -137,7 +137,7 @@ void DumpErrorUploader::UploadCrashEventFile(struct _EXCEPTION_POINTERS *excInfo
 				}
 			}
 			points.addPoint("SessionID", MainLogManager::getMainLogManager()->getSessionId().c_str());
-			points.report(crashCounterNamePrefix+"CrashEvent", DFInt::RCCInfluxHundredthsPercentage);
+			points.report(crashCounterNamePrefix+"CrashEvent", DFInt::ACCInfluxHundredthsPercentage);
 		}
 	}
     catch (const std::exception& e)

@@ -166,7 +166,7 @@ LONG CrashReporter::ProcessException(struct _EXCEPTION_POINTERS *ExceptionInfo, 
 
     char dumpFilepath[_MAX_PATH] = {};
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
     if (ARL::gCrashIsSpecial)
     {
         // generate the normal crash report.  

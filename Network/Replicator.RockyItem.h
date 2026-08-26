@@ -75,7 +75,7 @@ public:
 };
 #endif
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
 class Replicator::NetPmcChallengeItem : public Item
 {
     uint8_t idx;

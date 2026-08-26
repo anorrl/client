@@ -504,7 +504,7 @@ public:
 	
 	void close();
 
-#if defined(ARL_STUDIO_BUILD) || defined(ARL_RCC_SECURITY) || defined(ARL_TEST_BUILD)
+#if defined(ARL_STUDIO_BUILD) || defined(ARL_ACC_SECURITY) || defined(ARL_TEST_BUILD)
 	shared_ptr<const Instances> fetchAsset(ContentId contentId);
 #endif
 

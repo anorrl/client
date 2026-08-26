@@ -37,7 +37,7 @@ bool Replicator::PingBackItem::write(RakNet::BitStream& bitStream) {
 
     if (replicator.canUseProtocolVersion(34))
     {
-#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD)
+#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD)
         if (time & 0x20)
         {
             extraStats = ~extraStats;

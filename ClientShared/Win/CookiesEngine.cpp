@@ -4,7 +4,7 @@
 #include "AtlBase.h"
 #include "AtlSync.h"
 
-const TCHAR arlRegPath[] = _T("Software\\GraceRBLX\\ANORRL");
+const TCHAR arlRegPath[] = _T("Software\\kuro.remover\\ANORRL");
 const TCHAR arlRegName[] = _T("CPath");
 const TCHAR CookieFileMutext[] = _T("ANORRLCookieEngineMutex");
 

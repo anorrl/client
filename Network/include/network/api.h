@@ -18,9 +18,9 @@ namespace ARL
 		extern std::string versionB;
 		extern std::string securityKey;
 		bool isPlayerAuthenticationEnabled();
-		void initWithoutSecurity();	    // Used by Studio (so that it can't be used as a hack vector against RccService)
+		void initWithoutSecurity();	    // Used by Studio (so that it can't be used as a hack vector against ACCService)
 		void initWithPlayerSecurity();	// Used by Player
-		void initWithServerSecurity();  // Used by RccService
+		void initWithServerSecurity();  // Used by ACCService
 		void initWithCloudEditSecurity(); // Used to set up cloud edit replication password
 		bool isNetworkClient(const Instance* context);
 		bool getSystemUrlLocal(DataModel *dataModel);

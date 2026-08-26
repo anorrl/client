@@ -90,7 +90,7 @@ uint32_t netPmcHashCheck(const NetPmcChallenge& challenge)
 }
 #endif
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
 std::vector<NetPmcChallenge> netPmcKeys = generateNetPmcKeys();
 
 NetPmcServer::NetPmcServer() : // some are set to safe, but odd defaults

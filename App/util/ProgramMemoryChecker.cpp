@@ -24,7 +24,7 @@
 
 LOGGROUP(US14116)
 
-FASTFLAG(DebugLocalRccServerConnection)
+FASTFLAG(DebugLocalACCServerConnection)
 
 // New stealthedit checks
 namespace

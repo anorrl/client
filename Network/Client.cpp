@@ -28,7 +28,7 @@
 
 LOGGROUP(US14116)
 DYNAMIC_FASTFLAG(DebugDisableTimeoutDisconnect)
-FASTFLAG(DebugLocalRccServerConnection)
+FASTFLAG(DebugLocalACCServerConnection)
 
 DYNAMIC_LOGGROUP(NetworkJoin)
 FASTFLAG(DebugProtocolSynchronization)
@@ -158,7 +158,7 @@ shared_ptr<Instance> Client::playerConnect(int userId, std::string server, int s
 			// match the a and b records
 			lansubnet = (localAddress.GetBinaryAddress() & 0x00FF) == (remoteAddress.GetBinaryAddress() & 0x00FF);
 		}
-		if (!FFlag::DebugLocalRccServerConnection)
+		if (!FFlag::DebugLocalACCServerConnection)
 		{
 			if (!lansubnet)
 			{
@@ -166,7 +166,7 @@ shared_ptr<Instance> Client::playerConnect(int userId, std::string server, int s
 			}
 		}
 	}
-    if (FFlag::DebugLocalRccServerConnection)
+    if (FFlag::DebugLocalACCServerConnection)
     {
         //skip the security check
         Network::versionB = "test";

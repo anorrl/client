@@ -21,12 +21,12 @@
 #include "util/ProgramMemoryChecker.h"
 #include "security/FuzzyTokens.h"
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
 #include "NetPmc.h"
 #include "Replicator.RockyItem.h"
 #endif
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
     DYNAMIC_FASTSTRING(US30605p1)
 #endif
 
@@ -222,7 +222,7 @@ namespace ARL {
 		void onPlaceAuthenticationComplete(PlaceAuthenticationState placeAuthenticationResult);
 	};
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 	class CheatHandlingServerReplicator : public ServerReplicator
 	{
 		bool isAuthenticated;

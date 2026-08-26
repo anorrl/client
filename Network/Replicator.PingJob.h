@@ -37,7 +37,7 @@ private:
 	{
 		VMProtectBeginMutation("20");
 		if(replicator){
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
             // cvx: this might be moved to a better location.
             replicator->sendNetPmcChallenge();
 #endif

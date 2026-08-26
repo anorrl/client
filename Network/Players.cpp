@@ -68,8 +68,8 @@ LOGGROUP(GoldenHashes)
 LOGGROUP(Network)
 LOGGROUP(US14116)
 
-FASTFLAG(DebugLocalRccServerConnection)
-DYNAMIC_FASTFLAG(RCCSupportCloudEdit)
+FASTFLAG(DebugLocalACCServerConnection)
+DYNAMIC_FASTFLAG(ACCSupportCloudEdit)
 
 DYNAMIC_LOGGROUP(WebChatFiltering)
 
@@ -1989,12 +1989,12 @@ void Players::disconnectPlayerLocal(int userId, int reason)
 
 bool Players::hashMatches(const std::string& hash)
 {
-    if (FFlag::DebugLocalRccServerConnection)
+    if (FFlag::DebugLocalACCServerConnection)
     {
         return true;
     }
 
-	if (DFFlag::RCCSupportCloudEdit && isCloudEdit(this))
+	if (DFFlag::ACCSupportCloudEdit && isCloudEdit(this))
 	{
 		return true;
 	}
@@ -2071,7 +2071,7 @@ void Players::onRemoteSysStats(int userId, const std::string& stat, const std::s
 	bool willKick = desireKick && canKickBecauseRunningInRealGameServer;
 	// make call to handler
 	if(cheatingPlayers[userId].find(stat+message) != cheatingPlayers[userId].end()) {
-		if (FFlag::DebugLocalRccServerConnection)
+		if (FFlag::DebugLocalACCServerConnection)
 		{
 			// skip the security check
 		}

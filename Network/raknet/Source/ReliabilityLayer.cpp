@@ -3113,13 +3113,32 @@ InternalPacket * ReliabilityLayer::BuildPacketFromSplitPacketList( SplitPacketCh
 	internalPacket->data = (unsigned char*) rakMalloc_Ex( (size_t) BITS_TO_BYTES( internalPacket->dataBitLength ), _FILE_AND_LINE_ );
 	internalPacket->allocationScheme=InternalPacket::NORMAL;
 
-	// Fix from https://github.com/facebookarchive/RakNet/commit/e97c4bb005ad5d98ceb04298e9921781720a1dca (RakWrite)
 	BitSize_t offset = 0;
 	for (j=0; j < splitPacketChannel->splitPacketList.Size(); j++)
 	{
-		splitPacket=splitPacketChannel->splitPacketList[j];
-		memcpy(internalPacket->data + BITS_TO_BYTES(offset), splitPacket->data, (size_t)BITS_TO_BYTES(splitPacketChannel->splitPacketList[j]->dataBitLength));
-		offset += splitPacketChannel->splitPacketList[j]->dataBitLength;
+// https://github.com/facebookarchive/RakNet/issues/50#issuecomment-94145621
+//
+// GARRY - RETRIEVE SPLIT PACKETS IN THE PROPER ORDER
+//
+        splitPacket = NULL;
+
+        for ( int a = 0; a < splitPacketChannel->splitPacketList.Size(); a++ )
+        {
+            if ( splitPacketChannel->splitPacketList[a]->splitPacketIndex != j )
+                continue;
+
+            splitPacket = splitPacketChannel->splitPacketList[a];
+            break;
+        }
+
+        if ( splitPacket == NULL ) 
+        splitPacket = splitPacketChannel->splitPacketList[j];
+
+        memcpy( internalPacket->data + BITS_TO_BYTES( offset ), splitPacket->data, (size_t)BITS_TO_BYTES( splitPacket->dataBitLength ) );
+        offset += splitPacket->dataBitLength;
+//
+// END GARRY
+//
 	}
 
 	for (j=0; j < splitPacketChannel->splitPacketList.Size(); j++)

@@ -58,7 +58,7 @@ DYNAMIC_FASTINTVARIABLE(HttpCacheCleanIfGBLessThan, 5)
 DYNAMIC_FASTFLAGVARIABLE(HttpCacheCleanBasedOnMemory, false)
 DYNAMIC_FASTFLAGVARIABLE(HttpCurlDomainTrimmingWithBaseURL, false)
 DYNAMIC_FASTINTVARIABLE(HttpCurlDeepErrorReportingCount, 0)
-DYNAMIC_FASTFLAGVARIABLE(HttpZeroLatencyCaching, false) // Never kill this flag, ZeroLatencyCahing will be ON only on Clients. We will still use CDN Caching on RCC & Studio
+DYNAMIC_FASTFLAGVARIABLE(HttpZeroLatencyCaching, false) // Never kill this flag, ZeroLatencyCahing will be ON only on Clients. We will still use CDN Caching on ACC & Studio
 DYNAMIC_FASTFLAGVARIABLE(CleanMutexHttp, true)
 DYNAMIC_FASTFLAGVARIABLE(SSLErrorLogAll, false)
 

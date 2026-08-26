@@ -1,3 +1,5 @@
+#define I_HATE_IOB
+
 #include "stdafx.h"
 #include "script/LuaVM.h"
 

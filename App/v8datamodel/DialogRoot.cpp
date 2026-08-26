@@ -7,7 +7,7 @@
 #include "V8Tree/Service.h"
 #include "Network/Player.h"
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
 // for debugging of an exploit
 #include "Util/CheatEngine.h"
 #endif
@@ -66,7 +66,7 @@ DialogRoot::DialogRoot()
 
 DialogRoot::~DialogRoot() 
 {
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
     if (FFlag::US31006 && initialPrompt.capacity() > 1000)
     {
         ARL::removeWriteBreakpoint(reinterpret_cast<uintptr_t>(&initialPrompt));
@@ -132,7 +132,7 @@ void DialogRoot::setInUse(bool value)
 
 void DialogRoot::setInitialPrompt(std::string value)
 {
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
     if (FFlag::US31006 && initialPrompt.capacity() > 1000)
     {
         ARL::removeWriteBreakpoint(reinterpret_cast<uintptr_t>(&initialPrompt));
@@ -143,7 +143,7 @@ void DialogRoot::setInitialPrompt(std::string value)
 		initialPrompt = value;
 		raisePropertyChanged(prop_InitialPrompt);
 	}
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
     if (FFlag::US31006 && value.size() > 1000)
     {
         ARL::addWriteBreakpoint(reinterpret_cast<uintptr_t>(&initialPrompt));

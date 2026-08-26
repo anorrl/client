@@ -15,7 +15,7 @@
 #endif
 #define _PRISM_PYRAMID_
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
 // data_seg  = init rw
 // const_seg = init ro
 // bss_seg   =      rw

@@ -311,7 +311,7 @@ protected:
     class RockyDbgItem;
     #endif
 
-    #ifdef ARL_RCC_SECURITY
+    #ifdef ARL_ACC_SECURITY
     class NetPmcChallengeItem;
     #endif
 

@@ -787,7 +787,7 @@ namespace ARL
         VMProtectEnd();
     }
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
     static boost::mutex hwbpMutex;
 
     static inline bool setHwbpContex(uintptr_t addr, CONTEXT* ctx)

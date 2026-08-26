@@ -60,7 +60,7 @@ bool Replicator::RockyDbgItem::write(RakNet::BitStream& bitStream)
 }
 #endif
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
 Replicator::NetPmcChallengeItem::NetPmcChallengeItem(Replicator* replicator, uint8_t idx)
     : Item(*replicator)
     , idx(idx) { }

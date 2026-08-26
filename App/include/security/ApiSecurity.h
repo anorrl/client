@@ -247,7 +247,7 @@ struct CallChainInfo
     CallChainInfo(uint32_t handler, uint32_t ret) : handler(handler), ret(ret) {}
 };
 
-#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD) && !defined(ARL_RCC_SECURITY)
+#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD) && !defined(ARL_ACC_SECURITY)
 // Call Stack, function with:
 // 
 // == C++ Exceptions == | == SEH3 Exceptions ==

@@ -80,7 +80,7 @@ LOGVARIABLE(DisableInvalidateOnUnbind, 0)
 FASTFLAGVARIABLE(DebugHumanoidRendering, false);
 DYNAMIC_FASTFLAGVARIABLE(DebugDisableTimeoutDisconnect, false);
 
-FASTFLAGVARIABLE(DebugLocalRccServerConnection, false);
+FASTFLAGVARIABLE(DebugLocalACCServerConnection, false);
 
 // Base
 class BaseLogInitter

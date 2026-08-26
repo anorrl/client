@@ -178,7 +178,7 @@ static Reflection::BoundFuncDesc<DataModel, void()> func_loadPlugins(&DataModel:
 
 Reflection::EventDesc<DataModel, void(shared_ptr<Instance>, const Reflection::PropertyDescriptor*)> event_ItemChanged(&DataModel::itemChangedSignal, "ItemChanged", "object", "descriptor");
 
-#if defined(ARL_STUDIO_BUILD) || defined (ARL_RCC_SECURITY) || defined (ARL_TEST_BUILD)
+#if defined(ARL_STUDIO_BUILD) || defined (ARL_ACC_SECURITY) || defined (ARL_TEST_BUILD)
 static Reflection::BoundFuncDesc<DataModel, shared_ptr<const Instances>(ContentId)> getContentFunctionOld(&DataModel::fetchAsset, "get", "url", Security::LocalUser);
 static Reflection::BoundFuncDesc<DataModel, shared_ptr<const Instances>(ContentId)> getContentFunction(&DataModel::fetchAsset, "GetObjects", "url", Security::Plugin);
 #endif
@@ -207,7 +207,7 @@ static Reflection::BoundFuncDesc<DataModel, std::string(std::string, std::string
 static Reflection::BoundFuncDesc<DataModel, shared_ptr<const Reflection::ValueArray>()>  getJobsInfo(&DataModel::getJobsInfo, "GetJobsInfo", Security::Plugin);
 static Reflection::BoundFuncDesc<DataModel, void(std::string, std::string, std::string, std::string, std::string)>  func_reportMeasurement(&DataModel::reportMeasurement, "ReportMeasurement", "id", "key1", "value1", "key2", "value2", Security::ANORRLScript);
 
-#if defined(ARL_STUDIO_BUILD) || defined (ARL_RCC_SECURITY) || defined (ARL_TEST_BUILD)
+#if defined(ARL_STUDIO_BUILD) || defined (ARL_ACC_SECURITY) || defined (ARL_TEST_BUILD)
 static Reflection::BoundFuncDesc<DataModel, void(bool)> sanitizeFunction(&DataModel::clearContents, "ClearContent", "resettingSimulation", Security::LocalUser);
 #endif
 static Reflection::BoundFuncDesc<DataModel, void()> closeFunction(&DataModel::close, "Shutdown", Security::LocalUser);
@@ -1500,7 +1500,7 @@ void DataModel::processAfterLoad()
 	}
 }
 
-#if defined(ARL_STUDIO_BUILD) || defined(ARL_RCC_SECURITY) || defined(ARL_TEST_BUILD)
+#if defined(ARL_STUDIO_BUILD) || defined(ARL_ACC_SECURITY) || defined(ARL_TEST_BUILD)
 shared_ptr<const Instances> DataModel::fetchAsset(ContentId contentId) 
 {
 	ARLASSERT(isInitialized);    // If hit show to David or Erik - threading issue

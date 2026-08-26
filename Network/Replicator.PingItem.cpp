@@ -69,7 +69,7 @@ bool Replicator::PingItem::write(RakNet::BitStream& bitStream) {
     bitStream.Write(static_cast<uint32_t>(moreStats));
     if (replicator.canUseProtocolVersion(34))
     {
-#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD)
+#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD)
         if (time & 0x20)
         {
             extraStats = ~extraStats;
@@ -105,7 +105,7 @@ shared_ptr<DeserializedItem> Replicator::PingItem::read(Replicator& replicator, 
     if (replicator.canUseProtocolVersion(34))
     {
         inBitstream >> deserializedData->extraStats;
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
         if (deserializedData->time & 0x20 && !replicator.isCloudEdit()) // change things up
         {
             deserializedData->extraStats = ~deserializedData->extraStats;

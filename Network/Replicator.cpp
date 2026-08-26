@@ -3886,7 +3886,7 @@ void Replicator::readItem(RakNet::BitStream& inBitstream, Item::ItemType itemTyp
 void Replicator::sendDataPing()
 {
 	RakNet::Time timeStamp = RakNet::GetTimeMS();
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
     if (!enableHashCheckBypass && !DFFlag::US25317p1 && 
         (timeStamp - replicatorStats.lastReceivedHashTime) > 120000)
     {
@@ -3935,7 +3935,7 @@ void Replicator::readDataPing(RakNet::BitStream& inBitstream)
     if (canUseProtocolVersion(34))
     {
 	    inBitstream >> extraStats;
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
         if (timeStamp & 0x20) // change things up occaasionally
         {
             extraStats = ~extraStats;

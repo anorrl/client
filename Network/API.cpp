@@ -98,7 +98,7 @@ bool ARL::Network::isNetworkClient(const Instance* context)
 	return ServiceProvider::find<Client>(context) != NULL;
 }
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 static shared_ptr<ARL::Network::ServerReplicator> createSecureReplicator(RakNet::SystemAddress a, ARL::Network::Server* s, ARL::NetworkSettings* networkSettings)
 {
 	return ARL::Creatable<ARL::Instance>::create<ARL::Network::CheatHandlingServerReplicator>(a, s, networkSettings);
@@ -128,7 +128,7 @@ void ARL::Network::initWithServerSecurity()
 {
 	initVersion1();
 	initWithoutSecurity();
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 	_isPlayerAuthenticationEnabled = true;
 	Server::createReplicator = createSecureReplicator;
 #endif

@@ -117,7 +117,7 @@ void deserializeStringCompressed(std::string& value, RakNet::BitStream& stream)
 	uint32_t size;
 	Network::readFastT( stream, size );
 
-	if (size>MAX_STRING_SIZE)
+	if (size < 0 || size > MAX_STRING_SIZE)
 		throw ARL::network_stream_exception(ARL::format("BitStream >> std::string: Bad string length: %d, bit pos: %d", (int)size, stream.GetReadOffset()));
 
 	char* buffer = (char*)alloca(size+1);

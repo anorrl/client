@@ -2,7 +2,7 @@
 
 #include "V8DataModel/DiscordRPCService.h"
 
-#ifndef ARL_RCC_SECURITY
+#ifndef ARL_ACC_SECURITY
 #include "DiscordHandler.h"
 #endif
 namespace ARL
@@ -18,7 +18,7 @@ namespace ARL
 	DiscordRPCService::DiscordRPCService()
 		:Super()
 	{
-#ifndef ARL_RCC_SECURITY
+#ifndef ARL_ACC_SECURITY
 #ifdef ARL_STUDIO_BUILD
 		DiscordHandler::Initialise("1456345979635892400");
 #else
@@ -31,7 +31,7 @@ namespace ARL
 	void DiscordRPCService::setState(std::string value) {
 		if (state != value) {
 			state = value;
-#ifndef ARL_RCC_SECURITY
+#ifndef ARL_ACC_SECURITY
 			DiscordHandler::SetState(state);
 #endif
 		}
@@ -40,7 +40,7 @@ namespace ARL
 	void DiscordRPCService::setDetails(std::string value) {
 		if (details != value) {
 			details = value;
-#ifndef ARL_RCC_SECURITY
+#ifndef ARL_ACC_SECURITY
 			DiscordHandler::SetDetails(details);
 #endif
 		}

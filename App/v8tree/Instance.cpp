@@ -657,7 +657,7 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
     checkRbxCaller<kCallCheckCallArg, callCheckSetBasicFlag<HATE_RETURN_CHECK> >(thisFunction);    
 
 	// signals for the child being added
-#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32)
+#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32)
     bool detectedExploit = false;
 #endif
 	if (newParent != NULL)
@@ -672,7 +672,7 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
 
 		checkParentWaitingForChildren();
 	}
-#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32)
+#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32)
     else
     {
         detectedExploit = (detectDllByExceptionChainStack<4>(&newParent, ARL::Security::kCheckDefault) != 0);
@@ -685,7 +685,7 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
 
 	raiseChanged(propParent);
 
-#if !defined(ARL_RCC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32)
+#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32)
     if (detectedExploit)
     {
         VMProtectBeginVirtualization(NULL);

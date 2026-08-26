@@ -64,7 +64,7 @@
 DYNAMIC_LOGGROUP(NetworkJoin)
 
 LOGGROUP(JoinSendExtraItemCount)
-FASTFLAG(DebugLocalRccServerConnection)
+FASTFLAG(DebugLocalACCServerConnection)
 FASTFLAG(RemoveUnusedPhysicsSenders)
 LOGGROUP(US14116)
 DYNAMIC_FASTFLAGVARIABLE(UseProtocolCompatibilityCheck, false)
@@ -76,14 +76,14 @@ DYNAMIC_FASTFLAGVARIABLE(LogAllPlayerPropChanges, false)
 DYNAMIC_FASTFLAGVARIABLE(TeamCreateAcceptTerrainReplicatedUpdatesWhenFilteringEnabled, true)
 
 DYNAMIC_FASTFLAG(LoadGuisWithoutChar)
-DYNAMIC_FASTFLAG(RCCSupportCloudEdit)
+DYNAMIC_FASTFLAG(ACCSupportCloudEdit)
 
 DYNAMIC_FASTINT(JoinInfluxHundredthsPercentage)
 
 
 // Security Configuration Flags that should not be removed:
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
 // Security Mask String (more json-friendly than using signed int)
 static const char kKickChar = '.';       // kick+report for normal hash only
 static const char kGoldKickChar = ':';   // kick+report for gold hash and 
@@ -306,7 +306,7 @@ bool ServerReplicator::isProtocolCompatible() const
 }
 
 ServerReplicator::ServerReplicator(RakNet::SystemAddress systemAddress, Server* server, NetworkSettings* networkSettings)
-: Super(systemAddress, server->rakPeer, networkSettings, /*ClusterDebounce*/DFFlag::RCCSupportCloudEdit && server->isCloudEdit())
+: Super(systemAddress, server->rakPeer, networkSettings, /*ClusterDebounce*/DFFlag::ACCSupportCloudEdit && server->isCloudEdit())
 	, server(server)
 	, waitingForMarker(true)
 	, topReplicationContainersSent(false)
@@ -828,7 +828,7 @@ void ServerReplicator::sendReplicatedFirstDescendants(shared_ptr<Instance> desce
 	highPriorityPendingItems.push_back(new (newInstancePool.get()) NewInstanceItem(this, descendant));
 }
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 CheatHandlingServerReplicator::CheatHandlingServerReplicator(RakNet::SystemAddress systemAddress, Server* server, NetworkSettings* networkSettings)
     :ServerReplicator(systemAddress, server, networkSettings)
     , isAuthenticated(false)
@@ -865,7 +865,7 @@ CheatHandlingServerReplicator::CheatHandlingServerReplicator(RakNet::SystemAddre
 {}
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::preauthenticatePlayer(int userId)
 {
 	try
@@ -939,7 +939,7 @@ void ServerReplicator::installRemotePlayerSafe(weak_ptr<ServerReplicator> weakTh
     }
     catch (ARL::base_exception& e)
     {
-        // catch the exception.  Something has gone wrong in this process.  This shouldn't crash RCC.
+        // catch the exception.  Something has gone wrong in this process.  This shouldn't crash ACC.
         (void)(e);
         strongThis->remotePlayer = ARL::Creatable<ARL::Instance>::create<ARL::Network::Player>();
         strongThis->requestDisconnect(DisconnectReason_SendPacketError);
@@ -986,92 +986,100 @@ PluginReceiveResult ServerReplicator::OnReceive(Packet *packet) {
 	{
 		return RR_CONTINUE_PROCESSING;
 	}
-
-	switch ((unsigned char) packet->data[0])
-	{
-    case ID_NEW_INCOMING_CONNECTION:
-        {
-
-			sendDictionaryFormat();
-            sendDictionaries();
-			teachSchema();
-
-            // if we are not using a real game replicator (aka CheatHandlingServerReplicator), then send top containers right away
-            // Essentially we don't need to wait for the ticket to come in, as we are replicating in studio (guaranteed to have all the same top classes)
-#if !defined(ARL_RCC_SECURITY)
-            sendTop(rakPeer->rawPeer());
-#endif
-        }
-        return RR_CONTINUE_PROCESSING;
-
-    case ID_SPAWN_NAME:
+	try {	
+		switch ((unsigned char) packet->data[0])
 		{
-			RakNet::BitStream inBitstream(packet->data, packet->length, false);
-			inBitstream.IgnoreBits(8); // Ignore the packet id
-			deserializeStringCompressed(initialSpawnName, inBitstream);
-			FASTLOGS(DFLog::NetworkJoin, "initialSpawnName: %s", initialSpawnName);
-		}
-		return RR_STOP_PROCESSING_AND_DEALLOCATE;
-
-    case ID_PLACEID_VERIFICATION:
-        {
-            RakNet::BitStream inBitstream(packet->data, packet->length, false);
-            inBitstream.IgnoreBits(8); // Ignore the packet id
-            int previousPlaceId;
-            inBitstream >> previousPlaceId;
-#ifdef NETWORK_DEBUG
-            StandardOut::singleton()->printf(MESSAGE_INFO, "Received previous PlaceID: %d", previousPlaceId);
-#endif
-			if (isCloudEdit())
+		case ID_NEW_INCOMING_CONNECTION:
 			{
-				placeAuthenticationState = PlaceAuthenticationState_Authenticated;
+
+				sendDictionaryFormat();
+				sendDictionaries();
+				teachSchema();
+
+				// if we are not using a real game replicator (aka CheatHandlingServerReplicator), then send top containers right away
+				// Essentially we don't need to wait for the ticket to come in, as we are replicating in studio (guaranteed to have all the same top classes)
+	#if !defined(ARL_ACC_SECURITY)
+				sendTop(rakPeer->rawPeer());
+	#endif
 			}
-			else
+			return RR_CONTINUE_PROCESSING;
+
+		case ID_SPAWN_NAME:
 			{
-				boost::optional<int> placeAutenticationResult = server->getPlaceAuthenticationResultForOrigin(previousPlaceId);
-				if (placeAutenticationResult)
-					placeAuthenticationState = (PlaceAuthenticationState)placeAutenticationResult.get();
-				else
-					placeAuthenticationThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&ServerReplicator::PlaceAuthenticationThread, shared_from(this), previousPlaceId, DataModel::get(this)->getPlaceID()), "PlaceAuthenticationThread")));
-
+				RakNet::BitStream inBitstream(packet->data, packet->length, false);
+				inBitstream.IgnoreBits(8); // Ignore the packet id
+				deserializeStringCompressed(initialSpawnName, inBitstream);
+				FASTLOGS(DFLog::NetworkJoin, "initialSpawnName: %s", initialSpawnName);
 			}
-        }
-        return RR_STOP_PROCESSING_AND_DEALLOCATE;
-
-    case ID_PROTOCOL_SYNC:
-        {
-            RakNet::BitStream inBitstream(packet->data, packet->length, false);
-            inBitstream.IgnoreBits(8); // Ignore the packet id
-            inBitstream >> remoteProtocolVersion;
-
-#ifdef NETWORK_DEBUG
-            StandardOut::singleton()->printf(MESSAGE_INFO, "Client protocol version: %d", remoteProtocolVersion);
-#endif
-        }
-        return RR_STOP_PROCESSING_AND_DEALLOCATE;
-	case ID_REQUEST_STATS:
-		{
-			bool req;
-			int version = 0;
-			RakNet::BitStream inBitstream(packet->data, packet->length, false);
-			inBitstream.IgnoreBits(8); // Ignore the packet id
-			inBitstream >> req;
-			if (req)
-			{
-				inBitstream >> version;
-			}
-			DataModel::get(this)->create<LogService>()->runCallbackIfPlayerHasConsoleAccess(
-				shared_from(getRemotePlayer()), boost::bind(&ServerReplicator::toggleSendStatsJob,
-					weak_from(this), req, version));
-
 			return RR_STOP_PROCESSING_AND_DEALLOCATE;
+
+		case ID_PLACEID_VERIFICATION:
+			{
+				RakNet::BitStream inBitstream(packet->data, packet->length, false);
+				inBitstream.IgnoreBits(8); // Ignore the packet id
+				int previousPlaceId;
+				inBitstream >> previousPlaceId;
+	#ifdef NETWORK_DEBUG
+				StandardOut::singleton()->printf(MESSAGE_INFO, "Received previous PlaceID: %d", previousPlaceId);
+	#endif
+				if (isCloudEdit())
+				{
+					placeAuthenticationState = PlaceAuthenticationState_Authenticated;
+				}
+				else
+				{
+					boost::optional<int> placeAutenticationResult = server->getPlaceAuthenticationResultForOrigin(previousPlaceId);
+					if (placeAutenticationResult)
+						placeAuthenticationState = (PlaceAuthenticationState)placeAutenticationResult.get();
+					else
+						placeAuthenticationThread.reset(new boost::thread(ARL::thread_wrapper(boost::bind(&ServerReplicator::PlaceAuthenticationThread, shared_from(this), previousPlaceId, DataModel::get(this)->getPlaceID()), "PlaceAuthenticationThread")));
+
+				}
+			}
+			return RR_STOP_PROCESSING_AND_DEALLOCATE;
+
+		case ID_PROTOCOL_SYNC:
+			{
+				RakNet::BitStream inBitstream(packet->data, packet->length, false);
+				inBitstream.IgnoreBits(8); // Ignore the packet id
+				inBitstream >> remoteProtocolVersion;
+
+	#ifdef NETWORK_DEBUG
+				StandardOut::singleton()->printf(MESSAGE_INFO, "Client protocol version: %d", remoteProtocolVersion);
+	#endif
+			}
+			return RR_STOP_PROCESSING_AND_DEALLOCATE;
+		case ID_REQUEST_STATS:
+			{
+				bool req;
+				int version = 0;
+				RakNet::BitStream inBitstream(packet->data, packet->length, false);
+				inBitstream.IgnoreBits(8); // Ignore the packet id
+				inBitstream >> req;
+				if (req)
+				{
+					inBitstream >> version;
+				}
+				DataModel::get(this)->create<LogService>()->runCallbackIfPlayerHasConsoleAccess(
+					shared_from(getRemotePlayer()), boost::bind(&ServerReplicator::toggleSendStatsJob,
+						weak_from(this), req, version));
+
+				return RR_STOP_PROCESSING_AND_DEALLOCATE;
+			}
+		default:
+			return Replicator::OnReceive(packet);
 		}
-	default:
-		return Replicator::OnReceive(packet);
 	}
+	// Fix for ReplicatorFail
+	catch (ARL::network_stream_exception& e) {
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "ServerReplicator::OnReceive packet %d: %s", packet->data[0], e.what());
+		rakPeer->DeallocatePacket(packet);
+		requestDisconnect(DisconnectReason_ReceivePacketStreamError);
+	}
+	return RR_STOP_PROCESSING_AND_DEALLOCATE;
 }
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 bool CheatHandlingServerReplicator::checkRemotePlayer()
 {
     if (remotePlayer)
@@ -1084,7 +1092,7 @@ bool CheatHandlingServerReplicator::checkRemotePlayer()
 }
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::installRemotePlayer(const std::string& preferedSpawnName)
 {
 	if (remotePlayerInstalled)
@@ -1125,7 +1133,7 @@ void CheatHandlingServerReplicator::installRemotePlayer(const std::string& prefe
 		shouldSetParent = false;
 	}
 
-	if (FFlag::DebugLocalRccServerConnection)
+	if (FFlag::DebugLocalACCServerConnection)
 	{
 		// skip the security check
 	}
@@ -1212,7 +1220,7 @@ void CheatHandlingServerReplicator::installRemotePlayer(const std::string& prefe
 }
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 PluginReceiveResult CheatHandlingServerReplicator::OnReceive(Packet *packet)
 {
 	if (packet->systemAddress!=remotePlayerId)
@@ -1282,7 +1290,7 @@ namespace CryptStrings
 }
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::processTicket(Packet *packet)
 {
     try
@@ -1465,7 +1473,7 @@ void ServerReplicator::readRockyItem(RakNet::BitStream& inBitstream)
     }
 }
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
 void CheatHandlingServerReplicator::processNetPmcResponseItem(RakNet::BitStream& inBitstream)
 {
     uint8_t idx; 
@@ -1488,7 +1496,7 @@ void CheatHandlingServerReplicator::processNetPmcResponseItem(RakNet::BitStream&
 }
 # endif
 
-#ifdef ARL_RCC_SECURITY
+#ifdef ARL_ACC_SECURITY
 void CheatHandlingServerReplicator::processRockyCallInfoItem(RakNet::BitStream& inBitstream)
 {
     uint8_t size; 
@@ -1542,7 +1550,7 @@ void ServerReplicator::toggleSendStatsJob(
 	}
 }
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::decodeHashItem(PmcHashContainer& netHashes, unsigned long long* securityTokens)
 {
     using namespace ARL::Hasher;
@@ -1597,7 +1605,7 @@ void CheatHandlingServerReplicator::decodeHashItem(PmcHashContainer& netHashes, 
 }
 #endif 
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::processHashValue(const PmcHashContainer& netHashes)
 {
     using namespace ARL::Hasher;
@@ -1742,7 +1750,7 @@ void CheatHandlingServerReplicator::processHashValuePost(const unsigned long lon
 }
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 // inner product in gf2.
 // in gf2, * is &, + is ^.  if x, decodeKey are treated as bit-vectors, then the
 // bit-element multiply is handled by bitwise and.  The summation is the parity of 
@@ -1863,7 +1871,7 @@ void CheatHandlingServerReplicator::processRockyMccReport(const MccReport& repor
 }
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::processApiStats(unsigned long long apiStats)
 {
     // split the msb's out from the lsb
@@ -1893,7 +1901,7 @@ void CheatHandlingServerReplicator::processApiStats(unsigned long long apiStats)
 #endif
 
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::updateHashState(PmcHashContainer& netHashes, unsigned long long* securityTokens)
 {
     size_t numItems = netHashes.hash.size();
@@ -1914,7 +1922,7 @@ void CheatHandlingServerReplicator::updateHashState(PmcHashContainer& netHashes,
 }
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::checkPingItemTime()
 {
     RakNet::Time delta = RakNet::GetTimeMS() - replicatorStats.lastReceivedPingTime;
@@ -1930,7 +1938,7 @@ void CheatHandlingServerReplicator::checkPingItemTime()
 }
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::doRemoteSysStats(unsigned int sendStats, unsigned int mask, const char* codeName, const char* details, const std::string& configString)
 {
     bool configError = false;
@@ -1960,7 +1968,7 @@ void CheatHandlingServerReplicator::doDelayedSysStats(unsigned int sendStats, un
 }
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::processHashStats(unsigned int hashStats)
 {
     using namespace ARL::Hasher;
@@ -1994,7 +2002,7 @@ void CheatHandlingServerReplicator::processGoldHashStats(unsigned int hashStats)
 }
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::processSendStats(unsigned int sendStats, unsigned int extraStats) {
     unsigned int maskedSendStats = sendStats & ~sendStatsMask;
 	if (maskedSendStats)
@@ -2135,7 +2143,7 @@ void ServerReplicator::onPlaceAuthenticationComplete(PlaceAuthenticationState pl
 		placeAutenticatedSignal();
 }
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::PlaceAuthenticationThreadImpl(int previousPlaceId, int requestedPlaceId)
 {
     placeAuthenticationState = PlaceAuthenticationState_Requesting;
@@ -2202,7 +2210,7 @@ void CheatHandlingServerReplicator::PlaceAuthenticationThreadImpl(int previousPl
 }
 #endif
 
-#if defined(ARL_RCC_SECURITY)
+#if defined(ARL_ACC_SECURITY)
 void CheatHandlingServerReplicator::sendNetPmcChallenge()
 {
     if (!reportedNetPmcPending && (!reportedNetPmcError || !DFFlag::HashConfigP2) && netPmc.tooManyPending())

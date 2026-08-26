@@ -72,7 +72,8 @@ void Crypt::verifySignatureBase64(std::string message, std::string signatureBase
 			CryptVerifySignature function to verify the signature.
 		*/
 		BYTE signatureRev[10240];
-		for (int i=0; i<signatureLen; ++i)
+		// FUCK YOU ROBLOX!!!
+		for (int i=0; i < signatureLen && i <= 10240; ++i)
 			signatureRev[i] = signature[signatureLen - i - 1];
 
 #pragma warning(push)
