@@ -132,7 +132,9 @@ VisualEngine::VisualEngine(Device* device, CRenderSettings* settings)
             "fonts/GothamSSm-Book.otf",
             "fonts/GothamSSm-Bold.otf",
             "fonts/GothamSSm-Medium.otf",
-            "fonts/EurostileExtendedBlack.ttf"
+            "fonts/EurostileExtendedBlack.ttf",
+			"fonts/Minecraft.ttf",
+			"fonts/RadieRegular.otf",
 		};
 
 		float legacyHeightScale = (font == Text::FONT_LEGACY) ? 1.5f : 1.f;

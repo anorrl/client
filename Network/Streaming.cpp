@@ -114,15 +114,46 @@ void serializeStringCompressed(const std::string& value, RakNet::BitStream& stre
 
 void deserializeStringCompressed(std::string& value, RakNet::BitStream& stream)
 {
-	uint32_t size;
-	Network::readFastT( stream, size );
+	uint32_t size = 0;
+	Network::readFastT(stream, size);
 
-	if (size < 0 || size > MAX_STRING_SIZE)
-		throw ARL::network_stream_exception(ARL::format("BitStream >> std::string: Bad string length: %d, bit pos: %d", (int)size, stream.GetReadOffset()));
+	const uint32_t maxStringSize = static_cast<uint32_t>(MAX_STRING_SIZE);
 
-	char* buffer = (char*)alloca(size+1);
-	RakNet::StringCompressor::Instance()->DecodeString(buffer, static_cast<int>(size+1), &stream);
-	value = buffer;
+	if (size > maxStringSize)
+	{
+		throw ARL::network_stream_exception(
+			ARL::format("BitStream >> std::string: Bad string length: %u, max: %u, bit pos: %d", size, maxStringSize, stream.GetReadOffset())
+		);
+	}
+
+	if (static_cast<size_t>(size) > (std::numeric_limits<size_t>::max)() - 1)
+	{
+		throw ARL::network_stream_exception(
+			ARL::format("BitStream >> std::string: String length overflow: %u, bit pos: %d", size, stream.GetReadOffset())
+		);
+	}
+
+	std::vector<char> buffer;
+
+	try
+	{
+		buffer.resize(static_cast<size_t>(size) + 1, '\0');
+	}
+	catch (const std::bad_alloc&)
+	{
+		throw ARL::network_stream_exception(
+			ARL::format("BitStream >> std::string: Failed to allocate buffer for length: %u, bit pos: %d", size, stream.GetReadOffset())
+		);
+	}
+
+	if (!RakNet::StringCompressor::Instance()->DecodeString(buffer.data(), static_cast<unsigned>(buffer.size()), &stream))
+	{
+		throw ARL::network_stream_exception(
+			ARL::format("BitStream >> std::string: Failed to decode string, length: %u, bit pos: %d", size, stream.GetReadOffset())
+		);
+	}
+
+	value.assign(buffer.data(), static_cast<size_t>(size));
 }
 
 } // namespace Network

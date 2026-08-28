@@ -70,6 +70,8 @@ EnumDesc<TextService::Font>::EnumDesc()
 	addPair(TextService::FONT_GOTHAMBOLD, "GothamBold");
 	addPair(TextService::FONT_GOTHAMSEMIBOLD, "GothamSemiBold");
 	addPair(TextService::FONT_EUROSTILEEXTENDEDBLACK, "EurostileExtendedBlack");
+	addPair(TextService::FONT_MINECRAFT, "Minecraft");
+	addPair(TextService::FONT_RADIEREGULAR, "RadieRegular");
 }
 
 template<>
@@ -149,6 +151,8 @@ TextService::Font TextService::FromTextFont(Text::Font font)
 	case Text::FONT_GOTHAMBOLD: return FONT_GOTHAMBOLD;
 	case Text::FONT_GOTHAMSEMIBOLD: return FONT_GOTHAMSEMIBOLD;
 	case Text::FONT_EUROSTILEEXTENDEDBLACK: return FONT_EUROSTILEEXTENDEDBLACK;
+	case Text::FONT_MINECRAFT: return FONT_MINECRAFT;
+	case Text::FONT_RADIEREGULAR: return FONT_RADIEREGULAR;
 
 	default:
 		ARLASSERT(0);
@@ -196,6 +200,8 @@ Text::Font TextService::ToTextFont(Font font)
 	case FONT_GOTHAMBOLD:	return Text::FONT_GOTHAMBOLD;
 	case FONT_GOTHAMSEMIBOLD:	return Text::FONT_GOTHAMSEMIBOLD;
 	case FONT_EUROSTILEEXTENDEDBLACK: return Text::FONT_EUROSTILEEXTENDEDBLACK;
+	case FONT_MINECRAFT: return Text::FONT_MINECRAFT;
+	case FONT_RADIEREGULAR: return Text::FONT_RADIEREGULAR;
 
 	default:
 		ARLASSERT(0);

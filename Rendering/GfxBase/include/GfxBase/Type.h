@@ -40,6 +40,8 @@ namespace ARL {
 			FONT_GOTHAMBOLD,
 			FONT_GOTHAMSEMIBOLD,
 			FONT_EUROSTILEEXTENDEDBLACK,
+			FONT_MINECRAFT,
+			FONT_RADIEREGULAR,
 			FONT_LAST
 		};
 		// Font drawing params - copied from G3D
