@@ -227,6 +227,7 @@ bool TriangleMesh::setCompoundMeshData(const std::string& key, const std::string
 	unsigned int scaleStride = sizeof(btVector3);
 	scaleStream.write(reinterpret_cast<const char*>(&scaleStride), sizeof(unsigned int));
 	scaleStream.write(reinterpret_cast<const char*>(&scale), scaleStride);
+	
 	std::string scaleStr(scaleStream.str().c_str(), scaleStream.str().size());
 
 	// look at geometry pool for the equivalent decomp data before creating a new one
@@ -538,6 +539,17 @@ void TriangleMesh::serializeConvexHullData(const btTransform& transform, const u
 	outstream.write(reinterpret_cast<const char*>(indicesBase), sizeof(unsigned int) * numIndices);
 }
 
+// https://github.com/novalabs-org/rbx-vulnerabilities/blob/main/CONTENT-SECURITY-AUDIT.md
+static bool readInto(std::istream& stream, void* dest, unsigned int expected)
+{
+	unsigned int stride = 0;
+	stream.read(reinterpret_cast<char*>(&stride), sizeof(unsigned int));
+	if (!stream || stride != expected)
+		return false;                       // malformed blob: reject the mesh
+	stream.read(reinterpret_cast<char*>(dest), expected);
+	return !!stream;
+}
+
 std::vector<CSGConvex> TriangleMesh::getDecompConvexes(const std::string& data, int& currentVersion, btVector3 &scale, bool dataHasScale)
 {
 	std::vector<CSGConvex> outputConvexes;
@@ -569,15 +581,11 @@ std::vector<CSGConvex> TriangleMesh::getDecompConvexes(const std::string& data, 
 		std::vector<float> hullVertices;
 		btVector3 transformTrans;
 		btQuaternion transformRot;
-		unsigned int translationStride = 0;
-		unsigned int rotationStride = 0;
-
+		
 		// Read Transform
-		stream.read(reinterpret_cast<char*>(&translationStride), sizeof(unsigned int));
-		stream.read(reinterpret_cast<char*>(&transformTrans), translationStride);
-		stream.read(reinterpret_cast<char*>(&rotationStride), sizeof(unsigned int));
-		stream.read(reinterpret_cast<char*>(&transformRot), rotationStride);
-
+		if (!readInto(stream, &transformTrans, sizeof(transformTrans))) return{};
+		if (!readInto(stream, &transformRot,   sizeof(transformRot)))   return{};
+		
 		// Set Transform
 		trans.setOrigin(transformTrans);
 		trans.setRotation(transformRot);
@@ -586,11 +594,18 @@ std::vector<CSGConvex> TriangleMesh::getDecompConvexes(const std::string& data, 
 		unsigned int vertexStride = 0;
 		stream.read(reinterpret_cast<char*>(&numVertices), sizeof(unsigned int));
 		stream.read(reinterpret_cast<char*>(&vertexStride), sizeof(unsigned int));
+
+		if (!(vertexStride == sizeof(float) * 3 && numVertices <= 32)) return{};
+		if (vertexStride*(uint64_t)numVertices > stream.rdbuf()->in_avail()) return{};
+
 		hullVertices.resize(numVertices);
-		stream.read(reinterpret_cast<char*>(&hullVertices[0]), vertexStride * numVertices);
+		if (!readInto(stream, &hullVertices[0], vertexStride * numVertices)) return{};
 
 		// Read Indices
 		stream.read(reinterpret_cast<char*>(&numIndices), sizeof(unsigned int));
+		if (numIndices != sizeof(unsigned int)) return{};
+		if (sizeof(unsigned int) * numIndices > stream.rdbuf()->in_avail()) return{};
+
 		currentConvex.indices.resize(numIndices);
 		stream.read(reinterpret_cast<char*>(&currentConvex.indices[0]), sizeof(unsigned int) * numIndices);
 

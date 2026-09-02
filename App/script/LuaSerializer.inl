@@ -330,7 +330,9 @@ public:
         setclvalue(L, L->top, cl);
         incr_top(L);
 
-		ARLASSERT_VERY_FAST(luaG_checkcode(p, L->l_G->ckey));
+		//ARLASSERT_VERY_FAST(luaG_checkcode(p, L->l_G->ckey));
+		if (!luaG_checkcode(p, L->l_G->ckey))
+			return deserializeFailure(L, chunkname);
         
         return 0;
     }
@@ -378,8 +380,8 @@ private:
 
         void seekg(size_t newoffset)
         {
-            ARLASSERT_VERY_FAST(newoffset <= data.size());
-
+            //ARLASSERT_VERY_FAST(newoffset <= data.size());
+			if (newoffset > data.size()) throw std::runtime_error("RSB1: bad seek");
             offset = newoffset;
         }
 
@@ -448,13 +450,16 @@ private:
     {
         unsigned int index = readInt(ss);
         
-        ARLASSERT_VERY_FAST(index <= strings.size());
+        //ARLASSERT_VERY_FAST(index <= strings.size());
+		if (index > strings.size()) throw std::runtime_error("RSB1: bad string index");
         
         return index ? strings[index - 1] : NULL;
     }
     
-    static Proto* readProto(VectorStream& ss, const std::vector<TString*>& strings, lua_State* L, TString* source, unsigned int modkey)
+    static Proto* readProto(VectorStream& ss, const std::vector<TString*>& strings, lua_State* L, TString* source, unsigned int modkey, int depth = 0)
     {
+		if (depth > 64) throw std::runtime_error("RSB1: proto nesting");
+
         Proto* p = luaF_newproto(L);
         
         p->source = source;
@@ -539,7 +544,7 @@ private:
             p->code[i].v = readInt(ss) * modkey;
         
         for (int i = 0; i < p->sizep; ++i)
-            p->p[i] = readProto(ss, strings, L, source, modkey);
+            p->p[i] = readProto(ss, strings, L, source, modkey, depth + 1);
         
         return p;
     }

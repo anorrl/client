@@ -83,6 +83,8 @@ FASTFLAG(StudioRecordToolboxInsert)
 FASTFLAGVARIABLE(DirectX11Enable, false)
 FASTFLAG(UserBetterInertialScrolling)
 
+DYNAMIC_FASTFLAG(JobCyclicExecutiveRendering)
+
 FASTINTVARIABLE(StudioRightClickBuffer, 500)
 FASTINTVARIABLE(StudioRightClickDelay, 150)
 FASTINTVARIABLE(StudioRightClickMax, 700)
@@ -208,7 +210,7 @@ public:
 	, m_pQOgreWidget(pQOgreWidget)
 	, m_bIsAwake(false)
 	{
-		cyclicExecutive = true;
+		cyclicExecutive = DFFlag::JobCyclicExecutiveRendering;
 
 		m_timestamp = ARL::Time::nowFastSec();
 
@@ -228,7 +230,7 @@ public:
 #endif
 		
 		// Force rendering and physics to happen in lock-step
-		if (CRenderSettingsItem::singleton().isSynchronizedWithPhysics)
+		if (CRenderSettingsItem::singleton().isSynchronizedWithPhysics && false)
 		{
 #ifdef _WIN32
 			m_pSequence.reset(new ARL::Tasks::Sequence());
@@ -310,13 +312,13 @@ class ANORRLView::RenderJob : public ARL::DataModelJob
 	
 public:	
 	RenderJob(ANORRLView *, shared_ptr<ARL::DataModel> pDataModel)
-	: ARL::DataModelJob("Render", ARL::DataModelJob::Render, false, pDataModel, ARL::Time::Interval(.02))
+	: ARL::DataModelJob("Render", ARL::DataModelJob::Render, false, pDataModel, ARL::Time::Interval(.01))
 	, m_pDataModel(pDataModel)
 	, m_bIsAwake(false)
 	, updateView(false)
 	, viewUpdated(false)
 	{
-		cyclicExecutive = true;
+		cyclicExecutive = DFFlag::JobCyclicExecutiveRendering;
 	}
 
 	ARL::CEvent updateView;
@@ -1683,7 +1685,7 @@ bool ANORRLView::eventFilter(QObject * watched, QEvent * evt)
 
 bool ANORRLView::RbxViewCyclicFlagsEnabled()
 {
-	return (ARL::TaskScheduler::singleton().isCyclicExecutive());
+	return (ARL::TaskScheduler::singleton().isCyclicExecutive()) && DFFlag::JobCyclicExecutiveRendering;
 }
 
 static ARL::ViewBase* createGameWindow(QOgreWidget *pQtWrapperWindow)

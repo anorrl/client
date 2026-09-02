@@ -457,6 +457,8 @@ namespace ARL
 				setValue(instance, v);
 			}
 			/*implement*/ void setRefValueUnsafe(DescribedBase* instance, DescribedBase* value) const {
+				if (value && !value->getDescriptor().isA(RefClass::classDescriptor()))
+					throw ARL::runtime_error("ref type mismatch");
 				setValue(instance, boost::polymorphic_downcast<RefClass*>(value));
 			}
 

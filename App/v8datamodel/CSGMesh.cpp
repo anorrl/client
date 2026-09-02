@@ -149,6 +149,7 @@ void CSGMesh::computeDecalRemap()
     for (unsigned vi = 0; vi < vertices.size(); ++vi)
     {
         unsigned face = vertices[vi].extra.r - 1;
+		if (face >= 6) continue;
         ARLASSERT(face < 6);
         decalVertexRemap[face].push_back(vi);
         tmpTranslation[vi] = decalVertexRemap[face].size() - 1;
@@ -156,6 +157,7 @@ void CSGMesh::computeDecalRemap()
 
     for (unsigned ii = 0; ii < indices.size(); ++ii)
     {
+		if (indices[ii] >= vertices.size()) continue;
         unsigned face = vertices[indices[ii]].extra.r - 1;
         decalIndexRemap[face].push_back(tmpTranslation[indices[ii]]);
     }
@@ -260,9 +262,10 @@ bool CSGMesh::fromBinaryString(const std::string& str)
     std::string salt(&hash[hashSize], saltSize);
 
     std::string newHash = createHash(salt);
-
-    if (hash != newHash)
-        badMesh = true;
+	if (hash != newHash) {
+		badMesh = true;
+		return false;
+	}
 
     computeDecalRemap();
     

@@ -1,10 +1,4 @@
 c:\dazai\client\qtitanribbon\src\shared\ribbon\vc140.pdb
-c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbonstyle.obj
-c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnofficeframehelper_win.obj
-c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbonquickaccessbar.obj
-c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnofficepopupcolorbutton.obj
-c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnofficepaintmanager.obj
-c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtncommonpaintmanager.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbonprivate.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbonpaintmanager.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbonpage.obj
@@ -19,8 +13,12 @@ c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnpopuphelpers.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnofficestyle.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnofficepopupwindow.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnofficepopupmenu.obj
+c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnofficepopupcolorbutton.obj
+c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnofficepaintmanager.obj
+c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnofficeframehelper_win.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtncommonstyle_win.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtncommonstyle.obj
+c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtncommonpaintmanager.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\moc_qtnribbonbarprivate.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\moc_qtnribbonbar.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\moc_qtnribbonbackstageviewprivate.obj
@@ -37,8 +35,10 @@ c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnstylehelpers.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbontooltip.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbontabbar.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbonsystempopupbar.obj
+c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbonstyle.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbonstatusbar.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbonsliderpane.obj
+c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qtnribbonquickaccessbar.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\qrc_qtnribbonresources.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\moc_qtnribbontooltip.obj
 c:\dazai\client\qtitanribbon\src\shared\ribbon\release\moc_qtnribbontabbar.obj

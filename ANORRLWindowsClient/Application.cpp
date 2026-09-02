@@ -725,10 +725,6 @@ bool Application::Initialize(HWND hWnd, HINSTANCE hInstance)
     // Wait to display the window
 	showWindowAfterEvent.reset(new boost::thread(boost::bind(&Application::waitForShowWindow, this, 0)));
 
-	bool startBootstrapperValidationThread = rand() % 100 < FInt::ValidateLauncherPercent;
-	if (startBootstrapperValidationThread)
-		validateBootstrapperVersionThread.reset(new boost::thread(boost::bind(&Application::validateBootstrapperVersion, this)));
-
 	return true;
 }
 
@@ -1252,94 +1248,6 @@ void Application::waitForShowWindow(int delay)
 		{
 			anorrlStartedEvent.Set();
 		}
-	}
-}
-
-void Application::validateBootstrapperVersion()
-{
-	boost::filesystem::path dir = ARL::FileSystem::getUserDirectory(false, ARL::DirExe);
-	boost::filesystem::path launcherName = "ANORRLPlayerLauncher.exe";
-	boost::filesystem::path launcherPath = dir / launcherName;
-
-	CVersionInfo vi;
-	if (vi.Load(launcherPath.native()))
-	{
-		bool needUpdate = false;
-		std::string v = vi.GetFileVersionAsDotString();
-		int pos = v.rfind(".");
-		if (pos != std::string::npos)
-		{
-			std::string n = v.substr(pos+1);
-			if (atoi(n.c_str()) < FInt::BootstrapperVersionNumber)
-				needUpdate = true;
-		}
-
-		if (!needUpdate)
-			return;
-
-		try 
-		{
-			std::string version;
-			std::string installHost;
-			std::string baseUrl = GetBaseURL();
-
-			pos = baseUrl.find("anorrl");
-			if (pos == std::string::npos)
-				return;
-
-			// from www.anorrl.com or www.gametest1.robloxlabs.com to setup.anorrl.com or setup.gametest1.robloxlabs.com, etc...
-			installHost = "http://setup" + baseUrl.substr(pos+6);
-
-			{
-				Http http(installHost + "version");
-				http.get(version);
-			}
-
-			if (version.length() > 0)
-			{
-				std::string downloadUrl = ARL::format("%s%s-%s", installHost.c_str(), version.c_str(), launcherName.c_str());
-				Http http(downloadUrl);
-				std::string file;
-				http.get(file);
-
-				if (!file.length())
-					throw std::runtime_error("Invalid download");
-
-				// write file to tmp directory
-				boost::filesystem::path tempPath = boost::filesystem::temp_directory_path();
-				tempPath /= "arltmp";
-				std::ofstream outStream(tempPath.c_str(), std::ios_base::out | std::ios::binary);
-				outStream.write(file.c_str(), file.length());
-				outStream.close();
-				
-				// copy file to current directory
-				boost::filesystem::path tempDestPath = dir / tempPath.filename();
-				boost::filesystem::copy_file(tempPath, tempDestPath, boost::filesystem::copy_option::overwrite_if_exists);
-
-				// remove previous launcher and rename new one
-				boost::system::error_code ec;
-				boost::filesystem::remove(launcherPath, ec);
-
-				// try again if failed to remove
-				if (ec.value() == boost::system::errc::io_error)
-				{
-					StandardOut::singleton()->print(MESSAGE_INFO, "validateBootstrapperVersion file remove failed, retrying in 10 seconds");
-					boost::this_thread::sleep(boost::posix_time::seconds(10));
-					boost::filesystem::remove(launcherPath);
-				}
-
-				boost::filesystem::rename(tempDestPath, launcherPath);
-			}
-		}
-		catch (boost::filesystem::filesystem_error& e)
-		{
-			StandardOut::singleton()->printf(MESSAGE_INFO, "validateBootstrapperVersion File Error: %s (%d)", e.what(), e.code().value());
-		}
-		catch (ARL::base_exception& e)
-		{
-			StandardOut::singleton()->printf(MESSAGE_INFO, "validateBootstrapperVersion Error: %s", e.what());
-		}
-
 	}
 }
 

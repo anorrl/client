@@ -593,7 +593,7 @@ public:
         setupDebugger();
         
         
-        logCurlError("CURLOPT_SSLVERSION", curl_easy_setopt(curl,  CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1));
+        logCurlError("CURLOPT_SSLVERSION", curl_easy_setopt(curl,  CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2));
 
         // Setup our handle to share data.
         logCurlError("CURLOPT_SHARE", curl_easy_setopt(curl,  CURLOPT_SHARE, curlsh.get()));
@@ -606,12 +606,12 @@ public:
         logCurlError("CURLOPT_TIMEOUT_MS", curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, performTimeoutMillis));
 
         // Setup proxy information, if available.
-        if (!DFString::HttpCurlProxyHostAndPort.empty())
+        /*if (!DFString::HttpCurlProxyHostAndPort.empty())
         {
             logCurlError("CURLOPT_PROXY", curl_easy_setopt(curl, CURLOPT_PROXY, DFString::HttpCurlProxyHostAndPort.c_str()));
         }
         else
-        {
+        {*/
             if (!proxyHost.empty())
             {
                 logCurlError("CURLOPT_PROXY", curl_easy_setopt(curl, CURLOPT_PROXY, proxyHost.c_str()));
@@ -622,7 +622,7 @@ public:
                 logCurlError("CURLOPT_PROXYPORT",
                              curl_easy_setopt(curl, CURLOPT_PROXYPORT, proxyPort));
             }
-        }
+        //}
 
         // Setup User-Agent.
         logCurlError("CURLOPT_USERAGENT", curl_easy_setopt(curl, CURLOPT_USERAGENT, Http::rbxUserAgent.c_str()));
@@ -646,8 +646,10 @@ public:
         // Set Accept-Encoding header to all supported encoding schemes: identity, deflate, and gzip.
         logCurlError("CURLOPT_ACCEPT_ENCODING", curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, ""));
 
-        // Don't verify SSL peers.  Less secure, but means we don't have to install certificates.
-        logCurlError("CURLOPT_SSL_VERIFYPEER", curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0));
+        // we are smart - roblox devs
+		logCurlError("CURLOPT_SSL_VERIFYPEER", curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1));
+		logCurlError("CURLOPT_SSL_VERIFYHOST", curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2));
+		logCurlError("CURLOPT_SSL_VERIFYHOST", curl_easy_setopt(curl, CURLOPT_CAINFO, "ssl/cacert.pem"));
 
         // Don't use signals, which will prevent problems with resolver timeouts in multi-threaded environments.
         // XXX Might need to setup SSL's mutex callback mechanism, per this URL:
@@ -670,6 +672,9 @@ public:
 
         // Don't load session cookies from the previous session.
         logCurlError("CURLOPT_COOKIESESSION", curl_easy_setopt(curl, CURLOPT_COOKIESESSION, 1));
+
+		logCurlError("CURLOPT_PROTOCOLS", curl_easy_setopt(curl, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS));
+		logCurlError("CURLOPT_REDIR_PROTOCOLS", curl_easy_setopt(curl, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS));
     }
 
     ~CurlHandle()

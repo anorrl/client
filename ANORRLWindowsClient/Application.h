@@ -140,13 +140,9 @@ private:
 	// simultaneously
 	void waitForNewPlayerProcess(HWND hWnd);
 	void waitForShowWindow(int delay);
-	void validateBootstrapperVersion();
-
+	
 	// Sends messages to the debugger for display.
 	static void onMessageOut(const StandardOutMessage& message);
-
-	// Gets version number from .rc and returns display-friendly representation
-	std::string getversionNumber();
 
 	// determines what kind of game mode we are in
 	SharedLauncher::LaunchMode launchMode;

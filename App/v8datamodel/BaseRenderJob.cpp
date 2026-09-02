@@ -9,6 +9,8 @@
 
 LOGGROUP(TaskSchedulerTiming)
 
+DYNAMIC_FASTFLAGVARIABLE(JobCyclicExecutiveRendering, false)
+
 namespace ARL 
 {
 
@@ -18,7 +20,7 @@ BaseRenderJob::BaseRenderJob(double minFps, double maxFps, boost::shared_ptr<Dat
 	, minFrameRate(minFps)
 	, maxFrameRate(maxFps)
 	{
-		cyclicExecutive = true;
+		cyclicExecutive = DFFlag::JobCyclicExecutiveRendering;
 		// We originally intended RenderJob to run after Network, Physics, and so on
 		// to reduce latency, however this introduced a weird variability into the dt between
 		// each RenderJob::step. Since makes sure that the first job is always 16 - 17ms apart from
