@@ -33,114 +33,114 @@ local currentAnimSpeed = 1.0
 local animTable = {}
 local animNames = { 
 	idle = 	{	
-		{ id = "http://arl.lambda.cam/asset/?id=12", weight = 9, speed = 1.0 },
-		{ id = "http://arl.lambda.cam/asset/?id=13", weight = 1, speed = 1.0 }
+		{ id = "arlassetid://12", weight = 9, speed = 1.0 },
+		{ id = "arlassetid://13", weight = 1, speed = 1.0 }
 	},
 	walk = 	{ 	
-		{ id = "http://arl.lambda.cam/asset/?id=15", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://15", weight = 10, speed = 1.0 }
 	}, 
 	run = 	{
 		{ id = "run.xml", weight = 10, speed = 1.0 }
 	}, 
 	jump = 	{
-		{ id = "http://arl.lambda.cam/asset/?id=125750702", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://125750702", weight = 10, speed = 1.0 }
 	}, 
 	fall = 	{
-		{ id = "http://arl.lambda.cam/asset/?id=180436148", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://180436148", weight = 10, speed = 1.0 }
 	}, 
 	climb = {
-		{ id = "http://arl.lambda.cam/asset/?id=180436334", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://180436334", weight = 10, speed = 1.0 }
 	}, 
 	sit = 	{
-		{ id = "http://arl.lambda.cam/asset/?id=178130996", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://178130996", weight = 10, speed = 1.0 }
 	},	
 	toolnone = {
-		{ id = "http://arl.lambda.cam/asset/?id=182393478", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://182393478", weight = 10, speed = 1.0 }
 	},
 	toolslash = {
-		{ id = "http://arl.lambda.cam/asset/?id=129967390", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://129967390", weight = 10, speed = 1.0 }
 --		{ id = "slash.xml", weight = 10, speed = 1.0 }
 	},
 	toollunge = {
-		{ id = "http://arl.lambda.cam/asset/?id=129967478", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://129967478", weight = 10, speed = 1.0 }
 	},
 	wave = {
-		{ id = "http://arl.lambda.cam/asset/?id=34", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://34", weight = 10, speed = 1.0 }
 	},
 	point = {
-		{ id = "http://arl.lambda.cam/asset/?id=35", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://35", weight = 10, speed = 1.0 }
 	},
 	dance1 = {
-		{ id = "http://arl.lambda.cam/asset/?id=38", weight = 10 }, 
-		{ id = "http://arl.lambda.cam/asset/?id=39", weight = 10 }, 
-		{ id = "http://arl.lambda.cam/asset/?id=40", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://38", weight = 10 }, 
+		{ id = "arlassetid://39", weight = 10 }, 
+		{ id = "arlassetid://40", weight = 10, speed = 1.0 }
 	},
 	dance2 = {
-		{ id = "http://arl.lambda.cam/asset/?id=41", weight = 10 }, 
-		{ id = "http://arl.lambda.cam/asset/?id=42", weight = 10 }, 
-		{ id = "http://arl.lambda.cam/asset/?id=43", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://41", weight = 10 }, 
+		{ id = "arlassetid://42", weight = 10 }, 
+		{ id = "arlassetid://43", weight = 10, speed = 1.0 }
 	},
 	dance3 = {
-		{ id = "http://arl.lambda.cam/asset/?id=44", weight = 10 }, 
-		{ id = "http://arl.lambda.cam/asset/?id=45", weight = 10 }, 
-		{ id = "http://arl.lambda.cam/asset/?id=46", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://44", weight = 10 }, 
+		{ id = "arlassetid://45", weight = 10 }, 
+		{ id = "arlassetid://46", weight = 10, speed = 1.0 }
 	},
 	laugh = {
-		{ id = "http://arl.lambda.cam/asset/?id=36", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://36", weight = 10, speed = 1.0 }
 	},
 	cheer = {
-		{ id = "http://arl.lambda.cam/asset/?id=37", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://37", weight = 10, speed = 1.0 }
 	},
 	otsukare = {
-		{ id = "http://arl.lambda.cam/asset/?id=57", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://57", weight = 10, speed = 1.0 }
 	},
 	caramelldansen = {
-		{ id = "http://arl.lambda.cam/asset/?id=58", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://58", weight = 10, speed = 1.0 }
 	},
 	dwyec = {
-		{ id = "http://arl.lambda.cam/asset/?id=61", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://61", weight = 10, speed = 1.0 }
 	},
 	unlockit = {
-		{ id = "http://arl.lambda.cam/asset/?id=62", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://62", weight = 10, speed = 1.0 }
 	},
 	californiagurls = {
-		{ id = "http://arl.lambda.cam/asset/?id=64", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://64", weight = 10, speed = 1.0 }
 	},
 	awakening = {
-		{ id = "http://arl.lambda.cam/asset/?id=65", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://65", weight = 10, speed = 1.0 }
 	},
 	hakari = {
-		{ id = "http://arl.lambda.cam/asset/?id=67", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://67", weight = 10, speed = 1.0 }
 	},
 	torturedancion = {
-		{ id = "http://arl.lambda.cam/asset/?id=71", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://71", weight = 10, speed = 1.0 }
 	},
 	mannrobics = {
-		{ id = "http://arl.lambda.cam/asset/?id=72", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://72", weight = 10, speed = 1.0 }
 	},
 	minecraft = {
-		{ id = "http://arl.lambda.cam/asset/?id=73", weight = 10, speed = 1.0 }
+		{ id = "arlassetid://73", weight = 10, speed = 1.0 }
 	},
 	gangnam  = {
-		{ id = "http://arl.lambda.cam/asset/?id=74", weight = 10 }
+		{ id = "arlassetid://74", weight = 10 }
 	},
 	gmod  = {
-		{ id = "http://arl.lambda.cam/asset/?id=75", weight = 10 }
+		{ id = "arlassetid://75", weight = 10 }
 	},
 	retro  = {
-		{ id = "http://arl.lambda.cam/asset/?id=78", weight = 10 }
+		{ id = "arlassetid://78", weight = 10 }
 	},
 	jumpstyle = {
-		{ id = "http://arl.lambda.cam/asset/?id=79", weight = 10 }
+		{ id = "arlassetid://79", weight = 10 }
 	},
 	awesomeface  = {
-		{ id = "http://arl.lambda.cam/asset/?id=80", weight = 10 }
+		{ id = "arlassetid://80", weight = 10 }
 	},
 	creeper  = {
-		{ id = "http://arl.lambda.cam/asset/?id=81", weight = 10 }
+		{ id = "arlassetid://81", weight = 10 }
 	},
 	rampage  = {
-		{ id = "http://arl.lambda.cam/asset/?id=278", weight = 10 }
+		{ id = "arlassetid://278", weight = 10 }
 	}
 }
 
@@ -152,7 +152,7 @@ for _, v in pairs(animNames) do
 	for i, j in pairs(v) do
 		for i2, j2 in pairs(j) do
 			if i2 == "id" then
-				if starts(j[i2], "http://arl.lambda.cam/asset/?id=") then
+				if starts(j[i2], "arlassetid://") then
 					local id = (j[i2]:gsub("http://arl.lambda.cam/asset/%?id=", "")) 
 					--preloadSound(id)
 				end
@@ -520,7 +520,7 @@ end
 function onRunning(speed)
 	if speed>0.01 then
 		playAnimation("walk", 0.1, Humanoid)
-		if currentAnimInstance and currentAnimInstance.AnimationId == "http://arl.lambda.cam/asset/?id=180426354" then
+		if currentAnimInstance and currentAnimInstance.AnimationId == "arlassetid://180426354" then
 			setAnimationSpeed(speed / 14.5)
 		end
 		pose = "Running"
@@ -741,7 +741,7 @@ end
 			</Properties>
 			<Item class="Animation" referent="RBXDB67065FB85E4931999CB515B5F2012A">
 				<Properties>
-					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=24</url></Content>
+					<Content name="AnimationId"><url>arlassetid://24</url></Content>
 					<string name="Name">Animation1</string>
 				</Properties>
 				<Item class="NumberValue" referent="RBX9C1D89D976924979BDD8B81DA97BE114">
@@ -753,7 +753,7 @@ end
 			</Item>
 			<Item class="Animation" referent="RBXEEE171AA4C1C4802A98EA849C0B0A8AC">
 				<Properties>
-					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=25</url></Content>
+					<Content name="AnimationId"><url>arlassetid://25</url></Content>
 					<string name="Name">Animation2</string>
 				</Properties>
 				<Item class="NumberValue" referent="RBX37B140D9414C4473A5F27F7880B0EC4E">
@@ -771,7 +771,7 @@ end
 			</Properties>
 			<Item class="Animation" referent="RBX45D6152C54FA4EF7B0F9CBF069550557">
 				<Properties>
-					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=26</url></Content>
+					<Content name="AnimationId"><url>arlassetid://26</url></Content>
 					<string name="Name">WalkAnim</string>
 				</Properties>
 			</Item>
@@ -783,7 +783,7 @@ end
 			</Properties>
 			<Item class="Animation" referent="RBXA37336981B6E454C90E45A7F01515966">
 				<Properties>
-					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=180426354</url></Content>
+					<Content name="AnimationId"><url>arlassetid://180426354</url></Content>
 					<string name="Name">RunAnim</string>
 				</Properties>
 			</Item>
@@ -795,7 +795,7 @@ end
 			</Properties>
 			<Item class="Animation" referent="RBXDB0FB6EAF0A94640AD7C222F7E4E39F4">
 				<Properties>
-					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=27</url></Content>
+					<Content name="AnimationId"><url>arlassetid://27</url></Content>
 					<string name="Name">JumpAnim</string>
 				</Properties>
 			</Item>
@@ -807,7 +807,7 @@ end
 			</Properties>
 			<Item class="Animation" referent="RBX94C1F5C954294A889B341487BAC89356">
 				<Properties>
-					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=29</url></Content>
+					<Content name="AnimationId"><url>arlassetid://29</url></Content>
 					<string name="Name">ClimbAnim</string>
 				</Properties>
 			</Item>
@@ -819,7 +819,7 @@ end
 			</Properties>
 			<Item class="Animation" referent="RBX6B27C35810754C93915CA4FE34E8EB95">
 				<Properties>
-					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=31</url></Content>
+					<Content name="AnimationId"><url>arlassetid://31</url></Content>
 					<string name="Name">ToolNoneAnim</string>
 				</Properties>
 			</Item>
@@ -831,7 +831,7 @@ end
 			</Properties>
 			<Item class="Animation" referent="RBX0766704DC00944A88D7F0204B7AD2177">
 				<Properties>
-					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=28</url></Content>
+					<Content name="AnimationId"><url>arlassetid://28</url></Content>
 					<string name="Name">FallAnim</string>
 				</Properties>
 			</Item>
@@ -843,7 +843,7 @@ end
 			</Properties>
 			<Item class="Animation" referent="RBXBEBAA19B49FE45FB9D852B2290377C2C">
 				<Properties>
-					<Content name="AnimationId"><url>http://arl.lambda.cam/asset/?id=30</url></Content>
+					<Content name="AnimationId"><url>arlassetid://30</url></Content>
 					<string name="Name">SitAnim</string>
 				</Properties>
 			</Item>

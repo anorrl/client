@@ -478,7 +478,7 @@ namespace ARL
 		std::string url = path;
 		normalizeUrl(url);
 		
-		mMap[url] = format("http://www.anorrl.com/asset/?id=%s", contentId.c_str());
+		mMap[url] = format("https://www.anorrl.com/asset/?id=%s", contentId.c_str());
 	}
 	
 	const std::string& LegacyContentTable::FindEntry(const std::string& path)

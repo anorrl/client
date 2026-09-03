@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--  DO NOT CHANGE THIS FILE, AS IT GETS DEPLOYED -->
 <Settings>
-	<BaseUrl>http://www.anorrl.com</BaseUrl>
+	<BaseUrl>https://www.anorrl.com</BaseUrl>
 	<ContentFolder>..\..\..\..\Client\content</ContentFolder>
 </Settings>

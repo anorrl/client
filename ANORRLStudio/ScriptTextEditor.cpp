@@ -2312,7 +2312,7 @@ ScriptTraversalThread::~ScriptTraversalThread()
 	abort = true;
 	condition.wakeOne();
 	mutex.unlock();
-
+	
 	wait();
 }
 
@@ -2338,8 +2338,12 @@ void ScriptTraversalThread::run()
 
 		doWork();
 
-		if (!restart)
+		// lock that shit or Qt freaks the fuck out 
+		// memory issue yaddah yaddah
+		mutex.lock();
+		if(!restart)
 			condition.wait(&mutex);
+		mutex.unlock();
 
 		restart = false;
 	}

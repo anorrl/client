@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Settings>
-	<BaseUrl>http://www.anorrl.com</BaseUrl>
+	<BaseUrl>https://www.anorrl.com</BaseUrl>
 	<ContentFolder>..\..\..\..\Client\content</ContentFolder>
 	<SilentCrashReport>1</SilentCrashReport>
 	<cBQ4U>1</cBQ4U>

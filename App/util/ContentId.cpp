@@ -189,7 +189,7 @@ namespace ARL
 		{
 			if (parsed.pathEqualsCaseInsensitive(paths[i]))
 			{
-				scheme = "http";
+				scheme = "https";
 				host = "www.anorrl.com";
 				
 				id = ARL::Url::fromComponents(scheme, host, path, parsed.query(), parsed.fragment()).asString();

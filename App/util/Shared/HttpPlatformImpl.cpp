@@ -368,7 +368,7 @@ bool logCurlError(void* caller, const char* curlOperation, Code curlCode, bool d
     {
         ss << curlOperation << "(" << caller << "): " << getCurlStrerror(curlCode);
         FASTLOGS(DFLog::HttpTrace, "%s", ss.str().c_str());
-    }
+	}
 
     if (!curlCodeOkay(curlCode))
     {
@@ -649,7 +649,7 @@ public:
         // we are smart - roblox devs
 		logCurlError("CURLOPT_SSL_VERIFYPEER", curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1));
 		logCurlError("CURLOPT_SSL_VERIFYHOST", curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2));
-		logCurlError("CURLOPT_SSL_VERIFYHOST", curl_easy_setopt(curl, CURLOPT_CAINFO, "ssl/cacert.pem"));
+		logCurlError("CURLOPT_CAINFO", curl_easy_setopt(curl, CURLOPT_CAINFO, "ssl/cacert.pem"));
 
         // Don't use signals, which will prevent problems with resolver timeouts in multi-threaded environments.
         // XXX Might need to setup SSL's mutex callback mechanism, per this URL:

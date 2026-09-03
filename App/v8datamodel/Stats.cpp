@@ -472,7 +472,7 @@ static const bool jobsAsArray = true;
 
 			ARLASSERT(baseUrl.substr(0, 7) == "http://");
 			if (baseUrl.find("www.anorrl.com") != std::string::npos)
-				baseUrl = "http://www.anorrl.com/";
+				baseUrl = "https://www.anorrl.com/";
 			return baseUrl + "Gatherer/LogEntry?Shard=" + shard;
 		}
 
