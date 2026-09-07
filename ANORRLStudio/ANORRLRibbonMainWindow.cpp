@@ -162,6 +162,8 @@ void ANORRLRibbonMainWindow::setupRibbonBar()
 	if(docElem.tagName() != elemMainWindow)
 		throw ARL::runtime_error("Failed to parse configuration XML file.  File must start with MainWindow element!");
 	
+	connect(&AuthenticationHelper::Instance(), SIGNAL(authenticationChanged(bool)), this, SLOT(onAuthenticationChanged(bool)));
+
 	// initialize default data and do required cleanup
 	initialize();	
 	
@@ -1987,14 +1989,25 @@ void ANORRLRibbonMainWindow::createAuthenticatedMenu()
 	m_actionLogOut = m_authenticatedMenu->addAction(tr("Log out"));
 
 	connect(m_actionLogOut, SIGNAL(triggered()), this, SLOT(handleLogOut()));
-
-	connect(&AuthenticationHelper::Instance(), SIGNAL(authenticationDone(bool)), this, SLOT(updateUser(bool)));
 }
 
-void ANORRLRibbonMainWindow::updateUser(bool authenticated) {
-	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "authentication %s", (authenticated ? "true" : "false"));
+
+void ANORRLRibbonMainWindow::onAuthenticationChanged(bool authenticated) {
 	m_bAuthenticated = authenticated;
-	m_authenticatedMenu->setTitle(m_bAuthenticated ? QString(ANORRLUser::singleton().getUserName().c_str()) : "LOGGED OUT");	
+	std::string username = "";
+
+	if(authenticated) {
+		username = ANORRLUser::singleton().getUserName();
+	}
+
+	updateUser(username);	
+}
+
+void ANORRLRibbonMainWindow::updateUser(std::string name) {
+	std::string username = name;
+	if(username == "")
+		username = "LOGGED OUT";
+	m_authenticatedMenu->setTitle(QString(username.c_str()));	
 }
 
 void ANORRLRibbonMainWindow::handleLogOut() {

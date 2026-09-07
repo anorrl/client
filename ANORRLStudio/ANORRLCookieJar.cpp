@@ -12,7 +12,6 @@
 #include <QSettings>
 #include <QStringList>
 #include <QTimer>
-#include <QWebEngineProfile>
 
 // ANORRL headers
 #include "AuthenticationHelper.h"
@@ -252,15 +251,7 @@ void ANORRLCookieJar::authenticateHttpLayer(bool isAuthenticated) const
 
 void ANORRLCookieJar::lazyInitialization()
 {
-	QWebEngineProfile* profile = new QWebEngineProfile("ANORRL");
-	_store = profile->cookieStore();
-	connect(_store, &QWebEngineCookieStore::cookieAdded, this, &ANORRLCookieJar::handleCookieAdded);
-	_store->loadAllCookies();
 	connect(&AuthenticationHelper::Instance(), SIGNAL(authenticationChanged(bool)), this, SLOT(saveCookiesToDisk()));
-}
-
-void ANORRLCookieJar::handleCookieAdded(const QNetworkCookie &cookie) {
-	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "%s", QString(cookie.name()).toStdString().c_str());
 }
 
 void ANORRLCookieJar::reloadCookies(bool authenticate)

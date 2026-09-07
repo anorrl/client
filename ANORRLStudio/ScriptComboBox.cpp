@@ -239,7 +239,7 @@ void ScriptComboBox::onScriptInputReturnPressed()
         }
         ARL::StandardOut::singleton()->printf(ARL::MESSAGE_OUTPUT, STRING_BY_ID(CommandOutStringId), toExecute.toStdString().c_str());
 
-		// convert loadfile('http://www.anorrl.com/game/join.ashx')() to just the url
+		// convert loadfile('https://www.anorrl.com/game/join.ashx')() to just the url
 		// TODO: proper cmd for starting player via cmd bar?
 		if (StudioUtilities::containsJoinScript(toExecute) && toExecute.contains("loadfile("))
 		{

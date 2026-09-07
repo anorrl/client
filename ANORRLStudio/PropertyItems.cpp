@@ -243,7 +243,7 @@ public:
 			{
 				QtUtilities::ARLConfirmationMessageBox msgBox("Activating 'LoadStringEnabled' property might make your game vulnerable to exploits \
 													   (for more information\
-													    <a href=\"http://wiki.anorrl.com/index.php?title=Security#LoadStringEnabled\">click here</a>).\
+													    <a href=\"https://wiki.anorrl.com/index.php?title=Security#LoadStringEnabled\">click here</a>).\
 														Are you sure you want to enable it?");
 
 				msgBox.setMinimumWidth(410);

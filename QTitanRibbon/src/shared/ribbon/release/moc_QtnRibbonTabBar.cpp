@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonTabBar.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.6.3)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonTabBar.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.6.3. It"
+#error "This file was generated using the moc from 5.5.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -79,7 +79,6 @@ void Qtitan::RibbonTab::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
             typedef void (RibbonTab::*_t)(QWidget * );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonTab::pressTab)) {
                 *result = 0;
-                return;
             }
         }
     }
@@ -226,14 +225,12 @@ void Qtitan::RibbonTabBar::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
             typedef void (RibbonTabBar::*_t)(int );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonTabBar::currentChanged)) {
                 *result = 0;
-                return;
             }
         }
         {
             typedef void (RibbonTabBar::*_t)(bool & );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonTabBar::activating)) {
                 *result = 1;
-                return;
             }
         }
     }

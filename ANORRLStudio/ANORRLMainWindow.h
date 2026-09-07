@@ -52,7 +52,6 @@ static const char* IDEArgument          = "-ide";
 
 class QLabel;
 class QSplashScreen;
-class QWebEngineView;
 
 class CustomToolButton;
 class ANORRLInputConfigDialog;

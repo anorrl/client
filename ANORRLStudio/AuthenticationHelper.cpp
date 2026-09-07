@@ -34,6 +34,8 @@
 #include "V8DataModel/ContentProvider.h"
 #include "ANORRLWebDoc.h"
 #include "ANORRLDocManager.h"
+#include "V8Xml/WebParser.h"
+
 
 FASTFLAGVARIABLE(StudioInSyncWebKitAuthentication, false)
 FASTFLAG(UseBuildGenericGameUrl)
@@ -48,16 +50,7 @@ bool AuthenticationHelper::previouslyAuthenticated = false;
 
 QString AuthenticationHelper::getLoggedInUserUrl()
 {
-    QString result;
-    if (FFlag::UseBuildGenericGameUrl) {
-        result = QString::fromStdString(BuildGenericGameUrl(ANORRLSettings::getBaseURL().toStdString(), "game/GetCurrentUser.ashx"));
-    }
-    else
-    {
-        result = ANORRLSettings::getBaseURL() + "/game/GetCurrentUser.ashx";
-    }
-    
-	return result;
+	return ANORRLSettings::getBaseURL() + "/game/GetCurrentUser.ashx";;
 }
 
 bool AuthenticationHelper::verifyUserAndAuthenticate(int timeOutTime)
@@ -69,6 +62,7 @@ bool AuthenticationHelper::verifyUserAndAuthenticate(int timeOutTime)
 	bool result = true;	
 	try
 	{
+		ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO,"IM CALLING GETCURRENTUSER FROM verifyUserAndAuthenticate");
 		QString	requestUserUrl = getLoggedInUserUrl();
 		QUrl url(requestUserUrl);
 
@@ -78,13 +72,13 @@ bool AuthenticationHelper::verifyUserAndAuthenticate(int timeOutTime)
 		
 		if (!networkReply->waitForFinished(timeOutTime, 100))
 		{
-				verifyUserAuthenticationPending = false;
+			verifyUserAuthenticationPending = false;
 			networkReply->deleteLater();
-				ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, "Unable to get current user. Request timed out.");
-				networkReply->deleteLater();
-				ANORRLMainWindow::sendCounterEvent("StudioAuthenticationFailure", false);
-				return false;
-			}
+			ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, "Unable to get current user. Request timed out.");
+			networkReply->deleteLater();
+			ANORRLMainWindow::sendCounterEvent("StudioAuthenticationFailure", false);
+			return false;
+		}
 
 		// Get the logged in user Webkit
 		QString userIdWebkit(networkReply->readAll());
@@ -95,8 +89,20 @@ bool AuthenticationHelper::verifyUserAndAuthenticate(int timeOutTime)
         {
             case QNetworkReply::NoError:
             {
-                if(userIdWebkit.toInt() > 0)
+				int result = 0;
+				try
+				{
+					shared_ptr<const ARL::Reflection::ValueTable> v(new ARL::Reflection::ValueTable);
+					ARL::WebParser::parseJSONTable(userIdWebkit.toStdString(), v);
+					result = v->at("UserId").cast<int>();
+				}
+				catch (...)
+				{
+					result = 0;
+				}
+                if(result > 0)
                 {
+					ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO,"IM CALLING GETCURRENTUSER FROM verifyUserAndAuthenticate again");
                     // Get the logged in user HTTP
 					QString currentUser = getLoggedInUserUrl();
                     QString userIdHttp = doHttpGetRequest(currentUser);
@@ -143,15 +149,22 @@ bool AuthenticationHelper::verifyUserAndAuthenticate(int timeOutTime)
 
 int AuthenticationHelper::getHttpUserId()
 {
+	ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO,"IM CALLING GETCURRENTUSER FROM getHttpUserId");
 	QString currentUser = getLoggedInUserUrl();
 	QString userIdHttp = doHttpGetRequest(currentUser);
-	
-	bool ok;
-	int result = userIdHttp.toInt(&ok, 10);
-	if (!ok)
+
+	int result = 0;
+	try
 	{
-		return 0;
+		shared_ptr<const ARL::Reflection::ValueTable> v(new ARL::Reflection::ValueTable);
+		ARL::WebParser::parseJSONTable(userIdHttp.toStdString(), v);
+		result = v->at("UserId").cast<int>();
 	}
+	catch (...)
+	{
+		result = 0;
+	}
+	
 	return result;
 }
 
@@ -161,6 +174,7 @@ int AuthenticationHelper::getHttpUserId()
 */
 int AuthenticationHelper::getWebKitUserId()
 {
+	ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO,"IM CALLING GETCURRENTUSER FROM getWebKitUserId");
 	QString	requestUserUrl = getLoggedInUserUrl();
 	QUrl url(requestUserUrl);
 
@@ -172,7 +186,16 @@ int AuthenticationHelper::getWebKitUserId()
 	if (networkReply && networkReply->waitForFinished(5000, 100) && (networkReply->error() == QNetworkReply::NoError))
 	{
 		QString userIdWebkit(networkReply->readAll());
-		userId = userIdWebkit.toInt();
+		try
+		{
+			shared_ptr<const ARL::Reflection::ValueTable> v(new ARL::Reflection::ValueTable);
+			ARL::WebParser::parseJSONTable(userIdWebkit.toStdString(), v);
+			userId = v->at("UserId").cast<int>();
+		}
+		catch (...)
+		{
+			userId = 0;
+		}
 		networkReply->deleteLater();
 	}
 	return userId;
@@ -350,6 +373,7 @@ bool AuthenticationHelper::eventFilter(QObject * watched, QEvent * evt)
 			// if no cookies, just deauthenticate http layer too
 			else
 			{
+				ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, "It's so cold.");
 				deAuthenticateWebKitLayer();
 			}
 
@@ -373,7 +397,7 @@ int AuthenticationHelper::authenticateWebKitFromHttp()
 		return 0;
 
 	QString requestURL = ANORRLSettings::getBaseURL() + "/login/RequestAuth.ashx";
-	requestURL.replace("http", "https");
+	requestURL.replace("http:", "https:");
 	// need to add user agent, to make sure we get authorization URL
 	ARL::HttpAux::AdditionalHeaders externalHeaders;
 	externalHeaders["User-Agent"] =  userAgentStr.toStdString();
@@ -389,7 +413,7 @@ void AuthenticationHelper::onSSLErrors(QNetworkReply* networkReply, const QList<
 {
     QString urlString = networkReply->url().toString();
     //if (urlString.contains(".robloxlabs.com"))
-    //    networkReply->ignoreSslErrors();
+        networkReply->ignoreSslErrors();
 }
 
 void AuthenticationHelper::authenticateUserAsync(const QString& url, const QString& ticket)
@@ -465,7 +489,7 @@ bool AuthenticationHelper::authenticateHttpSession()
 	QString baseURL = ANORRLSettings::getBaseURL();
 
 	QString authRequest = baseURL + "/login/RequestAuth.ashx";
-	authRequest.replace("http", "https");
+	authRequest.replace("http:", "https:");
 
 	QNetworkRequest networkRequest(authRequest);
 	networkRequest.setRawHeader("User-Agent", userAgentStr.toLatin1());
@@ -479,17 +503,19 @@ bool AuthenticationHelper::authenticateHttpSession()
 
 	QNetworkReply* networkReply = accessManager->get(networkRequest);
 	//if (baseURL.contains(".robloxlabs.com"))
-	//	networkReply->ignoreSslErrors();
+		networkReply->ignoreSslErrors();
 
 	ANORRLNetworkReply* rbxNetworkReply = new ANORRLNetworkReply(networkReply, true);
 	if (rbxNetworkReply->waitForFinished(10000, 100))
 	{
-		if (rbxNetworkReply->error() == QNetworkReply::NoError)
+		QNetworkReply::NetworkError replyError = rbxNetworkReply->error();
+		if (replyError == QNetworkReply::NoError)
 		{
 			result = getHttpRequest(rbxNetworkReply->readAll()).isEmpty();
 		}
 		else
 		{
+			ARL::StandardOut::singleton()->printf(ARL::MESSAGE_ERROR, "Something went wrong and now its biting my ass... (%i)", replyError);
 			m_CurrentHttpRequestState = false;
 			result = deAuthenticateHttpSession();
 		}
@@ -558,14 +584,27 @@ bool AuthenticationHelper::authenticateQtWebkitSession(const QString& authentica
 
 bool AuthenticationHelper::authenticateQtWebkitSession()
 {
+
 	// check if already authenticated
 	QString result = getHttpRequest(getLoggedInUserUrl());
-    int httpUserId = result.toInt();
+    int httpUserId = 0;
+
+	try
+	{
+		shared_ptr<const ARL::Reflection::ValueTable> v(new ARL::Reflection::ValueTable);
+		ARL::WebParser::parseJSONTable(result.toStdString(), v);
+		httpUserId = v->at("UserId").cast<int>();
+	}
+	catch (...)
+	{
+		httpUserId = 0;
+	}
+
     // if authenticated then authenticate webkit session too
 	if (httpUserId > 0)
 	{
 		QString requestURL = ANORRLSettings::getBaseURL() + "/login/RequestAuth.ashx";
-		requestURL.replace("http", "https");
+		requestURL.replace("http:", "https:");
 
 		// need to add user agent, to make sure we get authorization URL
 		ARL::HttpAux::AdditionalHeaders externalHeaders;
@@ -650,6 +689,5 @@ void AuthenticationHelper::waitForQtWebkitAuthentication()
 
 void AuthenticationHelper::logOut() {
 	deAuthenticateHttpLayer();
-	deAuthenticateHttpSession();
 	deAuthenticateWebKitLayer();
 }

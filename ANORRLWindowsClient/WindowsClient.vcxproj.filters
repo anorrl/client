@@ -113,20 +113,20 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ReleasePatcher.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\cmdline.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\config_file.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\convert.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\options_description.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\parsers.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\positional_options.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\split.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\utf8_codecvt_facet.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\value_semantic.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\variables_map.cpp" />
-    <ClCompile Include="$(CONTRIB_PATH)\boost_1_56_0\libs\program_options\src\winmain.cpp" />
     <ClCompile Include="ANORRLHooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\cmdline.cpp" />
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\config_file.cpp" />
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\convert.cpp" />
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\options_description.cpp" />
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\parsers.cpp" />
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\positional_options.cpp" />
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\split.cpp" />
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\utf8_codecvt_facet.cpp" />
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\value_semantic.cpp" />
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\variables_map.cpp" />
+    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">

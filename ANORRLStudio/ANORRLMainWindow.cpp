@@ -297,7 +297,7 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
         //initializing textOutputWidget early to catch any output in globalInit
         m_pTextOutput = new ANORRLTextOutputWidget(dockWidgetContents_2);
 		
-		ARL::Http anorrlRequest(AuthenticationHelper::getLoggedInUserUrl().toStdString());
+		//ARL::Http anorrlRequest(AuthenticationHelper::getLoggedInUserUrl().toStdString());
 		
 		QSettings retentionData("ANORRL", "Retention");
 
@@ -383,7 +383,7 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
 		}
 
 		// think smart
-		QtConcurrent::run(this, &ANORRLMainWindow::checkInternetConnectionSendCounter, anorrlRequest);
+		//QtConcurrent::run(this, &ANORRLMainWindow::checkInternetConnectionSendCounter, anorrlRequest);
 
 		if (AuthoringSettings::singleton().getUIStyle() == AuthoringSettings::Ribbon)
         {
@@ -732,7 +732,7 @@ void ANORRLMainWindow::parseCommandLineOptions(const QMap<QString, QString> argM
 	QString sWidth	= argMap[StudioUtilities::StudioWidthArgument];
 	QString sHeight	= argMap[StudioUtilities::StudioHeightArgument];
 
-	// convert loadfile('http://www.anorrl.com/game/join.ashx')() to just the url
+	// convert loadfile('https://www.anorrl.com/game/join.ashx')() to just the url
 	if (StudioUtilities::containsJoinScript(scriptArg) && scriptArg.contains("loadfile("))
 	{
 		int urlBegin = scriptArg.indexOf("(")+2; // skip over the qoute

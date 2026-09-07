@@ -11,27 +11,30 @@
 #include <QContextMenuEvent>
 #include <QDialog>
 #include <QFileInfo>
-#include <QWebEngineView>
-#include <QMimeData>
+#include <QWebFrame>
+#include <QWebPage>
 
 // ANORRL Studio Headers
 #include "ANORRLMainWindow.h"
 #include "UpdateUIManager.h"
+#include "AuthenticationHelper.h"
 
 LOGVARIABLE(BrowserActivity, 0)
 FASTFLAGVARIABLE(WebkitLocalStorageEnabled, false)
 FASTFLAGVARIABLE(WebkitDeveloperToolsEnabled, false)
 
 ANORRLBrowser::ANORRLBrowser(QWidget* parent) 
-    : QWebEngineView(parent)
+    : QWebView(parent)
     , m_pPopup(NULL)
     , m_pPopupDlg(NULL)
     , m_loadingTimer(NULL)
     , m_refreshIncr(0.0f)
+	, neverReloadOnAuth(false)
 {
     connect(this, SIGNAL(loadStarted()), this, SLOT(loadStarted()));
     connect(this, SIGNAL(loadFinished(bool)), this, SLOT(loadFinished(bool)));
-    //setAcceptDrops(true);
+	connect(&AuthenticationHelper::Instance(), SIGNAL(authenticationChanged(bool)), this, SLOT(onAuthenticationChanged(bool)));
+    setAcceptDrops(true);
 }
 
 ANORRLBrowser::~ANORRLBrowser()
@@ -99,4 +102,92 @@ void ANORRLBrowser::resetLoadingTimer()
     connect(m_loadingTimer, SIGNAL(timeout()), this, SLOT(update()));
     m_loadingTimer->start(1000/30);
     m_refreshIncr = 0;
+}
+
+void ANORRLBrowser::drawLoadingWatermark()
+{
+    if (m_loadingTimer)
+    {
+        QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setRenderHint(QPainter::HighQualityAntialiasing);
+        
+        // Used to fade in the graphic at the beginning of the load timer.
+        float fadeIn = m_refreshIncr * 0.5f;
+        if (fadeIn > 1.0f)
+            fadeIn = 1.0f;
+        
+        // The center of the graphic.
+        const float centerX = rect().left() + rect().width() * 0.5f;
+        const float centerY = rect().top() + rect().height() * 0.5f;
+        
+        // Size of the rect around the loading fins.
+        const float rectSize = 40;
+        
+        // Number of loading fins to draw.
+        const int numFins = 8;
+        
+        QColor loadingFinColor(0, 0, 255, 128);
+        QColor rectPenColor(230, 230, 230, 208);
+        QColor rectFillColor(230, 230, 230, 180);
+        
+        rectPenColor.setAlpha(rectPenColor.alpha() - ((1.0f - fadeIn) * rectPenColor.alpha()));
+        rectFillColor.setAlpha(rectFillColor.alpha() - ((1.0f - fadeIn) * rectFillColor.alpha()));
+        
+        QPen rectPen(rectPenColor);
+        rectPen.setWidth(3);
+        rectPen.setCosmetic(true);
+        
+        painter.setPen(rectPen);
+        painter.setBrush(rectFillColor);
+        
+        QRect roundRect(centerX - rectSize * 0.5f,
+                        centerY - rectSize * 0.5f,
+                        rectSize,
+                        rectSize);
+        painter.drawRoundRect(roundRect, 18);
+        
+        QPen pen;
+        pen.setWidth(2);
+        pen.setCapStyle(Qt::RoundCap);
+        pen.setCosmetic(true);
+        painter.setBrush(Qt::NoBrush);
+        
+		const float outerRadius = 10.0f;
+		const float innerRadius = 4.0f;
+        
+        for (int i = 0; i < numFins; i++)
+        {
+            float pos = float(i) / float(numFins);
+            pos = pos * 2.0f - 1.0f;
+            
+            float val = sin(m_refreshIncr * 0.5f + pos * M_PI) * 0.5f + 0.5f;
+            
+            pen.setColor(QColor(loadingFinColor.red(),
+                                loadingFinColor.green(),
+                                loadingFinColor.blue(),
+                                val * loadingFinColor.alpha() - ((1.0f - fadeIn) * (val * loadingFinColor.alpha()))));
+            painter.setPen(pen);
+            
+            float sinpos = sin(m_refreshIncr + pos * M_PI);
+            float cospos = cos(m_refreshIncr + pos * M_PI);
+            painter.drawLine(floor(centerX + sinpos * innerRadius + 0.5f),
+                             floor(centerY + cospos * innerRadius + 0.5f),
+                             floor(centerX + sinpos * outerRadius + 0.5f),
+                             floor(centerY + cospos * outerRadius + 0.5f));
+        }
+        m_refreshIncr += 0.08f;
+    }
+}
+
+void ANORRLBrowser::paintEvent(QPaintEvent* event)
+{
+    QWebView::paintEvent(event);
+    drawLoadingWatermark();
+}
+
+void ANORRLBrowser::onAuthenticationChanged(bool)
+{
+	if(!neverReloadOnAuth)
+		reload();
 }

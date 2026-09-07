@@ -6,9 +6,9 @@
 #pragma once
 
 // Qt Headers
-#include <QWebEngineView>
+#include <QWebView>
 
-class ANORRLBrowser : public QWebEngineView
+class ANORRLBrowser : public QWebView 
 {
 	Q_OBJECT
 
@@ -16,6 +16,7 @@ public:
 
 	ANORRLBrowser(QWidget* parent=0);
     virtual ~ANORRLBrowser();
+	bool neverReloadOnAuth;
 
 public Q_SLOTS:
 
@@ -24,10 +25,12 @@ public Q_SLOTS:
     
 protected:
     
-    virtual void dropEvent(QDropEvent* evt);
+    virtual void paintEvent(QPaintEvent*);
+ 	virtual void dropEvent(QDropEvent* evt);
 
 private Q_SLOTS:
 
+	void onAuthenticationChanged(bool);
     void loadStarted();
     void loadFinished(bool);
     

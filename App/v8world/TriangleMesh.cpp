@@ -552,6 +552,7 @@ static bool readInto(std::istream& stream, void* dest, unsigned int expected)
 
 std::vector<CSGConvex> TriangleMesh::getDecompConvexes(const std::string& data, int& currentVersion, btVector3 &scale, bool dataHasScale)
 {
+	std::vector<CSGConvex> dummyReturn;
 	std::vector<CSGConvex> outputConvexes;
 	std::stringstream stream(data);
 
@@ -583,8 +584,10 @@ std::vector<CSGConvex> TriangleMesh::getDecompConvexes(const std::string& data, 
 		btQuaternion transformRot;
 		
 		// Read Transform
-		if (!readInto(stream, &transformTrans, sizeof(transformTrans))) return{};
-		if (!readInto(stream, &transformRot,   sizeof(transformRot)))   return{};
+		if (!readInto(stream, &transformTrans, sizeof(transformTrans)))
+			return dummyReturn;
+		if (!readInto(stream, &transformRot,   sizeof(transformRot)))
+			return dummyReturn;
 		
 		// Set Transform
 		trans.setOrigin(transformTrans);
@@ -595,16 +598,21 @@ std::vector<CSGConvex> TriangleMesh::getDecompConvexes(const std::string& data, 
 		stream.read(reinterpret_cast<char*>(&numVertices), sizeof(unsigned int));
 		stream.read(reinterpret_cast<char*>(&vertexStride), sizeof(unsigned int));
 
-		if (!(vertexStride == sizeof(float) * 3 && numVertices <= 32)) return{};
-		if (vertexStride*(uint64_t)numVertices > stream.rdbuf()->in_avail()) return{};
+		if (!(vertexStride == sizeof(float) * 3 && numVertices <= 32))
+			return dummyReturn;
+		if (vertexStride*(uint64_t)numVertices > stream.rdbuf()->in_avail())
+			return dummyReturn;
 
 		hullVertices.resize(numVertices);
-		if (!readInto(stream, &hullVertices[0], vertexStride * numVertices)) return{};
+		if (!readInto(stream, &hullVertices[0], vertexStride * numVertices))
+			return dummyReturn;
 
 		// Read Indices
 		stream.read(reinterpret_cast<char*>(&numIndices), sizeof(unsigned int));
-		if (numIndices != sizeof(unsigned int)) return{};
-		if (sizeof(unsigned int) * numIndices > stream.rdbuf()->in_avail()) return{};
+		if (numIndices != sizeof(unsigned int))
+			return dummyReturn;
+		if (sizeof(unsigned int) * numIndices > stream.rdbuf()->in_avail())
+			return dummyReturn;
 
 		currentConvex.indices.resize(numIndices);
 		stream.read(reinterpret_cast<char*>(&currentConvex.indices[0]), sizeof(unsigned int) * numIndices);

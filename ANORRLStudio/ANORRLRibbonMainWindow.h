@@ -41,6 +41,7 @@ public:
 	Qtitan::RibbonGroup* createRibbonGroup(RibbonPage* pParent, const QString& objectName, const QString& groupTitle = QString());
 	
 	static QString getDefaultSavePath();
+	void updateUser(std::string name);
 
 protected:
 	QStringList getRecentFiles() const;
@@ -65,6 +66,7 @@ protected Q_SLOTS:
 	// pure virtual slots to be overridden in derived class
 	virtual bool openRecentFile(const QString& fileName) = 0;
 	virtual void commonSlot(bool isChecked) = 0;
+	void onAuthenticationChanged(bool authenticated);
 
 private Q_SLOTS:	
 	void handleActionGroupSelected(QAction *pAction);
@@ -90,7 +92,6 @@ private Q_SLOTS:
 	void updateProxyAction();
 
 	void handleLogOut();
-	void updateUser(bool authenticated);
 	
 private:	
 	void parseAndCreateQuickAccessBar(const QDomElement &docElement);

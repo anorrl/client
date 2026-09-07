@@ -59,7 +59,7 @@ public:
 
         QString text = QString(warning.text.c_str()).toHtmlEscaped();
 		
-		setText(0, QString("<a href=\"http://\">%1</a>: (%2,%3) %4").arg(getWarningCodeString(m_warningCode)).arg(m_location.begin.line+1).arg(m_location.begin.column+1).arg(text));
+		setText(0, QString("<a href=\"https://\">%1</a>: (%2,%3) %4").arg(getWarningCodeString(m_warningCode)).arg(m_location.begin.line+1).arg(m_location.begin.column+1).arg(text));
 	}
 
 	void update(const ARL::ScriptAnalyzer::Error& error)

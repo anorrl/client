@@ -7,12 +7,8 @@
 #include "WebDialog.h"
 
 // Qt Headers
-#include <QWebEngineSettings>
-#include <QCloseEvent>
-#include <QWebEngineProfile>
-#include <QWebEngineScriptCollection>
-#include <QWebChannel>
-#include <QFile>
+#include <QtWebKit>
+#include <qwebframe.h>
 
 // ANORRL Headers
 #include "util/Statistics.h"
@@ -44,30 +40,33 @@ WebDialog::WebDialog(QWidget* parent, const QString& initialUrl, ARL::DataModel 
 		
 	load(m_initialUrl);
 
-	QWebEngineSettings *globalSetting = QWebEngineSettings::globalSettings();
+	QWebSettings *globalSetting = QWebSettings::globalSettings();
 		
-	globalSetting->setAttribute(QWebEngineSettings::AutoLoadImages, true);
+	globalSetting->setAttribute(QWebSettings::AutoLoadImages, true);
 	
-	globalSetting->setAttribute(QWebEngineSettings::JavascriptEnabled, true);
-	globalSetting->setAttribute(QWebEngineSettings::JavascriptCanAccessClipboard, true);
-	globalSetting->setAttribute(QWebEngineSettings::JavascriptCanOpenWindows, true);
+	globalSetting->setAttribute(QWebSettings::JavascriptEnabled, true);
+	globalSetting->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
+	globalSetting->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
 	
 #ifdef _WIN32
     if (FFlag::StudioEnableWebKitPlugins)
-        globalSetting->setAttribute(QWebEngineSettings::PluginsEnabled, true);
+        globalSetting->setAttribute(QWebSettings::PluginsEnabled, true);
     else
-        globalSetting->setAttribute(QWebEngineSettings::PluginsEnabled, false);
+        globalSetting->setAttribute(QWebSettings::PluginsEnabled, false);
 #endif
 
 	if(FFlag::WebkitLocalStorageEnabled)
-		globalSetting->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
+		globalSetting->setAttribute(QWebSettings::LocalStorageEnabled, true);
 
+	if(FFlag::WebkitDeveloperToolsEnabled)
+		globalSetting->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
+	
 	m_pWorkspace.reset(new ARLWorkspace(this, m_pDataModel));
 	connect(m_pWorkspace.get(), SIGNAL(closeEvent()), this, SLOT(close()));
 	connect(m_pWorkspace.get(), SIGNAL(hideEvent()), this, SLOT(hide()));
 	connect(m_pWorkspace.get(), SIGNAL(showEvent()), this, SLOT(show()));
 
-	connect(m_pWebView->page(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(initJavascript()));  
+	connect(m_pWebView->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(initJavascript()));  
 	connect(m_pWebPage, SIGNAL(windowCloseRequested()), this, SLOT(close()));
 	
 	// Do not show the help button
@@ -89,27 +88,9 @@ void WebDialog::load(const QString& url)
 
 void WebDialog::initJavascript()
 {
-	m_pWorkspace->disconnect();
-	/*QWebChannel* channel = new QWebChannel();
-	m_pWebView->page()->setWebChannel(channel);
-	channel->registerObject(QString("anorrl"), m_pWorkspace.get());
-
-	QFile webChannelFile(":/qtwebchannel/qwebchannel.js");
-	if (!webChannelFile.open(QIODevice::ReadOnly))
-	{
-		qWarning() << "Failed to open qwebchannel.js";
-		return;
-	}
-	QString jsStr = QString::fromUtf8(webChannelFile.readAll());
-	webChannelFile.close();
-
-	QWebEngineScript webChannelScript;
-	webChannelScript.setName("qwebchannel.js");
-	webChannelScript.setInjectionPoint(QWebEngineScript::DocumentCreation);
-	webChannelScript.setRunsOnSubFrames(false);
-	webChannelScript.setWorldId(QWebEngineScript::MainWorld);
-	webChannelScript.setSourceCode(jsStr);
-	m_pWebView->page()->scripts().insert(webChannelScript);*/
+	m_pWebView->page()->mainFrame()->addToJavaScriptWindowObject("external", m_pWorkspace.get() );
+	//hack to get window.close() working with webkit
+	m_pWebView->page()->mainFrame()->evaluateJavaScript("window.open('', '_self')");
 }
 
 void WebDialog::resizeEvent( QResizeEvent* evt )
@@ -139,9 +120,21 @@ void UploadDialog::reject()
 void UploadDialog::closeEvent(QCloseEvent* evt)
 {
     setResult(CANCEL);
+
+	QWebElement dialogResult = m_pWebView->page()->mainFrame()->findFirstElement("#DialogResult");
+	if ( !dialogResult.isNull() )
+	{
+		QString value = dialogResult.attribute("value");
+		if ( value == "1" )
+			setResult(OK);
+		else if ( value == "2" )
+			setResult(CANCEL);
+		else if ( value == "3" )
+			setResult(LOCAL_SAVE);
+	}
+
 	evt->accept();
 }
-
 
 
 

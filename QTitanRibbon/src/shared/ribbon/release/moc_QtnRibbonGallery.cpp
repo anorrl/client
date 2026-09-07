@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonGallery.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.6.3)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonGallery.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.6.3. It"
+#error "This file was generated using the moc from 5.5.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -181,35 +181,30 @@ void Qtitan::RibbonGallery::qt_static_metacall(QObject *_o, QMetaObject::Call _c
             typedef void (RibbonGallery::*_t)(RibbonGalleryItem * );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonGallery::itemPressed)) {
                 *result = 0;
-                return;
             }
         }
         {
             typedef void (RibbonGallery::*_t)(RibbonGalleryItem * );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonGallery::itemClicked)) {
                 *result = 1;
-                return;
             }
         }
         {
             typedef void (RibbonGallery::*_t)(RibbonGalleryItem * , bool & );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonGallery::itemClicking)) {
                 *result = 2;
-                return;
             }
         }
         {
             typedef void (RibbonGallery::*_t)(RibbonGalleryItem * , RibbonGalleryItem * );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonGallery::currentItemChanged)) {
                 *result = 3;
-                return;
             }
         }
         {
             typedef void (RibbonGallery::*_t)();
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonGallery::itemSelectionChanged)) {
                 *result = 4;
-                return;
             }
         }
     }

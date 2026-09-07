@@ -117,7 +117,7 @@ print_cookies(const char* tag, CURL *curl)
 static const std::string kXCSRFTokenHeaderKey = "X-CSRF-TOKEN: ";
 
 template <typename Code>
-bool logCurlError(void* caller, const char* curlOperation, Code code, bool doThrow = true);
+bool logCurlErrorBase(void* caller, const char* curlOperation, Code code, bool doThrow = true);
 void debugCallback(CURL* curl, curl_infotype infotype, char* dataNonTerminated, size_t dataBytes, void* userdata);
 
 size_t headerCallback(char* buffer, size_t size, size_t nitems, void* userdata);
@@ -132,6 +132,36 @@ struct CurlDeleter
 
 struct CurlshDeleter
 {
+	bool curlCodeOkay(CURLSHcode code)
+	{
+		return CURLSHE_OK == code;
+	}
+
+	template <typename Code>
+	bool logCurlError(void* caller, const char* curlOperation, Code curlCode, bool doThrow = true)
+	{
+		std::stringstream ss;
+		if (DFLog::HttpTrace)
+		{
+			ss << curlOperation << "(" << caller << "): " << getCurlStrerror(curlCode);
+			FASTLOGS(DFLog::HttpTrace, "%s", ss.str().c_str());
+		}
+
+		if (!curlCodeOkay(curlCode))
+		{
+			if (doThrow)
+			{
+				throw runtime_error("CURL error (%s, %p): %s", curlOperation, caller, getCurlStrerror(curlCode));
+			}
+			else
+			{
+				FASTLOGS(FLog::Http, "CURL error: %s", ss.str().c_str());
+			}
+		}
+
+		return !curlCodeOkay(curlCode);
+	}
+
     void operator()(CURLSH* curlsh)
     {
         logCurlError(this, "curl_share_cleanup", curl_share_cleanup(curlsh), false);
@@ -361,7 +391,7 @@ bool curlCodeOkay(CURLSHcode code)
 }
 
 template <typename Code>
-bool logCurlError(void* caller, const char* curlOperation, Code curlCode, bool doThrow)
+bool logCurlError(void* caller, const char* curlOperation, Code curlCode, bool doThrow = true)
 {
     std::stringstream ss;
     if (DFLog::HttpTrace)
@@ -445,14 +475,44 @@ class CurlHandle
     std::stringstream responseHeaders;
     std::string responseCodeReason;
 
+	bool curlCodeOkay(CURLcode code)
+	{
+		return CURLSHE_OK == code;
+	}
+
+	template <typename Code>
+	bool logCurlError(void* caller, const char* curlOperation, Code curlCode, bool doThrow = true)
+	{
+		std::stringstream ss;
+		if (DFLog::HttpTrace)
+		{
+			ss << curlOperation << "(" << caller << "): " << getCurlStrerror(curlCode);
+			FASTLOGS(DFLog::HttpTrace, "%s", ss.str().c_str());
+		}
+
+		if (!curlCodeOkay(curlCode))
+		{
+			if (doThrow)
+			{
+				throw runtime_error("CURL error (%s, %p): %s", curlOperation, caller, getCurlStrerror(curlCode));
+			}
+			else
+			{
+				FASTLOGS(FLog::Http, "CURL error: %s", ss.str().c_str());
+			}
+		}
+
+		return !curlCodeOkay(curlCode);
+	}
+
     bool logCurlError(const char* curlOperation, CURLcode code)
     {
-        return ::logCurlError(this, curlOperation, code, true);
+        return logCurlError(this, curlOperation, code, true);
     }
 
     bool logCurlErrorNoThrow(const char* curlOperation, CURLcode code)
     {
-        return ::logCurlError(this, curlOperation, code, false);
+        return logCurlError(this, curlOperation, code, false);
     }
 
     void setupDebugger()
@@ -611,7 +671,7 @@ public:
             logCurlError("CURLOPT_PROXY", curl_easy_setopt(curl, CURLOPT_PROXY, DFString::HttpCurlProxyHostAndPort.c_str()));
         }
         else
-        {*/
+        {
             if (!proxyHost.empty())
             {
                 logCurlError("CURLOPT_PROXY", curl_easy_setopt(curl, CURLOPT_PROXY, proxyHost.c_str()));
@@ -622,7 +682,7 @@ public:
                 logCurlError("CURLOPT_PROXYPORT",
                              curl_easy_setopt(curl, CURLOPT_PROXYPORT, proxyPort));
             }
-        //}
+		}*/
 
         // Setup User-Agent.
         logCurlError("CURLOPT_USERAGENT", curl_easy_setopt(curl, CURLOPT_USERAGENT, Http::rbxUserAgent.c_str()));

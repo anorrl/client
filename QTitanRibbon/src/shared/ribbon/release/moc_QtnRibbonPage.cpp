@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonPage.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.6.3)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonPage.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.6.3. It"
+#error "This file was generated using the moc from 5.5.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -154,21 +154,18 @@ void Qtitan::RibbonPage::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
             typedef void (RibbonPage::*_t)(const QString & );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonPage::titleChanged)) {
                 *result = 0;
-                return;
             }
         }
         {
             typedef void (RibbonPage::*_t)();
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonPage::activated)) {
                 *result = 1;
-                return;
             }
         }
         {
             typedef void (RibbonPage::*_t)(bool & );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonPage::activating)) {
                 *result = 2;
-                return;
             }
         }
     }

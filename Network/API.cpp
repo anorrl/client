@@ -108,8 +108,8 @@ static shared_ptr<ARL::Network::ServerReplicator> createSecureReplicator(RakNet:
 static void initVersion1()
 {
 	// security key: generated externally (version+platform+product+salt), modify per release, send from client to server
-	//22.02.2026pcplayeraskljfLUZF, sha1: 153632cb34cef9cefd1194aad71bccb9d8af29b5, then rot13 and put below
-	ARL::Network::securityKey = ARL::rot13("153632po34prs9prsq1194nnq71oppo9q8ns29o5");
+	//22.02.2026pcplayeralrrololrl, sha1: 1b37be449664bfe8d75d5fe4022e20e40b9b1984, then rot13 and put below
+	ARL::Network::securityKey = ARL::rot13("1o37or449664osr8q75q5sr4022r20r40o9o1984");
 
 	ARL::Network::versionB += '7';
 	ARL::Network::versionB += (char)79;

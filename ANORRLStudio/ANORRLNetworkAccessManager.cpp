@@ -23,7 +23,8 @@ ANORRLNetworkAccessManager::ANORRLNetworkAccessManager()
 void ANORRLNetworkAccessManager::initUserAgent()
 {
 	// Set up our useragent
-	userAgent = "ANORRL Studio [[BETA]] QT5";
+	ANORRLWebPage dummy;
+	userAgent = dummy.getDefaultUserAgent();
 	
 	// Only on Mac webkit does not provide the OSX version, add it, will do only for Mac
 	QString macOSXVersion = QtUtilities::getMacOSXVersion();

@@ -142,7 +142,7 @@ FASTFLAGVARIABLE(NoPromptOnAlreadySavedPlace, true)
 FASTFLAG(UseBuildGenericGameUrl)
 FASTFLAG(CSGPhysicsLevelOfDetailEnabled)
 DYNAMIC_FASTSTRINGVARIABLE(WorkspaceMessageText, std::string("Test Me - Please Remove"))
-DYNAMIC_FASTSTRINGVARIABLE(WorkspaceMessageLink, std::string("http://www.anorrl.com"))
+DYNAMIC_FASTSTRINGVARIABLE(WorkspaceMessageLink, std::string("https://www.anorrl.com"))
 DYNAMIC_FASTFLAGVARIABLE(WorkspaceNotificationMasterEnable, false)
 
 // Level 1 = Show it to people with DEFAULT Physical Properties settings
@@ -454,12 +454,12 @@ static void doCloudEditFetch(const QString& scriptArg, int placeId, shared_ptr<E
     std::string url;
     if (FFlag::UseBuildGenericGameUrl)
     {
-        url = BuildGenericGameUrl(ANORRLSettings::getBaseURL().replace("http","https").toStdString(), QString("game/PlaceLauncher.ashx?request=CloudEdit&placeId=%1").arg(placeId).toStdString());
+        url = BuildGenericGameUrl(ANORRLSettings::getBaseURL().replace("http:","https:").toStdString(), QString("game/PlaceLauncher.ashx?request=CloudEdit&placeId=%1").arg(placeId).toStdString());
     }
     else
     {
         url = (ANORRLSettings::getBaseURL()
-              .replace("http", "https")
+              .replace("http:", "https:")
               + QString("/game/PlaceLauncher.ashx?request=CloudEdit&placeId=%1").arg(placeId)).toStdString();
     }
 	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Connecting to server...");

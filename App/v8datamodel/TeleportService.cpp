@@ -442,7 +442,7 @@ void TeleportService::TeleportThreadImpl(shared_ptr<const Reflection::ValueTable
                 StandardOut::singleton()->printf(MESSAGE_ERROR, "Teleport exception: %s", e.what());
             }
 
-            double timeToSleep = 1000.f - retryTimer.delta().msec();
+            int timeToSleep = (int)(1000.f - retryTimer.delta().msec());
             if (timeToSleep > 0.f)
             {
                 boost::this_thread::sleep(boost::posix_time::milliseconds(timeToSleep));
