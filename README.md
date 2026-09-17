@@ -2,6 +2,8 @@
 ## what is this?
 This is the client source for ANORRL, it's based off the March 2016 source code (slowly but surely making it NOT roblox!). 
 
+***THIS DOES NOT MEAN IT IS 2016 AT ALL.***
+
 If you're daring, try make a mac build, a android build whatever!!
 
 ## contributors
