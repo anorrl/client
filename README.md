@@ -2,6 +2,8 @@
 ## what is this?
 This is the client source for ANORRL, it's based off the March 2016 source code (slowly but surely making it NOT roblox!). 
 
+***THIS DOES NOT MEAN IT IS 2016 AT ALL.***
+
 If you're daring, try make a mac build, a android build whatever!!
 
 ## contributors
@@ -23,9 +25,9 @@ It's up to you what Visual Studio version you use after, for example I use VS201
 
 ### ok so I got that installed what now?
 
-Right. At the root of your drive (C:\ for example) create `Trunk2012`. In that folder you clone this repo into it, name it `Client`.
+Right. At the root of your drive (C:\ for example) create `dazai`. In that folder you clone this repo into it, name it `Client`.
 
-You need the libraries of course! So get them [here](https://repo.lambda.cam/Contribs.7z)! It's about 1GB compressed, 9GB uncompressed. You extract that into `Contribs` in the Trunk2012 folder.
+You need the libraries of course! So get them [here](https://archive.org/details/anorrl-library.7z)! It's about 1GB compressed, 9GB uncompressed. You extract that into `Library` in the dazai folder.
 
 Create the `Build` folder too, that's where all the building is gonna end up in.
 
@@ -50,7 +52,7 @@ This is C:\dazai.
 <img width="500" alt="BuildFolder" src="https://github.com/user-attachments/assets/a403e418-3882-47df-b961-d217618e065c" />
 
 ```
-This is C:\dazai\Build. The folders within are generated automatically by Visual Studio (at least it SHOULD) they go like this C:/Trunk2012/Build/<Project>/<Platform>/Release/
+This is C:\dazai\Build. The folders within are generated automatically by Visual Studio (at least it SHOULD) they go like this C:/dazai/Build/<Project>/<Platform>/Release/
 ```
 
 <img width="500" alt="ClientFolder" src="https://github.com/user-attachments/assets/4edbb094-f300-4adb-b5b8-a81a09a3956a" />
