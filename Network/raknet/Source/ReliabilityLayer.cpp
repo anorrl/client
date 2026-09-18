@@ -3122,7 +3122,7 @@ InternalPacket * ReliabilityLayer::BuildPacketFromSplitPacketList( SplitPacketCh
 //
         splitPacket = NULL;
 
-        for ( int a = 0; a < splitPacketChannel->splitPacketList.Size(); a++ )
+        for (unsigned int a = 0; a < splitPacketChannel->splitPacketList.Size(); a++ )
         {
             if ( splitPacketChannel->splitPacketList[a]->splitPacketIndex != j )
                 continue;

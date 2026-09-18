@@ -561,7 +561,7 @@ TaskScheduler::StepResult Replicator::StreamJob::stepDataModelJob(const Stats& s
 						    break;
 				    }
 #ifdef NETWORK_DEBUG
-                    //StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "collect %d instances (%d), interrupted because %s", numCollectedInstances, numberToCollect, Time::now<Time::Fast>() > t ? "timeout":"all collected");
+                    StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "collect %d instances (%d), interrupted because %s", numCollectedInstances, numberToCollect, Time::now<Time::Fast>() > t ? "timeout":"all collected");
 #endif
 			    }
             }

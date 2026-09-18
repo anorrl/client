@@ -165,8 +165,6 @@ static Reflection::BoundFuncDesc<Player, void()>    jumpLocalCharacterFunction(&
 
 static Reflection::BoundFuncDesc<Player, void(bool)>    loadCharacterFunction(&Player::luaLoadCharacter, "LoadCharacter", "inGame", true, Security::None);
 static Reflection::BoundFuncDesc<Player, void()>    removeCharacterFunction(&Player::removeCharacter, "RemoveCharacter", Security::LocalUser);
-static Reflection::BoundFuncDesc<Player, void(bool)>    func_SetUnder13(&Player::setUnder13, "SetUnder13", "value", Security::ANORRL);
-static Reflection::BoundFuncDesc<Player, bool()>    func_GetUnder13(&Player::getUnder13, "GetUnder13", Security::ANORRLScript);
 static Reflection::BoundFuncDesc<Player, void(bool)>    func_SetSuperSafeChat(&Player::setSuperSafeChat, "SetSuperSafeChat", "value", Security::Plugin);
 static Reflection::BoundFuncDesc<Player, void(Player::MembershipType)>  func_SetMembershipType(&Player::setMembershipType, "SetMembershipType", "membershipType", Security::ANORRLScript);
 static Reflection::BoundFuncDesc<Player, void(int)>  func_SetAccountAge(&Player::setAccountAge, "SetAccountAge", "accountAge", Security::Plugin);
@@ -282,7 +280,6 @@ REFLECTION_END();
 Player::Player(void)
 	:userId(0)
 	,superSafeChat(false)
-	,under13(true)
 	,simulationRadius(DistributedPhysics::MIN_CLIENT_SIMULATION_DISTANCE())
 	,maxSimulationRadius(DistributedPhysics::MAX_CLIENT_SIMULATION_DISTANCE())
 	,teamColor(BrickColor::brickWhite())
@@ -1019,14 +1016,6 @@ void Player::setNeutral(bool value)
 			setTeamInternal(TeamFromPlayer);
 		}
 
-	}
-}
-
-void Player::setUnder13(bool value)
-{
-	if (value != under13)
-	{
-		under13 = value;
 	}
 }
 

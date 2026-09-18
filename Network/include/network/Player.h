@@ -67,7 +67,6 @@ namespace Network {
 
         // User Profile data
         bool superSafeChat;
-        bool under13;
         int userId;
 
         // For Group Building
@@ -314,9 +313,6 @@ namespace Network {
         void setDeprecatedMaxSimulationRadius(float val){}
 
 		ChatMode getChatMode() const;
-
-		void setUnder13(bool value);
-		bool getUnder13() {return under13;};
 
 		void setUserId(int value);
 		int getUserID() const {return userId;}

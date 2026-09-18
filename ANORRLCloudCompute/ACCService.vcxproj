@@ -133,7 +133,7 @@
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>..\fmod\include;$(CONTRIB_PATH)\SDL2.0.4\include;$(CONTRIB_PATH)\boost_1_75_0;..\Base\include;.;gSOAP;..\App\include;..\Win;..\Network\include;..\Rendering;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Rendering\RbxG3D\include;..\Rendering\g3d\include;..\Rendering\g3d;..\Rendering\g3d\png;..\RobloxInstall\src;$(CONTRIB_PATH)\windows\x86\SDK\Include;..\Log\include;..\ClientShared;$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\include;..\App.BulletPhysics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_CONSOLE;ARL_ACC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_CONSOLE;ARL_ACC_SECURITY;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>

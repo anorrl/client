@@ -2664,7 +2664,7 @@ void ServerReplicator::writeDescriptorSchema(const ClassDescriptor* classDesc, R
 {
     unsigned int classId = classDictionary.getId(classDesc).id;
 #ifdef NETWORK_DEBUG
-    //StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Class name: %s, id: %d", classDesc->name.toString().c_str(), classId);
+    StandardOut::singleton()->printf(ARL::MESSAGE_INFO, "Class name: %s, id: %d", classDesc->name.toString().c_str(), classId);
 #endif
 
     RakNet::RakString className = classDesc->name.c_str();

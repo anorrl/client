@@ -134,7 +134,7 @@ DYNAMIC_FASTFLAG(DebugDisableTimeoutDisconnect)
 DYNAMIC_FASTFLAGVARIABLE(US25317p1, true)
 DYNAMIC_FASTFLAGVARIABLE(US25317p2, true)
 DYNAMIC_LOGGROUP(MaxJoinDataSizeKB)
-FASTFLAGVARIABLE(DebugProtocolSynchronization, false)
+FASTFLAGVARIABLE(DebugProtocolSynchronization, true)
 FASTFLAGVARIABLE(RemoveUnusedPhysicsSenders, false)
 FASTFLAGVARIABLE(RemoveInterpolationReciever, false)
 
@@ -4068,10 +4068,10 @@ void Replicator::readChangedProperty(RakNet::BitStream& inBitstream)
 		}
     }
 #ifdef NETWORK_DEBUG
-    //if (propertyDescriptor->name == "CFrame")
-    //{
-    //    StandardOut::singleton()->printf(MESSAGE_WARNING, "[ChangedProperty] Received property (%s) for %s", propertyDescriptor->name.c_str(), instance ? instance->getClassName().c_str() : "?");
-    //}
+    if (propertyDescriptor->name == "CFrame")
+    {
+        StandardOut::singleton()->printf(MESSAGE_WARNING, "[ChangedProperty] Received property (%s) for %s", propertyDescriptor->name.c_str(), instance ? instance->getClassName().c_str() : "?");
+    }
 #endif
 
 	readChangedProperty(inBitstream, Reflection::Property(*propertyDescriptor, instance.get()));

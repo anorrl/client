@@ -165,17 +165,6 @@ PlayerConfigurer::~PlayerConfigurer()
         c.disconnect();
 }
 
-void PlayerConfigurer::ifSeleniumThenSetCookie(const std::string& key, const std::string& value)
-{
-	if (getParamBool("SeleniumTestMode"))
-	{
-		if (CookiesService* cs = dataModel->create<CookiesService>())
-		{
-			cs->SetValue(key, value);
-		}
-	}
-}
-
 void PlayerConfigurer::showErrorWindow(const std::string& message, const std::string& errorType, const std::string& errorCategory)
 {
 	if (!loadResolved || !joinResolved)
@@ -576,14 +565,6 @@ void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 
     std::string baseUrl = ARL::ContentProvider::getUnsecureApiBaseUrl(GetBaseURL());
 
-    // begin fetching now
-    ARL::HttpFuture abTest1, abTest2;
-    if (FFlag::ClientABTestingEnabled)
-    {
-        abTest1 = FetchABTestDataAsync(baseUrl + "users/get-experiment-enrollments");
-        abTest2 = FetchABTestDataAsync(baseUrl + "users/get-studio-experiment-enrollments");
-    }
-
 	ARL::Security::Impersonator impersonate(identity);
 
 	parseArgs(args);
@@ -624,8 +605,6 @@ void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 
 	dataModel->create<Visit>();
 
-	ifSeleniumThenSetCookie("SeleniumTest1", "Started join script");
-
 	try
 	{
 		setMessage("Connecting to Server");
@@ -637,8 +616,6 @@ void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 		connections.push_back(client->connectionFailedSignal.connect(boost::bind(&PlayerConfigurer::onConnectionFailed, this, _1, _2, _3)));
 
 		client->setTicket(getParamString("ClientTicket"));
-
-		ifSeleniumThenSetCookie("SeleniumTest2", "Successfully connected to server");
 
 		client->setGameSessionID(getParamString("SessionId"));
 
@@ -657,7 +634,6 @@ void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 		}
 
 		player->setSuperSafeChat(getParamBool("SuperSafeChat"));
-		player->setUnder13(getParamBool("IsUnknownOrUnder13"));
 		Network::Player::MembershipType membershipType;
 		Reflection::EnumDesc<Network::Player::MembershipType>::singleton().convertToValue(getParamString("MembershipType").c_str(), membershipType);
 		player->setMembershipType(membershipType);
@@ -691,8 +667,6 @@ void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 		reportError(e.what(), "CreatePlayer");
 	}
 
-	ifSeleniumThenSetCookie("SeleniumTest3", "Successfully created player");
-
 	if (!testing)
 	{
 		gamePerfMonitor.reset(new GamePerfMonitor(getParamString("BaseUrl"), getParamString("GameId"), getParamInt("PlaceId"), getParamInt("UserId")));
@@ -701,27 +675,6 @@ void PlayerConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 
 	
 	dataModel->setScreenshotSEOInfo(getParamString("ScreenShotInfo"));
-	
-	ifSeleniumThenSetCookie("SeleniumTest4", "Finished join");
-
-    if (FFlag::ClientABTestingEnabled)
-    {
-        try 
-        {
-            LoadABTestFromString(abTest1.get());
-        } 
-        catch(const std::exception& e1)
-        {
-            try 
-            {
-                LoadABTestFromString(abTest2.get());
-            } 
-            catch(const std::exception& e2)
-            {
-                FASTLOG2(FLog::Error, "Failed to load AB test data from both URLS: [%s] [%s]", e1.what(), e2.what());
-            }
-        }
-    }
 }
 
 void PlayerConfigurer::onPlayerChanged(const Reflection::PropertyDescriptor* propertyDescriptor)

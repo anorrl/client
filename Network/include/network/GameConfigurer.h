@@ -74,7 +74,6 @@ namespace ARL {
         
         std::vector<arl::signals::connection> connections;
 
-		void ifSeleniumThenSetCookie(const std::string& key, const std::string& value);
 		void showErrorWindow(const std::string& message, const std::string& errorType, const std::string& errorCategory);
 		
 		void reportError(const std::string& error, const std::string& msg);

@@ -87,7 +87,7 @@ namespace ARL
                         boost::crc_32_type result;
                         uint32_t checksum = Reflection::ClassDescriptor::checksum(iter->first, result); 
 #ifdef NETWORK_DEBUG
-                        //StandardOut::singleton()->printf(MESSAGE_INFO, "Checksum of %s: %d", s.c_str(), checksum);
+                        StandardOut::singleton()->printf(MESSAGE_INFO, "Checksum of %s: %d", s.c_str(), checksum);
 #endif
                         stream << checksum;
                     }
