@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonToolTip.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonToolTip.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__RibbonToolTip_t {
     QByteArrayData data[8];
-    char stringdata0[63];
+    char stringdata[63];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonToolTip_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonToolTip_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonToolTip_t qt_meta_stringdata_Qtitan__RibbonToolTip = {
@@ -78,39 +78,12 @@ void Qtitan::RibbonToolTip::qt_static_metacall(QObject *_o, QMetaObject::Call _c
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         RibbonToolTip *_t = static_cast<RibbonToolTip *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->setTitle((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 1: _t->setText((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
     }
-#ifndef QT_NO_PROPERTIES
-    else if (_c == QMetaObject::ReadProperty) {
-        RibbonToolTip *_t = static_cast<RibbonToolTip *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: *reinterpret_cast< QString*>(_v) = _t->title(); break;
-        case 1: *reinterpret_cast< QString*>(_v) = _t->text(); break;
-        case 2: *reinterpret_cast< QIcon*>(_v) = _t->icon(); break;
-        case 3: *reinterpret_cast< int*>(_v) = _t->margin(); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::WriteProperty) {
-        RibbonToolTip *_t = static_cast<RibbonToolTip *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: _t->setTitle(*reinterpret_cast< QString*>(_v)); break;
-        case 1: _t->setText(*reinterpret_cast< QString*>(_v)); break;
-        case 2: _t->setIcon(*reinterpret_cast< QIcon*>(_v)); break;
-        case 3: _t->setMargin(*reinterpret_cast< int*>(_v)); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::ResetProperty) {
-    }
-#endif // QT_NO_PROPERTIES
 }
 
 const QMetaObject Qtitan::RibbonToolTip::staticMetaObject = {
@@ -127,7 +100,7 @@ const QMetaObject *Qtitan::RibbonToolTip::metaObject() const
 void *Qtitan::RibbonToolTip::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonToolTip.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonToolTip.stringdata))
         return static_cast<void*>(const_cast< RibbonToolTip*>(this));
     return QFrame::qt_metacast(_clname);
 }
@@ -147,9 +120,27 @@ int Qtitan::RibbonToolTip::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         _id -= 2;
     }
 #ifndef QT_NO_PROPERTIES
-   else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
-            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
-        qt_static_metacall(this, _c, _id, _a);
+      else if (_c == QMetaObject::ReadProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< QString*>(_v) = title(); break;
+        case 1: *reinterpret_cast< QString*>(_v) = text(); break;
+        case 2: *reinterpret_cast< QIcon*>(_v) = icon(); break;
+        case 3: *reinterpret_cast< int*>(_v) = margin(); break;
+        default: break;
+        }
+        _id -= 4;
+    } else if (_c == QMetaObject::WriteProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: setTitle(*reinterpret_cast< QString*>(_v)); break;
+        case 1: setText(*reinterpret_cast< QString*>(_v)); break;
+        case 2: setIcon(*reinterpret_cast< QIcon*>(_v)); break;
+        case 3: setMargin(*reinterpret_cast< int*>(_v)); break;
+        default: break;
+        }
+        _id -= 4;
+    } else if (_c == QMetaObject::ResetProperty) {
         _id -= 4;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
         _id -= 4;
@@ -161,17 +152,21 @@ int Qtitan::RibbonToolTip::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         _id -= 4;
     } else if (_c == QMetaObject::QueryPropertyUser) {
         _id -= 4;
+    } else if (_c == QMetaObject::RegisterPropertyMetaType) {
+        if (_id < 4)
+            *reinterpret_cast<int*>(_a[0]) = -1;
+        _id -= 4;
     }
 #endif // QT_NO_PROPERTIES
     return _id;
 }
 struct qt_meta_stringdata_Qtitan__RibbonKeyTip_t {
     QByteArrayData data[1];
-    char stringdata0[21];
+    char stringdata[21];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonKeyTip_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonKeyTip_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonKeyTip_t qt_meta_stringdata_Qtitan__RibbonKeyTip = {
@@ -221,7 +216,7 @@ const QMetaObject *Qtitan::RibbonKeyTip::metaObject() const
 void *Qtitan::RibbonKeyTip::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonKeyTip.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonKeyTip.stringdata))
         return static_cast<void*>(const_cast< RibbonKeyTip*>(this));
     return QFrame::qt_metacast(_clname);
 }

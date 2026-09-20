@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonBarPrivate.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonBarPrivate.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__RibbonBarPrivate_t {
     QByteArrayData data[7];
-    char stringdata0[114];
+    char stringdata[114];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonBarPrivate_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonBarPrivate_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonBarPrivate_t qt_meta_stringdata_Qtitan__RibbonBarPrivate = {
@@ -77,7 +77,6 @@ void Qtitan::RibbonBarPrivate::qt_static_metacall(QObject *_o, QMetaObject::Call
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         RibbonBarPrivate *_t = static_cast<RibbonBarPrivate *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->processClickedSubControl(); break;
         case 1: _t->toggledQuickAccessBarPos(); break;
@@ -102,7 +101,7 @@ const QMetaObject *Qtitan::RibbonBarPrivate::metaObject() const
 void *Qtitan::RibbonBarPrivate::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBarPrivate.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBarPrivate.stringdata))
         return static_cast<void*>(const_cast< RibbonBarPrivate*>(this));
     return QObject::qt_metacast(_clname);
 }

@@ -27,6 +27,7 @@
 #ifndef QTN_OFFICESTYLE_H
 #define QTN_OFFICESTYLE_H
 
+#include <QString>
 #include <QPalette>
 #include <QStylePlugin>
 

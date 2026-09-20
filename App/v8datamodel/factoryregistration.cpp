@@ -142,6 +142,7 @@
 #include "V8DataModel/GuiBase.h"
 #include "V8DataModel/GuiBase3d.h"
 #include "V8DataModel/TweenService.h"
+#include "util/TweenInfo.h"
 #include "V8DataModel/GuiObject.h"
 #include "V8DataModel/ScreenGui.h"
 #include "V8DataModel/Frame.h"
@@ -273,6 +274,7 @@ ARL_REGISTER_TYPE(ARL::NumberSequence);
 ARL_REGISTER_TYPE(ARL::ColorSequence);
 ARL_REGISTER_TYPE(ARL::NumberRange);
 ARL_REGISTER_TYPE(ARL::Guid::Data);
+ARL_REGISTER_TYPE(ARL::TweenInfo);
 
 ARL_REGISTER_CLASS(InputObject);
 ARL_REGISTER_CLASS(TestService);
@@ -476,6 +478,8 @@ ARL_REGISTER_CLASS(PART::Wedge);
 ARL_REGISTER_CLASS(Decal);
 ARL_REGISTER_CLASS(DecalTexture);
 ARL_REGISTER_CLASS(TweenService);
+ARL_REGISTER_CLASS(TweenBase);
+ARL_REGISTER_CLASS(Tween);
 ARL_REGISTER_CLASS(GuiItem);
 ARL_REGISTER_CLASS(GuiBase);
 ARL_REGISTER_CLASS(GuiBase2d);
@@ -609,9 +613,10 @@ ARL_REGISTER_ENUM(Action::ActionType);
 ARL_REGISTER_ENUM(Controller::Button);
 ARL_REGISTER_ENUM(HopperBin::BinType);
 ARL_REGISTER_ENUM(GuiObject::SizeConstraint);
-ARL_REGISTER_ENUM(GuiObject::TweenEasingStyle);
-ARL_REGISTER_ENUM(GuiObject::TweenStatus);
-ARL_REGISTER_ENUM(GuiObject::TweenEasingDirection);
+ARL_REGISTER_ENUM(PlayBackState);
+ARL_REGISTER_ENUM(TweenInfo::TweenEasingStyle);
+ARL_REGISTER_ENUM(TweenInfo::TweenStatus);
+ARL_REGISTER_ENUM(TweenInfo::TweenEasingDirection);
 ARL_REGISTER_ENUM(TextService::XAlignment);
 ARL_REGISTER_ENUM(TextService::YAlignment);
 ARL_REGISTER_ENUM(TextService::FontSize);

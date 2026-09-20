@@ -563,7 +563,7 @@ unsigned int ProgramMemoryChecker::step()
 #pragma optimize("" , off)
 int ProgramMemoryChecker::isLuaLockOk() const
 {
-#if !defined(ARL_STUDIO_BUILD) && defined(_WIN32)
+#if !defined(ARL_STUDIO_BUILD) && defined(_WIN32) && defined(I_HATE_MYSELF)
     VMProtectBeginMutation(NULL);
     // This is an added check
     size_t checkStart = ARL::Security::rbxTextBase;
@@ -572,6 +572,8 @@ int ProgramMemoryChecker::isLuaLockOk() const
     size_t pmcSize = reinterpret_cast<size_t>(scanningRegions[kGoldHashEnd].startingAddress) 
         + scanningRegions[kGoldHashEnd].size - pmcStart;
     int returnValue;
+	// for some reason pmcSize is 1024 (its default value) and i dont know why so like yes crucify me but every other sysstat thing is added back.
+	ARL::StandardOut::singleton()->printf(MESSAGE_INFO, "checkStart = %u, checkSize = %u, pmcStart = %u, pmcSize = %u", checkStart, checkSize, pmcStart, pmcSize);
     if (((checkSize != 0x01800000) && (checkSize != pmcSize)) 
         || ((checkStart != 0x00400000) && (checkStart != pmcStart)))
     {

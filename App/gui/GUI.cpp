@@ -11,7 +11,7 @@ namespace ARL {
 const char* const sGuiItem	= "GuiItem";
 
 const Color4& GuiItem::disabledFill()		{static Color4 c(.7f,.7f,.7f,.5f);	return c;}
-const Color4& GuiItem::translucentBackdrop(){static Color4 c(.6f,.6f,.6f,.6f);	return c;}
+const Color4& GuiItem::translucentBackdrop(){static Color4 c(.3f,.3f,.3f,.6f);	return c;}
 const Color4& GuiItem::menuSelect()			{static Color4 c(.7f,.7f,.7f,1.0f);	return c;}
 
 const char* const sGuiRoot = "GuiRoot";
@@ -153,7 +153,7 @@ void GuiItem::label2d(
                                 false,
 								fill,
 								border,
-								Text::FONT_LEGACY,
+								Text::FONT_VCR,
 								align,
 								Text::YALIGN_CENTER );
 

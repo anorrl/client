@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonSystemPopupBar.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonSystemPopupBar.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__RibbonSystemButton_t {
     QByteArrayData data[3];
-    char stringdata0[63];
+    char stringdata[63];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonSystemButton_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonSystemButton_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonSystemButton_t qt_meta_stringdata_Qtitan__RibbonSystemButton = {
@@ -60,27 +60,6 @@ static const uint qt_meta_data_Qtitan__RibbonSystemButton[] = {
 
 void Qtitan::RibbonSystemButton::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-
-#ifndef QT_NO_PROPERTIES
-    if (_c == QMetaObject::ReadProperty) {
-        RibbonSystemButton *_t = static_cast<RibbonSystemButton *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: *reinterpret_cast< Qt::ToolButtonStyle*>(_v) = _t->toolButtonStyle(); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::WriteProperty) {
-        RibbonSystemButton *_t = static_cast<RibbonSystemButton *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: _t->setToolButtonStyle(*reinterpret_cast< Qt::ToolButtonStyle*>(_v)); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::ResetProperty) {
-    }
-#endif // QT_NO_PROPERTIES
     Q_UNUSED(_o);
     Q_UNUSED(_id);
     Q_UNUSED(_c);
@@ -101,7 +80,7 @@ const QMetaObject *Qtitan::RibbonSystemButton::metaObject() const
 void *Qtitan::RibbonSystemButton::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonSystemButton.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonSystemButton.stringdata))
         return static_cast<void*>(const_cast< RibbonSystemButton*>(this));
     return QToolButton::qt_metacast(_clname);
 }
@@ -113,9 +92,21 @@ int Qtitan::RibbonSystemButton::qt_metacall(QMetaObject::Call _c, int _id, void 
         return _id;
     
 #ifndef QT_NO_PROPERTIES
-   if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
-            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
-        qt_static_metacall(this, _c, _id, _a);
+     if (_c == QMetaObject::ReadProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< Qt::ToolButtonStyle*>(_v) = toolButtonStyle(); break;
+        default: break;
+        }
+        _id -= 1;
+    } else if (_c == QMetaObject::WriteProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: setToolButtonStyle(*reinterpret_cast< Qt::ToolButtonStyle*>(_v)); break;
+        default: break;
+        }
+        _id -= 1;
+    } else if (_c == QMetaObject::ResetProperty) {
         _id -= 1;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
         _id -= 1;
@@ -127,17 +118,21 @@ int Qtitan::RibbonSystemButton::qt_metacall(QMetaObject::Call _c, int _id, void 
         _id -= 1;
     } else if (_c == QMetaObject::QueryPropertyUser) {
         _id -= 1;
+    } else if (_c == QMetaObject::RegisterPropertyMetaType) {
+        if (_id < 1)
+            *reinterpret_cast<int*>(_a[0]) = -1;
+        _id -= 1;
     }
 #endif // QT_NO_PROPERTIES
     return _id;
 }
 struct qt_meta_stringdata_Qtitan__RibbonSystemPopupBar_t {
     QByteArrayData data[1];
-    char stringdata0[29];
+    char stringdata[29];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonSystemPopupBar_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonSystemPopupBar_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonSystemPopupBar_t qt_meta_stringdata_Qtitan__RibbonSystemPopupBar = {
@@ -187,7 +182,7 @@ const QMetaObject *Qtitan::RibbonSystemPopupBar::metaObject() const
 void *Qtitan::RibbonSystemPopupBar::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonSystemPopupBar.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonSystemPopupBar.stringdata))
         return static_cast<void*>(const_cast< RibbonSystemPopupBar*>(this));
     return QMenu::qt_metacast(_clname);
 }
@@ -201,11 +196,11 @@ int Qtitan::RibbonSystemPopupBar::qt_metacall(QMetaObject::Call _c, int _id, voi
 }
 struct qt_meta_stringdata_Qtitan__RibbonPageSystemPopupListCaption_t {
     QByteArrayData data[1];
-    char stringdata0[41];
+    char stringdata[41];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonPageSystemPopupListCaption_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonPageSystemPopupListCaption_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonPageSystemPopupListCaption_t qt_meta_stringdata_Qtitan__RibbonPageSystemPopupListCaption = {
@@ -255,7 +250,7 @@ const QMetaObject *Qtitan::RibbonPageSystemPopupListCaption::metaObject() const
 void *Qtitan::RibbonPageSystemPopupListCaption::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonPageSystemPopupListCaption.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonPageSystemPopupListCaption.stringdata))
         return static_cast<void*>(const_cast< RibbonPageSystemPopupListCaption*>(this));
     return QWidget::qt_metacast(_clname);
 }
@@ -269,11 +264,11 @@ int Qtitan::RibbonPageSystemPopupListCaption::qt_metacall(QMetaObject::Call _c, 
 }
 struct qt_meta_stringdata_Qtitan__RibbonPageSystemRecentFileList_t {
     QByteArrayData data[6];
-    char stringdata0[90];
+    char stringdata[90];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonPageSystemRecentFileList_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonPageSystemRecentFileList_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonPageSystemRecentFileList_t qt_meta_stringdata_Qtitan__RibbonPageSystemRecentFileList = {
@@ -324,7 +319,6 @@ void Qtitan::RibbonPageSystemRecentFileList::qt_static_metacall(QObject *_o, QMe
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         RibbonPageSystemRecentFileList *_t = static_cast<RibbonPageSystemRecentFileList *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->openRecentFile((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 1: _t->updateRecentFileActions((*reinterpret_cast< const QStringList(*)>(_a[1]))); break;
@@ -356,7 +350,7 @@ const QMetaObject *Qtitan::RibbonPageSystemRecentFileList::metaObject() const
 void *Qtitan::RibbonPageSystemRecentFileList::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonPageSystemRecentFileList.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonPageSystemRecentFileList.stringdata))
         return static_cast<void*>(const_cast< RibbonPageSystemRecentFileList*>(this));
     return RibbonPageSystemPopupListCaption::qt_metacast(_clname);
 }
@@ -386,11 +380,11 @@ void Qtitan::RibbonPageSystemRecentFileList::openRecentFile(const QString & _t1)
 }
 struct qt_meta_stringdata_Qtitan__RibbonPageSystemPopup_t {
     QByteArrayData data[1];
-    char stringdata0[30];
+    char stringdata[30];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonPageSystemPopup_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonPageSystemPopup_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonPageSystemPopup_t qt_meta_stringdata_Qtitan__RibbonPageSystemPopup = {
@@ -440,7 +434,7 @@ const QMetaObject *Qtitan::RibbonPageSystemPopup::metaObject() const
 void *Qtitan::RibbonPageSystemPopup::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonPageSystemPopup.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonPageSystemPopup.stringdata))
         return static_cast<void*>(const_cast< RibbonPageSystemPopup*>(this));
     return QMenu::qt_metacast(_clname);
 }

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonButton.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonButton.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__RibbonButton_t {
     QByteArrayData data[1];
-    char stringdata0[21];
+    char stringdata[21];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonButton_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonButton_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonButton_t qt_meta_stringdata_Qtitan__RibbonButton = {
@@ -74,7 +74,7 @@ const QMetaObject *Qtitan::RibbonButton::metaObject() const
 void *Qtitan::RibbonButton::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonButton.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonButton.stringdata))
         return static_cast<void*>(const_cast< RibbonButton*>(this));
     return QToolButton::qt_metacast(_clname);
 }
@@ -88,11 +88,11 @@ int Qtitan::RibbonButton::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 struct qt_meta_stringdata_Qtitan__RibbonSeparator_t {
     QByteArrayData data[5];
-    char stringdata0[50];
+    char stringdata[50];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonSeparator_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonSeparator_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonSeparator_t qt_meta_stringdata_Qtitan__RibbonSeparator = {
@@ -147,7 +147,6 @@ void Qtitan::RibbonSeparator::qt_static_metacall(QObject *_o, QMetaObject::Call 
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         RibbonSeparator *_t = static_cast<RibbonSeparator *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->textChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 1: _t->setText((*reinterpret_cast< const QString(*)>(_a[1]))); break;
@@ -163,26 +162,6 @@ void Qtitan::RibbonSeparator::qt_static_metacall(QObject *_o, QMetaObject::Call 
             }
         }
     }
-#ifndef QT_NO_PROPERTIES
-    else if (_c == QMetaObject::ReadProperty) {
-        RibbonSeparator *_t = static_cast<RibbonSeparator *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: *reinterpret_cast< QString*>(_v) = _t->text(); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::WriteProperty) {
-        RibbonSeparator *_t = static_cast<RibbonSeparator *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: _t->setText(*reinterpret_cast< QString*>(_v)); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::ResetProperty) {
-    }
-#endif // QT_NO_PROPERTIES
 }
 
 const QMetaObject Qtitan::RibbonSeparator::staticMetaObject = {
@@ -199,7 +178,7 @@ const QMetaObject *Qtitan::RibbonSeparator::metaObject() const
 void *Qtitan::RibbonSeparator::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonSeparator.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonSeparator.stringdata))
         return static_cast<void*>(const_cast< RibbonSeparator*>(this));
     return QWidget::qt_metacast(_clname);
 }
@@ -219,9 +198,21 @@ int Qtitan::RibbonSeparator::qt_metacall(QMetaObject::Call _c, int _id, void **_
         _id -= 2;
     }
 #ifndef QT_NO_PROPERTIES
-   else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
-            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
-        qt_static_metacall(this, _c, _id, _a);
+      else if (_c == QMetaObject::ReadProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< QString*>(_v) = text(); break;
+        default: break;
+        }
+        _id -= 1;
+    } else if (_c == QMetaObject::WriteProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: setText(*reinterpret_cast< QString*>(_v)); break;
+        default: break;
+        }
+        _id -= 1;
+    } else if (_c == QMetaObject::ResetProperty) {
         _id -= 1;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
         _id -= 1;
@@ -232,6 +223,10 @@ int Qtitan::RibbonSeparator::qt_metacall(QMetaObject::Call _c, int _id, void **_
     } else if (_c == QMetaObject::QueryPropertyEditable) {
         _id -= 1;
     } else if (_c == QMetaObject::QueryPropertyUser) {
+        _id -= 1;
+    } else if (_c == QMetaObject::RegisterPropertyMetaType) {
+        if (_id < 1)
+            *reinterpret_cast<int*>(_a[0]) = -1;
         _id -= 1;
     }
 #endif // QT_NO_PROPERTIES
@@ -246,11 +241,11 @@ void Qtitan::RibbonSeparator::textChanged(const QString & _t1)
 }
 struct qt_meta_stringdata_Qtitan__RibbonTitleButton_t {
     QByteArrayData data[1];
-    char stringdata0[26];
+    char stringdata[26];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonTitleButton_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonTitleButton_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonTitleButton_t qt_meta_stringdata_Qtitan__RibbonTitleButton = {
@@ -300,7 +295,7 @@ const QMetaObject *Qtitan::RibbonTitleButton::metaObject() const
 void *Qtitan::RibbonTitleButton::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonTitleButton.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonTitleButton.stringdata))
         return static_cast<void*>(const_cast< RibbonTitleButton*>(this));
     return QToolButton::qt_metacast(_clname);
 }

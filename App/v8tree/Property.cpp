@@ -8,6 +8,7 @@
 #include "Util/Region3int16.h"
 #include "util/CellID.h"
 #include "util/PhysicalProperties.h"
+#include "util/TweenInfo.h"
 
 using namespace G3D;
 
@@ -150,6 +151,33 @@ bool StringConverter<PhysicalProperties>::convertToValue(const std::string& text
 {
 	return false;
 }
+
+template<>
+std::string StringConverter<TweenInfo>::convertToString(const TweenInfo& value)
+{
+	const Reflection::EnumDesc<TweenInfo::TweenEasingStyle>& eStyleDesc = Reflection::EnumDesc<TweenInfo::TweenEasingStyle>::singleton();
+	const Reflection::EnumDesc<TweenInfo::TweenEasingDirection>& eDirectionDesc = Reflection::EnumDesc<TweenInfo::TweenEasingDirection>::singleton();
+	std::string result = StringConverter<float>::convertToString(value.getTime());
+	result += ", ";
+	result += eStyleDesc.convertToString(value.getStyle());
+	result += ", ";
+	result += eDirectionDesc.convertToString(value.getDirection());
+	result += ", ";
+	result += StringConverter<int>::convertToString(value.getRepeatCount());
+	result += ", ";
+	result += StringConverter<bool>::convertToString(value.getReverses());
+	result += ", ";
+	result += StringConverter<float>::convertToString(value.getDelayTime());
+
+	return result;
+}
+
+template<>
+bool StringConverter<TweenInfo>::convertToValue(const std::string& text, TweenInfo& value)
+{
+	return false;
+}
+
 
 template<>
 std::string StringConverter<G3D::CoordinateFrame>::convertToString(const G3D::CoordinateFrame& value)

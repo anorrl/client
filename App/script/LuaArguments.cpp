@@ -88,6 +88,15 @@ bool LuaArguments::getPhysicalProperties(int index, PhysicalProperties& value) c
 	return Bridge<PhysicalProperties>::getValue(L, index, value);
 }
 
+bool LuaArguments::getTweenInfo(int index, TweenInfo& value) const
+{
+	index += offset;
+	if (index > lua_gettop(L))
+		return false;
+
+	return Bridge<TweenInfo>::getValue(L, index, value);
+}
+
 bool LuaArguments::getObject(int index, shared_ptr<Reflection::DescribedBase>& value) const
 {
 	index += offset;
@@ -351,8 +360,8 @@ bool LuaArguments::getRec(lua_State *L, int luaIndex, Reflection::Variant& value
 				return true;
 			if (PhysicalPropertiesBridge::getValue(L, luaIndex, value))
 				return true;
-			
-
+			if (TweenInfoBridge::getValue(L, luaIndex, value))
+				return true;
             if (NumberSequenceBridge::getValue(L, luaIndex, value))
                 return true;
             if (ColorSequenceBridge::getValue(L, luaIndex, value))

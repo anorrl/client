@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonTabBar.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonTabBar.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__RibbonTab_t {
     QByteArrayData data[5];
-    char stringdata0[44];
+    char stringdata[44];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonTab_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonTab_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonTab_t qt_meta_stringdata_Qtitan__RibbonTab = {
@@ -67,7 +67,6 @@ void Qtitan::RibbonTab::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         RibbonTab *_t = static_cast<RibbonTab *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->pressTab((*reinterpret_cast< QWidget*(*)>(_a[1]))); break;
         default: ;
@@ -98,7 +97,7 @@ const QMetaObject *Qtitan::RibbonTab::metaObject() const
 void *Qtitan::RibbonTab::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonTab.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonTab.stringdata))
         return static_cast<void*>(const_cast< RibbonTab*>(this));
     return QWidget::qt_metacast(_clname);
 }
@@ -128,11 +127,11 @@ void Qtitan::RibbonTab::pressTab(QWidget * _t1)
 }
 struct qt_meta_stringdata_Qtitan__RibbonTabBar_t {
     QByteArrayData data[16];
-    char stringdata0[187];
+    char stringdata[187];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonTabBar_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonTabBar_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonTabBar_t qt_meta_stringdata_Qtitan__RibbonTabBar = {
@@ -209,7 +208,6 @@ void Qtitan::RibbonTabBar::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         RibbonTabBar *_t = static_cast<RibbonTabBar *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->currentChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: _t->activating((*reinterpret_cast< bool(*)>(_a[1]))); break;
@@ -234,28 +232,6 @@ void Qtitan::RibbonTabBar::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
             }
         }
     }
-#ifndef QT_NO_PROPERTIES
-    else if (_c == QMetaObject::ReadProperty) {
-        RibbonTabBar *_t = static_cast<RibbonTabBar *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: *reinterpret_cast< int*>(_v) = _t->currentIndex(); break;
-        case 1: *reinterpret_cast< SelectionBehavior*>(_v) = _t->selectionBehaviorOnRemove(); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::WriteProperty) {
-        RibbonTabBar *_t = static_cast<RibbonTabBar *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: _t->setCurrentIndex(*reinterpret_cast< int*>(_v)); break;
-        case 1: _t->setSelectionBehaviorOnRemove(*reinterpret_cast< SelectionBehavior*>(_v)); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::ResetProperty) {
-    }
-#endif // QT_NO_PROPERTIES
 }
 
 const QMetaObject Qtitan::RibbonTabBar::staticMetaObject = {
@@ -272,7 +248,7 @@ const QMetaObject *Qtitan::RibbonTabBar::metaObject() const
 void *Qtitan::RibbonTabBar::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonTabBar.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonTabBar.stringdata))
         return static_cast<void*>(const_cast< RibbonTabBar*>(this));
     return QWidget::qt_metacast(_clname);
 }
@@ -292,9 +268,23 @@ int Qtitan::RibbonTabBar::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         _id -= 5;
     }
 #ifndef QT_NO_PROPERTIES
-   else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
-            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
-        qt_static_metacall(this, _c, _id, _a);
+      else if (_c == QMetaObject::ReadProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< int*>(_v) = currentIndex(); break;
+        case 1: *reinterpret_cast< SelectionBehavior*>(_v) = selectionBehaviorOnRemove(); break;
+        default: break;
+        }
+        _id -= 2;
+    } else if (_c == QMetaObject::WriteProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: setCurrentIndex(*reinterpret_cast< int*>(_v)); break;
+        case 1: setSelectionBehaviorOnRemove(*reinterpret_cast< SelectionBehavior*>(_v)); break;
+        default: break;
+        }
+        _id -= 2;
+    } else if (_c == QMetaObject::ResetProperty) {
         _id -= 2;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
         _id -= 2;
@@ -305,6 +295,10 @@ int Qtitan::RibbonTabBar::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     } else if (_c == QMetaObject::QueryPropertyEditable) {
         _id -= 2;
     } else if (_c == QMetaObject::QueryPropertyUser) {
+        _id -= 2;
+    } else if (_c == QMetaObject::RegisterPropertyMetaType) {
+        if (_id < 2)
+            *reinterpret_cast<int*>(_a[0]) = -1;
         _id -= 2;
     }
 #endif // QT_NO_PROPERTIES

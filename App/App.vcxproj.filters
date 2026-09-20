@@ -1766,6 +1766,15 @@
     <ClCompile Include="v8datamodel\MeshPartInstance.cpp">
       <Filter>Source Files\V8DataModel</Filter>
     </ClCompile>
+    <ClCompile Include="v8datamodel\Tween.cpp">
+      <Filter>Source Files\V8DataModel\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="util\TweenInfo.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="v8datamodel\TweenBase.cpp">
+      <Filter>Source Files\V8DataModel\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lua-5.1.4\src\lapi.h">
@@ -3645,6 +3654,15 @@
     </ClInclude>
     <ClInclude Include="include\v8datamodel\MeshPartInstance.h">
       <Filter>Header Files\V8DataModel</Filter>
+    </ClInclude>
+    <ClInclude Include="include\v8datamodel\Tween.h">
+      <Filter>Header Files\V8DataModel\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\TweenInfo.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\v8datamodel\TweenBase.h">
+      <Filter>Header Files\V8DataModel\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

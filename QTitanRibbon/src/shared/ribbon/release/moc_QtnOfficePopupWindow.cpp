@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnOfficePopupWindow.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnOfficePopupWindow.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__OfficePopupWindow_t {
     QByteArrayData data[19];
-    char stringdata0[249];
+    char stringdata[249];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__OfficePopupWindow_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__OfficePopupWindow_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__OfficePopupWindow_t qt_meta_stringdata_Qtitan__OfficePopupWindow = {
@@ -115,7 +115,6 @@ void Qtitan::OfficePopupWindow::qt_static_metacall(QObject *_o, QMetaObject::Cal
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         OfficePopupWindow *_t = static_cast<OfficePopupWindow *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->aboutToShow(); break;
         case 1: _t->aboutToHide(); break;
@@ -141,42 +140,6 @@ void Qtitan::OfficePopupWindow::qt_static_metacall(QObject *_o, QMetaObject::Cal
             }
         }
     }
-#ifndef QT_NO_PROPERTIES
-    else if (_c == QMetaObject::ReadProperty) {
-        OfficePopupWindow *_t = static_cast<OfficePopupWindow *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: *reinterpret_cast< PopupAnimation*>(_v) = _t->animation(); break;
-        case 1: *reinterpret_cast< qreal*>(_v) = _t->transparency(); break;
-        case 2: *reinterpret_cast< int*>(_v) = _t->displayTime(); break;
-        case 3: *reinterpret_cast< int*>(_v) = _t->animationSpeed(); break;
-        case 4: *reinterpret_cast< QIcon*>(_v) = _t->titleIcon(); break;
-        case 5: *reinterpret_cast< QString*>(_v) = _t->titleText(); break;
-        case 6: *reinterpret_cast< QString*>(_v) = _t->bodyText(); break;
-        case 7: *reinterpret_cast< bool*>(_v) = _t->isTitleCloseButtonVisible(); break;
-        case 8: *reinterpret_cast< PopupLocation*>(_v) = _t->location(); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::WriteProperty) {
-        OfficePopupWindow *_t = static_cast<OfficePopupWindow *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: _t->setAnimation(*reinterpret_cast< PopupAnimation*>(_v)); break;
-        case 1: _t->setTransparency(*reinterpret_cast< qreal*>(_v)); break;
-        case 2: _t->setDisplayTime(*reinterpret_cast< int*>(_v)); break;
-        case 3: _t->setAnimationSpeed(*reinterpret_cast< int*>(_v)); break;
-        case 4: _t->setTitleIcon(*reinterpret_cast< QIcon*>(_v)); break;
-        case 5: _t->setTitleText(*reinterpret_cast< QString*>(_v)); break;
-        case 6: _t->setBodyText(*reinterpret_cast< QString*>(_v)); break;
-        case 7: _t->setTitleCloseButtonVisible(*reinterpret_cast< bool*>(_v)); break;
-        case 8: _t->setLocation(*reinterpret_cast< PopupLocation*>(_v)); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::ResetProperty) {
-    }
-#endif // QT_NO_PROPERTIES
     Q_UNUSED(_a);
 }
 
@@ -194,7 +157,7 @@ const QMetaObject *Qtitan::OfficePopupWindow::metaObject() const
 void *Qtitan::OfficePopupWindow::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__OfficePopupWindow.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__OfficePopupWindow.stringdata))
         return static_cast<void*>(const_cast< OfficePopupWindow*>(this));
     return QWidget::qt_metacast(_clname);
 }
@@ -214,9 +177,37 @@ int Qtitan::OfficePopupWindow::qt_metacall(QMetaObject::Call _c, int _id, void *
         _id -= 6;
     }
 #ifndef QT_NO_PROPERTIES
-   else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
-            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
-        qt_static_metacall(this, _c, _id, _a);
+      else if (_c == QMetaObject::ReadProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< PopupAnimation*>(_v) = animation(); break;
+        case 1: *reinterpret_cast< qreal*>(_v) = transparency(); break;
+        case 2: *reinterpret_cast< int*>(_v) = displayTime(); break;
+        case 3: *reinterpret_cast< int*>(_v) = animationSpeed(); break;
+        case 4: *reinterpret_cast< QIcon*>(_v) = titleIcon(); break;
+        case 5: *reinterpret_cast< QString*>(_v) = titleText(); break;
+        case 6: *reinterpret_cast< QString*>(_v) = bodyText(); break;
+        case 7: *reinterpret_cast< bool*>(_v) = isTitleCloseButtonVisible(); break;
+        case 8: *reinterpret_cast< PopupLocation*>(_v) = location(); break;
+        default: break;
+        }
+        _id -= 9;
+    } else if (_c == QMetaObject::WriteProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: setAnimation(*reinterpret_cast< PopupAnimation*>(_v)); break;
+        case 1: setTransparency(*reinterpret_cast< qreal*>(_v)); break;
+        case 2: setDisplayTime(*reinterpret_cast< int*>(_v)); break;
+        case 3: setAnimationSpeed(*reinterpret_cast< int*>(_v)); break;
+        case 4: setTitleIcon(*reinterpret_cast< QIcon*>(_v)); break;
+        case 5: setTitleText(*reinterpret_cast< QString*>(_v)); break;
+        case 6: setBodyText(*reinterpret_cast< QString*>(_v)); break;
+        case 7: setTitleCloseButtonVisible(*reinterpret_cast< bool*>(_v)); break;
+        case 8: setLocation(*reinterpret_cast< PopupLocation*>(_v)); break;
+        default: break;
+        }
+        _id -= 9;
+    } else if (_c == QMetaObject::ResetProperty) {
         _id -= 9;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
         _id -= 9;
@@ -227,6 +218,10 @@ int Qtitan::OfficePopupWindow::qt_metacall(QMetaObject::Call _c, int _id, void *
     } else if (_c == QMetaObject::QueryPropertyEditable) {
         _id -= 9;
     } else if (_c == QMetaObject::QueryPropertyUser) {
+        _id -= 9;
+    } else if (_c == QMetaObject::RegisterPropertyMetaType) {
+        if (_id < 9)
+            *reinterpret_cast<int*>(_a[0]) = -1;
         _id -= 9;
     }
 #endif // QT_NO_PROPERTIES

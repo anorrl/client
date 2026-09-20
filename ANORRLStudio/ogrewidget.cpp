@@ -39,7 +39,6 @@
 
 LOGGROUP(TaskSchedulerTiming)
 LOGGROUP(RenderRequest)
-FASTFLAG(GoogleAnalyticsTrackingEnabled)
 DYNAMIC_FASTFLAGVARIABLE(BackTabInputInStudio, false)
 FASTFLAGVARIABLE(DontSwallowInputForStudioShortcuts, false)
 DYNAMIC_FASTFLAG(MaterialPropertiesEnabled)
@@ -62,9 +61,10 @@ QOgreWidget::QOgreWidget(const QString& name, QWidget *parent)
 
 	//set default states
 	setAttribute(Qt::WA_PaintOnScreen, true);
-	setAttribute(Qt::WA_OpaquePaintEvent, true);
-	setAttribute(Qt::WA_NoSystemBackground, true);
-	setAttribute(Qt::WA_NativeWindow, true);
+    setAttribute(Qt::WA_NativeWindow, true);
+    setAttribute(Qt::WA_DontCreateNativeAncestors, true);
+    setAttribute(Qt::WA_OpaquePaintEvent, true);
+    setAttribute(Qt::WA_NoSystemBackground, true);
 
 	setFocusPolicy(Qt::StrongFocus);
 	setAutoFillBackground(true);

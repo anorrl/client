@@ -246,7 +246,7 @@ const PropDescriptor<PartInstance, PhysicalProperties> PartInstance::prop_Custom
 
 // color, transparency, reflectance, anchored, canCollide, locked
 const PropDescriptor<PartInstance, Color3> PartInstance::prop_Color("Color", category_Appearance, &PartInstance::getColor3, &PartInstance::setColor3, PropertyDescriptor::Functionality(PropertyDescriptor::UI));
-const PropDescriptor<PartInstance, Color3uint8> PartInstance::prop_Color3uint8("Color3uint8", category_Appearance, &PartInstance::getColor3uint8, &PartInstance::setColor3uint8, PropertyDescriptor::Functionality(PropertyDescriptor::CLUSTER));
+const PropDescriptor<PartInstance, Color3uint8> PartInstance::prop_Color3uint8("Color3uint8", category_Appearance, &PartInstance::getColor3uint8, &PartInstance::setColor3uint8);
 const PropDescriptor<PartInstance, BrickColor> PartInstance::prop_BrickColor("BrickColor", category_Appearance, &PartInstance::getColor, &PartInstance::setColor);
 const PropDescriptor<PartInstance, BrickColor> prop_BrickColorDep("brickColor", category_Appearance, &PartInstance::getColor, &PartInstance::setColor, PropertyDescriptor::Attributes::deprecated(PartInstance::prop_BrickColor));
 const EnumPropDescriptor<PartInstance, PartMaterial> PartInstance::prop_renderMaterial("Material", category_Appearance, &PartInstance::getRenderMaterial, &PartInstance::setRenderMaterial);

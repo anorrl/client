@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonPrivate.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonPrivate.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__ExWidgetWrapper_t {
     QByteArrayData data[3];
-    char stringdata0[34];
+    char stringdata[34];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__ExWidgetWrapper_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__ExWidgetWrapper_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__ExWidgetWrapper_t qt_meta_stringdata_Qtitan__ExWidgetWrapper = {
@@ -60,29 +60,6 @@ static const uint qt_meta_data_Qtitan__ExWidgetWrapper[] = {
 
 void Qtitan::ExWidgetWrapper::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-
-#ifndef QT_NO_PROPERTIES
-    if (_c == QMetaObject::ReadProperty) {
-        ExWidgetWrapper *_t = static_cast<ExWidgetWrapper *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: *reinterpret_cast< QString*>(_v) = _t->text(); break;
-        case 1: *reinterpret_cast< QIcon*>(_v) = _t->icon(); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::WriteProperty) {
-        ExWidgetWrapper *_t = static_cast<ExWidgetWrapper *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: _t->setText(*reinterpret_cast< QString*>(_v)); break;
-        case 1: _t->setIcon(*reinterpret_cast< QIcon*>(_v)); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::ResetProperty) {
-    }
-#endif // QT_NO_PROPERTIES
     Q_UNUSED(_o);
     Q_UNUSED(_id);
     Q_UNUSED(_c);
@@ -103,7 +80,7 @@ const QMetaObject *Qtitan::ExWidgetWrapper::metaObject() const
 void *Qtitan::ExWidgetWrapper::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__ExWidgetWrapper.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__ExWidgetWrapper.stringdata))
         return static_cast<void*>(const_cast< ExWidgetWrapper*>(this));
     return QWidget::qt_metacast(_clname);
 }
@@ -115,9 +92,23 @@ int Qtitan::ExWidgetWrapper::qt_metacall(QMetaObject::Call _c, int _id, void **_
         return _id;
     
 #ifndef QT_NO_PROPERTIES
-   if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
-            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
-        qt_static_metacall(this, _c, _id, _a);
+     if (_c == QMetaObject::ReadProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< QString*>(_v) = text(); break;
+        case 1: *reinterpret_cast< QIcon*>(_v) = icon(); break;
+        default: break;
+        }
+        _id -= 2;
+    } else if (_c == QMetaObject::WriteProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: setText(*reinterpret_cast< QString*>(_v)); break;
+        case 1: setIcon(*reinterpret_cast< QIcon*>(_v)); break;
+        default: break;
+        }
+        _id -= 2;
+    } else if (_c == QMetaObject::ResetProperty) {
         _id -= 2;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
         _id -= 2;
@@ -129,17 +120,21 @@ int Qtitan::ExWidgetWrapper::qt_metacall(QMetaObject::Call _c, int _id, void **_
         _id -= 2;
     } else if (_c == QMetaObject::QueryPropertyUser) {
         _id -= 2;
+    } else if (_c == QMetaObject::RegisterPropertyMetaType) {
+        if (_id < 2)
+            *reinterpret_cast<int*>(_a[0]) = -1;
+        _id -= 2;
     }
 #endif // QT_NO_PROPERTIES
     return _id;
 }
 struct qt_meta_stringdata_Qtitan__RibbonDefaultGroupButton_t {
     QByteArrayData data[3];
-    char stringdata0[50];
+    char stringdata[50];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonDefaultGroupButton_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonDefaultGroupButton_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonDefaultGroupButton_t qt_meta_stringdata_Qtitan__RibbonDefaultGroupButton = {
@@ -180,7 +175,6 @@ void Qtitan::RibbonDefaultGroupButton::qt_static_metacall(QObject *_o, QMetaObje
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         RibbonDefaultGroupButton *_t = static_cast<RibbonDefaultGroupButton *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->resetPopopGroup(); break;
         default: ;
@@ -203,7 +197,7 @@ const QMetaObject *Qtitan::RibbonDefaultGroupButton::metaObject() const
 void *Qtitan::RibbonDefaultGroupButton::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonDefaultGroupButton.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonDefaultGroupButton.stringdata))
         return static_cast<void*>(const_cast< RibbonDefaultGroupButton*>(this));
     return QToolButton::qt_metacast(_clname);
 }
@@ -226,11 +220,11 @@ int Qtitan::RibbonDefaultGroupButton::qt_metacall(QMetaObject::Call _c, int _id,
 }
 struct qt_meta_stringdata_Qtitan__RibbonGroupOption_t {
     QByteArrayData data[1];
-    char stringdata0[26];
+    char stringdata[26];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonGroupOption_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonGroupOption_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonGroupOption_t qt_meta_stringdata_Qtitan__RibbonGroupOption = {
@@ -280,7 +274,7 @@ const QMetaObject *Qtitan::RibbonGroupOption::metaObject() const
 void *Qtitan::RibbonGroupOption::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonGroupOption.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonGroupOption.stringdata))
         return static_cast<void*>(const_cast< RibbonGroupOption*>(this));
     return QToolButton::qt_metacast(_clname);
 }
@@ -294,11 +288,11 @@ int Qtitan::RibbonGroupOption::qt_metacall(QMetaObject::Call _c, int _id, void *
 }
 struct qt_meta_stringdata_Qtitan__RibbonGroupScroll_t {
     QByteArrayData data[1];
-    char stringdata0[26];
+    char stringdata[26];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonGroupScroll_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonGroupScroll_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonGroupScroll_t qt_meta_stringdata_Qtitan__RibbonGroupScroll = {
@@ -348,7 +342,7 @@ const QMetaObject *Qtitan::RibbonGroupScroll::metaObject() const
 void *Qtitan::RibbonGroupScroll::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonGroupScroll.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonGroupScroll.stringdata))
         return static_cast<void*>(const_cast< RibbonGroupScroll*>(this));
     return QToolButton::qt_metacast(_clname);
 }

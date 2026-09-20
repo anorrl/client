@@ -783,14 +783,12 @@
         <string name="Name">Message</string>
         <string name="ExplorerOrder">11</string>
         <string name="ExplorerImageIndex">33</string>
-        <bool name="Deprecated">true</bool>
         <string name="PreferredParent">StarterGui</string>
       </Properties>
     </Item>
     <Item class="ReflectionMetadataClass">
       <Properties>
         <string name="Name">Hint</string>
-        <bool name="Deprecated">true</bool>
         <string name="ExplorerOrder">11</string>
         <string name="ExplorerImageIndex">33</string>
       </Properties>
@@ -3030,6 +3028,13 @@
             <string name="summary">Deprecated. Use BrickColor instead</string>
           </Properties>
         </Item>
+         <Item class="ReflectionMetadataMember">
+          <Properties>
+            <string name="Name">Color3uint8</string>
+            <bool name="Deprecated">false</bool>
+            <string name="summary">Deprecated. Use BrickColor instead</string>
+          </Properties>
+        </Item>
         <Item class="ReflectionMetadataMember">
           <Properties>
             <string name="Name">CFrame</string>
@@ -3887,7 +3892,7 @@
 		  <Properties>
             <string name="Name">TextSize</string>
             <string name="summary">poop out of a butt</string>
-            <iny name="UIMinimum">1</double>
+            <double name="UIMinimum">1</double>
             <double name="UIMaximum">100</double>
           </Properties>
         </Item>

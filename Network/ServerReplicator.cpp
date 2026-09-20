@@ -1382,7 +1382,7 @@ void CheatHandlingServerReplicator::processTicket(Packet *packet)
 	    FASTLOG(FLog::Network, "ServerReplicator:processTicket - sendTop");
 	    sendTop(rakPeer->rawPeer());
 
-	    /*if (!players->hashMatches(hash))
+	    if (!players->hashMatches(hash))
 	    {
 	    	isAuthenticated = false;	// TODO: Add a new state field that indicates "blocked"
 	    	players->onRemoteSysStats(userIdFromTicket, "1920x1200", "baseball");
@@ -1393,7 +1393,7 @@ void CheatHandlingServerReplicator::processTicket(Packet *packet)
 	    	rakPeer->rawPeer()->Send(&bitStream, IMMEDIATE_PRIORITY, DATAMODEL_RELIABILITY, DATA_CHANNEL, remotePlayerId, false);
 
 	    	requestDisconnect(DisconnectReason_BadHash);
-	    }*/
+	    }
 
         enableHashCheckBypass = true;
         enableMccCheckBypass = true;

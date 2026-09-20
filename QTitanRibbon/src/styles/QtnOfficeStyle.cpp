@@ -24,6 +24,8 @@
 **  ADDITIONAL RESTRICTIONS.
 **
 ****************************************************************************/
+#include <QString>
+
 #include <QApplication>
 #include <QStyleOption>
 #include <QPainter>
@@ -55,6 +57,7 @@
 #include <QTableWidget>
 #include <QTreeWidget>
 
+
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #include <qdrawutil.h>
 #endif /* Q_OS_WIN*/
@@ -70,7 +73,6 @@
 #include "QtnOfficeStyle.h"
 #include "QtnOfficeStylePrivate.h"
 #include "QtnRibbonGallery.h"
-
 
 using namespace Qtitan;
 

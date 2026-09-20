@@ -69,8 +69,6 @@ DYNAMIC_FASTFLAGVARIABLE(BadTypeOnSpawnErrorEnabled, false)
 DYNAMIC_FASTFLAGVARIABLE(BadTypeOnDelayErrorEnabled, false)
 DYNAMIC_FASTFLAGVARIABLE(ScriptContextGuardAgainstCStackOverflow, false)
 
-FASTFLAGVARIABLE(CustomEmitterLuaTypesEnabled, false)
-
 DYNAMIC_FASTFLAGVARIABLE(LogPrivateModuleRequires, true)
 
 DYNAMIC_FASTINTVARIABLE(LuaGcBoost, 1)
@@ -678,6 +676,7 @@ bool ScriptContext::openState(size_t idx)
 		Vector3int16Bridge::registerClass(globalState);
 		Vector2int16Bridge::registerClass(globalState);
         Rect2DBridge::registerClass(globalState);
+		TweenInfoBridge::registerClass(globalState);
 		PhysicalPropertiesBridge::registerClass(globalState);
 		Vector3Bridge::registerClass(globalState);
 		Vector2Bridge::registerClass(globalState);
@@ -692,14 +691,11 @@ bool ScriptContext::openState(size_t idx)
 		Bridge< boost::intrusive_ptr<WeakThreadRef::Node> >::registerClass(globalState);
 		Bridge< shared_ptr<GenericFunction> >::registerClass(globalState);
 		Bridge< shared_ptr<GenericAsyncFunction> >::registerClass(globalState);
-        if (FFlag::CustomEmitterLuaTypesEnabled)
-        {{{
-            NumberSequenceBridge::registerClass(globalState);
-            ColorSequenceBridge::registerClass(globalState);
-            NumberSequenceKeypointBridge::registerClass(globalState);
-            ColorSequenceKeypointBridge::registerClass(globalState);
-            NumberRangeBridge::registerClass(globalState);
-        }}}
+        NumberSequenceBridge::registerClass(globalState);
+        ColorSequenceBridge::registerClass(globalState);
+        NumberSequenceKeypointBridge::registerClass(globalState);
+        ColorSequenceKeypointBridge::registerClass(globalState);
+        NumberRangeBridge::registerClass(globalState);
     }
 
 	{
@@ -714,6 +710,7 @@ bool ScriptContext::openState(size_t idx)
 		Vector3int16Bridge::registerClassLibrary(globalState);
 		Vector2int16Bridge::registerClassLibrary(globalState);
         Rect2DBridge::registerClassLibrary(globalState);
+		TweenInfoBridge::registerClassLibrary(globalState);
 		PhysicalPropertiesBridge::registerClassLibrary(globalState);
 		Vector3Bridge::registerClassLibrary(globalState);
 		Vector2Bridge::registerClassLibrary(globalState);
@@ -727,15 +724,11 @@ bool ScriptContext::openState(size_t idx)
 		CellIDBridge::registerClassLibrary(globalState);
 		ObjectBridge::registerClassLibrary(globalState);
 		ObjectBridge::registerInstanceClassLibrary(globalState);
-
-        if (FFlag::CustomEmitterLuaTypesEnabled)
-        {{{
-            NumberSequenceBridge::registerClassLibrary(globalState);
-            ColorSequenceBridge::registerClassLibrary(globalState);
-            NumberSequenceKeypointBridge::registerClassLibrary(globalState);
-            ColorSequenceKeypointBridge::registerClassLibrary(globalState);
-            NumberRangeBridge::registerClassLibrary(globalState);
-        }}}
+        NumberSequenceBridge::registerClassLibrary(globalState);
+        ColorSequenceBridge::registerClassLibrary(globalState);
+        NumberSequenceKeypointBridge::registerClassLibrary(globalState);
+        ColorSequenceKeypointBridge::registerClassLibrary(globalState);
+        NumberRangeBridge::registerClassLibrary(globalState);
     }
 
 	{

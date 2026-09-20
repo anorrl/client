@@ -13,6 +13,7 @@
 #include "util/CellID.h"
 #include "util/UDim.h"
 #include "util/PhysicalProperties.h"
+#include "util/TweenInfo.h"
 #include "script/ThreadRef.h"
 #include "script/ScriptEvent.h"
 #include "script/LuaSignalBridge.h"
@@ -60,6 +61,7 @@ namespace ARL
 		template int Bridge <ARL::Vector2>::on_tostring(const  ARL::Vector2&, lua_State *);
         template int Bridge <ARL::Rect2D>::on_tostring(const  ARL::Rect2D&, lua_State *);
 		template int Bridge <PhysicalProperties>::on_tostring(const ARL::PhysicalProperties&, lua_State *);
+		template int Bridge <ARL::TweenInfo>::on_tostring(const ARL::TweenInfo&, lua_State*);
 		template int Bridge <ARL::BrickColor>::on_tostring(const  ARL::BrickColor&, lua_State *);
 		template int Bridge <G3D::CoordinateFrame>::on_tostring(const  G3D::CoordinateFrame&, lua_State *);
 		template int Bridge <ARL::Faces>::on_tostring(const  ARL::Faces&, lua_State *);
@@ -143,5 +145,6 @@ namespace ARL
         template void Bridge <ARL::NumberSequence>::registerClass(lua_State *);
         template void Bridge <ARL::ColorSequence>::registerClass(lua_State *);
         template void Bridge <ARL::NumberRange>::registerClass(lua_State *);
+		template void Bridge <ARL::TweenInfo>::registerClass(lua_State *);
 	}
 }

@@ -161,6 +161,36 @@ private Q_SLOTS:
 	void updatePropertyValue(QColor selectedColor);
 };
 
+class Color3PropertyItem : public QObject, public PropertyItem
+{
+	Q_OBJECT
+private:
+	PopupLaunchEditor *m_pPopupLaunchEditor;
+	QLineEdit         *m_pProxyLineEdit;
+public:
+
+	Color3PropertyItem(const ARL::Reflection::PropertyDescriptor *pPropertyDescriptor);
+	Color3PropertyItem(PropertyItem* parent, const QString& name);
+
+	QString getTextValue();
+
+	void updateIcon();
+	bool update();
+
+	QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option);
+
+	void setEditorData(QWidget *editor);
+	bool customLaunchEditorHook(QMouseEvent* event);
+	void buttonClicked(const QString& buttonName = QString());
+	void setModelData(QWidget *editor);
+	void setModelDataSafe(QWidget *editor);
+
+	int popupLauncherButtonSize();
+
+	private Q_SLOTS:
+	void updatePropertyValue(QColor selectedColor);
+};
+
 class DoubleSpinBoxWidget : public QDoubleSpinBox
 {
 public:

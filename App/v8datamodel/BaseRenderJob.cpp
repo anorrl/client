@@ -9,7 +9,7 @@
 
 LOGGROUP(TaskSchedulerTiming)
 
-DYNAMIC_FASTFLAGVARIABLE(JobCyclicExecutiveRendering, false)
+DYNAMIC_FASTFLAGVARIABLE(JobCyclicExecutiveRendering, true)
 
 namespace ARL 
 {

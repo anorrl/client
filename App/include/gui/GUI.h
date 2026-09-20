@@ -71,7 +71,7 @@ protected:
 	}
 
 	// used internally - could these be protected?
-	virtual int getFontSize() const	{return 12;}
+	virtual int getFontSize() const	{return 11;}
 
 	virtual bool isVisible() const	{return true;}
 

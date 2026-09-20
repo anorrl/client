@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnPopupHelpers.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnPopupHelpers.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__PopupDrawHelper_t {
     QByteArrayData data[1];
-    char stringdata0[24];
+    char stringdata[24];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupDrawHelper_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupDrawHelper_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__PopupDrawHelper_t qt_meta_stringdata_Qtitan__PopupDrawHelper = {
@@ -74,7 +74,7 @@ const QMetaObject *Qtitan::PopupDrawHelper::metaObject() const
 void *Qtitan::PopupDrawHelper::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupDrawHelper.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupDrawHelper.stringdata))
         return static_cast<void*>(const_cast< PopupDrawHelper*>(this));
     return QCommonStyle::qt_metacast(_clname);
 }
@@ -88,11 +88,11 @@ int Qtitan::PopupDrawHelper::qt_metacall(QMetaObject::Call _c, int _id, void **_
 }
 struct qt_meta_stringdata_Qtitan__PopupOffice2000DrawHelper_t {
     QByteArrayData data[1];
-    char stringdata0[34];
+    char stringdata[34];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupOffice2000DrawHelper_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupOffice2000DrawHelper_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__PopupOffice2000DrawHelper_t qt_meta_stringdata_Qtitan__PopupOffice2000DrawHelper = {
@@ -142,7 +142,7 @@ const QMetaObject *Qtitan::PopupOffice2000DrawHelper::metaObject() const
 void *Qtitan::PopupOffice2000DrawHelper::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupOffice2000DrawHelper.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupOffice2000DrawHelper.stringdata))
         return static_cast<void*>(const_cast< PopupOffice2000DrawHelper*>(this));
     return PopupDrawHelper::qt_metacast(_clname);
 }
@@ -156,11 +156,11 @@ int Qtitan::PopupOffice2000DrawHelper::qt_metacall(QMetaObject::Call _c, int _id
 }
 struct qt_meta_stringdata_Qtitan__PopupOffice2003DrawHelper_t {
     QByteArrayData data[1];
-    char stringdata0[34];
+    char stringdata[34];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupOffice2003DrawHelper_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupOffice2003DrawHelper_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__PopupOffice2003DrawHelper_t qt_meta_stringdata_Qtitan__PopupOffice2003DrawHelper = {
@@ -210,7 +210,7 @@ const QMetaObject *Qtitan::PopupOffice2003DrawHelper::metaObject() const
 void *Qtitan::PopupOffice2003DrawHelper::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupOffice2003DrawHelper.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupOffice2003DrawHelper.stringdata))
         return static_cast<void*>(const_cast< PopupOffice2003DrawHelper*>(this));
     return PopupDrawHelper::qt_metacast(_clname);
 }
@@ -224,11 +224,11 @@ int Qtitan::PopupOffice2003DrawHelper::qt_metacall(QMetaObject::Call _c, int _id
 }
 struct qt_meta_stringdata_Qtitan__PopupOffice2007DrawHelper_t {
     QByteArrayData data[1];
-    char stringdata0[34];
+    char stringdata[34];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupOffice2007DrawHelper_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupOffice2007DrawHelper_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__PopupOffice2007DrawHelper_t qt_meta_stringdata_Qtitan__PopupOffice2007DrawHelper = {
@@ -278,7 +278,7 @@ const QMetaObject *Qtitan::PopupOffice2007DrawHelper::metaObject() const
 void *Qtitan::PopupOffice2007DrawHelper::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupOffice2007DrawHelper.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupOffice2007DrawHelper.stringdata))
         return static_cast<void*>(const_cast< PopupOffice2007DrawHelper*>(this));
     return PopupOffice2003DrawHelper::qt_metacast(_clname);
 }
@@ -292,11 +292,11 @@ int Qtitan::PopupOffice2007DrawHelper::qt_metacall(QMetaObject::Call _c, int _id
 }
 struct qt_meta_stringdata_Qtitan__PopupOffice2010DrawHelper_t {
     QByteArrayData data[1];
-    char stringdata0[34];
+    char stringdata[34];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupOffice2010DrawHelper_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupOffice2010DrawHelper_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__PopupOffice2010DrawHelper_t qt_meta_stringdata_Qtitan__PopupOffice2010DrawHelper = {
@@ -346,7 +346,7 @@ const QMetaObject *Qtitan::PopupOffice2010DrawHelper::metaObject() const
 void *Qtitan::PopupOffice2010DrawHelper::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupOffice2010DrawHelper.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupOffice2010DrawHelper.stringdata))
         return static_cast<void*>(const_cast< PopupOffice2010DrawHelper*>(this));
     return PopupOffice2007DrawHelper::qt_metacast(_clname);
 }
@@ -360,11 +360,11 @@ int Qtitan::PopupOffice2010DrawHelper::qt_metacall(QMetaObject::Call _c, int _id
 }
 struct qt_meta_stringdata_Qtitan__PopupMSNDrawHelper_t {
     QByteArrayData data[1];
-    char stringdata0[27];
+    char stringdata[27];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupMSNDrawHelper_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__PopupMSNDrawHelper_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__PopupMSNDrawHelper_t qt_meta_stringdata_Qtitan__PopupMSNDrawHelper = {
@@ -414,7 +414,7 @@ const QMetaObject *Qtitan::PopupMSNDrawHelper::metaObject() const
 void *Qtitan::PopupMSNDrawHelper::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupMSNDrawHelper.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__PopupMSNDrawHelper.stringdata))
         return static_cast<void*>(const_cast< PopupMSNDrawHelper*>(this));
     return PopupOffice2000DrawHelper::qt_metacast(_clname);
 }

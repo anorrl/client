@@ -284,11 +284,12 @@ function methods:InternalApplyRobloxFilter(speakerName, message, toSpeakerName) 
 		local filterRetries = 0
 		while true do
 			local success, message = pcall(function()
-				if toPlayerObj then
+				--[[if toPlayerObj then
 					return Chat:FilterStringAsync(message, fromPlayerObj, toPlayerObj)
 				else
 					return Chat:FilterStringForBroadcast(message, fromPlayerObj)
-				end
+				end]]
+				return true, message
 			end)
 			if success then
 				return message

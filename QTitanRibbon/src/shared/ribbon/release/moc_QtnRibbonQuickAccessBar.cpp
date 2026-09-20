@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonQuickAccessBar.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonQuickAccessBar.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__RibbonQuickAccessBar_t {
     QByteArrayData data[9];
-    char stringdata0[135];
+    char stringdata[135];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonQuickAccessBar_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonQuickAccessBar_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonQuickAccessBar_t qt_meta_stringdata_Qtitan__RibbonQuickAccessBar = {
@@ -84,7 +84,6 @@ void Qtitan::RibbonQuickAccessBar::qt_static_metacall(QObject *_o, QMetaObject::
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         RibbonQuickAccessBar *_t = static_cast<RibbonQuickAccessBar *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->showCustomizeMenu((*reinterpret_cast< QMenu*(*)>(_a[1]))); break;
         case 1: _t->customizeAction((*reinterpret_cast< QAction*(*)>(_a[1]))); break;
@@ -118,7 +117,7 @@ const QMetaObject *Qtitan::RibbonQuickAccessBar::metaObject() const
 void *Qtitan::RibbonQuickAccessBar::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonQuickAccessBar.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonQuickAccessBar.stringdata))
         return static_cast<void*>(const_cast< RibbonQuickAccessBar*>(this));
     return QToolBar::qt_metacast(_clname);
 }

@@ -168,6 +168,12 @@ static void pushLuaValue(ARL::Reflection::ConstProperty p, lua_State *L, ARL::Se
 		return;
 	}
 
+	if(desc.type == Type::singleton<TweenInfo>())
+	{
+		TweenInfoBridge::pushTweenInfo(L, p.getValue<TweenInfo>());
+		return;
+	}
+	
 	if (desc.type==Type::singleton<G3D::Vector3>())
 	{
 		Vector3Bridge::pushVector3(L, p.getValue<G3D::Vector3>());
@@ -558,6 +564,12 @@ static void assignLuaValue(ARL::Reflection::Property p, lua_State *L, int index,
 			p.setValue<PhysicalProperties>(PhysicalPropertiesBridge::getObject(L, index));
 			return;
 		}
+	}
+
+	if (desc.type == Type::singleton<TweenInfo>())
+	{
+		p.setValue<TweenInfo>(TweenInfoBridge::getObject(L, index));
+		return;
 	}
 
 	if (desc.type==Type::singleton<ARL::RbxRay>())

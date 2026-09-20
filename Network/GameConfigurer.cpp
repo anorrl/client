@@ -61,7 +61,8 @@ FASTFLAG(UseBuildGenericGameUrl)
 
 DYNAMIC_FASTINTVARIABLE(JoinInfluxHundredthsPercentage, 0)
 
-FASTFLAGVARIABLE(ClientABTestingEnabled, true)
+FASTFLAGVARIABLE(ClientABTestingEnabled, false)
+FASTFLAGVARIABLE(EnableModuleScriptLoadingOnACC, false)
 
 using namespace ARL;
 
@@ -912,7 +913,7 @@ void StudioConfigurer::configure(ARL::Security::Identities identity, DataModel* 
 	if (Network::Players::isCloudEdit(dataModel))
 		return;
 
-	if (Network::Players::frontendProcessing(dataModel))
+	if (Network::Players::frontendProcessing(dataModel) || (FFlag::EnableModuleScriptLoadingOnACC && Network::Players::backendProcessing(dataModel)))
 		loadCoreModules();
 
 	// this will be called in case of old play solo

@@ -1,72 +1,71 @@
-﻿Build started 9/4/2026 10:05:24 PM.
-     1>Project "C:\dazai\Client\QTitanRibbon\src\shared\ribbon\qtnribbon.vcxproj" on node 2 (Build target(s)).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Platforms\Win32\PlatformToolsets\v110_xp\Microsoft.Cpp.Win32.v110_xp.targets(36,5): warning MSB8003: Could not find WindowsSdkDir_71A variable from the registry.  TargetFrameworkVersion or PlatformToolset may be set to an invalid version number.
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(346,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1137,5): warning MSB8012: TargetPath(C:\dazai\Client\QTitanRibbon\src\shared\ribbon\..\..\..\roblox_build\qtnribbon.dll) does not match the Linker's OutputFile property value (C:\dazai\Client\QTitanRibbon\roblox_build\qtnribbon5.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.CppBuild.targets(1139,5): warning MSB8012: TargetName(qtnribbon) does not match the Linker's OutputFile property value (qtnribbon5). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
-     1>Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\..\roblox_build\\qtnribbon5.dll" /VERSION:"3.21" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\dazai\Library\windows\x86\SDK\Lib /LIBPATH:C:\dazai\Library\windows\x86\Qt\5.5\msvc2012\lib user32.lib Qt5Gui.lib Qt5Core.lib Qt5Widgets.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\..\..\roblox_build\qtnribbon.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /SAFESEH /DLL release\QtnCommonPaintManager.obj
-         release\QtnCommonStyle.obj
-         release\QtnCommonStyle_win.obj
-         release\QtnOfficeFrameHelper_win.obj
-         release\QtnOfficePaintManager.obj
-         release\QtnOfficePopupColorButton.obj
-         release\QtnOfficePopupMenu.obj
-         release\QtnOfficePopupWindow.obj
-         release\QtnOfficeStyle.obj
-         release\QtnPopupHelpers.obj
-         release\QtnRibbonBackstageView.obj
-         release\QtnRibbonBar.obj
-         release\QtnRibbonButton.obj
-         release\QtnRibbonGallery.obj
-         release\QtnRibbonGroup.obj
-         release\QtnRibbonGroupLayout.obj
-         release\QtnRibbonMainWindow.obj
-         release\QtnRibbonPage.obj
-         release\QtnRibbonPaintManager.obj
-         release\QtnRibbonPrivate.obj
-         release\QtnRibbonQuickAccessBar.obj
-         release\QtnRibbonSliderPane.obj
-         release\QtnRibbonStatusBar.obj
-         release\QtnRibbonStyle.obj
-         release\QtnRibbonSystemPopupBar.obj
-         release\QtnRibbonTabBar.obj
-         release\QtnRibbonToolTip.obj
-         release\QtnStyleHelpers.obj
-         release\moc_QtnCommonStyle.obj
-         release\moc_QtnOfficeFrameHelper_win.obj
-         release\moc_QtnOfficePopupColorButton.obj
-         release\moc_QtnOfficePopupMenu.obj
-         release\moc_QtnOfficePopupWindow.obj
-         release\moc_QtnOfficeStyle.obj
-         release\moc_QtnOfficeStylePrivate.obj
-         release\moc_QtnPopupHelpers.obj
-         release\moc_QtnRibbonBackstageView.obj
-         release\moc_QtnRibbonBackstageViewPrivate.obj
-         release\moc_QtnRibbonBar.obj
-         release\moc_QtnRibbonBarPrivate.obj
-         release\moc_QtnRibbonButton.obj
-         release\moc_QtnRibbonGallery.obj
-         release\moc_QtnRibbonGalleryPrivate.obj
-         release\moc_QtnRibbonGroup.obj
-         release\moc_QtnRibbonGroupLayout.obj
-         release\moc_QtnRibbonGroupPrivate.obj
-         release\moc_QtnRibbonMainWindow.obj
-         release\moc_QtnRibbonPage.obj
-         release\moc_QtnRibbonPrivate.obj
-         release\moc_QtnRibbonQuickAccessBar.obj
-         release\moc_QtnRibbonSliderPane.obj
-         release\moc_QtnRibbonStatusBar.obj
-         release\moc_QtnRibbonStyle.obj
-         release\moc_QtnRibbonStylePrivate.obj
-         release\moc_QtnRibbonSystemPopupBar.obj
-         release\moc_QtnRibbonTabBar.obj
-         release\moc_QtnRibbonToolTip.obj
-         release\qrc_QtnRibbonResources.obj
-            Creating library ..\..\..\roblox_build\\qtnribbon5.lib and object ..\..\..\roblox_build\\qtnribbon5.exp
-         qtnribbon.vcxproj -> C:\dazai\Client\QTitanRibbon\src\shared\ribbon\..\..\..\roblox_build\qtnribbon.dll
-     1>Done Building Project "C:\dazai\Client\QTitanRibbon\src\shared\ribbon\qtnribbon.vcxproj" (Build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:01.14
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  QtnCommonPaintManager.cpp
+  QtnCommonStyle.cpp
+  QtnCommonStyle_win.cpp
+  QtnOfficeFrameHelper_win.cpp
+..\..\ribbon\QtnOfficeFrameHelper_win.cpp(2093): warning C4996: 'GetVersionExW': was declared deprecated
+  C:\dazai\Library\windows\x86\SDK\Include\sysinfoapi.h(442): note: see declaration of 'GetVersionExW'
+  QtnOfficePaintManager.cpp
+  QtnOfficePopupColorButton.cpp
+  QtnOfficePopupMenu.cpp
+  QtnOfficePopupWindow.cpp
+  QtnOfficeStyle.cpp
+  QtnPopupHelpers.cpp
+  QtnRibbonBackstageView.cpp
+  QtnRibbonBar.cpp
+  QtnRibbonButton.cpp
+  QtnRibbonGallery.cpp
+  QtnRibbonGroup.cpp
+  QtnRibbonGroupLayout.cpp
+  QtnRibbonMainWindow.cpp
+  QtnRibbonPage.cpp
+  QtnRibbonPaintManager.cpp
+  QtnRibbonPrivate.cpp
+  Generating Code...
+  Compiling...
+  QtnRibbonQuickAccessBar.cpp
+  QtnRibbonSliderPane.cpp
+  QtnRibbonStatusBar.cpp
+  QtnRibbonStyle.cpp
+  QtnRibbonSystemPopupBar.cpp
+  QtnRibbonTabBar.cpp
+  QtnRibbonToolTip.cpp
+  QtnStyleHelpers.cpp
+  moc_QtnCommonStyle.cpp
+  moc_QtnOfficeFrameHelper_win.cpp
+  moc_QtnOfficePopupColorButton.cpp
+  moc_QtnOfficePopupMenu.cpp
+  moc_QtnOfficePopupWindow.cpp
+  moc_QtnOfficeStyle.cpp
+  moc_QtnOfficeStylePrivate.cpp
+  moc_QtnPopupHelpers.cpp
+  moc_QtnRibbonBackstageView.cpp
+  moc_QtnRibbonBackstageViewPrivate.cpp
+  moc_QtnRibbonBar.cpp
+  moc_QtnRibbonBarPrivate.cpp
+  Generating Code...
+  Compiling...
+  moc_QtnRibbonButton.cpp
+  moc_QtnRibbonGallery.cpp
+  moc_QtnRibbonGalleryPrivate.cpp
+  moc_QtnRibbonGroup.cpp
+  moc_QtnRibbonGroupLayout.cpp
+  moc_QtnRibbonGroupPrivate.cpp
+  moc_QtnRibbonMainWindow.cpp
+  moc_QtnRibbonPage.cpp
+  moc_QtnRibbonPrivate.cpp
+  moc_QtnRibbonQuickAccessBar.cpp
+  moc_QtnRibbonSliderPane.cpp
+  moc_QtnRibbonStatusBar.cpp
+  moc_QtnRibbonStyle.cpp
+  moc_QtnRibbonStylePrivate.cpp
+  moc_QtnRibbonSystemPopupBar.cpp
+  moc_QtnRibbonTabBar.cpp
+  moc_QtnRibbonToolTip.cpp
+  qrc_QtnRibbonResources.cpp
+  Generating Code...
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1189,5): warning MSB8012: TargetPath(C:\dazai\Client\QTitanRibbon\src\shared\ribbon\..\..\..\roblox_build\qtnribbon.dll) does not match the Linker's OutputFile property value (C:\dazai\Client\QTitanRibbon\roblox_build\qtnribbon5.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1191,5): warning MSB8012: TargetName(qtnribbon) does not match the Linker's OutputFile property value (qtnribbon5). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     Creating library ..\..\..\roblox_build\\qtnribbon5.lib and object ..\..\..\roblox_build\\qtnribbon5.exp
+  qtnribbon.vcxproj -> C:\dazai\Client\QTitanRibbon\src\shared\ribbon\..\..\..\roblox_build\qtnribbon.dll
+  qtnribbon.vcxproj -> ..\..\..\roblox_build\qtnribbon.pdb (Full PDB)

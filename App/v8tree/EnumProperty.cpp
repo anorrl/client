@@ -13,6 +13,7 @@
 #include "Util/BinaryString.h"
 #include "Util/base64.hpp"
 #include "Util/PhysicalProperties.h"
+#include "Util/TweenInfo.h"
 #include "v8tree/Instance.h"
 #include "Script/ThreadRef.h"
 #include "arl/make_shared.h"
@@ -1439,6 +1440,64 @@ void ARL::Reflection::TypedPropertyDescriptor<PhysicalProperties>::writeValue(co
 		elasticityWeightElement->setValue(currentProperties.getElasticityWeight());
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+//
+// TweenInfo
+// convert, getSingleton, hasStringValue, getStringValue, setStringValue, readValue, writeValue
+
+template<>
+TweenInfo& ARL::Reflection::Variant::convert<TweenInfo>(void)
+{
+	return genericConvert<TweenInfo>();
+}
+
+template<>
+const Type& Type::getSingleton<TweenInfo>()
+{
+	static TType<TweenInfo> type("TweenInfo");
+	return type;
+}
+
+template<>
+int TypedPropertyDescriptor<TweenInfo>::getDataSize(const DescribedBase* instance) const
+{
+	return sizeof(TweenInfo);
+}
+
+template<>
+bool TypedPropertyDescriptor<TweenInfo>::hasStringValue() const
+{
+	return true;
+}
+
+template<>
+std::string TypedPropertyDescriptor<TweenInfo>::getStringValue(const DescribedBase* instance) const
+{
+	return StringConverter<TweenInfo>::convertToString(getValue(instance));
+}
+
+template<>
+bool TypedPropertyDescriptor<TweenInfo>::setStringValue(DescribedBase* instance, const std::string& text) const
+{
+	return false;
+}
+
+template<>
+void ARL::Reflection::TypedPropertyDescriptor<TweenInfo>::readValue(
+	DescribedBase* instance, const XmlElement* element, IReferenceBinder& binder) const
+{
+	return;
+}
+
+template<>
+void ARL::Reflection::TypedPropertyDescriptor<TweenInfo>::writeValue(const DescribedBase* instance, XmlElement* element) const
+{
+	return;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////

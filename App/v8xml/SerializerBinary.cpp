@@ -91,7 +91,13 @@ namespace ARL
 		bpfRect2D,
 		bpfPhysicalProperties,
 		bpfColor3uint8,
-		bpfInt64
+		bpfInt64,
+		bpfBytecode,
+		SharedString,
+		bpfOptionalCoordinateFrame,
+		bpfUniqueId,
+		bpfFont,
+		bpfContent,
 	};
 
 	enum BinaryParentLinkFormat

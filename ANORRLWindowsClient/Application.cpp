@@ -408,7 +408,7 @@ HttpFuture Application::loginAsync(const std::string& userName, const std::strin
 	std::string loginUrl = ARL::format("%slogin/v1", GetBaseURL().c_str());
 	std::string postData = ARL::format("{\"username\":\"%s\", \"password\":\"%s\"}", userName.c_str(), passWord.c_str());
 
-	boost::replace_all(loginUrl, "http", "https");
+	boost::replace_all(loginUrl, "http:", "https:");
 	//boost::replace_all(loginUrl, "www", "api");
 	HttpPostData d(postData, Http::kContentTypeApplicationJson, false);
 	return HttpAsync::post(loginUrl,d);

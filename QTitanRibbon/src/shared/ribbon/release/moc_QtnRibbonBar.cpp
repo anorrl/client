@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonBar.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonBar.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__RibbonBar_t {
     QByteArrayData data[25];
-    char stringdata0[322];
+    char stringdata[322];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonBar_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonBar_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonBar_t qt_meta_stringdata_Qtitan__RibbonBar = {
@@ -131,7 +131,6 @@ void Qtitan::RibbonBar::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         RibbonBar *_t = static_cast<RibbonBar *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->minimizationChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 1: _t->currentPageChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
@@ -182,34 +181,6 @@ void Qtitan::RibbonBar::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
             }
         }
     }
-#ifndef QT_NO_PROPERTIES
-    else if (_c == QMetaObject::ReadProperty) {
-        RibbonBar *_t = static_cast<RibbonBar *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: *reinterpret_cast< QuickAccessBarPosition*>(_v) = _t->quickAccessBarPosition(); break;
-        case 1: *reinterpret_cast< int*>(_v) = _t->currentIndexPage(); break;
-        case 2: *reinterpret_cast< bool*>(_v) = _t->isFrameThemeEnabled(); break;
-        case 3: *reinterpret_cast< bool*>(_v) = _t->isMinimized(); break;
-        case 4: *reinterpret_cast< bool*>(_v) = _t->isMaximized(); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::WriteProperty) {
-        RibbonBar *_t = static_cast<RibbonBar *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: _t->setQuickAccessBarPosition(*reinterpret_cast< QuickAccessBarPosition*>(_v)); break;
-        case 1: _t->setCurrentPage(*reinterpret_cast< int*>(_v)); break;
-        case 2: _t->setFrameThemeEnabled(*reinterpret_cast< bool*>(_v)); break;
-        case 3: _t->setMinimized(*reinterpret_cast< bool*>(_v)); break;
-        case 4: _t->setMaximized(*reinterpret_cast< bool*>(_v)); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::ResetProperty) {
-    }
-#endif // QT_NO_PROPERTIES
 }
 
 const QMetaObject Qtitan::RibbonBar::staticMetaObject = {
@@ -226,7 +197,7 @@ const QMetaObject *Qtitan::RibbonBar::metaObject() const
 void *Qtitan::RibbonBar::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBar.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBar.stringdata))
         return static_cast<void*>(const_cast< RibbonBar*>(this));
     return QMenuBar::qt_metacast(_clname);
 }
@@ -246,9 +217,29 @@ int Qtitan::RibbonBar::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         _id -= 7;
     }
 #ifndef QT_NO_PROPERTIES
-   else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
-            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
-        qt_static_metacall(this, _c, _id, _a);
+      else if (_c == QMetaObject::ReadProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< QuickAccessBarPosition*>(_v) = quickAccessBarPosition(); break;
+        case 1: *reinterpret_cast< int*>(_v) = currentIndexPage(); break;
+        case 2: *reinterpret_cast< bool*>(_v) = isFrameThemeEnabled(); break;
+        case 3: *reinterpret_cast< bool*>(_v) = isMinimized(); break;
+        case 4: *reinterpret_cast< bool*>(_v) = isMaximized(); break;
+        default: break;
+        }
+        _id -= 5;
+    } else if (_c == QMetaObject::WriteProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: setQuickAccessBarPosition(*reinterpret_cast< QuickAccessBarPosition*>(_v)); break;
+        case 1: setCurrentPage(*reinterpret_cast< int*>(_v)); break;
+        case 2: setFrameThemeEnabled(*reinterpret_cast< bool*>(_v)); break;
+        case 3: setMinimized(*reinterpret_cast< bool*>(_v)); break;
+        case 4: setMaximized(*reinterpret_cast< bool*>(_v)); break;
+        default: break;
+        }
+        _id -= 5;
+    } else if (_c == QMetaObject::ResetProperty) {
         _id -= 5;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
         _id -= 5;
@@ -259,6 +250,10 @@ int Qtitan::RibbonBar::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     } else if (_c == QMetaObject::QueryPropertyEditable) {
         _id -= 5;
     } else if (_c == QMetaObject::QueryPropertyUser) {
+        _id -= 5;
+    } else if (_c == QMetaObject::RegisterPropertyMetaType) {
+        if (_id < 5)
+            *reinterpret_cast<int*>(_a[0]) = -1;
         _id -= 5;
     }
 #endif // QT_NO_PROPERTIES

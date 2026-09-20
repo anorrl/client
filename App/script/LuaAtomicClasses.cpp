@@ -7,6 +7,7 @@
 #include "G3D/Quat.h"
 #include "rbxformat.h"
 #include "script/LuaInstanceBridge.h"
+#include "script/LuaArguments.h"
 
 #include "lstate.h"
 #include "lfunc.h"
@@ -76,6 +77,116 @@ float lua_tofloat(lua_State *L, int idx)
 	return (float) value;
 }
 
+
+
+// TweenInfo implementation
+template<>
+const char* Bridge<TweenInfo>::className("TweenInfo");
+
+const luaL_reg TweenInfoBridge::classLibrary[] = { { "new", newTweenInfo },{ NULL, NULL } };
+void TweenInfoBridge::registerClassLibrary(lua_State* L)
+{
+	// Register "new" function
+	luaL_register(L, className, classLibrary);
+	lua_setreadonly(L, -1, true);
+	lua_pop(L, 1); // Pop table from stack.   http://lua-users.org/lists/lua-l/2003-12/msg00139.html
+}
+
+int TweenInfoBridge::newTweenInfo(lua_State* L)
+{
+	double time = 1.0;
+	int easingStyle = TweenInfo::EASING_STYLE_QUAD;
+	int easingDirection = TweenInfo::EASING_DIRECTION_OUT;
+	double repeatCount = 0.0;
+	bool reverses = false;
+	double delayTime = 0.0;
+
+	const int count = lua_gettop(L);
+	Lua::LuaArguments args(L, 0);
+
+	if (count > 0)
+	{
+		if (!args.getDouble(1, time))
+			throw ARL::runtime_error("TweenInfo.new first argument expects a number for time.");
+
+		if (count >= 2)
+		{
+			if (!args.getEnum(2, Reflection::EnumDesc<TweenInfo::TweenEasingStyle>::singleton(), easingStyle))
+				throw ARL::runtime_error("TweenInfo.new second argument expects Enum.EasingStyle input");
+
+			if (count >= 3)
+			{
+				if (!args.getEnum(3, Reflection::EnumDesc<TweenInfo::TweenEasingDirection>::singleton(), easingDirection))
+					throw ARL::runtime_error("TweenInfo.new third argument expects Enum.EasingDirection input");
+				if (count >= 4)
+				{
+					if (!args.getDouble(4, repeatCount))
+						throw ARL::runtime_error("TweenInfo.new fourth arg should be a number for RepeatCount.");
+					if (count >= 5)
+					{
+						if (!args.getBool(5, reverses))
+							throw ARL::runtime_error("TweenInfo.new fifth arg should be a boolean for Reverses.");
+						if (count >= 6 && !args.getDouble(6, delayTime))
+							throw ARL::runtime_error("TweenInfo.new sixth arg should be a number for DelayTime.");
+					}
+				}
+			}
+		}
+	}
+
+	pushNewObject(L, TweenInfo((TweenInfo::TweenEasingStyle)easingStyle, (TweenInfo::TweenEasingDirection)easingDirection, repeatCount, reverses,
+		time, delayTime, 0.0));
+	return 1;
+}
+
+
+template<>
+int Bridge<TweenInfo>::on_index(const TweenInfo& object, const char* name, lua_State* L)
+{
+	if (strcmp(name, "Time") == 0)
+	{
+		lua_pushnumber(L, object.getTime());
+		return 1;
+	}
+	if (strcmp(name, "EasingStyle") == 0)
+	{
+		const Reflection::EnumDesc<TweenInfo::TweenEasingStyle>& eStyleDesc = Reflection::EnumDesc<TweenInfo::TweenEasingStyle>::singleton();
+		Lua::EnumItem::push(L, eStyleDesc.convertToItem(object.getStyle()));
+		return 1;
+	}
+	if (strcmp(name, "EasingDirection") == 0)
+	{
+		const Reflection::EnumDesc<TweenInfo::TweenEasingDirection>& eStyleDirection =
+			Reflection::EnumDesc<TweenInfo::TweenEasingDirection>::singleton();
+		Lua::EnumItem::push(L, eStyleDirection.convertToItem(object.getDirection()));
+		return 1;
+	}
+	if (strcmp(name, "RepeatCount") == 0)
+	{
+		lua_pushnumber(L, object.getRepeatCount());
+		return 1;
+	}
+	if (strcmp(name, "Reverses") == 0)
+	{
+		lua_pushboolean(L, object.getReverses());
+		return 1;
+	}
+	if (strcmp(name, "DelayTime") == 0)
+	{
+		lua_pushboolean(L, object.getDelayTime());
+		return 1;
+	}
+
+	// Failure
+	throw ARL::runtime_error("%s is not a valid member of TweenInfo", name);
+}
+
+template<>
+void Bridge<TweenInfo>::on_newindex(TweenInfo& object, const char* name, lua_State* L)
+{
+	// Failure CAN OVERRIDE THIS TO MAKE SETTING WORK
+	throw ARL::runtime_error("%s cannot be assigned to", name);
+}
 
 /// G3D::Color3 has a default implementation for on_tostring() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization
 /// G3D::Color3 has a default implementation for registerClass() invoked from LuaBridge.cpp. It is important you read LuaBridge.cpp if you are adding or removing any specialization

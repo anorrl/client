@@ -15,6 +15,7 @@
 #include "Reflection/Event.h"
 #include "Reflection/EnumConverter.h"
 #include "util/StreamRegion.h"
+#include "util/TweenInfo.h"
 #include <boost/algorithm/string.hpp>
 #include "Replicator.h"
 #include "util/VarInt.h"
@@ -24,9 +25,9 @@
 #include "v8datamodel/NumberRange.h"
 #include "v8datamodel/ColorSequence.h"
 
-//#define LOSSY_QUAT
-// with this defined we lose precision when compressing quaternions for streaming.
-// This makes places load incorrectly in multiplayer.
+// #define LOSSY_QUAT
+//  with this defined we lose precision when compressing quaternions for streaming.
+//  This makes places load incorrectly in multiplayer.
 
 DYNAMIC_FASTINTVARIABLE(PhysicsCompressionSizeFilter, 50)
 
@@ -37,31 +38,31 @@ SYNCHRONIZED_FASTFLAGVARIABLE(NetworkDisableStringCompression, false)
 #define MAX_STRING_SIZE 200000
 
 namespace ARL {
-	
+
 using namespace Reflection;
 
 namespace Network {
 
-void serializeEnumIndex(const Reflection::EnumDescriptor* enumDesc, const size_t& index, RakNet::BitStream &bitStream, size_t enumSizeMSB/*default to 0*/)
+void serializeEnumIndex(const Reflection::EnumDescriptor* enumDesc, const size_t& index, RakNet::BitStream& bitStream, size_t enumSizeMSB /*default to 0*/)
 {
     ARLASSERT(index < enumDesc->getEnumCount());
     if (enumSizeMSB == 0)
     {
         enumSizeMSB = enumDesc->getEnumCountMSB();
     }
-    bitStream.WriteBits((const unsigned char*) &index, enumSizeMSB+1);
+    bitStream.WriteBits((const unsigned char*)&index, enumSizeMSB + 1);
 }
 
-void deserializeEnumIndex(const Reflection::EnumDescriptor* enumDesc, size_t& index, RakNet::BitStream &bitStream, size_t enumSizeMSB/*default to 0*/)
+void deserializeEnumIndex(const Reflection::EnumDescriptor* enumDesc, size_t& index, RakNet::BitStream& bitStream, size_t enumSizeMSB /*default to 0*/)
 {
     if (enumSizeMSB == 0)
     {
         enumSizeMSB = enumDesc->getEnumCountMSB();
     }
 
-	readFastN( bitStream, index, enumSizeMSB+1 );
-	
-	if (index >= enumDesc->getEnumCount())
+    readFastN(bitStream, index, enumSizeMSB + 1);
+
+    if (index >= enumDesc->getEnumCount())
     {
         // overflowed value, set to default
         // This could happen on an outdated client connecting to the latest server where some new values are added to an enum
@@ -70,46 +71,46 @@ void deserializeEnumIndex(const Reflection::EnumDescriptor* enumDesc, size_t& in
     }
 }
 
-void serializeEnum(const Reflection::EnumDescriptor* enumDesc , const Reflection::Variant& value, RakNet::BitStream &bitStream, size_t enumSizeMSB/*default to 0*/)
+void serializeEnum(const Reflection::EnumDescriptor* enumDesc, const Reflection::Variant& value, RakNet::BitStream& bitStream, size_t enumSizeMSB /*default to 0*/)
 {
-	const EnumDescriptor::Item* item = enumDesc->lookup(value);
-	ARLASSERT(item);
-	const size_t valueIndex = item->index;
+    const EnumDescriptor::Item* item = enumDesc->lookup(value);
+    ARLASSERT(item);
+    const size_t valueIndex = item->index;
     serializeEnumIndex(enumDesc, valueIndex, bitStream, enumSizeMSB);
 }
 
-void deserializeEnum(const Reflection::EnumDescriptor* enumDesc, Reflection::Variant& result, RakNet::BitStream &bitStream, size_t enumSizeMSB/*default to 0*/)
+void deserializeEnum(const Reflection::EnumDescriptor* enumDesc, Reflection::Variant& result, RakNet::BitStream& bitStream, size_t enumSizeMSB /*default to 0*/)
 {
-	size_t index = 0;
+    size_t index = 0;
     deserializeEnumIndex(enumDesc, index, bitStream, enumSizeMSB);
-    if(!enumDesc->convertToValue(index,result))
+    if (!enumDesc->convertToValue(index, result))
         throw ARL::network_stream_exception("deserializeEnum conversion failed");
 }
 
-void serializeEnumProperty(const ConstProperty& property, RakNet::BitStream &bitStream, size_t enumSizeMSB/*default to 0*/)
+void serializeEnumProperty(const ConstProperty& property, RakNet::BitStream& bitStream, size_t enumSizeMSB /*default to 0*/)
 {
-	const EnumPropertyDescriptor& enumDesc = static_cast<const EnumPropertyDescriptor&>(property.getDescriptor());
-	const size_t value = enumDesc.getIndexValue(property.getInstance());
+    const EnumPropertyDescriptor& enumDesc = static_cast<const EnumPropertyDescriptor&>(property.getDescriptor());
+    const size_t value = enumDesc.getIndexValue(property.getInstance());
     serializeEnumIndex(&enumDesc.enumDescriptor, value, bitStream, enumSizeMSB);
 }
 
-void deserializeEnumProperty(Property& property, RakNet::BitStream &bitStream, size_t enumSizeMSB/*default to 0*/)
+void deserializeEnumProperty(Property& property, RakNet::BitStream& bitStream, size_t enumSizeMSB /*default to 0*/)
 {
-	const EnumPropertyDescriptor& enumDesc = static_cast<const EnumPropertyDescriptor&>(property.getDescriptor());
+    const EnumPropertyDescriptor& enumDesc = static_cast<const EnumPropertyDescriptor&>(property.getDescriptor());
     size_t index = 0;
     deserializeEnumIndex(&enumDesc.enumDescriptor, index, bitStream, enumSizeMSB);
-	if (property.getInstance())
-		enumDesc.setIndexValue(property.getInstance(), index);
+    if (property.getInstance())
+        enumDesc.setIndexValue(property.getInstance(), index);
 }
 
 void serializeStringCompressed(const std::string& value, RakNet::BitStream& stream)
 {
-	uint32_t size = static_cast<uint32_t>(value.size());
-	if (size > MAX_STRING_SIZE)
-		throw ARL::network_stream_exception(ARL::format("BitStream string write: String too long: %u", size));
-        
-	stream.Write(size);
-    RakNet::StringCompressor::Instance()->EncodeString(value.c_str(), static_cast<int>(size+1), &stream);
+    uint32_t size = static_cast<uint32_t>(value.size());
+    if (size > MAX_STRING_SIZE)
+        throw ARL::network_stream_exception(ARL::format("BitStream string write: String too long: %u", size));
+
+    stream.Write(size);
+    RakNet::StringCompressor::Instance()->EncodeString(value.c_str(), static_cast<int>(size + 1), &stream);
 }
 
 void deserializeStringCompressed(std::string& value, RakNet::BitStream& stream)
@@ -158,105 +159,133 @@ void deserializeStringCompressed(std::string& value, RakNet::BitStream& stream)
 
 } // namespace Network
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::Guid::Scope& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const ARL::Guid::Scope& value)
 {
-	Network::serializeGuidScope( stream, value, false );
-	return stream;
+    Network::serializeGuidScope(stream, value, false);
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, ARL::Guid::Scope& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, ARL::Guid::Scope& value)
 {
-	Network::deserializeGuidScope( stream, value, false );
-	return stream;
+    Network::deserializeGuidScope(stream, value, false);
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, int value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, int value)
 {
-	stream.Write(value);
-	return stream;
+    stream.Write(value);
+    return stream;
+}
+
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, int64_t value)
+{
+    stream.Write(value);
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, int& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, int& value)
 {
-	Network::readFastT( stream, value );
+    Network::readFastT(stream, value);
+    return stream;
+}
+
+template<>
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, int64_t& value)
+{
+    Network::readFastT(stream, value);
     return stream;
 }
 
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, unsigned int value)
+
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, unsigned int value)
 {
-	stream.Write(value);
-	return stream;
+    stream.Write(value);
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, unsigned int& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, unsigned int& value)
 {
-	Network::readFastT( stream, value );
-	return stream;
-}
-
-RakNet::BitStream& operator << (RakNet::BitStream& stream, unsigned long long value)
-{
-	stream.Write(value);
-	return stream;
+    Network::readFastT(stream, value);
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, unsigned long long& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, unsigned long& value)
 {
-	Network::readFastT( stream, value );
-	return stream;
+#if defined(__APPLE__) && defined(__LP64__)
+    // On 64-bit macOS, unsigned long is 64-bit, same as unsigned long long
+    static_assert(sizeof(unsigned long) == sizeof(unsigned long long), "Size mismatch");
+    Network::readFastT(stream, reinterpret_cast<unsigned long long&>(value));
+#else
+    // On other platforms, unsigned long is typically 32-bit
+    Network::readFastT(stream, value);
+#endif
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, char value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, unsigned long long value)
 {
-	stream.Write(value);
-	return stream;
-}
-
-template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, char& value)
-{
-	Network::readFastT( stream, value );
-	return stream;
-}
-
-RakNet::BitStream& operator << (RakNet::BitStream& stream, signed char value)
-{
-	stream.Write(value);
-	return stream;
+    stream.Write(value);
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, signed char& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, unsigned long long& value)
 {
-	Network::readFastT( stream, value );
-	return stream;
+    Network::readFastT(stream, value);
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, unsigned char value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, char value)
 {
-	stream.Write(value);
-	return stream;
+    stream.Write(value);
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, unsigned char& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, char& value)
 {
-	Network::readFastT( stream, value );
-	return stream;
+    Network::readFastT(stream, value);
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, short value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, signed char value)
 {
-	stream.Write(value);
-	return stream;
+    stream.Write(value);
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, unsigned short value)
+template<>
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, signed char& value)
+{
+    Network::readFastT(stream, value);
+    return stream;
+}
+
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, unsigned char value)
+{
+    stream.Write(value);
+    return stream;
+}
+
+template<>
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, unsigned char& value)
+{
+    Network::readFastT(stream, value);
+    return stream;
+}
+
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, short value)
+{
+    stream.Write(value);
+    return stream;
+}
+
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, unsigned short value)
 {
     stream.Write(value);
     return stream;
@@ -264,71 +293,71 @@ RakNet::BitStream& operator << (RakNet::BitStream& stream, unsigned short value)
 
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, short& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, short& value)
 {
-	Network::readFastT( stream, value );
-	return stream;
+    Network::readFastT(stream, value);
+    return stream;
 }
 
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, unsigned short& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, unsigned short& value)
 {
-	Network::readFastT( stream, value );
-	return stream;
+    Network::readFastT(stream, value);
+    return stream;
 }
 
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, bool value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, bool value)
 {
-	stream.Write(value);
-	return stream;
-}
-
-template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, bool& value)
-{
-	Network::readFastT( stream, value );
-	return stream;
-}
-
-RakNet::BitStream& operator << (RakNet::BitStream& stream, float value)
-{
-	stream.Write(value);
-	return stream;
+    stream.Write(value);
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, float& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, bool& value)
 {
-	Network::readFastT( stream, value );
-	return stream;
+    Network::readFastT(stream, value);
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, double value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, float value)
 {
-	stream.Write(value);
-	return stream;
+    stream.Write(value);
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, double& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, float& value)
 {
-	Network::readFastT( stream, value );
-	return stream;
+    Network::readFastT(stream, value);
+    return stream;
+}
+
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, double value)
+{
+    stream.Write(value);
+    return stream;
+}
+
+template<>
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, double& value)
+{
+    Network::readFastT(stream, value);
+    return stream;
 }
 
 // This one is expensive in terms of CPU
 // It uses huffman coding based on empirical alphabet frequency
 // So please avoid using it unless the string worth the compression
 // TODO: refactor to explicit function to avoid abusing
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const std::string& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const std::string& value)
 {
-	uint32_t size = static_cast<uint32_t>(value.size());
-	if (size > MAX_STRING_SIZE)
-		throw ARL::network_stream_exception(ARL::format("BitStream string write: String too long: %u", size));
-        
-	stream.Write(size);
+    uint32_t size = static_cast<uint32_t>(value.size());
+    if (size > MAX_STRING_SIZE)
+        throw ARL::network_stream_exception(ARL::format("BitStream string write: String too long: %u", size));
+
+    stream.Write(size);
 
     if (SFFlag::getNetworkDisableStringCompression())
     {
@@ -336,138 +365,138 @@ RakNet::BitStream& operator << (RakNet::BitStream& stream, const std::string& va
     }
     else
     {
-    	RakNet::StringCompressor::Instance()->EncodeString(value.c_str(), static_cast<int>(size+1), &stream);
+        RakNet::StringCompressor::Instance()->EncodeString(value.c_str(), static_cast<int>(size + 1), &stream);
     }
 
-	return stream;
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, std::string& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, std::string& value)
 {
-	uint32_t size;
-	Network::readFastT( stream, size );
+    uint32_t size;
+    Network::readFastT(stream, size);
 
-	if (size>MAX_STRING_SIZE)
-		throw ARL::network_stream_exception(ARL::format("BitStream >> std::string: Bad string length: %d, bit pos: %d", (int)size, stream.GetReadOffset()));
+    if (size > MAX_STRING_SIZE)
+        throw ARL::network_stream_exception(ARL::format("BitStream >> std::string: Bad string length: %d, bit pos: %d", (int)size, stream.GetReadOffset()));
 
     if (SFFlag::getNetworkDisableStringCompression())
     {
         value.resize(size);
-        
+
         if (size)
             stream.Read(&value[0], size);
     }
     else
     {
-    	char* buffer = (char*)alloca(size+1);
-    	RakNet::StringCompressor::Instance()->DecodeString(buffer, static_cast<int>(size+1), &stream);
-    	value = buffer;
+        char* buffer = (char*)alloca(size + 1);
+        RakNet::StringCompressor::Instance()->DecodeString(buffer, static_cast<int>(size + 1), &stream);
+        value = buffer;
     }
 
-	return stream;
+    return stream;
 }
 
 #define MAX_BINARY_STRING_SIZE 512000
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const BinaryString& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const BinaryString& value)
 {
-	uint32_t size = static_cast<uint32_t>(value.value().size());
-	if (size > MAX_BINARY_STRING_SIZE)
-		throw ARL::network_stream_exception(ARL::format("BitStream string write: BinaryString too long: %u", size));
+    uint32_t size = static_cast<uint32_t>(value.value().size());
+    if (size > MAX_BINARY_STRING_SIZE)
+        throw ARL::network_stream_exception(ARL::format("BitStream string write: BinaryString too long: %u", size));
 
-	stream.AlignWriteToByteBoundary();
+    stream.AlignWriteToByteBoundary();
 
-	stream.Write(size);
+    stream.Write(size);
     stream.Write(value.value().c_str(), static_cast<int>(size));
 
-	return stream;
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, BinaryString& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, BinaryString& value)
 {
-	stream.AlignReadToByteBoundary();
+    stream.AlignReadToByteBoundary();
 
-	uint32_t size;
-	if (!stream.Read(size))
-		throw ARL::network_stream_exception("BitStream >> BinaryString: failed to read length");
+    uint32_t size;
+    if (!stream.Read(size))
+        throw ARL::network_stream_exception("BitStream >> BinaryString: failed to read length");
 
-	if (size > MAX_BINARY_STRING_SIZE)
-		throw ARL::network_stream_exception("BitStream >> BinaryString: Bad string length");
+    if (size > MAX_BINARY_STRING_SIZE)
+        throw ARL::network_stream_exception("BitStream >> BinaryString: Bad string length");
 
-	char* buffer = (char*)alloca(size+1);
+    char* buffer = (char*)alloca(size + 1);
 
     stream.Read(buffer, size);
     value.set(buffer, size);
-	return stream;
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::ContentId& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const ARL::ContentId& value)
 {
-	stream << value.toString();
-	return stream;
+    stream << value.toString();
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, ARL::ContentId& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, ARL::ContentId& value)
 {
-	std::string text;
-	stream >> text;
-	value = ContentId(text);
-	return stream;
+    std::string text;
+    stream >> text;
+    value = ContentId(text);
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const BrickColor& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const BrickColor& value)
 {
-	// NOTE: This is technically a "lossy" write
-	size_t i = value.getClosestPaletteIndex();
-	stream.WriteBits((const unsigned char*) &i, BrickColor::paletteSizeMSB);
-	return stream;
+    // NOTE: This is technically a "lossy" write
+    size_t i = value.getClosestPaletteIndex();
+    stream.WriteBits((const unsigned char*)&i, BrickColor::paletteSizeMSB);
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const UDim& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const UDim& value)
 {
-	stream.Write(value.scale);
-	stream.Write((int)value.offset);
-	return stream;
+    stream.Write(value.scale);
+    stream.Write((int)value.offset);
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const UDim2& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const UDim2& value)
 {
-	stream << value.x;
-	stream << value.y;
-	return stream;
+    stream << value.x;
+    stream << value.y;
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::RbxRay& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const ARL::RbxRay& value)
 {
-	stream << value.origin();
-	stream << value.direction();
-	return stream;
+    stream << value.origin();
+    stream << value.direction();
+    return stream;
 }
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const Faces& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const Faces& value)
 {
-	stream.Write(value.normalIdMask);
-	return stream;
-}
-
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const Axes& value)
-{
-	stream.Write(value.axisMask);
-	return stream;
+    stream.Write(value.normalIdMask);
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Color3& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const Axes& value)
 {
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.r));
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.g));
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.b));
+    stream.Write(value.axisMask);
+    return stream;
+}
 
-	stream.Write(value.r);
-	stream.Write(value.g);
-	stream.Write(value.b);
-	return stream;
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const G3D::Color3& value)
+{
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.r));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.g));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.b));
+
+    stream.Write(value.r);
+    stream.Write(value.g);
+    stream.Write(value.b);
+    return stream;
 }
 
 namespace Network {
@@ -482,126 +511,126 @@ inline bool brickEq(float a, float b) {
 // by sending them as 11-bit integers
 static bool isBrickLocation(const G3D::Vector3& v, short& x, unsigned short& y, short& z)
 {
-	// Limit range to a 11x11x11 bit box around the origin, with y>=0
-	if (v.x>=512.0f)
-		return false;
-	if (v.x<=-512.0f)
-		return false;
-	if (v.z>=512.0f)
-		return false;
-	if (v.z<=-512.0f)
-		return false;
-	if (v.y>=204.8f)
-		return false;
-	if (v.y<0)
-		return false;
+    // Limit range to a 11x11x11 bit box around the origin, with y>=0
+    if (v.x >= 512.0f)
+        return false;
+    if (v.x <= -512.0f)
+        return false;
+    if (v.z >= 512.0f)
+        return false;
+    if (v.z <= -512.0f)
+        return false;
+    if (v.y >= 204.8f)
+        return false;
+    if (v.y < 0)
+        return false;
 
-	// Now convert the components to integers, checking each time to confirm it conforms
-	float dx(2*v.x);
-	x = short(dx);
-	if (float(x)!=dx)	// exact compare is OK
-		return false;
+    // Now convert the components to integers, checking each time to confirm it conforms
+    float dx(2 * v.x);
+    x = short(dx);
+    if (float(x) != dx) // exact compare is OK
+        return false;
 
-	float dz(2*v.z);
-	z = short(dz);
-	if (float(z)!=dz)	// exact compare is OK
-		return false;
+    float dz(2 * v.z);
+    z = short(dz);
+    if (float(z) != dz) // exact compare is OK
+        return false;
 
-	float dy(10*v.y);
-	y = (unsigned short)dy;
-	if (!brickEq(y, dy))	// fuzzy compare because of round-off error
-		return false;
+    float dy(10 * v.y);
+    y = (unsigned short)dy;
+    if (!brickEq(y, dy)) // fuzzy compare because of round-off error
+        return false;
 
-	return true;
+    return true;
 }
 
 void writeBrickVector(RakNet::BitStream& stream, const G3D::Vector3& value)
 {
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.x));
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.y));
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.z));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.x));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.y));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.z));
 
-	short x;
-	unsigned short y;
-	short z;
-	if (isBrickLocation(value, x, y, z))
-	{
-		stream << true;
-		stream.WriteBits((const unsigned char*)&x, 11);
-		stream.WriteBits((const unsigned char*)&y, 11);
-		stream.WriteBits((const unsigned char*)&z, 11);
-	}
-	else
-	{
-		stream << false;
-		stream << value.x;
-		stream << value.y;
-		stream << value.z;
-	}
+    short x;
+    unsigned short y;
+    short z;
+    if (isBrickLocation(value, x, y, z))
+    {
+        stream << true;
+        stream.WriteBits((const unsigned char*)&x, 11);
+        stream.WriteBits((const unsigned char*)&y, 11);
+        stream.WriteBits((const unsigned char*)&z, 11);
+    }
+    else
+    {
+        stream << false;
+        stream << value.x;
+        stream << value.y;
+        stream << value.z;
+    }
 }
 
 void readBrickVector(RakNet::BitStream& stream, G3D::Vector3& value)
 {
-	bool isBrickLocation;
-	stream >> isBrickLocation;
-	if (isBrickLocation)
-	{
-		short x = 0;
-		unsigned short y = 0;
-		short z = 0;
+    bool isBrickLocation;
+    stream >> isBrickLocation;
+    if (isBrickLocation)
+    {
+        short x = 0;
+        unsigned short y = 0;
+        short z = 0;
 
-		Network::readFastN<11>(stream, x);
-		Network::readFastN<11>(stream, y);
-		Network::readFastN<11>(stream, z);
+        Network::readFastN<11>(stream, x);
+        Network::readFastN<11>(stream, y);
+        Network::readFastN<11>(stream, z);
 
-		// Fill in the sign bits:
-		if (x & 0x0400)	x |= 0xFC00;
-		if (z & 0x0400) z |= 0xFC00;
+        // Fill in the sign bits:
+        if (x & 0x0400) x |= 0xFC00;
+        if (z & 0x0400) z |= 0xFC00;
 
-		value.x = float(x) / 2;
-		value.y = float(y) / 10;
-		value.z = float(z) / 2;
-	}
-	else
-	{
-		stream >> value.x;
-		stream >> value.y;
-		stream >> value.z;
-	}
+        value.x = float(x) / 2;
+        value.y = float(y) / 10;
+        value.z = float(z) / 2;
+    }
+    else
+    {
+        stream >> value.x;
+        stream >> value.y;
+        stream >> value.z;
+    }
 
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.x));
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.y));
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.z));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.x));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.y));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.z));
 }
-}
+} // namespace Network
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Vector2& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const G3D::Vector2& value)
 {
-	ARLASSERT_FISHING(G3D::isFinite(value.x));
-	ARLASSERT_FISHING(G3D::isFinite(value.y));
+    ARLASSERT_FISHING(G3D::isFinite(value.x));
+    ARLASSERT_FISHING(G3D::isFinite(value.y));
 
-	stream << value.x;
-	stream << value.y;
+    stream << value.x;
+    stream << value.y;
 
-	return stream;
+    return stream;
 }
 
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, G3D::Vector2& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, G3D::Vector2& value)
 {
-	stream >> value.x;
-	stream >> value.y;
+    stream >> value.x;
+    stream >> value.y;
 
-	return stream;
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const StreamRegion::Id& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const StreamRegion::Id& value)
 {
-	const Vector3int32 &vv = value.value();
+    const Vector3int32& vv = value.value();
 
     if (vv.x <= 127 && vv.y <= 127 && vv.z <= 127 &&
-        vv.x >= -128 && vv.y >= -128 && vv.z >= -128)
+		vv.x >= -128 && vv.y >= -128 && vv.z >= -128)
     {
         stream << false; // small int, use 3 bytes
         stream << (char)vv.x;
@@ -616,21 +645,21 @@ RakNet::BitStream& operator << (RakNet::BitStream& stream, const StreamRegion::I
         stream << vv.z;
     }
 
-	return stream;
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, StreamRegion::Id& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, StreamRegion::Id& value)
 {
-	Vector3int32 vv;
+    Vector3int32 vv;
 
     bool largeInt;
     stream >> largeInt;
     if (largeInt)
     {
-	    stream >> vv.x;
-	    stream >> vv.y;
-	    stream >> vv.z;
+        stream >> vv.x;
+        stream >> vv.y;
+        stream >> vv.z;
     }
     else
     {
@@ -643,865 +672,976 @@ RakNet::BitStream& operator >> (RakNet::BitStream& stream, StreamRegion::Id& val
         vv.z = z;
     }
 
-	value = StreamRegion::Id(vv);
+    value = StreamRegion::Id(vv);
 
-	return stream;
+    return stream;
 }
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Vector3& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const G3D::Vector3& value)
 {
-	ARLASSERT_FISHING(G3D::isFinite(value.x));
-	ARLASSERT_FISHING(G3D::isFinite(value.y));
-	ARLASSERT_FISHING(G3D::isFinite(value.z));
+    ARLASSERT_FISHING(G3D::isFinite(value.x));
+    ARLASSERT_FISHING(G3D::isFinite(value.y));
+    ARLASSERT_FISHING(G3D::isFinite(value.z));
 
-	stream << value.x;
-	stream << value.y;
-	stream << value.z;
+    stream << value.x;
+    stream << value.y;
+    stream << value.z;
 
-	return stream;
+    return stream;
 }
 
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, G3D::Vector3& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, G3D::Vector3& value)
 {
-	stream >> value.x;
-	stream >> value.y;
-	stream >> value.z;
+    stream >> value.x;
+    stream >> value.y;
+    stream >> value.z;
 
-	return stream;
+    return stream;
 }
 
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Vector3int16& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const G3D::Vector3int16& value)
 {
-	stream << value.x;
-	stream << value.y;
-	stream << value.z;
+    stream << value.x;
+    stream << value.y;
+    stream << value.z;
 
-	return stream;
-}
-
-template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, G3D::Vector3int16& value)
-{
-	stream >> value.x;
-	stream >> value.y;
-	stream >> value.z;
-
-	return stream;
-}
-
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::Vector2int16& value)
-{
-	stream << value.x;
-	stream << value.y;
-
-	return stream;
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, G3D::Vector2int16& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, G3D::Vector3int16& value)
 {
-	stream >> value.x;
-	stream >> value.y;
+    stream >> value.x;
+    stream >> value.y;
+    stream >> value.z;
 
-	return stream;
+    return stream;
 }
 
-
-
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const ARL::Velocity& value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const G3D::Vector2int16& value)
 {
-	stream << value.linear;
-	stream << value.rotational;
-	return stream;
+    stream << value.x;
+    stream << value.y;
+
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, ARL::Velocity& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, G3D::Vector2int16& value)
 {
-	stream >> value.linear;
-	stream >> value.rotational;
-	return stream;
+    stream >> value.x;
+    stream >> value.y;
+
+    return stream;
 }
 
 
-namespace Network {
+
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const ARL::Velocity& value)
+{
+    stream << value.linear;
+    stream << value.rotational;
+    return stream;
+}
+
+template<>
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, ARL::Velocity& value)
+{
+    stream >> value.linear;
+    stream >> value.rotational;
+    return stream;
+}
+
+
+namespace Network
+{
 void rationalize(G3D::CoordinateFrame& value)
 {
-	if (!value.translation.isFinite())
-		value.translation = G3D::Vector3(0, -1e6, 0);
-	else
-		value.translation = G3D::clamp(G3D::Vector3(-1e6, -1e6, -1e6), value.translation, G3D::Vector3(1e6, 1e6, 1e6));
+    if (!value.translation.isFinite())
+        value.translation = G3D::Vector3(0, -1e6, 0);
+    else
+        value.translation = G3D::clamp(G3D::Vector3(-1e6, -1e6, -1e6), value.translation, G3D::Vector3(1e6, 1e6, 1e6));
 }
 
 const int orientationBits = 6;
-BOOST_STATIC_ASSERT((2 << (orientationBits-1)) > Math::maxOrientationId);
+BOOST_STATIC_ASSERT((2 << (orientationBits - 1)) > Math::maxOrientationId);
 BOOST_STATIC_ASSERT(0 <= Math::minOrientationId);
-}
+} // namespace Network
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, const G3D::CoordinateFrame& cf)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const G3D::CoordinateFrame& cf)
 {
-	// TODO: Get rid of this hack when we figure out why the values are bad:
-	G3D::CoordinateFrame value = cf;
-	Network::rationalize(value);
+    // TODO: Get rid of this hack when we figure out why the values are bad:
+    G3D::CoordinateFrame value = cf;
+    Network::rationalize(value);
 
-	Network::writeBrickVector(stream, value.translation);
+    Network::writeBrickVector(stream, value.translation);
 
-	const bool isAxisAligned = Math::isAxisAligned(value.rotation);
-	stream << isAxisAligned;
+    const bool isAxisAligned = Math::isAxisAligned(value.rotation);
+    stream << isAxisAligned;
 
-	if (isAxisAligned) {
-		const int orientId = Math::getOrientId(value.rotation);
-		stream.WriteBits((const unsigned char*)&orientId, Network::orientationBits);
-	}
-	else 
-	{
-		Quaternion q(value.rotation);
+    if (isAxisAligned)
+    {
+        const int orientId = Math::getOrientId(value.rotation);
+        stream.WriteBits((const unsigned char*)&orientId, Network::orientationBits);
+    }
+    else
+    {
+        Quaternion q(value.rotation);
 
-		ARLASSERT_VERY_FAST(G3D::isFinite(q.w));
-		ARLASSERT_VERY_FAST(G3D::isFinite(q.x));
-		ARLASSERT_VERY_FAST(G3D::isFinite(q.y));
-		ARLASSERT_VERY_FAST(G3D::isFinite(q.z));
+        ARLASSERT_VERY_FAST(G3D::isFinite(q.w));
+        ARLASSERT_VERY_FAST(G3D::isFinite(q.x));
+        ARLASSERT_VERY_FAST(G3D::isFinite(q.y));
+        ARLASSERT_VERY_FAST(G3D::isFinite(q.z));
 
 #ifdef LOSSY_QUAT
-		stream.WriteNormQuat(q.w, q.x, q.y, q.z);
+        stream.WriteNormQuat(q.w, q.x, q.y, q.z);
 #else
-		// Orientation quaternions are unit quaternions, so max and min are 1 and -1.
-		// WriteNormQuat (if using LOSSY_QUAT) uses 6 bytes + 4 bits
-		// Straight streaming of 4 floats uses 16 bytes
-		// Handled here with 4 WriteFloat16 calls which uses 8 bytes
-		stream.WriteFloat16(q.w, -1.0f, 1.0f);
-		stream.WriteFloat16(q.x, -1.0f, 1.0f);
-		stream.WriteFloat16(q.y, -1.0f, 1.0f);
-		stream.WriteFloat16(q.z, -1.0f, 1.0f);
+        // Orientation quaternions are unit quaternions, so max and min are 1 and -1.
+        // WriteNormQuat (if using LOSSY_QUAT) uses 6 bytes + 4 bits
+        // Straight streaming of 4 floats uses 16 bytes
+        // Handled here with 4 WriteFloat16 calls which uses 8 bytes
+        stream.WriteFloat16(q.w, -1.0f, 1.0f);
+        stream.WriteFloat16(q.x, -1.0f, 1.0f);
+        stream.WriteFloat16(q.y, -1.0f, 1.0f);
+        stream.WriteFloat16(q.z, -1.0f, 1.0f);
 #endif
-	}
+    }
 
-	return stream;
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, G3D::CoordinateFrame& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, G3D::CoordinateFrame& value)
 {
-	Network::readBrickVector(stream, value.translation);
+    Network::readBrickVector(stream, value.translation);
 
-	bool isAxisAligned;
-	stream >> isAxisAligned;
-	if (isAxisAligned)
-	{
-		int orientId = 0;
-		Network::readFastN<Network::orientationBits>( stream, orientId );
+    bool isAxisAligned;
+    stream >> isAxisAligned;
+    if (isAxisAligned)
+    {
+        int orientId = 0;
+        Network::readFastN<Network::orientationBits>(stream, orientId);
 
-		Math::idToMatrix3(orientId, value.rotation);
-	}
-	else 
-	{
-		Quaternion q;
+        Math::idToMatrix3(orientId, value.rotation);
+    }
+    else
+    {
+        Quaternion q;
 #ifdef LOSSY_QUAT
-		if (!stream.ReadNormQuat(q.w, q.x, q.y, q.z))
-			throw ARL::network_stream_exception("BitStream >> CoordinateFrame ReadNormQuat failed");
+        if (!stream.ReadNormQuat(q.w, q.x, q.y, q.z))
+            throw ARL::network_stream_exception("BitStream >> CoordinateFrame ReadNormQuat failed");
 #else
-		// Orientation quaternions are unit quaternions, so max and min are 1 and -1.
-		// WriteNormQuat (if using LOSSY_QUAT) uses 6 bytes + 4 bits
-		// Straight streaming of 4 floats uses 16 bytes
-		// Handled here with 4 WriteFloat16 calls which uses 8 bytes
-		stream.ReadFloat16(q.w, -1.0f, 1.0f);
-		stream.ReadFloat16(q.x, -1.0f, 1.0f);
-		stream.ReadFloat16(q.y, -1.0f, 1.0f);
-		stream.ReadFloat16(q.z, -1.0f, 1.0f);
+        // Orientation quaternions are unit quaternions, so max and min are 1 and -1.
+        // WriteNormQuat (if using LOSSY_QUAT) uses 6 bytes + 4 bits
+        // Straight streaming of 4 floats uses 16 bytes
+        // Handled here with 4 WriteFloat16 calls which uses 8 bytes
+        stream.ReadFloat16(q.w, -1.0f, 1.0f);
+        stream.ReadFloat16(q.x, -1.0f, 1.0f);
+        stream.ReadFloat16(q.y, -1.0f, 1.0f);
+        stream.ReadFloat16(q.z, -1.0f, 1.0f);
 #endif
-		ARLASSERT_VERY_FAST(G3D::isFinite(q.w));
-		ARLASSERT_VERY_FAST(G3D::isFinite(q.x));
-		ARLASSERT_VERY_FAST(G3D::isFinite(q.y));
-		ARLASSERT_VERY_FAST(G3D::isFinite(q.z));
+        ARLASSERT_VERY_FAST(G3D::isFinite(q.w));
+        ARLASSERT_VERY_FAST(G3D::isFinite(q.x));
+        ARLASSERT_VERY_FAST(G3D::isFinite(q.y));
+        ARLASSERT_VERY_FAST(G3D::isFinite(q.z));
 
-		q.toRotationMatrix(value.rotation);
-		Math::orthonormalizeIfNecessary(value.rotation);
-	}
-	return stream;
+        q.toRotationMatrix(value.rotation);
+        Math::orthonormalizeIfNecessary(value.rotation);
+    }
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, UDim& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, UDim& value)
 {
-	int offset;
-	stream >> value.scale;
-	stream >> offset;
-	value.offset = offset;
-	return stream;
+    int offset;
+    stream >> value.scale;
+    stream >> offset;
+    value.offset = offset;
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, UDim2& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, UDim2& value)
 {
-	stream >> value.x;
-	stream >> value.y;
-	return stream;
+    stream >> value.x;
+    stream >> value.y;
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, RbxRay& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, RbxRay& value)
 {
-	stream >> value.origin();
-	stream >> value.direction();
-	return stream;
+    stream >> value.origin();
+    stream >> value.direction();
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, Faces& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, Faces& value)
 {
-	stream >> value.normalIdMask;
-	return stream;
+    stream >> value.normalIdMask;
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, Axes& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, Axes& value)
 {
-	stream >> value.axisMask;
-	return stream;
+    stream >> value.axisMask;
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, BrickColor& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, BrickColor& value)
 {
-	size_t i = 0;
-	Network::readFastN<BrickColor::paletteSizeMSB>( stream, i );
+    size_t i = 0;
+    Network::readFastN<BrickColor::paletteSizeMSB>(stream, i);
 
-	value = BrickColor::colorPalette()[i];
-	return stream;
+    value = BrickColor::colorPalette()[i];
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, G3D::Color3& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, G3D::Color3& value)
 {
-	stream >> value.r;
-	stream >> value.g;
-	stream >> value.b;
+    stream >> value.r;
+    stream >> value.g;
+    stream >> value.b;
 
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.r));
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.g));
-	ARLASSERT_VERY_FAST(G3D::isFinite(value.b));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.r));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.g));
+    ARLASSERT_VERY_FAST(G3D::isFinite(value.b));
 
-	return stream;
+    return stream;
 }
 
 
-RakNet::BitStream& operator << (RakNet::BitStream& stream, ARL::SystemAddress value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, ARL::SystemAddress value)
 {
-	stream << value.binaryAddress;
-	stream.Write(value.port);
+    stream << value.binaryAddress;
+    stream.Write(value.port);
 
-	return stream;
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator >> (RakNet::BitStream& stream, ARL::SystemAddress& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, ARL::SystemAddress& value)
 {
-	stream >> value.binaryAddress;
-	stream >> value.port;
+    stream >> value.binaryAddress;
+    stream >> value.port;
 
-	return stream;
+    return stream;
 }
 
 //////////////////////////////////////////////////////////////////////////
 
 
-RakNet::BitStream& operator<<( RakNet::BitStream& stream, const NumberSequenceKeypoint& p )
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const NumberSequenceKeypoint& p)
 {
     return stream << p.time << p.value << p.envelope;
 }
 
 template<>
-RakNet::BitStream& operator>>( RakNet::BitStream& stream, NumberSequenceKeypoint& p )
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, NumberSequenceKeypoint& p)
 {
     return stream >> p.time >> p.value >> p.envelope;
 }
 
-RakNet::BitStream& operator<<( RakNet::BitStream& stream, const ColorSequenceKeypoint& p )
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const ColorSequenceKeypoint& p)
 {
     return stream << p.time << p.value << p.envelope;
 }
 
 template<>
-RakNet::BitStream& operator>>( RakNet::BitStream& stream, ColorSequenceKeypoint& p )
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, ColorSequenceKeypoint& p)
 {
     return stream >> p.time >> p.value >> p.envelope;
 }
 
 
-RakNet::BitStream& operator<<( RakNet::BitStream& stream, const NumberSequence& ns )
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const NumberSequence& ns)
 {
     const std::vector<NumberSequence::Key>& keys = ns.getPoints();
-    stream<<uint32_t(keys.size());
-    for (int j=0, e=keys.size(); j<e; ++j )
+    stream << uint32_t(keys.size());
+    for (int j = 0, e = keys.size(); j < e; ++j)
     {
-        stream<<keys[j];
+        stream << keys[j];
     }
     return stream;
 }
 
 template<>
-RakNet::BitStream& operator>>( RakNet::BitStream& stream, NumberSequence& ns )
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, NumberSequence& ns)
 {
     uint32_t size;
-    stream>>size;
-    if( size > NumberSequence::kMaxSize )
+    stream >> size;
+    if (size > NumberSequence::kMaxSize)
         throw network_stream_exception("Number sequence is too big");
-    
+
     std::vector<NumberSequence::Key> keys(size);
-    for (unsigned j=0; j<size; ++j)
+    for (unsigned j = 0; j < size; ++j)
     {
-        stream>>keys[j];
+        stream >> keys[j];
     }
     ns = keys;
     return stream;
 }
 
-RakNet::BitStream& operator<<( RakNet::BitStream& stream, const ColorSequence& ns )
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const ColorSequence& ns)
 {
     const std::vector<ColorSequence::Key>& keys = ns.getPoints();
-    stream<<uint32_t(keys.size());
-    for (int j=0, e=keys.size(); j<e; ++j )
+    stream << uint32_t(keys.size());
+    for (int j = 0, e = keys.size(); j < e; ++j)
     {
-        stream<<keys[j];
+        stream << keys[j];
     }
     return stream;
 }
 
 template<>
-RakNet::BitStream& operator>>( RakNet::BitStream& stream, ColorSequence& ns )
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, ColorSequence& ns)
 {
     uint32_t size;
-    stream>>size;
-    if( size > ColorSequence::kMaxSize )
+    stream >> size;
+    if (size > ColorSequence::kMaxSize)
         throw network_stream_exception("Number sequence is too big");
 
     std::vector<ColorSequence::Key> keys(size);
-    for (unsigned j=0; j<size; ++j)
+    for (unsigned j = 0; j < size; ++j)
     {
-        stream>>keys[j];
+        stream >> keys[j];
     }
     ns = keys;
     return stream;
 }
 
-RakNet::BitStream& operator<<( RakNet::BitStream& stream, const NumberRange& r )
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const NumberRange& r)
 {
     return stream << r.min << r.max;
 }
 
 template<>
-RakNet::BitStream& operator>>( RakNet::BitStream& stream, NumberRange& r )
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, NumberRange& r)
 {
     return stream >> r.min >> r.max;
 }
 
-RakNet::BitStream& operator<<( RakNet::BitStream& stream, const Rect2D& r )
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const Rect2D& r)
 {
-	return stream << r.x0y0() << r.x1y1();
+    return stream << r.x0y0() << r.x1y1();
 }
 
 template<>
-RakNet::BitStream& operator>>( RakNet::BitStream& stream, Rect2D& r )
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, Rect2D& r)
 {
-	Vector2 x0y0;
-	Vector2 x1y1;
-	stream >> x0y0;
-	stream >> x1y1;
-	r = Rect2D::xyxy(x0y0,x1y1);
+    Vector2 x0y0;
+    Vector2 x1y1;
+    stream >> x0y0;
+    stream >> x1y1;
+    r = Rect2D::xyxy(x0y0, x1y1);
 
-	return stream;
+    return stream;
 }
 
-RakNet::BitStream& operator<<( RakNet::BitStream& stream, const PhysicalProperties& p)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const PhysicalProperties& p)
 {
-	bool customEnabled = p.getCustomEnabled();
-	stream << customEnabled;
+    bool customEnabled = p.getCustomEnabled();
+    stream << customEnabled;
 
-	if (customEnabled)
-		stream << p.getDensity() << p.getFriction() << p.getElasticity() << p.getFrictionWeight() << p.getElasticityWeight();
-		
-	return stream;
+    if (customEnabled)
+        stream << p.getDensity() << p.getFriction() << p.getElasticity() << p.getFrictionWeight() << p.getElasticityWeight();
+
+    return stream;
 }
 
 template<>
-RakNet::BitStream& operator>>( RakNet::BitStream& stream, PhysicalProperties& p)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, PhysicalProperties& p)
 {
-	bool customEnabled;
-	float density;
-	float friction;
-	float elasticity;
-	float frictionWeight;
-	float elasticityWeight;
+    bool customEnabled;
+    float density;
+    float friction;
+    float elasticity;
+    float frictionWeight;
+    float elasticityWeight;
 
-	stream >> customEnabled;
-	if (customEnabled)
-	{
-		stream >> density;
-		stream >> friction;
-		stream >> elasticity;
-		stream >> frictionWeight;
-		stream >> elasticityWeight;
-		p = PhysicalProperties(density, friction, elasticity, frictionWeight, elasticityWeight);
-	}
-	else
-	{
-		p = PhysicalProperties();
-	}
+    stream >> customEnabled;
+    if (customEnabled)
+    {
+        stream >> density;
+        stream >> friction;
+        stream >> elasticity;
+        stream >> frictionWeight;
+        stream >> elasticityWeight;
+        p = PhysicalProperties(density, friction, elasticity, frictionWeight, elasticityWeight);
+    }
+    else
+    {
+        p = PhysicalProperties();
+    }
 
-	return stream;
+    return stream;
+}
+
+
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const TweenInfo& twnInfo)
+{
+    const Reflection::EnumDesc<TweenInfo::TweenEasingStyle>& eStyleDesc = Reflection::EnumDesc<TweenInfo::TweenEasingStyle>::singleton();
+    const Reflection::EnumDesc<TweenInfo::TweenEasingDirection>& eDirectionDesc = Reflection::EnumDesc<TweenInfo::TweenEasingDirection>::singleton();
+    stream << twnInfo.getTime() << eStyleDesc.convertToString(twnInfo.getStyle()) << eDirectionDesc.convertToString(twnInfo.getDirection())
+           << twnInfo.getRepeatCount() << twnInfo.getReverses() << twnInfo.getDelayTime();
+
+    return stream;
+}
+
+#if defined(__linux) || defined(__APPLE__)
+template<>
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, TweenInfo& twnInfo)
+{
+    float time;
+    TweenInfo::TweenEasingStyle style = TweenInfo::EASING_STYLE_QUAD;
+    TweenInfo::TweenEasingDirection direction = TweenInfo::EASING_DIRECTION_IN;
+    std::string styleStr, directionStr;
+    int repeatCount;
+    bool reverses;
+    float delayTime;
+
+    const Reflection::EnumDesc<TweenInfo::TweenEasingStyle>& eStyleDesc = Reflection::EnumDesc<TweenInfo::TweenEasingStyle>::singleton();
+    const Reflection::EnumDesc<TweenInfo::TweenEasingDirection>& eDirectionDesc = Reflection::EnumDesc<TweenInfo::TweenEasingDirection>::singleton();
+
+    // Read into string variables
+    stream >> styleStr;
+    stream >> directionStr;
+
+    // Convert string to ARL::Name, then to enum
+    const ARL::Name& styleName = ARL::Name::lookup(styleStr.c_str());
+    const ARL::Name& directionName = ARL::Name::lookup(directionStr.c_str());
+
+    // Now, when using convertToValue, you pass the references directly:
+    if (!eStyleDesc.convertToValue(styleName, style) || !eDirectionDesc.convertToValue(directionName, direction))
+    {
+        throw std::runtime_error("Failed to convert string to TweenInfo enum value");
+    }
+
+    stream >> repeatCount;
+    stream >> reverses;
+    stream >> time;
+    stream >> delayTime;
+    twnInfo = TweenInfo(style, direction, repeatCount, reverses, time, delayTime);
+
+    return stream;
+}
+#else
+template<>
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, TweenInfo& twnInfo)
+{
+    float time;
+    std::string styleStr, directionStr;
+    TweenInfo::TweenEasingStyle style;
+    TweenInfo::TweenEasingDirection direction;
+    int repeatCount;
+    bool reverses;
+    float delayTime;
+
+    const Reflection::EnumDesc<TweenInfo::TweenEasingStyle>& eStyleDesc = Reflection::EnumDesc<TweenInfo::TweenEasingStyle>::singleton();
+    const Reflection::EnumDesc<TweenInfo::TweenEasingDirection>& eDirectionDesc = Reflection::EnumDesc<TweenInfo::TweenEasingDirection>::singleton();
+
+    // Read into string variables
+    stream >> styleStr;
+    stream >> directionStr;
+
+    // Convert string to ARL::Name, then to enum
+    const ARL::Name& styleName = ARL::Name::lookup(styleStr.c_str());
+    const ARL::Name& directionName = ARL::Name::lookup(directionStr.c_str());
+
+    // Now, when using convertToValue, you pass the references directly:
+    if (!eStyleDesc.convertToValue(styleName, style) || !eDirectionDesc.convertToValue(directionName, direction))
+    {
+        throw std::runtime_error("Failed to convert string to TweenInfo enum value");
+    }
+
+    stream >> repeatCount;
+    stream >> reverses;
+    stream >> time;
+    stream >> delayTime;
+    twnInfo = TweenInfo(style, direction, repeatCount, reverses, time, delayTime);
+
+    return stream;
+}
+#endif
+
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, const G3D::Color3uint8& value)
+{
+    stream.Write(value.r);
+    stream.Write(value.g);
+    stream.Write(value.b);
+
+    return stream;
+}
+
+template<>
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, G3D::Color3uint8& value)
+{
+    stream >> value.r;
+    stream >> value.g;
+    stream >> value.b;
+
+    return stream;
 }
 
 //////////////////////////////////////////////////////////////////////////
 
 
-namespace Network {
+namespace Network
+{
 
 template<>
-void serialize<ARL::ContentId>(const ConstProperty& property, RakNet::BitStream &bitStream)
+void serialize<ARL::ContentId>(const ConstProperty& property, RakNet::BitStream& bitStream)
 {
-	bitStream << property.getStringValue();
-}
-
-
-template<>
-void serialize<UDim>(const ConstProperty& property, RakNet::BitStream &bitStream)
-{
-	bitStream << property.getValue<UDim>();
+    bitStream << property.getStringValue();
 }
 
 
 template<>
-void deserialize<UDim>(Property& property, RakNet::BitStream &bitStream)
+void serialize<UDim>(const ConstProperty& property, RakNet::BitStream& bitStream)
 {
-	UDim c;
-	bitStream >> c;
-	if (property.getInstance())
-		property.setValue(c);
-}
-
-template<>
-void serialize<UDim2>(const ConstProperty& property, RakNet::BitStream &bitStream)
-{
-	bitStream << property.getValue<UDim2>();
-}
-
-template<>
-void deserialize<UDim2>(Property& property, RakNet::BitStream &bitStream)
-{
-	UDim2 c;
-	bitStream >> c;
-	if (property.getInstance())
-		property.setValue(c);
-}
-
-template<>
-void serialize<ARL::RbxRay>(const ConstProperty& property, RakNet::BitStream &bitStream)
-{
-	bitStream << property.getValue<ARL::RbxRay>();
-}
-
-template<>
-void deserialize<ARL::RbxRay>(Property& property, RakNet::BitStream &bitStream)
-{
-	RbxRay c;
-	bitStream >> c;
-	if (property.getInstance())
-		property.setValue(c);
-}
-
-template<>
-void serialize<Faces>(const ConstProperty& property, RakNet::BitStream &bitStream)
-{
-	bitStream << property.getValue<Faces>();
+    bitStream << property.getValue<UDim>();
 }
 
 
 template<>
-void deserialize<Faces>(Property& property, RakNet::BitStream &bitStream)
+void deserialize<UDim>(Property& property, RakNet::BitStream& bitStream)
 {
-	Faces c;
-	bitStream >> c;
-	if (property.getInstance())
-		property.setValue(c);
+    UDim c;
+    bitStream >> c;
+    if (property.getInstance())
+        property.setValue(c);
 }
 
 template<>
-void serialize<Axes>(const ConstProperty& property, RakNet::BitStream &bitStream)
+void serialize<UDim2>(const ConstProperty& property, RakNet::BitStream& bitStream)
 {
-	bitStream << property.getValue<Axes>();
+    bitStream << property.getValue<UDim2>();
+}
+
+template<>
+void deserialize<UDim2>(Property& property, RakNet::BitStream& bitStream)
+{
+    UDim2 c;
+    bitStream >> c;
+    if (property.getInstance())
+        property.setValue(c);
+}
+
+template<>
+void serialize<ARL::RbxRay>(const ConstProperty& property, RakNet::BitStream& bitStream)
+{
+    bitStream << property.getValue<ARL::RbxRay>();
+}
+
+template<>
+void deserialize<ARL::RbxRay>(Property& property, RakNet::BitStream& bitStream)
+{
+    RbxRay c;
+    bitStream >> c;
+    if (property.getInstance())
+        property.setValue(c);
+}
+
+template<>
+void serialize<Faces>(const ConstProperty& property, RakNet::BitStream& bitStream)
+{
+    bitStream << property.getValue<Faces>();
 }
 
 
 template<>
-void deserialize<Axes>(Property& property, RakNet::BitStream &bitStream)
+void deserialize<Faces>(Property& property, RakNet::BitStream& bitStream)
 {
-	Axes c;
-	bitStream >> c;
-	if (property.getInstance())
-		property.setValue(c);
+    Faces c;
+    bitStream >> c;
+    if (property.getInstance())
+        property.setValue(c);
 }
 
 template<>
-void serialize<BrickColor>(const ConstProperty& property, RakNet::BitStream &bitStream)
+void serialize<Axes>(const ConstProperty& property, RakNet::BitStream& bitStream)
 {
-	bitStream << property.getValue<BrickColor>();
+    bitStream << property.getValue<Axes>();
+}
+
+
+template<>
+void deserialize<Axes>(Property& property, RakNet::BitStream& bitStream)
+{
+    Axes c;
+    bitStream >> c;
+    if (property.getInstance())
+        property.setValue(c);
 }
 
 template<>
-void deserialize<BrickColor>(Property& property, RakNet::BitStream &bitStream)
+void serialize<BrickColor>(const ConstProperty& property, RakNet::BitStream& bitStream)
 {
-	BrickColor c;
-	bitStream >> c;
-	if (property.getInstance())
-		property.setValue(c);
+    bitStream << property.getValue<BrickColor>();
 }
 
 template<>
-void deserialize<ARL::ContentId>(Property& property, RakNet::BitStream &bitStream)
+void deserialize<BrickColor>(Property& property, RakNet::BitStream& bitStream)
 {
-	std::string value;
-	bitStream >> value;
-	if (property.getInstance())
-		property.setStringValue(value);
+    BrickColor c;
+    bitStream >> c;
+    if (property.getInstance())
+        property.setValue(c);
 }
 
-void serializeStringProperty(const Reflection::ConstProperty& property, RakNet::BitStream &bitStream)
+template<>
+void deserialize<ARL::ContentId>(Property& property, RakNet::BitStream& bitStream)
 {
-	bitStream << property.getDescriptor().getStringValue(property.getInstance());
+    std::string value;
+    bitStream >> value;
+    if (property.getInstance())
+        property.setStringValue(value);
 }
 
-void deserializeStringProperty(Reflection::Property& property, RakNet::BitStream &bitStream)
+void serializeStringProperty(const Reflection::ConstProperty& property, RakNet::BitStream& bitStream)
 {
-	std::string value;
-	bitStream >> value;
+    bitStream << property.getDescriptor().getStringValue(property.getInstance());
+}
 
-	if (property.getInstance())
-	{
-		const Reflection::PropertyDescriptor& desc = property.getDescriptor();
-		desc.setStringValue(property.getInstance(), value);
-	}
+void deserializeStringProperty(Reflection::Property& property, RakNet::BitStream& bitStream)
+{
+    std::string value;
+    bitStream >> value;
+
+    if (property.getInstance())
+    {
+        const Reflection::PropertyDescriptor& desc = property.getDescriptor();
+        desc.setStringValue(property.getInstance(), value);
+    }
 }
 
 void serializeGuidScope(RakNet::BitStream& stream, const ARL::Guid::Scope& value, bool canDisableCompression)
 {
-	if (canDisableCompression) {
-		RakNet::RakString scope = value.getName()->c_str();
-		stream.Write(scope);
-	} else {
-		stream << value.getName()->toString();
-	}
+    if (canDisableCompression)
+    {
+        RakNet::RakString scope = value.getName()->c_str();
+        stream.Write(scope);
+    }
+    else
+    {
+        stream << value.getName()->toString();
+    }
 }
 
 void deserializeGuidScope(RakNet::BitStream& stream, ARL::Guid::Scope& value, bool canDisableCompression)
 {
-	std::string str;
-	if (canDisableCompression) {
-		RakNet::RakString scope;
-		stream.Read(scope);
-		str = scope.C_String();
-	} else {
-		stream >> str;
-	}
-	value.set(str);
+    std::string str;
+    if (canDisableCompression)
+    {
+        RakNet::RakString scope;
+        stream.Read(scope);
+        str = scope.C_String();
+    }
+    else
+    {
+        stream >> str;
+    }
+    value.set(str);
 }
 
-IdSerializer::IdSerializer()
-{
-}
+IdSerializer::IdSerializer() {}
 
 bool IdSerializer::trySerializeId(RakNet::BitStream& stream, const Instance* instance)
 {
-	if (instance)
-	{
-		guidRegistry->registerGuid(instance);
-		ARL::Guid::Data id;
-		instance->getGuid().extract(id);
-		if (!scopeNames.trySend(stream, id.scope))
-			return false;
-		stream.WriteBits((const unsigned char*) &id.index, 32);
-		return true;
-	}
-	else
-	{
-		serializeId(stream, NULL);
-		return true;
-	}
+    if (instance)
+    {
+        guidRegistry->registerGuid(instance);
+        ARL::Guid::Data id;
+        instance->getGuid().extract(id);
+        if (!scopeNames.trySend(stream, id.scope))
+            return false;
+        stream.WriteBits((const unsigned char*)&id.index, 32);
+        return true;
+    }
+    else
+    {
+        serializeId(stream, NULL);
+        return true;
+    }
 }
 
 bool IdSerializer::canSerializeId(const Instance* instance)
 {
-	if (instance)
-	{
-		// check if value is in dictionary
-		guidRegistry->registerGuid(instance);
-		ARL::Guid::Data id;
-		instance->getGuid().extract(id);
-		return scopeNames.canSend(id.scope);
-	}
+    if (instance)
+    {
+        // check if value is in dictionary
+        guidRegistry->registerGuid(instance);
+        ARL::Guid::Data id;
+        instance->getGuid().extract(id);
+        return scopeNames.canSend(id.scope);
+    }
 
-	return false;
+    return false;
 }
 
 void IdSerializer::onServiceProvider(ServiceProvider* oldProvider, ServiceProvider* newProvider)
 {
-	guidRegistry.reset();
-	Super::onServiceProvider(oldProvider, newProvider);
-	if (newProvider)
-		guidRegistry = ServiceProvider::create<GuidRegistryService>(newProvider)->registry;
+    guidRegistry.reset();
+    Super::onServiceProvider(oldProvider, newProvider);
+    if (newProvider)
+        guidRegistry = ServiceProvider::create<GuidRegistryService>(newProvider)->registry;
 }
 
 
 IdSerializer::Id IdSerializer::extractId(const Instance* instance)
 {
-	IdSerializer::Id result;
-	if (instance)
-	{
-		guidRegistry->registerGuid(instance);
-		instance->getGuid().extract(result.id);
-		result.valid = true;
-	}
-	else{
-		result.valid = false;
-	}
-	return result;
+    IdSerializer::Id result;
+    if (instance)
+    {
+        guidRegistry->registerGuid(instance);
+        instance->getGuid().extract(result.id);
+        result.valid = true;
+    }
+    else
+    {
+        result.valid = false;
+    }
+    return result;
 }
 
 void IdSerializer::sendId(RakNet::BitStream& stream, const Id& id)
 {
-	if(id.valid){
-		scopeNames.send(stream, id.id.scope);
-		stream.WriteBits((const unsigned char*) &id.id.index, 32);
-	}
-	else{
-		scopeNames.sendEmptyItem(stream);
-	}
+    if (id.valid)
+    {
+        scopeNames.send(stream, id.id.scope);
+        stream.WriteBits((const unsigned char*)&id.id.index, 32);
+    }
+    else
+    {
+        scopeNames.sendEmptyItem(stream);
+    }
 }
 
 void IdSerializer::serializeId(RakNet::BitStream& stream, const Instance* instance)
 {
-	if (instance)
-	{
-		guidRegistry->registerGuid(instance);
-		ARL::Guid::Data id;
-		instance->getGuid().extract(id);
-		serializeId(stream, id);
-	}
-	else
-	{
-		scopeNames.sendEmptyItem(stream);
-	}
+    if (instance)
+    {
+        guidRegistry->registerGuid(instance);
+        ARL::Guid::Data id;
+        instance->getGuid().extract(id);
+        serializeId(stream, id);
+    }
+    else
+    {
+        scopeNames.sendEmptyItem(stream);
+    }
 }
 
-void IdSerializer::serializeId(RakNet::BitStream& stream, const ARL::Guid::Data& id) {
-	scopeNames.send(stream, id.scope);
-	stream.WriteBits((const unsigned char*) &id.index, 32);
+void IdSerializer::serializeId(RakNet::BitStream& stream, const ARL::Guid::Data& id)
+{
+    scopeNames.send(stream, id.scope);
+    stream.WriteBits((const unsigned char*)&id.index, 32);
 }
 
 void IdSerializer::serializeIdWithoutDictionary(RakNet::BitStream& stream, const Instance* instance)
 {
-	ARL::Guid::Data id;
+    ARL::Guid::Data id;
 
-	if (instance)
-	{
-		guidRegistry->registerGuid(instance);
-		instance->getGuid().extract(id);
-	}
-	
-	serializeIdWithoutDictionary(stream, id);
+    if (instance)
+    {
+        guidRegistry->registerGuid(instance);
+        instance->getGuid().extract(id);
+    }
+
+    serializeIdWithoutDictionary(stream, id);
 }
 
 void IdSerializer::serializeIdWithoutDictionary(RakNet::BitStream& stream, const ARL::Guid::Data& id)
 {
-	if (id.scope.isNull())
-	{
-		unsigned char code = 0;
-		stream << code;
-	}
-	else
-	{
-		if (id.scope == serverScope)
-		{
-			unsigned char code = 255;
-			stream << code;
-		}
-		else
-		{
-			const std::string& scope = id.scope.getName()->toString();
-			ARLASSERT(scope.size() < 255);
+    if (id.scope.isNull())
+    {
+        unsigned char code = 0;
+        stream << code;
+    }
+    else
+    {
+        if (id.scope == serverScope)
+        {
+            unsigned char code = 255;
+            stream << code;
+        }
+        else
+        {
+            const std::string& scope = id.scope.getName()->toString();
+            ARLASSERT(scope.size() < 255);
 
-			unsigned char code = scope.size();
-			stream << code;
-			
-			stream.WriteBits(reinterpret_cast<const unsigned char*>(scope.c_str()), code * 8);
-		}
+            unsigned char code = (unsigned char)scope.size();
+            stream << code;
 
-		stream.WriteBits((const unsigned char*) &id.index, 32);
-	}
+            stream.WriteBits(reinterpret_cast<const unsigned char*>(scope.c_str()), code * 8);
+        }
+
+        stream.WriteBits((const unsigned char*)&id.index, 32);
+    }
 }
 
 void IdSerializer::deserializeId(RakNet::BitStream& stream, ARL::Guid::Data& id)
 {
-	scopeNames.receive(stream, id.scope);
-	if (!id.scope.isNull())
-	{
-		id.index = 0;
-		// This version does endian swapping.
-		Network::readFastN<32>( stream, id.index );
-	}
-	else
-		id.index = 0;
+    scopeNames.receive(stream, id.scope);
+    if (!id.scope.isNull())
+    {
+        id.index = 0;
+        // This version does endian swapping.
+        Network::readFastN<32>(stream, id.index);
+    }
+    else
+        id.index = 0;
 }
 
 void IdSerializer::deserializeIdWithoutDictionary(RakNet::BitStream& stream, ARL::Guid::Data& id)
 {
-	unsigned char code = 0;
-	Network::readFastT(stream, code);
+    unsigned char code = 0;
+    Network::readFastT(stream, code);
 
-	if (code == 0)
-	{
-		id.scope.setNull();
-		id.index = 0;
-	}
-	else
-	{
-		if (code == 255)
-		{
-			ARLASSERT(!serverScope.isNull());
-			id.scope = serverScope;
-		}
-		else
-		{
-			char buffer[256];
-			stream.ReadBits(reinterpret_cast<unsigned char*>(buffer), code * 8);
-			buffer[code] = 0;
-			id.scope.set(buffer);
-		}
+    if (code == 0)
+    {
+        id.scope.setNull();
+        id.index = 0;
+    }
+    else
+    {
+        if (code == 255)
+        {
+            ARLASSERT(!serverScope.isNull());
+            id.scope = serverScope;
+        }
+        else
+        {
+            char buffer[256];
+            stream.ReadBits(reinterpret_cast<unsigned char*>(buffer), code * 8);
+            buffer[code] = 0;
+            id.scope.set(buffer);
+        }
 
-		Network::readFastN<32>(stream, id.index);
-	}
+        Network::readFastN<32>(stream, id.index);
+    }
 }
 
 void IdSerializer::setRefValue(WaitItem& wi, Instance* instance)
 {
-	wi.desc->setRefValue(wi.instance.get(), instance);
+    wi.desc->setRefValue(wi.instance.get(), instance);
 }
 
 
 void IdSerializer::resolvePendingReferences(Instance* instance, ARL::Guid::Data id)
 {
-	boost::mutex::scoped_lock lock(waitItemsMutex);
-	WaitItemMap::iterator iter = waitItems.find(id);
-	if (iter!=waitItems.end())
-	{
-		std::for_each(
-			iter->second.begin(), 
-			iter->second.end(), 
-			boost::bind(&IdSerializer::setRefValue, this, _1, instance)
-		);
-		waitItems.erase(iter);
-	}
+    boost::mutex::scoped_lock lock(waitItemsMutex);
+    WaitItemMap::iterator iter = waitItems.find(id);
+    if (iter != waitItems.end())
+    {
+        std::for_each(iter->second.begin(), iter->second.end(), boost::bind(&IdSerializer::setRefValue, this, _1, instance));
+        waitItems.erase(iter);
+    }
 }
 
 
 void IdSerializer::serializeInstanceRef(const Instance* instance, RakNet::BitStream& bitStream)
 {
-	serializeId(bitStream, instance);
+    serializeId(bitStream, instance);
 }
 
-//Debuggable - 
-// Parent == NULL, or Parent::Debugable
+// Debuggable -
+//  Parent == NULL, or Parent::Debugable
 
 bool IdSerializer::deserializeInstanceRef(RakNet::BitStream& stream, shared_ptr<Instance>& instance, ARL::Guid::Data& id)
 {
-	deserializeId(stream, id);
-	bool answer = guidRegistry->lookupByGuid(id, instance);
-	ARLASSERT(		!instance 
-				||	!ServiceProvider::findServiceProvider(instance.get())
-				|| (ServiceProvider::findServiceProvider(instance.get()) == ServiceProvider::findServiceProvider(this))
-				);
+    deserializeId(stream, id);
+    bool answer = guidRegistry->lookupByGuid(id, instance);
+    ARLASSERT(!instance || !ServiceProvider::findServiceProvider(instance.get()) ||
+              (ServiceProvider::findServiceProvider(instance.get()) == ServiceProvider::findServiceProvider(this)));
 
-	return answer;
+    return answer;
 }
 
-void IdSerializer::addPendingRef(const Reflection::RefPropertyDescriptor* desc,
-		boost::shared_ptr<Instance> instance, ARL::Guid::Data id) {
+void IdSerializer::addPendingRef(const Reflection::RefPropertyDescriptor* desc, boost::shared_ptr<Instance> instance, ARL::Guid::Data id)
+{
 
-	boost::mutex::scoped_lock lock(waitItemsMutex);
-	WaitItem item = { desc, instance };
-	waitItems[id].push_back(item);
+    boost::mutex::scoped_lock lock(waitItemsMutex);
+    WaitItem item = {desc, instance};
+    waitItems[id].push_back(item);
 }
 
 
 template<class T>
 void DescriptorSender<T>::visit(const T* desc)
 {
-	const unsigned int id = descToId.size();
+    const unsigned int id = descToId.size();
     IdContainer idContainer;
     idContainer.id = id;
     idContainer.outdated = false;
-	descToId[desc] = idContainer;
-	idBits = Math::computeMSB(descToId.size())+1;
+    descToId[desc] = idContainer;
+    idBits = Math::computeMSB(descToId.size()) + 1;
 }
 
 template<>
 std::string DescriptorSender<ClassDescriptor>::teachName(const ClassDescriptor* t) const
 {
-	return t->name.toString();
+    return t->name.toString();
 }
 
 template<>
 void DescriptorReceiver<ClassDescriptor>::learnName(std::string s, int i, uint32_t checksum)
 {
-	const ARL::Name& n = ARL::Name::lookup(s);
+    const ARL::Name& n = ARL::Name::lookup(s);
 
-	ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
-	while (iter!=ClassDescriptor::all_end())
-	{
-		if ((*iter)->name == n)
-		{
-			idToDesc[i].desc = *iter;
+    ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
+    while (iter != ClassDescriptor::all_end())
+    {
+        if ((*iter)->name == n)
+        {
+            idToDesc[i].desc = *iter;
             idToDesc[i].outdated = !verifyChecksum((*iter), checksum);
             *((*iter)->isOutdated) = idToDesc[i].outdated;
             *((*iter)->isReplicable) = true;
-			return;
-		}
-		++iter;
-	}
-	StandardOut::singleton()->printf(MESSAGE_WARNING, "ClassDescriptor failed to learn %s", s.c_str());
-	idToDesc[i].desc = NULL;
+            return;
+        }
+        ++iter;
+    }
+    StandardOut::singleton()->printf(MESSAGE_WARNING, "ClassDescriptor failed to learn %s", s.c_str());
+    idToDesc[i].desc = NULL;
     idToDesc[i].outdated = false;
 }
 
 template<>
 std::string DescriptorSender<EventDescriptor>::teachName(const EventDescriptor* t) const
 {
-	return t->owner.name.toString() + ":" + t->name.toString();
+    return t->owner.name.toString() + ":" + t->name.toString();
 }
 
 template<>
 void DescriptorReceiver<EventDescriptor>::learnName(std::string s, int i, uint32_t checksum)
 {
-	std::vector<std::string> words;
+    std::vector<std::string> words;
 
-	boost::split(words, s, boost::is_any_of(":"));
+    boost::split(words, s, boost::is_any_of(":"));
 
-	// First get the class name
-	const ARL::Name& n = ARL::Name::lookup(words[0]);
+    // First get the class name
+    const ARL::Name& n = ARL::Name::lookup(words[0]);
 
-	ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
-	while (iter!=ClassDescriptor::all_end())
-	{
-		const ClassDescriptor* c = *iter;
-		if (c->name == n)
-		{
-			if (EventDescriptor* desc = c->findEventDescriptor(words[1].c_str()))
-			{
-				idToDesc[i].desc = desc;
+    ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
+    while (iter != ClassDescriptor::all_end())
+    {
+        const ClassDescriptor* c = *iter;
+        if (c->name == n)
+        {
+            if (EventDescriptor* desc = c->findEventDescriptor(words[1].c_str()))
+            {
+                idToDesc[i].desc = desc;
                 idToDesc[i].outdated = !verifyChecksum(desc, checksum);
-                
+
                 if (idToDesc[i].outdated)
                 {
                     StandardOut::singleton()->printf(MESSAGE_WARNING, "EventDescriptor %s is out of date, replication will be ignored", s.c_str());
@@ -1509,123 +1649,123 @@ void DescriptorReceiver<EventDescriptor>::learnName(std::string s, int i, uint32
 
                 *(desc->isOutdated) = idToDesc[i].outdated;
                 *(desc->isReplicable) = true;
-				return;
-			}
-			else
-				break;
-		}
-		++iter;
-	}
-	StandardOut::singleton()->printf(MESSAGE_WARNING, "EventDescriptor failed to learn %s", s.c_str());
-	idToDesc[i].desc = NULL;
+                return;
+            }
+            else
+                break;
+        }
+        ++iter;
+    }
+    StandardOut::singleton()->printf(MESSAGE_WARNING, "EventDescriptor failed to learn %s", s.c_str());
+    idToDesc[i].desc = NULL;
     idToDesc[i].outdated = false;
 }
 
 template<>
 std::string DescriptorSender<PropertyDescriptor>::teachName(const PropertyDescriptor* t) const
 {
-	return t->owner.name.toString() + ":" + t->name.toString();
+    return t->owner.name.toString() + ":" + t->name.toString();
 }
 
 
 template<>
 void DescriptorReceiver<PropertyDescriptor>::learnName(std::string s, int i, uint32_t checksum)
 {
-	std::vector<std::string> words;
+    std::vector<std::string> words;
 
-	boost::split(words, s, boost::is_any_of(":"));
+    boost::split(words, s, boost::is_any_of(":"));
 
-	// First get the class name
-	const ARL::Name& n = ARL::Name::lookup(words[0]);
+    // First get the class name
+    const ARL::Name& n = ARL::Name::lookup(words[0]);
 
-	ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
-	while (iter!=ClassDescriptor::all_end())
-	{
-		const ClassDescriptor* c = *iter;
-		if (c->name == n)
-		{
-			if (PropertyDescriptor* desc = c->findPropertyDescriptor(words[1].c_str()))
-			{
-				idToDesc[i].desc = desc;
+    ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
+    while (iter != ClassDescriptor::all_end())
+    {
+        const ClassDescriptor* c = *iter;
+        if (c->name == n)
+        {
+            if (PropertyDescriptor* desc = c->findPropertyDescriptor(words[1].c_str()))
+            {
+                idToDesc[i].desc = desc;
                 idToDesc[i].outdated = !verifyChecksum(desc, checksum);
                 *(desc->isOutdated) = idToDesc[i].outdated;
                 *(desc->isReplicable) = true;
-				return;
-			}
-			else
-				break;
-		}
-		++iter;
-	}
+                return;
+            }
+            else
+                break;
+        }
+        ++iter;
+    }
 
-	idToDesc[i].desc = NULL;
+    idToDesc[i].desc = NULL;
     idToDesc[i].outdated = false;
 }
 
 template<>
 std::string DescriptorSender<Type>::teachName(const Type* t) const
 {
-	return t->name.toString();
+    return t->name.toString();
 }
 
 template<>
 void DescriptorReceiver<Type>::learnName(std::string s, int i, uint32_t checksum)
 {
-	const ARL::Name& n = ARL::Name::lookup(s);
+    const ARL::Name& n = ARL::Name::lookup(s);
 
     const std::vector<const Type*>& types = Type::getAllTypes();
 
-	for (size_t ti = 0; ti < types.size(); ++ti)
-	{
-		if (types[ti]->name == n)
-		{
-			idToDesc[i].desc = types[ti];
+    for (size_t ti = 0; ti < types.size(); ++ti)
+    {
+        if (types[ti]->name == n)
+        {
+            idToDesc[i].desc = types[ti];
             idToDesc[i].outdated = !verifyChecksum(types[ti], checksum);
-			return;
-		}
-	}
+            return;
+        }
+    }
 
-	StandardOut::singleton()->printf(MESSAGE_WARNING, "Type failed to learn %s", s.c_str());
-	idToDesc[i].desc = NULL;
+    StandardOut::singleton()->printf(MESSAGE_WARNING, "Type failed to learn %s", s.c_str());
+    idToDesc[i].desc = NULL;
     idToDesc[i].outdated = false;
 }
 
 template<>
 DescriptorSender<ClassDescriptor>::DescriptorSender()
 {
-	ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
-	ClassDescriptor::ClassDescriptors::const_iterator end = ClassDescriptor::all_end();
-	while (iter!=end)
-	{
-		// TODO: Skip classes that can't be constructed???  (Abstract classes)
-		visit(*iter);
-		++iter;
-	}
+    ClassDescriptor::ClassDescriptors::const_iterator iter = ClassDescriptor::all_begin();
+    ClassDescriptor::ClassDescriptors::const_iterator end = ClassDescriptor::all_end();
+    while (iter != end)
+    {
+        // TODO: Skip classes that can't be constructed???  (Abstract classes)
+        visit(*iter);
+        ++iter;
+    }
 }
 
 template<>
 DescriptorSender<PropertyDescriptor>::DescriptorSender()
 {
-	MemberDescriptorContainer<PropertyDescriptor>::Collection::const_iterator iter = MemberDescriptorContainer<PropertyDescriptor>::all_begin();
-	MemberDescriptorContainer<PropertyDescriptor>::Collection::const_iterator end = MemberDescriptorContainer<PropertyDescriptor>::all_end();
-	while (iter!=end)
-	{
-		visit(*iter);
-		++iter;
-	}
+    MemberDescriptorContainer<PropertyDescriptor>::Collection::const_iterator iter = MemberDescriptorContainer<PropertyDescriptor>::all_begin();
+    MemberDescriptorContainer<PropertyDescriptor>::Collection::const_iterator end = MemberDescriptorContainer<PropertyDescriptor>::all_end();
+    while (iter != end)
+    {
+        visit(*iter);
+        ++iter;
+    }
 }
 
 
 template<>
 DescriptorSender<EventDescriptor>::DescriptorSender()
 {
-	MemberDescriptorContainer<EventDescriptor>::Collection::const_iterator iter = MemberDescriptorContainer<EventDescriptor>::all_begin();
-	MemberDescriptorContainer<EventDescriptor>::Collection::const_iterator end = MemberDescriptorContainer<EventDescriptor>::all_end();
-	while (iter!=end)
-	{
-		visit(*iter);
-		++iter;
-	}
+    MemberDescriptorContainer<EventDescriptor>::Collection::const_iterator iter = MemberDescriptorContainer<EventDescriptor>::all_begin();
+    MemberDescriptorContainer<EventDescriptor>::Collection::const_iterator end = MemberDescriptorContainer<EventDescriptor>::all_end();
+    while (iter != end)
+    {
+        visit(*iter);
+        ++iter;
+    }
 }
 
 template<>
@@ -1633,13 +1773,13 @@ DescriptorSender<Type>::DescriptorSender()
 {
     const std::vector<const Type*>& types = Type::getAllTypes();
 
-	for (size_t i = 0; i < types.size(); ++i)
-	{
+    for (size_t i = 0; i < types.size(); ++i)
+    {
         visit(types[i]);
     }
 }
 
-} 
+} // namespace Network
 
 
-}
+} // namespace ARL

@@ -87,6 +87,8 @@ namespace ARL {
 			return f(value.cast<G3D::Rect2D>());
 		if (value.isType<PhysicalProperties>())
 			return f(value.cast<PhysicalProperties>());
+		if (value.isType<TweenInfo>())
+			return f(value.cast<TweenInfo>());
 		if (value.isType<ARL::RbxRay>())
 			return f(value.cast<ARL::RbxRay>());
 		if (value.isType<G3D::CoordinateFrame>())
@@ -220,6 +222,7 @@ namespace ARL {
 		/*implement*/ bool getRegion3int16(int index, Region3int16& value) const;
 		/*implement*/ bool getRect(int index, Rect2D& value) const;
 		/*implement*/ bool getPhysicalProperties(int index, PhysicalProperties& value) const;
+		/*implement*/ bool getTweenInfo(int index, TweenInfo& value) const;
 		/*implement*/ bool getEnum(int index, const Reflection::EnumDescriptor& desc, int& value) const;
 		//
 		//////////////////////////////////////

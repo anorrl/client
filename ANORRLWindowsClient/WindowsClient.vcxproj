@@ -83,7 +83,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\ClientBase;$(CONTRIB_PATH)\boost_1_75_0\include;$(CONTRIB_PATH)\SDL2.0.4\include;..\Win;..\App.BulletPhysics;..\App\include;..\Base\include;..\Network\include;..\Log\include;..\TBB_4_1\include;..\Rendering\GfxBase\include;..\Rendering\g3d\include;..\Rendering\RbxG3D\include;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;..\ClientShared;..\Rendering\AppDraw\include;$(CONTRIB_PATH)\VMProtectWin_2.13;..\fmod\include;.;..\Rendering\GfxCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ClientBase;$(CONTRIB_PATH)\boost_1_56_0\include;$(CONTRIB_PATH)\SDL2.0.4\include;..\Win;..\App.BulletPhysics;..\App\include;..\Base\include;..\Network\include;..\Log\include;..\TBB_4_1\include;..\Rendering\GfxBase\include;..\Rendering\g3d\include;..\Rendering\RbxG3D\include;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;..\ClientShared;..\Rendering\AppDraw\include;$(CONTRIB_PATH)\VMProtectWin_2.13;..\fmod\include;.;..\Rendering\GfxCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;_DEBUG;_WINDOWS;_SECURE_SCL=0;WINVER=0x0501;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -98,7 +98,7 @@
     <Link>
       <AdditionalDependencies>$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release\SDL2.lib;strmbasd.lib;sensapi.lib;wmvcore.lib;DxErr9.lib;Urlmon.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)RobloxPlayerBetaRaw.exe</OutputFile>
-      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\boost_1_75_0\lib;..\fmod\win32\lib;..\TBB_4_1\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\DSBaseClasses\Lib;$(CONTRIB_PATH)\VMProtectWin_2.13;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\boost_1_56_0\lib;..\fmod\win32\lib;..\TBB_4_1\lib;$(CONTRIB_PATH)\SDK\Lib;$(CONTRIB_PATH)\DSBaseClasses\Lib;$(CONTRIB_PATH)\VMProtectWin_2.13;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8\lib;$(CONTRIB_PATH)\windows\x86\curl\curl-7.43.0\lib;$(CONTRIB_PATH)\SDL2\VisualC\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -116,8 +116,8 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\include;..\ClientBase;$(CONTRIB_PATH)\boost_1_75_0;$(CONTRIB_PATH)\SDL2.0.4\include;..\Win;..\App.BulletPhysics;..\App\include;..\Base\include;..\Network\include;..\Log\include;..\Rendering\GfxBase\include;..\Rendering\g3d\include;..\Rendering\RbxG3D\include;$(CONTRIB_PATH)\windows\x86\SDK\Include;..\ClientShared;..\Rendering\AppDraw\include;$(CONTRIB_PATH)\windows\x86\VMProtect\VMProtectWin_2.13;..\fmod\include;.;..\Rendering\GfxCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_WINDOWS;_SECURE_SCL=0;WINVER=0x0501;_WIN32_WINNT=0x0501;BOOST_THREAD_PROVIDES_FUTURE_CONTINUATION;_NO_CRT_STDIO_INLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\include;..\ClientBase;$(CONTRIB_PATH)\boost_1_56_0;$(CONTRIB_PATH)\SDL2.0.4\include;..\Win;..\App.BulletPhysics;..\App\include;..\Base\include;..\Network\include;..\Log\include;..\Rendering\GfxBase\include;..\Rendering\g3d\include;..\Rendering\RbxG3D\include;$(CONTRIB_PATH)\windows\x86\SDK\Include;..\ClientShared;..\Rendering\AppDraw\include;$(CONTRIB_PATH)\windows\x86\VMProtect\VMProtectWin_2.13;..\fmod\include;.;..\Rendering\GfxCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_WINDOWS;_SECURE_SCL=0;WINVER=0x0501;_WIN32_WINNT=0x0501;BOOST_THREAD_PROVIDES_FUTURE_CONTINUATION;_NO_CRT_STDIO_INLINE;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -132,7 +132,7 @@
     <Link>
       <AdditionalDependencies>..\SDL2\Win\2.0.4\SDL2.lib;sensapi.lib;DxErr9.lib;Urlmon.lib;zlib.lib;libcurl_a.lib;fmod_vc.lib;discord-rpc.lib;wldap32.lib;normaliz.lib;secur32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)ANORRLPlayerBetaRaw.exe</OutputFile>
-      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\lib;$(CONTRIB_PATH)\boost_1_75_0\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\windows\x86\SDK\Lib;$(CONTRIB_PATH)\windows\x86\VMProtect\VMProtectWin_2.13;..\zlib\win\bin\Release;$(CONTRIB_PATH)\windows\x86\curl\curl-8.16.0\builds\libcurl-vc11-x86-release-static-sspi-schannel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\lib;$(CONTRIB_PATH)\boost_1_56_0\lib;..\fmod\win32\lib;$(CONTRIB_PATH)\windows\x86\SDK\Lib;$(CONTRIB_PATH)\windows\x86\VMProtect\VMProtectWin_2.13;$(CONTRIB_PATH)\windows\x86\zlib\zlib-1.2.8;$(CONTRIB_PATH)\windows\x86\curl\curl-8.16.0\builds\libcurl-vc11-x86-release-static-sspi-schannel\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>false</OptimizeReferences>
@@ -181,7 +181,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <Optimization>Disabled</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>..\ClientBase;$(CONTRIB_PATH)\boost_1_75_0\include;$(CONTRIB_PATH)\SDL2.0.4\include;..\Win;..\App.BulletPhysics;..\App\include;..\Base\include;..\Network\include;..\Log\include;..\TBB_4_1\include;..\Rendering\GfxBase\include;..\Rendering\g3d\include;..\Rendering\RbxG3D\include;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;..\ClientShared;..\Rendering\AppDraw\include;$(CONTRIB_PATH)\VMProtectWin_2.13;..\fmod\include;.;..\Rendering\GfxCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ClientBase;$(CONTRIB_PATH)\boost_1_56_0\include;$(CONTRIB_PATH)\SDL2.0.4\include;..\Win;..\App.BulletPhysics;..\App\include;..\Base\include;..\Network\include;..\Log\include;..\TBB_4_1\include;..\Rendering\GfxBase\include;..\Rendering\g3d\include;..\Rendering\RbxG3D\include;$(CONTRIB_PATH)\DSBaseClasses\Sources;$(CONTRIB_PATH)\SDK\Include;..\ClientShared;..\Rendering\AppDraw\include;$(CONTRIB_PATH)\VMProtectWin_2.13;..\fmod\include;.;..\Rendering\GfxCore\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>BOOST_THREAD_BUILD_LIB;WIN32;NDEBUG;_WINDOWS;_SECURE_SCL=0;_NOOPT;WINVER=0x0501;_WIN32_WINNT=0x0501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -293,7 +293,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
     <ClCompile Include="View.cpp" />
     <ClCompile Include="..\Win\VistaTools.cpp" />
     <ClCompile Include="WebBrowserAxDialog.cpp" />
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\cmdline.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\cmdline.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
@@ -301,7 +301,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\config_file.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\config_file.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
@@ -309,7 +309,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\convert.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\convert.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
@@ -317,7 +317,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\options_description.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\options_description.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
@@ -325,7 +325,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\parsers.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\parsers.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
@@ -333,7 +333,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\positional_options.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\positional_options.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
@@ -341,7 +341,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\split.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\split.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
@@ -349,7 +349,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\utf8_codecvt_facet.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\utf8_codecvt_facet.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
@@ -357,7 +357,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\value_semantic.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\value_semantic.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
@@ -365,7 +365,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\variables_map.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\variables_map.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">
@@ -373,7 +373,7 @@ echo placeholder &gt;$(BUILD_PATH)\Player\$(Platform)\$(Configuration)\boost.pdb
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\Library\boost_1_75_0\libs\program_options\src\winmain.cpp">
+    <ClCompile Include="..\..\Library\boost_1_56_0\libs\program_options\src\winmain.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NoOpt|Win32'">

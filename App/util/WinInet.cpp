@@ -548,7 +548,7 @@ namespace ARL
 		
 		if (!boost::starts_with(domain, "http"))
 		{
-			usedDomain = "http://" + usedDomain;
+			usedDomain = "https://" + usedDomain;
 		}
 		
 		std::vector<std::string> cookiePairs;

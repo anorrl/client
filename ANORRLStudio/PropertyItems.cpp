@@ -76,7 +76,7 @@ FASTFLAG(GameExplorerImagesEnabled)
 FASTFLAG(StudioPropertyCompareOriginalVals)
 FASTFLAGVARIABLE(StudioPropertyErrorOutput, false)
 FASTFLAGVARIABLE(AnimationIdIsContentPropertyItem, false)
-FASTFLAGVARIABLE(FixColorSettingsCancel, false)
+FASTFLAGVARIABLE(FixColorSettingsCancel, true)
 FASTFLAGVARIABLE(TextFieldUTF8, false)
 DYNAMIC_FASTFLAG(MaterialPropertiesEnabled)
 FASTFLAG(CSGPhysicsLevelOfDetailEnabled)
@@ -894,6 +894,190 @@ void BrickColorPropertyItem::updatePropertyValue(int selectedColor)
 
 	m_isMultiValued = false;
 	updateIcon();
+}
+
+//--------------------------------------------------------------------------------------------
+// Color3PropertyItem
+//--------------------------------------------------------------------------------------------
+Color3PropertyItem::Color3PropertyItem(const ARL::Reflection::PropertyDescriptor *pPropertyDescriptor)
+	: PropertyItem(pPropertyDescriptor)
+	, m_pPopupLaunchEditor(NULL)
+	, m_pProxyLineEdit(NULL)
+{
+}
+
+Color3PropertyItem::Color3PropertyItem(PropertyItem* parent, const QString& name)
+	: PropertyItem(parent, name)
+	, m_pPopupLaunchEditor(NULL)
+	, m_pProxyLineEdit(NULL)
+{
+}
+
+QString Color3PropertyItem::getTextValue()
+{
+	G3D::Color3uint8 color = m_variantValue.get<G3D::Color3uint8>();
+	return QString("[%1, %2, %3]").arg((int)(color.r)).arg((int)(color.g)).arg((int)(color.b));
+}
+
+void Color3PropertyItem::updateIcon()
+{
+	if (m_isMultiValued)
+	{
+		setIcon(1, QIcon());
+	}
+	else
+	{
+		G3D::Color3uint8 color = m_variantValue.get<G3D::Color3uint8>();
+		QColor qtColor(color.r, color.g, color.b);
+		setIcon(1, getColorIcon(qtColor));
+	}
+}
+
+bool Color3PropertyItem::update()
+{
+	if (!PropertyItem::update())
+		return false;
+
+	updateIcon();
+
+	return true;
+}
+
+QWidget* Color3PropertyItem::createEditor(QWidget *parent, const QStyleOptionViewItem &option)
+{
+	m_pProxyLineEdit = new QLineEdit();
+	m_pProxyLineEdit->setFrame(false);
+
+	m_pPopupLaunchEditor = new PopupLaunchEditor(this, parent, icon(1), text(1), PROP_BUTTON_SIZE, m_pProxyLineEdit);
+	m_pPopupLaunchEditor->setGeometry(option.rect);
+	m_pPopupLaunchEditor->setAutoFillBackground(true);
+
+	return m_pPopupLaunchEditor;
+}
+
+void Color3PropertyItem::setEditorData(QWidget *editor)
+{
+	m_pProxyLineEdit->setParent(m_pPopupLaunchEditor);
+
+	G3D::Color3uint8 color = m_variantValue.get<G3D::Color3uint8>();
+	m_pProxyLineEdit->setText(QString("%1, %2, %3").arg((int)(color.r * 255)).arg((int)(color.g * 255)).arg((int)(color.b * 255)));
+}
+
+bool Color3PropertyItem::customLaunchEditorHook(QMouseEvent* event)
+{
+	getTreeWidget()->storeOriginalValues(this);
+	int sectionPos = treeWidget()->header()->sectionViewportPosition(1);
+	if (sectionPos <= event->pos().x() && sectionPos + popupLauncherButtonSize() >= event->pos().x())
+	{
+		buttonClicked();
+		return true;
+	}
+	return false;
+}
+
+void Color3PropertyItem::buttonClicked(const QString& buttonName)
+{
+	// restore the custom colors the user has set
+	QSettings settings;
+	for (int i = 0; i < QColorDialog::customCount(); i++)
+	{
+		QRgb c = settings.value("CustomColor/" + QString::number(i), -1).toInt();
+		QColorDialog::setCustomColor(i, c);
+	}
+
+	// set the original color in the color dialog
+	G3D::Color3uint8 originalColor = m_variantValue.get<G3D::Color3uint8>();
+	QColor originalQColor(originalColor.r * 255, originalColor.g * 255, originalColor.b * 255);
+	QColorDialog colorDialog(originalQColor, getTreeWidget());
+
+	connect(&colorDialog, SIGNAL(currentColorChanged(QColor)), this, SLOT(updatePropertyValue(QColor)));
+
+	if (colorDialog.exec())
+	{
+		getTreeWidget()->resetPropertyCallback();
+
+		QColor selectedColor = colorDialog.selectedColor();
+
+		G3D::Color3uint8 color = G3D::Color3uint8::fromARGB(selectedColor.rgba());
+		setVariantValue(color);
+		commitModification();
+
+		m_isMultiValued = false;
+		updateIcon();
+
+		// save the custom colors the user might have set
+		for (int i = 0; i < QColorDialog::customCount(); i++)
+			settings.setValue("CustomColor/" + QString::number(i), QColorDialog::customColor(i));
+	}
+	else
+	{
+		getTreeWidget()->resetPropertyCallback();
+		if (FFlag::FixColorSettingsCancel && !getTreeWidget()->hasOriginalValues())
+		{
+			setVariantValue(originalColor);
+			commitModification();
+			m_isMultiValued = false;
+			updateIcon();
+		}
+		else
+		{
+			getTreeWidget()->restoreOriginalValues(this);
+			getTreeWidget()->resetOriginalValues();
+		}
+	}
+
+	m_pPopupLaunchEditor = NULL; m_pProxyLineEdit = NULL;
+}
+
+void Color3PropertyItem::updatePropertyValue(QColor selectedColor)
+{
+	G3D::Color3uint8 color = G3D::Color3uint8::fromARGB(selectedColor.rgba());
+	setVariantValue(color);
+
+	commitModification(false);
+
+	m_isMultiValued = false;
+	updateIcon();
+}
+
+void Color3PropertyItem::setModelDataSafe(QWidget *editor)
+{
+	if (m_pPopupLaunchEditor && m_pProxyLineEdit && (m_pProxyLineEdit->text() != text(1)))
+	{
+		G3D::Color3uint8 editedColor;
+		if (ARL::StringConverter<G3D::Color3uint8>::convertToValue(m_pProxyLineEdit->text().toStdString(), editedColor))
+		{
+			setVariantValue(G3D::Color3uint8(editedColor.r / 255.0f, editedColor.g / 255.0f, editedColor.b / 255.0f));
+			commitModification();
+
+			m_isMultiValued = false;
+			updateIcon();
+		}
+	}
+}
+
+void Color3PropertyItem::setModelData(QWidget *editor)
+{
+	if (m_pPopupLaunchEditor && m_pProxyLineEdit && (m_pProxyLineEdit->text() != text(1)))
+	{
+		G3D::Color3uint8 editedColor;
+		if (ARL::StringConverter<G3D::Color3uint8>::convertToValue(m_pProxyLineEdit->text().toStdString(), editedColor))
+		{
+			setVariantValue(G3D::Color3uint8(editedColor.r / 255.0f, editedColor.g / 255.0f, editedColor.b / 255.0f));
+			commitModification();
+
+			m_isMultiValued = false;
+			updateIcon();
+		}
+
+		m_pPopupLaunchEditor = NULL; m_pProxyLineEdit = NULL;
+	}
+
+}
+
+int Color3PropertyItem::popupLauncherButtonSize()
+{
+	return PROP_BUTTON_SIZE;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -3106,6 +3290,10 @@ PropertyItem* PropertyItem::createItem(const ARL::Reflection::PropertyDescriptor
 	const ARL::Reflection::TypedPropertyDescriptor<G3D::Color3>* pColorProp = dynamic_cast<const ARL::Reflection::TypedPropertyDescriptor<G3D::Color3>*>(pPropertyDescriptor);
 	if (pColorProp)
 		return new ColorPropertyItem(pPropertyDescriptor);
+
+	const ARL::Reflection::TypedPropertyDescriptor<G3D::Color3uint8>* pColor3uint8Prop = dynamic_cast<const ARL::Reflection::TypedPropertyDescriptor<G3D::Color3uint8>*>(pPropertyDescriptor);
+	if (pColor3uint8Prop)
+		return new Color3PropertyItem(pPropertyDescriptor);
 			
 	const ARL::Reflection::EnumPropertyDescriptor* pEnumProp = dynamic_cast<const ARL::Reflection::EnumPropertyDescriptor*>(pPropertyDescriptor);
 	if (pEnumProp)

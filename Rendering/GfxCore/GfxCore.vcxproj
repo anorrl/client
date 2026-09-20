@@ -176,7 +176,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalIncludeDirectories>.\glew;.\include;$(CONTRIB_PATH)\windows\x86\SDK\Include;$(CONTRIB_PATH)\boost_1_75_0;..\..\ClientShared;..\..\Base\include;..\G3D\include;..\..\Log\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\glew;.\include;$(CONTRIB_PATH)\windows\x86\SDK\Include;$(CONTRIB_PATH)\boost_1_56_0;..\..\ClientShared;..\..\Base\include;..\G3D\include;..\..\Log\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;WIN32;NDEBUG;_LIB;_RELEASE;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

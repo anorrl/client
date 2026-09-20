@@ -11,6 +11,7 @@
 #include "Util/Rotation2D.h"
 #include "Gui/GuiDraw.h"
 #include "Script/ThreadRef.h"
+#include "V8DataModel/Tween.h"
 
 namespace ARL
 {
@@ -39,42 +40,18 @@ namespace ARL
 			RELATIVE_YY = 2
 		};
 
-		enum TweenEasingDirection
-		{
-			EASING_DIRECTION_IN,
-			EASING_DIRECTION_OUT,
-			EASING_DIRECTION_IN_OUT
-		};
-
-		enum TweenEasingStyle
-		{	
-			EASING_STYLE_LINEAR,
-			EASING_STYLE_SINE,
-			EASING_STYLE_BACK,
-			EASING_STYLE_QUAD,
-			EASING_STYLE_QUART,
-			EASING_STYLE_QUINT,
-			EASING_STYLE_BOUNCE,
-			EASING_STYLE_ELASTIC,
-		};
-		enum TweenStatus
-		{
-			TWEEN_CANCELED,
-			TWEEN_COMPLETED,
-		};
-
 		struct Tween
 		{
 			UDim2 start;
 			UDim2 end;
 			float elapsedTime;
 			float totalTime;
-			TweenEasingDirection style;
-			TweenEasingStyle variance;
+			TweenInfo::TweenEasingDirection style;
+			TweenInfo::TweenEasingStyle variance;
 
 			float delayTime;
-			boost::function<void(TweenStatus)> callback;
-			Tween(const UDim2& start, const UDim2& end, float time, TweenEasingDirection style, TweenEasingStyle variance, float delayTime)
+			boost::function<void(TweenInfo::TweenStatus)> callback;
+			Tween(const UDim2& start, const UDim2& end, float time, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float delayTime)
 				:start(start)
 				,end(end)
 				,elapsedTime(0)
@@ -95,7 +72,7 @@ namespace ARL
 		};
 
 	private:
-		static UDim2 TweenInterpolate(TweenEasingDirection style, TweenEasingStyle variance, 
+		static UDim2 TweenInterpolate(TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance,
 			float elapsedTime, float totalTime, const UDim2& startValue, const UDim2& endValue);
 
 		static void UpdateTween(Tween& tween, GuiObject* obj, boost::function<void(GuiObject*, UDim2)> updateFunc, float timeStep);
@@ -132,15 +109,15 @@ namespace ARL
 	public:
 		bool tweenStep(const double& timeStep);
 
-		bool tweenSizeAndPosition(UDim2 endSize, UDim2 endPosition, TweenEasingDirection style, TweenEasingStyle variance, float time, bool overwrite, Lua::WeakFunctionRef callback);
-		bool tweenPosition(UDim2 endPosition, TweenEasingDirection style, TweenEasingStyle variance, float time, bool overwrite, Lua::WeakFunctionRef callback);
-		bool tweenPosition(UDim2 endPosition, TweenEasingDirection style, TweenEasingStyle variance,float time,  bool overwrite, bool removeOnCallback);
-		bool tweenPosition(UDim2 endPosition, TweenEasingDirection style, TweenEasingStyle variance,float time,  bool overwrite, bool removeOnCallback, TweenService* tweenService);
-		bool tweenSize(UDim2 endSize, TweenEasingDirection style, TweenEasingStyle variance, float time, bool overwrite, Lua::WeakFunctionRef callback);
+		bool tweenSizeAndPosition(UDim2 endSize, UDim2 endPosition, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float time, bool overwrite, Lua::WeakFunctionRef callback);
+		bool tweenPosition(UDim2 endPosition, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float time, bool overwrite, Lua::WeakFunctionRef callback);
+		bool tweenPosition(UDim2 endPosition, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance,float time,  bool overwrite, bool removeOnCallback);
+		bool tweenPosition(UDim2 endPosition, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance,float time,  bool overwrite, bool removeOnCallback, TweenService* tweenService);
+		bool tweenSize(UDim2 endSize, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float time, bool overwrite, Lua::WeakFunctionRef callback);
 		
-		bool tweenPositionDelay(UDim2 startValue, UDim2 endValue, float time, TweenEasingDirection style, TweenEasingStyle variance, float delay, bool overwrite, boost::function<void(TweenStatus)> callback);
-		bool tweenPositionDelay(UDim2 startValue, UDim2 endValue, float time, TweenEasingDirection style, TweenEasingStyle variance, float delay, bool overwrite, boost::function<void(TweenStatus)> callback, TweenService* tweenService);
-		bool tweenSizeDelay(UDim2 startValue, UDim2 endValue, float time, TweenEasingDirection style, TweenEasingStyle variance, float delay, bool overwrite, boost::function<void(TweenStatus)> callback);
+		bool tweenPositionDelay(UDim2 startValue, UDim2 endValue, float time, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float delay, bool overwrite, boost::function<void(TweenInfo::TweenStatus)> callback);
+		bool tweenPositionDelay(UDim2 startValue, UDim2 endValue, float time, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float delay, bool overwrite, boost::function<void(TweenInfo::TweenStatus)> callback, TweenService* tweenService);
+		bool tweenSizeDelay(UDim2 startValue, UDim2 endValue, float time, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float delay, bool overwrite, boost::function<void(TweenInfo::TweenStatus)> callback);
 
 		virtual Rect2D getClippedRect();
 

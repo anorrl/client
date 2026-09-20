@@ -21,8 +21,7 @@
 
 LOGGROUP(PlayerShutdownLuaTimeoutSeconds)
 LOGGROUP(ANORRLWndInit)
-FASTFLAGVARIABLE(DirectX11Enable, false)
-FASTFLAGVARIABLE(UseNewAppBridgeInputWindows, false)
+FASTFLAGVARIABLE(DirectX11Enable, true)
 
 DYNAMIC_FASTFLAGVARIABLE(FullscreenRefocusingFix, false)
 
@@ -211,7 +210,7 @@ void View::initializeView()
         ::WriteProfileString("Settings", "lastGFXMode", "-1");
 		throw initialization_error(
 			"Your graphics drivers seem to be too old for ANORRL to use.\n\n"
-			"Visit http://www.anorrl.com/drivers for info on how to perform a driver upgrade.");
+			"Visit https://www.anorrl.com/drivers for info on how to perform a driver upgrade.");
 	}
 
     ARLASSERT( view );
@@ -251,7 +250,7 @@ void View::HandleWindowsMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 	// Other messages that made it to here are meant for UserInput
-	else if (!FFlag::UseNewAppBridgeInputWindows && userInput)
+	else if (userInput)
 	{
 		userInput->postUserInputMessage(uMsg, wParam, lParam);
 	}

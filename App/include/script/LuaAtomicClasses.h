@@ -15,6 +15,7 @@
 #include "Util/Axes.h"
 #include "Util/CellID.h"
 #include "util/PhysicalProperties.h"
+#include "util/TweenInfo.h"
 #include "v8datamodel/NumberSequence.h"
 #include "v8datamodel/ColorSequence.h"
 #include "v8datamodel/NumberRange.h"
@@ -53,6 +54,23 @@ namespace ARL { namespace Lua {
 		static int on_toEulerAnglesXYZ(lua_State *L);
 		static int on_components(lua_State *L);
 
+		static const luaL_reg classLibrary[];
+	};
+
+	class TweenInfoBridge : public Bridge<TweenInfo>
+	{
+		friend class Bridge<TweenInfo>;
+
+	public:
+		static void registerClassLibrary(lua_State* L);
+
+		static void pushTweenInfo(lua_State* L, const TweenInfo& v)
+		{
+			pushNewObject(L, v);
+		}
+
+	private:
+		static int newTweenInfo(lua_State* L);
 		static const luaL_reg classLibrary[];
 	};
 

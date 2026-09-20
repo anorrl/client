@@ -514,7 +514,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\include;$(CONTRIB_PATH)\SDL2.0.4\Include;$(CONTRIB_PATH)\boost_1_75_0;$(CONTRIB_PATH)\cpp-netlib-0.11.0-final;$(CONTRIB_PATH)\windows\x86\curl\curl-8.16.0\include;$(CONTRIB_PATH)\windows\x86\VMProtect\VMProtectWin_2.13;.\include;..\Base\include;..\fmod\include;.\lua-5.1.4\src;..\Rendering;..\Rendering\g3d\include;..\Rendering\g3d\zlib;..\Rendering\RbxG3D\include;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Network\include;..\RBXCookies;..\Log\Include;..\ClientShared;..\App.BulletPhysics;..\Win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\include;$(CONTRIB_PATH)\SDL2.0.4\Include;$(CONTRIB_PATH)\boost_1_56_0;$(CONTRIB_PATH)\cpp-netlib-0.11.0-final;$(CONTRIB_PATH)\windows\x86\curl\curl-8.16.0\include;$(CONTRIB_PATH)\windows\x86\VMProtect\VMProtectWin_2.13;.\include;..\Base\include;..\fmod\include;.\lua-5.1.4\src;..\Rendering;..\Rendering\g3d\include;..\Rendering\g3d\zlib;..\Rendering\RbxG3D\include;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Network\include;..\RBXCookies;..\Log\Include;..\ClientShared;..\App.BulletPhysics;..\Win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;CURL_STATICLIB;WWW_MSWINDOWS;NDEBUG;_LIB;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -555,8 +555,8 @@ cmd /c "exit /b 0"</Command>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\Include;$(CONTRIB_PATH)\boost_1_75_0;$(CONTRIB_PATH)\cpp-netlib-0.11.0-final;$(CONTRIB_PATH)\windows\x86\curl\curl-8.16.0\include;$(CONTRIB_PATH)\windows\x86\VMProtect\VMProtectWin_2.13;.\include;..\Base\include;..\fmod\include;.\lua-5.1.4\src;..\Rendering;..\Rendering\g3d\include;..\Rendering\g3d\zlib;..\Rendering\RbxG3D\include;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Network\include;..\RBXCookies;..\Log\Include;..\ClientShared;..\App.BulletPhysics;..\Win;$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;CURL_STATICLIB;WWW_MSWINDOWS;NDEBUG;_LIB;_RELEASE;ARL_ACC_SECURITY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\Include;$(CONTRIB_PATH)\boost_1_56_0;$(CONTRIB_PATH)\cpp-netlib-0.11.0-final;$(CONTRIB_PATH)\windows\x86\curl\curl-8.16.0\include;$(CONTRIB_PATH)\windows\x86\VMProtect\VMProtectWin_2.13;.\include;..\Base\include;..\fmod\include;.\lua-5.1.4\src;..\Rendering;..\Rendering\g3d\include;..\Rendering\g3d\zlib;..\Rendering\RbxG3D\include;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Network\include;..\RBXCookies;..\Log\Include;..\ClientShared;..\App.BulletPhysics;..\Win;$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;CURL_STATICLIB;NDEBUG;_LIB;_RELEASE;ARL_ACC_SECURITY;ARL_TEST_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -647,7 +647,7 @@ cmd /c "exit /b 0"</Command>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
-      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\Include;$(CONTRIB_PATH)\boost_1_75_0;$(CONTRIB_PATH)\cpp-netlib-0.11.0-final;$(CONTRIB_PATH)\windows\x86\curl\curl-8.16.0\include;$(CONTRIB_PATH)\windows\x86\VMProtect\VMProtectWin_2.13;.\include;..\Base\include;..\fmod\include;.\lua-5.1.4\src;..\Rendering;..\Rendering\g3d\include;..\Rendering\g3d\zlib;..\Rendering\RbxG3D\include;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Network\include;..\RBXCookies;..\Log\Include;..\ClientShared;..\App.BulletPhysics;..\Win;$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CONTRIB_PATH)\SDL2.0.4\Include;$(CONTRIB_PATH)\boost_1_56_0;$(CONTRIB_PATH)\cpp-netlib-0.11.0-final;$(CONTRIB_PATH)\windows\x86\curl\curl-8.16.0\include;$(CONTRIB_PATH)\windows\x86\VMProtect\VMProtectWin_2.13;.\include;..\Base\include;..\fmod\include;.\lua-5.1.4\src;..\Rendering;..\Rendering\g3d\include;..\Rendering\g3d\zlib;..\Rendering\RbxG3D\include;..\Rendering\AppDraw\include;..\Rendering\GfxBase\include;..\Network\include;..\RBXCookies;..\Log\Include;..\ClientShared;..\App.BulletPhysics;..\Win;$(CONTRIB_PATH)\windows\x86\discord\discord-rpc-win32-static\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;CURL_STATICLIB;WWW_MSWINDOWS;NDEBUG;_LIB;_RELEASE;ARL_STUDIO_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -1015,6 +1015,7 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="util\rbxrandom.cpp" />
     <ClCompile Include="util\Region3int32.cpp" />
     <ClCompile Include="util\Analytics.cpp" />
+    <ClCompile Include="util\TweenInfo.cpp" />
     <ClCompile Include="util\URL.cpp" />
     <ClCompile Include="util\Shared\Http.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">NotUsing</PrecompiledHeader>
@@ -1238,6 +1239,8 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="v8datamodel\ServerStorage.cpp" />
     <ClCompile Include="v8datamodel\SleepingJob.cpp" />
     <ClCompile Include="v8datamodel\TouchInputService.cpp" />
+    <ClCompile Include="v8datamodel\Tween.cpp" />
+    <ClCompile Include="v8datamodel\TweenBase.cpp" />
     <ClCompile Include="V8Kernel\Body.cpp" />
     <ClCompile Include="v8kernel\BulletShapeConnectors.cpp" />
     <ClCompile Include="v8kernel\BuoyancyConnector.cpp" />
@@ -4007,6 +4010,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\util\SoundService.h" />
     <ClInclude Include="include\util\SpatialRegion.h" />
     <ClInclude Include="include\util\StreamRegion.h" />
+    <ClInclude Include="include\util\TweenInfo.h" />
     <ClInclude Include="include\util\URL.h" />
     <ClInclude Include="include\util\xxhash.h" />
     <ClInclude Include="include\v8datamodel\AnimationController.h" />
@@ -4062,6 +4066,8 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8datamodel\SleepingJob.h" />
     <ClInclude Include="include\v8datamodel\TeleportCallback.h" />
     <ClInclude Include="include\v8datamodel\TouchInputService.h" />
+    <ClInclude Include="include\v8datamodel\Tween.h" />
+    <ClInclude Include="include\v8datamodel\TweenBase.h" />
     <ClInclude Include="include\v8kernel\BulletShapeConnectors.h" />
     <ClInclude Include="include\v8world\BulletGeometryPoolObjects.h" />
     <ClInclude Include="include\v8world\BulletShapeCellContact.h" />

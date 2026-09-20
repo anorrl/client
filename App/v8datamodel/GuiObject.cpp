@@ -32,13 +32,14 @@ namespace ARL {
 
 const char* const  sGuiObject = "GuiObject";
 
+using ARL::TweenInfo;
 
 
 REFLECTION_BEGIN();
 //////////////////////////////////////////////////////////
-static const Reflection::BoundFuncDesc<GuiObject, bool(UDim2, UDim2, GuiObject::TweenEasingDirection, GuiObject::TweenEasingStyle, float, bool, Lua::WeakFunctionRef)> func_tweenSizeAndPosition(&GuiObject::tweenSizeAndPosition, "TweenSizeAndPosition", "endSize", "endPosition", "easingDirection", GuiObject::EASING_DIRECTION_OUT, "easingStyle", GuiObject::EASING_STYLE_QUAD, "time", 1, "override", false, "callback", Lua::WeakFunctionRef(), Security::None);
-static const Reflection::BoundFuncDesc<GuiObject, bool(UDim2, GuiObject::TweenEasingDirection, GuiObject::TweenEasingStyle, float, bool, Lua::WeakFunctionRef)> func_tweenPosition(&GuiObject::tweenPosition, "TweenPosition", "endPosition", "easingDirection", GuiObject::EASING_DIRECTION_OUT, "easingStyle", GuiObject::EASING_STYLE_QUAD, "time", 1, "override", false, "callback", Lua::WeakFunctionRef(), Security::None);
-static const Reflection::BoundFuncDesc<GuiObject, bool(UDim2, GuiObject::TweenEasingDirection, GuiObject::TweenEasingStyle, float, bool, Lua::WeakFunctionRef)> func_tweenSize(&GuiObject::tweenSize, "TweenSize", "endSize", "easingDirection", GuiObject::EASING_DIRECTION_OUT, "easingStyle", GuiObject::EASING_STYLE_QUAD, "time", 1, "override", false, "callback", Lua::WeakFunctionRef(), Security::None);
+static const Reflection::BoundFuncDesc<GuiObject, bool(UDim2, UDim2, TweenInfo::TweenEasingDirection, TweenInfo::TweenEasingStyle, float, bool, Lua::WeakFunctionRef)> func_tweenSizeAndPosition(&GuiObject::tweenSizeAndPosition, "TweenSizeAndPosition", "endSize", "endPosition", "easingDirection", TweenInfo::EASING_DIRECTION_OUT, "easingStyle", TweenInfo::EASING_STYLE_QUAD, "time", 1, "override", false, "callback", Lua::WeakFunctionRef(), Security::None);
+static const Reflection::BoundFuncDesc<GuiObject, bool(UDim2, TweenInfo::TweenEasingDirection, TweenInfo::TweenEasingStyle, float, bool, Lua::WeakFunctionRef)> func_tweenPosition(&GuiObject::tweenPosition, "TweenPosition", "endPosition", "easingDirection", TweenInfo::EASING_DIRECTION_OUT, "easingStyle", TweenInfo::EASING_STYLE_QUAD, "time", 1, "override", false, "callback", Lua::WeakFunctionRef(), Security::None);
+static const Reflection::BoundFuncDesc<GuiObject, bool(UDim2, TweenInfo::TweenEasingDirection, TweenInfo::TweenEasingStyle, float, bool, Lua::WeakFunctionRef)> func_tweenSize(&GuiObject::tweenSize, "TweenSize", "endSize", "easingDirection", TweenInfo::EASING_DIRECTION_OUT, "easingStyle", TweenInfo::EASING_STYLE_QUAD, "time", 1, "override", false, "callback", Lua::WeakFunctionRef(), Security::None);
 
 static const Reflection::PropDescriptor<GuiObject, UDim2>	prop_Size("Size", category_Data, &GuiObject::getSize, &GuiObject::setSize);
 static const Reflection::PropDescriptor<GuiObject, Vector2>	prop_AnchorPosition("AnchorPoint", category_Data, &GuiObject::getAnchorPoint, &GuiObject::setAnchorPoint);
@@ -110,73 +111,6 @@ IMPLEMENT_EVENT_REPLICATOR(GuiObject,event_DragStopped,		"DragStopped",		DragSto
 IMPLEMENT_EVENT_REPLICATOR(GuiObject,event_DragBegin,		"DragBegin",		DragBegin);
 REFLECTION_END();
 
-namespace Reflection
-{
-template<>
-EnumDesc<ARL::GuiObject::TweenEasingDirection>::EnumDesc()
-:EnumDescriptor("EasingDirection")
-{
-	addPair(ARL::GuiObject::EASING_DIRECTION_IN, "In");
-	addPair(ARL::GuiObject::EASING_DIRECTION_OUT, "Out");
-	addPair(ARL::GuiObject::EASING_DIRECTION_IN_OUT, "InOut");
-}
-template<>
-ARL::GuiObject::TweenEasingDirection& Variant::convert<ARL::GuiObject::TweenEasingDirection>(void)
-{
-	return genericConvert<ARL::GuiObject::TweenEasingDirection>();
-}
-
-template<>
-EnumDesc<ARL::GuiObject::TweenEasingStyle>::EnumDesc()
-:EnumDescriptor("EasingStyle")
-{
-	addPair(ARL::GuiObject::EASING_STYLE_LINEAR,	"Linear");
-	addPair(ARL::GuiObject::EASING_STYLE_SINE,		"Sine");
-	addPair(ARL::GuiObject::EASING_STYLE_BACK,		"Back");
-	addPair(ARL::GuiObject::EASING_STYLE_QUAD,		"Quad");
-	addPair(ARL::GuiObject::EASING_STYLE_QUART,	"Quart");
-	addPair(ARL::GuiObject::EASING_STYLE_QUINT,	"Quint");
-	addPair(ARL::GuiObject::EASING_STYLE_BOUNCE,	"Bounce");
-	addPair(ARL::GuiObject::EASING_STYLE_ELASTIC,	"Elastic");
-}
-template<>
-ARL::GuiObject::TweenEasingStyle& Variant::convert<ARL::GuiObject::TweenEasingStyle>(void)
-{
-	return genericConvert<ARL::GuiObject::TweenEasingStyle>();
-}
-
-template<>
-EnumDesc<ARL::GuiObject::TweenStatus>::EnumDesc()
-:EnumDescriptor("TweenStatus")
-{
-	addPair(ARL::GuiObject::TWEEN_CANCELED,		"Canceled");
-	addPair(ARL::GuiObject::TWEEN_COMPLETED,	"Completed");
-}
-template<>
-ARL::GuiObject::TweenStatus& Variant::convert<ARL::GuiObject::TweenStatus>(void)
-{
-	return genericConvert<ARL::GuiObject::TweenStatus>();
-}
-}
-template<>
-bool StringConverter<GuiObject::TweenEasingStyle>::convertToValue(const std::string& text, GuiObject::TweenEasingStyle& value)
-{
-	return Reflection::EnumDesc<GuiObject::TweenEasingStyle>::singleton().convertToValue(text.c_str(),value);
-}
-
-template<>
-bool ARL::StringConverter<GuiObject::TweenEasingDirection>::convertToValue(const std::string& text, GuiObject::TweenEasingDirection& value)
-{
-	return Reflection::EnumDesc<GuiObject::TweenEasingDirection>::singleton().convertToValue(text.c_str(),value);
-}
-
-
-template<>
-bool ARL::StringConverter<GuiObject::TweenStatus>::convertToValue(const std::string& text, GuiObject::TweenStatus& value)
-{
-	return Reflection::EnumDesc<GuiObject::TweenStatus>::singleton().convertToValue(text.c_str(),value);
-}
-
 GuiObject::GuiObject(const char* name, bool active) 
 	: DescribedNonCreatable<GuiObject, GuiBase2d, sGuiObject>(name)
 	, size()
@@ -214,7 +148,7 @@ GuiObject::GuiObject(const char* name, bool active)
 	CONNECT_EVENT_REPLICATOR(MouseWheelBackward);
 }
 
-static void InvokeCallback(boost::function<void(GuiObject::TweenStatus)> func, GuiObject::TweenStatus status)
+static void InvokeCallback(boost::function<void(TweenInfo::TweenStatus)> func, TweenInfo::TweenStatus status)
 {
 	func(status);
 }
@@ -249,12 +183,12 @@ void GuiObject::UpdateTween(Tween& tween, GuiObject* obj, boost::function<void(G
 			{
 				if (TweenService* tweenService = ARL::ServiceProvider::create<TweenService>(obj))
 				{
-					tweenService->addTweenCallback(tween.callback, TWEEN_COMPLETED);
+					tweenService->addTweenCallback(tween.callback, TweenInfo::TWEEN_COMPLETED);
 				}
 			}
 			else if(DataModel* dm = DataModel::get(obj))
 			{
-				dm->submitTask(boost::bind(&InvokeCallback, tween.callback, TWEEN_COMPLETED), DataModelJob::Write);
+				dm->submitTask(boost::bind(&InvokeCallback, tween.callback, TweenInfo::TWEEN_COMPLETED), DataModelJob::Write);
 			}
 			tween.callback.clear();
 		}
@@ -266,7 +200,7 @@ void GuiObject::UpdateTween(Tween& tween, GuiObject* obj, boost::function<void(G
 	}
 }
 
-static void InvokeTweenStatusCallback(boost::weak_ptr<GuiObject> weakThis, Lua::WeakFunctionRef callback, GuiObject::TweenStatus tweenStatus)
+static void InvokeTweenStatusCallback(boost::weak_ptr<GuiObject> weakThis, Lua::WeakFunctionRef callback, TweenInfo::TweenStatus tweenStatus)
 {
     if (Lua::ThreadRef threadRef = callback.lock())
     {
@@ -296,12 +230,12 @@ static void InvokeRemoveOnTweenEnd(boost::weak_ptr<GuiObject> weakThis,  Lua::We
 		strongThis->setParent(NULL);
 }
 
-bool GuiObject::tweenPosition(UDim2 endPosition, TweenEasingDirection style, TweenEasingStyle variance,float time,  bool overwrite, Lua::WeakFunctionRef callback)
+bool GuiObject::tweenPosition(UDim2 endPosition, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance,float time,  bool overwrite, Lua::WeakFunctionRef callback)
 {
 	return tweenPositionDelay(getPosition(), endPosition, time, style, variance, 0.0f, overwrite, boost::bind(&InvokeTweenStatusCallback, weak_from(this), callback, _1));
 }
 
-bool GuiObject::tweenPosition(UDim2 endPosition, TweenEasingDirection style, TweenEasingStyle variance,float time,  bool overwrite, bool removeOnCallback)
+bool GuiObject::tweenPosition(UDim2 endPosition, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance,float time,  bool overwrite, bool removeOnCallback)
 {
 	TweenService* tweenService = ServiceProvider::create<TweenService>(this);
 	if(removeOnCallback)
@@ -310,7 +244,7 @@ bool GuiObject::tweenPosition(UDim2 endPosition, TweenEasingDirection style, Twe
 		return tweenPositionDelay(getPosition(), endPosition, time, style, variance, 0.0f, overwrite, boost::bind(&InvokeTweenStatusCallback, weak_from(this), Lua::WeakFunctionRef(), _1), tweenService);
 }
 
-bool GuiObject::tweenPosition(UDim2 endPosition, TweenEasingDirection style, TweenEasingStyle variance,float time,  bool overwrite, bool removeOnCallback, TweenService* tweenService)
+bool GuiObject::tweenPosition(UDim2 endPosition, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance,float time,  bool overwrite, bool removeOnCallback, TweenService* tweenService)
 {
 	if(removeOnCallback)
 		return tweenPositionDelay(getPosition(), endPosition, time, style, variance, 0.0f, overwrite, boost::bind(&InvokeRemoveOnTweenEnd, weak_from(this), Lua::WeakFunctionRef()), tweenService);
@@ -318,12 +252,12 @@ bool GuiObject::tweenPosition(UDim2 endPosition, TweenEasingDirection style, Twe
 		return tweenPositionDelay(getPosition(), endPosition, time, style, variance, 0.0f, overwrite, boost::bind(&InvokeTweenStatusCallback, weak_from(this), Lua::WeakFunctionRef(), _1), tweenService);
 }
 
-bool GuiObject::tweenSize(UDim2 endSize, TweenEasingDirection style, TweenEasingStyle variance, float time, bool overwrite, Lua::WeakFunctionRef callback)
+bool GuiObject::tweenSize(UDim2 endSize, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float time, bool overwrite, Lua::WeakFunctionRef callback)
 {
 	return tweenSizeDelay(getSize(), endSize, time, style, variance, 0.0f, overwrite, boost::bind(&InvokeTweenStatusCallback, weak_from(this), callback, _1));
 }
 
-bool GuiObject::tweenSizeAndPosition(UDim2 endSize, UDim2 endPosition, TweenEasingDirection style, TweenEasingStyle variance, float time, bool overwrite, Lua::WeakFunctionRef callback)
+bool GuiObject::tweenSizeAndPosition(UDim2 endSize, UDim2 endPosition, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float time, bool overwrite, Lua::WeakFunctionRef callback)
 {
 	if(!overwrite){
 		if(tweens && (tweens->positionTween || tweens->sizeTween)){
@@ -336,13 +270,13 @@ bool GuiObject::tweenSizeAndPosition(UDim2 endSize, UDim2 endPosition, TweenEasi
 
 	return result;
 }
-bool GuiObject::tweenPositionDelay(UDim2 startPosition, UDim2 endPosition, float time, TweenEasingDirection style, TweenEasingStyle variance, float delayTime, bool overwrite, boost::function<void(TweenStatus)> callback)
+bool GuiObject::tweenPositionDelay(UDim2 startPosition, UDim2 endPosition, float time, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float delayTime, bool overwrite, boost::function<void(TweenInfo::TweenStatus)> callback)
 {
 	TweenService* tweenService = ServiceProvider::create<TweenService>(this);
 	return tweenPositionDelay(startPosition, endPosition, time, style, variance, delayTime, overwrite, callback, tweenService);
 }
 
-bool GuiObject::tweenPositionDelay(UDim2 startPosition, UDim2 endPosition, float time, TweenEasingDirection style, TweenEasingStyle variance, float delayTime, bool overwrite, boost::function<void(TweenStatus)> callback, TweenService* tweenService)
+bool GuiObject::tweenPositionDelay(UDim2 startPosition, UDim2 endPosition, float time, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float delayTime, bool overwrite, boost::function<void(TweenInfo::TweenStatus)> callback, TweenService* tweenService)
 {
 	if(!tweenService)
 		throw std::runtime_error("Can only tween objects in the workspace");
@@ -362,11 +296,11 @@ bool GuiObject::tweenPositionDelay(UDim2 startPosition, UDim2 endPosition, float
 		{
 			if (FFlag::TweenCallbacksDuringRenderStep)
 			{
-				tweenService->addTweenCallback(tweens->positionTween->callback, TWEEN_CANCELED);
+				tweenService->addTweenCallback(tweens->positionTween->callback, TweenInfo::TWEEN_CANCELED);
 			}
 			else if(DataModel* dm = DataModel::get(this))
 			{
-				dm->submitTask(boost::bind(&InvokeCallback, tweens->positionTween->callback, TWEEN_CANCELED), DataModelJob::Write);
+				dm->submitTask(boost::bind(&InvokeCallback, tweens->positionTween->callback, TweenInfo::TWEEN_CANCELED), DataModelJob::Write);
 		}
 		}
 		tweens->positionTween.reset();
@@ -377,7 +311,7 @@ bool GuiObject::tweenPositionDelay(UDim2 startPosition, UDim2 endPosition, float
 	tweens->positionTween->callback = callback;
 	return true;
 }
-bool GuiObject::tweenSizeDelay(UDim2 startSize, UDim2 endSize, float time, TweenEasingDirection style, TweenEasingStyle variance, float delayTime, bool overwrite, boost::function<void(TweenStatus)> callback)
+bool GuiObject::tweenSizeDelay(UDim2 startSize, UDim2 endSize, float time, TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance, float delayTime, bool overwrite, boost::function<void(TweenInfo::TweenStatus)> callback)
 {
 	TweenService* tweenService = ServiceProvider::create<TweenService>(this);
 	if(!tweenService)
@@ -398,11 +332,11 @@ bool GuiObject::tweenSizeDelay(UDim2 startSize, UDim2 endSize, float time, Tween
 		{
 			if (FFlag::TweenCallbacksDuringRenderStep)
 			{
-				tweenService->addTweenCallback(tweens->sizeTween->callback, TWEEN_CANCELED);
+				tweenService->addTweenCallback(tweens->sizeTween->callback, TweenInfo::TWEEN_CANCELED);
 			}
 			else if(DataModel* dm = DataModel::get(this))
 			{
-				dm->submitTask(boost::bind(&InvokeCallback, tweens->sizeTween->callback, TWEEN_CANCELED), DataModelJob::Write);
+				dm->submitTask(boost::bind(&InvokeCallback, tweens->sizeTween->callback, TweenInfo::TWEEN_CANCELED), DataModelJob::Write);
 		}
 		}
 		tweens->sizeTween.reset();
@@ -438,49 +372,49 @@ bool GuiObject::tweenStep(const double& timeStep)
 	return !tweens;
 }
 
-UDim2 GuiObject::TweenInterpolate(TweenEasingDirection style, TweenEasingStyle variance, 
+UDim2 GuiObject::TweenInterpolate(TweenInfo::TweenEasingDirection style, TweenInfo::TweenEasingStyle variance,
 								  float elapsedTime, float totalTime, const UDim2& startValue, const UDim2& endValue)
 {
 	switch(variance)
 	{
-	case EASING_STYLE_LINEAR:	
+	case TweenInfo::EASING_STYLE_LINEAR:	
 		return (endValue-startValue) * (elapsedTime/totalTime) + startValue;
-	case EASING_STYLE_SINE:
+	case TweenInfo::EASING_STYLE_SINE:
 	{
 		float factor = 1;
 		switch(style)
 		{
-		case EASING_DIRECTION_IN:
+		case TweenInfo::EASING_DIRECTION_IN:
 			factor = 1 - cos(elapsedTime/totalTime * Math::piHalf());
 			break;
-		case EASING_DIRECTION_OUT:
+		case TweenInfo::EASING_DIRECTION_OUT:
 			factor = sin(elapsedTime/totalTime * Math::piHalf());
 			break;
-		case EASING_DIRECTION_IN_OUT:
+		case TweenInfo::EASING_DIRECTION_IN_OUT:
 			factor =  -0.5 * (cos(Math::pi()*elapsedTime/totalTime) - 1);
 			break;
 		}
 		return (endValue-startValue) * factor + startValue;
 	}
-	case EASING_STYLE_BACK:
+	case TweenInfo::EASING_STYLE_BACK:
 	{
 		float factor = 1;
 		const float s = 1.70158;
 		switch(style)
 		{
-			case EASING_DIRECTION_IN:
+			case TweenInfo::EASING_DIRECTION_IN:
 			{
 				const float t = elapsedTime/totalTime;
 				factor = t*t*((s + 1)*t - s);
 				break;
 			}
-			case EASING_DIRECTION_OUT:
+			case TweenInfo::EASING_DIRECTION_OUT:
 			{
 				const float t = elapsedTime/totalTime-1;
 				factor = t*t*((s+1)*t+s) + 1;
 				break;
 			}
-			case EASING_DIRECTION_IN_OUT:
+			case TweenInfo::EASING_DIRECTION_IN_OUT:
 			{
 				float t = elapsedTime / (totalTime*0.5);
 				if(t < 1)
@@ -494,24 +428,24 @@ UDim2 GuiObject::TweenInterpolate(TweenEasingDirection style, TweenEasingStyle v
 		}
 		return ( endValue-startValue) * factor + startValue;
 	}
-	case EASING_STYLE_QUAD:
+	case TweenInfo::EASING_STYLE_QUAD:
 	{
 		float factor = 1;
 		switch(style)
 		{
-			case EASING_DIRECTION_IN:
+			case TweenInfo::EASING_DIRECTION_IN:
 			{
 				float t = elapsedTime/totalTime;
 				factor = t*t;
 				break;
 			}
-			case EASING_DIRECTION_OUT:
+			case TweenInfo::EASING_DIRECTION_OUT:
 			{
 				float t = elapsedTime/totalTime;
 				factor = -t*(t-2);
 				break;
 			}
-			case EASING_DIRECTION_IN_OUT:
+			case TweenInfo::EASING_DIRECTION_IN_OUT:
 			{
 				float t = elapsedTime/(totalTime * 0.5);
 
@@ -524,23 +458,23 @@ UDim2 GuiObject::TweenInterpolate(TweenEasingDirection style, TweenEasingStyle v
 		}
 		return (endValue-startValue)*factor + startValue;
 	}
-	case EASING_STYLE_QUART:
+	case TweenInfo::EASING_STYLE_QUART:
 	{
 		float factor = 1;
 		switch(style){
-			case EASING_DIRECTION_IN:
+			case TweenInfo::EASING_DIRECTION_IN:
 			{
 				const float t = elapsedTime/totalTime;
 				factor = pow(t, 4);
 				break;
 			}
-			case EASING_DIRECTION_OUT:
+			case TweenInfo::EASING_DIRECTION_OUT:
 			{
 				const float t = elapsedTime/totalTime - 1;
 				factor = -(pow(t, 4)-1);
 				break;
 			}
-			case EASING_DIRECTION_IN_OUT:
+			case TweenInfo::EASING_DIRECTION_IN_OUT:
 			{
 				const float t = elapsedTime/(totalTime * 0.5);
 				if (t < 1) 
@@ -552,23 +486,23 @@ UDim2 GuiObject::TweenInterpolate(TweenEasingDirection style, TweenEasingStyle v
 		}
 		return (endValue-startValue)*factor + startValue;
 	}
-	case EASING_STYLE_QUINT:
+	case TweenInfo::EASING_STYLE_QUINT:
 	{
 		float factor = 1;
 		switch(style){
-			case EASING_DIRECTION_IN:
+			case TweenInfo::EASING_DIRECTION_IN:
 			{
 				const float t = elapsedTime/totalTime;
 				factor = pow(t,5);
 				break;
 			}
-			case EASING_DIRECTION_OUT:
+			case TweenInfo::EASING_DIRECTION_OUT:
 			{
 				const float t = elapsedTime/totalTime - 1;
 				factor = pow(t,5) + 1;
 				break;
 			}
-			case EASING_DIRECTION_IN_OUT:
+			case TweenInfo::EASING_DIRECTION_IN_OUT:
 			{
 				const float t = elapsedTime/(totalTime * 0.5);
 
@@ -581,12 +515,12 @@ UDim2 GuiObject::TweenInterpolate(TweenEasingDirection style, TweenEasingStyle v
 		}
 		return (endValue-startValue)*factor + startValue;
 	}
-	case EASING_STYLE_BOUNCE:
+	case TweenInfo::EASING_STYLE_BOUNCE:
 	{
 		switch(style){
-			case EASING_DIRECTION_IN:
-				return (endValue-startValue) - TweenInterpolate(EASING_DIRECTION_OUT, EASING_STYLE_BOUNCE, totalTime-elapsedTime, totalTime, UDim2(), endValue-startValue) + startValue;
-			case EASING_DIRECTION_OUT:
+			case TweenInfo::EASING_DIRECTION_IN:
+				return (endValue-startValue) - TweenInterpolate(TweenInfo::EASING_DIRECTION_OUT, TweenInfo::EASING_STYLE_BOUNCE, totalTime-elapsedTime, totalTime, UDim2(), endValue-startValue) + startValue;
+			case TweenInfo::EASING_DIRECTION_OUT:
 			{
 				const float timePercent = elapsedTime/totalTime;
 				float factor = 1;
@@ -600,17 +534,17 @@ UDim2 GuiObject::TweenInterpolate(TweenEasingDirection style, TweenEasingStyle v
 					factor = 7.5625*pow(timePercent-2.625/2.75, 2) + .984375;
 				return (endValue-startValue)*factor + startValue;
 			}
-			case EASING_DIRECTION_IN_OUT:
+			case TweenInfo::EASING_DIRECTION_IN_OUT:
 				if(elapsedTime < totalTime*0.5)
-					return TweenInterpolate(EASING_DIRECTION_IN, EASING_STYLE_BOUNCE, elapsedTime*2, totalTime, UDim2(), endValue-startValue)*0.5 + startValue;
+					return TweenInterpolate(TweenInfo::EASING_DIRECTION_IN, TweenInfo::EASING_STYLE_BOUNCE, elapsedTime*2, totalTime, UDim2(), endValue-startValue)*0.5 + startValue;
 				else
-					return TweenInterpolate(EASING_DIRECTION_OUT, EASING_STYLE_BOUNCE, elapsedTime*2-totalTime, totalTime, UDim2(), endValue-startValue)*0.5 + (endValue-startValue)*.5 + startValue;
+					return TweenInterpolate(TweenInfo::EASING_DIRECTION_OUT, TweenInfo::EASING_STYLE_BOUNCE, elapsedTime*2-totalTime, totalTime, UDim2(), endValue-startValue)*0.5 + (endValue-startValue)*.5 + startValue;
 			default:
 				ARLASSERT(0);
 				return UDim2();
 		}
 	}
-	case EASING_STYLE_ELASTIC:
+	case TweenInfo::EASING_STYLE_ELASTIC:
 	{
 		if(elapsedTime == 0)
 			return startValue;
@@ -620,7 +554,7 @@ UDim2 GuiObject::TweenInterpolate(TweenEasingDirection style, TweenEasingStyle v
 
 		float factor = 1;
 		switch(style) {
-			case EASING_DIRECTION_IN:
+			case TweenInfo::EASING_DIRECTION_IN:
 			{
 				float p = totalTime * .3;
 				float s = p / 4;
@@ -628,14 +562,14 @@ UDim2 GuiObject::TweenInterpolate(TweenEasingDirection style, TweenEasingStyle v
 				factor = -(pow(2,10*t) * sin((t*totalTime-s)*(DFFlag::ElasticEasingUseTwoPi ? Math::twoPi() : Math::piHalf())/p));
 				break;
 			}
-			case EASING_DIRECTION_OUT:
+			case TweenInfo::EASING_DIRECTION_OUT:
 			{
 				float p=totalTime*.3;
 				float s = p/4;
 				factor = 1 + pow(2,-10*t) * sin( (t*totalTime-s)*(DFFlag::ElasticEasingUseTwoPi ? Math::twoPi() : Math::piHalf())/p );
 				break;
 			}
-			case EASING_DIRECTION_IN_OUT:
+			case TweenInfo::EASING_DIRECTION_IN_OUT:
 			{
 				t = elapsedTime / (totalTime * 0.5);
 				float p=totalTime*(.3*1.5);

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonGallery.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.5.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonGallery.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.5.1. It"
+#error "This file was generated using the moc from 5.4.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,11 +20,11 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Qtitan__RibbonGalleryGroup_t {
     QByteArrayData data[1];
-    char stringdata0[27];
+    char stringdata[27];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonGalleryGroup_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonGalleryGroup_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonGalleryGroup_t qt_meta_stringdata_Qtitan__RibbonGalleryGroup = {
@@ -74,7 +74,7 @@ const QMetaObject *Qtitan::RibbonGalleryGroup::metaObject() const
 void *Qtitan::RibbonGalleryGroup::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonGalleryGroup.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonGalleryGroup.stringdata))
         return static_cast<void*>(const_cast< RibbonGalleryGroup*>(this));
     return QObject::qt_metacast(_clname);
 }
@@ -88,11 +88,11 @@ int Qtitan::RibbonGalleryGroup::qt_metacall(QMetaObject::Call _c, int _id, void 
 }
 struct qt_meta_stringdata_Qtitan__RibbonGallery_t {
     QByteArrayData data[17];
-    char stringdata0[219];
+    char stringdata[219];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonGallery_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonGallery_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
 static const qt_meta_stringdata_Qtitan__RibbonGallery_t qt_meta_stringdata_Qtitan__RibbonGallery = {
@@ -165,7 +165,6 @@ void Qtitan::RibbonGallery::qt_static_metacall(QObject *_o, QMetaObject::Call _c
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
         RibbonGallery *_t = static_cast<RibbonGallery *>(_o);
-        Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->itemPressed((*reinterpret_cast< RibbonGalleryItem*(*)>(_a[1]))); break;
         case 1: _t->itemClicked((*reinterpret_cast< RibbonGalleryItem*(*)>(_a[1]))); break;
@@ -208,29 +207,6 @@ void Qtitan::RibbonGallery::qt_static_metacall(QObject *_o, QMetaObject::Call _c
             }
         }
     }
-#ifndef QT_NO_PROPERTIES
-    else if (_c == QMetaObject::ReadProperty) {
-        RibbonGallery *_t = static_cast<RibbonGallery *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: *reinterpret_cast< bool*>(_v) = _t->isBorderVisible(); break;
-        case 1: *reinterpret_cast< Qt::ScrollBarPolicy*>(_v) = _t->scrollBarPolicy(); break;
-        case 2: *reinterpret_cast< bool*>(_v) = _t->isResizable(); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::WriteProperty) {
-        RibbonGallery *_t = static_cast<RibbonGallery *>(_o);
-        Q_UNUSED(_t)
-        void *_v = _a[0];
-        switch (_id) {
-        case 0: _t->setBorderVisible(*reinterpret_cast< bool*>(_v)); break;
-        case 1: _t->setScrollBarPolicy(*reinterpret_cast< Qt::ScrollBarPolicy*>(_v)); break;
-        default: break;
-        }
-    } else if (_c == QMetaObject::ResetProperty) {
-    }
-#endif // QT_NO_PROPERTIES
 }
 
 const QMetaObject Qtitan::RibbonGallery::staticMetaObject = {
@@ -247,7 +223,7 @@ const QMetaObject *Qtitan::RibbonGallery::metaObject() const
 void *Qtitan::RibbonGallery::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonGallery.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonGallery.stringdata))
         return static_cast<void*>(const_cast< RibbonGallery*>(this));
     return QWidget::qt_metacast(_clname);
 }
@@ -267,9 +243,24 @@ int Qtitan::RibbonGallery::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         _id -= 5;
     }
 #ifndef QT_NO_PROPERTIES
-   else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
-            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
-        qt_static_metacall(this, _c, _id, _a);
+      else if (_c == QMetaObject::ReadProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< bool*>(_v) = isBorderVisible(); break;
+        case 1: *reinterpret_cast< Qt::ScrollBarPolicy*>(_v) = scrollBarPolicy(); break;
+        case 2: *reinterpret_cast< bool*>(_v) = isResizable(); break;
+        default: break;
+        }
+        _id -= 3;
+    } else if (_c == QMetaObject::WriteProperty) {
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: setBorderVisible(*reinterpret_cast< bool*>(_v)); break;
+        case 1: setScrollBarPolicy(*reinterpret_cast< Qt::ScrollBarPolicy*>(_v)); break;
+        default: break;
+        }
+        _id -= 3;
+    } else if (_c == QMetaObject::ResetProperty) {
         _id -= 3;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
         _id -= 3;
@@ -280,6 +271,10 @@ int Qtitan::RibbonGallery::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     } else if (_c == QMetaObject::QueryPropertyEditable) {
         _id -= 3;
     } else if (_c == QMetaObject::QueryPropertyUser) {
+        _id -= 3;
+    } else if (_c == QMetaObject::RegisterPropertyMetaType) {
+        if (_id < 3)
+            *reinterpret_cast<int*>(_a[0]) = -1;
         _id -= 3;
     }
 #endif // QT_NO_PROPERTIES
