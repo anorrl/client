@@ -60,11 +60,13 @@ Android/.gradle/*
 Android/.idea/*
 Android/build/
 Android/*/build/
-moc_*
-qrc_*
-uic_*
+moc_*.cpp
+qrc_*.cpp
+uic_*.cpp
 ui_*.h
 Network/API.cpp
 App/tmp.h
 *.sdf
 *.suo
+
+QTitanRibbon\src\shared\ribbon\release
