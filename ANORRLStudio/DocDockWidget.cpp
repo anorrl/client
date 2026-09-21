@@ -294,10 +294,12 @@ void DocDockWidget::onFocusChanged(QWidget* oldWidget,QWidget* newWidget)
 }
 
 /**
- * Windows event callback to handle the end of the window drag operation.
- *  This is the only way to detect when the mouse button has been released during a
- *  drag on Windows.
- */
+* Windows event callback to handle the end of the window drag operation.
+*  This is the only way to detect when the mouse button has been released during a
+*  drag on Windows.
+*/
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+
 bool DocDockWidget::nativeEvent(const QByteArray& eventType, MSG* msg,long* result)
 {
     if ( msg->message == WM_EXITSIZEMOVE )
@@ -305,6 +307,18 @@ bool DocDockWidget::nativeEvent(const QByteArray& eventType, MSG* msg,long* resu
 
     return QDockWidget::nativeEvent(eventType, msg,result);
 }
+#else
+#ifdef Q_WS_WIN32
+bool DocDockWidget::winEvent(MSG* msg, long* result)
+{
+	if (msg->message == WM_EXITSIZEMOVE)
+		stopDragging();
+
+	return QDockWidget::winEvent(msg, result);
+}
+#endif
+#endif
+
 
 /**
  * Callback when the dock is either docked or undocked (plugged or unplugged).

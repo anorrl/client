@@ -50,7 +50,16 @@ protected:
     virtual bool event(QEvent* event);
     virtual QSize sizeHint() const { return maximumSize(); }
 
-    virtual bool nativeEvent(const QByteArray &eventType, MSG* msg, long* result);
+
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	virtual bool nativeEvent(const QByteArray &eventType, MSG* msg, long* result);
+#else
+#ifdef Q_WS_WIN32
+	virtual bool winEvent(MSG* msg, long* result);
+#endif
+#endif
+
 
 private:
 

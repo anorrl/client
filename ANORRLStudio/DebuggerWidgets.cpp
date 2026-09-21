@@ -404,7 +404,11 @@ CallStackTreeWidget::CallStackTreeWidget(QWidget* pParent)
 	headerLabels<<" "<<"Frame"<<"What"<<"Function Name"<<"Line No."<<"Source"<<"Function Explanation";
 	setHeaderLabels(headerLabels);
 
-	header()->setSectionResizeMode(0,QHeaderView::Interactive);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	header()->setSectionResizeMode(0, QHeaderView::Interactive);
+#else
+	header()->setResizeMode(0, QHeaderView::Interactive);
+#endif
 	header()->setStretchLastSection(true);
 }
 
@@ -716,7 +720,11 @@ BreakpointsTreeWidget::BreakpointsTreeWidget(QWidget* pParent)
 	headerLabels<<"Enabled"<<"Line"<<"Script Name"<<"Source Line";//<<"Condition";
 	setHeaderLabels(headerLabels);
 
-	header()->setSectionResizeMode(0,QHeaderView::Interactive);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	header()->setSectionResizeMode(0, QHeaderView::Interactive);
+#else
+	header()->setResizeMode(0, QHeaderView::Interactive);
+#endif
 	header()->setStretchLastSection(true);
 
 	//setItemDelegateForColumn(3, new QStyledItemDelegate(this));
@@ -1331,9 +1339,13 @@ WatchTreeWidget::WatchTreeWidget(QWidget *pParent)
 	QStringList headerLabels;
 	headerLabels<<"Expression"<<"Value"<<"Script Name";
 	setHeaderLabels(headerLabels);
-
-	header()->setSectionResizeMode(0,QHeaderView::Interactive);
-	header()->setSectionResizeMode(1,QHeaderView::Interactive);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	header()->setSectionResizeMode(0, QHeaderView::Interactive);
+	header()->setSectionResizeMode(1, QHeaderView::Interactive);
+#else
+	header()->setResizeMode(0, QHeaderView::Interactive);
+	header()->setResizeMode(1, QHeaderView::Interactive);
+#endif
 	header()->setStretchLastSection(true);
 	header()->resizeSection(1, 200);
 

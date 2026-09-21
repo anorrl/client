@@ -342,8 +342,11 @@ PropertyTreeWidget::PropertyTreeWidget(QWidget *pParent)
     setHeaderHidden(true);
 
 	header()->setStretchLastSection(true);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     header()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
-
+#else
+	header()->setResizeMode(0, QHeaderView::ResizeToContents);
+#endif
 	m_expandIcon = getIndicatorIcon(palette(), style());
 
 	setEditTriggers(QAbstractItemView::NoEditTriggers);

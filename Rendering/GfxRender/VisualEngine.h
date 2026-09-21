@@ -68,6 +68,7 @@ public:
     void queueAssetReload(const std::string& filePath);
 	void immediateAssetReload(const std::string& filePath);
     void reloadQueuedAssets();
+	void resetTypesetter();
 
     Device* getDevice() { return device; }
     SceneManager *getSceneManager() { return sceneManager.get(); }

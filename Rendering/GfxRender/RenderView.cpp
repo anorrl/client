@@ -402,6 +402,7 @@ RenderView::~RenderView(void)
 
 void RenderView::onResize(int cx, int cy)
 {
+	visualEngine->resetTypesetter();
 }
 
 FrameRateManager* RenderView::getFrameRateManager()

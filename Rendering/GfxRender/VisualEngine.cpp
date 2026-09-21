@@ -38,6 +38,7 @@
 LOGGROUP(Graphics)
 
 FASTFLAGVARIABLE(CancelPendingTextureLoads, true)
+DYNAMIC_FASTFLAGVARIABLE(ForceEnableRetinaOnTypesetters, false)
 
 FASTFLAG(CameraVR)
 
@@ -92,54 +93,7 @@ VisualEngine::VisualEngine(Device* device, CRenderSettings* settings)
 
     lightGrid.reset(lgrid);
     
-    // load fonts
-	glyphAtlas.reset(new TextureAtlas(this, 2048, 2048));
-	for (Text::Font font = Text::FONT_LEGACY; font != Text::FONT_LAST; font = Text::Font(font + 1))
-	{
-		static const char* kFontTTFPaths[] = {
-			"fonts/arial.ttf",
-			"fonts/arial.ttf",
-			"fonts/arialbd.ttf",
-			"fonts/SourceSansPro-Regular.ttf",
-			"fonts/SourceSansPro-Bold.ttf",
-			"fonts/SourceSansPro-Light.ttf",
-			"fonts/SourceSansPro-It.ttf",
-			"fonts/RomanAntique.otf",
-			"fonts/PressStart2P-Regular.ttf",
-			"fonts/AccanthisADFStd-Regular.otf",
-			"fonts/ComicNeue-Angular-Bold.ttf",
-			"fonts/Inconsolata-Regular.ttf",
-			"fonts/Balthazar-Regular.ttf",
-			"fonts/Guru-Regular.otf",
-			"fonts/HWYGOTH.ttf",
-			"fonts/zekton_rg.ttf",
-			"fonts/FingerPaint-Regular.ttf",
-			"fonts/ComicSans.ttf",
-			"fonts/ComicSans-Bold.ttf",
-			"fonts/silkscreen.ttf",
-			"fonts/ProximaNova.ttf",
-			"fonts/NotoSans-Regular.ttf",
-			"fonts/NotoSans-Bold.ttf",
-			"fonts/VCR_OSD_MONO.ttf",
-			"fonts/DashHorizon-Regular.otf",
-			"fonts/Punktype-Regular.ttf",
-            "fonts/cour.ttf",
-            "fonts/zenith-brk.regular.ttf",
-            "fonts/Kosmos.ttf",
-            "fonts/PetscopWide.ttf",
-            "fonts/PetscopHand.ttf",
-            "fonts/GothamSSm-Black.otf",
-            "fonts/GothamSSm-Book.otf",
-            "fonts/GothamSSm-Bold.otf",
-            "fonts/GothamSSm-Medium.otf",
-            "fonts/EurostileExtendedBlack.ttf",
-			"fonts/Minecraft.ttf",
-			"fonts/RadieRegular.otf",
-		};
-
-		float legacyHeightScale = (font == Text::FONT_LEGACY) ? 1.5f : 1.f;
-		typesetters[font].reset(new TypesetterDynamic(glyphAtlas.get(), textureManager.get(), ContentProvider::assetFolder() + kFontTTFPaths[font], legacyHeightScale, (unsigned)font, /*device->getCaps().retina*/true));
-	}
+	resetTypesetter();
 
     materialGenerator.reset(new MaterialGenerator(this));
 
@@ -188,6 +142,57 @@ VisualEngine::VisualEngine(Device* device, CRenderSettings* settings)
 VisualEngine::~VisualEngine()
 {
     bindWorkspace(shared_ptr<DataModel>());
+}
+
+void VisualEngine::resetTypesetter() {
+	// load fonts
+	glyphAtlas.reset(new TextureAtlas(this, 2048, 2048));
+	for (Text::Font font = Text::FONT_LEGACY; font != Text::FONT_LAST; font = Text::Font(font + 1))
+	{
+		static const char* kFontTTFPaths[] = {
+			"fonts/arial.ttf",
+			"fonts/arial.ttf",
+			"fonts/arialbd.ttf",
+			"fonts/SourceSansPro-Regular.ttf",
+			"fonts/SourceSansPro-Bold.ttf",
+			"fonts/SourceSansPro-Light.ttf",
+			"fonts/SourceSansPro-It.ttf",
+			"fonts/RomanAntique.otf",
+			"fonts/PressStart2P-Regular.ttf",
+			"fonts/AccanthisADFStd-Regular.otf",
+			"fonts/ComicNeue-Angular-Bold.ttf",
+			"fonts/Inconsolata-Regular.ttf",
+			"fonts/Balthazar-Regular.ttf",
+			"fonts/Guru-Regular.otf",
+			"fonts/HWYGOTH.ttf",
+			"fonts/zekton_rg.ttf",
+			"fonts/FingerPaint-Regular.ttf",
+			"fonts/ComicSans.ttf",
+			"fonts/ComicSans-Bold.ttf",
+			"fonts/silkscreen.ttf",
+			"fonts/ProximaNova.ttf",
+			"fonts/NotoSans-Regular.ttf",
+			"fonts/NotoSans-Bold.ttf",
+			"fonts/VCR_OSD_MONO.ttf",
+			"fonts/DashHorizon-Regular.otf",
+			"fonts/Punktype-Regular.ttf",
+			"fonts/cour.ttf",
+			"fonts/zenith-brk.regular.ttf",
+			"fonts/Kosmos.ttf",
+			"fonts/PetscopWide.ttf",
+			"fonts/PetscopHand.ttf",
+			"fonts/GothamSSm-Black.otf",
+			"fonts/GothamSSm-Book.otf",
+			"fonts/GothamSSm-Bold.otf",
+			"fonts/GothamSSm-Medium.otf",
+			"fonts/EurostileExtendedBlack.ttf",
+			"fonts/Minecraft.ttf",
+			"fonts/RadieRegular.otf",
+		};
+
+		float legacyHeightScale = (font == Text::FONT_LEGACY) ? 1.5f : 1.f;
+		typesetters[font].reset(new TypesetterDynamic(glyphAtlas.get(), textureManager.get(), ContentProvider::assetFolder() + kFontTTFPaths[font], legacyHeightScale, (unsigned)font, device->getCaps().retina || DFFlag::ForceEnableRetinaOnTypesetters));
+	}
 }
 
 void VisualEngine::bindWorkspace(const shared_ptr<DataModel>& dm)

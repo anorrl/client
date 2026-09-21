@@ -781,24 +781,24 @@
     <PublishDLLDependency Include="..\Rendering\ShaderCompiler\d3dcompiler_47.dll">
       <Filter>Content Files</Filter>
     </PublishDLLDependency>
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Multimediad.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Multimediad.pdb" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Cored.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Cored.pdb" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Guid.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Guid.pdb" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Networkd.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Networkd.pdb" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5WebKitd.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5WebKitd.pdb" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Xmld.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Xmld.pdb" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Multimedia.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Core.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Gui.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Network.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5WebKit.dll" />
-    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\5.5\msvc2012\bin\Qt5Xml.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Multimediad.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Multimediad.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Cored.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Cored.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Guid.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Guid.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Networkd.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Networkd.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5WebKitd.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5WebKitd.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Xmld.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Xmld.pdb" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Multimedia.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Core.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Gui.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Network.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5WebKit.dll" />
+    <PublishDLLDependency Include="$(CONTRIB_PATH)\windows\x86\Qt\4.8.5\msvc2012\bin\Qt5Xml.dll" />
   </ItemGroup>
   <ItemGroup>
     <Moc Include="AuthenticationHelper.h">

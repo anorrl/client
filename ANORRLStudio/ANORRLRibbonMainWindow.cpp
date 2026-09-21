@@ -302,7 +302,11 @@ void ANORRLRibbonMainWindow::updateInternalWidgetsState(QAction* pAction, bool e
 
 QString ANORRLRibbonMainWindow::getDefaultSavePath()
 {
-    QString doc_path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	QString doc_path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+#else
+	QString doc_path = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+#endif
     QDir(doc_path).mkdir("ANORRL");
     return doc_path + "/ANORRL";
 }

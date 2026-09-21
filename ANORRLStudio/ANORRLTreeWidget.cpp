@@ -965,7 +965,11 @@ ANORRLTreeWidget::ANORRLTreeWidget(boost::shared_ptr<ARL::DataModel> pDataModel)
 	setSelectionBehavior(QAbstractItemView::SelectItems);
 
     header()->setStretchLastSection(false);
-    header()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+#else
+	header()->setResizeMode(QHeaderView::ResizeToContents);
+#endif
     
     // Set edit trigger only for SelectionClicked and EditKeyPressed 
 	setEditTriggers(QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed);

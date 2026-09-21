@@ -1,48 +1,25 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'QtnRibbonBackstageView.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.2)
+** Created by: The Qt Meta Object Compiler version 63 (Qt 4.8.5)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
 #include "../../../ribbon/QtnRibbonBackstageView.h"
-#include <QtCore/qbytearray.h>
-#include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'QtnRibbonBackstageView.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.4.2. It"
+#elif Q_MOC_OUTPUT_REVISION != 63
+#error "This file was generated using the moc from 4.8.5. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-struct qt_meta_stringdata_Qtitan__RibbonBackstageSeparator_t {
-    QByteArrayData data[3];
-    char stringdata[61];
-};
-#define QT_MOC_LITERAL(idx, ofs, len) \
-    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonBackstageSeparator_t, stringdata) + ofs \
-        - idx * sizeof(QByteArrayData)) \
-    )
-static const qt_meta_stringdata_Qtitan__RibbonBackstageSeparator_t qt_meta_stringdata_Qtitan__RibbonBackstageSeparator = {
-    {
-QT_MOC_LITERAL(0, 0, 32), // "Qtitan::RibbonBackstageSeparator"
-QT_MOC_LITERAL(1, 33, 11), // "orientation"
-QT_MOC_LITERAL(2, 45, 15) // "Qt::Orientation"
-
-    },
-    "Qtitan::RibbonBackstageSeparator\0"
-    "orientation\0Qt::Orientation"
-};
-#undef QT_MOC_LITERAL
-
 static const uint qt_meta_data_Qtitan__RibbonBackstageSeparator[] = {
 
  // content:
-       7,       // revision
+       6,       // revision
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
@@ -53,9 +30,14 @@ static const uint qt_meta_data_Qtitan__RibbonBackstageSeparator[] = {
        0,       // signalCount
 
  // properties: name, type, flags
-       1, 0x80000000 | 2, 0x0009510b,
+      49,   33, 0x0009510b,
 
        0        // eod
+};
+
+static const char qt_meta_stringdata_Qtitan__RibbonBackstageSeparator[] = {
+    "Qtitan::RibbonBackstageSeparator\0"
+    "Qt::Orientation\0orientation\0"
 };
 
 void Qtitan::RibbonBackstageSeparator::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -66,21 +48,28 @@ void Qtitan::RibbonBackstageSeparator::qt_static_metacall(QObject *_o, QMetaObje
     Q_UNUSED(_a);
 }
 
-const QMetaObject Qtitan::RibbonBackstageSeparator::staticMetaObject = {
-    { &QFrame::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonBackstageSeparator.data,
-      qt_meta_data_Qtitan__RibbonBackstageSeparator,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+const QMetaObjectExtraData Qtitan::RibbonBackstageSeparator::staticMetaObjectExtraData = {
+    0,  qt_static_metacall 
 };
 
+const QMetaObject Qtitan::RibbonBackstageSeparator::staticMetaObject = {
+    { &QFrame::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonBackstageSeparator,
+      qt_meta_data_Qtitan__RibbonBackstageSeparator, &staticMetaObjectExtraData }
+};
+
+#ifdef Q_NO_DATA_RELOCATION
+const QMetaObject &Qtitan::RibbonBackstageSeparator::getStaticMetaObject() { return staticMetaObject; }
+#endif //Q_NO_DATA_RELOCATION
 
 const QMetaObject *Qtitan::RibbonBackstageSeparator::metaObject() const
 {
-    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
 void *Qtitan::RibbonBackstageSeparator::qt_metacast(const char *_clname)
 {
-    if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBackstageSeparator.stringdata))
+    if (!_clname) return 0;
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBackstageSeparator))
         return static_cast<void*>(const_cast< RibbonBackstageSeparator*>(this));
     return QFrame::qt_metacast(_clname);
 }
@@ -96,14 +85,12 @@ int Qtitan::RibbonBackstageSeparator::qt_metacall(QMetaObject::Call _c, int _id,
         void *_v = _a[0];
         switch (_id) {
         case 0: *reinterpret_cast< Qt::Orientation*>(_v) = orientation(); break;
-        default: break;
         }
         _id -= 1;
     } else if (_c == QMetaObject::WriteProperty) {
         void *_v = _a[0];
         switch (_id) {
         case 0: setOrientation(*reinterpret_cast< Qt::Orientation*>(_v)); break;
-        default: break;
         }
         _id -= 1;
     } else if (_c == QMetaObject::ResetProperty) {
@@ -118,39 +105,14 @@ int Qtitan::RibbonBackstageSeparator::qt_metacall(QMetaObject::Call _c, int _id,
         _id -= 1;
     } else if (_c == QMetaObject::QueryPropertyUser) {
         _id -= 1;
-    } else if (_c == QMetaObject::RegisterPropertyMetaType) {
-        if (_id < 1)
-            *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 1;
     }
 #endif // QT_NO_PROPERTIES
     return _id;
 }
-struct qt_meta_stringdata_Qtitan__RibbonBackstageButton_t {
-    QByteArrayData data[3];
-    char stringdata[49];
-};
-#define QT_MOC_LITERAL(idx, ofs, len) \
-    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonBackstageButton_t, stringdata) + ofs \
-        - idx * sizeof(QByteArrayData)) \
-    )
-static const qt_meta_stringdata_Qtitan__RibbonBackstageButton_t qt_meta_stringdata_Qtitan__RibbonBackstageButton = {
-    {
-QT_MOC_LITERAL(0, 0, 29), // "Qtitan::RibbonBackstageButton"
-QT_MOC_LITERAL(1, 30, 8), // "tabStyle"
-QT_MOC_LITERAL(2, 39, 9) // "flatStyle"
-
-    },
-    "Qtitan::RibbonBackstageButton\0tabStyle\0"
-    "flatStyle"
-};
-#undef QT_MOC_LITERAL
-
 static const uint qt_meta_data_Qtitan__RibbonBackstageButton[] = {
 
  // content:
-       7,       // revision
+       6,       // revision
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
@@ -161,10 +123,15 @@ static const uint qt_meta_data_Qtitan__RibbonBackstageButton[] = {
        0,       // signalCount
 
  // properties: name, type, flags
-       1, QMetaType::Bool, 0x00095103,
-       2, QMetaType::Bool, 0x00095103,
+      35,   30, 0x01095103,
+      44,   30, 0x01095103,
 
        0        // eod
+};
+
+static const char qt_meta_stringdata_Qtitan__RibbonBackstageButton[] = {
+    "Qtitan::RibbonBackstageButton\0bool\0"
+    "tabStyle\0flatStyle\0"
 };
 
 void Qtitan::RibbonBackstageButton::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -175,21 +142,28 @@ void Qtitan::RibbonBackstageButton::qt_static_metacall(QObject *_o, QMetaObject:
     Q_UNUSED(_a);
 }
 
-const QMetaObject Qtitan::RibbonBackstageButton::staticMetaObject = {
-    { &QToolButton::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonBackstageButton.data,
-      qt_meta_data_Qtitan__RibbonBackstageButton,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+const QMetaObjectExtraData Qtitan::RibbonBackstageButton::staticMetaObjectExtraData = {
+    0,  qt_static_metacall 
 };
 
+const QMetaObject Qtitan::RibbonBackstageButton::staticMetaObject = {
+    { &QToolButton::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonBackstageButton,
+      qt_meta_data_Qtitan__RibbonBackstageButton, &staticMetaObjectExtraData }
+};
+
+#ifdef Q_NO_DATA_RELOCATION
+const QMetaObject &Qtitan::RibbonBackstageButton::getStaticMetaObject() { return staticMetaObject; }
+#endif //Q_NO_DATA_RELOCATION
 
 const QMetaObject *Qtitan::RibbonBackstageButton::metaObject() const
 {
-    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
 void *Qtitan::RibbonBackstageButton::qt_metacast(const char *_clname)
 {
-    if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBackstageButton.stringdata))
+    if (!_clname) return 0;
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBackstageButton))
         return static_cast<void*>(const_cast< RibbonBackstageButton*>(this));
     return QToolButton::qt_metacast(_clname);
 }
@@ -206,7 +180,6 @@ int Qtitan::RibbonBackstageButton::qt_metacall(QMetaObject::Call _c, int _id, vo
         switch (_id) {
         case 0: *reinterpret_cast< bool*>(_v) = tabStyle(); break;
         case 1: *reinterpret_cast< bool*>(_v) = flatStyle(); break;
-        default: break;
         }
         _id -= 2;
     } else if (_c == QMetaObject::WriteProperty) {
@@ -214,7 +187,6 @@ int Qtitan::RibbonBackstageButton::qt_metacall(QMetaObject::Call _c, int _id, vo
         switch (_id) {
         case 0: setTabStyle(*reinterpret_cast< bool*>(_v)); break;
         case 1: setFlatStyle(*reinterpret_cast< bool*>(_v)); break;
-        default: break;
         }
         _id -= 2;
     } else if (_c == QMetaObject::ResetProperty) {
@@ -229,36 +201,14 @@ int Qtitan::RibbonBackstageButton::qt_metacall(QMetaObject::Call _c, int _id, vo
         _id -= 2;
     } else if (_c == QMetaObject::QueryPropertyUser) {
         _id -= 2;
-    } else if (_c == QMetaObject::RegisterPropertyMetaType) {
-        if (_id < 2)
-            *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 2;
     }
 #endif // QT_NO_PROPERTIES
     return _id;
 }
-struct qt_meta_stringdata_Qtitan__RibbonBackstagePage_t {
-    QByteArrayData data[1];
-    char stringdata[28];
-};
-#define QT_MOC_LITERAL(idx, ofs, len) \
-    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonBackstagePage_t, stringdata) + ofs \
-        - idx * sizeof(QByteArrayData)) \
-    )
-static const qt_meta_stringdata_Qtitan__RibbonBackstagePage_t qt_meta_stringdata_Qtitan__RibbonBackstagePage = {
-    {
-QT_MOC_LITERAL(0, 0, 27) // "Qtitan::RibbonBackstagePage"
-
-    },
-    "Qtitan::RibbonBackstagePage"
-};
-#undef QT_MOC_LITERAL
-
 static const uint qt_meta_data_Qtitan__RibbonBackstagePage[] = {
 
  // content:
-       7,       // revision
+       6,       // revision
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
@@ -271,6 +221,10 @@ static const uint qt_meta_data_Qtitan__RibbonBackstagePage[] = {
        0        // eod
 };
 
+static const char qt_meta_stringdata_Qtitan__RibbonBackstagePage[] = {
+    "Qtitan::RibbonBackstagePage\0"
+};
+
 void Qtitan::RibbonBackstagePage::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     Q_UNUSED(_o);
@@ -279,21 +233,28 @@ void Qtitan::RibbonBackstagePage::qt_static_metacall(QObject *_o, QMetaObject::C
     Q_UNUSED(_a);
 }
 
-const QMetaObject Qtitan::RibbonBackstagePage::staticMetaObject = {
-    { &QWidget::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonBackstagePage.data,
-      qt_meta_data_Qtitan__RibbonBackstagePage,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+const QMetaObjectExtraData Qtitan::RibbonBackstagePage::staticMetaObjectExtraData = {
+    0,  qt_static_metacall 
 };
 
+const QMetaObject Qtitan::RibbonBackstagePage::staticMetaObject = {
+    { &QWidget::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonBackstagePage,
+      qt_meta_data_Qtitan__RibbonBackstagePage, &staticMetaObjectExtraData }
+};
+
+#ifdef Q_NO_DATA_RELOCATION
+const QMetaObject &Qtitan::RibbonBackstagePage::getStaticMetaObject() { return staticMetaObject; }
+#endif //Q_NO_DATA_RELOCATION
 
 const QMetaObject *Qtitan::RibbonBackstagePage::metaObject() const
 {
-    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
 void *Qtitan::RibbonBackstagePage::qt_metacast(const char *_clname)
 {
-    if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBackstagePage.stringdata))
+    if (!_clname) return 0;
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBackstagePage))
         return static_cast<void*>(const_cast< RibbonBackstagePage*>(this));
     return QWidget::qt_metacast(_clname);
 }
@@ -305,33 +266,10 @@ int Qtitan::RibbonBackstagePage::qt_metacall(QMetaObject::Call _c, int _id, void
         return _id;
     return _id;
 }
-struct qt_meta_stringdata_Qtitan__RibbonBackstageView_t {
-    QByteArrayData data[5];
-    char stringdata[58];
-};
-#define QT_MOC_LITERAL(idx, ofs, len) \
-    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Qtitan__RibbonBackstageView_t, stringdata) + ofs \
-        - idx * sizeof(QByteArrayData)) \
-    )
-static const qt_meta_stringdata_Qtitan__RibbonBackstageView_t qt_meta_stringdata_Qtitan__RibbonBackstageView = {
-    {
-QT_MOC_LITERAL(0, 0, 27), // "Qtitan::RibbonBackstageView"
-QT_MOC_LITERAL(1, 28, 11), // "aboutToShow"
-QT_MOC_LITERAL(2, 40, 0), // ""
-QT_MOC_LITERAL(3, 41, 11), // "aboutToHide"
-QT_MOC_LITERAL(4, 53, 4) // "open"
-
-    },
-    "Qtitan::RibbonBackstageView\0aboutToShow\0"
-    "\0aboutToHide\0open"
-};
-#undef QT_MOC_LITERAL
-
 static const uint qt_meta_data_Qtitan__RibbonBackstageView[] = {
 
  // content:
-       7,       // revision
+       6,       // revision
        0,       // classname
        0,    0, // classinfo
        3,   14, // methods
@@ -341,26 +279,25 @@ static const uint qt_meta_data_Qtitan__RibbonBackstageView[] = {
        0,       // flags
        2,       // signalCount
 
- // signals: name, argc, parameters, tag, flags
-       1,    0,   29,    2, 0x06 /* Public */,
-       3,    0,   30,    2, 0x06 /* Public */,
+ // signals: signature, parameters, type, tag, flags
+      29,   28,   28,   28, 0x05,
+      43,   28,   28,   28, 0x05,
 
- // slots: name, argc, parameters, tag, flags
-       4,    0,   31,    2, 0x0a /* Public */,
-
- // signals: parameters
-    QMetaType::Void,
-    QMetaType::Void,
-
- // slots: parameters
-    QMetaType::Void,
+ // slots: signature, parameters, type, tag, flags
+      57,   28,   28,   28, 0x0a,
 
        0        // eod
+};
+
+static const char qt_meta_stringdata_Qtitan__RibbonBackstageView[] = {
+    "Qtitan::RibbonBackstageView\0\0aboutToShow()\0"
+    "aboutToHide()\0open()\0"
 };
 
 void Qtitan::RibbonBackstageView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
+        Q_ASSERT(staticMetaObject.cast(_o));
         RibbonBackstageView *_t = static_cast<RibbonBackstageView *>(_o);
         switch (_id) {
         case 0: _t->aboutToShow(); break;
@@ -368,40 +305,32 @@ void Qtitan::RibbonBackstageView::qt_static_metacall(QObject *_o, QMetaObject::C
         case 2: _t->open(); break;
         default: ;
         }
-    } else if (_c == QMetaObject::IndexOfMethod) {
-        int *result = reinterpret_cast<int *>(_a[0]);
-        void **func = reinterpret_cast<void **>(_a[1]);
-        {
-            typedef void (RibbonBackstageView::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonBackstageView::aboutToShow)) {
-                *result = 0;
-            }
-        }
-        {
-            typedef void (RibbonBackstageView::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&RibbonBackstageView::aboutToHide)) {
-                *result = 1;
-            }
-        }
     }
     Q_UNUSED(_a);
 }
 
-const QMetaObject Qtitan::RibbonBackstageView::staticMetaObject = {
-    { &QWidget::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonBackstageView.data,
-      qt_meta_data_Qtitan__RibbonBackstageView,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+const QMetaObjectExtraData Qtitan::RibbonBackstageView::staticMetaObjectExtraData = {
+    0,  qt_static_metacall 
 };
 
+const QMetaObject Qtitan::RibbonBackstageView::staticMetaObject = {
+    { &QWidget::staticMetaObject, qt_meta_stringdata_Qtitan__RibbonBackstageView,
+      qt_meta_data_Qtitan__RibbonBackstageView, &staticMetaObjectExtraData }
+};
+
+#ifdef Q_NO_DATA_RELOCATION
+const QMetaObject &Qtitan::RibbonBackstageView::getStaticMetaObject() { return staticMetaObject; }
+#endif //Q_NO_DATA_RELOCATION
 
 const QMetaObject *Qtitan::RibbonBackstageView::metaObject() const
 {
-    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
 void *Qtitan::RibbonBackstageView::qt_metacast(const char *_clname)
 {
-    if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBackstageView.stringdata))
+    if (!_clname) return 0;
+    if (!strcmp(_clname, qt_meta_stringdata_Qtitan__RibbonBackstageView))
         return static_cast<void*>(const_cast< RibbonBackstageView*>(this));
     return QWidget::qt_metacast(_clname);
 }
@@ -415,10 +344,6 @@ int Qtitan::RibbonBackstageView::qt_metacall(QMetaObject::Call _c, int _id, void
         if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
         _id -= 3;
-    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
-            *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 3;
     }
     return _id;
 }
@@ -426,12 +351,12 @@ int Qtitan::RibbonBackstageView::qt_metacall(QMetaObject::Call _c, int _id, void
 // SIGNAL 0
 void Qtitan::RibbonBackstageView::aboutToShow()
 {
-    QMetaObject::activate(this, &staticMetaObject, 0, Q_NULLPTR);
+    QMetaObject::activate(this, &staticMetaObject, 0, 0);
 }
 
 // SIGNAL 1
 void Qtitan::RibbonBackstageView::aboutToHide()
 {
-    QMetaObject::activate(this, &staticMetaObject, 1, Q_NULLPTR);
+    QMetaObject::activate(this, &staticMetaObject, 1, 0);
 }
 QT_END_MOC_NAMESPACE

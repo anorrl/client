@@ -77,8 +77,13 @@ void ShortcutHelpDialog::initialize()
 
     ARL::BaldPtr<QHeaderView> header_view = mTree->header();
     header_view->setStretchLastSection(true);
-    for ( int i = 0 ; i < STC_MAX - 1 ; ++i )        
-        header_view->setSectionResizeMode(i,QHeaderView::ResizeToContents);
+    for ( int i = 0 ; i < STC_MAX - 1 ; ++i )
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+		header_view->setSectionResizeMode(i, QHeaderView::ResizeToContents);
+#else
+		header_view->setResizeMode(i, QHeaderView::ResizeToContents);
+#endif
+        
 }
 
 /**

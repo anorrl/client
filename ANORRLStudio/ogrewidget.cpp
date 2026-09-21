@@ -60,11 +60,13 @@ QOgreWidget::QOgreWidget(const QString& name, QWidget *parent)
 	setObjectName(name);
 
 	//set default states
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	setAttribute(Qt::WA_NativeWindow, true);
+	setAttribute(Qt::WA_DontCreateNativeAncestors, true);
+#endif
 	setAttribute(Qt::WA_PaintOnScreen, true);
-    setAttribute(Qt::WA_NativeWindow, true);
-    setAttribute(Qt::WA_DontCreateNativeAncestors, true);
-    setAttribute(Qt::WA_OpaquePaintEvent, true);
-    setAttribute(Qt::WA_NoSystemBackground, true);
+	setAttribute(Qt::WA_OpaquePaintEvent, true);
+	setAttribute(Qt::WA_NoSystemBackground, true);
 
 	setFocusPolicy(Qt::StrongFocus);
 	setAutoFillBackground(true);
@@ -600,6 +602,7 @@ void QOgreWidget::dragLeaveEvent(QDragLeaveEvent *evt)
 	evt->accept();
 }
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 bool QOgreWidget::nativeEvent(const QByteArray &eventType, MSG * msg, long * result)
 {
 	if ((msg->message == WM_KEYUP) && //key up
@@ -613,6 +616,24 @@ bool QOgreWidget::nativeEvent(const QByteArray &eventType, MSG * msg, long * res
 
 	return QWidget::nativeEvent(eventType, msg, result);
 }
+#else
+#ifdef Q_OS_WIN
+bool QOgreWidget::winEvent(MSG * msg, long * result)
+{
+	if ((msg->message == WM_KEYUP) && //key up
+		(msg->wParam == VK_SNAPSHOT) && //print screen key
+		(UpdateUIManager::Instance().getMainWindow().getBuildMode() == BM_BASIC))//build mode is basic
+	{
+		//invoke snapshot command
+		QMetaObject::invokeMethod(UpdateUIManager::Instance().getMainWindow().screenShotAction, "triggered", Qt::QueuedConnection);
+		return true;
+	}
+
+	return QWidget::winEvent(msg, result);
+}
+#endif
+#endif
+
 
 bool QOgreWidget::isValidDrag(QDragEnterEvent *evt)
 {

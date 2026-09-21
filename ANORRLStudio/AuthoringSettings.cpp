@@ -197,11 +197,19 @@ namespace ARL {
 AuthoringSettings::AuthoringSettings()
 	:showDeprecated(false)
 	,permissionLevelShown(Game)
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 	,defaultScriptFileDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ANORRL/Scripts")
     ,pluginsDir(AppSettings::instance().tempLocation() + "/Plugins")
 	,modelPluginsDir(AppSettings::instance().tempLocation() + "/InstalledPlugins")
 	,coreScriptsDir(AppSettings::instance().tempLocation() + "/CoreScriptOverrides")
 	,recentSavesDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ANORRL/RecentSaves")
+#else
+	, defaultScriptFileDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/ANORRL/Scripts")
+	, pluginsDir(AppSettings::instance().tempLocation() + "/Plugins")
+	, modelPluginsDir(AppSettings::instance().tempLocation() + "/InstalledPlugins")
+	, coreScriptsDir(AppSettings::instance().tempLocation() + "/CoreScriptOverrides")
+	, recentSavesDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/ANORRL/RecentSaves")
+#endif
 	,overrideCoreScripts(false)
     ,basicObjectsDisplayMode(Vertical)
     ,maximumOutputLines(5000)
@@ -241,7 +249,11 @@ AuthoringSettings::AuthoringSettings()
     // AutoSave
     , autoSaveEnabled(true)
     , autoSaveMinutesInterval(5)
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     , autoSaveDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/ANORRL/AutoSaves")
+#else
+	, autoSaveDir(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/ANORRL/AutoSaves")
+#endif
     // Advanced
     , diagnosticsBarEnabled(false)
 	, intellisenseEnabled(true)

@@ -70,7 +70,7 @@ public:
 	virtual void preSubmitPass() {}
 	virtual void postSubmitPass() {}
 
-    virtual bool useFontSmoothScalling() { return false; }
+    virtual bool useFontSmoothScalling() { return true; }
 
     void setMaterial(Material material_)
     {

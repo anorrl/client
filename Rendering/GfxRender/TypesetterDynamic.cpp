@@ -509,7 +509,7 @@ FASTINTVARIABLE(FontSizePadding, 1)
 			const Vector2& availableSpace, const Rect2D& clippingRect, const Rotation2D& rotation) const
 		{
 
-			float height = 48;        // 48 is our highest font scale right now
+			float height = 100;        // 100 is our highest font scale right now
 
 			std::vector<GlyphLine> lines;
 			Vector2int16 intSize = layoutRatio(stringUnicode, &lines, height, availableSpace);

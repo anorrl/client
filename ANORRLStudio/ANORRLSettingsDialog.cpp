@@ -40,8 +40,13 @@ ANORRLSettingsDialog::ANORRLSettingsDialog(QWidget* parent)
 	QStringList headerLabels("Names");
 	m_SettingsTypesTable->setHorizontalHeaderLabels(headerLabels);
 	m_SettingsTypesTable->verticalHeader()->hide();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 	m_SettingsTypesTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	m_SettingsTypesTable->horizontalHeader()->setSectionsClickable(true);
+#else
+	m_SettingsTypesTable->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+	m_SettingsTypesTable->horizontalHeader()->setClickable(true);
+#endif
 	m_SettingsTypesTable->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
 	m_SettingsTypesTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	m_SettingsTypesTable->setAlternatingRowColors(true);

@@ -57,7 +57,11 @@ public:
         m_warningCode = warning.code;
 		m_bIsError = false;
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
         QString text = QString(warning.text.c_str()).toHtmlEscaped();
+#else
+		QString text = Qt::escape(warning.text.c_str());
+#endif
 		
 		setText(0, QString("<a href=\"https://\">%1</a>: (%2,%3) %4").arg(getWarningCodeString(m_warningCode)).arg(m_location.begin.line+1).arg(m_location.begin.column+1).arg(text));
 	}
@@ -68,7 +72,11 @@ public:
         m_warningCode = 0;
 		m_bIsError = true;
 
-        QString text = QString(error.text.c_str()).toHtmlEscaped();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+		QString text = QString(error.text.c_str()).toHtmlEscaped();
+#else
+		QString text = Qt::escape(error.text.c_str());
+#endif
 
 		setText(0, QString("<font color=\"red\">Error: (%1,%2) %3</font>").arg(m_location.begin.line+1).arg(m_location.begin.column+1).arg(text));
 	}
@@ -338,7 +346,12 @@ ScriptAnalysisTreeWidget::ScriptAnalysisTreeWidget(QWidget* parent)
 	setMouseTracking(true);
 
 	header()->setStretchLastSection(true);
-    header()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+#else
+	header()->setResizeMode(0, QHeaderView::ResizeToContents);
+#endif
+    
 
 	setItemDelegate(new ScriptMessageItemDelegate(this));
 

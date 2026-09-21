@@ -145,7 +145,11 @@ ANORRLScriptReview::ANORRLScriptReview()
 
 	header()->setDefaultSectionSize(50);
 	header()->resizeSection(0, 100);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 	header()->setSectionsClickable(true);
+#else
+	header()->setClickable(true);
+#endif
 
     m_pTimer->setInterval(UpdateInterval);
 	connect(m_pTimer, SIGNAL(timeout()), this, SLOT(onTimer()));
