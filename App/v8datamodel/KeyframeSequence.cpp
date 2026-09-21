@@ -7,7 +7,6 @@
 #include "V8DataModel/JointInstance.h"
 #include "V8DataModel/Workspace.h"
 
-DYNAMIC_FASTFLAGVARIABLE(AnimationEasingStylesEnabled, false)
 DYNAMIC_FASTFLAGVARIABLE(CachedPoseInitialized, false)
 
 namespace ARL {
@@ -288,11 +287,8 @@ void KeyframeSequence::AppendPosePass1(const shared_ptr<Instance>& child, std::v
 		cpose.weight = pose->getWeight();
 		cpose.setCFrame(pose->getCoordinateFrame());
 		cpose.maskWeight = pose->getMaskWeight();
-		if (DFFlag::AnimationEasingStylesEnabled)
-		{
-			cpose.easingStyle = pose->getEasingStyle();
-			cpose.easingDirection = pose->getEasingDirection();
-		}
+		cpose.easingStyle = pose->getEasingStyle();
+		cpose.easingDirection = pose->getEasingDirection();
 
 		cache.allPoses.push_back(cpose);
 		(*poses)[jointindex] = &cache.allPoses.back();
@@ -453,143 +449,139 @@ CachedPose CachedPose::interpolatePoses(const CachedPose& p0, const CachedPose& 
 	float nw0 = w0 / (w0 + w1);
 	float nw1 = w1 / (w0 + w1);
 
+	switch(p0.easingStyle)
+	{
+	case Pose::POSE_EASING_STYLE_LINEAR:
+	default:
+		//these cases don't affect the calculated weights
+		break;
 
-	if (DFFlag::AnimationEasingStylesEnabled){
-
-		switch(p0.easingStyle)
+	case Pose::POSE_EASING_STYLE_CONSTANT:
+		switch(p0.easingDirection)
 		{
-		case Pose::POSE_EASING_STYLE_LINEAR:
 		default:
-			//these cases don't affect the calculated weights
+		case Pose::POSE_EASING_DIRECTION_OUT:
+			nw0 = 1;
+			nw1 = 0;
 			break;
-
-		case Pose::POSE_EASING_STYLE_CONSTANT:
-			switch(p0.easingDirection)
-			{
-			default:
-			case Pose::POSE_EASING_DIRECTION_OUT:
-				nw0 = 1;
-				nw1 = 0;
-				break;
-			case Pose::POSE_EASING_DIRECTION_IN_OUT:
-				if (nw0 > 0.5f)
-					nw0 = 1.0f;
-				else
-					nw0 = 0;
-				nw1 = 1 - nw0;
-				break;
-			case Pose::POSE_EASING_DIRECTION_IN:
+		case Pose::POSE_EASING_DIRECTION_IN_OUT:
+			if (nw0 > 0.5f)
+				nw0 = 1.0f;
+			else
 				nw0 = 0;
-				nw1 = 1;
-				break;
-			}
+			nw1 = 1 - nw0;
 			break;
-
-		case Pose::POSE_EASING_STYLE_ELASTIC:
-			//elastic function: p = overshoot factor
-			//(p * x) - ( (x ^ 3) * (p - 1) )
-
-			switch(p0.easingDirection)
-			{
-			default:
-			case Pose::POSE_EASING_DIRECTION_OUT:
-				{
-					float totalTime = 1.0f;
-					float p = totalTime*.3;
-					float t = nw1;
-					float s = p/4;
-					nw1 = 1 + pow(2,-10*t) * sin( (t*totalTime-s)*(Math::twoPi())/p );
-					nw0 = 1 - nw1;
-					break;
-				}
-			case Pose::POSE_EASING_DIRECTION_IN:
-				{
-					float totalTime = 1.0f;
-					float p = totalTime*.3;
-					float t = nw0;
-					float s = p/4;
-					nw0 = 1 + pow(2,-10*t) * sin( (t*totalTime-s)*(Math::twoPi())/p );
-					nw1 = 1 - nw0;
-					break;
-				}
-			case Pose::POSE_EASING_DIRECTION_IN_OUT:
-				{
-					float t = nw0 / (0.5f);
-					float p = (.3*1.5);
-					float s = p/4;
-
-					if (t < 1) {
-						t -= 1;
-						nw0 = -.5 * pow(2,10*t) * sin( (t-s)*(Math::twoPi())/p );
-					}
-					else {
-						t -= 1;
-						nw0 = 1 + 0.5 * pow(2,-10*t) * sin( (t-s)*(Math::twoPi())/p );
-					}
-					nw1 = 1 - nw0;
-					break;
-				}
-			}
-			break;
-
-		case Pose::POSE_EASING_STYLE_CUBIC:
-			switch(p0.easingDirection)
-			{
-			default:
-			case Pose::POSE_EASING_DIRECTION_OUT:
-				nw0 = 1 - pow((1 - nw0), 3);
-				nw1 = 1 - nw0;
-				break;
-			case Pose::POSE_EASING_DIRECTION_IN_OUT:
-				if (nw0 < 0.5f)
-				{
-					nw0 = pow(2*nw0, 3) * 0.5f;
-				}
-				else
-				{
-					nw0 = (1 - pow((2 - 2 * nw0),3)) * 0.5f + 0.5f;
-				}
-				nw1 = 1 - nw0;
-				break;
-			case Pose::POSE_EASING_DIRECTION_IN:
-				nw0 = pow(nw0, 3);
-				nw1 = 1 - nw0;
-			}
-			break;
-
-		case Pose::POSE_EASING_STYLE_BOUNCE:
-			switch(p0.easingDirection)
-			{
-			default:
-			case Pose::POSE_EASING_DIRECTION_IN:
-				{
-					nw0 = bounceEasingStyle(nw0);
-					nw1 = 1 - nw0;
-					break;
-				}
-			case Pose::POSE_EASING_DIRECTION_OUT:
-				{
-					nw0 = 1 - bounceEasingStyle(1 - nw0);
-					nw1 = 1 - nw0;
-					break;
-				}
-			case Pose::POSE_EASING_DIRECTION_IN_OUT:
-				{
-					nw0 = nw0 * 2;
-					if (nw0 < 1)
-					{
-						nw0 = bounceEasingStyle(nw0) * 0.5f;
-					}
-					else
-					{
-						nw0 = 0.5f + bounceEasingStyle(nw0 - 1) * 0.5f;
-					}
-					nw1 = 1 - nw0;
-					break;
-				}
-			}
+		case Pose::POSE_EASING_DIRECTION_IN:
+			nw0 = 0;
+			nw1 = 1;
 			break;
 		}
+		break;
+
+	case Pose::POSE_EASING_STYLE_ELASTIC:
+		//elastic function: p = overshoot factor
+		//(p * x) - ( (x ^ 3) * (p - 1) )
+
+		switch(p0.easingDirection)
+		{
+		default:
+		case Pose::POSE_EASING_DIRECTION_OUT:
+			{
+				float totalTime = 1.0f;
+				float p = totalTime*.3;
+				float t = nw1;
+				float s = p/4;
+				nw1 = 1 + pow(2,-10*t) * sin( (t*totalTime-s)*(Math::twoPi())/p );
+				nw0 = 1 - nw1;
+				break;
+			}
+		case Pose::POSE_EASING_DIRECTION_IN:
+			{
+				float totalTime = 1.0f;
+				float p = totalTime*.3;
+				float t = nw0;
+				float s = p/4;
+				nw0 = 1 + pow(2,-10*t) * sin( (t*totalTime-s)*(Math::twoPi())/p );
+				nw1 = 1 - nw0;
+				break;
+			}
+		case Pose::POSE_EASING_DIRECTION_IN_OUT:
+			{
+				float t = nw0 / (0.5f);
+				float p = (.3*1.5);
+				float s = p/4;
+
+				if (t < 1) {
+					t -= 1;
+					nw0 = -.5 * pow(2,10*t) * sin( (t-s)*(Math::twoPi())/p );
+				}
+				else {
+					t -= 1;
+					nw0 = 1 + 0.5 * pow(2,-10*t) * sin( (t-s)*(Math::twoPi())/p );
+				}
+				nw1 = 1 - nw0;
+				break;
+			}
+		}
+		break;
+
+	case Pose::POSE_EASING_STYLE_CUBIC:
+		switch(p0.easingDirection)
+		{
+		default:
+		case Pose::POSE_EASING_DIRECTION_OUT:
+			nw0 = 1 - pow((1 - nw0), 3);
+			nw1 = 1 - nw0;
+			break;
+		case Pose::POSE_EASING_DIRECTION_IN_OUT:
+			if (nw0 < 0.5f)
+			{
+				nw0 = pow(2*nw0, 3) * 0.5f;
+			}
+			else
+			{
+				nw0 = (1 - pow((2 - 2 * nw0),3)) * 0.5f + 0.5f;
+			}
+			nw1 = 1 - nw0;
+			break;
+		case Pose::POSE_EASING_DIRECTION_IN:
+			nw0 = pow(nw0, 3);
+			nw1 = 1 - nw0;
+		}
+		break;
+
+	case Pose::POSE_EASING_STYLE_BOUNCE:
+		switch(p0.easingDirection)
+		{
+		default:
+		case Pose::POSE_EASING_DIRECTION_IN:
+			{
+				nw0 = bounceEasingStyle(nw0);
+				nw1 = 1 - nw0;
+				break;
+			}
+		case Pose::POSE_EASING_DIRECTION_OUT:
+			{
+				nw0 = 1 - bounceEasingStyle(1 - nw0);
+				nw1 = 1 - nw0;
+				break;
+			}
+		case Pose::POSE_EASING_DIRECTION_IN_OUT:
+			{
+				nw0 = nw0 * 2;
+				if (nw0 < 1)
+				{
+					nw0 = bounceEasingStyle(nw0) * 0.5f;
+				}
+				else
+				{
+					nw0 = 0.5f + bounceEasingStyle(nw0 - 1) * 0.5f;
+				}
+				nw1 = 1 - nw0;
+				break;
+			}
+		}
+		break;
 	}
 
 	CachedPose r;
