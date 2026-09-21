@@ -62,8 +62,6 @@ LOGGROUP(MouseCommand)
 DYNAMIC_FASTFLAG(FixTouchEndedReporting)
 
 // Cyclic Executive Experiment Logging (THESE NEED TO BE REMOVED IN THE FUTURE, YAY)
-DYNAMIC_FASTFLAGVARIABLE(PreventReturnOfElevatedPhysicsFPS, false)
-
 DYNAMIC_FASTINTVARIABLE(ElevatedPhysicsFPSReportThresholdTenths, 610)
 //END CyclicExecutive Experiment Logging
 
