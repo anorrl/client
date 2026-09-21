@@ -96,7 +96,6 @@ DYNAMIC_FASTFLAG(UseStarterPlayerCharacterScripts)
 DYNAMIC_FASTFLAG(UseStarterPlayerCharacter)
 
 DYNAMIC_FASTFLAG(LoadGuisWithoutChar);
-DYNAMIC_FASTFLAGVARIABLE(ApiCapitalizationChanges, false)
 
 DYNAMIC_FASTFLAGVARIABLE(LoadStarterGearWithoutLoadCharacter, false)
 DYNAMIC_FASTFLAGVARIABLE(ValidateCharacterAppearanceUrl, false)
