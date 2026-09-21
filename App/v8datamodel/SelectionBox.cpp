@@ -7,8 +7,6 @@
 #include "AppDraw/DrawAdorn.h"
 #include "AppDraw/Draw.h"
 
-DYNAMIC_FASTFLAG(GuiBase3dReplicateColor3WithBrickColor)
-
 namespace ARL {
 
 const char* const sSelectionBox = "SelectionBox";
