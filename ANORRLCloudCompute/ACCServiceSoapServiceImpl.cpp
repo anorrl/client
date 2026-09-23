@@ -65,8 +65,11 @@
 #include "SimpleJSON.h"
 #include "RbxFormat.h"
 
+#ifdef _WIN32
 #include <tlhelp32.h>
 #include <psapi.h>
+#endif
+
 #include "util/Analytics.h"
 #include "OperationalSecurity.h"
 
@@ -77,19 +80,19 @@
 
 #include <strsafe.h>
 
-long diagCount=0;
-long batchJobCount=0;
-long openJobCount=0;
-long closeJobCount=0;
-long helloWorldCount=0;
-long getVersionCount=0;
-long renewLeaseCount=0;
-long executeCount=0;
-long getExpirationCount=0;
-long getStatusCount=0;
-long getAllJobsCount=0;
-long closeExpiredJobsCount=0;
-long closeAllJobsCount=0;
+std::atomic<long> diagCount = 0;
+std::atomic<long> batchJobCount = 0;
+std::atomic<long> openJobCount = 0;
+std::atomic<long> closeJobCount = 0;
+std::atomic<long> helloWorldCount = 0;
+std::atomic<long> getVersionCount = 0;
+std::atomic<long> renewLeaseCount = 0;
+std::atomic<long> executeCount = 0;
+std::atomic<long> getExpirationCount = 0;
+std::atomic<long> getStatusCount = 0;
+std::atomic<long> getAllJobsCount = 0;
+std::atomic<long> closeExpiredJobsCount = 0;
+std::atomic<long> closeAllJobsCount = 0;
 
 //#define DIAGNOSTICS
 
@@ -1184,21 +1187,9 @@ void stop_CWebService()
 	CWebService::singleton.reset();
 }
 
-void start_CWebService(LPCTSTR contentpath, bool crashUploaderOnly)
+void start_CWebService(const std::string& contentpath, bool crashUploaderOnly)
 {
-	if(PathIsRelative(contentpath))
-	{
-		TCHAR name[500];
-		::GetModuleFileName(_AtlBaseModule.m_hInst, name, 500);
-		CPath path = name;
-		path.RemoveFileSpec();
-		ARL::ContentProvider::setAssetFolder(path.m_strPath + "\\" + contentpath);
-	}
-	else
-	{
-		ARL::ContentProvider::setAssetFolder(contentpath);
-	}
-
+	ARL::ContentProvider::setAssetFolder("content");
 	CWebService::singleton.reset(new CWebService(crashUploaderOnly));
 }
 
