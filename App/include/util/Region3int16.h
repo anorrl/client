@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "G3D/Vector3int16.h"
+#include "g3d/Vector3int16.h"
 #include "G3DCore.h"
 
 namespace ARL {

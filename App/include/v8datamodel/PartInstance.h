@@ -2,26 +2,26 @@
 
 #pragma once
 
-#include "V8DataModel/PVInstance.h"
-#include "V8DataModel/Surface.h"
+#include "v8datamodel/PVInstance.h"
+#include "v8datamodel/Surface.h"
 #include "util/PartMaterial.h"
-#include "V8World/Primitive.h"
-#include "V8World/IMoving.h"
-#include "V8World/MaterialProperties.h"
-#include "V8DataModel/Camera.h"
+#include "v8world/Primitive.h"
+#include "v8world/IMoving.h"
+#include "v8world/MaterialProperties.h"
+#include "v8datamodel/Camera.h"
 #include "GfxBase/Part.h"
 #include "GfxBase/IAdornable.h"
-#include "Util/CameraSubject.h"
-#include "Util/Selectable.h"
-#include "Util/BrickColor.h"
-#include "Util/SystemAddress.h"
-#include "Util/Faces.h"
-#include "Util/PathInterpolatedCFrame.h"
-#include "Util/CompactEnum.h"
+#include "util/CameraSubject.h"
+#include "util/Selectable.h"
+#include "util/BrickColor.h"
+#include "util/SystemAddress.h"
+#include "util/Faces.h"
+#include "util/PathInterpolatedCFrame.h"
+#include "util/CompactEnum.h"
 #include "arl/rbxTime.h"
-#include "ARL/Intrusive/Set.h"
-#include "Reflection/Property.h"
-#include "Util/Average.h"
+#include "arl/Intrusive/Set.h"
+#include "reflection/Property.h"
+#include "util/Average.h"
 #include <vector>
 #include <boost/unordered_set.hpp>
 
@@ -109,7 +109,7 @@ public:
 
 
 	// Used to - judiciously - extend data into PartInstance
-	boost::uint64_t raknetTime;
+    boost::uint64_t raknetTime;
 
 private:
 	Vector3 xmlToUiSize(const Vector3& xmlSize) const;

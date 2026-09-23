@@ -8,9 +8,9 @@
  @edited  2006-04-06
  */
 
-#include "G3D/platform.h"
-#include "G3D/Crypto.h"
-#include "G3D/g3dmath.h"
+#include "g3d/platform.h"
+#include "g3d/Crypto.h"
+#include "g3d/g3dmath.h"
 #include <zlib.h>
 
 namespace G3D {

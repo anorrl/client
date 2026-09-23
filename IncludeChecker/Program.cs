@@ -63,26 +63,26 @@ namespace IncludeChecker
         static int checkCount = 0;
         static void DefineIncludes()
         {
-            Node.Get("V8DataModel").AddInclude("V8World");  
-            Node.Get("V8DataModel").AddInclude("V8Tree");
-            Node.Get("V8DataModel").AddInclude("Network");
-            Node.Get("V8DataModel").AddInclude("gui");
-            Node.Get("V8DataModel").AddInclude("util");
-            Node.Get("V8DataModel").AddInclude("Tool");
-            Node.Get("V8DataModel").AddInclude("Humanoid");
-            Node.Get("V8DataModel").AddInclude("Script");
+            Node.Get("v8datamodel").AddInclude("v8world");  
+            Node.Get("v8datamodel").AddInclude("v8tree");
+            Node.Get("v8datamodel").AddInclude("Network");
+            Node.Get("v8datamodel").AddInclude("gui");
+            Node.Get("v8datamodel").AddInclude("util");
+            Node.Get("v8datamodel").AddInclude("Tool");
+            Node.Get("v8datamodel").AddInclude("Humanoid");
+            Node.Get("v8datamodel").AddInclude("Script");
 
-            Node.Get("Darwin").AddInclude("V8DataModel");
+            Node.Get("Darwin").AddInclude("v8datamodel");
 
             Node.Get("src").AddInclude("script");
 
-            Node.Get("Humanoid").AddInclude("V8DataModel");
-            Node.Get("Lua").AddInclude("V8DataModel");
+            Node.Get("Humanoid").AddInclude("v8datamodel");
+            Node.Get("Lua").AddInclude("v8datamodel");
 
             Node.Get("Script").AddInclude("LUa");
 
-            Node.Get("V8Tree").AddInclude("Reflection");
-            Node.Get("V8Tree").AddInclude("RBX/Intrusive");
+            Node.Get("v8tree").AddInclude("Reflection");
+            Node.Get("v8tree").AddInclude("RBX/Intrusive");
             
             Node.Get("Reflection").AddInclude("Security");
             Node.Get("Reflection").AddInclude("util");
@@ -93,15 +93,15 @@ namespace IncludeChecker
 
             Node.Get("Security").AddInclude("rbx");
 
-            Node.Get("Tool").AddInclude("V8DataModel");
+            Node.Get("Tool").AddInclude("v8datamodel");
 
             Node.Get("V8Kernel").AddInclude("util");
 
-            Node.Get("V8World").AddInclude("V8Kernel");
-            Node.Get("V8World").AddInclude("rbx");
+            Node.Get("v8world").AddInclude("V8Kernel");
+            Node.Get("v8world").AddInclude("rbx");
 
-            Node.Get("V8Xml").AddInclude("Util");
-            Node.Get("V8Xml").AddInclude("Reflection");
+            Node.Get("v8xml").AddInclude("Util");
+            Node.Get("v8xml").AddInclude("Reflection");
 
             Node.Get("util").AddInclude("rbx");
             Node.Get("util").AddInclude("rbxg3d");
@@ -109,7 +109,7 @@ namespace IncludeChecker
             Node.Get("gui").AddInclude("Util");
             Node.Get("gui").AddInclude("AppDraw");
             Node.Get("gui").AddInclude("GfxBase");
-            Node.Get("gui").AddInclude("V8DataModel");
+            Node.Get("gui").AddInclude("v8datamodel");
         }
         static void Main(string[] args)
         {

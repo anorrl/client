@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "Reflection/Reflection.h"
-#include "Reflection/Event.h"
-#include "V8Tree/Property.h"
-#include "V8Xml/Reference.h"
-#include "V8Tree/Verb.h"
+#include "reflection/Reflection.h"
+#include "reflection/Event.h"
+#include "v8tree/Property.h"
+#include "v8xml/Reference.h"
+#include "v8tree/Verb.h"
 
 #include "arl/Countable.h"
-#include "Util/Guid.h"
+#include "util/Guid.h"
 
 #include <vector>
 #include <string>
@@ -541,9 +541,8 @@ public:
 	// TODO - this is dangerous?  getting const children?
 	shared_ptr<const Instances> getChildren2() { return children.read(); }
 
-	inline int Instance::getDescendants(lua_State* L);
-
-	inline void Instance::readDescendants(shared_ptr<Instance> inst, Instances& instances);
+	inline int  getDescendants(lua_State* L);
+	inline void readDescendants(shared_ptr<Instance> inst, Instances& instances);
 
 	template<class Func>
 	inline void visitChildren(const Func& func) const {

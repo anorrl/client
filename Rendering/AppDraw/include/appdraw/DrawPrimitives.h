@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "Util/G3DCore.h"
+#include "util/G3DCore.h"
 
 namespace G3D {
 	class RenderDevice;

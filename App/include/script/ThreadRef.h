@@ -4,7 +4,7 @@
 #include "boost/intrusive_ptr.hpp"
 #include "arl/boost.hpp"
 #include "arl/threadsafe.h"
-#include "reflection/type.h"
+#include "reflection/Type.h"
 
 struct lua_State;
 

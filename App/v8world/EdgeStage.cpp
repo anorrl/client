@@ -1,9 +1,9 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/EdgeStage.h"
-#include "V8World/ContactStage.h"
-#include "V8World/Primitive.h"
+#include "v8world/EdgeStage.h"
+#include "v8world/ContactStage.h"
+#include "v8world/Primitive.h"
 
 
 namespace ARL {

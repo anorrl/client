@@ -8,11 +8,11 @@
  @edited  2004-03-19
  */
 
-#include "G3D/platform.h"
-#include "G3D/Ray.h"
-#include "G3D/Plane.h"
-#include "G3D/Sphere.h"
-#include "G3D/CollisionDetection.h"
+#include "g3d/platform.h"
+#include "g3d/Ray.h"
+#include "g3d/Plane.h"
+#include "g3d/Sphere.h"
+#include "g3d/CollisionDetection.h"
 
 namespace G3D {
 

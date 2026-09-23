@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "Script/LuaSourceContainer.h"
-#include "Network/Players.h"
-#include "V8DataModel/ContentProvider.h"
+#include "script/LuaSourceContainer.h"
+#include "network/Players.h"
+#include "v8datamodel/ContentProvider.h"
 
 DYNAMIC_LOGVARIABLE(PreloadLinkedScriptsTiming, 0)
 DYNAMIC_FASTFLAGVARIABLE(RejectHashesInLinkedSource, false)

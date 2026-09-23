@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8DataModel/MouseCommand.h"
-#include "V8DataModel/ManualJointHelper.h"
+#include "v8datamodel/MouseCommand.h"
+#include "v8datamodel/ManualJointHelper.h"
 
 namespace ARL {
 

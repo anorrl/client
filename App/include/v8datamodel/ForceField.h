@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "Util/RunStateOwner.h"
+#include "v8tree/Instance.h"
+#include "util/RunStateOwner.h"
 #include "GfxBase/IAdornable.h"
-#include "V8DataModel/Effect.h"
+#include "v8datamodel/Effect.h"
 
 namespace ARL {
 	

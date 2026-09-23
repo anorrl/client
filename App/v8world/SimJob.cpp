@@ -1,10 +1,10 @@
 /* Copyright 2003-2006 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/SimJob.h"
-#include "V8World/Primitive.h"
-#include "V8World/Assembly.h"
-#include "Util/StlExtra.h"
+#include "v8world/SimJob.h"
+#include "v8world/Primitive.h"
+#include "v8world/Assembly.h"
+#include "util/StlExtra.h"
 
 namespace ARL {
 

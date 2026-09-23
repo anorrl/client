@@ -12,8 +12,8 @@
 #ifndef G3D_LINE_H
 #define G3D_LINE_H
 
-#include "G3D/platform.h"
-#include "G3D/Vector3.h"
+#include "g3d/platform.h"
+#include "g3d/Vector3.h"
 
 namespace G3D {
 

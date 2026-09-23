@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "Script/ModuleScript.h"
-#include "Util/MD5Hasher.h"
+#include "script/ModuleScript.h"
+#include "util/MD5Hasher.h"
 
 #include <lobject.h>
 #include <lstate.h>

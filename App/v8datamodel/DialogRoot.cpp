@@ -1,15 +1,15 @@
 #include "stdafx.h"
 
-#include "V8DataModel/DialogRoot.h"
-#include "V8DataModel/DialogChoice.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/CollectionService.h"
-#include "V8Tree/Service.h"
-#include "Network/Player.h"
+#include "v8datamodel/DialogRoot.h"
+#include "v8datamodel/DialogChoice.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/CollectionService.h"
+#include "v8tree/Service.h"
+#include "network/Player.h"
 
 #ifdef ARL_ACC_SECURITY
 // for debugging of an exploit
-#include "Util/CheatEngine.h"
+#include "util/CheatEngine.h"
 #endif
 
 // Debug of a potential exploit.

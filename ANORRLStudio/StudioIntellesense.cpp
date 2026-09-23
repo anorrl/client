@@ -17,7 +17,7 @@
 //ANORRL Headers
 #include "script/ScriptContext.h"
 #include "util/UDim.h"
-#include "Util/PhysicalProperties.h"
+#include "util/PhysicalProperties.h"
 
 // ANORRL Studio Headers
 #include "StudioIntellesense.h"

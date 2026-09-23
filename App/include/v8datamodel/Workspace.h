@@ -1,19 +1,19 @@
 #pragma once
 
 #include "gui/GuiEvent.h"
-#include "V8World/IMoving.h"
-#include "V8DataModel/RootInstance.h"
-#include "V8DataModel/Selection.h"
-#include "Script/IScriptFilter.h"
-#include "V8Tree/Service.h"
-#include "V8DataModel/InputObject.h"	
+#include "v8world/IMoving.h"
+#include "v8datamodel/RootInstance.h"
+#include "v8datamodel/Selection.h"
+#include "script/IScriptFilter.h"
+#include "v8tree/Service.h"
+#include "v8datamodel/InputObject.h"	
 #include <vector>
-#include "util/runstateowner.h"
+#include "util/RunStateOwner.h"
 #include "util/Region3.h"
 #include "util/SystemAddress.h"
 #include "util/PhysicalProperties.h"
 #include <boost/shared_ptr.hpp>
-#include "Tool/ToolsArrow.h"
+#include "tool/ToolsArrow.h"
 
 namespace ARL {
 

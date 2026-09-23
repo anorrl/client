@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Util/Guid.h"
+#include "util/Guid.h"
 #include "arl/atomic.h"
 
 #ifdef _WIN32

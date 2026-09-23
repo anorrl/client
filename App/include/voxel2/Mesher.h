@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/Vector3int32.h"
+#include "util/G3DCore.h"
+#include "util/Vector3int32.h"
 
 #include "voxel2/Grid.h"
 

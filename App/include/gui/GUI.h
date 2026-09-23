@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8DataModel/InputObject.h"
-#include "Gui/GuiEvent.h"
-#include "Gui/Layout.h"
-#include "V8Tree/Instance.h"
+#include "v8datamodel/InputObject.h"
+#include "gui/GuiEvent.h"
+#include "gui/Layout.h"
+#include "v8tree/Instance.h"
 #include "GfxBase/Type.h"
 #include "GfxBase/Adorn.h"
 

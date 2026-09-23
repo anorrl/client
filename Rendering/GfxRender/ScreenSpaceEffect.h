@@ -2,7 +2,7 @@
 
 #include "GlobalShaderData.h"
 #include "GfxCore/Resource.h"
-#include "arl/Boost.hpp"
+#include "arl/boost.hpp"
 
 #include "v8datamodel/Lighting.h"
 

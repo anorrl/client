@@ -13,8 +13,8 @@
 #ifndef G3D_Color3uint8_h
 #define G3D_Color3uint8_h
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
 #ifdef max
 #undef max
 #endif

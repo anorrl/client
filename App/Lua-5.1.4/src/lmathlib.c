@@ -174,7 +174,7 @@ static int math_max (lua_State *L) {
   return 1;
 }
 
-#if(_MSC_VER < 1900)
+#if(_MSC_VER < 1900) && defined(_MSC_VER)
 // https://stackoverflow.com/a/4572591
 static int round(double x) {
 	if (x < 0.0)

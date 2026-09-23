@@ -3,7 +3,7 @@
 
 #include "reflection/reflection.h"
 #include "util/TextureId.h"
-#include "V8DataModel/GuiBase3d.h"
+#include "v8datamodel/GuiBase3d.h"
 
 namespace ARL {
 

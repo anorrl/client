@@ -7,9 +7,9 @@
  @edited  2006-08-14
 */
 
-#include "G3D/format.h"
-#include "G3D/platform.h"
-#include "G3D/System.h"
+#include "g3d/format.h"
+#include "g3d/platform.h"
+#include "g3d/System.h"
 
 #ifdef _MSC_VER
     // disable: "C++ exception handler used"

@@ -1,7 +1,7 @@
 #include "arl/boost.hpp"
 #include "arl/Thread.hpp"
 
-#include "RbxPlatform.h"
+#include "ARLPlatform.h"
 
 #include <boost/type_traits.hpp>
 #include <boost/math/special_functions/fpclassify.hpp>

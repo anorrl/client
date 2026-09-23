@@ -1,8 +1,8 @@
 #pragma once
 
 #include "network/ChatFilter.h"
-#include "Network/Player.h"
-#include "Util/Http.h"
+#include "network/Player.h"
+#include "util/Http.h"
 #include "util/HttpAux.h"
 
 #include <boost/shared_ptr.hpp>

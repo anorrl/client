@@ -6,15 +6,15 @@
 #include <memory>
 #include <vector>
 
-#include "util/name.h"
+#include "util/Name.h"
 #include "arl/boost.hpp"
 #include "arl/rbxTime.h"
-#include "Util/contentid.h"
-#include "Util/HeartbeatInstance.h"
-#include "Util/LRUCache.h"
-#include "Util/ThreadPool.h"
-#include "Util/Http.h"
-#include "V8Tree/Service.h"
+#include "util/ContentId.h"
+#include "util/HeartbeatInstance.h"
+#include "util/LRUCache.h"
+#include "util/ThreadPool.h"
+#include "util/Http.h"
+#include "v8tree/Service.h"
 
 LOGGROUP(HttpQueue)
 

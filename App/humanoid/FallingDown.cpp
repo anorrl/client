@@ -1,10 +1,10 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/FallingDown.h"
-#include "Humanoid/Humanoid.h"
-#include "V8DataModel/ModelInstance.h"
-#include "Network/Players.h"
+#include "humanoid/FallingDown.h"
+#include "humanoid/Humanoid.h"
+#include "v8datamodel/ModelInstance.h"
+#include "network/Players.h"
 
 namespace ARL {
 	namespace HUMAN {

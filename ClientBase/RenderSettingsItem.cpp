@@ -9,8 +9,8 @@
 // ANORRL Headers
 #include "v8datamodel/DebugSettings.h"
 #include "v8datamodel/GameBasicSettings.h"
-#include "V8DataModel/PartInstance.h"
-#include "util/standardout.h"
+#include "v8datamodel/PartInstance.h"
+#include "util/StandardOut.h"
 #include "arl/SystemUtil.h"
 
 using namespace ARL;

@@ -1,17 +1,17 @@
 #include "stdafx.h"
 
-#include "V8DataModel/TextureTrail.h"
+#include "v8datamodel/TextureTrail.h"
 
 #include "GfxBase/Adorn.h"
 #include "GfxBase/TextureProxyBase.h"
 #include "arl/rbxTime.h"
 #include "reflection/reflection.h"
 #include "util/TextureId.h"
-#include "V8DataModel/Camera.h"
-#include "V8DataModel/GuiBase3d.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8Tree/Service.h"
+#include "v8datamodel/Camera.h"
+#include "v8datamodel/GuiBase3d.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8tree/Service.h"
 
 namespace ARL {
 

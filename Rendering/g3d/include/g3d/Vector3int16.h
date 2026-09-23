@@ -12,9 +12,9 @@
 #ifndef VECTOR3INT16_H
 #define VECTOR3INT16_H
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
-#include "G3D/HashTrait.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
+#include "g3d/HashTrait.h"
 
 #ifdef _MSC_VER
 // Turn off "conditional expression is constant" warning; MSVC generates this

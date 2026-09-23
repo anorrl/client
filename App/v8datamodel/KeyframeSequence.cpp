@@ -1,11 +1,11 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/KeyframeSequence.h"
-#include "V8DataModel/AnimationTrackState.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/JointInstance.h"
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/KeyframeSequence.h"
+#include "v8datamodel/AnimationTrackState.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/JointInstance.h"
+#include "v8datamodel/Workspace.h"
 
 DYNAMIC_FASTFLAGVARIABLE(CachedPoseInitialized, false)
 

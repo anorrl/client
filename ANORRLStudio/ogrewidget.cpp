@@ -30,9 +30,9 @@
 #include "InsertObjectListWidgetItem.h"
 #include "ANORRLDocManager.h"
 #include "ANORRLIDEDoc.h"
-#include "V8DataModel/InputObject.h"
+#include "v8datamodel/InputObject.h"
 
-#include "Util/PhysicalProperties.h"
+#include "util/PhysicalProperties.h"
 #include "v8datamodel/Workspace.h"
 #include "ANORRLPluginHost.h"
 #include "StudioUtilities.h"

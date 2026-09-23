@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "Gui/EquationDisplay.h"
-#include "Util/IMetric.h"
+#include "gui/EquationDisplay.h"
+#include "util/IMetric.h"
 
 namespace ARL {
 

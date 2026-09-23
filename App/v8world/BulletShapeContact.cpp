@@ -1,11 +1,11 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/BulletShapeContact.h"
-#include "V8Kernel/BulletShapeConnectors.h"
-#include "V8Kernel/Kernel.h"
-#include "V8World/Primitive.h"
-#include "V8World/World.h"
+#include "v8world/BulletShapeContact.h"
+#include "v8kernel/BulletShapeConnectors.h"
+#include "v8kernel/Kernel.h"
+#include "v8world/Primitive.h"
+#include "v8world/World.h"
 
 #include "BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 #include "btBulletCollisionCommon.h"

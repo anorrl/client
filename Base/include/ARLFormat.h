@@ -6,7 +6,7 @@
 #include <cstdarg>
 #include <stdexcept>
 
-#include "RbxBase.h"
+#include "ARLBase.h"
 
 #ifdef __APPLE__
 #include <objc/objc.h>

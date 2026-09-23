@@ -1,8 +1,8 @@
 #pragma once
 // suffix header file for Grid.h
 
-#include "Util/SpatialRegion.h"
-#include "Voxel/Water.h"
+#include "util/SpatialRegion.h"
+#include "voxel/Water.h"
 
 namespace ARL { namespace Voxel {
 

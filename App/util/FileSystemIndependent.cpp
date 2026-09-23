@@ -15,8 +15,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/system/error_code.hpp>
 
-#include "RbxFormat.h"
-#include "util/standardout.h"
+#include "ARLFormat.h"
+#include "util/StandardOut.h"
 #include "arl/atomic.h"
 
 #include "util/Guid.h"

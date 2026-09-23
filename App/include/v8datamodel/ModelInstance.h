@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "V8DataModel/Camera.h"
-#include "V8DataModel/PVInstance.h"
-#include "V8DataModel/IModelModifier.h"
+#include "v8datamodel/Camera.h"
+#include "v8datamodel/PVInstance.h"
+#include "v8datamodel/IModelModifier.h"
 #include "GfxBase/IAdornable.h"
 #include "GfxBase/Part.h"
-#include "Util/CameraSubject.h"
-#include "Util/Selectable.h"
+#include "util/CameraSubject.h"
+#include "util/Selectable.h"
 
 #include "boost/optional/optional.hpp"
 

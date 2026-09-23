@@ -8,16 +8,16 @@
 //
 #include "stdafx.h"
 
-#include "V8Datamodel/ContextActionService.h"
+#include "v8datamodel/ContextActionService.h"
 
 #include "v8datamodel/ModelInstance.h"
 #include "v8datamodel/GuiService.h"
-#include "V8Datamodel/Tool.h"
-#include "V8Datamodel/UserInputService.h"
+#include "v8datamodel/Tool.h"
+#include "v8datamodel/UserInputService.h"
 #include "v8datamodel/GuiObject.h"
-#include "Script/ScriptContext.h"
+#include "script/ScriptContext.h"
 
-#include "Network/Players.h"
+#include "network/Players.h"
 
 DYNAMIC_FASTFLAGVARIABLE(TurnOffFakeEventsForCAS, false)
 

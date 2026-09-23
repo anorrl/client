@@ -1,9 +1,9 @@
 /* Copyright 2014 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/CSGMesh.h"
+#include "v8datamodel/CSGMesh.h"
 
-#include "V8World/TriangleMesh.h"
+#include "v8world/TriangleMesh.h"
 
 #include "util/Lcmrand.h"
 
@@ -13,7 +13,7 @@
 #include <sstream>
 
 #include "VMProtectSDK.h"
-#include "Util/MD5Hasher.h"
+#include "util/MD5Hasher.h"
 
 FASTFLAGVARIABLE(FixGlowingCSG, true)
 

@@ -1,4 +1,4 @@
-#include "Util/MachineIdUploader.h"
+#include "util/MachineIdUploader.h"
 
 #include <jni.h>
 

@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "G3D/Vector3.h"
-#include "V8Tree/Instance.h"
+#include "g3d/Vector3.h"
+#include "v8tree/Instance.h"
 
 namespace ARL 
 {

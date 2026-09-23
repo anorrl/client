@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "V8DataModel/FastLogSettings.h"
+#include "v8datamodel/FastLogSettings.h"
 
 // Client
 LOGVARIABLE(Verbs, 0)

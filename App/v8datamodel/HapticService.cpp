@@ -9,7 +9,7 @@
 
 #include "stdafx.h"
 
-#include "V8DataModel/HapticService.h"
+#include "v8datamodel/HapticService.h"
 
 namespace ARL
 {

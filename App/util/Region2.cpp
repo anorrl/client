@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/Region2.h"
-#include "Util/quadedge.h"
+#include "util/Region2.h"
+#include "util/quadedge.h"
 
 namespace ARL {
 

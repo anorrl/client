@@ -1,8 +1,8 @@
 #pragma once
 
-#include "V8DataModel/GlobalSettings.h"
-#include "V8DataModel/DataModelJob.h"
-#include "V8World/World.h"
+#include "v8datamodel/GlobalSettings.h"
+#include "v8datamodel/DataModelJob.h"
+#include "v8world/World.h"
 
 namespace ARL {
 

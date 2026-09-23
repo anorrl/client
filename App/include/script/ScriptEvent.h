@@ -1,12 +1,12 @@
 #pragma once
 
 
-#include "util/runstateowner.h"
+#include "util/RunStateOwner.h"
 #include "g3d/Array.h"
 #include "boost/any.hpp"
 #include "boost/shared_ptr.hpp"
-#include "lua/luabridge.h"
-#include "script/threadref.h"
+#include "lua/LuaBridge.h"
+#include "script/ThreadRef.h"
 #include <boost/thread/mutex.hpp>
 
 #include <vector>

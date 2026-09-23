@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "Script/ScriptStats.h"
-#include "Script/ScriptEvent.h"
+#include "script/ScriptStats.h"
+#include "script/ScriptEvent.h"
 
 namespace ARL
 {

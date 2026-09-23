@@ -9,7 +9,7 @@
 #ifndef G3D_GAMEUNITS_H
 #define G3D_GAMEUNITS_H
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 
 namespace G3D {
 /**

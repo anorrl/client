@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
-#include "v8tree/instance.h"
+#include "v8tree/Instance.h"
 #include "v8tree/service.h"
 #include "v8datamodel/teams.h"
-#include "V8Datamodel/DataModel.h"
+#include "v8datamodel/DataModel.h"
 #include "network/player.h"
 #include "network/players.h"
 #include "v8DataModel/workspace.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/Humanoid.h"
 
 namespace ARL {
 

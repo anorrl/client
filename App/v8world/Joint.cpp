@@ -1,17 +1,17 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/Joint.h"
-#include "V8World/Primitive.h"
-#include "V8World/World.h"
-#include "V8World/Tolerance.h"
+#include "v8world/Joint.h"
+#include "v8world/Primitive.h"
+#include "v8world/World.h"
+#include "v8world/Tolerance.h"
 #include "reflection/EnumConverter.h"
-#include "V8World/PrismPoly.h"
-#include "V8World/PyramidPoly.h"
-#include "V8World/ParallelRampPoly.h"
-#include "V8World/RightAngleRampPoly.h"
-#include "V8World/CornerWedgePoly.h"
-#include "V8World/WedgePoly.h"
+#include "v8world/PrismPoly.h"
+#include "v8world/PyramidPoly.h"
+#include "v8world/ParallelRampPoly.h"
+#include "v8world/RightAngleRampPoly.h"
+#include "v8world/CornerWedgePoly.h"
+#include "v8world/WedgePoly.h"
 
 LOGGROUP(JointLifetime)
 DYNAMIC_FASTFLAGVARIABLE(OrthonormalizeJointCoords, false)

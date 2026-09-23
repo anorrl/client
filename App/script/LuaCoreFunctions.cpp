@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "script/LuaCoreFunctions.h"
-#include "Script/ScriptContext.h"
+#include "script/ScriptContext.h"
 
 #include <time.h>
 

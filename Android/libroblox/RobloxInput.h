@@ -1,7 +1,7 @@
 #include <boost/unordered_map.hpp>
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/InputObject.h"
-#include "V8DataModel/TextBox.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/InputObject.h"
+#include "v8datamodel/TextBox.h"
 
 namespace RBX
 {

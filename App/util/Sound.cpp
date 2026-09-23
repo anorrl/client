@@ -1,8 +1,8 @@
 /* Copyright 2003-2014 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/Sound.h"
-#include "Util/SoundService.h"
+#include "util/Sound.h"
+#include "util/SoundService.h"
 
 #include "V8datamodel/ContentProvider.h"
 #include "V8datamodel/GameSettings.h"

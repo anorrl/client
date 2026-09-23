@@ -1,7 +1,7 @@
 #pragma once
 
-#include "V8World/Joint.h"
-#include "V8Kernel/Connector.h"
+#include "v8world/Joint.h"
+#include "v8kernel/Connector.h"
 
 namespace ARL {
 	

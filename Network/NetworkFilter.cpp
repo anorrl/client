@@ -11,7 +11,7 @@
 #include "v8datamodel/SkateboardPlatform.h"
 #include "v8datamodel/Seat.h"
 #include "v8datamodel/StarterPlayerService.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 namespace ARL {
 	namespace Reflection {

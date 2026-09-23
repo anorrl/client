@@ -1,9 +1,9 @@
 
 #include "MovementHistoryJob.h"
 #include "NetworkSettings.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
 #include "Util.h"
 
 

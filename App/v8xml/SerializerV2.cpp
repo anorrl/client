@@ -1,12 +1,12 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8Xml/SerializerV2.h"
-#include "V8Xml/XmlSerializer.h"
-#include "V8DataModel/DataModel.h"
-#include "v8datamodel/contentprovider.h"
+#include "v8xml/SerializerV2.h"
+#include "v8xml/XmlSerializer.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/ContentProvider.h"
 #include "arl/Debug.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 #include "v8xml/SerializerBinary.h"
 

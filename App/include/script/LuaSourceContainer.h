@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Util/AsyncHttpQueue.h"
-#include "Util/ContentId.h"
-#include "Util/ProtectedString.h"
-#include "V8Tree/Instance.h"
+#include "util/AsyncHttpQueue.h"
+#include "util/ContentId.h"
+#include "util/ProtectedString.h"
+#include "v8tree/Instance.h"
 
 namespace ARL
 {

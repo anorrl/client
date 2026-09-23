@@ -1,11 +1,11 @@
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "V8World/SendPhysics.h"
-#include "Util/ConcurrencyValidator.h"
-#include "ARL/Intrusive/Set.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
+#include "v8tree/Service.h"
+#include "v8world/SendPhysics.h"
+#include "util/ConcurrencyValidator.h"
+#include "arl/Intrusive/Set.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
 
 namespace ARL {
 

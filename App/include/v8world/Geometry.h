@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/Units.h"
-#include "Util/Face.h"
+#include "util/G3DCore.h"
+#include "util/Units.h"
+#include "util/Face.h"
 
 #include "BulletCollision/CollisionDispatch/btCollisionObject.h"
 #include "BulletCollision/CollisionShapes/btCollisionShape.h"

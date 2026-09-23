@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/IHasLocation.h"
+#include "util/G3DCore.h"
+#include "util/IHasLocation.h"
 #include <vector>
 
 namespace ARL {

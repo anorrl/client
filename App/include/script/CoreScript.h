@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Script/Script.h"
+#include "script/script.h"
 
 #include <boost/optional.hpp>
 

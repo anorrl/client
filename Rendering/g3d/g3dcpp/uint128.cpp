@@ -8,7 +8,7 @@
  @edited  2008-07-17
  */
 
-#include "G3D/uint128.h"
+#include "g3d/uint128.h"
 
 // NA: 11-1-2012, allow access MACRO TARGET_IPHONE_SIMULATOR, testing with this man
 #if ARL_PLATFORM_IOS

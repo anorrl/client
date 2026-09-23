@@ -1,7 +1,7 @@
 #pragma once
 
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/IAnimatableJoint.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/IAnimatableJoint.h"
 
 namespace ARL
 {

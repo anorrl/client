@@ -1,15 +1,15 @@
 #include "stdafx.h"
 
 /* Copyright 2003-2014 ROBLOX Corporation, All Rights Reserved  */
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
-#include "V8DataModel/StarterPlayerService.h"
-#include "V8DataModel/PlayerScripts.h"
-#include "V8DataModel/GameBasicSettings.h"
-#include "V8DataModel/Folder.h"
-#include "Humanoid/Humanoid.h"
-#include "Network/Player.h"
-#include "Network/Players.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
+#include "v8datamodel/StarterPlayerService.h"
+#include "v8datamodel/PlayerScripts.h"
+#include "v8datamodel/GameBasicSettings.h"
+#include "v8datamodel/Folder.h"
+#include "humanoid/Humanoid.h"
+#include "network/Player.h"
+#include "network/Players.h"
 
 DYNAMIC_FASTFLAGVARIABLE(UseStarterPlayerCharacter, true)
 DYNAMIC_FASTFLAGVARIABLE(UseStarterPlayerCharacterScripts, true)

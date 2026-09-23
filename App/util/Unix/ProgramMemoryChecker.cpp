@@ -1,7 +1,7 @@
-#include "Util/ProgramMemoryChecker.h"
+#include "util/ProgramMemoryChecker.h"
 #include "rbx/rbxTime.h"
-#include "Util/MachOBaseAddr.h"
-#include "Util/xxhash.h"
+#include "util/MachOBaseAddr.h"
+#include "util/xxhash.h"
 
 #if defined(__has_feature)
 #	define ADDRESS_SANITIZER __has_feature(address_sanitizer)
@@ -9,7 +9,7 @@
 #	define ADDRESS_SANITIZER defined(__SANITIZE_ADDRESS__)
 #endif
 
-namespace RBX
+namespace ARL
 {
 using namespace Hasher;
 PmcHashContainer pmcHash;
@@ -50,7 +50,7 @@ ProgramMemoryChecker::ProgramMemoryChecker()
     , lastGoldenHash(0)
     , lastCompletedTime(Time::nowFast())
 {
-#if !defined(RBX_STUDIO_BUILD) && !defined(__ANDROID__) && !defined(RBX_PLATFORM_IOS)
+#if !defined(ARL_STUDIO_BUILD) && !defined(__ANDROID__) && !defined(RBX_PLATFORM_IOS)
     uint32_t baseAddr = machODynamicBaseAddress();
     uint32_t baseSize = machOTextSize();
     scanningRegions.resize(kNumberOfSectionHashes);

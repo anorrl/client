@@ -15,8 +15,8 @@
 #include "arl/atomic.h"
 #include "arl/rbxTime.h"
 #include "arl/boost.hpp"
-#include "RbxPlatform.h"
-#include "RbxFormat.h"
+#include "ARLPlatform.h"
+#include "ARLFormat.h"
 
 #include <fstream>
 #include <string>

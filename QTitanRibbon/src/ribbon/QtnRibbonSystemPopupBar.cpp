@@ -25,6 +25,7 @@
 **
 ****************************************************************************/
 #include <QApplication>
+#include <QPainterPath>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QStyleOption>

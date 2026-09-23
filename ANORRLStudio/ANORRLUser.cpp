@@ -18,8 +18,8 @@
 #include "ANORRLMainWindow.h"
 #include "UpdateUIManager.h"
 
-#include "V8DataModel/Stats.h"
-#include "V8Xml/WebParser.h"
+#include "v8datamodel/Stats.h"
+#include "v8xml/WebParser.h"
 
 ANORRLUser& ANORRLUser::singleton()
 {

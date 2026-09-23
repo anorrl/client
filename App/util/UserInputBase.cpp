@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "Util/UserInputBase.h"
+#include "util/UserInputBase.h"
 #include "arl/Debug.h"
-#include "Util/NavKeys.h"
-#include "Util/Rect.h"
+#include "util/NavKeys.h"
+#include "util/Rect.h"
 
 namespace ARL {
 

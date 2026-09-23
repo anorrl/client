@@ -1,166 +1,136 @@
-cmake_minimum_required(VERSION 2.8)
+##### ANORRL CMake for Linux Systems #####
+# Hi so, this is based off projectpizza's cmake, but modified to be unix only, and other anorrl things
+# uhm yeah
 
-project(roblox C CXX ASM)
+cmake_minimum_required(VERSION 3.20)
 
-if(NOT UNIX)
-  message(FATAL_ERROR "Unsupported platform.")
-endif(NOT UNIX)
+project(anorrl C CXX ASM)
 
-list(APPEND CMAKE_PREFIX_PATH "${CONTRIB_PATH}")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
+add_compile_definitions(BOOST_THREAD_PROVIDES_FUTURE_CONTINUATION)
 
-# Set the CONTRIB_PATH from ENV.
-if(NOT CONTRIB_PATH)
-  file(TO_CMAKE_PATH "$ENV{CONTRIB_PATH}" CONTRIB_PATH)
-endif(NOT CONTRIB_PATH)
-if(NOT CONTRIB_PATH)
-  message(FATAL_ERROR "CONTRIB_PATH is not set")
-endif(NOT CONTRIB_PATH)
-file(TO_CMAKE_PATH "${CONTRIB_PATH}" CONTRIB_PATH)
-message(STATUS "CONTRIB_PATH=${CONTRIB_PATH}")
-
-string(TOLOWER ${CMAKE_BUILD_TYPE} RBX_BUILD_TYPE)
-
-if(ANDROID)
-  message(STATUS "ANDROID_TOOLCHAIN_NAME=${ANDROID_TOOLCHAIN_NAME}")
-  message(STATUS "ANDROID_STL=${ANDROID_STL}")
-  message(STATUS "ANDROID_ABI=${ANDROID_ABI}")
-  message(STATUS "ANDROID_NATIVE_API_LEVEL=${ANDROID_NATIVE_API_LEVEL}")
-  message(STATUS "ANDROID_SYSROOT=${ANDROID_SYSROOT}")
-  message(STATUS "ANDROID_EXCEPTIONS=${ANDROID_EXCEPTIONS}")
-  message(STATUS "ANDROID_RTTI=${ANDROID_RTTI}")
-  message(STATUS "ANDROID_NDK_HOST_X64=${ANDROID_NDK_HOST_X64}")
-endif(ANDROID)
-message(STATUS "CMAKE_SYSROOT=${CMAKE_SYSROOT}")
-message(STATUS "CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}")
-if(NOT RBX_STL_INCLUDE_DIRS)
-  message(FATAL_ERROR "RBX_STL_INCLUDE_DIRS must be set to stdlib directories.")
-else()
-  message(STATUS "RBX_STL_INCLUDE_DIRS=")
-  set(_RBX_STL_INCLUDE_PATTERNS "")
-  foreach(dir ${RBX_STL_INCLUDE_DIRS})
-    message(STATUS "    ${dir}")
-    list(APPEND _RBX_STL_INCLUDE_PATTERNS "${dir}/*")
-  endforeach()
-endif(NOT RBX_STL_INCLUDE_DIRS)
-
-# Include any modules we'll need.
-include(ListFilter)
-include(IncludeProjectFiles)
-include(Boost)
-include(FMOD)
-include(SSL)
-include(SDL2)
-
-if(NOT RBX_SETTINGS_INITIALIZED)
-  if(UNIX)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden" CACHE STRING "" FORCE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden" CACHE STRING "" FORCE)
-
-    set(CMAKE_ECLIPSE_MAKE_ARGUMENTS "-j -l4")
-  endif(UNIX)
-
-  if(ANDROID)
-    # Use the stdlib with exception handling and rtti if we're building
-    # for Android.  This is set in the configure_android script.
-
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mfloat-abi=softfp -MMD -MP" CACHE STRING "" FORCE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mfloat-abi=softfp -MMD -MP" CACHE STRING "" FORCE)
-
-    # Because we want to use breakpad, let's even put debug symbols into our release builds.
-    # These will be stripped out by the NDK when we package up an APK.
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g" CACHE STRING "" FORCE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -g" CACHE STRING "" FORCE)
-  endif(ANDROID)
-  
-  # By default, try to get all warnings.  In the future, treat them as errors.
-  # Ignore some warnings that currently are in a lot of our code base.
-  # set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror" CACHE STRING "" FORCE)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall" CACHE STRING "" FORCE)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unknown-pragmas -Wno-unused-variable -Wno-unused-local-typedefs -Wno-main" CACHE STRING "" FORCE)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-reorder -Wno-unused-local-typedefs" CACHE STRING "" FORCE)
-
-  # Enable C++11 with GNU extensions
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11" CACHE STRING "" FORCE)
-
-  set(RBX_SETTINGS_INITIALIZED TRUE CACHE INTERNAL "" FORCE)
-endif(NOT RBX_SETTINGS_INITIALIZED)
-
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(APPLE ON)
-  if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
-    set(APPLE_IOS ON)
-  endif()
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  add_compile_definitions(_DEBUG)
 endif()
 
-include_project_files(SystemHeaders "${CMAKE_SYSROOT}/usr/include/*.h;${RBX_STL_INCLUDE_DIRS}")
+string(TIMESTAMP BUILD_TIME "%s")
+string(RANDOM LENGTH 8 ALPHABET 0123456789 RANDOM_SEED ${BUILD_TIME} RANDOM_VALUE)
+math(EXPR ARL_BUILDSEED "${RANDOM_VALUE} % 1000000")
+set(RANDOM_CONSTANT_H "${CMAKE_SOURCE_DIR}/App/include/security/RandomConstant.h")
+if(NOT EXISTS "${RANDOM_CONSTANT_H}")
+  file(WRITE "${RANDOM_CONSTANT_H}" "#pragma once\n#define ARL_BUILDSEED ${ARL_BUILDSEED}\n")
+endif()
+include_directories(${CMAKE_SOURCE_DIR}/App/include/security)
+include_directories("${CMAKE_SOURCE_DIR}/Rendering/RbxG3D/include")
 
-# Add some subdirectories that should have CMakeLists.txt in them.
-if(WIN32)
-  add_subdirectory(DeviceCaps)
-endif(WIN32)
+option(ACC_BUILD "Build in ACCService mode" OFF)
+if(ACC_BUILD)
+  message(STATUS "Building for ANORRLCloudCompute ...")
+  add_compile_definitions(ARL_ACC_SECURITY)
+endif()
 
-add_subdirectory(boostlibs)
-add_subdirectory(ClientShared)
+option(STUDIO_BUILD "Build in Studio mode" OFF)
+if(STUDIO_BUILD)
+  message(STATUS "Building for ANORRLStudio ...")
+  add_compile_definitions(ARL_STUDIO_BUILD)
+endif()
+
+add_definitions(-DBOOST_BIND_GLOBAL_PLACEHOLDERS)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  add_compile_options(-Wno-deprecated-declarations)
+  add_compile_options(-Wno-nonportable-include-path)
+  add_compile_options(-Wno-ignored-attributes)
+  add_compile_options(-Wno-undefined-var-template)
+  add_compile_options(-Wno-extra-tokens)
+  add_compile_options(-Wno-unused-command-line-argument)
+  add_compile_options(-Wno-delete-abstract-non-virtual-dtor)
+  add_compile_options(-Wno-implicit-const-int-float-conversion)
+  add_compile_options(-Wno-return-stack-address)
+  add_compile_options(-Wno-nontrivial-memaccess)
+  add_compile_options(-Wno-string-plus-int)
+  add_compile_options(-Wno-format)
+  add_compile_options(-Wno-constant-logical-operand)
+endif()
+
+include_directories(${CMAKE_SOURCE_DIR}/fmod/include)
+set(FMOD_ARCHITECTURE x64)
+link_directories(${CMAKE_SOURCE_DIR}/fmod/lib/linux/${FMOD_ARCHITECTURE})
+set(RUNTIME_FILES ${CMAKE_SOURCE_DIR}/fmod/lib/linux/${FMOD_ARCHITECTURE}/libfmod.so.13)
+
+add_subdirectory(CoreScriptConverter2)
+
+add_library(fmod SHARED IMPORTED)
+set_property(TARGET fmod PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/fmod/lib/linux/${FMOD_ARCHITECTURE}/libfmod.so)
+
+find_package(Boost REQUIRED COMPONENTS random format accumulators bimap filesystem system iostreams thread exception program_options pool circular_buffer math crc numeric_conversion flyweight numeric_ublas foreach REQUIRED)
+find_package(CURL CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(OpenSSL REQUIRED)
+find_package(Freetype REQUIRED)
+find_package(PNG REQUIRED)
+
+if(STUDIO_BUILD)
+  set(Qt5_DIR "/usr/lib/cmake/Qt5")
+  set(Qt5Core_DIR "/usr/lib/cmake/Qt5Core")
+  set(Qt5Gui_DIR "/usr/lib/cmake/Qt5Gui")
+  set(Qt5Widgets_DIR "/usr/lib/cmake/Qt5Widgets")
+  set(Qt5Concurrent_DIR "/usr/lib/cmake/Qt5Concurrent")
+  set(Qt5Network_DIR "/usr/lib/cmake/Qt5Network")
+  set(Qt5Xml_DIR "/usr/lib/cmake/Qt5Xml")
+  set(Qt5WebKit_DIR "/usr/lib/cmake/Qt5WebKit")
+  set(Qt5WebKitWidgets_DIR "/usr/lib/cmake/Qt5WebKitWidgets")
+  set(Qt5WebChannel_DIR "/usr/lib/cmake/Qt5WebChannel")
+  set(Qt5Positioning_DIR "/usr/lib/cmake/Qt5Positioning")
+  set(Qt5OpenGLWidgets_DIR "/usr/lib/cmake/Qt5OpenGLWidgets")
+
+  find_package(Qt5 REQUIRED COMPONENTS
+    Core
+    Widgets
+    Network
+    Xml
+    WebKit
+    WebKitWidgets
+    WebChannel
+    Positioning
+    Concurrent
+    OpenGLWidgets
+  )
+endif()
+
+if(NOT ACC_BUILD)
+  find_package(SDL2 CONFIG REQUIRED)
+endif()
+
+find_package(OpenGL REQUIRED COMPONENTS OpenGL EGL)
+
+include_directories(${Boost_INCLUDE_DIRS})
+include(ListFilter)
+include(IncludeProjectFiles)
+
+if(NOT ARL_SETTINGS_INITIALIZED)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  set(CMAKE_CXX_EXTENSIONS OFF)
+  set(ARL_SETTINGS_INITIALIZED TRUE CACHE INTERNAL "" FORCE)
+endif(NOT ARL_SETTINGS_INITIALIZED)
+
+add_subdirectory(App)
+add_subdirectory(App.BulletPhysics)
 add_subdirectory(Base)
 add_subdirectory(Log)
 add_subdirectory(Rendering)
 add_subdirectory(Network)
-add_subdirectory(App)
-add_subdirectory(Android)
-add_subdirectory(App.BulletPhysics)
+add_subdirectory(ClientShared)
 
-# Configure platform's external dependencies.
-if(UNIX)
-  if(ANDROID)
-    include(Curl)
-    include_project_files(curl "${CURL_ROOT}/include/*.h")
-    # find_package(CURL)
-    set(DEPENDENCIES "${DEPENDENCIES} \"${CURL_ROOT}/lib/libcurl.a\"")
-    set(DEPENDENCIES "${DEPENDENCIES} \"${SSL_ROOT}/lib/libssl.a\"")
-    set(DEPENDENCIES "${DEPENDENCIES} \"${SSL_ROOT}/lib/libcrypto.a\"")
+if(ACC_BUILD)
+  add_subdirectory(ANORRLCloudCompute)
+elseif(STUDIO_BUILD)
+  add_subdirectory(CSG)
+  add_subdirectory(QTitanRibbon)
+  add_subdirectory(ANORRLStudio)
+else()
+  add_subdirectory(ANORRLUnixClient)
+endif()
 
-    include(Breakpad)
-    set(DEPENDENCIES "${DEPENDENCIES} \"${BREAKPAD_LIB_ROOT}/libbreakpad_client.a\"")
-
-    set(DEPENDENCIES "${DEPENDENCIES} -landroid")
-    set(DEPENDENCIES "${DEPENDENCIES} -lGLESv2")
-    set(DEPENDENCIES "${DEPENDENCIES} -lEGL")
-    set(DEPENDENCIES "${DEPENDENCIES} -llog")
-  else()
-    set(DEPENDENCIES "${DEPENDENCIES} -lGLESv2")
-  endif(ANDROID)
-
-  if(RBX_BUILD_TYPE MATCHES "release")
-    set(DEPENDENCIES "${DEPENDENCIES} -lfmod")
-  else()
-    set(DEPENDENCIES "${DEPENDENCIES} -lfmodL")
-  endif()
-  
-  set(DEPENDENCIES "${DEPENDENCIES} -lz")
-endif(UNIX)
-
-add_library(roblox SHARED
-  $<TARGET_OBJECTS:boost>
-  $<TARGET_OBJECTS:Base>
-  $<TARGET_OBJECTS:Log>
-  $<TARGET_OBJECTS:App>
-  $<TARGET_OBJECTS:Network>
-  $<TARGET_OBJECTS:G3D>
-  $<TARGET_OBJECTS:AppDraw>
-  $<TARGET_OBJECTS:RbxG3D>
-  $<TARGET_OBJECTS:GfxBase>
-  $<TARGET_OBJECTS:GfxCore>
-  $<TARGET_OBJECTS:GfxRender>
-  $<TARGET_OBJECTS:Android>
-  $<TARGET_OBJECTS:App.BulletPhysics>)
-set_target_properties(roblox PROPERTIES LINKER_LANGUAGE CXX)
-
-# Setup linker flag.
-if(UNIX)
-  set(RBX_LINKER_DEPENDENCY_FLAGS "-Wl,--no-whole-archive,--no-gc-sections")
-endif(UNIX)
-
-string(STRIP "${DEPENDENCIES}" deps_strip_str)
-target_link_libraries(roblox
-  ${RBX_LINKER_DEPENDENCY_FLAGS} ${deps_strip_str})
+set(ARL_LINKER_DEPENDENCY_FLAGS "-Wl,--no-whole-archive,--no-gc-sections -Wno-c++11-narrowing")

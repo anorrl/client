@@ -28,7 +28,7 @@
 #include "arl/Debug.h"
 #include "arl/boost.hpp"
 #include "FastLog.h"
-#include "util/standardout.h"	
+#include "util/StandardOut.h"	
 
 #include "boost/bind.hpp"
 
@@ -284,7 +284,7 @@ If no invalid parameter handler was defined (which is the default setting) and a
 So the conclusion is: The are many situations in which your user-defined Unhandled-Exception-Filter will never be called. This is a major change to the previous versions of the CRT and IMHO not very well documented.
 
 The solution
-If you don’t want this behavior and you will be sure that your handler will be called, you need to intercept the call to SetUnhandledExceptionFilter which is used by the CRT to disable all previously installed filters. You can achieve this for x86 with the following code:
+If you donï¿½t want this behavior and you will be sure that your handler will be called, you need to intercept the call to SetUnhandledExceptionFilter which is used by the CRT to disable all previously installed filters. You can achieve this for x86 with the following code:
 
 */
 #ifndef _M_IX86

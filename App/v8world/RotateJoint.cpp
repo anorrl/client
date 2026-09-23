@@ -1,14 +1,14 @@
  /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/RotateJoint.h"
-#include "V8World/Primitive.h"
-#include "V8World/World.h"
-#include "V8World/Tolerance.h"
-#include "V8Kernel/Kernel.h"
-#include "V8Kernel/Body.h"
-#include "V8Kernel/Point.h"
-#include "V8Kernel/Connector.h"
+#include "v8world/RotateJoint.h"
+#include "v8world/Primitive.h"
+#include "v8world/World.h"
+#include "v8world/Tolerance.h"
+#include "v8kernel/Kernel.h"
+#include "v8kernel/Body.h"
+#include "v8kernel/Point.h"
+#include "v8kernel/Connector.h"
 #include "v8Kernel/Constants.h"
 #include "util/Math.h"
 

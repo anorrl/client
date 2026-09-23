@@ -7,11 +7,11 @@
   @edited  2006-01-11
 */
 
-#include "G3D/platform.h"
-#include "G3D/AABox.h"
-#include "G3D/Box.h"
-#include "G3D/Plane.h"
-#include "G3D/Sphere.h"
+#include "g3d/platform.h"
+#include "g3d/AABox.h"
+#include "g3d/Box.h"
+#include "g3d/Plane.h"
+#include "g3d/Sphere.h"
 
 
 namespace G3D {

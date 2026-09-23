@@ -2,13 +2,13 @@
 
 #include "v8datamodel/Gyro.h"
 #include "v8datamodel/Partinstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8World/World.h"
-#include "V8World/Assembly.h"
-#include "V8Kernel/Kernel.h"
-#include "V8Kernel/Body.h"
-#include "V8Kernel/Constants.h"
-#include "Network/Players.h"
+#include "v8datamodel/Workspace.h"
+#include "v8world/World.h"
+#include "v8world/Assembly.h"
+#include "v8kernel/Kernel.h"
+#include "v8kernel/Body.h"
+#include "v8kernel/Constants.h"
+#include "network/Players.h"
 #include "solver/Solver.h"
 
 DYNAMIC_FASTFLAGVARIABLE(PGSWakePrimitivesWithBodyMoverPropertyChanges, false)

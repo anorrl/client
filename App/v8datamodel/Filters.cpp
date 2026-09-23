@@ -1,17 +1,17 @@
 /* Copyright 2003-2006 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Filters.h"
-#include "V8DataModel/ModelInstance.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/Filters.h"
+#include "v8datamodel/ModelInstance.h"
+#include "v8datamodel/PartInstance.h"
 #include "v8datamodel/Accoutrement.h"
-#include "V8World/Assembly.h"
-#include "V8DataModel/Visit.h"
-#include "Humanoid/Humanoid.h"
-#include "Network/Players.h"
-#include "V8World/Primitive.h"
+#include "v8world/Assembly.h"
+#include "v8datamodel/Visit.h"
+#include "humanoid/Humanoid.h"
+#include "network/Players.h"
+#include "v8world/Primitive.h"
 #include "v8datamodel/PartCookie.h"
-#include "V8DataModel/ClickDetector.h"
+#include "v8datamodel/ClickDetector.h"
 
 FASTFLAGVARIABLE(UseFixedTransparencyNonCollidableBehaviour, true)
 

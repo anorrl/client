@@ -1,6 +1,6 @@
 #pragma once
 #include "arl/threadsafe.h"
-#include "arl/debug.h"
+#include "arl/Debug.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/unordered_map.hpp>

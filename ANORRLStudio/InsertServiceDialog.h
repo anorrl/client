@@ -8,7 +8,7 @@
 #include <QDialog>
 
 #include <boost/shared_ptr.hpp>
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DataModel.h"
 
 #include "ANORRLMainWindow.h"
 

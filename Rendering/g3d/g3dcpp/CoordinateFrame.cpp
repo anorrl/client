@@ -12,21 +12,21 @@
  All rights reserved.
 */
 
-#include "G3D/platform.h"
-#include "G3D/CoordinateFrame.h"
-#include "G3D/Quat.h"
-#include "G3D/Matrix4.h"
-#include "G3D/Box.h"
-#include "G3D/AABox.h"
-#include "G3D/Sphere.h"
-#include "G3D/Triangle.h"
-#include "G3D/Ray.h"
-#include "G3D/Capsule.h"
-#include "G3D/Cylinder.h"
-#include "G3D/UprightFrame.h"
-#include "G3D/stringutils.h"
-#include "G3D/PhysicsFrame.h"
-#include "G3D/UprightFrame.h"
+#include "g3d/platform.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/Quat.h"
+#include "g3d/Matrix4.h"
+#include "g3d/Box.h"
+#include "g3d/AABox.h"
+#include "g3d/Sphere.h"
+#include "g3d/Triangle.h"
+#include "g3d/Ray.h"
+#include "g3d/Capsule.h"
+#include "g3d/Cylinder.h"
+#include "g3d/UprightFrame.h"
+#include "g3d/stringutils.h"
+#include "g3d/PhysicsFrame.h"
+#include "g3d/UprightFrame.h"
 
 
 namespace G3D {

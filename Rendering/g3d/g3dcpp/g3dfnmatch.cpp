@@ -37,7 +37,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-#include "G3D/g3dfnmatch.h"
+#include "g3d/g3dfnmatch.h"
 
 #ifdef G3D_WIN32
 

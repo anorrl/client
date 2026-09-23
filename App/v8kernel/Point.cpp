@@ -1,8 +1,8 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8Kernel/Point.h"
-#include "V8Kernel/Body.h"
+#include "v8kernel/Point.h"
+#include "v8kernel/Body.h"
 
 
 namespace ARL {

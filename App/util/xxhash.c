@@ -51,7 +51,7 @@
 //**************************************
 #include <stdlib.h>    // for malloc(), free()
 #include <string.h>    // for memcpy()
-#include "Util/xxhash.h"
+#include "util/xxhash.h"
 
 
 

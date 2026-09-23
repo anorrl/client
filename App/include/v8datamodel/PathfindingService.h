@@ -1,7 +1,7 @@
 #pragma once 
-#include "Reflection/Reflection.h"
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
+#include "reflection/Reflection.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
 #include "v8world/ContactManagerSpatialHash.h"
 #include "util/DoubleEndedVector.h"
 

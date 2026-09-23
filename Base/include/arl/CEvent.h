@@ -1,7 +1,7 @@
 #pragma once
 #include "boost/noncopyable.hpp"
-#include "RbxFormat.h"
-#include "arl/RbxTime.h"
+#include "ARLFormat.h"
+#include "arl/rbxTime.h"
 
 #include <boost/thread.hpp>
 

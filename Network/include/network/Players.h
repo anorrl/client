@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
-#include "Network/Player.h"
-#include "Network/ChatFilter.h"
-#include "Util/SystemAddress.h"
-#include "Util/GameMode.h"
-#include "V8DataModel/FriendService.h"
-#include "V8DataModel/ContentProvider.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
+#include "network/Player.h"
+#include "network/ChatFilter.h"
+#include "util/SystemAddress.h"
+#include "util/GameMode.h"
+#include "v8datamodel/FriendService.h"
+#include "v8datamodel/ContentProvider.h"
 #include "boost/thread/thread.hpp"
 #include <boost/thread/condition.hpp>
 #include <boost/unordered_set.hpp>

@@ -35,13 +35,13 @@
 #include "ThumbnailGenerator.h"
 #include <string>
 #include <sstream>
-#include "V8DataModel/FactoryRegistration.h"
+#include "v8datamodel/FactoryRegistration.h"
 #include "ThumbnailGenerator.h"
 #include "util/profiling.h"
 #include "util/SoundService.h"
-#include "Util/Guid.h"
-#include "Util/Http.h"
-#include "Util/Statistics.h"
+#include "util/Guid.h"
+#include "util/Http.h"
+#include "util/Statistics.h"
 #include "util/rbxrandom.h"
 #include "network/api.h"
 #include "VersionInfo.h"
@@ -63,7 +63,7 @@
 #include "CountersClient.h"
 
 #include "SimpleJSON.h"
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 
 #include <tlhelp32.h>
 #include <psapi.h>

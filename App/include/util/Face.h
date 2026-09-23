@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/NormalId.h"
+#include "util/G3DCore.h"
+#include "util/NormalId.h"
 #include "arl/Debug.h"
 
 namespace ARL {

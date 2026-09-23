@@ -7,8 +7,8 @@
 #include "arl/atomic.h"
 #include "v8datamodel/FastLogSettings.h"
 
-#include "Util/HttpAsync.h"
-#include "Util/Analytics.h"
+#include "util/HttpAsync.h"
+#include "util/Analytics.h"
 #include "DiscordHandler.h"
 
 // forward declarations

@@ -1,19 +1,19 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Hopper.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/Backpack.h"
-#include "V8DataModel/GuiBuilder.h"
-#include "V8Tree/Verb.h"
-#include "AppDraw/DrawPrimitives.h"
-#include "V8DataModel/Mouse.h"
-#include "V8DataModel/ScriptMouseCommand.h"
-#include "V8DataModel/Workspace.h"
-#include "Network/Player.h"
-#include "Network/Players.h"
-#include "V8DataModel/ContentProvider.h"
-#include "Gui/ProfanityFilter.h"
+#include "v8datamodel/Hopper.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Backpack.h"
+#include "v8datamodel/GuiBuilder.h"
+#include "v8tree/Verb.h"
+#include "appdraw/DrawPrimitives.h"
+#include "v8datamodel/Mouse.h"
+#include "v8datamodel/ScriptMouseCommand.h"
+#include "v8datamodel/Workspace.h"
+#include "network/Player.h"
+#include "network/Players.h"
+#include "v8datamodel/ContentProvider.h"
+#include "gui/ProfanityFilter.h"
 
 namespace ARL {
 

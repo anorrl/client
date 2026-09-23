@@ -6,7 +6,7 @@
 #include "RakPeer.h"
 
 #include "network/Players.h"
-#include "network/API.h"
+#include "network/api.h"
 #include "NetworkProfiler.h"
 #include "NetworkSettings.h"
 #include "NetworkOwnerJob.h"
@@ -19,10 +19,10 @@
 
 
 #include "v8datamodel/Stats.h"
-#include "v8datamodel/hackdefines.h"
-#include "v8datamodel/partinstance.h"
+#include "v8datamodel/HackDefines.h"
+#include "v8datamodel/PartInstance.h"
 #include "v8datamodel/Workspace.h"			// TODO - move distributed physics switch somewhere else
-#include "v8datamodel/message.h"
+#include "v8datamodel/Message.h"
 #include "v8datamodel/DataModel.h"
 #include "v8datamodel/Hopper.h"
 #include "v8datamodel/Lighting.h"
@@ -32,18 +32,18 @@
 #include "v8datamodel/ReplicatedFirst.h"
 #include "v8datamodel/HttpRbxApiService.h"
 #include "v8datamodel/MegaCluster.h"
-#include "V8World/Assembly.h"
-#include "V8World/Mechanism.h"
-#include "V8World/Primitive.h"
+#include "v8world/Assembly.h"
+#include "v8world/Mechanism.h"
+#include "v8world/Primitive.h"
 #include "v8world/DistributedPhysics.h"
-#include "Script/ModuleScript.h"
+#include "script/ModuleScript.h"
 #include "script/script.h"
-#include "util/http.h"
+#include "util/Http.h"
 #include "util/xxhash.h"
 #include "arl/Crypt.h"
 #include "FastLog.h"
-#include "Network/NetworkOwner.h"
-#include "Util/Statistics.h"
+#include "network/NetworkOwner.h"
+#include "util/Statistics.h"
 #include "ConcurrentRakPeer.h"
 #include "ANORRLServicesTools.h"
 
@@ -60,6 +60,10 @@
 
 #include "script/LuaVM.h"
 #include "NetPmc.h"
+
+#if (defined(__linux) && !defined(__aarch64__))
+#include <cpuid.h> // For GCC/Clang
+#endif
 
 DYNAMIC_LOGGROUP(NetworkJoin)
 
@@ -1757,7 +1761,11 @@ void CheatHandlingServerReplicator::processHashValuePost(const unsigned long lon
 // the result.  this is the same as popcnt (number of 1's) being an odd number.
 static unsigned int linearDecode(unsigned int x, unsigned int decodeKey)
 {
+#ifdef _WIN32
     return (1 & __popcnt(x & decodeKey));
+#else
+	return (1 & __builtin_popcount(x & decodeKey));
+#endif
 }
 
 void CheatHandlingServerReplicator::processRockyMccReport(const MccReport& report)
@@ -1782,7 +1790,11 @@ void CheatHandlingServerReplicator::processRockyMccReport(const MccReport& repor
     const std::string& configString = DFString::US30605p4;
     // add report checking here 
     int cpuid[4];
+#ifdef _WIN32
     __cpuid(cpuid, 1);
+#else
+	__cpuidex(cpuid, 1, 0);
+#endif
     if (cpuid[2] & (1<<23)) // advanced bit manipulation support (popcnt), bit 23 of ecx
     {
         // some of these are not sent from the client

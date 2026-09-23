@@ -1,10 +1,10 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "Util/SteppedInstance.h"
+#include "v8tree/Instance.h"
+#include "util/SteppedInstance.h"
 
-#include "V8DataModel/KeyframeSequence.h" //for Animation::Priority, CachedPose
+#include "v8datamodel/KeyframeSequence.h" //for Animation::Priority, CachedPose
 
 namespace ARL {
 

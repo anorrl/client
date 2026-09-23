@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "Util/G3DCore.h"
+#include "v8tree/Instance.h"
+#include "util/G3DCore.h"
 
 namespace ARL
 {

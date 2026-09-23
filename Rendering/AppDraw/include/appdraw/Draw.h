@@ -3,8 +3,8 @@
 #pragma once
 
 #include "SelectState.h"
-#include "Util/G3DCore.h"
-#include "V8DataModel/ModelInstance.h"
+#include "util/G3DCore.h"
+#include "v8datamodel/ModelInstance.h"
 
 #include <vector>
 

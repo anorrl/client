@@ -9,10 +9,10 @@
  @edited  2006-02-02
  */
 
-#include "RbxPlatform.h" // includes <windows.h>
+#include "ARLPlatform.h" // includes <windows.h>
 
-#include "RbxAssert.h"
-#include "RbxFormat.h"
+#include "ARLAssert.h"
+#include "ARLFormat.h"
 #include <string>
 
 using namespace std;

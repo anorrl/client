@@ -1,10 +1,10 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/DropTool.h"
-#include "V8DataModel/PartInstance.h"
-#include "Tool/PartDropTool.h"
-#include "Tool/GroupDropTool.h"
+#include "tool/DropTool.h"
+#include "v8datamodel/PartInstance.h"
+#include "tool/PartDropTool.h"
+#include "tool/GroupDropTool.h"
 
 namespace ARL {
 

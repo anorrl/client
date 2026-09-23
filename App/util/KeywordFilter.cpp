@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "Util/KeywordFilter.h"
-#include "Reflection/EnumConverter.h"
+#include "util/KeywordFilter.h"
+#include "reflection/EnumConverter.h"
 
 namespace ARL 
 {

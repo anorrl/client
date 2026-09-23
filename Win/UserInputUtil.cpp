@@ -5,9 +5,9 @@
 
 #include "stdafx.h"
 #include "UserInputUtil.h"
-#include "Util/Rect.h"
-#include "util/standardout.h"
-#include "V8DataModel/GameBasicSettings.h"
+#include "util/Rect.h"
+#include "util/StandardOut.h"
+#include "v8datamodel/GameBasicSettings.h"
 
 #include <dinput.h>
 

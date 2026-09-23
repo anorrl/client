@@ -6,14 +6,14 @@
 #include "ServerReplicator.h"
 #include "Util.h"
 
-#include "V8DataModel/PartInstance.h"
-#include "V8World/DistributedPhysics.h"
-#include "V8World/ContactManagerSpatialHash.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8world/DistributedPhysics.h"
+#include "v8world/ContactManagerSpatialHash.h"
 #include "util/StreamRegion.h"
 #include "util/ObscureValue.h"
 
 #include <boost/unordered_set.hpp>
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/Workspace.h"
 
 namespace ARL {
 

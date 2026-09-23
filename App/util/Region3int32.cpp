@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "Util/Region3int32.h"
-#include "Util/ExtentsInt32.h"
-#include "Reflection/Type.h"
+#include "util/Region3int32.h"
+#include "util/ExtentsInt32.h"
+#include "reflection/Type.h"
 namespace ARL {
 
 	namespace Reflection

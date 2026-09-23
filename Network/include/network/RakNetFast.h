@@ -2,8 +2,8 @@
 
 #pragma once
 
-//#include "Util/Velocity.h"
-#include "bitstream.h"
+//#include "util/Velocity.h"
+#include "BitStream.h"
 
 //#include "Dictionary.h"
 #include "Util.h"
@@ -324,29 +324,31 @@ namespace ARL
 			ReadFastBytes<4>::readFast<32, uint32_t>(bitStream, (uint32_t&)result);
 		}
         
-		template <>
-		inline void readFastT(RakNet::BitStream& bitStream, long& result) {
+#if !defined(__linux) && !defined(__APPLE__)
+		template<>
+		inline void readFastT(RakNet::BitStream& bitStream, long& result)
+		{
 #if defined(__LP64__)
-            BOOST_STATIC_ASSERT(sizeof(long) == sizeof(uint64_t));
-            ReadFastBytes<0>::readFast<64, uint64_t>(bitStream, (uint64_t&)result);
+			BOOST_STATIC_ASSERT(sizeof(long) == sizeof(uint64_t));
+			ReadFastBytes<0>::readFast<64, uint64_t>(bitStream, (uint64_t&)result);
 #else
-            BOOST_STATIC_ASSERT(sizeof(long) == sizeof(uint32_t));
-            ReadFastBytes<4>::readFast<32, uint32_t>(bitStream, (uint32_t&)result);
+			BOOST_STATIC_ASSERT(sizeof(long) == sizeof(uint32_t));
+			ReadFastBytes<4>::readFast<32, uint32_t>(bitStream, (uint32_t&)result);
 #endif
-
 		}
 
-		template <>
-		inline void readFastT(RakNet::BitStream& bitStream, unsigned long& result) {
+		template<>
+		inline void readFastT(RakNet::BitStream& bitStream, unsigned long& result)
+		{
 #if defined(__LP64__)
-            BOOST_STATIC_ASSERT(sizeof(unsigned long) == sizeof(uint64_t));
-            ReadFastBytes<0>::readFast<64, uint64_t>(bitStream, (uint64_t&)result);
+			BOOST_STATIC_ASSERT(sizeof(unsigned long) == sizeof(uint64_t));
+			ReadFastBytes<0>::readFast<64, uint64_t>(bitStream, (uint64_t&)result);
 #else
-            BOOST_STATIC_ASSERT(sizeof(unsigned long) == sizeof(uint32_t));
-            ReadFastBytes<4>::readFast<32, uint32_t>(bitStream, (uint32_t&)result);
+			BOOST_STATIC_ASSERT(sizeof(unsigned long) == sizeof(uint32_t));
+			ReadFastBytes<4>::readFast<32, uint32_t>(bitStream, (uint32_t&)result);
 #endif
-
 		}
+#endif
 
         
 		template <>

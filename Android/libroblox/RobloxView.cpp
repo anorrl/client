@@ -6,21 +6,21 @@
 #include "v8datamodel/camera.h"
 #include "v8datamodel/game.h"
 #include "FunctionMarshaller.h"
-#include "Util/StandardOut.h"
-#include "Util/FileSystem.h"
+#include "util/StandardOut.h"
+#include "util/FileSystem.h"
 #include "rbx/Tasks/Coordinator.h"
-#include "Util/IMetric.h"
-#include "Util/Object.h"
+#include "util/IMetric.h"
+#include "util/Object.h"
 #include "GfxBase/RenderSettings.h"
 #include "GfxBase/FrameRateManager.h"
 #include "v8datamodel/UserController.h"
-#include "Util/Statistics.h"
+#include "util/Statistics.h"
 #include "v8datamodel/ContentProvider.h"
 #include "script/ScriptContext.h"
 #include "v8xml/Serializer.h"
 #include "rbx/CEvent.h"
 #include "../RobloxMac/GameVerbs.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 #include "../ClientBase/RenderSettingsItem.h"
 #include "rbx/SystemUtil.h"
 
@@ -30,7 +30,7 @@
 #include <boost/iostreams/copy.hpp>
 
 #include "../RobloxMac/Roblox.h"
-#include "V8DataModel/GameBasicSettings.h"
+#include "v8datamodel/GameBasicSettings.h"
 
 #include "FastLog.h"
 

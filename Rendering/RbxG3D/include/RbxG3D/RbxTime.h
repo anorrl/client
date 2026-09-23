@@ -1,6 +1,6 @@
 #ifndef RBX_TIME_H
 #define RBX_TIME_H
-#include "G3D/G3DGameUnits.h"
+#include "g3d/G3DGameUnits.h"
 
 namespace RBX
 {

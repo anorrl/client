@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include "V8Tree/Service.h"
+#include "v8tree/Service.h"
 #include "GfxBase/IAdornable.h"
-#include "Util/HitTestFilter.h"
-#include "Util/Name.h"
-#include "Util/TextureId.h"
-#include "Util/G3DCore.h"
+#include "util/HitTestFilter.h"
+#include "util/Name.h"
+#include "util/TextureId.h"
+#include "util/G3DCore.h"
 
 #include <string>
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Util/TextureId.h"
-#include "Util/G3DCore.h"
+#include "util/TextureId.h"
+#include "util/G3DCore.h"
 
 namespace ARL
 {

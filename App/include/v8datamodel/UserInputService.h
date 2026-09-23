@@ -7,9 +7,9 @@
 //
 #pragma once
 
-#include "Util/TextureId.h"
-#include "V8DataModel/DataModel.h" 
-#include "V8DataModel/InputObject.h"
+#include "util/TextureId.h"
+#include "v8datamodel/DataModel.h" 
+#include "v8datamodel/InputObject.h"
 
 #define NKEYSTATES 512
 

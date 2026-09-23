@@ -4,7 +4,7 @@
 #include <string>
 #include <stdlib.h>
 
-#include "util/name.h"
+#include "util/Name.h"
 #include "util/Object.h"
 
 #include "arl/intrusive_ptr_target.h"

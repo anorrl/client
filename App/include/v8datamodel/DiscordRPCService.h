@@ -1,7 +1,7 @@
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "V8Tree/Instance.h"
+#include "v8tree/Service.h"
+#include "v8tree/Instance.h"
 
 namespace ARL {
 	class PartInstance;

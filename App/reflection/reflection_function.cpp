@@ -2,7 +2,7 @@
 
 #include "reflection/Function.h"
 #include "reflection/YieldFunction.h"
-#include "reflection/object.h"
+#include "reflection/Object.h"
 
 using namespace ARL;
 using namespace ARL::Reflection;

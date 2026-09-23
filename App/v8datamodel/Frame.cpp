@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "V8DataModel/Frame.h"
-#include "Gui/Guidraw.h"
+#include "v8datamodel/Frame.h"
+#include "gui/Guidraw.h"
 
 
 namespace ARL

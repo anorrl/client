@@ -1,8 +1,8 @@
 #pragma once
 
-#include "arl/debug.h"
+#include "arl/Debug.h"
 #include "arl/atomic.h"
-#include "arl/declarations.h"
+#include "arl/Declarations.h"
 #include "boost/cast.hpp"
 
 /// Forward Declarations

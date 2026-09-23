@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8World/IWorldStage.h"
-#include "V8World/Assembly.h"
-#include "Util/BiMultiMap.h"
+#include "v8world/IWorldStage.h"
+#include "v8world/Assembly.h"
+#include "util/BiMultiMap.h"
 
 namespace ARL {
 	class Assembly;

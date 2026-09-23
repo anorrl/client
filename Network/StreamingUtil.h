@@ -9,7 +9,8 @@
 #ifndef Network_StreamingUtil_h
 #define Network_StreamingUtil_h
 
-#include "bitstream.h"
+#include "BitStream.h"
+#include <cstdint>
 
 namespace ARL
 {
@@ -45,7 +46,8 @@ namespace ARL
     RakNet::BitStream& operator << (RakNet::BitStream& stream, int value);
     RakNet::BitStream& operator << (RakNet::BitStream& stream, unsigned int value);
 
-    RakNet::BitStream& operator << (RakNet::BitStream& stream, unsigned long long value);
+    RakNet::BitStream& operator << (RakNet::BitStream& stream, uint64_t);
+    RakNet::BitStream& operator << (RakNet::BitStream& stream, RakNet::Time value);
 
     RakNet::BitStream& operator << (RakNet::BitStream& stream, bool value);
 

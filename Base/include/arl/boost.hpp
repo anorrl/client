@@ -29,10 +29,14 @@ using boost::weak_ptr;
 #ifdef _WIN32
 //#include <windows.h>
 #else 
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 #include <pthread.h>
 // This is a hack. Truncates a pointer.
+#if defined(__linux)
+#define GetCurrentThreadId() (static_cast<unsigned long>(pthread_self()))
+#else
 #define GetCurrentThreadId() (static_cast<unsigned>(reinterpret_cast<long>(pthread_self())))
+#endif
 #define SwitchToThread() {sched_yield();}
 // We may decide to use the following instead on Mac, but we would prefer the above.
 //#define SwitchToThread() {struct timespec req = {0, 1}; nanosleep(&req, NULL);}

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "boost/shared_ptr.hpp"
-#include "Util/SpatialRegion.h"
-#include "V8Tree/Instance.h"
+#include "util/SpatialRegion.h"
+#include "v8tree/Instance.h"
 #include "v8world/BasicSpatialHashPrimitive.h"
 #include "arl/signal.h"
 #include "reflection/Property.h"

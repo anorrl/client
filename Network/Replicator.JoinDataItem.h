@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Replicator.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "network/NetworkPacketCache.h"
 #include "network/NetworkOwner.h"
 #include "Util.h"
 #include "Compressor.h"
-#include "script/Script.h"
+#include "script/script.h"
 #include "script/ModuleScript.h"
 #include "Replicator.NewInstanceItem.h"
 

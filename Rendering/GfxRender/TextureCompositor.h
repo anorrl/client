@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Util/MeshId.h"
-#include "Util/TextureId.h"
+#include "util/MeshId.h"
+#include "util/TextureId.h"
 
-#include "G3D/Vector2.h"
-#include "G3D/Color4.h"
+#include "g3d/Vector2.h"
+#include "g3d/Color4.h"
 
 #include "TextureRef.h"
 

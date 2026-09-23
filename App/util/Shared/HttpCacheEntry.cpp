@@ -1,7 +1,7 @@
 #include "util/HttpPlatformImpl.h"
 #include "util/MD5Hasher.h"
 #include "util/xxhash.h"
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 
 #ifdef _WIN32
 #include <WinSock2.h>

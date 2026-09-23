@@ -9,13 +9,13 @@
 
 #include "boost/lexical_cast.hpp"
 
-#include "V8DataModel/InputObject.h"
+#include "v8datamodel/InputObject.h"
 #include "v8datamodel/GuiService.h"
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/GamepadService.h"
 
-#include "Reflection/Type.h"
-#include "Reflection/EnumConverter.h"
+#include "reflection/Type.h"
+#include "reflection/EnumConverter.h"
 
 namespace ARL {    
 

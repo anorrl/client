@@ -5,7 +5,7 @@
 #endif
 
 #include "arl/rbxTime.h"
-#include "arl/debug.h"
+#include "arl/Debug.h"
 #include "arl/atomic.h"
 #include <stdexcept>
 #include "FastLog.h"

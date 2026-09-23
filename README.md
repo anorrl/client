@@ -1,4 +1,30 @@
 # ANOther Roblox Retake Lol - client
+
+## what is this? - LINUX 
+
+ok so i hate wine so im trying to get this working on linux (my main system)... im using aya and projectpizza as references to get this working...
+
+here's how to get it working
+
+clone `vcpkg` into this repo, and run `./configure_vcpkg.sh` in its directory on terminal
+
+then run one of these
+
+**this is for accservice**
+
+```
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="$PWD/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DACC_BUILD=ON -DSTUDIO_BUILD=OFF
+```
+
+**this is for studio***
+```
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="$PWD/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DACC_BUILD=OFF -DSTUDIO_BUILD=ON
+```
+
+also expect crackhead shit, i've almost lost my mind with the amount of times they write the same include in many different ways for no fucking reason.
+
+progress: im trying to get accservice to work
+
 ## what is this?
 This is the client source for ANORRL, it's based off the March 2016 source code (slowly but surely making it NOT roblox!). 
 

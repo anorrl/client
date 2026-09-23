@@ -1,15 +1,15 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/SpawnLocation.h"
-#include "V8DataModel/Teams.h"
-#include "V8DataModel/Team.h"
-#include "V8DataModel/Forcefield.h"
-#include "Network/Players.h"
-#include "Network/Player.h"
-#include "Humanoid/Humanoid.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/DebrisService.h"
+#include "v8datamodel/SpawnLocation.h"
+#include "v8datamodel/Teams.h"
+#include "v8datamodel/Team.h"
+#include "v8datamodel/Forcefield.h"
+#include "network/Players.h"
+#include "network/Player.h"
+#include "humanoid/Humanoid.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/DebrisService.h"
 
 namespace ARL {
 

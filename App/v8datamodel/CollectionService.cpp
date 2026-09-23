@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "V8DataModel/CollectionService.h"
-#include "V8DataModel/Configuration.h"
+#include "v8datamodel/CollectionService.h"
+#include "v8datamodel/Configuration.h"
 
 namespace ARL
 {

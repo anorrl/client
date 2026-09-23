@@ -21,7 +21,7 @@
 #include <QPixmapCache>
 
 // 3rd Party Headers
-#include "G3D/Vector3.h"
+#include "g3d/Vector3.h"
 
 // ANORRL Headers
 #include "v8datamodel/DataModel.h"

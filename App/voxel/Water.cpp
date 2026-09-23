@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Voxel/Water.h"
+#include "voxel/Water.h"
 
 namespace ARL { namespace Voxel { namespace Water {
 

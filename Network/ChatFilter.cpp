@@ -1,6 +1,6 @@
 #include "ChatFilter.h"
 
-#include "Util/http.h"
+#include "util/Http.h"
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/shared_ptr.hpp>

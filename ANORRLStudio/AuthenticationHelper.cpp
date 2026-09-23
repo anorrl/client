@@ -16,7 +16,7 @@
 #include <QtConcurrentRun>
 
 // ANORRL Headers
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "util/Http.h"
 #include "util/Statistics.h"
 #include "ANORRLServicesTools.h"
@@ -30,11 +30,11 @@
 #include "ANORRLMainWindow.h"
 #include "ANORRLCookieJar.h"
 
-#include "Util/MachineIdUploader.h"
-#include "V8DataModel/ContentProvider.h"
+#include "util/MachineIdUploader.h"
+#include "v8datamodel/ContentProvider.h"
 #include "ANORRLWebDoc.h"
 #include "ANORRLDocManager.h"
-#include "V8Xml/WebParser.h"
+#include "v8xml/WebParser.h"
 
 
 FASTFLAGVARIABLE(StudioInSyncWebKitAuthentication, false)

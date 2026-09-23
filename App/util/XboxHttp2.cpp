@@ -2,7 +2,7 @@
 
 #if defined(ARL_PLATFORM_DURANGO)
 
-#include "Util/Http.h"
+#include "util/Http.h"
 
 #define NOMINMAX
 // includes required for xbox

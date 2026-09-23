@@ -1,13 +1,13 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/Balancing.h"
+#include "humanoid/Balancing.h"
 
-#include "Humanoid/Humanoid.h"
+#include "humanoid/Humanoid.h"
 
-#include "V8World/Primitive.h"
-#include "V8Kernel/Body.h"
-#include "V8World/World.h"
+#include "v8world/Primitive.h"
+#include "v8kernel/Body.h"
+#include "v8world/World.h"
 
 namespace ARL {
 namespace HUMAN {

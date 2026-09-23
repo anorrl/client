@@ -4,8 +4,8 @@
 	Utility class - holds Pyramid Meshes of same size, and parametric shape for use by Geometry Pool.
 */
 
-#include "Util/Memory.h"
-#include "V8World/Mesh.h"
+#include "util/Memory.h"
+#include "v8world/Mesh.h"
 
 
 namespace ARL {

@@ -11,7 +11,7 @@
 #include "v8datamodel/datamodel.h"
 #include "v8datamodel/changehistory.h"
 #include "reflection/Property.h"
-#include "Script/Script.h"
+#include "script/script.h"
 
 // Qt Headers
 #include <QMutex>

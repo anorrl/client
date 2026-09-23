@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8World/IPipelined.h"
-#include "V8World/Enum.h"
+#include "v8world/IPipelined.h"
+#include "v8world/Enum.h"
 #include <list>
 
 namespace ARL {

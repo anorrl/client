@@ -18,9 +18,9 @@
 #undef border
 #endif
 
-#include "G3D/platform.h"
-#include "G3D/Array.h"
-#include "G3D/Vector2.h"
+#include "g3d/platform.h"
+#include "g3d/Array.h"
+#include "g3d/Vector2.h"
 
 #ifdef _MSC_VER
 // Turn off "conditional expression is constant" warning; MSVC generates this

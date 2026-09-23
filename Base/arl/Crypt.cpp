@@ -1,7 +1,7 @@
 #if defined(_WIN32)
 #include "arl/Crypt.h"
 
-#include "rbxFormat.h"
+#include "ARLFormat.h"
 #include <atlenc.h>
 #include <iomanip>
 #include <sstream>

@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "V8DataModel/FriendService.h"
-#include "Network/Players.h"
-#include "V8Xml/WebParser.h"
-#include "Util/Http.h"
+#include "v8datamodel/FriendService.h"
+#include "network/Players.h"
+#include "v8xml/WebParser.h"
+#include "util/Http.h"
 #include "arl/Log.h"
-#include "Util/LuaWebService.h"
+#include "util/LuaWebService.h"
 #include "v8datamodel/HttpRbxApiService.h"
 
 namespace ARL

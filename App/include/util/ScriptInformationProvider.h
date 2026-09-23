@@ -6,11 +6,11 @@
 #include <istream>
 #include "arl/boost.hpp"
 #include "arl/rbxTime.h"
-#include "V8Tree/Service.h"
-#include "Util/AsyncHttpCache.h"
+#include "v8tree/Service.h"
+#include "util/AsyncHttpCache.h"
 #define BOOST_DATE_TIME_NO_LIB
 #include "boost/date_time/posix_time/posix_time.hpp"
-#include "Util/HeartbeatInstance.h"
+#include "util/HeartbeatInstance.h"
 
 namespace ARL
 {

@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
-#include "V8DataModel/ChatService.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8Datamodel/HttpRbxApiService.h"
+#include "v8datamodel/ChatService.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/HttpRbxApiService.h"
 #include "v8xml/WebParser.h"
 
 #include "network/WebChatFilter.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 DYNAMIC_FASTFLAG(UseComSiftUpdatedWebChatFilterParamsAndHeader)
 

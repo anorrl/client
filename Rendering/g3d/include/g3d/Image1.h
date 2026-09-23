@@ -11,10 +11,10 @@
 #ifndef G3D_IMAGE1_H
 #define G3D_IMAGE1_H
 
-#include "G3D/platform.h"
-#include "G3D/Map2D.h"
-#include "G3D/Color1.h"
-#include "G3D/GImage.h"
+#include "g3d/platform.h"
+#include "g3d/Map2D.h"
+#include "g3d/Color1.h"
+#include "g3d/GImage.h"
 
 namespace G3D {
 

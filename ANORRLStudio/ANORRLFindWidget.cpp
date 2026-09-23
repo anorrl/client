@@ -13,12 +13,12 @@
 #include <QDesktopWidget>
 #include <QTextDocument>
 
-#include "V8DataModel/PlayerGui.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/DataModelJob.h"
-#include "V8Tree/Instance.h"
+#include "v8datamodel/PlayerGui.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/DataModelJob.h"
+#include "v8tree/Instance.h"
 #include "script/CoreScript.h"
-#include "Script/Script.h"
+#include "script/Script.h"
 
 #include "ANORRLFindWidget.h"
 #include "QtUtilities.h"

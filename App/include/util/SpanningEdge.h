@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Util/IndexedTree.h"
+#include "util/IndexedTree.h"
 
 namespace ARL {
 

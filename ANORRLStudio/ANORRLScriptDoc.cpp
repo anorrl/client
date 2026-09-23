@@ -16,17 +16,17 @@
 
 // ANORRL Headers
 #include "script/script.h"
-#include "Script/ScriptContext.h"
+#include "script/ScriptContext.h"
 #include "util/ProtectedString.h"
-#include "Util/ScopedAssign.h"
+#include "util/ScopedAssign.h"
 #include "v8datamodel/ContentProvider.h"
 #include "v8datamodel/DataModel.h"
 #include "v8datamodel/Selection.h"
-#include "V8Tree/Service.h"
+#include "v8tree/Service.h"
 
 #include "Client.h"
 #include "ClientReplicator.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 // ANORRL Studio Headers
 #include "AuthoringSettings.h"

@@ -3,8 +3,8 @@
 
 #include "GfxCore/Framebuffer.h"
 
-#include "G3D/Quat.h"
-#include "G3D/Matrix4.h"
+#include "g3d/Quat.h"
+#include "g3d/Matrix4.h"
 
 #include "rbx/threadsafe.h"
 #include "rbx/CEvent.h"

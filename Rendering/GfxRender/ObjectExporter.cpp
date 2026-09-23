@@ -17,9 +17,9 @@
 #include "humanoid/Humanoid.h"
 
 #include "v8datamodel/MegaCluster.h"
-#include "V8DataModel/Decal.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartCookie.h"
+#include "v8datamodel/Decal.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartCookie.h"
 
 #include "voxel2/Grid.h"
 #include "voxel2/Mesher.h"

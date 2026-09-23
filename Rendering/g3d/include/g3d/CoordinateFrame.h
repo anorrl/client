@@ -13,12 +13,12 @@
 #ifndef G3D_CFrame_h
 #define G3D_CFrame_h
 
-#include "G3D/platform.h"
-#include "G3D/Vector3.h"
-#include "G3D/Vector4.h"
-#include "G3D/Matrix3.h"
-#include "G3D/Array.h"
-#include "G3D/Line.h"
+#include "g3d/platform.h"
+#include "g3d/Vector3.h"
+#include "g3d/Vector4.h"
+#include "g3d/Matrix3.h"
+#include "g3d/Array.h"
+#include "g3d/Line.h"
 #include <math.h>
 #include <string>
 #include <stdio.h>

@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Util/NormalID.h"
+#include "util/NormalId.h"
 #include "arl/Debug.h"
-#include "Util/Memory.h"
-#include "Util/Math.h"
+#include "util/Memory.h"
+#include "util/Math.h"
 
 
 namespace ARL {

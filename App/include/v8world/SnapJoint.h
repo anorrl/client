@@ -1,6 +1,6 @@
 #pragma once
 
-#include "V8World/RigidJoint.h"
+#include "v8world/RigidJoint.h"
 
 namespace ARL {
 	

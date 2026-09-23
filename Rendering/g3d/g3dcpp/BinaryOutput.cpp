@@ -8,11 +8,11 @@
  @edited  2010-03-17
  */
 
-#include "G3D/platform.h"
-#include "G3D/BinaryOutput.h"
-#include "G3D/fileutils.h"
-#include "G3D/stringutils.h"
-#include "G3D/Array.h"
+#include "g3d/platform.h"
+#include "g3d/BinaryOutput.h"
+#include "g3d/fileutils.h"
+#include "g3d/stringutils.h"
+#include "g3d/Array.h"
 #include <zlib.h>
 #include <stdexcept>
 #include <cstring>

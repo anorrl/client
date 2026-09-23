@@ -6,8 +6,8 @@
 #include "stdafx.h"
 #include "InsertServiceDialog.h"
 
-#include "V8DataModel/ChangeHistory.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/ChangeHistory.h"
+#include "v8datamodel/DataModel.h"
 
 // Qt Headers
 #include <QPushButton>

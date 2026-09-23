@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8DataModel/BasicPartInstance.h"
-#include "V8DataModel/ActionStation.h"
-#include "Network/Players.h"
+#include "v8datamodel/BasicPartInstance.h"
+#include "v8datamodel/ActionStation.h"
+#include "network/Players.h"
 
 DYNAMIC_FASTFLAG(FixAnchoredSeatingPosition)
 DYNAMIC_FASTFLAG(FixSeatingWhileSitting)

@@ -9,7 +9,7 @@
 #ifndef G3D_units_h
 #define G3D_units_h
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 
 namespace G3D {
 /** Use <code>using namespace G3D::units;</code> to include all units

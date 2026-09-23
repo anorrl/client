@@ -2,7 +2,7 @@
 
 
 // third time's the charm
-#include "network/API.h"
+#include "network/api.h"
 #include "Client.h"
 #include "Server.h"
 #include "ServerReplicator.h"
@@ -12,10 +12,10 @@
 #include "Marker.h"
 
 #include "NetworkSettings.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/GlobalSettings.h"
-#include "V8DataModel/HackDefines.h"
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/GlobalSettings.h"
+#include "v8datamodel/HackDefines.h"
+#include "v8datamodel/Workspace.h"
 #include "GuidRegistryService.h"
 #include "RakNetVersion.h"
 #include "util/Utilities.h"

@@ -6,7 +6,7 @@
 #include <boost/unordered_set.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include "FastLog.h"
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 
 DYNAMIC_FASTFLAG(InfluxDb09Enabled)
 

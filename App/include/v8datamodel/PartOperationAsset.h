@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Util/BinaryString.h"
-#include "V8DataModel/CSGMesh.h"
-#include "V8DataModel/PartInstance.h"
-#include "Util/ContentID.h"
+#include "util/BinaryString.h"
+#include "v8datamodel/CSGMesh.h"
+#include "v8datamodel/PartInstance.h"
+#include "util/ContentID.h"
 #include <boost/shared_ptr.hpp>
 
 namespace ARL {

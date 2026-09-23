@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8World/BasicSpatialHashPrimitive.h"
-#include "Util/G3DCore.h"
-#include "Util/Memory.h"
-#include "Util/ConcurrencyValidator.h"
+#include "v8world/BasicSpatialHashPrimitive.h"
+#include "util/G3DCore.h"
+#include "util/Memory.h"
+#include "util/ConcurrencyValidator.h"
 #include "arl/Debug.h"
 #include "arl/object_pool.h"
 
@@ -432,4 +432,4 @@ namespace ARL {
 
 }	// namespace
 
-#include "v8World/SpatialHashMultiRes.inl"
+#include "v8world/SpatialHashMultiRes.inl"

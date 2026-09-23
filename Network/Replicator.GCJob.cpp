@@ -5,11 +5,11 @@
 #include "Player.h"
 #include "Util.h"
 
-#include "AppDraw/DrawAdorn.h"
+#include "appdraw/DrawAdorn.h"
 #include "arl/DenseHash.h"
 #include "v8datamodel/Workspace.h"
-#include "v8datamodel/datamodel.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/PartInstance.h"
 #include "v8world/ContactManager.h"
 #include "v8world/ContactManagerSpatialHash.h"
 #include "util/ScopedAssign.h"
@@ -17,7 +17,7 @@
 #include "GfxBase/Adorn.h"
 #include "v8datamodel/JointsService.h"
 #include "NetworkProfiler.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/Humanoid.h"
 
 //#include "v8world/Contact.h"
 //#include "v8kernel/Body.h"

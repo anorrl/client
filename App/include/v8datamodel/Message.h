@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
+#include "v8tree/Instance.h"
 #include "GfxBase/IAdornable.h"
-#include "Util/ContentFilter.h"
+#include "util/ContentFilter.h"
 #include <string>
 
 namespace ARL {

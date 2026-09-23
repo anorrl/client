@@ -1,12 +1,12 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 
-#include "AppDraw/Draw.h"
-#include "AppDraw/DrawPrimitives.h"
-#include "AppDraw/DrawAdorn.h"
+#include "appdraw/Draw.h"
+#include "appdraw/DrawPrimitives.h"
+#include "appdraw/DrawAdorn.h"
 #include "GfxBase/Part.h"
 #include "GfxBase/Adorn.h"
-#include "Util/Math.h"
-#include "V8DataModel/PartInstance.h"
+#include "util/Math.h"
+#include "v8datamodel/PartInstance.h"
 
 namespace ARL {
 

@@ -3,16 +3,16 @@
 #pragma once
 
 #include <string>
-#include "V8Tree/Instance.h"
-#include "Util/Velocity.h"
-#include "bitstream.h"
+#include "v8tree/Instance.h"
+#include "util/Velocity.h"
+#include "BitStream.h"
 #include <boost/any.hpp>
 
 #include "StreamingUtil.h"
 
 #include "Dictionary.h"
 #include "Util.h"
-#include "Network/RakNetFast.h"
+#include "network/RakNetFast.h"
 
 DYNAMIC_FASTINT(PhysicsCompressionSizeFilter)
 

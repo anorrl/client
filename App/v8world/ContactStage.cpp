@@ -1,11 +1,11 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/ContactStage.h"
-#include "V8World/TreeStage.h"
-#include "V8World/Primitive.h"
-#include "V8World/Contact.h"
-#include "V8World/Joint.h"
+#include "v8world/ContactStage.h"
+#include "v8world/TreeStage.h"
+#include "v8world/Primitive.h"
+#include "v8world/Contact.h"
+#include "v8world/Joint.h"
 
 
 namespace ARL {

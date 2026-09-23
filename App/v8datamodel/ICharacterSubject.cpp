@@ -1,23 +1,23 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/ICharacterSubject.h"
+#include "v8datamodel/ICharacterSubject.h"
 
 #include "boost/foreach.hpp"
 
-#include "V8DataModel/Camera.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/Filters.h"
-#include "V8DataModel/GameBasicSettings.h"
-#include "V8DataModel/PlayerGui.h"
-#include "V8DataModel/TextButton.h"
-#include "V8DataModel/ScreenGui.h"
+#include "v8datamodel/Camera.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/Filters.h"
+#include "v8datamodel/GameBasicSettings.h"
+#include "v8datamodel/PlayerGui.h"
+#include "v8datamodel/TextButton.h"
+#include "v8datamodel/ScreenGui.h"
 #include "v8datamodel/UserInputService.h"
-#include "V8World/ContactManager.h"
-#include "V8World/World.h"
-#include "Util/UserInputBase.h"
+#include "v8world/ContactManager.h"
+#include "v8world/World.h"
+#include "util/UserInputBase.h"
 
-#include "Humanoid/Humanoid.h"
+#include "humanoid/Humanoid.h"
 
 FASTFLAG(UserAllCamerasInLua)
 

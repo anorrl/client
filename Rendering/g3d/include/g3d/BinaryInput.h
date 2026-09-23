@@ -25,16 +25,16 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <stdio.h>
-#include "G3D/platform.h"
-#include "G3D/Array.h"
-#include "G3D/Color4.h"
-#include "G3D/Color3.h"
-#include "G3D/Vector4.h"
-#include "G3D/Vector3.h"
-#include "G3D/Vector2.h"
-#include "G3D/g3dmath.h"
-#include "G3D/debug.h"
-#include "G3D/System.h"
+#include "g3d/platform.h"
+#include "g3d/Array.h"
+#include "g3d/Color4.h"
+#include "g3d/Color3.h"
+#include "g3d/Vector4.h"
+#include "g3d/Vector3.h"
+#include "g3d/Vector2.h"
+#include "g3d/g3dmath.h"
+#include "g3d/debug.h"
+#include "g3d/System.h"
 
 
 namespace G3D {

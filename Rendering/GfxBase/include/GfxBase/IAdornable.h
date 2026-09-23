@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "Util/IndexArray.h"
-#include "Util/Selectable.h"
-#include "V8Tree/Instance.h"
+#include "util/IndexArray.h"
+#include "util/Selectable.h"
+#include "v8tree/Instance.h"
 #include "SelectState.h"
 
 namespace ARL {

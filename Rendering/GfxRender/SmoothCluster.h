@@ -5,10 +5,10 @@
 #include "GfxBase/GfxPart.h"
 #include "reflection/Property.h"
 #include "arl/signal.h"
-#include "Util/G3DCore.h"
-#include "Util/SpatialRegion.h"
+#include "util/G3DCore.h"
+#include "util/SpatialRegion.h"
 
-#include "Voxel/ChunkMap.h"
+#include "voxel/ChunkMap.h"
 
 #include "voxel2/GridListener.h"
 

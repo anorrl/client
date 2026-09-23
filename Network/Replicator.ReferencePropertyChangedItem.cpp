@@ -3,7 +3,7 @@
 #include "Item.h"
 #include "Replicator.h"
 
-#include "Reflection/property.h"
+#include "reflection/Property.h"
 
 #include "BitStream.h"
 

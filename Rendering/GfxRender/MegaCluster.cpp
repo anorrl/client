@@ -13,7 +13,7 @@
 
 #include "Water.h"
 
-#include "G3D/Vector4int8.h"
+#include "g3d/Vector4int8.h"
 
 #include "Material.h"
 #include "ShaderManager.h"

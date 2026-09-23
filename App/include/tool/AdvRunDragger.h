@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "V8World/Contact.h"
-#include "Util/Object.h"
-#include "Util/G3DCore.h"
-#include "Util/NormalId.h"
+#include "v8world/Contact.h"
+#include "util/Object.h"
+#include "util/G3DCore.h"
+#include "util/NormalId.h"
 #include <vector>
-#include "Tool/DragTypes.h"
-#include "AppDraw/DrawAdorn.h"
+#include "tool/DragTypes.h"
+#include "appdraw/DrawAdorn.h"
 #include "GfxBase/Adorn.h"
 #include "GfxBase/IAdornable.h"
 

@@ -1,29 +1,29 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/AdvRunDragger.h"
-#include "Tool/Dragger.h"
-#include "Tool/ToolsArrow.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/MouseCommand.h"
-#include "V8DataModel/Filters.h"
-#include "V8World/Primitive.h"
-#include "V8World/Contact.h"
-#include "V8World/World.h"
-#include "V8World/ContactManager.h"
-#include "V8World/WeldJoint.h"
-#include "V8World/MultiJoint.h"
-#include "V8World/Tolerance.h"
-#include "Util/Units.h"
-#include "Util/Math.h"
+#include "tool/AdvRunDragger.h"
+#include "tool/Dragger.h"
+#include "tool/ToolsArrow.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/MouseCommand.h"
+#include "v8datamodel/Filters.h"
+#include "v8world/Primitive.h"
+#include "v8world/Contact.h"
+#include "v8world/World.h"
+#include "v8world/ContactManager.h"
+#include "v8world/WeldJoint.h"
+#include "v8world/MultiJoint.h"
+#include "v8world/Tolerance.h"
+#include "util/Units.h"
+#include "util/Math.h"
 #include "V8kernel/Body.h"
-#include "V8World/Joint.h"
-#include "V8World/Geometry.h"
-#include "V8World/MegaClusterPoly.h"
-#include "V8DataModel/JointInstance.h"
+#include "v8world/Joint.h"
+#include "v8world/Geometry.h"
+#include "v8world/MegaClusterPoly.h"
+#include "v8datamodel/JointInstance.h"
 #include "GfxBase/IAdornableCollector.h"
-#include "AppDraw/Draw.h"
+#include "appdraw/Draw.h"
 
 namespace {
 
@@ -1205,7 +1205,7 @@ Contact* AdvRunDragger::getNextContact(Primitive*& prim, Contact* c)
 		Array< tried snap parts this step >
 			append current part if any
 
-		If snap part too far – set to NULL
+		If snap part too far ï¿½ set to NULL
 
 		Existing Snap Part?
 			NO - If no snap part, try to find one + snap surface
@@ -1221,9 +1221,9 @@ Contact* AdvRunDragger::getNextContact(Primitive*& prim, Contact* c)
 
 				3.  Check other colliding parts
 
-				4.	If not adjacent, shoot a ray (if head – make sure close enough)
+				4.	If not adjacent, shoot a ray (if head ï¿½ make sure close enough)
 
-				5.	NULL – no snap part found
+				5.	NULL ï¿½ no snap part found
 
 				Confirm the part is not too far away if head
 

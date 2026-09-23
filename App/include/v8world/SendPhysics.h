@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8World/IWorldStage.h"
-#include "V8World/SimJob.h"
+#include "v8world/IWorldStage.h"
+#include "v8world/SimJob.h"
 #include "arl/signal.h"
-#include "Util/ConcurrencyValidator.h"
+#include "util/ConcurrencyValidator.h"
 #include "arl/threadsafe.h"
 
 

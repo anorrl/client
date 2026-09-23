@@ -1,10 +1,10 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/AssemblyHistory.h"
-#include "V8World/Assembly.h"
-#include "V8World/Primitive.h"
-#include "V8Kernel/Body.h"
+#include "v8world/AssemblyHistory.h"
+#include "v8world/Assembly.h"
+#include "v8world/Primitive.h"
+#include "v8kernel/Body.h"
 
 namespace ARL {
 

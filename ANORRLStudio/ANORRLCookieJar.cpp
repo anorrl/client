@@ -15,7 +15,7 @@
 
 // ANORRL headers
 #include "AuthenticationHelper.h"
-#include "Util/Http.h"
+#include "util/Http.h"
 #include "FastLog.h"
 
 typedef NetworkCookieList::const_iterator CookieListIterator;

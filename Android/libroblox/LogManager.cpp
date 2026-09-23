@@ -14,7 +14,7 @@
 
 #include "util/FileSystem.h"
 #include "util/Guid.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "util/RobloxGoogleAnalytics.h"
 #include "util/Http.h"
 #include "util/Statistics.h"
@@ -24,7 +24,7 @@
 #include "rbx/signal.h"
 
 #include "FastLog.h"
-#include "RbxAssert.h"
+#include "ARLAssert.h"
 
 #include <android/log.h>
 

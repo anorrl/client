@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/IPipelined.h"
-#include "V8Kernel/Kernel.h"
+#include "v8world/IPipelined.h"
+#include "v8kernel/Kernel.h"
 
 namespace ARL {
 

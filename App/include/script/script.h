@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "Script/ThreadRef.h"
-#include "Util/ScriptInformationProvider.h"
-#include "Util/ProtectedString.h"
+#include "v8tree/Instance.h"
+#include "script/ThreadRef.h"
+#include "util/ScriptInformationProvider.h"
+#include "util/ProtectedString.h"
 #include "script/LuaSourceContainer.h"
 #include "arl/atomic.h"
 #include <boost/function.hpp>

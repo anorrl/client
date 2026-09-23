@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Gui/GuiDraw.h"
+#include "gui/GuiDraw.h"
 
 #include "GfxBase/Adorn.h"
 

@@ -3,8 +3,8 @@
 #include "Item.h"
 #include "Replicator.h"
 #include "ReplicatorStats.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/HackDefines.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/HackDefines.h"
 
 #include "RakNetTime.h"
 #include "BitStream.h"
@@ -26,7 +26,6 @@ bool Replicator::PingBackItem::write(RakNet::BitStream& bitStream) {
 	writeItemType(bitStream, ItemTypePingBack);
 	bitStream << true;
 	bitStream << time;
-
 #if !defined(LOVE_ALL_ACCESS)
 	unsigned int sendStats = DataModel::sendStats |
 			DataModel::get(&replicator)->allHackFlagsOredTogether();

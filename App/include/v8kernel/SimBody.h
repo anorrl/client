@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/PV.h"
-#include "Util/Quaternion.h"
-#include "Util/Math.h"
-#include "Util/Memory.h"
+#include "util/G3DCore.h"
+#include "util/PV.h"
+#include "util/Quaternion.h"
+#include "util/Math.h"
+#include "util/Memory.h"
 #include "arl/threadsafe.h"
 #include "v8kernel/Constants.h"
-#include "Fastlog.h"
+#include "FastLog.h"
 
 namespace ARL {
 

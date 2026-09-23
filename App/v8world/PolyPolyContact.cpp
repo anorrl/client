@@ -1,11 +1,11 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/PolyPolyContact.h"
-#include "V8Kernel/PolyConnectors.h"
-#include "V8World/Poly.h"
-#include "V8World/Mesh.h"
-#include "V8World/Primitive.h"
+#include "v8world/PolyPolyContact.h"
+#include "v8kernel/PolyConnectors.h"
+#include "v8world/Poly.h"
+#include "v8world/Mesh.h"
+#include "v8world/Primitive.h"
 
 
 namespace ARL {

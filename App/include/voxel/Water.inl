@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Voxel/Util.h"
+#include "voxel/Util.h"
 
 namespace ARL { namespace Voxel {
 

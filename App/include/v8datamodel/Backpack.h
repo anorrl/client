@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8DataModel/Hopper.h"
-#include "Script/IScriptFilter.h"
+#include "v8datamodel/Hopper.h"
+#include "script/IScriptFilter.h"
 
 namespace ARL {
 

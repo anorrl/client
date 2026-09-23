@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Humanoid/HumanoidState.h"
-#include "V8World/Mechanism.h"
+#include "humanoid/HumanoidState.h"
+#include "v8world/Mechanism.h"
 
 namespace ARL {
 	class Assembly;

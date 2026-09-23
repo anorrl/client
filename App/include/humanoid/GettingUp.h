@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "Humanoid/Humanoid.h"
-#include "Humanoid/Balancing.h"
-#include "Util/Name.h"
+#include "humanoid/Humanoid.h"
+#include "humanoid/Balancing.h"
+#include "util/Name.h"
 
 namespace ARL {
 	

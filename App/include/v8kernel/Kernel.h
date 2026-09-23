@@ -1,7 +1,7 @@
 #pragma once
 
-#include "V8Kernel/IStage.h"
-#include "V8Kernel/BodyPvSetter.h"
+#include "v8kernel/IStage.h"
+#include "v8kernel/BodyPvSetter.h"
 #include "boost/scoped_ptr.hpp"
 #include "solver/Solver.h"
 

@@ -24,6 +24,7 @@
 **  ADDITIONAL RESTRICTIONS.
 **
 ****************************************************************************/
+#include <QPainterPath>
 #include <QApplication>
 #include <QSettings>
 #include <QVariant>

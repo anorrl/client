@@ -1,14 +1,14 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/BallCellContact.h"
-#include "V8Kernel/PolyConnectors.h"
-#include "V8World/Ball.h"
-#include "V8World/Poly.h"
-#include "V8World/Mesh.h"
-#include "V8World/Primitive.h"
-#include "V8World/MegaClusterPoly.h"
-#include "V8DataModel/MegaCluster.h"
+#include "v8world/BallCellContact.h"
+#include "v8kernel/PolyConnectors.h"
+#include "v8world/Ball.h"
+#include "v8world/Poly.h"
+#include "v8world/Mesh.h"
+#include "v8world/Primitive.h"
+#include "v8world/MegaClusterPoly.h"
+#include "v8datamodel/MegaCluster.h"
 
 namespace ARL {
 using namespace Voxel;

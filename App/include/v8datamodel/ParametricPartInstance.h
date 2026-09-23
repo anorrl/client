@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "V8DataModel/BasicPartInstance.h"
+#include "v8datamodel/BasicPartInstance.h"
 
 namespace ARL {
 

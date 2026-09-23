@@ -15,7 +15,7 @@
 #include <QWebFrame>
 #include <QWebPage>
 
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 #include "AuthenticationHelper.h"
 #include "ANORRLCookieJar.h"

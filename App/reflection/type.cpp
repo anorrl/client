@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "reflection/type.h"
-#include "reflection/member.h"
+#include "reflection/Type.h"
+#include "reflection/Member.h"
 
 #include <boost/functional/hash.hpp>
 

@@ -1,17 +1,17 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Flag.h"
-#include "V8DataModel/FlagStand.h"
-#include "V8DataModel/Workspace.h"
-#include "V8Tree/Instance.h"
-#include "Network/Players.h"
-#include "Network/Player.h"
-#include "Humanoid/Humanoid.h"
-#include "V8World/Primitive.h"
-#include "V8World/RigidJoint.h"
-#include "Util/RunStateOwner.h"
-#include "V8DataModel/TimerService.h"
+#include "v8datamodel/Flag.h"
+#include "v8datamodel/FlagStand.h"
+#include "v8datamodel/Workspace.h"
+#include "v8tree/Instance.h"
+#include "network/Players.h"
+#include "network/Player.h"
+#include "humanoid/Humanoid.h"
+#include "v8world/Primitive.h"
+#include "v8world/RigidJoint.h"
+#include "util/RunStateOwner.h"
+#include "v8datamodel/TimerService.h"
 
 namespace ARL {
 

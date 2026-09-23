@@ -10,7 +10,7 @@
 #include "ldebug.h"
 
 #include "script/ScriptContext.h"
-#include "script/Script.h"
+#include "script/script.h"
 #include "script/LuaInstanceBridge.h"
 #include "script/LuaArguments.h"
 

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "Util/ProtectedString.h"
-#include "util/runstateowner.h"
-#include "Script/IScriptFilter.h"
+#include "v8tree/Service.h"
+#include "util/ProtectedString.h"
+#include "util/RunStateOwner.h"
+#include "script/IScriptFilter.h"
 #include "script/ThreadRef.h"
 #include "script/ExitHandlers.h"
-#include "Security/SecurityContext.h"
-#include "Util/AsyncHttpQueue.h"
+#include "security/SecurityContext.h"
+#include "util/AsyncHttpQueue.h"
 #include "util/RunningAverage.h"
 #include "arl/RunningAverage.h"
 

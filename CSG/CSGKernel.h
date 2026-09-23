@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "V8DataModel/CSGMesh.h"
+#include "v8datamodel/CSGMesh.h"
 
 #include <boost/unordered_map.hpp>
 #include <set>

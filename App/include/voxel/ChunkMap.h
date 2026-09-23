@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Util/SpatialRegion.h"
+#include "util/SpatialRegion.h"
 
 #include <vector>
 #include <boost/unordered_map.hpp>

@@ -1,16 +1,16 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Gui/GuiDraw.h"
-#include "V8Kernel/Constants.h"
-#include "V8DataModel/PVInstance.h"
-#include "AppDraw/Draw.h"
-#include "Util/Utilities.h"
-#include "Util/Math.h"
-#include "AppDraw/DrawPrimitives.h"
+#include "gui/GuiDraw.h"
+#include "v8kernel/Constants.h"
+#include "v8datamodel/PVInstance.h"
+#include "appdraw/Draw.h"
+#include "util/Utilities.h"
+#include "util/Math.h"
+#include "appdraw/DrawPrimitives.h"
 
 #include "GfxBase/Adorn.h"
-#include "v8datamodel/contentprovider.h"
+#include "v8datamodel/ContentProvider.h"
 
 namespace ARL {
 

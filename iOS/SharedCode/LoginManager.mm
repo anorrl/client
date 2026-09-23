@@ -28,7 +28,7 @@
 #import "RBXFunctions.h"
 #import "SessionReporter.h"
 #import "SignupVerifier.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "util/Http.h"
 
 DYNAMIC_FASTFLAGVARIABLE(EnableSessionLogin, false);

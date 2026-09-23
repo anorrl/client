@@ -3,14 +3,14 @@
 
 #include "CSGOperations.h"
 #include "v8datamodel/PartOperation.h"
-#include "V8DataModel/CSGDictionaryService.h"
-#include "V8Xml/SerializerBinary.h"
+#include "v8datamodel/CSGDictionaryService.h"
+#include "v8xml/SerializerBinary.h"
 #include "../Rendering/GfxRender/GeometryGenerator.h"
-#include "V8Datamodel/SpecialMesh.h"
+#include "v8datamodel/SpecialMesh.h"
 #include "v8DataModel/Workspace.h"
 #include "v8DataModel/DataModel.h"
-#include "V8DataModel/NonReplicatedCSGDictionaryService.h"
-#include "V8DataModel/ChangeHistory.h"
+#include "v8datamodel/NonReplicatedCSGDictionaryService.h"
+#include "v8datamodel/ChangeHistory.h"
 #include "../CSG/CSGKernel.h"
 
 DYNAMIC_FASTFLAG(MaterialPropertiesEnabled)

@@ -1,17 +1,17 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/JointsService.h"
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/JointsService.h"
+#include "v8datamodel/Workspace.h"
 #include "GfxBase/IAdornableCollector.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8World/Primitive.h"
-#include "V8World/Assembly.h"
-#include "V8World/Mechanism.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8world/Primitive.h"
+#include "v8world/Assembly.h"
+#include "v8world/Mechanism.h"
 
-#include "Network/NetworkOwner.h"
-#include "Network/Players.h"
+#include "network/NetworkOwner.h"
+#include "network/Players.h"
 
 DYNAMIC_FASTFLAG(NetworkOwnershipRuleReplicates);
 

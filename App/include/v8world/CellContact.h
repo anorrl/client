@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8World/Contact.h"
-#include "V8World/Mesh.h"
-#include "Voxel/Util.h"
-#include "Util/Vector3int32.h"
+#include "v8world/Contact.h"
+#include "v8world/Mesh.h"
+#include "voxel/Util.h"
+#include "util/Vector3int32.h"
 
 namespace ARL {
 

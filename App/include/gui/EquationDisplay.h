@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Gui/GUI.h"
+#include "gui/GUI.h"
 
 namespace ARL {
 	

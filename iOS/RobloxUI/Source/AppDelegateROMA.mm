@@ -38,7 +38,7 @@
 #import "UpgradeCheckHelper.h"
 #import "UserInfo.h"
 
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "util/http.h"
 #include "util/Analytics.h"
 

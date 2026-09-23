@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8DataModel/MouseCommand.h"
-#include "Tool/DragUtilities.h"
+#include "v8datamodel/MouseCommand.h"
+#include "tool/DragUtilities.h"
 
 namespace ARL {
 

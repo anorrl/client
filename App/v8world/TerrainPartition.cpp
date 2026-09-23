@@ -1,11 +1,11 @@
 /* Copyright 2003-2011 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/TerrainPartition.h"
+#include "v8world/TerrainPartition.h"
 
-#include "V8DataModel/MegaCluster.h"
-#include "V8World/Primitive.h"
-#include "Voxel/Grid.h"
+#include "v8datamodel/MegaCluster.h"
+#include "v8world/Primitive.h"
+#include "voxel/Grid.h"
 
 #include "voxel2/Grid.h"
 

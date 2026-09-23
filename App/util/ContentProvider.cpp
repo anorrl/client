@@ -2,17 +2,17 @@
 #include "stdafx.h"
 
 #include "v8datamodel/ContentProvider.h"
-#include "Util/ScriptInformationProvider.h"
-#include "RbxAssert.h"
+#include "util/ScriptInformationProvider.h"
+#include "ARLAssert.h"
 #include "v8xml/serializer.h"
 #include "v8xml/xmlserializer.h"
-#include "Util/http.h"
+#include "util/http.h"
 #include <string.h>
-#include "Util/StandardOut.h"
-#include "Util/FileSystem.h"
-#include "Util/ThreadPool.h"
-#include "Util/Statistics.h"
-#include "V8DataModel/DataModel.h"
+#include "util/StandardOut.h"
+#include "util/FileSystem.h"
+#include "util/ThreadPool.h"
+#include "util/Statistics.h"
+#include "v8datamodel/DataModel.h"
 #include "arl/Crypt.h"
 #include "StringConv.h"
 #include "ANORRLServicesTools.h"
@@ -42,7 +42,7 @@
 #include "boost/filesystem.hpp"
 
 #ifdef ARL_TEST_BUILD
-#include "Util/Statistics.h"
+#include "util/Statistics.h"
 #endif
 
 #include "XStudioBuild.h"
@@ -830,7 +830,7 @@ namespace ARL {
 
 #include <fstream>
 #include <sstream>
-#include "Util/MD5Hasher.h"
+#include "util/MD5Hasher.h"
 
 namespace ARL
 {

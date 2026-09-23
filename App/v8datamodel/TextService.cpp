@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "V8DataModel/TextService.h"
+#include "v8datamodel/TextService.h"
 
 FASTFLAGVARIABLE(TypesettersReleaseResources, true);
 

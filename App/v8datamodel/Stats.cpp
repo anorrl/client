@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Stats.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/Stats.h"
+#include "v8datamodel/DataModel.h"
 #include "arl/Log.h"
 #include "util/http.h"
 #include "util/profiling.h"
@@ -13,12 +13,12 @@
 #include "script/ScriptContext.h"
 #include "format_string.h"
 #include "ANORRLServicesTools.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 #include <boost/algorithm/string.hpp>
 
 #ifdef _WIN32
-#include "Util/FileSystem.h"
+#include "util/FileSystem.h"
 #include "VersionInfo.h"
 #elif __ANDROID__
 namespace ARL

@@ -6,13 +6,13 @@
   \created 2002-05-27
   \edited  2010-01-04
  */
-#include "G3D/platform.h"
-#include "G3D/GImage.h"
-#include "G3D/debug.h"
-#include "G3D/stringutils.h"
-#include "G3D/BinaryInput.h"
-#include "G3D/BinaryOutput.h"
-#include "G3D/fileutils.h"
+#include "g3d/platform.h"
+#include "g3d/GImage.h"
+#include "g3d/debug.h"
+#include "g3d/stringutils.h"
+#include "g3d/BinaryInput.h"
+#include "g3d/BinaryOutput.h"
+#include "g3d/fileutils.h"
 
 #ifdef G3D_LINUX
 #    include <png.h>

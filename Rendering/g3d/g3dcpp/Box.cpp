@@ -8,11 +8,11 @@
   @edited  2006-02-05
 */
 
-#include "G3D/Box.h"
-#include "G3D/debug.h"
-#include "G3D/Plane.h"
-#include "G3D/AABox.h"
-#include "G3D/CoordinateFrame.h"
+#include "g3d/Box.h"
+#include "g3d/debug.h"
+#include "g3d/Plane.h"
+#include "g3d/AABox.h"
+#include "g3d/CoordinateFrame.h"
 
 namespace G3D {
 

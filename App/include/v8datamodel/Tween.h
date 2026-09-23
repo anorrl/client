@@ -1,7 +1,7 @@
 #pragma once
-#include "V8Tree/Instance.h"
+#include "v8tree/Instance.h"
 #include "util/TweenInfo.h"
-#include "V8DataModel/TweenBase.h"
+#include "v8datamodel/TweenBase.h"
 #include "util/UDim.h"
 
 namespace ARL

@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
+#include "v8tree/Instance.h"
 #include "v8datamodel/InputObject.h"
-#include "Util/TextureId.h"
+#include "util/TextureId.h"
 #include "arl/signal.h"
 
 namespace ARL {

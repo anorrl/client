@@ -1,11 +1,11 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/Swimming.h"
-#include "Humanoid/Humanoid.h"
-#include "V8Kernel/Body.h"
-#include "V8Kernel/Constants.h"
-#include "V8DataModel/GameBasicSettings.h"
+#include "humanoid/Swimming.h"
+#include "humanoid/Humanoid.h"
+#include "v8kernel/Body.h"
+#include "v8kernel/Constants.h"
+#include "v8datamodel/GameBasicSettings.h"
 
 namespace ARL {
 

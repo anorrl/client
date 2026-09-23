@@ -4,11 +4,11 @@
   @created 2002-05-27
   @edited  2009-04-20
  */
-#include "G3D/platform.h"
-#include "G3D/GImage.h"
+#include "g3d/platform.h"
+#include "g3d/GImage.h"
 #include <png.h>
 #include <sstream>
-#include "G3D/BinaryOutput.h"
+#include "g3d/BinaryOutput.h"
 
 namespace G3D {
 

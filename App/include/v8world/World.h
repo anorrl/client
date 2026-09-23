@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "V8World/Primitive.h"
-#include "V8World/ContactManager.h"
+#include "v8world/Primitive.h"
+#include "v8world/ContactManager.h"
 
-#include "Util/IndexArray.h"
+#include "util/IndexArray.h"
 #include "arl/rbxTime.h"
 #include "arl/signal.h"
-#include "Util/SpatialRegion.h"
-#include "Util/HeapValue.h"
+#include "util/SpatialRegion.h"
+#include "util/HeapValue.h"
 #include "util/PhysicalProperties.h"
 
 class btCollisionDispatcher;

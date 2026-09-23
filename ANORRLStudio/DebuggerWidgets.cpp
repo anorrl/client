@@ -24,9 +24,9 @@
 #include "util/ScopedAssign.h"
 #include "util/BrickColor.h"
 #include "util/UDim.h"
-#include "script/Script.h"
+#include "script/script.h"
 #include "v8datamodel/DataModel.h"
-#include "V8DataModel/ChangeHistory.h"
+#include "v8datamodel/ChangeHistory.h"
 #include "reflection/Type.h"
 
 // ANORRL Studio Headers

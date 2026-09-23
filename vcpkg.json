@@ -1,0 +1,31 @@
+{
+  "dependencies": [
+    "boost-filesystem",
+    "boost-system",
+    "boost-iostreams",
+    "boost-thread",
+    "boost-exception",
+    "boost-program-options",
+    "boost-circular-buffer",
+    "boost-pool",
+    "boost-math",
+    "boost-crc",
+    "boost-flyweight",
+    "boost-ublas",
+    "boost-bimap",
+    "boost-accumulators",
+    "boost-format",
+    "boost-foreach",
+    "boost-random",
+    {
+      "name": "boost-iostreams",
+      "features": ["zlib"]
+    },
+    "curl",
+    "zlib",
+    "sdl2",
+    "openssl",
+    "freetype",
+    "libpng"
+  ]
+}

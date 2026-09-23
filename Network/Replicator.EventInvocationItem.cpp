@@ -5,8 +5,8 @@
 #include "Replicator.h"
 #include "Util.h"
 
-#include "Reflection/Event.h"
-#include "Util/StandardOut.h"
+#include "reflection/Event.h"
+#include "util/StandardOut.h"
 
 #include "BitStream.h"
 

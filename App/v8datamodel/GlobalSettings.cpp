@@ -1,14 +1,14 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/GlobalSettings.h"
+#include "v8datamodel/GlobalSettings.h"
 #include "FastLog.h"
-#include "V8Xml/XmlSerializer.h"
-#include "V8Xml/Serializer.h"
-#include "Util/FileSystem.h"
-#include "V8DataModel/Selection.h"
+#include "v8xml/XmlSerializer.h"
+#include "v8xml/Serializer.h"
+#include "util/FileSystem.h"
+#include "v8datamodel/Selection.h"
 
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 #include <boost/algorithm/string.hpp>
 

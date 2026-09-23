@@ -1,19 +1,19 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/SkateboardController.h"
-#include "V8DataModel/UserController.h"
-#include "V8DataModel/PVInstance.h"
-#include "V8DataModel/Camera.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/SkateboardPlatform.h"
-#include "V8DataModel/UserInputService.h"
-#include "Network/Players.h"
-#include "Humanoid/Humanoid.h"
+#include "v8datamodel/SkateboardController.h"
+#include "v8datamodel/UserController.h"
+#include "v8datamodel/PVInstance.h"
+#include "v8datamodel/Camera.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/SkateboardPlatform.h"
+#include "v8datamodel/UserInputService.h"
+#include "network/Players.h"
+#include "humanoid/Humanoid.h"
 #include "V8tree/Service.h"
-#include "Util/UserInputBase.h"
-#include "Util/Math.h"
-#include "Util/NavKeys.h"
+#include "util/UserInputBase.h"
+#include "util/Math.h"
+#include "util/NavKeys.h"
 
 
 namespace ARL {

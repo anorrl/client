@@ -9,8 +9,8 @@
   @edited  2006-01-28
  */
 
-#include "G3D/Line.h"
-#include "G3D/Plane.h"
+#include "g3d/Line.h"
+#include "g3d/Plane.h"
 
 namespace G3D {
 

@@ -41,7 +41,7 @@
 #include "boost/iostreams/device/array.hpp"
 
 // ANORRL Headers
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "util/ScopedAssign.h"
 #include "util/RbxStringTable.h"
 #include "util/SoundService.h"
@@ -59,7 +59,7 @@
 #include "v8kernel/ContactConnector.h"
 #include "arl/BaldPtr.h"
 #include "arl/CEvent.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 #include "CountersClient.h"
 #include "FastLog.h"
 #include "SharedLauncher.h"

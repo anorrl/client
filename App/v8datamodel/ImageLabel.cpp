@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "V8DataModel/ImageLabel.h"
+#include "v8datamodel/ImageLabel.h"
 
 
 namespace ARL {

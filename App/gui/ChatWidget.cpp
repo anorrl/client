@@ -1,9 +1,9 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Gui/ChatWidget.h"
-#include "Network/Players.h"
-#include "Util/SoundService.h"
+#include "gui/ChatWidget.h"
+#include "network/Players.h"
+#include "util/SoundService.h"
 
 namespace ARL {
 

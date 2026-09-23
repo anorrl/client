@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
+#include "v8tree/Instance.h"
 #include "GfxBase/IAdornable.h"
 
-#include "V8DataModel/InputObject.h"
-#include "V8DataModel/UserInputService.h"
-#include "Script/IScriptFilter.h"
-#include "Gui/GuiEvent.h"
+#include "v8datamodel/InputObject.h"
+#include "v8datamodel/UserInputService.h"
+#include "script/IScriptFilter.h"
+#include "gui/GuiEvent.h"
 
 namespace ARL {
 	class StarterPlayerScripts;

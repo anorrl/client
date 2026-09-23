@@ -1,18 +1,18 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/Assembly.h"
-#include "V8World/AssemblyHistory.h"
-#include "V8World/Clump.h"
-#include "V8World/Primitive.h"
-#include "V8World/Contact.h"
-#include "V8World/MotorJoint.h"
-#include "V8World/Motor6DJoint.h"
-#include "V8World/RigidJoint.h"
-#include "V8Kernel/Body.h"
-#include "V8Kernel/Kernel.h"
-#include "util/standardout.h"
-#include "V8DataModel/JointInstance.h"
+#include "v8world/Assembly.h"
+#include "v8world/AssemblyHistory.h"
+#include "v8world/Clump.h"
+#include "v8world/Primitive.h"
+#include "v8world/Contact.h"
+#include "v8world/MotorJoint.h"
+#include "v8world/Motor6DJoint.h"
+#include "v8world/RigidJoint.h"
+#include "v8kernel/Body.h"
+#include "v8kernel/Kernel.h"
+#include "util/StandardOut.h"
+#include "v8datamodel/JointInstance.h"
 
 namespace ARL {
 

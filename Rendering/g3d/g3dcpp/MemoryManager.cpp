@@ -9,8 +9,8 @@
   All rights reserved.
  */
 
-#include "G3D/MemoryManager.h"
-#include "G3D/System.h"
+#include "g3d/MemoryManager.h"
+#include "g3d/System.h"
 
 namespace G3D {
 

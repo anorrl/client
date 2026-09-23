@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "V8DataModel/legacy.h"
-#include "Util/SurfaceType.h"
-#include "Reflection/EnumConverter.h"
+#include "v8datamodel/legacy.h"
+#include "util/SurfaceType.h"
+#include "reflection/EnumConverter.h"
 
 namespace ARL {
 namespace Reflection {

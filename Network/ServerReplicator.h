@@ -2,17 +2,17 @@
 
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "util/standardout.h"
+#include "v8tree/Service.h"
+#include "util/StandardOut.h"
 #include "network/Player.h"
 #include "Peer.h"
 #include "Replicator.h"
 #include "NetworkFilter.h"
 #include "PropertySynchronization.h"
-#include "v8datamodel/partinstance.h"
-#include "v8datamodel/value.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Value.h"
 
-#include "RakNet/Source/PluginInterface2.h"
+#include "PluginInterface2.h"
 #include "GetTime.h"
 
 #include "boost/thread/thread.hpp"
@@ -24,10 +24,7 @@
 #ifdef ARL_ACC_SECURITY
 #include "NetPmc.h"
 #include "Replicator.RockyItem.h"
-#endif
-
-#ifdef ARL_ACC_SECURITY
-    DYNAMIC_FASTSTRING(US30605p1)
+DYNAMIC_FASTSTRING(US30605p1)
 #endif
 
 namespace ARL { 
@@ -244,7 +241,7 @@ namespace ARL {
 	public:
 		CheatHandlingServerReplicator(RakNet::SystemAddress systemAddress, Server* server, NetworkSettings* networkSettings);
 		/*override*/ RakNet::PluginReceiveResult OnReceive(RakNet::Packet *packet);
-        /*override*/ void CheatHandlingServerReplicator::sendNetPmcChallenge();
+        /*override*/ void sendNetPmcChallenge();
 
 	private:
 

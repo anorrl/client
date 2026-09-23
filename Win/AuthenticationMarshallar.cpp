@@ -6,7 +6,7 @@
 #undef min
 #undef max
 
-#include "v8datamodel/contentprovider.h"
+#include "v8datamodel/ContentProvider.h"
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 

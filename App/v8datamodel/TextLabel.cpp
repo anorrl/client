@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "V8DataModel/TextLabel.h"
-#include "Network/Players.h"
+#include "v8datamodel/TextLabel.h"
+#include "network/Players.h"
 
 DYNAMIC_FASTFLAGVARIABLE(TextTransparencyRenderingFix, false)
 

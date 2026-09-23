@@ -1,10 +1,10 @@
 #pragma once
 
-#include "V8World/Poly.h"
-#include "V8World/GeometryPool.h"
-#include "V8World/MegaClusterMesh.h"
-#include "V8World/Primitive.h"
-#include "V8World/TerrainPartition.h"
+#include "v8world/Poly.h"
+#include "v8world/GeometryPool.h"
+#include "v8world/MegaClusterMesh.h"
+#include "v8world/Primitive.h"
+#include "v8world/TerrainPartition.h"
 
 class btConvexHullShape;
 

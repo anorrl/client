@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "V8datamodel/DataModel.h"
-#include "V8DataModel/Stats.h"
-#include "Util/SoundWorld.h"
-#include "Util/SoundChannel.h"
-#include "Reflection/Event.h"
-#include "Util/IHasLocation.h"
+#include "v8tree/Service.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Stats.h"
+#include "util/SoundWorld.h"
+#include "util/SoundChannel.h"
+#include "reflection/Event.h"
+#include "util/IHasLocation.h"
 
 #include "fmod.h"
 #include "fmod.hpp"

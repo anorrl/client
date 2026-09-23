@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/Quaternion.h"
+#include "util/G3DCore.h"
+#include "util/Quaternion.h"
 
 
 namespace ARL {

@@ -1,13 +1,13 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Network/Player.h"
-#include "Util/Hash.h"
-#include "Util/Color.h"
-#include "Gui/ProfanityFilter.h"
+#include "network/Player.h"
+#include "util/Hash.h"
+#include "util/Color.h"
+#include "gui/ProfanityFilter.h"
 #include <boost/algorithm/string.hpp>
-#include "v8datamodel/contentprovider.h"
-#include "Util/SafeToLower.h"
+#include "v8datamodel/ContentProvider.h"
+#include "util/SafeToLower.h"
 #include "StringConv.h"
 
 namespace ARL {

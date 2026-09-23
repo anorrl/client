@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "Util/ContentId.h"
-#include "Util/Http.h"
-#include "Util/Statistics.h"
+#include "util/ContentId.h"
+#include "util/Http.h"
+#include "util/Statistics.h"
 #include <boost/functional/hash.hpp>
 #include <boost/algorithm/string.hpp>
 

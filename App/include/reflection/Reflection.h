@@ -1,7 +1,7 @@
 #pragma once
-#include "reflection/property.h"
-#include "reflection/object.h"
-#include "reflection/enumconverter.h"
+#include "reflection/Property.h"
+#include "reflection/Object.h"
+#include "reflection/EnumConverter.h"
 #include "reflection/Type.h"
 #include "arl/make_shared.h"
 #include <boost/static_assert.hpp>
@@ -15,7 +15,7 @@
 #endif
 #define _PRISM_PYRAMID_
 
-#ifdef ARL_ACC_SECURITY
+#if defined(ARL_RCC_SECURITY) && !defined(__linux__)
 // data_seg  = init rw
 // const_seg = init ro
 // bss_seg   =      rw
@@ -109,7 +109,7 @@ namespace ARL
 		// Handy macro for registering a class
 #define ARL_REGISTER_CLASS(Class)		template<> ARL::Reflection::ClassRegistrar<Class> ARL::Reflection::ClassRegistrar<Class>::registrar(0)
 
-		// This CRTP class puts a property declaration all together. 
+		// This CRTP class puts a property declaration all together.
 		// It binds a PropertyDescriptor with getter/setter functions.
 		template<class Class, typename V>
 		class PropDescriptor : public TypedPropertyDescriptor<V>
@@ -120,6 +120,7 @@ namespace ARL
 				Get get;
 				Set set;
 			public:
+				virtual ~GetSetImpl() {}
 				GetSetImpl(Get get, Set set):get(get),set(set)
 				{}
 
@@ -142,6 +143,7 @@ namespace ARL
 			{
 				Get get;
 			public:
+				virtual ~GetImpl() {}
 				GetImpl(Get get):get(get)
 				{}
 
@@ -163,6 +165,7 @@ namespace ARL
 			{
 				Set set;
 			public:
+				virtual ~SetImpl() {}
 				SetImpl(Set set):set(set)
 				{}
 
@@ -181,29 +184,49 @@ namespace ARL
 
 		public:
 			template<typename Get, typename Set>
-			PropDescriptor(const char* name, const char* category, Get get, Set set, PropertyDescriptor::Attributes flags = PropertyDescriptor::Attributes(), Security::Permissions security = Security::None)
-				:TypedPropertyDescriptor<V>(Class::classDescriptor(), name, category, getset<Get, Set>(get, set), flags, security)
+			PropDescriptor(const char* name, const char* category, Get get, Set set,
+						   PropertyDescriptor::Attributes flags = PropertyDescriptor::Attributes(),
+						   Security::Permissions security = Security::None,
+						   typename boost::disable_if<boost::is_integral<Get> >::type* dummy1 = 0,
+						   typename boost::disable_if<boost::is_integral<Set> >::type* dummy2 = 0)
+			: TypedPropertyDescriptor<V>(Class::classDescriptor(), name, category, getset(get, set), flags, security)
 			{
 			}
-
+			
 			template<typename Get, typename Set>
-			static std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet > getset(Get get, Set set)
+			PropDescriptor(const char* name, const char* category, Get get, Set set,
+						   PropertyDescriptor::Attributes flags = PropertyDescriptor::Attributes(),
+						   Security::Permissions security = Security::None,
+						   typename boost::disable_if<boost::is_integral<Get> >::type* dummy1 = 0,
+						   typename boost::enable_if<boost::is_integral<Set> >::type* dummy2 = 0)
+			: TypedPropertyDescriptor<V>(Class::classDescriptor(), name, category, getset_ro(get), flags, security)
 			{
+			}
+			
+			template<typename Get, typename Set>
+			PropDescriptor(const char* name, const char* category, Get get, Set set,
+						   PropertyDescriptor::Attributes flags = PropertyDescriptor::Attributes(),
+						   Security::Permissions security = Security::None,
+						   typename boost::enable_if<boost::is_integral<Get> >::type* dummy1 = 0,
+						   typename boost::disable_if<boost::is_integral<Set> >::type* dummy2 = 0)
+			: TypedPropertyDescriptor<V>(Class::classDescriptor(), name, category, getset_wo(set), flags, security)
+			{
+			}
+			
+			template<typename Get, typename Set>
+			static std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet > getset(Get get, Set set) {
 				return std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet >(new GetSetImpl<Get, Set>(get, set));
 			}
-            
-            // Partial specialization for read-only case
-            template<typename Get, typename Set>
-            static std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet > getset(Get get, NULL_FUNCTION_PTR set)
-            {
-                return std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet >(new GetImpl<Get>(get));
-            }
-            // Partial specialization for write-only case
-            template<typename Get, typename Set>
-            static std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet > getset(NULL_FUNCTION_PTR get, Set set)
-            {
-                return std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet >(new SetImpl<Set>(set));
-            }
+			
+			template<typename Get>
+			static std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet > getset_ro(Get get) {
+				return std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet >(new GetImpl<Get>(get));
+			}
+			
+			template<typename Set>
+			static std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet > getset_wo(Set set) {
+				return std::auto_ptr< typename Reflection::TypedPropertyDescriptor<V>::GetSet >(new SetImpl<Set>(set));
+			}
 		};
 
 		// This CRTP class puts an enum property declaration all together. 
@@ -216,14 +239,44 @@ namespace ARL
 			const EnumDesc<V>& enumDesc;
 		public:
 			template<typename Get, typename Set>
-			EnumPropDescriptor(const char* name, const char* category, Get get, Set set, PropertyDescriptor::Attributes flags = PropertyDescriptor::Attributes(), Security::Permissions security=Security::None)
-				:EnumPropertyDescriptor(Class::classDescriptor(), EnumDesc<V>::singleton(), name, category, flags, security)
-				,getset(PropDescriptor<Class, V>::template getset<Get, Set>(get, set))
-				,enumDesc(EnumDesc<V>::singleton())
+			EnumPropDescriptor(const char* name, const char* category, Get get, Set set,
+							   PropertyDescriptor::Attributes attributes = PropertyDescriptor::Attributes(),
+							   Security::Permissions security = Security::None,
+							   typename boost::disable_if<boost::is_integral<Get> >::type* dummy1 = 0,
+							   typename boost::disable_if<boost::is_integral<Set> >::type* dummy2 = 0)
+			: EnumPropertyDescriptor(Class::classDescriptor(), EnumDesc<V>::singleton(), name, category, attributes, security)
+			, enumDesc(EnumDesc<V>::singleton())
 			{
+				this->getset = PropDescriptor<Class, V>::getset(get, set);
 				this->checkFlags();
 			}
-
+			
+			template<typename Get, typename Set>
+			EnumPropDescriptor(const char* name, const char* category, Get get, Set set,
+							   PropertyDescriptor::Attributes attributes = PropertyDescriptor::Attributes(),
+							   Security::Permissions security = Security::None,
+							   typename boost::enable_if<boost::is_integral<Get> >::type* dummy1 = 0,
+							   typename boost::disable_if<boost::is_integral<Set> >::type* dummy2 = 0)
+			: EnumPropertyDescriptor(Class::classDescriptor(), EnumDesc<V>::singleton(), name, category, attributes, security)
+			, enumDesc(EnumDesc<V>::singleton())
+			{
+				this->getset = PropDescriptor<Class, V>::getset_wo(set);
+				this->checkFlags();
+			}
+			
+			template<typename Get, typename Set>
+			EnumPropDescriptor(const char* name, const char* category, Get get, Set set,
+							   PropertyDescriptor::Attributes attributes = PropertyDescriptor::Attributes(),
+							   Security::Permissions security = Security::None,
+							   typename boost::disable_if<boost::is_integral<Get> >::type* dummy1 = 0,
+							   typename boost::enable_if<boost::is_integral<Set> >::type* dummy2 = 0)
+			: EnumPropertyDescriptor(Class::classDescriptor(), EnumDesc<V>::singleton(), name, category, attributes, security)
+			, enumDesc(EnumDesc<V>::singleton())
+			{
+				this->getset = PropDescriptor<Class, V>::getset_ro(get);
+				this->checkFlags();
+			}
+			// Overload for Read-Only Enum properties
 			virtual bool isReadOnly() const {
 				return getset->isReadOnly();
 			}
@@ -401,14 +454,28 @@ namespace ARL
 			std::auto_ptr<typename TypedPropertyDescriptor<RefClass*>::GetSet> getset;
 		public:
 			template<typename Get, typename Set>
-			RefPropDescriptor(const char* name, const char* category, Get get, Set set, PropertyDescriptor::Attributes attributes = PropertyDescriptor::Attributes(), Security::Permissions security=Security::None)
+			RefPropDescriptor(const char* name, const char* category, Get get, Set set,
+							  PropertyDescriptor::Attributes attributes = PropertyDescriptor::Attributes(),
+							  Security::Permissions security=Security::None,
+							  typename boost::disable_if<boost::is_integral<Set> >::type* dummy = 0)
 				:RefPropertyDescriptor(
 				Class::classDescriptor(), 
 				RefType<RefClass*>::singleton(), 
 				name, category, 
 				attributes, security
 				)
-				,getset(PropDescriptor<Class, RefClass*>::template getset<Get, Set>(get, set))
+			,getset(PropDescriptor<Class, RefClass*>::getset(get, set))
+			{
+				this->checkFlags();
+			}
+			
+			template<typename Get, typename Set>
+			RefPropDescriptor(const char* name, const char* category, Get get, Set set,
+							  PropertyDescriptor::Attributes attributes = PropertyDescriptor::Attributes(),
+							  Security::Permissions security=Security::None,
+							  typename boost::enable_if<boost::is_integral<Set> >::type* dummy = 0)
+			: RefPropertyDescriptor(Class::classDescriptor(), RefType<RefClass*>::singleton(), name, category, attributes, security)
+			, getset(PropDescriptor<Class, RefClass*>::getset_ro(get))
 			{
 				this->checkFlags();
 			}

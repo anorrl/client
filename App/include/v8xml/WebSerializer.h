@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Reflection/Type.h"
+#include "reflection/Type.h"
 
 class XmlElement;
 

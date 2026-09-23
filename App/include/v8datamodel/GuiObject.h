@@ -1,17 +1,17 @@
 #pragma once
 
-#include "V8DataModel/GuiCore.h"
-#include "V8DataModel/GuiBase2d.h"
-#include "V8DataModel/EventReplicator.h"
-#include "V8DataModel/TextService.h"
+#include "v8datamodel/GuiCore.h"
+#include "v8datamodel/GuiBase2d.h"
+#include "v8datamodel/EventReplicator.h"
+#include "v8datamodel/TextService.h"
 #include "gui/GuiEvent.h"
-#include "Util/BrickColor.h"
-#include "Util/UDim.h"
-#include "Util/TextureId.h"
-#include "Util/Rotation2D.h"
-#include "Gui/GuiDraw.h"
-#include "Script/ThreadRef.h"
-#include "V8DataModel/Tween.h"
+#include "util/BrickColor.h"
+#include "util/UDim.h"
+#include "util/TextureId.h"
+#include "util/Rotation2D.h"
+#include "gui/GuiDraw.h"
+#include "script/ThreadRef.h"
+#include "v8datamodel/Tween.h"
 
 namespace ARL
 {

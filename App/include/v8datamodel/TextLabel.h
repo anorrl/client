@@ -1,7 +1,7 @@
 #pragma once
 
-#include "V8DataModel/GuiObject.h"
-#include "V8DataModel/GuiText.h"
+#include "v8datamodel/GuiObject.h"
+#include "v8datamodel/GuiText.h"
 
 namespace ARL {
 

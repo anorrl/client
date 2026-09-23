@@ -3,10 +3,10 @@
 #include "v8datamodel/GeometryService.h"
 #include "v8datamodel/datamodel.h"
 #include "v8world/contactmanager.h"
-#include "V8DataModel/Workspace.h"
-#include "V8World/World.h"
-#include "V8DataModel/Filters.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8world/World.h"
+#include "v8datamodel/Filters.h"
+#include "v8datamodel/PartInstance.h"
 
 #include "arl/Profiler.h"
 

@@ -1,23 +1,23 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/VehicleSeat.h"
+#include "v8datamodel/VehicleSeat.h"
 
-#include "V8World/KernelJoint.h"
+#include "v8world/KernelJoint.h"
 #include "GfxBase/IAdornable.h"
 
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/CollectionService.h"
-#include "V8DataModel/UserController.h"
-#include "V8DataModel/Camera.h"
-#include "Humanoid/Humanoid.h"
-#include "V8World/World.h"
-#include "V8World/Mechanism.h"
-#include "V8World/RotateJoint.h"
-#include "AppDraw/DrawAdorn.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/CollectionService.h"
+#include "v8datamodel/UserController.h"
+#include "v8datamodel/Camera.h"
+#include "humanoid/Humanoid.h"
+#include "v8world/World.h"
+#include "v8world/Mechanism.h"
+#include "v8world/RotateJoint.h"
+#include "appdraw/DrawAdorn.h"
 #include "GfxBase/Adorn.h"
-#include "V8Kernel/Body.h"
-#include "Util/Rect.h"
+#include "v8kernel/Body.h"
+#include "util/Rect.h"
 
 DYNAMIC_FASTFLAGVARIABLE(SmootherVehicleSeatControlSystem, false)
 FASTFLAG(UseInGameTopBar)

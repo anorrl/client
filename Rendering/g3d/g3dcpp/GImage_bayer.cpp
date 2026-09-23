@@ -4,8 +4,8 @@
   @created 2002-05-27
   @edited  2006-05-10
  */
-#include "G3D/platform.h"
-#include "G3D/GImage.h"
+#include "g3d/platform.h"
+#include "g3d/GImage.h"
 
 namespace G3D {
 

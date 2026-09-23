@@ -6,7 +6,7 @@
 
 
 #include "LogManager.h"
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 #include "arl/Debug.h"
 #include "arl/boost.hpp"
 #include "util/StandardOut.h"
@@ -15,7 +15,7 @@
 #include "util/Http.h"
 #include "util/Statistics.h"
 
-#include "G3D/debugAssert.h"
+#include "g3d/debugAssert.h"
 #include <direct.h>
 
 #include "atltime.h"

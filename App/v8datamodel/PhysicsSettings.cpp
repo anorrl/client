@@ -1,16 +1,16 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/PhysicsSettings.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/PartOperation.h"
-#include "V8DataModel/ModelInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/DataModel.h"
-#include "V8World/World.h"
-#include "V8World/Primitive.h"
-#include "V8World/Buoyancy.h"
-#include "Util/RunStateOwner.h"
+#include "v8datamodel/PhysicsSettings.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/PartOperation.h"
+#include "v8datamodel/ModelInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/DataModel.h"
+#include "v8world/World.h"
+#include "v8world/Primitive.h"
+#include "v8world/Buoyancy.h"
+#include "util/RunStateOwner.h"
 #include "V8datamodel/FastLogSettings.h"
 
 const char *const ARL::sPhysicsSettings = "PhysicsSettings";

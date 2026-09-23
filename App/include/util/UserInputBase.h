@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Util/KeyCode.h"
-#include "Util/G3DCore.h"
+#include "util/KeyCode.h"
+#include "util/G3DCore.h"
 #include "GfxBase/TextureProxyBase.h"
-#include "Util/ContentId.h"
-#include "Util/TextureId.h"
-#include "Util/Object.h"
+#include "util/ContentId.h"
+#include "util/TextureId.h"
+#include "util/Object.h"
 #include "GfxBase/Adorn.h"
 
 LOGGROUP(UserInputProfile)

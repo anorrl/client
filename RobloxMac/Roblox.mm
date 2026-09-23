@@ -16,7 +16,7 @@
 #include "rbx/CEvent.h"
 #include "rbx/log.h"
 #include "util/guid.h"
-#include "Util/FileSystem.h"
+#include "util/FileSystem.h"
 #include "RobloxView.h"
 #include "v8datamodel/TeleportCallback.h"
 #include "FastLog.h"

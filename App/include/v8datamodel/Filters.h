@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/HitTestFilter.h"
+#include "util/G3DCore.h"
+#include "util/HitTestFilter.h"
 #include "arl/boost.hpp"
 
 namespace ARL {

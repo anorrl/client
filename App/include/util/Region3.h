@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "G3D/Vector3.h"
-#include "G3D/CoordinateFrame.h"
+#include "g3d/Vector3.h"
+#include "g3d/CoordinateFrame.h"
 
 namespace ARL {
 	class Extents;

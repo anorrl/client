@@ -13,9 +13,9 @@
 #ifndef G3D_CAPSULE_H
 #define G3D_CAPSULE_H
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
-#include "G3D/Vector3.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
+#include "g3d/Vector3.h"
 
 namespace G3D {
 

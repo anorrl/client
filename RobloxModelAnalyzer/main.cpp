@@ -3,7 +3,7 @@
 #include <v8datamodel/DataModel.h>
 #include "v8xml/Serializer.h"
 #include "v8tree/Service.h"
-#include "Util/RunStateOwner.h"
+#include "util/RunStateOwner.h"
 #include "v8datamodel/GameBasicSettings.h"
 #include "NetworkSettings.h"
 #include "v8datamodel/DebugSettings.h"

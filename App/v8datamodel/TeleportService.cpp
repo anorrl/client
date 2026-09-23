@@ -1,21 +1,21 @@
 #include "stdafx.h"
 
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DataModel.h"
 #include "v8datamodel/TeleportService.h"
 #include "v8datamodel/TeleportCallback.h"
-#include "V8DataModel/GameBasicSettings.h"
+#include "v8datamodel/GameBasicSettings.h"
 #include "v8datamodel/HttpRbxApiService.h"
-#include "V8DataModel/InsertService.h"
-#include "Util/http.h"
+#include "v8datamodel/InsertService.h"
+#include "util/http.h"
 #include "util/RbxStringTable.h"
 
 #include "VMProtectSDK.h"
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/Workspace.h"
 #include "network/Player.h"
 #include "network/Players.h"
 
 #include "v8xml/WebParser.h"
-#include "Script/Script.h"
+#include "script/script.h"
 
 #include "ANORRLServicesTools.h"
 

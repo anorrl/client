@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "V8World/BulletGeometryPoolObjects.h"
-#include "V8World/TriangleMesh.h"
+#include "v8world/BulletGeometryPoolObjects.h"
+#include "v8world/TriangleMesh.h"
 
 namespace ARL {
 

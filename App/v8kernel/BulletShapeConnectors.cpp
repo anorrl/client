@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "V8Kernel/BulletShapeConnectors.h"
-#include "V8Kernel/Body.h"
-#include "Util/Math.h"
+#include "v8kernel/BulletShapeConnectors.h"
+#include "v8kernel/Body.h"
+#include "util/Math.h"
 
 #include "BulletCollision/NarrowphaseCollision/btPersistentManifold.h"
 #include "btBulletCollisionCommon.h"

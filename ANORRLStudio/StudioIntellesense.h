@@ -20,8 +20,8 @@
 
 // ANORRL Headers
 #include "reflection/EnumConverter.h"
-#include "Util/BrickColor.h"
-#include "reflection/type.h"
+#include "util/BrickColor.h"
+#include "reflection/Type.h"
 #include "script/ScriptAnalyzer.h"
 
 namespace ARL

@@ -6,10 +6,10 @@
  @edited  2006-06-28
  */
 
-#include "G3D/LightingParameters.h"
-#include "G3D/Matrix3.h"
-#include "G3D/spline.h"
-#include "G3D/GLight.h"
+#include "g3d/LightingParameters.h"
+#include "g3d/Matrix3.h"
+#include "g3d/spline.h"
+#include "g3d/GLight.h"
 #include <sys/timeb.h>
 #include <sys/types.h> 
 

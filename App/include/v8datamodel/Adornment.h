@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8DataModel/GuiBase3d.h"
-#include "Util/BrickColor.h"
+#include "v8datamodel/GuiBase3d.h"
+#include "util/BrickColor.h"
 
 namespace ARL {
 	class PartInstance;

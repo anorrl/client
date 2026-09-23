@@ -13,7 +13,7 @@
 #ifndef G3D_FORMAT_H
 #define G3D_FORMAT_H
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 #include <string>
 #include <stdio.h>
 #include <cstdarg>

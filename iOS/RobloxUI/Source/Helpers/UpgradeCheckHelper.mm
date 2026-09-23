@@ -13,8 +13,8 @@
 #import "RobloxInfo.h"
 
 
-#include "Util/Http.h"
-#include "util/standardout.h"
+#include "util/Http.h"
+#include "util/StandardOut.h"
 
 // semi-private methods
 @interface UpgradeCheckHelper ()

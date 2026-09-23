@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include "Gui/Gui.h"
-#include "Util/RunStateOwner.h"
-#include "Network/Player.h"
-#include "Network/Players.h"
-#include "V8DataModel/team.h"
-#include "V8DataModel/teams.h"
+#include "gui/GUI.h"
+#include "util/RunStateOwner.h"
+#include "network/Player.h"
+#include "network/Players.h"
+#include "v8datamodel/Team.h"
+#include "v8datamodel/Teams.h"
 
 namespace RBX {
 	

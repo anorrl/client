@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8World/IWorldStage.h"
-#include "V8World/Assembly.h"
-#include "Util/SimSendFilter.h"
+#include "v8world/IWorldStage.h"
+#include "v8world/Assembly.h"
+#include "util/SimSendFilter.h"
 #include "boost/scoped_ptr.hpp"
 #include <set>
 
@@ -16,7 +16,7 @@ namespace ARL {
 
 /*
 					Simulate					Physics Service (Send)
-Client				NO  --- doesn’t step ---	NO --- doesn’t step --			
+Client				NO  --- doesnï¿½t step ---	NO --- doesnï¿½t step --			
 Server				ALL							If Sim							
 Edit / Visit Solo	ALL							N0								
 Dphysics Client:	Region or Address			If Sim							

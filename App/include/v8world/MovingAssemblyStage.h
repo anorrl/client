@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8World/IWorldStage.h"
-#include "V8World/Joint.h"
+#include "v8world/IWorldStage.h"
+#include "v8world/Joint.h"
 #include "v8world/Assembly.h"
 
 

@@ -10,7 +10,7 @@
 #include "v8datamodel/PartCookie.h"
 
 #include "v8world/Clump.h"
-#include "Util/Math.h"
+#include "util/Math.h"
 
 #include "SceneManager.h"
 #include "GeometryGenerator.h"

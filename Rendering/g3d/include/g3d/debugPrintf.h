@@ -13,10 +13,10 @@
 #ifndef G3D_DEBUGPRINTF_H
 #define G3D_DEBUGPRINTF_H
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 #include <stdio.h>
 #include <cstdarg>
-#include "G3D/format.h"
+#include "g3d/format.h"
 #include <string>
 
 #if !defined(G3D_IOS) && !defined(__ANDROID__)

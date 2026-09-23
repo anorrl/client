@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Replicator.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DataModel.h"
 
 #include "VMProtectSDK.h"
 

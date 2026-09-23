@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-#include "RbxFormat.h" // for ARL_PRINTF_ATTR
+#include "ARLFormat.h" // for ARL_PRINTF_ATTR
 
 #if defined(_WIN32) || defined(__APPLE__) || defined(__ANDROID__)
 #define ARLPROFILER

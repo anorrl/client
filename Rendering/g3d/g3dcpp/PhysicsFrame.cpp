@@ -7,9 +7,9 @@
  @edited  2010-03-25
 */
 
-#include "G3D/platform.h"
-#include "G3D/stringutils.h"
-#include "G3D/PhysicsFrame.h"
+#include "g3d/platform.h"
+#include "g3d/stringutils.h"
+#include "g3d/PhysicsFrame.h"
 
 namespace G3D {
 

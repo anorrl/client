@@ -13,7 +13,7 @@
 #include <QComboBox>
 #include <QDockWidget>
 #include "arl/signal.h"
-#include "G3D/Vector4.h"
+#include "g3d/Vector4.h"
 
 class QLineEdit;
 class QPushButton;

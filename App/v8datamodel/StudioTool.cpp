@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-#include "V8DataModel/StudioTool.h"
+#include "v8datamodel/StudioTool.h"
 
-#include "V8DataModel/StudioToolMouseCommand.h"
-#include "V8DataModel/Mouse.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/Workspace.h"
-#include "Network/Players.h"
+#include "v8datamodel/StudioToolMouseCommand.h"
+#include "v8datamodel/Mouse.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Workspace.h"
+#include "network/Players.h"
 
 namespace ARL
 {

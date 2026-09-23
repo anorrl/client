@@ -3,8 +3,8 @@
 #pragma once
 
 #include "DataModelMesh.h"
-#include "Util/MeshId.h"
-#include "Util/TextureId.h"
+#include "util/MeshId.h"
+#include "util/TextureId.h"
 
 namespace ARL
 {

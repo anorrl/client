@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Tool/ToolsArrow.h"
-#include "V8DataModel/MouseCommand.h"
-#include "Tool/AdvLuaDragger.h"
-#include "Util/Math.h"
+#include "tool/ToolsArrow.h"
+#include "v8datamodel/MouseCommand.h"
+#include "tool/AdvLuaDragger.h"
+#include "util/Math.h"
 #include <boost/shared_ptr.hpp>
 
 namespace ARL {

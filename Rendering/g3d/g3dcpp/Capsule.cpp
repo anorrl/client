@@ -10,12 +10,12 @@
  All rights reserved.
  */
 
-#include "G3D/Capsule.h"
-#include "G3D/LineSegment.h"
-#include "G3D/Sphere.h"
-#include "G3D/CoordinateFrame.h"
-#include "G3D/Line.h"
-#include "G3D/AABox.h"
+#include "g3d/Capsule.h"
+#include "g3d/LineSegment.h"
+#include "g3d/Sphere.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/Line.h"
+#include "g3d/AABox.h"
 
 namespace G3D {
 

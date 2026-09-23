@@ -1,5 +1,5 @@
 #include "arl/boost.hpp"
-#include "arl/ThreadSafe.h"
+#include "arl/threadsafe.h"
 #include "arl/Debug.h"
 #include "arl/atomic.h"
 

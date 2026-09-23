@@ -1,12 +1,12 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Mouse.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/MouseCommand.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Filters.h"
-#include "V8DataModel/GuiService.h"
+#include "v8datamodel/Mouse.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/MouseCommand.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Filters.h"
+#include "v8datamodel/GuiService.h"
 #include "v8datamodel/UserInputService.h"
 
 namespace ARL {

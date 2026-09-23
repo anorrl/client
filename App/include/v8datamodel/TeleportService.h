@@ -1,8 +1,8 @@
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
-#include "Util/HeapValue.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
+#include "util/HeapValue.h"
 
 #ifdef _WIN32
 #if defined(_NOOPT) || defined(_DEBUG) || defined(ARL_TEST_BUILD)

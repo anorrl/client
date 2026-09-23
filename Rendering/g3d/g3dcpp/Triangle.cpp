@@ -10,12 +10,12 @@
  All rights reserved.
  */
 
-#include "G3D/platform.h"
-#include "G3D/Triangle.h"
-#include "G3D/Plane.h"
-#include "G3D/debugAssert.h"
-#include "G3D/AABox.h"
-#include "G3D/Ray.h"
+#include "g3d/platform.h"
+#include "g3d/Triangle.h"
+#include "g3d/Plane.h"
+#include "g3d/debugAssert.h"
+#include "g3d/AABox.h"
+#include "g3d/Ray.h"
 
 namespace G3D {
 

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "Util/G3DCore.h"
-#include "Util/Extents.h"
-#include "G3D/Array.h"
+#include "v8tree/Service.h"
+#include "util/G3DCore.h"
+#include "util/Extents.h"
+#include "g3d/Array.h"
 
 #include "util/PartMaterial.h"
 

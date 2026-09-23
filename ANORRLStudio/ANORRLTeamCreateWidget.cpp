@@ -15,10 +15,10 @@
 #include <QStringListModel>
 #include <QApplication>
 
-#include "V8DataModel/DataModel.h"
-#include "Network/Players.h"
-#include "Network/Player.h"
-#include "V8Xml/WebParser.h"
+#include "v8datamodel/DataModel.h"
+#include "network/Players.h"
+#include "network/Player.h"
+#include "v8xml/WebParser.h"
 
 #include "PlayersDataManager.h"
 #include "AuthenticationHelper.h"

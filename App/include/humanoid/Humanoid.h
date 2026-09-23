@@ -2,19 +2,19 @@
 
 #pragma once
 
-#include "V8DataModel/ICharacterSubject.h"
-#include "V8DataModel/IModelModifier.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Tool.h"
-#include "V8World/KernelJoint.h"
-#include "V8World/Primitive.h"
-#include "Util/SteppedInstance.h"
+#include "v8datamodel/ICharacterSubject.h"
+#include "v8datamodel/IModelModifier.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Tool.h"
+#include "v8world/KernelJoint.h"
+#include "v8world/Primitive.h"
+#include "util/SteppedInstance.h"
 #include "GfxBase/IAdornable.h"
-#include "Util/RunStateOwner.h"
-#include "Util/ContentFilter.h"
-#include "Util/HeapValue.h"
-#include "Humanoid/StatusInstance.h"
-#include "Humanoid/HumanoidState.h"
+#include "util/RunStateOwner.h"
+#include "util/ContentFilter.h"
+#include "util/HeapValue.h"
+#include "humanoid/StatusInstance.h"
+#include "humanoid/HumanoidState.h"
 
 namespace ARL {
 	class World;

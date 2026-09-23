@@ -1,18 +1,18 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/LuaDragger.h"
-#include "Tool/DragUtilities.h"
-#include "Tool/Dragger.h"
-#include "Tool/RunDragger.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/MouseCommand.h"
-#include "V8DataModel/GameBasicSettings.h"
-#include "V8World/ContactManager.h"
-#include "V8World/World.h"
-#include "V8World/Joint.h"
-#include "Tool/DragTypes.h"
+#include "tool/LuaDragger.h"
+#include "tool/DragUtilities.h"
+#include "tool/Dragger.h"
+#include "tool/RunDragger.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/MouseCommand.h"
+#include "v8datamodel/GameBasicSettings.h"
+#include "v8world/ContactManager.h"
+#include "v8world/World.h"
+#include "v8world/Joint.h"
+#include "tool/DragTypes.h"
 
 
 

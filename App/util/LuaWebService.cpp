@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "Util/LuaWebService.h"
-#include "V8DataModel/ContentProvider.h"
+#include "util/LuaWebService.h"
+#include "v8datamodel/ContentProvider.h"
 #include "v8datamodel/HttpRbxApiService.h"
 #include "v8xml/WebParser.h"
 #include "ANORRLServicesTools.h"

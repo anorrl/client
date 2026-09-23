@@ -664,8 +664,8 @@
 		42975357192BFD3F00566182 /* BinaryString.h in Headers */ = {isa = PBXBuildFile; fileRef = 42975353192BFD3F00566182 /* BinaryString.h */; };
 		42975358192BFD3F00566182 /* HttpAsync.h in Headers */ = {isa = PBXBuildFile; fileRef = 42975354192BFD3F00566182 /* HttpAsync.h */; };
 		42975359192BFD3F00566182 /* HttpAsync.h in Headers */ = {isa = PBXBuildFile; fileRef = 42975354192BFD3F00566182 /* HttpAsync.h */; };
-		4297535A192BFD3F00566182 /* Rotation2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 42975355192BFD3F00566182 /* Rotation2d.h */; };
-		4297535B192BFD3F00566182 /* Rotation2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 42975355192BFD3F00566182 /* Rotation2d.h */; };
+		4297535A192BFD3F00566182 /* Rotation2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 42975355192BFD3F00566182 /* Rotation2D.h */; };
+		4297535B192BFD3F00566182 /* Rotation2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 42975355192BFD3F00566182 /* Rotation2D.h */; };
 		4297535D192BFD5200566182 /* HttpAsync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4297535C192BFD5200566182 /* HttpAsync.cpp */; };
 		4297535E192BFD5200566182 /* HttpAsync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4297535C192BFD5200566182 /* HttpAsync.cpp */; };
 		4297535F192BFD5F00566182 /* HttpAsync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4297535C192BFD5200566182 /* HttpAsync.cpp */; };
@@ -715,7 +715,7 @@
 		42CA152819984A0700635DBA /* lgc.h in Headers */ = {isa = PBXBuildFile; fileRef = 528DE1F61315AF6D00758A5E /* lgc.h */; };
 		42CA152919984A0700635DBA /* llex.h in Headers */ = {isa = PBXBuildFile; fileRef = 528DE1FD1315AF6D00758A5E /* llex.h */; };
 		42CA152A19984A0700635DBA /* llimits.h in Headers */ = {isa = PBXBuildFile; fileRef = 528DE1FF1315AF6D00758A5E /* llimits.h */; };
-		42CA152B19984A0700635DBA /* Rotation2d.h in Headers */ = {isa = PBXBuildFile; fileRef = 42975355192BFD3F00566182 /* Rotation2d.h */; };
+		42CA152B19984A0700635DBA /* Rotation2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 42975355192BFD3F00566182 /* Rotation2D.h */; };
 		42CA152C19984A0700635DBA /* lmem.h in Headers */ = {isa = PBXBuildFile; fileRef = 528DE2031315AF6D00758A5E /* lmem.h */; };
 		42CA152D19984A0700635DBA /* lobject.h in Headers */ = {isa = PBXBuildFile; fileRef = 528DE2081315AF6D00758A5E /* lobject.h */; };
 		42CA152E19984A0700635DBA /* lopcodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 528DE20B1315AF6D00758A5E /* lopcodes.h */; };
@@ -841,7 +841,7 @@
 		42CA15A919984A0700635DBA /* BulletShapeConnectors.h in Headers */ = {isa = PBXBuildFile; fileRef = 3925203E19980752007725D2 /* BulletShapeConnectors.h */; };
 		42CA15AA19984A0700635DBA /* MemoryStats.h in Headers */ = {isa = PBXBuildFile; fileRef = 5657D91D175030E9000D281C /* MemoryStats.h */; };
 		42CA15AB19984A0700635DBA /* StreamRegion.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8045F17A7280000F1188D /* StreamRegion.h */; };
-		42CA15AC19984A0700635DBA /* Region3int32.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8046217A7281C00F1188D /* Region3int32.h */; };
+		42CA15AC19984A0700635DBA /* Region3Int32.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8046217A7281C00F1188D /* Region3Int32.h */; };
 		42CA15AE19984A0700635DBA /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EAE9A2FA1291E9D800A46637 /* Event.cpp */; };
 		42CA15AF19984A0700635DBA /* reflection_function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EAE9A2FB1291E9D800A46637 /* reflection_function.cpp */; };
 		42CA15B019984A0700635DBA /* reflection_object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EAE9A2FC1291E9D800A46637 /* reflection_object.cpp */; };
@@ -1669,7 +1669,7 @@
 		5698A2D717FCA47900816494 /* Remote.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F14D2F517ECF63800F64369 /* Remote.h */; };
 		5698A2D817FCA47900816494 /* MemoryStats.h in Headers */ = {isa = PBXBuildFile; fileRef = 5657D91D175030E9000D281C /* MemoryStats.h */; };
 		5698A2D917FCA47900816494 /* StreamRegion.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8045F17A7280000F1188D /* StreamRegion.h */; };
-		5698A2DA17FCA47900816494 /* Region3int32.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8046217A7281C00F1188D /* Region3int32.h */; };
+		5698A2DA17FCA47900816494 /* Region3Int32.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8046217A7281C00F1188D /* Region3Int32.h */; };
 		5698A2DC17FCA47900816494 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EAE9A2FA1291E9D800A46637 /* Event.cpp */; };
 		5698A2DD17FCA47900816494 /* reflection_function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EAE9A2FB1291E9D800A46637 /* reflection_function.cpp */; };
 		5698A2DE17FCA47900816494 /* reflection_object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EAE9A2FC1291E9D800A46637 /* reflection_object.cpp */; };
@@ -2122,8 +2122,8 @@
 		5698A4AD17FCA47900816494 /* MemoryStatsCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F5D0F2E17D657F6002D59FB /* MemoryStatsCommon.cpp */; };
 		56A8046017A7280000F1188D /* StreamRegion.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8045F17A7280000F1188D /* StreamRegion.h */; };
 		56A8046117A7280000F1188D /* StreamRegion.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8045F17A7280000F1188D /* StreamRegion.h */; };
-		56A8046317A7281C00F1188D /* Region3int32.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8046217A7281C00F1188D /* Region3int32.h */; };
-		56A8046417A7281C00F1188D /* Region3int32.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8046217A7281C00F1188D /* Region3int32.h */; };
+		56A8046317A7281C00F1188D /* Region3Int32.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8046217A7281C00F1188D /* Region3Int32.h */; };
+		56A8046417A7281C00F1188D /* Region3Int32.h in Headers */ = {isa = PBXBuildFile; fileRef = 56A8046217A7281C00F1188D /* Region3Int32.h */; };
 		56A8046617A7283400F1188D /* Region3int32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8046517A7283400F1188D /* Region3int32.cpp */; };
 		56A8046717A7283400F1188D /* Region3int32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56A8046517A7283400F1188D /* Region3int32.cpp */; };
 		56F9177E197DDBCA002AFFF8 /* Http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56F9177C197DDBCA002AFFF8 /* Http.cpp */; };
@@ -3005,7 +3005,7 @@
 		427F0A9719F827E000405D13 /* SmoothClusterGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmoothClusterGeometry.cpp; sourceTree = "<group>"; };
 		42975353192BFD3F00566182 /* BinaryString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BinaryString.h; sourceTree = "<group>"; };
 		42975354192BFD3F00566182 /* HttpAsync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpAsync.h; sourceTree = "<group>"; };
-		42975355192BFD3F00566182 /* Rotation2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rotation2d.h; sourceTree = "<group>"; };
+		42975355192BFD3F00566182 /* Rotation2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rotation2D.h; sourceTree = "<group>"; };
 		4297535C192BFD5200566182 /* HttpAsync.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpAsync.cpp; sourceTree = "<group>"; };
 		42A639AD1B6858E600F009B7 /* Cylinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cylinder.h; sourceTree = "<group>"; };
 		42A639B21B6858F400F009B7 /* Cylinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cylinder.cpp; sourceTree = "<group>"; };
@@ -3132,7 +3132,7 @@
 		567B4B8B19F5DD44002AEDF5 /* HttpCacheEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HttpCacheEntry.cpp; path = Shared/HttpCacheEntry.cpp; sourceTree = "<group>"; };
 		5698A4B117FCA47900816494 /* libAppTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppTest.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		56A8045F17A7280000F1188D /* StreamRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamRegion.h; sourceTree = "<group>"; };
-		56A8046217A7281C00F1188D /* Region3int32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Region3int32.h; sourceTree = "<group>"; };
+		56A8046217A7281C00F1188D /* Region3Int32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Region3Int32.h; sourceTree = "<group>"; };
 		56A8046517A7283400F1188D /* Region3int32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Region3int32.cpp; sourceTree = "<group>"; };
 		56F9177C197DDBCA002AFFF8 /* Http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Http.cpp; path = Shared/Http.cpp; sourceTree = "<group>"; };
 		56F917D9197DEAFA002AFFF8 /* HttpPlatformImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpPlatformImpl.h; sourceTree = "<group>"; };
@@ -3501,7 +3501,7 @@
 		EAE9A00E1291E9A000A46637 /* SpanningEdge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpanningEdge.h; sourceTree = "<group>"; };
 		EAE9A00F1291E9A000A46637 /* SpanningNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpanningNode.h; sourceTree = "<group>"; };
 		EAE9A0101291E9A000A46637 /* SpanningTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpanningTree.h; sourceTree = "<group>"; };
-		EAE9A0111291E9A000A46637 /* standardout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = standardout.h; sourceTree = "<group>"; };
+		EAE9A0111291E9A000A46637 /* StandardOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardOut.h; sourceTree = "<group>"; };
 		EAE9A0121291E9A000A46637 /* Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Statistics.h; sourceTree = "<group>"; };
 		EAE9A0131291E9A000A46637 /* SteppedInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SteppedInstance.h; sourceTree = "<group>"; };
 		EAE9A0141291E9A000A46637 /* StlExtra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StlExtra.h; sourceTree = "<group>"; };
@@ -4558,7 +4558,7 @@
 				1F20D3F3194289D7008159B4 /* md5.h */,
 				42975353192BFD3F00566182 /* BinaryString.h */,
 				42975354192BFD3F00566182 /* HttpAsync.h */,
-				42975355192BFD3F00566182 /* Rotation2d.h */,
+				42975355192BFD3F00566182 /* Rotation2D.h */,
 				F2CD3EE618C7E06000C60A61 /* PathInterpolatedCFrame.h */,
 				566549681891DCD300774F4D /* rbxrandom.h */,
 				F2751C8F1889E37B006CEEAF /* MovementHistory.h */,
@@ -4584,7 +4584,7 @@
 				1FC42C5012E8E7620067A3B5 /* Region3.h */,
 				1F8C654C12C4238400A62953 /* ControlledLRUCache.h */,
 				1F2F04AE12C2877100744D22 /* ContentProviderJob.h */,
-				56A8046217A7281C00F1188D /* Region3int32.h */,
+				56A8046217A7281C00F1188D /* Region3Int32.h */,
 				56A8045F17A7280000F1188D /* StreamRegion.h */,
 				5657D91D175030E9000D281C /* MemoryStats.h */,
 				EAE99FBC1291E9A000A46637 /* Action.h */,
@@ -4664,7 +4664,7 @@
 				EAE9A00E1291E9A000A46637 /* SpanningEdge.h */,
 				EAE9A00F1291E9A000A46637 /* SpanningNode.h */,
 				EAE9A0101291E9A000A46637 /* SpanningTree.h */,
-				EAE9A0111291E9A000A46637 /* standardout.h */,
+				EAE9A0111291E9A000A46637 /* StandardOut.h */,
 				EAE9A0121291E9A000A46637 /* Statistics.h */,
 				EAE9A0131291E9A000A46637 /* SteppedInstance.h */,
 				EAE9A0141291E9A000A46637 /* StlExtra.h */,
@@ -5723,7 +5723,7 @@
 				1F2846C415E7075700120D64 /* RenderHooksService.h in Headers */,
 				561C83F01A01C935004EB619 /* HTList.h in Headers */,
 				9F2B343E182D9022000DE55C /* TerrainRegion.h in Headers */,
-				4297535B192BFD3F00566182 /* Rotation2d.h in Headers */,
+				4297535B192BFD3F00566182 /* Rotation2D.h in Headers */,
 				392520361998072F007725D2 /* BulletShapeCellContact.h in Headers */,
 				392520331998072F007725D2 /* BulletGeometryPoolObjects.h in Headers */,
 				1F2846C515E7075700120D64 /* CookiesEngineService.h in Headers */,
@@ -5846,7 +5846,7 @@
 				50401BDB1AA0FDA200F0A4EF /* NumberRange.h in Headers */,
 				56A8046117A7280000F1188D /* StreamRegion.h in Headers */,
 				50401BD31AA0FDA200F0A4EF /* ColorSequence.h in Headers */,
-				56A8046417A7281C00F1188D /* Region3int32.h in Headers */,
+				56A8046417A7281C00F1188D /* Region3Int32.h in Headers */,
 				C875CB7119CCFD5E00D25E08 /* PartOperationAsset.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5886,7 +5886,7 @@
 				42CA152819984A0700635DBA /* lgc.h in Headers */,
 				42CA152919984A0700635DBA /* llex.h in Headers */,
 				42CA152A19984A0700635DBA /* llimits.h in Headers */,
-				42CA152B19984A0700635DBA /* Rotation2d.h in Headers */,
+				42CA152B19984A0700635DBA /* Rotation2D.h in Headers */,
 				42CA152C19984A0700635DBA /* lmem.h in Headers */,
 				42CA152D19984A0700635DBA /* lobject.h in Headers */,
 				42CA152E19984A0700635DBA /* lopcodes.h in Headers */,
@@ -6054,7 +6054,7 @@
 				561C840A1A01C935004EB619 /* HTString.h in Headers */,
 				42CA15AA19984A0700635DBA /* MemoryStats.h in Headers */,
 				42CA15AB19984A0700635DBA /* StreamRegion.h in Headers */,
-				42CA15AC19984A0700635DBA /* Region3int32.h in Headers */,
+				42CA15AC19984A0700635DBA /* Region3Int32.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6253,7 +6253,7 @@
 				5698A2D917FCA47900816494 /* StreamRegion.h in Headers */,
 				BCC695BF1A7C2EE4007737B0 /* ConstraintJacobian.h in Headers */,
 				9471C5E71A702E8500F95F31 /* GamepadService.h in Headers */,
-				5698A2DA17FCA47900816494 /* Region3int32.h in Headers */,
+				5698A2DA17FCA47900816494 /* Region3Int32.h in Headers */,
 				392520341998072F007725D2 /* BulletGeometryPoolObjects.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6292,7 +6292,7 @@
 				528DE2501315AF6D00758A5E /* lgc.h in Headers */,
 				528DE2571315AF6D00758A5E /* llex.h in Headers */,
 				528DE2591315AF6E00758A5E /* llimits.h in Headers */,
-				4297535A192BFD3F00566182 /* Rotation2d.h in Headers */,
+				4297535A192BFD3F00566182 /* Rotation2D.h in Headers */,
 				528DE25D1315AF6E00758A5E /* lmem.h in Headers */,
 				528DE2621315AF6E00758A5E /* lobject.h in Headers */,
 				94F82F8C19F870DA0010C135 /* SoundService.h in Headers */,
@@ -6468,7 +6468,7 @@
 				3925203F19980752007725D2 /* BulletShapeConnectors.h in Headers */,
 				5657D91E175030E9000D281C /* MemoryStats.h in Headers */,
 				56A8046017A7280000F1188D /* StreamRegion.h in Headers */,
-				56A8046317A7281C00F1188D /* Region3int32.h in Headers */,
+				56A8046317A7281C00F1188D /* Region3Int32.h in Headers */,
 				94DD54871C6E859000A2E2DE /* HapticService.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

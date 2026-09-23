@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8Kernel/ContactParams.h"
-#include "Util/NormalID.h"
-#include "Util/G3DCore.h"
+#include "v8kernel/ContactParams.h"
+#include "util/NormalId.h"
+#include "util/G3DCore.h"
 #include "arl/Debug.h"
 
 FASTFLAGVARIABLE(UseOldPhysicsForFunny, false)

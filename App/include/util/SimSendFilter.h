@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Util/Region2.h"
-#include "Util/SystemAddress.h"
+#include "util/Region2.h"
+#include "util/SystemAddress.h"
 #include <string>
 
 namespace ARL {

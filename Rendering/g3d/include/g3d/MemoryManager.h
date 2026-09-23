@@ -12,7 +12,7 @@
 #define G3D_MemoryManager_h
 
 #include <stdlib.h>
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 
 namespace G3D {
 

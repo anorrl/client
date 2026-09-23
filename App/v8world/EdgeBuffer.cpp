@@ -1,16 +1,16 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/EdgeBuffer.h"
-#include "V8World/MovingAssemblyStage.h"
-#include "V8World/Edge.h"
-#include "V8World/Joint.h"
-#include "V8World/Contact.h"
-#include "V8World/Primitive.h"
+#include "v8world/EdgeBuffer.h"
+#include "v8world/MovingAssemblyStage.h"
+#include "v8world/Edge.h"
+#include "v8world/Joint.h"
+#include "v8world/Contact.h"
+#include "v8world/Primitive.h"
 #include "V8world/World.h"
 #include "V8world/ContactManager.h"
 #include "V8world/ContactManagerSpatialHash.h"
-#include "V8Kernel/Debug.h"
+#include "v8kernel/Debug.h"
 
 namespace ARL {
 

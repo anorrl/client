@@ -1,7 +1,7 @@
 #pragma once
 
-#include "reflection/property.h"
-#include "reflection/event.h"
+#include "reflection/Property.h"
+#include "reflection/Event.h"
 #include "network/api.h"
 #include <boost/unordered_set.hpp>
 

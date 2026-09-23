@@ -1,10 +1,10 @@
 #pragma once
 
-#include "V8DataModel/GlobalSettings.h"
-#include "Util/BrickColor.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/IModelModifier.h"
-#include "Util/TextureId.h"
+#include "v8datamodel/GlobalSettings.h"
+#include "util/BrickColor.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/IModelModifier.h"
+#include "util/TextureId.h"
 
 namespace ARL {
 

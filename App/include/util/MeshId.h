@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "Util/RunStateOwner.h"
-#include "Reflection/Event.h"
+#include "v8tree/Service.h"
+#include "util/RunStateOwner.h"
+#include "reflection/Event.h"
 
 
 namespace ARL {

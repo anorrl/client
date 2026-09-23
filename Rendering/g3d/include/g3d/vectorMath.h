@@ -14,16 +14,16 @@
 #ifndef G3D_VECTORMATH_H
 #define G3D_VECTORMATH_H
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
-#include "G3D/Vector2.h"
-#include "G3D/Vector3.h"
-#include "G3D/Vector4.h"
-#include "G3D/Matrix3.h"
-#include "G3D/Matrix4.h"
-#include "G3D/Color1.h"
-#include "G3D/Color3.h"
-#include "G3D/Color4.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
+#include "g3d/Vector2.h"
+#include "g3d/Vector3.h"
+#include "g3d/Vector4.h"
+#include "g3d/Matrix3.h"
+#include "g3d/Matrix4.h"
+#include "g3d/Color1.h"
+#include "g3d/Color3.h"
+#include "g3d/Color4.h"
 
 
 namespace G3D {

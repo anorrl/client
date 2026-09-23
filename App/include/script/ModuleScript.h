@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Reflection/reflection.h"
-#include "Script/ThreadRef.h"
-#include "Script/LuaSourceContainer.h"
-#include "Util/ProtectedString.h"
-#include "V8Tree/Instance.h"
+#include "reflection/Reflection.h"
+#include "script/ThreadRef.h"
+#include "script/LuaSourceContainer.h"
+#include "util/ProtectedString.h"
+#include "v8tree/Instance.h"
 
 #include <boost/intrusive_ptr.hpp>
 

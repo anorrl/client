@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "V8DataModel/IEquipable.h"
-#include "V8DataModel/Hopper.h"
+#include "v8datamodel/IEquipable.h"
+#include "v8datamodel/Hopper.h"
 #include "GfxBase/IAdornable.h"
-#include "Util/IHasLocation.h"
-#include "Util/Selectable.h"
-#include "Util/ContentFilter.h"
-#include "Gui/ProfanityFilter.h"
+#include "util/IHasLocation.h"
+#include "util/Selectable.h"
+#include "util/ContentFilter.h"
+#include "gui/ProfanityFilter.h"
 
 namespace ARL {
 

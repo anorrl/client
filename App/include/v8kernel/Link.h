@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Util/G3DCore.h"
+#include "util/G3DCore.h"
 #include "arl/Declarations.h"
-#include "Util/Memory.h"
-#include "Util/Math.h"
+#include "util/Memory.h"
+#include "util/Math.h"
 
 namespace ARL {
 

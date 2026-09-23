@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8World/PolyContact.h"
-#include "V8Kernel/ContactParams.h"
+#include "v8world/PolyContact.h"
+#include "v8kernel/ContactParams.h"
 
 namespace ARL {
 

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "V8DataModel/ScriptMouseCommand.h"
+#include "v8datamodel/ScriptMouseCommand.h"
 
 namespace ARL {
 

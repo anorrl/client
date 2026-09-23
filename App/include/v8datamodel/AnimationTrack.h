@@ -1,8 +1,8 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "V8DataModel/KeyframeSequence.h"
+#include "v8tree/Instance.h"
+#include "v8datamodel/KeyframeSequence.h"
 
 namespace ARL {
 	class Animator;

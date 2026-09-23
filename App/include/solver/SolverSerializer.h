@@ -4,7 +4,7 @@
 #include "solver/SolverContainers.h"
 #include "solver/DebugSerializer.h"
 
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 #include "boost/filesystem.hpp"
 

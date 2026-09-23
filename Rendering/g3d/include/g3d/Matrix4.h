@@ -18,10 +18,10 @@
 #   pragma warning( disable : 4127 )
 #endif
 
-#include "G3D/platform.h"
-#include "G3D/debugAssert.h"
-#include "G3D/Matrix3.h"
-#include "G3D/Vector3.h"
+#include "g3d/platform.h"
+#include "g3d/debugAssert.h"
+#include "g3d/Matrix3.h"
+#include "g3d/Vector3.h"
 
 namespace G3D {
 

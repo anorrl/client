@@ -17,7 +17,7 @@
 #include <QQueue>
 
 #include "arl/signal.h"
-#include "Util/HttpAsync.h"
+#include "util/HttpAsync.h"
 
 namespace ARL {
 	class DataModel;

@@ -7,8 +7,8 @@
 //
 #include "stdafx.h"
 
-#include "Util/KeyCode.h"
-#include "Reflection/EnumConverter.h"
+#include "util/KeyCode.h"
+#include "reflection/EnumConverter.h"
 
 namespace ARL {
 

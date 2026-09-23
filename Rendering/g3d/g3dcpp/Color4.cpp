@@ -13,11 +13,11 @@
  */
 
 #include <stdlib.h>
-#include "G3D/Color4.h"
-#include "G3D/Color4uint8.h"
-#include "G3D/Vector4.h"
-#include "G3D/format.h"
-#include "G3D/stringutils.h"
+#include "g3d/Color4.h"
+#include "g3d/Color4uint8.h"
+#include "g3d/Vector4.h"
+#include "g3d/format.h"
+#include "g3d/stringutils.h"
 
 namespace G3D {
 

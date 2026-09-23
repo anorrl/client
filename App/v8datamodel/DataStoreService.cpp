@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "V8DataModel/DataStoreService.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DataStoreService.h"
+#include "v8datamodel/DataModel.h"
 #include "v8datamodel/DataStore.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 #include "util/Analytics.h"
 

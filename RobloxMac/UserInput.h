@@ -2,9 +2,9 @@
 
 #include "UserInputUtil.h"
 
-#include "Util/UserInputBase.h"
-#include "Util/RunStateOwner.h"
-#include "Util/Rect.h"
+#include "util/UserInputBase.h"
+#include "util/RunStateOwner.h"
+#include "util/Rect.h"
 
 #include "SDLGameController.h"
 

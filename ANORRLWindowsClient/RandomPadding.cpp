@@ -2,8 +2,8 @@
 // Exploiters quickly moved to hardcoding fixed addresses each week.
 // This is only here to move the code around a little bit each week.
 #include "stdafx.h"
-#include "Security/RandomConstant.h"
-#include "Security/JunkCode.h"
+#include "security/RandomConstant.h"
+#include "security/JunkCode.h"
 
 template <int N> __forceinline void useless()
 {

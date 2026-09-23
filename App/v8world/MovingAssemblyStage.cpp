@@ -1,12 +1,12 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/MovingAssemblyStage.h"
-#include "V8World/StepJointsStage.h"
-#include "V8World/World.h"
-#include "V8World/Assembly.h"
-#include "V8World/Contact.h"
-#include "V8World/Joint.h"
+#include "v8world/MovingAssemblyStage.h"
+#include "v8world/StepJointsStage.h"
+#include "v8world/World.h"
+#include "v8world/Assembly.h"
+#include "v8world/Contact.h"
+#include "v8world/Joint.h"
 #include "v8world/Mechanism.h"
 #include "v8datamodel/JointInstance.h"
 

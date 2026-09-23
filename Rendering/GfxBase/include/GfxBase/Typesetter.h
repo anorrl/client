@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/Rotation2D.h"
+#include "util/G3DCore.h"
+#include "util/Rotation2D.h"
 #include "GfxBase/Type.h"
 
 namespace  ARL {

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "Util/SpatialRegion.h"
+#include "util/SpatialRegion.h"
 
-#include "Voxel/Cell.h"
+#include "voxel/Cell.h"
 
 namespace ARL {
 

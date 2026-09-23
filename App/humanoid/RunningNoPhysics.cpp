@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/RunningNoPhysics.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/RunningNoPhysics.h"
+#include "humanoid/Humanoid.h"
 
 DYNAMIC_FASTFLAG(ClampRunSignalMinSpeed)
 

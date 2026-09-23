@@ -10,7 +10,7 @@
 #include "boost/filesystem.hpp"
 
 // Roblox Headers
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "util/Http.h"
 #include "RobloxServicesTools.h"
 

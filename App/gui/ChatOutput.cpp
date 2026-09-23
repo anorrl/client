@@ -1,19 +1,19 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Gui/ChatOutput.h"
-#include "Network/Player.h"
-#include "Network/Players.h"
-#include "Util/Hash.h"
-#include "V8DataModel/GameSettings.h"
-#include "V8DataModel/Teams.h"
-#include "V8DataModel/Scale9Frame.h"
-#include "V8DataModel/ImageLabel.h"
-#include "V8DataModel/GuiObject.h"
-#include "V8DataModel/BillboardGui.h"
-#include "V8DataModel/PlayerGui.h"
-#include "V8DataModel/TextLabel.h"
-#include "Gui/ProfanityFilter.h"
+#include "gui/ChatOutput.h"
+#include "network/Player.h"
+#include "network/Players.h"
+#include "util/Hash.h"
+#include "v8datamodel/GameSettings.h"
+#include "v8datamodel/Teams.h"
+#include "v8datamodel/Scale9Frame.h"
+#include "v8datamodel/ImageLabel.h"
+#include "v8datamodel/GuiObject.h"
+#include "v8datamodel/BillboardGui.h"
+#include "v8datamodel/PlayerGui.h"
+#include "v8datamodel/TextLabel.h"
+#include "gui/ProfanityFilter.h"
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>

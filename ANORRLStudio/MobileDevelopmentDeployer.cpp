@@ -10,10 +10,10 @@
 #include <qmath.h>
 
 #include "StringConv.h"
-#include "Script/script.h"
+#include "script/script.h"
 #include "MobileDevelopmentDeployer.h"
 #include "AuthoringSettings.h"
-#include "G3D/Random.h"
+#include "g3d/Random.h"
 
 #define PAIR_CODE_SIZE 4
 #define ARL_DEV_PORT 1313

@@ -2,7 +2,7 @@
 #include "script/DebuggerManager.h"
 
 #include "script/ScriptContext.h"
-#include "script/Script.h"
+#include "script/script.h"
 #include "script/ModuleScript.h"
 #include "script/LuaArguments.h"
 #include "util/ProtectedString.h"

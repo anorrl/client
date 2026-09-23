@@ -10,9 +10,9 @@
 #include <QPainter>
 #include <QScrollBar>
 
-#include "V8DataModel/DataModel.h"
-#include "Network/Players.h"
-#include "Network/Player.h"
+#include "v8datamodel/DataModel.h"
+#include "network/Players.h"
+#include "network/Player.h"
 
 #include "UpdateUIManager.h"
 #include "ANORRLMainWindow.h"

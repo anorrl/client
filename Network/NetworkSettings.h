@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8DataModel/GlobalSettings.h"
-#include "RakNet/Source/PacketPriority.h"
+#include "v8datamodel/GlobalSettings.h"
+#include "PacketPriority.h"
 #include "arl/TaskScheduler.h"
-#include "Util/ObscureValue.h"
+#include "util/ObscureValue.h"
 
 namespace ARL
 {

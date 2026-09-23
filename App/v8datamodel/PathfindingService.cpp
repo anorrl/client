@@ -1,18 +1,18 @@
 #include "stdafx.h"
 
-#include "V8DataModel/DataStoreService.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/MegaCluster.h"
-#include "V8DataModel/PartCookie.h"
+#include "v8datamodel/DataStoreService.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/MegaCluster.h"
+#include "v8datamodel/PartCookie.h"
 #include "v8datamodel/PathfindingService.h"
 
-#include "Network/Players.h"
+#include "network/Players.h"
 
 #include "v8world/World.h"
 #include "v8world/ContactManagerSpatialHash.h"
 
-#include "Voxel/Grid.Chunk.h"
+#include "voxel/Grid.Chunk.h"
 #include "voxel2/Grid.h"
 
 #include "reflection/EnumConverter.h"

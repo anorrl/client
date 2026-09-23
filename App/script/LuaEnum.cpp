@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "Script/LuaEnum.h"
-#include "Reflection/EnumConverter.h"
+#include "script/LuaEnum.h"
+#include "reflection/EnumConverter.h"
 
 
 using namespace ARL;

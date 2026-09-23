@@ -4,7 +4,7 @@
 #include "Replicator.h"
 #include "Compressor.h"
 
-#include "Network/Player.h"
+#include "network/Player.h"
 
 #include "GetTime.h"
 #include "RakPeerInterface.h"
@@ -12,15 +12,15 @@
 #include "ConcurrentRakPeer.h"
 #include "Client.h"
 
-#include "V8World/SendPhysics.h"
-#include "V8World/World.h"
-#include "V8World/Primitive.h"
-#include "V8World/Assembly.h"
+#include "v8world/SendPhysics.h"
+#include "v8world/World.h"
+#include "v8world/Primitive.h"
+#include "v8world/Assembly.h"
 
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/ModelInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PhysicsService.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/ModelInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PhysicsService.h"
 
 #include "raknet/Source/RakNetStatistics.h"
 

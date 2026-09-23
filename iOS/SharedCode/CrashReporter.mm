@@ -9,7 +9,7 @@
 #import "CrashReporter.h"
 #import "RobloxCachedFlags.h"
 #import "RobloxWebUtility.h"
-#import "util/standardout.h"
+#import "util/StandardOut.h"
 #import "ObjectiveCUtilities.h"
 #include "FastLog.h"
 #import "RobloxGoogleAnalytics.h"

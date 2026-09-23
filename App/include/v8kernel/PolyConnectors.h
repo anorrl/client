@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8Kernel/ContactParams.h"
-#include "V8Kernel/ContactConnector.h"
-#include "Util/G3DCore.h"
+#include "v8kernel/ContactParams.h"
+#include "v8kernel/ContactConnector.h"
+#include "util/G3DCore.h"
 #include "arl/Debug.h"
 
 namespace ARL {

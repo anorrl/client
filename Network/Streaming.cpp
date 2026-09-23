@@ -1,22 +1,23 @@
 /* Copyright 2003-2006 ROBLOX Corporation, All Rights Reserved */
 
-#include "streaming.h"
-#include "stringcompressor.h"
-#include "Util/BinaryString.h"
-#include "Util/BrickColor.h"
-#include "Util/UDim.h"
-#include "Util/Faces.h"
-#include "Util/Axes.h"
-#include "Util/Quaternion.h"
-#include "Util/SystemAddress.h"
+#include "Streaming.h"
+#include "StringCompressor.h"
+#include "util/BinaryString.h"
+#include "util/BrickColor.h"
+#include "util/UDim.h"
+#include "util/Faces.h"
+#include "util/Axes.h"
+#include "util/Quaternion.h"
+#include "util/SystemAddress.h"
 #include "GuidRegistryService.h"
-#include "Util/Math.h"
-#include "Util/NormalId.h"
-#include "Reflection/Event.h"
-#include "Reflection/EnumConverter.h"
+#include "util/Math.h"
+#include "util/NormalId.h"
+#include "reflection/Event.h"
+#include "reflection/EnumConverter.h"
 #include "util/StreamRegion.h"
 #include "util/TweenInfo.h"
 #include <boost/algorithm/string.hpp>
+#include <cstdint>
 #include "Replicator.h"
 #include "util/VarInt.h"
 #include "util/PhysicalProperties.h"
@@ -213,32 +214,27 @@ RakNet::BitStream& operator>>(RakNet::BitStream& stream, unsigned int& value)
     return stream;
 }
 
-template<>
-RakNet::BitStream& operator>>(RakNet::BitStream& stream, unsigned long& value)
-{
-#if defined(__APPLE__) && defined(__LP64__)
-    // On 64-bit macOS, unsigned long is 64-bit, same as unsigned long long
-    static_assert(sizeof(unsigned long) == sizeof(unsigned long long), "Size mismatch");
-    Network::readFastT(stream, reinterpret_cast<unsigned long long&>(value));
-#else
-    // On other platforms, unsigned long is typically 32-bit
-    Network::readFastT(stream, value);
-#endif
-    return stream;
-}
-
-RakNet::BitStream& operator<<(RakNet::BitStream& stream, unsigned long long value)
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, uint64_t value)
 {
     stream.Write(value);
     return stream;
 }
 
 template<>
-RakNet::BitStream& operator>>(RakNet::BitStream& stream, unsigned long long& value)
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, uint64_t& value)
 {
     Network::readFastT(stream, value);
     return stream;
 }
+
+#ifndef _WIN32
+// ANORRL Change: this is for linux bro
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, RakNet::Time value)
+{
+    stream.Write(static_cast<unsigned long long>(value));
+    return stream;
+}
+#endif
 
 RakNet::BitStream& operator<<(RakNet::BitStream& stream, char value)
 {

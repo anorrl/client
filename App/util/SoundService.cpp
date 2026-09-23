@@ -1,22 +1,22 @@
 /* Copyright 2003-2014 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/SoundService.h"
+#include "util/SoundService.h"
 
-#include "Util/SoundChannel.h"
-#include "V8DataModel/ContentProvider.h"
+#include "util/SoundChannel.h"
+#include "v8datamodel/ContentProvider.h"
 
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Camera.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Camera.h"
 
-#include "util/standardout.h"
-#include "V8DataModel/GameSettings.h"
-#include "V8DataModel/DebugSettings.h"
-#include "V8DataModel/PlayerGui.h"
-#include "V8DataModel/GameBasicSettings.h"
-#include "Network/Players.h"
+#include "util/StandardOut.h"
+#include "v8datamodel/GameSettings.h"
+#include "v8datamodel/DebugSettings.h"
+#include "v8datamodel/PlayerGui.h"
+#include "v8datamodel/GameBasicSettings.h"
+#include "network/Players.h"
 
 #include "FastLog.h"
 #include "arl/RbxDbgInfo.h"

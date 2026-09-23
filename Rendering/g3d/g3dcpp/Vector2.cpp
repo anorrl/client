@@ -12,13 +12,13 @@
  @edited  2009-11-16
  */
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 #include <stdlib.h>
-#include "G3D/Vector2.h"
-#include "G3D/Vector3.h"
-#include "G3D/Vector4.h"
-#include "G3D/g3dmath.h"
-#include "G3D/format.h"
+#include "g3d/Vector2.h"
+#include "g3d/Vector3.h"
+#include "g3d/Vector4.h"
+#include "g3d/g3dmath.h"
+#include "g3d/format.h"
 
 namespace G3D {
 

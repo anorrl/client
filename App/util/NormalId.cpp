@@ -1,7 +1,7 @@
 /* Copyright 2003-2006 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/NormalId.h"
+#include "util/NormalId.h"
 #include "arl/Debug.h"
 
 

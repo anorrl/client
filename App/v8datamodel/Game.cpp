@@ -15,7 +15,7 @@
 #include "v8world/World.h"
 #include "v8datamodel/Teams.h"
 #include "v8datamodel/SpawnLocation.h"
-#include "V8World/ContactManager.h"
+#include "v8world/ContactManager.h"
 #include "v8datamodel/ChangeHistory.h"
 #include "v8datamodel/Lighting.h"
 #include "v8datamodel/Test.h"
@@ -24,10 +24,10 @@
 
 #include "v8world/Block.h"
 
-#include "Util/ScriptInformationProvider.h"
-#include "Util/Profiling.h"
+#include "util/ScriptInformationProvider.h"
+#include "util/Profiling.h"
 
-#include "Gui/ProfanityFilter.h"
+#include "gui/ProfanityFilter.h"
 #include "script/LuaSettings.h"
 #include "network/api.h"
 #include "network/GameConfigurer.h"

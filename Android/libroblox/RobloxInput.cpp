@@ -1,11 +1,11 @@
 #include "RobloxInput.h"
 #include "PlaceLauncher.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/GamepadService.h"
-#include "V8DataModel/UserInputService.h"
-#include "V8DataModel/GameBasicSettings.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/GamepadService.h"
+#include "v8datamodel/UserInputService.h"
+#include "v8datamodel/GameBasicSettings.h"
 #include "V8datamodel/TouchInputService.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 #define GRAVITY_ACCELERATION 9.80665f
 

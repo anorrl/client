@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Humanoid/Humanoid.h"
-#include "Util/SteppedInstance.h"
-#include "Util/KeyCode.h"
-#include "V8DataModel/Camera.h"
+#include "humanoid/Humanoid.h"
+#include "util/SteppedInstance.h"
+#include "util/KeyCode.h"
+#include "v8datamodel/Camera.h"
 #include <boost/unordered_map.hpp>
 
 namespace ARL {

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "Util/Face.h"
-#include "Util/Extents.h"
+#include "util/Face.h"
+#include "util/Extents.h"
 #include "arl/Debug.h"
-#include "Util/Math.h"
+#include "util/Math.h"
 
 namespace ARL {
 	

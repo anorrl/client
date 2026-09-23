@@ -1,0 +1,95 @@
+include(App)
+include(Base)
+include(Network)
+include(Rendering)
+
+include_directories(gSOAP)
+include_directories(../ClientShared)
+include_directories(../App.BulletPhysics)
+include_directories(../App/include)
+include_directories(../Network/include)
+
+add_executable(ACCService
+    "OperationalSecurity.cpp"
+    "OperationalSecurity.h"
+    "ACCService.cpp"
+    "ACCServiceSoapServiceImpl.cpp"
+    "ThumbnailGenerator.cpp"
+    "thumbnailgenerator.h"
+    "../App/script/LuaVMServer.cpp"
+    "../ClientShared/StringConv.h"
+	"../ClientShared/StringConv.cpp"
+	"../ClientShared/VMProtectSDK.h"
+    "gSOAP/stdsoap2.cpp"
+    "gSOAP/generated/soapC.cpp"
+    "gSOAP/generated/soapACCServiceSoapService.cpp"
+    "gSOAP/stdsoap2.h"
+    "gSOAP/generated/prototypes.h"
+    "gSOAP/generated/soapH.h"
+    "gSOAP/generated/soapACCServiceSoapService.h"
+    "gSOAP/generated/soapStub.h"
+    "gSOAP/import/c14n.h"
+    "gSOAP/import/dom.h"
+    "gSOAP/import/ds.h"
+    "gSOAP/import/ds2.h"
+    "gSOAP/import/soap12.h"
+    "gSOAP/import/stl.h"
+    "gSOAP/import/stldeque.h"
+    "gSOAP/import/stllist.h"
+    "gSOAP/import/stlset.h"
+    "gSOAP/import/stlvector.h"
+    "gSOAP/import/wsa.h"
+    "gSOAP/import/wsa3.h"
+    "gSOAP/import/wsa4.h"
+    "gSOAP/import/wsa5.h"
+    "gSOAP/import/wsp.h"
+    "gSOAP/import/wsrp.h"
+    "gSOAP/import/wsse.h"
+    "gSOAP/import/wsse2.h"
+    "gSOAP/import/wsu.h"
+    "gSOAP/import/xlink.h"
+    "gSOAP/import/xmime.h"
+    "gSOAP/import/xmime4.h"
+    "gSOAP/import/xmime5.h"
+    "gSOAP/import/xml.h"
+    "gSOAP/import/xmlmime.h"
+    "gSOAP/import/xmlmime5.h"
+    "gSOAP/import/xop.h"
+)
+
+target_link_libraries(ACCService
+	PRIVATE
+	$<TARGET_OBJECTS:Base>
+	$<TARGET_OBJECTS:Log>
+	$<TARGET_OBJECTS:App>
+	$<TARGET_OBJECTS:Network>
+	$<TARGET_OBJECTS:G3D>
+	$<TARGET_OBJECTS:AppDraw>
+	$<TARGET_OBJECTS:RbxG3D>
+	$<TARGET_OBJECTS:GfxBase>
+	$<TARGET_OBJECTS:GfxCore>
+	$<TARGET_OBJECTS:GfxRender>
+	$<TARGET_OBJECTS:App.BulletPhysics>
+	ZLIB::ZLIB
+	Boost::filesystem
+	Boost::iostreams
+	Boost::program_options
+	Boost::system
+	Boost::thread
+	Boost::exception
+	Boost::pool
+	CURL::libcurl
+	OpenSSL::Crypto
+	OpenSSL::SSL
+	OpenGL::GL
+	OpenGL::EGL
+	-lGLEW
+	-lfmod
+	Freetype::Freetype
+	PNG::PNG
+)
+
+# allow lib loading from bin folder
+set_target_properties(ACCService PROPERTIES
+    BUILD_RPATH "$ORIGIN"
+)

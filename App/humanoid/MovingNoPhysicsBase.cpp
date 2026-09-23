@@ -1,18 +1,18 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/MovingNoPhysicsBase.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/MovingNoPhysicsBase.h"
+#include "humanoid/Humanoid.h"
 
-#include "V8DataModel/PhysicsService.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8World/Primitive.h"
-#include "V8World/Assembly.h"
-#include "V8World/World.h"
-#include "V8World/SimulateStage.h"
-#include "V8Kernel/Body.h"
-#include "V8Kernel/Constants.h"
-#include "V8Kernel/Kernel.h"
+#include "v8datamodel/PhysicsService.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8world/Primitive.h"
+#include "v8world/Assembly.h"
+#include "v8world/World.h"
+#include "v8world/SimulateStage.h"
+#include "v8kernel/Body.h"
+#include "v8kernel/Constants.h"
+#include "v8kernel/Kernel.h"
 
 DYNAMIC_FASTFLAG(HumanoidFloorPVUpdateSignal)
 LOGGROUP(HumanoidFloorProcess)

@@ -19,7 +19,7 @@
 		1F2848B215E707BE00120D64 /* CookiesEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = F42837621468B3C000B23383 /* CookiesEngine.h */; };
 		1F2848B315E707BE00120D64 /* format_string.h in Headers */ = {isa = PBXBuildFile; fileRef = F42837631468B3C000B23383 /* format_string.h */; };
 		1F2848B515E707BE00120D64 /* cpucount.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA3581641291FC6C004C3FB8 /* cpucount.cpp */; };
-		1F2848B615E707BE00120D64 /* RbxAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA3581661291FC6C004C3FB8 /* RbxAssert.cpp */; };
+		1F2848B615E707BE00120D64 /* ARLAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA3581661291FC6C004C3FB8 /* ARLAssert.cpp */; };
 		1F2848B715E707BE00120D64 /* RbxFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA3581671291FC6C004C3FB8 /* RbxFormat.cpp */; };
 		1F2848B815E707BE00120D64 /* Debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA35816F1291FC78004C3FB8 /* Debug.cpp */; };
 		1F2848B915E707BE00120D64 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA3581711291FC78004C3FB8 /* Log.cpp */; };
@@ -72,7 +72,7 @@
 		56F917D5197DE832002AFFF8 /* StreamHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 56F917D4197DE832002AFFF8 /* StreamHelpers.h */; };
 		56F917D6197DE832002AFFF8 /* StreamHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 56F917D4197DE832002AFFF8 /* StreamHelpers.h */; };
 		EA3581691291FC6C004C3FB8 /* cpucount.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA3581641291FC6C004C3FB8 /* cpucount.cpp */; };
-		EA35816B1291FC6C004C3FB8 /* RbxAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA3581661291FC6C004C3FB8 /* RbxAssert.cpp */; };
+		EA35816B1291FC6C004C3FB8 /* ARLAssert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA3581661291FC6C004C3FB8 /* ARLAssert.cpp */; };
 		EA35816C1291FC6C004C3FB8 /* RbxFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA3581671291FC6C004C3FB8 /* RbxFormat.cpp */; };
 		EA3581741291FC78004C3FB8 /* Debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA35816F1291FC78004C3FB8 /* Debug.cpp */; };
 		EA3581761291FC78004C3FB8 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA3581711291FC78004C3FB8 /* Log.cpp */; };
@@ -129,7 +129,7 @@
 		D2AAC046055464E500DB518D /* libBase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBase.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA3581641291FC6C004C3FB8 /* cpucount.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cpucount.cpp; sourceTree = "<group>"; };
 		EA3581651291FC6C004C3FB8 /* HardwareInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HardwareInfo.cpp; sourceTree = "<group>"; };
-		EA3581661291FC6C004C3FB8 /* RbxAssert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RbxAssert.cpp; sourceTree = "<group>"; };
+		EA3581661291FC6C004C3FB8 /* ARLAssert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ARLAssert.cpp; sourceTree = "<group>"; };
 		EA3581671291FC6C004C3FB8 /* RbxFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RbxFormat.cpp; sourceTree = "<group>"; };
 		EA35816F1291FC78004C3FB8 /* Debug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Debug.cpp; sourceTree = "<group>"; };
 		EA3581711291FC78004C3FB8 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
@@ -171,10 +171,10 @@
 		EA3581B31291FCBD004C3FB8 /* TaskScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskScheduler.h; sourceTree = "<group>"; };
 		EA3581B41291FCBD004C3FB8 /* TaskScheduler.Job.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskScheduler.Job.h; sourceTree = "<group>"; };
 		EA3581B51291FCBD004C3FB8 /* threadsafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = threadsafe.h; sourceTree = "<group>"; };
-		EA3581B61291FCBD004C3FB8 /* RbxAssert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RbxAssert.h; sourceTree = "<group>"; };
-		EA3581B71291FCBD004C3FB8 /* RbxBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RbxBase.h; sourceTree = "<group>"; };
-		EA3581B81291FCBD004C3FB8 /* RbxFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RbxFormat.h; sourceTree = "<group>"; };
-		EA3581BA1291FCBD004C3FB8 /* RbxPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RbxPlatform.h; sourceTree = "<group>"; };
+		EA3581B61291FCBD004C3FB8 /* ARLAssert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARLAssert.h; sourceTree = "<group>"; };
+		EA3581B71291FCBD004C3FB8 /* ARLBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARLBase.h; sourceTree = "<group>"; };
+		EA3581B81291FCBD004C3FB8 /* ARLFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARLFormat.h; sourceTree = "<group>"; };
+		EA3581BA1291FCBD004C3FB8 /* ARLPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARLPlatform.h; sourceTree = "<group>"; };
 		EA3581BC1291FCBD004C3FB8 /* SelectState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectState.h; sourceTree = "<group>"; };
 		EA3581BE1291FCBD004C3FB8 /* RegistryUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistryUtil.h; sourceTree = "<group>"; };
 		EA3581BF1291FCBD004C3FB8 /* SafeToLower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SafeToLower.h; sourceTree = "<group>"; };
@@ -226,7 +226,7 @@
 				EA35816E1291FC78004C3FB8 /* util */,
 				EA3581641291FC6C004C3FB8 /* cpucount.cpp */,
 				EA3581651291FC6C004C3FB8 /* HardwareInfo.cpp */,
-				EA3581661291FC6C004C3FB8 /* RbxAssert.cpp */,
+				EA3581661291FC6C004C3FB8 /* ARLAssert.cpp */,
 				EA3581671291FC6C004C3FB8 /* RbxFormat.cpp */,
 			);
 			name = Source;
@@ -344,10 +344,10 @@
 				EA3581961291FCBD004C3FB8 /* CPUCount.h */,
 				EA3581971291FCBD004C3FB8 /* HardwareInfo.h */,
 				EA3581981291FCBD004C3FB8 /* rbx */,
-				EA3581B61291FCBD004C3FB8 /* RbxAssert.h */,
-				EA3581B71291FCBD004C3FB8 /* RbxBase.h */,
-				EA3581B81291FCBD004C3FB8 /* RbxFormat.h */,
-				EA3581BA1291FCBD004C3FB8 /* RbxPlatform.h */,
+				EA3581B61291FCBD004C3FB8 /* ARLAssert.h */,
+				EA3581B71291FCBD004C3FB8 /* ARLBase.h */,
+				EA3581B81291FCBD004C3FB8 /* ARLFormat.h */,
+				EA3581BA1291FCBD004C3FB8 /* ARLPlatform.h */,
 				EA3581BC1291FCBD004C3FB8 /* SelectState.h */,
 				EA3581BD1291FCBD004C3FB8 /* util */,
 			);
@@ -570,7 +570,7 @@
 				1F2848B515E707BE00120D64 /* cpucount.cpp in Sources */,
 				56F917D3197DE825002AFFF8 /* StreamHelpers.cpp in Sources */,
 				4259F63B1B45DFA200C8E1B8 /* Profiler.cpp in Sources */,
-				1F2848B615E707BE00120D64 /* RbxAssert.cpp in Sources */,
+				1F2848B615E707BE00120D64 /* ARLAssert.cpp in Sources */,
 				1F2848B715E707BE00120D64 /* RbxFormat.cpp in Sources */,
 				1F2848B815E707BE00120D64 /* Debug.cpp in Sources */,
 				1F2848B915E707BE00120D64 /* Log.cpp in Sources */,
@@ -604,7 +604,7 @@
 				EA3581691291FC6C004C3FB8 /* cpucount.cpp in Sources */,
 				56F917D2197DE825002AFFF8 /* StreamHelpers.cpp in Sources */,
 				4259F63A1B45DF9E00C8E1B8 /* Profiler.cpp in Sources */,
-				EA35816B1291FC6C004C3FB8 /* RbxAssert.cpp in Sources */,
+				EA35816B1291FC6C004C3FB8 /* ARLAssert.cpp in Sources */,
 				EA35816C1291FC6C004C3FB8 /* RbxFormat.cpp in Sources */,
 				EA3581741291FC78004C3FB8 /* Debug.cpp in Sources */,
 				EA3581761291FC78004C3FB8 /* Log.cpp in Sources */,

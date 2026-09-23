@@ -9,31 +9,31 @@
 #include "v8datamodel/InputObject.h"
 #include "v8datamodel/GuiService.h"
 #include "FunctionMarshaller.h"
-#include "Util/StandardOut.h"
-#include "Util/FileSystem.h"
+#include "util/StandardOut.h"
+#include "util/FileSystem.h"
 #include "rbx/SystemUtil.h"
 #include "rbx/Tasks/Coordinator.h"
 #include "UserInput.h"
-#include "Util/IMetric.h"
-#include "Util/Object.h"
+#include "util/IMetric.h"
+#include "util/Object.h"
 #include "GfxBase/RenderSettings.h"
 #include "GfxBase/FrameRateManager.h"
 #include "v8datamodel/BaseRenderJob.h"
 #include "v8datamodel/UserController.h"
 #include "v8datamodel/UserInputService.h"
-#include "Util/Statistics.h"
+#include "util/Statistics.h"
 #include "v8datamodel/ContentProvider.h"
 #include "script/ScriptContext.h"
 #include "v8xml/Serializer.h"
 #include "rbx/CEvent.h"
 #include "GameVerbs.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 #include "../ClientBase/RenderSettingsItem.h"
 
 
 #include <boost/iostreams/copy.hpp>
 
-#include "V8DataModel/GameBasicSettings.h"
+#include "v8datamodel/GameBasicSettings.h"
 
 LOGGROUP(PlayerShutdownLuaTimeoutSeconds)
 

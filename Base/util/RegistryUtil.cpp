@@ -18,7 +18,7 @@
 #undef min
 #undef max
 
-#include "ARL/Debug.h"
+#include "arl/Debug.h"
 
 
 // declare HKEY constants as needed for VC6

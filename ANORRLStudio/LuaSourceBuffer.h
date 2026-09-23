@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Script/Script.h"
-#include "Script/ModuleScript.h"
-#include "Script/LuaSourceContainer.h"
-#include "Util/ContentId.h"
-#include "Util/HttpAsync.h"
-#include "Util/ProtectedString.h"
+#include "script/script.h"
+#include "script/ModuleScript.h"
+#include "script/LuaSourceContainer.h"
+#include "util/ContentId.h"
+#include "util/HttpAsync.h"
+#include "util/ProtectedString.h"
 
 
 class LuaSourceBuffer

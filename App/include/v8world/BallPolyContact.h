@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "V8World/PolyContact.h"
+#include "v8world/PolyContact.h"
 
 namespace ARL {
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Util/TextureId.h"
-#include "Util/MeshId.h"
+#include "util/TextureId.h"
+#include "util/MeshId.h"
 #include "CharacterAppearance.h"
 
 namespace ARL {

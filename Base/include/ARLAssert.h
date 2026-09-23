@@ -27,7 +27,7 @@
 #define x68BFA40003704acb85BC500AEC18DCA7 
 
 #include <string>
-#include "RbxBase.h"
+#include "ARLBase.h"
 
 
 namespace ARL {

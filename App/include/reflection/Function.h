@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include "reflection/type.h"
-#include "security/securitycontext.h"
-#include "reflection/member.h"
+#include "reflection/Type.h"
+#include "security/SecurityContext.h"
+#include "reflection/Member.h"
 #include "util/G3DCore.h"
 #include "util/Region3.h"
-#include "util/Region3Int16.h"
+#include "util/Region3int16.h"
 
 struct lua_State;
 

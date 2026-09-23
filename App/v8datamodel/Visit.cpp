@@ -1,11 +1,11 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Visit.h"
+#include "v8datamodel/Visit.h"
 #include "util/StandardOut.h"
-#include "Network/Player.h"
-#include "Network/Players.h"
-#include "Util/Http.h"
+#include "network/Player.h"
+#include "network/Players.h"
+#include "util/Http.h"
 
 #include <boost/thread/xtime.hpp>
 

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "arl/signal.h"
-#include "V8DataModel/CustomEventReceiver.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/ModelInstance.h"
-#include "V8DataModel/CollectionService.h"
-#include "V8Tree/Instance.h"
+#include "v8datamodel/CustomEventReceiver.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/ModelInstance.h"
+#include "v8datamodel/CollectionService.h"
+#include "v8tree/Instance.h"
 
 namespace ARL {
 

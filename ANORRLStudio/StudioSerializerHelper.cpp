@@ -14,7 +14,7 @@
 
 // ANORRL Headers
 #include "v8datamodel/DataModel.h"
-#include "V8DataModel/PartOperationAsset.h"
+#include "v8datamodel/PartOperationAsset.h"
 #include "v8xml/XmlSerializer.h"
 #include "v8xml/SerializerBinary.h"
 #include "script/DebuggerManager.h"

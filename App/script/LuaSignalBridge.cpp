@@ -1,19 +1,19 @@
 #include "stdafx.h"
 
-#include "Script/LuaSignalBridge.h"
+#include "script/LuaSignalBridge.h"
 
-#include "Script/Script.h"
-#include "Script/ScriptContext.h"
-#include "Script/LuaInstanceBridge.h"
-#include "Script/LuaAtomicClasses.h"
+#include "script/script.h"
+#include "script/ScriptContext.h"
+#include "script/LuaInstanceBridge.h"
+#include "script/LuaAtomicClasses.h"
 #include "script/LuaEnum.h"
-#include "Script/ScriptEvent.h"
-#include "Script/LuaArguments.h"
+#include "script/ScriptEvent.h"
+#include "script/LuaArguments.h"
 #include "reflection/EnumConverter.h"
 #include "util/ScopedAssign.h"
 #include "util/NormalId.h"
 #include "util/ProtectedString.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 LOGVARIABLE(LuaBridge, 0)
 DYNAMIC_FASTFLAGVARIABLE(UseSubmitTaskWhenFiringSignalsOnSettings, true)

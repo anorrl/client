@@ -3,7 +3,7 @@
 #include "v8tree/Instance.h"
 #include "util/BinaryString.h"
 
-#include "Voxel/Grid.h"
+#include "voxel/Grid.h"
 #include "voxel2/Grid.h"
 
 namespace ARL {

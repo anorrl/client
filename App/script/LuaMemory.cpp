@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "security/SecurityContext.h"
-#include "Script/LuaMemory.h"
+#include "script/LuaMemory.h"
 #include "lua/lua.hpp"
 #include "lobject.h"
 #include <algorithm>

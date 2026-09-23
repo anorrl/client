@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/SpanningEdge.h"
-#include "Util/SpanningNode.h"
+#include "util/SpanningEdge.h"
+#include "util/SpanningNode.h"
 
 namespace ARL {
 

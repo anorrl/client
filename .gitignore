@@ -70,3 +70,5 @@ App/tmp.h
 *.suo
 
 QTitanRibbon\src\shared\ribbon\release
+vcpkg/
+build/

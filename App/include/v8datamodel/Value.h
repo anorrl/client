@@ -1,10 +1,10 @@
 #pragma once
 
-#include "v8tree/instance.h"
-#include "V8DataModel/Configuration.h"
-#include "Util/BinaryString.h"
-#include "Util/BrickColor.h"
-#include "Script/LuaVM.h"
+#include "v8tree/Instance.h"
+#include "v8datamodel/Configuration.h"
+#include "util/BinaryString.h"
+#include "util/BrickColor.h"
+#include "script/LuaVM.h"
 
 #if defined(ARL_SECURE_DOUBLE)
 #define LUA_VALUE_CONVERT(x) (x.binary[sizeof(ValueType)/sizeof(int)-1] ^= ::LuaSecureDouble::luaXorMask[3])

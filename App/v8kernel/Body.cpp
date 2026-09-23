@@ -1,10 +1,10 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8Kernel/Body.h"
+#include "v8kernel/Body.h"
 #include "V8kernel/Kernel.h"
-#include "V8Kernel/Constants.h"
-#include "Util/Units.h"
+#include "v8kernel/Constants.h"
+#include "util/Units.h"
 
 #include "boost/utility.hpp"
 #include "arl/boost.hpp"

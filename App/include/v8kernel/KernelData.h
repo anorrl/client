@@ -1,11 +1,11 @@
 #pragma once
 
 #include "v8kernel/Body.h"
-#include "V8Kernel/SimBody.h"
-#include "V8Kernel/Point.h"
-#include "V8Kernel/Connector.h"
-#include "V8Kernel/ContactConnector.h"
-#include "V8Kernel/BuoyancyConnector.h"
+#include "v8kernel/SimBody.h"
+#include "v8kernel/Point.h"
+#include "v8kernel/Connector.h"
+#include "v8kernel/ContactConnector.h"
+#include "v8kernel/BuoyancyConnector.h"
 #include "V8kernel/Constants.h"
 #include "V8datamodel/FastLogSettings.h"
 

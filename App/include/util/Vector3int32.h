@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "G3D/Vector3.h"
-#include "G3D/Vector3int16.h"
-#include "Util/Math.h"
+#include "g3d/Vector3.h"
+#include "g3d/Vector3int16.h"
+#include "util/Math.h"
 #include "arl/Debug.h"
 #include <limits.h>
 

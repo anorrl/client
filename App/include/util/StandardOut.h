@@ -6,7 +6,7 @@
 #include "boost/enable_shared_from_this.hpp"
 #include <time.h>
 
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 
 namespace ARL {
 

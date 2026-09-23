@@ -1,14 +1,14 @@
 /* Copyright 2003-2009 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/PartDropTool.h"
-#include "Tool/MegaDragger.h"
-#include "Tool/RunDragger.h"
-#include "Tool/ToolsArrow.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/Camera.h"
-#include "V8DataModel/InputObject.h"
+#include "tool/PartDropTool.h"
+#include "tool/MegaDragger.h"
+#include "tool/RunDragger.h"
+#include "tool/ToolsArrow.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/Camera.h"
+#include "v8datamodel/InputObject.h"
 #include "v8datamodel/changehistory.h"
 #include "SelectState.h"
 

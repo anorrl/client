@@ -1,9 +1,9 @@
 #pragma once
 
 
-#include "V8Tree/Instance.h"
-#include "V8DataModel/Effect.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8tree/Instance.h"
+#include "v8datamodel/Effect.h"
+#include "v8datamodel/PartInstance.h"
 #include "util/TextureId.h"
 
 #include "v8dataModel/NumberSequence.h"

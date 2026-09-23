@@ -1,10 +1,10 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/CleanStage.h"
-#include "V8World/JointStage.h"
-#include "V8World/Primitive.h"
-#include "V8World/Joint.h"
+#include "v8world/CleanStage.h"
+#include "v8world/JointStage.h"
+#include "v8world/Primitive.h"
+#include "v8world/Joint.h"
 #include "arl/Debug.h"
 
 namespace ARL {

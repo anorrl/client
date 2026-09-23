@@ -15,13 +15,13 @@
 #ifndef G3D_RbxRay_H
 #define G3D_RbxRay_H
 
-#include "G3D/platform.h"
-#include "G3D/Vector3.h"
-#include "G3D/Triangle.h"
-#include "G3D/Sphere.h"
-#include "G3D/Box.h"
-#include "G3D/AABox.h"
-#include "G3D/Plane.h"
+#include "g3d/platform.h"
+#include "g3d/Vector3.h"
+#include "g3d/Triangle.h"
+#include "g3d/Sphere.h"
+#include "g3d/Box.h"
+#include "g3d/AABox.h"
+#include "g3d/Plane.h"
 
 
 

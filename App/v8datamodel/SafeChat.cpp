@@ -1,9 +1,9 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/SafeChat.h"
-#include "V8DataModel/Contentprovider.h"
-#include "V8Xml/XmlSerializer.h"
+#include "v8datamodel/SafeChat.h"
+#include "v8datamodel/Contentprovider.h"
+#include "v8xml/XmlSerializer.h"
 #include "StringConv.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>

@@ -7,7 +7,7 @@
 #include "v8datamodel/FileMesh.h"
 #include "v8datamodel/BlockMesh.h"
 #include "v8datamodel/CylinderMesh.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/Humanoid.h"
 
 namespace ARL {
 	class PartInstance;

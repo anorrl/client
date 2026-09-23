@@ -6,13 +6,13 @@
 #pragma once
 
 // 3rd Party Headers
-#include "G3D/Vector2.h"
+#include "g3d/Vector2.h"
 
 // ANORRL Headers
-#include "Util/KeyCode.h"
-#include "Util/G3DCore.h"
-#include "arl/debug.h"
-#include "V8DataModel/InputObject.h"
+#include "util/KeyCode.h"
+#include "util/G3DCore.h"
+#include "arl/Debug.h"
+#include "v8datamodel/InputObject.h"
 
 #define GET_X_LPARAM(l)			((short)(l & 0x0000FFFF))
 #define GET_Y_LPARAM(l)			((short)((l & 0xFFFF0000) >> 16))

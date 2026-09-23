@@ -12,12 +12,12 @@
 #ifndef G3D_ARL_CAMERA_H
 #define G3D_ARL_CAMERA_H
 
-#include "G3D/platform.h"
-#include "G3D/CoordinateFrame.h"
-#include "G3D/Vector3.h"
-#include "G3D/Plane.h"
-#include "G3D/Rect2D.h"
-#include "G3D/debugAssert.h"
+#include "g3d/platform.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/Vector3.h"
+#include "g3d/Plane.h"
+#include "g3d/Rect2D.h"
+#include "g3d/debugAssert.h"
 
 namespace ARL {
 

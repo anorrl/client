@@ -1,8 +1,8 @@
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "Gui/Widget.h"
-#include "Gui/GuiDraw.h"
+#include "v8tree/Service.h"
+#include "gui/Widget.h"
+#include "gui/GuiDraw.h"
 
 namespace ARL {
 

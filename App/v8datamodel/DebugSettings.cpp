@@ -1,12 +1,12 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/DebugSettings.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DebugSettings.h"
+#include "v8datamodel/DataModel.h"
 #include "util/profiling.h"
 #include "util/http.h"
 #include "arl/ProcessPerfCounter.h"
-#include "Script/LuaMemory.h"
+#include "script/LuaMemory.h"
 #include "v8world/Block.h"
 #include "v8datamodel/BlockMesh.h"
 #include "arl/RbxDbgInfo.h"

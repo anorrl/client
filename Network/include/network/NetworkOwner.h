@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Util/SystemAddress.h"
-#include "Util/Color.h"
+#include "util/SystemAddress.h"
+#include "util/Color.h"
 
 namespace ARL {
 	namespace Network {

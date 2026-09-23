@@ -7,7 +7,7 @@
 #include "ANORRLMouseConfig.h"
 
 #include "util/NavKeys.h"
-#include "V8DataModel/InputObject.h"
+#include "v8datamodel/InputObject.h"
 
 #include <QLayout>
 #include <QLabel>

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "V8DataModel/CharacterMesh.h"
-#include "Humanoid/Humanoid.h"
+#include "v8datamodel/CharacterMesh.h"
+#include "humanoid/Humanoid.h"
 
 namespace ARL
 {

@@ -1,11 +1,11 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/Clump.h"
-#include "V8World/Primitive.h"
-#include "V8World/MotorJoint.h"
-#include "V8World/RigidJoint.h"
-#include "V8DataModel/JointInstance.h"
+#include "v8world/Clump.h"
+#include "v8world/Primitive.h"
+#include "v8world/MotorJoint.h"
+#include "v8world/RigidJoint.h"
+#include "v8datamodel/JointInstance.h"
 
 namespace ARL {
 	

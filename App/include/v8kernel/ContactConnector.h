@@ -2,15 +2,15 @@
 
 #pragma once
 
-#include "V8Kernel/Connector.h"
-#include "V8Kernel/ContactParams.h"
-#include "V8Kernel/Pair.h"
-#include "V8Kernel/Body.h"
+#include "v8kernel/Connector.h"
+#include "v8kernel/ContactParams.h"
+#include "v8kernel/Pair.h"
+#include "v8kernel/Body.h"
 #include "v8kernel/SimBody.h"
 #include "v8kernel/Constants.h"
-#include "Util/NormalID.h"
+#include "util/NormalId.h"
 #include "arl/Debug.h"
-#include "Util/Memory.h"
+#include "util/Memory.h"
 
 
 namespace ARL {

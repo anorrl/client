@@ -9,4 +9,4 @@
  @edited  2009-06-02
  */
 
-#include "G3D/debugAssert.h"
+#include "g3d/debugAssert.h"

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "Script/ScriptEvent.h"
-#include "Script/ScriptContext.h"
+#include "script/ScriptEvent.h"
+#include "script/ScriptContext.h"
 #include "lua/lua.hpp"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "script/LuaInstanceBridge.h"
 #include "arl/rbxTime.h"
 #include "script/LuaSettings.h"

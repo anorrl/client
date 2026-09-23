@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Gui/GuiEvent.h"
-#include "V8DataModel/InputObject.h"
+#include "gui/GuiEvent.h"
+#include "v8datamodel/InputObject.h"
 #include "GuiBase.h"
-#include "V8DataModel/GuiBase2d.h"
+#include "v8datamodel/GuiBase2d.h"
 #include <boost/unordered_map.hpp>
 
 namespace ARL {

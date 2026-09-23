@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "V8World/Joint.h"
-#include "V8World/JointBuilder.h"
+#include "v8tree/Instance.h"
+#include "v8world/Joint.h"
+#include "v8world/JointBuilder.h"
 #include "GfxBase/IAdornable.h"
-#include "V8DataModel/IAnimatableJoint.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/IAnimatableJoint.h"
+#include "v8datamodel/PartInstance.h"
 
 /*
 	Part* is master, Primitive*'s in the Joint are slaves

@@ -10,7 +10,7 @@
 
 #include "v8datamodel/Game.h"
 #include "v8tree/Instance.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "rbx/signal.h"
 
 enum JoinGameRequest {

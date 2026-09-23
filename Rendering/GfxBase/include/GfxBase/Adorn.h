@@ -4,10 +4,10 @@
 
 #include "GfxBase/Type.h"
 #include "GfxBase/TextureProxyBase.h"
-#include "Util/Extents.h"
-#include "Util/G3DCore.h"
-#include "Util/ContentId.h"
-#include "Util/Rotation2D.h"
+#include "util/Extents.h"
+#include "util/G3DCore.h"
+#include "util/ContentId.h"
+#include "util/Rotation2D.h"
 #include "arl/signal.h"
 #include "arl/Declarations.h"
 

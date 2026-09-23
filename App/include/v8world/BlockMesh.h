@@ -4,8 +4,8 @@
 	Utility class - holds Block Meshes of same size for use by Geometry Pool.
 */
 
-#include "V8World/Mesh.h"
-#include "Util/Memory.h"
+#include "v8world/Mesh.h"
+#include "util/Memory.h"
 
 namespace ARL {
 

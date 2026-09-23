@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "V8DataModel/GameBasicSettings.h"
+#include "v8datamodel/GameBasicSettings.h"
 
 using namespace ARL;
 

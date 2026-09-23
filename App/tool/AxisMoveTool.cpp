@@ -1,17 +1,17 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/AxisMoveTool.h"
+#include "tool/AxisMoveTool.h"
 
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "Tool/Dragger.h"
-#include "V8World/World.h"
-#include "V8World/ContactManager.h"
-#include "Util/Math.h"
-#include "Util/HitTest.h"
-#include "Util/Sound.h"
-#include "AppDraw/DrawAdorn.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "tool/Dragger.h"
+#include "v8world/World.h"
+#include "v8world/ContactManager.h"
+#include "util/Math.h"
+#include "util/HitTest.h"
+#include "util/Sound.h"
+#include "appdraw/DrawAdorn.h"
 #include "v8datamodel/changehistory.h"
 #include "RbxG3D/RbxRay.h"
 

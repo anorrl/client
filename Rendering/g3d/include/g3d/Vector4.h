@@ -15,13 +15,13 @@
 #ifndef G3D_Vector4_h
 #define G3D_Vector4_h
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
-#include "G3D/Vector3.h"
-#include "G3D/Vector2.h"
-#include "G3D/Table.h"
-#include "G3D/HashTrait.h"
-#include "G3D/PositionTrait.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
+#include "g3d/Vector3.h"
+#include "g3d/Vector2.h"
+#include "g3d/Table.h"
+#include "g3d/HashTrait.h"
+#include "g3d/PositionTrait.h"
 #include <string>
 
 namespace G3D {

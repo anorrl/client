@@ -7,7 +7,7 @@
 
 #include <boost/unordered_map.hpp>
 
-#include "V8Xml/XmlElement.h"
+#include "v8xml/XmlElement.h"
 
 namespace ARL
 {

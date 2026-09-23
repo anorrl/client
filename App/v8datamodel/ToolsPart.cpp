@@ -1,16 +1,16 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/ToolsPart.h"
+#include "v8datamodel/ToolsPart.h"
 
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/SpecialMesh.h"
-#include "V8DataModel/ChangeHistory.h"
-#include "Script/Script.h"
-#include "V8World/Primitive.h"
-#include "V8World/World.h"
-#include "Util/SoundService.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/SpecialMesh.h"
+#include "v8datamodel/ChangeHistory.h"
+#include "script/script.h"
+#include "v8world/Primitive.h"
+#include "v8world/World.h"
+#include "util/SoundService.h"
 #include "SelectState.h"
 
 namespace ARL {

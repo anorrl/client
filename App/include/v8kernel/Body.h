@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "V8Kernel/KernelIndex.h"
-#include "V8Kernel/Cofm.h"
-#include "V8Kernel/SimBody.h"
-#include "V8Kernel/Link.h"
-#include "Util/IndexArray.h"
-#include "Util/IndexedTree.h"
-#include "Util/Memory.h"
+#include "v8kernel/KernelIndex.h"
+#include "v8kernel/Cofm.h"
+#include "v8kernel/SimBody.h"
+#include "v8kernel/Link.h"
+#include "util/IndexArray.h"
+#include "util/IndexedTree.h"
+#include "util/Memory.h"
 #include "arl/threadsafe.h"
 
 class btCollisionObject;

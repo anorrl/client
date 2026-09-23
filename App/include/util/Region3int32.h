@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "Util/Vector3int32.h"
+#include "util/Vector3int32.h"
 
 namespace ARL {
 

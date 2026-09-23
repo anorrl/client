@@ -42,37 +42,37 @@
     <Filter Include="Source Files\Util">
       <UniqueIdentifier>{6d6c3c26-4e29-49c0-86a4-085b27d187a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\V8DataModel">
+    <Filter Include="Source Files\v8datamodel">
       <UniqueIdentifier>{c9de0b5a-82a1-413e-9509-0d46e6281d13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\V8DataModel\Parts">
+    <Filter Include="Source Files\v8datamodel\Parts">
       <UniqueIdentifier>{a459d8fe-8531-4acc-b116-6cd1f6c93bb0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\V8DataModel\GUI">
+    <Filter Include="Source Files\v8datamodel\GUI">
       <UniqueIdentifier>{fa70f49d-390f-4332-bfa6-755d34a274e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\V8DataModel\3DGUI">
+    <Filter Include="Source Files\v8datamodel\3DGUI">
       <UniqueIdentifier>{a96beeec-13d3-4893-82d3-9d13329517c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\V8DataModel\Animation">
+    <Filter Include="Source Files\v8datamodel\Animation">
       <UniqueIdentifier>{6147c498-d7f2-4937-8c21-5f2200a24825}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\V8DataModel\LuaTools">
+    <Filter Include="Source Files\v8datamodel\LuaTools">
       <UniqueIdentifier>{77561201-aec8-4d5a-959b-f30a9901824e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\V8Kernel">
       <UniqueIdentifier>{7381d5d6-1f86-480a-ae88-7c94967e9d67}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\V8Tree">
+    <Filter Include="Source Files\v8tree">
       <UniqueIdentifier>{ecfff2d3-3959-4546-86ac-130d2181df01}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\V8World">
+    <Filter Include="Source Files\v8world">
       <UniqueIdentifier>{59e8840c-018f-43db-bec8-b5c6fabdd72c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\V8World\Contact">
+    <Filter Include="Source Files\v8world\Contact">
       <UniqueIdentifier>{679c0386-aee4-4362-ba7e-04a7a2fabff6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\V8Xml">
+    <Filter Include="Source Files\v8xml">
       <UniqueIdentifier>{2a8ec77a-dcc0-49b9-b540-5bbca752da44}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Voxel">
@@ -87,37 +87,37 @@
     <Filter Include="Header Files\Voxel">
       <UniqueIdentifier>{707bf899-cfa6-4404-bbd9-d4208bd3d95b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\V8Xml">
+    <Filter Include="Header Files\v8xml">
       <UniqueIdentifier>{1655886e-427f-499c-97ac-84f8210ec765}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\V8World">
+    <Filter Include="Header Files\v8world">
       <UniqueIdentifier>{7c0faffb-b882-43ca-b0f0-ad66f0d1752e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\V8World\Contact">
+    <Filter Include="Header Files\v8world\Contact">
       <UniqueIdentifier>{93c7b012-4936-419a-a1bc-d5848c55d1ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\V8Tree">
+    <Filter Include="Header Files\v8tree">
       <UniqueIdentifier>{11f9e2fd-ec87-497f-aa45-133c509bf29f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\V8Kernel">
       <UniqueIdentifier>{95795210-6783-443a-b807-42a1c9eef52f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\V8DataModel">
+    <Filter Include="Header Files\v8datamodel">
       <UniqueIdentifier>{f52e189c-0018-4133-aba2-453364c993cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\V8DataModel\Parts">
+    <Filter Include="Header Files\v8datamodel\Parts">
       <UniqueIdentifier>{65047b7a-58c5-40e7-84a4-7fc1f605457c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\V8DataModel\GUI">
+    <Filter Include="Header Files\v8datamodel\GUI">
       <UniqueIdentifier>{9a1ff4bf-0e47-452e-87d9-084af75db43d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\V8DataModel\3DGUI">
+    <Filter Include="Header Files\v8datamodel\3DGUI">
       <UniqueIdentifier>{e5e14b0b-2d22-4ce3-9f0b-7ba8caa3705b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\V8DataModel\Animation">
+    <Filter Include="Header Files\v8datamodel\Animation">
       <UniqueIdentifier>{7cf1cff5-d408-4809-80c7-644ffdf95bb4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\V8DataModel\LuaTools">
+    <Filter Include="Header Files\v8datamodel\LuaTools">
       <UniqueIdentifier>{6bd4acef-5983-4e52-9752-5102fdb51c9b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Util">
@@ -180,697 +180,697 @@
       <Filter>Source Files\V8Kernel</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Assembly.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\AssemblyHistory.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\AssemblyStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Buoyancy.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\CleanStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Clump.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\ContactManager.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\ContactManagerSpatialHash.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
-    <ClCompile Include="V8World\ContactStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+    <ClCompile Include="v8world\ContactStage.cpp">
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Controller.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Edge.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\EdgeBuffer.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\EdgeStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Feature.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\GlueJoint.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\GroundStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\HumanoidStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\IMoving.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
-    <ClCompile Include="V8World\IPipelined.cpp">
-      <Filter>Source Files\V8World</Filter>
+    <ClCompile Include="v8world\IPipelined.cpp">
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\IWorldStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
-    <ClCompile Include="V8World\Joint.cpp">
-      <Filter>Source Files\V8World</Filter>
+    <ClCompile Include="v8world\Joint.cpp">
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\JointBuilder.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\JointStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\KernelJoint.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\MacroTypes.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
-    <ClCompile Include="V8World\Mechanism.cpp">
-      <Filter>Source Files\V8World</Filter>
+    <ClCompile Include="v8world\Mechanism.cpp">
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\MechToAssemblyStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Motor6DJoint.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\MotorJoint.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\MovingAssemblyStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\MovingStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\MutilJoint.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Primitive.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\RigidJoint.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\RotateJoint.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\SendPhysics.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\SimJob.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\SimulateStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
-    <ClCompile Include="V8World\SleepStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+    <ClCompile Include="v8world\SleepStage.cpp">
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\SnapJoint.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\SpatialFilter.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\SpatialHashMultiRes.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\StepJointsStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\TerrainPartition.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\TreeStage.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\WeldJoint.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
-    <ClCompile Include="V8World\World.cpp">
-      <Filter>Source Files\V8World</Filter>
+    <ClCompile Include="v8world\World.cpp">
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
-    <ClCompile Include="V8World\Ball.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+    <ClCompile Include="v8world\Ball.cpp">
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\BallCellContact.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\BallPolyContact.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
-    <ClCompile Include="V8World\Block.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+    <ClCompile Include="v8world\Block.cpp">
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\CellContact.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
-    <ClCompile Include="V8World\Contact.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+    <ClCompile Include="v8world\Contact.cpp">
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\CornerWedgePoly.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\MegaClusterPoly.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Mesh.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\ParallelRampPoly.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Poly.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\PolyCellContact.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\PolyContact.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\PolyPolyContact.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\PrismPoly.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\PyramidPoly.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\RightAngleRampPoly.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\WedgePoly.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Accoutrement.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Backpack.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\BadgeService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\BevelMesh.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Bindable.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\BlockMesh.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Camera.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ChangeHistory.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CharacterAppearance.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CharacterMesh.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ChatService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ClickDetector.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CollectionService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
-    <ClCompile Include="V8DataModel\Commands.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+    <ClCompile Include="v8datamodel\Commands.cpp">
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CommonVerbs.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Configuration.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CookiesEngineService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CustomEvent.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CustomEventReceiver.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CylinderMesh.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
-    <ClCompile Include="V8DataModel\DataModel.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+    <ClCompile Include="v8datamodel\DataModel.cpp">
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\DataModelJob.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\DataModelMesh.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\DebrisService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\DebugSettings.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Decal.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\DialogChoice.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\DialogRoot.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Effect.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Enums.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
-    <ClCompile Include="V8DataModel\Explosion.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+    <ClCompile Include="v8datamodel\Explosion.cpp">
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\FaceInstance.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\factoryregistration.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\FastLogSettings.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Feature.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\FileMesh.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Filters.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Fire.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Flag.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\FlagStand.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\FloorWire.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ForceField.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\FriendService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Game.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GameBasicSettings.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GamePassService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GameSettings.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GeometryService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GlobalSettings.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GuiBuilder.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Gyro.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Hopper.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ICharacterSubject.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\IEquipable.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\InsertService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
-    <ClCompile Include="V8DataModel\JointInstance.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+    <ClCompile Include="v8datamodel\JointInstance.cpp">
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\JointsService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\legacy.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Lighting.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\LocalWorkspace.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ManualJointHelper.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\MarketplaceService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Message.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ModelInstance.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Mouse.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\MouseCommand.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PersonalServerService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PhysicsInstructions.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PhysicsService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PhysicsSettings.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PlayerMouse.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PluginManager.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PluginMouse.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PVInstance.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\RenderHooksService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\RootInstance.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SafeChat.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ScriptMouseCommand.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Selection.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SkateboardController.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Sky.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Smoke.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SocialService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Sparkles.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SpawnLocation.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SpecialMesh.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Stats.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Surface.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Team.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Teams.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TeleportService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Test.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TextureTrail.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TimerService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Tool.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ToolMouseCommand.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ToolsModel.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ToolsPart.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
-    <ClCompile Include="V8DataModel\ToolsSurface.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+    <ClCompile Include="v8datamodel\ToolsSurface.cpp">
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TouchTransmitter.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\UserController.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\UserInputService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Value.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\VirtualUser.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Visit.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
-    <ClCompile Include="V8DataModel\Workspace.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+    <ClCompile Include="v8datamodel\Workspace.cpp">
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\BasicPartInstance.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CornerWedgeInstance.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ExtrudedPartInstance.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\MegaCluster.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ParallelRampInstance.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ParametricPartInstance.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PartInstance.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Platform.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PrismInstance.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PyramidInstance.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\RightAngleRampInstance.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Seat.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SkateboardPlatform.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\VehicleSeat.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\BillboardGui.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Frame.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GuiBase.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GuiBase2d.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GuiObject.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GuiService.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ImageButton.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ImageLabel.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PlayerGui.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Scale9Frame.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ScreenGui.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TextBox.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TextButton.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TextLabel.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TextService.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TweenService.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Adornment.cpp">
-      <Filter>Source Files\V8DataModel\3DGUI</Filter>
+      <Filter>Source Files\v8datamodel\3DGUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ArcHandles.cpp">
-      <Filter>Source Files\V8DataModel\3DGUI</Filter>
+      <Filter>Source Files\v8datamodel\3DGUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GuiBase3d.cpp">
-      <Filter>Source Files\V8DataModel\3DGUI</Filter>
+      <Filter>Source Files\v8datamodel\3DGUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Handles.cpp">
-      <Filter>Source Files\V8DataModel\3DGUI</Filter>
+      <Filter>Source Files\v8datamodel\3DGUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\HandlesBase.cpp">
-      <Filter>Source Files\V8DataModel\3DGUI</Filter>
+      <Filter>Source Files\v8datamodel\3DGUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SelectionBox.cpp">
-      <Filter>Source Files\V8DataModel\3DGUI</Filter>
+      <Filter>Source Files\v8datamodel\3DGUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SelectionLasso.cpp">
-      <Filter>Source Files\V8DataModel\3DGUI</Filter>
+      <Filter>Source Files\v8datamodel\3DGUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SurfaceSelection.cpp">
-      <Filter>Source Files\V8DataModel\3DGUI</Filter>
+      <Filter>Source Files\v8datamodel\3DGUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\AnimatableRootJoint.cpp">
-      <Filter>Source Files\V8DataModel\Animation</Filter>
+      <Filter>Source Files\v8datamodel\Animation</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Animation.cpp">
-      <Filter>Source Files\V8DataModel\Animation</Filter>
+      <Filter>Source Files\v8datamodel\Animation</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\AnimationTrack.cpp">
-      <Filter>Source Files\V8DataModel\Animation</Filter>
+      <Filter>Source Files\v8datamodel\Animation</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\AnimationTrackState.cpp">
-      <Filter>Source Files\V8DataModel\Animation</Filter>
+      <Filter>Source Files\v8datamodel\Animation</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Animator.cpp">
-      <Filter>Source Files\V8DataModel\Animation</Filter>
+      <Filter>Source Files\v8datamodel\Animation</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Keyframe.cpp">
-      <Filter>Source Files\V8DataModel\Animation</Filter>
+      <Filter>Source Files\v8datamodel\Animation</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\KeyframeSequence.cpp">
-      <Filter>Source Files\V8DataModel\Animation</Filter>
+      <Filter>Source Files\v8datamodel\Animation</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\KeyframeSequenceProvider.cpp">
-      <Filter>Source Files\V8DataModel\Animation</Filter>
+      <Filter>Source Files\v8datamodel\Animation</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Pose.cpp">
-      <Filter>Source Files\V8DataModel\Animation</Filter>
+      <Filter>Source Files\v8datamodel\Animation</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\StudioTool.cpp">
-      <Filter>Source Files\V8DataModel\LuaTools</Filter>
+      <Filter>Source Files\v8datamodel\LuaTools</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\StudioToolMouseCommand.cpp">
-      <Filter>Source Files\V8DataModel\LuaTools</Filter>
+      <Filter>Source Files\v8datamodel\LuaTools</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\StudioToolVerb.cpp">
-      <Filter>Source Files\V8DataModel\LuaTools</Filter>
+      <Filter>Source Files\v8datamodel\LuaTools</Filter>
     </ClCompile>
     <ClCompile Include="v8xml\SerializerV2.cpp">
-      <Filter>Source Files\V8Xml</Filter>
+      <Filter>Source Files\v8xml</Filter>
     </ClCompile>
     <ClCompile Include="v8xml\WebParser.cpp">
-      <Filter>Source Files\V8Xml</Filter>
+      <Filter>Source Files\v8xml</Filter>
     </ClCompile>
     <ClCompile Include="v8xml\WebSerializer.cpp">
-      <Filter>Source Files\V8Xml</Filter>
+      <Filter>Source Files\v8xml</Filter>
     </ClCompile>
-    <ClCompile Include="V8Xml\XmlElement.cpp">
-      <Filter>Source Files\V8Xml</Filter>
+    <ClCompile Include="v8xml\XmlElement.cpp">
+      <Filter>Source Files\v8xml</Filter>
     </ClCompile>
-    <ClCompile Include="V8Xml\XmlSerializer.cpp">
-      <Filter>Source Files\V8Xml</Filter>
+    <ClCompile Include="v8xml\XmlSerializer.cpp">
+      <Filter>Source Files\v8xml</Filter>
     </ClCompile>
     <ClCompile Include="v8tree\EnumProperty.cpp">
-      <Filter>Source Files\V8Tree</Filter>
+      <Filter>Source Files\v8tree</Filter>
     </ClCompile>
     <ClCompile Include="v8tree\Instance.cpp">
-      <Filter>Source Files\V8Tree</Filter>
+      <Filter>Source Files\v8tree</Filter>
     </ClCompile>
     <ClCompile Include="v8tree\Property.cpp">
-      <Filter>Source Files\V8Tree</Filter>
+      <Filter>Source Files\v8tree</Filter>
     </ClCompile>
     <ClCompile Include="v8tree\Service.cpp">
-      <Filter>Source Files\V8Tree</Filter>
+      <Filter>Source Files\v8tree</Filter>
     </ClCompile>
     <ClCompile Include="v8tree\Verb.cpp">
-      <Filter>Source Files\V8Tree</Filter>
+      <Filter>Source Files\v8tree</Filter>
     </ClCompile>
     <ClCompile Include="util\Action.cpp">
       <Filter>Source Files\Util</Filter>
@@ -1407,10 +1407,10 @@
       <Filter>Source Files\Gui</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ContextActionService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ScriptService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="util\ProgramMemoryChecker.cpp">
       <Filter>Source Files\Util</Filter>
@@ -1419,7 +1419,7 @@
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8xml\SerializerBinary.cpp">
-      <Filter>Source Files\V8Xml</Filter>
+      <Filter>Source Files\v8xml</Filter>
     </ClCompile>
     <ClCompile Include="lz4\lz4.c">
       <Filter>lz4</Filter>
@@ -1446,25 +1446,25 @@
       <Filter>Source Files\Voxel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\InputObject.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Light.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\LoginService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ReplicatedStorage.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ServerScriptService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ServerStorage.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SleepingJob.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="util\MachineIdUploader.cpp">
       <Filter>Source Files\Util</Filter>
@@ -1479,13 +1479,13 @@
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\AssetService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\HttpService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Remote.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="util\MemoryStats.cpp">
       <Filter>Source Files\Util</Filter>
@@ -1497,25 +1497,25 @@
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\DataStore.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\DataStoreService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\AnimationController.cpp">
-      <Filter>Source Files\V8DataModel\Animation</Filter>
+      <Filter>Source Files\v8datamodel\Animation</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TerrainRegion.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="script\ModuleScript.cpp">
       <Filter>Source Files\Script</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SurfaceGui.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\AnimationController.cpp">
-      <Filter>Source Files\V8DataModel Source\Animation</Filter>
+      <Filter>Source Files\v8datamodel Source\Animation</Filter>
     </ClCompile>
     <ClCompile Include="util\KeyCode.cpp">
       <Filter>Source Files\Util</Filter>
@@ -1533,7 +1533,7 @@
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\LogService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="script\LuaCoreFunctions.cpp">
       <Filter>Source Files\Script</Filter>
@@ -1542,16 +1542,16 @@
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PointsService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ScrollingFrame.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PartOperation.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CSGMesh.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\NotificationService.cpp">
       <Filter>Source Files</Filter>
@@ -1560,13 +1560,13 @@
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ReplicatedFirst.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="util\Win\FileSystem.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PathfindingService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="script\ScriptAnalyzer.cpp">
       <Filter>Source Files\Script</Filter>
@@ -1575,28 +1575,28 @@
       <Filter>Source Files\Voxel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PartCookie.cpp">
-      <Filter>Source Files\V8DataModel\Parts</Filter>
+      <Filter>Source Files\v8datamodel\Parts</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CSGDictionaryService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\FlyweightService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\NonReplicatedCSGDictionaryService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8world\BulletGeometryPoolObjects.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\BulletShapeCellContact.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\BulletShapeContact.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8world\TriangleMesh.cpp">
-      <Filter>Source Files\V8World\Contact</Filter>
+      <Filter>Source Files\v8world\Contact</Filter>
     </ClCompile>
     <ClCompile Include="v8kernel\BulletShapeConnectors.cpp">
       <Filter>Source Files\V8Kernel</Filter>
@@ -1611,22 +1611,22 @@
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SolidModelContentProvider.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\StarterPlayerService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PartOperationAsset.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="util\Shared\HttpCacheEntry.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PlayerScripts.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Folder.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="voxel2\Grid.cpp">
       <Filter>Source Files\Voxel2</Filter>
@@ -1638,10 +1638,10 @@
       <Filter>Source Files\Voxel2</Filter>
     </ClCompile>
     <ClCompile Include="v8world\SmoothClusterGeometry.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\HttpRbxApiService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="util\SoundService.cpp">
       <Filter>Source Files\Util</Filter>
@@ -1668,37 +1668,37 @@
       <Filter>Source Files\Security</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\SelectionSphere.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\GamepadService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="script\LuaSourceContainer.cpp">
       <Filter>Source Files\Script</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\NumberSequence.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ColorSequence.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\CustomParticleEmitter.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\NumberRange.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\BaseRenderJob.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="util\Analytics.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\HandleAdornment.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TouchInputService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="solver\ConstraintJacobian.cpp">
       <Filter>Source Files\Solver</Filter>
@@ -1716,7 +1716,7 @@
       <Filter>Source Files\Solver</Filter>
     </ClCompile>
     <ClCompile Include="v8world\MaterialProperties.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PlatformService.cpp">
       <Filter>Source Files</Filter>
@@ -1731,49 +1731,49 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="v8world\Cylinder.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="v8world\BulletContact.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="util\FileSystemIndependent.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8world\KDTree.cpp">
-      <Filter>Source Files\V8World</Filter>
+      <Filter>Source Files\v8world</Filter>
     </ClCompile>
     <ClCompile Include="util\PhysicalProperties.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\HapticService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Attachment.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="DiscordHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\PostEffect.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\DiscordRPCService.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\ANORRLReplicatedStorage.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\MeshPartInstance.cpp">
-      <Filter>Source Files\V8DataModel</Filter>
+      <Filter>Source Files\v8datamodel</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\Tween.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
     <ClCompile Include="util\TweenInfo.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
     <ClCompile Include="v8datamodel\TweenBase.cpp">
-      <Filter>Source Files\V8DataModel\GUI</Filter>
+      <Filter>Source Files\v8datamodel\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1901,553 +1901,553 @@
       <Filter>Header Files\V8Kernel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Accoutrement.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Backpack.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\BadgeService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\BevelMesh.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Bindable.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\BlockMesh.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CacheableContentProvider.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Camera.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ChangeHistory.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CharacterAppearance.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CharacterMesh.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ChatService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ClickDetector.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CollectionService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8DataModel\Commands.h">
-      <Filter>Header Files\V8DataModel</Filter>
+    <ClInclude Include="include\v8datamodel\Commands.h">
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CommonVerbs.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Configuration.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ContentProvider.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CookiesEngineService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CustomEvent.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CustomEventReceiver.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CylinderMesh.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8DataModel\DataModel.h">
-      <Filter>Header Files\V8DataModel</Filter>
+    <ClInclude Include="include\v8datamodel\DataModel.h">
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\DataModelJob.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\DataModelMesh.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\DebrisService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\DebugSettings.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Decal.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\DialogChoice.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\DialogRoot.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Effect.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\EventReplicator.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8DataModel\Explosion.h">
-      <Filter>Header Files\V8DataModel</Filter>
+    <ClInclude Include="include\v8datamodel\Explosion.h">
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\FaceInstance.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\factoryregistration.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\FastLogSettings.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Feature.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\FileMesh.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Filters.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Fire.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Flag.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\FlagStand.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\FloorWire.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ForceField.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\FriendService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Game.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GameBasicSettings.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GamePassService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GameSettings.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GeometryService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GlobalSettings.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GuiBuilder.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Gyro.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\HackDefines.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Hopper.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ICameraOwner.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ICharacterSubject.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\IEquipable.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\IModelModifier.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\InsertService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8DataModel\JointInstance.h">
-      <Filter>Header Files\V8DataModel</Filter>
+    <ClInclude Include="include\v8datamodel\JointInstance.h">
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\JointsService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\legacy.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Lighting.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\LocalWorkspace.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ManualJointHelper.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\MarketplaceService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\MeshContentProvider.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Message.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ModelInstance.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Mouse.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\MouseCommand.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PersonalServerService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PhysicsInstructions.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PhysicsService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PhysicsSettings.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PlayerMouse.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PluginManager.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PluginMouse.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Posture.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PVInstance.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\RenderHooksService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\RootInstance.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SafeChat.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ScriptMouseCommand.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Selection.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SkateboardController.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Sky.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Smoke.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SocialService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Sparkles.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SpawnLocation.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SpecialMesh.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Stats.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\StudioPluginHost.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Surface.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Team.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Teams.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TeleportService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Test.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TextureContentProvider.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TextureTrail.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TimerService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Tool.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ToolMouseCommand.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ToolsModel.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ToolsPart.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8DataModel\ToolsSurface.h">
-      <Filter>Header Files\V8DataModel</Filter>
+    <ClInclude Include="include\v8datamodel\ToolsSurface.h">
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TouchTransmitter.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\UndoRedo.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\UserController.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\UserInputService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Value.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\VirtualUser.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Visit.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8DataModel\Workspace.h">
-      <Filter>Header Files\V8DataModel</Filter>
+    <ClInclude Include="include\v8datamodel\Workspace.h">
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ActionStation.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\BasicPartInstance.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CornerWedgeInstance.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ExtrudedPartInstance.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\MegaCluster.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ParallelRampInstance.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ParametricPartInstance.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PartInstance.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Platform.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PrismInstance.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PyramidInstance.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\RightAngleRampInstance.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Seat.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SkateboardPlatform.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\VehicleSeat.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\BillboardGui.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Frame.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GuiBase.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GuiBase2d.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GuiCore.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GuiLayerCollector.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GuiMixin.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GuiObject.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GuiService.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GuiText.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ImageButton.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ImageLabel.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PlayerGui.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Scale9Frame.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ScreenGui.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TextBox.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TextButton.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TextLabel.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TextService.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TweenService.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Adornment.h">
-      <Filter>Header Files\V8DataModel\3DGUI</Filter>
+      <Filter>Header Files\v8datamodel\3DGUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ArcHandles.h">
-      <Filter>Header Files\V8DataModel\3DGUI</Filter>
+      <Filter>Header Files\v8datamodel\3DGUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GuiBase3d.h">
-      <Filter>Header Files\V8DataModel\3DGUI</Filter>
+      <Filter>Header Files\v8datamodel\3DGUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Handles.h">
-      <Filter>Header Files\V8DataModel\3DGUI</Filter>
+      <Filter>Header Files\v8datamodel\3DGUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\HandlesBase.h">
-      <Filter>Header Files\V8DataModel\3DGUI</Filter>
+      <Filter>Header Files\v8datamodel\3DGUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SelectionBox.h">
-      <Filter>Header Files\V8DataModel\3DGUI</Filter>
+      <Filter>Header Files\v8datamodel\3DGUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SelectionLasso.h">
-      <Filter>Header Files\V8DataModel\3DGUI</Filter>
+      <Filter>Header Files\v8datamodel\3DGUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SurfaceSelection.h">
-      <Filter>Header Files\V8DataModel\3DGUI</Filter>
+      <Filter>Header Files\v8datamodel\3DGUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\AnimatableRootJoint.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Animation.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\AnimationTrack.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\AnimationTrackState.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Animator.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\IAnimatableJoint.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Keyframe.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\KeyframeSequence.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\KeyframeSequenceProvider.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Pose.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\StudioTool.h">
-      <Filter>Header Files\V8DataModel\LuaTools</Filter>
+      <Filter>Header Files\v8datamodel\LuaTools</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\StudioToolMouseCommand.h">
-      <Filter>Header Files\V8DataModel\LuaTools</Filter>
+      <Filter>Header Files\v8datamodel\LuaTools</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\StudioToolVerb.h">
-      <Filter>Header Files\V8DataModel\LuaTools</Filter>
+      <Filter>Header Files\v8datamodel\LuaTools</Filter>
     </ClInclude>
     <ClInclude Include="include\v8xml\Reference.h">
-      <Filter>Header Files\V8Xml</Filter>
+      <Filter>Header Files\v8xml</Filter>
     </ClInclude>
     <ClInclude Include="include\v8xml\Serializer.h">
-      <Filter>Header Files\V8Xml</Filter>
+      <Filter>Header Files\v8xml</Filter>
     </ClInclude>
     <ClInclude Include="include\v8xml\SerializerV2.h">
-      <Filter>Header Files\V8Xml</Filter>
+      <Filter>Header Files\v8xml</Filter>
     </ClInclude>
     <ClInclude Include="include\v8xml\WebParser.h">
-      <Filter>Header Files\V8Xml</Filter>
+      <Filter>Header Files\v8xml</Filter>
     </ClInclude>
     <ClInclude Include="include\v8xml\WebSerializer.h">
-      <Filter>Header Files\V8Xml</Filter>
+      <Filter>Header Files\v8xml</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8Xml\XmlElement.h">
-      <Filter>Header Files\V8Xml</Filter>
+    <ClInclude Include="include\v8xml\XmlElement.h">
+      <Filter>Header Files\v8xml</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8Xml\XmlSerializer.h">
-      <Filter>Header Files\V8Xml</Filter>
+    <ClInclude Include="include\v8xml\XmlSerializer.h">
+      <Filter>Header Files\v8xml</Filter>
     </ClInclude>
     <ClInclude Include="include\v8tree\Instance.h">
-      <Filter>Header Files\V8Tree</Filter>
+      <Filter>Header Files\v8tree</Filter>
     </ClInclude>
     <ClInclude Include="include\v8tree\Property.h">
-      <Filter>Header Files\V8Tree</Filter>
+      <Filter>Header Files\v8tree</Filter>
     </ClInclude>
     <ClInclude Include="include\v8tree\Service.h">
-      <Filter>Header Files\V8Tree</Filter>
+      <Filter>Header Files\v8tree</Filter>
     </ClInclude>
     <ClInclude Include="include\v8tree\Verb.h">
-      <Filter>Header Files\V8Tree</Filter>
+      <Filter>Header Files\v8tree</Filter>
     </ClInclude>
     <ClInclude Include="include\util\Action.h">
       <Filter>Header Files\Util</Filter>
@@ -2710,7 +2710,7 @@
     <ClInclude Include="include\util\SpanningTree.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="include\util\standardout.h">
+    <ClInclude Include="include\util\StandardOut.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\util\Statistics.h">
@@ -3026,253 +3026,253 @@
       <Filter>Header Files\Tool</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Assembly.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\AssemblyHistory.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\AssemblyStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\BasicSpatialHashPrimitive.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Buoyancy.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\CleanStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Clump.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\ContactManager.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\ContactManagerSpatialHash.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8World\ContactStage.h">
-      <Filter>Header Files\V8World</Filter>
+    <ClInclude Include="include\v8world\ContactStage.h">
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Controller.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\DistributedPhysics.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Edge.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\EdgeBuffer.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\EdgeStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Enum.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Feature.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Geometry.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\GlueJoint.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\GroundStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\HumanoidStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\IMoving.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8World\IPipelined.h">
-      <Filter>Header Files\V8World</Filter>
+    <ClInclude Include="include\v8world\IPipelined.h">
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\IWorldStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8World\Joint.h">
-      <Filter>Header Files\V8World</Filter>
+    <ClInclude Include="include\v8world\Joint.h">
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\JointBuilder.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\JointStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\KernelJoint.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8World\Mechanism.h">
-      <Filter>Header Files\V8World</Filter>
+    <ClInclude Include="include\v8world\Mechanism.h">
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\MechToAssemblyStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Motor6DJoint.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\MotorJoint.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\MovingAssemblyStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\MovingStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\MultiJoint.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Primitive.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\RigidJoint.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\RotateJoint.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\SendPhysics.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\SimJob.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\SimulateStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8World\SleepStage.h">
-      <Filter>Header Files\V8World</Filter>
+    <ClInclude Include="include\v8world\SleepStage.h">
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\SnapJoint.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\SpatialFilter.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\SpatialHashMultiRes.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\StepJointsStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\SurfaceData.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\TerrainPartition.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Tolerance.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\TreeStage.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\WeldJoint.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8World\World.h">
-      <Filter>Header Files\V8World</Filter>
+    <ClInclude Include="include\v8world\World.h">
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8World\Ball.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+    <ClInclude Include="include\v8world\Ball.h">
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\BallCellContact.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\BallPolyContact.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8World\Block.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+    <ClInclude Include="include\v8world\Block.h">
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\BlockCorners.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\BlockMesh.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\CellContact.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
-    <ClInclude Include="include\V8World\Contact.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+    <ClInclude Include="include\v8world\Contact.h">
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\CornerWedgeMesh.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\CornerWedgePoly.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\GeometryPool.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\MegaClusterMesh.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\MegaClusterPoly.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Mesh.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\ParallelRampMesh.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\ParallelRampPoly.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\Poly.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\PolyCellContact.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\PolyContact.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\PolyPolyContact.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\PrismMesh.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\PrismPoly.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\PyramidMesh.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\PyramidPoly.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\RightAngleRampMesh.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\RightAngleRampPoly.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\WedgeMesh.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\WedgePoly.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\security\SecurityContext.h">
       <Filter>Header Files\Security</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ContextActionService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ScriptService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\util\ProgramMemoryChecker.h">
       <Filter>Header Files\Util</Filter>
@@ -3281,7 +3281,7 @@
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\v8xml\SerializerBinary.h">
-      <Filter>Header Files\V8Xml</Filter>
+      <Filter>Header Files\v8xml</Filter>
     </ClInclude>
     <ClInclude Include="lz4\lz4.h">
       <Filter>lz4</Filter>
@@ -3329,31 +3329,31 @@
       <Filter>Header Files\Voxel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\InputObject.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Light.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\LoginService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PartDragger.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ReplicatedStorage.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ServerScriptService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ServerStorage.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SleepingJob.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TeleportCallback.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\util\HeapValue.h">
       <Filter>Header Files\Util</Filter>
@@ -3368,37 +3368,37 @@
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\AssetService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Remote.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\util\MemoryStats.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="include\util\Region3int32.h">
+    <ClInclude Include="include\util\Region3Int32.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\util\StreamRegion.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\DataStore.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\DataStoreService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\AnimationController.h">
-      <Filter>Header Files\V8DataModel\Animation</Filter>
+      <Filter>Header Files\v8datamodel\Animation</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TerrainRegion.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\script\ModuleScript.h">
       <Filter>Header Files\Script</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SurfaceGui.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\stdafx.h">
       <Filter>Header Files</Filter>
@@ -3410,7 +3410,7 @@
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\LogService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\script\LuaCoreFunctions.h">
       <Filter>Header Files\Script</Filter>
@@ -3419,10 +3419,10 @@
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PointsService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ScrollingFrame.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\NotificationService.h">
       <Filter>Header Files</Filter>
@@ -3431,22 +3431,22 @@
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ReplicatedFirst.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PartOperation.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CSGMesh.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PathfindingService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\voxel\Voxelizer.h">
       <Filter>Header Files\Voxel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PartCookie.h">
-      <Filter>Header Files\V8DataModel\Parts</Filter>
+      <Filter>Header Files\v8datamodel\Parts</Filter>
     </ClInclude>
     <ClInclude Include="include\script\ScriptAnalyzer.h">
       <Filter>Header Files\Script</Filter>
@@ -3455,22 +3455,22 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\FlyweightService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\NonReplicatedCSGDictionaryService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\TriangleMesh.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\BulletShapeContact.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\BulletShapeCellContact.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\BulletGeometryPoolObjects.h">
-      <Filter>Header Files\V8World\Contact</Filter>
+      <Filter>Header Files\v8world\Contact</Filter>
     </ClInclude>
     <ClInclude Include="include\util\Lcmrand.h">
       <Filter>Header Files\Util</Filter>
@@ -3485,28 +3485,28 @@
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SolidModelContentProvider.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\StarterPlayerService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PartOperationAsset.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\util\CheatEngine.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PlayerScripts.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Folder.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\HttpRbxApiService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\HttpRbxApiJob.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\util\SoundService.h">
       <Filter>Header Files\Util</Filter>
@@ -3545,10 +3545,10 @@
       <Filter>Header Files\Security</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\SelectionSphere.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\GamepadService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\script\LuaSourceContainer.h">
       <Filter>Header Files\Script</Filter>
@@ -3557,16 +3557,16 @@
       <Filter>Header Files\Security</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\NumberSequence.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ColorSequence.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\CustomParticleEmitter.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\BaseRenderJob.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\security\RandomConstant.h">
       <Filter>Header Files\Security</Filter>
@@ -3578,10 +3578,10 @@
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\HandleAdornment.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TouchInputService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\solver\SolverConfig.h">
       <Filter>Header Files\Solver</Filter>
@@ -3599,7 +3599,7 @@
       <Filter>Header Files\Script</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\MaterialProperties.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\util\PhysicalProperties.h">
       <Filter>Header Files\Util</Filter>
@@ -3632,37 +3632,37 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\v8world\KDTree.h">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\HapticService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Attachment.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\DiscordHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\PostEffect.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\DiscordRPCService.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\ANORRLReplicatedStorage.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\MeshPartInstance.h">
-      <Filter>Header Files\V8DataModel</Filter>
+      <Filter>Header Files\v8datamodel</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\Tween.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\util\TweenInfo.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
     <ClInclude Include="include\v8datamodel\TweenBase.h">
-      <Filter>Header Files\V8DataModel\GUI</Filter>
+      <Filter>Header Files\v8datamodel\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3673,7 +3673,7 @@
       <Filter>Header Files\Util</Filter>
     </None>
     <None Include="include\v8world\SpatialHashMultiRes.inl">
-      <Filter>Header Files\V8World</Filter>
+      <Filter>Header Files\v8world</Filter>
     </None>
     <None Include="include\voxel\AreaCopy.inl">
       <Filter>Header Files\Voxel</Filter>

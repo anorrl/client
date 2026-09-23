@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/BasicPartInstance.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/BasicPartInstance.h"
 #include "reflection/reflection.h"
 
 #ifdef _PRISM_PYRAMID_

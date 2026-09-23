@@ -1,4 +1,3 @@
-include(Boost)
 include(App)
 
 include_project_files(RbxG3D "*")

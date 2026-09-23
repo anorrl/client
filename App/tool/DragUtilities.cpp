@@ -1,16 +1,16 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/DragUtilities.h"
-#include "Tool/Dragger.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/MouseCommand.h"
-#include "V8World/ContactManager.h"
-#include "V8World/Primitive.h"
-#include "V8World/World.h"
-#include "V8World/Tolerance.h"
-#include "Tool/ToolsArrow.h"
+#include "tool/DragUtilities.h"
+#include "tool/Dragger.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/MouseCommand.h"
+#include "v8world/ContactManager.h"
+#include "v8world/Primitive.h"
+#include "v8world/World.h"
+#include "v8world/Tolerance.h"
+#include "tool/ToolsArrow.h"
 
 namespace ARL {
 

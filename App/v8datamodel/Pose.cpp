@@ -1,9 +1,9 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Pose.h"
-#include "V8DataModel/Keyframe.h"
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/Pose.h"
+#include "v8datamodel/Keyframe.h"
+#include "v8datamodel/Workspace.h"
 
 namespace ARL {
 

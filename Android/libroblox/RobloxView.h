@@ -4,8 +4,8 @@
 #include "boost/scoped_ptr.hpp"
 #include "boost/thread.hpp"
 #include "v8datamodel/game.h"
-#include "Util/KeyCode.h"
-#include "G3D/Vector2.h"
+#include "util/KeyCode.h"
+#include "g3d/Vector2.h"
 #include "rbx/signal.h"
 #include "v8tree/Verb.h"
 

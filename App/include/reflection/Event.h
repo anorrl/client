@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "reflection/type.h"
-#include "reflection/member.h"
+#include "reflection/Type.h"
+#include "reflection/Member.h"
 #include "security/SecurityContext.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "boost/any.hpp"
 #include "boost/cast.hpp"
 #include "boost/bind.hpp"
@@ -14,7 +14,7 @@
 
 #include "arl/Countable.h"
 #include "arl/signal.h"
-#include "reflection/type.h"
+#include "reflection/Type.h"
 
 namespace ARL
 {

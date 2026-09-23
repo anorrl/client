@@ -7,7 +7,7 @@
  @edited  2004-02-24
  */
 
-#include "G3D/g3dmath.h"
+#include "g3d/g3dmath.h"
 #include <cstdlib>
 #include <cstring>
 

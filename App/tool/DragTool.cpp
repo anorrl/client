@@ -1,11 +1,11 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/DragTool.h"
-#include "V8DataModel/PartInstance.h"
-#include "Tool/PartDragTool.h"
-#include "Tool/GroupDragTool.h"
-#include "Tool/LuaDragTool.h"
+#include "tool/DragTool.h"
+#include "v8datamodel/PartInstance.h"
+#include "tool/PartDragTool.h"
+#include "tool/GroupDragTool.h"
+#include "tool/LuaDragTool.h"
 
 namespace ARL {
 

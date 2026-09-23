@@ -1,11 +1,11 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/CloneTool.h"
-#include "Tool/PartDragTool.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "Util/SoundService.h"
+#include "tool/CloneTool.h"
+#include "tool/PartDragTool.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "util/SoundService.h"
 
 namespace ARL {
 

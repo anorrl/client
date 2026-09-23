@@ -7,16 +7,16 @@
 #include "ServerReplicator.h"
 #include "Util.h"
 
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8World/Assembly.h"
-#include "V8World/Mechanism.h"
-#include "V8World/Primitive.h"
-#include "V8World/World.h"
-#include "V8World/SpatialFilter.h"
-#include "V8World/DistributedPhysics.h"
-#include "Network/NetworkOwner.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8world/Assembly.h"
+#include "v8world/Mechanism.h"
+#include "v8world/Primitive.h"
+#include "v8world/World.h"
+#include "v8world/SpatialFilter.h"
+#include "v8world/DistributedPhysics.h"
+#include "network/NetworkOwner.h"
 
 using namespace ARL;
 using namespace ARL::Network;

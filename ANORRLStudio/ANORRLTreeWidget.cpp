@@ -23,7 +23,7 @@
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/ChangeHistory.h"
 #include "v8datamodel/GuiObject.h"
-#include "Script/ModuleScript.h"
+#include "script/ModuleScript.h"
 #include "script/script.h"
 #include "util/ScopedAssign.h"
 #include "util/BrickColor.h"

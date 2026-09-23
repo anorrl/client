@@ -30,7 +30,7 @@ struct NetPmcChallenge
     }
 };
 
-#ifdef _WIN32
+
 const size_t kNumChallenges = 128;
 extern const volatile NetPmcChallenge kChallenges[kNumChallenges];
 
@@ -41,6 +41,7 @@ uint32_t netPmcHashCheck(const NetPmcChallenge& challenge);
 #endif
 
 void salsa20(uint8_t *message, uint64_t mlen, uint8_t key[32], uint64_t nonce);
+#ifdef _WIN32
 // This will appear in the release patcher and in ACC, but not in studio or the final client.
 __forceinline std::vector<NetPmcChallenge> generateNetPmcKeys()
 {
@@ -54,6 +55,8 @@ __forceinline std::vector<NetPmcChallenge> generateNetPmcKeys()
     ARL::Security::salsa20(reinterpret_cast<uint8_t*>(keys.data()), sizeof(NetPmcChallenge)*kNumChallenges, key, 2015);
     return keys;
 }
+
+#endif
 
 #ifdef ARL_ACC_SECURITY
 extern std::vector<NetPmcChallenge> netPmcKeys;
@@ -96,7 +99,6 @@ public:
 };
 #endif
 
-#endif
 
 }
 }

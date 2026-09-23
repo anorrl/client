@@ -13,7 +13,7 @@
 #import <ApplicationServices/ApplicationServices.h>
 #import <Carbon/Carbon.h>
 
-#include "G3D/G3DMath.h"
+#include "g3d/G3DMath.h"
 
 #include "v8datamodel/GameBasicSettings.h"
 

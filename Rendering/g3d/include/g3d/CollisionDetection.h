@@ -22,14 +22,14 @@
 #ifndef G3D_COLLISIONDETECTION_H
 #define G3D_COLLISIONDETECTION_H
 
-#include "G3D/platform.h"
-#include "G3D/Vector3.h"
-#include "G3D/Plane.h"
-#include "G3D/Box.h"
-#include "G3D/Triangle.h"
-#include "G3D/Array.h"
-#include "G3D/Ray.h"
-#include "G3D/Line.h"
+#include "g3d/platform.h"
+#include "g3d/Vector3.h"
+#include "g3d/Plane.h"
+#include "g3d/Box.h"
+#include "g3d/Triangle.h"
+#include "g3d/Array.h"
+#include "g3d/Ray.h"
+#include "g3d/Line.h"
 
 namespace G3D {
 

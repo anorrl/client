@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "Util/MachineIdUploader.h"
+#include "util/MachineIdUploader.h"
 
-#include "ARL/Debug.h"
+#include "arl/Debug.h"
 
 #include <winsock2.h>
 #include <Iphlpapi.h>

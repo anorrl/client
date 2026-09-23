@@ -1,9 +1,9 @@
 /* Copyright 2003-2009 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/PyramidInstance.h"
-#include "V8World/PyramidPoly.h"
-#include "V8World/Primitive.h"
+#include "v8datamodel/PyramidInstance.h"
+#include "v8world/PyramidPoly.h"
+#include "v8world/Primitive.h"
 
 #ifdef _PRISM_PYRAMID_
 

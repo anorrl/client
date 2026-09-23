@@ -1,7 +1,7 @@
 #pragma once
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
-#include "V8DataModel/ContentProvider.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
+#include "v8datamodel/ContentProvider.h"
 #include "arl/signal.h"
 #include "arl/boost.hpp"
 #include "boost/thread.hpp"

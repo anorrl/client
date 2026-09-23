@@ -9,20 +9,20 @@
   @edited  2008-12-29
  */
 
-#include "G3D/CoordinateFrame.h"
-#include "G3D/platform.h"
-#include "G3D/CollisionDetection.h"
-#include "G3D/debugAssert.h"
-#include "G3D/vectorMath.h"
-#include "G3D/Capsule.h"
-#include "G3D/Plane.h"
-#include "G3D/Line.h"
-#include "G3D/LineSegment.h"
-#include "G3D/Sphere.h"
-#include "G3D/Box.h"
-#include "G3D/Triangle.h"
-#include "G3D/Vector3.h"
-#include "G3D/AABox.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/platform.h"
+#include "g3d/CollisionDetection.h"
+#include "g3d/debugAssert.h"
+#include "g3d/vectorMath.h"
+#include "g3d/Capsule.h"
+#include "g3d/Plane.h"
+#include "g3d/Line.h"
+#include "g3d/LineSegment.h"
+#include "g3d/Sphere.h"
+#include "g3d/Box.h"
+#include "g3d/Triangle.h"
+#include "g3d/Vector3.h"
+#include "g3d/AABox.h"
 
 #ifdef _MSC_VER
 // Turn on fast floating-point optimizations
@@ -2267,7 +2267,7 @@ bool CollisionDetection::fixedSolidSphereIntersectsFixedTriangle(
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// AABB-triangle overlap test code based on Tomas Akenine-MÅˆller's
+// AABB-triangle overlap test code based on Tomas Akenine-MÔøΩÔøΩller's
 // http://www.cs.lth.se/home/Tomas_Akenine_Moller/code/tribox3.txt
 // Ported 2008-12-28
 

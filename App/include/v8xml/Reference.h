@@ -4,8 +4,8 @@
 
 #include "arl/Debug.h"
 
-#include "Util/Object.h"
-#include "Util/Handle.h"
+#include "util/Object.h"
+#include "util/Handle.h"
 
 #include <list>
 #include <map>

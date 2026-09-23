@@ -3,7 +3,7 @@
 #pragma once
 
 #include "arl/Declarations.h"
-#include "Util/IndexArray.h"
+#include "util/IndexArray.h"
 #include "arl/Debug.h"
 
 namespace ARL {

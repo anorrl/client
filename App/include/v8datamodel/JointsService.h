@@ -2,15 +2,15 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
-#include "V8World/World.h"
-#include "V8DataModel/JointInstance.h"
-#include "V8DataModel/PVInstance.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
+#include "v8world/World.h"
+#include "v8datamodel/JointInstance.h"
+#include "v8datamodel/PVInstance.h"
 #include "GfxBase/IAdornable.h"
-#include "Util/ConcurrencyValidator.h"
+#include "util/ConcurrencyValidator.h"
 #include <boost/shared_ptr.hpp>
-#include "V8DataModel/ManualJointHelper.h"
+#include "v8datamodel/ManualJointHelper.h"
 
 namespace ARL {
 	class IAdornableCollector;

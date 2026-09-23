@@ -1,12 +1,12 @@
 /* Copyright 2003-2013 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "V8DataModel/IEquipable.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8Tree/Instance.h"
+#include "v8datamodel/IEquipable.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8tree/Instance.h"
 #include "GfxBase/IAdornable.h"
-#include "Util/CameraSubject.h"
-#include "Util/Selectable.h"
+#include "util/CameraSubject.h"
+#include "util/Selectable.h"
 
 namespace ARL {
 

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/SpatialRegion.h"
-#include "Voxel/CellChangeListener.h"
-#include "Voxel/ChunkMap.h"
-#include "Voxel/Region.h"
-#include "Voxel/Water.h"
+#include "util/G3DCore.h"
+#include "util/SpatialRegion.h"
+#include "voxel/CellChangeListener.h"
+#include "voxel/ChunkMap.h"
+#include "voxel/Region.h"
+#include "voxel/Water.h"
 
 #include <boost/unordered_map.hpp>
 #include <vector>
@@ -73,4 +73,4 @@ public:
 
 } }
 
-#include "Voxel/Grid.Chunk.h"
+#include "voxel/Grid.Chunk.h"

@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "V8World/Ball.h"
-#include "G3D/CollisionDetection.h"
-#include "G3D/Sphere.h"
-#include "Util/Units.h"
-#include "Util/Math.h"
+#include "v8world/Ball.h"
+#include "g3d/CollisionDetection.h"
+#include "g3d/Sphere.h"
+#include "util/Units.h"
+#include "util/Math.h"
 
 
 namespace ARL {

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "V8Datamodel/Decal.h"
+#include "v8datamodel/Decal.h"
 
 using namespace ARL;
 

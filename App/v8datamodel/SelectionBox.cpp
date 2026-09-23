@@ -1,11 +1,11 @@
 /* Copyright 2003-2009 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/SelectionBox.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/ModelInstance.h"
-#include "AppDraw/DrawAdorn.h"
-#include "AppDraw/Draw.h"
+#include "v8datamodel/SelectionBox.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/ModelInstance.h"
+#include "appdraw/DrawAdorn.h"
+#include "appdraw/Draw.h"
 
 namespace ARL {
 

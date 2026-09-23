@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
 #include "v8datamodel/PartInstance.h"
-#include "V8World/World.h"
-#include "Util/PathInterpolatedCFrame.h"
-#include "Util/Color.h"
-#include "Util/Analytics.h"
+#include "v8world/World.h"
+#include "util/PathInterpolatedCFrame.h"
+#include "util/Color.h"
+#include "util/Analytics.h"
 #include "GfxBase/Adorn.h"
-#include "AppDraw/Draw.h"
-#include "AppDraw/DrawAdorn.h"
+#include "appdraw/Draw.h"
+#include "appdraw/DrawAdorn.h"
 
 using namespace ARL;
 

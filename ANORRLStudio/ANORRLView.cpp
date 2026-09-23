@@ -18,8 +18,8 @@
 #include "arl/Tasks/Coordinator.h"
 #include "arl/CEvent.h"
 #include "arl/SystemUtil.h"
-#include "Network/Players.h"
-#include "Network/api.h"
+#include "network/Players.h"
+#include "network/api.h"
 #include "script/script.h"
 #include "v8datamodel/BaseRenderJob.h"
 #include "v8datamodel/Workspace.h"
@@ -31,7 +31,7 @@
 #include "v8datamodel/Decal.h"
 #include "v8datamodel/GameBasicSettings.h"
 #include "util/FileSystem.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "util/Profiling.h"
 #include "util/ContentId.h"
 #include "v8xml/XmlSerializer.h"
@@ -41,7 +41,7 @@
 #include "GfxBase/FrameRateManager.h"
 #include "RenderSettingsItem.h"
 #include "tool/ICancelableTool.h"
-#include "AppDraw/Draw.h"
+#include "appdraw/Draw.h"
 
 #ifdef _WIN32
     #include "LogManager.h"

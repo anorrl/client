@@ -1,17 +1,17 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/Dragger.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/FastLogSettings.h"
-#include "V8World/Primitive.h"
-#include "V8World/ContactManager.h"
-#include "V8World/Tolerance.h"
-#include "Tool/DragUtilities.h"
-#include "V8World/Tolerance.h"
-#include "V8World/MegaClusterPoly.h"
-#include "V8World/Mesh.h"
-#include "V8World/Ball.h"
+#include "tool/Dragger.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/FastLogSettings.h"
+#include "v8world/Primitive.h"
+#include "v8world/ContactManager.h"
+#include "v8world/Tolerance.h"
+#include "tool/DragUtilities.h"
+#include "v8world/Tolerance.h"
+#include "v8world/MegaClusterPoly.h"
+#include "v8world/Mesh.h"
+#include "v8world/Ball.h"
 
 DYNAMIC_FASTINTVARIABLE(DraggerMaxMovePercent, 100)
 DYNAMIC_FASTINTVARIABLE(DraggerMaxMoveSteps, 10000)

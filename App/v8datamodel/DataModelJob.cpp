@@ -1,7 +1,7 @@
 /* Copyright 2003-2006 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/DataModelJob.h"
+#include "v8datamodel/DataModelJob.h"
 #include "arl/Debug.h"
 #include "boost/cast.hpp"
 #include "reflection/enumconverter.h"

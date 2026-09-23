@@ -11,7 +11,7 @@
 #ifndef G3D_UINT128_H
 #define G3D_UINT128_H
 
-#include "G3D/g3dmath.h"
+#include "g3d/g3dmath.h"
 
 namespace G3D {
 

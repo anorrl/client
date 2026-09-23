@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Tool/PartDragTool.h"
-#include "Tool/ICancelableTool.h"
+#include "tool/PartDragTool.h"
+#include "tool/ICancelableTool.h"
 #include <boost/shared_ptr.hpp>
 
 namespace ARL {

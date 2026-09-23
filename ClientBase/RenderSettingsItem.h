@@ -4,9 +4,9 @@
 #include <vector>
 
 // ANORRL Headers
-#include "V8DataModel/GlobalSettings.h"
+#include "v8datamodel/GlobalSettings.h"
 #include "GfxBase/RenderSettings.h"
-#include "Reflection/Reflection.h"
+#include "reflection/Reflection.h"
 
 
 extern const char* const sRenderSettings;

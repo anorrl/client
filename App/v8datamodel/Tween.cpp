@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "V8DataModel/TweenBase.h"
-#include "V8DataModel/Tween.h"
+#include "v8datamodel/TweenBase.h"
+#include "v8datamodel/Tween.h"
 
 namespace ARL
 {

@@ -29,7 +29,7 @@
 #include "v8datamodel/PartCookie.h"
 #include "v8datamodel/CustomParticleEmitter.h"
 
-#include "Voxel/Util.h"
+#include "voxel/Util.h"
 
 #include "VisualEngine.h"
 #include "SceneManager.h"

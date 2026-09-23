@@ -37,7 +37,7 @@
 #include "reflection/Type.h"
 #include "Client.h"
 #include "ClientReplicator.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 #include "Marker.h"
 
 // ANORRL Studio Headers

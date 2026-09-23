@@ -26,9 +26,9 @@
 #include "FastLog.h"
 #include "v8datamodel/PartOperation.h"
 #include "v8datamodel/CSGDictionaryService.h"
-#include "V8DataModel/NonReplicatedCSGDictionaryService.h"
+#include "v8datamodel/NonReplicatedCSGDictionaryService.h"
 
-#include "Voxel2/Grid.h"
+#include "voxel2/Grid.h"
 
 LOGGROUP(TerrainCellListener)
 

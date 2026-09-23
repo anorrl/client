@@ -1,8 +1,8 @@
 /* Copyright 2003-2013 ROBLOX Corporation, All Rights Reserved */
 
 #include "stdafx.h"
-#include "V8DataModel/DataModel.h"
-#include "Util/http.h"
+#include "v8datamodel/DataModel.h"
+#include "util/http.h"
 
 namespace ARL {
 

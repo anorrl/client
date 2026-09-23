@@ -7,8 +7,8 @@
 #include <string>
 
 #include "arl/Debug.h"
-#include "Util/Object.h"
-#include "Util/Memory.h"
+#include "util/Object.h"
+#include "util/Memory.h"
 
 namespace ARL {
 

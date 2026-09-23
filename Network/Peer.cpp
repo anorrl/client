@@ -6,12 +6,12 @@
 #include "ConcurrentRakPeer.h"
 #include "arl/Log.h"
 #include "arl/Debug.h"
-#include "V8DataModel/Stats.h"
-#include "V8DataModel/DataModelJob.h"
-#include "V8DataModel/PhysicsService.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/Stats.h"
+#include "v8datamodel/DataModelJob.h"
+#include "v8datamodel/PhysicsService.h"
+#include "v8datamodel/DataModel.h"
 #include "util/ObscureValue.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 #include "DataBlockEncryptor.h"
 

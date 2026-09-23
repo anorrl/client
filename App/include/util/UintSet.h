@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Util/DoubleEndedVector.h"
+#include "util/DoubleEndedVector.h"
 #include "boost/cstdint.hpp"
 
 namespace ARL {

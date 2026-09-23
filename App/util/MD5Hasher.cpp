@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-#include "Util/MD5Hasher.h"
-#include "Util/StandardOut.h"
+#include "util/MD5Hasher.h"
+#include "util/StandardOut.h"
 #include "StringConv.h"
 
 
 
-#include "Util/md5.h"
+#include "util/md5.h"
 // Windows needs digest length defined
 #define MD5_DIGEST_LENGTH 16
 

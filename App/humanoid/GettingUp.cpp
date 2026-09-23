@@ -1,9 +1,9 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/GettingUp.h"
-#include "Humanoid/Humanoid.h"
-#include "V8World/World.h"
+#include "humanoid/GettingUp.h"
+#include "humanoid/Humanoid.h"
+#include "v8world/World.h"
 
 
 namespace ARL {

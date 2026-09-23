@@ -20,13 +20,13 @@
 #include <QDateTime>
 
 // 3rd Party Headers
-#include "G3D/Vector2.h"
+#include "g3d/Vector2.h"
 
 // ANORRL Headers
 #include "util/KeyCode.h"
 #include "util/IMetric.h"
 #include "util/InsertMode.h"
-#include "V8DataModel/InputObject.h"
+#include "v8datamodel/InputObject.h"
 #include "v8tree/Instance.h"
 
 // Purpose:

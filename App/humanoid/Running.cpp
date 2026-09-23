@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/Running.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/Running.h"
+#include "humanoid/Humanoid.h"
 
 DYNAMIC_FASTFLAG(EnableClimbingDirection)
 

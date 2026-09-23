@@ -13,9 +13,9 @@
 #ifndef VECTOR2INT16_H
 #define VECTOR2INT16_H
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
-#include "G3D/HashTrait.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
+#include "g3d/HashTrait.h"
 
 namespace G3D {
 

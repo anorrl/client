@@ -10,8 +10,8 @@
 #ifndef G3D_stringutils_h
 #define G3D_stringutils_h
 
-#include "G3D/platform.h"
-#include "G3D/Array.h"
+#include "g3d/platform.h"
+#include "g3d/Array.h"
 #include <cstring>
 
 namespace G3D {

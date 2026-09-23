@@ -28,6 +28,7 @@
 #include <QBitmap>
 #include <QPainter>
 #include <QMdiArea>
+#include <QPainterPath>
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #include <qdrawutil.h>

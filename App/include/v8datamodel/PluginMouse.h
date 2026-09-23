@@ -2,15 +2,15 @@
 
 #pragma once
 
-#include "V8DataModel/Mouse.h"
-#include "V8DataModel/DataModel.h"
-#include "V8Tree/Instance.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/InputObject.h"
-#include "Util/TextureId.h"
+#include "v8datamodel/Mouse.h"
+#include "v8datamodel/DataModel.h"
+#include "v8tree/Instance.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/InputObject.h"
+#include "util/TextureId.h"
 #include "arl/signal.h"
-#include "V8DataModel/Filters.h"
-#include "V8DataModel/MouseCommand.h"
+#include "v8datamodel/Filters.h"
+#include "v8datamodel/MouseCommand.h"
 
 
 namespace ARL {

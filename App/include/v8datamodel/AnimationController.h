@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Util/SteppedInstance.h"
-#include "Util/RunStateOwner.h"
+#include "util/SteppedInstance.h"
+#include "util/RunStateOwner.h"
 
 namespace ARL {
 	

@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "Util/HttpAsync.h"
+#include "util/HttpAsync.h"
 
-#include "Util/Http.h"
+#include "util/Http.h"
 
 namespace ARL
 {

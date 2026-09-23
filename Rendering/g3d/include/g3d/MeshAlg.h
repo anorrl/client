@@ -12,13 +12,13 @@
 #ifndef G3D_MeshAlg_h
 #define G3D_MeshAlg_h
 
-#include "G3D/platform.h"
-#include "G3D/Array.h"
-#include "G3D/Vector3.h"
-#include "G3D/CoordinateFrame.h"
-#include "G3D/SmallArray.h"
-#include "G3D/constants.h"
-#include "G3D/Image1.h"
+#include "g3d/platform.h"
+#include "g3d/Array.h"
+#include "g3d/Vector3.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/SmallArray.h"
+#include "g3d/constants.h"
+#include "g3d/Image1.h"
 
 #ifdef G3D_WIN32
 // Turn off "conditional expression is constant" warning; MSVC generates this

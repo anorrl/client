@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
 #include "arl/CEvent.h"
-#include "V8World/World.h"
+#include "v8world/World.h"
 #ifdef check
 #undef check
 #endif

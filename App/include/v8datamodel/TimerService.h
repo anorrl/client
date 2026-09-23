@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "util/runstateowner.h"
+#include "v8tree/Service.h"
+#include "util/RunStateOwner.h"
 #include "util/RunningAverage.h"
-#include "Util/HeartbeatInstance.h"
+#include "util/HeartbeatInstance.h"
 #include <queue>
 
 namespace ARL {

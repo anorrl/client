@@ -20,7 +20,7 @@
 #include "GfxCore/Shader.h"
 
 #include "util/IndexBox.h"
-#include "util/Rotation2d.h"
+#include "util/Rotation2D.h"
 
 #include "arl/Profiler.h"
 

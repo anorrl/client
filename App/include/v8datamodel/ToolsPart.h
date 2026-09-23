@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "V8DataModel/MouseCommand.h"
-#include "Util/BrickColor.h"
-#include "V8DataModel/PartInstance.h"
-//#include "V8Xml/Reference.h"
-//#include "V8Tree/Verb.h"
+#include "v8datamodel/MouseCommand.h"
+#include "util/BrickColor.h"
+#include "v8datamodel/PartInstance.h"
+//#include "v8xml/Reference.h"
+//#include "v8tree/Verb.h"
 //#include "util/NormalId.h"
 
 namespace ARL {

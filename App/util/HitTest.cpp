@@ -1,13 +1,13 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/HitTest.h"
-#include "Util/Math.h"
-#include "Util/Extents.h"
-#include "AppDraw/DrawAdorn.h"
-#include "AppDraw/HitTest.h"
-#include "G3D/CollisionDetection.h"
-#include "G3D/Capsule.h"
+#include "util/HitTest.h"
+#include "util/Math.h"
+#include "util/Extents.h"
+#include "appdraw/DrawAdorn.h"
+#include "appdraw/HitTest.h"
+#include "g3d/CollisionDetection.h"
+#include "g3d/Capsule.h"
 #include "v8datamodel/FastLogSettings.h"
 
 namespace ARL {

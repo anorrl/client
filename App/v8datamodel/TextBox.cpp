@@ -1,14 +1,14 @@
 #include "stdafx.h"
 
-#include "V8DataModel/TextBox.h"
-#include "V8Datamodel/UserInputService.h"
+#include "v8datamodel/TextBox.h"
+#include "v8datamodel/UserInputService.h"
 #include "v8datamodel/ScrollingFrame.h"
 #include "v8datamodel/GuiService.h"
-#include "Util/UserInputBase.h"
-#include "Util/RunStateOwner.h"
+#include "util/UserInputBase.h"
+#include "util/RunStateOwner.h"
 #include "GfxBase/Typesetter.h"
-#include "Humanoid/Humanoid.h"
-#include "Network/Players.h"
+#include "humanoid/Humanoid.h"
+#include "network/Players.h"
 #include "v8datamodel/Workspace.h"
 
 DYNAMIC_FASTFLAGVARIABLE(DisplayTextBoxTextWhileTypingMobile, false)

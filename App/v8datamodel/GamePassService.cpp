@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "V8DataModel/GamePassService.h"
-#include "Util/LuaWebService.h"
-#include "V8Xml/WebParser.h"
-#include "Network/Player.h"
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/GamePassService.h"
+#include "util/LuaWebService.h"
+#include "v8xml/WebParser.h"
+#include "network/Player.h"
+#include "v8datamodel/Workspace.h"
 #include "util/RbxStringTable.h"
 
 namespace ARL

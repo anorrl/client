@@ -1,17 +1,17 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/NullTool.h"
-#include "Humanoid/Humanoid.h"
-#include "V8DataModel/Filters.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/UserController.h"
-#include "Util/UserInputBase.h"
-#include "Util/NavKeys.h"
-#include "V8DataModel/ClickDetector.h"
+#include "tool/NullTool.h"
+#include "humanoid/Humanoid.h"
+#include "v8datamodel/Filters.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/UserController.h"
+#include "util/UserInputBase.h"
+#include "util/NavKeys.h"
+#include "v8datamodel/ClickDetector.h"
 #include "v8datamodel/UserInputService.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 FASTFLAGVARIABLE(UseFixedRightMouseClickBehaviour, true)
 

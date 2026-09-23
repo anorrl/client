@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Voxel/Voxelizer.h"
+#include "voxel/Voxelizer.h"
 #include "arl/DenseHash.h"
 #include "v8world/Primitive.h"
 #include "v8world/ContactManager.h"

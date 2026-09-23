@@ -25,10 +25,10 @@
 #include "v8datamodel/PartCookie.h"
 #include "v8datamodel/Lighting.h"
 #include "v8world/Primitive.h"
-#include "V8DataModel/PartOperation.h"
-#include "V8DataModel/PartOperationAsset.h"
-#include "V8DataModel/SolidModelContentProvider.h"
-#include "V8DataModel/MeshPartInstance.h"
+#include "v8datamodel/PartOperation.h"
+#include "v8datamodel/PartOperationAsset.h"
+#include "v8datamodel/SolidModelContentProvider.h"
+#include "v8datamodel/MeshPartInstance.h"
 
 #include "g3d/g3dmath.h"
 
@@ -36,7 +36,7 @@
 #include "GfxBase/GfxPart.h"
 
 #include "MaterialGenerator.h"
-#include "V8World/TriangleMesh.h"
+#include "v8world/TriangleMesh.h"
 #include "BulletCollision/CollisionShapes/btConvexHullShape.h"
 #include "BulletCollision/CollisionShapes/btShapeHull.h"
 #include "BulletCollision/CollisionShapes/btConvexPolyhedron.h"

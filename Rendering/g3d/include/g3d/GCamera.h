@@ -11,11 +11,11 @@
 #ifndef G3D_GCamera_H
 #define G3D_GCamera_H
 
-#include "G3D/platform.h"
-#include "G3D/CoordinateFrame.h"
-#include "G3D/Vector3.h"
-#include "G3D/Plane.h"
-#include "G3D/debugAssert.h"
+#include "g3d/platform.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/Vector3.h"
+#include "g3d/Plane.h"
+#include "g3d/debugAssert.h"
 
 namespace G3D {
 

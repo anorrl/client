@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GfxBase/IAdornable.h"
-#include "Util/IndexArray.h"
+#include "util/IndexArray.h"
 
 LOGGROUP(AdornRenderStats);
 

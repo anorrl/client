@@ -1,9 +1,9 @@
 /* Copyright 2003-2009 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/SelectionLasso.h"
-#include "Humanoid/Humanoid.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/SelectionLasso.h"
+#include "humanoid/Humanoid.h"
+#include "v8datamodel/PartInstance.h"
 #include "GfxBase/Adorn.h"
 
 namespace ARL {

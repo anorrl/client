@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 
 #include "arl/Debug.h"
-#include "RbxAssert.h"
-#include "RbxFormat.h"
+#include "ARLAssert.h"
+#include "ARLFormat.h"
 #include <algorithm>
 
 const int CRASHONASSERT = 255;

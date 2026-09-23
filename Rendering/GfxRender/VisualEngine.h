@@ -2,7 +2,7 @@
 
 #include "GfxBase/ViewBase.h"
 
-#include "arl/Boost.hpp"
+#include "arl/boost.hpp"
 #include <string>
 #include <boost/unordered_map.hpp>
 

@@ -24,7 +24,7 @@
 #   pragma warning (disable : 4530)
 #endif
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 #include <ctype.h>
 #include <float.h>
 #include <limits>
@@ -54,7 +54,7 @@
 #include <math.h>
 #include <algorithm>
 
-#include "G3D/debug.h"
+#include "g3d/debug.h"
 
 #undef min
 #undef max

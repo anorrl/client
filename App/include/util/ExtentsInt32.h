@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Util/Vector3int32.h"
-#include "Util/Extents.h"
+#include "util/Vector3int32.h"
+#include "util/Extents.h"
 #include "arl/Debug.h"
 
 namespace ARL {

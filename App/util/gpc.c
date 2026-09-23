@@ -40,7 +40,7 @@ Copyright: (C) Advanced Interfaces Group,
 
 extern "C"
 {
-#include "Util/gpc.h"
+#include "util/gpc.h"
 }
 
 

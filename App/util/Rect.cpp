@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/Rect.h"
+#include "util/Rect.h"
 #include "arl/Debug.h"
 
 namespace ARL {

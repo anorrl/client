@@ -1,12 +1,12 @@
 #ifndef V8XML_XMLELEMENT_H
 #define V8XML_XMLELEMENT_H
 
-#include "G3D/Vector3.h"
-#include "G3D/CoordinateFrame.h"
-#include "G3D/Color3.h"
+#include "g3d/Vector3.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/Color3.h"
 #include "arl/Debug.h"
-#include "Util/Name.h"
-#include "Util/Memory.h"
+#include "util/Name.h"
+#include "util/Memory.h"
 #include "util/Utilities.h"
 #include "util/ContentId.h"
 
@@ -15,8 +15,8 @@
 #include <list> 
 #include <vector> 
 
-#include"Util/Utilities.h"
-#include"Util/Handle.h"
+#include "util/Utilities.h"
+#include "util/Handle.h"
 
 //typedef std::string XmlTag;
 typedef ARL::Name XmlTag;
