@@ -5,11 +5,11 @@
 #include "script/ScriptContext.h"
 #include "script/script.h"
 #include "lua/lua.hpp"
-#include "lua/luabridge.h"
+#include "lua/LuaBridge.h"
 #include "ARLFormat.h"
 #include "reflection/Property.h"
 #include "util/StandardOut.h"
-#include <ARL/make_shared.h>
+#include "arl/make_shared.h"
 
 LOGVARIABLE(ThreadRefCounts, 1)
 

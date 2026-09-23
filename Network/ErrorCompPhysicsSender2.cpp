@@ -237,11 +237,8 @@ int ErrorCompPhysicsSender2::sendPacket(int maxPackets, PacketPriority packetPri
 						timestamp = curBucket->iter->part->raknetTime;
 				}
 
-#if !defined(__linux__) && !defined(__APPLE__)
 				*bitStream << timestamp;
-#else
-				*bitStream << static_cast<unsigned long long>(timestamp);
-#endif
+
 				*bitStream << (unsigned char) ID_PHYSICS;
 			}
 

@@ -214,6 +214,12 @@ RakNet::BitStream& operator>>(RakNet::BitStream& stream, unsigned int& value)
     return stream;
 }
 
+RakNet::BitStream& operator<<(RakNet::BitStream& stream, unsigned long long value)
+{
+    stream.Write(value);
+    return stream;
+}
+
 RakNet::BitStream& operator<<(RakNet::BitStream& stream, uint64_t value)
 {
     stream.Write(value);
@@ -226,15 +232,6 @@ RakNet::BitStream& operator>>(RakNet::BitStream& stream, uint64_t& value)
     Network::readFastT(stream, value);
     return stream;
 }
-
-#ifndef _WIN32
-// ANORRL Change: this is for linux bro
-RakNet::BitStream& operator<<(RakNet::BitStream& stream, RakNet::Time value)
-{
-    stream.Write(static_cast<unsigned long long>(value));
-    return stream;
-}
-#endif
 
 RakNet::BitStream& operator<<(RakNet::BitStream& stream, char value)
 {

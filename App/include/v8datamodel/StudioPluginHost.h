@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GfxBase/ViewBase.h"
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 #include "v8tree/Instance.h"
 #include <vector>
 

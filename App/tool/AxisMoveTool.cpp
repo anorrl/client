@@ -12,7 +12,7 @@
 #include "util/HitTest.h"
 #include "util/Sound.h"
 #include "appdraw/DrawAdorn.h"
-#include "v8datamodel/changehistory.h"
+#include "v8datamodel/ChangeHistory.h"
 #include "RbxG3D/RbxRay.h"
 
 namespace ARL {

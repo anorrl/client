@@ -10,7 +10,7 @@
 #include "BulletCollision/CollisionShapes/btConvexHullShape.h"
 #include "BulletCollision/CollisionShapes/btConvexPolyhedron.h"
 #include "BulletCollision/CollisionShapes/btShapeHull.h"
-#include "BulletCollision/GImpact/btGImpactShape.h"
+#include "BulletCollision/Gimpact/btGImpactShape.h"
 #include "Extras/GIMPACTUtils/btGImpactConvexDecompositionShape.h"
 #include "BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
 #include "btBulletCollisionCommon.h"

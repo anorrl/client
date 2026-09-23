@@ -17,7 +17,7 @@
 #include "v8world/Tolerance.h"
 #include "util/Units.h"
 #include "util/Math.h"
-#include "V8kernel/Body.h"
+#include "v8kernel/Body.h"
 #include "v8world/Joint.h"
 #include "v8world/Geometry.h"
 #include "v8world/MegaClusterPoly.h"

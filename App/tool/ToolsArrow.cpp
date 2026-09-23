@@ -17,7 +17,7 @@
 #include "util/Selectable.h"
 #include "v8datamodel/Decal.h"
 #include "v8datamodel/ToolsSurface.h"
-#include "v8datamodel/changehistory.h"
+#include "v8datamodel/ChangeHistory.h"
 #include "v8datamodel/UserInputService.h"
 
 FASTFLAGVARIABLE(StudioDE6194FixEnabled, false)

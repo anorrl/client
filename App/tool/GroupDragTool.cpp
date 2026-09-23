@@ -8,7 +8,7 @@
 #include "v8datamodel/PartInstance.h"
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/InputObject.h"
-#include "v8datamodel/changehistory.h"
+#include "v8datamodel/ChangeHistory.h"
 
 namespace ARL {
 

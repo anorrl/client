@@ -12,7 +12,7 @@
 #include "util/HitTest.h"
 #include "util/Sound.h"
 #include "appdraw/DrawAdorn.h"
-#include "v8datamodel/changehistory.h"
+#include "v8datamodel/ChangeHistory.h"
 
 // TODO - move rotation specific stuff to AdvRotateTool
 // TODO - move generic stuff down to the Arrow layer to reduce some redundancy with

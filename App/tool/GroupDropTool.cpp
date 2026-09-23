@@ -9,7 +9,7 @@
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/Camera.h"
 #include "v8datamodel/InputObject.h"
-#include "v8datamodel/changehistory.h"
+#include "v8datamodel/ChangeHistory.h"
 #include "SelectState.h"
 
 
