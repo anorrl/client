@@ -15,7 +15,7 @@
 #include "network/../../NetworkSettings.h"
 #include "util/Color.h"
 #include "util/FileSystem.h"
-#include "util/profiling.h"
+#include "util/Profiling.h"
 
 #include "gui/GUI.h"
 #include "gui/EquationDisplay.h"

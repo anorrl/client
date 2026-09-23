@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 #include "v8kernel/Body.h"
-#include "V8kernel/Kernel.h"
+#include "v8kernel/Kernel.h"
 #include "v8kernel/Constants.h"
 #include "util/Units.h"
 

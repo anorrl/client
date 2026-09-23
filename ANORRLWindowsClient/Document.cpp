@@ -15,7 +15,7 @@
 #include "v8datamodel/HackDefines.h"
 #include "v8datamodel/UserInputService.h"
 #include "v8datamodel/UserController.h"
-#include "network/Api.h"
+#include "network/api.h"
 #include "InitializationError.h"
 #include "View.h"
 #include "RbxWebView.h"

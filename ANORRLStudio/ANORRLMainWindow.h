@@ -40,7 +40,7 @@
 #include "IANORRLDoc.h"
 #include "ScriptComboBox.h"
 #include "ANORRLRibbonMainWindow.h"
-#include "DiscordHandler.h"
+#include "util/DiscordHandler.h"
 
 static const char* FileLocationArgument = "-fileLocation";
 static const char* ScriptArgument       = "-script";

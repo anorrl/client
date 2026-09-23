@@ -18,9 +18,9 @@
 
 
 
-#include "v8datamodel/workspace.h"
-#include "v8datamodel/contentprovider.h"
-#include "v8datamodel/datamodel.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/ContentProvider.h"
+#include "v8datamodel/DataModel.h"
 #include "v8datamodel/DebugSettings.h"
 #include "v8datamodel/PhysicsSettings.h"
 #include "v8datamodel/FastLogSettings.h"
@@ -31,13 +31,13 @@
 #include "v8datamodel/NonReplicatedCSGDictionaryService.h"
 #include "v8datamodel/Message.h"
 #include "ANORRLServicesTools.h"
-#include "script/scriptcontext.h"
+#include "script/ScriptContext.h"
 #include "ThumbnailGenerator.h"
 #include <string>
 #include <sstream>
 #include "v8datamodel/FactoryRegistration.h"
 #include "ThumbnailGenerator.h"
-#include "util/profiling.h"
+#include "util/Profiling.h"
 #include "util/SoundService.h"
 #include "util/Guid.h"
 #include "util/Http.h"
@@ -52,12 +52,12 @@
 #include "gui/ProfanityFilter.h"
 #include "GfxBase/ViewBase.h"
 #include "util/FileSystem.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 #include "v8xml/XmlSerializer.h"
 #include "v8xml/WebParser.h"
 #include "ANORRLServicesTools.h"
 #include "util/Utilities.h"
-#include "Network/ChatFilter.h"
+#include "network/ChatFilter.h"
 #include "network/WebChatFilter.h"
 
 #include "CountersClient.h"

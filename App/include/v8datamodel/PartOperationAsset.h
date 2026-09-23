@@ -5,7 +5,7 @@
 #include "util/BinaryString.h"
 #include "v8datamodel/CSGMesh.h"
 #include "v8datamodel/PartInstance.h"
-#include "util/ContentID.h"
+#include "util/ContentId.h"
 #include <boost/shared_ptr.hpp>
 
 namespace ARL {

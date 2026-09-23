@@ -7,9 +7,9 @@
 #include "v8world/Joint.h"
 #include "v8world/Contact.h"
 #include "v8world/Primitive.h"
-#include "V8world/World.h"
-#include "V8world/ContactManager.h"
-#include "V8world/ContactManagerSpatialHash.h"
+#include "v8world/World.h"
+#include "v8world/ContactManager.h"
+#include "v8world/ContactManagerSpatialHash.h"
 #include "v8kernel/Debug.h"
 
 namespace ARL {

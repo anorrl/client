@@ -4,7 +4,7 @@
 
 #include "v8datamodel/PartInstance.h"
 #include "v8datamodel/BasicPartInstance.h"
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 
 #ifdef _PRISM_PYRAMID_
 

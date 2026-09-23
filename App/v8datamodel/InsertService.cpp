@@ -9,7 +9,7 @@
 #include "v8datamodel/Workspace.h"
 #include "util/LuaWebService.h"
 #include "v8xml/WebParser.h"
-#include "Script/Script.h"
+#include "script/script.h"
 #include "network/Players.h"
 #include "tool/DragUtilities.h"
 #include "v8datamodel/HttpRbxApiService.h"
@@ -18,7 +18,7 @@
 
 #include <sstream>
 
-DYNAMIC_FASTSTRINGVARIABLE(AssetUrlPiece, "/Asset/?id=")
+DYNAMIC_FASTSTRINGVARIABLE(AssetUrlPiece, "/asset/?id=")
 DYNAMIC_FASTSTRINGVARIABLE(AssetVersionUrlPiece, "/Asset/?assetversionid=")
 DYNAMIC_FASTSTRINGVARIABLE(BaseSetsUrlPiece, "/Game/Tools/InsertAsset.ashx?nsets=10&type=base")
 DYNAMIC_FASTSTRINGVARIABLE(CollectionUrlPiece, "/Game/Tools/InsertAsset.ashx?sid=")

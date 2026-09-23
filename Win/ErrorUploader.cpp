@@ -13,7 +13,7 @@
 #include <boost/iostreams/copy.hpp>
 #include <boost/iostreams/concepts.hpp>  // source
 
-#include "util/http.h"
+#include "util/Http.h"
 #include "util/StandardOut.h"
 
 #ifdef _WIN32 

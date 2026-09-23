@@ -42,7 +42,7 @@
 #include "util/MeshId.h"
 #include "util/BrickColor.h"
 #include "util/PhysicalProperties.h"
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 #include "tool/ToolsArrow.h"
 #include "reflection/Type.h"
 #include "v8datamodel/NumberSequence.h"

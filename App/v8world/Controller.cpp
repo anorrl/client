@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 #include "v8world/Controller.h"
-#include "reflection/enumconverter.h"
+#include "reflection/EnumConverter.h"
 
 namespace ARL {
 namespace Reflection {

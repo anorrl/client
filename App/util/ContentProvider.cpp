@@ -4,9 +4,9 @@
 #include "v8datamodel/ContentProvider.h"
 #include "util/ScriptInformationProvider.h"
 #include "ARLAssert.h"
-#include "v8xml/serializer.h"
-#include "v8xml/xmlserializer.h"
-#include "util/http.h"
+#include "v8xml/Serializer.h"
+#include "v8xml/XmlSerializer.h"
+#include "util/Http.h"
 #include <string.h>
 #include "util/StandardOut.h"
 #include "util/FileSystem.h"

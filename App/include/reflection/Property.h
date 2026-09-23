@@ -427,7 +427,7 @@ namespace ARL
 
 			static bool isRefPropertyDescriptor(const PropertyDescriptor& descriptor)
 			{
-				// See RefType in reflection.h
+				// See RefType in Reflection.h
 				bool result = isRefPropertyDescriptor(descriptor.type);
 				ARLASSERT(result == (0 != dynamic_cast<const Reflection::RefPropertyDescriptor*>(&descriptor)));
 				return result;

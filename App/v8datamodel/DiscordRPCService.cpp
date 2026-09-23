@@ -3,7 +3,7 @@
 #include "v8datamodel/DiscordRPCService.h"
 
 #ifndef ARL_ACC_SECURITY
-#include "DiscordHandler.h"
+#include "util/DiscordHandler.h"
 #endif
 namespace ARL
 {

@@ -4,7 +4,7 @@
 
 #include "v8datamodel/BasicPartInstance.h"
 #include "g3d/Vector3.h"
-#include "v8tree/service.h"
+#include "v8tree/Service.h"
 #include "v8datamodel/JointInstance.h"
 #include "util/SteppedInstance.h"
 #include "util/BrickColor.h"

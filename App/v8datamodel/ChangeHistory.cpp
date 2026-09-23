@@ -12,9 +12,9 @@
 #include <boost/unordered_map.hpp>
 
 // ANORRL Headers
-#include "v8datamodel/changehistory.h"
-#include "v8datamodel/datamodel.h"
-#include "v8datamodel/workspace.h"
+#include "v8datamodel/ChangeHistory.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Workspace.h"
 #include "v8datamodel/Camera.h"
 #include "v8datamodel/Selection.h"
 #include "v8datamodel/JointInstance.h"

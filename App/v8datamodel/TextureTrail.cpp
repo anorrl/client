@@ -5,7 +5,7 @@
 #include "GfxBase/Adorn.h"
 #include "GfxBase/TextureProxyBase.h"
 #include "arl/rbxTime.h"
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 #include "util/TextureId.h"
 #include "v8datamodel/Camera.h"
 #include "v8datamodel/GuiBase3d.h"

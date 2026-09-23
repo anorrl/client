@@ -13,7 +13,7 @@
 #define _WINSOCKAPI_  
 
 
-#include "Util/RegistryUtil.h"
+#include "util/RegistryUtil.h"
 
 #undef min
 #undef max

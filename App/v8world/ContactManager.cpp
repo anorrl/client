@@ -16,7 +16,7 @@
 #include "v8world/Assembly.h"
 #include "v8world/Contact.h"
 #include "v8world/Joint.h"
-#include "V8world/Mechanism.h"
+#include "v8world/Mechanism.h"
 #include "v8world/SpatialFilter.h"
 #include "arl/Debug.h"
 #include "util/Profiling.h"

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "util/ScriptInformationProvider.h"
-#include "util/http.h"
+#include "util/Http.h"
 #include <sstream>
 
 namespace ARL

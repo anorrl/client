@@ -6,8 +6,8 @@
 #include "v8kernel/Connector.h"
 #include "v8kernel/ContactConnector.h"
 #include "v8kernel/BuoyancyConnector.h"
-#include "V8kernel/Constants.h"
-#include "V8datamodel/FastLogSettings.h"
+#include "v8kernel/Constants.h"
+#include "v8datamodel/FastLogSettings.h"
 
 
 namespace ARL {

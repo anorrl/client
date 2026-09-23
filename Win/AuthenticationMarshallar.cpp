@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "AuthenticationMarshallar.h"
-#include "util/http.h"
+#include "util/Http.h"
 #include "arl/boost.hpp"
 
 #undef min

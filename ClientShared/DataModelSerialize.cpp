@@ -3,7 +3,7 @@
 #include "stdafx.h"
 
 #include "network/Players.h"
-#include "util/http.h"
+#include "util/Http.h"
 #include "util/Statistics.h"
 #include "v8datamodel/DataModel.h"
 #include "v8datamodel/GameBasicSettings.h"

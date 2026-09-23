@@ -15,7 +15,7 @@
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/MegaCluster.h"
 
-#include "Voxel2/Grid.h"
+#include "voxel2/Grid.h"
 
 namespace ARL
 {

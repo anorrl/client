@@ -4,8 +4,8 @@
 #include "util/Sound.h"
 #include "util/SoundService.h"
 
-#include "V8datamodel/ContentProvider.h"
-#include "V8datamodel/GameSettings.h"
+#include "v8datamodel/ContentProvider.h"
+#include "v8datamodel/GameSettings.h"
 
 #include "StringConv.h"
 

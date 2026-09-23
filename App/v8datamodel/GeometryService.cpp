@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
 #include "v8datamodel/GeometryService.h"
-#include "v8datamodel/datamodel.h"
-#include "v8world/contactmanager.h"
+#include "v8datamodel/DataModel.h"
+#include "v8world/ContactManager.h"
 #include "v8datamodel/Workspace.h"
 #include "v8world/World.h"
 #include "v8datamodel/Filters.h"

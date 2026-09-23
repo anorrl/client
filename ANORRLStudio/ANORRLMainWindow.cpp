@@ -119,8 +119,6 @@
 
 #include "StudioDeviceEmulator.h"
 
-#include "DiscordHandler.h"
-
 FASTFLAGVARIABLE(StudioCheckForUpgradeEnabled, false)
 FASTFLAGVARIABLE(StudioSeparateActionByActivationMethod, false)
 FASTFLAGVARIABLE(StudioFixMacStartPage, false)

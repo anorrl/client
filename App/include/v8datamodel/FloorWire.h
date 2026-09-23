@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 #include "util/TextureId.h"
 #include "v8datamodel/GuiBase3d.h"
 

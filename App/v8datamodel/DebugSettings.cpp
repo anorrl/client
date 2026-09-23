@@ -3,8 +3,8 @@
 
 #include "v8datamodel/DebugSettings.h"
 #include "v8datamodel/DataModel.h"
-#include "util/profiling.h"
-#include "util/http.h"
+#include "util/Profiling.h"
+#include "util/Http.h"
 #include "arl/ProcessPerfCounter.h"
 #include "script/LuaMemory.h"
 #include "v8world/Block.h"

@@ -7,7 +7,7 @@
 #include "ANORRLUser.h"
 
 // ANORRL headers
-#include "ARL/debug.h"
+#include "arl/debug.h"
 
 // ANORRL Studio headers
 #include "ANORRLCookieJar.h"

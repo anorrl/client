@@ -22,7 +22,7 @@
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/PhysicsService.h"
 
-#include "raknet/Source/RakNetStatistics.h"
+#include "RakNetStatistics.h"
 
 using namespace ARL;
 using namespace ARL::Network;

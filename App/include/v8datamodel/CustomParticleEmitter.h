@@ -6,7 +6,7 @@
 #include "v8datamodel/PartInstance.h"
 #include "util/TextureId.h"
 
-#include "v8dataModel/NumberSequence.h"
+#include "v8datamodel/NumberSequence.h"
 #include "v8datamodel/ColorSequence.h"
 #include "v8datamodel/NumberRange.h"
 

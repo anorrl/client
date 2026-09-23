@@ -26,8 +26,8 @@
 #include "v8datamodel/TextButton.h"
 #include "v8datamodel/Test.h"
 #include "v8datamodel/MegaCluster.h"
-#include "V8datamodel/Stats.h"
-#include "V8datamodel/PartInstance.h"
+#include "v8datamodel/Stats.h"
+#include "v8datamodel/PartInstance.h"
 
 #include "v8datamodel/BadgeService.h"
 #include "v8datamodel/ChatService.h"
@@ -72,7 +72,7 @@
 
 #include "humanoid/Humanoid.h"
 
-#include "network/Api.h"
+#include "network/api.h"
 #include "network/Player.h"
 #include "network/Players.h"
 #include "network/NetworkOwner.h"
@@ -85,8 +85,8 @@
 
 #include "v8xml/WebParser.h"
 
-#include "script/luainstancebridge.h"
-#include "script/scriptcontext.h"
+#include "script/LuaInstanceBridge.h"
+#include "script/ScriptContext.h"
 #include "script/script.h"
 #include "script/CoreScript.h"
 
@@ -97,8 +97,8 @@
 #include "util/SoundService.h"
 #include "util/StandardOut.h"
 #include "util/UserInputBase.h"
-#include "util/http.h"
-#include "util/profiling.h"
+#include "util/Http.h"
+#include "util/Profiling.h"
 #include "util/IMetric.h"
 #include "util/Statistics.h"
 #include "util/ContentFilter.h"

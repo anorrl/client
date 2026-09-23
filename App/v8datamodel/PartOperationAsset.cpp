@@ -9,7 +9,7 @@
 #include "g3d/CollisionDetection.h"
 #include "network/Players.h"
 #include "reflection/Reflection.h"
-#include "ARL/RbxTime.h"
+#include "arl/rbxTime.h"
 #include "util/BinaryString.h"
 #include "util/NormalId.h"
 #include "util/SurfaceType.h"
@@ -28,7 +28,6 @@
 #include "v8datamodel/ContentProvider.h"
 #include "v8xml/Serializer.h"
 #include "v8xml/SerializerBinary.h"
-#include "v8datamodel/ContentProvider.h"
 #include "v8datamodel/SolidModelContentProvider.h"
 
 FASTFLAGVARIABLE(CSGFixForNoChildData, true)

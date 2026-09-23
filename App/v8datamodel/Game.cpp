@@ -7,7 +7,7 @@
 #include "v8datamodel/DebugSettings.h"
 #include "v8datamodel/PhysicsSettings.h"
 #include "v8datamodel/Workspace.h"
-#include "v8datamodel/commonverbs.h"
+#include "v8datamodel/CommonVerbs.h"
 #include "v8datamodel/ContentProvider.h"
 #include "v8datamodel/FastLogSettings.h"
 #include "v8datamodel/MegaCluster.h"

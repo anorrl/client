@@ -3,7 +3,7 @@
 #include "v8datamodel/FloorWire.h"
 #include "GfxBase/Adorn.h"
 #include "GfxBase/TextureProxyBase.h"
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 #include "util/TextureId.h"
 #include "v8datamodel/Camera.h"
 #include "v8datamodel/DataModel.h"

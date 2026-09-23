@@ -20,7 +20,7 @@
 #include "arl/TaskScheduler.h"
 #include "util/Statistics.h"
 #include "util/Http.h"
-#include "v8datamodel/datamodel.h"
+#include "v8datamodel/DataModel.h"
 #include "OperationalSecurity.h"
 
 #pragma optimize( "", off ) 

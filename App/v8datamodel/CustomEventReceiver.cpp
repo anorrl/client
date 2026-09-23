@@ -3,7 +3,7 @@
 #include "v8datamodel/CustomEventReceiver.h"
 #include "v8datamodel/CustomEvent.h"
 #include "v8datamodel/CollectionService.h"
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 
 namespace ARL {
 

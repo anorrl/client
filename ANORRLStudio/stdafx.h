@@ -106,7 +106,7 @@
 #include "arl/TaskScheduler.h"
 #include "arl/TaskScheduler.Job.h"
 #include "arl/threadsafe.h"
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 #include "reflection/Type.h"
 #include "script/script.h"
 #include "util/ContentId.h"

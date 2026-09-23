@@ -134,7 +134,7 @@
 #include "humanoid/Humanoid.h"
 #include "humanoid/StatusInstance.h"
 #include "humanoid/HumanoidState.h"
-#include "script/scriptcontext.h"
+#include "script/ScriptContext.h"
 #include "script/script.h"
 #include "script/CoreScript.h"
 #include "v8datamodel/MarketplaceService.h"

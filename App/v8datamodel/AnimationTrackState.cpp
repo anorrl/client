@@ -8,7 +8,7 @@
 #include "v8tree/Service.h"
 #include "util/RunStateOwner.h"
 #include "v8datamodel/Animation.h"
-#include "V8datamodel/KeyframeSequenceProvider.h"
+#include "v8datamodel/KeyframeSequenceProvider.h"
 
 namespace ARL {
 

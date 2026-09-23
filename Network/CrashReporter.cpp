@@ -19,9 +19,9 @@
 #include <time.h>
 
 
-#include "../Raknet/Source/EmailSender.h"
-#include "../Raknet/Source/FileList.h"
-#include "../Raknet/Source/FileOperations.h"
+#include "EmailSender.h"
+#include "FileList.h"
+#include "FileOperations.h"
 #include "arl/TaskScheduler.h"
 #include "arl/Log.h"
 #include "arl/CEvent.h"

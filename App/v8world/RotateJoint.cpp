@@ -9,7 +9,7 @@
 #include "v8kernel/Body.h"
 #include "v8kernel/Point.h"
 #include "v8kernel/Connector.h"
-#include "v8Kernel/Constants.h"
+#include "v8kernel/Constants.h"
 #include "util/Math.h"
 
 #include "solver/Solver.h"

@@ -6,7 +6,7 @@
 #include "v8datamodel/GameBasicSettings.h"
 #include "v8datamodel/HttpRbxApiService.h"
 #include "v8datamodel/InsertService.h"
-#include "util/http.h"
+#include "util/Http.h"
 #include "util/RbxStringTable.h"
 
 #include "VMProtectSDK.h"

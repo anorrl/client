@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "v8datamodel/commonverbs.h"		// TODO - minimize these includes, and in the .h file
+#include "v8datamodel/CommonVerbs.h"		// TODO - minimize these includes, and in the .h file
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/Camera.h"
 #include "v8datamodel/UserController.h"
@@ -18,18 +18,18 @@
 #include "network/Player.h"
 #include "network/Players.h"
 
-#include "v8tree/verb.h"
+#include "v8tree/Verb.h"
 #include "v8world/World.h"
 #include "v8kernel/Kernel.h"
 #include "gui/GUI.h"
-#include "script/luainstancebridge.h"
-#include "script/scriptcontext.h"
+#include "script/LuaInstanceBridge.h"
+#include "script/ScriptContext.h"
 #include "util/SoundWorld.h"
 #include "util/Sound.h"
 #include "util/StandardOut.h"
 #include "arl/Log.h"
 #include "appdraw/DrawPrimitives.h"
-#include "util/http.h"
+#include "util/Http.h"
 
 #include "g3d/format.h"
 

@@ -48,7 +48,7 @@
 #include "v8datamodel/SpecialMesh.h"
 #include "v8datamodel/Tool.h"
 #include "v8datamodel/Visit.h"
-#include "v8DataModel/Workspace.h"
+#include "v8datamodel/Workspace.h"
 #include "v8datamodel/ToolsPart.h"
 #include "v8tree/Instance.h"
 #include "v8xml/SerializerBinary.h"

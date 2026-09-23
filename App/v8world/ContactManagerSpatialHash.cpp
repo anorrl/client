@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "v8World/ContactManagerSpatialHash.h"
-#include "v8World/ContactManager.h"
-#include "v8World/Contact.h"
-#include "v8World/Assembly.h"
+#include "v8world/ContactManagerSpatialHash.h"
+#include "v8world/ContactManager.h"
+#include "v8world/Contact.h"
+#include "v8world/Assembly.h"
 
 
 // instantiate for contactmanager.

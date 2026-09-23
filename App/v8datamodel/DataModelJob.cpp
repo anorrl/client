@@ -4,7 +4,7 @@
 #include "v8datamodel/DataModelJob.h"
 #include "arl/Debug.h"
 #include "boost/cast.hpp"
-#include "reflection/enumconverter.h"
+#include "reflection/EnumConverter.h"
 #include "util/Object.h"
 
 #include "arl/Profiler.h"
