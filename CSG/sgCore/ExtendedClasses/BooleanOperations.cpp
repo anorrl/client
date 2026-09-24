@@ -1,4 +1,4 @@
-#include "..//CORE//sg.h"
+#include "..//Core//sg.h"
 
 sgCGroup*	sgBoolean::Intersection(const sgC3DObject& aOb,const sgC3DObject& bOb)
 {

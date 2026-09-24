@@ -4,7 +4,7 @@
 #include "v8datamodel/PartOperation.h"
 #include "v8datamodel/GameBasicSettings.h"
 
-#include "g3d/G3dMath.h"
+#include "g3d/g3dmath.h"
 #include "g3d/CollisionDetection.h"
 #include "network/Players.h"
 #include "reflection/Reflection.h"

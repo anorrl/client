@@ -6,7 +6,7 @@
 
 #include "ReflectionMetadata.h"
 #ifdef QT_ANORRL_STUDIO
-#include "ANORRLSettings.h"
+#include "../ANORRLStudio/ANORRLSettings.h"
 #endif
 
 #include "StringConv.h"
@@ -74,6 +74,9 @@ shared_ptr<Metadata::Reflection> Metadata::Reflection::safe_static_do_get_single
 		QByteArray xmlFilePathUtf8 = ANORRLSettings::getResourcesFolder().toUtf8();
         boost::filesystem::path bfsp = ARL::utf8_decode(std::string(xmlFilePathUtf8.constData(), xmlFilePathUtf8.size()));
 		sing->load( bfsp / "ReflectionMetadata.xml" );
+#elif defined(__linux__)
+		boost::filesystem::path rootPath = ".";
+		sing->load(exePath / "ReflectionMetadata.xml"); 
 #else
 		wchar_t buf[MAX_PATH] = {0};
 		GetModuleFileNameW(NULL, buf, MAX_PATH);

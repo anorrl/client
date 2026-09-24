@@ -1,0 +1,277 @@
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+add_compile_definitions(QT_ANORRL_STUDIO)
+
+include(App)
+include(Base)
+include(Network)
+include(Rendering)
+
+include_directories(../ClientBase)
+include_directories(../App.BulletPhysics)
+include_directories(../ClientShared)
+include_directories(../QTitanRibbon/include)
+include_directories(../Network)
+
+set(FILEWATCHER_SOURCES
+	filewatcher/FileWatcherLinux.cpp
+	filewatcher/FileWatcherLinux.h
+)
+
+add_executable(ANORRLStudio
+    ../ClientShared/SDLGameController.cpp
+    ../ClientShared/SDLGameController.h
+    ../App/script/LuaVMDummy.cpp
+    AddEmulationDeviceDialog.cpp
+    AddEmulationDeviceDialog.h
+    AuthenticationHelper.cpp
+    AuthenticationHelper.h
+    AuthoringSettings.cpp
+    AuthoringSettings.h
+    AutoSaveDialog.cpp
+    AutoSaveDialog.h
+    CloudEditAdornable.cpp
+    CloudEditAdornable.h
+    CommonInsertWidget.cpp
+    CommonInsertWidget.h
+    CSGOperations.cpp
+    CSGOperations.h
+    DebuggerClient.cpp
+    DebuggerClient.h
+    DebuggerWidgets.cpp
+    DebuggerWidgets.h
+    DocDockManager.cpp
+    DocDockManager.h
+    DocDockWidget.cpp
+    DocDockWidget.h
+    DocTabManager.cpp
+    DocTabManager.h
+    ExternalHandlers.cpp
+    ExternalHandlers.h
+    filewatcher/FileWatcher.cpp
+    filewatcher/FileWatcher.h
+    ${FILEWATCHER_SOURCES}
+    FindDialog.cpp
+    FindDialog.h
+    KeepSavedChangesDialog.cpp
+    KeepSavedChangesDialog.h
+    ManageEmulationDeviceDialog.cpp
+    ManageEmulationDeviceDialog.h
+    PlayersDataManager.cpp
+    PlayersDataManager.h
+    ANORRLChatWidget.cpp
+    ANORRLChatWidget.h
+    ANORRLFindWidget.cpp
+    ANORRLFindWidget.h
+    FunctionMarshaller.cpp
+    FunctionMarshaller.h
+    GalleryItemColor.cpp
+    GalleryItemColor.h
+    InsertObjectListWidget.cpp
+    InsertObjectListWidget.h
+    InsertObjectListWidgetItem.cpp
+    InsertObjectListWidgetItem.h
+    InsertServiceDialog.cpp
+    InsertServiceDialog.h
+    LuaSourceBuffer.cpp
+    LuaSourceBuffer.h
+    MachineConfig.cpp
+    MachineConfig.h
+    ../ClientBase/MachineConfiguration.cpp
+    ../ClientBase/MachineConfiguration.h
+    main.cpp
+    MobileDevelopmentDeployer.cpp
+    MobileDevelopmentDeployer.h
+    NameValueStoreManager.cpp
+    NameValueStoreManager.h
+    ogrewidget.cpp
+    ogrewidget.h
+    PairRbxDeviceDialog.cpp
+    PairRbxDeviceDialog.h
+    PropertyItems.cpp
+    PropertyItems.h
+    QtUtilities.cpp
+    QtUtilities.h
+    ARLContent.cpp
+    ARLContent.h
+    ARLWorkspace.cpp
+    ARLWorkspace.h
+    ../ClientBase/ReflectionMetadata.cpp
+    ../ClientBase/ReflectionMetadata.h
+    ../ClientBase/RenderSettingsItem.cpp
+    ../ClientBase/RenderSettingsItem.h
+    RenderStatsItem.cpp
+    RenderStatsItem.h
+    ANORRL.cpp
+    ANORRL.h
+    ANORRLApplicationManager.cpp
+    ANORRLApplicationManager.h
+    ANORRLBasicDoc.cpp
+    ANORRLBasicDoc.h
+    ANORRLBrowser.cpp
+    ANORRLBrowser.h
+    ANORRLContextualHelp.cpp
+    ANORRLContextualHelp.h
+    ANORRLCookieJar.cpp
+    ANORRLCookieJar.h
+    ANORRLCustomWidgets.cpp
+    ANORRLCustomWidgets.h
+    ANORRLDiagnosticsView.cpp
+    ANORRLDiagnosticsView.h
+    ANORRLDocManager.cpp
+    ANORRLDocManager.h
+    ANORRLGameExplorer.cpp
+    ANORRLGameExplorer.h
+    ANORRLIDEDoc.cpp
+    ANORRLIDEDoc.h
+    ANORRLInputConfigDialog.cpp
+    ANORRLInputConfigDialog.h
+    ANORRLKeyboardConfig.cpp
+    ANORRLKeyboardConfig.h
+    ANORRLMainWindow.cpp
+    ANORRLMainWindow.h
+    ANORRLMouseConfig.cpp
+    ANORRLMouseConfig.h
+    ANORRLNetworkAccessManager.cpp
+    ANORRLNetworkAccessManager.h
+    ANORRLNetworkReply.cpp
+    ANORRLNetworkReply.h
+    ANORRLObjectBrowserDoc.cpp
+    ANORRLObjectBrowserDoc.h
+    ANORRLPrizeAwarder.cpp
+    ANORRLPrizeAwarder.h
+    ANORRLPropertyWidget.cpp
+    ANORRLPropertyWidget.h
+    ANORRLQuickAccessConfig.cpp
+    ANORRLQuickAccessConfig.h
+    ANORRLReportView.cpp
+    ANORRLReportView.h
+    ANORRLRibbonMainWindow.cpp
+    ANORRLRibbonMainWindow.h
+    ANORRLSavingStateDialog.cpp
+    ANORRLSavingStateDialog.h
+    ANORRLScriptDoc.cpp
+    ANORRLScriptDoc.h
+    ANORRLScriptReview.cpp
+    ANORRLScriptReview.h
+    ANORRLSettings.cpp
+    ANORRLSettings.h
+    ANORRLSettingsDialog.cpp
+    ANORRLSettingsDialog.h
+    ANORRLStudioVerbs.cpp
+    ANORRLStudioVerbs.h
+    ANORRLTaskScheduler.cpp
+    ANORRLTaskScheduler.h
+    ANORRLTeamCreateWidget.cpp
+    ANORRLTeamCreateWidget.h
+    ANORRLTextOutputWidget.cpp
+    ANORRLTextOutputWidget.h
+    ANORRLToolBox.cpp
+    ANORRLToolBox.h
+    ANORRLTreeWidget.cpp
+    ANORRLTreeWidget.h
+    ANORRLTutorials.cpp
+    ANORRLTutorials.h
+    ANORRLUser.cpp
+    ANORRLUser.h
+    ANORRLView.cpp
+    ANORRLView.h
+    ANORRLWebDoc.cpp
+    ANORRLWebDoc.h
+    ANORRLWebPage.cpp
+    ANORRLWebPage.h
+    ScriptAnalysisWidget.cpp
+    ScriptAnalysisWidget.h
+    ScriptComboBox.cpp
+    ScriptComboBox.h
+    ScriptPickerDialog.cpp
+    ScriptPickerDialog.h
+    ScriptSideWidget.cpp
+    ScriptSideWidget.h
+    ScriptSyntaxHighlighter.cpp
+    ScriptSyntaxHighlighter.h
+    ScriptTextEditor.cpp
+    ScriptTextEditor.h
+    SelectionHighlightAdornable.cpp
+    SelectionHighlightAdornable.h
+    ShortcutHelpDialog.cpp
+    ShortcutHelpDialog.h
+    SplineEditor.cpp
+    SplineEditor.h
+    StudioAnalytics.cpp
+    StudioAnalytics.h
+    StudioDeviceEmulator.cpp
+    StudioDeviceEmulator.h
+    StudioIntellesense.cpp
+    StudioIntellesense.h
+    StudioSerializerHelper.cpp
+    StudioSerializerHelper.h
+    StudioUtilities.cpp
+    StudioUtilities.h
+    UserInput.cpp
+    UserInputUtil.cpp
+    WebDialog.cpp
+    WebDialog.h
+    ANORRLPluginHost.cpp
+    ANORRLPluginHost.h
+    UpdateUIManager.cpp
+    LogProvider.cpp
+    LogProvider.h
+    UpdateUIManager.h
+    ANORRLSettings.h
+    "../ClientShared/StringConv.h"
+	"../ClientShared/StringConv.cpp"
+    ANORRLStudio.qrc
+)
+
+target_link_libraries(ANORRLStudio
+    PRIVATE
+    Qt5::Core
+    Qt5::Widgets
+    Qt5::Gui
+    Qt5::Network
+    Qt5::WebKit
+    Qt5::WebKitWidgets
+    Qt5::Xml
+    Qt5::Concurrent
+    $<TARGET_OBJECTS:Base>
+	$<TARGET_OBJECTS:Log>
+	$<TARGET_OBJECTS:App>
+	$<TARGET_OBJECTS:Network>
+	$<TARGET_OBJECTS:G3D>
+	$<TARGET_OBJECTS:AppDraw>
+	$<TARGET_OBJECTS:RbxG3D>
+	$<TARGET_OBJECTS:GfxBase>
+	$<TARGET_OBJECTS:GfxCore>
+	$<TARGET_OBJECTS:GfxRender>
+	$<TARGET_OBJECTS:App.BulletPhysics>
+    $<TARGET_OBJECTS:QTitanRibbon>
+    $<TARGET_OBJECTS:sgCore>
+	ZLIB::ZLIB
+	Boost::filesystem
+	Boost::iostreams
+	Boost::program_options
+	Boost::system
+	Boost::thread
+	Boost::exception
+	Boost::pool
+	CURL::libcurl
+    OpenSSL::Crypto
+    OpenGL::GL
+    SDL2::SDL2
+    Freetype::Freetype
+    PNG::PNG
+)
+find_package(X11 REQUIRED)
+target_link_libraries(ANORRLStudio PRIVATE fmod -lGLEW ${X11_LIBRARIES} -lEGL -lwayland-client -lwayland-egl)
+target_compile_definitions(ANORRLStudio PRIVATE QT_NO_KEYWORDS)
+#target_include_directories(ANORRLStudio PRIVATE filewatcher)
+set_target_properties(ANORRLStudio PROPERTIES OUTPUT_NAME "ANORRLStudio")
+
+add_custom_command(TARGET ANORRLStudio POST_BUILD
+  COMMENT "Copying runtime files to build directory"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${RUNTIME_FILES}"
+    "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+)

@@ -298,16 +298,16 @@ CacheResult CacheResult::update(const char* assetUrl, const char* cdnUrl, const 
 
 
 	Header cacheHeader = {
-		gMagic(),                                                               // magic
-		ARL_CACHE_FILE_VERSION,                                                 // version
-		std::min(strlen(cdnUrl), static_cast<size_t>(ARL_CACHE_URL_MAX_LENGTH)),// urlBytes
-		{'\0'},                                                                 // url
-		responseCode,                                                           // responseCode
-		headers.size(),                                                         // responseHeadersSize
-		calculateHash(headers),                                                 // responseHeadersHash
-		body.size(),                                                            // responseBodySize
-		calculateHash(body),                                                    // responseBodyHash
-		0                                                                       // reserved
+		/* magic               */ gMagic(),
+		/* version             */ ARL_CACHE_FILE_VERSION,
+		/* urlBytes            */ static_cast<uint32_t>(std::min(strlen(cdnUrl), static_cast<size_t>(ARL_CACHE_URL_MAX_LENGTH))),
+		/* url                 */ {'\0'},
+		/* responseCode        */ responseCode,
+		/* responseHeadersSize */ static_cast<uint32_t>(headers.size()),
+		/* responseHeadersHash */ calculateHash(headers),// responseHeadersHash
+		/* responseBodySize    */ static_cast<uint32_t>(body.size()),
+		/* responseBodyHash    */ calculateHash(body),
+		/* reserved            */ 0
 	};
 	memcpy(const_cast<uint8_t*>(cacheHeader.url), cdnUrl, cacheHeader.urlBytes);
 

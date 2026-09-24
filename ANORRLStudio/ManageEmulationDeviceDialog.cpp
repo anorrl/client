@@ -62,7 +62,7 @@ void ManageEmulationDeviceDialog::rePopulateListWidget()
 
 		QAction* action = StudioDeviceEmulator::Instance().getActionFromDevice(*iter);
 
-		deviceItem->setData(Qt::UserRole, (int)action);
+		deviceItem->setData(Qt::UserRole, static_cast<qint64>(reinterpret_cast<intptr_t>(action)));
 		
 		m_UI.deviceListWidget->addItem(deviceItem);
 	}

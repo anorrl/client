@@ -16,7 +16,7 @@
 #include <mach/mach_time.h>
 #endif
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__) || defined(__linux__)
 #include <unistd.h>
 #endif
 
@@ -107,7 +107,7 @@ static void checkSpeedHack()
 
 static void checkDbg()
 {
-#ifdef __ARL_NOT_RELEASE
+#ifdef __ARL_NOT_RELEASE 
 	return;
 #else
 	DWORD dw = 0;
@@ -154,9 +154,10 @@ static double tick_frequency_helper()
     }
 return static_cast<double>(tinfo.numer/(double)tinfo.denom * 1e-9);
     
-#elif defined(__ANDROID__)
-    return 1e-9;
-    
+#elif defined(__ANDROID__) || defined(__linux__)
+    timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    return now.tv_sec * 1e9 + now.tv_nsec;
 #endif
 }
 static double tick_resolution(){

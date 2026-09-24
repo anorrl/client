@@ -5,6 +5,12 @@
 #include "arl/Declarations.h"
 #include "boost/cast.hpp"
 
+// ANORRL (23/09/2026):
+//		boost:: -> arl:: 
+//			This change was made as to accomodate Boost's changes to the instrusive_ptr regarding the use of constexpr
+//			Which fucks up the compiler stuff... From what I can see the solution to like "forward" it.
+//			Reference: projectpizza
+
 /// Forward Declarations
 namespace arl
 {
@@ -32,7 +38,7 @@ namespace arl
 }
 
 /// Template Specialization for boost intrusive ptrs
-namespace boost
+namespace arl
 {
 	/// Template Specialization for boost intrusive ptrs for quick_intrusive_ptr_target
 	template<class T, typename Count, Count maxRefs>
@@ -77,8 +83,8 @@ namespace arl
 		arl::atomic<Count> refs;
 	public:
 		inline quick_intrusive_ptr_target() { refs = 0; }
-		friend void boost::intrusive_ptr_add_ref<>(const quick_intrusive_ptr_target<T, Count, maxRefs>* p);
-		friend void boost::intrusive_ptr_release<>(const quick_intrusive_ptr_target<T, Count, maxRefs>* p);
+		friend void arl::intrusive_ptr_add_ref<>(const quick_intrusive_ptr_target<T, Count, maxRefs>* p);
+		friend void arl::intrusive_ptr_release<>(const quick_intrusive_ptr_target<T, Count, maxRefs>* p);
 	};
 #pragma pack(pop)	
 
@@ -127,17 +133,17 @@ namespace arl
 			::free(c);
 		}
 
-		friend void boost::intrusive_ptr_add_ref<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
-		friend void boost::intrusive_ptr_release<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
-		friend void boost::intrusive_ptr_add_weak_ref<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
-		friend bool boost::intrusive_ptr_expired<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
-		friend bool boost::intrusive_ptr_try_lock<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
-		friend void boost::intrusive_ptr_weak_release<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
+		friend void arl::intrusive_ptr_add_ref<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
+		friend void arl::intrusive_ptr_release<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
+		friend void arl::intrusive_ptr_add_weak_ref<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
+		friend bool arl::intrusive_ptr_expired<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
+		friend bool arl::intrusive_ptr_try_lock<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
+		friend void arl::intrusive_ptr_weak_release<>(const intrusive_ptr_target<T, Count, maxStrong, maxWeak>* p);
 	};	 
 }
 
 
-namespace boost
+namespace arl
 {
 	/// Template specialization quick_intrusive_ptr_target
 	template<class T, typename Count, Count maxRefs>

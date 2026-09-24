@@ -18,6 +18,7 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QPainter>
+#include <QHeaderView>
 
 // ANORRL Headers
 #include "util/StandardOut.h"

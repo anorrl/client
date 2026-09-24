@@ -1,68 +1,75 @@
 // ACCService.cpp : Defines the entry point for the console application.
 //
 
-
 #include "stdafx.h"
 
+#include <iostream>
+#include <atomic>
+#include <cstdlib>
+#include <thread>
 
 #define _CRTDBG_MAP_ALLOC
+#ifdef _WIN32
 #include <stdlib.h>
 #include <crtdbg.h>
 
 #include "conio.h"
 
+#include "logmanager.h"
+#include "Util/WinHeap.h"
+#endif
+
+
 #include "gSOAP/generated/ACCServiceSoap.nsmap"
 #include "gSOAP/generated/soapACCServiceSoapService.h"
-#include "logmanager.h"
 #include "arl/boost.hpp"
-#include "util/WinHeap.h"
-#include "util/StandardOut.h"
+#include "Util/StandardOut.h"
 #include "arl/TaskScheduler.h"
-#include "util/Statistics.h"
+#include "Util/Statistics.h"
 #include "util/Http.h"
-#include "v8datamodel/DataModel.h"
+#include "v8datamodel/datamodel.h"
 #include "OperationalSecurity.h"
 
 #pragma optimize( "", off ) 
 
-static long requestCount = 0;
-extern long diagCount;
-extern long batchJobCount;
-extern long openJobCount;
-extern long closeJobCount;
-extern long helloWorldCount;
-extern long getVersionCount;
-extern long renewLeaseCount;
-extern long executeCount;
-extern long getExpirationCount;
-extern long getStatusCount;
-extern long getAllJobsCount;
-extern long closeExpiredJobsCount;
-extern long closeAllJobsCount;
+static std::atomic<long> requestCount = 0;
+extern std::atomic<long> diagCount;
+extern std::atomic<long> batchJobCount;
+extern std::atomic<long> openJobCount;
+extern std::atomic<long> closeJobCount;
+extern std::atomic<long> helloWorldCount;
+extern std::atomic<long> getVersionCount;
+extern std::atomic<long> renewLeaseCount;
+extern std::atomic<long> executeCount;
+extern std::atomic<long> getExpirationCount;
+extern std::atomic<long> getStatusCount;
+extern std::atomic<long> getAllJobsCount;
+extern std::atomic<long> closeExpiredJobsCount;
+extern std::atomic<long> closeAllJobsCount;
 
 #ifdef ARL_TEST_BUILD
 extern std::string ACCServiceSettingsKeyOverwrite;
 #endif
 
-void process_request(ACCServiceSoapService *service) 
-{ 
-	::InterlockedIncrement(&requestCount);
+void process_request(ACCServiceSoapService* service)
+{
+	requestCount++;
 	try
 	{
-		service->serve(); 
+		service->serve();
 		delete service;
 	}
 	catch (...)
 	{
 		ARLCRASH();
 	}
-	::InterlockedDecrement(&requestCount);
-} 
+	requestCount--;
+}
 
 static void StringCrash(const char* s)
 {
-	char str[256];
-	strncpy_s(str, 256, s, 256);
+	//char str[256];
+	//strncpy_s(str, 256, s, 256);
 	ARLCRASH();
 }
 
@@ -103,72 +110,33 @@ public:
 
 ExceptionAwareSoap<ACCServiceSoapService> service; 
 
-#define SVCNAME TEXT("ACCService")
 
 
-// http://msdn2.microsoft.com/en-us/library/ms687416(VS.85).aspx
-//
-// Purpose: 
-//   Logs messages to the event log
-//
-// Parameters:
-//   szFunction - name of function that failed
-// 
-// Return value:
-//   None
-//
-// Remarks:
-//   The service must have an entry in the Application event log.
-//
-VOID SvcReportEvent(WORD type, LPCTSTR szFunction) 
-{ 
-	HANDLE hEventSource = ::RegisterEventSource(NULL, SVCNAME);
 
-    if( NULL != hEventSource )
-    {
-	LPCTSTR* lpStrings = &szFunction;
+void start_CWebService(const std::string& contentpath, bool crashUploaderOnly);
 
-	ReportEvent(hEventSource,		// event log source handle
-						 type,				// event type to log
-						 0,					// event category
-						 0x20000001L,		// event identifier (GENERIC_MESSAGE) which comes from Message.mc
-						 0,				// user security identifier (optional)
-						 1,					// number of strings to merge with message
-						 0,					// size of binary data, in bytes
-						 lpStrings,			// array of strings to merge with message
-						 NULL);				// address of binary data
-
-        DeregisterEventSource(hEventSource);
-    }
-}
-
-
-void start_CWebService(LPCTSTR contentpath, bool crashUploaderOnly);
-
-static void startupACC(int port, LPCTSTR contentpath, bool crashUploaderOnly)
+static void startupACC(int port, const std::string &contentpath, bool crashUploaderOnly)
 {
 	printf("Service starting...\n"); 
 
 	start_CWebService(contentpath, crashUploaderOnly);
 
-  //service.send_timeout = 60; // 60 seconds 
-  //service.recv_timeout = 60; // 60 seconds 
-  service.accept_timeout = 1; // server stops after 1 second
-  //soap.max_keep_alive = 100; // max keep-alive sequence 
-  SOAP_SOCKET m = service.bind(NULL, port, 100); 
-  if (!soap_valid_socket(m)) 
-	  throw std::runtime_error(*soap_faultstring(&service)); 
+	//service.send_timeout = 60; // 60 seconds 
+	//service.recv_timeout = 60; // 60 seconds 
+	service.accept_timeout = 1; // server stops after 1 second
+	//soap.max_keep_alive = 100; // max keep-alive sequence 
+	SOAP_SOCKET m = service.bind(NULL, port, 100); 
+	if (!soap_valid_socket(m)) 
+		throw std::runtime_error(*soap_faultstring(&service)); 
 
 	char buffer[64];
 	sprintf_s(buffer, 64, "Service Started on port %d", port); 
 	ARL::StandardOut::singleton()->print(ARL::MESSAGE_SENSITIVE, buffer);
-	SvcReportEvent(EVENTLOG_INFORMATION_TYPE, buffer);
 }
 
-DWORD CALLBACK process_request_func(LPVOID param) 
+void process_request_func(ACCServiceSoapService* param)
 {
-	process_request((ACCServiceSoapService*) param);
-	return 0;
+	process_request(param);
 }
 
 static void stepACC()
@@ -189,8 +157,14 @@ static void stepACC()
 	if (!copy) 
 		throw std::runtime_error(*soap_faultstring(&service)); 
 
-	if (!QueueUserWorkItem(&process_request_func, copy, WT_EXECUTELONGFUNCTION))
-		ARLCRASH();
+	try
+	{
+		std::thread(process_request_func, copy).detach();
+	}
+	catch (const std::system_error& e)
+	{
+		fprintf(stderr, "Thread creation failed: %s\n", e.what());
+	}
 }
 
 void stop_CWebService();
@@ -202,92 +176,60 @@ static void shutdownACC()
 }
 
 
-
-SERVICE_STATUS_HANDLE handle = 0;
-
-SERVICE_STATUS status = { SERVICE_WIN32_OWN_PROCESS,
-                          SERVICE_STOPPED,
-                          SERVICE_ACCEPT_STOP };
-
-HANDLE  stopped; // manual, not signaled
-
-void UpdateState(DWORD state)
+static int parsePort(int argc, char* argv[])
 {
-    status.dwCurrentState = state;
-
-    ::SetServiceStatus(handle, &status);
-}
-
-static int parsePort(int argc, _TCHAR* argv[])
-{
-    int port = 64989;
-	for (int i = 1; i<argc; ++i)
+	int port = 64989;
+	for (int i = 1; i < argc; ++i)
 	{
-		if (argv[i][0] == _T('/') || argv[i][0] == _T('-'))
+		std::string arg = argv[i];
+		if (!arg.empty() && (arg[0] == '/' || arg[0] == '-'))
 			continue;
-		port = atoi(argv[i]); 
+		port = std::atoi(arg.c_str());
 	}
 	return port;
 }
 
-static bool parseBreakRequest(int argc, _TCHAR* argv[])
+static std::string parseContent(int argc, char* argv[])
 {
-	for (int i = 1; i<argc; ++i)
-	{
-		if (argv[i][0] == _T('/'))
-			argv[i][0] = _T('-');
-
-		if (_tcsicmp(argv[i], _T("-Break")) == 0)
-		{
-			return true;
-		}
-	}
-	return false;
+	const std::string tag = "-Content:";
+	std::string result = parse(tag, argc, argv);
+	return result.empty() ? "content/" : result;
 }
 
-static LPCTSTR parseContent(int argc, _TCHAR* argv[])
+static std::string parseBaseUrl(int argc, char* argv[])
 {
-	const _TCHAR szTag[] = _T("-Content:");
-	int cchTagLen = (sizeof(szTag)/sizeof(_TCHAR));
-    static const _TCHAR szDefaultValue[] = _T("Content\\");		
-	for (int i = 1; i<argc; ++i)
-	{
-		if (argv[i][0] == _T('/'))
-			argv[i][0] = _T('-');
-
-		if (_tcsncicmp(argv[i], szTag, cchTagLen-1) == 0)
-		{
-			// return the part after the tag.
-			return argv[i] + cchTagLen-1;
-		}
-	}
-	return szDefaultValue;
+	const std::string tag = "-BaseUrl:";
+	std::string result = parse(tag, argc, argv);
+	return result.empty() ? "" : result;
 }
 
-static LPCTSTR parse(const _TCHAR szTag[], int tagLen, int argc, _TCHAR* argv[])
+static std::string parse(const std::string& tag, int argc, char* argv[])
 {
-	static const _TCHAR szDefaultValue[] = _T("");		
-	for (int i = 1; i<argc; ++i)
+	for (int i = 1; i < argc; ++i)
 	{
-		if (argv[i][0] == _T('/'))
-			argv[i][0] = _T('-');
+		std::string arg = argv[i];
 
-		if (_tcsncicmp(argv[i], szTag, tagLen-1) == 0)
+		if (!arg.empty() && arg[0] == '/')
+			arg[0] = '-';
+
+		if (arg.size() >= tag.size() &&
+			std::equal(tag.begin(), tag.end(), arg.begin(),
+				[](char a, char b)
+				{ return std::tolower(a) == std::tolower(b); }))
 		{
-			// return the part after the tag.
-			return argv[i] + tagLen-1;
+			return arg.substr(tag.size());
 		}
 	}
-	return szDefaultValue;
+
+	return "";
 }
 
-static int parsePlaceId(int argc, _TCHAR* argv[])
+static int parsePlaceId(int argc, char* argv[])
 {
-	const _TCHAR szTag[] = _T("-PlaceId:");
-	LPCTSTR placeId = parse(szTag, sizeof(szTag), argc, argv);
-	if (placeId == "")
+	std::string result = parse("-PlaceId:", argc, argv);
+	if (result.empty())
 		return -1;
-	return atoi(placeId);
+	return std::atoi(result.c_str());
 }
 
 #ifdef ARL_TEST_BUILD
@@ -304,264 +246,6 @@ static LPCTSTR parseSettingsKey(int argc, _TCHAR* argv[])
 }
 #endif
 
-void WINAPI Handler(DWORD control)
-{
-    //ASSERT(SERVICE_CONTROL_STOP == control);
-
-    UpdateState(SERVICE_STOP_PENDING);
-	ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "SERVICE_STOP_PENDING");
-	SvcReportEvent(EVENTLOG_INFORMATION_TYPE, "SERVICE_STOP_PENDING");
-
-    // Perform shutdown steps here.
-	shutdownACC();
-
-    ::WaitForSingleObject(stopped, 
-                          INFINITE);
-
-    UpdateState(SERVICE_STOPPED);
-	ARL::StandardOut::singleton()->print(ARL::MESSAGE_INFO, "SERVICE_STOPPED");
-	SvcReportEvent(EVENTLOG_INFORMATION_TYPE, "SERVICE_STOPPED");
-}
-
-VOID WINAPI ServiceMain( DWORD dwArgc, LPTSTR *lpszArgv )
-{
-	stopped = CreateEvent( 
-        NULL,               // default security attributes
-        TRUE,               // manual-reset event
-        FALSE,               // initial state is not signaled
-        TEXT("Stopped")  // object name
-        ); 
-
-    handle = ::RegisterServiceCtrlHandler(SVCNAME, Handler);
-    //ASSERT(0 != handle);
-
-    UpdateState(SERVICE_START_PENDING);
-
-    // Perform any startup steps here.
-	try
-	{
-		int port = parsePort(dwArgc, lpszArgv);
-		LPCTSTR contentDir = parseContent(dwArgc, lpszArgv);
-		startupACC(port, contentDir, false);
-		UpdateState(SERVICE_RUNNING);
-	}
-	catch (std::exception& e)
-	{
-		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e);
-		SvcReportEvent(EVENTLOG_ERROR_TYPE, e.what());
-	}
-
-	bool breakRequest = parseBreakRequest(dwArgc, lpszArgv);
-
-    while (SERVICE_RUNNING == status.dwCurrentState)
-    {
-		if (breakRequest)
-		{
-			::DebugBreak();
-			breakRequest = false;
-		}
-
-        // Perform main service function here.
-		try
-		{
-			stepACC();
-		}
-		catch (std::exception& e)
-		{
-			ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e);
-			SvcReportEvent(EVENTLOG_ERROR_TYPE, e.what());
-		}
-    }
-
-	::SetEvent(stopped);
-}
-
-
-class CServiceHandle
-{
-	SC_HANDLE handle;
-public:
-	CServiceHandle(SC_HANDLE handle):handle(handle) {}
-	~CServiceHandle() { CloseServiceHandle(handle); }
-	operator SC_HANDLE() const { return handle; }
-};
-
-bool SvcUninstall(const char* name)
-{
-    // Get a handle to the SCM database. 
- 
-    CServiceHandle schSCManager = OpenSCManager( 
-        NULL,                    // local computer
-        NULL,                    // ServicesActive database 
-        SC_MANAGER_ALL_ACCESS);  // full access rights 
-
-	CServiceHandle schService = ::OpenService(schSCManager, name, DELETE);
-    if (schService == NULL) 
-    {
-        printf("OpenService failed (%d)\n", GetLastError()); 
-        return false;
-    }
-	bool result = DeleteService(schService) ? true : false;
-
-	return result;
-}
-
-void SvcStart(const char* name)
-{
-    // Get a handle to the SCM database. 
- 
-    CServiceHandle schSCManager = OpenSCManager( 
-        NULL,                    // local computer
-        NULL,                    // ServicesActive database 
-        SC_MANAGER_ALL_ACCESS);  // full access rights 
-
-	CServiceHandle schService = ::OpenService(schSCManager, name, SERVICE_START);
-    if (schService == NULL) 
-    {
-        printf("OpenService failed (%d)\n", GetLastError()); 
-        return;
-    }
-	if (!StartService(schService, NULL, NULL))
-        printf("StartService failed (%d)\n", GetLastError()); 
-	else
-        printf("Service Starting\n"); 
-}
-
-void SvcStop(const char* name)
-{
-    // Get a handle to the SCM database. 
- 
-    CServiceHandle schSCManager = OpenSCManager( 
-        NULL,                    // local computer
-        NULL,                    // ServicesActive database 
-        SC_MANAGER_ALL_ACCESS);  // full access rights 
-
-	CServiceHandle schService = ::OpenService(schSCManager, name, SERVICE_STOP);
-    if (schService == NULL) 
-    {
-        printf("OpenService failed (%d)\n", GetLastError()); 
-        return;
-    }
-
-	SERVICE_STATUS serviceStatus;
-	if (!ControlService(schService, SERVICE_CONTROL_STOP, &serviceStatus))
-    {
-        printf("ControlService failed (%d)\n", GetLastError()); 
-    }
-}
-
-void EventLongUninstall()
-{
-	CRegKey key;
-	if (key.Open(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\Eventlog\\Application", KEY_WRITE) == ERROR_SUCCESS)
-		key.DeleteSubKey("ACCService");
-}
-
-void EventLogInstall()
-{
-	CRegKey key;
-	if (key.Create(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\Eventlog\\Application\\ACCService") != ERROR_SUCCESS)
-		throw std::runtime_error("couldn't create ACCService reg key");
-
-    TCHAR szPath[MAX_PATH];
-
-    if( !GetModuleFileName( NULL, szPath, MAX_PATH ) )
-		throw std::runtime_error("GetModuleFileName failed");
-
-	key.SetStringValue("EventMessageFile", szPath, REG_EXPAND_SZ);
-	key.SetDWORDValue("TypesSupported", 0x1f);
-}
-
-void SvcInstall()
-{
-    TCHAR szPath[MAX_PATH];
-
-    if( !GetModuleFileName( NULL, szPath, MAX_PATH ) )
-		throw std::runtime_error("GetModuleFileName failed");
-
-    // Get a handle to the SCM database. 
- 
-    CServiceHandle schSCManager = OpenSCManager( 
-        NULL,                    // local computer
-        NULL,                    // ServicesActive database 
-        SC_MANAGER_CREATE_SERVICE);  
- 
-    if (NULL == schSCManager) 
-		throw std::runtime_error("OpenSCManager failed");
-
-    // Create the service
-
-    CServiceHandle schService = CreateService( 
-        schSCManager,              // SCM database 
-        SVCNAME,                   // name of service 
-        "ANORRL Compute Cloud Service",   // service name to display 
-        SERVICE_ALL_ACCESS,        // desired access 
-        SERVICE_WIN32_OWN_PROCESS, // service type 
-        SERVICE_AUTO_START,        // start type 
-        SERVICE_ERROR_NORMAL,      // error control type 
-        szPath,                    // path to service's binary 
-        NULL,                      // no load ordering group 
-        NULL,                      // no tag identifier 
-        NULL,                      // no dependencies 
-        NULL,                      // LocalSystem account 
-        NULL);                     // no password 
- 
-    if (schService == NULL) 
-    {
-		if (GetLastError()==ERROR_SERVICE_EXISTS)
-		{
-			printf("Service already installed\n"); 
-			return;
-		}
-		throw std::runtime_error("CreateService failed"); 
-    }
-    else 
-		printf("Service installed successfully\n"); 
-
-	 SERVICE_FAILURE_ACTIONS fa;
-     fa.dwResetPeriod = 100;
-     fa.lpRebootMsg = NULL;
-     fa.lpCommand = NULL;
-     fa.cActions = 3;
-     SC_ACTION sa[3];
-     sa[0].Delay = 5000; 
-     sa[0].Type = SC_ACTION_RESTART;
-     sa[1].Delay = 55000;
-     sa[1].Type = SC_ACTION_RESTART;
-     sa[2].Delay = 60000;
-     sa[2].Type = SC_ACTION_RESTART;
-     fa.lpsaActions = sa;
-
-	if (!ChangeServiceConfig2(schService, SERVICE_CONFIG_FAILURE_ACTIONS, &fa))
-		throw std::runtime_error("ChangeServiceConfig2 failed"); 
-}
-
-class Console
-{
-public:
-	static bool done;
-	Console()
-	{
-		SetConsoleCtrlHandler( (PHANDLER_ROUTINE) CtrlHandler, TRUE );
-	}
-	static BOOL CtrlHandler( DWORD fdwCtrlType ) 
-	{ 
-	  switch( fdwCtrlType ) 
-	  { 
-		case CTRL_SHUTDOWN_EVENT: 
-		case CTRL_BREAK_EVENT: 
-		case CTRL_C_EVENT: 
-		case CTRL_CLOSE_EVENT: 
-		  done = true; 
-		  return TRUE;
-	 
-		default: 
-		  return FALSE; 
-	  }
-	} 
-};
-
-bool Console::done = false;
 
 namespace ARL {
 	extern bool nameThreads;
@@ -573,34 +257,39 @@ void ReadAccessKey()
 {
 	if (ARL::Http::accessKey.empty())
 	{
-		boost::mutex::scoped_lock lock(keyLockMutex);
-		if (ARL::Http::accessKey.empty()) 
+		const char* envKey = std::getenv("ACC_ACCESS_KEY");
+		if (envKey && *envKey)
 		{
-			CRegKey key;
-			if (SUCCEEDED(key.Open(HKEY_LOCAL_MACHINE, "Software\\kuro.remover\\ANORRL\\", KEY_READ))) 
-			{
-				CHAR keyData[MAX_PATH];
-				ULONG bufLen = MAX_PATH-1;
-				if (SUCCEEDED(key.QueryStringValue("AccessKey", keyData, &bufLen))) 
-				{
-					keyData[bufLen] = 0;
-					ARL::Http::accessKey = std::string(keyData);
-					ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "Access key read: %s", ARL::Http::accessKey.c_str());
-				}
-			}
+			ARL::Http::accessKey = std::string(envKey);
+			ARL::StandardOut::singleton()->printf(
+				ARL::MESSAGE_SENSITIVE, "Got access key: %s", ARL::Http::accessKey.c_str());
+		}
+		else
+		{
+			ARL::StandardOut::singleton()->printf(
+				ARL::MESSAGE_WARNING, "No access key has been set!");
 		}
 	}
-	ARL::StandardOut::singleton()->printf(ARL::MESSAGE_SENSITIVE, "Current Access key: %s", ARL::Http::accessKey.c_str());
+	else
+	{
+		ARL::StandardOut::singleton()->printf(
+			ARL::MESSAGE_SENSITIVE, "Current access key: %s", ARL::Http::accessKey.c_str());
+	}
+}
+
+static std::string parseBaseUrl(int argc, char* argv[])
+{
+	const std::string tag = "-BaseUrl:";
+	std::string result = parse(tag, argc, argv);
+	return result.empty() ? "" : result;
 }
 
 class PrintfLogger
 {
 	arl::signals::scoped_connection messageConnection;
-	HANDLE handle;  
 	arl::spin_mutex mutex;
 public:
 	PrintfLogger()
-		:handle(GetStdHandle(STD_OUTPUT_HANDLE))
 	{
 		messageConnection = ARL::StandardOut::singleton()->messageOut.connect(boost::bind(&PrintfLogger::onMessage, this, _1));
 	}
@@ -608,178 +297,94 @@ protected:
 	void onMessage(const ARL::StandardOutMessage& message)
 	{
 		arl::spin_mutex::scoped_lock lock(mutex);
+
+		const char* colorCode;
+
 		switch (message.type)
 		{
 		case ARL::MESSAGE_OUTPUT:
-			SetConsoleTextAttribute(handle, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+			colorCode = "\033[1;34m";
 			break;
 		case ARL::MESSAGE_INFO:
-			SetConsoleTextAttribute(handle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+			colorCode = "\033[0m";
 			break;
 		case ARL::MESSAGE_WARNING:
-			SetConsoleTextAttribute(handle, FOREGROUND_RED | FOREGROUND_GREEN);
+			colorCode = "\033[1;33m";
 			break;
 		case ARL::MESSAGE_ERROR:
-			SetConsoleTextAttribute(handle, FOREGROUND_RED | FOREGROUND_INTENSITY);
+			colorCode = "\033[1;31m";
+			break;
+		default:
+			colorCode = "\033[0m";
 			break;
 		}
-		printf("%s\n", message.message.c_str());
-		SetConsoleTextAttribute(handle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
+		std::cout << colorCode << message.message << "\033[0m" << std::endl;
 	}
 };
 
-
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char* argv[])
 {
-	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-
 	static boost::scoped_ptr<PrintfLogger> standardOutLog(new PrintfLogger());
-
 	ReadAccessKey();
 
-	ARL::UTIL::setWindowsNoFragHeap();
+	std::string baseUrl = parseBaseUrl(argc, argv);
+	SetBaseURL(baseUrl);
 
 	try
 	{
-		bool isServiceCall = true;
-		bool isConsole = false;
-		bool isCrashUploader = false;
-
-		for (int i = 1; i<argc; ++i)
-		{
-			if (argv[i][0] == _T('/'))
-				argv[i][0] = _T('-');
-
-			if (_tcsicmp(argv[i], _T("-Install")) == 0)
-			{
-				EventLogInstall();
-				SvcInstall();
-				isServiceCall = false;
-				continue;
-			}
-
-			if (_tcsicmp(argv[i], _T("-AQTime")) == 0)
-			{
-				ARL::nameThreads = false;
-				continue;
-			}
-
-			if (_tcsicmp(argv[i], _T("-Uninstall")) == 0)
-			{
-				SvcUninstall(SVCNAME);
-				EventLongUninstall();
-				isServiceCall = false;
-				continue;
-			}
-
-			if (_tcsicmp(argv[i], _T("-Start")) == 0)
-			{
-				SvcStart(SVCNAME);
-				isServiceCall = false;
-				continue;
-			}
-
-			if (_tcsicmp(argv[i], _T("-Stop")) == 0)
-			{
-				SvcStop(SVCNAME);
-				isServiceCall = false;
-				continue;
-			}
-
-			if (_tcsicmp(argv[i], _T("-Console")) == 0)
-			{
-				isConsole = true;
-				isServiceCall = false;
-				continue;
-			}
-			if (_tcsicmp(argv[i], _T("-CrashReporter")) == 0)
-			{
-				isConsole = true;
-				isServiceCall = false;
-
-				isCrashUploader = true;
-				continue;
-			}
-		}
-
-		if (isConsole)
-		{
 #ifdef ARL_TEST_BUILD
-			ARL::DataModel::hash = parseMD5(argc, argv);
-			ACCServiceSettingsKeyOverwrite = parseSettingsKey(argc, argv);
+		ARL::DataModel::hash = parseMD5(argc, argv);
+		ACCServiceSettingsKeyOverwrite = parseSettingsKey(argc, argv);
 #endif
-			startupACC(parsePort(argc, argv), parseContent(argc, argv), isCrashUploader);
+		startupACC(parsePort(argc, argv), parseContent(argc, argv), false);
 
-			int placeId = parsePlaceId(argc, argv);
-			if (placeId > -1)
-			{
-				std::stringstream buffer;
-				std::ifstream gameServerFile("gameserver.txt", std::ios::in);
-				if (gameServerFile.is_open())
-				{
-					buffer << gameServerFile.rdbuf();
-					gameServerFile.close();
-				}
-
-				buffer << "start(" << placeId << ", " << 53640 << ", '" << GetBaseURL() << "')";
-				std::string script = buffer.str();
-
-				ACCServiceSoapService* copy = service.copy(); // make a safe copy 
-				if (!copy) 
-					throw std::runtime_error(*soap_faultstring(&service)); 
-
-				ns1__Job job;
-				job.id = "Test";
-				job.expirationInSeconds = 600;
-
-				ns1__ScriptExecution se;
-				se.name = &std::string("Start Server");
-				se.script = &script;
-
-				_ns1__OpenJob openJob;
-				_ns1__OpenJobResponse response;
-				openJob.script = &se;
-				openJob.job = &job;
-
-				copy->OpenJob(&openJob, &response);
-			}
-
-			if(!isCrashUploader){
-				Console console;
-				while (!console.done)
-				{
-					if (_kbhit())
-						if (_getch() == 27)
-							break;
-						else
-							ARL::TaskScheduler::singleton().printDiagnostics(true);
-					stepACC();
-				}
-			}
-			shutdownACC();
-		}
-		else if (isServiceCall)
+		int placeId = parsePlaceId(argc, argv);
+		if (placeId > -1)
 		{
-
-			// This is an honest attempt to start the service. We're ready to begin!!!
-			SERVICE_TABLE_ENTRY serviceTable[] = 
+			std::stringstream buffer;
+			std::ifstream gameServerFile("gameserver.txt", std::ios::in);
+			if (gameServerFile.is_open())
 			{
-				{ SVCNAME, ServiceMain },
-				{ 0, 0 } 
-			};
-
-			if (!::StartServiceCtrlDispatcher(serviceTable))
-			{
-				printf("StartServiceCtrlDispatcher failed (%d)\n", GetLastError()); 
+				buffer << gameServerFile.rdbuf();
+				gameServerFile.close();
 			}
+
+			buffer << "start(" << placeId << ", " << 53640 << ", '" << GetBaseURL() << "')";
+			std::string script = buffer.str();
+
+			ACCServiceSoapService* copy = service.copy(); // make a safe copy
+			if (!copy)
+				throw std::runtime_error(*soap_faultstring(&service));
+
+			ns1__Job job;
+			job.id = "Test";
+			job.expirationInSeconds = 600;
+
+			ns1__ScriptExecution se;
+			static std::string scriptName = "Start Server";
+			se.name = &scriptName;
+			se.script = &script;
+
+			_ns1__OpenJob openJob;
+			_ns1__OpenJobResponse response;
+			openJob.script = &se;
+			openJob.job = &job;
+
+			copy->OpenJob(&openJob, &response);
 		}
+
+		while (true) // TODO: add some form of graceful shutdown like a ctrl c
+		{
+			stepACC();
+		}
+		shutdownACC();
 	}
 	catch (std::exception& e)
 	{
 		ARL::StandardOut::singleton()->print(ARL::MESSAGE_ERROR, e);
-		SvcReportEvent(EVENTLOG_ERROR_TYPE, e.what());
 	}
-    ARL::clearLuaReadOnly();
+	ARL::clearLuaReadOnly();
 }
 
 #pragma optimize( "", on )

@@ -41,8 +41,11 @@ using namespace std;
 #include "..//sgCore.h"
 
 
-#if (SG_CURRENT_PLATFORM!=SG_PLATFORM_WINDOWS)
+#if (SG_CURRENT_PLATFORM!=SG_PLATFORM_WINDOWS && SG_CURRENT_PLATFORM != SG_PLATFORM_LINUX)
 #include <malloc/malloc.h>   // MAC
+#else
+#include <cstdlib>
+#include <cstdint>
 #endif
 
 #if (SG_CURRENT_PLATFORM==SG_PLATFORM_WINDOWS)
@@ -82,8 +85,8 @@ typedef short SHORT;
     #include  <windows.h>
 #endif
 
-typedef     int   SG_PTR_TO_DIGIT;         // __int64 for 64 bit
-
+//typedef     int   SG_PTR_TO_DIGIT;         // __int64 for 64 bit
+typedef     uintptr_t   SG_PTR_TO_DIGIT;
 
 #ifndef MAXPATH
 	#define MAXPATH 256

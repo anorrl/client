@@ -4,6 +4,8 @@
 
 #ifdef _WIN32
 typedef unsigned __int64    uint64_t;
+#else
+#include <cstdint>
 #endif
 
 namespace ARL

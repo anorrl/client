@@ -36,7 +36,7 @@
 #include "SelectionHighlightAdornable.h"
 
 // 3rd. party
-#include "Filewatcher/FileWatcher.h"
+#include "filewatcher/FileWatcher.h"
 
 class XmlElement;
 class ANORRLView;

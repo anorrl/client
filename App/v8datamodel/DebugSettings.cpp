@@ -15,7 +15,7 @@
 
 #include "arl/SystemUtil.h"
 
-#if defined(__APPLE__) || defined(__ANDROID__)
+#if defined(__APPLE__) || defined(__ANDROID__) || defined(__linux__)
 #include <sys/types.h>
 
 #ifdef __APPLE__
@@ -573,7 +573,7 @@ double DebugSettings::processCores() const
 		return 1;
 	
 	return count;
-#elif __ANDROID__
+#elif __ANDROID__ || __linux__
     return SystemUtil::getCPULogicalCount();
 #else
 #error Unsupported platform.

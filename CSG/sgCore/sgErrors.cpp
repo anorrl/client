@@ -1,4 +1,4 @@
-#include "CORE//sg.h"
+#include "Core//sg.h"
 
 SG_ERROR   global_sg_error = SG_ER_SUCCESS;
 

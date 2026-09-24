@@ -1,5 +1,7 @@
+#include <cstdarg>
 #include "../CookiesEngine.h"
 #include "../format_string.h"
+
 
 bool CookiesEngine::reportValue(CookiesEngine &engine, std::string key, std::string value)
 {

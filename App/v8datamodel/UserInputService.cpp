@@ -81,6 +81,7 @@ namespace ARL {
 		{
             addPair(UserInputService::PLATFORM_WINDOWS, "Windows");
             addPair(UserInputService::PLATFORM_OSX, "OSX");
+			addPair(UserInputService::PLATFORM_UNIX, "Unix");
             addPair(UserInputService::PLATFORM_IOS, "IOS");
             addPair(UserInputService::PLATFORM_ANDROID, "Android");
 			addPair(UserInputService::PLATFORM_XBOXONE, "XBoxOne");
@@ -291,6 +292,7 @@ namespace ARL {
             // desktop
 			case UserInputService::PLATFORM_WINDOWS:
 			case UserInputService::PLATFORM_OSX:
+			case UserInputService::PLATFORM_UNIX:
             {
                 lastInputType = InputObject::TYPE_MOUSEMOVEMENT;
                 setMouseEnabled(true);
@@ -323,7 +325,7 @@ namespace ARL {
 		#ifdef _WIN32
         modPairs.push_back(std::make_pair(SDLK_LCTRL, KMOD_LCTRL));
 		modPairs.push_back(std::make_pair(SDLK_RCTRL, KMOD_RCTRL));
-		#elif __APPLE__
+		#elif __APPLE__ || __linux__
 		modPairs.push_back(std::make_pair(SDLK_LMETA, KMOD_LMETA));
 		modPairs.push_back(std::make_pair(SDLK_RMETA, KMOD_RMETA));
 		#endif
@@ -442,6 +444,8 @@ namespace ARL {
         return PLATFORM_WINDOWS;
 #elif defined(__ANDROID__)
         return PLATFORM_ANDROID;
+#elif defined(__linux__) || defined(__unix__)
+        return PLATFORM_UNIX;
 #else
         return PLATFORM_NONE;
 #endif

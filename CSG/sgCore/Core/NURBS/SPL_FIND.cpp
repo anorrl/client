@@ -66,7 +66,7 @@ met_find:
 static BOOL check_line1(lpF_PLPOINT min,lpF_PLPOINT max,
 								lpF_PLPOINT p1, lpF_PLPOINT p2){
 	float x1,y1,x2,y2,rc;
-	register short i,j,k;
+	short i,j,k;
 
 	x1=p1->x;
 	y1=p1->y;

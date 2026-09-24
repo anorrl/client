@@ -8,7 +8,6 @@ if(ANDROID)
   list(APPEND HEADERS include/arl/Android/ifaddrs.h)
   list(APPEND SOURCES arl/Android/ifaddrs.c)
   list(APPEND SOURCES arl/Android/SystemUtil.cpp)
-  list(APPEND SOURCES arl/Android/SystemUtil.cpp)
 elseif(WIN32)
   list(APPEND HEADERS arl/Win/WindowsUtil.h)
 

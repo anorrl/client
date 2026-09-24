@@ -159,7 +159,7 @@ public:
         }
         
         // add batch instance
-        BatchInstance bi = {part, decal, batch.bones.size() - 1, material.uvOffsetScale, resources};
+        BatchInstance bi = {part, decal, static_cast<unsigned int>(batch.bones.size()) - 1, material.uvOffsetScale, resources};
         
         batch.instances.push_back(bi);
     }

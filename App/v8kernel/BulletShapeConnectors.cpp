@@ -4,7 +4,7 @@
 #include "v8kernel/Body.h"
 #include "util/Math.h"
 
-#include "BulletCollision/NarrowphaseCollision/btPersistentManifold.h"
+#include "BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
 #include "btBulletCollisionCommon.h"
 
 namespace ARL {

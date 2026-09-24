@@ -8,7 +8,7 @@
 #define G3D_UPRIGHTFRAME_H
 
 #include "g3d/platform.h"
-#include "g3d/Spline.h"
+#include "g3d/spline.h"
 #include "g3d/Vector3.h"
 #include "g3d/CoordinateFrame.h"
 

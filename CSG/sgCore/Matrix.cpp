@@ -1,4 +1,4 @@
-#include "CORE//sg.h"
+#include "Core//sg.h"
 
 sgCMatrix::sgCMatrix()
 {

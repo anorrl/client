@@ -94,7 +94,7 @@ static  OSCAN_COD apr_line(lpOBJ obj, lpSCAN_CONTROL lpsc)
 #pragma argsused
 static  OSCAN_COD apr_circle(lpOBJ obj, lpSCAN_CONTROL lpsc)
 {
-	register short j, i;
+	short j, i;
 	lpGEO_CIRCLE circle = (lpGEO_CIRCLE)obj->geo_data;
 	MNODE mnode;
 	short beg,num,step;
@@ -128,7 +128,7 @@ static  OSCAN_COD apr_circle(lpOBJ obj, lpSCAN_CONTROL lpsc)
 #pragma argsused
 static  OSCAN_COD apr_arc(lpOBJ obj, lpSCAN_CONTROL lpsc)
 {
-	register short 	j, i;
+	short 	j, i;
 	lpD_POINT			p1, p2;
 	lpGEO_ARC 		arc = (lpGEO_ARC)&obj->geo_data;
 	MNODE 				mnode;

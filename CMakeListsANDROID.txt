@@ -19,7 +19,7 @@ endif(NOT CONTRIB_PATH)
 file(TO_CMAKE_PATH "${CONTRIB_PATH}" CONTRIB_PATH)
 message(STATUS "CONTRIB_PATH=${CONTRIB_PATH}")
 
-string(TOLOWER ${CMAKE_BUILD_TYPE} RBX_BUILD_TYPE)
+string(TOLOWER ${CMAKE_BUILD_TYPE} ARL_BUILD_TYPE)
 
 if(ANDROID)
   message(STATUS "ANDROID_TOOLCHAIN_NAME=${ANDROID_TOOLCHAIN_NAME}")
@@ -33,16 +33,16 @@ if(ANDROID)
 endif(ANDROID)
 message(STATUS "CMAKE_SYSROOT=${CMAKE_SYSROOT}")
 message(STATUS "CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}")
-if(NOT RBX_STL_INCLUDE_DIRS)
-  message(FATAL_ERROR "RBX_STL_INCLUDE_DIRS must be set to stdlib directories.")
+if(NOT ARL_STL_INCLUDE_DIRS)
+  message(FATAL_ERROR "ARL_STL_INCLUDE_DIRS must be set to stdlib directories.")
 else()
-  message(STATUS "RBX_STL_INCLUDE_DIRS=")
-  set(_RBX_STL_INCLUDE_PATTERNS "")
-  foreach(dir ${RBX_STL_INCLUDE_DIRS})
+  message(STATUS "ARL_STL_INCLUDE_DIRS=")
+  set(_ARL_STL_INCLUDE_PATTERNS "")
+  foreach(dir ${ARL_STL_INCLUDE_DIRS})
     message(STATUS "    ${dir}")
-    list(APPEND _RBX_STL_INCLUDE_PATTERNS "${dir}/*")
+    list(APPEND _ARL_STL_INCLUDE_PATTERNS "${dir}/*")
   endforeach()
-endif(NOT RBX_STL_INCLUDE_DIRS)
+endif(NOT ARL_STL_INCLUDE_DIRS)
 
 # Include any modules we'll need.
 include(ListFilter)
@@ -52,7 +52,7 @@ include(FMOD)
 include(SSL)
 include(SDL2)
 
-if(NOT RBX_SETTINGS_INITIALIZED)
+if(NOT ARL_SETTINGS_INITIALIZED)
   if(UNIX)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden" CACHE STRING "" FORCE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden" CACHE STRING "" FORCE)
@@ -83,8 +83,8 @@ if(NOT RBX_SETTINGS_INITIALIZED)
   # Enable C++11 with GNU extensions
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11" CACHE STRING "" FORCE)
 
-  set(RBX_SETTINGS_INITIALIZED TRUE CACHE INTERNAL "" FORCE)
-endif(NOT RBX_SETTINGS_INITIALIZED)
+  set(ARL_SETTINGS_INITIALIZED TRUE CACHE INTERNAL "" FORCE)
+endif(NOT ARL_SETTINGS_INITIALIZED)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(APPLE ON)
@@ -93,7 +93,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 endif()
 
-include_project_files(SystemHeaders "${CMAKE_SYSROOT}/usr/include/*.h;${RBX_STL_INCLUDE_DIRS}")
+include_project_files(SystemHeaders "${CMAKE_SYSROOT}/usr/include/*.h;${ARL_STL_INCLUDE_DIRS}")
 
 # Add some subdirectories that should have CMakeLists.txt in them.
 if(WIN32)
@@ -131,7 +131,7 @@ if(UNIX)
     set(DEPENDENCIES "${DEPENDENCIES} -lGLESv2")
   endif(ANDROID)
 
-  if(RBX_BUILD_TYPE MATCHES "release")
+  if(ARL_BUILD_TYPE MATCHES "release")
     set(DEPENDENCIES "${DEPENDENCIES} -lfmod")
   else()
     set(DEPENDENCIES "${DEPENDENCIES} -lfmodL")
@@ -158,9 +158,9 @@ set_target_properties(roblox PROPERTIES LINKER_LANGUAGE CXX)
 
 # Setup linker flag.
 if(UNIX)
-  set(RBX_LINKER_DEPENDENCY_FLAGS "-Wl,--no-whole-archive,--no-gc-sections")
+  set(ARL_LINKER_DEPENDENCY_FLAGS "-Wl,--no-whole-archive,--no-gc-sections")
 endif(UNIX)
 
 string(STRIP "${DEPENDENCIES}" deps_strip_str)
 target_link_libraries(roblox
-  ${RBX_LINKER_DEPENDENCY_FLAGS} ${deps_strip_str})
+  ${ARL_LINKER_DEPENDENCY_FLAGS} ${deps_strip_str})

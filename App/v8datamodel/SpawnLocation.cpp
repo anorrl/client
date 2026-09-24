@@ -4,7 +4,7 @@
 #include "v8datamodel/SpawnLocation.h"
 #include "v8datamodel/Teams.h"
 #include "v8datamodel/Team.h"
-#include "v8datamodel/Forcefield.h"
+#include "v8datamodel/ForceField.h"
 #include "network/Players.h"
 #include "network/Player.h"
 #include "humanoid/Humanoid.h"

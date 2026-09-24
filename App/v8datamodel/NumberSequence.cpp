@@ -3,7 +3,7 @@
 #include "v8datamodel/NumberSequence.h"
 #include "reflection/Type.h"
 #include "reflection/EnumConverter.h"
-#include "G3d/g3dmath.h"
+#include "g3d/g3dmath.h"
 using G3D::clamp;
 using G3D::lerp;
 

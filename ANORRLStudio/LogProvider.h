@@ -17,19 +17,19 @@
 #include "rbx/Log.h"
 #include "rbx/threadsafe.h"
 
-class LogProvider : public RBX::ILogProvider
+class LogProvider : public ARL::ILogProvider
 {
-	static RBX::mutex fastLogChannelsLock;
+	static ARL::mutex fastLogChannelsLock;
 	static LogProvider* mainLogManager;
-	std::vector<RBX::Log*> fastLogChannels;
+	std::vector<ARL::Log*> fastLogChannels;
 	static void FastLogMessage(FLog::Channel id, const char* message);
 private:
-	boost::thread_specific_ptr<RBX::Log> log;	
+	boost::thread_specific_ptr<ARL::Log> log;	
     boost::filesystem::path logDir;
     std::string logGuid;
 
 public:
 	LogProvider();
 	~LogProvider();
-	virtual RBX::Log* provideLog();
+	virtual ARL::Log* provideLog();
 };

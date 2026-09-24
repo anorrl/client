@@ -1,25 +1,39 @@
-#include "StringConv.h"
-
-#include <windows.h>
+#include <string>
+#include <stdexcept>
+#include <cstdint>
 
 namespace ARL {
 
-// convert wstring to UTF-8 string
-std::string utf8_encode(const std::wstring &path)
-{
-	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &path[0], (int)path.size(), NULL, 0, NULL, NULL);
-	std::string tgt( size_needed, 0 );
-	WideCharToMultiByte                  (CP_UTF8, 0, &path[0], (int)path.size(), &tgt[0], size_needed, NULL, NULL);
-	return tgt;
+std::string utf8_decode(const std::string& str) {
+    return str;
 }
 
-// convert UTF-8 string to wstring
-std::wstring utf8_decode(const std::string &path)
-{
-	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &path[0], (int)path.size(), NULL, 0);
-	std::wstring tgt( size_needed, 0 );
-	MultiByteToWideChar                  (CP_UTF8, 0, &path[0], (int)path.size(), &tgt[0], size_needed);
-	return tgt;
+std::string utf8_encode(const std::wstring& wstr) {
+    std::string result;
+
+    for (wchar_t wc : wstr) {
+        uint32_t ch = static_cast<uint32_t>(wc);
+
+        if (ch <= 0x7F) {
+            result += static_cast<char>(ch);
+        } else if (ch <= 0x7FF) {
+            result += static_cast<char>(0xC0 | ((ch >> 6) & 0x1F));
+            result += static_cast<char>(0x80 | (ch & 0x3F));
+        } else if (ch >= 0xD800 && ch <= 0xDBFF) {
+            throw std::runtime_error("Surrogate pairs not supported in this simple encoder");
+        } else if (ch <= 0xFFFF) {
+            result += static_cast<char>(0xE0 | ((ch >> 12) & 0x0F));
+            result += static_cast<char>(0x80 | ((ch >> 6) & 0x3F));
+            result += static_cast<char>(0x80 | (ch & 0x3F));
+        } else {
+            ch -= 0x10000;
+            wchar_t high = static_cast<wchar_t>((ch >> 10) + 0xD800);
+            wchar_t low = static_cast<wchar_t>((ch & 0x3FF) + 0xDC00);
+            throw std::runtime_error("Encoding surrogate pairs not supported in this minimal example");
+        }
+    }
+
+    return result;
 }
 
 }

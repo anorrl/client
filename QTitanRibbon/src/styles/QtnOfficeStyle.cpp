@@ -286,7 +286,7 @@ void OfficeStylePrivate::refreshMetrics()
     // clean up the old style
     for (QWidgetList::ConstIterator it = all.constBegin(); it != all.constEnd(); ++it) 
     {
-        register QWidget* w = *it;
+        QWidget* w = *it;
         if (!(w->windowType() == Qt::Desktop) && w->testAttribute(Qt::WA_WState_Polished)) 
             p.unpolish(w);
     }
@@ -300,14 +300,14 @@ void OfficeStylePrivate::refreshMetrics()
     // re-polish existing widgets if necessary
     for (QWidgetList::ConstIterator it1 = all.constBegin(); it1 != all.constEnd(); ++it1) 
     {
-        register QWidget* w = *it1;
+        QWidget* w = *it1;
         if (w->windowType() != Qt::Desktop && w->testAttribute(Qt::WA_WState_Polished)) 
             p.polish(w);
     }
 
     for (QWidgetList::ConstIterator it2 = all.constBegin(); it2 != all.constEnd(); ++it2) 
     {
-        register QWidget* w = *it2;
+        QWidget* w = *it2;
         if (w->windowType() != Qt::Desktop && !w->testAttribute(Qt::WA_SetStyle))
         {
             QEvent e(QEvent::StyleChange);

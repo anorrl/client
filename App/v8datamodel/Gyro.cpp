@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "v8datamodel/Gyro.h"
-#include "v8datamodel/Partinstance.h"
+#include "v8datamodel/PartInstance.h"
 #include "v8datamodel/Workspace.h"
 #include "v8world/World.h"
 #include "v8world/Assembly.h"

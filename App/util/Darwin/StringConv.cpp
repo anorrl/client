@@ -1,6 +1,6 @@
 #include "StringConv.h"
 
-namespace RBX {
+namespace ARL {
 
 std::string utf8_encode(const std::string &path)
 {

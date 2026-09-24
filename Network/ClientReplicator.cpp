@@ -58,8 +58,10 @@
 
 #include "arl/Profiler.h"
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__linux__)
+#ifdef _WIN32
 #include "util/CheatEngine.h"
+#endif
 #include "security/ApiSecurity.h"
 #endif
 
@@ -1688,7 +1690,7 @@ void ClientReplicator::onServiceProvider(ServiceProvider* oldProvider, ServicePr
     memoryCheckerCheckerJob.reset();
 #endif
 
-#if defined(_WIN32) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS))
+#if defined(_WIN32) || (defined(__APPLE__) || defined(__linux__) && !defined(ARL_PLATFORM_IOS))
     TaskScheduler::singleton().remove(memoryCheckerJob);
     memoryCheckerJob.reset();
 #endif
@@ -1720,7 +1722,7 @@ void ClientReplicator::onServiceProvider(ServiceProvider* oldProvider, ServicePr
         TaskScheduler::singleton().add(badAppCheckerJob);
 #endif
 
-#if !defined(LOVE_ALL_ACCESS) && (defined(_WIN32) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS)))
+#if !defined(LOVE_ALL_ACCESS) && (defined(_WIN32) || defined(__linux__) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS)))
         memoryCheckerJob.reset(new MemoryCheckerJob(shared_from(this)));
         TaskScheduler::singleton().add(memoryCheckerJob);
 #endif

@@ -143,8 +143,8 @@ void AppleCrashReporter::uploadAndDeletFileAsync(std::string url, std::string fi
 		dataPost->seekg (0, std::ios::beg);
 
 		
-		RBX::StandardOut::singleton()->printf(RBX::MESSAGE_OUTPUT, "Uploading %s", fullUrl.c_str());	
-		RBX::Http(fullUrl).post(dataPost, RBX::Http::kContentTypeUrlEncoded, true, boost::bind(handler, _2, p.string()));
+		ARL::StandardOut::singleton()->printf(ARL::MESSAGE_OUTPUT, "Uploading %s", fullUrl.c_str());	
+		ARL::Http(fullUrl).post(dataPost, ARL::Http::kContentTypeUrlEncoded, true, boost::bind(handler, _2, p.string()));
 	}
 }
 

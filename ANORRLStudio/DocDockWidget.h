@@ -52,10 +52,10 @@ protected:
 
 
 
+#ifdef Q_OS_WIN32
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 	virtual bool nativeEvent(const QByteArray &eventType, MSG* msg, long* result);
 #else
-#ifdef Q_WS_WIN32
 	virtual bool winEvent(MSG* msg, long* result);
 #endif
 #endif

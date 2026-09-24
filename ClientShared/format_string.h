@@ -1,5 +1,8 @@
 #pragma once
 
+#ifdef __unix__
+#include <cstdarg>
+#endif
 #include <string>
 #include <fstream>
 #include <vector>

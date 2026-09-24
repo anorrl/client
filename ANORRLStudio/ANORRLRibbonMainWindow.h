@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <QToolbar>
+#include <QToolBar>
 #include <QSize>
 
 // since for mixing of Qt and boost we need to define QT_NO_KEYWORDS,

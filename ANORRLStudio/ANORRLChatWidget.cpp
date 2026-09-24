@@ -9,6 +9,7 @@
 #include <QFont>
 #include <QPainter>
 #include <QScrollBar>
+#include <QPainterPath>
 
 #include "v8datamodel/DataModel.h"
 #include "network/Players.h"

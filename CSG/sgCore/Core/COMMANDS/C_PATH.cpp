@@ -200,7 +200,7 @@ hOBJ create_path_by_point(lpD_POINT p, short num)
 	lpGEO_LINE	geo_line;
 	OSCAN_COD		cod;
 
-	if ( (obj_path = (OBJ*)o_alloc(OPATH)) == NULL)	return FALSE;
+	if ( (obj_path = (OBJ*)o_alloc(OPATH)) == NULL)	goto err;
 	geo_path = (lpGEO_PATH)(obj_path->geo_data);
 	o_hcunit(geo_path->matr);
 	init_listh(&(geo_path->listh));

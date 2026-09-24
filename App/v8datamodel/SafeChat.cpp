@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 #include "v8datamodel/SafeChat.h"
-#include "v8datamodel/Contentprovider.h"
+#include "v8datamodel/ContentProvider.h"
 #include "v8xml/XmlSerializer.h"
 #include "StringConv.h"
 #include <boost/algorithm/string.hpp>

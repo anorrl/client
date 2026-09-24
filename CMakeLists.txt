@@ -58,8 +58,6 @@ set(FMOD_ARCHITECTURE x64)
 link_directories(${CMAKE_SOURCE_DIR}/fmod/lib/linux/${FMOD_ARCHITECTURE})
 set(RUNTIME_FILES ${CMAKE_SOURCE_DIR}/fmod/lib/linux/${FMOD_ARCHITECTURE}/libfmod.so.13)
 
-add_subdirectory(CoreScriptConverter2)
-
 add_library(fmod SHARED IMPORTED)
 set_property(TARGET fmod PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/fmod/lib/linux/${FMOD_ARCHITECTURE}/libfmod.so)
 
@@ -69,6 +67,7 @@ find_package(ZLIB REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(PNG REQUIRED)
+find_package(glad REQUIRED)
 
 if(STUDIO_BUILD)
   set(Qt5_DIR "/usr/lib/cmake/Qt5")
@@ -94,12 +93,16 @@ if(STUDIO_BUILD)
     WebChannel
     Positioning
     Concurrent
-    OpenGLWidgets
+#   OpenGLWidgets
   )
 endif()
 
 if(NOT ACC_BUILD)
   find_package(SDL2 CONFIG REQUIRED)
+endif()
+
+if(NOT STUDIO_BUILD)
+  add_subdirectory(CoreScriptConverter2)
 endif()
 
 find_package(OpenGL REQUIRED COMPONENTS OpenGL EGL)
@@ -133,4 +136,4 @@ else()
   add_subdirectory(ANORRLUnixClient)
 endif()
 
-set(ARL_LINKER_DEPENDENCY_FLAGS "-Wl,--no-whole-archive,--no-gc-sections -Wno-c++11-narrowing")
+set(ARL_LINKER_DEPENDENCY_FLAGS "-Wl,--no-whole-archive,--no-gc-sections,--no-c++11-narrowing")

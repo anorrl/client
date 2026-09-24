@@ -130,7 +130,7 @@ BOOL check_point_object(lpD_POINT p, hOBJ hobj, lpNP_TYPE_POINT answer)
 #pragma argsused
 static OSCAN_COD point_scan1(hOBJ hobj, lpSCAN_CONTROL lpsc)
 {
-	register  	 	short i;
+	short           i;
 	lpPOINT_DATA	data;
 
 	if (ctrl_c_press) { 							 
@@ -161,8 +161,8 @@ static OSCAN_COD point_scan1(hOBJ hobj, lpSCAN_CONTROL lpsc)
 #pragma argsused
 static OSCAN_COD point_scan(hOBJ hobj, lpSCAN_CONTROL lpsc)
 {
-	register  	 	short i;
-	lpD_POINT 	 	v;
+	short           i;
+	lpD_POINT 	v;
 	lpPOINT_DATA	data;
 	D_POINT				min, max;
 	NP_TYPE_POINT lab;

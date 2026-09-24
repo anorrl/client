@@ -95,7 +95,7 @@ MATR matr;
 
 static BOOL write_cross( lpMESHDD g, hOBJ hpath, sgFloat r,
 												 lpMATR matr, lpFORM form ){
-	register  short i;
+	short i;
 	sgFloat 		alpha;
 	short 			mask, step_i;
 	OSTATUS   status;
@@ -227,7 +227,7 @@ static  BOOL create_cyl_part( lpCREATE_PIPE data, lpD_POINT vc1,
 
 #pragma argsused
 static  OSCAN_COD part_circle(lpOBJ obj, lpSCAN_CONTROL lpsc){
-	register short i;
+	short i;
 	lpGEO_CIRCLE circle = (lpGEO_CIRCLE)obj->geo_data;
 	short 				beg, num, step, mask;
 	ARC_DATA    ad;

@@ -962,7 +962,7 @@ inline void lua_vmhooked_handler_ex(lua_State* L)
     lua_vmhooked_handler(L);
 }
 
-#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
+#if (defined(_WIN32)||defined(__linux__)) && !defined(ARL_STUDIO_BUILD)
 
 #define lua_chk_ptr_rblx(ptr, handler, L) (ARL::isRbxTextAddr(ptr) ? ((void)0) : handler(L))
 #define lua_lock(L) ((void)0)

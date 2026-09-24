@@ -2,6 +2,12 @@
 
 #include "boost/intrusive_ptr.hpp"
 
+// ANORRL (23/09/2026):
+//		boost:: -> arl:: 
+//			This change was made as to accomodate Boost's changes to the instrusive_ptr regarding the use of constexpr
+//			Which fucks up the compiler stuff... From what I can see the solution to like "forward" it.
+//			Reference: projectpizza
+
 namespace arl
 {
 	/*
@@ -30,7 +36,7 @@ namespace arl
 
 		inline intrusive_weak_ptr(T * p): p_(p)
 		{
-			if(p_ != 0) boost::intrusive_ptr_add_weak_ref(p_);
+			if(p_ != 0) arl::intrusive_ptr_add_weak_ref(p_);
 		}
 
 	    template<class U>
@@ -40,7 +46,7 @@ namespace arl
 			if (!rhs.expired()) 
 			{	
 				p_ = rhs.raw();			
-				boost::intrusive_ptr_add_weak_ref(p_);
+				arl::intrusive_ptr_add_weak_ref(p_);
 			}
 		}
 
@@ -50,7 +56,7 @@ namespace arl
 			if (!rhs.expired()) 
 			{	
 				p_ = rhs.raw();			
-				boost::intrusive_ptr_add_weak_ref(p_);
+				arl::intrusive_ptr_add_weak_ref(p_);
 			}
 		}
 
@@ -58,7 +64,7 @@ namespace arl
 		inline intrusive_weak_ptr( const boost::intrusive_ptr<U>& rhs)
 		: p_( rhs.get() )
 		{
-			if( p_ != 0 ) boost::intrusive_ptr_add_weak_ref(p_);
+			if( p_ != 0 ) arl::intrusive_ptr_add_weak_ref(p_);
 		}
 
 	    template<class U>
@@ -90,28 +96,28 @@ namespace arl
 
 		inline ~intrusive_weak_ptr()
 		{
-			if( p_ != 0 ) boost::intrusive_ptr_weak_release(p_);
+			if( p_ != 0 ) arl::intrusive_ptr_weak_release(p_);
 		}
 
 		inline void reset()
 		{
 			if( p_ != 0 ) 
 			{
-				boost::intrusive_ptr_weak_release(p_);
+				arl::intrusive_ptr_weak_release(p_);
 				p_ = 0;
 			}
 		}
 
 		inline void reset(T* p)
 		{
-			if( p_ != 0 ) boost::intrusive_ptr_weak_release(p_);
+			if( p_ != 0 ) arl::intrusive_ptr_weak_release(p_);
 			p_ = p;
-			if( p_ != 0 ) boost::intrusive_ptr_add_weak_ref(p_);
+			if( p_ != 0 ) arl::intrusive_ptr_add_weak_ref(p_);
 		}
 
 		inline boost::intrusive_ptr<T> lock() const
 		{
-			if (p_ && boost::intrusive_ptr_try_lock(p_))
+			if (p_ && arl::intrusive_ptr_try_lock(p_))
 				return boost::intrusive_ptr<T>(p_, false);
 			else
 				return boost::intrusive_ptr<T>();
@@ -119,7 +125,7 @@ namespace arl
 
 		inline bool expired() const
 		{
-			return (!p_ || boost::intrusive_ptr_expired(p_));
+			return (!p_ || arl::intrusive_ptr_expired(p_));
 		}
 
 		// TODO: Can we hide this?

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "DiscordHandler.h"
+#include "util/DiscordHandler.h"
 
 namespace ARL {
 
@@ -31,7 +31,7 @@ namespace ARL {
 		if (initialized)
 			return;
 
-#ifndef ARL_ACC_SECURITY
+#if !defined(ARL_ACC_SECURITY) && !defined(__linux__)
 		DiscordEventHandlers handlers;
 		memset(&handlers, 0, sizeof(handlers));
 		
@@ -47,7 +47,7 @@ namespace ARL {
 		if (!initialized)
 			return;
 
-#ifndef ARL_ACC_SECURITY
+#if !defined(ARL_ACC_SECURITY) && !defined(__linux__)
 		DiscordRichPresence discordPresence;
 		memset(&discordPresence, 0, sizeof(discordPresence));
 		discordPresence.state = state.c_str();
@@ -67,7 +67,7 @@ namespace ARL {
 	{
 		if (!initialized)
 			return;
-#ifndef ARL_ACC_SECURITY
+#if !defined(ARL_ACC_SECURITY) && !defined(__linux__)
 		Discord_ClearPresence();
 		Discord_Shutdown();
 #endif

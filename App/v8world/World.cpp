@@ -39,7 +39,7 @@
 #include "BulletCollision/CollisionDispatch/btDefaultCollisionConfiguration.h"
 #include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
 #include "BulletCollision/CollisionDispatch/btCollisionWorld.h"
-#include "BulletCollision/GImpact/btGImpactCollisionAlgorithm.h"
+#include "BulletCollision/Gimpact/btGImpactCollisionAlgorithm.h"
 
 #include "arl/Profiler.h"
 

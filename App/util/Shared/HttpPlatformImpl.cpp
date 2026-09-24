@@ -29,6 +29,7 @@
 
 #include <cmath>
 
+#define CURL_STATICLIB
 #include <curl/curl.h>
 #include <sstream>
 #include <fstream>
@@ -117,7 +118,7 @@ print_cookies(const char* tag, CURL *curl)
 static const std::string kXCSRFTokenHeaderKey = "X-CSRF-TOKEN: ";
 
 template <typename Code>
-bool logCurlErrorBase(void* caller, const char* curlOperation, Code code, bool doThrow = true);
+bool logCurlError(void* caller, const char* curlOperation, Code code, bool doThrow = true);
 void debugCallback(CURL* curl, curl_infotype infotype, char* dataNonTerminated, size_t dataBytes, void* userdata);
 
 size_t headerCallback(char* buffer, size_t size, size_t nitems, void* userdata);
@@ -132,36 +133,6 @@ struct CurlDeleter
 
 struct CurlshDeleter
 {
-	bool curlCodeOkay(CURLSHcode code)
-	{
-		return CURLSHE_OK == code;
-	}
-
-	template <typename Code>
-	bool logCurlError(void* caller, const char* curlOperation, Code curlCode, bool doThrow = true)
-	{
-		std::stringstream ss;
-		if (DFLog::HttpTrace)
-		{
-			ss << curlOperation << "(" << caller << "): " << getCurlStrerror(curlCode);
-			FASTLOGS(DFLog::HttpTrace, "%s", ss.str().c_str());
-		}
-
-		if (!curlCodeOkay(curlCode))
-		{
-			if (doThrow)
-			{
-				throw runtime_error("CURL error (%s, %p): %s", curlOperation, caller, getCurlStrerror(curlCode));
-			}
-			else
-			{
-				FASTLOGS(FLog::Http, "CURL error: %s", ss.str().c_str());
-			}
-		}
-
-		return !curlCodeOkay(curlCode);
-	}
-
     void operator()(CURLSH* curlsh)
     {
         logCurlError(this, "curl_share_cleanup", curl_share_cleanup(curlsh), false);
@@ -391,7 +362,7 @@ bool curlCodeOkay(CURLSHcode code)
 }
 
 template <typename Code>
-bool logCurlError(void* caller, const char* curlOperation, Code curlCode, bool doThrow = true)
+bool logCurlError(void* caller, const char* curlOperation, Code curlCode, bool doThrow)
 {
     std::stringstream ss;
     if (DFLog::HttpTrace)
@@ -475,44 +446,14 @@ class CurlHandle
     std::stringstream responseHeaders;
     std::string responseCodeReason;
 
-	bool curlCodeOkay(CURLcode code)
-	{
-		return CURLSHE_OK == code;
-	}
-
-	template <typename Code>
-	bool logCurlError(void* caller, const char* curlOperation, Code curlCode, bool doThrow = true)
-	{
-		std::stringstream ss;
-		if (DFLog::HttpTrace)
-		{
-			ss << curlOperation << "(" << caller << "): " << getCurlStrerror(curlCode);
-			FASTLOGS(DFLog::HttpTrace, "%s", ss.str().c_str());
-		}
-
-		if (!curlCodeOkay(curlCode))
-		{
-			if (doThrow)
-			{
-				throw runtime_error("CURL error (%s, %p): %s", curlOperation, caller, getCurlStrerror(curlCode));
-			}
-			else
-			{
-				FASTLOGS(FLog::Http, "CURL error: %s", ss.str().c_str());
-			}
-		}
-
-		return !curlCodeOkay(curlCode);
-	}
-
     bool logCurlError(const char* curlOperation, CURLcode code)
     {
-        return logCurlError(this, curlOperation, code, true);
+        return ::logCurlError(this, curlOperation, code, true);
     }
 
     bool logCurlErrorNoThrow(const char* curlOperation, CURLcode code)
     {
-        return logCurlError(this, curlOperation, code, false);
+        return ::logCurlError(this, curlOperation, code, false);
     }
 
     void setupDebugger()
@@ -1004,31 +945,6 @@ public:
             // See note at the top of this file regarding curl_easy_perform.
             CURLcode retcode = curl_easy_perform(curl);
 
-            switch (retcode)
-            {
-            case CURLE_SSL_CONNECT_ERROR:
-                {
-                    if (DFFlag::SSLErrorLogAll)
-                    {
-                    static volatile int count = 0;
-
-                    if (count < DFInt::HttpCurlDeepErrorReportingCount)
-                    {
-                        ++count;
-
-                        boost::mutex::scoped_lock lock(mutex);
-                    }
-                    }
-                }
-                break;
-
-            case CURLE_OK:
-                break;
-
-            default: // all other errors
-                break;
-            }
-
             logCurlError("curl_easy_perform", retcode);
         }
 
@@ -1252,8 +1168,8 @@ void setCookiesForDomain(const std::string& domain, const std::string& cookies)
         if (domain.empty() || cookies.empty())
             return;
         
-        // Do Domain trimming only for BaseURL's, only trim anorrl. or m.,
-        // This allows to propogate cookies across anorrl, m, for all anorrl baseURL sub domains
+        // Do Domain trimming only for BaseURL's, only trim www. or m.,
+        // This allows to propogate cookies across www, m, for all anorrl baseURL sub domains
         std::string trimmedDomain = domain;
         if (DFFlag::HttpCurlDomainTrimmingWithBaseURL)
         {
@@ -1266,8 +1182,8 @@ void setCookiesForDomain(const std::string& domain, const std::string& cookies)
             
             if (trimmedDomain.find_first_of(coreBaseURL) == 0)
             {
-                if (trimmedDomain.find_first_of("anorrl.") == 0)
-                    boost::replace_all(trimmedDomain, "anorrl.", "");
+                if (trimmedDomain.find_first_of("www.") == 0)
+                    boost::replace_all(trimmedDomain, "www.", "");
                 else if(trimmedDomain.find_first_of("m.") == 0)
                     boost::replace_all(trimmedDomain, "m.", "");
                 else

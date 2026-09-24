@@ -12,7 +12,8 @@
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
-static boost::uuids::basic_random_generator<boost::mt19937> gen;
+#include <boost/uuid/uuid_generators.hpp>
+static boost::uuids::basic_random_generator<std::mt19937> gen;
 #endif
 
 namespace ARL {
@@ -103,26 +104,14 @@ void ARL::Guid::generateStandardGUID(std::string& result)
 	
 	boost::to_lower(result);
 #else
+	static boost::uuids::basic_random_generator<std::mt19937> gen;
 
 	boost::uuids::uuid u = gen();
 
-	result.reserve(38);
-    result += '{';
+	std::stringstream ss;
+	ss << '{' << u << '}';
 
-    std::size_t i=0;
-    for (boost::uuids::uuid::const_iterator it_data = u.begin(); it_data!=u.end(); ++it_data, ++i) {
-        const size_t hi = ((*it_data) >> 4) & 0x0F;
-        result += boost::uuids::detail::to_char(hi);
-
-        const size_t lo = (*it_data) & 0x0F;
-        result += boost::uuids::detail::to_char(lo);
-
-        if (i == 3 || i == 5 || i == 7 || i == 9) {
-            result += '-';
-        }
-    }
-
-    result += '}';
+	result = ss.str();
 #endif
 }
 

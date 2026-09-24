@@ -7,7 +7,7 @@
 #include "util/G3DCore.h"
 #include "arl/Debug.h"
 
-#include "BulletCollision/NarrowphaseCollision/btPersistentManifold.h"
+#include "BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
 #include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
 #include "BulletCollision/CollisionDispatch/btCollisionObject.h"
 #include "btBulletCollisionCommon.h"

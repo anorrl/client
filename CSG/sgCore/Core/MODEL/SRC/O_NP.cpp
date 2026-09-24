@@ -306,7 +306,7 @@ BOOL 	defrag_np_mem_tmp(void)
 #pragma argsused
 BOOL  put_np_brep(lpLNP lnp, int *num)
 {
-	register int i;
+	int i;
 	lpLNP lplnp;
 
 //  npd->listh  = *listh;
@@ -345,7 +345,7 @@ BOOL	free_np_brep(int num)
 
 BOOL  free_np_brep_list_num(int num)
 {
-	register int i;
+	int i;
   lpLNP     lnp;
 
 	if ( !begin_rw(&vd_brep,num) ) return FALSE;

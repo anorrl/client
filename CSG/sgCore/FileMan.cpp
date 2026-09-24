@@ -1,4 +1,4 @@
-#include "CORE//sg.h"
+#include "Core//sg.h"
 
 bool sgFileManager::Save(const sgCScene*, const char* file_name, 
 						 const void* userData, unsigned long userDataSize)

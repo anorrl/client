@@ -15,6 +15,7 @@ typedef SOCKET socket_t;
 #define SOCKET_CLOSE(s) closesocket(s)
 #else
 #include <sys/socket.h>
+#include <unistd.h>
 #include <arpa/inet.h>
 
 typedef int socket_t;

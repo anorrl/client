@@ -63,7 +63,7 @@ static  OSCAN_COD apr_line(lpOBJ obj, lpSCAN_CONTROL lpsc){
 	lpD_POINT 		p1,p2;
 	OSTATUS 		constr1,constr2;
 	sgFloat			dx;
-	register short i;
+	short i;
 
 	switch (dc->n_type){
 		case 0: // - 
@@ -109,7 +109,7 @@ static  OSCAN_COD apr_line(lpOBJ obj, lpSCAN_CONTROL lpsc){
 
 #pragma argsused
 static  OSCAN_COD apr_circle(lpOBJ obj, lpSCAN_CONTROL lpsc){
-	register short j, i;
+	short j, i;
 	lpGEO_CIRCLE circle = (lpGEO_CIRCLE)obj->geo_data;
 	lpRIB_DATA 	 dc		  = (lpRIB_DATA)lpsc->data;
 	MNODE 			 mnode;
@@ -151,7 +151,7 @@ static  OSCAN_COD apr_circle(lpOBJ obj, lpSCAN_CONTROL lpsc){
 
 #pragma argsused
 static  OSCAN_COD apr_arc(lpOBJ obj, lpSCAN_CONTROL lpsc){
-	register short j, i;
+	short j, i;
 	lpGEO_ARC arc = (lpGEO_ARC)&obj->geo_data;
 	lpRIB_DATA dc = (lpRIB_DATA)lpsc->data;
 	MNODE			 mnode;

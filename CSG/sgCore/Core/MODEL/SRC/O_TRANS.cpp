@@ -62,7 +62,7 @@ void   trans_dim       (void * geo, lpMATR matr)
 
 void   trans_spline   (void * geo, lpMATR matr)
 {
-	register short i;
+	short i;
 	lpGEO_SPLINE g = (GEO_SPLINE*)geo;
 	lpD_POINT    p;
 	lpSNODE			 deriv;

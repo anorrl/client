@@ -251,7 +251,7 @@ static UniformTable extractUniforms(unsigned int id)
 
         if (location >= 0 && uniformType != ShaderProgramGL::Uniform::Type_Unknown)
 		{
-			ShaderProgramGL::Uniform uniform = {location, uniformType, size, 0};
+			ShaderProgramGL::Uniform uniform = {location, uniformType, static_cast<unsigned int>(size), 0};
 
 			std::string name(&uniformName[0]);
 

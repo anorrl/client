@@ -1,5 +1,6 @@
 #pragma once
 
+#include <boost/integer/static_log2.hpp>
 #include "arl/boost.hpp"
 
 #include "util/G3DCore.h"

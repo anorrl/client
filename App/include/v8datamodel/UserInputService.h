@@ -240,14 +240,15 @@ namespace ARL
         
         typedef enum
         {
-            PLATFORM_WINDOWS = 0,
-            PLATFORM_OSX,
-            PLATFORM_IOS,
-            PLATFORM_ANDROID,
+			PLATFORM_WINDOWS = 0,
+			PLATFORM_OSX,
+			PLATFORM_UNIX,
+			PLATFORM_IOS,
+			PLATFORM_ANDROID,
 			PLATFORM_XBOXONE,
 			PLATFORM_PS4,
 			PLATFORM_UWP,
-            PLATFORM_NONE
+			PLATFORM_NONE
         } Platform;
 
 		static Reflection::EventDesc<UserInputService, 

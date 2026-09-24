@@ -67,7 +67,7 @@ static  BOOL skip_cmd(lpBUFFER_DAT bd)
 
 static  BOOL get_cmd(lpBUFFER_DAT bd, lpCMD_HP cmd)
 {
-	register short i;
+	short i;
 	char c[2];
 
 m:

@@ -67,7 +67,7 @@ namespace ARL {
 		ARL::Http::CookieSharingPolicy cookieSharingPolicy;
 #if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
         cookieSharingPolicy = ARL::Http::CookieSharingSingleProcessMultipleThreads;
-#elif defined(_WIN32) || defined(__APPLE__)
+#elif defined(_WIN32) || defined(__APPLE__) || defined(__linux__)
 	if (DFFlag::PersistenceCurlCookies)
 	{
         cookieSharingPolicy = ARL::Http::CookieSharingMultipleProcessesWrite;

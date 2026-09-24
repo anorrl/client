@@ -14,10 +14,10 @@
 ;
 ; Feel free to add additional visualizers that you find useful.
 ;
-; Here’s a tutorial: http://www.virtualdub.org/blog/pivot/entry.php?id=120
+; Hereï¿½s a tutorial: http://www.virtualdub.org/blog/pivot/entry.php?id=120
 ;
-; To enable or disable all debug visualizers, go to “Tools/Options/Debugging” and 
-;   change “Show raw structure of objects in variables windows”.
+; To enable or disable all debug visualizers, go to ï¿½Tools/Options/Debuggingï¿½ and 
+;   change ï¿½Show raw structure of objects in variables windowsï¿½.
 
 ; START ROBLOX CUSTOM VISUALIZERS ----------------------------------------------
 
@@ -457,9 +457,9 @@ G3D::Plane|Plane{
 }
 
 ;------------------------------------------------------------------------------
-;  RBX::RbxRay
+;  ARL::RbxRay
 ;------------------------------------------------------------------------------
-RBX::RbxRay|RbxRay{
+ARL::RbxRay|RbxRay{
     preview
     (
         #(

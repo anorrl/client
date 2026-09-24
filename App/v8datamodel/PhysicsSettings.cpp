@@ -11,7 +11,7 @@
 #include "v8world/Primitive.h"
 #include "v8world/Buoyancy.h"
 #include "util/RunStateOwner.h"
-#include "V8datamodel/FastLogSettings.h"
+#include "v8datamodel/FastLogSettings.h"
 
 const char *const ARL::sPhysicsSettings = "PhysicsSettings";
 

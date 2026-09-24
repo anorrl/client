@@ -5,7 +5,7 @@
 #include <sys/sysctl.h>
 
 // memory functions from stackoverflow.com
-namespace RBX {
+namespace ARL {
 namespace MemoryStats {
         
 memsize_t usedMemoryBytes()
@@ -43,4 +43,4 @@ memsize_t totalMemoryBytes()
 }
 
 } // namespace MemoryStats
-} // namespace RBX
+} // namespace ARL

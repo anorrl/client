@@ -1,5 +1,5 @@
-#include "SystemUtil.h"
-#include "StreamHelpers.h"
+#include "arl/SystemUtil.h"
+#include "util/StreamHelpers.h"
 #include "FastLog.h"
 #include "ARLFormat.h"
 
@@ -9,7 +9,7 @@
 #include <filesystem>
 #include <stdio.h>
 #include <stdlib.h>
-#include <glad/gl.h>
+#include <GLES/gl.h>
 
 
 #include <dirent.h>

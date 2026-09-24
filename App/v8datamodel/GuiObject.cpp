@@ -3,7 +3,7 @@
 #include "v8datamodel/GuiObject.h"
 #include "network/Players.h"
 #include "GfxBase/Adorn.h"
-#include "gui/Guidraw.h"
+#include "gui/GuiDraw.h"
 #include "v8datamodel/TweenService.h"
 #include "v8datamodel/PlayerGui.h"
 #include "v8datamodel/ScreenGui.h"

@@ -220,8 +220,10 @@ urlString = urlString.substr(foundPos,std::string::npos); // remove all of strin
 		urlString.substr(foundPos,13)		== "placerolesets";
 }
 
-#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
+#if !defined(ARL_STUDIO_BUILD)
 namespace {
+#if defined(_WIN32)
+
 void isDebuggedDirectThreadFunc(weak_ptr<ARL::DataModel> weakDataModel) {
 #if !defined(LOVE_ALL_ACCESS) && !defined(_NOOPT) && !defined(_DEBUG)
 	VMProtectBeginMutation("23");
@@ -241,7 +243,67 @@ void isDebuggedDirectThreadFunc(weak_ptr<ARL::DataModel> weakDataModel) {
 	VMProtectEnd();
 #endif
 }
+
+#else
+bool isDebuggerPresent()
+{
+#if defined(__APPLE__)
+    // macOS/iOS
+    int mib[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()};
+    struct kinfo_proc info = {};
+    size_t size = sizeof(info);
+
+    if (sysctl(mib, sizeof(mib) / sizeof(*mib), &info, &size, NULL, 0) == 0)
+        return (info.kp_proc.p_flag & P_TRACED) != 0;
+
+    return false;
+#elif defined(__linux__)
+    // Linux - check /proc/self/status for TracerPid
+    std::ifstream statusFile("/proc/self/status");
+    std::string line;
+
+    while (std::getline(statusFile, line))
+    {
+        if (line.compare(0, 10, "TracerPid:") == 0)
+        {
+            int tracerPid = std::stoi(line.substr(10));
+            return tracerPid != 0;
+        }
+    }
+    return false;
+#elif defined(__unix__) || defined(__posix__)
+    // Generic Unix fallback using ptrace
+    if (ptrace(PTRACE_TRACEME, 0, 1, 0) < 0)
+        return true; // Already being traced
+
+    ptrace(PTRACE_DETACH, 0, 1, 0);
+    return false;
+#else
+    return false; // Unknown platform
+#endif
 }
+
+
+void isDebuggedDirectThreadFunc(weak_ptr<ARL::DataModel> weakDataModel)
+{
+    static const int kSleepBetweenChecksMillis = 1500;
+
+    while (true)
+    {
+        shared_ptr<ARL::DataModel> dataModel = weakDataModel.lock();
+        if (!dataModel)
+        {
+            break;
+        }
+
+        unsigned int mask = static_cast<unsigned int>(isDebuggerPresent()) * HATE_DEBUGGER;
+        dataModel->addHackFlag(mask);
+
+        boost::this_thread::sleep(boost::posix_time::milliseconds(kSleepBetweenChecksMillis));
+    }
+}
+} // namespace
+#endif
 
 void ARL::spawnDebugCheckThreads(weak_ptr<ARL::DataModel> dataModel) {
 	boost::thread t(boost::bind(&isDebuggedDirectThreadFunc, dataModel));

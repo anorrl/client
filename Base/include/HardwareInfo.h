@@ -1,4 +1,4 @@
-namespace RBX {
+namespace ARL {
 	
 unsigned char CPUCount(
 	unsigned int *TotAvailLogical,

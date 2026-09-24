@@ -12,11 +12,15 @@
 
 #include <map>
 
+#if defined(__linux__) || defined(__APPLE__)
+#include <algorithm>
+#include <functional>
+#endif
+
 #ifdef _WIN32
    using std::mem_fun;
 #else
-#include <ext/functional>
-   using __gnu_cxx::mem_fun1;
+   using std::mem_fn;
 #endif
 
 using std::string;
@@ -94,13 +98,21 @@ public:
 	bool resolveRefs()
 	{
 		int count = 0;
-		
+
 		count += count_if(
 			idrefBindings.begin(), 
-			idrefBindings.end(), 
+			idrefBindings.end(),
+#ifdef _WIN32 
 			std::bind1st(mem_fun(&ArchiveBinder::resolveIDREF),this)
+#elif defined(__APPLE__)
+			[this](IDREFBinding& binding)
+			{
+				return this->resolveIDREF(binding);
+			}
+#else // LINUX OR UNIX..
+			std::bind(&ArchiveBinder::resolveIDREF, this, std::placeholders::_1)
+#endif
 		);
-
 		return Super::resolveRefs() && (count == idrefBindings.size());
 	}
 };

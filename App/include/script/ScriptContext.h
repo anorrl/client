@@ -11,7 +11,9 @@
 #include "util/RunningAverage.h"
 #include "arl/RunningAverage.h"
 
+#ifndef BOOST_DATE_TIME_NO_LIB
 #define BOOST_DATE_TIME_NO_LIB
+#endif
 #include "boost/date_time/posix_time/posix_time.hpp"
 
 struct lua_State;

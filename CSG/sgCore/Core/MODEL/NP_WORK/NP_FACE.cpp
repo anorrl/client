@@ -174,11 +174,12 @@ lpNP_LOOPS np_realloc_loops(lpNP_LOOPS lold, short * loops)
 	lpNP_LOOPS lnew;//nb  = NULL;
 
 	*loops += 20;
-	if ((lnew = (lpNP_LOOPS)SGMalloc(sizeof(NP_LOOPS)*(*loops))) == NULL) return FALSE;
+	if ((lnew = (lpNP_LOOPS)SGMalloc(sizeof(NP_LOOPS)*(*loops))) == NULL) return NULL;
 	if (lold == NULL) return lnew;                 //  
 	memcpy(lnew,lold,sizeof(NP_LOOPS)*(*loops-20));
 	SGFree(lold);
 	return lnew;
+
 }
 
 BOOL np_point_belog_to_face(lpNPW np, lpD_POINT v, short face)

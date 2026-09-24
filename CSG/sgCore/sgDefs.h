@@ -5,9 +5,13 @@
 #define   SG_PLATFORM_WINDOWS     0
 #define   SG_PLATFORM_MAC         1
 #define   SG_PLATFORM_IOS         2
+#define   SG_PLATFORM_LINUX       3
 
+#ifdef _WIN32
 #define   SG_CURRENT_PLATFORM     SG_PLATFORM_WINDOWS
-
+#elif __linux__
+#define   SG_CURRENT_PLATFORM     SG_PLATFORM_LINUX
+#endif
 
 #if (SG_CURRENT_PLATFORM==SG_PLATFORM_WINDOWS)
 	#ifndef sgCore_API

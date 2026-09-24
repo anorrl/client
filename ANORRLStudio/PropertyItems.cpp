@@ -19,6 +19,7 @@
 #include <QPainter>
 #include <QSettings>
 #include <QPixmapCache>
+#include <QHeaderView>
 
 // 3rd Party Headers
 #include "g3d/Vector3.h"

@@ -8,6 +8,6 @@
 #include "reflection/enumconverter.h"
 #include "v8tree/Property.h"
 
-namespace RBX {
+namespace ARL {
 
 }

@@ -18,7 +18,7 @@
 #include "v8datamodel/DataModelJob.h"
 #include "v8tree/Instance.h"
 #include "script/CoreScript.h"
-#include "script/Script.h"
+#include "script/script.h"
 
 #include "ANORRLFindWidget.h"
 #include "QtUtilities.h"

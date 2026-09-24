@@ -23,14 +23,14 @@
 #include "StudioUtilities.h"
 
 #ifdef _WIN32
-    #include "VersionInfo.h"
+	#include "VersionInfo.h"
 	#include "LogManager.h"
 	#include "DumpErrorUploader.h"
-    #include "SharedLauncher.h"
+	#include "SharedLauncher.h"
 #endif
 
 #ifdef QT_ANORRL_STUDIO
-    #include "SharedLauncher.h"
+    #include "../Win/SharedLauncher.h"
 #endif
 
 #ifdef Q_OS_MAC

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "v8datamodel/GlobalSettings.h"
-#include "PacketPriority.h"
+#include "raknet/Source/PacketPriority.h"
 #include "arl/TaskScheduler.h"
 #include "util/ObscureValue.h"
 

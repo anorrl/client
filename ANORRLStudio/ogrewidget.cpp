@@ -16,6 +16,7 @@
 #include <QDropEvent>
 #include <QUrl>
 #include <QTimer>
+#include <QMimeData>
 
 // ANORRL Headers
 #include "FastLog.h"
@@ -251,7 +252,7 @@ bool QOgreWidget::event(QEvent * evt)
 	FASTLOG(FLog::TaskSchedulerTiming, "QT Event fired through QOgreWidget");
 	if ((evt->type() != OGRE_VIEW_UPDATE) || !m_pANORRLView)
 	{
-		FASTLOG1(FLog::RenderRequest, "OgreWidget Event returns before updateView. ARLView: %d", (int)m_pANORRLView);
+		FASTLOG1(FLog::RenderRequest, "OgreWidget Event returns before updateView. ARLView: %d", (size_t)m_pANORRLView);
 		return QWidget::event(evt);
 	}
 
@@ -602,6 +603,7 @@ void QOgreWidget::dragLeaveEvent(QDragLeaveEvent *evt)
 	evt->accept();
 }
 
+#ifdef Q_OS_WIN
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 bool QOgreWidget::nativeEvent(const QByteArray &eventType, MSG * msg, long * result)
 {
@@ -617,7 +619,6 @@ bool QOgreWidget::nativeEvent(const QByteArray &eventType, MSG * msg, long * res
 	return QWidget::nativeEvent(eventType, msg, result);
 }
 #else
-#ifdef Q_OS_WIN
 bool QOgreWidget::winEvent(MSG * msg, long * result)
 {
 	if ((msg->message == WM_KEYUP) && //key up

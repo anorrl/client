@@ -35,7 +35,9 @@
 // Prevent ContentFilter from calling the stats handler
 // TODO: Filter even harder so that ContentFilter *only* calls asset handler
 
+#ifndef BOOST_DATE_TIME_NO_LIB
 #define BOOST_DATE_TIME_NO_LIB
+#endif
 #include "boost/date_time/posix_time/posix_time.hpp"
 
 #define BOOST_FILESYSTEM_NO_DEPRECATED
@@ -1019,7 +1021,7 @@ namespace ARL
 
 #if defined(ARL_PLATFORM_IOS)
             fs::path platformAssetFolderModifier = "../ios/";
-#elif defined(__APPLE__) || defined(_WIN32)
+#elif defined(__APPLE__) || defined(_WIN32) || defined(__linux__)
             fs::path platformAssetFolderModifier = "../PlatformContent/pc/";
 #elif defined(__ANDROID__)
             fs::path platformAssetFolderModifier = "../android/";

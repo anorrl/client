@@ -15,7 +15,7 @@
 #include "BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
 #include "BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
 #include "BulletCollision/NarrowPhaseCollision/btRaycastCallback.h"
-#include "BulletCollision/BroadPhaseCollision/btDbvt.h"
+#include "BulletCollision/BroadphaseCollision/btDbvt.h"
 
 #include "arl/Profiler.h"
 

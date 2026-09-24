@@ -26,6 +26,7 @@
     "sdl2",
     "openssl",
     "freetype",
-    "libpng"
+    "libpng",
+    "glad"
   ]
 }

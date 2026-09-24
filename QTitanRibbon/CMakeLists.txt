@@ -6,6 +6,8 @@ include_directories(src/styles)
 include_directories(src/ribbon)
 include_directories(include)
 
+## EXCLUDE RIBBONDSGN!
+
 file(GLOB_RECURSE ALL_RIBBON_SOURCES "*.cpp")
 file(GLOB_RECURSE ALL_RIBBON_HEADERS "*.h")
 

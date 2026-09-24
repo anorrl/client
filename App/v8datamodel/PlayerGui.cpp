@@ -198,7 +198,7 @@ bool BasePlayerGui::isCloserGuiObject(const Rect2D& currentRect, const Vector2& 
 		const float maxAngle =  ARL::Math::piHalff()/4.0f;
 		float newAngle = getAngleBetween(beginTestPoint, endTestPoint, inputDirection);
 
-		if (!boost::math::isfinite(newAngle) || newAngle > maxAngle)
+		if (!std::isfinite(newAngle) || newAngle > maxAngle)
 		{
 			return false;
 		}
@@ -236,7 +236,7 @@ bool BasePlayerGui::isCloserGuiObject(const Rect2D& currentRect, const Vector2& 
 
 		const float newAngle = getAngleBetween(beginPoint, endPoint, inputDirection);
 
-		if (boost::math::isfinite(newAngle) && newAngle <= maxAngle)
+		if (std::isfinite(newAngle) && newAngle <= maxAngle)
 		{
 			const float intersectionDist = (beginPoint - endPoint).length();
 			if (intersectionDist < minIntersectDist)

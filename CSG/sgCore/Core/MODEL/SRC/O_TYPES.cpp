@@ -13,7 +13,7 @@ void add_type_list(OFILTER ofilter,short num, ...)
 {
   va_list ap;
 	OBJTYPE type;
-	register short i;
+	short i;
 
 	va_start(ap,num);
 	for (i=0;i<num;i++) {

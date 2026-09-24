@@ -853,10 +853,12 @@ static const bool jobsAsArray = true;
 			formatValue(value, "%d", value);
 		}
 
+#if !defined(__linux__)
 		template<>
 		void Item::formatValue(const unsigned long& value) {
 			formatValue(value, "%d", value);
 		}
+#endif
 
 		template<>
 #ifdef _WIN32

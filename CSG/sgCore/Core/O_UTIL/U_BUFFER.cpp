@@ -153,7 +153,7 @@ m:
 
 WORD load_str(lpBUFFER_DAT bd, WORD len, char * data)
 {
-	register WORD lentmp, rezult, cur_data;
+	WORD lentmp, rezult, cur_data;
 	short num_bytes, flg_eos = 0;
 	char  *pdata, * ptmp;
 

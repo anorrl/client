@@ -21,7 +21,7 @@ namespace Graphics
         
         if (program)
         {
-            const float textureSize[] = { fbWidth, fbHeight, 1 / (float)fbWidth, 1 / (float)fbHeight };
+            const float textureSize[] = { (float)fbWidth, (float)fbHeight, 1 / (float)fbWidth, 1 / (float)fbHeight };
 
             context->setRasterizerState(RasterizerState::Cull_None);
             context->setBlendState(blendState);

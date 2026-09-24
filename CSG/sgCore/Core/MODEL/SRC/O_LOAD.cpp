@@ -245,7 +245,7 @@ err1:
 }
 static BOOL load_vd_brep(lpBUFFER_DAT bd)
 {
-	register short j;
+	short j;
 	LNP   lnp;
 	VLD   vld;
 	int  i,numbrep;
@@ -936,7 +936,7 @@ OSCAN_COD  group_load ( lpBUFFER_DAT bd, hOBJ hobj )
 	lpOBJ obj;
 	lpGEO_GROUP p;
 	hOBJ  hobjn;
-	register short i;
+	short i;
 	short num_obj;
 	BOOL cod;
 	LISTH listh;

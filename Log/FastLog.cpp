@@ -4,8 +4,10 @@
 #include <windows.h>
 #elif __ANDROID__
 #include <sys/atomics.h>
-#else
+#elif __APPLE__
 #include <libkern/OSAtomic.h>
+#else
+//#include <cstdatomic.h>
 #endif
 
 #include <boost/thread/mutex.hpp>
