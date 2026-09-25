@@ -1,11 +1,15 @@
 #pragma once
 
-#ifdef __unix__
 #include <cstdarg>
-#endif
 #include <string>
 #include <fstream>
 #include <vector>
+
+#include <ctime>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 std::string vformat(const char *fmt, va_list argPtr);
 std::wstring vformat(const wchar_t *fmt, va_list argPtr);
@@ -59,6 +63,20 @@ private:
 		log << timeBuf << entry << "\n";
 		log.flush();
 #endif
+		// brought to you by kuro and w3schools i guess
+		time_t now;
+		struct tm* date;
+		time(&now);
+		date = localtime(&now);
+		char timeBuf[128];
+		snprintf(timeBuf, 128, "%02d-%02d-%d %02d:%02d:%02d.%d ",
+			date->tm_mon, 	date->tm_mday,
+			date->tm_year,	date->tm_hour,
+			date->tm_min, 	date->tm_sec,
+			reinterpret_cast<long>(now)
+		);
+		log << timeBuf << entry << "\n";
+		log.flush();
 	}
 
 	STRING logFileName;
@@ -86,7 +104,7 @@ public:
 		}
 		return STRING(szPath);
 #else
-		return STRING(MAKE_STRING(""));
+		return STRING(MAKE_STRING("/tmp/"));
 #endif
 	}
 
@@ -100,7 +118,16 @@ public:
 
 		return STRING(CVTS2W(szFilePath));
 #else
-		return STRING(MAKE_STRING(""));
+		// https://stackoverflow.com/a/2182269
+		char buffer[128];
+		snprintf(buffer, 128, "%sARL-%x%x%x.%s",
+			get_tmp_path().c_str(),
+			rand(), rand(), rand(),
+			ext
+		);
+
+		std::string fileName(buffer);
+		return STRING(fileName.begin(), fileName.end()); // Convert to the desired character type
 #endif
 	}
 

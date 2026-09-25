@@ -7,8 +7,6 @@
 #include "util/G3DCore.h"
 #include "arl/Debug.h"
 
-FASTFLAGVARIABLE(UseOldPhysicsForFunny, false)
-
 namespace ARL {
 
 	class Body;
@@ -64,6 +62,7 @@ namespace ARL {
 		} pairData;
 
 	private:
+		bool useOldPhysics;
 		void computePointPlane(PairParams& _params);
 		void computeEdgeEdgePlane(PairParams& _params);
 		void computeEdgeEdgePlane2(PairParams& _params);
@@ -79,8 +78,8 @@ namespace ARL {
 			switch (geoPairType) {
 				case (POINT_PLANE_PAIR):		computePointPlane(_params);			break;
 				case (EDGE_EDGE_PLANE_PAIR):
-					if (FFlag::UseOldPhysicsForFunny)computeEdgeEdgePlane(_params);
-					else computeEdgeEdgePlane2(_params);							break;
+					if (useOldPhysics) computeEdgeEdgePlane(_params);
+					else computeEdgeEdgePlane2(_params);						break;
 				case (EDGE_EDGE_PAIR):			computeEdgeEdge(_params);			break;
 				default:	ARLASSERT(0);
 			}

@@ -72,20 +72,35 @@ namespace ARL {
 		}
 #else 
 		char stackBuffer[stackBufferSize];
-		int actualSize = vsnprintf(stackBuffer, stackBufferSize, fmt, argPtr);
-		if (actualSize < stackBufferSize)
-			return stackBuffer;
+		char* heapBuffer = nullptr;
+		std::string formattedString;
 
-		// Use the heap.
-		if (actualSize > maxSize)
-			actualSize = maxSize;
+		// Using va_copy to safely use the argPtr again after vsnprintf for determining the buffer size
+		va_list argPtrCopy;
+		va_copy(argPtrCopy, argPtr);
+		int requiredSize = vsnprintf(nullptr, 0, fmt, argPtrCopy) + 1; // +1 for the null-terminator
+		va_end(argPtrCopy);
 
-		boost::scoped_array<char> heapBuffer(new char[actualSize + 1]);
-		vsnprintf(heapBuffer.get(), actualSize + 1, fmt, argPtr);            
-		heapBuffer[actualSize] = '\0';
+		if (requiredSize > stackBufferSize)
+		{
+			int bufferSize = requiredSize < maxSize ? maxSize : requiredSize;
+			heapBuffer = static_cast<char*>(malloc(bufferSize));
+			if (!heapBuffer)
+				throw std::bad_alloc();
 
-		std::string result(heapBuffer.get());
-		return result;
+			vsnprintf(heapBuffer, bufferSize, fmt, argPtr);
+			heapBuffer[bufferSize] = '\0';
+			formattedString.assign(heapBuffer);
+			free(heapBuffer);
+		}
+		else
+		{
+			vsnprintf(stackBuffer, stackBufferSize, fmt, argPtr);
+			stackBuffer[stackBufferSize] = '\0';
+			formattedString.assign(stackBuffer);
+		}
+
+		return formattedString;
 #endif
 
 	}

@@ -655,7 +655,7 @@ bool ANORRLIDEDoc::openStream(const QString& fileName, std::istream* stream, boo
 		if (graphicsMode != ARL::CRenderSettings::NoGraphics)
 		{
             ARL::Log::current()->writeEntry(ARL::Log::Information,"\tInitializing Ogre");
-		    m_pQOgreWidget = new QOgreWidget("QOgreWidget", m_WrapperWidget);
+		    m_pQOgreWidget = new QOgreWidget("QOgreWidget");
 
             if (m_pMainWindow->getBuildMode() == BM_BASIC)
                 m_WrapperWidget->setMinimumSize(QSize(800, 600));
@@ -3946,8 +3946,8 @@ void ANORRLIDEDoc::forceViewSize(QSize viewSize)
 	else
 	{
 		m_pQOgreWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-		m_pQOgreWidget->setMinimumSize(100, 100);
-		m_pQOgreWidget->setMaximumSize(20000, 20000);
+		m_pQOgreWidget->setMinimumSize(QSize(100, 100));
+		m_pQOgreWidget->setMaximumSize(QSize(20000, 20000));
 	}
 
 	m_WrapperWidget->setMinimumSize(m_pQOgreWidget->minimumSize());

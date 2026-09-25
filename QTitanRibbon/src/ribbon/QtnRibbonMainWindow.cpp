@@ -168,7 +168,8 @@ bool RibbonMainWindow::winEvent(MSG* message, long* result)
             return true;
     }
 
-    return QMainWindow::nativeEvent(eventType, message, result);
+    qintptr* resultPtr = reinterpret_cast<qintptr*>(result);
+    return QMainWindow::nativeEvent(eventType, message, resultPtr);
 #else
     if (d.m_frameHelper)
         return d.m_frameHelper->winEvent(message, result);

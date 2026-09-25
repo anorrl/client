@@ -13,6 +13,7 @@ include_directories(../App.BulletPhysics)
 include_directories(../ClientShared)
 include_directories(../QTitanRibbon/include)
 include_directories(../Network)
+include_directories(../Network/raknet/Source)
 
 set(FILEWATCHER_SOURCES
 	filewatcher/FileWatcherLinux.cpp
@@ -230,6 +231,8 @@ target_link_libraries(ANORRLStudio
     Qt5::Core
     Qt5::Widgets
     Qt5::Gui
+    Qt5::GuiPrivate
+    Qt5::OpenGL
     Qt5::Network
     Qt5::WebKit
     Qt5::WebKitWidgets
@@ -257,7 +260,7 @@ target_link_libraries(ANORRLStudio
 	Boost::exception
 	Boost::pool
 	CURL::libcurl
-    OpenSSL::Crypto
+    OpenSSL::SSL OpenSSL::Crypto
     OpenGL::GL
     SDL2::SDL2
     Freetype::Freetype
@@ -268,10 +271,3 @@ target_link_libraries(ANORRLStudio PRIVATE fmod -lGLEW ${X11_LIBRARIES} -lEGL -l
 target_compile_definitions(ANORRLStudio PRIVATE QT_NO_KEYWORDS)
 #target_include_directories(ANORRLStudio PRIVATE filewatcher)
 set_target_properties(ANORRLStudio PROPERTIES OUTPUT_NAME "ANORRLStudio")
-
-add_custom_command(TARGET ANORRLStudio POST_BUILD
-  COMMENT "Copying runtime files to build directory"
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${RUNTIME_FILES}"
-    "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
-)

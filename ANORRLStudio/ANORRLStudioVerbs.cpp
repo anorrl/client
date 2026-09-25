@@ -64,7 +64,7 @@
 #include "script/script.h"
 #include "arl/Log.h"
 #include "tool/ToolsArrow.h"
-#include "GeometryGenerator.h"
+#include "../Rendering/GfxRender/GeometryGenerator.h"
 #include "../CSG/CSGKernel.h"
 #include "ANORRLServicesTools.h"
 #include "tool/MoveResizeJoinTool.h"

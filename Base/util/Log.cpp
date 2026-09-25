@@ -83,6 +83,7 @@ void Log::writeEntry(Severity severity, const char* message)
 	static const char* warning =     " Warning: ";
 	static const char* information = "          ";
 	Log::timeStamp(stream, false);
+
 	switch (severity)
 	{
 		case Log::Error:

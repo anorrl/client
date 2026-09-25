@@ -876,13 +876,13 @@ void SoundChannel::onChannelEnd(const FMOD_CHANNEL *channel)
 		if (sound)
 		{
 			sound->unacquire();
-				if (DataModel* dm = ARL::DataModel::get(this)) 
-				{
-					dm->submitTask(boost::bind(&SoundChannel::soundEnded, shared_from(this), getSoundId().toString()), ARL::DataModelJob::Write);
-				}
+			if (DataModel* dm = ARL::DataModel::get(this)) 
+			{
+				dm->submitTask(boost::bind(&SoundChannel::soundEnded, shared_from(this), getSoundId().toString()), ARL::DataModelJob::Write);
 			}
 		}
 	}
+}
 
 FMOD_RESULT F_CALLBACK callbackChannelEnd(FMOD_CHANNELCONTROL *channelControl, FMOD_CHANNELCONTROL_TYPE type, FMOD_CHANNELCONTROL_CALLBACK_TYPE callbacktype, void *commanddata1, void *commanddata2)
 {

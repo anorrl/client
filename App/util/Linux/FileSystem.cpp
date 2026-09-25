@@ -75,6 +75,11 @@ boost::filesystem::path getTempFilePath()
 	return getUserDirectory(true, DirAppData, "temp");
 }
 
+boost::filesystem::path getLogsDirectory()
+{
+	return getUserDirectory(true, DirAppData, "logs");
+}
+
 void clearCacheDirectory(const char* subDirectory)
 {
 	boost::filesystem::path cachePath = getCacheDirectory(false, subDirectory);

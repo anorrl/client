@@ -49,7 +49,7 @@ void LogProvider::FastLogMessage(FLog::Channel id, const char* message) {
             boost::filesystem::path logFile = mainLogManager->logDir / temp;
 
 			mainLogManager->fastLogChannels[id] = new ARL::Log(logFile.c_str(), "Log Channel");
-#ifndef _DEBUG
+#if !defined(_DEBUG) && defined(__APPLE__)
 			CrashReporter::addBreakpadLog(logFile.c_str());
 #endif
 		}
@@ -72,7 +72,7 @@ ARL::Log* LogProvider::provideLog()
 		
 		result = new ARL::Log(logFile.c_str(), name.c_str());
 		log.reset(result);
-#ifndef _DEBUG
+#if !defined(_DEBUG) && defined(__APPLE__)
 		CrashReporter::addBreakpadLog(logFile.c_str());
 #endif
 	}

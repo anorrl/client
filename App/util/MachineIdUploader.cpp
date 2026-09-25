@@ -94,9 +94,11 @@ bool responseIndicatesMachineIsBad(const std::string& response) {
 
 MachineIdUploader::Result MachineIdUploader::uploadMachineId(const char* baseUrl) {
 	MachineId id;
+#ifndef __linux__
 	if (!fillMachineId(&id)) {
 		return RESULT_MachineAccepted;
 	}
+#endif
 
 	if (id.macAddresses.empty()) {
 		return RESULT_MachineAccepted;
@@ -128,10 +130,10 @@ MachineIdUploader::Result MachineIdUploader::uploadMachineId(const char* baseUrl
 std::string MachineIdUploader::getMachineId()
 {
 	MachineId id;
-
+#ifndef __linux
 	if (!fillMachineId(&id))
         return "";
-
+#endif
     std::string result;
 
 	for (size_t i = 0; i < id.macAddresses.size(); ++i)

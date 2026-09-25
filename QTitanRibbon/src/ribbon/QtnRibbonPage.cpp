@@ -960,7 +960,7 @@ void RibbonPage::paintEvent(QPaintEvent* event)
     {
         QPainter p(this);
         StyleOptionRibbon opt;
-        opt.init(this);
+        opt.initFrom(this);
         style()->drawControl((QStyle::ControlElement)RibbonStyle::CE_RibbonGroups, &opt, &p, this->parentWidget());
     }
 }
@@ -1024,7 +1024,8 @@ void RibbonPage::resizeEvent(QResizeEvent* event)
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 bool RibbonPage::nativeEvent(const QByteArray& eventType, void* message, long* result)
 {
-    bool res = QWidget::nativeEvent(eventType, message, result);
+    qintptr* resultPtr = reinterpret_cast<qintptr*>(result);
+    bool res = QWidget::nativeEvent(eventType, message, resultPtr);
     MSG* msg = static_cast<MSG *>(message);
 #else
 bool RibbonPage::winEvent(MSG* message, long* result)

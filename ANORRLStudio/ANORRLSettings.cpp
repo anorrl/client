@@ -12,6 +12,7 @@
 #include <QDir>
 #include <QApplication>
 #include <QDesktopServices>
+#include <QStandardPaths>
 
 // ANORRL Headers
 #include "v8datamodel/ContentProvider.h"
@@ -80,7 +81,11 @@ AppSettings::AppSettings()
 #ifdef _WIN32
 	m_tempLocation = QDir::homePath() + "/AppData/Local/ANORRL";
 #else
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+	m_tempLocation = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("ANORRL");
+#else
 	m_tempLocation = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/ANORRL";
+#endif
 #endif
 	if(!QFile::exists(m_tempLocation))
 		QDir().mkpath(m_tempLocation);

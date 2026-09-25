@@ -366,6 +366,14 @@ namespace ARL
 			ReadFastBytes<0>::readFast<64, uint64_t>(bitStream, result);
 		}
 
+#if defined(__linux__)
+		template<>
+		inline void readFastT<unsigned long long>(RakNet::BitStream& bitStream, unsigned long long& result)
+		{
+			bitStream.Read(result);
+		}
+#endif
+
 		// --------------------------------------------------------------------
 
 		inline void readVectorFast(RakNet::BitStream& bitStream, float& x, float& y, float& z)

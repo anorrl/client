@@ -52,13 +52,13 @@ const TextureFormatGL& getTextureFormatGL(Texture::Format format, bool ext3)
 {
     if (!ext3 && format == Texture::Format_L8)
     {
-        static const TextureFormatGL result = { GL_LUMINANCE8, GL_LUMINANCE, GL_UNSIGNED_BYTE };
+        static const TextureFormatGL result = { GL_LUMINANCE8_EXT, GL_LUMINANCE, GL_UNSIGNED_BYTE };
         return result;
     }
 
     if (!ext3 && format == Texture::Format_LA8)
     {
-        static const TextureFormatGL result = { GL_LUMINANCE8_ALPHA8, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE };
+        static const TextureFormatGL result = { GL_LUMINANCE8_ALPHA8_EXT, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE };
         return result;
     }
 

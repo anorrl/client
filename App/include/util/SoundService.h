@@ -10,16 +10,18 @@
 #include "reflection/Event.h"
 #include "util/IHasLocation.h"
 
-#include "fmod.h"
+// fmod.hpp already includes fmod.h so its like redundant as hell to include twice - kuro
 #include "fmod.hpp"
 #include "fmod_errors.h"
 
-
-
-#if FMOD_VERSION != 0x00010702
+#if FMOD_VERSION != 0x00020314
 #	error Wrong version of fmod.
 #endif
 
+// hack because fmod is evil and im lazy + F_CALL instead of F_CALLBACK is kinda stupid - kuro
+#ifndef F_CALLBACK
+#   define F_CALLBACK F_CALL
+#endif
 
 namespace ARL 
 {

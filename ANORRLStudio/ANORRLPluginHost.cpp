@@ -5,6 +5,7 @@
 
 #include "stdafx.h"
 #include "ANORRLPluginHost.h"
+#include <cstdint>
 
 // Qt Headers
 #include <QDir>
@@ -127,7 +128,7 @@ void* ANORRLPluginHost::createButton(
     const std::string& tooltip, 
     const std::string& iconFilePath )
 {
-    int toolbarID = (int)tbId;
+    intptr_t toolbarID = reinterpret_cast<intptr_t>(tbId);
 
 	ANORRLMainWindow& mainWindow = UpdateUIManager::Instance().getMainWindow();
 
@@ -157,13 +158,13 @@ void* ANORRLPluginHost::createButton(
 void ANORRLPluginHost::setButtonActive(void *bId, bool active)
 {
 	QMetaObject::invokeMethod(this, "onSetButtonActive", Qt::QueuedConnection,
-		Q_ARG(int, (int)(bId)), Q_ARG(bool, active));
+		Q_ARG(qintptr, reinterpret_cast<qintptr>(bId)), Q_ARG(bool, active));
 }
 
 void ANORRLPluginHost::setButtonIcon_deprecated(void* buttonId, const std::string& iconFilePath)
 {
 	QMetaObject::invokeMethod(this, "setButtonIconInternal_deprecated", Qt::QueuedConnection,
-		Q_ARG(int, (int)(buttonId)), Q_ARG(QString, QString(iconFilePath.c_str())));
+		Q_ARG(qintptr, reinterpret_cast<qintptr>(buttonId)), Q_ARG(QString, QString(iconFilePath.c_str())));
 }
 
 void ANORRLPluginHost::setButtonIcon(void* buttonId, const std::string& imageContent)
@@ -179,7 +180,7 @@ void ANORRLPluginHost::setButtonIcon(void* buttonId, const std::string& imageCon
 	else
 	{
 		QMetaObject::invokeMethod(this, "setButtonIconInternal", Qt::QueuedConnection,
-			Q_ARG(int, (int)(buttonId)), Q_ARG(QImage, image));
+			Q_ARG(qintptr, reinterpret_cast<qintptr>(buttonId)), Q_ARG(QImage, image));
 	}
 }
 
@@ -188,7 +189,7 @@ void ANORRLPluginHost::buttonIconFailedToLoad(void* buttonId)
 	QImage image;
 	image.load(QString(AppSettings::instance().contentFolder() + kFailedToLoadPluginIconIcon));
 	QMetaObject::invokeMethod(this, "setButtonIconInternal", Qt::QueuedConnection,
-		Q_ARG(int, (int)(buttonId)), Q_ARG(QImage, image));
+		Q_ARG(qintptr, reinterpret_cast<qintptr>(buttonId)), Q_ARG(QImage, image));
 }
 
 void ANORRLPluginHost::setButtonIconInternal_deprecated(int actionId, QString iconFilePath)
@@ -270,9 +271,9 @@ void ANORRLPluginHost::hideToolbars(const std::vector<void*>& toolbars, bool hid
 	if (toolbars.empty())
 		return;
 
-	QList<int> toolbarIds;
+	QList<qintptr> toolbarIds;
 	for ( size_t i = 0 ; i < toolbars.size( ); ++i )
-		toolbarIds.push_back((int)toolbars[i]);
+		toolbarIds.push_back(reinterpret_cast<qintptr>(toolbars[i]));
 
 	QVariant toolbarsVariant;
 	toolbarsVariant.setValue(toolbarIds);
@@ -293,12 +294,12 @@ void ANORRLPluginHost::disableToolbars(const std::vector<void*>& toolbars, bool 
     
     for ( size_t i = 0 ; i < toolbars.size( ); ++i )
     {
-        int toolbarID = (int)toolbars[i];
+        qintptr toolbarID = reinterpret_cast<qintptr>(toolbars[i]);
         QMetaObject::invokeMethod(
                                   this,
                                   "onEnableToolbar",
                                   Qt::QueuedConnection,
-                                  Q_ARG(int,toolbarID),
+                                  Q_ARG(qintptr,toolbarID),
                                   Q_ARG(bool,!disable) );
     }
 }
@@ -396,7 +397,7 @@ void ANORRLPluginHost::deleteToolbars(const std::vector<void*>& toolbars)
 
     for ( size_t i = 0 ; i < toolbars.size() ; ++i ) 
     {
-        int toolbarID = (int)toolbars[i];
+        qintptr toolbarID = reinterpret_cast<qintptr>(toolbars[i]);
         if ( mainWindow.isRibbonStyle() && toolbarID == m_TerrainToolbarID )
 		{
 			handleTerrainRibbonGroupDeletion();

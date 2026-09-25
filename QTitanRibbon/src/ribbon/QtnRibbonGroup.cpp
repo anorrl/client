@@ -27,7 +27,6 @@
 #include <QApplication>
 #include <QWidgetAction>
 #include <QStyleOption>
-#include <QDesktopWidget>
 #include <QResizeEvent>
 #include <QPainter>
 #include <QAction>
@@ -35,6 +34,7 @@
 #include <QComboBox>
 #include <QSpinBox>
 #include <QListView>
+#include <QScreen>
 
 #include "QtnRibbonGroup.h"
 #include "QtnRibbonGallery.h"
@@ -120,7 +120,7 @@ void GroupDefaultLayout::updateMarginAndSpacing()
 {
     if (!qobject_cast<RibbonGroup*>(parentWidget()))
         return;
-    setMargin( 2 );
+    setContentsMargins( 2,2,2,2 );
     setSpacing( 0 );
 }
 
@@ -143,7 +143,7 @@ int GroupDefaultLayout::getMinimumWidth() const
     {
         QFontMetrics fm = rg->fontMetrics();
         QSize textSize = fm.size(Qt::TextShowMnemonic, txt);
-        textSize.setWidth(textSize.width() + fm.width(QLatin1Char(' '))*2);
+        textSize.setWidth(textSize.width() + fm.horizontalAdvance(QLatin1Char(' ')) * 2);
         width = textSize.width() + (rg->isOptionButtonVisible() ? 0 : ADDITIVE_WIDTH-4);
     }
 
@@ -334,7 +334,7 @@ void GroupDefaultLayout::updateGeomArray() const
         return;
     }
 
-    const int margin = this->margin();
+    const int margin = this->contentsMargins().left();
     const int heightGroup = rg->style()->pixelMetric((QStyle::PixelMetric)RibbonStyle::PM_RibbonHeightGroup, 0, rg);
     int height = heightGroup/3;
 
@@ -440,7 +440,7 @@ void GroupDefaultLayout::updateAlignWidget(QList<ExWidgetWrapper*>& alignWrapper
             ExWidgetWrapper* wrapper = alignWrappers.at(i);
             QFontMetrics fm = wrapper->fontMetrics();
             QSize sz = fm.size(Qt::TextHideMnemonic, wrapper->text());
-            maxWidth = qMax(maxWidth, sz.width() + fm.width(QLatin1Char('x')));
+            maxWidth = qMax(maxWidth, sz.width() + fm.horizontalAdvance(QLatin1Char('x')));
         }
         for (int i = 0; i < count; i++)
             alignWrappers.at(i)->setLengthLabel(maxWidth);
@@ -453,7 +453,7 @@ void GroupDefaultLayout::updateBorders(int width, QRect rcBorder) const
     if (!rg)
         return;
 
-    const int margin = this->margin();
+    const int margin = this->contentsMargins().left();
     int groupHeight = rg->style()->pixelMetric((QStyle::PixelMetric)RibbonStyle::PM_RibbonHeightGroup, 0, rg);
     int groupClientHeight = groupHeight;
 
@@ -703,7 +703,7 @@ void GroupDefaultLayout::updateGeomArray_() const
     int totalOffset = nOffset;
     int nRow = 0;
 
-    const int margin = this->margin();
+    const int margin = this->contentsMargins().left();
 
     for (int i = 0; i < dataCount; i++)
     {
@@ -1053,7 +1053,7 @@ void RibbonGroupPrivate::showGroupScroll()
     QTN_P(RibbonGroup);
     if (p.isReduced() && p.isVisible())
     {
-        QRect screen = QApplication::desktop()->availableGeometry(&p);
+        QRect screen = QApplication::primaryScreen()->availableGeometry();
         int totalWidth = p.layout()->minimumSize().width();
         int groupLength = screen.width();
         int scrollPos = m_groupScrollPos;
@@ -1078,7 +1078,7 @@ void RibbonGroupPrivate::showGroupScroll()
 void RibbonGroupPrivate::initStyleOption(QStyleOptionGroupBox& opt) const
 {
     QTN_P(const RibbonGroup)
-    opt.init(&p);
+    opt.initFrom(&p);
     opt.text = m_title;
     opt.lineWidth = p.style()->pixelMetric((QStyle::PixelMetric)RibbonStyle::PM_RibbonHeightCaptionGroup, &opt, &p);
     opt.textAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
@@ -1095,7 +1095,7 @@ int RibbonGroupPrivate::minWidth() const
 {
     QTN_P(const RibbonGroup)
     QStyleOption opt;
-    opt.init(&p);
+    opt.initFrom(&p);
     return QSize(p.style()->pixelMetric((QStyle::PixelMetric)RibbonStyle::PM_RibbonReducedGroupWidth, &opt, &p),  p.sizeHint().height()).width();
 }
 
@@ -1148,7 +1148,7 @@ void RibbonGroupPrivate::recalcWidths(int height)
     Q_UNUSED(height);
     QTN_P(RibbonGroup)
 
-    QRect rectScreen = QApplication::desktop()->availableGeometry(&p);
+    QRect rectScreen = QApplication::primaryScreen()->availableGeometry();
 
     m_widths.clear();
     m_currWidthIndex = 0;
@@ -1721,7 +1721,7 @@ QSize RibbonGroup::sizeHint() const
 
     QFontMetrics fm = fontMetrics();
     QSize textSize = fm.size(Qt::TextShowMnemonic, title());
-    textSize.setWidth(textSize.width() + fm.width(QLatin1Char(' '))*2);
+    textSize.setWidth(textSize.width() + fm.horizontalAdvance(QLatin1Char(' ')) * 2);
 
     int width = qMax(textSize.width() + ADDITIVE_WIDTH, sz.width());
     if (d.m_butOption->isVisible())
@@ -1729,13 +1729,13 @@ QSize RibbonGroup::sizeHint() const
 
     if (isReduced() && isVisible())
     {
-        QRect screen = QApplication::desktop()->availableGeometry(this);
+        QRect screen = QApplication::primaryScreen()->availableGeometry();
         width = qMin(screen.width(), width);
     }
 
     sz.setWidth(width);
-    sz.setHeight(heightGroup + heightCaptionGroup + layout()->margin()*2);
-    return sz.expandedTo(QApplication::globalStrut());
+    sz.setHeight(heightGroup + heightCaptionGroup + layout()->contentsMargins().left()*2);
+    return sz.expandedTo(QSize(0,0));
 }
 
 // BEGIN ROBLOX CHANGES
@@ -1840,7 +1840,7 @@ void RibbonGroup::paintEvent(QPaintEvent* event)
     if (windowFlags() & Qt::Popup)
     {
         StyleOptionRibbon opt;
-        opt.init(this);
+        opt.initFrom(this);
         style()->drawControl((QStyle::ControlElement)RibbonStyle::CE_RibbonGroups, &opt, &p, this);
     }
 

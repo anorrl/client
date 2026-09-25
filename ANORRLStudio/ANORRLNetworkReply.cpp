@@ -12,7 +12,7 @@
 #include <QEventLoop>
 
 // ANORRL headers
-#include "arl/debug.h"
+#include "arl/Debug.h"
 
 // ANORRL Studio headers
 #include "ANORRLNetworkAccessManager.h"

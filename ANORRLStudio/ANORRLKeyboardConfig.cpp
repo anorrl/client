@@ -14,6 +14,7 @@
 #include <QSettings>
 #include <QStyledItemDelegate>
 #include <QTreeView>
+#include <QHeaderView>
 
 #include "ANORRLMainWindow.h"
 #include "StudioUtilities.h"

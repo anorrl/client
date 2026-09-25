@@ -5,11 +5,13 @@
 
 #include "stdafx.h"
 #include "ANORRLScriptDoc.h"
+#include <cstdint>
 
 // Qt Headers
 #include <QTextStream>
 #include <QClipboard>
 #include <QFileInfo>
+#include <QMimeData>
 
 // 3rd Party Headers
 #include "boost/iostreams/copy.hpp"
@@ -67,7 +69,7 @@ ANORRLScriptDoc::ANORRLScriptDoc()
 {
     // get a temporarily name that we're going to overwrite when the script changes.
     // the doc manager needs to have some way to refer to this doc while configuring.
-    m_keyName = QString::number((int)this);    
+    m_keyName = QString::number(reinterpret_cast<uintptr_t>(this));    
 }
 
 ANORRLScriptDoc::~ANORRLScriptDoc()

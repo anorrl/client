@@ -517,7 +517,7 @@ void ANORRLRibbonMainWindow::parseAndCreateChildren(const QDomElement& tabPageEl
 {
 	for (QDomElement domElementIterator = tabPageElement.firstChildElement(); !domElementIterator.isNull(); domElementIterator = domElementIterator.nextSiblingElement()) 
 	{		
-#ifdef Q_OS_MAC
+#ifndef Q_OS_WIN
         if (domElementIterator.attribute(attribWinOnly) == "true")
             continue;
 #else

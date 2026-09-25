@@ -61,6 +61,9 @@ set(RUNTIME_FILES ${CMAKE_SOURCE_DIR}/fmod/lib/linux/${FMOD_ARCHITECTURE}/libfmo
 add_library(fmod SHARED IMPORTED)
 set_property(TARGET fmod PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/fmod/lib/linux/${FMOD_ARCHITECTURE}/libfmod.so)
 
+if(LINUX)
+  find_package(bgfx CONFIG REQUIRED)
+endif()
 find_package(Boost REQUIRED COMPONENTS random format accumulators bimap filesystem system iostreams thread exception program_options pool circular_buffer math crc numeric_conversion flyweight numeric_ublas foreach REQUIRED)
 find_package(CURL CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
@@ -81,8 +84,8 @@ if(STUDIO_BUILD)
   set(Qt5WebKitWidgets_DIR "/usr/lib/cmake/Qt5WebKitWidgets")
   set(Qt5WebChannel_DIR "/usr/lib/cmake/Qt5WebChannel")
   set(Qt5Positioning_DIR "/usr/lib/cmake/Qt5Positioning")
-  set(Qt5OpenGLWidgets_DIR "/usr/lib/cmake/Qt5OpenGLWidgets")
-
+  set(Qt5OpenGL_DIR "/usr/lib/cmake/Qt5OpenGL")
+  
   find_package(Qt5 REQUIRED COMPONENTS
     Core
     Widgets
@@ -93,7 +96,7 @@ if(STUDIO_BUILD)
     WebChannel
     Positioning
     Concurrent
-#   OpenGLWidgets
+	OpenGL
   )
 endif()
 

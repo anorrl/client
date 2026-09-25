@@ -123,7 +123,7 @@ QSize RibbonButton::sizeHint() const
         else
         {
             QSize textSize = fm.size(Qt::TextShowMnemonic, text());
-            textSize.setWidth(textSize.width() + fm.width(QLatin1Char(' '))*2);
+            textSize.setWidth(textSize.width() + fm.horizontalAdvance(QLatin1Char(' '))*2);
             h = style()->pixelMetric((QStyle::PixelMetric)RibbonStyle::PM_RibbonHeightGroup, 0, 0)/3;
 
             if (opt.toolButtonStyle == Qt::ToolButtonTextBesideIcon) 
@@ -150,7 +150,7 @@ QSize RibbonButton::sizeHint() const
     if ((mode== MenuButtonPopup || mode == QToolButton::InstantPopup) && !indicatorCenter)
         w += style()->pixelMetric(QStyle::PM_MenuButtonIndicator, &opt, this);
 
-    return QSize(w, h).expandedTo(QApplication::globalStrut());
+    return QSize(w, h).expandedTo(QSize(0, 0));
 }
 
 

@@ -168,7 +168,7 @@ QSize RibbonTabPrivate::sizeForWidth(int w) const
         int m = m_indent;
 
         if (m < 0 && m_frameWidth) // no m_indent, but we do have a frame
-            m = fm.width(QLatin1Char('x')) - m_margin*2;
+            m = fm.horizontalAdvance(QLatin1Char('x')) - m_margin*2;
         if (m > 0) 
         {
             if ((m_align & Qt::AlignLeft) || (m_align & Qt::AlignRight))
@@ -231,7 +231,7 @@ QRect RibbonTabPrivate::documentRect() const
     const int m_align = QStyle::visualAlignment(p.layoutDirection(), QFlag(this->m_align));
     int m = m_indent;
     if (m < 0 && m_frameWidth ) // no m_indent, but we do have a frame
-        m = p.fontMetrics().width(QLatin1Char('x')) / 2 - m_margin;
+        m = p.fontMetrics().horizontalAdvance(QLatin1Char('x')) / 2 - m_margin;
     if (m > 0) 
     {
         if (m_align & Qt::AlignLeft)
@@ -425,12 +425,12 @@ bool RibbonTab::validRect() const
     QTN_D(const RibbonTab);
     int wid = 0;    
     QStyleOptionHeader opt;
-    opt.init(this);
+    opt.initFrom(this);
     int clientWidth = opt.rect.width();
     if (!d.m_text.isEmpty())
     {
         QString text = d.m_text;
-        wid = opt.fontMetrics.width(text.remove(QChar('&')));
+        wid = opt.fontMetrics.horizontalAdvance(text.remove(QChar('&')));
     }
     else
         wid = 10;
@@ -449,7 +449,7 @@ void RibbonTab::paintEvent(QPaintEvent* event)
     QPainter p(this);
 
     QStyleOptionHeader opt;
-    opt.init(this);
+    opt.initFrom(this);
     opt.text = p.fontMetrics().elidedText(d.m_text, Qt::ElideRight, opt.rect.adjusted(2,0,-2,0).width());
     opt.textAlignment = d.m_align;
 
@@ -529,7 +529,8 @@ QSize RibbonTab::minimumSizeHint() const
 
 void RibbonTab::enterEvent(QEvent* event)
 {
-    QWidget::enterEvent(event);
+    QEnterEvent* enterEvent = static_cast<QEnterEvent*>(event);
+    QWidget::enterEvent(enterEvent);
     QTN_D(RibbonTab);
     d.m_tabMouseOver = true;
     update();
@@ -1224,7 +1225,7 @@ void RibbonTabBar::paintEvent(QPaintEvent* event)
 {
     QPainter p(this);
     QStyleOption opt;
-    opt.init(this);
+    opt.initFrom(this);
     p.drawRect(opt.rect.adjusted(0, 0, -1, -1));
 }
 */
@@ -1237,7 +1238,7 @@ void RibbonTabBar::mouseDoubleClickEvent(QMouseEvent* event)
 QSize RibbonTabBar::sizeHint() const
 {
     const int heightTabs = style()->pixelMetric((QStyle::PixelMetric)RibbonStyle::PM_RibbonTabsHeight, 0, 0);
-    return QSize(0, heightTabs-2).expandedTo(QApplication::globalStrut());
+    return QSize(0, heightTabs-2).expandedTo(QSize(0,0));
 }
 
 int RibbonTabBar::tabBarWidth() const

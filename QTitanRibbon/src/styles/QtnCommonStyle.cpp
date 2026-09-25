@@ -754,6 +754,17 @@ QRect CommonStyle::subControlRect(ComplexControl cc, const QStyleOptionComplex* 
 #endif
 }
 
+double dpiScaled(double value)
+{
+#ifdef Q_OS_MAC
+    // On mac the DPI is always 72 so we should not scale it
+    return value;
+#else
+    const double scale = 72 / 96.0;
+    return value * scale;
+#endif
+}
+
 /*! \reimp */
 int CommonStyle::pixelMetric(PixelMetric pm, const QStyleOption* option, const QWidget* widget) const
 {
@@ -761,14 +772,14 @@ int CommonStyle::pixelMetric(PixelMetric pm, const QStyleOption* option, const Q
     if (d.m_defaultStyle && pm == PM_DockWidgetFrameWidth)
         return d.m_defaultStyle->pixelMetric(pm, option, widget);
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    if (d.m_defaultStyle)
-        return d.m_defaultStyle->pixelMetric(pm, option, widget);
-    else
+    switch (pm) {
+    case QCommonStyle::PM_SmallIconSize:
+        return int(dpiScaled(22.0));
+    case QCommonStyle::PM_LargeIconSize:
+        return int(dpiScaled(32.0));
+    default:
         return QCommonStyle::pixelMetric(pm, option, widget);
-#else
-    return QWindowsStyle::pixelMetric(pm, option, widget);
-#endif
+    }
 }
 
 /*! \reimp */

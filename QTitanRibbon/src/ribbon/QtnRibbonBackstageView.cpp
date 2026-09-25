@@ -244,7 +244,7 @@ void RibbonBackstagePage::paintEvent(QPaintEvent* event)
     QPainter p(this);
 
     QStyleOption opt;
-    opt.init(this);
+    opt.initFrom(this);
     p.fillRect(opt.rect, QColor(255, 255, 255));
 }
 
@@ -368,7 +368,7 @@ void RibbonBackstageViewPrivate::updateActionRects() const
 
     QStyle *style = p.style();
     QStyleOption opt;
-    opt.init(&p);
+    opt.initFrom(&p);
 
     const int icone = style->pixelMetric(QStyle::PM_SmallIconSize, &opt, &p);
 
@@ -631,7 +631,7 @@ QRect RibbonBackstageView::actionGeometry(QAction* act) const
 void RibbonBackstageView::initStyleOption(StyleOptionRibbonBackstage* opt) const
 {
     QTN_D(const RibbonBackstageView);
-    opt->init(this);
+    opt->initFrom(this);
     opt->menuWidth = d.m_menuWidth;
     opt->rect.adjust(0, 0, -1, -1);
 }

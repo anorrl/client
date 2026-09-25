@@ -14,6 +14,7 @@
 #include <QSettings>
 #include <QStyledItemDelegate>
 #include <QPainter>
+#include <QHeaderView>
 
 #include "ANORRLMainWindow.h"
 #include "UpdateUIManager.h"

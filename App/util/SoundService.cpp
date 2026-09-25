@@ -664,13 +664,14 @@ void SoundService::getCpuStats(CpuStats& stats) const
 		return;
 	}
 
-	CpuStats stats100;
-	system->getCPUUsage(&stats100.dsp, &stats100.stream, &stats100.geometry, &stats100.update, &stats100.total);
-	stats.dsp = 0.01 * stats100.dsp;
-	stats.geometry = 0.01 * stats100.geometry;
-	stats.stream = 0.01 * stats100.stream;
-	stats.total = 0.01 * stats100.total;
-	stats.update = 0.01 * stats100.update;
+	FMOD_CPU_USAGE returned_stats;
+	system->getCPUUsage(&returned_stats);
+	
+	stats.dsp = 0.01 * returned_stats.dsp;
+	stats.geometry = 0.01 * returned_stats.geometry;
+	stats.stream = 0.01 * returned_stats.stream;
+	stats.total = (0.01 * returned_stats.convolution1) + (0.01 * returned_stats.convolution2); // guess work - kuro
+	stats.update = 0.01 * returned_stats.update;
 }
 
 void SoundService::getSoundStats(const LoadedSounds& sounds, unsigned int& numSounds, unsigned int& numUnusedSounds)

@@ -29,9 +29,9 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QLabel>
 #include <QAction>
+#include <QScreen>
 #include <QLayout>
 #include <QToolButton>
 
@@ -66,7 +66,7 @@ TitleBar::TitleBar(QWidget* parent)
 {
     setAttribute(Qt::WA_TransparentForMouseEvents);
     horizontalMainLayout = new QHBoxLayout(this);
-    horizontalMainLayout->setMargin(0);
+    horizontalMainLayout->setContentsMargins(0, 0, 0, 0);
     horizontalMainLayout->setSpacing(0);
 
     horizontalLayout = new QHBoxLayout();
@@ -319,7 +319,7 @@ void OfficePopupWindowPrivate::onCollapsing()
     else if (m_popupAnimation == PopupAnimationSlide)
     {
         QStyleOption opt;
-        opt.init(&p);
+        opt.initFrom(&p);
         QPoint positonPopup = p.getPosition();
         m_stateTarget.rcPopup = QRect(QPoint(positonPopup.x() - opt.rect.width(), positonPopup.y()), positonPopup);
     }
@@ -343,7 +343,7 @@ void OfficePopupWindowPrivate::onExpanding(bool updateCurrent)
     QPoint positionPopup = p.getPosition();
 
 //    QStyleOption opt;
-//    opt.init(&p);
+//    opt.initFrom&p);
     QSize sz = p.sizeHint();//opt.rect.size(); 
 
     m_stateTarget.rcPopup = QRect(QPoint(positionPopup.x() - sz.width(), positionPopup.y() - sz.height()), sz);
@@ -533,7 +533,7 @@ void OfficePopupWindowPrivate::handleMouseMoveEvent(QMouseEvent* event)
         const QPoint delta = event->pos() - m_dragPressPosition;
 
         QRect rc = p.rect();
-        QRect rcScreenGeometry = QApplication::desktop()->screenGeometry();
+        QRect rcScreenGeometry = QApplication::primaryScreen()->geometry();
 
         rc.translate(p.pos() + delta);
 
@@ -590,12 +590,12 @@ void OfficePopupWindowPrivate::handleMouseMoveEvent(QMouseEvent* event)
 void OfficePopupWindowPrivate::initTitleBarStyleOption(StyleOptionPopupTitleBar* option) const
 {
     QTN_P(const OfficePopupWindow);
-    option->init(&p);
+    option->initFrom(&p);
     option->palette = m_titlePalette;
     option->text = m_titleTxt;
     QFontMetrics fm(m_titleFont);
     option->fontMetrics = fm;
-    option->subControls = 0;
+    option->subControls = QStyle::SubControl(0);
 
     if (!m_titleTxt.isEmpty())
       option->subControls = QStyle::SC_TitleBarLabel;
@@ -633,7 +633,7 @@ void OfficePopupWindowPrivate::initTitleBarStyleOption(StyleOptionPopupTitleBar*
 void OfficePopupWindowPrivate::initFormStyleOption(QStyleOptionFrame* option) const
 {
     QTN_P(const OfficePopupWindow);
-    option->init(&p);
+    option->initFrom(&p);
     option->palette = m_titlePalette;
 
     const int lineWidth = p.style()->pixelMetric(QStyle::PM_DefaultFrameWidth, 0, &p) + 2;
@@ -735,7 +735,7 @@ void OfficePopupWindowPrivate::calclayout()
     QPoint positionPopup = p.getPosition();
 
 //    QStyleOption opt;
-//    opt.init(&p);
+//    opt.initFrom&p);
     QSize sz = p.sizeHint();//opt.rect.size(); 
 
     m_stateCurrent.rcPopup = QRect(QPoint(positionPopup.x() - sz.width(), positionPopup.y() - sz.height()), sz);
@@ -1009,7 +1009,7 @@ QPoint OfficePopupWindow::getPosition() const
     }
 #endif // Q_OS_WIN
 
-    QRect screen = QApplication::desktop()->screenGeometry();
+    QRect screen = QApplication::primaryScreen()->geometry();
 
     if (d.m_popupLocation == PopupLocationCenter)
         return QPoint(screen.center().x() + sz.width() / 2, screen.center().y() + sz.height() / 2);
@@ -1180,7 +1180,7 @@ QSize OfficePopupWindow::sizeHint() const
     QTN_D(const OfficePopupWindow);
     QStyleOptionFrame option;
     d.initFormStyleOption(&option);
-    return option.rect.size().expandedTo(QApplication::globalStrut());
+    return option.rect.size().expandedTo(QSize(0, 0));
 }
 
 /*!

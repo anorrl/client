@@ -650,8 +650,9 @@ public:
         // we are smart - roblox devs
 		logCurlError("CURLOPT_SSL_VERIFYPEER", curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1));
 		logCurlError("CURLOPT_SSL_VERIFYHOST", curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2));
+		#ifndef __linux__
 		logCurlError("CURLOPT_CAINFO", curl_easy_setopt(curl, CURLOPT_CAINFO, "ssl/cacert.pem"));
-
+		#endif
         // Don't use signals, which will prevent problems with resolver timeouts in multi-threaded environments.
         // XXX Might need to setup SSL's mutex callback mechanism, per this URL:
         // http://curl.haxx.se/mail/lib-2010-12/0345.html

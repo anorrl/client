@@ -54,6 +54,10 @@
 #include "../src/ribbon/QtnRibbonSliderPane.h"
 #include "../src/ribbon/QtnRibbonSystemPopupBar.h"
 
+#ifdef Q_OS_WIN
+#include <qt_windows.h>
+#endif
+
 
 using namespace Qtitan;
 
@@ -764,7 +768,7 @@ void RibbonPaintManager::drawReducedGroup(const QStyleOption* opt, QPainter* p, 
         state = !(optGroup->state & QStyle::State_Enabled) ? 3 : opt->state & QStyle::State_MouseOver ? 1 : 0;
         rcSrc = sourceRectImage(soImage.rect(), state, 4);
 
-        int width = opt->fontMetrics.width(strSecondRow) + 7;
+        int width = opt->fontMetrics.horizontalAdvance(strSecondRow) + 7;
         QPoint pt = QPoint(strSecondRow.isEmpty() ? rcText.center().x() - 1 : 
             rectSecondRow.left() + width - 4, strSecondRow.isEmpty() ? rectSecondRow.center().y() + 3 : rectSecondRow.center().y());
 
@@ -1287,7 +1291,7 @@ bool RibbonPaintManager::drawShapedFrame(const QStyleOption* opt, QPainter* p, c
     bool ret = false;
     if (const QMdiArea* mdiArea = qobject_cast<const QMdiArea*>(w))
     {
-        if (const QStyleOptionFrameV3* f = qstyleoption_cast<const QStyleOptionFrameV3*>(opt)) 
+        if (const QStyleOptionFrame* f = qstyleoption_cast<const QStyleOptionFrame*>(opt)) 
         {
             int frameShape  = f->frameShape;
             int frameShadow = QFrame::Plain;
@@ -1390,8 +1394,8 @@ void RibbonPaintManager::drawSystemButton(const QStyleOption* option, QPainter* 
                 if (toolbutton->colorBackground.isValid())
                 {
                     QRect rcFill = toolbutton->rect.adjusted(0,1,0,0);
-                    QColor color = !enabled ? toolbutton->colorBackground.dark(20) : popuped ? (selected ? toolbutton->colorBackground.dark(105) : toolbutton->colorBackground.dark(115)) : 
-                        false ? toolbutton->colorBackground : selected ? toolbutton->colorBackground.dark(105) : toolbutton->colorBackground;
+                    QColor color = !enabled ? toolbutton->colorBackground.darker(20) : popuped ? (selected ? toolbutton->colorBackground.darker(105) : toolbutton->colorBackground.darker(115)) : 
+                        false ? toolbutton->colorBackground : selected ? toolbutton->colorBackground.darker(105) : toolbutton->colorBackground;
 
                     QBrush brushSave = p->brush();
                     QPen penSave = p->pen();
@@ -1410,8 +1414,8 @@ void RibbonPaintManager::drawSystemButton(const QStyleOption* option, QPainter* 
                     int y2 = rcFill.bottom();
                     p->fillRect(QRect(x1 + 1, y1 + 1, (x2 - x1) - 2, (y2 - y1) - 1), gradient);
 
-                    ::drawBorderSystemButton(p, rcFill, color.dark());
-                    ::drawBorderSystemButton(p, rcFill.adjusted(1, 1, -1, 0), color.dark(120));
+                    ::drawBorderSystemButton(p, rcFill, color.darker());
+                    ::drawBorderSystemButton(p, rcFill.adjusted(1, 1, -1, 0), color.darker(120));
 
                     p->setPen(penSave);
                     p->setBrush(brushSave);
@@ -1759,7 +1763,7 @@ bool RibbonPaintManager::drawRibbonBackstageSeparator(const QStyleOption* opt, Q
 {
     Q_UNUSED(widget);
     bool ret = false;
-    if (const QStyleOptionFrameV3* f = qstyleoption_cast<const QStyleOptionFrameV3*>(opt)) 
+    if (const QStyleOptionFrame* f = qstyleoption_cast<const QStyleOptionFrame*>(opt)) 
     {
         p->fillRect(opt->rect, QColor(255, 255, 255));
 
@@ -1878,6 +1882,73 @@ RibbonPaintManager2013::RibbonPaintManager2013(CommonStyle* baseStyle)
 /*! \internal */
 RibbonPaintManager2013::~RibbonPaintManager2013()
 {
+}
+
+bool RibbonPaintManager2013::drawFrame(const QStyleOption* opt, QPainter* p, const QWidget* w) const
+{
+#ifdef Q_OS_WIN
+    Q_UNUSED(p);
+    QTN_D_STYLE(RibbonStyle)
+    if (qobject_cast<const RibbonMainWindow*>(w))
+    {
+        if (const StyleOptionFrame* optFrame = qstyleoption_cast<const StyleOptionFrame*>(opt))
+        {
+            HDC hdc = (HDC)optFrame->hdc;
+
+            QRect rc = optFrame->rect;
+            rc.adjust(0, 0, -1, -1);
+
+            QRect rcBorders = optFrame->clientRect;
+            int nRightBorder = rcBorders.left() - rc.left(), nLeftBorder = rcBorders.left() - rc.left(), nTopBorder = rcBorders.top() - rc.top();
+            int nBottomBorder = rc.bottom() - rcBorders.bottom() + 1/*/2*/;
+            int statusHeight = optFrame->statusHeight;
+
+            // Convert QColor to COLORREF using the rgb() method
+            COLORREF color = QColor(d.m_clrRibbonFace).rgb();
+            HBRUSH hBrush = ::CreateSolidBrush(color);  // Use COLORREF here, not rgbcolorref
+            Q_ASSERT(hBrush != Q_NULL);
+
+            // Draw borders using Windows API
+            RECT rectTop = {0, 0, rc.width(), nTopBorder};
+            ::FillRect(hdc, &rectTop, hBrush);
+            RECT rectLeft = {0, 0, nLeftBorder, rc.height()};
+            ::FillRect(hdc, &rectLeft, hBrush);
+            RECT rectRight = {rc.width() - nRightBorder, 0, rc.width() + nRightBorder, rc.height()};
+            ::FillRect(hdc, &rectRight, hBrush);
+            RECT rectBottom = {0, rc.height() - nBottomBorder, rc.width(), rc.height() + nBottomBorder};
+            ::FillRect(hdc, &rectBottom, hBrush);
+
+            // Set the frame border color based on active/inactive state
+            COLORREF clrBorder = optFrame->active ? QColor(d.m_clrFrameBorderActive0).rgb() : QColor(d.m_clrFrameBorderInactive0).rgb();
+
+            RECT rectFrame = {0, 0, rc.width(), rc.height()};
+            // murdle: could be an issue
+            //::Draw3dRect(hdc, &rectFrame, clrBorder, clrBorder);
+
+            ::DeleteObject(hBrush);
+
+            if (optFrame->hasStatusBar && !optFrame->isBackstageVisible)
+            {
+                HBRUSH hBrushStatusBar = ::CreateSolidBrush(QColor(d.m_clrStatusBarShadow).rgb()); // Using QColor conversion to COLORREF
+                Q_ASSERT(hBrushStatusBar != Q_NULL);
+
+                // Fill status bar areas
+                RECT rectBottomStatusBar = {0, rc.height() - nBottomBorder, rc.width(), rc.height() + nBottomBorder};
+                ::FillRect(hdc, &rectBottomStatusBar, hBrushStatusBar);
+
+                RECT rectLeftStatusBar = {0, rc.height() - (statusHeight + nTopBorder), nLeftBorder, rc.height() - nBottomBorder};
+                ::FillRect(hdc, &rectLeftStatusBar, hBrushStatusBar);
+
+                RECT rectRightStatusBar = {rc.width() - nRightBorder, rc.height() - (statusHeight + nTopBorder), rc.width(), rc.height() - nBottomBorder};
+                ::FillRect(hdc, &rectRightStatusBar, hBrushStatusBar);
+
+                ::DeleteObject(hBrushStatusBar);
+            }
+        }
+        return true;
+    }
+#endif // Q_OS_WIN
+    return false;
 }
 
 // for RibbonBar
@@ -2072,7 +2143,7 @@ void RibbonPaintManager2013::drawReducedGroup(const QStyleOption* opt, QPainter*
         OfficePaintManager2013::ImageIcons index = OfficePaintManager2013::Icon_ArowDown;
         OfficePaintManager2013::ImageState state = OfficePaintManager2013::Black2;
 
-        int width = opt->fontMetrics.width(strSecondRow);
+        int width = opt->fontMetrics.horizontalAdvance(strSecondRow);
         QPoint pt = QPoint(strSecondRow.isEmpty() ? rcText.width()/2 : 
             rectSecondRow.left() + width + 1, strSecondRow.isEmpty() ? rectSecondRow.center().y() : (rectSecondRow.top() + (rectSecondRow.height() - 9)/2) + 1);
 
@@ -2506,8 +2577,8 @@ void RibbonPaintManager2013::drawSystemButton(const QStyleOption* option, QPaint
                 if (toolbutton->colorBackground.isValid())
                 {
                     QRect rcFill = toolbutton->rect.adjusted(0,1,0,0);
-                    QColor color = !enabled ? toolbutton->colorBackground.dark(20) : popuped ? (isHighlighted ? toolbutton->colorBackground.dark(105) : toolbutton->colorBackground.dark(115)) : 
-                        false ? toolbutton->colorBackground : isHighlighted ? toolbutton->colorBackground.dark(105) : toolbutton->colorBackground;
+                    QColor color = !enabled ? toolbutton->colorBackground.darker(20) : popuped ? (isHighlighted ? toolbutton->colorBackground.darker(105) : toolbutton->colorBackground.darker(115)) : 
+                        false ? toolbutton->colorBackground : isHighlighted ? toolbutton->colorBackground.darker(105) : toolbutton->colorBackground;
 
                     QBrush brushSave = p->brush();
                     QPen penSave = p->pen();
@@ -2526,8 +2597,8 @@ void RibbonPaintManager2013::drawSystemButton(const QStyleOption* option, QPaint
                     int y2 = rcFill.bottom();
                     p->fillRect(QRect(x1 + 1, y1 + 1, (x2 - x1) - 2, (y2 - y1) - 1), gradient);
 
-                    ::drawBorderSystemButton(p, rcFill, color.dark());
-                    ::drawBorderSystemButton(p, rcFill.adjusted(1, 1, -1, 0), color.dark(120));
+                    ::drawBorderSystemButton(p, rcFill, color.darker());
+                    ::drawBorderSystemButton(p, rcFill.adjusted(1, 1, -1, 0), color.darker(120));
 
                     p->setPen(penSave);
                     p->setBrush(brushSave);
@@ -2818,7 +2889,7 @@ bool RibbonPaintManager2013::drawRibbonBackstageSeparator(const QStyleOption* op
 {
     Q_UNUSED(widget);
     bool ret = false;
-    if (const QStyleOptionFrameV3* f = qstyleoption_cast<const QStyleOptionFrameV3*>(opt)) 
+    if (const QStyleOptionFrame* f = qstyleoption_cast<const QStyleOptionFrame*>(opt)) 
     {
         p->fillRect(opt->rect, QColor(255, 255, 255));
 

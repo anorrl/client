@@ -25,12 +25,13 @@
 **
 ****************************************************************************/
 #include <QApplication>
-#include <QPainterPath>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <QStyleOption>
 #include <QFileInfo>
 #include <QColor>
+#include <QActionGroup>
 #include <QKeySequence>
 #include <qevent.h>
 
@@ -146,7 +147,7 @@ QSize RibbonSystemButton::sizeHint() const
     QSize sz = QToolButton::sizeHint();
 
     const int heightTabs = style()->pixelMetric((QStyle::PixelMetric)RibbonStyle::PM_RibbonTabsHeight, 0, 0) - 2;
-    return QSize(sz.width() + 24, heightTabs).expandedTo(QApplication::globalStrut());
+    return QSize(sz.width() + 24, heightTabs).expandedTo(QSize(0,0));
 }
 
 /*! \reimp */
@@ -638,7 +639,7 @@ void RibbonPageSystemPopupListCaption::paintEvent(QPaintEvent* event)
 
     QPainter p(this);
     QStyleOption opt;
-    opt.init(this);
+    opt.initFrom(this);
 
     QRect rc = opt.rect;
     QRect rcText(rc.left() + 7, rc.top() + 4, rc.right(), rc.bottom() - 5);
@@ -781,7 +782,7 @@ void RibbonPageSystemRecentFileListPrivate::updateActionRects() const
 
     QStyle* style = p.style();
     QStyleOption opt;
-    opt.init(&p);
+    opt.initFrom(&p);
 
     const int hmargin = style->pixelMetric(QStyle::PM_MenuHMargin, &opt, &p),
         vmargin = style->pixelMetric(QStyle::PM_MenuVMargin, &opt, &p);
@@ -1050,7 +1051,8 @@ void RibbonPageSystemRecentFileList::mouseReleaseEvent(QMouseEvent* event)
 /*! \reimp */
 void RibbonPageSystemRecentFileList::enterEvent(QEvent* event)
 {
-    RibbonPageSystemPopupListCaption::enterEvent(event);
+    QEnterEvent* enterEvent = static_cast<QEnterEvent*>(event);
+    RibbonPageSystemPopupListCaption::enterEvent(enterEvent);
 
     QEvent leaveEvent(QEvent::Leave);
     QApplication::sendEvent(parentWidget(), &leaveEvent);

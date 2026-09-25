@@ -553,39 +553,6 @@ void Http::httpGetPost(bool isPost, std::istream& dataStream,
 					   bool forceNativeHttp)
 {
     ARL::Timer<ARL::Time::Fast> httpTimer;
-#ifdef __APPLE__
-	if (!useCurlHttpImpl || forceNativeHttp)
-    {
-        ARLASSERT(isPost == !contentType.empty());
-        try
-        {
-            // instanceApi is irrelevant on a Mac, there is only one style NSUrl
-            httpGetPostImpl(isPost, dataStream, contentType, compressData, additionalHeaders, externalRequest, response);
-            if (recordStatistics)
-            {
-                HTTPStatistics::success(httpTimer.delta().msec(), url.c_str(), response.size());
-            }
-        }
-        catch (const ARL::http_status_error& e)
-        {
-            if (recordStatistics)
-            {
-                HTTPStatistics::failure(httpTimer.delta().msec(), url.c_str(), response.size(), e.what(), e.statusCode);
-            }
-            throw;
-        }
-        catch (const std::exception& e)
-        {
-            if (recordStatistics)
-            {
-                HTTPStatistics::failure(httpTimer.delta().msec(), url.c_str(), response.size(),  e.what());
-            }
-            throw;
-        }
-        return;
-    }
-#endif // ifdef __APPLE__
-    
     ARLASSERT(isPost == !contentType.empty());
 
 	ThrowIfFailure(trustCheck(url.c_str(), externalRequest), "Trust check failed");
@@ -642,47 +609,6 @@ void Http::httpGetPost(bool isPost, std::istream& dataStream,
             }
         }
     }
-
-#if defined(_WIN32)
-	if (!useCurlHttpImpl || forceNativeHttp)
-    {
-        try
-        {
-            switch (instanceApi)
-            {
-            case WinInet:
-                httpGetPostWinInet(isPost, dataStream, contentType, compressData, headers, externalRequest, response);
-                break;
-            case WinHttp:
-                httpGetPostWinHttp(isPost, dataStream, contentType, compressData, headers, externalRequest, response);
-                break;
-            default:
-                ARLASSERT(false);
-            }
-            if (recordStatistics)
-            {
-                HTTPStatistics::success(httpTimer.delta().msec(), url.c_str(), response.size());
-            }
-        }
-        catch (const ARL::http_status_error& e)
-        {
-            if (recordStatistics)
-            {
-                HTTPStatistics::failure(httpTimer.delta().msec(), url.c_str(), response.size(), e.what(), e.statusCode);
-            }
-            throw;
-        }
-        catch (const std::exception& e)
-        {
-            if (recordStatistics)
-            {
-                HTTPStatistics::failure(httpTimer.delta().msec(), url.c_str(), response.size(), e.what());
-            }
-            throw;
-        }
-        return;
-    }
-#endif // ifdef _WIN32
 
     HttpPlatformImpl::HttpOptions httpOpts(url, externalRequest, cachePolicy, connectTimeoutMillis, responseTimeoutMillis);
     if (isPost)

@@ -975,7 +975,7 @@ QSize OfficeStyle::sizeFromContents(ContentsType ct, const QStyleOption* opt, co
                         QFont fontBold = menuitem->font;
                         fontBold.setBold(true);
                         QFontMetrics fmBold(fontBold);
-                        w += fmBold.width(menuitem->text) + 6 + 6;
+                        w += fmBold.horizontalAdvance(menuitem->text) + 6 + 6;
                         int h =  menuitem->fontMetrics.height() + 6;
                         s.setHeight(qMax(h, 22));
                         s.setWidth(qMax(w, s.width()));
@@ -2280,7 +2280,7 @@ bool OfficeStyle::drawTabBarTabShape(const QStyleOption* opt, QPainter* p, const
 /*! \internal */
 bool OfficeStyle::drawTabBarTabLabel(const QStyleOption* opt, QPainter* p, const QWidget* widget) const
 {
-    if (const QStyleOptionTabV3* tab = qstyleoption_cast<const QStyleOptionTabV3*>(opt))
+    if (const QStyleOptionTab* tab = qstyleoption_cast<const QStyleOptionTab*>(opt))
     {
         QPalette palette = opt->palette;  
         QColor color =  palette.color(QPalette::WindowText);
@@ -2299,7 +2299,7 @@ bool OfficeStyle::drawTabBarTabLabel(const QStyleOption* opt, QPainter* p, const
         if (color.isValid())
             palette.setColor(QPalette::WindowText, color);
 
-        QStyleOptionTabV3 optTab = *tab;
+        QStyleOptionTab optTab = *tab;
         optTab.palette = palette;
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
@@ -2365,9 +2365,9 @@ bool OfficeStyle::drawToolBoxTabShape(const QStyleOption* opt, QPainter* p, cons
 /*! \internal */
 bool OfficeStyle::drawToolBoxTabLabel(const QStyleOption* opt, QPainter* p, const QWidget* widget) const
 {
-    if (const QStyleOptionToolBoxV2* tb = qstyleoption_cast<const QStyleOptionToolBoxV2*>(opt)) 
+    if (const QStyleOptionToolBox* tb = qstyleoption_cast<const QStyleOptionToolBox*>(opt)) 
     {
-        QStyleOptionToolBoxV2 optTB = *tb;
+        QStyleOptionToolBox optTB = *tb;
 
         optTB.palette.setColor(QPalette::ButtonText, helper().getColor(tr("ShortcutBar"), tr("NormalText")));
 

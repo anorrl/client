@@ -220,6 +220,13 @@ RakNet::BitStream& operator<<(RakNet::BitStream& stream, unsigned long long valu
     return stream;
 }
 
+template<>
+RakNet::BitStream& operator>>(RakNet::BitStream& stream, unsigned long long& value)
+{
+    Network::readFastT(stream, value);
+    return stream;
+}
+
 RakNet::BitStream& operator<<(RakNet::BitStream& stream, uint64_t value)
 {
     stream.Write(value);

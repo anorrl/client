@@ -4,8 +4,6 @@
 
 namespace ARL
 {
-	ARL_REGISTER_CLASS(Tween);
-
 	REFLECTION_BEGIN();
 	static Reflection::RefPropDescriptor<Tween, Instance> prop_instance(
 		"Instance", category_Behavior, &Tween::getInstance, NULL, Reflection::PropertyDescriptor::STANDARD_NO_REPLICATE);

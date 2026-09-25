@@ -1,93 +1,140 @@
 #include "format_string.h"
-#ifdef __linux__
-#include <cstdarg>
-#endif
 #include <sstream>
 
-std::string vformat(const char* fmt, va_list args) {
-    va_list args_copy;
-    va_copy(args_copy, args);
-
-    int len = std::vsnprintf(nullptr, 0, fmt, args_copy);
-    va_end(args_copy);
-
-    if (len < 0) throw std::runtime_error("String format error");
-
-    std::vector<char> buffer(len + 1);
-    std::vsnprintf(buffer.data(), buffer.size(), fmt, args);
-
-    return std::string(buffer.data(), len);
+std::string convert_w2s(const std::wstring &str)
+{
+	std::string result;
+	std::copy(str.begin(), str.end(), std::back_inserter(result));
+	return result;
+}
+  
+std::wstring convert_s2w(const std::string &str)
+{
+	std::wstring result;
+	std::copy(str.begin(), str.end(), std::back_inserter(result));
+	return result;
 }
 
-std::string format_string(const char* fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-    std::string result = vformat(fmt, args);
-    va_end(args);
-    return result;
-}
+std::string vformat(const char *fmt, va_list argPtr) {
+    // We draw the line at a 1MB string.
+    const int maxSize = 1000000;
 
-std::wstring vformat(const wchar_t* fmt, va_list args) {
-    va_list args_copy;
-    va_copy(args_copy, args);
+    // If the string is less than 161 characters,
+    // allocate it on the stack because this saves
+    // the malloc/free time.
+    const int bufSize = 161;
+	char stackBuffer[bufSize];
 
-    int len = std::vswprintf(nullptr, 0, fmt, args_copy);
-    va_end(args_copy);
+    // Using va_copy to safely use the argPtr again after vsnprintf for determining the buffer size
+	va_list argPtrCopy;
+	va_copy(argPtrCopy, argPtr);
+	int requiredSize = vsnprintf(nullptr, 0, fmt, argPtrCopy) + 1; // +1 for the null-terminator
+	va_end(argPtrCopy);
 
-    if (len < 0) throw std::runtime_error("Wide string format error");
+    if (requiredSize > bufSize) {
 
-    std::vector<wchar_t> buffer(len + 1);
-    std::vswprintf(buffer.data(), buffer.size(), fmt, args);
+        // Now use the heap.
+        char* heapBuffer = NULL;
 
-    return std::wstring(buffer.data(), len);
-}
+        if (requiredSize < maxSize) {
 
-std::wstring format_string(const wchar_t* fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-    std::wstring result = vformat(fmt, args);
-    va_end(args);
-    return result;
-}
+            heapBuffer = (char*)malloc(maxSize + 1);
+			if (!heapBuffer)
+				throw std::bad_alloc();
+            vsnprintf(heapBuffer, maxSize, fmt, argPtr);
+            heapBuffer[maxSize] = '\0';
+        } else {
+            heapBuffer = (char*)malloc(requiredSize);
+			vsnprintf(heapBuffer, requiredSize-1, fmt, argPtr);
+			heapBuffer[requiredSize-1] = '\0';
+        }
 
-std::string convert_w2s(const std::wstring& str) {
-    std::string result;
-    result.reserve(str.size());
-    for (wchar_t wc : str) {
-        result.push_back(static_cast<char>(wc & 0xFF)); // crude ANSI-ish fallback
+        std::string formattedString(heapBuffer);
+        free(heapBuffer);
+        return formattedString;
+    } else {
+		vsnprintf(stackBuffer, bufSize-1, fmt, argPtr);
+		stackBuffer[bufSize-1] = '\0';
+        return std::string(stackBuffer);
     }
+}
+
+std::string format_string(const char* fmt,...) {
+    va_list argList;
+    va_start(argList,fmt);
+    std::string result = vformat(fmt, argList);
+    va_end(argList);
+	
     return result;
 }
 
-std::wstring convert_s2w(const std::string& str) {
-    std::wstring result;
-    result.reserve(str.size());
-    for (char c : str) {
-        result.push_back(static_cast<unsigned char>(c));
-    }
-    return result;
-}
-
-std::vector<std::string> splitOn(const std::string& str, char delimiter, bool trimEmpty) {
+std::vector<std::string> splitOn(
+    const std::string& str,
+    const char&        delimeter,
+    const bool         trimEmpty )
+{
     std::vector<std::string> tokens;
-    std::stringstream ss(str);
-    std::string item;
-    while (std::getline(ss, item, delimiter)) {
-        if (!item.empty() || !trimEmpty) {
-            tokens.push_back(item);
+
+    std::size_t begin = 0;
+    std::size_t end = str.find(delimeter);
+
+    if ( end != std::string::npos )
+    {
+        while ( end != std::string::npos )
+        {
+            std::string tmp = str.substr( begin, end - begin );
+            if ( !tmp.empty() || !trimEmpty )
+                tokens.push_back( tmp );
+
+            begin = end + 1;
+            end = str.find( delimeter, begin );
+
+            if ( end == std::string::npos )
+            {
+                tmp = str.substr( begin, str.length() - begin );
+                if ( !tmp.empty() || !trimEmpty )
+                    tokens.push_back( tmp );
+            }
         }
     }
+    else if ( !str.empty() || !trimEmpty )
+        tokens.push_back( str );
+
     return tokens;
 }
 
-std::vector<std::wstring> splitOn(const std::wstring& str, wchar_t delimiter, bool trimEmpty) {
-    std::wstringstream ss(str);
-    std::wstring item;
+std::vector<std::wstring> splitOn(
+    const std::wstring& str,
+    const wchar_t&      delimeter,
+    const bool          trimEmpty )
+{
     std::vector<std::wstring> tokens;
-    while (std::getline(ss, item, delimiter)) {
-        if (!item.empty() || !trimEmpty) {
-            tokens.push_back(item);
+
+    std::size_t begin = 0;
+    std::size_t end = str.find(delimeter);
+
+    if ( end != std::wstring::npos )
+    {
+        while ( end != std::wstring::npos )
+        {
+            std::wstring tmp = str.substr( begin, end - begin );
+            if ( !tmp.empty() || !trimEmpty )
+                tokens.push_back( tmp );
+
+            begin = end + 1;
+            end = str.find( delimeter, begin );
+
+            if ( end == std::wstring::npos )
+            {
+                tmp = str.substr( begin, str.length() - begin );
+                if ( !tmp.empty() || !trimEmpty )
+                    tokens.push_back( tmp );
+            }
         }
     }
+    else if ( !str.empty() || !trimEmpty )
+        tokens.push_back( str );
+
     return tokens;
 }
+

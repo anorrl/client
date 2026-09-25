@@ -29,6 +29,7 @@
 #include <QMenu>
 #include <QPainter>
 #include <QToolButton>
+#include <QActionGroup>
 #include <qevent.h>
 
 #include "QtnRibbonStyle.h"
@@ -357,8 +358,8 @@ QSize RibbonQuickAccessBar::sizeHint() const
 {
     const int heightTabs = style()->pixelMetric((QStyle::PixelMetric)RibbonStyle::PM_RibbonTabsHeight, 0, this);
 	if (RibbonBar* ribbonBar = qobject_cast<RibbonBar*>(parentWidget()))
-		return QSize(qMin(QToolBar::sizeHint().width(), ribbonBar->availableWidth()), heightTabs+1).expandedTo(QApplication::globalStrut());
-    return QSize(QToolBar::sizeHint().width(), heightTabs+1).expandedTo(QApplication::globalStrut());
+		return QSize(qMin(QToolBar::sizeHint().width(), ribbonBar->availableWidth()), heightTabs+1).expandedTo(QSize(0,0));
+    return QSize(QToolBar::sizeHint().width(), heightTabs+1).expandedTo(QSize(0,0));
 }
 
 /*! \internal */
@@ -502,7 +503,7 @@ void RibbonQuickAccessBar::paintEvent(QPaintEvent* event)
     {
         QPainter p(this);
         StyleRibbonQuickAccessBar opt;
-        opt.init(this);
+        opt.initFrom(this);
         opt.quickAccessBarPosition = ribbonBar->quickAccessBarPosition();
         style()->drawControl(QStyle::CE_ToolBar, &opt, &p, this);
     }

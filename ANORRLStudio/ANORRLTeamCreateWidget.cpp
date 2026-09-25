@@ -11,6 +11,7 @@
 #include <QCoreApplication>
 #include <QStyledItemDelegate>
 #include <QPainter>
+#include <QPainterPath>
 #include <QCompleter>
 #include <QStringListModel>
 #include <QApplication>
@@ -309,7 +310,7 @@ bool CreatorsListWidget::isPlayerPresent(int playerId)
 QString CreatorsListWidget::getPlayerName(int playerId)
 {
 	if (!m_pDataModel)
-		return false;
+		return QString();
 
 	ARL::DataModel::LegacyLock lock(m_pDataModel.get(), ARL::DataModelJob::Write);
 	ARL::Network::Players* players = m_pDataModel->find<ARL::Network::Players>();

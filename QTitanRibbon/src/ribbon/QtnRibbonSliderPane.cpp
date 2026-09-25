@@ -126,7 +126,7 @@ void RibbonSliderPanePrivate::initSlider()
     m_slider->setTickPosition(QSlider::NoTicks);
 
     m_layout = new QHBoxLayout();
-    m_layout->setMargin(0);
+    m_layout->setContentsMargins(0,0,0,0);
     m_layout->setSpacing(4);
 
     m_layout->addWidget(m_slider);

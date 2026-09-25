@@ -25,7 +25,6 @@
 **
 ****************************************************************************/
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QMainWindow>
 #include <QPainter>
 #include <QStyle>
@@ -36,6 +35,7 @@
 #include <QToolButton>
 #include <QListWidget>
 #include <QMdiArea>
+#include <QScreen>
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #include <qdrawutil.h>
@@ -729,7 +729,7 @@ bool OfficePaintManager::drawShapedFrame(const QStyleOption* opt, QPainter* p, c
     bool ret = false;
     if (const QMdiArea* mdiArea = qobject_cast<const QMdiArea*>(w))
     {
-        if (const QStyleOptionFrameV3* f = qstyleoption_cast<const QStyleOptionFrameV3*>(opt)) 
+        if (const QStyleOptionFrame* f = qstyleoption_cast<const QStyleOptionFrame*>(opt)) 
         {
             int frameShape  = f->frameShape;
             int frameShadow = QFrame::Plain;
@@ -1144,7 +1144,7 @@ bool OfficePaintManager::drawSizeGrip(const QStyleOption* opt, QPainter* p, cons
 /*! \internal */
 bool OfficePaintManager::drawPanelItemViewItem(const QStyleOption* opt, QPainter* p, const QWidget* widget) const
 {
-    if (const QStyleOptionViewItemV4* vopt = qstyleoption_cast<const QStyleOptionViewItemV4*>(opt))
+    if (const QStyleOptionViewItem* vopt = qstyleoption_cast<const QStyleOptionViewItem*>(opt))
     {
         const QAbstractItemView* view = qobject_cast<const QAbstractItemView*>(widget);
         if (!view)
@@ -1197,10 +1197,10 @@ bool OfficePaintManager::drawPanelItemViewItem(const QStyleOption* opt, QPainter
                 //                QRect srcRect = QRect(0, 0, sectionSize.width(), sectionSize.height());
                 //                QRect pixmapRect = vopt->rect;
                 bool reverse = vopt->direction == Qt::RightToLeft;
-                bool leftSection = vopt->viewItemPosition == QStyleOptionViewItemV4::Beginning;
-                bool rightSection = vopt->viewItemPosition == QStyleOptionViewItemV4::End;
+                bool leftSection = vopt->viewItemPosition == QStyleOptionViewItem::Beginning;
+                bool rightSection = vopt->viewItemPosition == QStyleOptionViewItem::End;
 
-                if (vopt->viewItemPosition == QStyleOptionViewItemV4::OnlyOne || vopt->viewItemPosition == QStyleOptionViewItemV4::Invalid)
+                if (vopt->viewItemPosition == QStyleOptionViewItem::OnlyOne || vopt->viewItemPosition == QStyleOptionViewItem::Invalid)
                 {
                     QRect rect(QPoint(vopt->rect.left(), vopt->rect.top()), sectionSize);
                     drawImage(soImage, *p, rect, sourceRectImage(soImage.rect(), state, 4), QRect(QPoint(4, 4), QPoint(4, 4)));
@@ -1219,7 +1219,7 @@ bool OfficePaintManager::drawPanelItemViewItem(const QStyleOption* opt, QPainter
                     QRect rect(QPoint(vopt->rect.left(), vopt->rect.top()), sectionSize);
                     drawImage(copyPix, *p, rect, sourceRectImage(copyPix.rect(), state, 4), QRect(QPoint(4, 4), QPoint(4, 4)));
                 }
-                else if (vopt->viewItemPosition == QStyleOptionViewItemV4::Middle)
+                else if (vopt->viewItemPosition == QStyleOptionViewItem::Middle)
                 {
                     QRect rectImage = soImage.rect();
                     QPixmap copyPix = soImage.copy(4, 0, rectImage.width()-8, rectImage.height());
@@ -1737,7 +1737,7 @@ bool OfficePaintManager2013::drawIndicatorDockWidgetResizeHandle(const QStyleOpt
         if (const QMainWindow* mainWindow = qobject_cast<const QMainWindow*>(w))
         {
             QRect rcFrame = mainWindow->rect();
-            QRect screen = QApplication::desktop()->availableGeometry(mainWindow);
+            QRect screen = QApplication::primaryScreen()->availableGeometry();
 
             rect.setTop(-rcFrame.top());
             rect.setBottom(rect.top() + screen.height() + 10);
@@ -2241,7 +2241,7 @@ bool OfficePaintManager2013::drawShapedFrame(const QStyleOption* opt, QPainter* 
     bool ret = false;
     if (const QMdiArea* mdiArea = qobject_cast<const QMdiArea*>(w))
     {
-        if (const QStyleOptionFrameV3* f = qstyleoption_cast<const QStyleOptionFrameV3*>(opt)) 
+        if (const QStyleOptionFrame* f = qstyleoption_cast<const QStyleOptionFrame*>(opt)) 
         {
             int frameShape  = f->frameShape;
             int frameShadow = QFrame::Plain;

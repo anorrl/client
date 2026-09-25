@@ -15,6 +15,7 @@
 
 #include "util/ContentId.h"
 #include "util/LuaWebService.h"
+#include "util/SoundService.h"
 #include "v8datamodel/ContentProvider.h"
 #include "v8datamodel/DataModel.h"
 #include "v8datamodel/Decal.h"
@@ -30,10 +31,12 @@
 #include <QPushButton>
 #include <QStandardItem>
 #include <QStandardItemModel>
-#include <QTextstream>
+#include <QTextStream>
 #include <QTreeView>
 #include <QWidget>
 #include <QClipboard>
+#include <QGridLayout>
+#include <QHeaderView>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>

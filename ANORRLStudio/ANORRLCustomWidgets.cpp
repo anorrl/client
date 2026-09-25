@@ -8,6 +8,7 @@
 
 // Qt Headers
 #include <QPainter>
+#include <QPainterPath>
 #include <QApplication>
 #include <QMouseEvent>
 #include <QHelpEvent>

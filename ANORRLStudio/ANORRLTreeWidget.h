@@ -138,8 +138,8 @@ public:
 
 	~ANORRLTreeWidgetItem();
 
-	ANORRLTreeWidget     *getTreeWidget();
-	ANORRLTreeWidgetItem *getItemParent();
+	ANORRLTreeWidget     *getTreeWidget() override;
+	ANORRLTreeWidgetItem *getItemParent() override;
 	int                   itemType() { return m_ItemType; }	
 
 	void requestItemExpand();
@@ -229,8 +229,8 @@ public:
 
 	boost::shared_ptr<ARL::DataModel> dataModel();	
 	ARL::Selection*       getSelection();
-	ANORRLTreeWidget*     getTreeWidget();
-	ANORRLTreeWidgetItem* getItemParent() { return NULL; }
+	ANORRLTreeWidget*     getTreeWidget() override;
+	ANORRLTreeWidgetItem* getItemParent() override { return NULL; }
 	QMutex* treeWidgetMutex() { return &m_treeWidgetMutex; }
 	
 	void addInstance(const ARL::Instance *pInstance, ANORRLTreeWidgetItem *pTreeWidgetItem);
@@ -314,7 +314,7 @@ public Q_SLOTS:
 	void requestUpdate();
 
 protected:
-    virtual void focusInEvent(QFocusEvent *event);
+    virtual void focusInEvent(QFocusEvent *event) override;
 	void childAddedSignalHandler(shared_ptr<ARL::Instance> pchild) override
 	{
 		QMetaObject::invokeMethod(this, "onChildAdded", Qt::QueuedConnection, Q_ARG(shared_ptr<ARL::Instance>, pchild));

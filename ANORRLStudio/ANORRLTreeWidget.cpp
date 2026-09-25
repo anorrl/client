@@ -16,6 +16,8 @@
 #include <QMetaObject>
 #include <QMovie>
 #include <QStyledItemDelegate>
+#include <QHeaderView>
+#include <QDrag>
 
 // ANORRL Headers
 #include "v8datamodel/DataModel.h"
@@ -27,7 +29,7 @@
 #include "script/script.h"
 #include "util/ScopedAssign.h"
 #include "util/BrickColor.h"
-#include "ReflectionMetaData.h"
+#include "ReflectionMetadata.h"
 #include "v8datamodel/PlayerGui.h"
 
 // ANORRL Studio Headers

@@ -9,6 +9,7 @@
 // Qt Headers
 #include <QSettings>
 #include <QTextCursor>
+#include <QMimeData>
 
 // ANORRL Headers
 #include "script/ScriptContext.h"

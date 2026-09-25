@@ -1,10 +1,11 @@
 #include "stdafx.h"
 
+FASTFLAGVARIABLE(UseOldPhysicsForFunny, false)
+
 #include "v8kernel/Pair.h"
 #include "v8kernel/Constants.h"
 #include "v8kernel/Body.h"
 #include "util/Math.h"
-
 
 namespace ARL {
 
@@ -12,7 +13,9 @@ namespace ARL {
 GeoPair::GeoPair() 
 : body0(NULL)
 , body1(NULL)
-{}
+, useOldPhysics(FFlag::UseOldPhysicsForFunny)
+{
+}
 
 
 

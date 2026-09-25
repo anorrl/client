@@ -1,6 +1,6 @@
 /*
  *  LogProvider.h
- *  RobloxStudio
+ *  ANORRLStudio
  *
  *  Created by Ganesh Agrawal on 12/12/11.
  *  Copyright 2011 __MyCompanyName__. All rights reserved.
@@ -14,8 +14,8 @@
 #include "boost/thread/tss.hpp"
 
 // Roblox Headers
-#include "rbx/Log.h"
-#include "rbx/threadsafe.h"
+#include "arl/Log.h"
+#include "arl/threadsafe.h"
 
 class LogProvider : public ARL::ILogProvider
 {

@@ -281,7 +281,7 @@ void OfficePopupMenu::paintEvent(QPaintEvent* event)
     {
         QPainter p(this);
         QStyleOptionSizeGrip opt;
-        opt.init(this);
+        opt.initFrom(this);
         opt.rect.adjust(1, 0, -1, -1);
 
         opt.rect.setTop(opt.rect.bottom()-11);

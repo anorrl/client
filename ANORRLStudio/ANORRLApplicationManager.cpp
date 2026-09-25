@@ -17,7 +17,7 @@
 #include "ANORRLCookieJar.h"
 #include "ANORRLMainWindow.h"
 #include "ANORRLNetworkAccessManager.h"
-#include "SharedLauncher.h"
+#include "../Win/SharedLauncher.h"
 #include "UpdateUIManager.h"
 #include "QtUtilities.h"
 #include "StudioDeviceEmulator.h"
