@@ -21,9 +21,13 @@ cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="$PWD/vcpkg/scripts/buildsystems/vcpk
 cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="$PWD/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DACC_BUILD=OFF -DSTUDIO_BUILD=ON
 ```
 
+**after that... (either)**
+
+a new `build` folder will be created. to begin building, go into that new folder and hit `make`. that should start compiling the stuff, if you make any changes in cmake/vcpkg it will automatically update in `make` without having to run the previous cmake commands.
+
 also expect crackhead shit, i've almost lost my mind with the amount of times they write the same include in many different ways for no fucking reason.
 
-progress: im trying to get accservice to work
+progress: studio "works" but only on x11 and uh ribbon is displaying as black...
 
 ## what is this?
 This is the client source for ANORRL, it's based off the March 2016 source code (slowly but surely making it NOT roblox!). 
