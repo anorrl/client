@@ -5,10 +5,10 @@
 #include <QUrl>
 #include <QPainter>
 
-#include "V8DataModel/DataModel.h"
-#include "Network/Players.h"
-#include "Network/Player.h"
-#include "V8Xml/WebParser.h"
+#include "v8datamodel/DataModel.h"
+#include "network/Players.h"
+#include "network/Player.h"
+#include "v8xml/WebParser.h"
 #include "util/BrickColor.h"
 
 #include "ANORRLSettings.h"

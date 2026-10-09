@@ -13,9 +13,9 @@
 #ifndef COLOR4UINT8_H
 #define COLOR4UINT8_H
 
-#include "G3D/g3dmath.h"
-#include "G3D/platform.h"
-#include "G3D/Color3uint8.h"
+#include "g3d/g3dmath.h"
+#include "g3d/platform.h"
+#include "g3d/Color3uint8.h"
 
 namespace G3D {
 

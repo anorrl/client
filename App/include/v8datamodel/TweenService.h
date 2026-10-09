@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
-#include "Util/HeartbeatInstance.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
+#include "util/HeartbeatInstance.h"
 #include "util/SteppedInstance.h"
 #include "v8datamodel/GuiObject.h"
-#include "Util/TweenInfo.h"
-#include "V8DataModel/TweenBase.h"
+#include "util/TweenInfo.h"
+#include "v8datamodel/TweenBase.h"
 
 namespace ARL
 {

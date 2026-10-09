@@ -14,9 +14,7 @@
 
     #define GLES
 #else
-    #include <GL/glew.h>
-
-    void glewInitARL();
+    #include <glad/gl.h>
 #endif
 
 #ifdef __ANDROID__

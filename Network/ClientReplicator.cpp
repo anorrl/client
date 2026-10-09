@@ -8,15 +8,15 @@
 #include "network/Players.h"
 #include "ConcurrentRakPeer.h"
 #include "FastLog.h"
-#include "Util/ProgramMemoryChecker.h"
-#include "V8DataModel/HackDefines.h"
-#include "Util/ScopedAssign.h"
-#include "V8DataModel/HackDefines.h"
-#include "V8DataModel/JointInstance.h"
-#include "V8DataModel/JointsService.h"
-#include "V8DataModel/TimerService.h"
-#include "V8DataModel/message.h"
-#include "V8World/Joint.h"
+#include "util/ProgramMemoryChecker.h"
+#include "v8datamodel/HackDefines.h"
+#include "util/ScopedAssign.h"
+#include "v8datamodel/HackDefines.h"
+#include "v8datamodel/JointInstance.h"
+#include "v8datamodel/JointsService.h"
+#include "v8datamodel/TimerService.h"
+#include "v8datamodel/Message.h"
+#include "v8world/Joint.h"
 #include "v8datamodel/MegaCluster.h"
 #include "v8datamodel/PlayerGui.h"
 #include "script/ScriptContext.h"
@@ -25,12 +25,12 @@
 
 
 // TODO - eliminate this - better place for distributed physics switch
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/Workspace.h"
 #include "v8datamodel/DataModel.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/PartInstance.h"
 #include "v8datamodel/TeleportService.h"
 #include "v8datamodel/ReplicatedFirst.h"
-#include "V8World/Assembly.h"
+#include "v8world/Assembly.h"
 #include "Replicator.StatsItem.h"
 #include "Replicator.GCJob.h"
 #include "NetworkProfiler.h"
@@ -58,8 +58,10 @@
 
 #include "arl/Profiler.h"
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__linux__)
+#ifdef _WIN32
 #include "util/CheatEngine.h"
+#endif
 #include "security/ApiSecurity.h"
 #endif
 
@@ -1688,7 +1690,7 @@ void ClientReplicator::onServiceProvider(ServiceProvider* oldProvider, ServicePr
     memoryCheckerCheckerJob.reset();
 #endif
 
-#if defined(_WIN32) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS))
+#if defined(_WIN32) || (defined(__APPLE__) || defined(__linux__) && !defined(ARL_PLATFORM_IOS))
     TaskScheduler::singleton().remove(memoryCheckerJob);
     memoryCheckerJob.reset();
 #endif
@@ -1720,7 +1722,7 @@ void ClientReplicator::onServiceProvider(ServiceProvider* oldProvider, ServicePr
         TaskScheduler::singleton().add(badAppCheckerJob);
 #endif
 
-#if !defined(LOVE_ALL_ACCESS) && (defined(_WIN32) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS)))
+#if !defined(LOVE_ALL_ACCESS) && (defined(_WIN32) || defined(__linux__) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS)))
         memoryCheckerJob.reset(new MemoryCheckerJob(shared_from(this)));
         TaskScheduler::singleton().add(memoryCheckerJob);
 #endif

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "reflection/event.h"
+#include "reflection/Event.h"
 #include "reflection/Object.h"
 
 using namespace ARL;

@@ -2,15 +2,15 @@
 
 #include "stdafx.h"
 
-#include "Network/Players.h"
-#include "Util/http.h"
-#include "Util/Statistics.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/GameBasicSettings.h"
-#include "V8DataModel/Workspace.h"
-#include "V8Xml/Serializer.h"
-#include "V8Xml/XmlSerializer.h"
-#include "V8Xml/SerializerBinary.h"
+#include "network/Players.h"
+#include "util/Http.h"
+#include "util/Statistics.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/GameBasicSettings.h"
+#include "v8datamodel/Workspace.h"
+#include "v8xml/Serializer.h"
+#include "v8xml/XmlSerializer.h"
+#include "v8xml/SerializerBinary.h"
 
 #define MIN_HTTP_COMPRESSION_SIZE 256
 

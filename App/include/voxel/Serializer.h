@@ -1,13 +1,13 @@
 #pragma once
 
-#include "ARL/Debug.h"
-#include "Util/ClusterCellIterator.h"
-#include "Util/FixedSizeCircularBuffer.h"
-#include "Util/G3DCore.h"
-#include "Util/SpatialRegion.h"
-#include "Util/VarInt.h"
-#include "Voxel/Cell.h"
-#include "Voxel/Grid.h"
+#include "arl/Debug.h"
+#include "util/ClusterCellIterator.h"
+#include "util/FixedSizeCircularBuffer.h"
+#include "util/G3DCore.h"
+#include "util/SpatialRegion.h"
+#include "util/VarInt.h"
+#include "voxel/Cell.h"
+#include "voxel/Grid.h"
 
 namespace ARL { namespace Voxel {
 

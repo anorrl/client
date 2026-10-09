@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "V8World/ParallelRampPoly.h"
-#include "V8World/Mesh.h"
+#include "v8world/ParallelRampPoly.h"
+#include "v8world/Mesh.h"
 
-#include "V8World/GeometryPool.h"
-#include "V8World/ParallelRampMesh.h"
-#include "Util/Math.h"
+#include "v8world/GeometryPool.h"
+#include "v8world/ParallelRampMesh.h"
+#include "util/Math.h"
 
 
 namespace ARL {

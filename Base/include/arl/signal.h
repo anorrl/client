@@ -12,6 +12,10 @@
 #include "arl/intrusive_weak_ptr.h"
 #include "arl/callable.h"
 
+// ANORRL (23/09/2026):
+//		boost:: -> arl:: 
+//			This just follows the changes from arl/intrusive_ptr_target.h and arl/intrusive_weak_ptr.h
+
 #ifdef _WIN32
 	#ifdef max
 		// Did you include a windows header file without defining NOMINMAX? 
@@ -253,7 +257,7 @@ namespace arl
 			{
 				// Invariant: the value of item->next does not change
 
-				ARLASSERT(!boost::intrusive_ptr_expired(item));
+				ARLASSERT(!arl::intrusive_ptr_expired(item));
 
 				if (item == head)
 					head = item->next;
@@ -274,7 +278,7 @@ namespace arl
 						prev->next = item->next;
 				}
 
-				ARLASSERT(!boost::intrusive_ptr_expired(item));
+				ARLASSERT(!arl::intrusive_ptr_expired(item));
 				// item is now deletable
 			}
 

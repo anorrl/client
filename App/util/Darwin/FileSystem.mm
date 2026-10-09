@@ -3,8 +3,8 @@
 //#define _WINSOCKAPI_  
 
 
-#include "Util/FileSystem.h"
-#include "rbxformat.h"
+#include "util/FileSystem.h"
+#include "ARLFormat.h"
 #include "rbx/Debug.h"
 #include <pwd.h>
 #include <mach-o/dyld.h>

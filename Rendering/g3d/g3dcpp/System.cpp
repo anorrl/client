@@ -14,15 +14,15 @@
   @edited  2010-01-03
  */
 
-#include "G3D/platform.h"
-#include "G3D/System.h"
-#include "G3D/debug.h"
-#include "G3D/fileutils.h"
-#include "G3D/G3DGameUnits.h"
-#include "G3D/Crypto.h"
-#include "G3D/stringutils.h"
-#include "G3D/Table.h"
-#include "G3D/units.h"
+#include "g3d/platform.h"
+#include "g3d/System.h"
+#include "g3d/debug.h"
+#include "g3d/fileutils.h"
+#include "g3d/G3DGameUnits.h"
+#include "g3d/Crypto.h"
+#include "g3d/stringutils.h"
+#include "g3d/Table.h"
+#include "g3d/units.h"
 #include <time.h>
 
 #include <cstring>

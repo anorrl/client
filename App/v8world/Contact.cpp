@@ -1,18 +1,18 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/MaterialProperties.h"
-#include "V8World/Contact.h"
-#include "V8World/Ball.h"
-#include "V8World/Block.h"
-#include "V8World/Primitive.h"
-#include "v8World/Geometry.h"
-#include "v8World/World.h"
-#include "V8Kernel/Kernel.h"
-#include "V8Kernel/Constants.h"
-#include "V8Kernel/ContactConnector.h"
-#include "V8Kernel/Body.h"
-#include "Util/StlExtra.h"
+#include "v8world/MaterialProperties.h"
+#include "v8world/Contact.h"
+#include "v8world/Ball.h"
+#include "v8world/Block.h"
+#include "v8world/Primitive.h"
+#include "v8world/Geometry.h"
+#include "v8world/World.h"
+#include "v8kernel/Kernel.h"
+#include "v8kernel/Constants.h"
+#include "v8kernel/ContactConnector.h"
+#include "v8kernel/Body.h"
+#include "util/StlExtra.h"
 
 DYNAMIC_FASTFLAGVARIABLE(FixTouchEndedReporting, false)
 DYNAMIC_FASTFLAG(MaterialPropertiesEnabled)

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "V8Datamodel/DebrisService.h"
-#include "V8Datamodel/TimerService.h"
-#include "util/standardout.h"
+#include "v8datamodel/DebrisService.h"
+#include "v8datamodel/TimerService.h"
+#include "util/StandardOut.h"
 
 const char* const ARL::sDebrisService = "Debris";
 

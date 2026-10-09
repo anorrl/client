@@ -945,7 +945,7 @@ public:
 		std::string id = job.id;
 
 		shared_ptr<ARL::DataModel> dataModel;
-		::InterlockedIncrement(&dataModelCount);
+		dataModelCount++;
 		try
 		{
 			shared_ptr<JobItem> j = createJob(job, false, dataModel);
@@ -1013,7 +1013,7 @@ public:
 		ARL::Http::gameID = job.id;
 
 		shared_ptr<ARL::DataModel> dataModel;
-		::InterlockedIncrement(&dataModelCount);
+		dataModelCount++;
 		try
 		{
 			shared_ptr<JobItem> j = createJob(job, startHeartbeat, dataModel);
@@ -1059,7 +1059,7 @@ public:
 
 			closeDataModel(dataModel);
 			dataModel.reset();
-			::InterlockedDecrement(&dataModelCount);
+			dataModelCount--;
 			throw;
 		}
 	}
@@ -1111,7 +1111,7 @@ public:
 
 			closeDataModel(dataModel);
 			dataModel.reset();
-			if (::InterlockedDecrement(&dataModelCount) == 0)
+			if (dataModelCount-- == 0)
 				mainLogManager->DisableHangReporting();
 		}
 	}
@@ -1481,10 +1481,10 @@ int ACCServiceSoapService::HelloWorld(_ns1__HelloWorld *ns1__HelloWorld, _ns1__H
 {
 	BEGIN_PRINT(HelloWorld,"HelloWorld");
 
-	::InterlockedIncrement(&helloWorldCount);
+	helloWorldCount++;
 	ns1__HelloWorldResponse->HelloWorldResult = soap_new_std__string(this, -1);
 	*ns1__HelloWorldResponse->HelloWorldResult = "Hello World";
-	::InterlockedDecrement(&helloWorldCount);
+	helloWorldCount--;
 	END_PRINT(HelloWorld,"HelloWorld");
 	return 0;
 }
@@ -1493,10 +1493,10 @@ int ACCServiceSoapService::Diag(_ns1__Diag *ns1__Diag, _ns1__DiagResponse *ns1__
 {
 	BEGIN_PRINT(Diag,"Diag");
 
-	::InterlockedIncrement(&diagCount);
+	diagCount++;
 	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	CWebService::singleton->diag(ns1__Diag->type, *ns1__Diag->jobID, &ns1__DiagResponse->DiagResult, this);
-	::InterlockedDecrement(&diagCount);
+	diagCount--;
 
 	END_PRINT(Diag,"Diag");
 	return 0;
@@ -1504,11 +1504,11 @@ int ACCServiceSoapService::Diag(_ns1__Diag *ns1__Diag, _ns1__DiagResponse *ns1__
 int ACCServiceSoapService::DiagEx(_ns1__DiagEx *ns1__DiagEx, _ns1__DiagExResponse *ns1__DiagExResponse)
 {
 	BEGIN_PRINT(DiagEx,"DiagEx");
-	::InterlockedIncrement(&diagCount);
+	diagCount++;
 	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	ns1__DiagExResponse->DiagExResult = soap_new_ns1__ArrayOfLuaValue(this, -1);
 	CWebService::singleton->diag(ns1__DiagEx->type, *ns1__DiagEx->jobID, &ns1__DiagExResponse->DiagExResult->LuaValue, this);
-	::InterlockedDecrement(&diagCount);
+	diagCount--;
 	END_PRINT(DiagEx,"DiagEx");
 	return 0;
 }
@@ -1516,9 +1516,9 @@ int ACCServiceSoapService::DiagEx(_ns1__DiagEx *ns1__DiagEx, _ns1__DiagExRespons
 int ACCServiceSoapService::GetVersion(_ns1__GetVersion *ns1__GetVersion, _ns1__GetVersionResponse *ns1__GetVersionResponse)
 {
 	BEGIN_PRINT(GetVersion,"GetVersion");
-	::InterlockedIncrement(&getVersionCount);
+	getVersionCount++;
 	ns1__GetVersionResponse->GetVersionResult = ARL::DebugSettings::anorrlVersion.c_str();
-	::InterlockedDecrement(&getVersionCount);
+	getVersionCount--;
 	END_PRINT(GetVersion,"GetVersion");
 	return 0;
 }
@@ -1527,12 +1527,12 @@ int ACCServiceSoapService::GetStatus(_ns1__GetStatus *ns1__GetStatus, _ns1__GetS
 {
 	BEGIN_PRINT(GetStatus,"GetStatus");
 
-	::InterlockedIncrement(&getStatusCount);
+	getStatusCount++;
 	ns1__GetStatusResponse->GetStatusResult = soap_new_ns1__Status(this, -1);
 	ns1__GetStatusResponse->GetStatusResult->version = soap_new_std__string(this, -1);
 	*ns1__GetStatusResponse->GetStatusResult->version = ARL::DebugSettings::anorrlVersion.c_str();
 	ns1__GetStatusResponse->GetStatusResult->environmentCount = CWebService::singleton->jobCount();
-	::InterlockedDecrement(&getStatusCount);
+	getStatusCount--;
 	END_PRINT(GetStatus,"GetStatus");
 	return 0;
 }
@@ -1540,10 +1540,10 @@ int ACCServiceSoapService::GetStatus(_ns1__GetStatus *ns1__GetStatus, _ns1__GetS
 int ACCServiceSoapService::OpenJob(_ns1__OpenJob *ns1__OpenJob, _ns1__OpenJobResponse *ns1__OpenJobResponse)
 {
 	BEGIN_PRINT(OpenJob,"OpenJob");
-	::InterlockedIncrement(&openJobCount);
+	openJobCount++;
 	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	CWebService::singleton->openJob(*ns1__OpenJob->job, ns1__OpenJob->script, &ns1__OpenJobResponse->OpenJobResult, this, true);
-	::InterlockedDecrement(&openJobCount);
+	openJobCount--;
 	END_PRINT(OpenJob,"OpenJob");
 
 	return 0;
@@ -1553,11 +1553,11 @@ int ACCServiceSoapService::OpenJobEx(_ns1__OpenJobEx *ns1__OpenJobEx, _ns1__Open
 {
 	BEGIN_PRINT(OpenJobEx,"OpenJobEx");
 
-	::InterlockedIncrement(&openJobCount);
+	openJobCount++;
 	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	ns1__OpenJobExResponse->OpenJobExResult = soap_new_ns1__ArrayOfLuaValue(this, -1);
 	CWebService::singleton->openJob(*ns1__OpenJobEx->job, ns1__OpenJobEx->script, &ns1__OpenJobExResponse->OpenJobExResult->LuaValue, this, true);
-	::InterlockedDecrement(&openJobCount);
+	openJobCount--;
 
 	END_PRINT(OpenJobEx,"OpenJobEx");
 	return 0;
@@ -1567,7 +1567,7 @@ int ACCServiceSoapService::Execute(_ns1__Execute *ns1__Execute, _ns1__ExecuteRes
 {
 	BEGIN_PRINT(Execute,"Execute");
 
-	::InterlockedIncrement(&executeCount);
+	executeCount++;
 	try
 	{
 		ARL::Security::Impersonator impersonate(ARL::Security::WebService);
@@ -1575,10 +1575,10 @@ int ACCServiceSoapService::Execute(_ns1__Execute *ns1__Execute, _ns1__ExecuteRes
 	}
 	catch(std::exception&)
 	{
-		::InterlockedDecrement(&executeCount);
+		executeCount--;
 		throw;
 	}
-	::InterlockedDecrement(&executeCount);
+	executeCount--;
 	END_PRINT(Execute,"Execute");
 	return 0;
 }
@@ -1587,7 +1587,7 @@ int ACCServiceSoapService::ExecuteEx(_ns1__ExecuteEx *ns1__ExecuteEx, _ns1__Exec
 {
 	BEGIN_PRINT(ExecuteEx,"ExecuteEx");
 
-	::InterlockedIncrement(&executeCount);
+	executeCount++;
 	try
 	{
 		ARL::Security::Impersonator impersonate(ARL::Security::WebService);
@@ -1596,11 +1596,11 @@ int ACCServiceSoapService::ExecuteEx(_ns1__ExecuteEx *ns1__ExecuteEx, _ns1__Exec
 	}
 	catch(std::exception&)
 	{
-		::InterlockedDecrement(&executeCount);
+		executeCount--;
 		throw;
 	}
 
-	::InterlockedDecrement(&executeCount);
+	executeCount--;
 	END_PRINT(ExecuteEx,"ExecuteEx");
 
 	return 0;
@@ -1610,7 +1610,7 @@ int ACCServiceSoapService::ExecuteEx(_ns1__ExecuteEx *ns1__ExecuteEx, _ns1__Exec
 int ACCServiceSoapService::CloseJob(_ns1__CloseJob *ns1__CloseJob, _ns1__CloseJobResponse *ns1__CloseJobResponse)
 {
 	BEGIN_PRINT(CloseJob,"CloseJob");
-	::InterlockedIncrement(&closeJobCount);
+	closeJobCount++;
 	try
 	{
 		ARL::Security::Impersonator impersonate(ARL::Security::WebService);
@@ -1618,10 +1618,10 @@ int ACCServiceSoapService::CloseJob(_ns1__CloseJob *ns1__CloseJob, _ns1__CloseJo
 	}
 	catch(std::exception&)
 	{
-		::InterlockedDecrement(&closeJobCount);
+		closeJobCount--;
 		throw;
 	}
-	::InterlockedDecrement(&closeJobCount);
+	closeJobCount--;
 	END_PRINT(CloseJob,"CloseJob");
 	return 0;
 }
@@ -1630,7 +1630,7 @@ int ACCServiceSoapService::RenewLease(_ns1__RenewLease *ns1__RenewLease, _ns1__R
 {
 	BEGIN_PRINT(RenewLease,"RenewLease");
 
-	::InterlockedIncrement(&renewLeaseCount);
+	renewLeaseCount++;
 	try
 	{
 		ARL::Security::Impersonator impersonate(ARL::Security::WebService);
@@ -1638,10 +1638,10 @@ int ACCServiceSoapService::RenewLease(_ns1__RenewLease *ns1__RenewLease, _ns1__R
 	}
 	catch(std::exception&)
 	{
-		::InterlockedDecrement(&renewLeaseCount);
+		renewLeaseCount;
 		throw;
 	}
-	::InterlockedDecrement(&renewLeaseCount);
+	renewLeaseCount--;
 	END_PRINT(RenewLease,"RenewLease");
 	return 0;
 }
@@ -1650,7 +1650,7 @@ int ACCServiceSoapService::BatchJob(_ns1__BatchJob *ns1__BatchJob, _ns1__BatchJo
 {
 	BEGIN_PRINT(BatchJob,"BatchJob");
 
-	::InterlockedIncrement(&batchJobCount);
+	batchJobCount++;
  	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	// Batch jobs are completed synchronously, so there is no need to start the heartbeat
 	try
@@ -1659,10 +1659,10 @@ int ACCServiceSoapService::BatchJob(_ns1__BatchJob *ns1__BatchJob, _ns1__BatchJo
 	}
 	catch(std::exception&)
 	{
-		::InterlockedDecrement(&batchJobCount);
+		batchJobCount--;
 		throw;
 	}
-	::InterlockedDecrement(&batchJobCount);
+	batchJobCount--;
 	END_PRINT(BatchJob,"BatchJob");
 
 	return 0;
@@ -1673,7 +1673,7 @@ int ACCServiceSoapService::BatchJobEx(_ns1__BatchJobEx *ns1__BatchJobEx, _ns1__B
 {
 	BEGIN_PRINT(BatchJobEx,"BatchJobEx");
 
-	::InterlockedIncrement(&batchJobCount);
+	batchJobCount++;
  	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	ns1__BatchJobExResponse->BatchJobExResult = soap_new_ns1__ArrayOfLuaValue(this, -1);
    // Batch jobs are completed synchronously, so there is no need to start the heartbeat
@@ -1683,11 +1683,11 @@ int ACCServiceSoapService::BatchJobEx(_ns1__BatchJobEx *ns1__BatchJobEx, _ns1__B
 	}
 	catch(std::exception&)
 	{
-		::InterlockedDecrement(&batchJobCount);
+		batchJobCount--;
 		throw;
 	}
 
-	::InterlockedDecrement(&batchJobCount);
+	batchJobCount--;
 	END_PRINT(BatchJobEx,"BatchJobEx");
 	return 0;
 }
@@ -1696,16 +1696,16 @@ int ACCServiceSoapService::GetExpiration(_ns1__GetExpiration *ns1__GetExpiration
 {
 	BEGIN_PRINT(GetExpiration,"GetExpiration");
 
-	::InterlockedIncrement(&getExpirationCount);
+	getExpirationCount++;
 	try{
 		CWebService::singleton->getExpiration(ns1__GetExpiration->jobID, &ns1__GetExpirationResponse->GetExpirationResult);
 	}
 	catch(std::exception&)
 	{
-		::InterlockedDecrement(&getExpirationCount);
+		getExpirationCount--;
 		throw;
 	}
-	::InterlockedDecrement(&getExpirationCount);
+	getExpirationCount--;
 	END_PRINT(GetExpiration,"GetExpiration");
 	return 0;
 }
@@ -1714,10 +1714,10 @@ int ACCServiceSoapService::GetAllJobs(_ns1__GetAllJobs *ns1__GetAllJobs, _ns1__G
 {
 	BEGIN_PRINT(GetAllJobs,"GetAllJobs");
 
-	::InterlockedIncrement(&getAllJobsCount);
+	getAllJobsCount++;
 	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	CWebService::singleton->getAllJobs(ns1__GetAllJobsResponse->GetAllJobsResult, this);
-	::InterlockedDecrement(&getAllJobsCount);
+	getAllJobsCount--;
 	END_PRINT(GetAllJobs,"GetAllJobs");
 	return 0;
 }
@@ -1726,11 +1726,11 @@ int ACCServiceSoapService::GetAllJobsEx(_ns1__GetAllJobsEx *ns1__GetAllJobsEx, _
 {
 	BEGIN_PRINT(GetAllJobsEx,"GetAllJobsEx");
 
-	::InterlockedIncrement(&getAllJobsCount);
+	getAllJobsCount++;
 	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	ns1__GetAllJobsExResponse->GetAllJobsExResult = soap_new_ns1__ArrayOfJob(this, -1);
 	CWebService::singleton->getAllJobs(ns1__GetAllJobsExResponse->GetAllJobsExResult->Job, this);
-	::InterlockedDecrement(&getAllJobsCount);
+	getAllJobsCount--;
 	END_PRINT(GetAllJobsEx,"GetAllJobsEx");
 	return 0;
 }
@@ -1739,10 +1739,10 @@ int ACCServiceSoapService::CloseExpiredJobs(_ns1__CloseExpiredJobs *ns1__CloseEx
 {
 	BEGIN_PRINT(GetAllJobs,"CloseExpiredJobs");
 
-	::InterlockedIncrement(&closeExpiredJobsCount);
+	closeExpiredJobsCount++;
 	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	CWebService::singleton->closeExpiredJobs(&ns1__CloseExpiredJobsResponse->CloseExpiredJobsResult);
-	::InterlockedDecrement(&closeExpiredJobsCount);
+	closeExpiredJobsCount--;
 	END_PRINT(GetAllJobs,"CloseExpiredJobs");
 	return 0;
 }
@@ -1751,10 +1751,10 @@ int ACCServiceSoapService::CloseAllJobs(_ns1__CloseAllJobs *ns1__CloseAllJobs, _
 {
 	BEGIN_PRINT(GetAllJobs,"CloseAllJobs");
 
-	::InterlockedIncrement(&closeAllJobsCount);
+	closeAllJobsCount++;
 	ARL::Security::Impersonator impersonate(ARL::Security::WebService);
 	CWebService::singleton->closeAllJobs(&ns1__CloseAllJobsResponse->CloseAllJobsResult);
-	::InterlockedDecrement(&closeAllJobsCount);
+	closeAllJobsCount--;
 	END_PRINT(GetAllJobs,"CloseAllJobs");
 	return 0;
 }

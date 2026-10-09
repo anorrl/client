@@ -6,10 +6,10 @@
   @created 2003-11-12
   @edited  2009-11-16
 */
-#include "G3D/GLight.h"
-#include "G3D/Sphere.h"
-#include "G3D/CoordinateFrame.h"
-#include "G3D/stringutils.h"
+#include "g3d/GLight.h"
+#include "g3d/Sphere.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/stringutils.h"
 
 namespace G3D {
 

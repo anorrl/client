@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "Util/ContentFilter.h"
-#include "Util/Http.h"
+#include "util/ContentFilter.h"
+#include "util/Http.h"
 #include "v8datamodel/DataModel.h"
 
 namespace ARL

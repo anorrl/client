@@ -1,9 +1,9 @@
-#include "V8World/World.h"
-#include "V8World/ContactManager.h"
-#include "Util/Math.h"
+#include "v8world/World.h"
+#include "v8world/ContactManager.h"
+#include "util/Math.h"
 #include "arl/Debug.h"
-#include "RbxAssert.h"
-#include "G3D/CollisionDetection.h"
+#include "ARLAssert.h"
+#include "g3d/CollisionDetection.h"
 
 #include <vector>
 

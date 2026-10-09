@@ -1,13 +1,13 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/VirtualUser.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/UserController.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/Camera.h"
+#include "v8datamodel/VirtualUser.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/UserController.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/Camera.h"
 #include "util/UserInputBase.h"
-#include "G3D/Quat.h"
+#include "g3d/Quat.h"
 
 namespace ARL {
 

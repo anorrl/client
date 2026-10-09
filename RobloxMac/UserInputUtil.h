@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Util/KeyCode.h"
-#include "V8DataModel/InputObject.h"
+#include "util/KeyCode.h"
+#include "v8datamodel/InputObject.h"
 #include "rbx/debug.h"
-#include "G3D/Vector2.h"
+#include "g3d/Vector2.h"
 
 #define DIRECTINPUT_VERSION 0x0800
 

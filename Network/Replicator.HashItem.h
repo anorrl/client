@@ -2,7 +2,7 @@
 
 #include "Item.h"
 #include "Replicator.h"
-#include "Util/ProgramMemoryChecker.h"
+#include "util/ProgramMemoryChecker.h"
 
 namespace ARL {
     namespace Network {

@@ -7,10 +7,10 @@
  @edited  2006-01-29
  */
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
-#include "G3D/Vector2int16.h"
-#include "G3D/Vector2.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
+#include "g3d/Vector2int16.h"
+#include "g3d/Vector2.h"
 
 namespace G3D {
 

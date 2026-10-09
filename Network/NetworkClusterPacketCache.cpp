@@ -1,4 +1,4 @@
-#include "NetworkClusterPacketCache.h"
+#include "network/NetworkClusterPacketCache.h"
 
 #include "v8datamodel/MegaCluster.h"
 
@@ -104,9 +104,12 @@ void ClusterPacketCacheBase<Key>::onServiceProvider(ServiceProvider* oldProvider
 	}
 }
 
+// CRACKHEAD FIX FOR DOING THE THING IT WANTS TO DO. STUPID!
+namespace ARL { namespace Network {
 // Explicit template instantiation
 template class ClusterPacketCacheBase<StreamRegion::Id>;
 template class ClusterPacketCacheBase<SpatialRegion::Id>;
+}}
 
 void ClusterPacketCache::terrainCellChanged(const Voxel::CellChangeInfo& cell)
 {

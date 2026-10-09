@@ -2,16 +2,16 @@
 #include "stdafx.h"
 
 
-#include "V8DataModel/Accoutrement.h"
-#include "V8DataModel/JointInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/Attachment.h"
-#include "Humanoid/Humanoid.h"
-#include "Network/Players.h"
-#include "Network/Player.h"
-#include "Tool/DragUtilities.h"
-#include "Script/Script.h"
+#include "v8datamodel/Accoutrement.h"
+#include "v8datamodel/JointInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Attachment.h"
+#include "humanoid/Humanoid.h"
+#include "network/Players.h"
+#include "network/Player.h"
+#include "tool/DragUtilities.h"
+#include "script/script.h"
 
 DYNAMIC_FASTFLAGVARIABLE(AccessoriesAndAttachments, true)
 

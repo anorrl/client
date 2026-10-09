@@ -25,7 +25,6 @@
 **
 ****************************************************************************/
 #include <qapplication.h>
-#include <qdesktopwidget.h>
 #include <qhash.h>
 #include <qstyle.h>
 #include <QIcon>
@@ -218,7 +217,7 @@ void RibbonToolTip::showToolTip(const QPoint &pos, const QString& title, const Q
 #else
         // On windows, we can't use the widget as parent otherwise the window will be
         // raised when the tooltip will be shown
-        new RibbonToolTip(title, text, icon, QApplication::desktop()->screen(RibbonToolTip::getTipScreen(pos, w)));
+        new RibbonToolTip(title, text, icon, QApplication::primaryScreen()->screen(RibbonToolTip::getTipScreen(pos, w)));
 #endif
         RibbonToolTipPrivate::m_instance->setTipRect(w, rect);
         RibbonToolTipPrivate::m_instance->placeTip(pos, w);
@@ -476,7 +475,7 @@ void RibbonToolTip::paintEvent(QPaintEvent* event)
     drawFrame(&p);
 
     QStyleOptionFrame opt;
-    opt.init(this);
+    opt.initFrom(this);
     p.drawPrimitive(QStyle::PE_PanelTipLabel, opt);
     
     QRect rc = contentsRect();
@@ -544,7 +543,7 @@ void RibbonToolTip::resizeEvent(QResizeEvent* event)
 {
     QStyleHintReturnMask frameMask;
     QStyleOption option;
-    option.init(this);
+    option.initFrom(this);
     if (style()->styleHint(QStyle::SH_ToolTip_Mask, &option, this, &frameMask))
         setMask(frameMask.region);
 
@@ -632,29 +631,32 @@ bool RibbonToolTip::eventFilter(QObject *o, QEvent* event)
 
 int RibbonToolTip::getTipScreen(const QPoint& pos, QWidget* w)
 {
-    if (QApplication::desktop()->isVirtualDesktop())
-        return QApplication::desktop()->screenNumber(pos);
-    else
-        return QApplication::desktop()->screenNumber(w);
+    return 1;
 }
 
 void RibbonToolTip::placeTip(const QPoint& pos, QWidget* w)
 {
-    QRect screen = QApplication::desktop()->screenGeometry(getTipScreen(pos, w));
+    QRect screenGeometry = QApplication::primaryScreen()->geometry();
 
     QPoint p = pos;
-    if (p.x() + this->width() > screen.x() + screen.width())
+
+    if (p.x() + this->width() > screenGeometry.right())
         p.rx() -= 4 + this->width();
-    if (p.y() + this->height() > screen.y() + screen.height())
+    
+    if (p.y() + this->height() > screenGeometry.bottom())
         p.ry() -= 24 + this->height();
-    if (p.y() < screen.y())
-        p.setY(screen.y());
-    if (p.x() + this->width() > screen.x() + screen.width())
-        p.setX(screen.x() + screen.width() - this->width());
-    if (p.x() < screen.x())
-        p.setX(screen.x());
-    if (p.y() + this->height() > screen.y() + screen.height())
-        p.setY(screen.y() + screen.height() - this->height());
+    
+    if (p.y() < screenGeometry.top())
+        p.setY(screenGeometry.top());
+    
+    if (p.x() < screenGeometry.left())
+        p.setX(screenGeometry.left());
+    
+    if (p.x() + this->width() > screenGeometry.right())
+        p.setX(screenGeometry.right() - this->width());
+    
+    if (p.y() + this->height() > screenGeometry.bottom())
+        p.setY(screenGeometry.bottom() - this->height());
 
     this->move(p);
 }
@@ -860,7 +862,7 @@ void RibbonKeyTip::paintEvent(QPaintEvent* event)
 
     QPainter p(this);
     QStyleOption opt;
-    opt.init(this);
+    opt.initFrom(this);
 
     if (d.enabled_)
         opt.state |= QStyle::State_Enabled;

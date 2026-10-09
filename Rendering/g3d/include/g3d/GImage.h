@@ -23,16 +23,16 @@
 #ifndef G3D_GImage_h
 #define G3D_GImage_h
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 #include <string>
-#include "G3D/Array.h"
-#include "G3D/g3dmath.h"
-#include "G3D/stringutils.h"
-#include "G3D/Color1uint8.h"
-#include "G3D/Color3uint8.h"
-#include "G3D/Color4uint8.h"
-#include "G3D/MemoryManager.h"
-#include "G3D/BumpMapPreprocess.h"
+#include "g3d/Array.h"
+#include "g3d/g3dmath.h"
+#include "g3d/stringutils.h"
+#include "g3d/Color1uint8.h"
+#include "g3d/Color3uint8.h"
+#include "g3d/Color4uint8.h"
+#include "g3d/MemoryManager.h"
+#include "g3d/BumpMapPreprocess.h"
 
 namespace G3D {
 class BinaryInput;

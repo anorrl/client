@@ -474,7 +474,7 @@ BOOL story_np(lpBUFFER_DAT bd)
 static BOOL save_vd_brep_and_attr( lpBUFFER_DAT bd, lpLISTH listh,
                                    NUM_LIST list_zudina)
 {
-	register short j;
+	short j;
 	LNP         lnp;
 	int        i;
 	VI_LOCATION viloc;
@@ -526,7 +526,7 @@ static OSCAN_COD np_pre_scan(hOBJ hobj, lpSCAN_CONTROL lpsc);
 static BOOL  calk_new_order_np_and_attr(lpLISTH listh, NUM_LIST list_zudina,
                                         int *num)
 {
-	register int i;
+	int i;
 	lpLNP         lplnp;
 	int          number;//nb = 0;
 	SCAN_CONTROL	sc;
@@ -654,7 +654,7 @@ static void init_attr_save_info(void)
 //   VDIM    sinfo
 {
 short           j, n = 3;
-register int i;
+int i;
 lpVDIM        vd[4];
 lpATTR        lpattr;
 

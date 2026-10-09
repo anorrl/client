@@ -7,9 +7,9 @@
  @edited  2006-01-29
  */
 
-#include "G3D/platform.h"
-#include "G3D/Plane.h"
-#include "G3D/stringutils.h"
+#include "g3d/platform.h"
+#include "g3d/Plane.h"
+#include "g3d/stringutils.h"
 
 namespace G3D {
 

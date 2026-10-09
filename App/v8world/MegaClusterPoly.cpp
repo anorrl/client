@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
-#include "V8World/MegaClusterPoly.h"
-#include "Util/Math.h"
+#include "v8world/MegaClusterPoly.h"
+#include "util/Math.h"
 #include "FastLog.h"
-#include "V8DataModel/MegaCluster.h"
-#include "V8World/BulletGeometryPoolObjects.h"
-#include "V8World/TerrainPartition.h"
-#include "Voxel/Grid.h"
-#include "Voxel/AreaCopy.h"
+#include "v8datamodel/MegaCluster.h"
+#include "v8world/BulletGeometryPoolObjects.h"
+#include "v8world/TerrainPartition.h"
+#include "voxel/Grid.h"
+#include "voxel/AreaCopy.h"
 
 #include <boost/math/special_functions/fpclassify.hpp>
 

@@ -9,7 +9,7 @@
   @edited  2010-03-31
  */
 
-#include "G3D/Quat.h"
+#include "g3d/Quat.h"
 #include "FastLog.h"
 
 DYNAMIC_FASTFLAGVARIABLE(G3DQuatConstructorFix, true)

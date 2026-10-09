@@ -1,9 +1,9 @@
 #pragma once
 
 #include "stdafx.h"
-#include "Util/G3DCore.h"
-#include "Util/Extents.h"
-#include "V8Kernel/ContactConnector.h"
+#include "util/G3DCore.h"
+#include "util/Extents.h"
+#include "v8kernel/ContactConnector.h"
 
 
 namespace ARL {

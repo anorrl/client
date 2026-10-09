@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
-#include "RbxAssert.h"
-#include "V8Xml/XmlSerializer.h"
-#include "reflection/type.h"
+#include "ARLAssert.h"
+#include "v8xml/XmlSerializer.h"
+#include "reflection/Type.h"
 #include "arl/Debug.h"
 #include <sstream>
 #include "util/base64.hpp"
-#include "util/exception.h"
-#include "V8DataModel/ContentProvider.h"
+#include "util/Exception.h"
+#include "v8datamodel/ContentProvider.h"
 #include <boost/algorithm/string.hpp>
 
 static const char* kCDATA_OPEN = "<![CDATA[";

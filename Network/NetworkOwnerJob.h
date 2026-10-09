@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8DataModel/DataModelJob.h"
-#include "Util/SystemAddress.h"
-#include "Util/G3DCore.h"
-#include "Util/Region2.h"
+#include "v8datamodel/DataModelJob.h"
+#include "util/SystemAddress.h"
+#include "util/G3DCore.h"
+#include "util/Region2.h"
 #include <map>
 
 namespace ARL { 

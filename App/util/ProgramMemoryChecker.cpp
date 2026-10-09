@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "Util/ProgramMemoryChecker.h"
+#include "util/ProgramMemoryChecker.h"
 #include "arl/rbxTime.h"
 
 #include "FastLog.h"
-#include "ARL/Debug.h"
-#include "Util/xxhash.h"
+#include "arl/Debug.h"
+#include "util/xxhash.h"
 
 #include <boost/algorithm/string.hpp>
 
@@ -14,7 +14,7 @@
 #include <psapi.h>
 
 #include "security/ApiSecurity.h"
-#include "V8DataModel/HackDefines.h"
+#include "v8datamodel/HackDefines.h"
 #include "humanoid/HumanoidState.h"
 
 #include "g3d/vector3.h"

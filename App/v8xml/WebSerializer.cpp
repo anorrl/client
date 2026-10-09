@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "V8Xml/WebSerializer.h"
-#include "V8Xml/Serializer.h"
+#include "v8xml/WebSerializer.h"
+#include "v8xml/Serializer.h"
 #include "arl/make_shared.h"
 
 namespace ARL

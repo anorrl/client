@@ -5,7 +5,7 @@
 #include "arl/RunningAverage.h"
 #include "arl/Declarations.h"
 #include "arl/Debug.h"
-#include "arl/ThreadSafe.h"
+#include "arl/threadsafe.h"
 #include "arl/boost.hpp"
 #include "arl/CEvent.h"
 #include "arl/atomic.h"

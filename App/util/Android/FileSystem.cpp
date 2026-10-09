@@ -7,7 +7,7 @@
 
 #include <boost/filesystem.hpp>
 
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 #include "FastLog.h"
 #include "rbx/Debug.h"
 

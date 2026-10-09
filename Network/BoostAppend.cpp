@@ -2,7 +2,7 @@
 
 #include "BoostAppend.h"
 
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/PartInstance.h"
 #include <boost/multi_index/hashed_index.hpp>
 
 std::size_t boost::hash_value(const shared_ptr<ARL::PartInstance>& b)

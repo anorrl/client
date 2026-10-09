@@ -1,6 +1,6 @@
 #pragma once
 
-#include "v8World/SpatialHashMultiRes.h"
+#include "v8world/SpatialHashMultiRes.h"
 
 #include <boost/unordered_set.hpp>
 

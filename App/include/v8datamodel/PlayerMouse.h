@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8Datamodel/Mouse.h"
-#include "V8Datamodel/Workspace.h"
+#include "v8datamodel/Mouse.h"
+#include "v8datamodel/Workspace.h"
 namespace ARL {
 
 	extern const char *const sPlayerMouse;

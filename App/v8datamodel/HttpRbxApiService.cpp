@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-#include "V8DataModel/HttpRbxApiService.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/HttpRbxApiService.h"
+#include "v8datamodel/DataModel.h"
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/Stats.h"
 #include "v8datamodel/HttpRbxApiJob.h"
-#include "Network/Players.h"
-#include "V8Xml/WebParser.h"
+#include "network/Players.h"
+#include "v8xml/WebParser.h"
 
 #define HTTP_POST_COMPRESSION_LIMIT 256
 

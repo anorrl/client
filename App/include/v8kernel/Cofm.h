@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/Memory.h"
+#include "util/G3DCore.h"
+#include "util/Memory.h"
 
 namespace ARL {
 

@@ -1,7 +1,7 @@
-#include "Util/ProgramMemoryChecker.h"
+#include "util/ProgramMemoryChecker.h"
 #include "rbx/rbxTime.h"
-#include "Util/MachOBaseAddr.h"
-#include "Util/xxhash.h"
+#include "util/MachOBaseAddr.h"
+#include "util/xxhash.h"
 
 #if defined(__has_feature)
 #	define ADDRESS_SANITIZER __has_feature(address_sanitizer)
@@ -9,7 +9,7 @@
 #	define ADDRESS_SANITIZER defined(__SANITIZE_ADDRESS__)
 #endif
 
-namespace RBX
+namespace ARL
 {
 using namespace Hasher;
 PmcHashContainer pmcHash;
@@ -50,7 +50,7 @@ ProgramMemoryChecker::ProgramMemoryChecker()
     , lastGoldenHash(0)
     , lastCompletedTime(Time::nowFast())
 {
-#if !defined(RBX_STUDIO_BUILD) && !defined(__ANDROID__) && !defined(RBX_PLATFORM_IOS)
+#if !defined(ARL_STUDIO_BUILD) && !defined(__ANDROID__) && !defined(ARL_PLATFORM_IOS)
     uint32_t baseAddr = machODynamicBaseAddress();
     uint32_t baseSize = machOTextSize();
     scanningRegions.resize(kNumberOfSectionHashes);
@@ -101,7 +101,7 @@ unsigned int ProgramMemoryChecker::getLastCompletedHash() const
 
 unsigned int ProgramMemoryChecker::step() 
 {
-#if !defined(RBX_STUDIO_BUILD) && !defined(__ANDROID__) && !defined(RBX_PLATFORM_IOS) && !ADDRESS_SANITIZER
+#if !defined(ARL_STUDIO_BUILD) && !defined(__ANDROID__) && !defined(ARL_PLATFORM_IOS) && !ADDRESS_SANITIZER
     unsigned int bytesLeftForThisStep = bytesPerStep;
     //bool allHashCompleted = false;
     
@@ -183,7 +183,7 @@ Time ProgramMemoryChecker::getLastCompletedTime() const
 
 void ProgramMemoryChecker::getLastHashes(PmcHashContainer::HashVector& outHashes) const
 {
-#if !defined(RBX_STUDIO_BUILD) && !defined(__ANDROID__) && !defined(RBX_PLATFORM_IOS)
+#if !defined(ARL_STUDIO_BUILD) && !defined(__ANDROID__) && !defined(ARL_PLATFORM_IOS)
     outHashes.resize(kNumberOfHashes);
     for (int i = 0; i < kNumberOfHashes-2; ++i)
     {
@@ -196,7 +196,7 @@ void ProgramMemoryChecker::getLastHashes(PmcHashContainer::HashVector& outHashes
 
 unsigned int ProgramMemoryChecker::hashScanningRegions(size_t regions) const
 {
-#if !defined(RBX_STUDIO_BUILD) && !defined(__ANDROID__) && !defined(RBX_PLATFORM_IOS)
+#if !defined(ARL_STUDIO_BUILD) && !defined(__ANDROID__) && !defined(ARL_PLATFORM_IOS)
     void* hashState = XXH32_init(kHASH_SEED_INIT);
     const size_t termRegion = std::min(regions, scanningRegions.size());
     for (size_t i = 0; i < termRegion; ++i)

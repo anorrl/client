@@ -9,13 +9,13 @@
  @edited  2010-01-28
  */
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 #include <stdlib.h>
-#include "G3D/Color3.h"
-#include "G3D/Vector3.h"
-#include "G3D/format.h"
-#include "G3D/Color3uint8.h"
-#include "G3D/stringutils.h"
+#include "g3d/Color3.h"
+#include "g3d/Vector3.h"
+#include "g3d/format.h"
+#include "g3d/Color3uint8.h"
+#include "g3d/stringutils.h"
 
 namespace G3D {
 

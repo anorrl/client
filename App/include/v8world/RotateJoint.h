@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8World/MultiJoint.h"
-#include "Util/NormalId.h"
+#include "v8world/MultiJoint.h"
+#include "util/NormalId.h"
 
 namespace ARL {
 	

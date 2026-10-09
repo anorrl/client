@@ -1,10 +1,10 @@
 #pragma once
 
-#include "V8DataModel/ModelInstance.h"
-#include "V8DataModel/ICameraOwner.h"
-#include "Tool/DragUtilities.h"
-#include "Tool/DragTypes.h"
-#include "Util/InsertMode.h"
+#include "v8datamodel/ModelInstance.h"
+#include "v8datamodel/ICameraOwner.h"
+#include "tool/DragUtilities.h"
+#include "tool/DragTypes.h"
+#include "util/InsertMode.h"
 
 namespace ARL {
 

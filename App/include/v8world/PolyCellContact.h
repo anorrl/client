@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8World/CellContact.h"
-#include "V8World/PolyPolyContact.h"
-#include "V8Kernel/ContactParams.h"
-#include "V8World/Mesh.h"
+#include "v8world/CellContact.h"
+#include "v8world/PolyPolyContact.h"
+#include "v8kernel/ContactParams.h"
+#include "v8world/Mesh.h"
 
 namespace ARL {
 

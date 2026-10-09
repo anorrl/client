@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Util/LegacyContentTable.h"
+#include "util/LegacyContentTable.h"
 #include <boost/algorithm/string/predicate.hpp>
 
 FASTFLAGVARIABLE(DebugRenderDownloadAssets, false)

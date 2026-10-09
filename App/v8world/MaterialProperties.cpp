@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
-#include "V8World/MaterialProperties.h"
-#include "V8World/World.h"
-#include "V8World/Primitive.h"
+#include "v8world/MaterialProperties.h"
+#include "v8world/World.h"
+#include "v8world/Primitive.h"
 #include "v8kernel/ContactParams.h"
 #include "v8kernel/Constants.h"
 #include "util/PhysicalProperties.h"

@@ -8,6 +8,7 @@
 
 // Qt Headers
 #include <QPainter>
+#include <QPainterPath>
 #include <QApplication>
 #include <QMouseEvent>
 #include <QHelpEvent>
@@ -23,10 +24,10 @@
 
 // ANORRL Headers
 #include "util/BrickColor.h"
-#include "V8DataModel/ToolsPart.h"
-#include "V8DataModel/Commands.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/ContentProvider.h"
+#include "v8datamodel/ToolsPart.h"
+#include "v8datamodel/Commands.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/ContentProvider.h"
 #include "appdraw/Draw.h"
 
 // ANORRL Studio Headers

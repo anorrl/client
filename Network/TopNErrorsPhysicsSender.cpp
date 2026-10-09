@@ -4,16 +4,16 @@
 #include "Replicator.h"
 #include "Compressor.h"
 
-#include "Network/Player.h"
+#include "network/Player.h"
 
-#include "V8World/World.h"
-#include "V8World/Primitive.h"
-#include "V8World/Assembly.h"
+#include "v8world/World.h"
+#include "v8world/Primitive.h"
+#include "v8world/Assembly.h"
 #include "MechanismItem.h"
 
-#include "V8DataModel/ModelInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PhysicsService.h"
+#include "v8datamodel/ModelInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PhysicsService.h"
 
 #include "GetTime.h"
 #include "RakPeerInterface.h"
@@ -28,7 +28,7 @@
 #include "util/VarInt.h"
 #include "util/Http.h"
 #include "v8world/DistributedPhysics.h"
-#include "V8World/Mechanism.h"
+#include "v8world/Mechanism.h"
 
 using namespace ARL;
 using namespace ARL::Network;

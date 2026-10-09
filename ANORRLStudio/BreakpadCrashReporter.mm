@@ -50,7 +50,7 @@ void CrashReporter::setupCrashReporter()
 	NSString* version = [plist objectForKey:@"CFBundleShortVersionString"];
 	BreakpadAddUploadParameter(breakpad, @"Version", version);
 	
-	NSString* session = [NSString stringWithFormat:@"%s", RBX::Guid().readableString(6).substr(0,5).c_str()];
+	NSString* session = [NSString stringWithFormat:@"%s", ::Guid().readableString(6).substr(0,5).c_str()];
 	BreakpadAddUploadParameter(breakpad, @"Session", session);
 	
 	addBreakpadKeyValue("Platform", "Mac");
@@ -96,22 +96,22 @@ void CrashReporter::shutDownCrashReporter()
 void CrashReporter::addDebugInfoToBreakpad()
 {
 	char result[64];
-	sprintf(result, "%lu", RBX::RbxDbgInfo::s_instance.cPhysicalTotal);
+	sprintf(result, "%lu", ::RbxDbgInfo::s_instance.cPhysicalTotal);
 	addBreakpadKeyValue("cPhysicalTotal", result);	
 	
-	sprintf(result, "%lu", RBX::RbxDbgInfo::s_instance.cbPageSize);
+	sprintf(result, "%lu", ::RbxDbgInfo::s_instance.cbPageSize);
 	addBreakpadKeyValue("cbPageSize", result);
 	
-	sprintf(result, "%lu", RBX::RbxDbgInfo::s_instance.TotalVideoMemory);
+	sprintf(result, "%lu", ::RbxDbgInfo::s_instance.TotalVideoMemory);
 	addBreakpadKeyValue("TotalVideoMemory", result);
 	
-	sprintf(result, "%lu", RBX::RbxDbgInfo::s_instance.NumCores);
+	sprintf(result, "%lu", ::RbxDbgInfo::s_instance.NumCores);
 	addBreakpadKeyValue("NumCores", result);
 	
-	addBreakpadKeyValue("GfxCardName", RBX::RbxDbgInfo::s_instance.GfxCardName);
-	addBreakpadKeyValue("GfxCardDriverVersion", RBX::RbxDbgInfo::s_instance.GfxCardDriverVersion);
-	addBreakpadKeyValue("GfxCardVendorName", RBX::RbxDbgInfo::s_instance.GfxCardVendorName);
-	addBreakpadKeyValue("AudioDeviceName", RBX::RbxDbgInfo::s_instance.AudioDeviceName);
+	addBreakpadKeyValue("GfxCardName", ::RbxDbgInfo::s_instance.GfxCardName);
+	addBreakpadKeyValue("GfxCardDriverVersion", ::RbxDbgInfo::s_instance.GfxCardDriverVersion);
+	addBreakpadKeyValue("GfxCardVendorName", ::RbxDbgInfo::s_instance.GfxCardVendorName);
+	addBreakpadKeyValue("AudioDeviceName", ::RbxDbgInfo::s_instance.AudioDeviceName);
 
 }
 
@@ -120,7 +120,7 @@ extern "C" void writeFastLogDumpHelper(const char *fileName, int numEntries);
 //After the crash happens this will be called from Breakpad where we will ask the FastLog to dump teh log data to a file provided as context
 bool BreakpadCallback(int exception_type, int exception_code, mach_port_t crashing_thread, void *context)
 {
-    RBX::Analytics::InfluxDb::Points points;
+    ::Analytics::InfluxDb::Points points;
     points.addPoint("SessionReport" , "MacROBLOXStudioCrash");
     points.report("Mac-RobloxStudio-SessionReport", DFInt::MacInfluxHundredthsPercentage);
     
@@ -128,8 +128,8 @@ bool BreakpadCallback(int exception_type, int exception_code, mach_port_t crashi
     // These calls are not safe to be called in crash handling context:
     // 1. They allocate
     // 2. There's a code path that leads to interacting with dead NSRunLoop, thus freezing crash generation
-    RBX::Analytics::EphemeralCounter::reportCounter("Mac-ROBLOXStudio-Crash", 1, true);
-    RBX::Analytics::EphemeralCounter::reportCounter("ROBLOXStudio-Crash", 1, true);
+    ::Analytics::EphemeralCounter::reportCounter("Mac-ROBLOXStudio-Crash", 1, true);
+    ::Analytics::EphemeralCounter::reportCounter("ROBLOXStudio-Crash", 1, true);
     
 	if (context)
 		writeFastLogDumpHelper((const char *)context, 200);
@@ -140,10 +140,10 @@ bool BreakpadCallback(int exception_type, int exception_code, mach_port_t crashi
 void CrashReporter::initBreakpadCallback(BreakpadRef breakpad)
 {
 	//get the log file
-    boost::filesystem::path logFile = RBX::FileSystem::getLogsDirectory();
+    boost::filesystem::path logFile = ::FileSystem::getLogsDirectory();
     
     std::string guid;
-    RBX::Guid::generateRBXGUID(guid);
+    ::Guid::generateGUID(guid);
     logFile /= "log_" + guid.substr(3,6) + ".txt";
 	
 	

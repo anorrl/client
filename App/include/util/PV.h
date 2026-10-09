@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Util/Velocity.h"
+#include "util/Velocity.h"
 
 namespace ARL {
 

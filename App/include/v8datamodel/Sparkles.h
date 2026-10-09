@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
+#include "v8tree/Instance.h"
 #include "GfxBase/IAdornable.h"
-#include "V8DataModel/Effect.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/Effect.h"
+#include "v8datamodel/PartInstance.h"
 
 namespace ARL {
 	class PartInstance;

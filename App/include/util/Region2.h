@@ -1,9 +1,9 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "Util/Rect.h"
+#include "util/Rect.h"
 #include "arl/Debug.h"
-#include "Util/Math.h"
+#include "util/Math.h"
 
 namespace ARL {
 

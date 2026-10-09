@@ -4,9 +4,9 @@
 
 // NOTE: both Surface.h and Surfaces.h
 
-#include "V8World/Controller.h"
-#include "Util/SurfaceType.h"
-#include "Util/NormalId.h"
+#include "v8world/Controller.h"
+#include "util/SurfaceType.h"
+#include "util/NormalId.h"
 
 class XmlElement;
 

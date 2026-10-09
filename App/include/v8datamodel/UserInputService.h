@@ -7,9 +7,9 @@
 //
 #pragma once
 
-#include "Util/TextureId.h"
-#include "V8DataModel/DataModel.h" 
-#include "V8DataModel/InputObject.h"
+#include "util/TextureId.h"
+#include "v8datamodel/DataModel.h" 
+#include "v8datamodel/InputObject.h"
 
 #define NKEYSTATES 512
 
@@ -240,14 +240,15 @@ namespace ARL
         
         typedef enum
         {
-            PLATFORM_WINDOWS = 0,
-            PLATFORM_OSX,
-            PLATFORM_IOS,
-            PLATFORM_ANDROID,
+			PLATFORM_WINDOWS = 0,
+			PLATFORM_OSX,
+			PLATFORM_UNIX,
+			PLATFORM_IOS,
+			PLATFORM_ANDROID,
 			PLATFORM_XBOXONE,
 			PLATFORM_PS4,
 			PLATFORM_UWP,
-            PLATFORM_NONE
+			PLATFORM_NONE
         } Platform;
 
 		static Reflection::EventDesc<UserInputService, 

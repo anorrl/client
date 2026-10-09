@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "Util/CameraSubject.h"
-#include "Util/Velocity.h"
-#include "V8DataModel/Camera.h"
+#include "util/CameraSubject.h"
+#include "util/Velocity.h"
+#include "v8datamodel/Camera.h"
 
 namespace ARL {
 

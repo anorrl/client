@@ -1,13 +1,13 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/StudioToolMouseCommand.h"
-#include "V8DataModel/StudioTool.h"
-#include "V8DataModel/Mouse.h"
-#include "V8DataModel/PartInstance.h"
-#include "Humanoid/Humanoid.h"
+#include "v8datamodel/StudioToolMouseCommand.h"
+#include "v8datamodel/StudioTool.h"
+#include "v8datamodel/Mouse.h"
+#include "v8datamodel/PartInstance.h"
+#include "humanoid/Humanoid.h"
 
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 namespace ARL {
 

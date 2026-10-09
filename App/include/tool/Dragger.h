@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 
 #pragma once
-#include "Util/G3DCore.h"
-#include "Util/Extents.h"
+#include "util/G3DCore.h"
+#include "util/Extents.h"
 #include <vector>
 #include <boost/unordered_set.hpp>
 

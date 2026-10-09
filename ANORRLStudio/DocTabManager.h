@@ -10,7 +10,7 @@
 #include <QIcon>
 
 // ANORRL Headers
-#include "ARL/BaldPtr.h"
+#include "arl/BaldPtr.h"
 
 // ANORRL Studio Headers
 #include "IANORRLDoc.h"

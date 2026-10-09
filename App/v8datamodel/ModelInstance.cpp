@@ -1,17 +1,17 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/ModelInstance.h"
-#include "V8DataModel/Camera.h"
-#include "V8DataModel/IModelModifier.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/GameBasicSettings.h"
-#include "Humanoid/Humanoid.h"
-#include "V8World/Primitive.h"
-#include "Tool/DragUtilities.h"
-#include "AppDraw/Draw.h"
-#include "AppDraw/DrawAdorn.h"
-#include "Util/Math.h"
+#include "v8datamodel/ModelInstance.h"
+#include "v8datamodel/Camera.h"
+#include "v8datamodel/IModelModifier.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/GameBasicSettings.h"
+#include "humanoid/Humanoid.h"
+#include "v8world/Primitive.h"
+#include "tool/DragUtilities.h"
+#include "appdraw/Draw.h"
+#include "appdraw/DrawAdorn.h"
+#include "util/Math.h"
 
 FASTFLAG(StudioDE6194FixEnabled)
 

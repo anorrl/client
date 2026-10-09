@@ -1,12 +1,12 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/AdvRotateTool.h"
-#include "Tool/Dragger.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "Util/HitTest.h"
-#include "AppDraw/HitTest.h"
+#include "tool/AdvRotateTool.h"
+#include "tool/Dragger.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "util/HitTest.h"
+#include "appdraw/HitTest.h"
 
 namespace ARL {
 

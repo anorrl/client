@@ -27,7 +27,6 @@
 #include <QApplication>
 #include <QStyleOption>
 #include <QResizeEvent>
-#include <QDesktopWidget>
 #include <QLineEdit>
 #include <QComboBox>
 #include <QPainter>
@@ -180,7 +179,7 @@ void ExWidgetWrapper::resizeEvent(QResizeEvent* event)
 
 void ExWidgetWrapper::updateGeometries()
 {
-    QStyleOptionFrameV2 panel;
+    QStyleOptionFrame panel;
     initStyleOption(&panel);
 
     QRect rect = panel.rect;
@@ -198,7 +197,7 @@ void ExWidgetWrapper::updateGeometries()
         {
             QFontMetrics fm = fontMetrics();
             QSize sz = fm.size(Qt::TextHideMnemonic, d.m_labelText);
-            int width =  sz.width() + fm.width(QLatin1Char('x'));
+            int width = sz.width() + fm.horizontalAdvance(QLatin1Char('x'));
             rect.adjust(width, 0, -hMargin, 0);
             d.m_buddy->setGeometry(rect);
         }
@@ -210,7 +209,7 @@ void ExWidgetWrapper::updateGeometries()
     }
 }
 
-void ExWidgetWrapper::initStyleOption(QStyleOptionFrameV2* option) const
+void ExWidgetWrapper::initStyleOption(QStyleOptionFrame* option) const
 {
     QTN_D(const ExWidgetWrapper);
 
@@ -227,7 +226,7 @@ void ExWidgetWrapper::initStyleOption(QStyleOptionFrameV2* option) const
     if (hasEditFocus())
         option->state |= QStyle::State_HasEditFocus;
 #endif
-    option->features = QStyleOptionFrameV2::None;
+    option->features = QStyleOptionFrame::None;
 }
 
 bool ExWidgetWrapper::isReadOnly() const
@@ -286,7 +285,7 @@ void ExWidgetWrapper::paintEvent(QPaintEvent* event)
     QTN_D(ExWidgetWrapper);
 
     QPainter p(this);
-    QStyleOptionFrameV2 panel;
+    QStyleOptionFrame panel;
     initStyleOption(&panel);
 
     if (!d.m_icon.isNull())
@@ -446,7 +445,7 @@ void RibbonDefaultGroupButton::mousePressEvent(QMouseEvent* event)
                 QPoint pnt(0, 0);
                 QRect rc = rect();
 
-                QRect screen = QApplication::desktop()->availableGeometry(this);
+                QRect screen = QApplication::primaryScreen()->availableGeometry();
                 int h = rc.height();
                 if (this->mapToGlobal(QPoint(0, rc.bottom())).y() + h <= screen.height()) 
                     pnt = this->mapToGlobal(rc.bottomLeft());

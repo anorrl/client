@@ -1,17 +1,17 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Feature.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/JointInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8World/MotorJoint.h"
-#include "V8World/World.h"
-#include "V8World/Primitive.h"
-#include "Reflection/EnumConverter.h"
+#include "v8datamodel/Feature.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/JointInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8world/MotorJoint.h"
+#include "v8world/World.h"
+#include "v8world/Primitive.h"
+#include "reflection/EnumConverter.h"
 
-#include "AppDraw/Draw.h"
-#include "AppDraw/DrawAdorn.h"
+#include "appdraw/Draw.h"
+#include "appdraw/DrawAdorn.h"
 #include "GfxBase/Adorn.h"
 
 

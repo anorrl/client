@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "V8World/Edge.h"
-#include "V8World/Feature.h"
-#include "V8Kernel/ContactParams.h"
-#include "Util/G3DCore.h"
-#include "Util/Memory.h"
-#include "Util/NormalId.h"
-#include "Util/Math.h"
-#include "Util/FixedArray.h"
+#include "v8world/Edge.h"
+#include "v8world/Feature.h"
+#include "v8kernel/ContactParams.h"
+#include "util/G3DCore.h"
+#include "util/Memory.h"
+#include "util/NormalId.h"
+#include "util/Math.h"
+#include "util/FixedArray.h"
 #include "arl/Debug.h"
 #include "arl/Declarations.h"
 

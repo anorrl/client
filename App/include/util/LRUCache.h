@@ -3,7 +3,7 @@
 #include <list>
 #include <vector>
 #include <boost/unordered_map.hpp>
-#include "Util/StandardOut.h"
+#include "util/StandardOut.h"
 
 namespace ARL
 {

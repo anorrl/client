@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/ExtentsInt32.h"
-#include "Util/Extents.h"
+#include "util/G3DCore.h"
+#include "util/ExtentsInt32.h"
+#include "util/Extents.h"
 #include "arl/Debug.h"
 
 //#define _ARL_DEBUGGING_SPATIAL_HASH 

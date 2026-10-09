@@ -5,7 +5,7 @@
 #include "GfxBase/ViewBase.h"
 #include "GfxBase/FrameRateManager.h"
 #include "network/api.h"
-#include "network/players.h"
+#include "network/Players.h"
 #include "arl/Log.h"
 #include "arl/SystemUtil.h"
 #include "RenderSettingsItem.h"

@@ -1,6 +1,6 @@
 #include "GfxBase/PartIdentifier.h"
 
-#include "Humanoid/Humanoid.h"
+#include "humanoid/Humanoid.h"
 
 #include "v8datamodel/DataModelMesh.h"
 #include "v8datamodel/FileMesh.h"

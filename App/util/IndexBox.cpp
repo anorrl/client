@@ -1,9 +1,9 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/IndexBox.h"
+#include "util/IndexBox.h"
 #include "arl/Debug.h"
-#include "Util/Math.h"
+#include "util/Math.h"
 
 
 

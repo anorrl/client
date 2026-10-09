@@ -1,9 +1,9 @@
  /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/WeldJoint.h"
-#include "V8World/Primitive.h"
-#include "V8World/Contact.h"
+#include "v8world/WeldJoint.h"
+#include "v8world/Primitive.h"
+#include "v8world/Contact.h"
 
 namespace ARL {
 

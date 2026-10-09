@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8World/IPipelined.h"
-#include "Util/IndexedMesh.h"
+#include "v8world/IPipelined.h"
+#include "util/IndexedMesh.h"
 #include "boost/utility.hpp"
 #include "Assembly.h"
 

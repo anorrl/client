@@ -1,10 +1,10 @@
 /* Copyright 2014 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "Util/BinaryString.h"
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
-#include "V8DataModel/FlyweightService.h"
+#include "util/BinaryString.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
+#include "v8datamodel/FlyweightService.h"
 
 #include <boost/unordered_map.hpp>
 #include "Value.h"

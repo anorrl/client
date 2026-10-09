@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "Util/Extents.h"
-#include "Util/IHasLocation.h"
+#include "v8tree/Instance.h"
+#include "util/Extents.h"
+#include "util/IHasLocation.h"
 
 namespace G3D {	
 	class RenderDevice;

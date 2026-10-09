@@ -2,7 +2,7 @@
 
 #include "util/NamedMutex.h"
 #include "FastLog.h"
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 #include "arl/Debug.h"
 
 #include <sstream>

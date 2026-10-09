@@ -1,16 +1,16 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/Jumping.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/Jumping.h"
+#include "humanoid/Humanoid.h"
 
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Accoutrement.h"
-#include "V8World/Primitive.h"
-#include "V8World/World.h"
-#include "V8World/ContactManager.h"
-#include "V8Kernel/Body.h"
-#include "V8Kernel/Kernel.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Accoutrement.h"
+#include "v8world/Primitive.h"
+#include "v8world/World.h"
+#include "v8world/ContactManager.h"
+#include "v8kernel/Body.h"
+#include "v8kernel/Kernel.h"
 
 DYNAMIC_FASTINTVARIABLE(PGSJumpForceAdjustment, 520)
 

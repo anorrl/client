@@ -6,11 +6,11 @@
 
 #include "arl/rbxTime.h"
 #include "v8datamodel/Stats.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DataModel.h"
 #include "util/Guid.h"
 #include "util/Http.h"
 #include "util/HttpAsync.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "reflection/Type.h"
 #include "util/Statistics.h"
 

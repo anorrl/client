@@ -4,8 +4,8 @@
 	Utility class - holds ParallelRamp Meshes of same size for use by Geometry Pool.
 */
 
-#include "Util/Memory.h"
-#include "V8World/Mesh.h"
+#include "util/Memory.h"
+#include "v8world/Mesh.h"
 
 
 namespace ARL {

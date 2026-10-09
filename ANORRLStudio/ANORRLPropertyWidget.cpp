@@ -25,7 +25,7 @@
 #include "v8datamodel/DataModel.h"
 #include "v8datamodel/Selection.h"
 #include "arl/CEvent.h"
-#include "ReflectionMetaData.h"
+#include "ReflectionMetadata.h"
 
 // ANORRL Studio Headers
 #include "ANORRLContextualHelp.h"

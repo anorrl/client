@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "Script/LuaSettings.h"
-#include "LuaConf.h"
+#include "script/LuaSettings.h"
+#include "luaconf.h"
 
 const char *const ARL::sLuaSettings = "LuaSettings";
 

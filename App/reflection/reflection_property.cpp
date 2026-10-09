@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "reflection/property.h"
+#include "reflection/Property.h"
 #include "reflection/Object.h"
 #include "util/ProtectedString.h"
 #include "util/SystemAddress.h"

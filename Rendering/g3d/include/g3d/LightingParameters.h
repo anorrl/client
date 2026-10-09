@@ -12,11 +12,11 @@
 #ifndef G3D_LIGHTINGPARAMETERS_H
 #define G3D_LIGHTINGPARAMETERS_H
 
-#include "G3D/platform.h"
-#include "G3D/Color3.h"
-#include "G3D/Vector3.h"
-#include "G3D/CoordinateFrame.h"
-#include "G3D/GLight.h"
+#include "g3d/platform.h"
+#include "g3d/Color3.h"
+#include "g3d/Vector3.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/GLight.h"
 
 namespace G3D {
 

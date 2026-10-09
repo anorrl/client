@@ -10,7 +10,7 @@
 #include "v8datamodel/ServerScriptService.h"
 #include "v8datamodel/HttpRbxApiService.h"
 
-#include "Network/Players.h"
+#include "network/Players.h"
 
 #define AWARD_POINTS_METHOD_NAME "PointsService:AwardPoints"
 #define AWARD_POINTS_RATE_LIMIT_RESET 60.0

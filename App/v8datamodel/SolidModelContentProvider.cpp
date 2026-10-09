@@ -2,13 +2,13 @@
 #include "stdafx.h"
 
 #include "v8datamodel/SolidModelContentProvider.h"
-#include "V8DataModel/PartOperationAsset.h"
-#include "V8DataModel/CSGMesh.h"
+#include "v8datamodel/PartOperationAsset.h"
+#include "v8datamodel/CSGMesh.h"
 #include "v8datamodel/CSGDictionaryService.h"
-#include "V8DataModel/NonReplicatedCSGDictionaryService.h"
-#include "V8DataModel/FlyweightService.h"
-#include "V8DataModel/ContentProvider.h"
-#include "V8Xml/SerializerBinary.h"
+#include "v8datamodel/NonReplicatedCSGDictionaryService.h"
+#include "v8datamodel/FlyweightService.h"
+#include "v8datamodel/ContentProvider.h"
+#include "v8xml/SerializerBinary.h"
 
 namespace ARL {
 

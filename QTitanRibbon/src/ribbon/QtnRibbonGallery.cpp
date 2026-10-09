@@ -32,9 +32,9 @@
 #include <QScrollBar>
 #include <QToolTip>
 #include <QBitmap>
+#include <QScreen>
 #include <qevent.h>
 #include <qstyleoption.h>
-#include <QDesktopWidget>
 #include <qmath.h>
 
 #include "QtnOfficePopupMenu.h"
@@ -611,7 +611,7 @@ bool RibbonGalleryPrivate::eventFilter(QObject* object, QEvent* event)
         {
             QTN_P(RibbonGallery);
             QPoint pos;
-            QRect screen = QApplication::desktop()->availableGeometry(m_buttonPopup);
+            QRect screen = QGuiApplication::primaryScreen()->availableGeometry();
             QSize sh = popup->sizeHint();
             QRect rect = p.rect();
             if (p.mapToGlobal(QPoint(0, rect.bottom())).y() + sh.height() <= screen.height())
@@ -1312,7 +1312,11 @@ QRect RibbonGallery::getBorders() const
         rcBorders.setBottom(2);
 */
     int left = 0, top = 0, right = 0, bottom = 0;
-    getContentsMargins(&left, &top, &right, &bottom);
+    QMargins margins = this->contentsMargins();
+    left = margins.left();
+    top = margins.top();
+    right = margins.right();
+    bottom = margins.bottom();
     rcBorders.adjust(left, top, right, bottom);
 
     return rcBorders;
@@ -1463,7 +1467,7 @@ void RibbonGallery::paintEvent(QPaintEvent*)
     QPainter p(this);
 
     QStyleOption opt;
-    opt.init(this);
+    opt.initFrom(this);
 
     style()->drawPrimitive((QStyle::PrimitiveElement)RibbonStyle::PE_RibbonFillRect, &opt, &p, this);
 

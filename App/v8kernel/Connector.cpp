@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "V8Kernel/Connector.h"
-#include "V8Kernel/Point.h"
-#include "V8Kernel/Constants.h"
-#include "V8Kernel/Body.h"
-#include "Util/Math.h"
+#include "v8kernel/Connector.h"
+#include "v8kernel/Point.h"
+#include "v8kernel/Constants.h"
+#include "v8kernel/Body.h"
+#include "util/Math.h"
 
 namespace ARL {
 

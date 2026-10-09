@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "util/name.h"
+#include "util/Name.h"
 
 #include "arl/threadsafe.h"
 

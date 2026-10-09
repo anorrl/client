@@ -7,7 +7,7 @@
 
 //#define LOVE_ALL_ACCESS
 
-#include "Security/RandomConstant.h"
+#include "security/RandomConstant.h"
 #define LINE_RAND4 ((ARL_BUILDSEED&0x3FFFF)*__LINE__)
 
 // This line is different due to an unexplained VS2012 issue in debug.

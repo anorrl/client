@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Util/AsyncHttpQueue.h"
-#include "V8Tree/Instance.h"
-#include "V8DataModel/PluginMouse.h"
-#include "V8Tree/Service.h"
-#include "V8DataModel/ChangeHistory.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/Workspace.h"
+#include "util/AsyncHttpQueue.h"
+#include "v8tree/Instance.h"
+#include "v8datamodel/PluginMouse.h"
+#include "v8tree/Service.h"
+#include "v8datamodel/ChangeHistory.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Workspace.h"
 #include "StudioPluginHost.h"
-#include "Tool/ToolsArrow.h"
+#include "tool/ToolsArrow.h"
 
 LOGGROUP(Plugins);
 

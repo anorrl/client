@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "script/ScriptAnalyzer.h"
 
-#include "Lua/lua.hpp"
+#include "lua/lua.hpp"
 #include "util/ProtectedString.h"
 
 #include "lstate.h"
@@ -10,7 +10,7 @@
 #include "ldebug.h"
 
 #include "script/ScriptContext.h"
-#include "script/Script.h"
+#include "script/script.h"
 #include "script/LuaInstanceBridge.h"
 #include "script/LuaArguments.h"
 

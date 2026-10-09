@@ -4,9 +4,9 @@
   @created 2002-05-27
   @edited  2009-04-20
  */
-#include "G3D/platform.h"
-#include "G3D/GImage.h"
-#include "G3D/BinaryOutput.h"
+#include "g3d/platform.h"
+#include "g3d/GImage.h"
+#include "g3d/BinaryOutput.h"
 
 #include <sstream>
 #include <cstring>

@@ -1,6 +1,6 @@
 #pragma once
 
-#if (defined(_WIN32) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS))) && !defined(ARL_STUDIO_BUILD)
+#if (defined(_WIN32) || defined(__linux__) || (defined(__APPLE__) && !defined(ARL_PLATFORM_IOS))) && !defined(ARL_STUDIO_BUILD)
 #define ARL_SECURE_DOUBLE
 #endif
 

@@ -25,13 +25,13 @@
 #include "FileWatcherImpl.h"
 
 #if FILEWATCHER_PLATFORM == FILEWATCHER_PLATFORM_WIN32
-#	include <FileWatcher/FileWatcherWin32.h>
+#	include "FileWatcherWin32.h"
 #	define FILEWATCHER_IMPL FileWatcherWin32
 #elif FILEWATCHER_PLATFORM == FILEWATCHER_PLATFORM_KQUEUE
-#	include <FileWatcher/FileWatcherOSX.h>
+#	include "FileWatcherOSX.h"
 #	define FILEWATCHER_IMPL FileWatcherOSX
 #elif FILEWATCHER_PLATFORM == FILEWATCHER_PLATFORM_LINUX
-#	include <FileWatcher/FileWatcherLinux.h>
+#	include "FileWatcherLinux.h"
 #	define FILEWATCHER_IMPL FileWatcherLinux
 #endif
 

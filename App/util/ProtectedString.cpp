@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "Util/ProtectedString.h"
+#include "util/ProtectedString.h"
 
-#include "Reflection/Property.h"
-#include "Util/MD5Hasher.h"
-#include "V8DataModel/HackDefines.h"
+#include "reflection/Property.h"
+#include "util/MD5Hasher.h"
+#include "v8datamodel/HackDefines.h"
 
 #include <string>
 

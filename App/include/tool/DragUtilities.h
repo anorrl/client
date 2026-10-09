@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Util/Object.h"
-#include "Util/G3DCore.h"
-#include "Util/Extents.h"
-#include "Tool/Dragger.h"
+#include "util/Object.h"
+#include "util/G3DCore.h"
+#include "util/Extents.h"
+#include "tool/Dragger.h"
 
 namespace ARL {
 	class Instance;

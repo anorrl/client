@@ -1,9 +1,9 @@
 #pragma once
 
 #include "signal.h"
-#include "V8Tree/Instance.h"
-#include "Util/TweenInfo.h"
-#include "Reflection/Reflection.h"
+#include "v8tree/Instance.h"
+#include "util/TweenInfo.h"
+#include "reflection/Reflection.h"
 
 namespace ARL
 {

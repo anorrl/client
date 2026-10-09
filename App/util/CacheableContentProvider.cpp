@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "v8datamodel/CacheableContentProvider.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DataModel.h"
 
 namespace ARL {
 

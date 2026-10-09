@@ -7,7 +7,7 @@
 #include "v8datamodel/DebugSettings.h"
 #include "v8datamodel/PhysicsSettings.h"
 #include "v8datamodel/Workspace.h"
-#include "v8datamodel/commonverbs.h"
+#include "v8datamodel/CommonVerbs.h"
 #include "v8datamodel/ContentProvider.h"
 #include "v8datamodel/FastLogSettings.h"
 #include "v8datamodel/MegaCluster.h"
@@ -15,7 +15,7 @@
 #include "v8world/World.h"
 #include "v8datamodel/Teams.h"
 #include "v8datamodel/SpawnLocation.h"
-#include "V8World/ContactManager.h"
+#include "v8world/ContactManager.h"
 #include "v8datamodel/ChangeHistory.h"
 #include "v8datamodel/Lighting.h"
 #include "v8datamodel/Test.h"
@@ -24,10 +24,10 @@
 
 #include "v8world/Block.h"
 
-#include "Util/ScriptInformationProvider.h"
-#include "Util/Profiling.h"
+#include "util/ScriptInformationProvider.h"
+#include "util/Profiling.h"
 
-#include "Gui/ProfanityFilter.h"
+#include "gui/ProfanityFilter.h"
 #include "script/LuaSettings.h"
 #include "network/api.h"
 #include "network/GameConfigurer.h"
@@ -67,7 +67,7 @@ namespace ARL {
 		ARL::Http::CookieSharingPolicy cookieSharingPolicy;
 #if defined(ARL_PLATFORM_IOS) || defined(__ANDROID__)
         cookieSharingPolicy = ARL::Http::CookieSharingSingleProcessMultipleThreads;
-#elif defined(_WIN32) || defined(__APPLE__)
+#elif defined(_WIN32) || defined(__APPLE__) || defined(__linux__)
 	if (DFFlag::PersistenceCurlCookies)
 	{
         cookieSharingPolicy = ARL::Http::CookieSharingMultipleProcessesWrite;

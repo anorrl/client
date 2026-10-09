@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8World/Geometry.h"
-#include "V8World/Mesh.h"
-#include "V8World/Block.h"
-#include "V8World/BulletGeometryPoolObjects.h"
+#include "v8world/Geometry.h"
+#include "v8world/Mesh.h"
+#include "v8world/Block.h"
+#include "v8world/BulletGeometryPoolObjects.h"
 #include "Extras/ConvexDecomposition/ConvexDecomposition.h"
 
 #include "v8world/KDTree.h"

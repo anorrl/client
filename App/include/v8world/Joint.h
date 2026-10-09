@@ -1,11 +1,11 @@
 #pragma once
 
-#include "V8World/Edge.h"
-#include "Util/SurfaceType.h"
-#include "Util/Face.h"
-#include "Util/Extents.h"
-#include "Util/SpanningEdge.h"
-#include "G3D/Array.h"
+#include "v8world/Edge.h"
+#include "util/SurfaceType.h"
+#include "util/Face.h"
+#include "util/Extents.h"
+#include "util/SpanningEdge.h"
+#include "g3d/Array.h"
 #include "boost/intrusive/list.hpp"
 
 

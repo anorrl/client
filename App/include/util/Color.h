@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Util/G3DCore.h"
+#include "util/G3DCore.h"
 
 /* 
 	see http://web.media.mit.edu/~wad/color/palette.html

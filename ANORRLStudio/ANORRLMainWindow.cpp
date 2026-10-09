@@ -28,20 +28,19 @@
 #include <QSplashScreen>
 #include <QSharedMemory>
 #include <QShortcut>
-#include <QPrintDialog>
-#include <QPrintPreviewDialog>
-#include <QPageSetupDialog>
 #include <QResource>
 #include <QDesktopWidget>
 #include <QNetworkProxy>
 #include <QtConcurrentRun>
+#include <QMimeData>
+
 // 3rd Party Headers
 #include "boost/filesystem/path.hpp"
 #include "boost/iostreams/stream.hpp"
 #include "boost/iostreams/device/array.hpp"
 
 // ANORRL Headers
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "util/ScopedAssign.h"
 #include "util/RbxStringTable.h"
 #include "util/SoundService.h"
@@ -59,10 +58,10 @@
 #include "v8kernel/ContactConnector.h"
 #include "arl/BaldPtr.h"
 #include "arl/CEvent.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 #include "CountersClient.h"
 #include "FastLog.h"
-#include "SharedLauncher.h"
+#include "../Win/SharedLauncher.h"
 #include "ANORRLStudioVersion.h"
 #include "ANORRLQuickAccessConfig.h"
 #include "RenderSettingsItem.h"
@@ -119,8 +118,6 @@
 
 #include "StudioDeviceEmulator.h"
 
-#include "DiscordHandler.h"
-
 FASTFLAGVARIABLE(StudioCheckForUpgradeEnabled, false)
 FASTFLAGVARIABLE(StudioSeparateActionByActivationMethod, false)
 FASTFLAGVARIABLE(StudioFixMacStartPage, false)
@@ -170,11 +167,13 @@ QString ANORRLMainWindow::sGeometryKey = "window_geometry";
 	static boost::scoped_ptr<DumpErrorUploader> dumpErrorUploader;
 #endif
 
-#ifdef __APPLE__
+#ifndef _WIN32
 	#include "LogProvider.h"
 	static LogProvider logProvider;
 
+	#ifdef __APPLE__
     #include "StudioMacUtilities.h"
+	#endif
 #endif
 
 ANORRLMainWindow* ANORRLMainWindow::get(QObject* context)
@@ -237,7 +236,7 @@ ANORRLMainWindow::ANORRLMainWindow(const QMap<QString, QString> argMap)
 
             m_splashScreen = new QSplashScreen(this,QPixmap(path.c_str()));
 
-#ifdef Q_OS_WIN32
+#ifndef Q_OS_MAC
             Qt::WindowFlags flags = Qt::SplashScreen | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint;
 #else
             // Qt::Tool makes the window on top of the Z order on Mac
@@ -676,9 +675,7 @@ void ANORRLMainWindow::setupLogging()
 	std::string dmpHandlerUrl =  GetDmpUrl(::GetBaseURL(), true);
 	dumpErrorUploader->InitCrashEvent(dmpHandlerUrl, mainLogManager.getCrashEventName());
 	dumpErrorUploader->Upload(dmpHandlerUrl);
-#endif
-
-#ifdef __APPLE__
+#else
 	ARL::Log::setLogProvider(&logProvider);
 #endif
 }
@@ -690,7 +687,7 @@ void ANORRLMainWindow::causeCrash()
 
 bool ANORRLMainWindow::checkUpdater(bool showUpdateOptionsDialog, const QString& initDoneEventName) const
 {
-#ifdef Q_OS_MAC
+#ifndef Q_OS_WIN
 	QString bootstrapper = QCoreApplication::applicationFilePath(); 
 	if(bootstrapper.lastIndexOf("ANORRLStudio") > -1)
 		bootstrapper = bootstrapper.replace(bootstrapper.lastIndexOf("ANORRLStudio"), 12, "ANORRLStudio.app/Contents/MacOS/ANORRLStudio");
@@ -1524,7 +1521,9 @@ void ANORRLMainWindow::fastLogDump()
 #ifdef _WIN32
 	mainLogManager.CreateFakeCrashDump();
 #else
+#ifdef __APPLE__
 	CrashReporter::CreateLogDump();
+#endif
 #endif
 }
 

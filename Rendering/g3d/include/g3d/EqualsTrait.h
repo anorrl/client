@@ -11,7 +11,7 @@
 #ifndef G3D_EQUALSTRAIT_H
 #define G3D_EQUALSTRAIT_H
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 
 /** Default implementation of EqualsTrait.
     @see G3D::Table for specialization requirements.

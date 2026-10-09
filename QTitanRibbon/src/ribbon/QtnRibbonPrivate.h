@@ -31,6 +31,7 @@
 #include <QMenu>
 #include <QToolButton>
 #include <QStyleOption>
+#include <QScreen>
 #include "QtitanDef.h"
 
 class QEventLoop;
@@ -79,7 +80,7 @@ namespace Qtitan
 
     protected:
         void updateGeometries();
-        void initStyleOption(QStyleOptionFrameV2* option) const;
+        void initStyleOption(QStyleOptionFrame* option) const;
 
     protected:
         virtual bool isReadOnly() const;

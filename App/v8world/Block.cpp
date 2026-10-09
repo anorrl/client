@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "V8World/Block.h"
-#include "V8World/BlockCorners.h"
-#include "V8World/BlockMesh.h"
-#include "Util/Math.h"
-#include "G3D/CollisionDetection.h"
+#include "v8world/Block.h"
+#include "v8world/BlockCorners.h"
+#include "v8world/BlockMesh.h"
+#include "util/Math.h"
+#include "g3d/CollisionDetection.h"
 
 namespace ARL {
 

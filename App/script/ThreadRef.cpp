@@ -1,15 +1,15 @@
 #include "stdafx.h"
 
-#include "Script/ThreadRef.h"
-#include "Script/LuaArguments.h"
-#include "Script/ScriptContext.h"
-#include "Script/script.h"
+#include "script/ThreadRef.h"
+#include "script/LuaArguments.h"
+#include "script/ScriptContext.h"
+#include "script/script.h"
 #include "lua/lua.hpp"
-#include "lua/luabridge.h"
-#include "rbxformat.h"
-#include "reflection/property.h"
-#include "util/standardout.h"
-#include <ARL/make_shared.h>
+#include "lua/LuaBridge.h"
+#include "ARLFormat.h"
+#include "reflection/Property.h"
+#include "util/StandardOut.h"
+#include "arl/make_shared.h"
 
 LOGVARIABLE(ThreadRefCounts, 1)
 

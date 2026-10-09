@@ -14,21 +14,21 @@
 #include "boost/shared_ptr.hpp"
 #include "boost/weak_ptr.hpp"
 #include "script/ScriptContext.h"
-#include "security/securityContext.h"
+#include "security/SecurityContext.h"
 #include "security/ApiSecurity.h"
 #include "security/FuzzyTokens.h"
 #include "util/ProgramMemoryChecker.h"
-#include "Script/ExitHandlers.h"
+#include "script/ExitHandlers.h"
 #include "arl/Intrusive/Set.h"
 
-#include "Script/LuaVM.h"
+#include "script/LuaVM.h"
 
-#include "Script/ThreadRef.h"
+#include "script/ThreadRef.h"
 #ifdef __APPLE__ 
 #undef check
 #endif
 
-#include "ARL/Debug.h"
+#include "arl/Debug.h"
 
 namespace ARL
 {
@@ -962,7 +962,7 @@ inline void lua_vmhooked_handler_ex(lua_State* L)
     lua_vmhooked_handler(L);
 }
 
-#if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
+#if (defined(_WIN32)||defined(__linux__)) && !defined(ARL_STUDIO_BUILD)
 
 #define lua_chk_ptr_rblx(ptr, handler, L) (ARL::isRbxTextAddr(ptr) ? ((void)0) : handler(L))
 #define lua_lock(L) ((void)0)

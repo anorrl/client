@@ -1,22 +1,22 @@
 /* Copyright 2003-2014 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/SoundService.h"
+#include "util/SoundService.h"
 
-#include "Util/SoundChannel.h"
-#include "V8DataModel/ContentProvider.h"
+#include "util/SoundChannel.h"
+#include "v8datamodel/ContentProvider.h"
 
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Camera.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Camera.h"
 
-#include "util/standardout.h"
-#include "V8DataModel/GameSettings.h"
-#include "V8DataModel/DebugSettings.h"
-#include "V8DataModel/PlayerGui.h"
-#include "V8DataModel/GameBasicSettings.h"
-#include "Network/Players.h"
+#include "util/StandardOut.h"
+#include "v8datamodel/GameSettings.h"
+#include "v8datamodel/DebugSettings.h"
+#include "v8datamodel/PlayerGui.h"
+#include "v8datamodel/GameBasicSettings.h"
+#include "network/Players.h"
 
 #include "FastLog.h"
 #include "arl/RbxDbgInfo.h"
@@ -664,13 +664,14 @@ void SoundService::getCpuStats(CpuStats& stats) const
 		return;
 	}
 
-	CpuStats stats100;
-	system->getCPUUsage(&stats100.dsp, &stats100.stream, &stats100.geometry, &stats100.update, &stats100.total);
-	stats.dsp = 0.01 * stats100.dsp;
-	stats.geometry = 0.01 * stats100.geometry;
-	stats.stream = 0.01 * stats100.stream;
-	stats.total = 0.01 * stats100.total;
-	stats.update = 0.01 * stats100.update;
+	FMOD_CPU_USAGE returned_stats;
+	system->getCPUUsage(&returned_stats);
+	
+	stats.dsp = 0.01 * returned_stats.dsp;
+	stats.geometry = 0.01 * returned_stats.geometry;
+	stats.stream = 0.01 * returned_stats.stream;
+	stats.total = (0.01 * returned_stats.convolution1) + (0.01 * returned_stats.convolution2); // guess work - kuro
+	stats.update = 0.01 * returned_stats.update;
 }
 
 void SoundService::getSoundStats(const LoadedSounds& sounds, unsigned int& numSounds, unsigned int& numUnusedSounds)

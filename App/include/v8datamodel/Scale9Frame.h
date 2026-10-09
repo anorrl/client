@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8DataModel/Frame.h"
-#include "Util/TextureId.h"
-#include "Gui/GuiDraw.h"
+#include "v8datamodel/Frame.h"
+#include "util/TextureId.h"
+#include "gui/GuiDraw.h"
 
 namespace ARL { 
 	extern const char* const sScale9Frame;

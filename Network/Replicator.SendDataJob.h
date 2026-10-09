@@ -2,11 +2,11 @@
 
 #include "Replicator.h"
 #include "Players.h"
-#include "Util/RbxStringTable.h"
-#include "Util/xxhash.h"
-#include "Util/ObscureValue.h"
+#include "util/RbxStringTable.h"
+#include "util/xxhash.h"
+#include "util/ObscureValue.h"
 #include "v8datamodel/Stats.h"
-#include "V8DataModel/HackDefines.h"
+#include "v8datamodel/HackDefines.h"
 
 #include "VMProtectSDK.h"
 

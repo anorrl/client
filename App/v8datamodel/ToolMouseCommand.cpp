@@ -1,16 +1,16 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/ToolMouseCommand.h"
-#include "V8DataModel/Tool.h"
-#include "V8DataModel/Mouse.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/ClickDetector.h"
-#include "Humanoid/Humanoid.h"
-#include "Network/Players.h"
+#include "v8datamodel/ToolMouseCommand.h"
+#include "v8datamodel/Tool.h"
+#include "v8datamodel/Mouse.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/ClickDetector.h"
+#include "humanoid/Humanoid.h"
+#include "network/Players.h"
 
 
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 FASTFLAG(UseFixedRightMouseClickBehaviour)
 

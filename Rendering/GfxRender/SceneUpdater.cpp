@@ -16,7 +16,7 @@
 #include "GfxBase/FrameRateManager.h"
 
 #include "humanoid/Humanoid.h"
-#include "v8DataModel/Accoutrement.h"
+#include "v8datamodel/Accoutrement.h"
 #include "v8world/ContactManager.h"
 #include "v8datamodel/DataModel.h"
 #include "v8datamodel/Workspace.h"
@@ -29,7 +29,7 @@
 #include "v8datamodel/PartCookie.h"
 #include "v8datamodel/CustomParticleEmitter.h"
 
-#include "Voxel/Util.h"
+#include "voxel/Util.h"
 
 #include "VisualEngine.h"
 #include "SceneManager.h"

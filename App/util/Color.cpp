@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "Util/Color.h"
-#include "Util/Hash.h"
+#include "util/Color.h"
+#include "util/Hash.h"
 
 /* 
 	see http://web.media.mit.edu/~wad/color/palette.html

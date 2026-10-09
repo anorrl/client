@@ -1,12 +1,12 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/GrabTool.h"
+#include "tool/GrabTool.h"
 
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/UserInputService.h"
-#include "Tool/DragTool.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/UserInputService.h"
+#include "tool/DragTool.h"
 
 namespace ARL {
 

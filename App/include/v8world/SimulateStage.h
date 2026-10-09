@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "V8World/IWorldStage.h"
-#include "V8World/Assembly.h"
+#include "v8world/IWorldStage.h"
+#include "v8world/Assembly.h"
 #include <map>
 #include "boost/intrusive/list.hpp"
 #include <boost/unordered_map.hpp>

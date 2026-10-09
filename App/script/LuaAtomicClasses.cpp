@@ -4,8 +4,8 @@
 #include "script/LuaEnum.h"
 #include "util/PartMaterial.h"
 #include "v8world/MaterialProperties.h"
-#include "G3D/Quat.h"
-#include "rbxformat.h"
+#include "g3d/Quat.h"
+#include "ARLFormat.h"
 #include "script/LuaInstanceBridge.h"
 #include "script/LuaArguments.h"
 

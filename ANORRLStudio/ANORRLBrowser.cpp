@@ -13,6 +13,7 @@
 #include <QFileInfo>
 #include <QWebFrame>
 #include <QWebPage>
+#include <QMimeData>
 
 // ANORRL Studio Headers
 #include "ANORRLMainWindow.h"

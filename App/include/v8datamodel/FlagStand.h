@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include "V8DataModel/BasicPartInstance.h"
-#include "G3D/Vector3.h"
-#include "v8tree/service.h"
-#include "V8DataModel/JointInstance.h"
-#include "Util/SteppedInstance.h"
-#include "Util/BrickColor.h"
+#include "v8datamodel/BasicPartInstance.h"
+#include "g3d/Vector3.h"
+#include "v8tree/Service.h"
+#include "v8datamodel/JointInstance.h"
+#include "util/SteppedInstance.h"
+#include "util/BrickColor.h"
 
 #include <vector>
 

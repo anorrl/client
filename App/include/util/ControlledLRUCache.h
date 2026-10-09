@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Util/LRUCache.h"
+#include "util/LRUCache.h"
 namespace ARL
 {
 	enum CacheSizeEnforceMethod { CACHE_ENFORCE_MEMORY_SIZE, CACHE_ENFORCE_OBJECT_COUNT };

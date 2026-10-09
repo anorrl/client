@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AppDraw/DrawAdorn.h"
+#include "appdraw/DrawAdorn.h"
 #include "GfxBase/Adorn.h"
 #include "GfxBase/IAdornable.h"
 

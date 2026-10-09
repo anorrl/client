@@ -1,9 +1,9 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/Extents.h"
-#include "Util/Math.h"
-#include "V8DataModel/Camera.h"
+#include "util/Extents.h"
+#include "util/Math.h"
+#include "v8datamodel/Camera.h"
 #include "arl/Debug.h"
 
 namespace ARL {

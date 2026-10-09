@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/Region3int32.h"
-#include "Util/Vector3int32.h"
+#include "util/G3DCore.h"
+#include "util/Region3int32.h"
+#include "util/Vector3int32.h"
 #include "v8world/ContactManagerSpatialHash.h"
-#include "Util/Extents.h"
-#include "Voxel/Util.h"
+#include "util/Extents.h"
+#include "voxel/Util.h"
 
 namespace ARL {
 

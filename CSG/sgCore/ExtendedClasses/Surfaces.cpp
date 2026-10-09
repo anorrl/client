@@ -1,4 +1,4 @@
-#include "..//CORE//sg.h"
+#include "..//Core//sg.h"
 
 sgCObject*  sgSurfaces::Face(const sgC2DObject&  outContour,
 							 const sgC2DObject** holes,

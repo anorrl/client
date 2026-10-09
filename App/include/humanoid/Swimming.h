@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Humanoid/Balancing.h"
-#include "Util/Name.h"
+#include "humanoid/Balancing.h"
+#include "util/Name.h"
 
 namespace ARL {
 	namespace HUMAN {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "arl/declarations.h"
+#include "arl/Declarations.h"
 #include <string>
 #include <istream>
 

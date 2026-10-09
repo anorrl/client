@@ -1,6 +1,6 @@
 #pragma once
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
 
 namespace ARL {
 

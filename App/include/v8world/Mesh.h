@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Util/G3DCore.h"
+#include "util/G3DCore.h"
 #include "arl/Debug.h"
-#include "V8World/GeometryPool.h"
+#include "v8world/GeometryPool.h"
 
 namespace ARL {
 

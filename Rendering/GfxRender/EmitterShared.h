@@ -1,6 +1,6 @@
 #pragma once
 
-#include "arl/Boost.hpp"
+#include "arl/boost.hpp"
 
 namespace ARL{namespace Graphics{
 typedef char dumyy4350583408;

@@ -360,7 +360,7 @@ met:
 void   o_hcmult(lpMATR a, lpMATR b)
 {
 	sgFloat c[4];
-	register short i,j,k;
+	short i,j,k;
 	sgFloat aw,bw;
 
 	for ( i=0 ; i < 4 ; i++ ) {

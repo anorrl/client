@@ -16,14 +16,14 @@
 #include <cstddef>
 #include <string>
 
-#include "G3D/platform.h"
-#include "G3D/Array.h"
-#include "G3D/debug.h"
-#include "G3D/System.h"
-#include "G3D/g3dmath.h"
-#include "G3D/EqualsTrait.h"
-#include "G3D/HashTrait.h"
-#include "G3D/MemoryManager.h"
+#include "g3d/platform.h"
+#include "g3d/Array.h"
+#include "g3d/debug.h"
+#include "g3d/System.h"
+#include "g3d/g3dmath.h"
+#include "g3d/EqualsTrait.h"
+#include "g3d/HashTrait.h"
+#include "g3d/MemoryManager.h"
 
 #ifdef _MSC_VER
 #   pragma warning (push)

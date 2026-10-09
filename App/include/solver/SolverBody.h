@@ -1,6 +1,6 @@
 #pragma once
 
-#include "G3D/Vector3.h"
+#include "g3d/Vector3.h"
 #include "simd/simd.h"
 #include "solver/SolverContainers.h"
 #include "solver/ConstraintJacobian.h"

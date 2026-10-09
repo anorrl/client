@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Util/SteppedInstance.h"
-#include "V8DataModel/UserController.h"
+#include "util/SteppedInstance.h"
+#include "v8datamodel/UserController.h"
 
 
 namespace ARL {

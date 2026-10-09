@@ -1,7 +1,7 @@
 #pragma once 
 #include <stdint.h>
-#include "Security/FuzzyTokens.h"
-#include "Security/RandomConstant.h"
+#include "security/FuzzyTokens.h"
+#include "security/RandomConstant.h"
 
 #if defined(_WIN32)
 #include <windows.h>

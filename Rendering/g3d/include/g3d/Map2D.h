@@ -10,16 +10,16 @@
 #ifndef G3D_Map2D_h
 #define G3D_Map2D_h
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
-#include "G3D/Array.h"
-#include "G3D/vectorMath.h"
-#include "G3D/Vector2int16.h"
-#include "G3D/ReferenceCount.h"
-#include "G3D/AtomicInt32.h"
-#include "G3D/GThread.h"
-#include "G3D/Rect2D.h"
-#include "G3D/WrapMode.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
+#include "g3d/Array.h"
+#include "g3d/vectorMath.h"
+#include "g3d/Vector2int16.h"
+#include "g3d/ReferenceCount.h"
+#include "g3d/AtomicInt32.h"
+#include "g3d/GThread.h"
+#include "g3d/Rect2D.h"
+#include "g3d/WrapMode.h"
 
 #include <string>
 

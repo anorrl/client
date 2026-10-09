@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "V8Tree/Property.h"
+#include "v8tree/Property.h"
 #include "arl/Debug.h"
 
-#include "Util/BrickColor.h"
-#include "Util/Region3.h"
-#include "Util/Region3int16.h"
+#include "util/BrickColor.h"
+#include "util/Region3.h"
+#include "util/Region3int16.h"
 #include "util/CellID.h"
 #include "util/PhysicalProperties.h"
 #include "util/TweenInfo.h"

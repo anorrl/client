@@ -1,4 +1,4 @@
-#include "Util/MachineIdUploader.h"
+#include "util/MachineIdUploader.h"
 
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -7,7 +7,7 @@
 #include <net/if_types.h>
 #include <ifaddrs.h>
 
-using namespace RBX;
+using namespace ARL;
 
 // This is only needed to satisfy mac compiler:
 const int MachineIdUploader::MacAddress::kBytesInMacAddress;

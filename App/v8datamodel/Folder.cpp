@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "V8DataModel/Folder.h"
+#include "v8datamodel/Folder.h"
 
 namespace ARL {
 

@@ -3,7 +3,7 @@
 #ifndef _4136E845AFB04f0d835292E319F64778
 #define _4136E845AFB04f0d835292E319F64778
 
-#include "Util/G3DCore.h"
+#include "util/G3DCore.h"
 
 namespace ARL {
 

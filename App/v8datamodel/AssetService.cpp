@@ -1,15 +1,15 @@
 #include "stdafx.h"
 
-#include "V8DataModel/AssetService.h"
-#include "V8DataModel/ContentProvider.h"
-#include "V8DataModel/MarketplaceService.h"
+#include "v8datamodel/AssetService.h"
+#include "v8datamodel/ContentProvider.h"
+#include "v8datamodel/MarketplaceService.h"
 #include "v8datamodel/HttpRbxApiService.h"
-#include "Network/Players.h"
-#include "Util/standardout.h"
-#include "Util/LuaWebService.h"
+#include "network/Players.h"
+#include "util/StandardOut.h"
+#include "util/LuaWebService.h"
 
-#include "V8Xml/WebParser.h"
-#include "Util/Http.h"
+#include "v8xml/WebParser.h"
+#include "util/Http.h"
 
 #include <boost/lexical_cast.hpp>
 

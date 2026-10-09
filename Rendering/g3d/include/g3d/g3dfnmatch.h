@@ -38,7 +38,7 @@
 #ifndef G3D_g3dfnmatch_h
 #define G3D_g3dfnmatch_h
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 
 namespace G3D {
 

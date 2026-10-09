@@ -7,11 +7,11 @@
 #ifndef G3D_SPLINE_H
 #define G3D_SPLINE_H
 
-#include "G3D/platform.h"
-#include "G3D/Array.h"
-#include "G3D/g3dmath.h"
-#include "G3D/Matrix4.h"
-#include "G3D/Vector4.h"
+#include "g3d/platform.h"
+#include "g3d/Array.h"
+#include "g3d/g3dmath.h"
+#include "g3d/Matrix4.h"
+#include "g3d/Vector4.h"
 
 namespace G3D {
 

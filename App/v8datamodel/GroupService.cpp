@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "V8DataModel/GroupService.h"
+#include "v8datamodel/GroupService.h"
 #include "v8datamodel/HttpRbxApiService.h"
 #include "v8xml/WebParser.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 #include "util/Http.h"
 #include "util/LuaWebService.h"
 

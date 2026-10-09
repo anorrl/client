@@ -4,7 +4,7 @@ echo "Running CoreScriptConverter"
 cd "$1"
 ./CoreScriptConverter --rscloc "../rsc.config" --verbose
 
-cd "$1/../../../App/script/"
+cd "../../../App/script/"
 
 if [[ -e "LuaGenCS.inl" ]];
 then

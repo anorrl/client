@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "V8DataModel/TerrainRegion.h"
+#include "v8datamodel/TerrainRegion.h"
 
 #include "v8datamodel/MegaCluster.h"
 
-#include "Voxel2/Conversion.h"
+#include "voxel2/Conversion.h"
 
 namespace ARL {
 

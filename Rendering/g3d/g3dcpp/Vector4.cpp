@@ -9,12 +9,12 @@
 
 #include <stdlib.h>
 #include <limits>
-#include "G3D/Vector4.h"
-#include "G3D/Color4.h"
-#include "G3D/g3dmath.h"
-#include "G3D/stringutils.h"
-#include "G3D/Vector4int8.h"
-#include "G3D/Matrix4.h"
+#include "g3d/Vector4.h"
+#include "g3d/Color4.h"
+#include "g3d/g3dmath.h"
+#include "g3d/stringutils.h"
+#include "g3d/Vector4int8.h"
+#include "g3d/Matrix4.h"
 
 namespace G3D {
 

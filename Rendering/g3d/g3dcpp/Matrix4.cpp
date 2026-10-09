@@ -8,13 +8,13 @@
   @edited  2010-01-29
  */
 
-#include "G3D/platform.h"
-#include "G3D/Matrix4.h"
-#include "G3D/Matrix3.h"
-#include "G3D/Vector4.h"
-#include "G3D/Vector3.h"
-#include "G3D/CoordinateFrame.h"
-#include "G3D/Rect2D.h"
+#include "g3d/platform.h"
+#include "g3d/Matrix4.h"
+#include "g3d/Matrix3.h"
+#include "g3d/Vector4.h"
+#include "g3d/Vector3.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/Rect2D.h"
 
 namespace G3D {
 

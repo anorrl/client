@@ -7,8 +7,8 @@
  @edited  2008-01-10
 */
 
-#include "G3D/platform.h"
-#include "G3D/stringutils.h"
+#include "g3d/platform.h"
+#include "g3d/stringutils.h"
 #include <algorithm>
 
 namespace G3D {

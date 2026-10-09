@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Util/IndexedTree.h"
+#include "util/IndexedTree.h"
 
 /*
 	used ad the basis for the Primitive / Clump / Assembly / Mechanism / SimJob data structures

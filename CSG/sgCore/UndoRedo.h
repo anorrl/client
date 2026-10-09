@@ -1,7 +1,7 @@
 #ifndef __UNDO_REDO__
 #define __UNDO_REDO__
 
-#include "CORE//sg.h"
+#include "Core//sg.h"
 
 #include <vector>
 #include <list>

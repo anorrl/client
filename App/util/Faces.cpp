@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Util/Faces.h"
+#include "util/Faces.h"
 #include "util/Utilities.h"
 
 namespace ARL

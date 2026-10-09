@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "G3D/Rect2D.h"
+#include "util/G3DCore.h"
+#include "g3d/Rect2D.h"
 
 
 namespace ARL {

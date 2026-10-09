@@ -8,7 +8,7 @@
 #pragma once
 
 #include "v8datamodel/UserInputService.h"
-#include "V8DataModel/TextBox.h"
+#include "v8datamodel/TextBox.h"
 #include "v8datamodel/Game.h"
 
 #import <UIKit/UIKit.h>

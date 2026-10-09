@@ -11,14 +11,15 @@
 #include <QCoreApplication>
 #include <QStyledItemDelegate>
 #include <QPainter>
+#include <QPainterPath>
 #include <QCompleter>
 #include <QStringListModel>
 #include <QApplication>
 
-#include "V8DataModel/DataModel.h"
-#include "Network/Players.h"
-#include "Network/Player.h"
-#include "V8Xml/WebParser.h"
+#include "v8datamodel/DataModel.h"
+#include "network/Players.h"
+#include "network/Player.h"
+#include "v8xml/WebParser.h"
 
 #include "PlayersDataManager.h"
 #include "AuthenticationHelper.h"
@@ -309,7 +310,7 @@ bool CreatorsListWidget::isPlayerPresent(int playerId)
 QString CreatorsListWidget::getPlayerName(int playerId)
 {
 	if (!m_pDataModel)
-		return false;
+		return QString();
 
 	ARL::DataModel::LegacyLock lock(m_pDataModel.get(), ARL::DataModelJob::Write);
 	ARL::Network::Players* players = m_pDataModel->find<ARL::Network::Players>();

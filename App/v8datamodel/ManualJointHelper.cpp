@@ -1,23 +1,23 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/ManualJointHelper.h"
+#include "v8datamodel/ManualJointHelper.h"
 #include "GfxBase/IAdornableCollector.h"
-#include "V8World/World.h"
-#include "Tool/DragUtilities.h"
-#include "V8World/ContactManager.h"
-#include "V8World/Contact.h"
-#include "V8World/Joint.h"
-#include "V8World/WeldJoint.h"
-#include "V8World/MegaClusterPoly.h"
-#include "Tool/ToolsArrow.h"
+#include "v8world/World.h"
+#include "tool/DragUtilities.h"
+#include "v8world/ContactManager.h"
+#include "v8world/Contact.h"
+#include "v8world/Joint.h"
+#include "v8world/WeldJoint.h"
+#include "v8world/MegaClusterPoly.h"
+#include "tool/ToolsArrow.h"
 
-#include "Humanoid/Humanoid.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/PVInstance.h"
-#include "V8DataModel/JointInstance.h"
-#include "V8DataModel/MegaCluster.h"
+#include "humanoid/Humanoid.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/PVInstance.h"
+#include "v8datamodel/JointInstance.h"
+#include "v8datamodel/MegaCluster.h"
 
 namespace ARL {
 

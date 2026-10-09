@@ -91,7 +91,26 @@ uint32_t netPmcHashCheck(const NetPmcChallenge& challenge)
 #endif
 
 #ifdef ARL_ACC_SECURITY
+
+#ifndef _WIN32
+static std::vector<NetPmcChallenge> generateNetPmcKeys()
+{
+    std::vector<NetPmcChallenge> keys;
+    keys.resize(kNumChallenges);
+    uint8_t key[32];
+    for (size_t i = 0; i < 32; ++i)
+    {
+        key[i] = (i+1)*(i^0x55);
+    }
+    ARL::Security::salsa20(reinterpret_cast<uint8_t*>(keys.data()), sizeof(NetPmcChallenge)*kNumChallenges, key, 2015);
+    return keys;
+}
+#endif
+
 std::vector<NetPmcChallenge> netPmcKeys = generateNetPmcKeys();
+
+
+
 
 NetPmcServer::NetPmcServer() : // some are set to safe, but odd defaults
     isGameCreator(true)

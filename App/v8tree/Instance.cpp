@@ -1,13 +1,13 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8Tree/Instance.h"
-#include "RbxAssert.h"
-#include "V8Xml/Serializer.h"
-#include "V8Tree/Service.h"
-#include "util/standardout.h"
-#include "V8DataModel/ScriptService.h"
-#include "V8DataModel/DataModel.h"
+#include "v8tree/Instance.h"
+#include "ARLAssert.h"
+#include "v8xml/Serializer.h"
+#include "v8tree/Service.h"
+#include "util/StandardOut.h"
+#include "v8datamodel/ScriptService.h"
+#include "v8datamodel/DataModel.h"
 #include "security/ApiSecurity.h"
 #include "v8datamodel/HackDefines.h"
 #include "VMProtectSDK.h"
@@ -657,7 +657,7 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
     checkRbxCaller<kCallCheckCallArg, callCheckSetBasicFlag<HATE_RETURN_CHECK> >(thisFunction);    
 
 	// signals for the child being added
-#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32)
+#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && (defined(_WIN32) || defined(__linux__))
     bool detectedExploit = false;
 #endif
 	if (newParent != NULL)
@@ -672,7 +672,7 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
 
 		checkParentWaitingForChildren();
 	}
-#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32)
+#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && (defined(_WIN32) || defined(__linux__))
     else
     {
         detectedExploit = (detectDllByExceptionChainStack<4>(&newParent, ARL::Security::kCheckDefault) != 0);
@@ -685,7 +685,7 @@ bool Instance::setParentInternal(Instance* newParent, bool ignoreLock)
 
 	raiseChanged(propParent);
 
-#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && defined(_WIN32)
+#if !defined(ARL_ACC_SECURITY) && !defined(ARL_STUDIO_BUILD) && !defined(_NOOPT) && !defined(_DEBUG) && (defined(_WIN32) || defined(__linux__))
     if (detectedExploit)
     {
         VMProtectBeginVirtualization(NULL);

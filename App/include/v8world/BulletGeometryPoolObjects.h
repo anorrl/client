@@ -4,13 +4,13 @@
 	Utility class - holds Bullet Shapes for use by Geometry Pool.
 */
 
-#include "Util/Memory.h"
+#include "util/Memory.h"
 
 #include "BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
 #include "BulletCollision/CollisionShapes/btConvexHullShape.h"
 #include "BulletCollision/CollisionShapes/btConvexPolyhedron.h"
 #include "BulletCollision/CollisionShapes/btShapeHull.h"
-#include "BulletCollision/GImpact/btGImpactShape.h"
+#include "BulletCollision/Gimpact/btGImpactShape.h"
 #include "Extras/GIMPACTUtils/btGImpactConvexDecompositionShape.h"
 #include "BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
 #include "btBulletCollisionCommon.h"

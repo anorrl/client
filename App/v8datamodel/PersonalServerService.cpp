@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "V8DataModel/PersonalServerService.h"
-#include "Util/LuaWebService.h"
-#include "Network/Players.h"
+#include "v8datamodel/PersonalServerService.h"
+#include "util/LuaWebService.h"
+#include "network/Players.h"
 
 namespace ARL
 {

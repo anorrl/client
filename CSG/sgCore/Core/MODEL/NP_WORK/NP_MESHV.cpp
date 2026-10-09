@@ -15,7 +15,7 @@ static  short		make_label_edge( lpNPTRI tri, short lv1, short lv2);
 BOOL np_mesh3v(lpNP_STR_LIST list, lpNPTRP trp, short *ident, lpVDIM coor, sgFloat angle,
 							lpVDIM vdtri)
 {
-	register short i,j;
+	short i,j;
 	short*		indv = NULL;		//     Vdim
 	short*		inde;//nb = NULL;		//     
 	short			num_act = 0;	// -   
@@ -313,7 +313,7 @@ static  short make_label( UCHAR constr, short i)
 
 static  void act_edge_removal(short *inde, short *num_act, short act_edge)
 {
-	register short i;
+	short i;
 	for (i = 0; i < *num_act; i++) {
 		if (inde[i] == act_edge) {
 			(*num_act)--;
@@ -336,7 +336,7 @@ static  short np_cr_face()
 
 static  short  find_np_ver(short *indv, short v)
 {
-	register short i;
+	short i;
 	for (i = 1; i <= npwg->nov; i++) {
 		if (indv[i] == v) return i;
 	}
@@ -345,7 +345,7 @@ static  short  find_np_ver(short *indv, short v)
 
 static  short find_np_edge( short bv, short ev)
 {
-	register short i;
+	short i;
 	for (i = 1; i <= npwg->noe; i++) {
 		if (npwg->efr[i].bv == bv && npwg->efr[i].ev == ev) return i;
 		if (npwg->efr[i].bv == ev && npwg->efr[i].ev == bv) return -i;
@@ -355,7 +355,7 @@ static  short find_np_edge( short bv, short ev)
 
 static  short  find_near_tr(short lv1, short lv2, lpVDIM vdtri, lpNPTRI tr)
 {
-	register short i,j;
+	short i,j;
 	char		c = 0;
 	lpNPTRI trtmp;
 
@@ -379,7 +379,7 @@ static  short  find_near_tr(short lv1, short lv2, lpVDIM vdtri, lpNPTRI tr)
 
 static  short  find_free_tr(lpVDIM vdtri, lpNPTRI tr)
 {
-	register short i;
+	short i;
 	lpNPTRI trtmp;
 
 	begin_rw(vdtri,0);

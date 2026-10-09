@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Humanoid/Balancing.h"
+#include "humanoid/Balancing.h"
 
 namespace ARL {
 

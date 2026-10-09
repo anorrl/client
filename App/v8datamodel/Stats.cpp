@@ -1,24 +1,24 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Stats.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/Stats.h"
+#include "v8datamodel/DataModel.h"
 #include "arl/Log.h"
-#include "util/http.h"
-#include "util/profiling.h"
-#include "util/statistics.h"
+#include "util/Http.h"
+#include "util/Profiling.h"
+#include "util/Statistics.h"
 #include "util/Analytics.h"
 #include "v8datamodel/ContentProvider.h"
 #include "v8datamodel/DebugSettings.h"
 #include "script/ScriptContext.h"
 #include "format_string.h"
 #include "ANORRLServicesTools.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 #include <boost/algorithm/string.hpp>
 
 #ifdef _WIN32
-#include "Util/FileSystem.h"
+#include "util/FileSystem.h"
 #include "VersionInfo.h"
 #elif __ANDROID__
 namespace ARL
@@ -853,10 +853,12 @@ static const bool jobsAsArray = true;
 			formatValue(value, "%d", value);
 		}
 
+#if !defined(__linux__)
 		template<>
 		void Item::formatValue(const unsigned long& value) {
 			formatValue(value, "%d", value);
 		}
+#endif
 
 		template<>
 #ifdef _WIN32

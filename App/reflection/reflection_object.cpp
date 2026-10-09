@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "reflection/object.h"
+#include "reflection/Object.h"
 #include "g3d/format.h"
 
 using namespace ARL;

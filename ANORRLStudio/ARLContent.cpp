@@ -8,7 +8,7 @@
 
 // ANORRL Headers
 #include "util/Http.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 #include "ANORRLGameExplorer.h"
 #include "UpdateUIManager.h"

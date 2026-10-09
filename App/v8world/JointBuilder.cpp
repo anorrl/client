@@ -1,15 +1,15 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/JointBuilder.h"
-#include "V8World/WeldJoint.h"
-#include "V8World/SnapJoint.h"
-#include "V8World/GlueJoint.h"
-#include "V8World/RotateJoint.h"
-#include "V8World/Primitive.h"
-#include "V8World/Tolerance.h"
-#include "Util/Units.h"
-#include "Util/Math.h"
+#include "v8world/JointBuilder.h"
+#include "v8world/WeldJoint.h"
+#include "v8world/SnapJoint.h"
+#include "v8world/GlueJoint.h"
+#include "v8world/RotateJoint.h"
+#include "v8world/Primitive.h"
+#include "v8world/Tolerance.h"
+#include "util/Units.h"
+#include "util/Math.h"
 
 namespace ARL {
 

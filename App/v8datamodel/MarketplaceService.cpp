@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "V8DataModel/MarketplaceService.h"
+#include "v8datamodel/MarketplaceService.h"
 #include "v8datamodel/HttpRbxApiService.h"
-#include "Network/Player.h"
-#include "Network/Players.h"
-#include "Util/LuaWebService.h"
-#include "Util/Analytics.h"
+#include "network/Player.h"
+#include "network/Players.h"
+#include "util/LuaWebService.h"
+#include "util/Analytics.h"
 #include "v8xml/WebParser.h"
 #include <boost/algorithm/string.hpp>
 

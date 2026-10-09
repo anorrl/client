@@ -1,14 +1,14 @@
 #include "PersistentDataStore.h"
-#include "V8DataModel/Value.h"
-#include "Script/Script.h"
-#include "v8xml/xmlserializer.h"
+#include "v8datamodel/Value.h"
+#include "script/script.h"
+#include "v8xml/XmlSerializer.h"
 #include "v8xml/WebSerializer.h"
-#include "V8DataModel/Message.h"
-#include "V8DataModel/Animation.h"
-#include "V8DataModel/TextLabel.h"
-#include "V8DataModel/TextButton.h"
-#include "V8DataModel/TextBox.h"
-#include "Network/Players.h"
+#include "v8datamodel/Message.h"
+#include "v8datamodel/Animation.h"
+#include "v8datamodel/TextLabel.h"
+#include "v8datamodel/TextButton.h"
+#include "v8datamodel/TextBox.h"
+#include "network/Players.h"
 
 namespace ARL { namespace Network {
 

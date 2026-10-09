@@ -7,26 +7,26 @@
 //
 #include "stdafx.h"
 
-#include "V8DataModel/UserInputService.h"
-#include "V8DataModel/Bindable.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/Filters.h"
-#include "V8DataModel/ClickDetector.h"
-#include "V8DataModel/MouseCommand.h"
-#include "V8DataModel/TextBox.h"
-#include "V8DataModel/PlayerGui.h"
+#include "v8datamodel/UserInputService.h"
+#include "v8datamodel/Bindable.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/Filters.h"
+#include "v8datamodel/ClickDetector.h"
+#include "v8datamodel/MouseCommand.h"
+#include "v8datamodel/TextBox.h"
+#include "v8datamodel/PlayerGui.h"
 #include "v8datamodel/UserController.h"
 #include "v8datamodel/Frame.h"
 #include "v8datamodel/GamepadService.h"
 #include "v8datamodel/TouchInputService.h"
-#include "V8World/World.h"
-#include "V8World/ContactManager.h"
+#include "v8world/World.h"
+#include "v8world/ContactManager.h"
 #include "v8datamodel/ScreenGui.h"
-#include "reflection/object.h"
-#include "Humanoid/Humanoid.h"
-#include "Util/UserInputBase.h"
-#include "Util/Quaternion.h"
-#include "Util/NavKeys.h"
+#include "reflection/Object.h"
+#include "humanoid/Humanoid.h"
+#include "util/UserInputBase.h"
+#include "util/Quaternion.h"
+#include "util/NavKeys.h"
 
 #include "arl/Profiler.h"
 
@@ -81,6 +81,7 @@ namespace ARL {
 		{
             addPair(UserInputService::PLATFORM_WINDOWS, "Windows");
             addPair(UserInputService::PLATFORM_OSX, "OSX");
+			addPair(UserInputService::PLATFORM_UNIX, "Unix");
             addPair(UserInputService::PLATFORM_IOS, "IOS");
             addPair(UserInputService::PLATFORM_ANDROID, "Android");
 			addPair(UserInputService::PLATFORM_XBOXONE, "XBoxOne");
@@ -291,6 +292,7 @@ namespace ARL {
             // desktop
 			case UserInputService::PLATFORM_WINDOWS:
 			case UserInputService::PLATFORM_OSX:
+			case UserInputService::PLATFORM_UNIX:
             {
                 lastInputType = InputObject::TYPE_MOUSEMOVEMENT;
                 setMouseEnabled(true);
@@ -323,7 +325,7 @@ namespace ARL {
 		#ifdef _WIN32
         modPairs.push_back(std::make_pair(SDLK_LCTRL, KMOD_LCTRL));
 		modPairs.push_back(std::make_pair(SDLK_RCTRL, KMOD_RCTRL));
-		#elif __APPLE__
+		#elif __APPLE__ || __linux__
 		modPairs.push_back(std::make_pair(SDLK_LMETA, KMOD_LMETA));
 		modPairs.push_back(std::make_pair(SDLK_RMETA, KMOD_RMETA));
 		#endif
@@ -442,6 +444,8 @@ namespace ARL {
         return PLATFORM_WINDOWS;
 #elif defined(__ANDROID__)
         return PLATFORM_ANDROID;
+#elif defined(__linux__) || defined(__unix__)
+        return PLATFORM_UNIX;
 #else
         return PLATFORM_NONE;
 #endif

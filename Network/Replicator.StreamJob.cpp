@@ -4,12 +4,12 @@
 #include "ClientReplicator.h"
 
 #include "arl/DenseHash.h"
-#include "V8DataModel/ModelInstance.h"
+#include "v8datamodel/ModelInstance.h"
 #include "v8world/ContactManager.h"
 #include "v8world/ContactManagerSpatialHash.h"
 #include "util/StreamRegion.h"
 #include "Players.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/Humanoid.h"
 
 using namespace ARL;
 using namespace ARL::Network;

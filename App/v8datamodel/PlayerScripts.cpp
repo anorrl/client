@@ -1,15 +1,15 @@
 #include "stdafx.h"
 
 /* Copyright 2003-2014 ROBLOX Corporation, All Rights Reserved  */
-#include "V8DataModel/PlayerScripts.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/StarterPlayerService.h"
-#include "V8DataModel/Folder.h"
-#include "Network/Player.h"
-#include "Network/Players.h"
-#include "Script/Script.h"
-#include "Script/ModuleScript.h"
-#include "Reflection/Event.h"
+#include "v8datamodel/PlayerScripts.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/StarterPlayerService.h"
+#include "v8datamodel/Folder.h"
+#include "network/Player.h"
+#include "network/Players.h"
+#include "script/script.h"
+#include "script/ModuleScript.h"
+#include "reflection/Event.h"
 
 
 namespace ARL {

@@ -19,15 +19,15 @@
 #include "v8datamodel/Value.h"
 #include "v8datamodel/PlayerGui.h"
 #include "v8datamodel/HttpService.h"
-#include "V8DataModel/Folder.h"
-#include "V8DataModel/ScreenGui.h"
-#include "V8Datamodel/ContentProvider.h"
+#include "v8datamodel/Folder.h"
+#include "v8datamodel/ScreenGui.h"
+#include "v8datamodel/ContentProvider.h"
 #include "v8datamodel/MegaCluster.h"
 #include "v8datamodel/TeleportService.h"
 #include "v8datamodel/HttpRbxApiService.h"
 #include "util/Statistics.h"
 #include "ANORRLServicesTools.h"
-#include "script/Script.h"
+#include "script/script.h"
 #include "script/ScriptContext.h"
 #include "script/ModuleScript.h"
 #include "script/CoreScript.h"
@@ -37,9 +37,9 @@
 #include "ClientReplicator.h"
 #include "Marker.h"
 #include "GamePerfMonitor.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 #include "util/rbxrandom.h"
-#include "../win/sharedlauncher.h"
+#include "../Win/SharedLauncher.h"
 #include <vector>
 
 #include "StringConv.h"
@@ -723,7 +723,6 @@ void PlayerConfigurer::onPlayerChanged(const Reflection::PropertyDescriptor* pro
 
 			// send to influxdb
 			analyticsPoints.report("ClientJoin", DFInt::JoinInfluxHundredthsPercentage);
-
 			playStartTime = G3D::System::time();
 			playResolved = false;
 		}

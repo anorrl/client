@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Reflection/Property.h"
-#include "V8Xml/Reference.h"
-#include "V8Xml/XmlElement.h"
-#include "Util/Object.h"
+#include "reflection/Property.h"
+#include "v8xml/Reference.h"
+#include "v8xml/XmlElement.h"
+#include "util/Object.h"
 
-#include "G3D/Vector3.h"
-#include "G3D/Color3.h"
+#include "g3d/Vector3.h"
+#include "g3d/Color3.h"
 #include <string>
 #include <iostream>
 #include <vector>

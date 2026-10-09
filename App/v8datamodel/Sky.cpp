@@ -2,9 +2,9 @@
 
 #include "./v8datamodel/Sky.h"
 
-#include "g3d/gimage.h"
-#include "util/standardout.h"
-#include "v8datamodel/contentprovider.h"
+#include "g3d/GImage.h"
+#include "util/StandardOut.h"
+#include "v8datamodel/ContentProvider.h"
 
 const char* const ARL::sSky = "Sky";
 

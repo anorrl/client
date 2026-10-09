@@ -1,14 +1,14 @@
 /* Copyright 2003-2013 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/AnimationController.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Animator.h"
-#include "V8World/World.h"
-#include "V8Tree/Service.h"
-#include "V8Kernel/Constants.h"
-#include "Network/Players.h"
+#include "v8datamodel/AnimationController.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Animator.h"
+#include "v8world/World.h"
+#include "v8tree/Service.h"
+#include "v8kernel/Constants.h"
+#include "network/Players.h"
 
 namespace ARL {
 

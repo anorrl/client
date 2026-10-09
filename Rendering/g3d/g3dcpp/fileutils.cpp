@@ -9,10 +9,10 @@
 
 #include <cstring>
 #include <cstdio>
-#include "G3D/platform.h"
-#include "G3D/fileutils.h"
+#include "g3d/platform.h"
+#include "g3d/fileutils.h"
 
-#include "G3D/stringutils.h"
+#include "g3d/stringutils.h"
 
 namespace G3D {
     

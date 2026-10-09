@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-#include "V8DataModel/BasicPartInstance.h"
-#include "V8DataModel/ExtrudedPartInstance.h"
-#include "V8DataModel/PrismInstance.h"
-#include "V8DataModel/PyramidInstance.h"
-#include "V8DataModel/Handles.h"
-#include "V8DataModel/GuiObject.h"
-#include "Reflection/EnumConverter.h"
+#include "v8datamodel/BasicPartInstance.h"
+#include "v8datamodel/ExtrudedPartInstance.h"
+#include "v8datamodel/PrismInstance.h"
+#include "v8datamodel/PyramidInstance.h"
+#include "v8datamodel/Handles.h"
+#include "v8datamodel/GuiObject.h"
+#include "reflection/EnumConverter.h"
 
 namespace ARL {
 namespace Reflection {

@@ -5,28 +5,30 @@
 
 #include "stdafx.h"
 #include "ANORRLScriptDoc.h"
+#include <cstdint>
 
 // Qt Headers
 #include <QTextStream>
 #include <QClipboard>
 #include <QFileInfo>
+#include <QMimeData>
 
 // 3rd Party Headers
 #include "boost/iostreams/copy.hpp"
 
 // ANORRL Headers
 #include "script/script.h"
-#include "Script/ScriptContext.h"
+#include "script/ScriptContext.h"
 #include "util/ProtectedString.h"
-#include "Util/ScopedAssign.h"
+#include "util/ScopedAssign.h"
 #include "v8datamodel/ContentProvider.h"
 #include "v8datamodel/DataModel.h"
 #include "v8datamodel/Selection.h"
-#include "V8Tree/Service.h"
+#include "v8tree/Service.h"
 
 #include "Client.h"
 #include "ClientReplicator.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 // ANORRL Studio Headers
 #include "AuthoringSettings.h"
@@ -67,7 +69,7 @@ ANORRLScriptDoc::ANORRLScriptDoc()
 {
     // get a temporarily name that we're going to overwrite when the script changes.
     // the doc manager needs to have some way to refer to this doc while configuring.
-    m_keyName = QString::number((int)this);    
+    m_keyName = QString::number(reinterpret_cast<uintptr_t>(this));    
 }
 
 ANORRLScriptDoc::~ANORRLScriptDoc()

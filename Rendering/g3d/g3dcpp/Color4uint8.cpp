@@ -6,10 +6,10 @@
  @created 2003-04-07
  @edited  2006-01-07
  */
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
-#include "G3D/Color4uint8.h"
-#include "G3D/Color4.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
+#include "g3d/Color4uint8.h"
+#include "g3d/Color4.h"
 
 namespace G3D {
 

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "V8World/SpatialHashMultiRes.h"
+#include "v8world/SpatialHashMultiRes.h"
 
 namespace ARL
 {

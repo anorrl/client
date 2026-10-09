@@ -1,8 +1,8 @@
 #pragma once
 
 #include "reflection/Type.h"
-#include "util/utilities.h"
-#include "util/math.h"
+#include "util/Utilities.h"
+#include "util/Math.h"
 #include <boost/bind.hpp>
 #include <boost/unordered_map.hpp>
 #include <boost/thread/once.hpp>

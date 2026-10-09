@@ -12,9 +12,9 @@
 #include <boost/unordered_map.hpp>
 
 // ANORRL Headers
-#include "v8datamodel/changehistory.h"
-#include "v8datamodel/datamodel.h"
-#include "v8datamodel/workspace.h"
+#include "v8datamodel/ChangeHistory.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Workspace.h"
 #include "v8datamodel/Camera.h"
 #include "v8datamodel/Selection.h"
 #include "v8datamodel/JointInstance.h"
@@ -26,9 +26,9 @@
 #include "FastLog.h"
 #include "v8datamodel/PartOperation.h"
 #include "v8datamodel/CSGDictionaryService.h"
-#include "V8DataModel/NonReplicatedCSGDictionaryService.h"
+#include "v8datamodel/NonReplicatedCSGDictionaryService.h"
 
-#include "Voxel2/Grid.h"
+#include "voxel2/Grid.h"
 
 LOGGROUP(TerrainCellListener)
 

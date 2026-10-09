@@ -1,7 +1,7 @@
 #pragma once
 
-#include "V8DataModel/InputObject.h"
-#include "G3D/Vector2.h"
+#include "v8datamodel/InputObject.h"
+#include "g3d/Vector2.h"
 
 #define DIRECTINPUT_VERSION 0x0800
 

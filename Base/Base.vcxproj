@@ -307,7 +307,7 @@
     </ClCompile>
     <ClCompile Include="cpucount.cpp" />
     <ClCompile Include="arl\MathUtil.cpp" />
-    <ClCompile Include="RbxAssert.cpp" />
+    <ClCompile Include="ARLAssert.cpp" />
     <ClCompile Include="RbxFormat.cpp" />
     <ClCompile Include="arl\Profiler.cpp" />
     <ClCompile Include="arl\Time.cpp" />
@@ -349,11 +349,11 @@
     <ClInclude Include="include\arl\ArrayDynamic.h" />
     <ClInclude Include="include\arl\DenseHash.h" />
     <ClInclude Include="include\arl\MathUtil.h" />
-    <ClInclude Include="include\RbxAssert.h" />
-    <ClInclude Include="include\RbxBase.h" />
-    <ClInclude Include="include\RbxFormat.h" />
-    <ClInclude Include="include\RbxHash.h" />
-    <ClInclude Include="include\RbxPlatform.h" />
+    <ClInclude Include="include\ARLAssert.h" />
+    <ClInclude Include="include\ARLBase.h" />
+    <ClInclude Include="include\ARLFormat.h" />
+    <ClInclude Include="include\ARLHash.h" />
+    <ClInclude Include="include\ARLPlatform.h" />
     <ClInclude Include="include\arl\Profiler.h" />
     <ClInclude Include="include\arl\rbxTime.h" />
     <ClInclude Include="include\arl\Thread.hpp" />

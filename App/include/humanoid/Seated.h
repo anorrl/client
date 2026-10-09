@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Humanoid/HumanoidState.h"
+#include "humanoid/HumanoidState.h"
 
 namespace ARL {
 

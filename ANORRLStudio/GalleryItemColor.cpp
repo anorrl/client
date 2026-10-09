@@ -10,7 +10,7 @@
 #include <QPainter>
 #include <QStyleOption>
 #include <QtnStyleHelpers.h>
-#include <QRgb.h>
+#include <QRgb>
 
 // ANORRL headers
 #include "util/BrickColor.h"

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "V8DataModel/GuiObject.h"
-#include "V8DataModel/ScreenGui.h"
-#include "V8DataModel/PlayerGui.h"
-#include "V8DataModel/GuiService.h"
+#include "v8datamodel/GuiObject.h"
+#include "v8datamodel/ScreenGui.h"
+#include "v8datamodel/PlayerGui.h"
+#include "v8datamodel/GuiService.h"
 #include "GfxBase/Adorn.h"
 #include "FastLog.h"
 

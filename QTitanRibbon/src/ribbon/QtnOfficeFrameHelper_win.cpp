@@ -27,22 +27,19 @@
 #include <QApplication>
 #include <QWidget>
 #include <QPainter>
-#include <QLayout>
 #include <QPixmap>
 #include <QPaintEngine>
 #include <QStyleOption>
 #include <QStatusBar>
 #include <QToolButton>
+#include <qpa/qplatformnativeinterface.h>
+#include <QPaintEngine>
 #include <QLibrary>
-#include <QDesktopWidget>
 #include <qevent.h>
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-#include <private/qpaintengine_raster_p.h>
-#include <private/qwidget_p.h>
-#include <QtGui/qwindow.h>
-#include <qpa/qplatformwindow.h>
-#include <private/qapplication_p.h>
+#include <QtGui>
+#include <QtWidgets>
 #endif
 
 #include "QtnRibbonSystemPopupBar.h"
@@ -472,7 +469,7 @@ void OfficeFrameHelperWin::restoreMargins()
 
             // Reduce top frame to zero since we paint it ourselves.
             const QMargins customMargins = QMargins(m_oldMarginsleft, m_oldMarginstop, m_oldMarginsright, m_oldMarginsbottom);
-            const QVariant customMarginsV = qVariantFromValue(customMargins);
+            const QVariant customMarginsV = QVariant::fromValue(customMargins);
 
             // The dynamic property takes effect when creating the platform window.
             window->setProperty("_q_windowsCustomMargins", customMarginsV);
@@ -843,7 +840,7 @@ void OfficeFrameHelperWin::initStyleOption(StyleOptionFrame* option)
     ::ClientToScreen(m_hwndFrame, (LPPOINT)&rcClient);
     ::ClientToScreen(m_hwndFrame, ((LPPOINT)&rcClient)+1);
 
-    option->init(m_frame);
+    option->initFrom(m_frame);
     option->rect = QRect(QPoint(rc.left, rc.top), QPoint(rc.right, rc.bottom)); 
     option->active = m_active;
     option->hasStatusBar = isFrameHasStatusBar();
@@ -985,72 +982,66 @@ void OfficeFrameHelperWin::drawTitleBar(QPainter* painter, const StyleOptionTitl
 {
     if (!m_ribbonBar)
         return;
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    QRasterPaintEngine* en = (QRasterPaintEngine *)painter->paintEngine();
-#else
-    QPaintEngine* en = painter->paintEngine();
-#endif
-    HDC hdc = en->getDC();
+    HDC hdc = ::GetDC(m_hwndFrame);
+    if (!hdc)
+        return;
 
     QRect rc = opt.rect;
     if ((bool)m_ribbonBar->style()->styleHint((QStyle::StyleHint)RibbonStyle::SH_FlatFrame))
-        rc.adjust( 0, 0, 0, 1 );
+        rc.adjust(0, 0, 0, 1);
 
     fillSolidRect(painter, rc, opt.airRegion, QColor(0, 0, 0));
 
     int len = ::GetWindowTextLengthW(m_hwndFrame);
-    wchar_t* text = new wchar_t[++len];
+    wchar_t* text = new wchar_t[len + 1];  // len + 1 for null terminator
     ::GetWindowTextW(m_hwndFrame, text, len + 1);
-    drawDwmCaptionText(painter, opt.rcTitleText, text[0] != Q_NULL ? QString::fromWCharArray(text) : opt.text, opt.state & QStyle::State_Active);
+    drawDwmCaptionText(painter, opt.rcTitleText, text[0] != L'\0' ? QString::fromWCharArray(text) : opt.text, opt.state & QStyle::State_Active);
     delete[] text;
 
-    if (opt.drawIcon && !opt.icon.isNull()) 
+    if (opt.drawIcon && !opt.icon.isNull())
     {
         int nFrameBorder = frameBorder();
         int nTopBorder = isDwmEnabled() ? nFrameBorder : 0;
 
         QSize szIcon = getSizeSystemIcon();
 
-        int nTop = nTopBorder / 2 - 1 + (opt.rect.bottom()  - szIcon.height())/2;
+        int nTop = nTopBorder / 2 - 1 + (opt.rect.bottom() - szIcon.height()) / 2;
         int nLeft = opt.rect.left() + nFrameBorder + 1;
 
-        QRect rect(QPoint(nLeft, nTop), szIcon);
-
-        //m_hIcon = (HICON)(DWORD_PTR)::GetClassLongPtr(m_hwndFrame, GCLP_HICONSM);
+        RECT rect;
+        rect.left = nLeft;
+        rect.top = nTop;
+        rect.right = nLeft + szIcon.width();
+        rect.bottom = nTop + szIcon.height();
 
         if (HICON hIcon = getWindowIcon(opt.icon))
-            ::DrawIconEx(hdc, rect.left(), rect.top(), hIcon, 0, 0, 0, Q_NULL, DI_NORMAL | DI_COMPAT);
+            ::DrawIconEx(hdc, rect.left, rect.top, hIcon, 0, 0, 0, nullptr, DI_NORMAL | DI_COMPAT);
     }
 
-    if (hdc)
-        en->releaseDC(hdc);
+    ::ReleaseDC(m_hwndFrame, hdc);
 }
 
 void OfficeFrameHelperWin::fillSolidRect(QPainter* painter, const QRect& rect, const QRegion& airRegion, QColor clr)
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    QRasterPaintEngine* en = (QRasterPaintEngine *)painter->paintEngine();
-#else
-    QPaintEngine* en = painter->paintEngine();
-#endif
-    HDC hdc = en->getDC();
-
-    if (hdc == 0)
+    HDC hdc = ::GetDC(m_hwndFrame);
+    if (hdc == nullptr)
         return;
 
-    QVector<QRect> rects = airRegion.rects();
-    for (QVector<QRect>::iterator it = rects.begin(); it != rects.end(); ++it)
+    auto rects = airRegion.rects();
+    for (const QRect &r : rects)
     {
-        QRect r = rect.intersected(*it);
+        QRect intersected = rect.intersected(r);
         RECT rc;
-        rc.left    = r.left();
-        rc.top     = r.top();
-        rc.right   = r.right() + 1;
-        rc.bottom  = r.bottom() + 1;
+        rc.left    = intersected.left();
+        rc.top     = intersected.top();
+        rc.right   = intersected.right() + 1;
+        rc.bottom  = intersected.bottom() + 1;
+
         ::SetBkColor(hdc, RGB(clr.red(), clr.green(), clr.blue()));
-        ::ExtTextOutW(hdc, 0, 0, ETO_OPAQUE, &rc, Q_NULL, 0, Q_NULL);
+        ::ExtTextOutW(hdc, 0, 0, ETO_OPAQUE, &rc, nullptr, 0, nullptr);
     }
-    en->releaseDC(hdc);
+
+    ::ReleaseDC(m_hwndFrame, hdc);
 }
 
 void OfficeFrameHelperWin::drawDwmCaptionText(QPainter* painter, const QRect& rc, const QString& strWindowText, bool active)
@@ -1067,7 +1058,8 @@ void OfficeFrameHelperWin::drawDwmCaptionText(QPainter* painter, const QRect& rc
     if (!rect.isValid())
         return;
 
-    HANDLE hTheme = pOpenThemeData((HWND)QApplication::desktop()->winId(), L"WINDOW");
+    HWND hwnd = GetDesktopWindow();
+    HANDLE hTheme = pOpenThemeData(hwnd, L"WINDOW");
     if (!hTheme) 
        return;
 
@@ -1329,132 +1321,6 @@ bool OfficeFrameHelperWin::hitTestContextHeaders(const QPoint& point) const
     }
     return false;
 }
-
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-/*
-/// >= 5, 1, 0
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
-const bool isQt5CustomMarginsSupport = true;
-#else
-const bool isQt5CustomMarginsSupport = false;
-#endif
-*/
-static bool isQt5CustomMarginsSupport()
-{
-    QString version = qVersion();
-    if (version == "5.0.0" || version == "5.0.1" || version == "5.0.2" || version == "5.1.0" || version == "5.1.1")
-        return false;
-    else
-        return true;
-}
-
-#define PTR_ADDR long long
-class QtnHackWidget : public QWidget
-{
-public:
-    Q_DECLARE_PRIVATE(QWidget)
-    QTLWExtra* topData() { return d_func()->topData(); }
-    QWidgetData* data() { return qt_qwidget_data(this); }
-};
-
-void OfficeFrameHelperWin::collapseTopFrame(bool includesFrame)
-{
-    if (/*isQt5CustomMarginsSupport()*/true)
-    {
-        if (!m_frame->isVisible())
-            return;
-
-        if (QWindow *window = m_frame->windowHandle()) 
-        {
-            if (QPlatformWindow* platformWindow = window->handle()) 
-            {
-                bool visible = isTheme2013() ? true : m_ribbonBar->qtn_d().m_ribbonBarVisible;
-                int val = 0;
-                int valBottom = 0;
-                int valTitle = m_dwmEnabled ? (visible ? captionSize() + (m_frameBorder*2) : 0) : (visible ? captionSize() + m_frameBorder/2 : m_frameBorder/2);
-
-                DWORD dStyle = getStyle();
-
-                if ((dStyle & WS_MAXIMIZE) == 0)
-                {
-                    if (m_wasFullScreen)
-                        valTitle = 0;
-                }
-
-                if (isTheme2013())
-                {
-                    if ((dStyle & WS_MAXIMIZE) == 0)
-                    {
-                        val = m_frameBorder - 3;
-                        valBottom = m_frameBorder - 2;
-                    }
-                    else
-                    {
-                        valTitle -= m_frameBorder/2;
-                    }
-                }
-
-                // Reduce top frame to zero since we paint it ourselves.
-                const QMargins customMargins = QMargins(-val, -valTitle, -val, -valBottom);
-                const QVariant customMarginsV = qVariantFromValue(customMargins);
-
-                QMargins oldcustomMargins = qvariant_cast<QMargins>(QGuiApplication::platformNativeInterface()->
-                    windowProperty(platformWindow, QStringLiteral("WindowsCustomMargins")));
-
-                if (customMargins != oldcustomMargins)
-                {
-//                    RECT rc;
-//                    ::GetWindowRect(m_hwndFrame, &rc);
-
-                    // The dynamic property takes effect when creating the platform window.
-                    window->setProperty("_q_windowsCustomMargins", customMarginsV);
-                    // If a platform window exists, change via native interface.
-                    QGuiApplication::platformNativeInterface()->setWindowProperty(platformWindow, QStringLiteral("WindowsCustomMargins"), customMarginsV);
-
-//                    ::SetWindowPos(m_hwndFrame, Q_NULL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOZORDER | SWP_NOACTIVATE);
-                }
-            }
-        }
-    }
-    else
-    {
-        PTR_ADDR frameMargins_offset = 0;
-
-        if (QSysInfo::WordSize == 32)
-            frameMargins_offset = 0x00000024;
-        else if (QSysInfo::WordSize == 64)
-            frameMargins_offset = 0x00000030;
-
-        if ( frameMargins_offset == 0 )
-            return;
-
-        if (QTLWExtra* top = ((QtnHackWidget*)m_frame)->topData())
-        {
-            if (QWindow* window = (QWindow*)top->window)
-            {
-                if (QPlatformWindow* platformWindow = window->handle())
-                {
-    //                QMargins mg = platformWindow->frameMargins();
-                    int** topPtr = static_cast<int**>((void *)((PTR_ADDR)platformWindow + frameMargins_offset));
-                    int val = m_dwmEnabled ?  (m_ribbonBar->isVisible() ? 0 :  captionSize() + (m_frameBorder*2)) : (m_ribbonBar->isVisible() ? (m_frameBorder/2) : captionSize());
-                    memcpy(topPtr, &val, sizeof(int));
-                }
-            }
-
-            if ( includesFrame )
-            {
-                QWidgetData* data = ((QtnHackWidget*)m_frame)->data();
-                data->fstrut_dirty = true;
-                top->posIncludesFrame = true;
-                ((QtnHackWidget*)m_frame)->d_func()->fixPosIncludesFrame();
-            }
-            int x1, y1, x2, y2;
-            top->frameStrut.getCoords(&x1, &y1, &x2, &y2);
-            top->frameStrut.setCoords(x1, 0, x2, y2);
-        }
-    }
-}
-#endif // QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 
 #define qtn_GET_X_LPARAM(lp)    ((int)(short)LOWORD(lp))
 #define qtn_GET_Y_LPARAM(lp)    ((int)(short)HIWORD(lp))

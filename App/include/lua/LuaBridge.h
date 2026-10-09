@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Lua.hpp"
+#include "lua.hpp"
 
-#include "util/exception.h"
-#include "util/utilities.h"
+#include "util/Exception.h"
+#include "util/Utilities.h"
 #include "arl/Debug.h"
 #include "arl/atomic.h"
 

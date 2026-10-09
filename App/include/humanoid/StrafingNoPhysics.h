@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Humanoid/MovingNoPhysicsBase.h"
+#include "humanoid/MovingNoPhysicsBase.h"
 
 namespace ARL {
 	class Clump;

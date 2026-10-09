@@ -1,22 +1,22 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Explosion.h"
-#include "V8DataModel/PVInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/ForceField.h"
-#include "V8World/World.h"
-#include "V8World/ContactManager.h"
-#include "V8Tree/Service.h"
-#include "V8Kernel/Constants.h"
-#include "V8Kernel/Body.h"
-#include "AppDraw/DrawPrimitives.h"
+#include "v8datamodel/Explosion.h"
+#include "v8datamodel/PVInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/ForceField.h"
+#include "v8world/World.h"
+#include "v8world/ContactManager.h"
+#include "v8tree/Service.h"
+#include "v8kernel/Constants.h"
+#include "v8kernel/Body.h"
+#include "appdraw/DrawPrimitives.h"
 #include "GfxBase/Adorn.h"
-#include "V8DataModel/TimerService.h"
+#include "v8datamodel/TimerService.h"
 
-#include "V8DataModel/MegaCluster.h" // for terrain damage
-#include "Humanoid/Humanoid.h"
+#include "v8datamodel/MegaCluster.h" // for terrain damage
+#include "humanoid/Humanoid.h"
 
 FASTFLAGVARIABLE(RenderNewExplosionEnable, true)
 

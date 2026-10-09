@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8Kernel/KernelIndex.h"
-#include "Util/G3DCore.h"
+#include "v8kernel/KernelIndex.h"
+#include "util/G3DCore.h"
 
 namespace ARL {
 

@@ -14,8 +14,8 @@
 
 #include "lua.h"
 
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/HackDefines.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/HackDefines.h"
 
 #include "lapi.h"
 #include "ldebug.h"

@@ -11,7 +11,7 @@
 #include "LogManager.h"
 #include "arl/rbxTime.h"
 
-#include "util/http.h"
+#include "util/Http.h"
 #include "util/StandardOut.h"
 #include "util/MemoryStats.h"
 #include "v8datamodel/Stats.h"

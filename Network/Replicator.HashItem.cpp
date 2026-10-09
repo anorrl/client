@@ -5,13 +5,13 @@
 #include "ReplicatorStats.h"
 
 #include "FastLog.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DataModel.h"
 
 #include "BitStream.h"
-#include "Util/ProgramMemoryChecker.h"
-#include "V8DataModel/HackDefines.h"
-#include "Security/FuzzyTokens.h"
-#include "Security/ApiSecurity.h"
+#include "util/ProgramMemoryChecker.h"
+#include "v8datamodel/HackDefines.h"
+#include "security/FuzzyTokens.h"
+#include "security/ApiSecurity.h"
 #include "v8datamodel/HackDefines.h"
 
 #include "VMProtectSDK.h"

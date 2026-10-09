@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "V8DataModel/CustomEventReceiver.h"
-#include "V8DataModel/CustomEvent.h"
-#include "V8DataModel/CollectionService.h"
-#include "reflection/reflection.h"
+#include "v8datamodel/CustomEventReceiver.h"
+#include "v8datamodel/CustomEvent.h"
+#include "v8datamodel/CollectionService.h"
+#include "reflection/Reflection.h"
 
 namespace ARL {
 

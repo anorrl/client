@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/PartCookie.h"
+#include "v8datamodel/PartCookie.h"
 #include "v8datamodel/DataModelMesh.h"
 #include "v8datamodel/Decal.h"
 #include "v8datamodel/Workspace.h"

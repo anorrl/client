@@ -29,7 +29,7 @@
 #include "QtnRibbonStylePrivate.h"
 #include "QtnRibbonMainWindow.h"
 #include "QtnStyleHelpers.h"
-#include <qt_windows.h>
+#include "qt_windows.h"
 
 using namespace Qtitan;
 
@@ -191,70 +191,4 @@ void Draw3dRect(HDC hdc, LPCRECT lpRect, COLORREF clrTopLeft, COLORREF clrBottom
 {
     Draw3dRect(hdc, lpRect->left, lpRect->top, lpRect->right - lpRect->left,
         lpRect->bottom - lpRect->top, clrTopLeft, clrBottomRight);
-}
-
-// for QForm
-/*! \internal */
-bool RibbonPaintManager2013::drawFrame(const QStyleOption* opt, QPainter* p, const QWidget* w) const
-{
-#ifdef Q_OS_WIN
-    Q_UNUSED(p);
-    QTN_D_STYLE(RibbonStyle)
-    if (qobject_cast<const RibbonMainWindow*>(w))
-    {
-        if (const StyleOptionFrame* optFrame = qstyleoption_cast<const StyleOptionFrame*>(opt))
-        {
-            HDC hdc = (HDC)optFrame->hdc;
-
-            QRect rc = optFrame->rect;
-            rc.adjust(0, 0, -1, -1);
-
-            QRect rcBorders = optFrame->clientRect;
-            int nRightBorder = rcBorders.left() - rc.left(), nLeftBorder = rcBorders.left() - rc.left(), nTopBorder = rcBorders.top() - rc.top();
-            int nBottomBorder = rc.bottom() - rcBorders.bottom() + 1/*/2*/;
-            int statusHeight = optFrame->statusHeight;
-
-            HBRUSH hBrush = ::CreateSolidBrush(rgbcolorref(d.m_clrRibbonFace)/*RGB(255, 0,0)*/);
-            Q_ASSERT(hBrush != Q_NULL);
-            // draw top
-            RECT rectTop = {0, 0, rc.width(), nTopBorder};
-            ::FillRect(hdc, &rectTop, hBrush);
-            // draw left
-            RECT rectLeft = {0, 0, nLeftBorder, rc.height()};
-            ::FillRect(hdc, &rectLeft, hBrush);
-            // draw right
-            RECT rectRight = {rc.width() - nRightBorder, 0, rc.width() + nRightBorder, rc.height()};
-            ::FillRect(hdc, &rectRight, hBrush);
-            // draw bottom
-            RECT rectBottom = {0, rc.height() - nBottomBorder, rc.width(), rc.height() + nBottomBorder};
-            ::FillRect(hdc, &rectBottom, hBrush);
-
-            COLORREF clrBorder = optFrame->active ? rgbcolorref(d.m_clrFrameBorderActive0) : rgbcolorref(d.m_clrFrameBorderInactive0);
-
-            RECT rectFrame = {0, 0, rc.width(), rc.height()};
-            ::Draw3dRect(hdc, &rectFrame, clrBorder, clrBorder);
-
-            ::DeleteObject(hBrush);
-
-            if (optFrame->hasStatusBar && !optFrame->isBackstageVisible)
-            {
-                HBRUSH hBrushStatusBar = ::CreateSolidBrush(rgbcolorref(d.m_clrStatusBarShadow)/*RGB(255, 0,0)*/);
-                Q_ASSERT(hBrushStatusBar != Q_NULL);
-
-                RECT rectBottom = {0, rc.height() - nBottomBorder, rc.width(), rc.height() + nBottomBorder};
-                ::FillRect(hdc, &rectBottom, hBrushStatusBar);
-
-                RECT rectLeft = {0, rc.height() - (statusHeight + nTopBorder), nLeftBorder, rc.height() - nBottomBorder};
-                ::FillRect(hdc, &rectLeft, hBrushStatusBar);
-
-                RECT rectRight = {rc.width() - nRightBorder, rc.height() - (statusHeight + nTopBorder), rc.width(), rc.height() - nBottomBorder};
-                ::FillRect(hdc, &rectRight, hBrushStatusBar);
-
-                ::DeleteObject(hBrushStatusBar);
-            }
-        }
-        return true;
-    }
-#endif // Q_OS_WIN
-    return false;
 }

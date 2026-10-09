@@ -45,7 +45,7 @@ static std::set<std::string> getExtensions()
     }
     
 #ifndef GLES
-    if (FFlag::GraphicsGL3 && GLEW_VERSION_3_0)
+    if (FFlag::GraphicsGL3 && GLAD_GL_VERSION_3_0)
     {
         int extensionCount = 0;
         glGetIntegerv(GL_NUM_EXTENSIONS, &extensionCount);
@@ -135,24 +135,24 @@ static DeviceCapsGL createDeviceCapsOld(ContextGL* context)
     GLint stencilBits = 0;
 	glGetIntegerv(GL_STENCIL_BITS, &stencilBits);
 
-	caps.supportsFramebuffer = GLEW_VERSION_3_0 || GLEW_ARB_framebuffer_object || GLEW_EXT_framebuffer_object;
-    caps.supportsShaders = GLEW_VERSION_2_0 || (GLEW_ARB_shading_language_100 && GLEW_ARB_shader_objects && GLEW_ARB_fragment_shader && GLEW_ARB_vertex_shader);
+	caps.supportsFramebuffer = GLAD_GL_VERSION_3_0 || GLAD_GL_ARB_framebuffer_object || GLAD_GL_EXT_framebuffer_object;
+    caps.supportsShaders = GLAD_GL_VERSION_2_0 || (GLAD_GL_ARB_shading_language_100 && GLAD_GL_ARB_shader_objects && GLAD_GL_ARB_fragment_shader && GLAD_GL_ARB_vertex_shader);
 	caps.supportsFFP = false;
-	caps.supportsStencil = GLEW_VERSION_2_0 && stencilBits >= 8; // we need full two-sided stencil support
+	caps.supportsStencil = GLAD_GL_VERSION_2_0 && stencilBits >= 8; // we need full two-sided stencil support
     caps.supportsIndex32 = true;
 
-	caps.supportsTextureDXT = (GLEW_VERSION_1_3 || GLEW_ARB_texture_compression) && GLEW_EXT_texture_compression_s3tc;
+	caps.supportsTextureDXT = (GLAD_GL_VERSION_1_3 || GLAD_GL_ARB_texture_compression) && GLAD_GL_EXT_texture_compression_s3tc;
 	caps.supportsTexturePVR = false;
-	caps.supportsTextureHalfFloat = !!GLEW_ARB_half_float_pixel;
-	caps.supportsTexture3D = GLEW_VERSION_1_2 || GLEW_EXT_texture3D;
+	caps.supportsTextureHalfFloat = !!GLAD_GL_ARB_half_float_pixel;
+	caps.supportsTexture3D = GLAD_GL_VERSION_1_2 || GLAD_GL_EXT_texture3D;
     caps.supportsTextureETC1 = false;
 
 	caps.supportsTexturePartialMipChain = true;
 
     // According to http://aras-p.info/blog/2012/10/17/non-power-of-two-textures/, GL extensions lie
-	caps.supportsTextureNPOT = GLEW_ARB_texture_non_power_of_two && texSize >= 8192;
+	caps.supportsTextureNPOT = GLAD_GL_ARB_texture_non_power_of_two && texSize >= 8192;
 
-	if (caps.supportsFramebuffer && (GLEW_VERSION_3_0 || GLEW_ARB_draw_buffers || GLEW_ATI_draw_buffers))
+	if (caps.supportsFramebuffer && (GLAD_GL_VERSION_3_0 || GLAD_GL_ARB_draw_buffers || GLAD_GL_ATI_draw_buffers))
 	{
         GLint drawBuffers = 0;
         glGetIntegerv(GL_MAX_DRAW_BUFFERS, &drawBuffers);
@@ -164,7 +164,7 @@ static DeviceCapsGL createDeviceCapsOld(ContextGL* context)
 		caps.maxDrawBuffers = 1;
 	}
 
-	if (caps.supportsFramebuffer && (GLEW_VERSION_3_3 || GLEW_EXT_framebuffer_multisample))
+	if (caps.supportsFramebuffer && (GLAD_GL_VERSION_3_3 || GLAD_GL_EXT_framebuffer_multisample))
 	{
         GLint samples = 0;
 		glGetIntegerv(GL_MAX_SAMPLES, &samples);
@@ -187,13 +187,13 @@ static DeviceCapsGL createDeviceCapsOld(ContextGL* context)
 
     caps.ext3 = false;
     
-	caps.extVertexArrayObject = (GLEW_VERSION_3_0 || GLEW_ARB_vertex_array_object || GLEW_APPLE_vertex_array_object);
-	caps.extTextureStorage = (GLEW_VERSION_4_2 || GLEW_ARB_texture_storage);
+	caps.extVertexArrayObject = (GLAD_GL_VERSION_3_0 || GLAD_GL_ARB_vertex_array_object || GLAD_GL_APPLE_vertex_array_object);
+	caps.extTextureStorage = GLAD_GL_ARB_texture_storage;
 	caps.extMapBuffer = true;
-	caps.extMapBufferRange = (GLEW_VERSION_3_0 || GLEW_ARB_map_buffer_range);
-	caps.extTimerQuery = !!GLEW_EXT_timer_query;
+	caps.extMapBufferRange = (GLAD_GL_VERSION_3_0 || GLAD_GL_ARB_map_buffer_range);
+	caps.extTimerQuery = !!GLAD_GL_EXT_timer_query;
     caps.extDebugMarkers = false;
-    caps.extSync = (GLEW_VERSION_3_2 || GLEW_ARB_sync);
+    caps.extSync = (GLAD_GL_VERSION_3_2 || GLAD_GL_ARB_sync);
 
 #ifdef _WIN32
     const char* vendorString = reinterpret_cast<const char*>(glGetString(GL_VENDOR));
@@ -233,12 +233,12 @@ static DeviceCapsGL createDeviceCaps(ContextGL* context, const std::set<std::str
     
 	caps.supportsFramebuffer = version3 || (extensions.count("GL_ARB_framebuffer_object") || extensions.count("GL_EXT_framebuffer_object"));
     caps.supportsShaders =
-        version3 || GLEW_VERSION_2_0 ||
+        version3 || GLAD_GL_VERSION_2_0 ||
         // need this for Mac OpenGL 1.4 :-/
         (extensions.count("GL_ARB_shading_language_100") && extensions.count("GL_ARB_shader_objects") && extensions.count("GL_ARB_fragment_shader") && extensions.count("GL_ARB_vertex_shader"));
 
 	caps.supportsFFP = false;
-	caps.supportsStencil = GLEW_VERSION_2_0 && stencilBits >= 8; // we need full two-sided stencil support
+	caps.supportsStencil = GLAD_GL_VERSION_2_0 && stencilBits >= 8; // we need full two-sided stencil support
     caps.supportsIndex32 = true;
 
 	caps.supportsTextureDXT = !!extensions.count("GL_EXT_texture_compression_s3tc");
@@ -280,12 +280,12 @@ static DeviceCapsGL createDeviceCaps(ContextGL* context, const std::set<std::str
     caps.ext3 = version3;
     
 	caps.extVertexArrayObject = version3;
-	caps.extTextureStorage = GLEW_VERSION_4_2 || (version3 && extensions.count("GL_ARB_texture_storage"));
+	caps.extTextureStorage = version3 && extensions.count("GL_ARB_texture_storage");
 	caps.extMapBuffer = true;
 	caps.extMapBufferRange = version3;
-	caps.extTimerQuery = !!GLEW_VERSION_3_3;
+	caps.extTimerQuery = !!GLAD_GL_VERSION_3_3;
     caps.extDebugMarkers = false;
-    caps.extSync = !!GLEW_VERSION_3_2;
+    caps.extSync = !!GLAD_GL_VERSION_3_2;
 
     return caps;
 }
@@ -366,7 +366,7 @@ DeviceGL::DeviceGL(void* windowHandle)
 		ARLASSERT(frameTimeQueryId);
 	}
 
-    if (FFlag::DebugGraphicsGL && GLEW_ARB_debug_output)
+    if (FFlag::DebugGraphicsGL && GLAD_GL_ARB_debug_output)
     {
         glDebugMessageCallbackARB(debugOutputGLARB, NULL);
     }

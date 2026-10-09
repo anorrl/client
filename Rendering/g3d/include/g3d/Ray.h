@@ -13,9 +13,9 @@ ROBLOX - We are not using the G3D 8.0 G3D::Ray, intstead we are using the ARL:Rb
 #ifndef G3D_Ray_h
 #define G3D_Ray_h
 
-#include "G3D/platform.h"
-#include "G3D/Vector3.h"
-#include "G3D/Triangle.h"
+#include "g3d/platform.h"
+#include "g3d/Vector3.h"
+#include "g3d/Triangle.h"
 
 namespace G3D {
 
@@ -37,7 +37,7 @@ private:
 
 	// The following are for the "ray slope" optimization from
 	//  "Fast Ray / Axis-Aligned Bounding Box Overlap Tests using Ray Slopes" 
-	//  by Martin Eisemann, Thorsten Grosch, Stefan Müller and Marcus Magnor
+	//  by Martin Eisemann, Thorsten Grosch, Stefan Mï¿½ller and Marcus Magnor
 	//  Computer Graphics Lab, TU Braunschweig, Germany and
 	//  University of Koblenz-Landau, Germany*/
 	enum Classification {MMM, MMP, MPM, MPP, PMM, PMP, PPM, PPP, POO, MOO, OPO, OMO, OOP, OOM, OMM, OMP, OPM, OPP, MOM, MOP, POM, POP, MMO, MPO, PMO, PPO};	Classification classification;

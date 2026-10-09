@@ -2,7 +2,7 @@
 
 #include "solver/SolverConfig.h"
 #include "solver/SolverContainers.h"
-#include "G3D/Vector3.h"
+#include "g3d/Vector3.h"
 
 #include "boost/limits.hpp"
 #include "boost/math/constants/constants.hpp"

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "reflection/Callback.h"
-#include "reflection/object.h"
+#include "reflection/Object.h"
 
 using namespace ARL;
 using namespace ARL::Reflection;

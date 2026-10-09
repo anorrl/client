@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8World/Joint.h"
-#include "Util/Extents.h"
-#include "Util/Face.h"
+#include "v8world/Joint.h"
+#include "util/Extents.h"
+#include "util/Face.h"
 
 namespace ARL {
 	

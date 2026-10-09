@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "Tool/GroupDragTool.h"
-#include "Tool/ICancelableTool.h"
-#include "Tool/DragUtilities.h"
+#include "tool/GroupDragTool.h"
+#include "tool/ICancelableTool.h"
+#include "tool/DragUtilities.h"
 
 namespace ARL {
 

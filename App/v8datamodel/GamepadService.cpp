@@ -9,8 +9,8 @@
 
 #include "stdafx.h"
 
-#include "V8DataModel/GamepadService.h"
-#include "V8DataModel/UserInputService.h"
+#include "v8datamodel/GamepadService.h"
+#include "v8datamodel/UserInputService.h"
 #include "v8datamodel/GuiService.h"
 #include "v8datamodel/GuiObject.h"
 #include "v8datamodel/PlayerGui.h"

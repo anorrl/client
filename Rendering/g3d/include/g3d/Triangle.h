@@ -15,12 +15,12 @@
 #ifndef G3D_TRIANGLE_H
 #define G3D_TRIANGLE_H
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
-#include "G3D/Vector3.h"
-#include "G3D/Plane.h"
-#include "G3D/BoundsTrait.h"
-#include "G3D/debugAssert.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
+#include "g3d/Vector3.h"
+#include "g3d/Plane.h"
+#include "g3d/BoundsTrait.h"
+#include "g3d/debugAssert.h"
 #include <string>
 
 namespace G3D {

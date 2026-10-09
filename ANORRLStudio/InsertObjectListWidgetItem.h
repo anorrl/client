@@ -12,7 +12,7 @@
 
 #include <QListWidgetItem>
 
-#include "V8Tree/Instance.h"
+#include "v8tree/Instance.h"
 
 class InsertObjectListWidgetItem : public QListWidgetItem
 {

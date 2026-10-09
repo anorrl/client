@@ -1,9 +1,9 @@
 /* Copyright 2011 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Remote.h"
+#include "v8datamodel/Remote.h"
 
-#include "Network/Players.h"
+#include "network/Players.h"
 #include "FastLog.h"
 
 DYNAMIC_FASTINTVARIABLE(RemoteDelayedQueueLimit, 256)

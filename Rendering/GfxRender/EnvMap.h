@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ARL/Boost.hpp>
+#include <arl/boost.hpp>
 #include "GfxCore/Resource.h"
 #include "TextureRef.h"
 

@@ -2,13 +2,13 @@
 
 #pragma once
 
-#include "V8World/IWorldStage.h"
-#include "V8World/Enum.h"
-#include "V8World/Contact.h"
-#include "Util/IndexArray.h"
-#include "Util/G3DCore.h"
+#include "v8world/IWorldStage.h"
+#include "v8world/Enum.h"
+#include "v8world/Contact.h"
+#include "util/IndexArray.h"
+#include "util/G3DCore.h"
 #include "boost/scoped_ptr.hpp"
-#include "Util/RunningAverage.h"
+#include "util/RunningAverage.h"
 #include <set>
 #include <deque>
 

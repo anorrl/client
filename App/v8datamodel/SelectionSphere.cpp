@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "V8DataModel/SelectionSphere.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/ModelInstance.h"
-#include "AppDraw/DrawAdorn.h"
-#include "AppDraw/Draw.h"
+#include "v8datamodel/SelectionSphere.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/ModelInstance.h"
+#include "appdraw/DrawAdorn.h"
+#include "appdraw/Draw.h"
 
 namespace ARL {
 

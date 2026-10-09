@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/SteppedInstance.h"
+#include "util/SteppedInstance.h"
 #include "FastLog.h"
 
 namespace ARL {

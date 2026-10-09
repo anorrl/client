@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8DataModel/Adornment.h"
-#include "V8DataModel/EventReplicator.h"
+#include "v8datamodel/Adornment.h"
+#include "v8datamodel/EventReplicator.h"
 #include "GfxBase/IAdornable.h"
-#include "AppDraw/HandleType.h"
+#include "appdraw/HandleType.h"
 
 namespace ARL
 {

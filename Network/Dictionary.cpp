@@ -1,8 +1,8 @@
 /* Copyright 2003-2009 ROBLOX Corporation, All Rights Reserved */
 
 #include "Dictionary.h"
-#include "stringcompressor.h"
-#include "streaming.h"
+#include "StringCompressor.h"
+#include "Streaming.h"
 #include <boost/functional/hash/hash.hpp>
 
 namespace ARL { 

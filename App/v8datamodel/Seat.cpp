@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Seat.h"
+#include "v8datamodel/Seat.h"
 
 DYNAMIC_FASTINTVARIABLE(ActionStationDebounceTime, 2)
 DYNAMIC_FASTFLAGVARIABLE(FixAnchoredSeatingPosition, true)

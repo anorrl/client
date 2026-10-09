@@ -3,13 +3,13 @@
 #pragma once
 
 #include "FastLog.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/PartInstance.h"
 #include "arl/signal.h"
 #include "util/PhysicalProperties.h"
 #include "util/Region3int16.h"
-#include "Util/BinaryString.h"
-#include "Voxel/Cell.h"
-#include "Voxel/Grid.h"
+#include "util/BinaryString.h"
+#include "voxel/Cell.h"
+#include "voxel/Grid.h"
 
 LOGGROUP(MegaClusterInit)
 LOGGROUP(MegaClusterDirty)

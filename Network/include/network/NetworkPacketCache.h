@@ -1,8 +1,8 @@
 #pragma once
 
 
-#include "V8Tree/Service.h"
-#include "v8datamodel/partinstance.h"
+#include "v8tree/Service.h"
+#include "v8datamodel/PartInstance.h"
 #include "arl/signal.h"
 #include <boost/unordered/unordered_map.hpp>
 

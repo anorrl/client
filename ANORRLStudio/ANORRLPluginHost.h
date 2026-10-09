@@ -19,7 +19,7 @@
 
 // ANORRL headers
 #include "v8datamodel/StudioPluginHost.h"
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 
 class QToolBar;
 class QAction;

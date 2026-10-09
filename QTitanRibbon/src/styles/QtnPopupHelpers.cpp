@@ -280,7 +280,7 @@ void PopupDrawHelper::drawPrimitive(PrimitiveElement element, const QStyleOption
                 p->fillRect(rect, /*optFrame->palette*/m_palBackground.foreground().color());
                 rect.adjust(optFrame->lineWidth, optFrame->lineWidth, -optFrame->lineWidth, -optFrame->lineWidth); 
                 rect.setBottom(rect.top() + 30);
-                DrawHelpers::drawGradientFill(*p, rect, /*optFrame->palette*/m_palBackground.foreground().color().dark(111), /*optFrame->palette*/m_palBackground.foreground().color(), true);
+                DrawHelpers::drawGradientFill(*p, rect, /*optFrame->palette*/m_palBackground.foreground().color().darker(111), /*optFrame->palette*/m_palBackground.foreground().color(), true);
                 break;
             }
         default:

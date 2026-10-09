@@ -1,14 +1,14 @@
 #include "stdafx.h"
 
-#include "Script/LuaLibrary.h"
+#include "script/LuaLibrary.h"
 
-#include "Script/Script.h"
-#include "Script/ThreadRef.h"
-#include "Script/ScriptContext.h"
-#include "Script/LuaSettings.h"
-#include "Util/StandardOut.h"
-#include "V8DataModel/DebugSettings.h"
-#include "V8DataModel/ContentProvider.h"
+#include "script/script.h"
+#include "script/ThreadRef.h"
+#include "script/ScriptContext.h"
+#include "script/LuaSettings.h"
+#include "util/StandardOut.h"
+#include "v8datamodel/DebugSettings.h"
+#include "v8datamodel/ContentProvider.h"
 
 #include "boost/filesystem.hpp"
 namespace fs = boost::filesystem;

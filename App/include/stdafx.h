@@ -17,6 +17,6 @@
 #include "util/Region3.h"
 #include "reflection/YieldFunction.h"
 #include "v8tree/Instance.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DataModel.h"
 
 

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "V8DataModel/Light.h"
+#include "v8datamodel/Light.h"
 
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/PartInstance.h"
 
 namespace ARL {
 

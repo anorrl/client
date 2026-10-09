@@ -11,10 +11,10 @@
 #include <QMessageBox>
 
 // ANORRL Headers
-#include "Script/LuaSourceContainer.h"
-#include "Util/standardout.h"
-#include "Util/ContentId.h"
-#include "V8DataModel/PluginManager.h"
+#include "script/LuaSourceContainer.h"
+#include "util/StandardOut.h"
+#include "util/ContentId.h"
+#include "v8datamodel/PluginManager.h"
 
 // ANORRL Studio Headers
 #include "DocDockManager.h"

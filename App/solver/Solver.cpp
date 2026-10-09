@@ -5,14 +5,14 @@
 #include "solver/SolverSerializer.h"
 #include "solver/SolverProfiler.h"
 
-#include "G3D/Matrix3.h"
-#include "G3D/Vector3.h"
+#include "g3d/Matrix3.h"
+#include "g3d/Vector3.h"
 #include "v8world/RotateJoint.h"
 #include "v8world/Primitive.h"
 #include "v8kernel/Body.h"
 #include "v8kernel/ContactConnector.h"
 
-#include "RbxAssert.h"
+#include "ARLAssert.h"
 #include "FastLog.h"
 #include "g3d/g3dmath.h"
 #include "arl/ArrayDynamic.h"

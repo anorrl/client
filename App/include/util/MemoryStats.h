@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 #include <boost/cstdint.hpp>
-#include "standardout.h"
+#include "StandardOut.h"
 #include "FastLog.h"
 
 namespace ARL {

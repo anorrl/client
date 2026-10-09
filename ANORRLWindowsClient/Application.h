@@ -7,9 +7,9 @@
 #include "arl/atomic.h"
 #include "v8datamodel/FastLogSettings.h"
 
-#include "Util/HttpAsync.h"
-#include "Util/Analytics.h"
-#include "DiscordHandler.h"
+#include "util/HttpAsync.h"
+#include "util/Analytics.h"
+#include "util/DiscordHandler.h"
 
 // forward declarations
 namespace po = boost::program_options;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Util/ProgramMemoryChecker.h"
+#include "util/ProgramMemoryChecker.h"
 
 
 namespace ARL

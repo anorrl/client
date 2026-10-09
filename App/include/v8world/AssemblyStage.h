@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "V8World/EdgeBuffer.h"
+#include "v8world/EdgeBuffer.h"
 
 namespace ARL {
 	class Assembly;

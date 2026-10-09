@@ -15,7 +15,7 @@
 
 // ANORRL Headers
 #include "arl/BaldPtr.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DataModel.h"
 
 // ANORRL Studio Headers
 #include "IANORRLDoc.h"

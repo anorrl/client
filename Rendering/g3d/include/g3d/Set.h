@@ -12,9 +12,9 @@
 #ifndef G3D_Set_h
 #define G3D_Set_h
 
-#include "G3D/platform.h"
-#include "G3D/Table.h"
-#include "G3D/MemoryManager.h"
+#include "g3d/platform.h"
+#include "g3d/Table.h"
+#include "g3d/MemoryManager.h"
 #include <assert.h>
 #include <string>
 

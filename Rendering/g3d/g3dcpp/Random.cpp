@@ -9,7 +9,7 @@
  Copyright 2000-2009, Morgan McGuire.
  All rights reserved.
  */
-#include "G3D/Random.h"
+#include "g3d/Random.h"
 
 namespace G3D {
 

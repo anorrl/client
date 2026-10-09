@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/MovementHistory.h"
+#include "util/MovementHistory.h"
 #include "v8datamodel/PartInstance.h"
 #include "v8world/Primitive.h"
 #include "../NetworkSettings.h"

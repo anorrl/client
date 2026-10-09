@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "SpatialHashedScene.h"
 
-#include "v8World/SpatialHashMultiRes.h"
-#include "v8World/Contact.h"
+#include "v8world/SpatialHashMultiRes.h"
+#include "v8world/Contact.h"
 
 #include "GfxBase/FrameRateManager.h"
 

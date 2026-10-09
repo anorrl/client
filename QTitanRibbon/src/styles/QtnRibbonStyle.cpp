@@ -24,23 +24,23 @@
 **  ADDITIONAL RESTRICTIONS.
 **
 ****************************************************************************/
-#include <QToolTip>
+#include <QtWidgets/QToolTip>
 #include <QPaintEngine>
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #include <QCoreApplication>
-#include <QComboBox>
-#include <QLineEdit>
-#include <QRadioButton>
-#include <QLabel>
-#include <QTabBar>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QRadioButton>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QTabBar>
 #include <QBitmap>
-#include <QMdiArea>
-#include <QStackedWidget>
+#include <QtWidgets/QMdiArea>
+#include <QtWidgets/QStackedWidget>
 #include <qevent.h>
 #include <QLibrary>
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-#include <qdrawutil.h>
+#include <QtWidgets/qdrawutil.h>
 #endif /* Q_OS_WIN*/
 
 #ifdef Q_OS_WIN
@@ -180,9 +180,9 @@ void RibbonStylePrivate::initialization()
 #ifdef Q_OS_WIN
 static QFont qtn_LOGFONTtoQFont(LOGFONT& lf, bool dpiaware)
 {
-    QString family = QString::fromWCharArray(lf.lfFaceName);
-    QFont qf(family);
-    qf.setItalic(lf.lfItalic);
+    //QString family = QString::fromWCharArray(lf.lfFaceName);
+    //QFont qf(family);
+    //qf.setItalic(lf.lfItalic);
     if (lf.lfWeight != FW_DONTCARE) 
     {
         int weight;
@@ -196,28 +196,27 @@ static QFont qtn_LOGFONTtoQFont(LOGFONT& lf, bool dpiaware)
             weight = QFont::Bold;
         else
             weight = QFont::Black;
-        qf.setWeight(weight);
+        //qf.setWeight(weight);
     }
     int lfh = qAbs(lf.lfHeight);
 
     double factor = 64.0;
-    if (QSysInfo::windowsVersion() <= QSysInfo::WV_XP) 
-        factor = 72.0;
 
     HDC displayDC = GetDC(0);
     double currentlogPixel = (double)GetDeviceCaps(displayDC, LOGPIXELSY);
     double delta = RibbonStylePrivate::logPixel/currentlogPixel;
     double scale = factor*(dpiaware ? 1 : delta);
 
-    qf.setPointSizeF((double)lfh * scale / currentlogPixel);
+    //qf.setPointSizeF((double)lfh * scale / currentlogPixel);
 
     ReleaseDC(0, displayDC);
 
-    qf.setUnderline(false);
-    qf.setOverline(false);
-    qf.setStrikeOut(false);
+    //qf.setUnderline(false);
+    //qf.setOverline(false);
+    //qf.setStrikeOut(false);
 
-    return qf;
+    //return qf;
+    return QFont();
 }
 #endif 
 
@@ -309,7 +308,7 @@ void RibbonStylePrivate::updateColors()
     m_paintManeger->modifyColors();
 }
 
-void RibbonStylePrivate::tabLayout(const QStyleOptionTabV3* opt, const QWidget* widget, QRect* textRect, QRect* iconRect) const
+void RibbonStylePrivate::tabLayout(const QStyleOptionTab* opt, const QWidget* widget, QRect* textRect, QRect* iconRect) const
 {
     QTN_P(const RibbonStyle);
     const QStyle* proxyStyle = p.proxy();
@@ -474,7 +473,7 @@ IRibbonPaintManager* RibbonStylePrivate::ribbonPaintManager() const
 void RibbonStylePrivate::makePaintManager()
 {
     QTN_P(RibbonStyle)
-    if (p.getTheme() == OfficeStyle::Office2013White || p.getTheme() == OfficeStyle::Office2013Gray || p.getTheme() == OfficeStyle::Office2013Black)
+    if (p.getTheme() == OfficeStyle::Office2013White || p.getTheme() == OfficeStyle::Office2013Gray)
         setPaintManager(*new RibbonPaintManager2013(&p));
     else
         setPaintManager(*new RibbonPaintManager(&p));
@@ -639,7 +638,7 @@ void RibbonStyle::polish(QWidget* widget)
         widget->setAutoFillBackground(true);
 
         QPalette palette = widget->palette();
-        palette.setColor(QPalette::Background, helper().getColor(tr("TabManager"), tr("AccessHeader")));
+        palette.setColor(QPalette::Window, helper().getColor(tr("TabManager"), tr("AccessHeader")));
         widget->setPalette(palette);
 
         ((QTabBar*)widget)->setExpanding(false);
@@ -674,50 +673,51 @@ void RibbonStyle::unpolish(QWidget* widget)
 }
 
 /*! \reimp */
-void RibbonStyle::drawPrimitive(PrimitiveElement element, const QStyleOption* option, QPainter* painter, const QWidget* widget) const
+void RibbonStyle::drawPrimitive(PrimitiveElement element,
+                                 const QStyleOption* option,
+                                 QPainter* painter,
+                                 const QWidget* widget) const
 {
-    int qtnElement = element;
-
-    switch (qtnElement)
+    switch (element)
     {
-        case PE_RibbonPopupBarButton :
-                drawPopupSystemButton(option, painter, widget);
+        case static_cast<int>(PE_RibbonPopupBarButton):
+            drawPopupSystemButton(option, painter, widget);
             break;
-        case PE_RibbonFileButton :
-                drawSystemButton(option, painter, widget);
+        case static_cast<int>(PE_RibbonFileButton):
+            drawSystemButton(option, painter, widget);
             break;
-        case PE_RibbonOptionButton :
-                drawOptionButton(option, painter, widget);
+        case static_cast<int>(PE_RibbonOptionButton):
+            drawOptionButton(option, painter, widget);
             break;
-        case PE_RibbonGroupScrollButton :
-                drawGroupScrollButton(option, painter, widget);
+        case static_cast<int>(PE_RibbonGroupScrollButton):
+            drawGroupScrollButton(option, painter, widget);
             break;
-        case PE_RibbonQuickAccessButton :
-                drawQuickAccessButton(option, painter, widget);
+        case static_cast<int>(PE_RibbonQuickAccessButton):
+            drawQuickAccessButton(option, painter, widget);
             break;
-        case PE_RibbonTab :
-                drawTabShape(option, painter, widget);
+        case static_cast<int>(PE_RibbonTab):
+            drawTabShape(option, painter, widget);
             break;
-        case PE_RibbonContextHeaders:
-                drawContextHeaders(option, painter);
+        case static_cast<int>(PE_RibbonContextHeaders):
+            drawContextHeaders(option, painter);
             break;
-        case PE_RibbonFillRect :
-                drawFillRect(option, painter, widget);
+        case static_cast<int>(PE_RibbonFillRect):
+            drawFillRect(option, painter, widget);
             break;
-        case PE_RibbonRect :
-                drawRect(option, painter, widget);
+        case static_cast<int>(PE_RibbonRect):
+            drawRect(option, painter, widget);
             break;
-        case PE_RibbonKeyTip :
-                drawKeyTip(option, painter, widget);
+        case static_cast<int>(PE_RibbonKeyTip):
+            drawKeyTip(option, painter, widget);
             break;
-        case PE_Backstage :
-                drawBackstage(option, painter, widget);
+        case static_cast<int>(PE_Backstage):
+            drawBackstage(option, painter, widget);
             break;
-        case PE_RibbonBackstageCloseButton :
-                drawRibbonBackstageCloseButton(option, painter, widget);
+        case static_cast<int>(PE_RibbonBackstageCloseButton):
+            drawRibbonBackstageCloseButton(option, painter, widget);
             break;
-        case PE_RibbonSliderButton :
-                drawRibbonSliderButton(option, painter, widget);
+        case static_cast<int>(PE_RibbonSliderButton):
+            drawRibbonSliderButton(option, painter, widget);
             break;
         default:
             OfficeStyle::drawPrimitive(element, option, painter, widget);
@@ -858,7 +858,7 @@ int RibbonStyle::pixelMetric(PixelMetric pm, const QStyleOption* option, const Q
                     strFirstRow = strSecondRow;
                     
                 QFontMetrics fm(but->fontMetrics);
-                int wid = fm.width(strFirstRow) + 12 + 4; // + 4 - Glyph 
+                int wid = fm.horizontalAdvance(strFirstRow) + 12 + 4; // + 4 - Glyph 
                     
                 QPixmap soCenter = cached("RibbonGroupButton.png");
                 QRect rcSrc = sourceRectImage(soCenter.rect(), 0, 3);
@@ -1121,7 +1121,7 @@ QSize RibbonStyle::sizeFromContents(ContentsType ct, const QStyleOption* opt, co
                             QFont fontBold = mi->font;
                             fontBold.setBold(true);
                             QFontMetrics fmBold(fontBold);
-                            w += fmBold.width(mi->text) - fm.width(mi->text);
+                            w += fmBold.horizontalAdvance(mi->text) - fm.horizontalAdvance(mi->text);
                         }
 
                         int checkcol = qMax(maxpmw, windowsCheckMarkWidth); // Windows always shows a check column
@@ -1216,12 +1216,12 @@ QRect RibbonStyle::subControlRect(ComplexControl cc, const QStyleOptionComplex* 
                                 if (!strFirstRow.isEmpty())
                                 {
                                     textSize = opt->fontMetrics.size(Qt::TextShowMnemonic, strFirstRow);
-                                    textSize.setWidth(textSize.width() + opt->fontMetrics.width(QLatin1Char(' '))*2);
+                                    textSize.setWidth(textSize.width() + opt->fontMetrics.horizontalAdvance(QLatin1Char(' '))*2);
                                 }
                                 if (!strSecondRow.isEmpty())
                                 {
                                     QSize textSize1 = opt->fontMetrics.size(Qt::TextShowMnemonic, strSecondRow);
-                                    textSize1.setWidth(textSize1.width() + opt->fontMetrics.width(QLatin1Char(' '))*2);
+                                    textSize1.setWidth(textSize1.width() + opt->fontMetrics.horizontalAdvance(QLatin1Char(' '))*2);
                                     textSize.setWidth(qMax(textSize.width(), textSize1.width()));
                                 }
                                 ret.adjust(0, tb->iconSize.height()+8, 0, 0);
@@ -1256,7 +1256,7 @@ QRect RibbonStyle::subElementRect(SubElement sr, const QStyleOption* opt, const 
                 if (qobject_cast<QMdiArea*>(widget->parentWidget()))
                 {
                     QTN_D(const RibbonStyle);
-                    QStyleOptionTabV3 tabV3(*tab);
+                    QStyleOptionTab tabV3(*tab);
                     QRect dummyIconRect;
                     d.tabLayout(&tabV3, widget, &r, &dummyIconRect);
 
@@ -1278,7 +1278,7 @@ QRect RibbonStyle::subElementRect(SubElement sr, const QStyleOption* opt, const 
             {
                 r = OfficeStyle::subElementRect(sr, opt, widget);
 
-                if (const QStyleOptionTabV3* tab = qstyleoption_cast<const QStyleOptionTabV3 *>(opt)) 
+                if (const QStyleOptionTab* tab = qstyleoption_cast<const QStyleOptionTab *>(opt)) 
                 {
                     QRect rc = r;
                     if (sr != SE_TabBarTabLeftButton)
@@ -1759,7 +1759,8 @@ bool RibbonStyle::drawMenuItem(const QStyleOption* opt, QPainter* p, const QWidg
             {
                 int x, y, w, h;
                 menuitem->rect.getRect(&x, &y, &w, &h);
-                int tab = menuitem->tabWidth;
+                //int tab = menuitem->tabWidth;
+                int tab = 0;
                 bool dis = !(menuitem->state & State_Enabled);
                 bool checked = menuitem->checkType != QStyleOptionMenuItem::NotCheckable ? menuitem->checked : false;
                 bool act = menuitem->state & State_Selected;
@@ -1931,7 +1932,7 @@ bool RibbonStyle::drawTabBarTabLabel(const QStyleOption* opt, QPainter* p, const
 
     if (const QStyleOptionTab *tab = qstyleoption_cast<const QStyleOptionTab*>(opt))
     {
-        QStyleOptionTabV3 tabV2(*tab);
+        QStyleOptionTab tabV2(*tab);
         QRect tr = tabV2.rect;
         bool verticalTabs = tabV2.shape == QTabBar::RoundedEast
             || tabV2.shape == QTabBar::RoundedWest

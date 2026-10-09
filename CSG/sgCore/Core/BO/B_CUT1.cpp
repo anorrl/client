@@ -146,7 +146,7 @@ end:
 }
 static OSCAN_COD cut_geo_scan(hOBJ hobj, lpSCAN_CONTROL lpsc)
 {
-	register short 	i;
+	short 	i;
 	lpGEO_BREP 		lpgeobrep;
 	REGION_3D  		gab = {{1.e35,1.e35,1.e35},{-1.e35,-1.e35,-1.e35}};
 	lpD_POINT  		v;//, vn, vk;

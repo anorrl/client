@@ -10,9 +10,9 @@
  // We should fix this and remove de need of thise file in the future and use the G3D ones.
  */
 
-//#include "G3D/platform.h"
+//#include "g3d/platform.h"
 #include "RbxG3D/RbxRay.h"
-#include "G3D/CollisionDetection.h"
+#include "g3d/CollisionDetection.h"
 
 namespace ARL {
 

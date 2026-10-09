@@ -1,13 +1,13 @@
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "Util/Runstateowner.h"
-#include "Voxel/Cell.h"
-#include "Voxel/CellChangeListener.h"
-#include "Util/SpatialRegion.h"
+#include "v8tree/Service.h"
+#include "util/RunStateOwner.h"
+#include "voxel/Cell.h"
+#include "voxel/CellChangeListener.h"
+#include "util/SpatialRegion.h"
 #include <queue>
 
-#include "Voxel2/GridListener.h"
+#include "voxel2/GridListener.h"
 
 namespace ARL {
 

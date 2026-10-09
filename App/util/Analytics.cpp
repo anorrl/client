@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "Util/Analytics.h"
+#include "util/Analytics.h"
 #include "util/ThreadPool.h"
-#include "Util/Http.h"
-#include "Util/Statistics.h"
+#include "util/Http.h"
+#include "util/Statistics.h"
 
 #include "v8datamodel/GameBasicSettings.h"
 #include "v8datamodel/DebugSettings.h"

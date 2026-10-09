@@ -1,14 +1,14 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/Freefall.h"
-#include "Humanoid/RunningBase.h"
-#include "Humanoid/Humanoid.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/GameBasicSettings.h"
-#include "V8World/Primitive.h"
-#include "V8Kernel/Body.h"
-#include "V8World/World.h"
+#include "humanoid/Freefall.h"
+#include "humanoid/RunningBase.h"
+#include "humanoid/Humanoid.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/GameBasicSettings.h"
+#include "v8world/Primitive.h"
+#include "v8kernel/Body.h"
+#include "v8world/World.h"
 
 namespace ARL {
 namespace HUMAN {

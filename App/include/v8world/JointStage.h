@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8World/IWorldStage.h"
-#include "Util/ConcurrencyValidator.h"
-#include "Util/BiMultiMap.h"
+#include "v8world/IWorldStage.h"
+#include "util/ConcurrencyValidator.h"
+#include "util/BiMultiMap.h"
 
 namespace ARL {
 

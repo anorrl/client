@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
-#include "Util/BrickColor.h"
-#include "Util/TextureId.h"
-#include "Gui/ProfanityFilter.h"
-#include "Gui/GuiDraw.h"
-#include "Util/ContentFilter.h"
-#include "V8DataModel/GuiObject.h"
+#include "util/BrickColor.h"
+#include "util/TextureId.h"
+#include "gui/ProfanityFilter.h"
+#include "gui/GuiDraw.h"
+#include "util/ContentFilter.h"
+#include "v8datamodel/GuiObject.h"
 
 namespace ARL
 {

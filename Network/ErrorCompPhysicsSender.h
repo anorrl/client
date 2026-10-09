@@ -5,7 +5,7 @@
 #include "PhysicsSender.h"
 #include "BoostAppend.h"
 
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/PartInstance.h"
 
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/member.hpp>

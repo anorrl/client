@@ -8,7 +8,7 @@
   @edited  2007-05-05
 */
 
-#include "G3D/UprightFrame.h"
+#include "g3d/UprightFrame.h"
 
 namespace G3D {
 

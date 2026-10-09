@@ -11,11 +11,11 @@
 #include "EnvMap.h"
 #include "SSAO.h"
 
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Workspace.h"
 #include "v8datamodel/MegaCluster.h"
 
-#include "Voxel2/Grid.h"
+#include "voxel2/Grid.h"
 
 namespace ARL
 {

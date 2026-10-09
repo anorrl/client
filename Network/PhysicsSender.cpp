@@ -7,20 +7,20 @@
 #include "ConcurrentRakPeer.h"
 #include "Util.h"
 
-#include "util/profiling.h"
+#include "util/Profiling.h"
 #include "util/ObscureValue.h"
 
-#include "V8Kernel/Constants.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8kernel/Constants.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
 
-#include "V8World/World.h"
-#include "V8World/Primitive.h"
-#include "V8World/Assembly.h"
-#include "V8World/Mechanism.h"
-#include "V8DataModel/DataModel.h"
+#include "v8world/World.h"
+#include "v8world/Primitive.h"
+#include "v8world/Assembly.h"
+#include "v8world/Mechanism.h"
+#include "v8datamodel/DataModel.h"
 #include "RoundRobinPhysicsSender.h"
-#include "V8DataModel/PhysicsService.h"
+#include "v8datamodel/PhysicsService.h"
 
 using namespace ARL;
 using namespace ARL::Network;

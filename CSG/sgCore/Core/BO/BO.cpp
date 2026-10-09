@@ -425,7 +425,7 @@ norm:
 #pragma argsused
 static OSCAN_COD bo_scan(hOBJ hobj,lpSCAN_CONTROL lpsc)
 {
-	register  short i;
+	short i;
 	lpD_POINT v;
 
 	if (ctrl_c_press) { 												

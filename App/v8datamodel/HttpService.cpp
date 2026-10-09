@@ -1,12 +1,12 @@
 #include "stdafx.h"
 
-#include "V8DataModel/HttpService.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/HttpService.h"
+#include "v8datamodel/DataModel.h"
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/Stats.h"
-#include "V8Xml/WebParser.h"
-#include "Network/Players.h"
-#include "Util/Http.h"
+#include "v8xml/WebParser.h"
+#include "network/Players.h"
+#include "util/Http.h"
 
 DYNAMIC_FASTINTVARIABLE(UserHttpRequestsPerMinuteLimit, 500)
 

@@ -1,22 +1,26 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8Xml/SerializerV2.h"
-#include "V8Xml/XmlSerializer.h"
-#include "V8DataModel/DataModel.h"
-#include "v8datamodel/contentprovider.h"
+#include "v8xml/SerializerV2.h"
+#include "v8xml/XmlSerializer.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/ContentProvider.h"
 #include "arl/Debug.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 #include "v8xml/SerializerBinary.h"
 
 #include <map>
 
+#if defined(__linux__) || defined(__APPLE__)
+#include <algorithm>
+#include <functional>
+#endif
+
 #ifdef _WIN32
    using std::mem_fun;
 #else
-#include <ext/functional>
-   using __gnu_cxx::mem_fun1;
+   using std::mem_fn;
 #endif
 
 using std::string;
@@ -94,13 +98,21 @@ public:
 	bool resolveRefs()
 	{
 		int count = 0;
-		
+
 		count += count_if(
 			idrefBindings.begin(), 
-			idrefBindings.end(), 
+			idrefBindings.end(),
+#ifdef _WIN32 
 			std::bind1st(mem_fun(&ArchiveBinder::resolveIDREF),this)
+#elif defined(__APPLE__)
+			[this](IDREFBinding& binding)
+			{
+				return this->resolveIDREF(binding);
+			}
+#else // LINUX OR UNIX..
+			std::bind(&ArchiveBinder::resolveIDREF, this, std::placeholders::_1)
+#endif
 		);
-
 		return Super::resolveRefs() && (count == idrefBindings.size());
 	}
 };

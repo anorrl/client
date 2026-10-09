@@ -25,10 +25,10 @@
 **
 ****************************************************************************/
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QMainWindow>
 #include <QStyleOption>
 #include <QPainter>
+#include <QScreen>
 #include <QCheckBox>
 #include <QRadioButton>
 #include <QComboBox>
@@ -156,7 +156,7 @@ void RibbonBarPrivate::layoutRibbon()
         parent->setUpdatesEnabled(false);
 
     QStyleOption opt;
-    opt.init(&p);
+    opt.initFrom(&p);
 
     bool saveRibbonBarVisible = m_ribbonBarVisible;
     m_ribbonBarVisible = true;
@@ -900,7 +900,7 @@ void RibbonBarPrivate::currentChanged(int index)
                 QWidget* activePopup = qobject_cast<RibbonPage*>(QApplication::activePopupWidget());
 
                 QStyleOption opt;
-                opt.init(page);
+                opt.initFrom(page);
 
                 const int vmargin = p.style()->pixelMetric(QStyle::PM_MenuBarVMargin, &opt, &p);
                 int heightGroup = maxHeightPages();
@@ -912,7 +912,7 @@ void RibbonBarPrivate::currentChanged(int index)
                 rect.setTop(m_rcTabBar.top());
                 rect.setBottom(m_rcTabBar.bottom());
 
-                QRect screen = QApplication::desktop()->availableGeometry(&p);
+                QRect screen = QApplication::primaryScreen()->availableGeometry();
                 int h = height;
                 if (p.mapToGlobal(QPoint(0, rect.bottom())).y() + h <= screen.height()) 
                     pnt = p.mapToGlobal(rect.bottomLeft());
@@ -1262,11 +1262,12 @@ void RibbonBarPrivate::showKeyTips(QWidget* w)
             if (keyTipWidget->getStringTip().length() > 1)
                 continue;
 
-            QChar chAccel = 0;
+            QChar chAccel = QChar::Null;
             QString strCaption = keyTipWidget->getCaption();
+            QString strUsed;
             for (int n = 0; n < strCaption.length() - 1; n++)
             {
-                if ((strCaption[n] == ' ') && (strUsed.indexOf(strCaption[n + 1]) == -1))
+                if ((strCaption[n] == QLatin1Char(' ')) && (strUsed.indexOf(strCaption[n + 1]) == -1))
                 {
                     chAccel = strCaption[n + 1];
                     strUsed += chAccel;
@@ -1276,21 +1277,21 @@ void RibbonBarPrivate::showKeyTips(QWidget* w)
 
             if (chAccel.isNull())
             {
-                int start = strCaption[0] == QLatin1Char('&') ? 1 : 0;
-                if (strCaption[start] == keyTipWidget->getStringTip()[0])
+                int start = (strCaption[0] == QLatin1Char('&')) ? 1 : 0;
+                if (strCaption[start] == keyTipWidget->getStringTip()[0]) 
                     start++;
 
                 for (int n = start; n < strCaption.length(); n++)
                 {
                     if (strUsed.indexOf(strCaption[n]) == -1)
                     {
-                        chAccel = keyTipWidget->getCaption()[n];
+                        chAccel = strCaption[n];
                         strUsed += chAccel;
                         break;
                     }
                 }
             }
-            if (chAccel == 0)
+            if (chAccel.isNull())
             {
                 QString str = QObject::tr("%1").arg(k);
                 chAccel = str[0];
@@ -1519,7 +1520,7 @@ void RibbonBarPrivate::createWidgetKeyTips(RibbonGroup* group, QWidget* widget, 
     uint align = RibbonKeyTip::AlignTipTop;
 
     QStyleOption opt;
-    opt.init(&p);
+    opt.initFrom(&p);
 
     QRect rcGroup = group->rect();
     rcGroup.translate(group->mapToGlobal(rcGroup.topLeft()));
@@ -1766,7 +1767,7 @@ bool RibbonBarPrivate::pressTipCharEvent(const QKeyEvent* key)
                                 m_levels.clear();
 
                             if (!showMenu)
-                                absButton->animateClick(0);
+                                absButton->animateClick();
                         }
                         return false;
                     }
@@ -2664,7 +2665,7 @@ void RibbonBar::paintEvent(QPaintEvent* event)
     p.setClipRect(rectEvent);
 
     StyleOptionRibbon opt;
-    opt.init(this);
+    opt.initFrom(this);
     opt.frameHelper = d.m_frameHelper;
     opt.rectTabBar = d.m_rcTabBar;
     opt.minimized = d.m_minimized;
@@ -2838,12 +2839,15 @@ void RibbonBar::wheelEvent(QWheelEvent* event)
     if (!isMaximized())
         return;
 
-    QPoint pos = event->pos();
+    QPointF pos = event->position();
 
-    if (!geometry().contains(pos))
+    if (!geometry().contains(pos.toPoint()))
         return;
 
-    d.m_tabBar->currentNextTab(event->delta() < 0);
+    QPoint angleDelta = event->angleDelta();
+
+    bool isScrollDown = angleDelta.y() < 0;
+    d.m_tabBar->currentNextTab(isScrollDown);
 }
 
 #ifdef CUSTOMIZE_V4_WORK
@@ -2903,7 +2907,7 @@ int RibbonBar::heightForWidth(int) const
 
 QSize RibbonBar::sizeHint() const
 {
-    return QSize(rect().width(), heightForWidth(0)).expandedTo(QApplication::globalStrut());
+    return QSize(rect().width(), heightForWidth(0)).expandedTo(QSize(0,0));
 }
 
 #ifdef Q_OS_WIN
@@ -2922,7 +2926,8 @@ bool RibbonBar::winEvent(MSG* message, long* result)
             return true;
     }
 
-    return QMenuBar::nativeEvent(eventType, message, result);
+    qintptr* resultPtr = reinterpret_cast<qintptr*>(result);
+    return QMenuBar::nativeEvent(eventType, message, resultPtr);
 #else
     if (d.m_frameHelper && d.m_frameHelper->winEvent(message, result))
         return true;

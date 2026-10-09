@@ -415,7 +415,7 @@ err:
 static  short include_vertex(lpD_POINT p, short* indv, short *num_indv,
 																lpVDIM coor)
 {
-	register short 	k, ib, ie, j, jj;
+	short 	k, ib, ie, j, jj;
 	D_POINT				pc;
 
 	jj	= 1;

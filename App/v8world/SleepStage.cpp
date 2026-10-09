@@ -1,19 +1,19 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/SleepStage.h"
-#include "V8World/SimulateStage.h"
-#include "V8World/World.h"
-#include "V8World/Assembly.h"
-#include "V8World/Joint.h"
-#include "V8World/Edge.h"
-#include "V8World/Primitive.h"
-#include "V8Kernel/Body.h"
-#include "V8Kernel/Constants.h"
-#include "Util/Profiling.h"
+#include "v8world/SleepStage.h"
+#include "v8world/SimulateStage.h"
+#include "v8world/World.h"
+#include "v8world/Assembly.h"
+#include "v8world/Joint.h"
+#include "v8world/Edge.h"
+#include "v8world/Primitive.h"
+#include "v8kernel/Body.h"
+#include "v8kernel/Constants.h"
+#include "util/Profiling.h"
 #include "arl/Debug.h"
 #include "arl/Profiler.h"
-#include "V8Kernel/Kernel.h"
+#include "v8kernel/Kernel.h"
 
 DYNAMIC_FASTFLAGVARIABLE(PGSWakeOtherAssemblyForJoints, false)
 

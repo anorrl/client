@@ -277,7 +277,7 @@ void FreeDbgMem(void)
   pMallocNumber = NULL;
 }
 
-#include <IOSTREAM>
+#include <iostream>
 
 bool        show_memory_leaks=true;
 

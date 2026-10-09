@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Util/SystemAddress.h"
+#include "util/SystemAddress.h"
 #include "util/G3DCore.h"
 #include "RakNetTypes.h"
 

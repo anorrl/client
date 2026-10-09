@@ -1,8 +1,8 @@
  /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/RigidJoint.h"
-#include "V8World/Primitive.h"
+#include "v8world/RigidJoint.h"
+#include "v8world/Primitive.h"
 
 DYNAMIC_FASTFLAG(OrthonormalizeJointCoords)
 

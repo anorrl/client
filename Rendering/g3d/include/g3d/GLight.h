@@ -10,10 +10,10 @@
 #ifndef G3D_GLight_h
 #define G3D_GLight_h
 
-#include "G3D/platform.h"
-#include "G3D/Vector4.h"
-#include "G3D/Vector3.h"
-#include "G3D/Color4.h"
+#include "g3d/platform.h"
+#include "g3d/Vector4.h"
+#include "g3d/Vector3.h"
+#include "g3d/Color4.h"
 
 namespace G3D {
 

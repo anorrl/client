@@ -1,9 +1,9 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 
-#include "AppDraw/HitTest.h"
+#include "appdraw/HitTest.h"
 #include "GfxBase/Part.h"
-#include "G3D/CollisionDetection.h"
-#include "G3D/Capsule.h"
+#include "g3d/CollisionDetection.h"
+#include "g3d/Capsule.h"
 
 namespace ARL {
 

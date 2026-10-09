@@ -2,7 +2,7 @@
 
 #include "util/URL.h"
 
-#include "arl/debug.h"
+#include "arl/Debug.h"
 
 #include <boost/algorithm/string.hpp>
 

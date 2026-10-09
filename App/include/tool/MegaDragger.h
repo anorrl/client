@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Util/Object.h"
-#include "Util/G3DCore.h"
-#include "Tool/DragUtilities.h"
-#include "Tool/DragTypes.h"
+#include "util/Object.h"
+#include "util/G3DCore.h"
+#include "tool/DragUtilities.h"
+#include "tool/DragTypes.h"
 //#include <vector>
 
 namespace ARL {

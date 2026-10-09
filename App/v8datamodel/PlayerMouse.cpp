@@ -1,8 +1,8 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/PlayerMouse.h"
-#include "V8DataModel/ScriptMouseCommand.h"
+#include "v8datamodel/PlayerMouse.h"
+#include "v8datamodel/ScriptMouseCommand.h"
 
 namespace ARL {
 	

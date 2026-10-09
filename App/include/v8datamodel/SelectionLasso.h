@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "V8DataModel/GuiBase3d.h"
+#include "v8datamodel/GuiBase3d.h"
 #include "GfxBase/IAdornable.h"
 
 namespace ARL

@@ -141,7 +141,7 @@ static  BOOL np_rightleft(int ku, int kv, lpVDIM vdimp)
 
 static  BOOL revers_mesh(int *ku, int *kv, lpVDIM vdimp)
 {
-	register short	i,j;
+	short	i,j;
 	VDIM					vdn;
 	MNODE					mnode;
 	int					ind;

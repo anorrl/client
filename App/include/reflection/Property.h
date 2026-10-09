@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include "reflection/member.h"
-#include "reflection/enumconverter.h"
-#include "reflection/type.h"
-#include "v8xml/xmlelement.h"
-#include "V8Xml/Reference.h"	// TODO: Reflection namespace should not know about V8Tree
+#include "reflection/Member.h"
+#include "reflection/EnumConverter.h"
+#include "reflection/Type.h"
+#include "v8xml/XmlElement.h"
+#include "v8xml/Reference.h"	// TODO: Reflection namespace should not know about v8tree
 #include "boost/cast.hpp"
 
 namespace ARL
@@ -427,7 +427,7 @@ namespace ARL
 
 			static bool isRefPropertyDescriptor(const PropertyDescriptor& descriptor)
 			{
-				// See RefType in reflection.h
+				// See RefType in Reflection.h
 				bool result = isRefPropertyDescriptor(descriptor.type);
 				ARLASSERT(result == (0 != dynamic_cast<const Reflection::RefPropertyDescriptor*>(&descriptor)));
 				return result;

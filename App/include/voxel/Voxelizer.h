@@ -1,8 +1,8 @@
 #pragma once
 // suffix header file for Grid.h
 
-#include "Util/SpatialRegion.h"
-#include "Util/Extents.h"
+#include "util/SpatialRegion.h"
+#include "util/Extents.h"
 
 #include <vector>
 

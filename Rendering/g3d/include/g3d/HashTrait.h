@@ -12,10 +12,10 @@
 #ifndef G3D_HashTrait_h
 #define G3D_HashTrait_h
 
-#include "G3D/platform.h"
-#include "G3D/Crypto.h"
-#include "G3D/g3dmath.h"
-#include "G3D/uint128.h"
+#include "g3d/platform.h"
+#include "g3d/Crypto.h"
+#include "g3d/g3dmath.h"
+#include "g3d/uint128.h"
 
 /** Must be specialized for custom types.
     @see G3D::Table for specialization requirements.

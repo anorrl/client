@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8DataModel/PVInstance.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/ModelInstance.h"
-#include "Script/Script.h"
+#include "v8datamodel/PVInstance.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/ModelInstance.h"
+#include "script/script.h"
 
 namespace ARL {
 

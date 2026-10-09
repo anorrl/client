@@ -9,6 +9,7 @@
 // Qt Headers
 #include <QTreeWidget>
 #include <QSettings>
+#include <QHeaderView>
 
 // ANORRL Studio Headers
 #include "ANORRLMainWindow.h"

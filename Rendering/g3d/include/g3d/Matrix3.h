@@ -14,10 +14,10 @@
 #ifndef G3D_Matrix3_h
 #define G3D_Matrix3_h
 
-#include "G3D/platform.h"
-#include "G3D/Vector3.h"
-#include "G3D/Vector4.h"
-#include "G3D/debugAssert.h"
+#include "g3d/platform.h"
+#include "g3d/Vector3.h"
+#include "g3d/Vector4.h"
+#include "g3d/debugAssert.h"
 
 #include <cstring>
 
@@ -339,7 +339,7 @@ public:
     // "You might be tempted to write [...] them as inline functions 
     // inside their respective header files, but this is something you 
     // must definitely not do. An inline function can be duplicated 
-    // in every file in which it appears њухЅ and this duplication 
+    // in every file in which it appears пїЅпїЅпїЅпїЅ and this duplication 
     // includes the static object definition. Because inline functions 
     // automatically default to internal linkage, this would result in 
     // having multiple static objects across the various translation 

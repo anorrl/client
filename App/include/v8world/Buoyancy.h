@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Voxel/Cell.h"
+#include "voxel/Cell.h"
 #include "v8kernel/BuoyancyConnector.h"
-#include "v8World/Geometry.h"
-#include "v8World/Contact.h"
+#include "v8world/Geometry.h"
+#include "v8world/Contact.h"
 
 /*
 	The Buoyancy feature manages all aspects of parts' interaction with water when they have come

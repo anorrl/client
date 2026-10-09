@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Voxel/Cell.h"
-#include "Voxel/Region.h"
-#include "Voxel/Water.h"
+#include "util/G3DCore.h"
+#include "voxel/Cell.h"
+#include "voxel/Region.h"
+#include "voxel/Water.h"
 
 #include <boost/scoped_ptr.hpp>
 #include <vector>

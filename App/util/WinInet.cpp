@@ -9,14 +9,14 @@
 #include "windows.h"
 #include "wininet.h"
 
-#include "Util/Http.h"
-#include "Util/SafeToLower.h"
-#include "util/standardout.h"
+#include "util/Http.h"
+#include "util/SafeToLower.h"
+#include "util/StandardOut.h"
 
 #pragma comment (lib , "Wininet.lib")
 #include "atlutil.h"
 #include "g3d/format.h"
-#include "Util/MD5Hasher.h"
+#include "util/MD5Hasher.h"
 
 #include "Strsafe.h"
 

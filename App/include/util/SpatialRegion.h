@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Util/Region3int16.h"
-#include "Util/Vector3int32.h"
+#include "util/G3DCore.h"
+#include "util/Region3int16.h"
+#include "util/Vector3int32.h"
 
 namespace ARL {
 

@@ -10,7 +10,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QMessageBox>
-#include <QPushbutton>
+#include <QPushButton>
 
 void ScriptPickerDialog::runModal(QWidget* parent, QString suggestedName, CompletedState* state, QString* newName)
 {

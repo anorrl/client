@@ -1,6 +1,6 @@
 #pragma once
-#include "v8tree/instance.h"
-#include "v8tree/service.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
 
 namespace G3D
 {

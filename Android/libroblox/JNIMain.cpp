@@ -7,7 +7,7 @@
 
 #include "util/Guid.h"
 #include "util/FileSystem.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "util/RobloxGoogleAnalytics.h"
 
 #include <exception>

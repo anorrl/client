@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "Util/ContentId.h"
-#include "Util/MeshId.h"
-#include "Util/TextureId.h"
-#include "Util/G3DCore.h"
+#include "v8tree/Instance.h"
+#include "util/ContentId.h"
+#include "util/MeshId.h"
+#include "util/TextureId.h"
+#include "util/G3DCore.h"
 #include "FileMesh.h"
 
 namespace ARL

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Util/G3DCore.h"
-#include "Voxel/Util.h"
+#include "util/G3DCore.h"
+#include "voxel/Util.h"
 
 namespace ARL { namespace Voxel {
 
@@ -153,6 +153,6 @@ public:
 
 } }
 
-#include "Voxel/Region.inl"
-#include "Voxel/Region.iterator.inl"
-#include "Voxel/Region.xline_iterator.inl"
+#include "voxel/Region.inl"
+#include "voxel/Region.iterator.inl"
+#include "voxel/Region.xline_iterator.inl"

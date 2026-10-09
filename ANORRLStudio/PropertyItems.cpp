@@ -19,9 +19,10 @@
 #include <QPainter>
 #include <QSettings>
 #include <QPixmapCache>
+#include <QHeaderView>
 
 // 3rd Party Headers
-#include "G3D/Vector3.h"
+#include "g3d/Vector3.h"
 
 // ANORRL Headers
 #include "v8datamodel/DataModel.h"
@@ -42,7 +43,7 @@
 #include "util/MeshId.h"
 #include "util/BrickColor.h"
 #include "util/PhysicalProperties.h"
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 #include "tool/ToolsArrow.h"
 #include "reflection/Type.h"
 #include "v8datamodel/NumberSequence.h"

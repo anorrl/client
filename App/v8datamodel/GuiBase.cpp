@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "V8DataModel/GuiBase.h"
+#include "v8datamodel/GuiBase.h"
 
-#include "V8DataModel/PlayerGui.h"
+#include "v8datamodel/PlayerGui.h"
 
 namespace ARL{
 

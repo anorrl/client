@@ -1,8 +1,8 @@
 /* Copyright 2003-2006 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/RunningAverage.h"
-#include "Util/Math.h"
+#include "util/RunningAverage.h"
+#include "util/Math.h"
 
 
 

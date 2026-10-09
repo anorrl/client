@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Tool/AdvMoveTool.h"
+#include "tool/AdvMoveTool.h"
 
 namespace ARL {
 

@@ -113,7 +113,7 @@ public:
            
         construct(translation[mode].src, translation[mode].dst, translation[mode].src, translation[mode].dst, colorMask);
 	}
-	
+
 	BlendState(Factor colorSrcIn, Factor colorDstIn, Factor alphaSrcIn, Factor alphaDstIn, unsigned int colorMask = Color_All)
 	{
 		construct(colorSrcIn, colorDstIn, alphaSrcIn, alphaDstIn, colorMask);
@@ -123,7 +123,7 @@ public:
 	{
 		construct(src, dst, src, dst, colorMask);
 	}
-	
+
 	bool blendingNeeded() const { return colorSrc != Factor_One || colorDst != Factor_Zero || alphaSrc != Factor_One || alphaDst != Factor_Zero; }
 	bool separateAlphaBlend() const { return colorSrc != alphaSrc || colorDst != alphaDst; }
 	unsigned int getColorMask() const { return colorMask; }

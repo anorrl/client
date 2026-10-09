@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "V8DataModel/FaceInstance.h"
-#include "V8DataModel/PartInstance.h"
-#include "AppDraw/DrawAdorn.h"
+#include "v8datamodel/FaceInstance.h"
+#include "v8datamodel/PartInstance.h"
+#include "appdraw/DrawAdorn.h"
 
 using namespace ARL;
 

@@ -10,7 +10,7 @@
 #include "v8datamodel/PartCookie.h"
 
 #include "v8world/Clump.h"
-#include "Util/Math.h"
+#include "util/Math.h"
 
 #include "SceneManager.h"
 #include "GeometryGenerator.h"
@@ -159,7 +159,7 @@ public:
         }
         
         // add batch instance
-        BatchInstance bi = {part, decal, batch.bones.size() - 1, material.uvOffsetScale, resources};
+        BatchInstance bi = {part, decal, static_cast<unsigned int>(batch.bones.size()) - 1, material.uvOffsetScale, resources};
         
         batch.instances.push_back(bi);
     }

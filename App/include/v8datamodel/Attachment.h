@@ -2,9 +2,9 @@
 #if 1 // disable until we are ready for new joint schema
 #pragma once
 
-#include "V8Tree/Instance.h"
+#include "v8tree/Instance.h"
 #include "GfxBase/IAdornable.h"
-#include "Util/NormalId.h"
+#include "util/NormalId.h"
 
 namespace ARL {
 

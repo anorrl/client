@@ -6,11 +6,11 @@
 #include "ANORRLIDEDoc.h"
 #include "PlayersDataManager.h"
 
-#include "AppDraw/Draw.h"
+#include "appdraw/Draw.h"
 #include "GfxBase/IAdornableCollector.h"
-#include "Network/Player.h"
-#include "Network/Players.h"
-#include "V8DataModel/Workspace.h"
+#include "network/Player.h"
+#include "network/Players.h"
+#include "v8datamodel/Workspace.h"
 
 
 using namespace ARL;

@@ -1,16 +1,16 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/BulletShapeCellContact.h"
-#include "V8World/MegaClusterPoly.h"
+#include "v8world/BulletShapeCellContact.h"
+#include "v8world/MegaClusterPoly.h"
 #include "voxel/Cell.h"
 #include "voxel/Grid.h"
-#include "V8DataModel/MegaCluster.h"
+#include "v8datamodel/MegaCluster.h"
 #include "v8world/SmoothClusterGeometry.h"
-#include "V8Kernel/BulletShapeConnectors.h"
-#include "V8Kernel/Kernel.h"
-#include "V8World/Primitive.h"
-#include "V8World/World.h"
+#include "v8kernel/BulletShapeConnectors.h"
+#include "v8kernel/Kernel.h"
+#include "v8world/Primitive.h"
+#include "v8world/World.h"
 
 #include "BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
 #include "BulletCollision/CollisionShapes/btConvexHullShape.h"

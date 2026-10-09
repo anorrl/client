@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Voxel/Serializer.h"
+#include "voxel/Serializer.h"
 
 namespace ARL { namespace Voxel {
 

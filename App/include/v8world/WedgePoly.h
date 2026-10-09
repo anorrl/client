@@ -1,10 +1,10 @@
 #pragma once
 
-#include "V8World/Poly.h"
-#include "V8World/GeometryPool.h"
-#include "V8World/WedgeMesh.h"
-#include "V8World/BlockMesh.h"
-#include "V8World/BulletGeometryPoolObjects.h"
+#include "v8world/Poly.h"
+#include "v8world/GeometryPool.h"
+#include "v8world/WedgeMesh.h"
+#include "v8world/BlockMesh.h"
+#include "v8world/BulletGeometryPoolObjects.h"
 
 namespace ARL {
 

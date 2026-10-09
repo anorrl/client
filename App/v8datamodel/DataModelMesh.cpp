@@ -1,8 +1,8 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/DataModelMesh.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/DataModelMesh.h"
+#include "v8datamodel/PartInstance.h"
 #include "v8datamodel/PartInstance.h"
 #include "v8datamodel/SpecialMesh.h"
 #include "v8datamodel/PartCookie.h"

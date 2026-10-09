@@ -14,10 +14,10 @@
 #ifndef G3D_Array_h
 #define G3D_Array_h
 
-#include "G3D/platform.h"
-#include "G3D/debug.h"
-#include "G3D/System.h"
-#include "G3D/MemoryManager.h"
+#include "g3d/platform.h"
+#include "g3d/debug.h"
+#include "g3d/System.h"
+#include "g3d/MemoryManager.h"
 #ifdef G3D_DEBUG
 //   For formatting error messages
 #    include "G3D/format.h"

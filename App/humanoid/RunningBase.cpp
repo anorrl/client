@@ -1,20 +1,20 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/RunningBase.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/RunningBase.h"
+#include "humanoid/Humanoid.h"
 
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Filters.h"
-#include "V8World/Primitive.h"
-#include "V8World/Assembly.h"
-#include "V8World/World.h"
-#include "v8World/MaterialProperties.h"
-#include "v8World/Geometry.h"
-#include "V8Kernel/Body.h"
-#include "V8Kernel/Constants.h"
-#include "V8Kernel/Kernel.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Filters.h"
+#include "v8world/Primitive.h"
+#include "v8world/Assembly.h"
+#include "v8world/World.h"
+#include "v8world/MaterialProperties.h"
+#include "v8world/Geometry.h"
+#include "v8kernel/Body.h"
+#include "v8kernel/Constants.h"
+#include "v8kernel/Kernel.h"
 
 
 LOGVARIABLE(HumanoidFloorProcess, 0)

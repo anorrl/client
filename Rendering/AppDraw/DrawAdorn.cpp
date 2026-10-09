@@ -1,19 +1,19 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 
-#include "AppDraw/DrawAdorn.h"
-#include "AppDraw/DrawPrimitives.h"
+#include "appdraw/DrawAdorn.h"
+#include "appdraw/DrawPrimitives.h"
 #include "GfxBase/Part.h"
 #include "GfxBase/Adorn.h"
-#include "AppDraw/HitTest.h"
-#include "Util/Math.h"
-#include "Util/Rect.h"
-#include "Util/Extents.h"
-#include "Util/HitTest.h"
-#include "Util/Face.h"
+#include "appdraw/HitTest.h"
+#include "util/Math.h"
+#include "util/Rect.h"
+#include "util/Extents.h"
+#include "util/HitTest.h"
+#include "util/Face.h"
 #include "GfxBase/MeshGen.h"
-#include "V8DataModel/Camera.h"
-#include "V8DataModel/PartInstance.h"
-#include "G3D/Color3uint8.h"
+#include "v8datamodel/Camera.h"
+#include "v8datamodel/PartInstance.h"
+#include "g3d/Color3uint8.h"
 
 FASTFLAGVARIABLE(Studio3DGridUseAALines, true)
 

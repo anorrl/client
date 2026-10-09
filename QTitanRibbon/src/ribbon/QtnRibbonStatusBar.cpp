@@ -145,7 +145,8 @@ bool StatusButton::event(QEvent* event)
 {
     if (event->type() == QEvent::Enter)
     {
-        enterEvent(event);
+        QEnterEvent* enterEvent = static_cast<QEnterEvent*>(event);
+        this->enterEvent(enterEvent);
         return true;
     }
     else
@@ -234,7 +235,7 @@ void RibbonStatusBarSwitchGroupPrivate::init()
 {
     QTN_P(RibbonStatusBarSwitchGroup);
     m_layout = new QHBoxLayout();
-    m_layout->setMargin(0);
+    m_layout->setContentsMargins(0,0,0,0);
     m_layout->setSpacing(0);
 
 //    m_layout->addWidget(m_slider);
@@ -462,7 +463,7 @@ bool RibbonStatusBar::event(QEvent* event)
             if (QLayout* layoutFind = d.findLayout())
             {
                 layoutFind->setSpacing(0);
-                layoutFind->setMargin(0);
+                layoutFind->setContentsMargins(0,0,0,0);
                 int permanentIndex = 0;
                 for (int i = layoutFind->count() - 1; i >= 0; --i)
                 {

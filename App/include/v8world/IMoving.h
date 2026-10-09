@@ -4,7 +4,7 @@
 
 #include "arl/Debug.h"
 #include <set>
-#include "arl/Boost.hpp"
+#include "arl/boost.hpp"
 #include "arl/rbxTime.h"
 
 namespace ARL {

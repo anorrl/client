@@ -1,8 +1,8 @@
 #include "GfxBase/ViewportBillboarder.h"
-#include "V8DataModel/Filters.h"
-#include "V8DataModel/Camera.h"
-#include "V8World/World.h"
-#include "V8World/ContactManager.h"
+#include "v8datamodel/Filters.h"
+#include "v8datamodel/Camera.h"
+#include "v8world/World.h"
+#include "v8world/ContactManager.h"
 
 namespace ARL {
 

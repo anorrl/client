@@ -1,7 +1,7 @@
 include(Base)
 
 include_directories(include)
-foreach(dir gl png zip)
+foreach(dir gl zip)
   include_directories(include/${dir})
 endforeach()
 include_directories(ijg)
@@ -106,7 +106,7 @@ list(APPEND HEADERS include/g3d/WrapMode.h)
 # Add 3rd party code we don't modify.
 # Note: CMake will not notice if these files change
 # when checking deps, but that should be okay.
-file(GLOB SOURCES ijg/*.c;png/*.c;zip/*.c)
+file(GLOB SOURCES ijg/*.c;zip/*.c)
 # Don't build a few files that cause multiple definitions.
 list_filter(SOURCES ijg/jidctred.c)
 list_filter(SOURCES ijg/jdphuff.c)

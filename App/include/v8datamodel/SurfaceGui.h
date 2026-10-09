@@ -1,11 +1,11 @@
 #pragma once
 
-#include "V8DataModel/GuiBase2d.h"
-#include "Util/HeartbeatInstance.h"
-#include "Util/UDim.h"
-#include "V8DataModel/GuiLayerCollector.h"
-#include "V8DataModel/ModelInstance.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8datamodel/GuiBase2d.h"
+#include "util/HeartbeatInstance.h"
+#include "util/UDim.h"
+#include "v8datamodel/GuiLayerCollector.h"
+#include "v8datamodel/ModelInstance.h"
+#include "v8datamodel/PartInstance.h"
 
 
 

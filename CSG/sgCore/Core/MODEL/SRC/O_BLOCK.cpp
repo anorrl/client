@@ -190,7 +190,7 @@ static OSCAN_COD create_pre_scan(hOBJ hobj, lpSCAN_CONTROL lpsc);
 BOOL  create_count_blocks( lpLISTH listh, NUM_LIST list_zudina,
 												 lpVDIM vdim, void * elem)
 {
-	register short i;
+	short i;
 	SCAN_CONTROL  sc;
 	hOBJ          hobj;
 	IBLOCK        blk;

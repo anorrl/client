@@ -10,9 +10,9 @@
 #ifndef G3D_SmallArray_h
 #define G3D_SmallArray_h
 
-#include "G3D/platform.h"
-#include "G3D/Array.h"
-#include "G3D/MemoryManager.h"
+#include "g3d/platform.h"
+#include "g3d/Array.h"
+#include "g3d/MemoryManager.h"
 
 namespace G3D {
 

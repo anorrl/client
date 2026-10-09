@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Util/Average.h"
+#include "util/Average.h"
 
 namespace ARL {
 

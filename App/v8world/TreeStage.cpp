@@ -1,16 +1,16 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/TreeStage.h"
-#include "V8World/MovingStage.h"
-#include "V8World/SleepStage.h"
-#include "V8World/Primitive.h"
-#include "V8World/RigidJoint.h"
-#include "V8World/MotorJoint.h"
-#include "V8World/Clump.h"
-#include "V8World/Assembly.h"
-#include "V8World/Mechanism.h"
-#include "V8Kernel/Body.h"
+#include "v8world/TreeStage.h"
+#include "v8world/MovingStage.h"
+#include "v8world/SleepStage.h"
+#include "v8world/Primitive.h"
+#include "v8world/RigidJoint.h"
+#include "v8world/MotorJoint.h"
+#include "v8world/Clump.h"
+#include "v8world/Assembly.h"
+#include "v8world/Mechanism.h"
+#include "v8kernel/Body.h"
 #include "arl/Debug.h"
 
 #include <map>

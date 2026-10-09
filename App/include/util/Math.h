@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "Util/NormalId.h"
-#include "Util/G3DCore.h"
-#include "Util/PV.h"
+#include "util/NormalId.h"
+#include "util/G3DCore.h"
+#include "util/PV.h"
 #include "arl/Debug.h"
-#include "G3D/Array.h"
+#include "g3d/Array.h"
 #include "RbxG3D/RbxRay.h"
 #include <limits>
 

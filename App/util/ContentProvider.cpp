@@ -2,17 +2,17 @@
 #include "stdafx.h"
 
 #include "v8datamodel/ContentProvider.h"
-#include "Util/ScriptInformationProvider.h"
-#include "RbxAssert.h"
-#include "v8xml/serializer.h"
-#include "v8xml/xmlserializer.h"
-#include "Util/http.h"
+#include "util/ScriptInformationProvider.h"
+#include "ARLAssert.h"
+#include "v8xml/Serializer.h"
+#include "v8xml/XmlSerializer.h"
+#include "util/Http.h"
 #include <string.h>
-#include "Util/StandardOut.h"
-#include "Util/FileSystem.h"
-#include "Util/ThreadPool.h"
-#include "Util/Statistics.h"
-#include "V8DataModel/DataModel.h"
+#include "util/StandardOut.h"
+#include "util/FileSystem.h"
+#include "util/ThreadPool.h"
+#include "util/Statistics.h"
+#include "v8datamodel/DataModel.h"
 #include "arl/Crypt.h"
 #include "StringConv.h"
 #include "ANORRLServicesTools.h"
@@ -35,14 +35,16 @@
 // Prevent ContentFilter from calling the stats handler
 // TODO: Filter even harder so that ContentFilter *only* calls asset handler
 
+#ifndef BOOST_DATE_TIME_NO_LIB
 #define BOOST_DATE_TIME_NO_LIB
+#endif
 #include "boost/date_time/posix_time/posix_time.hpp"
 
 #define BOOST_FILESYSTEM_NO_DEPRECATED
 #include "boost/filesystem.hpp"
 
 #ifdef ARL_TEST_BUILD
-#include "Util/Statistics.h"
+#include "util/Statistics.h"
 #endif
 
 #include "XStudioBuild.h"
@@ -830,7 +832,7 @@ namespace ARL {
 
 #include <fstream>
 #include <sstream>
-#include "Util/MD5Hasher.h"
+#include "util/MD5Hasher.h"
 
 namespace ARL
 {
@@ -1019,7 +1021,7 @@ namespace ARL
 
 #if defined(ARL_PLATFORM_IOS)
             fs::path platformAssetFolderModifier = "../ios/";
-#elif defined(__APPLE__) || defined(_WIN32)
+#elif defined(__APPLE__) || defined(_WIN32) || defined(__linux__)
             fs::path platformAssetFolderModifier = "../PlatformContent/pc/";
 #elif defined(__ANDROID__)
             fs::path platformAssetFolderModifier = "../android/";

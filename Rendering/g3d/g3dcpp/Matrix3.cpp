@@ -12,12 +12,12 @@
   All rights reserved.
 */
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 #include <memory.h>
 #include <assert.h>
-#include "G3D/Matrix3.h"
-#include "G3D/g3dmath.h"
-#include "G3D/Quat.h"
+#include "g3d/Matrix3.h"
+#include "g3d/g3dmath.h"
+#include "g3d/Quat.h"
 
 #ifdef LOGAPI
 DYNAMIC_FASTFLAGVARIABLE(FixMatrixToAxisAngle, false);

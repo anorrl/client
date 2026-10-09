@@ -1,7 +1,7 @@
 
 #pragma once
-#include "Lua/LuaBridge.h"
-#include "V8Tree/Instance.h"
+#include "lua/LuaBridge.h"
+#include "v8tree/Instance.h"
 
 namespace ARL { namespace Lua {
 

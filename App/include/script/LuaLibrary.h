@@ -1,5 +1,5 @@
 #pragma once
-#include "Lua/LuaBridge.h"
+#include "lua/LuaBridge.h"
 
 namespace ARL { 
 namespace Lua {

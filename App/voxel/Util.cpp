@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Voxel/Util.h"
+#include "voxel/Util.h"
 
 namespace ARL { namespace Voxel {
 

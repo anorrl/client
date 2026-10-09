@@ -9,7 +9,7 @@
  */
 #pragma once
 
-#include "V8Datamodel/Stats.h"
+#include "v8datamodel/Stats.h"
 #include "GfxBase/RenderStats.h"
 #include "GfxBase/FrameRateManager.h"
 #include "boost/shared_ptr.hpp"

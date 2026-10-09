@@ -9,17 +9,17 @@
 
 #include "Replicator.h"
 
-#include "Network/Player.h"
+#include "network/Player.h"
 
-#include "Util/ObscureValue.h"
+#include "util/ObscureValue.h"
 
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/DataModel.h"
 
-#include "V8World/World.h"
-#include "V8World/Primitive.h"
-#include "V8World/Assembly.h"
+#include "v8world/World.h"
+#include "v8world/Primitive.h"
+#include "v8world/Assembly.h"
 
 using namespace ARL;
 using namespace ARL::Network;

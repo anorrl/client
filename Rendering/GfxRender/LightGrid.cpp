@@ -28,7 +28,12 @@
 #include "TargetConditionals.h"
 #endif
 
-#if (defined(ARL_PLATFORM_IOS) && !TARGET_IPHONE_SIMULATOR) || defined(__ANDROID__)
+#if !defined(_M_ARM64) && !defined(__aarch64__)
+#include <xmmintrin.h>
+#endif
+
+
+#if (defined(ARL_PLATFORM_IOS) && !TARGET_IPHONE_SIMULATOR) || defined(__ANDROID__) || defined(_M_ARM64) || defined(__aarch64__)
 #include <arm_neon.h>
 #endif
 

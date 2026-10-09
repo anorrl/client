@@ -1,13 +1,13 @@
 #pragma once
 
-#include "V8World/Poly.h"
-#include "V8World/GeometryPool.h"
-#include "V8World/BlockCorners.h"
-#include "V8World/BlockMesh.h"
-#include "V8World/BulletGeometryPoolObjects.h"
+#include "v8world/Poly.h"
+#include "v8world/GeometryPool.h"
+#include "v8world/BlockCorners.h"
+#include "v8world/BlockMesh.h"
+#include "v8world/BulletGeometryPoolObjects.h"
 
-#include "V8Kernel/ContactParams.h"
-#include "Util/NormalID.h"
+#include "v8kernel/ContactParams.h"
+#include "util/NormalId.h"
 #include "arl/Debug.h"
 
 namespace ARL {

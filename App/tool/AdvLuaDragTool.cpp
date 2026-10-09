@@ -1,11 +1,11 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Tool/AdvLuaDragTool.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "V8Datamodel/ChangeHistory.h"
-#include "V8DataModel/GameBasicSettings.h"
+#include "tool/AdvLuaDragTool.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "v8datamodel/ChangeHistory.h"
+#include "v8datamodel/GameBasicSettings.h"
 
 LOGGROUP(DragProfile)
 DYNAMIC_FASTFLAG(RestoreTransparencyOnToolChange)

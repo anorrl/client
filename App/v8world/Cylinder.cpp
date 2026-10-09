@@ -4,8 +4,8 @@
 
 #include "v8world/MegaClusterPoly.h"
 
-#include "Util/Units.h"
-#include "Util/Math.h"
+#include "util/Units.h"
+#include "util/Math.h"
 
 DYNAMIC_FASTFLAGVARIABLE(CylinderSurfaceNormalHitFix, false)
 

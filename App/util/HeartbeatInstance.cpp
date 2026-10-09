@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/HeartbeatInstance.h"
-#include "Util/RunStateOwner.h"
+#include "util/HeartbeatInstance.h"
+#include "util/RunStateOwner.h"
 
 namespace ARL {
 

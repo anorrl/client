@@ -7,9 +7,9 @@
 //
 #include "stdafx.h"
 
-#include "V8DataModel/NotificationService.h"
-#include "V8DataModel/UserInputService.h"
-#include "Network/Players.h"
+#include "v8datamodel/NotificationService.h"
+#include "v8datamodel/UserInputService.h"
+#include "network/Players.h"
 
 
 

@@ -5,7 +5,7 @@
 #ifdef _WIN32
 #define _WINSOCKAPI_  
 
-#include "Util/FileSystem.h"
+#include "util/FileSystem.h"
 
 #include <ATLPath.h>
 
@@ -16,7 +16,7 @@
 
 #include "shlobj.h"
 #include "arl/Debug.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 
 namespace ARL

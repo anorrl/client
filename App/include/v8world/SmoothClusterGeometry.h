@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8World/Geometry.h"
-#include "V8World/Primitive.h"
-#include "V8World/TerrainPartition.h"
-#include "Util/PartMaterial.h"
+#include "v8world/Geometry.h"
+#include "v8world/Primitive.h"
+#include "v8world/TerrainPartition.h"
+#include "util/PartMaterial.h"
 
 class btConvexHullShape;
 struct btDbvt;

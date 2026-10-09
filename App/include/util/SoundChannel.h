@@ -3,9 +3,9 @@
 #pragma once
 
 #include "v8tree/Instance.h"
-#include "Reflection/Event.h"
-#include "Util/Sound.h"
-#include "Util/RunStateOwner.h"
+#include "reflection/Event.h"
+#include "util/Sound.h"
+#include "util/RunStateOwner.h"
 
 namespace FMOD
 {

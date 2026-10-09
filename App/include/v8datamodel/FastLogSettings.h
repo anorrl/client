@@ -1,6 +1,6 @@
 #pragma once
 
-#include "V8DataModel/GlobalSettings.h"
+#include "v8datamodel/GlobalSettings.h"
 
 #include "SimpleJSON.h"
 #include "util/Statistics.h"

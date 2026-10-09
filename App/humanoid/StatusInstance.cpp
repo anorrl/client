@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Humanoid/StatusInstance.h"
+#include "humanoid/StatusInstance.h"
 
 namespace ARL {
 

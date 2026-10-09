@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/SpatialHashMultiRes.h"
-#include "V8World/Tolerance.h"
+#include "v8world/SpatialHashMultiRes.h"
+#include "v8world/Tolerance.h"
 
 namespace ARL {
 

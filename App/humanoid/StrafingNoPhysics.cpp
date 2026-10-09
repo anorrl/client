@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/StrafingNoPhysics.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/StrafingNoPhysics.h"
+#include "humanoid/Humanoid.h"
 
 namespace ARL {
 namespace HUMAN {

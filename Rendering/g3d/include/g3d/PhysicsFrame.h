@@ -10,11 +10,11 @@
 #ifndef G3D_PHYSICSFRAME_H
 #define G3D_PHYSICSFRAME_H
 
-#include "G3D/platform.h"
-#include "G3D/Vector3.h"
-#include "G3D/Matrix3.h"
-#include "G3D/Quat.h"
-#include "G3D/CoordinateFrame.h"
+#include "g3d/platform.h"
+#include "g3d/Vector3.h"
+#include "g3d/Matrix3.h"
+#include "g3d/Quat.h"
+#include "g3d/CoordinateFrame.h"
 #include <math.h>
 #include <string>
 

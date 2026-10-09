@@ -1,5 +1,3 @@
-include(tbb)
-include(VMProtect)
 include(App)
 include(Rendering)
 

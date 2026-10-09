@@ -1,9 +1,7 @@
 #include "stdafx.h"
-#include "V8DataModel/TweenBase.h"
-#include "V8DataModel/TweenService.h"
-#include "V8DataModel/GuiObject.h"
-//  print(game:GetService("TweenService"):Create(workspace.BasePlate, TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut),
-//  {Reflectance = 12}):Play())
+#include "v8datamodel/TweenBase.h"
+#include "v8datamodel/TweenService.h"
+#include "v8datamodel/GuiObject.h"
 
 namespace ARL
 {
@@ -43,7 +41,6 @@ namespace ARL
 
 	} // namespace Reflection
 
-	  // ARL:
 #ifdef __clang__
 	template<>
 #endif

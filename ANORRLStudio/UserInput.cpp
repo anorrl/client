@@ -9,7 +9,7 @@
 // ANORRL Headers
 #include "v8datamodel/Workspace.h"
 #include "v8datamodel/GameBasicSettings.h"
-#include "V8DataModel/SleepingJob.h"
+#include "v8datamodel/SleepingJob.h"
 #include "v8datamodel/UserInputService.h"
 #include "util/NavKeys.h"
 #include "arl/TaskScheduler.h"

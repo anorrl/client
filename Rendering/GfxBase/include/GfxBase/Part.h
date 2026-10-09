@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "Util/SurfaceType.h"
-#include "Util/Vector6.h"
-#include "G3D/Vector3.h"
-#include "G3D/Color4.h"
-#include "G3D/CoordinateFrame.h"
+#include "util/SurfaceType.h"
+#include "util/Vector6.h"
+#include "g3d/Vector3.h"
+#include "g3d/Color4.h"
+#include "g3d/CoordinateFrame.h"
 
 // Simple description of a part suitable for drawing, etc.  Build Instance on top of this.
 // Low level.

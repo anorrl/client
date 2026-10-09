@@ -1,10 +1,10 @@
 #pragma once
 
-#include "v8tree/instance.h"
-#include "v8tree/service.h"
-#include "v8datamodel/team.h"
-#include "G3D/Color3.h"
-#include "Util/BrickColor.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
+#include "v8datamodel/Team.h"
+#include "g3d/Color3.h"
+#include "util/BrickColor.h"
 
 namespace ARL { 
 

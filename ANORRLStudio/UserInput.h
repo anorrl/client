@@ -9,7 +9,7 @@
 #include "util/UserInputBase.h"
 #include "util/RunStateOwner.h"
 #include "util/Rect.h"
-#include "V8DataModel/InputObject.h"
+#include "v8datamodel/InputObject.h"
 #include "SDLGameController.h"
 
 class ANORRLView;

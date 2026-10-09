@@ -6,7 +6,7 @@
 #pragma once
 
 #include <QWidget>
-#include "V8DataModel/InputObject.h"
+#include "v8datamodel/InputObject.h"
 
 class UserInput;
 class QComboBox;

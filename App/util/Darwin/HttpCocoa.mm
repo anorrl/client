@@ -17,7 +17,7 @@ namespace io = boost::iostreams;
 // later to make gcc happy
 #import "HttpCocoa.h"
 
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 #include "Http.h"
 #include "FastLog.h"
 

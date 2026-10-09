@@ -13,16 +13,16 @@
 
 #include <limits>
 #include <stdlib.h>
-#include "G3D/Vector3.h"
-#include "G3D/g3dmath.h"
-#include "G3D/stringutils.h"
-#include "G3D/Vector3int16.h"
-#include "G3D/Matrix3.h"
-#include "G3D/Vector2.h"
-#include "G3D/Color3.h"
-#include "G3D/Vector4int8.h"
-#include "G3D/Vector4.h"
-#include "G3D/Vector3int32.h"
+#include "g3d/Vector3.h"
+#include "g3d/g3dmath.h"
+#include "g3d/stringutils.h"
+#include "g3d/Vector3int16.h"
+#include "g3d/Matrix3.h"
+#include "g3d/Vector2.h"
+#include "g3d/Color3.h"
+#include "g3d/Vector4int8.h"
+#include "g3d/Vector4.h"
+#include "g3d/Vector3int32.h"
  
 namespace G3D {
 

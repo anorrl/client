@@ -13,13 +13,13 @@
 #ifndef G3D_DEBUG_H
 #define G3D_DEBUG_H
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 #ifdef _MSC_VER
     #include <crtdbg.h>
 #endif
 
-#include "G3D/debugPrintf.h"
-#include "G3D/debugAssert.h"
+#include "g3d/debugPrintf.h"
+#include "g3d/debugAssert.h"
 
 namespace G3D {
 

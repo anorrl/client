@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Util/BrickColor.h"
-#include "Util/TextureId.h"
-#include "Gui/ProfanityFilter.h"
-#include "Util/ContentFilter.h"
+#include "util/BrickColor.h"
+#include "util/TextureId.h"
+#include "gui/ProfanityFilter.h"
+#include "util/ContentFilter.h"
 #include "GfxBase/Typesetter.h"
-#include "V8DataModel/TextService.h"
+#include "v8datamodel/TextService.h"
 #include "security/SecurityContext.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 #define category_Text       "Text"
 

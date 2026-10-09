@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "Util/G3DCore.h"
-#include "Util/HeartbeatInstance.h"
+#include "v8tree/Instance.h"
+#include "util/G3DCore.h"
+#include "util/HeartbeatInstance.h"
 #include <vector>
 #include "RbxG3D/Frustum.h"
 

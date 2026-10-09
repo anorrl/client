@@ -10,9 +10,9 @@
 */
 
 #include "RbxG3D/RbxCamera.h"
-#include "G3D/platform.h"
-#include "G3D/Ray.h"
-#include "G3D/Matrix4.h"
+#include "g3d/platform.h"
+#include "g3d/Ray.h"
+#include "g3d/Matrix4.h"
 
 namespace ARL {
 

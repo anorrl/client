@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "v8datamodel/ServerStorage.h"
-#include "V8DataModel/GameBasicSettings.h"
+#include "v8datamodel/GameBasicSettings.h"
 #include "network/Players.h"
 
 using namespace ARL;

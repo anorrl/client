@@ -9,12 +9,12 @@
 
 #pragma once
 
-#include "Util/TextureId.h"
-#include "Util/UDim.h"
+#include "util/TextureId.h"
+#include "util/UDim.h"
 
 #include "gui/GuiEvent.h"
 
-#include "V8Tree/Service.h"
+#include "v8tree/Service.h"
 
 #include "script/ThreadRef.h"
 

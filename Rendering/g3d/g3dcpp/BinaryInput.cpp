@@ -32,10 +32,10 @@
   </PRE>
  */
 
-#include "G3D/platform.h"
-#include "G3D/BinaryInput.h"
-#include "G3D/Array.h"
-#include "G3D/fileutils.h"
+#include "g3d/platform.h"
+#include "g3d/BinaryInput.h"
+#include "g3d/Array.h"
+#include "g3d/fileutils.h"
 #include <zlib.h>
 #include <stdexcept>
 #include <cstring>

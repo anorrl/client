@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Voxel/Water.h"
+#include "voxel/Water.h"
 
 /////////////////////////////////////////////////////
 // template implementation file for Region.h

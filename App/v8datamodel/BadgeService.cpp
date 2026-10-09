@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "V8DataModel/BadgeService.h"
-#include "V8DataModel/DebrisService.h"
-#include "V8DataModel/Workspace.h"
-#include "Network/Players.h"
-#include "Util/Http.h"
-#include "util/standardout.h"
+#include "v8datamodel/BadgeService.h"
+#include "v8datamodel/DebrisService.h"
+#include "v8datamodel/Workspace.h"
+#include "network/Players.h"
+#include "util/Http.h"
+#include "util/StandardOut.h"
 
 namespace ARL {
 

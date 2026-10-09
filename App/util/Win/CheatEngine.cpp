@@ -12,7 +12,7 @@ string literals and API calls will look like in a disassembler.
 #include <list>
 
 #include "util/CheatEngine.h"
-#include "V8DataModel/HackDefines.h"
+#include "v8datamodel/HackDefines.h"
 #include <psapi.h>
 #include <TlHelp32.h>
 

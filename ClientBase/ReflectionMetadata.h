@@ -2,7 +2,7 @@
 
 // ANORRL Headers
 #include "v8tree/Instance.h"
-#include "reflection/reflection.h"
+#include "reflection/Reflection.h"
 #include <boost/filesystem.hpp>
 
 namespace ARL

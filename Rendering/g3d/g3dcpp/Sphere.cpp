@@ -9,10 +9,10 @@
  @edited  2009-01-20
  */
 
-#include "G3D/platform.h"
-#include "G3D/Sphere.h"
-#include "G3D/AABox.h"
-#include "G3D/Plane.h"
+#include "g3d/platform.h"
+#include "g3d/Sphere.h"
+#include "g3d/AABox.h"
+#include "g3d/Plane.h"
 
 namespace G3D {
 

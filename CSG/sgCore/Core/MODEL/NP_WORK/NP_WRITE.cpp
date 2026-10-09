@@ -41,7 +41,7 @@ BOOL np_put(lpNPW np, lpNP_STR_LIST list)
 
 BOOL np_get_str(lpNP_STR_LIST list, short ident, lpNP_STR str1, short *index)
 {
-	register int 	i;
+  int 	i;
   lpNP_STR 			str;
 
   begin_rw(&list->vdim,0);
@@ -885,7 +885,7 @@ static void calk_volume(lpNPW np, sgFloat *volume)
 void str_compress(lpNP_STR_LIST list)
 {
   lpNP_STR 			str;
-  register int 	i;
+  int 	i;
 
 	list->number_np = 0;
 

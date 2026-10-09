@@ -2,18 +2,18 @@
 #include "stdafx.h"
 
 
-#include "Util/Math.h"
-#include "Util/PV.h"
-#include "Util/Units.h"
+#include "util/Math.h"
+#include "util/PV.h"
+#include "util/Units.h"
 #include "RbxG3D/RbxRay.h"
 #include "arl/Debug.h"
-#include "V8DataModel/Camera.h"
+#include "v8datamodel/Camera.h"
 #include "boost/functional/hash/hash.hpp"
 #include "boost/math/special_functions/fpclassify.hpp"
 
 extern "C"
 {
-	#include "Util/gpc.h"
+	#include "util/gpc.h"
 }
 
 namespace G3D

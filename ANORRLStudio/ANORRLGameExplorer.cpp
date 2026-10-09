@@ -13,13 +13,14 @@
 #include "UpdateUIManager.h"
 #include "ANORRLServicesTools.h"
 
-#include "Util/ContentId.h"
-#include "Util/LuaWebService.h"
-#include "V8DataModel/ContentProvider.h"
-#include "V8DataModel/DataModel.h"
-#include "V8DataModel/Decal.h"
-#include "V8DataModel/PartOperationAsset.h"
-#include "V8Xml/WebParser.h"
+#include "util/ContentId.h"
+#include "util/LuaWebService.h"
+#include "util/SoundService.h"
+#include "v8datamodel/ContentProvider.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/Decal.h"
+#include "v8datamodel/PartOperationAsset.h"
+#include "v8xml/WebParser.h"
 
 #include <QFileDialog>
 #include <QFileInfo>
@@ -30,10 +31,12 @@
 #include <QPushButton>
 #include <QStandardItem>
 #include <QStandardItemModel>
-#include <QTextstream>
+#include <QTextStream>
 #include <QTreeView>
 #include <QWidget>
 #include <QClipboard>
+#include <QGridLayout>
+#include <QHeaderView>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>

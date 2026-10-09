@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Util/IndexedMesh.h"
+#include "util/IndexedMesh.h"
 
 namespace ARL {
 

@@ -3,7 +3,7 @@
 #include "arl/Declarations.h"
 #include "arl/boost.hpp"
 #include "arl/Debug.h"
-#include "arl/RbxTime.h"
+#include "arl/rbxTime.h"
 #include "util/Memory.h"
 #include "boost/intrusive/list.hpp"
 

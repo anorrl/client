@@ -1,8 +1,8 @@
 #pragma once
 
 #include "arl/rbxTime.h"
-#include "RbxAssert.h"
-#include "util/standardout.h"
+#include "ARLAssert.h"
+#include "util/StandardOut.h"
 
 namespace ARL
 {

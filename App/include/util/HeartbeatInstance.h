@@ -3,7 +3,7 @@
 #pragma once
 
 #include "arl/signal.h"
-#include "Util/G3DCore.h"
+#include "util/G3DCore.h"
 
 // hook up by overriding onServiceProvider call in this pattern:
 //

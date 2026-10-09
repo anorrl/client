@@ -7,9 +7,9 @@
 namespace RakNet {
 
 // ROBLOX CHANGE: ALWAYS 64-bit
-typedef unsigned long long Time;
+typedef uint64_t Time;
 typedef unsigned int TimeMS;
-typedef unsigned long long TimeUS;
+typedef uint64_t TimeUS;
 // END ROBLOX CHANGE
 
 }; // namespace RakNet

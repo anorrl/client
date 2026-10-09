@@ -1,7 +1,7 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/IMoving.h"
+#include "v8world/IMoving.h"
 #include "FastLog.h"
 #include "v8datamodel/PartInstance.h"
 #include "util/MovementHistory.h"

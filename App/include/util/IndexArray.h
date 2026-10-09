@@ -3,10 +3,10 @@
 #pragma once
 
 #include "boost/utility.hpp"
-#include "util/utilities.h"
-#include "Util/G3DCore.h"
+#include "util/Utilities.h"
+#include "util/G3DCore.h"
 #include "arl/Debug.h"
-#include "G3D/Array.h"
+#include "g3d/Array.h"
 
 namespace ARL {
 

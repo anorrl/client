@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include "V8DataModel/HandlesBase.h"
-#include "V8DataModel/EventReplicator.h"
+#include "v8datamodel/HandlesBase.h"
+#include "v8datamodel/EventReplicator.h"
 #include "GfxBase/IAdornable.h"
-#include "Util/Axes.h"
+#include "util/Axes.h"
 
-#include "AppDraw/HandleType.h"
+#include "appdraw/HandleType.h"
 
 namespace ARL
 {

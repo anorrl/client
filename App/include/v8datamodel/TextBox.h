@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8DataModel/GuiObject.h"
-#include "V8DataModel/GuiText.h"
+#include "v8datamodel/GuiObject.h"
+#include "v8datamodel/GuiText.h"
 #include "arl/rbxTime.h"
-#include "Util/HeartbeatInstance.h"
+#include "util/HeartbeatInstance.h"
 
 namespace ARL
 {

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Util/ScopedSingleton.h"
+#include "util/ScopedSingleton.h"
 
 namespace ARL {
 	

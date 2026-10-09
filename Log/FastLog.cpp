@@ -4,8 +4,10 @@
 #include <windows.h>
 #elif __ANDROID__
 #include <sys/atomics.h>
-#else
+#elif __APPLE__
 #include <libkern/OSAtomic.h>
+#else
+//#include <cstdatomic.h>
 #endif
 
 #include <boost/thread/mutex.hpp>
@@ -15,8 +17,8 @@
 #include "arl/atomic.h"
 #include "arl/rbxTime.h"
 #include "arl/boost.hpp"
-#include "RbxPlatform.h"
-#include "RbxFormat.h"
+#include "ARLPlatform.h"
+#include "ARLFormat.h"
 
 #include <fstream>
 #include <string>

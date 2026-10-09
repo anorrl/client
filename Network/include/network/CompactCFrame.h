@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Util/Math.h"
+#include "util/Math.h"
 
 namespace ARL
 {

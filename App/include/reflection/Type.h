@@ -4,7 +4,8 @@
 #include "reflection/Descriptor.h"
 #include <boost/any.hpp>
 #include <boost/static_assert.hpp>
-#include <util/utilities.h>
+#include <boost/type_traits/is_float.hpp>
+#include "util/Utilities.h"
 
 #include <boost/unordered_map.hpp>
 #include <list>

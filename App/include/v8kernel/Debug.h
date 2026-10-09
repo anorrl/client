@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ARL/Debug.h"
+#include "arl/Debug.h"
 
 // Engine assertions often cause the game to stop running.
 // Until we can fix these, turn them off.

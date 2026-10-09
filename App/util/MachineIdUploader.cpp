@@ -4,10 +4,10 @@
 // Include order here is very important. boost/property_tree needs to come
 // early to prevent errors on mac builds, but on windows builds RbxPlatform
 // needs to come before property_tree, to prevent a winsock conflict.
-#include "RbxPlatform.h"
-#include "Util/MachineIdUploader.h"
-#include "Util/Http.h"
-#include "V8DataModel/Stats.h"
+#include "ARLPlatform.h"
+#include "util/MachineIdUploader.h"
+#include "util/Http.h"
+#include "v8datamodel/Stats.h"
 #include "FastLog.h"
 #include "format_string.h"
 #include "ANORRLServicesTools.h"
@@ -94,9 +94,11 @@ bool responseIndicatesMachineIsBad(const std::string& response) {
 
 MachineIdUploader::Result MachineIdUploader::uploadMachineId(const char* baseUrl) {
 	MachineId id;
+#ifndef __linux__
 	if (!fillMachineId(&id)) {
 		return RESULT_MachineAccepted;
 	}
+#endif
 
 	if (id.macAddresses.empty()) {
 		return RESULT_MachineAccepted;
@@ -128,10 +130,10 @@ MachineIdUploader::Result MachineIdUploader::uploadMachineId(const char* baseUrl
 std::string MachineIdUploader::getMachineId()
 {
 	MachineId id;
-
+#ifndef __linux
 	if (!fillMachineId(&id))
         return "";
-
+#endif
     std::string result;
 
 	for (size_t i = 0; i < id.macAddresses.size(); ++i)

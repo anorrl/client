@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "Util/RunStateOwner.h"
-#include "Util/G3DCore.h"
+#include "v8tree/Instance.h"
+#include "util/RunStateOwner.h"
+#include "util/G3DCore.h"
 
 LOGGROUP(ISteppedLifetime)
 

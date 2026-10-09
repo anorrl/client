@@ -1,7 +1,7 @@
 /* Copyright 2014 ROBLOX Corporation, All Rights Reserved */
 
 #include "CSGKernel.h"
-#include "V8DataModel/CSGMesh.h"
+#include "v8datamodel/CSGMesh.h"
 #include <algorithm>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>

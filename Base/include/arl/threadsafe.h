@@ -5,14 +5,14 @@
 #include <queue>
 #include "arl/boost.hpp"
 #include "arl/Thread.hpp"
-#include "arl/rbxtime.h"
+#include "arl/rbxTime.h"
 #include "arl/atomic.h"
 #include "boost/shared_ptr.hpp"
 #include "boost/noncopyable.hpp"
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 #include "FastLog.h"
 
-#include "RbxPlatform.h"
+#include "ARLPlatform.h"
 
 #include "boost/thread/mutex.hpp"
 

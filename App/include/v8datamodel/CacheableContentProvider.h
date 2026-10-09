@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "V8Tree/Service.h"
+#include "v8tree/Service.h"
 #include "v8datamodel/ContentProvider.h"
 #include "util/ContentProviderJob.h"
 #include "util/ControlledLRUCache.h"

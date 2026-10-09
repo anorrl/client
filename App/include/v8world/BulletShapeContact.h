@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8World/Contact.h"
-#include "V8World/Mesh.h"
-#include "Voxel/Util.h"
+#include "v8world/Contact.h"
+#include "v8world/Mesh.h"
+#include "voxel/Util.h"
 #include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
 #include "BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
 

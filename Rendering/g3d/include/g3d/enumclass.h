@@ -8,7 +8,7 @@
 #ifndef G3D_enumclass_h
 #define G3D_enumclass_h
 
-#include "G3D/HashTrait.h"
+#include "g3d/HashTrait.h"
 
 /**
 \def G3D_DECLARE_ENUM_CLASS_METHODS

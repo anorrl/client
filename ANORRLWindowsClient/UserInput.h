@@ -2,8 +2,8 @@
 
 #include "stdafx.h"
 #include "UserInputUtil.h"
-#include "Util/UserInputBase.h"
-#include "util/standardout.h"
+#include "util/UserInputBase.h"
+#include "util/StandardOut.h"
 #include "SDLGameController.h"
 
 #pragma comment(lib, "dxguid.lib")

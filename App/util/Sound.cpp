@@ -1,23 +1,15 @@
 /* Copyright 2003-2014 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Util/Sound.h"
-#include "Util/SoundService.h"
+#include "util/Sound.h"
+#include "util/SoundService.h"
 
-#include "V8datamodel/ContentProvider.h"
-#include "V8datamodel/GameSettings.h"
+#include "v8datamodel/ContentProvider.h"
+#include "v8datamodel/GameSettings.h"
 
 #include "StringConv.h"
 
 #include "arl/Profiler.h"
-
-#include "fmod.h"
-#include "fmod.hpp"
-#include "fmod_errors.h"
-
-#if FMOD_VERSION != 0x00010702
-#	error Wrong version of fmod.
-#endif
 
 // This is equivalent to 500 kB by default
 DYNAMIC_FASTINTVARIABLE(MinSoundStreamSizeBytes, 512000)

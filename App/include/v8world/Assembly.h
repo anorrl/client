@@ -2,17 +2,17 @@
 
 #pragma once
 
-#include "Util/IndexedMesh.h"
-#include "V8World/Enum.h"
-#include "V8World/Primitive.h"
-#include "V8World/IPipelined.h"
-#include "Util/ComputeProp.h"
-#include "Util/PhysicsCoord.h"
-#include "Util/Average.h"
+#include "util/IndexedMesh.h"
+#include "v8world/Enum.h"
+#include "v8world/Primitive.h"
+#include "v8world/IPipelined.h"
+#include "util/ComputeProp.h"
+#include "util/PhysicsCoord.h"
+#include "util/Average.h"
 #include "arl/Debug.h"
 #include <set>
 #include "boost/intrusive/list.hpp"
-#include "Network/CompactCFrame.h"
+#include "network/CompactCFrame.h"
 
 namespace ARL {
 

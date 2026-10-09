@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "V8DataModel/JointInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "Humanoid/Humanoid.h"
-#include "V8World/Primitive.h"
-#include "V8World/Assembly.h"
+#include "v8datamodel/JointInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "humanoid/Humanoid.h"
+#include "v8world/Primitive.h"
+#include "v8world/Assembly.h"
 #include "arl/rbxTime.h"
 
 DYNAMIC_FASTINT(ActionStationDebounceTime)

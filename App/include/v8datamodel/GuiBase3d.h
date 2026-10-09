@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "Util/BrickColor.h"
+#include "v8tree/Instance.h"
+#include "util/BrickColor.h"
 #include "GuiBase.h"
 
 namespace ARL {

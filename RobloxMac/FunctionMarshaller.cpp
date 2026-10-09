@@ -8,7 +8,7 @@
 #undef max
 
 #include "util/StandardOut.h"
-#include "rbx/boost.hpp"
+#include "arl/boost.hpp"
 #include "Roblox.h"
 
 using namespace RBX;

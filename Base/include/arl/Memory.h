@@ -6,7 +6,7 @@
 #include "boost/pool/singleton_pool.hpp"
 #include "boost/scoped_ptr.hpp"
 #include <assert.h>
-#include "arl/debug.h"
+#include "arl/Debug.h"
 #include "arl/atomic.h"
 #include <vector>
 

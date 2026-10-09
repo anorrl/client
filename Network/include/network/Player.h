@@ -3,19 +3,19 @@
 #pragma once
 
 #include "arl/rbxTime.h"
-#include "v8tree/instance.h"
-#include "v8datamodel/team.h"
-#include "V8Datamodel/FriendService.h"
-#include "V8DataModel/Camera.h"
-#include "V8DataModel/StarterPlayerService.h"
-#include "Util/BrickColor.h"
-#include "Util/G3DCore.h"
-#include "Util/HeapValue.h"
-#include "Util/Rect.h"
+#include "v8tree/Instance.h"
+#include "v8datamodel/Team.h"
+#include "v8datamodel/FriendService.h"
+#include "v8datamodel/Camera.h"
+#include "v8datamodel/StarterPlayerService.h"
+#include "util/BrickColor.h"
+#include "util/G3DCore.h"
+#include "util/HeapValue.h"
+#include "util/Rect.h"
 #include "util/RunningAverage.h"
 
 // for player mouse
-#include "V8Datamodel/Mouse.h"
+#include "v8datamodel/Mouse.h"
 
 #include <boost/scoped_ptr.hpp>
 #include "v8datamodel/TeleportService.h"

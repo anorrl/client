@@ -5,7 +5,7 @@
 
 #include <boost/unordered_map.hpp>
 
-#include <ARL/threadsafe.h>
+#include <arl/threadsafe.h>
 
 namespace ARL
 {

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "v8datamodel/debrisservice.h"
+#include "v8datamodel/DebrisService.h"
 #include "v8datamodel/TimerService.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 
 const char* const ARL::sTimerService = "TimerService";
 

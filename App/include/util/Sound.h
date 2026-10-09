@@ -3,7 +3,7 @@
 #pragma once
 
 #include "v8tree/Instance.h"
-#include "Reflection/Event.h"
+#include "reflection/Event.h"
 
 #define FMOD_RESOURCES_FREED_STRING "FMOD System already closed.  Resources previously freed."
 

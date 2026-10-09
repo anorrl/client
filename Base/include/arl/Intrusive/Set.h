@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ARL/Debug.h"
+#include "arl/Debug.h"
 #include "boost/noncopyable.hpp"
 
 namespace ARL { namespace Intrusive {

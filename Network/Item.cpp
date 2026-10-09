@@ -1,6 +1,6 @@
 
 #include "Item.h"
-#include "streaming.h"
+#include "Streaming.h"
 
 namespace ARL { 
 namespace Network {

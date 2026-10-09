@@ -1,11 +1,11 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/Animation.h"
-#include "V8DataModel/KeyframeSequenceProvider.h"
-#include "V8DataModel/AnimationTrackState.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/JointInstance.h"
+#include "v8datamodel/Animation.h"
+#include "v8datamodel/KeyframeSequenceProvider.h"
+#include "v8datamodel/AnimationTrackState.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/JointInstance.h"
 
 namespace ARL {
 

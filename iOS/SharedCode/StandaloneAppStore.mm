@@ -11,7 +11,7 @@
 
 #include "v8datamodel/DataModel.h"
 #include "v8datamodel/MarketplaceService.h"
-#include "Network/Players.h"
+#include "network/Players.h"
 
 @implementation StandaloneAppStore
 

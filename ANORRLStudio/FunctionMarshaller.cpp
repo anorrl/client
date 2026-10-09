@@ -11,8 +11,8 @@
 #include "boost/thread/recursive_mutex.hpp"
 
 // ANORRL Headers
-#include "util/standardout.h"
-#include "arl/Boost.hpp"
+#include "util/StandardOut.h"
+#include "arl/boost.hpp"
 #include "arl/CEvent.h"
 
 // ANORRL Studio Headers

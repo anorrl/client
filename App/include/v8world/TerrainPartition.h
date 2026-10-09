@@ -2,12 +2,12 @@
 /* Copyright 2003-2011 ROBLOX Corporation, All Rights Reserved */
 
 #include <vector>
-#include "Util/G3DCore.h"
-#include "V8World/Primitive.h"
-#include "Voxel/Util.h"
-#include "Voxel/CellChangeListener.h"
-#include "Voxel/ChunkMap.h"
-#include "Voxel2/GridListener.h"
+#include "util/G3DCore.h"
+#include "v8world/Primitive.h"
+#include "voxel/Util.h"
+#include "voxel/CellChangeListener.h"
+#include "voxel/ChunkMap.h"
+#include "voxel2/GridListener.h"
 
 namespace ARL {
 namespace Voxel {

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Humanoid/Flying.h"
+#include "humanoid/Flying.h"
 
 namespace ARL {
 	namespace HUMAN {

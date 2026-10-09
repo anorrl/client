@@ -1,11 +1,9 @@
 #include "stdafx.h"
-#include "V8DataModel/TweenBase.h"
-#include "V8DataModel/Tween.h"
+#include "v8datamodel/TweenBase.h"
+#include "v8datamodel/Tween.h"
 
 namespace ARL
 {
-	ARL_REGISTER_CLASS(Tween);
-
 	REFLECTION_BEGIN();
 	static Reflection::RefPropDescriptor<Tween, Instance> prop_instance(
 		"Instance", category_Behavior, &Tween::getInstance, NULL, Reflection::PropertyDescriptor::STANDARD_NO_REPLICATE);

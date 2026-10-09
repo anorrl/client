@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8DataModel/GuiObject.h"
-#include "Util/HeartbeatInstance.h"
-#include "Util/Rect.h"
-#include "V8DataModel/GuiLayerCollector.h"
+#include "v8datamodel/GuiObject.h"
+#include "util/HeartbeatInstance.h"
+#include "util/Rect.h"
+#include "v8datamodel/GuiLayerCollector.h"
 
 namespace ARL {
 

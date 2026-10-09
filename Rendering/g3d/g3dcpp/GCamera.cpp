@@ -8,12 +8,12 @@
   @created 2005-07-20
   @edited  2010-02-22
 */
-#include "G3D/GCamera.h"
-#include "G3D/platform.h"
-#include "G3D/Rect2D.h"
-#include "G3D/Ray.h"
-#include "G3D/Matrix4.h"
-#include "G3D/stringutils.h"
+#include "g3d/GCamera.h"
+#include "g3d/platform.h"
+#include "g3d/Rect2D.h"
+#include "g3d/Ray.h"
+#include "g3d/Matrix4.h"
+#include "g3d/stringutils.h"
 
 namespace G3D {
 

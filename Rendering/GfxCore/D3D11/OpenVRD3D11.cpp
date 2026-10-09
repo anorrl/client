@@ -3,7 +3,7 @@
 
 #include "FramebufferD3D11.h"
 
-#include "G3D/Quat.h"
+#include "g3d/Quat.h"
 
 #include "arl/Profiler.h"
 

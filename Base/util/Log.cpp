@@ -1,5 +1,5 @@
 #include "arl/Log.h"
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 #ifdef _WIN32
 #include <Windows.h>
 #define sprints sprintf_s
@@ -83,6 +83,7 @@ void Log::writeEntry(Severity severity, const char* message)
 	static const char* warning =     " Warning: ";
 	static const char* information = "          ";
 	Log::timeStamp(stream, false);
+
 	switch (severity)
 	{
 		case Log::Error:

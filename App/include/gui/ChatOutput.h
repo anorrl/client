@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Gui/Gui.h"
-#include "Util/RunStateOwner.h"
-#include "V8DataModel/ChatService.h"
-#include "Util/UDim.h"
+#include "gui/GUI.h"
+#include "util/RunStateOwner.h"
+#include "v8datamodel/ChatService.h"
+#include "util/UDim.h"
 
 
 namespace ARL {

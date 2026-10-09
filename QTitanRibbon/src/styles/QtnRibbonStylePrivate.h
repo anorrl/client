@@ -111,7 +111,7 @@ namespace Qtitan
         void refreshMetrics(QWidget* widget);
         void updateColors();
 
-        void tabLayout(const QStyleOptionTabV3* opt, const QWidget* widget, QRect* textRect, QRect* iconRect) const;
+        void tabLayout(const QStyleOptionTab* opt, const QWidget* widget, QRect* textRect, QRect* iconRect) const;
         void tabHoverUpdate(QTabBar* tabBar, QEvent* event);
 
         void setMacSmallSize(QWidget* widget);

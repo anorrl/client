@@ -14,9 +14,9 @@
 #ifndef G3D_COLOR1_H
 #define G3D_COLOR1_H
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
-#include "G3D/HashTrait.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
+#include "g3d/HashTrait.h"
 #include <string>
 
 namespace G3D {

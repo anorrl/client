@@ -13,7 +13,7 @@
 #ifndef G3D_BumpMapPreprocess_h
 #define G3D_BumpMapPreprocess_h
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 
 namespace G3D {
 

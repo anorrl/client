@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "V8DataModel/StudioToolVerb.h"
-#include "V8DataModel/StudioTool.h"
-#include "V8DataModel/StudioToolMouseCommand.h"
-#include "V8DataModel/Workspace.h"
+#include "v8datamodel/StudioToolVerb.h"
+#include "v8datamodel/StudioTool.h"
+#include "v8datamodel/StudioToolMouseCommand.h"
+#include "v8datamodel/Workspace.h"
 
 namespace ARL
 {

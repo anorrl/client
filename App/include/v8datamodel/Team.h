@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8Tree/Service.h"
-#include "V8Tree/Instance.h"
-#include "Util/Color.h"
-#include "Util/BrickColor.h"
+#include "v8tree/Service.h"
+#include "v8tree/Instance.h"
+#include "util/Color.h"
+#include "util/BrickColor.h"
 
 
 namespace ARL {

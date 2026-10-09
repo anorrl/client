@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Util/Rect.h"
-#include "Util/G3DCore.h"
+#include "util/Rect.h"
+#include "util/G3DCore.h"
 
 namespace ARL {
 

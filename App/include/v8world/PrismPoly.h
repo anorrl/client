@@ -1,9 +1,9 @@
 #pragma once
 
-#include "V8World/Poly.h"
-#include "V8World/GeometryPool.h"
-#include "V8World/PrismMesh.h"
-#include "V8World/BlockMesh.h"
+#include "v8world/Poly.h"
+#include "v8world/GeometryPool.h"
+#include "v8world/PrismMesh.h"
+#include "v8world/BlockMesh.h"
 
 namespace ARL {
 

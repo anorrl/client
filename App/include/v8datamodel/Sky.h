@@ -1,8 +1,8 @@
 #pragma once
 
 //#include "V8dataModel/FaceInstance.h"
-#include "V8Tree/instance.h"
-#include "Util/TextureId.h"
+#include "v8tree/Instance.h"
+#include "util/TextureId.h"
 
 namespace ARL {
 

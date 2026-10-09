@@ -2,7 +2,7 @@
 
 #include "Compressor.h"
 #include "Replicator.h"
-#include "Util/Quaternion.h"
+#include "util/Quaternion.h"
 
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/iostreams/stream.hpp>

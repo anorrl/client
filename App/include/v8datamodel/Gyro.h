@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Util/SteppedInstance.h"
-#include "V8World/KernelJoint.h"
-#include "Util/RunStateOwner.h"
+#include "util/SteppedInstance.h"
+#include "v8world/KernelJoint.h"
+#include "util/RunStateOwner.h"
 #include "solver/Constraint.h"
 
 namespace ARL

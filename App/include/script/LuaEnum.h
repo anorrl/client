@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Lua/LuaBridge.h"
-#include "reflection/enumConverter.h"
-#include "rbxformat.h"
+#include "lua/LuaBridge.h"
+#include "reflection/EnumConverter.h"
+#include "ARLFormat.h"
 
 namespace ARL { namespace Lua {
 

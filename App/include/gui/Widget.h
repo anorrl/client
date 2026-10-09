@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "Gui/GUI.h"
-#include "V8Tree/Verb.h"
-#include "V8DataModel/GuiCore.h"
+#include "gui/GUI.h"
+#include "v8tree/Verb.h"
+#include "v8datamodel/GuiCore.h"
 #include "v8datamodel/InputObject.h"
 
 namespace ARL {

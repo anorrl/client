@@ -2,17 +2,17 @@
 
 #pragma once
 
-#include "Network/NetworkPacketCache.h"
-#include "Network/Player.h"
+#include "network/NetworkPacketCache.h"
+#include "network/Player.h"
 #include "Peer.h"
 #include "Replicator.h"
 
-#include "Util/ProtectedString.h"
-#include "Util/standardout.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8Tree/Service.h"
+#include "util/ProtectedString.h"
+#include "util/StandardOut.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8tree/Service.h"
 
-#include "RakNet/Source/PluginInterface2.h"
+#include "PluginInterface2.h"
 #include <boost/bimap.hpp>
 #include <boost/optional.hpp>
 #include <boost/thread/condition.hpp>

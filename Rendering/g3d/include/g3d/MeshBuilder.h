@@ -9,10 +9,10 @@
 #ifndef G3D_MESHBUILDER_H
 #define G3D_MESHBUILDER_H
 
-#include "G3D/platform.h"
-#include "G3D/Array.h"
-#include "G3D/Vector3.h"
-#include "G3D/Triangle.h"
+#include "g3d/platform.h"
+#include "g3d/Array.h"
+#include "g3d/Vector3.h"
+#include "g3d/Triangle.h"
 
 namespace G3D {
 

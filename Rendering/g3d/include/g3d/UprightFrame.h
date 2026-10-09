@@ -7,10 +7,10 @@
 #ifndef G3D_UPRIGHTFRAME_H
 #define G3D_UPRIGHTFRAME_H
 
-#include "G3D/platform.h"
-#include "G3D/Spline.h"
-#include "G3D/Vector3.h"
-#include "G3D/CoordinateFrame.h"
+#include "g3d/platform.h"
+#include "g3d/spline.h"
+#include "g3d/Vector3.h"
+#include "g3d/CoordinateFrame.h"
 
 namespace G3D {
 

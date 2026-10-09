@@ -19,6 +19,7 @@
 #include <QSize>
 #include <QWebSettings>
 #include <QWebFrame>
+#include <QDesktopServices>
 
 // ANORRL Headers
 #include "v8datamodel/FastLogSettings.h"
@@ -29,7 +30,6 @@
 #include "ANORRLWebPage.h"
 #include "QtUtilities.h"
 #include "UpdateUIManager.h"
-#include "QDesktopServices.h"
 
 #define COLLAPSED_SIZE 142
 #define EXPAND_THRESHOLD 300

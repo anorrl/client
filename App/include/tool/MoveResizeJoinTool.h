@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Tool/ToolsArrow.h"
-#include "AppDraw/HandleType.h"
-#include "Util/NormalId.h"
-#include "Tool/DragTypes.h"
+#include "tool/ToolsArrow.h"
+#include "appdraw/HandleType.h"
+#include "util/NormalId.h"
+#include "tool/DragTypes.h"
 
 
 namespace ARL {

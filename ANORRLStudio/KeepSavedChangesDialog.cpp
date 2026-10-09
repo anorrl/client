@@ -10,7 +10,7 @@
 #include "ANORRLDocManager.h"
 #include "ANORRLStudioVerbs.h"
 #include "ANORRLIDEDoc.h"
-#include "V8DataModel/DataModel.h"
+#include "v8datamodel/DataModel.h"
 #include "ANORRLMainWindow.h"
 
 // Qt Headers

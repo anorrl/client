@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8World/IWorldStage.h"
-#include "V8World/Enum.h"
-#include "Util/Utilities.h"
-#include "Util/SpanningTree.h"
+#include "v8world/IWorldStage.h"
+#include "v8world/Enum.h"
+#include "util/Utilities.h"
+#include "util/SpanningTree.h"
 
 namespace ARL {
 

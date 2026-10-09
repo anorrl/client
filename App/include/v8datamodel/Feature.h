@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "V8DataModel/JointInstance.h"
+#include "v8tree/Instance.h"
+#include "v8datamodel/JointInstance.h"
 #include "GfxBase/IAdornable.h"
-#include "Util/NormalId.h"
+#include "util/NormalId.h"
 
 
 namespace ARL {

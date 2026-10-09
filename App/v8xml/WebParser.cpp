@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-#include "V8Xml/WebParser.h"
-#include "V8Xml/XmlSerializer.h"
-#include "V8Xml/Serializer.h"
+#include "v8xml/WebParser.h"
+#include "v8xml/XmlSerializer.h"
+#include "v8xml/Serializer.h"
 #include "arl/make_shared.h"
-#include "Util/SafeToLower.h"
+#include "util/SafeToLower.h"
 #include <boost/property_tree/ptree.hpp>
 
 #include <boost/property_tree/json_parser.hpp>

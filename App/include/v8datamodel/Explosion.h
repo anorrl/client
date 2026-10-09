@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "Util/SteppedInstance.h"
-#include "Util/RunStateOwner.h"
-#include "Util/G3DCore.h"
+#include "util/SteppedInstance.h"
+#include "util/RunStateOwner.h"
+#include "util/G3DCore.h"
 #include "GfxBase/IAdornable.h"
-#include "V8DataModel/Effect.h"
+#include "v8datamodel/Effect.h"
 
 namespace ARL {
 	

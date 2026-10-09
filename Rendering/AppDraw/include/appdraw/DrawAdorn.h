@@ -2,13 +2,13 @@
 #pragma once
 
 #include "SelectState.h"
-#include "appDraw/HandleType.h"
-#include "Util/G3DCore.h"
-#include "Util/NormalId.h"
+#include "appdraw/HandleType.h"
+#include "util/G3DCore.h"
+#include "util/NormalId.h"
 #include <vector>
-#include "V8World/Primitive.h"
-#include "V8DataModel/PartInstance.h"
-#include "Tool/DragTypes.h"
+#include "v8world/Primitive.h"
+#include "v8datamodel/PartInstance.h"
+#include "tool/DragTypes.h"
 
 namespace ARL {
 	

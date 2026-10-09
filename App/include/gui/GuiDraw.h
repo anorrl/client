@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "V8DataModel/GuiCore.h"
-#include "V8Xml/Reference.h" 
-#include "Util/TextureId.h"
+#include "v8datamodel/GuiCore.h"
+#include "v8xml/Reference.h" 
+#include "util/TextureId.h"
 #include "GfxBase/TextureProxyBase.h"
 #include "GfxBase/Adorn.h"
 #include "arl/signal.h"

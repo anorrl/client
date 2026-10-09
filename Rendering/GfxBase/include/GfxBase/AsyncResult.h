@@ -1,6 +1,6 @@
 #pragma once
 
-#include "v8datamodel/contentprovider.h"
+#include "v8datamodel/ContentProvider.h"
 
 namespace ARL {
 

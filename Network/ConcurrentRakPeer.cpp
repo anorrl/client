@@ -1,6 +1,6 @@
 
 #include "ConcurrentRakPeer.h"
-#include "v8datamodel/datamodel.h"
+#include "v8datamodel/DataModel.h"
 #include "RakNetStatistics.h"
 #include "NetworkSettings.h"
 #include "util/SystemAddress.h"

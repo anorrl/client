@@ -2,8 +2,8 @@
 
 #include "ClientReplicator.h"
 #include "Util.h"
-#include "V8World/ContactManagerSpatialHash.h"
-#include "Util/StreamRegion.h"
+#include "v8world/ContactManagerSpatialHash.h"
+#include "util/StreamRegion.h"
 #include "GfxBase/IAdornable.h"
 #include <vector>
 

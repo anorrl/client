@@ -12,8 +12,8 @@
 #ifndef G3D_Random_h
 #define G3D_Random_h
 
-#include "G3D/platform.h"
-#include "G3D/g3dmath.h"
+#include "g3d/platform.h"
+#include "g3d/g3dmath.h"
 
 namespace G3D {
 

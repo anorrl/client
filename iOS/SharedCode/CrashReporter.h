@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "util/standardout.h"
+#import "util/StandardOut.h"
 #import "rbx/signal.h"
 
 @interface CrashReporter : NSObject

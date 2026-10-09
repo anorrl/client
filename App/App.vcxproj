@@ -1307,7 +1307,7 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="v8world\Clump.cpp" />
     <ClCompile Include="v8world\ContactManager.cpp" />
     <ClCompile Include="v8world\ContactManagerSpatialHash.cpp" />
-    <ClCompile Include="V8World\ContactStage.cpp" />
+    <ClCompile Include="v8world\ContactStage.cpp" />
     <ClCompile Include="v8world\Controller.cpp" />
     <ClCompile Include="v8world\Cylinder.cpp" />
     <ClCompile Include="v8world\Edge.cpp" />
@@ -1359,16 +1359,16 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="v8world\GroundStage.cpp" />
     <ClCompile Include="v8world\HumanoidStage.cpp" />
     <ClCompile Include="v8world\IMoving.cpp" />
-    <ClCompile Include="V8World\IPipelined.cpp" />
+    <ClCompile Include="v8world\IPipelined.cpp" />
     <ClCompile Include="v8world\IWorldStage.cpp" />
-    <ClCompile Include="V8World\Joint.cpp" />
+    <ClCompile Include="v8world\Joint.cpp" />
     <ClCompile Include="v8world\JointBuilder.cpp" />
     <ClCompile Include="v8world\JointStage.cpp" />
     <ClCompile Include="v8world\KDTree.cpp" />
     <ClCompile Include="v8world\KernelJoint.cpp" />
     <ClCompile Include="v8world\MacroTypes.cpp" />
     <ClCompile Include="v8world\MaterialProperties.cpp" />
-    <ClCompile Include="V8World\Mechanism.cpp" />
+    <ClCompile Include="v8world\Mechanism.cpp" />
     <ClCompile Include="v8world\MechToAssemblyStage.cpp" />
     <ClCompile Include="v8world\Motor6DJoint.cpp" />
     <ClCompile Include="v8world\MotorJoint.cpp" />
@@ -1381,7 +1381,7 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="v8world\SendPhysics.cpp" />
     <ClCompile Include="v8world\SimJob.cpp" />
     <ClCompile Include="v8world\SimulateStage.cpp" />
-    <ClCompile Include="V8World\SleepStage.cpp" />
+    <ClCompile Include="v8world\SleepStage.cpp" />
     <ClCompile Include="v8world\SmoothClusterGeometry.cpp" />
     <ClCompile Include="v8world\SnapJoint.cpp" />
     <ClCompile Include="v8world\SpatialFilter.cpp" />
@@ -1391,13 +1391,13 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="v8world\TreeStage.cpp" />
     <ClCompile Include="v8world\TriangleMesh.cpp" />
     <ClCompile Include="v8world\WeldJoint.cpp" />
-    <ClCompile Include="V8World\World.cpp" />
-    <ClCompile Include="V8World\Ball.cpp" />
+    <ClCompile Include="v8world\World.cpp" />
+    <ClCompile Include="v8world\Ball.cpp" />
     <ClCompile Include="v8world\BallCellContact.cpp" />
     <ClCompile Include="v8world\BallPolyContact.cpp" />
-    <ClCompile Include="V8World\Block.cpp" />
+    <ClCompile Include="v8world\Block.cpp" />
     <ClCompile Include="v8world\CellContact.cpp" />
-    <ClCompile Include="V8World\Contact.cpp" />
+    <ClCompile Include="v8world\Contact.cpp" />
     <ClCompile Include="v8world\CornerWedgePoly.cpp" />
     <ClCompile Include="v8world\MegaClusterPoly.cpp" />
     <ClCompile Include="v8world\Mesh.cpp" />
@@ -1423,14 +1423,14 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="v8datamodel\ChatService.cpp" />
     <ClCompile Include="v8datamodel\ClickDetector.cpp" />
     <ClCompile Include="v8datamodel\CollectionService.cpp" />
-    <ClCompile Include="V8DataModel\Commands.cpp" />
+    <ClCompile Include="v8datamodel\Commands.cpp" />
     <ClCompile Include="v8datamodel\CommonVerbs.cpp" />
     <ClCompile Include="v8datamodel\Configuration.cpp" />
     <ClCompile Include="v8datamodel\CookiesEngineService.cpp" />
     <ClCompile Include="v8datamodel\CustomEvent.cpp" />
     <ClCompile Include="v8datamodel\CustomEventReceiver.cpp" />
     <ClCompile Include="v8datamodel\CylinderMesh.cpp" />
-    <ClCompile Include="V8DataModel\DataModel.cpp" />
+    <ClCompile Include="v8datamodel\DataModel.cpp" />
     <ClCompile Include="v8datamodel\DataModelJob.cpp" />
     <ClCompile Include="v8datamodel\DataModelMesh.cpp" />
     <ClCompile Include="v8datamodel\DebrisService.cpp" />
@@ -1440,7 +1440,7 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="v8datamodel\DialogRoot.cpp" />
     <ClCompile Include="v8datamodel\Effect.cpp" />
     <ClCompile Include="v8datamodel\Enums.cpp" />
-    <ClCompile Include="V8DataModel\Explosion.cpp" />
+    <ClCompile Include="v8datamodel\Explosion.cpp" />
     <ClCompile Include="v8datamodel\FaceInstance.cpp" />
     <ClCompile Include="v8datamodel\factoryregistration.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/bigobj %(AdditionalOptions)</AdditionalOptions>
@@ -1476,7 +1476,7 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="v8datamodel\ICharacterSubject.cpp" />
     <ClCompile Include="v8datamodel\IEquipable.cpp" />
     <ClCompile Include="v8datamodel\InsertService.cpp" />
-    <ClCompile Include="V8DataModel\JointInstance.cpp" />
+    <ClCompile Include="v8datamodel\JointInstance.cpp" />
     <ClCompile Include="v8datamodel\JointsService.cpp" />
     <ClCompile Include="v8datamodel\legacy.cpp" />
     <ClCompile Include="v8datamodel\Lighting.cpp" />
@@ -1519,7 +1519,7 @@ cmd /c "exit /b 0"</Command>
     <ClCompile Include="v8datamodel\ToolMouseCommand.cpp" />
     <ClCompile Include="v8datamodel\ToolsModel.cpp" />
     <ClCompile Include="v8datamodel\ToolsPart.cpp" />
-    <ClCompile Include="V8DataModel\ToolsSurface.cpp" />
+    <ClCompile Include="v8datamodel\ToolsSurface.cpp" />
     <ClCompile Include="v8datamodel\TouchTransmitter.cpp" />
     <ClCompile Include="v8datamodel\UserController.cpp" />
     <ClCompile Include="v8datamodel\UserInputService.cpp" />
@@ -1567,7 +1567,7 @@ cmd /c "exit /b 0"</Command>
     </ClCompile>
     <ClCompile Include="v8datamodel\VirtualUser.cpp" />
     <ClCompile Include="v8datamodel\Visit.cpp" />
-    <ClCompile Include="V8DataModel\Workspace.cpp" />
+    <ClCompile Include="v8datamodel\Workspace.cpp" />
     <ClCompile Include="v8datamodel\BasicPartInstance.cpp" />
     <ClCompile Include="v8datamodel\CornerWedgeInstance.cpp" />
     <ClCompile Include="v8datamodel\ExtrudedPartInstance.cpp" />
@@ -1637,8 +1637,8 @@ cmd /c "exit /b 0"</Command>
     </ClCompile>
     <ClCompile Include="v8xml\WebParser.cpp" />
     <ClCompile Include="v8xml\WebSerializer.cpp" />
-    <ClCompile Include="V8Xml\XmlElement.cpp" />
-    <ClCompile Include="V8Xml\XmlSerializer.cpp" />
+    <ClCompile Include="v8xml\XmlElement.cpp" />
+    <ClCompile Include="v8xml\XmlSerializer.cpp" />
     <ClCompile Include="v8tree\EnumProperty.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseTest|Durango'">NotUsing</PrecompiledHeader>
@@ -4146,7 +4146,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8datamodel\ChatService.h" />
     <ClInclude Include="include\v8datamodel\ClickDetector.h" />
     <ClInclude Include="include\v8datamodel\CollectionService.h" />
-    <ClInclude Include="include\V8DataModel\Commands.h" />
+    <ClInclude Include="include\v8datamodel\Commands.h" />
     <ClInclude Include="include\v8datamodel\CommonVerbs.h" />
     <ClInclude Include="include\v8datamodel\Configuration.h" />
     <ClInclude Include="include\v8datamodel\ContentProvider.h" />
@@ -4154,7 +4154,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8datamodel\CustomEvent.h" />
     <ClInclude Include="include\v8datamodel\CustomEventReceiver.h" />
     <ClInclude Include="include\v8datamodel\CylinderMesh.h" />
-    <ClInclude Include="include\V8DataModel\DataModel.h" />
+    <ClInclude Include="include\v8datamodel\DataModel.h" />
     <ClInclude Include="include\v8datamodel\DataModelJob.h" />
     <ClInclude Include="include\v8datamodel\DataModelMesh.h" />
     <ClInclude Include="include\v8datamodel\DebrisService.h" />
@@ -4164,7 +4164,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8datamodel\DialogRoot.h" />
     <ClInclude Include="include\v8datamodel\Effect.h" />
     <ClInclude Include="include\v8datamodel\EventReplicator.h" />
-    <ClInclude Include="include\V8DataModel\Explosion.h" />
+    <ClInclude Include="include\v8datamodel\Explosion.h" />
     <ClInclude Include="include\v8datamodel\FaceInstance.h" />
     <ClInclude Include="include\v8datamodel\factoryregistration.h" />
     <ClInclude Include="include\v8datamodel\FastLogSettings.h" />
@@ -4192,7 +4192,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8datamodel\IEquipable.h" />
     <ClInclude Include="include\v8datamodel\IModelModifier.h" />
     <ClInclude Include="include\v8datamodel\InsertService.h" />
-    <ClInclude Include="include\V8DataModel\JointInstance.h" />
+    <ClInclude Include="include\v8datamodel\JointInstance.h" />
     <ClInclude Include="include\v8datamodel\JointsService.h" />
     <ClInclude Include="include\v8datamodel\legacy.h" />
     <ClInclude Include="include\v8datamodel\Lighting.h" />
@@ -4239,7 +4239,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8datamodel\ToolMouseCommand.h" />
     <ClInclude Include="include\v8datamodel\ToolsModel.h" />
     <ClInclude Include="include\v8datamodel\ToolsPart.h" />
-    <ClInclude Include="include\V8DataModel\ToolsSurface.h" />
+    <ClInclude Include="include\v8datamodel\ToolsSurface.h" />
     <ClInclude Include="include\v8datamodel\TouchTransmitter.h" />
     <ClInclude Include="include\v8datamodel\UndoRedo.h" />
     <ClInclude Include="include\v8datamodel\UserController.h" />
@@ -4247,7 +4247,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8datamodel\Value.h" />
     <ClInclude Include="include\v8datamodel\VirtualUser.h" />
     <ClInclude Include="include\v8datamodel\Visit.h" />
-    <ClInclude Include="include\V8DataModel\Workspace.h" />
+    <ClInclude Include="include\v8datamodel\Workspace.h" />
     <ClInclude Include="include\v8datamodel\ActionStation.h" />
     <ClInclude Include="include\v8datamodel\BasicPartInstance.h" />
     <ClInclude Include="include\v8datamodel\CornerWedgeInstance.h" />
@@ -4309,8 +4309,8 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8xml\SerializerV2.h" />
     <ClInclude Include="include\v8xml\WebParser.h" />
     <ClInclude Include="include\v8xml\WebSerializer.h" />
-    <ClInclude Include="include\V8Xml\XmlElement.h" />
-    <ClInclude Include="include\V8Xml\XmlSerializer.h" />
+    <ClInclude Include="include\v8xml\XmlElement.h" />
+    <ClInclude Include="include\v8xml\XmlSerializer.h" />
     <ClInclude Include="include\v8tree\Instance.h" />
     <ClInclude Include="include\v8tree\Property.h" />
     <ClInclude Include="include\v8tree\Service.h" />
@@ -4404,7 +4404,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\util\SpanningEdge.h" />
     <ClInclude Include="include\util\SpanningNode.h" />
     <ClInclude Include="include\util\SpanningTree.h" />
-    <ClInclude Include="include\util\standardout.h" />
+    <ClInclude Include="include\util\StandardOut.h" />
     <ClInclude Include="include\util\Statistics.h" />
     <ClInclude Include="include\util\SteppedInstance.h" />
     <ClInclude Include="include\util\StlExtra.h" />
@@ -4518,7 +4518,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8world\Clump.h" />
     <ClInclude Include="include\v8world\ContactManager.h" />
     <ClInclude Include="include\v8world\ContactManagerSpatialHash.h" />
-    <ClInclude Include="include\V8World\ContactStage.h" />
+    <ClInclude Include="include\v8world\ContactStage.h" />
     <ClInclude Include="include\v8world\Controller.h" />
     <ClInclude Include="include\v8world\DistributedPhysics.h" />
     <ClInclude Include="include\v8world\Edge.h" />
@@ -4531,13 +4531,13 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8world\GroundStage.h" />
     <ClInclude Include="include\v8world\HumanoidStage.h" />
     <ClInclude Include="include\v8world\IMoving.h" />
-    <ClInclude Include="include\V8World\IPipelined.h" />
+    <ClInclude Include="include\v8world\IPipelined.h" />
     <ClInclude Include="include\v8world\IWorldStage.h" />
-    <ClInclude Include="include\V8World\Joint.h" />
+    <ClInclude Include="include\v8world\Joint.h" />
     <ClInclude Include="include\v8world\JointBuilder.h" />
     <ClInclude Include="include\v8world\JointStage.h" />
     <ClInclude Include="include\v8world\KernelJoint.h" />
-    <ClInclude Include="include\V8World\Mechanism.h" />
+    <ClInclude Include="include\v8world\Mechanism.h" />
     <ClInclude Include="include\v8world\MechToAssemblyStage.h" />
     <ClInclude Include="include\v8world\Motor6DJoint.h" />
     <ClInclude Include="include\v8world\MotorJoint.h" />
@@ -4550,7 +4550,7 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8world\SendPhysics.h" />
     <ClInclude Include="include\v8world\SimJob.h" />
     <ClInclude Include="include\v8world\SimulateStage.h" />
-    <ClInclude Include="include\V8World\SleepStage.h" />
+    <ClInclude Include="include\v8world\SleepStage.h" />
     <ClInclude Include="include\v8world\SnapJoint.h" />
     <ClInclude Include="include\v8world\SpatialFilter.h" />
     <ClInclude Include="include\v8world\SpatialHashMultiRes.h" />
@@ -4560,15 +4560,15 @@ cmd /c "exit /b 0"</Command>
     <ClInclude Include="include\v8world\Tolerance.h" />
     <ClInclude Include="include\v8world\TreeStage.h" />
     <ClInclude Include="include\v8world\WeldJoint.h" />
-    <ClInclude Include="include\V8World\World.h" />
-    <ClInclude Include="include\V8World\Ball.h" />
+    <ClInclude Include="include\v8world\World.h" />
+    <ClInclude Include="include\v8world\Ball.h" />
     <ClInclude Include="include\v8world\BallCellContact.h" />
     <ClInclude Include="include\v8world\BallPolyContact.h" />
-    <ClInclude Include="include\V8World\Block.h" />
+    <ClInclude Include="include\v8world\Block.h" />
     <ClInclude Include="include\v8world\BlockCorners.h" />
     <ClInclude Include="include\v8world\BlockMesh.h" />
     <ClInclude Include="include\v8world\CellContact.h" />
-    <ClInclude Include="include\V8World\Contact.h" />
+    <ClInclude Include="include\v8world\Contact.h" />
     <ClInclude Include="include\v8world\CornerWedgeMesh.h" />
     <ClInclude Include="include\v8world\CornerWedgePoly.h" />
     <ClInclude Include="include\v8world\GeometryPool.h" />

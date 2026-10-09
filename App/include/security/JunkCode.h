@@ -1,7 +1,7 @@
 #pragma once
 
 #if defined(_WIN32) && !defined(ARL_STUDIO_BUILD)
-#include "Security/RandomConstant.h"
+#include "security/RandomConstant.h"
 
 // This is junk code generation.  All of this is intended to be inlined
 // and generally do nothing.

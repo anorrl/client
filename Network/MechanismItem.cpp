@@ -1,8 +1,8 @@
 /* Copyright 2003-2008 ROBLOX Corporation, All Rights Reserved */
 
 #include "MechanismItem.h"
-#include "Util/PV.h"
-#include "Util/Math.h"
+#include "util/PV.h"
+#include "util/Math.h"
 #include "arl/Debug.h"
 
 using namespace ARL;

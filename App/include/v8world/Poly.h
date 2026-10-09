@@ -1,7 +1,7 @@
 #pragma once
 
-#include "V8World/Geometry.h"
-#include "V8World/Mesh.h"
+#include "v8world/Geometry.h"
+#include "v8world/Mesh.h"
 
 namespace ARL {
 

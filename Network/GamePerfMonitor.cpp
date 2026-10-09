@@ -8,7 +8,7 @@
 #include "v8world/World.h"
 #include "util/RunStateOwner.h"
 
-#include "Network/Players.h"
+#include "network/Players.h"
 
 using namespace ARL;
 

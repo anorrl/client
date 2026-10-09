@@ -1,12 +1,12 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8World/SimulateStage.h"
-#include "V8Kernel/Kernel.h"
-#include "V8World/SendPhysics.h"
-#include "V8World/Mechanism.h"
-#include "V8World/Assembly.h"
-#include "V8World/World.h"
+#include "v8world/SimulateStage.h"
+#include "v8kernel/Kernel.h"
+#include "v8world/SendPhysics.h"
+#include "v8world/Mechanism.h"
+#include "v8world/Assembly.h"
+#include "v8world/World.h"
 
 namespace ARL {
 

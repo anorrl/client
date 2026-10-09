@@ -1,8 +1,8 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "Humanoid/Seated.h"
-#include "Humanoid/Humanoid.h"
+#include "humanoid/Seated.h"
+#include "humanoid/Humanoid.h"
 
 namespace ARL {
 namespace HUMAN {

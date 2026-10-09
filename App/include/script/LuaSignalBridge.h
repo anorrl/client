@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Lua/LuaBridge.h"
-#include "reflection/object.h"
-#include "Reflection/Event.h"
+#include "lua/LuaBridge.h"
+#include "reflection/Object.h"
+#include "reflection/Event.h"
 
 namespace ARL
 {

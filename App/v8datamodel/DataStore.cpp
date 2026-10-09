@@ -6,7 +6,7 @@
 #include "v8datamodel/ContentProvider.h"
 #include "v8datamodel/Stats.h"
 #include "util/LuaWebService.h"
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "v8xml/WebParser.h"
 
 #include "ANORRLServicesTools.h"

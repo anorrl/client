@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-#include "v8datamodel/lighting.h"
-#include "v8datamodel/sky.h"
+#include "v8datamodel/Lighting.h"
+#include "v8datamodel/Sky.h"
 #include "v8datamodel/PostEffect.h"
 
 using namespace ARL;

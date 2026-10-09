@@ -2,8 +2,8 @@
 
 #include "Compressor.h"
 #include "arl/Declarations.h"
-#include "Util/G3DCore.h"
-#include "Util/PV.h"
+#include "util/G3DCore.h"
+#include "util/PV.h"
 #include "arl/boost.hpp"
 #include "arl/signal.h"
 #include "arl/rbxTime.h"

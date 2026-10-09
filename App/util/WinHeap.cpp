@@ -3,8 +3,8 @@
 
 #ifdef _WIN32
 
-#include "Util/WinHeap.h"
-#include "Util/StandardOut.h"
+#include "util/WinHeap.h"
+#include "util/StandardOut.h"
 #include <windows.h>
 
 namespace ARL 

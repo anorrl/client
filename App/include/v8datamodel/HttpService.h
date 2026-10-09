@@ -1,8 +1,8 @@
 #pragma once 
-#include "Reflection/Reflection.h"
-#include "V8Tree/Instance.h"
-#include "V8Tree/Service.h"
-#include "ARL/RunningAverage.h"
+#include "reflection/Reflection.h"
+#include "v8tree/Instance.h"
+#include "v8tree/Service.h"
+#include "arl/RunningAverage.h"
 
 
 namespace ARL {

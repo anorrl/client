@@ -1,4 +1,4 @@
-#include "..//CORE//sg.h"
+#include "..//Core//sg.h"
 
 static      bool     reorient_matr_from_path(hOBJ obj_header, MATR mtrx, bool close_obj)
 {

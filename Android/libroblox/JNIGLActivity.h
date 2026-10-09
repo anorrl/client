@@ -17,7 +17,7 @@
 #include "RobloxInput.h"
 #include "RobloxView.h"
 #include "util/MemoryStats.h"
-#include "Util/SoundService.h"
+#include "util/SoundService.h"
 #include "GfxBase/ViewBase.h"
 #include "v8datamodel/MarketplaceService.h"
 #include "v8datamodel/GuiService.h"

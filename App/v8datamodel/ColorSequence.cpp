@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "v8datamodel/ColorSequence.h"
 #include "g3d/g3dmath.h"
-#include "G3d/g3dmath.h"
+#include "g3d/g3dmath.h"
 using G3D::clamp;
 using G3D::lerp;
 

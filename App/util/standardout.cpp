@@ -1,9 +1,9 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "util/standardout.h"
+#include "util/StandardOut.h"
 #include "arl/Log.h"
-#include "RbxFormat.h"
+#include "ARLFormat.h"
 
 using namespace ARL;
 

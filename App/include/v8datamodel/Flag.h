@@ -1,10 +1,10 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "V8DataModel/Tool.h"
-#include "Util/BrickColor.h"
-#include "V8DataModel/PartInstance.h"
+#include "v8tree/Instance.h"
+#include "v8datamodel/Tool.h"
+#include "util/BrickColor.h"
+#include "v8datamodel/PartInstance.h"
 
 namespace ARL {
 

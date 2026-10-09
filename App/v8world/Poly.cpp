@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-#include "V8World/Poly.h"
-#include "V8World/Mesh.h"
-#include "Util/Math.h"
-#include "V8World/Tolerance.h"
+#include "v8world/Poly.h"
+#include "v8world/Mesh.h"
+#include "util/Math.h"
+#include "v8world/Tolerance.h"
 
 
 

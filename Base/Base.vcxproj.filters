@@ -51,7 +51,7 @@
     <ClCompile Include="arl\MathUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RbxAssert.cpp">
+    <ClCompile Include="ARLAssert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RbxFormat.cpp">
@@ -137,19 +137,19 @@
     <ClInclude Include="include\arl\MathUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\RbxAssert.h">
+    <ClInclude Include="include\ARLAssert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\RbxBase.h">
+    <ClInclude Include="include\ARLBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\RbxFormat.h">
+    <ClInclude Include="include\ARLFormat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\RbxHash.h">
+    <ClInclude Include="include\ARLHash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\RbxPlatform.h">
+    <ClInclude Include="include\ARLPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\SelectState.h">

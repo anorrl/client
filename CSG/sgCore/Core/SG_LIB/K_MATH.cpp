@@ -24,7 +24,7 @@ short sg(sgFloat r, sgFloat eps)
 void  d_minmax(sgFloat * b, short numb,
                sgFloat * min, sgFloat * max)
 {
-  register short i;
+  short i;
 
   *min= 1.e35;
   *max=-1.e35;
@@ -37,7 +37,7 @@ void  d_minmax(sgFloat * b, short numb,
 void  dpoint_minmax(lpD_POINT b, short numb,
                     lpD_POINT min, lpD_POINT max)
 {
-  register short i;
+  short i;
 
   min->x= 1.e35;
   min->y= 1.e35;

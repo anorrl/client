@@ -1,5 +1,5 @@
 #include "..//Core//sg.h"
-#include <VECTOR>
+#include <vector>
 
 /************************************************************************/
 /* Boundary representation piece                                        */
@@ -233,7 +233,7 @@ static SG_ALL_TRIANGLES*   triangles_of_cur_object = NULL;
 static hOBJ  localObjForMirrorCheck;
 static BOOL  IsMatrixMirror();
 
-#include "..//Core//Aplicat//Delone//BREPTriangulator.h"
+#include "..//Core//APLICAT//Delone//BREPTriangulator.h"
 
 bool  sgC3DObject::Triangulate(SG_TRIANGULATION_TYPE trTp)
 {
@@ -985,7 +985,7 @@ static OSCAN_COD edgesBr_pre_scan(hOBJ hobj, lpSCAN_CONTROL lpsc)
 
 static OSCAN_COD edgesBr_geo_scan(hOBJ hobj, lpSCAN_CONTROL lpsc)
 {
-  register short  i;
+  short  i;
   OSCAN_COD   cod = OSTRUE;
   NP_STR          str;
 

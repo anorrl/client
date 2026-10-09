@@ -1,6 +1,6 @@
 #pragma once
 
-#if defined(ARL_PLATFORM_IOS) || defined(__APPLE__) || __ANDROID__
+#if defined(ARL_PLATFORM_IOS) || defined(__APPLE__) || __ANDROID__ || __linux
 namespace arl
 {
     template<typename T>
@@ -47,7 +47,7 @@ namespace arl
 
 #elif defined(_WIN32)  // Windows
 
-#include "arl/debug.h"
+#include "arl/Debug.h"
 #include "boost/detail/interlocked.hpp"
 #include "boost/static_assert.hpp"
 #include <cstdint>

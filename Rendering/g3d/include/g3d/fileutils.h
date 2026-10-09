@@ -13,12 +13,12 @@
 #ifndef G3D_fileutils_h
 #define G3D_fileutils_h
 
-#include "G3D/platform.h"
+#include "g3d/platform.h"
 #include <string>
 #include <stdio.h>
-#include "G3D/Array.h"
-#include "G3D/Set.h"
-#include "G3D/g3dmath.h"
+#include "g3d/Array.h"
+#include "g3d/Set.h"
+#include "g3d/g3dmath.h"
 
 #ifdef G3D_WIN32
 // For chdir, mkdir, etc.

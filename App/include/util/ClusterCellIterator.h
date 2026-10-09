@@ -2,10 +2,10 @@
 
 #include "G3DCore.h"
 #include "arl/Debug.h"
-#include "Voxel/Cell.h"
-#include "Voxel/Util.h"
-#include "Util/StreamRegion.h"
-#include "Util/SpatialRegion.h"
+#include "voxel/Cell.h"
+#include "voxel/Util.h"
+#include "util/StreamRegion.h"
+#include "util/SpatialRegion.h"
 
 namespace ARL {
 

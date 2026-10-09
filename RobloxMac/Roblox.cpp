@@ -19,11 +19,11 @@
 #include "v8datamodel/partinstance.h"
 
 #include "v8datamodel/factoryregistration.h"
-#include "Util/FileSystem.h"
-#include "Util/Http.h"
-#include "Util/Profiling.h"
-#include "Util/Statistics.h"
-#include "Util/MD5Hasher.h"
+#include "util/FileSystem.h"
+#include "util/Http.h"
+#include "util/Profiling.h"
+#include "util/Statistics.h"
+#include "util/MD5Hasher.h"
 #include "util/RobloxGoogleAnalytics.h"
 #include "v8datamodel/game.h"
 #include "v8datamodel/GameSettings.h"
@@ -38,7 +38,7 @@
 #include "rbx/ProcessPerfCounter.h"
 #include "rbx/Profiler.h"
 
-#include "Gui/ProfanityFilter.h"
+#include "gui/ProfanityFilter.h"
 
 #include "boost/filesystem.hpp"
 

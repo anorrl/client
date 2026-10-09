@@ -1,6 +1,6 @@
 #pragma once
 
-#include "v8tree/instance.h"
+#include "v8tree/Instance.h"
 #include <boost/noncopyable.hpp>
 namespace ARL
 {

@@ -1,12 +1,12 @@
 /* Copyright 2003-2005 ROBLOX Corporation, All Rights Reserved */
 #include "stdafx.h"
 
-#include "V8DataModel/DebugSettings.h"
-#include "V8DataModel/DataModel.h"
-#include "util/profiling.h"
-#include "util/http.h"
+#include "v8datamodel/DebugSettings.h"
+#include "v8datamodel/DataModel.h"
+#include "util/Profiling.h"
+#include "util/Http.h"
 #include "arl/ProcessPerfCounter.h"
-#include "Script/LuaMemory.h"
+#include "script/LuaMemory.h"
 #include "v8world/Block.h"
 #include "v8datamodel/BlockMesh.h"
 #include "arl/RbxDbgInfo.h"
@@ -15,7 +15,7 @@
 
 #include "arl/SystemUtil.h"
 
-#if defined(__APPLE__) || defined(__ANDROID__)
+#if defined(__APPLE__) || defined(__ANDROID__) || defined(__linux__)
 #include <sys/types.h>
 
 #ifdef __APPLE__
@@ -573,7 +573,7 @@ double DebugSettings::processCores() const
 		return 1;
 	
 	return count;
-#elif __ANDROID__
+#elif __ANDROID__ || __linux__
     return SystemUtil::getCPULogicalCount();
 #else
 #error Unsupported platform.

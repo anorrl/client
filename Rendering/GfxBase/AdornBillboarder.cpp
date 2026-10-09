@@ -1,6 +1,6 @@
 #include "GfxBase/AdornBillboarder.h"
 #include "GfxBase/ViewportBillboarder.h"
-#include "V8DataModel/Camera.h"
+#include "v8datamodel/Camera.h"
 
 namespace ARL {
 

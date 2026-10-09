@@ -4,12 +4,12 @@
 #include "g3d/platform.h"
 #include "g3d/g3dmath.h"
 
-#include "G3D/Vector2.h"
-#include "G3D/Vector3.h"
-#include "G3D/Vector4.h"
-#include "G3D/Color4uint8.h"
-#include "G3D/Color3uint8.h"
-#include "G3D/CoordinateFrame.h"
+#include "g3d/Vector2.h"
+#include "g3d/Vector3.h"
+#include "g3d/Vector4.h"
+#include "g3d/Color4uint8.h"
+#include "g3d/Color3uint8.h"
+#include "g3d/CoordinateFrame.h"
 
 #include "arl/Debug.h"
 

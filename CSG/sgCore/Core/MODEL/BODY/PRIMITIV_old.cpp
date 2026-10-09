@@ -124,7 +124,7 @@ hOBJ create_primitive_obj(BREPKIND kind, sgFloat  *par)
 			break;
 
 		default:
-			return FALSE;
+			goto err;
 	}
 
 //  

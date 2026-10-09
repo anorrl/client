@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Util/NormalId.h"
-#include "Util/G3DCore.h"
+#include "util/NormalId.h"
+#include "util/G3DCore.h"
 #include "arl/Debug.h"
-#include "Util/Math.h"
+#include "util/Math.h"
 
 namespace ARL {
 

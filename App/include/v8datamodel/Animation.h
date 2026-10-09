@@ -1,8 +1,8 @@
 /* Copyright 2003-2007 ROBLOX Corporation, All Rights Reserved */
 #pragma once
 
-#include "V8Tree/Instance.h"
-#include "Util/AnimationId.h"
+#include "v8tree/Instance.h"
+#include "util/AnimationId.h"
 
 namespace ARL {
 	extern const char *const sAnimation;

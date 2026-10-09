@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "V8Tree/Instance.h"
+#include "v8tree/Instance.h"
 #include "GfxBase/IAdornable.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8DataModel/ModelInstance.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/ModelInstance.h"
 
 namespace ARL {
 	namespace Network {

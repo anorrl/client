@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-#include "Voxel/Grid.h"
+#include "voxel/Grid.h"
 
-#include "Voxel/Cell.h"
+#include "voxel/Cell.h"
 
 #include "arl/Profiler.h"
 

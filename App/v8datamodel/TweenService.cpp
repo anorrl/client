@@ -1,17 +1,17 @@
 #include "stdafx.h"
 
-#include "V8DataModel/TweenService.h"
-#include "V8DataModel/GuiObject.h"
+#include "v8datamodel/TweenService.h"
+#include "v8datamodel/GuiObject.h"
 #include "util/RunStateOwner.h"
 #include "network/Players.h"
 
-#include "G3D/CoordinateFrame.h"
-#include "G3D/Vector2.h"
-#include "G3D/Vector2int16.h"
-#include "G3D/Vector3.h"
-#include "G3D/Vector3int16.h"
-#include "Util/UDim.h"
-#include "G3D/Color3.h"
+#include "g3d/CoordinateFrame.h"
+#include "g3d/Vector2.h"
+#include "g3d/Vector2int16.h"
+#include "g3d/Vector3.h"
+#include "g3d/Vector3int16.h"
+#include "util/UDim.h"
+#include "g3d/Color3.h"
 
 DYNAMIC_FASTFLAG(ElasticEasingUseTwoPi);
 

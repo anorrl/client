@@ -1,24 +1,24 @@
 #include "stdafx.h"
 
-#include "V8DataModel/InsertService.h"
-#include "V8DataModel/PartInstance.h"
-#include "V8Datamodel/DataModel.h"
-#include "V8DataModel/ModelInstance.h"
-#include "V8DataModel/Folder.h"
-#include "V8DataModel/RootInstance.h"
-#include "V8DataModel/Workspace.h"
-#include "Util/LuaWebService.h"
-#include "V8Xml/WebParser.h"
-#include "Script/Script.h"
-#include "Network/Players.h"
-#include "Tool/DragUtilities.h"
+#include "v8datamodel/InsertService.h"
+#include "v8datamodel/PartInstance.h"
+#include "v8datamodel/DataModel.h"
+#include "v8datamodel/ModelInstance.h"
+#include "v8datamodel/Folder.h"
+#include "v8datamodel/RootInstance.h"
+#include "v8datamodel/Workspace.h"
+#include "util/LuaWebService.h"
+#include "v8xml/WebParser.h"
+#include "script/script.h"
+#include "network/Players.h"
+#include "tool/DragUtilities.h"
 #include "v8datamodel/HttpRbxApiService.h"
 #include "ANORRLServicesTools.h"
-#include "Util/Analytics.h"
+#include "util/Analytics.h"
 
 #include <sstream>
 
-DYNAMIC_FASTSTRINGVARIABLE(AssetUrlPiece, "/Asset/?id=")
+DYNAMIC_FASTSTRINGVARIABLE(AssetUrlPiece, "/asset/?id=")
 DYNAMIC_FASTSTRINGVARIABLE(AssetVersionUrlPiece, "/Asset/?assetversionid=")
 DYNAMIC_FASTSTRINGVARIABLE(BaseSetsUrlPiece, "/Game/Tools/InsertAsset.ashx?nsets=10&type=base")
 DYNAMIC_FASTSTRINGVARIABLE(CollectionUrlPiece, "/Game/Tools/InsertAsset.ashx?sid=")
